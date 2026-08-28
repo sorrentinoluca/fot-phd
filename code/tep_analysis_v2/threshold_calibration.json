@@ -1,0 +1,79 @@
+{
+  "config_version": "normal-only-calibration-v1",
+  "created_utc": "2026-08-28T10:15:04+00:00",
+  "dataset_commit": "309b944f35ac440ff0c70616947ffe723c766e14",
+  "sampling_interval_hours": 0.01666666666666572,
+  "sampling_interval_minutes": 0.9999999999999432,
+  "window_hours": 5.0,
+  "normal_blocks": [
+    "N1",
+    "N2",
+    "N3",
+    "N4",
+    "N5"
+  ],
+  "normal_time_range_hours": {
+    "start_inclusive": 0.0,
+    "end_exclusive": 250.0
+  },
+  "baseline_method": "leave-one-normal-block-out; four complete 50 h blocks; block-local differences and detrending",
+  "calibration_method": "conformal-style upper order statistic on per-window maxima over 41 XMEAS; strict exceedance score > threshold",
+  "alpha": 0.05,
+  "calibration_windows": 50,
+  "variables_per_window": 41,
+  "rank_formula": "k = ceil((n + 1) * (1 - alpha))",
+  "rank_raw": 49,
+  "rank_used_1_based": 49,
+  "rank_limit_treatment": "k_raw <= n, so no boundary correction was required; if k_raw > n the finite threshold is undefined and must not be clipped silently",
+  "shift_sigma_threshold": 1.9695333234149084,
+  "slope_sigma_h_threshold": 0.7468621213669596,
+  "residual_std_ratio_threshold": 1.3681613543196571,
+  "diff_std_ratio_threshold": 1.4051245046201666,
+  "diagnostic_quantile_definition": "median = average of the two central order statistics for n even; Q1/Q3/P95 = nearest-rank x_(ceil(p*n)); maximum = x_(n)",
+  "normal_score_distributions": {
+    "max_abs_shift": {
+      "median": 0.7162841635199038,
+      "q1_nearest_rank": 0.5364762477777322,
+      "q3_nearest_rank": 0.9754545737472216,
+      "p95_nearest_rank": 1.5988379030092623,
+      "maximum": 2.0050511992352518
+    },
+    "max_abs_slope": {
+      "median": 0.4076103015804323,
+      "q1_nearest_rank": 0.3296855008371522,
+      "q3_nearest_rank": 0.5295531154924574,
+      "p95_nearest_rank": 0.6652395438875581,
+      "maximum": 0.792484592797937
+    },
+    "max_residual_ratio": {
+      "median": 1.1699988175825273,
+      "q1_nearest_rank": 1.1246640634149407,
+      "q3_nearest_rank": 1.2381845252417265,
+      "p95_nearest_rank": 1.33624812758245,
+      "maximum": 1.4574926572101479
+    },
+    "max_diff_ratio": {
+      "median": 1.2429547335914841,
+      "q1_nearest_rank": 1.1900423756474632,
+      "q3_nearest_rank": 1.3078701364190273,
+      "p95_nearest_rank": 1.3739779322759529,
+      "maximum": 1.4730447895404528
+    },
+    "max_raw_std_ratio": {
+      "median": 1.1981167802482502,
+      "q1_nearest_rank": 1.1533106195295797,
+      "q3_nearest_rank": 1.2658046301782573,
+      "p95_nearest_rank": 1.390726070746281,
+      "maximum": 1.5106571895981669
+    }
+  },
+  "normal_development_false_positive_diagnostics": {
+    "level_candidate_windows": 1,
+    "trend_candidate_windows": 1,
+    "residual_candidate_windows": 1,
+    "diff_candidate_windows": 1,
+    "rapid_variability_candidate_windows": 0,
+    "any_anomaly_windows": 3,
+    "denominator_windows": 50
+  }
+}
