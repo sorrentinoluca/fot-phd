@@ -1,0 +1,15 @@
+{"case_id": "test_case_01", "class_label": "F1", "case_type": "fault", "fault": 1, "batch": 8}
+{"case_id": "test_case_02", "class_label": "F1", "case_type": "fault", "fault": 1, "batch": 9}
+{"case_id": "test_case_03", "class_label": "F1", "case_type": "fault", "fault": 1, "batch": 10}
+{"case_id": "test_case_04", "class_label": "F8", "case_type": "fault", "fault": 8, "batch": 8}
+{"case_id": "test_case_05", "class_label": "F8", "case_type": "fault", "fault": 8, "batch": 9}
+{"case_id": "test_case_06", "class_label": "F8", "case_type": "fault", "fault": 8, "batch": 10}
+{"case_id": "test_case_07", "class_label": "F10", "case_type": "fault", "fault": 10, "batch": 8}
+{"case_id": "test_case_08", "class_label": "F10", "case_type": "fault", "fault": 10, "batch": 9}
+{"case_id": "test_case_09", "class_label": "F10", "case_type": "fault", "fault": 10, "batch": 10}
+{"case_id": "test_case_10", "class_label": "F13", "case_type": "fault", "fault": 13, "batch": 8}
+{"case_id": "test_case_11", "class_label": "F13", "case_type": "fault", "fault": 13, "batch": 9}
+{"case_id": "test_case_12", "class_label": "F13", "case_type": "fault", "fault": 13, "batch": 10}
+{"case_id": "test_case_13", "class_label": "Normal", "case_type": "normal", "normal_block": "N8"}
+{"case_id": "test_case_14", "class_label": "Normal", "case_type": "normal", "normal_block": "N9"}
+{"case_id": "test_case_15", "class_label": "Normal", "case_type": "normal", "normal_block": "N10"}

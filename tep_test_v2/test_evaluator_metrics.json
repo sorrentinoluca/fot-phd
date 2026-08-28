@@ -1,0 +1,604 @@
+{
+  "note": "Metric sections computed by frozen evaluate(); static development-only scope metadata omitted.",
+  "top_k": 4,
+  "similarity": "1 - mean(abs(a-b))",
+  "intra_class_similarity": {
+    "F1": {
+      "n": 3,
+      "median": 0.9905846484935438,
+      "q1": 0.9903604734576757,
+      "q3": 0.9907639885222381,
+      "min": 0.9901362984218077,
+      "max": 0.9909433285509326
+    },
+    "F10": {
+      "n": 3,
+      "median": 0.990674318507891,
+      "q1": 0.9900466284074605,
+      "q3": 0.9919296987087518,
+      "min": 0.9894189383070301,
+      "max": 0.9931850789096126
+    },
+    "F13": {
+      "n": 3,
+      "median": 0.8889885222381636,
+      "q1": 0.8860294117647058,
+      "q3": 0.8894368723098995,
+      "min": 0.8830703012912482,
+      "max": 0.8898852223816356
+    },
+    "F8": {
+      "n": 3,
+      "median": 0.8596664275466284,
+      "q1": 0.8580523672883787,
+      "q3": 0.8900197274031564,
+      "min": 0.8564383070301291,
+      "max": 0.9203730272596844
+    },
+    "Normal": {
+      "n": 3,
+      "median": 0.9994261119081779,
+      "q1": 0.9994261119081779,
+      "q3": 0.999713055954089,
+      "min": 0.9994261119081779,
+      "max": 1.0
+    }
+  },
+  "inter_class_similarity": {
+    "F1__F10": {
+      "n": 9,
+      "median": 0.9050394548063128,
+      "q1": 0.9044117647058824,
+      "q3": 0.9055774748923959,
+      "min": 0.9035150645624104,
+      "max": 0.9071915351506457
+    },
+    "F1__F13": {
+      "n": 9,
+      "median": 0.7789634146341463,
+      "q1": 0.7647955523672884,
+      "q3": 0.7880200860832138,
+      "min": 0.7630021520803443,
+      "max": 0.790799856527977
+    },
+    "F1__F8": {
+      "n": 9,
+      "median": 0.8241571018651364,
+      "q1": 0.7302725968436155,
+      "q3": 0.8397596843615495,
+      "min": 0.7271341463414633,
+      "max": 0.8405667144906743
+    },
+    "F1__Normal": {
+      "n": 9,
+      "median": 0.9138809182209469,
+      "q1": 0.913109756097561,
+      "q3": 0.9139167862266858,
+      "min": 0.913109756097561,
+      "max": 0.914454806312769
+    },
+    "F10__F13": {
+      "n": 9,
+      "median": 0.7254304160688665,
+      "q1": 0.7112625538020085,
+      "q3": 0.7356527977044476,
+      "min": 0.7091104734576757,
+      "max": 0.7372668579626973
+    },
+    "F10__F8": {
+      "n": 9,
+      "median": 0.7735832137733142,
+      "q1": 0.6700143472022956,
+      "q3": 0.7789634146341463,
+      "min": 0.6664275466284075,
+      "max": 0.7825502152080345
+    },
+    "F10__Normal": {
+      "n": 9,
+      "median": 0.9792862266857962,
+      "q1": 0.976058106169297,
+      "q3": 0.9796090387374462,
+      "min": 0.9754842180774749,
+      "max": 0.9801829268292683
+    },
+    "F13__F8": {
+      "n": 9,
+      "median": 0.8453192252510761,
+      "q1": 0.8361728837876614,
+      "q3": 0.848816355810617,
+      "min": 0.8245157819225251,
+      "max": 0.8611908177905309
+    },
+    "F13__Normal": {
+      "n": 9,
+      "median": 0.71762912482066,
+      "q1": 0.7050753228120517,
+      "q3": 0.7358859397417503,
+      "min": 0.7045014347202295,
+      "max": 0.7364598278335724
+    },
+    "F8__Normal": {
+      "n": 9,
+      "median": 0.7727761836441893,
+      "q1": 0.6620337159253946,
+      "q3": 0.7803084648493543,
+      "min": 0.6620337159253946,
+      "max": 0.7803084648493543
+    }
+  },
+  "separation_margin": {
+    "definition": "within-class median similarity minus highest between-class median similarity",
+    "values": {
+      "F1": 0.07670373027259692,
+      "F10": 0.01138809182209477,
+      "F13": 0.04366929698708755,
+      "F8": 0.014347202295552308,
+      "Normal": 0.020139885222381637
+    }
+  },
+  "dominant_variable_stability": {
+    "F1": {
+      "level": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 1.0,
+          "q1": 1.0,
+          "q3": 1.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-1": 3,
+          "XMEAS-18": 3,
+          "XMEAS-34": 3,
+          "XMEAS-4": 3
+        }
+      },
+      "trend": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.3333333333333333,
+          "q1": 0.3333333333333333,
+          "q3": 0.4666666666666667,
+          "min": 0.3333333333333333,
+          "max": 0.6
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-1": 3,
+          "XMEAS-11": 3,
+          "XMEAS-10": 2,
+          "XMEAS-18": 1,
+          "XMEAS-20": 1,
+          "XMEAS-21": 1,
+          "XMEAS-34": 1
+        }
+      },
+      "residual": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.6,
+          "q1": 0.6,
+          "q3": 0.8,
+          "min": 0.6,
+          "max": 1.0
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-11": 3,
+          "XMEAS-18": 3,
+          "XMEAS-20": 3,
+          "XMEAS-31": 2,
+          "XMEAS-22": 1
+        }
+      },
+      "diff": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.3333333333333333,
+          "q1": 0.26666666666666666,
+          "q3": 0.3333333333333333,
+          "min": 0.2,
+          "max": 0.3333333333333333
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-10": 3,
+          "XMEAS-1": 1,
+          "XMEAS-31": 1,
+          "XMEAS-38": 1,
+          "XMEAS-39": 1
+        }
+      },
+      "rapid": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.3333333333333333,
+          "q1": 0.29166666666666663,
+          "q3": 0.41666666666666663,
+          "min": 0.25,
+          "max": 0.5
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-10": 3,
+          "XMEAS-1": 1,
+          "XMEAS-31": 1,
+          "XMEAS-38": 1
+        }
+      }
+    },
+    "F10": {
+      "level": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 1.0,
+          "q1": 1.0,
+          "q3": 1.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-18": 3
+        }
+      },
+      "trend": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.3333333333333333,
+          "q1": 0.29166666666666663,
+          "q3": 0.41666666666666663,
+          "min": 0.25,
+          "max": 0.5
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-18": 3,
+          "XMEAS-1": 1,
+          "XMEAS-15": 1,
+          "XMEAS-38": 1
+        }
+      },
+      "residual": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.5,
+          "q1": 0.45,
+          "q3": 0.5833333333333333,
+          "min": 0.4,
+          "max": 0.6666666666666666
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-18": 3,
+          "XMEAS-38": 3,
+          "XMEAS-11": 1,
+          "XMEAS-39": 1,
+          "XMEAS-7": 1
+        }
+      },
+      "diff": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.25,
+          "q1": 0.225,
+          "q3": 0.325,
+          "min": 0.2,
+          "max": 0.4
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-18": 3,
+          "XMEAS-37": 2,
+          "XMEAS-34": 1,
+          "XMEAS-39": 1,
+          "XMEAS-40": 1,
+          "XMEAS-41": 1
+        }
+      },
+      "rapid": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.5,
+          "q1": 0.5,
+          "q3": 0.75,
+          "min": 0.5,
+          "max": 1.0
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-18": 3,
+          "XMEAS-39": 1
+        }
+      }
+    },
+    "F13": {
+      "level": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.14285714285714285,
+          "q1": 0.14285714285714285,
+          "q3": 0.37142857142857144,
+          "min": 0.14285714285714285,
+          "max": 0.6
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-13": 2,
+          "XMEAS-16": 2,
+          "XMEAS-20": 2,
+          "XMEAS-30": 2,
+          "XMEAS-7": 2,
+          "XMEAS-18": 1,
+          "XMEAS-34": 1
+        }
+      },
+      "trend": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.0,
+          "q1": 0.0,
+          "q3": 0.16666666666666666,
+          "min": 0.0,
+          "max": 0.3333333333333333
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-13": 2,
+          "XMEAS-7": 2,
+          "XMEAS-1": 1,
+          "XMEAS-11": 1,
+          "XMEAS-15": 1,
+          "XMEAS-16": 1,
+          "XMEAS-20": 1,
+          "XMEAS-28": 1,
+          "XMEAS-31": 1,
+          "XMEAS-34": 1
+        }
+      },
+      "residual": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.6,
+          "q1": 0.6,
+          "q3": 0.8,
+          "min": 0.6,
+          "max": 1.0
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-13": 3,
+          "XMEAS-16": 3,
+          "XMEAS-7": 3,
+          "XMEAS-10": 2,
+          "XMEAS-21": 1
+        }
+      },
+      "diff": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 1.0,
+          "q1": 1.0,
+          "q3": 1.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-10": 3,
+          "XMEAS-13": 3,
+          "XMEAS-16": 3,
+          "XMEAS-7": 3
+        }
+      },
+      "rapid": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 1.0,
+          "q1": 1.0,
+          "q3": 1.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-10": 3,
+          "XMEAS-13": 3,
+          "XMEAS-16": 3,
+          "XMEAS-7": 3
+        }
+      }
+    },
+    "F8": {
+      "level": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.3333333333333333,
+          "q1": 0.23809523809523808,
+          "q3": 0.3333333333333333,
+          "min": 0.14285714285714285,
+          "max": 0.3333333333333333
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-1": 3,
+          "XMEAS-30": 2,
+          "XMEAS-34": 2,
+          "XMEAS-18": 1,
+          "XMEAS-20": 1,
+          "XMEAS-24": 1,
+          "XMEAS-28": 1,
+          "XMEAS-31": 1
+        }
+      },
+      "trend": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.14285714285714285,
+          "q1": 0.14285714285714285,
+          "q3": 0.23809523809523808,
+          "min": 0.14285714285714285,
+          "max": 0.3333333333333333
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-20": 3,
+          "XMEAS-1": 2,
+          "XMEAS-10": 1,
+          "XMEAS-11": 1,
+          "XMEAS-22": 1,
+          "XMEAS-24": 1,
+          "XMEAS-28": 1,
+          "XMEAS-31": 1,
+          "XMEAS-34": 1
+        }
+      },
+      "residual": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 0.3333333333333333,
+          "q1": 0.23809523809523808,
+          "q3": 0.4666666666666667,
+          "min": 0.14285714285714285,
+          "max": 0.6
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-1": 3,
+          "XMEAS-10": 2,
+          "XMEAS-16": 2,
+          "XMEAS-20": 2,
+          "XMEAS-13": 1,
+          "XMEAS-21": 1,
+          "XMEAS-7": 1
+        }
+      },
+      "diff": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 1.0,
+          "q1": 1.0,
+          "q3": 1.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-1": 3,
+          "XMEAS-10": 3,
+          "XMEAS-29": 3,
+          "XMEAS-31": 3
+        }
+      },
+      "rapid": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 3,
+          "median": 1.0,
+          "q1": 1.0,
+          "q3": 1.0,
+          "min": 1.0,
+          "max": 1.0
+        },
+        "undefined_empty_union_pairs": 0,
+        "recurrence": {
+          "XMEAS-1": 3,
+          "XMEAS-10": 3,
+          "XMEAS-29": 3,
+          "XMEAS-31": 3
+        }
+      }
+    },
+    "Normal": {
+      "level": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 0,
+          "median": null,
+          "q1": null,
+          "q3": null,
+          "min": null,
+          "max": null
+        },
+        "undefined_empty_union_pairs": 3,
+        "recurrence": {}
+      },
+      "trend": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 0,
+          "median": null,
+          "q1": null,
+          "q3": null,
+          "min": null,
+          "max": null
+        },
+        "undefined_empty_union_pairs": 3,
+        "recurrence": {}
+      },
+      "residual": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 0,
+          "median": null,
+          "q1": null,
+          "q3": null,
+          "min": null,
+          "max": null
+        },
+        "undefined_empty_union_pairs": 3,
+        "recurrence": {}
+      },
+      "diff": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 2,
+          "median": 0.0,
+          "q1": 0.0,
+          "q3": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "undefined_empty_union_pairs": 1,
+        "recurrence": {
+          "XMEAS-32": 1,
+          "XMEAS-38": 1
+        }
+      },
+      "rapid": {
+        "top_k": 4,
+        "pairwise_jaccard": {
+          "n": 0,
+          "median": null,
+          "q1": null,
+          "q3": null,
+          "min": null,
+          "max": null
+        },
+        "undefined_empty_union_pairs": 3,
+        "recurrence": {}
+      }
+    }
+  }
+}
