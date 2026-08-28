@@ -1,0 +1,25 @@
+.DS_Store
+**/.DS_Store
+
+__pycache__/
+**/__pycache__/
+*.py[cod]
+
+.venv/
+venv/
+
+# External dataset repository and local dataset/cache copies.
+tennessee-eastman-dataset/
+tep_cache/
+code/tep_cache/
+
+# Generated analysis and temporary outputs.
+code/tep_analysis_v2/
+outputs/
+tmp/
+*.tmp
+*.slxc
+
+# Dataset workbooks must not be committed to this source repository.
+*.xlsx
+*.xls

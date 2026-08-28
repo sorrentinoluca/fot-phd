@@ -1,0 +1,71 @@
+{
+  "version": "2.0",
+  "status": "FROZEN_PENDING_VALIDATION",
+  "dataset_commit": "309b944f35ac440ff0c70616947ffe723c766e14",
+  "sampling_minutes": 1,
+  "fault_injection_h": 10.0,
+  "window_hours": 5,
+  "threshold_calibration": {
+    "source": "Normal N1-N5",
+    "n_windows": 50,
+    "alpha": 0.05,
+    "method": "window-wise max over 41 XMEAS, nearest-rank/conformal-style",
+    "rank": 49,
+    "exceedance_rule": "strictly greater than threshold"
+  },
+  "thresholds": {
+    "abs_shift_sigma": 1.9695333234149084,
+    "abs_slope_sigma_h": 0.7468621213669596,
+    "residual_std_ratio": 1.3681613543196571,
+    "diff_std_ratio": 1.4051245046201666
+  },
+  "feature_semantics": {
+    "shift_sigma": "signed displacement of the window mean in baseline standard-deviation units",
+    "slope_sigma_h": "signed local OLS trend in baseline standard deviations per hour",
+    "residual_std_ratio": "ratio of residual standard deviations after linear detrending",
+    "diff_std_ratio": "ratio of standard deviations of first differences; sample-to-sample variation",
+    "raw_std_ratio": "descriptive ratio of raw standard deviations; overall dispersion only"
+  },
+  "temporal_logic": {
+    "phase_partition": {
+      "initial_windows": 2,
+      "late_windows": 2,
+      "intermediate": "all windows between initial and late phases"
+    },
+    "sustained_episode": {
+      "minimum_consecutive_windows": 2,
+      "signed_features_require_same_sign": true
+    },
+    "global_persistence": {
+      "policy": "do not infer from a two-window episode alone; always report active fraction, sign consistency, and late-regime activity",
+      "strict_level_label": "active in every window, one sign throughout, and active in the late regime",
+      "strict_drift_label": "slope active in every window with one sign, window means evolving coherently in that direction, and active in the late regime",
+      "strict_variability_label": "active in every window and active in the late regime"
+    },
+    "transient": "dynamic feature active initially, lower later, and inactive in the late regime while a possible level displacement can remain"
+  },
+  "vocabulary": {
+    "allowed": [
+      "spostamento di livello",
+      "episodio di spostamento",
+      "spostamento persistente",
+      "escursioni di livello",
+      "trend locale",
+      "episodio di trend",
+      "drift persistente",
+      "dispersione complessiva",
+      "variabilità residua",
+      "variabilità lenta",
+      "variazioni rapide campione-campione",
+      "variabilità rapida persistente",
+      "transiente di assestamento",
+      "dinamica irregolare"
+    ],
+    "forbidden_automatic": [
+      "oscillazione",
+      "instabilità oscillatoria",
+      "periodicità",
+      "aumento della varianza"
+    ]
+  }
+}
