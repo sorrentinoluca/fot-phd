@@ -1,0 +1,16 @@
+scope,feature,positive_windows,total_windows,positive_fraction,development_positive_windows,development_total_windows,development_positive_fraction
+N6,level,0,10,0.0,1,50,0.02
+N6,trend,2,10,0.2,1,50,0.02
+N6,residual,0,10,0.0,1,50,0.02
+N6,diff,0,10,0.0,1,50,0.02
+N6,any-primary,2,10,0.2,3,50,0.06
+N7,level,0,10,0.0,1,50,0.02
+N7,trend,0,10,0.0,1,50,0.02
+N7,residual,1,10,0.1,1,50,0.02
+N7,diff,2,10,0.2,1,50,0.02
+N7,any-primary,2,10,0.2,3,50,0.06
+N6-N7,level,0,20,0.0,1,50,0.02
+N6-N7,trend,2,20,0.1,1,50,0.02
+N6-N7,residual,1,20,0.05,1,50,0.02
+N6-N7,diff,2,20,0.1,1,50,0.02
+N6-N7,any-primary,4,20,0.2,3,50,0.06
