@@ -1,0 +1,58 @@
+{
+  "verification_only": true,
+  "created_utc": "2026-08-28T13:57:33.148505+00:00",
+  "dataset_commit": "309b944f35ac440ff0c70616947ffe723c766e14",
+  "normal_blocks": [
+    "N1",
+    "N2",
+    "N3",
+    "N4",
+    "N5"
+  ],
+  "normal_rows_loaded": 15000,
+  "window_hours": 5.0,
+  "calibration_windows": 50,
+  "variables_per_window": 41,
+  "baseline": "leave-one-block-out; each Ni window uses the other four blocks",
+  "score": "maximum over 41 XMEAS",
+  "alpha": 0.05,
+  "rank_formula": "ceil((n+1)*(1-alpha))",
+  "rank_1_based": 49,
+  "threshold": "49th ordered value",
+  "activation": "score > threshold",
+  "comparisons": {
+    "abs_shift_sigma": {
+      "calculated": 1.9695333234149084,
+      "frozen_config": 1.9695333234149084,
+      "calibration_reference": 1.9695333234149084,
+      "abs_error_vs_config": 0.0,
+      "abs_error_vs_reference": 0.0,
+      "matches_with_atol_1e-12": true
+    },
+    "abs_slope_sigma_h": {
+      "calculated": 0.7468621213669596,
+      "frozen_config": 0.7468621213669596,
+      "calibration_reference": 0.7468621213669596,
+      "abs_error_vs_config": 0.0,
+      "abs_error_vs_reference": 0.0,
+      "matches_with_atol_1e-12": true
+    },
+    "residual_std_ratio": {
+      "calculated": 1.3681613543196571,
+      "frozen_config": 1.3681613543196571,
+      "calibration_reference": 1.3681613543196571,
+      "abs_error_vs_config": 0.0,
+      "abs_error_vs_reference": 0.0,
+      "matches_with_atol_1e-12": true
+    },
+    "diff_std_ratio": {
+      "calculated": 1.4051245046201666,
+      "frozen_config": 1.4051245046201666,
+      "calibration_reference": 1.4051245046201666,
+      "abs_error_vs_config": 0.0,
+      "abs_error_vs_reference": 0.0,
+      "matches_with_atol_1e-12": true
+    }
+  },
+  "all_match": true
+}
