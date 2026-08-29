@@ -1,0 +1,83 @@
+{
+  "artifact_version": "1",
+  "cases": [
+    {
+      "physical_case_id": "PBH-001",
+      "source_file_sha256": "ffb6b7214e33fb7fe32cabd42821b2a28c75758fc5351efafaa8a89719865a9a",
+      "source_filename": "mode1_normal_12.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-002",
+      "source_file_sha256": "6acf8394c2652ad29ac0fc75d90ac3c95b40d02788fda53961b897b10d2af551",
+      "source_filename": "mode1_normal_13.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-003",
+      "source_file_sha256": "eeb2a05806586923fd2bd0a724b52a7622b260eb38e98bbd8e8fd301615af5d5",
+      "source_filename": "mode1_normal_14.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-004",
+      "source_file_sha256": "b539c20a137547cd1023d61ad0fc3b654661484d711b71a5100581be55e53831",
+      "source_filename": "mode1_1_11.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-005",
+      "source_file_sha256": "750085c3471a03c2e8c734ed9e49ae56a30948a0451d2eb22f0454284e727bb5",
+      "source_filename": "mode1_1_12.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-006",
+      "source_file_sha256": "a8bf95d88c233bfef1cd0d7b7cb317a7c8b9d4afc88800c2a0972cd9f326ee69",
+      "source_filename": "mode1_1_13.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-007",
+      "source_file_sha256": "5ec8927c517d6edd4c4fb5fb103b7e205506c664688b2d376bde2c9789f3a265",
+      "source_filename": "mode1_8_11.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-008",
+      "source_file_sha256": "25c7d121c9348afd75d20956de1dfe2f2be9ef634b724d0daf9ca717b2cb2112",
+      "source_filename": "mode1_8_12.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-009",
+      "source_file_sha256": "71f6e2f7b134cbed735d691bf45e79cc23845b997884ce8e16f93ea99db1deb1",
+      "source_filename": "mode1_8_13.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-010",
+      "source_file_sha256": "90652064d8f0e70b156a451cc24d04b8c05c42fbade9357597acb08845c77200",
+      "source_filename": "mode1_10_11.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-011",
+      "source_file_sha256": "0bf19d7353121f2e7450c522876e483a652032aaffeb5cbcb01124c2507cdb6e",
+      "source_filename": "mode1_10_12.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-012",
+      "source_file_sha256": "afb0dd2f77dc465c6209cb15e5cbe8a9538a128e17737ca7382f5a403822b5c5",
+      "source_filename": "mode1_10_13.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-013",
+      "source_file_sha256": "670f3255afea52bfe6524687adb8bc91767799f383afd9e9e3faab13bd48df4b",
+      "source_filename": "mode1_13_11.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-014",
+      "source_file_sha256": "56584fae1e6d855cf60cd4c040bce9553d464d78cfe7cf5e81ee906297bb4293",
+      "source_filename": "mode1_13_12.xlsx"
+    },
+    {
+      "physical_case_id": "PBH-015",
+      "source_file_sha256": "5658938bcb2947929592948f0a929a6b068ee2586ab4b90bedc02edf6b447bf3",
+      "source_filename": "mode1_13_13.xlsx"
+    }
+  ],
+  "scope": "EVALUATOR_SIDE_ONLY",
+  "source_manifest": "phase_b/heldout/phase_b_heldout_manifest.csv",
+  "source_manifest_sha256": "610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3"
+}

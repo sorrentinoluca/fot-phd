@@ -1,0 +1,245 @@
+{
+  "artifact_version": "1",
+  "baseline_source_sha256": "79883dd0aabbd034c15337b0be1ffca37e59ea7b32443a15d560b7feda2b2e6a",
+  "case_count": 15,
+  "cases": [
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-001.txt",
+      "neutral_text_sha256": "d4407ea79d14a1c0fa8ed66e1ae2cf5156d526a4cf07a9ed6232811149cbaed9",
+      "physical_case_id": "PBH-001",
+      "source_file_sha256": "ffb6b7214e33fb7fe32cabd42821b2a28c75758fc5351efafaa8a89719865a9a",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-001.json",
+      "structured_output_sha256": "bf1d9889074262a2ae490e9f861ee336bc404475955545e04a7f34c663b220e9"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-002.txt",
+      "neutral_text_sha256": "cdd36e157b943286c8c9b702baf8f980172420ec341e70510268fcda21f46aa1",
+      "physical_case_id": "PBH-002",
+      "source_file_sha256": "6acf8394c2652ad29ac0fc75d90ac3c95b40d02788fda53961b897b10d2af551",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-002.json",
+      "structured_output_sha256": "cd792f76663cff5b4e2f6dbeb45c97861f0686aa8ab448452a6a1408c4fef95c"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-003.txt",
+      "neutral_text_sha256": "d649fe5d299088532c8e3f09f304bd1b130e7997aa9f38e0a5ca358b54985938",
+      "physical_case_id": "PBH-003",
+      "source_file_sha256": "eeb2a05806586923fd2bd0a724b52a7622b260eb38e98bbd8e8fd301615af5d5",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-003.json",
+      "structured_output_sha256": "4266cd4604b13c9ad7471adfa29ddae32f93b49377379287a68912fcd538ef2d"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-004.txt",
+      "neutral_text_sha256": "4abeab058b0ad393427232ca9c32101a27b0c93d9058154bd2f4d470e9564a9f",
+      "physical_case_id": "PBH-004",
+      "source_file_sha256": "b539c20a137547cd1023d61ad0fc3b654661484d711b71a5100581be55e53831",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-004.json",
+      "structured_output_sha256": "45d4d000a3429f14d1cc45d6afd805b72e2526a1867b5e521f06dd5d01c38c5f"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-005.txt",
+      "neutral_text_sha256": "443fad61dcfa1fb38d1db5d5031f0f6530da750365c9acfc8c1097b38df5f4e5",
+      "physical_case_id": "PBH-005",
+      "source_file_sha256": "750085c3471a03c2e8c734ed9e49ae56a30948a0451d2eb22f0454284e727bb5",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-005.json",
+      "structured_output_sha256": "e9164eb8c013897155ba0e981cd7497a3ee3b6bd1d29a8bb9c7e9b08f585d31f"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-006.txt",
+      "neutral_text_sha256": "a518563021e0466cb36ef5dd87ddc40311a07ece69b421c8b62b5f8eb0ad47f9",
+      "physical_case_id": "PBH-006",
+      "source_file_sha256": "a8bf95d88c233bfef1cd0d7b7cb317a7c8b9d4afc88800c2a0972cd9f326ee69",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-006.json",
+      "structured_output_sha256": "e854758fcd355e25142d3dfae2ddb1f694a7f7aaaa72cc279b8d7a64ac132954"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-007.txt",
+      "neutral_text_sha256": "b15854cb8107f1cc3346c2ffa3015cc96ed3ec9adfa0235021cb7dc3db7feb34",
+      "physical_case_id": "PBH-007",
+      "source_file_sha256": "5ec8927c517d6edd4c4fb5fb103b7e205506c664688b2d376bde2c9789f3a265",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-007.json",
+      "structured_output_sha256": "6333f7f850b6a5730fb0753b2e0391fd711d1411999fec5931d707cb1a3de8a1"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-008.txt",
+      "neutral_text_sha256": "f2666d7e0d5f3d2e8b6c0c77337cc6946acc173a7cc6eb7b2cde7d10deb2ab7b",
+      "physical_case_id": "PBH-008",
+      "source_file_sha256": "25c7d121c9348afd75d20956de1dfe2f2be9ef634b724d0daf9ca717b2cb2112",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-008.json",
+      "structured_output_sha256": "34075476a7867a14030515a85f6d3366f5f03aa5fa8c92abbcfc573bd21c5a51"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-009.txt",
+      "neutral_text_sha256": "6392a02bb93ae4f079f9f5ec03eb399cf3d6827bb686fef637d20e1a2f42c6c6",
+      "physical_case_id": "PBH-009",
+      "source_file_sha256": "71f6e2f7b134cbed735d691bf45e79cc23845b997884ce8e16f93ea99db1deb1",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-009.json",
+      "structured_output_sha256": "3b858abba5ae841fb4a2a2eddf2d3bbafa30112ac6416133999f6d2bad5be0ea"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-010.txt",
+      "neutral_text_sha256": "0c857ee9f74c2ab1ea10d7dcb48631d2b3bb3e93c89964a4e10038112098c0ff",
+      "physical_case_id": "PBH-010",
+      "source_file_sha256": "90652064d8f0e70b156a451cc24d04b8c05c42fbade9357597acb08845c77200",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-010.json",
+      "structured_output_sha256": "1aaba00511d3cfb58136caf2e4e48a77a63158b247fa68f215f209e15fd53eb4"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-011.txt",
+      "neutral_text_sha256": "16134abc751a06e6d270b6de8d0abaab4ee023a8c16c4dcd9ce5a642aef9ccff",
+      "physical_case_id": "PBH-011",
+      "source_file_sha256": "0bf19d7353121f2e7450c522876e483a652032aaffeb5cbcb01124c2507cdb6e",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-011.json",
+      "structured_output_sha256": "f4768b213f1ae95de928d026b61174286c3ef0e99b202cfbb66142516730b191"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-012.txt",
+      "neutral_text_sha256": "330b2be7b35d067c211ee470a6684c9eb1b70e50adeeac946f6916388ee1581d",
+      "physical_case_id": "PBH-012",
+      "source_file_sha256": "afb0dd2f77dc465c6209cb15e5cbe8a9538a128e17737ca7382f5a403822b5c5",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-012.json",
+      "structured_output_sha256": "d7eb9957ec5559839c7e2983838d957bde0997f7641e76046295e1fcfe0a368d"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-013.txt",
+      "neutral_text_sha256": "841dd1b7b5fc7738e681b68ea5de23aee28663f9d641366c4a400349fa7a300b",
+      "physical_case_id": "PBH-013",
+      "source_file_sha256": "670f3255afea52bfe6524687adb8bc91767799f383afd9e9e3faab13bd48df4b",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-013.json",
+      "structured_output_sha256": "7e5efa1c4f049d74222b07a0fff9ad34ae9194c78d0bf10c23973d747a006834"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-014.txt",
+      "neutral_text_sha256": "29f0079d8ba62e3022724aa41eaaba902e21d18a5e5a6f0f6888845b25ec5d38",
+      "physical_case_id": "PBH-014",
+      "source_file_sha256": "56584fae1e6d855cf60cd4c040bce9553d464d78cfe7cf5e81ee906297bb4293",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-014.json",
+      "structured_output_sha256": "abe9e97924d071b680501adf33c7b75a7be4833516de096184ba5b09ca9ece06"
+    },
+    {
+      "frozen_v2_hashes": {
+        "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+        "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+        "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+        "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+      },
+      "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+      "neutral_text_path": "phase_b/final_evaluation/verbalized/neutral_text/PBH-015.txt",
+      "neutral_text_sha256": "62a19bf06c896f72ec63816296e2977764dd231df02e390f8bea4933f82d914b",
+      "physical_case_id": "PBH-015",
+      "source_file_sha256": "5658938bcb2947929592948f0a929a6b068ee2586ab4b90bedc02edf6b447bf3",
+      "structured_output_path": "phase_b/final_evaluation/verbalized/structured/PBH-015.json",
+      "structured_output_sha256": "b0fb551a08caea0e05f3310c08603ab67959e90ba539c3221a81b1db9fb64937"
+    }
+  ],
+  "diagnostic_input_contract": "neutral_text_only",
+  "evaluator_side_source_mapping_path": "phase_b/final_evaluation/evaluator_side/heldout_source_mapping.json",
+  "evaluator_side_source_mapping_sha256": "980b3e682b398c9f2ff800980ecdb2d6859618512dad9c2beaf96d7cbc46de8b",
+  "generated_at_utc": "2026-08-29T14:28:53.990252+00:00",
+  "input_manifest_path": "phase_b/heldout/phase_b_heldout_manifest.csv",
+  "input_manifest_sha256": "610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3",
+  "protocol_freeze_commit": "3d86f64d43e14e7e0de520cb047ca1043bf9c1c0",
+  "runtime": {
+    "pandas": "3.0.5",
+    "python": "3.13.9"
+  },
+  "status": "FROZEN_V2_HELDOUT_VERBALIZATIONS_COMPLETE",
+  "structured_json_is_diagnostic_input": false
+}
