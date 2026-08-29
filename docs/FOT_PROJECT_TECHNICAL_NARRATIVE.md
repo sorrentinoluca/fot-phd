@@ -5,7 +5,9 @@
 **Stato documentale:** ricostruzione del progetto concluso, non nuovo esperimento.  
 **Repository di riferimento:** `sorrentinoluca/fot-phd`, branch `phase-b-fot`.  
 **Fonte interpretativa canonica della chiusura:** `FOT_TEP_POC_FINAL_SYNTHESIS.md`.  
-**Stato Git verificato durante la redazione:** HEAD `a422af31fbf0dc2a84720e5d489fcb94396c034d`.
+**Repository state used for factual verification:** `a422af31fbf0dc2a84720e5d489fcb94396c034d`.
+**Technical narrative initially added in:** `d5a0599edf0f8d9e8909fde52aafd29db21f7cef`.
+**Visual narrative integration:** `61e228a847c6bcd915b5f933fbd77da1386d875a`.
 
 Questo documento racconta l'intero percorso scientifico: dall'idea di usare la
 **Federation over Text (FoT)** per futuri sistemi fotovoltaici distribuiti, al
@@ -1176,7 +1178,7 @@ MEX temporanei e allargamento buffer delay furono conservati, non nascosti.
 
 ### Risultato ottenuto
 
-Il freeze `86baaa65e72cea22ecb89ff0c70616947ffe723c766e14`, tag
+Il freeze `86baaa65e72cea22ecb89dd0e7b213aea5a1284b`, tag
 `phase-b-heldout-frozen`, identifica i 15 file esatti. Le limitazioni di replay
 (stato RNG, script F1-11 e Normal-14 non separatamente preservati) sono in
 `phase_b/heldout/HELDOUT_GENERATION_SUMMARY.md`.
@@ -1864,7 +1866,7 @@ flowchart LR
 
 | Boundary | Commit completo | Tag |
 |---|---|---|
-| Held-out | `86baaa65e72cea22ecb89ff0c70616947ffe723c766e14` | `phase-b-heldout-frozen` |
+| Held-out | `86baaa65e72cea22ecb89dd0e7b213aea5a1284b` | `phase-b-heldout-frozen` |
 | Protocollo | `3d86f64d43e14e7e0de520cb047ca1043bf9c1c0` | `phase-b-protocol-frozen` |
 | Verbalizzazioni | `32f0856040614870d3784a4811e76cee0eee77e3` | — |
 | Schedule | `eef0bc58e5ab14fb0cd2aece180fb5b1b5a7962b` | `phase-b-execution-schedule-frozen` |
