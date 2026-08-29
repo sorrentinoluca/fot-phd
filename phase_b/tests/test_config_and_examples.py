@@ -31,9 +31,14 @@ class ConfigAndExamplesTests(unittest.TestCase):
         self.assertEqual(set(mapping.values()), set(self.config["label_space"][:-1]))
         self.assertFalse(any(label in {"Class-A", "Class-B", "Class-C", "Class-D"} for label in mapping.values()))
 
-    def test_model_and_version_remain_researcher_decisions(self) -> None:
-        with self.assertRaisesRegex(ValueError, "model, model_version, tokenizer"):
-            validate_execution_ready(self.config)
+    def test_execution_identity_is_capability_verified_and_ready(self) -> None:
+        execution = self.config["execution"]
+        self.assertEqual(execution["requested_model"], "gpt-5.6-terra")
+        self.assertEqual(execution["returned_model"], "gpt-5.6-terra")
+        self.assertEqual(execution["model_version"], "gpt-5.6-terra")
+        self.assertEqual(execution["token_accounting_source"], "response.usage")
+        self.assertEqual(execution["capability_probe_status"], "COMPLETE")
+        validate_execution_ready(self.config)
 
     def test_exactly_two_examples_per_local_class(self) -> None:
         self.assertEqual(self.examples["examples_per_local_class"], 2)

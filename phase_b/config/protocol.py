@@ -71,12 +71,18 @@ def load_protocol_config(path: str | Path = DEFAULT_CONFIG) -> dict[str, Any]:
         raise ValueError("conditions must be exactly A, B, E")
 
     execution = config["execution"]
+    if execution.get("provider") != "openai":
+        raise ValueError("Phase B provider is fixed to openai")
+    if execution.get("requested_model") != "gpt-5.6-terra":
+        raise ValueError("requested model is fixed to gpt-5.6-terra")
+    if execution.get("reasoning_effort") not in {None, "medium"}:
+        raise ValueError("reasoning effort must be medium or null after technical rejection")
     if execution.get("repetitions") != 3:
         raise ValueError("R is frozen to 3")
-    if execution.get("temperature") != 0.0:
-        raise ValueError("temperature must remain 0.0 unless a provider cannot support it")
-    if not isinstance(execution.get("seed"), int):
-        raise ValueError("a deterministic seed must be configured")
+    if execution.get("temperature") not in {None, 0.0}:
+        raise ValueError("temperature must be null or capability-verified zero")
+    if execution.get("seed") is not None and not isinstance(execution.get("seed"), int):
+        raise ValueError("seed must be null or a capability-verified integer")
     if execution.get("max_retries") != 2:
         raise ValueError("retry policy is frozen to initial attempt plus two retries")
     if config["metrics"].get("epsilon_seen") != 0.0:
@@ -96,11 +102,20 @@ def load_protocol_config(path: str | Path = DEFAULT_CONFIG) -> dict[str, Any]:
 
 
 def validate_execution_ready(config: dict[str, Any]) -> None:
-    """Refuse real execution until the researcher supplies model identity."""
+    """Refuse definitive execution until the capability probe is complete."""
     execution = config["execution"]
+    if execution.get("capability_probe_status") != "COMPLETE":
+        raise ValueError("Researcher decision required before inference: capability_probe_status")
     missing = [
         field
-        for field in ("model", "model_version", "tokenizer")
+        for field in (
+            "provider",
+            "requested_model",
+            "returned_model",
+            "model_version",
+            "sdk_version",
+            "token_accounting_source",
+        )
         if not isinstance(execution.get(field), str) or not execution[field].strip()
     ]
     if missing:

@@ -20,14 +20,22 @@
     "conditions": {"const": ["A", "B", "E"]},
     "execution": {
       "type": "object",
-      "required": ["model", "model_version", "tokenizer", "repetitions", "temperature", "seed", "max_retries"],
+      "required": ["provider", "api_family", "requested_model", "returned_model", "model", "model_version", "sdk_version", "reasoning_effort", "tokenizer", "token_accounting_source", "capability_probe_status", "repetitions", "temperature", "seed", "max_retries"],
       "properties": {
+        "provider": {"const": "openai"},
+        "api_family": {"const": "Responses API"},
+        "requested_model": {"const": "gpt-5.6-terra"},
+        "returned_model": {"type": ["string", "null"]},
         "model": {"type": ["string", "null"]},
         "model_version": {"type": ["string", "null"]},
+        "sdk_version": {"type": ["string", "null"]},
+        "reasoning_effort": {"enum": ["medium", null]},
         "tokenizer": {"type": ["string", "null"]},
+        "token_accounting_source": {"type": ["string", "null"]},
+        "capability_probe_status": {"enum": ["NOT_RUN", "COMPLETE", "BLOCKED"]},
         "repetitions": {"const": 3},
-        "temperature": {"const": 0.0},
-        "seed": {"type": "integer"},
+        "temperature": {"type": ["number", "null"]},
+        "seed": {"type": ["integer", "null"]},
         "max_retries": {"const": 2}
       }
     }

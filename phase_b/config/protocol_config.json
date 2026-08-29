@@ -9,16 +9,43 @@
     "Normal"
   ],
   "agents": {
-    "agent_1": {"local_fault_label": "CLS-ZOGAA", "normal_label": "Normal"},
-    "agent_2": {"local_fault_label": "CLS-OJNSG", "normal_label": "Normal"},
-    "agent_3": {"local_fault_label": "CLS-R463B", "normal_label": "Normal"},
-    "agent_4": {"local_fault_label": "CLS-Z3ISU", "normal_label": "Normal"}
+    "agent_1": {
+      "local_fault_label": "CLS-ZOGAA",
+      "normal_label": "Normal"
+    },
+    "agent_2": {
+      "local_fault_label": "CLS-OJNSG",
+      "normal_label": "Normal"
+    },
+    "agent_3": {
+      "local_fault_label": "CLS-R463B",
+      "normal_label": "Normal"
+    },
+    "agent_4": {
+      "local_fault_label": "CLS-Z3ISU",
+      "normal_label": "Normal"
+    }
   },
   "local_examples": {
     "examples_per_class": 2,
-    "development_batches": [1, 2],
-    "fault_batches_allowed": [1, 2, 3, 4, 5],
-    "normal_blocks_allowed": ["N1", "N2", "N3", "N4", "N5"],
+    "development_batches": [
+      1,
+      2
+    ],
+    "fault_batches_allowed": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "normal_blocks_allowed": [
+      "N1",
+      "N2",
+      "N3",
+      "N4",
+      "N5"
+    ],
     "include_structured_json_in_diagnostic_prompt": false
   },
   "insights": {
@@ -28,20 +55,32 @@
     "include_normal": false,
     "ordering": "insight_id"
   },
-  "conditions": ["A", "B", "E"],
+  "conditions": [
+    "A",
+    "B",
+    "E"
+  ],
   "condition_names": {
     "A": "isolated",
     "B": "fot_peer_only",
     "E": "corrupted_fixed_derangement"
   },
   "execution": {
-    "model": null,
-    "model_version": null,
+    "provider": "openai",
+    "api_family": "Responses API",
+    "requested_model": "gpt-5.6-terra",
+    "returned_model": "gpt-5.6-terra",
+    "model": "gpt-5.6-terra",
+    "model_version": "gpt-5.6-terra",
+    "sdk_version": "3.6.0",
+    "reasoning_effort": "medium",
     "tokenizer": null,
+    "token_accounting_source": "response.usage",
+    "capability_probe_status": "COMPLETE",
     "repetitions": 3,
-    "temperature": 0.0,
-    "seed": 20260829,
-    "send_seed_if_supported": true,
+    "temperature": null,
+    "seed": null,
+    "send_seed_if_supported": false,
     "max_retries": 2
   },
   "metrics": {
@@ -54,9 +93,22 @@
     "bootstrap_seed": 20260829
   },
   "data_boundaries": {
-    "knowledge_fault_batches": [1, 2, 3, 4, 5],
-    "plumbing_only_fault_batches": [6, 7],
-    "forbidden_original_batches": [8, 9, 10],
+    "knowledge_fault_batches": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "plumbing_only_fault_batches": [
+      6,
+      7
+    ],
+    "forbidden_original_batches": [
+      8,
+      9,
+      10
+    ],
     "heldout_requires_protocol_freeze": true
   }
 }

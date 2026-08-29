@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Phase B diagnostic output (OpenAI Structured Outputs)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "predicted_label",
+    "abstain",
+    "used_insight_ids",
+    "reasoning_summary"
+  ],
+  "properties": {
+    "predicted_label": {"type": ["string", "null"]},
+    "abstain": {"type": "boolean"},
+    "used_insight_ids": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "reasoning_summary": {"type": "string", "minLength": 1}
+  }
+}

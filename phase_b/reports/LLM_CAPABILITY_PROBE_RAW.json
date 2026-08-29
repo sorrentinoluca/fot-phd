@@ -1,0 +1,82 @@
+{
+  "status": "COMPLETE_TECHNICAL_DRY_RUN",
+  "sanitized": true,
+  "raw_outputs_stored": false,
+  "api_calls_made": 3,
+  "capability": {
+    "provider": "openai",
+    "requested_model": "gpt-5.6-terra",
+    "returned_model": "gpt-5.6-terra",
+    "reasoning_effort": "medium",
+    "temperature_supported": false,
+    "temperature": null,
+    "seed_supported": false,
+    "seed": null,
+    "structured_outputs_supported": true,
+    "strict": true,
+    "token_accounting_source": "response.usage"
+  },
+  "dry_run": {
+    "A": {
+      "requested_model": "gpt-5.6-terra",
+      "returned_model": "gpt-5.6-terra",
+      "response_id": "resp_05fd6353b54098b8016a92c2e5c12c87d29a93fe88f3ca8d62",
+      "request_id": "req_60d30373f3c84142aeac043430b5677e",
+      "prompt_characters": 4139,
+      "peer_block_characters": 0,
+      "input_tokens": 1365,
+      "output_tokens": 189,
+      "total_tokens": 1554,
+      "retries": 0,
+      "structured_output": "PASS",
+      "local_validation": "PASS",
+      "used_insight_ids_empty": true,
+      "run_record_valid": true
+    },
+    "B": {
+      "requested_model": "gpt-5.6-terra",
+      "returned_model": "gpt-5.6-terra",
+      "response_id": "resp_0f5437757cb9f529016a92c2e94c1887d28d8e5c9b529182a5",
+      "request_id": "req_15dfe0ee84d8467e8acca5e55d1a5f3f",
+      "prompt_characters": 5909,
+      "peer_block_characters": 1770,
+      "input_tokens": 1850,
+      "output_tokens": 162,
+      "total_tokens": 2012,
+      "retries": 0,
+      "structured_output": "PASS",
+      "local_validation": "PASS",
+      "used_insight_ids_are_prompt_visible": true,
+      "empty_used_insight_ids_valid": true,
+      "unknown_insight_id_rejected_locally": true,
+      "run_record_valid": true
+    },
+    "E": {
+      "requested_model": "gpt-5.6-terra",
+      "returned_model": "gpt-5.6-terra",
+      "response_id": "resp_0807b63d602dc455016a92c2ec382c87d29043ebd72aab0be8",
+      "request_id": "req_e4f806f55e2f4ab09a3e60a876aac41c",
+      "prompt_characters": 5909,
+      "peer_block_characters": 1770,
+      "input_tokens": 1850,
+      "output_tokens": 134,
+      "total_tokens": 1984,
+      "retries": 0,
+      "structured_output": "PASS",
+      "local_validation": "PASS",
+      "used_insight_ids_are_prompt_visible": true,
+      "empty_used_insight_ids_valid": true,
+      "unknown_insight_id_rejected_locally": true,
+      "run_record_valid": true
+    }
+  },
+  "provider_token_equivalence": {
+    "B_input_tokens": 1850,
+    "E_input_tokens": 1850,
+    "difference_B_minus_E": 0,
+    "equivalent": true
+  },
+  "heldout_accessed": false,
+  "definitive_insights_generated": false,
+  "performance_metrics_calculated": false
+}

@@ -5,6 +5,40 @@ Status: **pre-freeze adversarial audit hardened; not protocol-frozen**.
 This document records software readiness only. It contains no definitive local
 insight, real inference, held-out result, or authorization to access held-out.
 
+## OpenAI execution-layer capability status
+
+The provider/model candidate is now fixed for capability testing only:
+
+- provider: OpenAI;
+- requested model: `gpt-5.6-terra`;
+- API family: Responses API (`/v1/responses`);
+- reasoning effort requested: `medium`;
+- SDK: `openai 3.6.0`.
+
+The isolated adapter disables SDK transport/status retries, supports strict
+provider-side JSON Schema when accepted, preserves the full response and every
+raw textual attempt, records requested/returned model separately, response and
+request IDs, raw usage, input/output/total tokens, and delegates only structural
+output retry to the already frozen initial-plus-two Phase B policy. API keys are
+read exclusively from `OPENAI_API_KEY`.
+
+The authenticated capability probe and one-call-per-condition synthetic A/B/E
+plumbing dry-run are **complete**. The requested and returned identifier was
+`gpt-5.6-terra`; reasoning effort `medium` and strict Structured Outputs were
+accepted. Temperature and seed were rejected by the provider and therefore
+remain null. Token accounting comes from `response.usage`.
+
+The OpenAI-compatible provider schema is derived from the unchanged local schema
+by removing only `allOf`, `if`, `then`, `else`, and `uniqueItems`. The unchanged
+local validator remains authoritative for conditional abstention/label rules and
+unique insight IDs. B and E each used 1850 provider input tokens in the validated
+dry-run (difference 0). Full technical results are documented in
+`reports/LLM_CAPABILITY_PROBE.md`; no predicted label is recorded there.
+
+No prompt wording, local example, pseudolabel, or B/E condition was changed in
+response to a generated output. No held-out data, definitive insight, accuracy,
+correctness, or diagnostic performance metric was accessed or calculated.
+
 ## Adversarial audit finding and correction
 
 The audit found one reversible prompt-side metadata channel in the original

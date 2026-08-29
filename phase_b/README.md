@@ -34,6 +34,8 @@ Relevant modules:
 - `insights/`: exact-two schema, provenance validation, peer filtering, E corruption;
 - `conditions/`: A/B/E rendering, strict parsers, bounded deterministic retry;
 - `evaluation/`: run records, token logs, offline metrics, clustered bootstrap;
+- `execution/`: isolated OpenAI Responses adapter and capability-only probe;
+- `reports/`: capability provenance and sanitized technical probe artifacts;
 - `tests/`: software/fixture tests only;
 - `heldout/`: already frozen independently; not an input to this framework task.
 
@@ -176,3 +178,13 @@ python -m unittest discover -s phase_b/tests -v
 
 This command uses committed neutral development examples and synthetic inference
 fixtures. It does not read held-out workbooks or call an LLM.
+
+The authenticated capability/plumbing probe is intentionally separate:
+
+```bash
+python -m phase_b.execution.run_capability_probe
+```
+
+It requires `OPENAI_API_KEY` in the process environment, uses the SDK pinned in
+`execution/requirements.txt`, makes only the adaptive minimum capability calls
+plus one synthetic A/B/E dry-run, and calculates no diagnostic performance.
