@@ -1,0 +1,4 @@
+condition,n,correct,accuracy,abstentions,abstention_rate
+A,36,0,0.0,14,0.3888888888888889
+B,36,31,0.8611111111111112,0,0.0
+E,36,3,0.08333333333333333,0,0.0

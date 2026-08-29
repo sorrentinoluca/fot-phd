@@ -1,0 +1,10 @@
+scope,condition,n,correct,accuracy,abstentions,abstention_rate
+local_fault_seen,A,12,12,1.0,0,0.0
+local_fault_seen,B,12,12,1.0,0,0.0
+local_fault_seen,E,12,12,1.0,0,0.0
+normal,A,12,12,1.0,0,0.0
+normal,B,12,12,1.0,0,0.0
+normal,E,12,12,1.0,0,0.0
+overall,A,60,24,0.4,14,0.23333333333333334
+overall,B,60,55,0.9166666666666666,0,0.0
+overall,E,60,27,0.45,0,0.0
