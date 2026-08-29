@@ -82,6 +82,86 @@ revisori, ingegneri e agenti LLM. È insieme una spiegazione progressiva e una
 mappa di provenance. Non sostituisce gli artefatti frozen: indica dove
 verificarli.
 
+### Timeline sintetica del progetto
+
+La timeline seguente è una mappa di orientamento: il diagramma rende memorabile
+il percorso, mentre la tabella precisa domanda, decisione e boundary tecnica.
+La cronologia Git normativa e completa resta nel §37.
+
+```mermaid
+flowchart TD
+    subgraph VISION["VISION"]
+        V1["Idea FoT per PV"] --> V2["Serve un proving ground controllato"]
+    end
+
+    subgraph PA["TEP / PHASE A"]
+        A1["Scelta TEP"] --> A2["Audit dataset e split"]
+        A2 --> A3["Prototype V1"]
+        A3 --> A4["Problemi metodologici"]
+        A4 --> A5["Phase A V2"]
+        A5 --> A6["Freeze Phase A"]
+        A6 --> A7["Validation e historical test"]
+    end
+
+    subgraph HO["NEW HELD-OUT"]
+        H1["Serve un test untouched"] --> H2["Audit simulatore parent"]
+        H2 --> H3["15 nuovi casi e held-out freeze"]
+    end
+
+    subgraph PB["PHASE B"]
+        B1["Design A / B / E"] --> B2["Pseudolabel, local knowledge, peer-only"]
+        B2 --> B3["Generazione insight"]
+        B3 --> B4["Protocol freeze"]
+        B4 --> B5["Verbalizzazione held-out"]
+        B5 --> B6["Schedule sottospecificato: STOP 0/540"]
+        B6 --> B7["Schedule amendment frozen"]
+        B7 --> B8["540 inference, A/B/E con R=3"]
+        B8 --> B9["Inference freeze"]
+        B9 --> B10["Ground-truth evaluation offline"]
+        B10 --> B11["Results freeze"]
+    end
+
+    subgraph TR["TRANSITION"]
+        T1["Interpretazione finale del PoC"] --> T2["TEP feasibility gate PASSED"]
+        T2 --> T3["Next: adattamento e validazione su PV reale"]
+    end
+
+    V2 --> A1
+    A7 --> H1
+    H3 --> B1
+    B11 --> T1
+```
+
+| Step | Fase | Problema / domanda | Decisione / risultato | Perché conta |
+|---:|---|---|---|---|
+| 1 | Vision | Come applicare FoT al dominio finale del PhD? | Obiettivo: conoscenza testuale fra siti PV non-IID. | Fissa origine e destinazione del programma. |
+| 2 | Vision → TEP | Come ridurre il rischio prima dei dati PV reali? | TEP scelto come preliminary feasibility gate controllato. | Non pretende generalizzazione cross-domain. |
+| 3 | TEP audit | Quanti batch esistono e come separarli? | Verificati 10 batch; development 1–5, validation 6–7, historical test 8–10. | Impedisce leakage fra scelta e valutazione. |
+| 4 | V1 | È possibile trasformare numeri in testo e farli classificare? | Prototype V1 e sanity check 5/5. | Dimostra plumbing, non ancora FoT. |
+| 5 | Svolta metodologica | Prototipi hard-coded, Normal tautologico e std ambigua regalavano conoscenza discriminativa. | STOP alla lettura forte del 5/5; separazione level/trend/variabilità e rimozione della diagnosi dal renderer. | Il design cambia per critica, non per tuning del test. |
+| 6 | Phase A V2 | Come descrivere senza classificare? | `time series → structured evidence → neutral text`. | Separa representation e reasoning. |
+| 7 | Phase A freeze | Come impedire aggiustamenti dopo development? | Freeze `3fd960a192bafacbaabce9471e3c3614d6b2d2db`, tag `verbalizer-v2-pre-validation`; closure `0a45817fd783513e23d58a35c55489404c95feec`. | Congela feature, soglie, renderer ed evaluator. |
+| 8 | Phase A evaluation | Le firme persistono fuori development? | Validation `1d9c1617b56c19d2bc71dfef7b7902df0670b537`; historical test e scientific closure `0a45817fd783513e23d58a35c55489404c95feec`, tag `phase-a-verbalizer-v2-complete`. | Registra stabilità e limiti senza creare V2.1. |
+| 9 | New held-out | I batch 8–10 erano già osservati. | Decisione di generare un final test Phase B realmente untouched. | Evita che il test storico influenzi il PoC FoT. |
+| 10 | Simulator audit | Il commit con supporto setpoint non era self-contained per il workflow standard. | Audit del parent `a0413e16c940f0fc8b554d6a86248020d7fb7527`; plant/stato/solver comparabili. | Risolve l'incompatibilità prima della generazione. |
+| 11 | Held-out | Come fissare nuove repliche senza leggerne le firme? | Generati e auditati 15 casi; freeze `86baaa65e72cea22ecb89dd0e7b213aea5a1284b`, tag `phase-b-heldout-frozen`. | Identità byte-level prima della diagnosi. |
+| 12 | Phase B design | Come isolare trasferimento, benchmark prior ed effetto-volume? | Quattro agenti non-IID; pseudolabel opache; A isolated, B FoT, E corrupted; peer-only. | E è il specificity control; B−E non è primary. |
+| 13 | Insight generation | Come evitare una prototype library scritta dal ricercatore? | Due insight per classe, first structurally valid wins, provenance completa, nessuna selezione manuale. | La conoscenza nasce dagli esempi locali. |
+| 14 | Protocol freeze | Quali regole devono precedere l'apertura diagnostica del test? | Commit `3d86f64d43e14e7e0de520cb047ca1043bf9c1c0`, tag `phase-b-protocol-frozen`. | Blocca prompt, insight, A/B/E, R, metriche e bootstrap. |
+| 15 | Held-out verbalization | Come preparare input finali senza usare ground truth? | Verbalizzazioni frozen al commit `32f0856040614870d3784a4811e76cee0eee77e3`. | Mantiene Phase A deterministica e separata. |
+| 16 | Svolta schedule | Il protocollo non specificava l'ordine delle 540 call. | STOP a 0/540, zero prediction osservate. | Corregge una sottospecifica prima dei risultati. |
+| 17 | Schedule freeze | Come bilanciare posizione e mantenere statelessness? | Rotazione ABE/BEA/EAB; commit `eef0bc58e5ab14fb0cd2aece180fb5b1b5a7962b`, tag `phase-b-execution-schedule-frozen`. | Ogni condizione occupa equamente le posizioni. |
+| 18 | Final inference | Eseguire la matrice frozen senza tuning. | 540/540 inference A/B/E con R=3; un solo retry strutturale. | Produce repetition e aggregate record tracciabili. |
+| 19 | Prediction freeze | Come impedire correzioni dopo la correctness? | Commit `11c34358e28e875cd5c7249061ac2b89ffcd42f4`, tag `phase-b-inference-frozen`. | Congela prediction prima del ground-truth join. |
+| 20 | Offline evaluation | Cosa mostrano le prediction frozen? | Ground truth solo evaluator-side; commit `45ec4eed65b263a5803ced7d01064c4672e81e86`, tag `phase-b-results-frozen`. | B−A resta primary; B−E specificity/mechanistic contrast. |
+| 21 | Interpretazione | Il floor di A rende lecite claim più forti? | No ripunteggio: floor caratterizzato post-hoc; FoT feasibility supported e specificity control positivo. | Prudenza interpretativa senza cambiare metriche. |
+| 22 | Transition | Cosa segue il gate TEP? | Adattamento e validazione indipendente su PV reale; FoT-vs-central-ICL resta open question. | Il PoC termina, il programma di PhD continua. |
+
+> **Nota per lettori e futuri LLM.** Questa timeline è una mappa di
+> orientamento. Per la versione normativa di ogni decisione seguire gli
+> artefatti frozen e le sezioni di dettaglio citate nel documento; uno step
+> storico può essere stato successivamente superseded.
+
 ### Obiettivo della fase
 
 Separare tre livelli che nella cronologia possono facilmente confondersi:
