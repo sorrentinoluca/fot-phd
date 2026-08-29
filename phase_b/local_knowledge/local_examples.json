@@ -1,0 +1,102 @@
+{
+  "artifact_version": "1",
+  "scope": "PROMPT_FACING_DEVELOPMENT_ONLY",
+  "selection_rule": "exactly batches 1 and 2; no cherry-picking",
+  "examples_per_local_class": 2,
+  "contains_structured_numerical_json": false,
+  "v2_frozen_hashes": {
+    "verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519",
+    "tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+    "tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c"
+  },
+  "agents": {
+    "agent_1": [
+      {
+        "example_id": "EXM-001",
+        "pseudolabel": "CLS-ZOGAA",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 8/8 finestre, sempre con segno positivo; il run più lungo con segno coerente comprende 8 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-1 supera la soglia di pendenza in 6/8 finestre, con segno positivo in 3 e negativo in 3; il run più lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 10.0 h all'ultima a 35.0 h. XMEAS-20: variabilità residua dopo rimozione del trend lineare sopra soglia in 4/8 finestre; 2/2 nella fase iniziale e 0/2 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 1/8 finestre; 1/2 nella fase iniziale e 0/2 nelle ultime finestre. Su XMEAS-10, residual e diff superano simultaneamente le rispettive soglie in 1/8 finestre, incluse 0/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-1 (rapporto tra deviazioni standard 46.30)."
+      },
+      {
+        "example_id": "EXM-002",
+        "pseudolabel": "CLS-ZOGAA",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 8/8 finestre, sempre con segno positivo; il run più lungo con segno coerente comprende 8 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-1 supera la soglia di pendenza in 5/8 finestre, con segno positivo in 3 e negativo in 2; il run più lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 10.0 h all'ultima a 30.0 h. XMEAS-20: variabilità residua dopo rimozione del trend lineare sopra soglia in 4/8 finestre; 2/2 nella fase iniziale e 0/2 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 1/8 finestre; 1/2 nella fase iniziale e 0/2 nelle ultime finestre. Su XMEAS-10, residual e diff superano simultaneamente le rispettive soglie in 1/8 finestre, incluse 0/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-1 (rapporto tra deviazioni standard 46.44)."
+      },
+      {
+        "example_id": "EXM-009",
+        "pseudolabel": "Normal",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. XMEAS-10: variabilità residua dopo rimozione del trend lineare sopra soglia in 1/8 finestre; 0/2 nella fase iniziale e 1/2 nelle ultime finestre. XMEAS-39: variazioni campione-campione sopra soglia in 1/8 finestre; 0/2 nella fase iniziale e 1/2 nelle ultime finestre. La massima dispersione complessiva osservata è su XMEAS-10 (rapporto tra deviazioni standard 1.48)."
+      },
+      {
+        "example_id": "EXM-010",
+        "pseudolabel": "Normal",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-10 (rapporto tra deviazioni standard 1.36)."
+      }
+    ],
+    "agent_2": [
+      {
+        "example_id": "EXM-003",
+        "pseudolabel": "CLS-OJNSG",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 8/8 finestre, con segno positivo in 3 e negativo in 5; il run più lungo con segno coerente comprende 3 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-20 supera la soglia di pendenza in 8/8 finestre, con segno positivo in 5 e negativo in 3; il run più lungo con segno coerente comprende 2 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-10: variabilità residua dopo rimozione del trend lineare sopra soglia in 8/8 finestre; 2/2 nella fase iniziale e 2/2 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 6/8 finestre; 1/2 nella fase iniziale e 2/2 nelle ultime finestre. Su XMEAS-10, residual e diff superano simultaneamente le rispettive soglie in 6/8 finestre, incluse 2/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-1 (rapporto tra deviazioni standard 38.49)."
+      },
+      {
+        "example_id": "EXM-004",
+        "pseudolabel": "CLS-OJNSG",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 8/8 finestre, con segno positivo in 3 e negativo in 5; il run più lungo con segno coerente comprende 2 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-1 supera la soglia di pendenza in 8/8 finestre, con segno positivo in 4 e negativo in 4; il run più lungo con segno coerente comprende 2 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-1: variabilità residua dopo rimozione del trend lineare sopra soglia in 8/8 finestre; 2/2 nella fase iniziale e 2/2 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 6/8 finestre; 2/2 nella fase iniziale e 1/2 nelle ultime finestre. Su XMEAS-10, residual e diff superano simultaneamente le rispettive soglie in 6/8 finestre, incluse 1/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-1 (rapporto tra deviazioni standard 27.52)."
+      },
+      {
+        "example_id": "EXM-009",
+        "pseudolabel": "Normal",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. XMEAS-10: variabilità residua dopo rimozione del trend lineare sopra soglia in 1/8 finestre; 0/2 nella fase iniziale e 1/2 nelle ultime finestre. XMEAS-39: variazioni campione-campione sopra soglia in 1/8 finestre; 0/2 nella fase iniziale e 1/2 nelle ultime finestre. La massima dispersione complessiva osservata è su XMEAS-10 (rapporto tra deviazioni standard 1.48)."
+      },
+      {
+        "example_id": "EXM-010",
+        "pseudolabel": "Normal",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-10 (rapporto tra deviazioni standard 1.36)."
+      }
+    ],
+    "agent_3": [
+      {
+        "example_id": "EXM-005",
+        "pseudolabel": "CLS-R463B",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-18 supera la soglia di spostamento in 8/8 finestre, con segno positivo in 6 e negativo in 2; il run più lungo con segno coerente comprende 6 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-18 supera la soglia di pendenza in 6/8 finestre, con segno positivo in 4 e negativo in 2; il run più lungo con segno coerente comprende 2 finestre, dalla prima attivazione a 10.0 h all'ultima a 40.0 h. XMEAS-18: variabilità residua dopo rimozione del trend lineare sopra soglia in 8/8 finestre; 2/2 nella fase iniziale e 2/2 nelle ultime finestre. XMEAS-18: variazioni campione-campione sopra soglia in 5/8 finestre; 1/2 nella fase iniziale e 2/2 nelle ultime finestre. Su XMEAS-18, residual e diff superano simultaneamente le rispettive soglie in 5/8 finestre, incluse 2/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-18 (rapporto tra deviazioni standard 16.27)."
+      },
+      {
+        "example_id": "EXM-006",
+        "pseudolabel": "CLS-R463B",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-18 supera la soglia di spostamento in 7/8 finestre, con segno positivo in 4 e negativo in 3; il run più lungo con segno coerente comprende 3 finestre, dalla prima attivazione a 15.0 h all'ultima a 45.0 h. XMEAS-18 supera la soglia di pendenza in 8/8 finestre, con segno positivo in 3 e negativo in 5; il run più lungo con segno coerente comprende 3 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-18: variabilità residua dopo rimozione del trend lineare sopra soglia in 8/8 finestre; 2/2 nella fase iniziale e 2/2 nelle ultime finestre. XMEAS-18: variazioni campione-campione sopra soglia in 7/8 finestre; 2/2 nella fase iniziale e 1/2 nelle ultime finestre. Su XMEAS-18, residual e diff superano simultaneamente le rispettive soglie in 7/8 finestre, incluse 1/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-18 (rapporto tra deviazioni standard 16.56)."
+      },
+      {
+        "example_id": "EXM-009",
+        "pseudolabel": "Normal",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. XMEAS-10: variabilità residua dopo rimozione del trend lineare sopra soglia in 1/8 finestre; 0/2 nella fase iniziale e 1/2 nelle ultime finestre. XMEAS-39: variazioni campione-campione sopra soglia in 1/8 finestre; 0/2 nella fase iniziale e 1/2 nelle ultime finestre. La massima dispersione complessiva osservata è su XMEAS-10 (rapporto tra deviazioni standard 1.48)."
+      },
+      {
+        "example_id": "EXM-010",
+        "pseudolabel": "Normal",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-10 (rapporto tra deviazioni standard 1.36)."
+      }
+    ],
+    "agent_4": [
+      {
+        "example_id": "EXM-007",
+        "pseudolabel": "CLS-Z3ISU",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-20 supera la soglia di spostamento in 8/8 finestre, sempre con segno negativo; il run più lungo con segno coerente comprende 8 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-11 supera la soglia di pendenza in 8/8 finestre, con segno positivo in 5 e negativo in 3; il run più lungo con segno coerente comprende 5 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-16: variabilità residua dopo rimozione del trend lineare sopra soglia in 8/8 finestre; 2/2 nella fase iniziale e 2/2 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 7/8 finestre; 2/2 nella fase iniziale e 1/2 nelle ultime finestre. Su XMEAS-10, residual e diff superano simultaneamente le rispettive soglie in 7/8 finestre, incluse 1/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-7 (rapporto tra deviazioni standard 58.25)."
+      },
+      {
+        "example_id": "EXM-008",
+        "pseudolabel": "CLS-Z3ISU",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-20 supera la soglia di spostamento in 8/8 finestre, con segno positivo in 1 e negativo in 7; il run più lungo con segno coerente comprende 7 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-10 supera la soglia di pendenza in 8/8 finestre, con segno positivo in 5 e negativo in 3; il run più lungo con segno coerente comprende 4 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-7: variabilità residua dopo rimozione del trend lineare sopra soglia in 8/8 finestre; 2/2 nella fase iniziale e 2/2 nelle ultime finestre. XMEAS-16: variazioni campione-campione sopra soglia in 6/8 finestre; 1/2 nella fase iniziale e 1/2 nelle ultime finestre. Su XMEAS-7, residual e diff superano simultaneamente le rispettive soglie in 6/8 finestre, incluse 1/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-7 (rapporto tra deviazioni standard 87.85)."
+      },
+      {
+        "example_id": "EXM-009",
+        "pseudolabel": "Normal",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. XMEAS-10: variabilità residua dopo rimozione del trend lineare sopra soglia in 1/8 finestre; 0/2 nella fase iniziale e 1/2 nelle ultime finestre. XMEAS-39: variazioni campione-campione sopra soglia in 1/8 finestre; 0/2 nella fase iniziale e 1/2 nelle ultime finestre. La massima dispersione complessiva osservata è su XMEAS-10 (rapporto tra deviazioni standard 1.48)."
+      },
+      {
+        "example_id": "EXM-010",
+        "pseudolabel": "Normal",
+        "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-10 (rapporto tra deviazioni standard 1.36)."
+      }
+    ]
+  }
+}

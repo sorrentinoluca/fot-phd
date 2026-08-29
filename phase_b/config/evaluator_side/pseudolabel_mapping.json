@@ -1,0 +1,12 @@
+{
+  "scope": "EVALUATOR_SIDE_ONLY",
+  "scheme": "SHA-256 namespace digest encoded as a five-character Base32 suffix",
+  "namespace": "fot-phase-b-v2|opaque-pseudolabel|",
+  "real_to_opaque": {
+    "F1": "CLS-ZOGAA",
+    "F8": "CLS-OJNSG",
+    "F10": "CLS-R463B",
+    "F13": "CLS-Z3ISU"
+  },
+  "normal_label": "Normal"
+}

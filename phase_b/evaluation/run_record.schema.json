@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Phase B inference run record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "agent_id", "condition", "repetition", "model", "model_version",
+    "prompt_hash", "input_hash", "raw_output", "parsed_output",
+    "physical_case_id", "temperature", "seed", "timestamp",
+    "prompt_tokens", "completion_tokens", "token_count_method"
+  ],
+  "properties": {
+    "agent_id": {"type": "string", "pattern": "^agent_[1-4]$"},
+    "condition": {"enum": ["A", "B", "E"]},
+    "repetition": {"type": "integer", "minimum": 1, "maximum": 3},
+    "model": {"type": "string", "minLength": 1},
+    "model_version": {"type": "string", "minLength": 1},
+    "prompt_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "input_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "raw_output": {"type": "string"},
+    "parsed_output": {"type": "object"},
+    "physical_case_id": {"type": "string", "minLength": 1},
+    "temperature": {"type": ["number", "null"]},
+    "seed": {"type": ["integer", "null"]},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "prompt_tokens": {"type": ["integer", "null"], "minimum": 0},
+    "completion_tokens": {"type": ["integer", "null"], "minimum": 0},
+    "token_count_method": {"type": "string", "minLength": 1}
+  }
+}

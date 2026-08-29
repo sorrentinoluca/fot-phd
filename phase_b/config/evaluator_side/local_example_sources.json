@@ -1,0 +1,75 @@
+{
+  "scope": "EVALUATOR_SIDE_ONLY",
+  "selection_rule": {
+    "fault_batches": [
+      1,
+      2
+    ],
+    "normal_blocks": [
+      "N1",
+      "N2"
+    ]
+  },
+  "sources": [
+    {
+      "example_id": "EXM-001",
+      "real_class": "F1",
+      "batch": 1,
+      "source_filename": "mode1_1_1.xlsx"
+    },
+    {
+      "example_id": "EXM-002",
+      "real_class": "F1",
+      "batch": 2,
+      "source_filename": "mode1_1_2.xlsx"
+    },
+    {
+      "example_id": "EXM-003",
+      "real_class": "F8",
+      "batch": 1,
+      "source_filename": "mode1_8_1.xlsx"
+    },
+    {
+      "example_id": "EXM-004",
+      "real_class": "F8",
+      "batch": 2,
+      "source_filename": "mode1_8_2.xlsx"
+    },
+    {
+      "example_id": "EXM-005",
+      "real_class": "F10",
+      "batch": 1,
+      "source_filename": "mode1_10_1.xlsx"
+    },
+    {
+      "example_id": "EXM-006",
+      "real_class": "F10",
+      "batch": 2,
+      "source_filename": "mode1_10_2.xlsx"
+    },
+    {
+      "example_id": "EXM-007",
+      "real_class": "F13",
+      "batch": 1,
+      "source_filename": "mode1_13_1.xlsx"
+    },
+    {
+      "example_id": "EXM-008",
+      "real_class": "F13",
+      "batch": 2,
+      "source_filename": "mode1_13_2.xlsx"
+    },
+    {
+      "example_id": "EXM-009",
+      "real_class": "Normal",
+      "normal_block": "N1",
+      "source_filename": "mode1_normal_500.xlsx"
+    },
+    {
+      "example_id": "EXM-010",
+      "real_class": "Normal",
+      "normal_block": "N2",
+      "source_filename": "mode1_normal_500.xlsx"
+    }
+  ]
+}

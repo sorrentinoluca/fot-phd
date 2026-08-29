@@ -1,0 +1,25 @@
+You derive exactly two concise textual observations from labeled local examples.
+Use only the supplied neutral descriptions. Do not use external benchmark knowledge.
+Describe recurring observable evidence and temporal counts; do not invent causes.
+
+LOCAL PSEUDOLABEL
+<<LOCAL_LABEL>>
+
+LOCAL LABELED EXAMPLES
+<<LOCAL_EXAMPLES>>
+
+REQUIRED OUTPUT
+Return one JSON array containing exactly two objects in the supplied ID order.
+Each object must have exactly these keys:
+insight_id, source_agent, pseudolabel, evidence_scope, observed_pattern.
+Use the supplied source agent, pseudolabel, evidence scope, and insight IDs verbatim.
+Do not add confidence, ranking, markdown, or commentary.
+
+SOURCE AGENT
+<<SOURCE_AGENT>>
+
+EVIDENCE SCOPE
+<<EVIDENCE_SCOPE>>
+
+INSIGHT IDS IN REQUIRED ORDER
+<<INSIGHT_IDS>>

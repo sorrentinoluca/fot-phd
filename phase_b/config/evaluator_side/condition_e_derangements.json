@@ -1,0 +1,26 @@
+{
+  "scope": "EVALUATOR_SIDE_ONLY",
+  "method": "fixed one-position rotation of each agent's ordered three-label peer set",
+  "derangements": {
+    "agent_1": {
+      "CLS-OJNSG": "CLS-R463B",
+      "CLS-R463B": "CLS-Z3ISU",
+      "CLS-Z3ISU": "CLS-OJNSG"
+    },
+    "agent_2": {
+      "CLS-ZOGAA": "CLS-R463B",
+      "CLS-R463B": "CLS-Z3ISU",
+      "CLS-Z3ISU": "CLS-ZOGAA"
+    },
+    "agent_3": {
+      "CLS-ZOGAA": "CLS-OJNSG",
+      "CLS-OJNSG": "CLS-Z3ISU",
+      "CLS-Z3ISU": "CLS-ZOGAA"
+    },
+    "agent_4": {
+      "CLS-ZOGAA": "CLS-OJNSG",
+      "CLS-OJNSG": "CLS-R463B",
+      "CLS-R463B": "CLS-ZOGAA"
+    }
+  }
+}
