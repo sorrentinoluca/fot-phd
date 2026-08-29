@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Phase B insight generation (OpenAI Structured Outputs transport)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["insights"],
+  "properties": {
+    "insights": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "insight_id",
+          "source_agent",
+          "pseudolabel",
+          "evidence_scope",
+          "observed_pattern"
+        ],
+        "properties": {
+          "insight_id": {"type": "string", "pattern": "^INS-[0-9]{3}$"},
+          "source_agent": {"type": "string", "pattern": "^agent_[1-4]$"},
+          "pseudolabel": {"type": "string", "pattern": "^CLS-[A-Z0-9]{5}$"},
+          "evidence_scope": {"type": "string", "minLength": 1},
+          "observed_pattern": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

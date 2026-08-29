@@ -1,0 +1,44 @@
+[
+  {
+    "insight_id": "INS-001",
+    "source_agent": "agent_1",
+    "pseudolabel": "CLS-OJNSG",
+    "evidence_scope": "five local development neutral-text examples",
+    "observed_pattern": "XMEAS-1 exceeds the displacement threshold positively in all 8/8 windows, with one coherent 8-window run from 10.0 to 45.0 h; it also has the largest overall dispersion (standard-deviation ratio 46.06–46.50)."
+  },
+  {
+    "insight_id": "INS-002",
+    "source_agent": "agent_1",
+    "pseudolabel": "CLS-OJNSG",
+    "evidence_scope": "five local development neutral-text examples",
+    "observed_pattern": "XMEAS-20 residual variability is above threshold in 4/8 windows, including 2/2 initial and 0/2 final windows; XMEAS-10 sample-to-sample variation and joint residual/diff exceedance occur in 1/8 windows, with none in the final two."
+  },
+  {
+    "insight_id": "INS-003",
+    "source_agent": "agent_2",
+    "pseudolabel": "CLS-R463B",
+    "evidence_scope": "five local development neutral-text examples",
+    "observed_pattern": "In all five examples, a displacement and a slope threshold exceedance occurs in 7–8 of 8 windows, with activations generally spanning from 10.0 h to 45.0 h and short coherent-sign runs of 2–5 windows."
+  },
+  {
+    "insight_id": "INS-004",
+    "source_agent": "agent_2",
+    "pseudolabel": "CLS-R463B",
+    "evidence_scope": "five local development neutral-text examples",
+    "observed_pattern": "Residual variability is above threshold in 8/8 windows in every example; sample-to-sample changes occur in 5–6/8 windows, while simultaneous residual and difference exceedances occur in 5–6/8 windows."
+  },
+  {
+    "insight_id": "INS-005",
+    "source_agent": "agent_3",
+    "pseudolabel": "CLS-ZOGAA",
+    "evidence_scope": "five local development neutral-text examples",
+    "observed_pattern": "XMEAS-18 mostra variabilità residua sopra soglia in 8/8 finestre in tutti e cinque gli esempi, incluse 2/2 finestre iniziali e 2/2 finali."
+  },
+  {
+    "insight_id": "INS-006",
+    "source_agent": "agent_3",
+    "pseudolabel": "CLS-ZOGAA",
+    "evidence_scope": "five local development neutral-text examples",
+    "observed_pattern": "Su XMEAS-18, spostamento e pendenza superano spesso le soglie (rispettivamente 6–8/8 e 6–8/8 finestre), mentre residual e diff sono simultaneamente sopra soglia in 5–8/8 finestre."
+  }
+]

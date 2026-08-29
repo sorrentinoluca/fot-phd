@@ -1,0 +1,153 @@
+{
+  "protocol_version": "phase-b-fot-1.0.0",
+  "status": "FROZEN_BEFORE_INDEPENDENT_HELDOUT_EVALUATION",
+  "agent_topology": {
+    "count": 4,
+    "shared_normal_label": "Normal",
+    "local_knowledge": "Normal plus exactly one opaque fault pseudoclass per agent",
+    "agents": {
+      "agent_1": {"local_fault_pseudolabel": "CLS-ZOGAA"},
+      "agent_2": {"local_fault_pseudolabel": "CLS-OJNSG"},
+      "agent_3": {"local_fault_pseudolabel": "CLS-R463B"},
+      "agent_4": {"local_fault_pseudolabel": "CLS-Z3ISU"}
+    }
+  },
+  "pseudolabel_mapping": {
+    "scope": "EVALUATOR_SIDE_ONLY",
+    "path": "phase_b/config/evaluator_side/pseudolabel_mapping.json",
+    "sha256": "f68a690df9c5d0d9505c8b388379c78ccdaa4143e9b4c4e4814ea6d7888b3035"
+  },
+  "data_boundary": {
+    "insight_and_local_knowledge_fault_batches": [1, 2, 3, 4, 5],
+    "diagnostic_few_shot_fault_batches": [1, 2],
+    "plumbing_only_fault_batches": [6, 7],
+    "original_batches_not_final_test": [8, 9, 10],
+    "independent_heldout_case_count": 15,
+    "independent_heldout_diagnostically_opened": false
+  },
+  "local_examples": {
+    "rule": "exactly batches 1 and 2 with no cherry-picking; two fault examples plus Normal N1 and N2 per agent pack; neutral text only",
+    "examples_per_local_class": 2,
+    "artifact": {
+      "path": "phase_b/local_knowledge/local_examples.json",
+      "sha256": "468d51b7987b8655fc80638d99366dbe3632af0606c9034ca6db7fd1fdcd0a5c"
+    },
+    "evaluator_source_metadata": {
+      "path": "phase_b/config/evaluator_side/local_example_sources.json",
+      "sha256": "f7a07588ec93d5d876f84a98914a9ab615b96100abae65aac046b16707182a70"
+    }
+  },
+  "insights": {
+    "insights_per_fault": 2,
+    "total": 8,
+    "selection_rule": "first structurally valid output wins; no human selection, ranking, merge, or editing",
+    "generation_attempts_per_agent": {
+      "agent_1": 1,
+      "agent_2": 1,
+      "agent_3": 1,
+      "agent_4": 1
+    },
+    "structural_retries_per_agent": {
+      "agent_1": 0,
+      "agent_2": 0,
+      "agent_3": 0,
+      "agent_4": 0
+    },
+    "final_library": {
+      "path": "phase_b/insights/final_local_insights.json",
+      "sha256": "b7ea847ccaf72b04c407ae4878924719c5363d4ccc6851d3d5fef79386e4bcfd"
+    }
+  },
+  "federation": {
+    "peer_only": true,
+    "self_insights_included": false,
+    "normal_insights_included": false,
+    "peer_insights_per_agent": 6,
+    "B_library_hashes": {
+      "phase_b/insights/peer_libraries/agent_1_B.json": "262768a6cada9e88106faa8d07367bb565e5ea0fdb9155cdee1095137a69693f",
+      "phase_b/insights/peer_libraries/agent_2_B.json": "4b0b5bdd228cb1daee5089691fb4612cbd0b7d337153f87264d9433d27e6b083",
+      "phase_b/insights/peer_libraries/agent_3_B.json": "fe5606c35e6a483f5db46acea7b8dae3c238bc2f02423e7b726fe8961528a9a0",
+      "phase_b/insights/peer_libraries/agent_4_B.json": "620ace1214f9ee7b163920deaadef7ee9d16d43ad7bb1de710f3a4559feaf4b3"
+    },
+    "E_library_hashes": {
+      "phase_b/insights/peer_libraries/agent_1_E.json": "945250d00fd01c0742360d62b4a0e175642788627c0b1760aa84d3dfd2ed87ad",
+      "phase_b/insights/peer_libraries/agent_2_E.json": "564a5f30dc75ea991a2776cbae6389d561619cef53907f09dc5a8af05edfd744",
+      "phase_b/insights/peer_libraries/agent_3_E.json": "62ee45b36fa22b8ad61f89b5850f2913c553448cffbc74c8b5b2e20d35f86912",
+      "phase_b/insights/peer_libraries/agent_4_E.json": "c2b9e7cda177629ee97d682a7e404a6ae5e6badff0274fe062b671e94256d16d"
+    },
+    "derangement": {
+      "path": "phase_b/config/evaluator_side/condition_e_derangements.json",
+      "sha256": "e8a0bdbf5a0b7c04d1ba978fd7e18f55b933d8062125ea11c1fb117f9990b231",
+      "zero_fixed_point": true
+    }
+  },
+  "conditions": ["A", "B", "E"],
+  "condition_definitions": {
+    "A": "isolated",
+    "B": "FoT with six genuine peer-only insights",
+    "E": "same six peer insights and order as B with only the pseudolabel association changed by the frozen derangement"
+  },
+  "prompt_template_hashes": {
+    "phase_b/prompts/isolated_A.txt": "cecc664e5d9b9558ca7f8675bee37ae59a5d97a5ff0518175a8a8855a5328289",
+    "phase_b/prompts/fot_B.txt": "cecc664e5d9b9558ca7f8675bee37ae59a5d97a5ff0518175a8a8855a5328289",
+    "phase_b/prompts/corrupted_E.txt": "cecc664e5d9b9558ca7f8675bee37ae59a5d97a5ff0518175a8a8855a5328289"
+  },
+  "insight_generation_prompt": {
+    "path": "phase_b/prompts/insight_generation.txt",
+    "sha256": "bfa791730ac7dff336da2c3f1b80b409c3015831e55f80bc58453ec518af4b35"
+  },
+  "execution": {
+    "config_path": "phase_b/config/execution_config.json",
+    "config_sha256": "2a88d915af9c76a6d8ecd4331efe42d756a5a305d8a07479990996685419d234",
+    "provider": "openai",
+    "requested_model": "gpt-5.6-terra",
+    "returned_model": "gpt-5.6-terra",
+    "reasoning_effort": "medium",
+    "temperature": null,
+    "seed": null,
+    "structured_outputs": true,
+    "structured_outputs_strict": true,
+    "repetitions": 3,
+    "max_structural_retries": 2
+  },
+  "aggregation_rule": {
+    "repetitions_required": [1, 2, 3],
+    "valid_label_majority": "one valid pseudolabel receiving at least two of three votes",
+    "no_majority": "aggregate abstain",
+    "abstain_rule": "abstention counts as incorrect in the primary analysis"
+  },
+  "metrics": {
+    "primary_metric": "Delta_unseen = accuracy_B_unseen - accuracy_A_unseen",
+    "support_criteria": [
+      "Delta_unseen > 0",
+      "Delta_unseen positive for at least 3 of 4 agents",
+      "helped > harmed",
+      "Delta_unseen > Delta_E"
+    ],
+    "H2_epsilon": 0.0,
+    "normal_accuracy_role": "secondary and separate",
+    "local_fault_seen_accuracy_role": "secondary and separate"
+  },
+  "statistics": {
+    "primary_physical_fault_run_clusters": 12,
+    "unseen_aggregate_agent_case_observations": 36,
+    "agent_case_observations_independent": false,
+    "bootstrap": "paired cluster bootstrap over physical_case_id, stratified by four true pseudoclasses with three physical runs per stratum",
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 20260829
+  },
+  "heldout_freeze": {
+    "commit": "86baaa65e72cea22ecb89dd0e7b213aea5a1284b",
+    "tag": "phase-b-heldout-frozen",
+    "tag_object_sha": "8b03ba24e617868bb5625f986cb8da4b75db5e71",
+    "manifest_path": "phase_b/heldout/phase_b_heldout_manifest.csv",
+    "manifest_sha256": "610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3"
+  },
+  "phase_a_frozen_hashes": {
+    "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519",
+    "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+    "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+    "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c"
+  },
+  "immutability": "Any post-freeze change to data boundaries, mappings, examples, prompts, insights, peer libraries, derangements, execution identity/settings, repetitions, retry, aggregation, conditions, metrics, hypotheses, bootstrap, parser, or schemas requires a new protocol version before held-out access."
+}

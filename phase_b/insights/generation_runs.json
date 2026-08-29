@@ -1,0 +1,1038 @@
+{
+  "status": "COMPLETE",
+  "policy": {
+    "generation_count": 4,
+    "insights_per_generation": 2,
+    "max_structural_retries": 2,
+    "first_structurally_valid_output_wins": true,
+    "content_based_retry_or_selection": false
+  },
+  "provider": "openai",
+  "requested_model": "gpt-5.6-terra",
+  "reasoning_effort": "medium",
+  "temperature": null,
+  "seed": null,
+  "structured_outputs_strict": true,
+  "development_scope": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "generations": [
+    {
+      "source_agent": "agent_1",
+      "pseudolabel": "CLS-ZOGAA",
+      "development_scope": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "requested_model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "temperature": null,
+      "seed": null,
+      "prompt_hash": "3ee066795948779ad67af440a874fdb5b40aba213d2e6fdbeed148ba9d0b7341",
+      "input_bundle_hash": "105f6cb02164c46bffc6e0abd2fefa122a7a5c336a6cbbb3a8fbf11e25c38363",
+      "expected_insight_ids": [
+        "INS-001",
+        "INS-002"
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_prompt_hash": "3ee066795948779ad67af440a874fdb5b40aba213d2e6fdbeed148ba9d0b7341",
+          "timestamp": "2026-08-29T13:55:33.434205+00:00",
+          "raw_output": "{\"insights\":[{\"insight_id\":\"INS-001\",\"source_agent\":\"agent_1\",\"pseudolabel\":\"CLS-ZOGAA\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"XMEAS-1 exceeds the displacement threshold positively in all 8/8 windows, with one coherent 8-window run from 10.0 to 45.0 h; it also has the largest overall dispersion (standard-deviation ratio 46.06–46.50).\"},{\"insight_id\":\"INS-002\",\"source_agent\":\"agent_1\",\"pseudolabel\":\"CLS-ZOGAA\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"XMEAS-20 residual variability is above threshold in 4/8 windows, including 2/2 initial and 0/2 final windows; XMEAS-10 sample-to-sample variation and joint residual/diff exceedance occur in 1/8 windows, with none in the final two.\"}]}",
+          "raw_output_hash": "bbc32fb0ec9f06466fb1ed7dfda614c1d0e72cab38b590e1d0dc46018aa11ece",
+          "provider_response": {
+            "raw_output": "{\"insights\":[{\"insight_id\":\"INS-001\",\"source_agent\":\"agent_1\",\"pseudolabel\":\"CLS-ZOGAA\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"XMEAS-1 exceeds the displacement threshold positively in all 8/8 windows, with one coherent 8-window run from 10.0 to 45.0 h; it also has the largest overall dispersion (standard-deviation ratio 46.06–46.50).\"},{\"insight_id\":\"INS-002\",\"source_agent\":\"agent_1\",\"pseudolabel\":\"CLS-ZOGAA\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"XMEAS-20 residual variability is above threshold in 4/8 windows, including 2/2 initial and 0/2 final windows; XMEAS-10 sample-to-sample variation and joint residual/diff exceedance occur in 1/8 windows, with none in the final two.\"}]}",
+            "requested_model": "gpt-5.6-terra",
+            "returned_model": "gpt-5.6-terra",
+            "response_id": "resp_0d74b8ab75c7a29d016a92e4d30a1087d2bebeaaa527bf64f3",
+            "request_id": "req_5eeeefeaa77e4350bffd86eaa1ea85ce",
+            "input_tokens": 1961,
+            "output_tokens": 220,
+            "total_tokens": 2181,
+            "usage_raw": {
+              "input_tokens": 1961,
+              "input_tokens_details": {
+                "cache_write_tokens": 1958,
+                "cached_tokens": 0
+              },
+              "output_tokens": 220,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 2181,
+              "compute_units": null
+            },
+            "response_raw": {
+              "id": "resp_0d74b8ab75c7a29d016a92e4d30a1087d2bebeaaa527bf64f3",
+              "created_at": 1788011731.0,
+              "error": null,
+              "incomplete_details": null,
+              "instructions": null,
+              "metadata": {},
+              "model": "gpt-5.6-terra",
+              "object": "response",
+              "output": [
+                {
+                  "id": "msg_0d74b8ab75c7a29d016a92e4d3d5d087d2966623a63274bc3e",
+                  "content": [
+                    {
+                      "annotations": [],
+                      "text": "{\"insights\":[{\"insight_id\":\"INS-001\",\"source_agent\":\"agent_1\",\"pseudolabel\":\"CLS-ZOGAA\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"XMEAS-1 exceeds the displacement threshold positively in all 8/8 windows, with one coherent 8-window run from 10.0 to 45.0 h; it also has the largest overall dispersion (standard-deviation ratio 46.06–46.50).\"},{\"insight_id\":\"INS-002\",\"source_agent\":\"agent_1\",\"pseudolabel\":\"CLS-ZOGAA\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"XMEAS-20 residual variability is above threshold in 4/8 windows, including 2/2 initial and 0/2 final windows; XMEAS-10 sample-to-sample variation and joint residual/diff exceedance occur in 1/8 windows, with none in the final two.\"}]}",
+                      "type": "output_text",
+                      "logprobs": []
+                    }
+                  ],
+                  "role": "assistant",
+                  "status": "completed",
+                  "type": "message",
+                  "phase": "final_answer"
+                }
+              ],
+              "parallel_tool_calls": true,
+              "temperature": 1.0,
+              "tool_choice": "auto",
+              "tools": [],
+              "top_p": 0.98,
+              "background": false,
+              "completed_at": 1788011733.0,
+              "conversation": null,
+              "max_output_tokens": 512,
+              "max_tool_calls": null,
+              "moderation": null,
+              "previous_response_id": null,
+              "prompt": null,
+              "prompt_cache_key": null,
+              "prompt_cache_options": null,
+              "prompt_cache_retention": "24h",
+              "reasoning": {
+                "context": "all_turns",
+                "effort": "medium",
+                "generate_summary": null,
+                "mode": "standard",
+                "summary": null
+              },
+              "safety_identifier": null,
+              "service_tier": "default",
+              "status": "completed",
+              "text": {
+                "format": {
+                  "name": "phase_b_diagnostic_output",
+                  "schema_": {
+                    "title": "Phase B insight generation (OpenAI Structured Outputs transport)",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "insights"
+                    ],
+                    "properties": {
+                      "insights": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "insight_id",
+                            "source_agent",
+                            "pseudolabel",
+                            "evidence_scope",
+                            "observed_pattern"
+                          ],
+                          "properties": {
+                            "insight_id": {
+                              "type": "string",
+                              "pattern": "^INS-[0-9]{3}$"
+                            },
+                            "source_agent": {
+                              "type": "string",
+                              "pattern": "^agent_[1-4]$"
+                            },
+                            "pseudolabel": {
+                              "type": "string",
+                              "pattern": "^CLS-[A-Z0-9]{5}$"
+                            },
+                            "evidence_scope": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observed_pattern": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "type": "json_schema",
+                  "description": null,
+                  "strict": true
+                },
+                "verbosity": "medium"
+              },
+              "top_logprobs": 0,
+              "truncation": "disabled",
+              "usage": {
+                "input_tokens": 1961,
+                "input_tokens_details": {
+                  "cache_write_tokens": 1958,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 220,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 2181,
+                "compute_units": null
+              },
+              "user": null,
+              "billing": {
+                "payer": "developer"
+              },
+              "frequency_penalty": 0.0,
+              "presence_penalty": 0.0,
+              "store": false,
+              "tool_usage": {
+                "image_gen": {
+                  "input_tokens": 0,
+                  "input_tokens_details": {
+                    "image_tokens": 0,
+                    "text_tokens": 0
+                  },
+                  "output_tokens": 0,
+                  "output_tokens_details": {
+                    "image_tokens": 0,
+                    "text_tokens": 0
+                  },
+                  "total_tokens": 0
+                },
+                "web_search": {
+                  "num_requests": 0
+                }
+              }
+            },
+            "sdk_version": "3.6.0",
+            "api_family": "Responses API",
+            "endpoint": "/v1/responses"
+          },
+          "structurally_valid": true,
+          "validation_error": null
+        }
+      ],
+      "status": "COMPLETE",
+      "parsed_final_response": [
+        {
+          "insight_id": "INS-001",
+          "source_agent": "agent_1",
+          "pseudolabel": "CLS-ZOGAA",
+          "evidence_scope": "five local development neutral-text examples",
+          "observed_pattern": "XMEAS-1 exceeds the displacement threshold positively in all 8/8 windows, with one coherent 8-window run from 10.0 to 45.0 h; it also has the largest overall dispersion (standard-deviation ratio 46.06–46.50)."
+        },
+        {
+          "insight_id": "INS-002",
+          "source_agent": "agent_1",
+          "pseudolabel": "CLS-ZOGAA",
+          "evidence_scope": "five local development neutral-text examples",
+          "observed_pattern": "XMEAS-20 residual variability is above threshold in 4/8 windows, including 2/2 initial and 0/2 final windows; XMEAS-10 sample-to-sample variation and joint residual/diff exceedance occur in 1/8 windows, with none in the final two."
+        }
+      ],
+      "parsed_response_hash": "bc34ef711bd872bb14224a2023a5082d58a3b7cd9757c5e4583879a5221f9057",
+      "raw_response_hash": "bbc32fb0ec9f06466fb1ed7dfda614c1d0e72cab38b590e1d0dc46018aa11ece",
+      "first_valid_attempt": 1,
+      "attempt_count": 1,
+      "retry_count": 0,
+      "first_structurally_valid_output_wins": true,
+      "returned_model": "gpt-5.6-terra",
+      "response_id": "resp_0d74b8ab75c7a29d016a92e4d30a1087d2bebeaaa527bf64f3",
+      "request_id": "req_5eeeefeaa77e4350bffd86eaa1ea85ce",
+      "input_tokens": 1961,
+      "output_tokens": 220,
+      "total_tokens": 2181,
+      "timestamp": "2026-08-29T13:55:33.434205+00:00"
+    },
+    {
+      "source_agent": "agent_2",
+      "pseudolabel": "CLS-OJNSG",
+      "development_scope": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "requested_model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "temperature": null,
+      "seed": null,
+      "prompt_hash": "cbe716e2e58844fde5f57d210dd99ac8549dbce4a48b07005b4bdece490679e9",
+      "input_bundle_hash": "961283516a58958cb8e0a3cd222e17cdc92be5b9a1bde452c6d0c15e72331189",
+      "expected_insight_ids": [
+        "INS-003",
+        "INS-004"
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_prompt_hash": "cbe716e2e58844fde5f57d210dd99ac8549dbce4a48b07005b4bdece490679e9",
+          "timestamp": "2026-08-29T13:55:36.227372+00:00",
+          "raw_output": "{\"insights\":[{\"insight_id\":\"INS-003\",\"source_agent\":\"agent_2\",\"pseudolabel\":\"CLS-OJNSG\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"In all five examples, a displacement and a slope threshold exceedance occurs in 7–8 of 8 windows, with activations generally spanning from 10.0 h to 45.0 h and short coherent-sign runs of 2–5 windows.\"},{\"insight_id\":\"INS-004\",\"source_agent\":\"agent_2\",\"pseudolabel\":\"CLS-OJNSG\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"Residual variability is above threshold in 8/8 windows in every example; sample-to-sample changes occur in 5–6/8 windows, while simultaneous residual and difference exceedances occur in 5–6/8 windows.\"}]}",
+          "raw_output_hash": "4886dff9e2de9c35f17d43f6c58cecb5d35e36b47c14f2721213b58daefe45b5",
+          "provider_response": {
+            "raw_output": "{\"insights\":[{\"insight_id\":\"INS-003\",\"source_agent\":\"agent_2\",\"pseudolabel\":\"CLS-OJNSG\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"In all five examples, a displacement and a slope threshold exceedance occurs in 7–8 of 8 windows, with activations generally spanning from 10.0 h to 45.0 h and short coherent-sign runs of 2–5 windows.\"},{\"insight_id\":\"INS-004\",\"source_agent\":\"agent_2\",\"pseudolabel\":\"CLS-OJNSG\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"Residual variability is above threshold in 8/8 windows in every example; sample-to-sample changes occur in 5–6/8 windows, while simultaneous residual and difference exceedances occur in 5–6/8 windows.\"}]}",
+            "requested_model": "gpt-5.6-terra",
+            "returned_model": "gpt-5.6-terra",
+            "response_id": "resp_0b54df38433d8179016a92e4d598ec87d29964654a8a676540",
+            "request_id": "req_80842e7705c44c00a0a30b1ef386b97d",
+            "input_tokens": 2002,
+            "output_tokens": 201,
+            "total_tokens": 2203,
+            "usage_raw": {
+              "input_tokens": 2002,
+              "input_tokens_details": {
+                "cache_write_tokens": 1999,
+                "cached_tokens": 0
+              },
+              "output_tokens": 201,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 2203,
+              "compute_units": null
+            },
+            "response_raw": {
+              "id": "resp_0b54df38433d8179016a92e4d598ec87d29964654a8a676540",
+              "created_at": 1788011733.0,
+              "error": null,
+              "incomplete_details": null,
+              "instructions": null,
+              "metadata": {},
+              "model": "gpt-5.6-terra",
+              "object": "response",
+              "output": [
+                {
+                  "id": "msg_0b54df38433d8179016a92e4d6915887d2959d011a08355d89",
+                  "content": [
+                    {
+                      "annotations": [],
+                      "text": "{\"insights\":[{\"insight_id\":\"INS-003\",\"source_agent\":\"agent_2\",\"pseudolabel\":\"CLS-OJNSG\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"In all five examples, a displacement and a slope threshold exceedance occurs in 7–8 of 8 windows, with activations generally spanning from 10.0 h to 45.0 h and short coherent-sign runs of 2–5 windows.\"},{\"insight_id\":\"INS-004\",\"source_agent\":\"agent_2\",\"pseudolabel\":\"CLS-OJNSG\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"Residual variability is above threshold in 8/8 windows in every example; sample-to-sample changes occur in 5–6/8 windows, while simultaneous residual and difference exceedances occur in 5–6/8 windows.\"}]}",
+                      "type": "output_text",
+                      "logprobs": []
+                    }
+                  ],
+                  "role": "assistant",
+                  "status": "completed",
+                  "type": "message",
+                  "phase": "final_answer"
+                }
+              ],
+              "parallel_tool_calls": true,
+              "temperature": 1.0,
+              "tool_choice": "auto",
+              "tools": [],
+              "top_p": 0.98,
+              "background": false,
+              "completed_at": 1788011736.0,
+              "conversation": null,
+              "max_output_tokens": 512,
+              "max_tool_calls": null,
+              "moderation": null,
+              "previous_response_id": null,
+              "prompt": null,
+              "prompt_cache_key": null,
+              "prompt_cache_options": null,
+              "prompt_cache_retention": "24h",
+              "reasoning": {
+                "context": "all_turns",
+                "effort": "medium",
+                "generate_summary": null,
+                "mode": "standard",
+                "summary": null
+              },
+              "safety_identifier": null,
+              "service_tier": "default",
+              "status": "completed",
+              "text": {
+                "format": {
+                  "name": "phase_b_diagnostic_output",
+                  "schema_": {
+                    "title": "Phase B insight generation (OpenAI Structured Outputs transport)",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "insights"
+                    ],
+                    "properties": {
+                      "insights": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "insight_id",
+                            "source_agent",
+                            "pseudolabel",
+                            "evidence_scope",
+                            "observed_pattern"
+                          ],
+                          "properties": {
+                            "insight_id": {
+                              "type": "string",
+                              "pattern": "^INS-[0-9]{3}$"
+                            },
+                            "source_agent": {
+                              "type": "string",
+                              "pattern": "^agent_[1-4]$"
+                            },
+                            "pseudolabel": {
+                              "type": "string",
+                              "pattern": "^CLS-[A-Z0-9]{5}$"
+                            },
+                            "evidence_scope": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observed_pattern": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "type": "json_schema",
+                  "description": null,
+                  "strict": true
+                },
+                "verbosity": "medium"
+              },
+              "top_logprobs": 0,
+              "truncation": "disabled",
+              "usage": {
+                "input_tokens": 2002,
+                "input_tokens_details": {
+                  "cache_write_tokens": 1999,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 201,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 2203,
+                "compute_units": null
+              },
+              "user": null,
+              "billing": {
+                "payer": "developer"
+              },
+              "frequency_penalty": 0.0,
+              "presence_penalty": 0.0,
+              "store": false,
+              "tool_usage": {
+                "image_gen": {
+                  "input_tokens": 0,
+                  "input_tokens_details": {
+                    "image_tokens": 0,
+                    "text_tokens": 0
+                  },
+                  "output_tokens": 0,
+                  "output_tokens_details": {
+                    "image_tokens": 0,
+                    "text_tokens": 0
+                  },
+                  "total_tokens": 0
+                },
+                "web_search": {
+                  "num_requests": 0
+                }
+              }
+            },
+            "sdk_version": "3.6.0",
+            "api_family": "Responses API",
+            "endpoint": "/v1/responses"
+          },
+          "structurally_valid": true,
+          "validation_error": null
+        }
+      ],
+      "status": "COMPLETE",
+      "parsed_final_response": [
+        {
+          "insight_id": "INS-003",
+          "source_agent": "agent_2",
+          "pseudolabel": "CLS-OJNSG",
+          "evidence_scope": "five local development neutral-text examples",
+          "observed_pattern": "In all five examples, a displacement and a slope threshold exceedance occurs in 7–8 of 8 windows, with activations generally spanning from 10.0 h to 45.0 h and short coherent-sign runs of 2–5 windows."
+        },
+        {
+          "insight_id": "INS-004",
+          "source_agent": "agent_2",
+          "pseudolabel": "CLS-OJNSG",
+          "evidence_scope": "five local development neutral-text examples",
+          "observed_pattern": "Residual variability is above threshold in 8/8 windows in every example; sample-to-sample changes occur in 5–6/8 windows, while simultaneous residual and difference exceedances occur in 5–6/8 windows."
+        }
+      ],
+      "parsed_response_hash": "8bb826023ccc032b2a866261e5e7cb9282e35d39486d4004d5ab723def6fa744",
+      "raw_response_hash": "4886dff9e2de9c35f17d43f6c58cecb5d35e36b47c14f2721213b58daefe45b5",
+      "first_valid_attempt": 1,
+      "attempt_count": 1,
+      "retry_count": 0,
+      "first_structurally_valid_output_wins": true,
+      "returned_model": "gpt-5.6-terra",
+      "response_id": "resp_0b54df38433d8179016a92e4d598ec87d29964654a8a676540",
+      "request_id": "req_80842e7705c44c00a0a30b1ef386b97d",
+      "input_tokens": 2002,
+      "output_tokens": 201,
+      "total_tokens": 2203,
+      "timestamp": "2026-08-29T13:55:36.227372+00:00"
+    },
+    {
+      "source_agent": "agent_3",
+      "pseudolabel": "CLS-R463B",
+      "development_scope": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "requested_model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "temperature": null,
+      "seed": null,
+      "prompt_hash": "bf136e286e2acc244628121b12781b9a8a2444c014d5a063d7a107fd7fd44c3d",
+      "input_bundle_hash": "01b96cbcec60f49080a967d07191078a7f84a45d70ed59fc26cb78880dc40b4d",
+      "expected_insight_ids": [
+        "INS-005",
+        "INS-006"
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_prompt_hash": "bf136e286e2acc244628121b12781b9a8a2444c014d5a063d7a107fd7fd44c3d",
+          "timestamp": "2026-08-29T13:55:39.007154+00:00",
+          "raw_output": "{\"insights\":[{\"insight_id\":\"INS-005\",\"source_agent\":\"agent_3\",\"pseudolabel\":\"CLS-R463B\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"XMEAS-18 mostra variabilità residua sopra soglia in 8/8 finestre in tutti e cinque gli esempi, incluse 2/2 finestre iniziali e 2/2 finali.\"},{\"insight_id\":\"INS-006\",\"source_agent\":\"agent_3\",\"pseudolabel\":\"CLS-R463B\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"Su XMEAS-18, spostamento e pendenza superano spesso le soglie (rispettivamente 6–8/8 e 6–8/8 finestre), mentre residual e diff sono simultaneamente sopra soglia in 5–8/8 finestre.\"}]}",
+          "raw_output_hash": "31f55e93cbc8e1674c374c7f5e11ac719f8c7a6f5b9d0d5c0323b40c4b7c7a41",
+          "provider_response": {
+            "raw_output": "{\"insights\":[{\"insight_id\":\"INS-005\",\"source_agent\":\"agent_3\",\"pseudolabel\":\"CLS-R463B\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"XMEAS-18 mostra variabilità residua sopra soglia in 8/8 finestre in tutti e cinque gli esempi, incluse 2/2 finestre iniziali e 2/2 finali.\"},{\"insight_id\":\"INS-006\",\"source_agent\":\"agent_3\",\"pseudolabel\":\"CLS-R463B\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"Su XMEAS-18, spostamento e pendenza superano spesso le soglie (rispettivamente 6–8/8 e 6–8/8 finestre), mentre residual e diff sono simultaneamente sopra soglia in 5–8/8 finestre.\"}]}",
+            "requested_model": "gpt-5.6-terra",
+            "returned_model": "gpt-5.6-terra",
+            "response_id": "resp_0684efaf1a666382016a92e4d876c487d2ab913c084fcfa2a4",
+            "request_id": "req_d87239f476454319a9b2d0fc6e91bb72",
+            "input_tokens": 1996,
+            "output_tokens": 204,
+            "total_tokens": 2200,
+            "usage_raw": {
+              "input_tokens": 1996,
+              "input_tokens_details": {
+                "cache_write_tokens": 1993,
+                "cached_tokens": 0
+              },
+              "output_tokens": 204,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 2200,
+              "compute_units": null
+            },
+            "response_raw": {
+              "id": "resp_0684efaf1a666382016a92e4d876c487d2ab913c084fcfa2a4",
+              "created_at": 1788011736.0,
+              "error": null,
+              "incomplete_details": null,
+              "instructions": null,
+              "metadata": {},
+              "model": "gpt-5.6-terra",
+              "object": "response",
+              "output": [
+                {
+                  "id": "msg_0684efaf1a666382016a92e4d93e3c87d2b81f86d0c31e6e0e",
+                  "content": [
+                    {
+                      "annotations": [],
+                      "text": "{\"insights\":[{\"insight_id\":\"INS-005\",\"source_agent\":\"agent_3\",\"pseudolabel\":\"CLS-R463B\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"XMEAS-18 mostra variabilità residua sopra soglia in 8/8 finestre in tutti e cinque gli esempi, incluse 2/2 finestre iniziali e 2/2 finali.\"},{\"insight_id\":\"INS-006\",\"source_agent\":\"agent_3\",\"pseudolabel\":\"CLS-R463B\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"Su XMEAS-18, spostamento e pendenza superano spesso le soglie (rispettivamente 6–8/8 e 6–8/8 finestre), mentre residual e diff sono simultaneamente sopra soglia in 5–8/8 finestre.\"}]}",
+                      "type": "output_text",
+                      "logprobs": []
+                    }
+                  ],
+                  "role": "assistant",
+                  "status": "completed",
+                  "type": "message",
+                  "phase": "final_answer"
+                }
+              ],
+              "parallel_tool_calls": true,
+              "temperature": 1.0,
+              "tool_choice": "auto",
+              "tools": [],
+              "top_p": 0.98,
+              "background": false,
+              "completed_at": 1788011738.0,
+              "conversation": null,
+              "max_output_tokens": 512,
+              "max_tool_calls": null,
+              "moderation": null,
+              "previous_response_id": null,
+              "prompt": null,
+              "prompt_cache_key": null,
+              "prompt_cache_options": null,
+              "prompt_cache_retention": "24h",
+              "reasoning": {
+                "context": "all_turns",
+                "effort": "medium",
+                "generate_summary": null,
+                "mode": "standard",
+                "summary": null
+              },
+              "safety_identifier": null,
+              "service_tier": "default",
+              "status": "completed",
+              "text": {
+                "format": {
+                  "name": "phase_b_diagnostic_output",
+                  "schema_": {
+                    "title": "Phase B insight generation (OpenAI Structured Outputs transport)",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "insights"
+                    ],
+                    "properties": {
+                      "insights": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "insight_id",
+                            "source_agent",
+                            "pseudolabel",
+                            "evidence_scope",
+                            "observed_pattern"
+                          ],
+                          "properties": {
+                            "insight_id": {
+                              "type": "string",
+                              "pattern": "^INS-[0-9]{3}$"
+                            },
+                            "source_agent": {
+                              "type": "string",
+                              "pattern": "^agent_[1-4]$"
+                            },
+                            "pseudolabel": {
+                              "type": "string",
+                              "pattern": "^CLS-[A-Z0-9]{5}$"
+                            },
+                            "evidence_scope": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observed_pattern": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "type": "json_schema",
+                  "description": null,
+                  "strict": true
+                },
+                "verbosity": "medium"
+              },
+              "top_logprobs": 0,
+              "truncation": "disabled",
+              "usage": {
+                "input_tokens": 1996,
+                "input_tokens_details": {
+                  "cache_write_tokens": 1993,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 204,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 2200,
+                "compute_units": null
+              },
+              "user": null,
+              "billing": {
+                "payer": "developer"
+              },
+              "frequency_penalty": 0.0,
+              "presence_penalty": 0.0,
+              "store": false,
+              "tool_usage": {
+                "image_gen": {
+                  "input_tokens": 0,
+                  "input_tokens_details": {
+                    "image_tokens": 0,
+                    "text_tokens": 0
+                  },
+                  "output_tokens": 0,
+                  "output_tokens_details": {
+                    "image_tokens": 0,
+                    "text_tokens": 0
+                  },
+                  "total_tokens": 0
+                },
+                "web_search": {
+                  "num_requests": 0
+                }
+              }
+            },
+            "sdk_version": "3.6.0",
+            "api_family": "Responses API",
+            "endpoint": "/v1/responses"
+          },
+          "structurally_valid": true,
+          "validation_error": null
+        }
+      ],
+      "status": "COMPLETE",
+      "parsed_final_response": [
+        {
+          "insight_id": "INS-005",
+          "source_agent": "agent_3",
+          "pseudolabel": "CLS-R463B",
+          "evidence_scope": "five local development neutral-text examples",
+          "observed_pattern": "XMEAS-18 mostra variabilità residua sopra soglia in 8/8 finestre in tutti e cinque gli esempi, incluse 2/2 finestre iniziali e 2/2 finali."
+        },
+        {
+          "insight_id": "INS-006",
+          "source_agent": "agent_3",
+          "pseudolabel": "CLS-R463B",
+          "evidence_scope": "five local development neutral-text examples",
+          "observed_pattern": "Su XMEAS-18, spostamento e pendenza superano spesso le soglie (rispettivamente 6–8/8 e 6–8/8 finestre), mentre residual e diff sono simultaneamente sopra soglia in 5–8/8 finestre."
+        }
+      ],
+      "parsed_response_hash": "1d70b4fa0d378d9eeb7dfa3dde88933267477ce89389179c2aa0d2c0aa4d7679",
+      "raw_response_hash": "31f55e93cbc8e1674c374c7f5e11ac719f8c7a6f5b9d0d5c0323b40c4b7c7a41",
+      "first_valid_attempt": 1,
+      "attempt_count": 1,
+      "retry_count": 0,
+      "first_structurally_valid_output_wins": true,
+      "returned_model": "gpt-5.6-terra",
+      "response_id": "resp_0684efaf1a666382016a92e4d876c487d2ab913c084fcfa2a4",
+      "request_id": "req_d87239f476454319a9b2d0fc6e91bb72",
+      "input_tokens": 1996,
+      "output_tokens": 204,
+      "total_tokens": 2200,
+      "timestamp": "2026-08-29T13:55:39.007154+00:00"
+    },
+    {
+      "source_agent": "agent_4",
+      "pseudolabel": "CLS-Z3ISU",
+      "development_scope": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "requested_model": "gpt-5.6-terra",
+      "reasoning_effort": "medium",
+      "temperature": null,
+      "seed": null,
+      "prompt_hash": "a90feeb6bf585d56a36f8c2a52882aeabcb57aadc0b0357f42a8010302f18c4f",
+      "input_bundle_hash": "7ca958498798af4a7da6587810a98ea4b3a376a98c6a918b8b01f3ef84545ad1",
+      "expected_insight_ids": [
+        "INS-007",
+        "INS-008"
+      ],
+      "attempts": [
+        {
+          "attempt": 1,
+          "attempt_prompt_hash": "a90feeb6bf585d56a36f8c2a52882aeabcb57aadc0b0357f42a8010302f18c4f",
+          "timestamp": "2026-08-29T13:55:41.408579+00:00",
+          "raw_output": "{\"insights\":[{\"insight_id\":\"INS-007\",\"source_agent\":\"agent_4\",\"pseudolabel\":\"CLS-Z3ISU\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"In all five examples, a displacement and a slope threshold are exceeded in 8/8 windows from 10.0 to 45.0 h, although the involved XMEAS variables and sign sequences vary.\"},{\"insight_id\":\"INS-008\",\"source_agent\":\"agent_4\",\"pseudolabel\":\"CLS-Z3ISU\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"XMEAS-7 has above-threshold residual variability in 8/8 windows, including 2/2 initial and 2/2 final windows, in four of five examples; it is also the maximum-dispersion variable in every example.\"}]}",
+          "raw_output_hash": "bb807d97ee5c98a757cbb88011e57bea015f88ef85c844074d19246bf8fa1738",
+          "provider_response": {
+            "raw_output": "{\"insights\":[{\"insight_id\":\"INS-007\",\"source_agent\":\"agent_4\",\"pseudolabel\":\"CLS-Z3ISU\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"In all five examples, a displacement and a slope threshold are exceeded in 8/8 windows from 10.0 to 45.0 h, although the involved XMEAS variables and sign sequences vary.\"},{\"insight_id\":\"INS-008\",\"source_agent\":\"agent_4\",\"pseudolabel\":\"CLS-Z3ISU\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"XMEAS-7 has above-threshold residual variability in 8/8 windows, including 2/2 initial and 2/2 final windows, in four of five examples; it is also the maximum-dispersion variable in every example.\"}]}",
+            "requested_model": "gpt-5.6-terra",
+            "returned_model": "gpt-5.6-terra",
+            "response_id": "resp_06aee8e8c6f994f7016a92e4db2e3887d2bbf5fc8d5c0f8958",
+            "request_id": "req_b87992167e744eb69e658006a9d7dbf5",
+            "input_tokens": 1995,
+            "output_tokens": 195,
+            "total_tokens": 2190,
+            "usage_raw": {
+              "input_tokens": 1995,
+              "input_tokens_details": {
+                "cache_write_tokens": 1992,
+                "cached_tokens": 0
+              },
+              "output_tokens": 195,
+              "output_tokens_details": {
+                "reasoning_tokens": 0
+              },
+              "total_tokens": 2190,
+              "compute_units": null
+            },
+            "response_raw": {
+              "id": "resp_06aee8e8c6f994f7016a92e4db2e3887d2bbf5fc8d5c0f8958",
+              "created_at": 1788011739.0,
+              "error": null,
+              "incomplete_details": null,
+              "instructions": null,
+              "metadata": {},
+              "model": "gpt-5.6-terra",
+              "object": "response",
+              "output": [
+                {
+                  "id": "msg_06aee8e8c6f994f7016a92e4dbb55c87d28298d1bfc5bb221e",
+                  "content": [
+                    {
+                      "annotations": [],
+                      "text": "{\"insights\":[{\"insight_id\":\"INS-007\",\"source_agent\":\"agent_4\",\"pseudolabel\":\"CLS-Z3ISU\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"In all five examples, a displacement and a slope threshold are exceeded in 8/8 windows from 10.0 to 45.0 h, although the involved XMEAS variables and sign sequences vary.\"},{\"insight_id\":\"INS-008\",\"source_agent\":\"agent_4\",\"pseudolabel\":\"CLS-Z3ISU\",\"evidence_scope\":\"five local development neutral-text examples\",\"observed_pattern\":\"XMEAS-7 has above-threshold residual variability in 8/8 windows, including 2/2 initial and 2/2 final windows, in four of five examples; it is also the maximum-dispersion variable in every example.\"}]}",
+                      "type": "output_text",
+                      "logprobs": []
+                    }
+                  ],
+                  "role": "assistant",
+                  "status": "completed",
+                  "type": "message",
+                  "phase": "final_answer"
+                }
+              ],
+              "parallel_tool_calls": true,
+              "temperature": 1.0,
+              "tool_choice": "auto",
+              "tools": [],
+              "top_p": 0.98,
+              "background": false,
+              "completed_at": 1788011741.0,
+              "conversation": null,
+              "max_output_tokens": 512,
+              "max_tool_calls": null,
+              "moderation": null,
+              "previous_response_id": null,
+              "prompt": null,
+              "prompt_cache_key": null,
+              "prompt_cache_options": null,
+              "prompt_cache_retention": "24h",
+              "reasoning": {
+                "context": "all_turns",
+                "effort": "medium",
+                "generate_summary": null,
+                "mode": "standard",
+                "summary": null
+              },
+              "safety_identifier": null,
+              "service_tier": "default",
+              "status": "completed",
+              "text": {
+                "format": {
+                  "name": "phase_b_diagnostic_output",
+                  "schema_": {
+                    "title": "Phase B insight generation (OpenAI Structured Outputs transport)",
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "insights"
+                    ],
+                    "properties": {
+                      "insights": {
+                        "type": "array",
+                        "minItems": 2,
+                        "maxItems": 2,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "insight_id",
+                            "source_agent",
+                            "pseudolabel",
+                            "evidence_scope",
+                            "observed_pattern"
+                          ],
+                          "properties": {
+                            "insight_id": {
+                              "type": "string",
+                              "pattern": "^INS-[0-9]{3}$"
+                            },
+                            "source_agent": {
+                              "type": "string",
+                              "pattern": "^agent_[1-4]$"
+                            },
+                            "pseudolabel": {
+                              "type": "string",
+                              "pattern": "^CLS-[A-Z0-9]{5}$"
+                            },
+                            "evidence_scope": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "observed_pattern": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "type": "json_schema",
+                  "description": null,
+                  "strict": true
+                },
+                "verbosity": "medium"
+              },
+              "top_logprobs": 0,
+              "truncation": "disabled",
+              "usage": {
+                "input_tokens": 1995,
+                "input_tokens_details": {
+                  "cache_write_tokens": 1992,
+                  "cached_tokens": 0
+                },
+                "output_tokens": 195,
+                "output_tokens_details": {
+                  "reasoning_tokens": 0
+                },
+                "total_tokens": 2190,
+                "compute_units": null
+              },
+              "user": null,
+              "billing": {
+                "payer": "developer"
+              },
+              "frequency_penalty": 0.0,
+              "presence_penalty": 0.0,
+              "store": false,
+              "tool_usage": {
+                "image_gen": {
+                  "input_tokens": 0,
+                  "input_tokens_details": {
+                    "image_tokens": 0,
+                    "text_tokens": 0
+                  },
+                  "output_tokens": 0,
+                  "output_tokens_details": {
+                    "image_tokens": 0,
+                    "text_tokens": 0
+                  },
+                  "total_tokens": 0
+                },
+                "web_search": {
+                  "num_requests": 0
+                }
+              }
+            },
+            "sdk_version": "3.6.0",
+            "api_family": "Responses API",
+            "endpoint": "/v1/responses"
+          },
+          "structurally_valid": true,
+          "validation_error": null
+        }
+      ],
+      "status": "COMPLETE",
+      "parsed_final_response": [
+        {
+          "insight_id": "INS-007",
+          "source_agent": "agent_4",
+          "pseudolabel": "CLS-Z3ISU",
+          "evidence_scope": "five local development neutral-text examples",
+          "observed_pattern": "In all five examples, a displacement and a slope threshold are exceeded in 8/8 windows from 10.0 to 45.0 h, although the involved XMEAS variables and sign sequences vary."
+        },
+        {
+          "insight_id": "INS-008",
+          "source_agent": "agent_4",
+          "pseudolabel": "CLS-Z3ISU",
+          "evidence_scope": "five local development neutral-text examples",
+          "observed_pattern": "XMEAS-7 has above-threshold residual variability in 8/8 windows, including 2/2 initial and 2/2 final windows, in four of five examples; it is also the maximum-dispersion variable in every example."
+        }
+      ],
+      "parsed_response_hash": "042b0939b9e02daea7ff0aca2204c3f0a35bea560e45b811ef9b237dfeeb453c",
+      "raw_response_hash": "bb807d97ee5c98a757cbb88011e57bea015f88ef85c844074d19246bf8fa1738",
+      "first_valid_attempt": 1,
+      "attempt_count": 1,
+      "retry_count": 0,
+      "first_structurally_valid_output_wins": true,
+      "returned_model": "gpt-5.6-terra",
+      "response_id": "resp_06aee8e8c6f994f7016a92e4db2e3887d2bbf5fc8d5c0f8958",
+      "request_id": "req_b87992167e744eb69e658006a9d7dbf5",
+      "input_tokens": 1995,
+      "output_tokens": 195,
+      "total_tokens": 2190,
+      "timestamp": "2026-08-29T13:55:41.408579+00:00"
+    }
+  ],
+  "generation_completed": 4,
+  "final_insight_count": 8,
+  "leakage_audit": {
+    "status": "PASS",
+    "finding_count": 0,
+    "generation_prompts_scanned": 4,
+    "raw_attempts_scanned": 4,
+    "prompt_facing_artifacts_scanned": true,
+    "filenames_scanned": true
+  },
+  "B_E_audit": {
+    "agent_1": {
+      "B_count": 6,
+      "E_count": 6,
+      "same_ids": true,
+      "same_order": true,
+      "same_nonlabel_prompt_fields": true,
+      "B_label_multiset_valid": true,
+      "E_label_multiset_valid": true,
+      "zero_fixed_point": true,
+      "normalized_byte_identical": true,
+      "character_equivalent": true
+    },
+    "agent_2": {
+      "B_count": 6,
+      "E_count": 6,
+      "same_ids": true,
+      "same_order": true,
+      "same_nonlabel_prompt_fields": true,
+      "B_label_multiset_valid": true,
+      "E_label_multiset_valid": true,
+      "zero_fixed_point": true,
+      "normalized_byte_identical": true,
+      "character_equivalent": true
+    },
+    "agent_3": {
+      "B_count": 6,
+      "E_count": 6,
+      "same_ids": true,
+      "same_order": true,
+      "same_nonlabel_prompt_fields": true,
+      "B_label_multiset_valid": true,
+      "E_label_multiset_valid": true,
+      "zero_fixed_point": true,
+      "normalized_byte_identical": true,
+      "character_equivalent": true
+    },
+    "agent_4": {
+      "B_count": 6,
+      "E_count": 6,
+      "same_ids": true,
+      "same_order": true,
+      "same_nonlabel_prompt_fields": true,
+      "B_label_multiset_valid": true,
+      "E_label_multiset_valid": true,
+      "zero_fixed_point": true,
+      "normalized_byte_identical": true,
+      "character_equivalent": true
+    }
+  },
+  "hash_manifest": "phase_b/insights/final_insight_hashes.json"
+}

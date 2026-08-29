@@ -1,10 +1,15 @@
 # Phase B insight workspace
 
-No definitive insight has been generated in this implementation commit.
+The definitive one-shot local insight library was generated from development
+batches 1–5 only. It contains exactly two insights per opaque fault pseudolabel;
+IDs follow the deterministic global order `INS-001`–`INS-008` and contain no
+class or agent token.
 
-Future protocol preparation must produce exactly two insights per opaque fault
-pseudolabel from development batches 1–5 only. IDs are assigned in deterministic
-global order (`INS-001` onward), contain no class or agent token, and the result
-must pass `validate_global_insights` before peer filtering.
+`generation_runs.json` preserves every raw provider response, structural attempt,
+parsed final response, retry count, and provenance field. The first structurally
+valid response was retained for each agent without ranking, merge, deduplication,
+manual editing, or content-based regeneration.
 
-No confidence, ranking, LLM merge, deduplication, or manual editing is allowed.
+`peer_libraries/` contains the deterministic Condition B and E libraries.
+`final_insight_hashes.json` records the preparation hashes, and
+`FINAL_INSIGHT_GENERATION_REPORT.md` contains the structural audit only.
