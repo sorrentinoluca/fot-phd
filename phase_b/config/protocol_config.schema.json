@@ -20,14 +20,15 @@
     "conditions": {"const": ["A", "B", "E"]},
     "execution": {
       "type": "object",
-      "required": ["model", "model_version", "repetitions", "temperature", "seed", "max_retries"],
+      "required": ["model", "model_version", "tokenizer", "repetitions", "temperature", "seed", "max_retries"],
       "properties": {
         "model": {"type": ["string", "null"]},
         "model_version": {"type": ["string", "null"]},
+        "tokenizer": {"type": ["string", "null"]},
         "repetitions": {"const": 3},
         "temperature": {"const": 0.0},
         "seed": {"type": "integer"},
-        "max_retries": {"type": "integer", "minimum": 0}
+        "max_retries": {"const": 2}
       }
     }
   }

@@ -133,10 +133,13 @@ def build(
             }
         )
 
-    agents: dict[str, list[dict[str, str]]] = {}
-    for agent_id, agent in protocol["agents"].items():
+    packs: dict[str, list[dict[str, str]]] = {}
+    agent_to_pack: dict[str, str] = {}
+    for pack_number, (agent_id, agent) in enumerate(protocol["agents"].items(), start=1):
         local_label = agent["local_fault_label"]
-        agents[agent_id] = [*fault_examples[local_label], *normal_examples]
+        pack_id = f"LKP-{pack_number:03d}"
+        packs[pack_id] = [*fault_examples[local_label], *normal_examples]
+        agent_to_pack[agent_id] = pack_id
 
     prompt_facing = {
         "artifact_version": "1",
@@ -149,11 +152,12 @@ def build(
             "tep_verbalize_v2.py": sha256_file(CODE / "tep_verbalize_v2.py"),
             "tep_features.py": sha256_file(CODE / "tep_features.py"),
         },
-        "agents": agents,
+        "packs": packs,
     }
     evaluator_metadata = {
         "scope": "EVALUATOR_SIDE_ONLY",
         "selection_rule": {"fault_batches": [1, 2], "normal_blocks": ["N1", "N2"]},
+        "agent_to_pack": agent_to_pack,
         "sources": source_rows,
     }
     output_path.write_text(
@@ -190,7 +194,7 @@ def main() -> None:
         output_path=args.output,
         metadata_path=args.metadata_output,
     )
-    count = sum(len(examples) for examples in prompt_facing["agents"].values())
+    count = sum(len(examples) for examples in prompt_facing["packs"].values())
     print(f"Wrote {count} agent-example assignments from 10 unique development examples.")
 
 

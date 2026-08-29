@@ -66,6 +66,44 @@ def _insight_block(insights: list[Insight]) -> str:
     return "PEER INSIGHTS\n" + json.dumps(payload, ensure_ascii=False, indent=2) + "\n\n"
 
 
+def condition_peer_insights(
+    *,
+    agent_id: str,
+    condition: str,
+    config: dict[str, Any],
+    global_insights: Iterable[Insight | dict[str, Any]],
+    derangements: dict[str, dict[str, str]] | None = None,
+) -> list[Insight]:
+    """Select the exact peer payload for B or E without rendering other prompt data."""
+    if condition not in {"B", "E"}:
+        raise ValueError("peer insight blocks exist only for conditions B and E")
+    peer = peer_only_insights(global_insights, agent_id, config)
+    if condition == "E":
+        if derangements is None:
+            raise ValueError("condition E requires frozen evaluator-side derangements")
+        peer = corrupt_peer_insights(peer, agent_id=agent_id, derangements=derangements)
+    return peer
+
+
+def render_peer_insight_block(
+    *,
+    agent_id: str,
+    condition: str,
+    config: dict[str, Any],
+    global_insights: Iterable[Insight | dict[str, Any]],
+    derangements: dict[str, dict[str, str]] | None = None,
+) -> str:
+    return _insight_block(
+        condition_peer_insights(
+            agent_id=agent_id,
+            condition=condition,
+            config=config,
+            global_insights=global_insights,
+            derangements=derangements,
+        )
+    )
+
+
 def _load_equivalent_template(condition: str) -> str:
     if condition not in TEMPLATE_BY_CONDITION:
         raise ValueError(f"unknown condition: {condition}")
@@ -100,11 +138,13 @@ def render_diagnostic_prompt(
     elif condition in {"B", "E"}:
         if global_insights is None:
             raise ValueError(f"condition {condition} requires the global local-insight library")
-        peer = peer_only_insights(global_insights, agent_id, config)
-        if condition == "E":
-            if derangements is None:
-                raise ValueError("condition E requires frozen evaluator-side derangements")
-            peer = corrupt_peer_insights(peer, agent_id=agent_id, derangements=derangements)
+        peer = condition_peer_insights(
+            agent_id=agent_id,
+            condition=condition,
+            config=config,
+            global_insights=global_insights,
+            derangements=derangements,
+        )
     else:
         raise ValueError(f"unknown condition: {condition}")
 
@@ -142,7 +182,7 @@ def render_insight_prompt(
     agent_number = int(agent_id.split("_")[1])
     ids = [f"INS-{2 * agent_number - 1:03d}", f"INS-{2 * agent_number:03d}"]
     local_label = config["agents"][agent_id]["local_fault_label"]
-    evidence_scope = "two labeled local development examples plus two local Normal references"
+    evidence_scope = "four labeled local development reference examples"
     template = (PROMPTS / "insight_generation.txt").read_text(encoding="utf-8")
     rendered = (
         template.replace("<<LOCAL_LABEL>>", local_label)

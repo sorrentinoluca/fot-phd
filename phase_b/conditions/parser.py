@@ -6,6 +6,7 @@ import json
 from typing import Any, Iterable
 
 from phase_b.insights import Insight
+from phase_b.insights.library import validate_label_neutral_fields
 
 
 DIAGNOSTIC_KEYS = {
@@ -58,6 +59,8 @@ def parse_diagnostic_output(
         raise OutputValidationError(f"unknown predicted_label: {predicted!r}")
     if not abstain and predicted not in labels:
         raise OutputValidationError("non-abstaining output requires one exact supplied label")
+    if abstain and predicted is not None:
+        raise OutputValidationError("abstaining output requires predicted_label to be null")
     used = value["used_insight_ids"]
     if not isinstance(used, list) or any(not isinstance(item, str) for item in used):
         raise OutputValidationError("used_insight_ids must be a string array")
@@ -80,6 +83,7 @@ def parse_insight_generation_output(
     source_agent: str,
     pseudolabel: str,
     evidence_scope: str,
+    label_space: Iterable[str],
 ) -> list[Insight]:
     value = strict_json_loads(raw)
     if not isinstance(value, list) or len(value) != 2:
@@ -98,4 +102,8 @@ def parse_insight_generation_output(
             or item.evidence_scope != evidence_scope
         ):
             raise OutputValidationError("fixed insight provenance fields were changed")
+        try:
+            validate_label_neutral_fields(item, label_space=label_space)
+        except ValueError as exc:
+            raise OutputValidationError(str(exc)) from exc
     return insights

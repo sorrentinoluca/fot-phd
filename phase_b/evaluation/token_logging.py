@@ -3,6 +3,16 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+from typing import Protocol
+
+
+class TokenCounter(Protocol):
+    """Provider/model-specific counter selected explicitly before freeze."""
+
+    name: str
+
+    def count(self, text: str) -> int:
+        ...
 
 
 @dataclass(frozen=True)
@@ -16,6 +26,39 @@ class TokenLog:
 
     def to_dict(self) -> dict[str, int | str | None]:
         return asdict(self)
+
+
+@dataclass(frozen=True)
+class TokenEquivalence:
+    tokenizer: str
+    left_characters: int
+    right_characters: int
+    left_tokens: int
+    right_tokens: int
+    character_equal: bool
+    token_equal: bool
+
+
+def compare_token_counts(
+    left: str, right: str, *, tokenizer: TokenCounter
+) -> TokenEquivalence:
+    """Compare B/E using the explicitly selected model tokenizer."""
+    name = getattr(tokenizer, "name", None)
+    if not isinstance(name, str) or not name.strip():
+        raise ValueError("tokenizer must expose a non-empty name")
+    left_tokens = tokenizer.count(left)
+    right_tokens = tokenizer.count(right)
+    if any(type(value) is not int or value < 0 for value in (left_tokens, right_tokens)):
+        raise ValueError("tokenizer counts must be non-negative integers")
+    return TokenEquivalence(
+        tokenizer=name,
+        left_characters=len(left),
+        right_characters=len(right),
+        left_tokens=left_tokens,
+        right_tokens=right_tokens,
+        character_equal=len(left) == len(right),
+        token_equal=left_tokens == right_tokens,
+    )
 
 
 def make_token_log(

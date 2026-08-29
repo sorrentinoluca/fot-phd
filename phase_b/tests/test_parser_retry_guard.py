@@ -48,6 +48,11 @@ class ParserRetryGuardTests(unittest.TestCase):
         parsed = self.parse(json.dumps(value, separators=(",", ":")))
         self.assertTrue(parsed["abstain"])
 
+    def test_abstain_rejects_non_null_prediction(self) -> None:
+        value = {**self.valid, "abstain": True}
+        with self.assertRaisesRegex(OutputValidationError, "requires predicted_label to be null"):
+            self.parse(json.dumps(value, separators=(",", ":")))
+
     def test_retry_policy_is_bounded_and_deterministic(self) -> None:
         outputs = ["not-json", json.dumps(self.valid, separators=(",", ":"))]
         seen_prompts: list[str] = []
@@ -59,9 +64,61 @@ class ParserRetryGuardTests(unittest.TestCase):
         result = execute_with_retry(call=call, prompt="BASE", parse=self.parse, max_retries=2)
         self.assertEqual(result.attempts, 2)
         self.assertEqual(len(result.validation_errors), 1)
+        self.assertEqual(len(result.raw_attempts), 2)
+        self.assertFalse(result.parse_failure)
         self.assertEqual(seen_prompts[0], "BASE")
         self.assertEqual(seen_prompts[1], seen_prompts[-1])
         self.assertIn("CORRECTION REQUIRED", seen_prompts[1])
+
+    def test_exactly_two_retries_then_parse_failure_abstain(self) -> None:
+        calls: list[int] = []
+
+        def call(prompt: str, attempt: int) -> str:
+            calls.append(attempt)
+            return "not-json"
+
+        result = execute_with_retry(call=call, prompt="BASE", parse=self.parse, max_retries=2)
+        self.assertEqual(calls, [1, 2, 3])
+        self.assertEqual(result.attempts, 3)
+        self.assertEqual(result.raw_attempts, ("not-json", "not-json", "not-json"))
+        self.assertTrue(result.parse_failure)
+        self.assertEqual(
+            result.parsed_output,
+            {
+                "predicted_label": None,
+                "abstain": True,
+                "used_insight_ids": [],
+                "reasoning_summary": "parse_failure",
+            },
+        )
+
+    def test_no_retry_for_valid_wrong_or_semantically_weak_output(self) -> None:
+        valid_but_wrong = {
+            **self.valid,
+            "predicted_label": self.config["label_space"][1],
+            "reasoning_summary": "Weak.",
+            "used_insight_ids": [],
+        }
+        calls = 0
+
+        def call(prompt: str, attempt: int) -> str:
+            nonlocal calls
+            calls += 1
+            return json.dumps(valid_but_wrong, separators=(",", ":"))
+
+        result = execute_with_retry(call=call, prompt="BASE", parse=self.parse, max_retries=2)
+        self.assertEqual(calls, 1)
+        self.assertEqual(result.attempts, 1)
+        self.assertFalse(result.parse_failure)
+
+    def test_retry_budget_cannot_be_changed(self) -> None:
+        with self.assertRaisesRegex(ValueError, "exactly two retries"):
+            execute_with_retry(
+                call=lambda prompt, attempt: json.dumps(self.valid),
+                prompt="BASE",
+                parse=self.parse,
+                max_retries=1,
+            )
 
     def test_heldout_guard_denies_root_and_manifest_filename_without_opening(self) -> None:
         guard = project_guard(ROOT)

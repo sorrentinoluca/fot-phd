@@ -37,6 +37,7 @@
   "execution": {
     "model": null,
     "model_version": null,
+    "tokenizer": null,
     "repetitions": 3,
     "temperature": 0.0,
     "seed": 20260829,

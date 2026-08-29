@@ -21,6 +21,7 @@ class RunRecord:
     prompt_hash: str
     input_hash: str
     raw_output: str
+    raw_attempts: tuple[str, ...]
     parsed_output: dict[str, Any]
     physical_case_id: str
     temperature: float | None
@@ -43,6 +44,13 @@ class RunRecord:
             raise ValueError("prompt_hash and input_hash must be lowercase SHA-256")
         if not isinstance(self.raw_output, str) or not isinstance(self.parsed_output, dict):
             raise ValueError("raw_output must be text and parsed_output must be an object")
+        if (
+            not isinstance(self.raw_attempts, tuple)
+            or not self.raw_attempts
+            or any(not isinstance(item, str) for item in self.raw_attempts)
+            or self.raw_attempts[-1] != self.raw_output
+        ):
+            raise ValueError("raw_attempts must contain every raw response and end with raw_output")
         if not self.physical_case_id.strip():
             raise ValueError("physical_case_id is required")
         if type(self.seed) not in {int, type(None)}:
@@ -68,6 +76,9 @@ class RunRecord:
 
     @classmethod
     def from_dict(cls, value: dict[str, Any]) -> "RunRecord":
-        record = cls(**value)
+        normalized = dict(value)
+        if isinstance(normalized.get("raw_attempts"), list):
+            normalized["raw_attempts"] = tuple(normalized["raw_attempts"])
+        record = cls(**normalized)
         record.validate()
         return record

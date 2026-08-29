@@ -9,8 +9,8 @@
     "tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
     "tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c"
   },
-  "agents": {
-    "agent_1": [
+  "packs": {
+    "LKP-001": [
       {
         "example_id": "EXM-001",
         "pseudolabel": "CLS-ZOGAA",
@@ -32,7 +32,7 @@
         "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-10 (rapporto tra deviazioni standard 1.36)."
       }
     ],
-    "agent_2": [
+    "LKP-002": [
       {
         "example_id": "EXM-003",
         "pseudolabel": "CLS-OJNSG",
@@ -54,7 +54,7 @@
         "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-10 (rapporto tra deviazioni standard 1.36)."
       }
     ],
-    "agent_3": [
+    "LKP-003": [
       {
         "example_id": "EXM-005",
         "pseudolabel": "CLS-R463B",
@@ -76,7 +76,7 @@
         "neutral_text": "Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-10 (rapporto tra deviazioni standard 1.36)."
       }
     ],
-    "agent_4": [
+    "LKP-004": [
       {
         "example_id": "EXM-007",
         "pseudolabel": "CLS-Z3ISU",

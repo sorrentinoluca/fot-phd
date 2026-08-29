@@ -77,10 +77,21 @@ def load_protocol_config(path: str | Path = DEFAULT_CONFIG) -> dict[str, Any]:
         raise ValueError("temperature must remain 0.0 unless a provider cannot support it")
     if not isinstance(execution.get("seed"), int):
         raise ValueError("a deterministic seed must be configured")
+    if execution.get("max_retries") != 2:
+        raise ValueError("retry policy is frozen to initial attempt plus two retries")
     if config["metrics"].get("epsilon_seen") != 0.0:
         raise ValueError("H2 epsilon is frozen to zero")
     if config["metrics"].get("abstain_is_incorrect") is not True:
         raise ValueError("abstention must count as incorrect in primary accuracy")
+    metrics = config["metrics"]
+    if metrics.get("bootstrap_iterations") != 10_000:
+        raise ValueError("primary bootstrap is frozen to 10,000 draws")
+    if not isinstance(metrics.get("bootstrap_seed"), int):
+        raise ValueError("bootstrap seed must be a frozen integer")
+    if metrics.get("physical_cluster_key") != "physical_case_id":
+        raise ValueError("primary bootstrap cluster must be physical_case_id")
+    if metrics.get("bootstrap_stratify_by_true_pseudolabel") is not True:
+        raise ValueError("primary bootstrap must be stratified by true pseudoclass")
     return config
 
 
@@ -89,7 +100,7 @@ def validate_execution_ready(config: dict[str, Any]) -> None:
     execution = config["execution"]
     missing = [
         field
-        for field in ("model", "model_version")
+        for field in ("model", "model_version", "tokenizer")
         if not isinstance(execution.get(field), str) or not execution[field].strip()
     ]
     if missing:

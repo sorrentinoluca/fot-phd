@@ -41,6 +41,16 @@ the executable config under `phase_b/config/` take precedence for the framework
 implementation. The document remains a design record; it is not the protocol
 freeze.
 
+The pre-freeze adversarial hardening further fixes: label-neutral insight fields
+outside `pseudolabel`; no prompt-facing agent-to-local-label crosswalk; strong
+normalized-byte B/E invariance; strict null prediction on abstention; one initial
+attempt plus two structural-only retries ending in `ABSTAIN / parse_failure`;
+R=3 two-vote aggregation for primary metrics; separate local-fault-seen and
+Normal secondary accuracies; and a 10,000-draw bootstrap over the 12 fault-run
+clusters (four pseudoclass strata × three runs). Repetition-level outcomes remain
+stochastic-stability reporting. These executable decisions supersede historical
+examples below that describe another alternative.
+
 ---
 
 ## 0. Cosa cambia rispetto alla V1 del design (sintesi)
@@ -251,7 +261,7 @@ Schema minimale con provenance obbligatoria:
   "insight_id": "agentX_clsY_i",
   "source_agent": "agent_2",
   "pseudolabel": "Class-B",
-  "evidence_scope": "local labeled examples of Class-B, development batches 1-5",
+  "evidence_scope": "local development examples, batches 1-5",
   "observed_pattern": "descrizione testuale della firma osservata localmente",
   "confidence": "high | medium | low"
 }

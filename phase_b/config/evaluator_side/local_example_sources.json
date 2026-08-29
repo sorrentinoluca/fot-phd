@@ -10,6 +10,12 @@
       "N2"
     ]
   },
+  "agent_to_pack": {
+    "agent_1": "LKP-001",
+    "agent_2": "LKP-002",
+    "agent_3": "LKP-003",
+    "agent_4": "LKP-004"
+  },
   "sources": [
     {
       "example_id": "EXM-001",

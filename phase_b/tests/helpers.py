@@ -38,6 +38,17 @@ def load_local_examples() -> dict[str, Any]:
     return json.loads((ROOT / "phase_b/local_knowledge/local_examples.json").read_text())
 
 
+def local_examples_by_agent() -> dict[str, list[dict[str, str]]]:
+    artifact = load_local_examples()
+    metadata = json.loads(
+        (ROOT / "phase_b/config/evaluator_side/local_example_sources.json").read_text()
+    )
+    return {
+        agent_id: artifact["packs"][pack_id]
+        for agent_id, pack_id in metadata["agent_to_pack"].items()
+    }
+
+
 def synthetic_run_records(
     config: dict[str, Any], *, abstain_one: bool = False
 ) -> tuple[list[RunRecord], dict[str, str]]:
@@ -82,6 +93,7 @@ def synthetic_run_records(
                             prompt_hash="a" * 64,
                             input_hash="b" * 64,
                             raw_output=json.dumps(parsed, separators=(",", ":")),
+                            raw_attempts=(json.dumps(parsed, separators=(",", ":")),),
                             parsed_output=parsed,
                             physical_case_id=case_id,
                             temperature=0.0,

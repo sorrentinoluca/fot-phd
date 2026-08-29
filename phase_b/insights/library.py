@@ -7,6 +7,8 @@ from dataclasses import asdict, dataclass, replace
 import re
 from typing import Any, Iterable
 
+from phase_b.prompts.leakage import scan_text
+
 
 INSIGHT_ID = re.compile(r"^INS-[0-9]{3}$")
 REQUIRED_KEYS = {
@@ -54,6 +56,23 @@ def _as_insights(values: Iterable[Insight | dict[str, Any]]) -> list[Insight]:
     return [value if isinstance(value, Insight) else Insight.from_dict(value) for value in values]
 
 
+def validate_label_neutral_fields(
+    insight: Insight, *, label_space: Iterable[str]
+) -> None:
+    """Ensure that only ``pseudolabel`` carries class identity prompt-side."""
+    labels = tuple(label_space)
+    for field_name in ("insight_id", "source_agent", "evidence_scope", "observed_pattern"):
+        value = getattr(insight, field_name)
+        leaked = [label for label in labels if label in value]
+        if leaked:
+            raise ValueError(
+                f"{field_name} must be label-neutral; found configured label(s): {leaked}"
+            )
+        findings = scan_text(value, source=f"insight:{insight.insight_id}:{field_name}")
+        if findings:
+            raise ValueError(f"{field_name} contains evaluator-only class information")
+
+
 def validate_global_insights(
     values: Iterable[Insight | dict[str, Any]], config: dict[str, Any]
 ) -> list[Insight]:
@@ -63,6 +82,8 @@ def validate_global_insights(
     labels = set(config["label_space"][:-1])
     if any(item.pseudolabel not in labels for item in insights):
         raise ValueError("Normal or unknown-label insight detected")
+    for item in insights:
+        validate_label_neutral_fields(item, label_space=config["label_space"])
     required_count = config["insights"]["insights_per_fault"]
     counts = Counter(item.pseudolabel for item in insights)
     if counts != Counter({label: required_count for label in labels}):

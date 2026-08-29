@@ -32,13 +32,20 @@ class ConfigAndExamplesTests(unittest.TestCase):
         self.assertFalse(any(label in {"Class-A", "Class-B", "Class-C", "Class-D"} for label in mapping.values()))
 
     def test_model_and_version_remain_researcher_decisions(self) -> None:
-        with self.assertRaisesRegex(ValueError, "model, model_version"):
+        with self.assertRaisesRegex(ValueError, "model, model_version, tokenizer"):
             validate_execution_ready(self.config)
 
     def test_exactly_two_examples_per_local_class(self) -> None:
         self.assertEqual(self.examples["examples_per_local_class"], 2)
         self.assertFalse(self.examples["contains_structured_numerical_json"])
-        for agent_id, items in self.examples["agents"].items():
+        metadata = json.loads(
+            (ROOT / "phase_b/config/evaluator_side/local_example_sources.json").read_text()
+        )
+        self.assertNotIn("agents", self.examples)
+        self.assertNotIn("agent_", json.dumps(self.examples, ensure_ascii=False))
+        self.assertEqual(set(self.examples["packs"]), {f"LKP-{index:03d}" for index in range(1, 5)})
+        for agent_id, pack_id in metadata["agent_to_pack"].items():
+            items = self.examples["packs"][pack_id]
             local = self.config["agents"][agent_id]["local_fault_label"]
             self.assertEqual(sum(item["pseudolabel"] == local for item in items), 2)
             self.assertEqual(sum(item["pseudolabel"] == "Normal" for item in items), 2)
@@ -51,6 +58,7 @@ class ConfigAndExamplesTests(unittest.TestCase):
         )
         fault_sources = [row for row in metadata["sources"] if row["real_class"] != "Normal"]
         normal_sources = [row for row in metadata["sources"] if row["real_class"] == "Normal"]
+        self.assertEqual(set(metadata["agent_to_pack"]), set(self.config["agents"]))
         self.assertEqual({row["batch"] for row in fault_sources}, {1, 2})
         self.assertEqual({row["normal_block"] for row in normal_sources}, {"N1", "N2"})
 

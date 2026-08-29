@@ -46,8 +46,9 @@ CLS-ZOGAA  CLS-OJNSG  CLS-R463B  CLS-Z3ISU
 ```
 
 Their meaning exists only in
-`config/evaluator_side/pseudolabel_mapping.json`. That file and other evaluator
-metadata must never be concatenated into a prompt. `Normal` remains unchanged.
+`config/evaluator_side/pseudolabel_mapping.json`. The agent-to-local-class and
+agent-to-knowledge-pack maps are likewise evaluator-side and must never be
+concatenated into a diagnostic prompt. `Normal` remains unchanged.
 Insight IDs use the unrelated sequential form `INS-001` onward and contain no
 class, pseudolabel, or agent-class relationship.
 
@@ -80,14 +81,17 @@ Ordinary tests never invoke that exception and never open an held-out workbook.
 
 `local_knowledge/build_local_examples.py` mechanically selects batch 1 and 2 for
 each local pseudoclass and N1/N2 for Normal. It applies the frozen V2 config,
-feature layer, and renderer. The prompt-facing JSON contains only:
+feature layer, and renderer. The prompt-facing JSON groups examples under opaque
+`LKP-*` pack IDs, never agent IDs. Each selected pack contributes only:
 
 ```text
 example_id, pseudolabel, neutral_text
 ```
 
-No structured numerical JSON or evaluator-side source identity is included.
-The source association is stored separately under `config/evaluator_side/`.
+No structured numerical JSON, agent assignment, source filename, batch, real
+class, or diagnostic case ID is included. The source and agent-to-pack
+associations are stored separately under `config/evaluator_side/`; the builder
+passes only the selected four-item list to the diagnostic renderer.
 
 ## Conditions
 
@@ -98,6 +102,9 @@ The source association is stored separately under `config/evaluator_side/`.
   observed patterns, count, and order. Only `pseudolabel` changes through one
   fixed evaluator-side derangement per receiving agent. All opaque labels have
   equal length, so B and E have equal character count before provider tokenization.
+  After replacing pseudolabel values by one placeholder, the rendered B/E peer
+  blocks must be byte-identical. Their three-label multisets are identical (each
+  peer label exactly twice), with no unchanged pattern-label association.
 
 The three diagnostic templates are intentionally byte-identical. The only
 rendered difference is the peer-insight block: absent in A, genuine in B,
@@ -121,34 +128,43 @@ The strict output keys are:
 ```
 
 Unknown labels, extra keys, duplicated JSON keys, markdown fences, unavailable
-insight IDs, invalid types, and empty reasoning are rejected. Abstention may use
-`predicted_label: null`, but is always incorrect in primary accuracy. A fixed
-correction suffix is used for at most two retries; no retry changes the examples,
-insights, label space, case input, or schema.
+insight IDs, invalid types, and empty reasoning are rejected. Abstention requires
+`predicted_label: null` and is always incorrect in primary accuracy. A fixed
+correction suffix is used for an initial attempt plus at most two retries, solely
+after structural parse/schema failure. Three failed attempts yield `ABSTAIN /
+parse_failure`. Every raw attempt is retained in the run record. A wrong valid
+prediction, weak reasoning, or unused insight does not trigger a retry.
 
 ## Metrics and statistical unit
 
+The definitive R=3 rule requires at least two equal valid labels; otherwise the
+aggregate prediction is abstention. Primary metrics, recall, and confusion use
+these aggregates. Repetition-level outcomes remain stochastic-stability reports.
+
 The evaluator reports unseen, seen, and overall accuracy; paired B−A and E−A
 deltas; helped/harmed/unchanged; abstention; recall by opaque pseudolabel;
-confusion matrices; and insight-ID usage. Epsilon for the seen comparison is 0.
+confusion matrices; and insight-ID usage. Local-fault-seen accuracy and Normal
+accuracy are separate secondary metrics. Epsilon is exactly 0.
 
-The primary unseen denominator is expected to be 36 agent-case observations per
-condition and repetition: 12 physical fault runs, each unseen to three agents.
+The primary unseen denominator is 36 aggregate agent-case observations per
+condition: 12 physical fault runs, each unseen to three agents.
 These 36 rows are **not 36 independent physical units**. Bootstrap code resamples
 `physical_case_id` clusters within true opaque pseudolabel strata, retaining all
-agent and repetition rows of every sampled physical run. On final data this is
-12 physical fault clusters, three per fault pseudoclass. No post-hoc binary
+three aggregate agent rows of every sampled physical run. Primary reporting uses
+10,000 draws with frozen seed `20260829`: 12 physical fault clusters, three per
+fault pseudoclass. No post-hoc binary
 success threshold or strong significance claim is implemented.
 
 ## Execution sequence
 
 1. Keep Phase A hashes fixed.
 2. Review the deterministic local examples and prompt plumbing on development.
-3. Choose and record model/provider/version; confirm temperature/seed support.
+3. Choose and record model/provider/version and its authoritative tokenizer;
+   confirm temperature/seed support and check B/E token-count equivalence.
 4. Generate exactly two unedited local insights per agent from development only.
 5. Validate global insights; build B and frozen E libraries.
 6. If needed, use batches 6–7 only for non-accuracy plumbing dry-runs.
-7. Decide the final across-R aggregation/reporting rule and freeze all protocol artifacts.
+7. Verify the fixed R=3 majority aggregation and freeze all protocol artifacts.
 8. Create `phase-b-protocol-frozen` only after researcher approval.
 9. Only then invoke the held-out integrity verifier and begin final evaluation.
 

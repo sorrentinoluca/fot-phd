@@ -21,6 +21,16 @@ class RetryResult:
     parsed_output: dict[str, Any]
     attempts: int
     validation_errors: tuple[str, ...]
+    raw_attempts: tuple[str, ...]
+    parse_failure: bool
+
+
+PARSE_FAILURE_OUTPUT: dict[str, Any] = {
+    "predicted_label": None,
+    "abstain": True,
+    "used_insight_ids": [],
+    "reasoning_summary": "parse_failure",
+}
 
 
 def execute_with_retry(
@@ -30,20 +40,29 @@ def execute_with_retry(
     parse: Callable[[str], dict[str, Any]],
     max_retries: int,
 ) -> RetryResult:
-    if max_retries < 0:
-        raise ValueError("max_retries must be non-negative")
+    if max_retries != 2:
+        raise ValueError("Phase B retry policy requires exactly two retries")
     current_prompt = prompt
     errors: list[str] = []
+    raw_attempts: list[str] = []
     for attempt in range(1, max_retries + 2):
         raw = call(current_prompt, attempt)
+        raw_attempts.append(raw)
         try:
             parsed = parse(raw)
-            return RetryResult(raw, parsed, attempt, tuple(errors))
+            return RetryResult(
+                raw, parsed, attempt, tuple(errors), tuple(raw_attempts), False
+            )
         except OutputValidationError as exc:
             errors.append(str(exc))
             if attempt > max_retries:
-                raise OutputValidationError(
-                    f"output invalid after {attempt} deterministic attempts: {exc}"
-                ) from exc
+                return RetryResult(
+                    raw,
+                    dict(PARSE_FAILURE_OUTPUT),
+                    attempt,
+                    tuple(errors),
+                    tuple(raw_attempts),
+                    True,
+                )
             current_prompt = prompt + CORRECTION_SUFFIX
     raise AssertionError("unreachable retry state")

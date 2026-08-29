@@ -7,33 +7,35 @@ from typing import Any, Iterable
 
 import numpy as np
 
+from .aggregation import AggregatePrediction, aggregate_run_records
 from .metrics import is_correct
 from .records import RunRecord
 
 
 def paired_unseen_rows(
-    records: Iterable[RunRecord],
+    records: Iterable[RunRecord | dict[str, Any]],
     *,
     case_truth: dict[str, str],
     config: dict[str, Any],
     left_condition: str = "A",
     right_condition: str = "B",
 ) -> list[dict[str, Any]]:
-    lookup: dict[tuple[str, int, str, str], RunRecord] = {}
-    for record in records:
-        key = (record.agent_id, record.repetition, record.physical_case_id, record.condition)
+    aggregates = aggregate_run_records(records, label_space=config["label_space"])
+    lookup: dict[tuple[str, str, str], AggregatePrediction] = {}
+    for record in aggregates:
+        key = (record.agent_id, record.physical_case_id, record.condition)
         if key in lookup:
-            raise ValueError(f"duplicate run record: {key}")
+            raise ValueError(f"duplicate aggregate prediction: {key}")
         lookup[key] = record
     rows: list[dict[str, Any]] = []
-    for (agent, repetition, case_id, condition), left in sorted(lookup.items()):
+    for (agent, case_id, condition), left in sorted(lookup.items()):
         if condition != left_condition:
             continue
         truth = case_truth[case_id]
         local = config["agents"][agent]["local_fault_label"]
         if truth == "Normal" or truth == local:
             continue
-        right = lookup.get((agent, repetition, case_id, right_condition))
+        right = lookup.get((agent, case_id, right_condition))
         if right is None:
             raise ValueError("paired bootstrap requires matching condition records")
         rows.append(
@@ -41,7 +43,6 @@ def paired_unseen_rows(
                 "physical_case_id": case_id,
                 "true_pseudolabel": truth,
                 "agent_id": agent,
-                "repetition": repetition,
                 "left_correct": int(is_correct(left, truth)),
                 "right_correct": int(is_correct(right, truth)),
                 "delta": int(is_correct(right, truth)) - int(is_correct(left, truth)),
@@ -89,9 +90,8 @@ def stratified_cluster_paired_bootstrap(
     seed: int | None = None,
     confidence_level: float = 0.95,
 ) -> dict[str, Any]:
-    parsed = [record if isinstance(record, RunRecord) else RunRecord.from_dict(record) for record in records]
     rows = paired_unseen_rows(
-        parsed,
+        records,
         case_truth=case_truth,
         config=config,
         left_condition=left_condition,
@@ -103,6 +103,17 @@ def stratified_cluster_paired_bootstrap(
     seed = int(config["metrics"]["bootstrap_seed"] if seed is None else seed)
     if iterations <= 0 or not 0.0 < confidence_level < 1.0:
         raise ValueError("invalid bootstrap settings")
+    clusters = sorted({row["physical_case_id"] for row in rows})
+    strata = clusters_per_label(rows)
+    expected_labels = set(config["label_space"][:-1])
+    if set(strata) != expected_labels or set(strata.values()) != {3} or len(clusters) != 12:
+        raise ValueError("primary bootstrap requires four fault strata with three physical runs each")
+    rows_per_cluster = {
+        case_id: sum(row["physical_case_id"] == case_id for row in rows)
+        for case_id in clusters
+    }
+    if set(rows_per_cluster.values()) != {3}:
+        raise ValueError("each physical run must retain exactly three unseen aggregate agent rows")
     rng = np.random.default_rng(seed)
     draws = np.empty(iterations, dtype=float)
     for index in range(iterations):
@@ -110,8 +121,6 @@ def stratified_cluster_paired_bootstrap(
         expanded = expand_cluster_sample(rows, sampled_clusters)
         draws[index] = float(np.mean([row["delta"] for row in expanded]))
     alpha = 1.0 - confidence_level
-    clusters = sorted({row["physical_case_id"] for row in rows})
-    strata = clusters_per_label(rows)
     return {
         "definition": f"paired {right_condition}-{left_condition} accuracy delta; stratified resampling of physical_case_id",
         "point_estimate": float(np.mean([row["delta"] for row in rows])),
@@ -121,7 +130,7 @@ def stratified_cluster_paired_bootstrap(
         "iterations": iterations,
         "seed": seed,
         "n_physical_clusters": len(clusters),
-        "n_agent_case_repetition_rows": len(rows),
+        "n_agent_case_rows": len(rows),
         "clusters_per_pseudolabel": strata,
         "independence_claim": False,
     }
