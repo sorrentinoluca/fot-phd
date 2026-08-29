@@ -1,0 +1,72 @@
+{
+  "amendment_id": "001",
+  "base_protocol_commit": "3d86f64d43e14e7e0de520cb047ca1043bf9c1c0",
+  "base_protocol_tag": "phase-b-protocol-frozen",
+  "created_before_final_inference": true,
+  "completed_inference_at_decision": 0,
+  "planned_inference": 540,
+  "scheduling_unit": "physical_case_id × agent_id × repetition",
+  "schedule_inputs": {
+    "physical_case_ids": [
+      "PBH-001", "PBH-002", "PBH-003", "PBH-004", "PBH-005",
+      "PBH-006", "PBH-007", "PBH-008", "PBH-009", "PBH-010",
+      "PBH-011", "PBH-012", "PBH-013", "PBH-014", "PBH-015"
+    ],
+    "agent_ids": ["agent_1", "agent_2", "agent_3", "agent_4"],
+    "repetitions": [1, 2, 3],
+    "conditions": ["A", "B", "E"]
+  },
+  "iteration_order": {
+    "physical_case_id": "PBH-001..PBH-015 ascending",
+    "agent_id": "agent_1..agent_4 ascending",
+    "repetition": "1..3 ascending"
+  },
+  "block_index_base": 0,
+  "condition_rotation": [
+    ["A", "B", "E"],
+    ["B", "E", "A"],
+    ["E", "A", "B"]
+  ],
+  "rotation_rule": "block_index modulo 3",
+  "randomized": false,
+  "stateless_calls": true,
+  "statelessness_requirements": {
+    "complete_self_contained_prompt": true,
+    "new_independent_request": true,
+    "conversation_history": false,
+    "previous_response_id": false,
+    "conversation_thread_or_session_state": false,
+    "cross_condition_output_carryover": false,
+    "cross_block_output_carryover": false
+  },
+  "verbalization_immutability_evidence": {
+    "commit": "32f0856040614870d3784a4811e76cee0eee77e3",
+    "manifest_path": "phase_b/final_evaluation/heldout_verbalizations_manifest.json",
+    "manifest_sha256": "a5a00e6f3724ba5af50f8c4b09e82a6e61676b0a1019276733925c6d3fc7ef68",
+    "individual_neutral_text_hashes_recorded_in_manifest": true
+  },
+  "inference_schedule": {
+    "path": "phase_b/final_evaluation/inference_schedule.json",
+    "entry_count": 540,
+    "block_count": 180,
+    "sha256": "d30cdf6a6c622c1653176b393114073b447fdde69729086f6399291d776c0c9b"
+  },
+  "unchanged_protocol_elements": [
+    "held-out",
+    "verbalizations",
+    "pseudolabels",
+    "local examples",
+    "insights",
+    "B/E libraries",
+    "derangements",
+    "prompts",
+    "provider and model",
+    "reasoning effort",
+    "retry policy",
+    "R",
+    "aggregation",
+    "hypotheses",
+    "metrics",
+    "bootstrap"
+  ]
+}
