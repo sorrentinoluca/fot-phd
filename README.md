@@ -1,196 +1,297 @@
-# Federation over Text — TEP Phase A
+# Federation over Text for Distributed Time-Series Diagnosis
 
-This repository contains Phase A of a proof-of-concept Federation over Text
-(FoT) study on the Tennessee Eastman Process. Phase A freezes and evaluates the
-numerical time-series to neutral-text layer:
+This repository documents a PhD research project on **Federation over Text
+(FoT)** for distributed time-series diagnosis. The final application target is
+photovoltaic (PV) systems. The Tennessee Eastman Process (TEP) is the controlled
+preliminary methodological proving ground used to develop and test the
+representation and knowledge-federation architecture.
 
-`time series -> structured numerical evidence -> neutral text`
+The TEP work is complete: Phase A established a neutral time-series
+representation layer, and Phase B evaluated FoT under a frozen held-out
+protocol. The results support feasibility in this controlled setting; they are
+not evidence of performance in PV systems or of general cross-domain validity.
 
-It does not implement the later FoT reasoning experiment and does not present
-the V2 verbalizer as a numerical fault classifier.
+## Project at a glance
 
-## Pinned provenance
+`PV research goal → controlled TEP proving ground → Phase A representation → Phase B FoT → feasibility supported → next: empirical PV phase`
 
-- Upstream dataset: [mv-per/tennessee-eastman-dataset](https://github.com/mv-per/tennessee-eastman-dataset)
-- Dataset commit: `309b944f35ac440ff0c70616947ffe723c766e14`
-- V2 pre-validation freeze: commit `3fd960a192bafacbaabce9471e3c3614d6b2d2db`, tag `verbalizer-v2-pre-validation`
-- Validation completion: commit `1d9c1617b56c19d2bc71dfef7b7902df0670b537`, tag `verbalizer-v2-validation-complete`
-- Held-out test completion: commit `0a45817fd783513e23d58a35c55489404c95feec`, tag `verbalizer-v2-test-complete`
-- Phase A completion tag: `phase-a-verbalizer-v2-complete`
+**TEP is a methodological feasibility gate, not the final application domain.**
 
-The raw Tennessee Eastman dataset is deliberately not duplicated in this
-repository. Workbooks, dataset clones, and local caches are excluded by
-`.gitignore`.
+The research question is whether distributed agents with different local
+experience can exchange compact textual knowledge that helps reasoning about
+locally unseen time-series conditions, without federating their raw data.
+
+## What is Federation over Text?
+
+In this project:
+
+- agents hold non-IID local knowledge;
+- raw time-series data remain local;
+- local evidence is distilled into provenance-aware textual insights;
+- those insights are shared with eligible peers;
+- an LLM reasons from a neutral case representation and the knowledge available
+  under the assigned experimental condition.
+
+FoT here is a controlled proof of concept. The experiment evaluates a specific
+TEP setup and does not claim that FoT has already been validated in general.
+
+## Phase A — Neutral representation
+
+Phase A freezes the layer:
+
+`multivariate time series → structured numerical evidence → neutral text`
+
+The structured representation retains quantitative and temporal evidence such
+as signed level shift, signed slope, residual variability, and
+sample-to-sample variability. The renderer serializes observed evidence without
+automatically assigning fault semantics such as drift or oscillation.
+
+Phase A therefore **describes rather than diagnoses**. Its offline evaluator
+measures descriptive stability and separability across splits; those measures
+are not classifier accuracy. Configuration, implementation, split discipline,
+and frozen hashes are documented in
+[`VERBALIZER_V2_FREEZE.md`](VERBALIZER_V2_FREEZE.md) and the code guide
+[`docs/README_CODE_V2.md`](docs/README_CODE_V2.md).
+
+## Phase B — Federation over Text
+
+Phase B uses four agents. Each agent knows Normal and one local fault
+pseudoclass; the other three fault pseudoclasses are locally unseen. Fault
+identities are replaced in agent-facing material by opaque pseudolabels.
+
+Each agent builds local textual insights from permitted development evidence.
+Federation is peer-only: agents receive eligible peer-derived insights, not
+their own insights, and no raw process data, gradients, or model weights are
+federated. Diagnosis uses the frozen Phase A neutral representation.
+
+The final experiment uses three LLM repetitions (`R=3`) per agent-case and
+condition. Its held-out cases were independently generated and frozen before
+verbalization, inference, and ground-truth evaluation.
+
+### Experimental conditions
+
+- **A — isolated:** local knowledge only; no peer insight block.
+- **B — FoT:** genuine peer-derived textual insights are available.
+- **E — corrupted specificity control:** the B insight structure is matched,
+  but pseudolabel associations are incorrect.
+
+**B−A is the preregistered primary contrast.**
+
+**B−E is the preregistered specificity/mechanistic contrast; it is not the
+primary endpoint.**
+
+## Key held-out result
+
+The primary subset contains cases from fault pseudoclasses locally unseen by
+each receiving agent.
+
+| Condition | Unseen accuracy |
+|---|---:|
+| A — isolated | 0/36 (0.00%) |
+| B — FoT | 31/36 (86.11%) |
+| E — corrupted control | 3/36 (8.33%) |
+
+- Primary contrast: **B−A = +0.8611**.
+- Specificity/mechanistic contrast: **B−E = +0.7778**.
+
+These numbers require the following qualifications:
+
+- The 36 rows are agent-case observations, **not 36 independent physical
+  cases**.
+- They arise from **12 independent physical fault-runs**, each assessed by the
+  three agents for which that fault pseudoclass was unseen.
+- Condition A operates at an information floor for unseen class semantics.
+- The result does not mean “+86 percentage points in general.”
+- The secondary 91.67% overall accuracy is not the main scientific answer.
+- The observed `harmed = 0` does not establish a general no-negative-transfer
+  guarantee.
+
+For the complete frozen analysis, see
+[`phase_b/final_evaluation/EVALUATION_REPORT.md`](phase_b/final_evaluation/EVALUATION_REPORT.md).
+
+## What the TEP PoC supports
+
+Within this controlled experiment, the evidence supports:
+
+- feasibility of time-series to neutral-text representation;
+- feasibility of generating local textual insights with explicit provenance;
+- benefit of genuine peer textual knowledge relative to isolation;
+- a positive specificity/mechanistic contrast between genuine and corrupted
+  knowledge;
+- a leakage-resistant workflow with held-out, protocol, schedule, inference,
+  and result freezes.
+
+These are bounded findings from the TEP proof of concept.
+
+## What this work does not establish
+
+- No empirical cross-domain generalization has yet been tested.
+- No PV diagnostic performance has yet been measured.
+- There is no general no-negative-transfer guarantee.
+- The current TEP verbalizer is not claimed to be domain-agnostic.
+- FoT has not yet been compared with a central in-context-learning knowledge
+  baseline of comparable information content.
+- No superiority over classical federated learning is claimed.
+
+## Start here
+
+### Quick orientation — LLM or RAG
+
+Read [`docs/FOT_PROJECT_LLM_REFERENCE.md`](docs/FOT_PROJECT_LLM_REFERENCE.md)
+first. It is the compact canonical retrieval and reference layer, with the
+claim hierarchy, canonical numbers, caveats, and provenance pointers.
+
+### Full technical and didactic narrative
+
+Read
+[`docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md`](docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md)
+for the complete historical, methodological, and didactic account.
+
+### Final PoC synthesis
+
+Read [`FOT_TEP_POC_FINAL_SYNTHESIS.md`](FOT_TEP_POC_FINAL_SYNTHESIS.md) for a
+compact final scientific synthesis of the TEP proof of concept.
+
+## Source-of-truth hierarchy
+
+1. **Frozen experimental artifacts and results** — exact protocol, records,
+   hashes, predictions, and metrics.
+2. **Canonical technical narrative** — authoritative human-readable
+   explanation.
+3. **LLM reference** — compact retrieval and orientation layer.
+4. **Historical or superseded documents** — methodological history only when
+   later freezes supersede them.
+
+> If documentation conflicts with a frozen experimental artifact, the frozen
+> artifact takes precedence for the exact experimental record.
+
+The LLM reference is deliberately the first file to read for rapid orientation,
+but it does not outrank frozen artifacts in scientific authority.
 
 ## Repository map
 
-- `code/tep_features.py`: frozen numerical feature layer.
-- `code/tep_verbalize_v2.py`: frozen structured evidence and neutral renderer.
-- `code/verbalizer_config_v2.json`: frozen V2 configuration and thresholds.
-- `code/evaluate_verbalizer_v2.py`: frozen deterministic evaluator.
-- `code/calibrate_thresholds_v2.py`: verification-only calibration reproducer.
-- `code/verify_injection_time_v2.py`: development-only empirical timing check.
-- `code/tep_analysis_v2/`: committed development analysis artifacts.
-- `tep_validation_v2/`: committed out-of-development validation artifacts.
-- `tep_test_v2/`: committed held-out test artifacts.
-- `VERBALIZER_V2_FREEZE.md`: pre-validation specification and frozen hashes.
-- `PHASE_A_STATUS.md`: final status and review caveats.
+```text
+.
+├── README.md
+├── FOT_TEP_POC_FINAL_SYNTHESIS.md
+├── VERBALIZER_V2_FREEZE.md
+├── PHASE_A_STATUS.md
+├── code/
+│   ├── tep_features.py
+│   ├── tep_verbalize_v2.py
+│   ├── verbalizer_config_v2.json
+│   └── evaluate_verbalizer_v2.py
+├── docs/
+│   ├── FOT_PROJECT_LLM_REFERENCE.md
+│   ├── FOT_PROJECT_TECHNICAL_NARRATIVE.md
+│   ├── README_CODE_V2.md
+│   └── figures/
+├── tep_validation_v2/
+├── tep_test_v2/
+├── phase_b/
+│   ├── heldout/
+│   ├── insights/
+│   ├── conditions/
+│   ├── execution/
+│   ├── final_evaluation/
+│   └── tests/
+└── reproducibility/
+```
 
-## Reproducing Phase A
+- `code/`, `tep_validation_v2/`, and `tep_test_v2/` preserve the Phase A
+  implementation and split-specific evidence.
+- `phase_b/` contains the FoT protocol, guarded held-out provenance, insight
+  libraries, execution records, and offline evaluation.
+- `docs/` contains the canonical navigation and teaching documents plus their
+  conceptual figures.
+- `reproducibility/` contains Phase A verification artifacts.
 
-The reference environment used for Phase A was CPython `3.13.9`. The dependency
-versions actually used are pinned in `requirements.txt`.
+## Reproducibility and freeze milestones
 
-### 1. Clone the project
+Tags preserve immutable scientific milestones. Branch names organize
+development; they are not the scientific source of truth.
+
+| Milestone | Tag | Commit |
+|---|---|---|
+| Phase A reproducibility closure | `phase-a-reproducibility-complete` | `145b6b79c59c352e06028166185bad3c9fb49607` |
+| Independent held-out freeze | `phase-b-heldout-frozen` | `86baaa65e72cea22ecb89dd0e7b213aea5a1284b` |
+| Phase B protocol freeze | `phase-b-protocol-frozen` | `3d86f64d43e14e7e0de520cb047ca1043bf9c1c0` |
+| Execution schedule freeze | `phase-b-execution-schedule-frozen` | `eef0bc58e5ab14fb0cd2aece180fb5b1b5a7962b` |
+| Prediction freeze | `phase-b-inference-frozen` | `11c34358e28e875cd5c7249061ac2b89ffcd42f4` |
+| Evaluation results freeze | `phase-b-results-frozen` | `45ec4eed65b263a5803ced7d01064c4672e81e86` |
+
+The source TEP dataset is pinned separately to upstream commit
+`309b944f35ac440ff0c70616947ffe723c766e14`.
+
+## Reproducing the TEP work
+
+The reference Phase A environment used CPython `3.13.9`; exact dependencies are
+in [`requirements.txt`](requirements.txt). A compact setup is:
 
 ```bash
 git clone https://github.com/sorrentinoluca/fot-phd.git
 cd fot-phd
-```
-
-### 2. Install dependencies
-
-```bash
 python3.13 -m venv .venv
 source .venv/bin/activate
-python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-No separate development dependency file is required: the regression tests use
-the Python standard library plus the runtime packages above.
-
-### 3. Retrieve the pinned upstream dataset
-
-Keep the upstream clone outside version control for this repository:
+Clone the upstream TEP dataset outside this repository and check out the pinned
+commit:
 
 ```bash
-git clone https://github.com/mv-per/tennessee-eastman-dataset.git tennessee-eastman-dataset
+git clone https://github.com/mv-per/tennessee-eastman-dataset.git
 git -C tennessee-eastman-dataset checkout 309b944f35ac440ff0c70616947ffe723c766e14
-git -C tennessee-eastman-dataset rev-parse HEAD
 ```
 
-The last command must print the pinned commit. The upstream repository may use
-Git LFS for workbook delivery; Git LFS is not used by `fot-phd` itself.
+The raw workbooks, local caches, and generated temporary outputs are excluded
+from version control. Phase A commands, split boundaries, calibration checks,
+and regression tests are documented in
+[`docs/README_CODE_V2.md`](docs/README_CODE_V2.md). The frozen Phase B record is
+anchored by
+[`phase_b/PHASE_B_PROTOCOL_FREEZE.md`](phase_b/PHASE_B_PROTOCOL_FREEZE.md), its
+schedule amendment in
+[`phase_b/PHASE_B_PROTOCOL_AMENDMENT_001.md`](phase_b/PHASE_B_PROTOCOL_AMENDMENT_001.md),
+and the final evaluation report linked above.
 
-The Normal workbook expected by the reproduction commands is:
+## Historical documents
 
-```text
-tennessee-eastman-dataset/simulations/mode_1/mode1_normal_500.xlsx
-```
+Some repository files intentionally preserve earlier proposals, exploratory
+designs, and superseded states. They remain available for provenance and
+methodological history. When such a file conflicts with a frozen artifact or
+the final technical narrative, use the frozen/final state. This distinction is
+important for both human readers and automated retrieval.
 
-### 4. Reproduce the frozen calibration
+## Current status
 
-The calibration command reads only Normal N1–N5, writes new verification
-artifacts, and refuses to overwrite the frozen config or original calibration
-reference:
+| Component | Status |
+|---|---|
+| Phase A — TEP neutral representation | **COMPLETED** |
+| Phase B — TEP Federation over Text | **COMPLETED / FROZEN** |
+| Technical narrative | **CANONICAL** |
+| LLM reference | **CANONICAL** |
+| Next empirical research phase | **PHOTOVOLTAIC DOMAIN** |
 
-```bash
-python code/calibrate_thresholds_v2.py \
-  --normal tennessee-eastman-dataset/simulations/mode_1/mode1_normal_500.xlsx \
-  --output reproducibility/threshold_calibration_verification.json \
-  --maxima-output reproducibility/normal_5h_window_maxima_recalculated.csv
+No PV experimental protocol is currently frozen.
 
-python code/test_calibrate_thresholds_v2.py \
-  --normal tennessee-eastman-dataset/simulations/mode_1/mode1_normal_500.xlsx
-```
+## Next research phase — Photovoltaics
 
-The four recalculated values must match both
-`code/verbalizer_config_v2.json` and
-`code/tep_analysis_v2/threshold_calibration.json` within absolute tolerance
-`1e-12`. In the reference run, every absolute error is exactly zero.
+The next phase will test whether the methodological architecture remains useful
+in real PV settings. Candidate reusable elements include:
 
-### 5. Development workflow
+- separation between representation and reasoning;
+- local insight generation with provenance;
+- peer textual federation;
+- freeze and held-out discipline;
+- clustered evaluation aligned with physical experimental units.
 
-Development and calibration are the only phases in which methodological
-choices were made. `tep_characterize_v2.py` has guards restricting it to fault
-batches 1–5:
+The following must be redesigned or independently revalidated for PV:
 
-```bash
-cd code
-python tep_characterize_v2.py
-cd ..
-```
+- features, baselines, thresholds, and time windows;
+- seasonality, irradiance, temperature, and operating regimes;
+- site and inverter heterogeneity;
+- missing data and sensor or system drift;
+- event taxonomy and trustworthy ground truth.
 
-The script downloads the pinned development files into ignored `tep_cache/`
-storage and regenerates `code/tep_analysis_v2/`. Compare regenerated outputs
-with the committed artifacts using `git diff`; do not alter frozen thresholds
-to remove differences.
-
-The independent injection-time consistency check also uses development data
-only. After the development cache exists:
-
-```bash
-python code/verify_injection_time_v2.py \
-  --cache-dir code/tep_cache \
-  --normal code/tep_cache/mode1_normal_500.xlsx \
-  --config code/verbalizer_config_v2.json \
-  --output-dir reproducibility/injection_time \
-  --report INJECTION_TIME_VERIFICATION.md
-```
-
-### 6. Run software and regression tests
-
-```bash
-python code/test_features.py
-python code/test_calibrate_thresholds_v2.py \
-  --normal code/tep_cache/mode1_normal_500.xlsx
-python code/test_verbalize_v2.py
-```
-
-`test_verbalize_v2.py` includes development-only regression checks and expects
-the ignored development cache. Tests verify frozen properties; they must never
-be used to tune thresholds against validation or test results.
-
-### 7. Reproduce validation artifacts
-
-Validation consists exclusively of F1/F8/F10/F13 batches 6–7 and Normal
-N6–N7. The committed raw-to-structured results, anonymous text, metadata, and
-metrics are under `tep_validation_v2/`.
-
-`tep_validation_v2/run_validation.py` recomputes the deterministic evaluator
-tables from the committed structured cases and the pinned Normal workbook. It
-must be run only after checking the frozen hashes in
-`VERBALIZER_V2_FREEZE.md`. It is not part of calibration and must not feed back
-into configuration or thresholds:
-
-```bash
-python tep_validation_v2/run_validation.py
-git diff -- tep_validation_v2
-```
-
-### 8. Reproduce held-out test artifacts
-
-The held-out test consists exclusively of F1/F8/F10/F13 batches 8–10 and
-Normal N8–N10. Its committed artifacts are under `tep_test_v2/`.
-
-Run this step separately and only after development and validation decisions
-are frozen:
-
-```bash
-python tep_test_v2/run_test.py
-git diff -- tep_test_v2
-```
-
-The test runner applies the frozen representation, `top_k=4`, and
-`similarity = 1 - mean(abs(a-b))`. It does not authorize tuning or creation of
-V2.1.
-
-## Reproduction boundaries
-
-- **Frozen-result reproduction** verifies hashes, recalculates thresholds, and
-  compares regenerated artifacts with committed outputs.
-- **Development workflow** is limited to N1–N5 and fault batches 1–5.
-- **Out-of-development validation** is N6–N7 and fault batches 6–7.
-- **Held-out evaluation** is N8–N10 and fault batches 8–10.
-
-These phases are deliberately separate. There is no single command that runs
-calibration, validation, and test in sequence, because such automation would
-make accidental feedback or tuning easier.
-
-## Phase A results
-
-The final independent review verdict is **GO WITH CAVEATS**. The caveats concern
-reproducibility and documentation and are closed by the separate scripts and
-records added after the scientific freeze. The frozen methodology and results
-remain unchanged. See `PHASE_A_STATUS.md` and `INJECTION_TIME_VERIFICATION.md`.
+Whether FoT offers an advantage over a comparable central
+in-context-learning knowledge baseline remains an open research question.
