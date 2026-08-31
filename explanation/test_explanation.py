@@ -16,6 +16,7 @@ from urllib.parse import unquote, urlsplit
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 PAGE = HERE / "fot_walkthrough_part1.html"
+CONVERSATION = HERE / "fot_walkthrough_conversazione.html"
 
 
 class Page(HTMLParser):
@@ -269,6 +270,100 @@ class TutorialChecks(unittest.TestCase):
         for statement in ("B−A resta il contrasto primario preregistrato", "B−E il contrasto specificity/mechanistic, non primary", "Non applicato a N6–N7", "feasibility gate", "Parte 1", "§15"):
             self.assertIn(statement, self.html)
         self.assertNotRegex(self.html, r'<script[^>]+src=|<iframe|fetch\(|XMLHttpRequest|https?://')
+
+
+class UnifiedConversationChecks(unittest.TestCase):
+    """Regression checks for the complete, unified pedagogical walkthrough."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.html = CONVERSATION.read_text()
+        cls.page = Page(cls.html)
+        cls.text = normalized(re.sub(r"<[^>]+>", " ", cls.html))
+
+    def test_valid_markup_links_and_unique_anchors(self):
+        self.assertEqual(self.page.stack, [], "HTML elements must close cleanly")
+        self.assertEqual(len(self.page.ids), len(set(self.page.ids)))
+        for link in self.page.links:
+            url = urlsplit(link)
+            self.assertFalse(url.scheme, "Guide must remain fully local")
+            path = (CONVERSATION.parent / unquote(url.path)).resolve() if url.path else CONVERSATION
+            self.assertTrue(path.is_file(), path)
+            if url.fragment:
+                ids = self.page.ids if path == CONVERSATION else Page(path.read_text()).ids
+                self.assertIn(unquote(url.fragment), ids)
+
+    def test_one_flow_and_step_internal_order(self):
+        sections = re.findall(r'<section id="step-(\d+)"[^>]*>(.*?)</section>', self.html, re.S)
+        self.assertEqual([int(number) for number, _ in sections], list(range(1, 16)))
+        self.assertNotIn("Parte 1 —", self.html)
+        self.assertNotIn("Parte 2 —", self.html)
+        for number, fragment in sections:
+            with self.subTest(step=number):
+                explanation_end = fragment.index('class="example"')
+                example_end = fragment.index('class="output"')
+                output_end = fragment.index('class="checkpoint"')
+                self.assertLess(explanation_end, example_end)
+                self.assertLess(example_end, output_end)
+
+    def test_real_reduced_example_and_calibration(self):
+        config = json.loads((ROOT / "code/verbalizer_config_v2.json").read_text())
+        expected = {
+            "worked-window-n": 300,
+            "worked-window-sum": 216.7053282371516,
+            "worked-window-mean": 0.7223510941238387,
+            "worked-baseline-n": 15000,
+            "worked-mu0": 0.26679593084899306,
+            "worked-sigma0": 0.005941491332146645,
+            "worked-shift": 76.67353831016274,
+            "worked-shift-threshold": 1.9695333234149084,
+        }
+        self.assertEqual({key: float(self.page.text(key)) for key in expected}, expected)
+        self.assertEqual(expected["worked-shift-threshold"], config["thresholds"]["abs_shift_sigma"])
+        maxima = csv_rows("normal_5h_window_maxima.csv")
+        ordered = sorted(float(row["max_abs_shift"]) for row in maxima)
+        self.assertEqual(ordered[48], expected["worked-shift-threshold"])
+        self.assertEqual(ordered[49], 2.0050511992352518)
+        self.assertNotIn("TEST_POTENZA", self.html)
+        self.assertNotIn("TEST_PAZZIA", self.html)
+        self.assertNotIn("fantasia", self.html.lower())
+
+    def test_json_and_neutral_text_are_real_pair(self):
+        summary = json.loads(self.page.text("summary-json"))
+        self.assertEqual(summary["variable"], "XMEAS-1")
+        self.assertEqual(summary["level"]["n_active_windows"], 8)
+        examples = json.loads((ROOT / "phase_b/local_knowledge/local_examples.json").read_text())
+        saved = examples["packs"]["LKP-001"][0]
+        self.assertEqual(saved["example_id"], "EXM-001")
+        self.assertEqual(normalized(self.page.text("neutral-text")), normalized(saved["neutral_text"]))
+
+    def test_real_heldout_A_B_E_case(self):
+        records = [json.loads(line) for line in
+                   (ROOT / "phase_b/final_evaluation/inference/aggregate_records.jsonl").read_text().splitlines()]
+        expected = {"A": (None, True), "B": ("CLS-ZOGAA", False), "E": ("CLS-OJNSG", False)}
+        for condition, outcome in expected.items():
+            record = next(row for row in records if row["physical_case_id"] == "PBH-004"
+                          and row["agent_id"] == "agent_3" and row["condition"] == condition)
+            parsed = record["parsed_output"]
+            self.assertEqual((parsed["predicted_label"], parsed["abstain"]), outcome)
+            self.assertEqual(len(record["repetition_outcomes"]), 3)
+        for phrase in ("PBH-004", "Agent 3", "mode1_1_11.xlsx", "used_insight_ids=[]",
+                       "B−A", "primary preregistrata", "B−E", "specificity/mechanistic"):
+            self.assertIn(phrase, self.text)
+
+    def test_collapsible_navigation_and_progressive_layout(self):
+        for phrase in ('id="nav-toggle"', 'aria-controls="guide-nav"', 'aria-expanded="true"',
+                       "Nascondi indice", "Mostra indice", "nav-collapsed", "nav-open",
+                       "Escape", "IntersectionObserver", 'id="current-step"'):
+            self.assertIn(phrase, self.html)
+        self.assertIn("body.nav-collapsed .layout{grid-template-columns:0 minmax(0,1fr)", self.html)
+        self.assertIn("@media(max-width:900px)", self.html)
+        self.assertNotIn("grid-template-columns:repeat(2", self.html)
+
+    def test_readme_publishes_both_guides(self):
+        readme = (HERE / "README.md").read_text()
+        self.assertIn("fot_walkthrough_conversazione.html", readme)
+        self.assertIn("fot_walkthrough_part1.html", readme)
 
 
 if __name__ == "__main__":

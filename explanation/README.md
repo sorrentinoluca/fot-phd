@@ -2,6 +2,11 @@
 
 ## Inizia qui
 
+[Guida unitaria, dal dato alla valutazione](fot_walkthrough_conversazione.html) —
+percorso completo in 15 step; ogni spiegazione è seguita dall'applicazione
+reale ridotta, dall'output prodotto e dal checkpoint per lo step successivo.
+La navigazione laterale è richiudibile e su mobile parte chiusa.
+
 [Guida passo per passo, Parte 1](fot_walkthrough_part1.html) — dal problema di
 ricerca al confine fra rappresentazione e reasoning (§0–15 della narrativa).
 Aprire l'HTML in un browser: funziona anche offline, senza installazioni o API.
