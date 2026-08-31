@@ -125,6 +125,77 @@ class TutorialChecks(unittest.TestCase):
             for text, value in zip(cells[2:], values[2:]):
                 self.assertAlmostEqual(float(text.replace("−", "-")), value, delta=0.000501)
 
+    def test_worked_raw_to_shift_calculation(self):
+        # Reference values reconstructed read-only from pinned XLSX files;
+        # this lightweight regression does not reopen the workbooks.
+        expected = {
+            "worked-window-n": 300,
+            "worked-window-sum": 216.7053282371516,
+            "worked-window-mean": 0.7223510941238387,
+            "worked-baseline-n": 15000,
+            "worked-mu0": 0.26679593084899306,
+            "worked-sigma0": 0.005941491332146645,
+            "worked-shift": 76.67353831016274,
+        }
+        actual = {key: float(self.page.text(key)) for key in expected}
+        self.assertEqual(actual, expected)
+        self.assertEqual(actual["worked-window-n"], 5 * 60)
+        self.assertAlmostEqual(actual["worked-window-sum"] / actual["worked-window-n"],
+                               actual["worked-window-mean"], places=15)
+        result = (actual["worked-window-mean"] - actual["worked-mu0"]) / actual["worked-sigma0"]
+        self.assertEqual(result, actual["worked-shift"])
+        self.assertEqual(result, self.data["windows"][0][2])
+        threshold = float(self.page.text("worked-shift-threshold"))
+        self.assertEqual(threshold, self.config["thresholds"]["abs_shift_sigma"])
+        self.assertGreater(abs(result), threshold)
+        substitution = self.page.text("worked-substitution")
+        for key in ("worked-window-mean", "worked-mu0", "worked-sigma0"):
+            self.assertIn(self.page.text(key), substitution)
+
+    def test_raw_preview_and_reference_scope(self):
+        # First/last three B602:B901 values from mode1_1_1.xlsx, Sheet1.
+        reference = [0.2662062165533218, 0.2642580735114897, 0.26587986868132885,
+                     1.018144579110935, 1.017490265451267, 1.018570880685642]
+        preview = [float(value) for value in re.findall(r"\d+\.\d+", self.page.text("worked-raw-preview"))]
+        self.assertEqual(preview, [round(value, 6) for value in reference])
+        bridge = normalized(self.page.text("raw-to-shift"))
+        for term in ("Runtime / per finestra × XMEAS", "non 300 repliche indipendenti",
+                     "ddof=1", "N1–N5", "[0,250)", "B602:B901", "B2:B15001",
+                     "non si applica LOBO", "non legge XLSX nel browser"):
+            self.assertIn(term, bridge)
+
+    def test_static_flags_match_frozen_comparisons(self):
+        table = re.search(r'<table id="window-flags">(.*?)</table>', self.html, re.S)[1]
+        rows = re.findall(r"<tr>(.*?)</tr>", table, re.S)[1:]
+        self.assertEqual(len(rows), 8)
+        keys = ["abs_shift_sigma", "abs_slope_sigma_h", "residual_std_ratio", "diff_std_ratio"]
+        counts = [0, 0, 0, 0]
+        for index, (row, values) in enumerate(zip(rows, self.data["windows"]), 1):
+            cells = re.findall(r"<td>(.*?)</td>", row)
+            self.assertEqual(cells[0], f"W{index}")
+            actual = [int(cell) for cell in cells[1:]]
+            expected = [int((abs(values[2+i]) if i < 2 else values[2+i]) > self.config["thresholds"][key])
+                        for i, key in enumerate(keys)]
+            self.assertEqual(actual, expected)
+            counts = [a + b for a, b in zip(counts, actual)]
+        saved = next(r for r in csv_rows("development_temporal_signatures.csv")
+                     if (r["fault"], r["batch"], r["variable"]) == ("1", "1", "XMEAS-1"))
+        self.assertEqual(counts, [int(saved[feature + "_positive_windows"])
+                                 for feature in ("level", "trend", "residual", "diff")])
+
+    def test_pedagogical_bridges_static_and_source_commit_retained(self):
+        self.assertEqual(self.page.stack, [], "HTML elements must close cleanly")
+        static_html = re.sub(r"<script\b[^>]*>.*?</script>|<noscript>.*?</noscript>|<details>.*?</details>",
+                             "", self.html, flags=re.S)
+        for element_id in ("raw-to-shift", "worked-shift", "window-flags", "json-rationale",
+                           "signature-gloss", "score-gloss"):
+            self.assertIn(f'id="{element_id}"', static_html)
+        self.assertLess(self.html.index('id="json-rationale"'), self.html.index('id="summary-json"'))
+        self.assertLess(self.html.index('id="score-gloss"'), self.html.index("Primo score reale"))
+        self.assertIn("non una copia integrale delle serie raw", self.page.text("json-rationale"))
+        self.assertIn("non è un'interpretazione LLM", self.page.text("json-rationale"))
+        self.assertEqual(self.data["source_commit"], "10acccdd3dd8b8bab9ee0b584c99899d59d8c906")
+
     def test_temporal_json_and_saved_counts(self):
         summary = json.loads(self.page.text("summary-json"))
         saved = next(r for r in csv_rows("development_temporal_signatures.csv")
