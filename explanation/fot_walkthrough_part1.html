@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="FoT/TEP: un caso development seguito da serie a feature, soglie, firma e testo neutrale. Design, calibrazione ed esecuzione distinti. Parte 1, fino al §15.">
+<title>FoT, dentro il dato — Parte 1</title>
+<style>
+:root{--ink:#172c40;--muted:#4a6174;--paper:#f3f5f4;--white:#fff;--line:#cbd6da;--blue:#174e82;--teal:#08665b;--amber:#875013;--soft:#e9f3f0;--gold:#fff3dc;--red:#9d3035}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:22px}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif}a{color:var(--blue);text-underline-offset:3px}a:hover{color:var(--teal)}a:focus-visible,button:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--amber);outline-offset:4px}.skip{position:absolute;left:-9999px}.skip:focus{left:1rem;top:1rem;background:white;z-index:5;padding:.7rem}
+.layout{max-width:1440px;margin:auto;display:grid;grid-template-columns:246px minmax(0,1fr);gap:42px;padding:30px}aside{position:sticky;top:24px;height:calc(100vh - 48px);overflow:auto;font-size:14px}aside h2{font-size:15px}aside ol{padding-left:22px}aside li{margin:.65rem 0}aside a{text-decoration:none}.meta{font-size:13px;color:var(--muted)}main{min-width:0;max-width:1040px}header{padding:42px;background:#12364d;color:white;border-radius:18px;margin-bottom:30px}header a{color:#caf3ed}header h1{font-size:clamp(32px,4vw,52px);line-height:1.12;margin:16px 0}header p{max-width:760px}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:800}.subtitle{font-size:20px;color:#d9e9ee}
+section{background:white;border:1px solid var(--line);border-radius:14px;padding:30px;margin:26px 0}h2{font-size:29px;line-height:1.25;margin:8px 0 20px}h3{font-size:21px;line-height:1.35;margin:28px 0 12px}h4{font-size:17px;margin:18px 0 6px}p{margin:12px 0}ul,ol{padding-left:25px}li{margin:.4rem 0}code{font-size:.9em;overflow-wrap:anywhere}pre{background:#eef3f6;padding:20px;border-radius:9px;overflow:auto;font-size:14px;line-height:1.6}pre code{overflow-wrap:normal}.src{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin-top:24px}.note,.warning,.checkpoint{padding:16px 20px;border-left:4px solid var(--teal);background:var(--soft);margin:20px 0}.warning{border-color:var(--amber);background:var(--gold)}.checkpoint{background:#edf3fb;border-color:var(--blue)}.label{display:inline-block;padding:3px 9px;border-radius:5px;font-size:12px;font-weight:750;background:#e5eef7;color:var(--blue)}.design{background:var(--gold);color:var(--amber)}.runtime{background:var(--soft);color:var(--teal)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{padding:18px;border:1px solid var(--line);border-radius:10px}.card h3{margin:0 0 10px}.decision{display:grid;grid-template-columns:105px minmax(0,1fr);gap:7px 16px;background:#f7f8fa;padding:17px;border-radius:8px;margin:18px 0}.decision dt{font-weight:750}.decision dd{margin:0}.path{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:20px 0}.path span{padding:8px 12px;background:#edf3f6;border:1px solid var(--line);border-radius:6px}.path b{color:var(--teal)}
+.scroll{overflow-x:auto;margin:18px 0}table{width:100%;border-collapse:collapse;font-size:14px}caption{text-align:left;font-weight:750;margin-bottom:8px}th,td{padding:10px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#edf3f6}td.num,th.num{font-variant-numeric:tabular-nums;white-space:nowrap}.yes{color:var(--teal);font-weight:750}.no{color:var(--muted)}blockquote{margin:20px 0;padding:18px 22px;border-left:4px solid var(--blue);background:#edf3f6}.window-nav{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0}button,select{font:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:white;color:var(--ink)}button{cursor:pointer}button[aria-pressed="true"]{background:var(--blue);color:white;border-color:var(--blue)}button:disabled{cursor:default;opacity:.6}.cells{display:grid;grid-template-columns:repeat(8,minmax(54px,1fr));gap:6px;min-width:500px}.cell{border:1px solid var(--line);padding:10px 4px;text-align:center;border-radius:5px;font-size:13px}.cell.initial{background:var(--gold)}.cell.late{background:var(--soft)}details{margin:16px 0;padding:12px 16px;border:1px solid var(--line);border-radius:8px}summary{cursor:pointer;font-weight:700}.small{font-size:14px;color:var(--muted)}footer{font-size:14px;padding:18px 0 44px}.legend{display:flex;gap:12px;flex-wrap:wrap}.answer{padding:8px 0}.nowrap{white-space:nowrap}
+@media(max-width:1000px){.layout{grid-template-columns:1fr;padding:16px;gap:10px}aside{position:static;height:auto}aside ol{columns:2}aside .meta{display:none}header{padding:28px}.grid{grid-template-columns:1fr}}
+@media(max-width:580px){body{font-size:16px}section{padding:20px 16px}header{padding:24px 18px}h2{font-size:25px}.decision{grid-template-columns:1fr;gap:3px}.decision dd{margin-bottom:9px}aside ol{columns:1}pre{padding:12px}th,td{padding:8px}}
+@media print{aside,.window-nav,#lobo-control,.skip{display:none}.layout{display:block;padding:0}body{font-size:11pt;background:white}header{color:var(--ink);background:white;padding:0}.subtitle{color:var(--muted)}section{break-inside:auto;border:none;border-top:1px solid #888;padding:16px 0}h2,h3{break-after:avoid}table,pre,.card{break-inside:avoid}.scroll{overflow:visible}a{color:inherit}details{display:block}pre{white-space:pre-wrap}footer{padding:0}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Vai al contenuto</a>
+<div class="layout">
+<aside aria-label="Indice della guida">
+<p class="eyebrow">FoT / Explanation</p><h2>Segui il dato</h2>
+<ol>
+<li><a href="#contratto">Il protagonista e i confini</a></li>
+<li><a href="#perche">Perché TEP, perché V2</a></li>
+<li><a href="#dataset">File, blocchi, finestre</a></li>
+<li><a href="#design">Design: scegliere le misure</a></li>
+<li><a href="#baseline">Il riferimento Normal</a></li>
+<li><a href="#calibrazione">Calibrazione, passo per passo</a></li>
+<li><a href="#freeze">Che cosa viene congelato</a></li>
+<li><a href="#caso">Entriamo nel caso F1 / batch 1</a></li>
+<li><a href="#sequenza">Dalle 8 finestre alla firma</a></li>
+<li><a href="#testo">Il testo che viene davvero emesso</a></li>
+<li><a href="#evaluation">Che cosa valuta la Phase A</a></li>
+<li><a href="#heldout">Perché un nuovo held-out</a></li>
+<li><a href="#ponte">Il confine con la Phase B</a></li>
+<li><a href="#verifica">Verifica di comprensione e fonti</a></li>
+</ol>
+<p class="meta">Parte 1 · narrativa §0–15<br>Guida post-results, non un nuovo freeze.<br><a href="README.md">Indice e archivio pedagogico</a></p>
+</aside>
+<main id="main">
+<header>
+<p class="eyebrow">Federation over Text · Dentro il dato · Parte 1</p>
+<h1>Da un file di misure<br>a un testo che non diagnostica.</h1>
+<p class="subtitle">Un caso reale, otto finestre, nessun salto nascosto tra design, calibrazione ed esecuzione.</p>
+<p>Arriviamo al §15 della <a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md#s15">narrativa canonica</a>: il punto in cui la rappresentazione frozen può alimentare il reasoning. Non eseguiamo nuove analisi, non scegliamo nuove soglie e non anticipiamo una nuova diagnosi.</p>
+</header>
+
+<section id="contratto">
+<span class="label">Prima di partire</span><h2>01. Un filo conduttore, non un unico dataset usato per tutto</h2>
+<p>Il protagonista è <strong>F1, batch 1, file storico <code>mode1_1_1.xlsx</code></strong>. Lo seguiremo dalla forma del workbook alla tabella di feature, poi alla firma e al testo neutrale realmente salvato. Per vedere i passaggi senza 41 colonne contemporaneamente, ingrandiamo <strong>XMEAS-1</strong>; il programma continua comunque a considerare tutte le 41 XMEAS.</p>
+<div class="grid"><div class="card"><h3>Cosa significa “reale” qui</h3><p>I valori delle feature e il testo sono già negli artefatti development del repository. Le tabelle visuali arrotondano; i confronti usano la precisione conservata. Non disegniamo una curva raw inventata né presentiamo un esempio numerico sintetico come misurazione TEP.</p></div><div class="card"><h3>Cosa non è questo caso</h3><p>Non è un final held-out e non viene promosso a test. F1 batch 1 apparteneva al development, poteva essere ispezionato per il design e diventerà un esempio locale della Phase B. Il nuovo held-out è un insieme diverso.</p></div></div>
+<div class="path" aria-label="Trasformazioni del protagonista"><span>Workbook</span><b>→</b><span>8 × 41 righe di feature</span><b>→</b><span>evidenze temporali JSON</span><b>→</b><span>testo EXM-001</span></div>
+<p>Accanto al protagonista ci sono due percorsi necessari: <strong>N1–N5</strong> costruiscono riferimento e soglie; i <strong>nuovi run PBH</strong> saranno il test indipendente. Tenere distinti questi ruoli è parte della spiegazione, non una complicazione da eliminare.</p>
+<div class="note"><strong>Regola di lettura.</strong> “F1” e il filename compaiono qui per audit didattico offline. Non vengono inseriti nel testo emesso dal verbalizer. La guida non è un prompt diagnostico.</div>
+<p class="src">Fonti: <a href="../code/tep_analysis_v2/development_window_features.csv">feature development</a>; <a href="../phase_b/local_knowledge/local_examples.json">testo salvato, LKP-001 / EXM-001</a>; <a href="../phase_b/config/evaluator_side/local_example_sources.json">provenienza offline dell'esempio</a>.</p>
+</section>
+
+<section id="perche">
+<span class="label design">Motivazione · narrativa §0–6</span><h2>02. Prima del calcolo: quale problema stiamo risolvendo?</h2>
+<p>Il target del PhD è la diagnosi distribuita di sistemi <strong>fotovoltaici (PV)</strong>. Siti diversi possono avere esperienze locali non-IID: un nodo conosce alcuni eventi e non altri. FoT studia il trasferimento di conoscenza testuale fra peer, mantenendo locali i dati grezzi. TEP è un <strong>feasibility gate controllato</strong>, non il dominio applicativo finale.</p>
+<dl class="decision"><dt>Problema</dt><dd>Prima di studiare se un insight aiuta, dobbiamo sapere se il testo descrive fedelmente il dato.</dd><dt>Rischio</dt><dd>Se il verbalizer contiene già la diagnosi, il risultato LLM mescola rappresentazione e conoscenza fornita a priori.</dd><dt>Decisione</dt><dd>Separare Phase A deterministica (misura e descrizione) da Phase B (reasoning e federazione).</dd><dt>Conseguenza</dt><dd>Un buon testo non è ancora una classificazione corretta; una buona separabilità numerica non è accuracy FoT.</dd></dl>
+<h3>La lezione di V1</h3><p>Una deviazione standard alta può dipendere da uno spostamento di livello o da una rampa, non necessariamente da oscillazioni. Aggregare tutto il periodo post-onset nasconde quando i valori cambiano. Inoltre il precedente 5/5 aveva prototipi A/B/C/D già nel prompt: resta un sanity check, non validazione del trasferimento FoT.</p>
+<p><code>std_fault / std_normal</code> è un rapporto di <strong>deviazioni standard</strong>, non di varianze. Il V2 separa misure complementari e conserva il tempo. Non “corregge” questi problemi aggiungendo automaticamente FFT o wavelet.</p>
+<div class="warning">Questa guida spiega il PoC TEP. Non dimostra prestazioni PV, generalizzazione empirica cross-domain, assenza universale di negative transfer o superiorità rispetto a central ICL.</div>
+<p class="src"><a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md#s5">V1 storico</a> · <a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md#s6">Obiettivo V2</a> · <a href="../FOT_TEP_POC_FINAL_SYNTHESIS.md">Sintesi finale e limiti</a>.</p>
+</section>
+
+<section id="dataset">
+<span class="label design">Provenienza e unità · narrativa §3–4</span><h2>03. Un file, un canale, un blocco e una finestra non sono la stessa cosa</h2>
+<p>Lo snapshot esterno del dataset è <code>309b944f35ac440ff0c70616947ffe723c766e14</code>. L'audit ha verificato i nomi reali: dieci batch per fault, non i cinque ancora indicati nel vecchio README upstream. Il subset iniziale è F1/F8/F10/F13 + Normal.</p>
+<div class="scroll"><table><caption>Le unità con cui ragioniamo</caption><thead><tr><th>Oggetto</th><th>Cosa contiene</th><th>Non confonderlo con</th></tr></thead><tbody>
+<tr><td>Run / batch fault</td><td>Una simulazione da 0 a 50 h: 3001 timestamp, endpoint incluso.</td><td>Una singola finestra o una classe intera.</td></tr>
+<tr><td>XMEAS-1</td><td>Un canale misurato nel tempo. Ci sono 41 XMEAS simultanee.</td><td>41 esempi indipendenti.</td></tr>
+<tr><td>Normal N1…N10</td><td>Dieci blocchi cronologici di 50 h del workbook Normal di 500 h.</td><td>Dieci workbook o dieci simulazioni indipendenti.</td></tr>
+<tr><td>Finestra di 5 h</td><td>300 timestamp a un minuto, estremo destro escluso.</td><td>Un evento fisico nuovo o un run indipendente.</td></tr>
+</tbody></table></div>
+<p><code>mode1_normal_500.xlsx</code> ha 30001 righe: N1 = [0,50), N2 = [50,100), …, N10 = [450,500). Ogni blocco contiene 3000 righe; il punto a 500 h non appartiene a nessun blocco. Il loader corregge le intestazioni Normal erroneamente chiamate <code>xmv-1…xmv-41</code> solo nello schema noto Time + 41 segnali. Gli XMV aggiuntivi dei file fault non entrano nella rappresentazione a 41 XMEAS.</p>
+<div class="scroll"><table><caption>Il confine dei dati precede le decisioni</caption><thead><tr><th>Fase</th><th>Fault</th><th>Normal</th><th>Permesso metodologico</th></tr></thead><tbody>
+<tr><td>Development</td><td>Batch 1–5</td><td>N1–N5, [0,250)</td><td>Studiare e scegliere feature e regole; calibrare le soglie solo sui Normal.</td></tr>
+<tr><td>Validation Phase A</td><td>Batch 6–7</td><td>N6–N7, [250,350)</td><td>Applicare il frozen, descrivere gli esiti, non fare tuning.</td></tr>
+<tr><td>Test storico Phase A</td><td>Batch 8–10</td><td>N8–N10, [350,500)</td><td>Valutare il V2 già congelato; non riutilizzarlo come test untouched Phase B.</td></tr>
+<tr><td>Final held-out Phase B</td><td>Nuovi run</td><td>Nuovi run Normal</td><td>Identità congelate prima dell'uso diagnostico; percorso separato.</td></tr>
+</tbody></table></div>
+<p class="checkpoint"><strong>Dove siamo con il protagonista?</strong> Abbiamo identificato F1 batch 1 e il suo ruolo development. Non abbiamo ancora calcolato niente sul suo segnale. Le decisioni di design possono averlo considerato: per questo non verrà chiamato “test indipendente”.</p>
+<p class="src"><a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md#s4">Audit e split</a> · <a href="../code/tep_features.py">normalize_schema e iter_time_windows</a>.</p>
+</section>
+
+<section id="design">
+<span class="label design">Una volta · narrativa §7</span><h2>04. Scegliere le feature non è calcolarle sul caso</h2>
+<p><strong>Design:</strong> decidere quali misure descrivano aspetti distinti. <strong>Runtime:</strong> applicare quelle formule, ormai fissate, alle 300 osservazioni di ogni finestra e canale. Le soglie non sono dentro <code>tep_features.py</code>.</p>
+<div class="scroll"><table><caption>Quattro feature primarie, una descrittiva</caption><thead><tr><th>Misura</th><th>Formula / operazione</th><th>Cosa misura e cosa non conclude</th></tr></thead><tbody>
+<tr><td><code>shift_sigma</code></td><td>(media finestra − μ baseline) / σ baseline</td><td>Spostamento medio con segno; non assegna una classe.</td></tr>
+<tr><td><code>slope_sigma_h</code></td><td>Pendenza OLS della finestra / σ baseline</td><td>Andamento lineare locale in σ/h; da sola non dimostra drift persistente.</td></tr>
+<tr><td><code>residual_std_ratio</code></td><td>std dei residui dopo detrend lineare / std residua baseline</td><td>Variabilità rimasta dopo la retta; non equivale a oscillazione.</td></tr>
+<tr><td><code>diff_std_ratio</code></td><td>std delle prime differenze / std delle differenze baseline</td><td>Variazione campione-campione; non garantisce periodicità.</td></tr>
+<tr><td><code>raw_std_ratio</code></td><td>std finestra / σ baseline</td><td>Dispersione complessiva; conservata, ma senza soglia primaria.</td></tr>
+</tbody></table></div>
+<details><summary>Zoom sulle operazioni: dove vanno i 300 valori?</summary><p>Per un canale chiamiamo i dati <code>(tᵢ,xᵢ)</code>, i=1…300. La media usa tutti i valori. La pendenza OLS è <code>Σ(tᵢ−t̄)(xᵢ−x̄) / Σ(tᵢ−t̄)²</code>; i residui sono <code>xᵢ − [x̄ + slope·(tᵢ−t̄)]</code>. Le prime differenze sono i 299 valori <code>xᵢ−xᵢ₋₁</code>. Le std usano <code>ddof=1</code>. La derivata non viene ricostruita con FFT: sono operazioni time-domain fissate nel codice.</p></details>
+<dl class="decision"><dt>Problema</dt><dd>Step, rampa, variabilità lenta e noise possono aumentare la stessa std.</dd><dt>Rischio</dt><dd>Una singola feature riceve una diagnosi che non può identificare.</dd><dt>Decisione</dt><dd>Test sintetici e analisi development prima del freeze; mantenere misure complementari e sequenza temporale.</dd><dt>Conseguenza</dt><dd>Limiti espliciti: diff può perdere oscillazioni lente; uno step interno può contaminare diff e residui; detrend non cancella tutte le dinamiche non lineari.</dd></dl>
+<p>Le quattro feature non vengono “scelte di nuovo” guardando ogni F1 o ogni N6. Non si cambia il set per far funzionare un caso. La <strong>scelta</strong> è development; il <strong>calcolo</strong> ricorre su ogni finestra.</p>
+<p class="src"><a href="../code/tep_features.py">Formule frozen</a> · <a href="../code/test_features.py">Casi sintetici software</a> · <a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md#s7">Motivazioni delle feature</a>.</p>
+</section>
+
+<section id="baseline">
+<span class="label design">Riferimento, non soglia</span><h2>05. Rispetto a quale Normal?</h2>
+<p>Una media alta in unità fisiche non dice da sola quanto sia insolita per quel canale. La baseline fornisce, per ciascuna XMEAS, <strong>μ, σ, std delle differenze e std residua</strong>. Le feature usano questi riferimenti; la soglia interviene solo dopo.</p>
+<div class="grid"><div class="card"><h3>Durante la calibrazione di Ni</h3><p>Il blocco Ni da misurare viene escluso dalla baseline. Restano quattro blocchi, 200 h e 12000 timestamp. Si applica il <strong>leave-one-block-out</strong> (LOBO).</p></div><div class="card"><h3>Su un caso esterno alla baseline</h3><p>F1 batch 1, N6–N7 e i run successivi usano il riferimento dei <strong>cinque</strong> blocchi N1–N5: 250 h e 15000 timestamp. Il nuovo caso non contribuisce a stimarlo.</p></div></div>
+<details><summary>Una precauzione poco visibile: non inventare salti fra blocchi</summary><p>La media e la std sono calcolate sui valori pooled. Per diff, invece, si calcolano le differenze <em>dentro ciascun blocco</em> (2999 per blocco) e poi si uniscono: nessuna differenza artificiale dall'ultimo campione di un blocco al primo del successivo. Per i residui, si detrenda linearmente ogni blocco Normal di 50 h e si uniscono i residui. Il detrend della finestra del caso resta un'operazione separata su 5 h. Non si adatta una retta attraverso un eventuale buco lasciato da Ni escluso.</p></details>
+<dl class="decision"><dt>Problema</dt><dd>Il Normal usato per misurare le anomalie potrebbe contenere se stesso nel riferimento.</dd><dt>Rischio</dt><dd>Auto-confronto e contaminazione del criterio; misura development eccessivamente favorevole.</dd><dt>Decisione</dt><dd>Escludere l'intero Ni quando si calibra su Ni, non soltanto la finestra corrente.</dd><dt>Conseguenza</dt><dd>Il riferimento della calibrazione cambia tra i cinque giri, ma non incorpora mai il blocco valutato.</dd></dl>
+<div class="warning"><strong>Non applicato a N6–N7.</strong> In validation N6 e N7 sono già fuori dal riferimento N1–N5: non si fa un nuovo LOBO su N1–N7, non si adattano soglie, non si aggiorna la baseline con la validation. LOBO compare anche nei confronti Normal development, non è una regola “escludi un blocco da ogni caso a runtime”.</div>
+<p>Il riferimento non viene stimato dalle prime 10 h del file fault. Il loader può ricalcolare deterministicamente le statistiche dei medesimi N1–N5 quando viene avviato: questo non è apprendimento da nuovi casi né ricalibrazione online.</p>
+<p class="src"><a href="../code/tep_features.py">compute_baseline_stats_from_blocks</a> · <a href="../code/tep_verbalize_v2.py">load_development_baseline</a> · <a href="../tep_validation_v2/run_validation.py">Normal validation: make_normal_cases</a>.</p>
+</section>
+
+<section id="calibrazione">
+<span class="label design">Una volta · solo Normal development · narrativa §8</span><h2>06. Da cinque blocchi a quattro soglie</h2>
+<dl class="decision"><dt>Problema</dt><dd>Servono criteri per distinguere una misura usuale da una sopra soglia.</dd><dt>Rischio</dt><dd>Scegliere le soglie sui fault favorisce le loro firme; scegliere su validation/test fa contribuire l'esame al criterio con cui sarà giudicato.</dd><dt>Decisione</dt><dd>Calibrare solo su N1–N5, con LOBO e massimo sulle 41 XMEAS per finestra.</dd><dt>Conseguenza</dt><dd>La soglia non usa F1 del nostro esempio, né N6–N10 o fault validation/test. L'influenza del development fault riguarda il design delle feature, non questa calibrazione numerica.</dd></dl>
+<h3>Giro 1: N1 fornisce le finestre, N2–N5 il riferimento</h3>
+<p>Ogni blocco completo di 50 h diventa dieci finestre da 5 h. Per N1: [0,5), [5,10), …, [45,50). Si calcolano 41 righe di feature per finestra, senza ancora attribuire “fault”. Per ogni primaria si conserva il massimo su quei 41 valori (valore assoluto per shift e slope).</p>
+<div id="lobo-control"><label for="held-block">Guarda un giro della calibrazione, senza cambiare le regole:</label> <select id="held-block"><option value="1">N1</option><option value="2">N2</option><option value="3">N3</option><option value="4">N4</option><option value="5">N5</option></select></div>
+<div class="checkpoint" id="lobo-result" aria-live="polite">Misuro N1: 10 finestre in [0,50). Baseline: N2, N3, N4, N5. N1 è escluso interamente; N6–N10 non partecipano.</div>
+<div class="scroll"><table><caption>Primo score reale: N1, finestra [0,5), massimi sulle 41 XMEAS</caption><thead><tr><th>Feature</th><th>Massimo osservato</th></tr></thead><tbody><tr><td>|shift|</td><td>0.42743057756252734</td></tr><tr><td>|slope|</td><td>0.3847410369740441</td></tr><tr><td>residual</td><td>1.1085915426465318</td></tr><tr><td>diff</td><td>1.237605200440601</td></tr></tbody></table></div>
+<p>Per esempio XMEAS-1 in quella finestra ha shift 0.3856800390104599; il massimo di sistema è 0.42743057756252734, quindi appartiene a un altro canale. Il massimo non è la media delle XMEAS. Canali differenti possono produrre i massimi delle quattro feature.</p>
+<h3>Giri 2–5, poi l'ordinamento</h3>
+<ol><li>Si ripete escludendo N2, poi N3, N4, N5.</li><li><strong>5 blocchi × 10 finestre = 50 score per feature.</strong> Prima dei massimi ci sono 50 × 41 = 2050 righe variabile-finestra, non 2050 unità indipendenti.</li><li>Per ciascuna primaria si ordinano i suoi 50 massimi in ordine crescente.</li><li><code>k = ceil((50+1) × (1−0.05)) = 49</code>: si prende il 49° valore, il penultimo. Non una soglia per ogni canale: una soglia per feature, applicata a tutte le XMEAS.</li><li>L'attivazione richiede <code>&gt;</code>, non <code>≥</code>. Il valore uguale alla soglia non la supera.</li></ol>
+<div class="scroll"><table><caption>Soglie scientifiche frozen, precisione completa</caption><thead><tr><th>Confronto</th><th>Soglia</th></tr></thead><tbody>
+<tr><td><code>abs(shift_sigma) &gt;</code></td><td data-threshold="abs_shift_sigma">1.9695333234149084</td></tr>
+<tr><td><code>abs(slope_sigma_h) &gt;</code></td><td data-threshold="abs_slope_sigma_h">0.7468621213669596</td></tr>
+<tr><td><code>residual_std_ratio &gt;</code></td><td data-threshold="residual_std_ratio">1.3681613543196571</td></tr>
+<tr><td><code>diff_std_ratio &gt;</code></td><td data-threshold="diff_std_ratio">1.4051245046201666</td></tr>
+</tbody></table></div>
+<p>Per |shift|, il massimo ordinato (50°) è 2.0050511992352518; il 49° è 1.9695333234149084. Perciò solo uno dei 50 score supera strettamente la soglia shift nello stesso insieme di calibrazione.</p>
+<div class="warning"><strong>α=0.05 non significa “ogni Normal sarà negativo”.</strong> Nei development si osservano 1/50 positivi per ciascuna primaria e 3/50 su almeno una primaria. Sono frequenze nello stesso insieme usato per calibrare, non performance indipendenti. Le finestre sono temporalmente dipendenti; la costruzione conformal-style non viene venduta come garanzia distribution-free. Il massimo tratta i 41 canali per feature, non l'unione delle quattro feature.</div>
+<p class="src"><a href="../code/calibrate_thresholds_v2.py">Procedura riproducibile LOBO e rank</a> · <a href="../code/tep_analysis_v2/normal_5h_variable_features.csv">Feature Normal per canale</a> · <a href="../code/tep_analysis_v2/normal_5h_window_maxima.csv">50 massimi salvati</a> · <a href="../code/tep_analysis_v2/threshold_calibration.json">Registro della calibrazione</a>.</p>
+</section>
+
+<section id="freeze">
+<span class="label design">Confine temporale, non un calcolo sul caso</span><h2>07. Congelare significa impedire che l'esame riscriva la regola</h2>
+<p>Prima di validation vengono fissati formule, sorgente del riferimento, finestra di 5 h, soglie, rappresentazione temporale, renderer e evaluator. Il tag <code>verbalizer-v2-pre-validation</code> punta a <code>3fd960a192bafacbaabce9471e3c3614d6b2d2db</code>.</p>
+<div class="grid"><div class="card"><h3>Si decide una volta</h3><ul><li>Quali feature usare e cosa significano.</li><li>Quali dati possono formare la baseline.</li><li>Come calibrare e quali sono le soglie.</li><li>Come contare le fasi e produrre il testo.</li></ul></div><div class="card"><h3>Si esegue su ogni caso</h3><ul><li>Caricare e controllare lo schema.</li><li>Finestrare l'intervallo previsto.</li><li>Calcolare feature e applicare le soglie.</li><li>Costruire firma, ranking e testo.</li></ul></div></div>
+<p class="checkpoint"><strong>Torniamo a F1 batch 1.</strong> Ora usiamo le regole congelate per spiegare l'esempio development. È una lettura didattica post-freeze, non la pretesa che questo caso fosse sconosciuto durante il design.</p>
+<p class="src"><a href="../VERBALIZER_V2_FREEZE.md">Specifica, semantica e hash frozen</a> · <a href="../code/verbalizer_config_v2.json">Config operativa</a>.</p>
+</section>
+
+<section id="caso">
+<span class="label runtime">Runtime · stesso protagonista</span><h2>08. Il file entra, una finestra esce</h2>
+<p>Il loader conserva Time + 41 XMEAS, verifica timestamp ordinati e assenza di duplicati e valori mancanti, e ignora le colonne XMV/cost aggiuntive per questa rappresentazione. Il dato non viene già trasformato in una classe: rimane una tabella temporale.</p>
+<h3>Perché cominciamo a 10 h?</h3>
+<p>Il sorgente verificato instrada <code>dist</code> al data input di un Variable Transport Delay; il secondo ingresso riceve la costante <strong>10</strong>. Prima del ritardo, l'output iniziale è zero (default compatibile, non parametro esplicito nel vecchio modello). Il tempo del simulatore è in ore. Questo dimostra l'iniezione a 10 h per i fault; non lo deduciamo dalla curva né dal valore di MaximumDelay.</p>
+<div class="path"><span>[0,10): pre-fault, escluso</span><b>→</b><span>[10,50): osservato</span><b>→</b><span>t=50: endpoint escluso</span></div>
+<p>Dal file di 3001 timestamp conserviamo 2400 righe post-injection, non le prime 600 pre-fault né l'endpoint finale. <strong>40 h ÷ 5 h = 8 finestre</strong>. Nessuna finestra viene selezionata perché “sembra più diagnostica”.</p>
+<div class="scroll"><div class="cells" aria-label="Otto finestre e fasi"><div class="cell initial">W1<br>[10,15)</div><div class="cell initial">W2<br>[15,20)</div><div class="cell">W3<br>[20,25)</div><div class="cell">W4<br>[25,30)</div><div class="cell">W5<br>[30,35)</div><div class="cell">W6<br>[35,40)</div><div class="cell late">W7<br>[40,45)</div><div class="cell late">W8<br>[45,50)</div></div></div>
+<p class="small">Prime due = fase iniziale [10,20); centrali = [20,40); ultime due = fase tardiva [40,50). “Iniziale” non significa pre-fault.</p>
+<div class="scroll"><table><caption>8 o 10? Dipende dall'uso, non da una proprietà universale del file</caption><thead><tr><th>Contesto</th><th>Intervallo</th><th>Finestre</th></tr></thead><tbody><tr><td>Fault Phase A</td><td>[10,50)</td><td>8</td></tr><tr><td>Normal calibrazione / valutazione Phase A</td><td>Blocco completo di 50 h</td><td>10 per blocco</td></tr><tr><td>Normal N6–N7 validation</td><td>[250,300), [300,350)</td><td>10 + 10</td></tr><tr><td>Final held-out Phase B, inclusi i Normal</td><td>[10,50) in ogni nuovo run</td><td>8 per caso</td></tr></tbody></table></div>
+<p>La geometria Phase B è uniforme anche per i Normal; non implica un'iniezione di fault nel Normal. È un'anticipazione necessaria per non trasformare “otto finestre” in una regola assoluta fault-only. Anche gli esempi locali Normal Phase B sono serializzati su 8 finestre dal loro builder.</p>
+<h3>Zoom su XMEAS-1: da W1 alle otto finestre</h3>
+<p>W1 contiene 300 valori di XMEAS-1, a t=10:00, 10:01, …, 14:59. Le formule del §04 li riducono a cinque descrittori. La baseline è N1–N5, non W1 stessa. I valori seguenti provengono dal CSV già salvato.</p>
+<noscript><div class="note">JavaScript disabilitato: l'esempio W1, le tabelle complete, il JSON e il testo restano leggibili. Solo il selettore delle finestre non è attivo.</div></noscript>
+<div class="window-nav" role="group" aria-label="Scegli la finestra dell'esempio" id="window-buttons"></div>
+<div aria-live="polite"><h4 id="window-title">W1 · [10,15) h · XMEAS-1</h4><div class="scroll"><table><caption>Valori reali e confronto a precisione completa; visualizzazione arrotondata</caption><thead><tr><th>Feature</th><th>Valore</th><th>Soglia</th><th>Esito</th></tr></thead><tbody id="feature-comparison"><tr><td>shift</td><td>+76.673538</td><td>1.969533</td><td>|valore| sopra soglia</td></tr><tr><td>slope</td><td>+31.153281</td><td>0.746862</td><td>|valore| sopra soglia</td></tr><tr><td>residual</td><td>10.785178</td><td>1.368161</td><td>sopra soglia</td></tr><tr><td>diff</td><td>1.306806</td><td>1.405125</td><td>non sopra soglia</td></tr><tr><td>raw dispersion</td><td>46.303018</td><td>nessuna primaria</td><td>descrittiva</td></tr></tbody></table></div><p id="window-verdict"><strong>W1:</strong> level=true, trend=true, residual=true, diff=false. Quindi rapid=false: la congiunzione residual AND diff non è soddisfatta.</p></div>
+<p>Un valore shift di +76.67 significa che la media della finestra dista +76.67 deviazioni standard <em>della baseline</em> dalla media Normal. Non significa che ogni campione abbia quel valore né che la deviazione standard della finestra sia 76.67.</p>
+<p class="warning"><strong>Il segno non decide da solo l'attivazione.</strong> In W2 slope è −16.61: supera ugualmente la soglia in valore assoluto e il segno negativo viene conservato. In W6 −0.754910 resta oltre 0.746862; arrotondare prima del confronto può essere fuorviante. Il selettore non modifica soglie o dati.</p>
+<p class="src"><a href="../INJECTION_TIME_VERIFICATION.md">Prova injection</a> · <a href="../code/tep_features.py">analyze_window</a> · <a href="../code/tep_analysis_v2/development_window_features.csv">Righe F1, batch 1, XMEAS-1</a> · <a href="../phase_b/final_evaluation/generate_frozen_verbalizations.py">Geometria uniforme final held-out</a> · <a href="../phase_b/local_knowledge/build_local_examples.py">Builder esempi Phase B</a>.</p>
+</section>
+
+<section id="sequenza">
+<span class="label runtime">Runtime · narrativa §9</span><h2>09. Otto misure non diventano una sola media</h2>
+<p>Il calcolo è ripetuto per <strong>8 finestre × 41 canali = 328 righe</strong>. Ogni riga ha cinque descrittori numerici (quattro primari + raw) e poi i relativi flag. Qui seguiamo soltanto le otto righe di XMEAS-1; non le scambiamo per tutto il processo.</p>
+<div class="scroll"><table id="all-windows"><caption>XMEAS-1, F1 batch 1 — tutti i valori, arrotondati a tre decimali</caption><thead><tr><th>W</th><th>Ore</th><th>shift</th><th>slope</th><th>residual</th><th>diff</th><th>raw</th></tr></thead><tbody>
+<tr><td>1</td><td>[10,15)</td><td>76.674</td><td>31.153</td><td>10.785</td><td>1.307</td><td>46.303</td></tr>
+<tr><td>2</td><td>[15,20)</td><td>92.534</td><td>−16.613</td><td>5.093</td><td>1.187</td><td>24.549</td></tr>
+<tr><td>3</td><td>[20,25)</td><td>81.763</td><td>7.753</td><td>1.984</td><td>0.950</td><td>11.382</td></tr>
+<tr><td>4</td><td>[25,30)</td><td>86.838</td><td>−4.274</td><td>1.203</td><td>0.975</td><td>6.294</td></tr>
+<tr><td>5</td><td>[30,35)</td><td>83.421</td><td>1.646</td><td>0.647</td><td>1.000</td><td>2.465</td></tr>
+<tr><td>6</td><td>[35,40)</td><td>85.581</td><td>−0.755</td><td>0.691</td><td>1.054</td><td>1.290</td></tr>
+<tr><td>7</td><td>[40,45)</td><td>85.131</td><td>0.537</td><td>0.877</td><td>0.978</td><td>1.168</td></tr>
+<tr><td>8</td><td>[45,50)</td><td>85.120</td><td>0.123</td><td>0.695</td><td>0.912</td><td>0.715</td></tr>
+</tbody></table></div>
+<div class="scroll"><table><caption>Dalla sequenza ai conteggi: +/− = attiva con quel segno; 1 = attiva; · = non attiva</caption><thead><tr><th>Feature</th><th>W1…W8</th><th>Attive / totale</th><th>Initial / late</th><th>Run massimo</th></tr></thead><tbody>
+<tr><td>level</td><td><code>+ + + + + + + +</code></td><td>8/8 = 1</td><td>2/2 · 2/2</td><td>8 con stesso segno</td></tr>
+<tr><td>trend</td><td><code>+ − + − + − · ·</code></td><td>6/8 = 0.75</td><td>2/2 · 0/2</td><td>1 con stesso segno</td></tr>
+<tr><td>residual</td><td><code>1 1 1 · · · · ·</code></td><td>3/8 = 0.375</td><td>2/2 · 0/2</td><td>3 consecutive</td></tr>
+<tr><td>diff</td><td><code>· · · · · · · ·</code></td><td>0/8</td><td>0/2 · 0/2</td><td>0</td></tr>
+<tr><td>rapid = residual ∧ diff</td><td><code>· · · · · · · ·</code></td><td>0/8</td><td>0/2 · 0/2</td><td>0</td></tr>
+</tbody></table></div>
+<h3>Come leggere gli indicatori senza attribuire diagnosi</h3>
+<ul><li><code>active_fraction</code>: finestre sopra soglia / tutte le finestre (trend: 6/8).</li><li><code>positive_count</code> e <code>negative_count</code>: segni delle <em>sole finestre attive</em> (trend: 3 e 3).</li><li><code>sign_consistency</code>: max(positivi, negativi) / attive (trend: 3/6 = 0.5, non 3/8). Se non ci sono attivazioni firmate, è <code>null</code>.</li><li><code>longest_same_sign_run</code>: conta consecutività e coerenza di segno, non solo quante finestre sono attive. Le sei slope attive alternano segno: run=1, non 6.</li><li><code>early_active</code> / <code>late_active</code>: almeno una attivazione nelle prime / ultime due finestre. I conteggi conservano se si tratta di 1/2 o 2/2.</li><li><code>first_active_window</code> / <code>last_active_window</code>: inizio delle finestre interessate. Level: 10 e 45 h; l'ultima finestra termina a 50 h. Non sono timestamp precisi di rilevazione del guasto.</li></ul>
+<h3>Il JSON, con un estratto verificabile</h3>
+<p>Questo è un <strong>estratto</strong> della firma reale di XMEAS-1, non il JSON intero a 41 canali. Il JSON completo conserva anche le feature per finestra, fasi e summary di sistema.</p>
+<pre id="summary-json"><code>{
+  "level": {
+    "n_active_windows": 8, "active_fraction": 1.0,
+    "positive_count": 8, "negative_count": 0,
+    "sign_consistency": 1.0, "longest_same_sign_run": 8,
+    "first_active_window": 10.0, "last_active_window": 45.0,
+    "early_active": true, "late_active": true
+  },
+  "trend": {
+    "n_active_windows": 6, "active_fraction": 0.75,
+    "positive_count": 3, "negative_count": 3,
+    "sign_consistency": 0.5, "longest_same_sign_run": 1,
+    "first_active_window": 10.0, "last_active_window": 35.0,
+    "early_active": true, "late_active": false
+  },
+  "residual_variability": {
+    "n_active_windows": 3, "active_fraction": 0.375,
+    "longest_run": 3, "initial_active_count": 2,
+    "intermediate_active_count": 1, "late_active_count": 0
+  }
+}</code></pre>
+<details><summary>Neutralità del testo non significa rinominare retroattivamente tutto il JSON</summary><p>Il JSON frozen conserva anche chiavi storiche quali <code>settling_transient</code> e <code>strict_global_drift</code>. Il renderer factual-first non le trasforma automaticamente in diagnosi. Non si modifica il frozen per farlo apparire più neutro: si distingue ciò che il JSON contiene da ciò che l'LLM riceve.</p></details>
+<p class="src"><a href="../code/tep_verbalize_v2.py">_signed_summary, _unsigned_summary, _variable_signature</a> · <a href="../code/tep_analysis_v2/development_temporal_signatures.csv">Summary development già salvati</a>.</p>
+</section>
+
+<section id="testo">
+<span class="label runtime">Runtime · dal JSON a una vista selettiva</span><h2>10. Ecco il testo vero: perché ora compare XMEAS-20?</h2>
+<p>Finora abbiamo ingrandito XMEAS-1. Il renderer considera tutte le 41 variabili e ordina separatamente le evidenze per feature: numero di finestre attive, attività tardiva, longest run pertinente e magnitudine massima. Tiene fino a quattro variabili dominanti per sezione nel summary; nel testo usa la prima per ciascuna feature, più la massima dispersione complessiva.</p>
+<div class="scroll"><table><caption>Variabile scelta dal renderer per ciascuna frase del nostro caso</caption><thead><tr><th>Frase</th><th>Canale</th><th>Perché serve mostrarlo</th></tr></thead><tbody><tr><td>level e trend</td><td>XMEAS-1</td><td>È dominante in entrambe le sezioni.</td></tr><tr><td>residual</td><td>XMEAS-20</td><td>Il focus didattico XMEAS-1 non sostituisce il ranking sull'intero caso.</td></tr><tr><td>diff e congiunzione rapid</td><td>XMEAS-10</td><td>Diff può essere inattiva su XMEAS-1 ma attiva altrove.</td></tr><tr><td>massima raw dispersion</td><td>XMEAS-1</td><td>Massimo rapporto std=46.30; non etichetta un'oscillazione.</td></tr></tbody></table></div>
+<blockquote id="neutral-text">Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 8/8 finestre, sempre con segno positivo; il run più lungo con segno coerente comprende 8 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-1 supera la soglia di pendenza in 6/8 finestre, con segno positivo in 3 e negativo in 3; il run più lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 10.0 h all'ultima a 35.0 h. XMEAS-20: variabilità residua dopo rimozione del trend lineare sopra soglia in 4/8 finestre; 2/2 nella fase iniziale e 0/2 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 1/8 finestre; 1/2 nella fase iniziale e 0/2 nelle ultime finestre. Su XMEAS-10, residual e diff superano simultaneamente le rispettive soglie in 1/8 finestre, incluse 0/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-1 (rapporto tra deviazioni standard 46.30).</blockquote>
+<p>È il testo salvato per <code>EXM-001</code>. Non contiene F1, batch, filename, pseudolabel o una conclusione di fault. Il wrapper dell'esempio locale può associargli una pseudolabel: quella è conoscenza etichettata per la Phase B, non un'inferenza fatta dal verbalizer.</p>
+<dl class="decision"><dt>Problema</dt><dd>Il JSON è ricco ma non è l'interfaccia diagnostica prevista per l'LLM.</dd><dt>Rischio</dt><dd>“Serializzazione” potrebbe far pensare a una trascrizione lossless di tutti i valori; oppure a una diagnosi già incorporata.</dd><dt>Decisione</dt><dd>Una vista testuale deterministica e selettiva, con fatti quantitativi e temporali osservati.</dd><dt>Conseguenza</dt><dd>Il JSON conserva più dettaglio del testo. L'LLM non vede le 328 righe numeriche né riceve automaticamente “transiente” o “drift persistente”.</dd></dl>
+<div class="checkpoint"><strong>Il protagonista ha completato la Phase A.</strong> File → intervallo → finestre → feature → flag → firma → testo. Non abbiamo calcolato accuracy, non abbiamo fatto una chiamata LLM e non abbiamo diagnosticato F1 a partire dal testo.</div>
+<p class="src"><a href="../code/tep_verbalize_v2.py">_top_names e render_text</a> · <a href="../phase_b/local_knowledge/local_examples.json">EXM-001: testo frozen già salvato</a>.</p>
+</section>
+
+<section id="evaluation">
+<span class="label">Controllo offline · narrativa §10–11</span><h2>11. Il JSON e il testo prendono strade diverse</h2>
+<div class="grid"><div class="card"><h3>JSON → evaluator Phase A</h3><p>Si confrontano firme strutturate fra batch: stabilità intra-classe, separabilità inter-classe, variabili dominanti. Le label servono a raggruppare offline, non a produrre una predizione.</p></div><div class="card"><h3>Testo → futuro reasoner Phase B</h3><p>Il testo descrive il caso. La conoscenza per assegnare una pseudoclasse proverrà da esempi locali e insight. È un altro layer e un'altra domanda sperimentale.</p></div></div>
+<h3>Che cosa significa “similarità” qui?</h3><p>L'evaluator costruisce 17 componenti per XMEAS, quindi 41 × 17 = 697. Level e trend contribuiscono ciascuno con active fraction, attività firmata normalizzata, late fraction e longest same-sign run normalizzato; residual, diff e rapid contribuiscono ciascuno con fraction, late fraction e longest run normalizzato.</p>
+<p>Le frazioni e i run sono normalizzati dai conteggi del caso, non da statistiche per classe. L'attività firmata è <code>((positivi−negativi)/n_windows + 1)/2</code>. Tutte le componenti sono in [0,1]. <code>similarity = 1 − mean(abs(a−b))</code>, con pesi uguali. Jaccard confronta set top-4 per feature; due set vuoti danno valore non definito, non un accordo perfetto arbitrario.</p>
+<p class="note"><strong>Due grandezze diverse nel nostro esempio.</strong> Per trend: sign consistency = 3/6 = 0.5; la componente “signed activity” dell'evaluator = ((3−3)/8 + 1)/2 = 0.5. Qui coincidono per caso, ma hanno formule e significati differenti. Per level 8 positivi su 8: entrambe valgono 1.</p>
+<h3>Prima validation, poi test storico, senza ritocchi</h3><p>Dopo il freeze si applicano le stesse regole ai batch 6–7 e N6–N7, quindi agli 8–10 e N8–N10. I report sono descrittivi, senza soglie retrospettive PASS/FAIL. Nel Normal validation <strong>any-primary=4/20</strong> contro 3/50 development: si conserva l'osservazione, non si ricalibra per farla sparire.</p>
+<dl class="decision"><dt>Problema</dt><dd>Una rappresentazione stabile sul development può cambiare su nuovi run.</dd><dt>Rischio</dt><dd>Aggiustarla dopo ogni errore rende “validation” un secondo development.</dd><dt>Decisione</dt><dd>Congelare prima e confrontare distribuzioni, ricorrenza e struttura temporale fuori development.</dd><dt>Conseguenza</dt><dd>Si documentano limiti e variazioni. La misura non diventa classifier accuracy e non autorizza V2.1 automatica.</dd></dl>
+<p>Le finestre non sono repliche fisiche indipendenti. Il test storico conclude la Phase A, ma non può essere presentato come untouched in una Phase B progettata dopo averlo analizzato.</p>
+<p class="src"><a href="../VERBALIZER_V2_FREEZE.md">17 componenti e metriche</a> · <a href="../code/evaluate_verbalizer_v2.py">Evaluator frozen</a> · <a href="../tep_validation_v2/validation_report.md">Report validation</a> · <a href="../tep_test_v2/test_report.md">Report test storico Phase A</a>.</p>
+</section>
+
+<section id="heldout">
+<span class="label design">Un altro insieme di dati · narrativa §12–14</span><h2>12. Il nostro esempio non può diventare il nuovo esame</h2>
+<p>F1 batch 1 resta development; persino i vecchi batch 8–10 erano già stati aperti nella Phase A. Per la final evaluation FoT si creano nuove repliche, senza selezionarle in base a quanto “funzionano” sul verbalizer.</p>
+<dl class="decision"><dt>Problema</dt><dd>I pattern del test storico sono ormai noti.</dd><dt>Rischio</dt><dd>Prompt, insight e controlli possono essere influenzati anche senza inserire label esplicite nel prompt.</dd><dt>Decisione</dt><dd>Generare nuovi run, controllarne solo l'integrità meccanica prima dell'uso diagnostico, congelare manifest e hash.</dd><dt>Conseguenza</dt><dd>Il final held-out è un set distinto. Non produce le soglie né gli insight development.</dd></dl>
+<h3>Non basta premere “simula”: serve una provenienza eseguibile</h3><p>Lo snapshot dataset <code>309b944f…</code> aggiunge un layer custom setpoint non self-contained nel workflow standard. Il generatore held-out usa una copia isolata del parent diretto <code>a0413e16c940f0fc8b554d6a86248020d7fb7527</code>. L'audit documenta comparabilità di plant, controllo, stato iniziale e routing standard: non è una sostituzione arbitraria del benchmark.</p>
+<ul><li>Solver <code>ode45</code>, start 0, stop 50, <code>Ts_save=1/60</code> h; il passo di salvataggio non è il passo interno del solver.</li><li>Due ingressi del delay distinti: dati <code>dist</code> e ritardo costante 10. <code>MaximumDelay=20</code> è capacità, non il tempo di iniezione.</li><li>La S-function riceve successivi valori di <code>rand()</code>. Lo stato iniziale RNG non fu registrato: non si promette rigenerazione bitwise dei workbook.</li></ul>
+<div class="scroll"><table><caption>Nuovo set congelato: 15 casi fisici, non le otto finestre del protagonista</caption><thead><tr><th>Gruppo offline</th><th>Repliche nuove</th><th>Numero casi</th></tr></thead><tbody><tr><td>Normal</td><td>Run 12, 13, 14</td><td>3</td></tr><tr><td>F1</td><td>Run 11, 12, 13</td><td>3</td></tr><tr><td>F8</td><td>Run 11, 12, 13</td><td>3</td></tr><tr><td>F10</td><td>Run 11, 12, 13</td><td>3</td></tr><tr><td>F13</td><td>Run 11, 12, 13</td><td>3</td></tr></tbody></table></div>
+<p>Ogni workbook finale: vero XLSX, Sheet1, 3001 righe dati × 54 colonne (Time + 41 XMEAS + 12 XMV), 0–50 h inclusi, numeri finiti. Manifest: filename, size e SHA-256; identità PBH-001…PBH-015. Tag held-out: <code>phase-b-heldout-frozen</code>, commit <code>86baaa65e72cea22ecb89dd0e7b213aea5a1284b</code>.</p>
+<details><summary>Perché questi controlli non sono già una valutazione diagnostica?</summary><p>“3001 righe”, “hash coincidente” o “nessun NaN” attestano identità e completezza; non dicono se la firma è facile, corretta o riconoscibile. Prima del freeze non si cercano run più favorevoli. Un XLSX valido non significa processo sano.</p><p>La generazione documenta un early stop F6 fuori dal subset finale, non rigenerato; un problema di scrittura CSV con estensione XLSX fu corretto prima del freeze. Restano limiti di replay: stato RNG e script separati F1-run11 / Normal-run14 non preservati. L'hash identifica i bytes valutati, non risolve questi limiti.</p></details>
+<p class="src"><a href="../phase_b/heldout/SIMULATOR_PARENT_AUDIT.md">Audit parent</a> · <a href="../phase_b/heldout/HELDOUT_GENERATION_SUMMARY.md">Generazione e caveat</a> · <a href="../phase_b/heldout/PHASE_B_HELDOUT_FREEZE.md">Freeze held-out</a> · <a href="../phase_b/heldout/phase_b_heldout_manifest.csv">Manifest</a>.</p>
+</section>
+
+<section id="ponte">
+<span class="label">Punto di arresto · narrativa §15</span><h2>13. Il dato arriva al confine con il reasoning</h2>
+<p>Ora possiamo formulare la domanda FoT: <strong>a verbalizer e LLM fissi, la conoscenza testuale di peer aiuta su classi localmente unseen?</strong> Non è la domanda a cui risponde la sola Phase A.</p>
+<div class="grid"><div class="card"><h3>Il nostro F1 batch 1</h3><p>Il suo testo è un esempio development, EXM-001. Insieme alla label opaca nel wrapper diventa conoscenza locale di un agente. Non diventa un test finale e non genera una predizione scientifica dentro questa guida.</p></div><div class="card"><h3>Un futuro caso da diagnosticare</h3><p>È un altro run del final held-out, con un altro testo neutrale ottenuto dal V2 frozen. Riceve conoscenza già preparata; non modifica gli insight, la baseline o le soglie.</p></div></div>
+<h3>I tre ingressi da non fondere in una sola freccia</h3>
+<ol><li><strong>Testo del caso da valutare:</strong> descrive solo le sue evidenze.</li><li><strong>Esempi locali etichettati:</strong> forniscono la conoscenza disponibile presso il nodo.</li><li><strong>Insight peer, soltanto B/E:</strong> forniscono conoscenza testuale derivata da development di altri nodi.</li></ol>
+<p>Il reasoner non riceve workbook raw o JSON numerico strutturato. Fra A/B/E lo stesso agent-case mantiene lo stesso testo e gli stessi esempi locali; varia il blocco peer: assente in A, genuino in B, con associazioni pseudolabel corrotte in E.</p>
+<p class="warning"><strong>Non generare insight dal caso held-out che si sta giudicando.</strong> Le frecce “caso → ragionamento → insight condiviso” di alcune immagini storiche possono suggerirlo, ma non descrivono l'esecuzione finale. La libreria finale è development-only e viene congelata prima dell'inference.</p>
+<p>Il freeze del verbalizer impedisce di attribuire alla federazione un miglioramento dovuto invece a nuove feature o a un renderer cambiato. L'evaluator con ground truth resta un componente offline separato, non un quarto ingresso del prompt.</p>
+<div class="checkpoint"><strong>STOP della Parte 1.</strong> Ci fermiamo al contratto d'ingresso Phase B. La Parte 2 potrà seguire pseudolabel, topologia non-IID, generazione degli insight, A/B/E, parser, retry, R=3, freeze delle prediction e valutazione. Non li comprimiamo in una scatola che sembri già spiegarli.</div>
+<p class="small">Orientamento, non risultato nuovo: B−A resta il contrasto primario preregistrato; B−E il contrasto specificity/mechanistic, non primary. La Phase B è già completata nel repository; questo arresto è pedagogico, non lo stato storico del progetto.</p>
+<p class="src"><a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md#s15">§15: dalla Phase A alla Phase B</a> · <a href="../phase_b/PHASE_B_PROTOCOL_FREEZE.md">Protocollo normativo</a> · <a href="../phase_b/conditions/builders.py">Separazione degli input al prompt</a>.</p>
+</section>
+
+<section id="verifica">
+<span class="label">Riesci a ricostruire il percorso?</span><h2>14. Controllo di comprensione</h2>
+<details><summary>1. Perché non sono sempre otto finestre?</summary><p class="answer">Otto descrive 40 h osservate, dieci un blocco completo di 50 h. Fault Phase A: otto post-injection; Normal calibrazione/valutazione Phase A: dieci. Phase B finale: otto per tutti i casi, inclusi Normal.</p></details>
+<details><summary>2. Perché N1 non contribuisce alla baseline mentre calibro su N1?</summary><p class="answer">Per evitare che il blocco misurato contribuisca al proprio riferimento. Si esclude tutto N1, non solo una finestra. N2–N5 forniscono la baseline di quel giro.</p></details>
+<details><summary>3. Su N6 uso un nuovo LOBO o nuove soglie?</summary><p class="answer">No: uso baseline N1–N5 e soglie frozen. N6 è già esterno al riferimento. Un positivo Normal resta un'evidenza locale, non motivo automatico di ricalibrazione.</p></details>
+<details><summary>4. Cinquanta score equivalgono a cinquanta run indipendenti?</summary><p class="answer">No. Sono massimi per feature delle 50 finestre dei cinque blocchi Normal. Le finestre sono dipendenti; i blocchi provengono da un unico workbook cronologico.</p></details>
+<details><summary>5. Perché slope negativa può essere sopra soglia?</summary><p class="answer">Si confronta il valore assoluto e si conserva il segno. In W2 −16.613… è sopra 0.746862… in modulo. Non si cerca soltanto una salita.</p></details>
+<details><summary>6. Perché sei slope attive non significano sei finestre di drift persistente?</summary><p class="answer">Nel protagonista i segni alternano +/−: tre positivi, tre negativi, longest same-sign run=1. Il testo riporta questi fatti, non assegna automaticamente una dinamica.</p></details>
+<details><summary>7. Perché il testo parla di XMEAS-20 dopo aver studiato XMEAS-1?</summary><p class="answer">Il renderer considera tutte le 41 variabili. XMEAS-20 è dominante per residual nel caso intero; XMEAS-1 era solo la lente didattica.</p></details>
+<details><summary>8. La label F1 è stata scoperta dal verbalizer?</summary><p class="answer">No. Qui è metadata offline per seguire un esempio noto. Il testo neutrale non contiene label; il wrapper dell'esempio locale riceve la pseudolabel separatamente.</p></details>
+<details><summary>9. Perché non riusare i vecchi batch 8–10 nel final test FoT?</summary><p class="answer">Le loro firme erano già state analizzate in Phase A. Nasconderne le label non rende nuovamente untouched il set per le scelte Phase B.</p></details>
+<details><summary>10. Che cosa è stato trasferito a PV?</summary><p class="answer">Una motivazione e un'architettura metodologica candidata: separazione representation/reasoning, provenance, peer federation e disciplina freeze/held-out. Feature, baseline, soglie, finestre e prestazioni PV richiedono adattamento e validazione indipendente.</p></details>
+<h3>Autorità, riproducibilità e limiti di questa pagina</h3><p>Fonte del contenuto: repository al commit <code>10acccdd3dd8b8bab9ee0b584c99899d59d8c906</code>. La pagina e i suoi dati embedded sono un <strong>estratto pedagogico</strong>, non una config operativa né un nuovo risultato. I test confrontano l'esempio con gli artefatti committati e verificano i link. Non vengono aperti workbook raw né invocate API.</p>
+<p>Gerarchia: artefatti sperimentali frozen → narrativa canonica → companion LLM → questa guida. Le fonti puntuali accompagnano ogni sezione. Alcuni link a file sorgente sono pensati per il repository; l'HTML può essere letto offline senza fetch, CDN, font remoti o librerie esterne.</p>
+<p><a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md">Narrativa completa</a> · <a href="../docs/FOT_PROJECT_LLM_REFERENCE.md">Companion LLM</a> · <a href="README.md">Archivio e test della guida</a> · <a href="archive/fot_7_flow_svg.html">HTML precedente, conservato invariato</a>.</p>
+</section>
+<footer>Fine Parte 1 · Nessuna modifica al layer scientifico frozen · Il tutorial non sostituisce il protocollo.</footer>
+</main></div>
+<script type="application/json" id="example-data">
+{
+  "source_commit": "10acccdd3dd8b8bab9ee0b584c99899d59d8c906",
+  "offline_class": "F1", "batch": 1, "variable": "XMEAS-1",
+  "columns": ["start_h", "end_h", "shift_sigma", "slope_sigma_h", "residual_std_ratio", "diff_std_ratio", "raw_std_ratio"],
+  "thresholds": {"abs_shift_sigma":1.9695333234149084,"abs_slope_sigma_h":0.7468621213669596,"residual_std_ratio":1.3681613543196571,"diff_std_ratio":1.4051245046201666},
+  "windows": [
+    [10,15,76.67353831016274,31.153280989078283,10.785177887482044,1.3068055814879471,46.303017658141066],
+    [15,20,92.53384384497028,-16.61340688816495,5.09330932506406,1.187316108216389,24.548761946214583],
+    [20,25,81.7634653670111,7.753127026170545,1.9839411353006304,0.9504236115199536,11.382007784942855],
+    [25,30,86.83803338679424,-4.273944587225697,1.202934983777698,0.9749996428858444,6.29417335542162],
+    [30,35,83.42058494158805,1.645594706521735,0.6471957523347178,0.9997641232316836,2.4648769893875735],
+    [35,40,85.58132630480804,-0.7549104273167782,0.6912117140213409,1.054128934149838,1.2902735967974106],
+    [40,45,85.13093188009842,0.5368787633784395,0.8772061398708989,0.9777244293159928,1.1684316441649714],
+    [45,50,85.12038692376117,0.1230055182514199,0.6951712901682345,0.911655323642056,0.7145949907475]
+  ]
+}
+</script>
+<script>
+'use strict';
+const example = JSON.parse(document.getElementById('example-data').textContent);
+const nav = document.getElementById('window-buttons');
+const rows = document.getElementById('feature-comparison');
+const keys = ['abs_shift_sigma','abs_slope_sigma_h','residual_std_ratio','diff_std_ratio'];
+const names = ['shift','slope','residual','diff','raw dispersion'];
+function showWindow(index) {
+  const w = example.windows[index];
+  document.getElementById('window-title').textContent = `W${index+1} · [${w[0]},${w[1]}) h · XMEAS-1`;
+  nav.querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===index)));
+  rows.replaceChildren();
+  const flags=[];
+  names.forEach((name,i)=>{
+    const value=w[i+2]; const threshold=i<4?example.thresholds[keys[i]]:null;
+    const active=threshold!==null && (i<2?Math.abs(value):value)>threshold;
+    if(i<4) flags.push(active);
+    const row=document.createElement('tr');
+    const cells=[name,(i<2&&value>0?'+':'')+value.toFixed(6),threshold===null?'nessuna primaria':threshold.toFixed(6),threshold===null?'descrittiva':(active?(i<2?'|valore| sopra soglia':'sopra soglia'):'non sopra soglia')];
+    cells.forEach((text,j)=>{const td=document.createElement('td');td.textContent=text;if(j===1){td.title=String(value);td.className='num';}if(j===2&&threshold!==null)td.title=String(threshold);if(j===3)td.className=active?'yes':'no';row.append(td);});
+    rows.append(row);
+  });
+  document.getElementById('window-verdict').textContent=`W${index+1}: level=${flags[0]}, trend=${flags[1]}, residual=${flags[2]}, diff=${flags[3]}. Quindi rapid=${flags[2]&&flags[3]}: congiunzione residual AND diff nello stesso canale e nella stessa finestra.`;
+}
+example.windows.forEach((w,i)=>{const b=document.createElement('button');b.type='button';b.textContent=`W${i+1} · ${w[0]}–${w[1]} h`;b.setAttribute('aria-pressed',String(i===0));b.addEventListener('click',()=>showWindow(i));nav.append(b);});
+document.getElementById('held-block').addEventListener('change',event=>{
+  const held=Number(event.target.value);const baseline=[1,2,3,4,5].filter(n=>n!==held).map(n=>`N${n}`).join(', ');
+  document.getElementById('lobo-result').textContent=`Misuro N${held}: 10 finestre in [${(held-1)*50},${held*50}). Baseline: ${baseline}. N${held} è escluso interamente; N6–N10 non partecipano. Quattro blocchi = 12000 timestamp di riferimento.`;
+});
+showWindow(0);
+</script>
+</body>
+</html>

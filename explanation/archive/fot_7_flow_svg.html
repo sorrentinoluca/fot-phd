@@ -1,0 +1,264 @@
+<title>FoT — Schemi di flusso</title>
+<style>
+  :root{
+    --ink:#16202e;--muted:#5a6b7a;--bg:#eef3f8;--card:#ffffff;--line:#c4cfdb;
+    --blue:#1f5fa8;--blued:#123a6b;--teal:#12857e;--orange:#d2691e;--green:#2c8a4a;
+    --purple:#6a4fa3;--gold:#8a6d1e;--red:#c0392b;
+  }
+  :root[data-theme="dark"],:root:not([data-theme="light"]){@media(prefers-color-scheme:dark){
+    --ink:#e8edf2;--muted:#9fb0c0;--bg:#0f151c;--card:#18212c;--line:#38465a;
+    --blue:#5b9be0;--blued:#8fbdf0;--teal:#3cc0b6;--orange:#e59355;--green:#54c47c;
+    --purple:#a488e0;--gold:#d3b45a;--red:#ff6f60;}}
+  :root[data-theme="dark"]{
+    --ink:#e8edf2;--muted:#9fb0c0;--bg:#0f151c;--card:#18212c;--line:#38465a;
+    --blue:#5b9be0;--blued:#8fbdf0;--teal:#3cc0b6;--orange:#e59355;--green:#54c47c;
+    --purple:#a488e0;--gold:#d3b45a;--red:#ff6f60;}
+  *{box-sizing:border-box;}
+  body{background:var(--bg);color:var(--ink);margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+  .page{max-width:1000px;margin:0 auto;padding:26px 16px 50px;}
+  h1.main{text-align:center;font-size:25px;color:var(--blued);margin:0 0 22px;font-weight:800;}
+  figure{margin:0 0 34px;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:14px 12px 6px;}
+  figcaption{font-size:14px;color:var(--ink);font-weight:700;margin:0 0 8px;padding:0 6px;}
+  figcaption span{font-weight:400;color:var(--muted);font-size:12.5px;}
+  svg{max-width:100%;height:auto;color:var(--ink);display:block;}
+  .src{color:var(--muted);font-size:11.5px;text-align:center;margin-top:8px;}
+</style>
+<div class="page">
+  <h1 class="main">Schemi di flusso del progetto FoT / TEP</h1>
+
+  <!-- ============================================================= -->
+  <!-- FIG 1 — OVERVIEW TIMELINE                                     -->
+  <!-- ============================================================= -->
+  <figure>
+    <figcaption>1 · Flusso generale <span>— dalla motivazione PV ai risultati frozen</span></figcaption>
+    <svg viewBox="0 0 960 470" role="img" aria-label="Timeline del progetto: motivazione PV, scelta TEP, V1 superseded, V2 Phase A con freeze, new held-out, V2 Phase B con freeze chain, risultati, PV futuro.">
+      <defs>
+        <marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <polygon points="0,1 9,5 0,9" fill="currentColor"/>
+        </marker>
+      </defs>
+      <!-- vertical spine -->
+      <line x1="60" y1="30" x2="60" y2="440" stroke="var(--line)" stroke-width="2"/>
+      <!-- helper: each row -->
+      <!-- 1 PV -->
+      <circle cx="60" cy="42" r="8" fill="var(--blue)"/>
+      <rect x="90" y="24" width="420" height="38" rx="8" fill="none" stroke="var(--blue)" stroke-width="1.6"/>
+      <text x="104" y="41" font-size="13" font-weight="700" fill="var(--blue)">Motivazione: PV distribuito, non-IID</text>
+      <text x="104" y="56" font-size="11" fill="var(--muted)">serve un proving ground controllato</text>
+      <!-- 2 TEP -->
+      <circle cx="60" cy="98" r="8" fill="var(--teal)"/>
+      <rect x="90" y="80" width="500" height="38" rx="8" fill="none" stroke="var(--teal)" stroke-width="1.6"/>
+      <text x="104" y="97" font-size="13" font-weight="700" fill="var(--teal)">Scelta TEP — snapshot pubblico mv-per@309b944f</text>
+      <text x="104" y="112" font-size="11" fill="var(--muted)">Mode 1 · 41 XMEAS · F1/F8/F10/F13 + Normal · audit dataset</text>
+      <!-- 3 V1 -->
+      <circle cx="60" cy="154" r="8" fill="var(--red)"/>
+      <rect x="90" y="136" width="500" height="38" rx="8" fill="none" stroke="var(--red)" stroke-width="1.6"/>
+      <text x="104" y="153" font-size="13" font-weight="700" fill="var(--red)">V1 (historical) — prototipi A/B/C/D nel prompt</text>
+      <text x="104" y="168" font-size="11" fill="var(--muted)">5/5 ma leakage concettuale → SUPERSEDED</text>
+      <!-- 4 Phase A big -->
+      <circle cx="60" cy="212" r="8" fill="var(--green)"/>
+      <rect x="90" y="188" width="820" height="48" rx="9" fill="var(--card)" stroke="var(--green)" stroke-width="2"/>
+      <text x="104" y="208" font-size="13.5" font-weight="800" fill="var(--green)">V2 · PHASE A — rappresentazione neutrale (deterministica, no LLM)</text>
+      <text x="104" y="225" font-size="11.5" fill="var(--muted)">serie → feature → soglie(Normal) → JSON → TESTO NEUTRALE · split dev1–5/val6–7/test8–10 · 🔒 FREEZE</text>
+      <!-- 5 held-out -->
+      <circle cx="60" cy="270" r="8" fill="var(--teal)"/>
+      <rect x="90" y="252" width="560" height="38" rx="8" fill="none" stroke="var(--teal)" stroke-width="1.6"/>
+      <text x="104" y="269" font-size="13" font-weight="700" fill="var(--teal)">NEW HELD-OUT (Phase B) — 15 run nuovi, simulatore parent a0413e16</text>
+      <text x="104" y="284" font-size="11" fill="var(--muted)">congelati prima di ogni analisi · 🔒 FREEZE held-out</text>
+      <!-- 6 Phase B big -->
+      <circle cx="60" cy="328" r="8" fill="var(--purple)"/>
+      <rect x="90" y="304" width="820" height="48" rx="9" fill="var(--card)" stroke="var(--purple)" stroke-width="2"/>
+      <text x="104" y="324" font-size="13.5" font-weight="800" fill="var(--purple)">V2 · PHASE B — Federation over Text (usa l'LLM)</text>
+      <text x="104" y="341" font-size="11.5" fill="var(--muted)">4 agenti non-IID → insight peer-only → cond. A/B/E → R=3 · 🔒 protocol→schedule→inference→results</text>
+      <!-- 7 results -->
+      <circle cx="60" cy="386" r="8" fill="var(--gold)"/>
+      <rect x="90" y="368" width="620" height="38" rx="8" fill="none" stroke="var(--gold)" stroke-width="1.6"/>
+      <text x="104" y="385" font-size="13" font-weight="700" fill="var(--gold)">RISULTATI (frozen) — A=0/36 · B=31/36 · E=3/36</text>
+      <text x="104" y="400" font-size="11" fill="var(--muted)">B−A=+0.861 (primaria) · B−E=+0.778 (specificità) · feasibility su TEP, NON PV</text>
+      <!-- 8 PV -->
+      <circle cx="60" cy="428" r="8" fill="var(--blue)"/>
+      <text x="90" y="432" font-size="12.5" font-weight="700" fill="var(--blue)">PV (next) — esplorativo, nessun protocol freeze</text>
+      <!-- arrows on spine -->
+      <g stroke="currentColor" stroke-width="1.4" fill="none" opacity="0.5">
+        <line x1="60" y1="50" x2="60" y2="72" marker-end="url(#a1)"/>
+        <line x1="60" y1="106" x2="60" y2="128" marker-end="url(#a1)"/>
+        <line x1="60" y1="162" x2="60" y2="180" marker-end="url(#a1)"/>
+        <line x1="60" y1="236" x2="60" y2="244" marker-end="url(#a1)"/>
+        <line x1="60" y1="290" x2="60" y2="296" marker-end="url(#a1)"/>
+        <line x1="60" y1="352" x2="60" y2="360" marker-end="url(#a1)"/>
+        <line x1="60" y1="406" x2="60" y2="420" marker-end="url(#a1)"/>
+      </g>
+    </svg>
+  </figure>
+
+  <!-- ============================================================= -->
+  <!-- FIG 2 — V1 DETTAGLIO                                          -->
+  <!-- ============================================================= -->
+  <figure>
+    <figcaption>2 · V1 in dettaglio <span>— historical / superseded: pipeline in un solo passaggio</span></figcaption>
+    <svg viewBox="0 0 640 560" role="img" aria-label="Pipeline V1: input, caratterizzazione aggregata, interpretazione con soglia hard-coded, prompt con prototipi (leakage), scelta LLM 5 su 5, verdetto superseded.">
+      <defs>
+        <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+          <polygon points="0,1 9,5 0,9" fill="currentColor"/>
+        </marker>
+      </defs>
+      <!-- input -->
+      <rect x="200" y="18" width="240" height="46" rx="9" fill="var(--card)" stroke="var(--line)" stroke-width="1.6"/>
+      <text x="320" y="38" text-anchor="middle" font-size="12.5" font-weight="700">INPUT: serie TEP (Time+XMEAS)</text>
+      <text x="320" y="54" text-anchor="middle" font-size="11" fill="var(--muted)">segmento post-onset</text>
+      <line x1="320" y1="64" x2="320" y2="82" stroke="currentColor" marker-end="url(#a2)"/>
+
+      <!-- 1 caratterizzazione -->
+      <rect x="150" y="84" width="340" height="60" rx="9" fill="var(--card)" stroke="var(--red)" stroke-width="1.6"/>
+      <text x="168" y="104" font-size="12.5" font-weight="700">[1] Caratterizzazione — tep_characterize.py</text>
+      <text x="168" y="120" font-size="11" fill="var(--muted)">shift grezzo · UN solo std_ratio</text>
+      <text x="168" y="135" font-size="11" fill="var(--red)">✗ su TUTTO [onset,50h] AGGREGATO</text>
+      <line x1="320" y1="144" x2="320" y2="162" stroke="currentColor" marker-end="url(#a2)"/>
+
+      <!-- 2 interpretazione -->
+      <rect x="150" y="164" width="340" height="60" rx="9" fill="var(--card)" stroke="var(--red)" stroke-width="1.6"/>
+      <text x="168" y="184" font-size="12.5" font-weight="700">[2] Interpretazione (nel codice)</text>
+      <text x="168" y="200" font-size="11" fill="var(--red)">✗ std_ratio alto → "instabilità/oscillazione"</text>
+      <text x="168" y="215" font-size="11" fill="var(--red)">✗ nessuna soglia calibrata (giudizio hard-coded)</text>
+      <line x1="320" y1="224" x2="320" y2="242" stroke="currentColor" marker-end="url(#a2)"/>
+
+      <!-- 3 prompt -->
+      <rect x="130" y="244" width="380" height="66" rx="9" fill="var(--card)" stroke="var(--red)" stroke-width="2.4"/>
+      <text x="168" y="264" font-size="12.5" font-weight="700">[3] Costruzione prompt — tep_verbalize.py</text>
+      <text x="168" y="280" font-size="11" fill="var(--muted)">evidenza del caso</text>
+      <text x="168" y="296" font-size="11.5" font-weight="700" fill="var(--red)">✗✗ + PROTOTIPI A/B/C/D nel prompt = LEAKAGE</text>
+      <line x1="320" y1="310" x2="320" y2="328" stroke="currentColor" marker-end="url(#a2)"/>
+
+      <!-- 4 LLM -->
+      <rect x="200" y="330" width="240" height="46" rx="9" fill="var(--card)" stroke="var(--line)" stroke-width="1.6"/>
+      <text x="320" y="350" text-anchor="middle" font-size="12.5" font-weight="700">[4] LLM sceglie → "A"</text>
+      <text x="320" y="366" text-anchor="middle" font-size="11" fill="var(--muted)">output: 5/5</text>
+      <line x1="320" y1="376" x2="320" y2="394" stroke="currentColor" marker-end="url(#a2)"/>
+
+      <!-- verdict -->
+      <rect x="150" y="396" width="340" height="52" rx="9" fill="none" stroke="var(--red)" stroke-width="1.6" stroke-dasharray="5 4"/>
+      <text x="320" y="416" text-anchor="middle" font-size="12.5" font-weight="800" fill="var(--red)">VERDETTO: match, NON trasferimento</text>
+      <text x="320" y="433" text-anchor="middle" font-size="11" fill="var(--muted)">5/5 = sanity check software → HISTORICAL / SUPERSEDED</text>
+
+      <!-- 5 difetti box -->
+      <rect x="60" y="466" width="520" height="78" rx="9" fill="var(--bg)" stroke="var(--line)"/>
+      <text x="76" y="486" font-size="12" font-weight="700" fill="var(--red)">I 5 difetti scoperti:</text>
+      <text x="76" y="504" font-size="11.5" fill="var(--muted)">① std ≠ varianza   ② std alta ≠ oscillazione</text>
+      <text x="76" y="521" font-size="11.5" fill="var(--muted)">③ prototipi nel prompt (grave)   ④ Normal tautologico</text>
+      <text x="76" y="538" font-size="11.5" fill="var(--muted)">⑤ aggregazione [onset,50h] confonde transiente e regime</text>
+    </svg>
+  </figure>
+
+  <!-- ============================================================= -->
+  <!-- FIG 3 — V2 DETTAGLIO                                          -->
+  <!-- ============================================================= -->
+  <figure>
+    <figcaption>3 · V2 in dettaglio <span>— Phase A e Phase B, con i tempi interni "a monte" e "runtime"</span></figcaption>
+    <svg viewBox="0 0 960 900" role="img" aria-label="Dettaglio V2: Phase A con fase a monte (scelta feature, calibrazione soglie N1-N5), freeze, runtime (finestre, calcolo, soglie, JSON, testo), evaluator; poi Phase B con setup agenti, freeze chain, esecuzione R=3, evaluator offline, risultati.">
+      <defs>
+        <marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <polygon points="0,1 9,5 0,9" fill="currentColor"/>
+        </marker>
+      </defs>
+
+      <!-- ===== PHASE A container ===== -->
+      <rect x="20" y="16" width="920" height="420" rx="12" fill="none" stroke="var(--green)" stroke-width="2"/>
+      <rect x="20" y="16" width="920" height="26" rx="12" fill="var(--green)"/>
+      <text x="34" y="34" font-size="13" font-weight="800" fill="#fff">PHASE A — deterministica, nessun LLM</text>
+
+      <!-- a monte label -->
+      <text x="40" y="62" font-size="12" font-weight="700" fill="var(--gold)">▸ A MONTE (una volta · solo development)</text>
+      <!-- A1 -->
+      <rect x="40" y="70" width="410" height="54" rx="8" fill="var(--card)" stroke="var(--gold)" stroke-width="1.6"/>
+      <text x="54" y="89" font-size="12" font-weight="700">[A1] Scelta feature (design)</text>
+      <text x="54" y="105" font-size="10.5" fill="var(--muted)">shift_sigma · slope_sigma_h · residual · diff</text>
+      <text x="54" y="118" font-size="10.5" fill="var(--muted)">(+ raw_std_ratio = solo descrittiva)</text>
+      <!-- A2 -->
+      <rect x="490" y="70" width="410" height="54" rx="8" fill="var(--card)" stroke="var(--teal)" stroke-width="1.6"/>
+      <text x="504" y="89" font-size="12" font-weight="700">[A2] Calibrazione soglie — SOLO N1–N5</text>
+      <text x="504" y="105" font-size="10.5" fill="var(--muted)">50 finestre 5h · leave-one-block-out</text>
+      <text x="504" y="118" font-size="10.5" fill="var(--muted)">max su 41 XMEAS · rank 49/50 (α=0.05) · "&gt;"</text>
+      <line x1="450" y1="97" x2="490" y2="97" stroke="currentColor" marker-end="url(#a3)"/>
+
+      <!-- FREEZE A -->
+      <rect x="40" y="134" width="860" height="26" rx="7" fill="none" stroke="var(--gold)" stroke-width="1.8" stroke-dasharray="6 4"/>
+      <text x="470" y="151" text-anchor="middle" font-size="12" font-weight="800" fill="var(--gold)">🔒 FREEZE Phase A — feature e soglie immutabili (val/test non ancora aperti)</text>
+
+      <!-- runtime label -->
+      <text x="40" y="182" font-size="12" font-weight="700" fill="var(--blue)">▸ A RUNTIME (su OGNI caso · identico per dev / val / held-out)</text>
+
+      <!-- A3..A7 chain -->
+      <g font-size="11">
+        <rect x="40" y="190" width="860" height="34" rx="7" fill="var(--card)" stroke="var(--blue)" stroke-width="1.4"/>
+        <text x="54" y="211" font-weight="700">[A3] Finestratura → [10h,50h) in 8 finestre da 5h  <tspan fill="var(--muted)" font-weight="400">(prime 2 iniziale · ultime 2 tardiva)</tspan></text>
+        <line x1="470" y1="224" x2="470" y2="234" stroke="currentColor" marker-end="url(#a3)"/>
+
+        <rect x="40" y="236" width="860" height="34" rx="7" fill="var(--card)" stroke="var(--blue)" stroke-width="1.4"/>
+        <text x="54" y="257" font-weight="700">[A4] Calcolo feature → per finestra (8) × XMEAS (41)  <tspan fill="var(--muted)" font-weight="400">tep_features.py, solo misura</tspan></text>
+        <line x1="470" y1="270" x2="470" y2="280" stroke="currentColor" marker-end="url(#a3)"/>
+
+        <rect x="40" y="282" width="860" height="34" rx="7" fill="var(--card)" stroke="var(--orange)" stroke-width="1.4"/>
+        <text x="54" y="303" font-weight="700">[A5] Applica soglie congelate → valore &gt; soglia ⇒ feature "attiva"</text>
+        <line x1="470" y1="316" x2="470" y2="326" stroke="currentColor" marker-end="url(#a3)"/>
+
+        <rect x="40" y="328" width="860" height="34" rx="7" fill="var(--card)" stroke="var(--green)" stroke-width="1.4"/>
+        <text x="54" y="349" font-weight="700">[A6] JSON strutturato  <tspan fill="var(--muted)" font-weight="400">active_fraction · segni · sign_consistency · run · iniziale/tardiva</tspan></text>
+        <line x1="470" y1="362" x2="470" y2="372" stroke="currentColor" marker-end="url(#a3)"/>
+
+        <rect x="40" y="374" width="860" height="34" rx="7" fill="var(--card)" stroke="var(--green)" stroke-width="2"/>
+        <text x="54" y="395" font-weight="700">[A7] TESTO NEUTRALE  <tspan fill="var(--muted)" font-weight="400">factual-first · vietati "drift/oscillazione/fault/ID classe"</tspan></text>
+      </g>
+      <!-- A-EVAL -->
+      <rect x="40" y="412" width="860" height="18" rx="6" fill="var(--bg)" stroke="var(--teal)" stroke-dasharray="4 3"/>
+      <text x="470" y="425" text-anchor="middle" font-size="10.5" fill="var(--teal)">[A-EVAL] evaluator Phase A (a valle) → separabilità DESCRITTIVA tra split · NON accuratezza di classificazione</text>
+
+      <!-- connector to Phase B -->
+      <line x1="480" y1="436" x2="480" y2="460" stroke="currentColor" stroke-width="1.6" marker-end="url(#a3)"/>
+      <text x="490" y="452" font-size="10.5" fill="var(--muted)">output = testo neutrale frozen</text>
+
+      <!-- ===== PHASE B container ===== -->
+      <rect x="20" y="462" width="920" height="420" rx="12" fill="none" stroke="var(--purple)" stroke-width="2"/>
+      <rect x="20" y="462" width="920" height="26" rx="12" fill="var(--purple)"/>
+      <text x="34" y="480" font-size="13" font-weight="800" fill="#fff">PHASE B — Federation over Text · usa l'LLM</text>
+
+      <text x="40" y="508" font-size="12" font-weight="700" fill="var(--purple)">▸ SETUP (una volta · congelato)</text>
+      <g font-size="11">
+        <rect x="40" y="514" width="420" height="30" rx="7" fill="var(--card)" stroke="var(--purple)" stroke-width="1.3"/>
+        <text x="52" y="533" font-weight="700">[B1] 4 agenti non-IID  <tspan fill="var(--muted)" font-weight="400">Normal + 1 fault · altri 3 UNSEEN</tspan></text>
+        <rect x="480" y="514" width="420" height="30" rx="7" fill="var(--card)" stroke="var(--purple)" stroke-width="1.3"/>
+        <text x="492" y="533" font-weight="700">[B2] pseudolabel opache  <tspan fill="var(--muted)" font-weight="400">F1..→CLS-… (evaluator-only)</tspan></text>
+
+        <rect x="40" y="548" width="420" height="30" rx="7" fill="var(--card)" stroke="var(--purple)" stroke-width="1.3"/>
+        <text x="52" y="567" font-weight="700">[B3] insight locali  <tspan fill="var(--muted)" font-weight="400">2/agente (8) · first-valid-wins</tspan></text>
+        <rect x="480" y="548" width="420" height="30" rx="7" fill="var(--card)" stroke="var(--purple)" stroke-width="1.3"/>
+        <text x="492" y="567" font-weight="700">[B4] federazione peer-only  <tspan fill="var(--muted)" font-weight="400">6 insight · no self/Normal/raw</tspan></text>
+      </g>
+      <!-- B5 conditions -->
+      <rect x="40" y="582" width="860" height="46" rx="8" fill="var(--card)" stroke="var(--orange)" stroke-width="1.5"/>
+      <text x="52" y="600" font-size="11" font-weight="700">[B5] condizioni:</text>
+      <text x="52" y="617" font-size="11" fill="var(--muted)"><tspan fill="var(--muted)" font-weight="700">A</tspan> isolated (nessun insight) · <tspan fill="var(--green)" font-weight="700">B</tspan> FoT (6 insight GENUINI) · <tspan fill="var(--orange)" font-weight="700">E</tspan> corrupted (stesso testo/ID/ordine, pseudolabel DERANGED)</text>
+
+      <!-- freeze chain B -->
+      <rect x="40" y="636" width="860" height="24" rx="7" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-dasharray="6 4"/>
+      <text x="470" y="652" text-anchor="middle" font-size="11.5" font-weight="800" fill="var(--gold)">🔒 FREEZE: protocol → schedule (amendment)</text>
+
+      <text x="40" y="684" font-size="12" font-weight="700" fill="var(--blue)">▸ ESECUZIONE (sul new held-out, 15 casi)</text>
+      <rect x="40" y="690" width="860" height="44" rx="8" fill="var(--card)" stroke="var(--blue)" stroke-width="1.5"/>
+      <text x="52" y="708" font-size="11" font-weight="700">[B6] R=3 per agente-caso-condizione</text>
+      <text x="52" y="725" font-size="11" fill="var(--muted)">voto ≥2 ⇒ predizione · altrimenti astensione (=errore) · 540 richieste · ordine controbilanciato a 0/540</text>
+
+      <rect x="40" y="742" width="860" height="24" rx="7" fill="none" stroke="var(--gold)" stroke-width="1.6" stroke-dasharray="6 4"/>
+      <text x="470" y="758" text-anchor="middle" font-size="11.5" font-weight="800" fill="var(--gold)">🔒 FREEZE inference — predizioni congelate PRIMA della ground truth</text>
+
+      <text x="40" y="790" font-size="12" font-weight="700" fill="var(--teal)">▸ VALUTAZIONE (offline)</text>
+      <rect x="40" y="796" width="860" height="30" rx="7" fill="var(--card)" stroke="var(--teal)" stroke-width="1.4"/>
+      <text x="52" y="815" font-size="11" font-weight="700">[B-EVAL] evaluator-side: ground truth + mapping reale  <tspan fill="var(--muted)" font-weight="400">metriche A/B/E · bootstrap clusterizzato per run</tspan></text>
+
+      <rect x="40" y="832" width="860" height="40" rx="8" fill="none" stroke="var(--gold)" stroke-width="2"/>
+      <text x="470" y="851" text-anchor="middle" font-size="12" font-weight="800" fill="var(--gold)">🔒 FREEZE results</text>
+      <text x="470" y="867" text-anchor="middle" font-size="11.5" fill="var(--muted)">A=0/36 · B=31/36 · E=3/36 · B−A=+0.861 · B−E=+0.778</text>
+    </svg>
+  </figure>
+
+  <p class="src">Fonti: docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md · VERBALIZER_V2_FREEZE.md · phase_b/*FREEZE*.md · evaluation_results.json (tutti frozen). Blocchi B1–B_EVAL: struttura anticipata; contenuto pieno agli Step 15–30.</p>
+</div>
