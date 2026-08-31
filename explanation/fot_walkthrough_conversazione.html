@@ -42,7 +42,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 <a class="skip" href="#main">Vai al contenuto</a>
 <div class="topbar">
   <button id="nav-toggle" class="nav-toggle" type="button" aria-controls="guide-nav" aria-expanded="true"><span class="icon" aria-hidden="true">☰</span><span id="nav-label">Nascondi indice</span></button>
-  <span class="progress-label" aria-live="polite">Step <span id="current-step">1</span> / 16</span>
+  <span class="progress-label" aria-live="polite">Step <span id="current-step">1</span> / 17</span>
 </div>
 <button id="nav-backdrop" class="nav-backdrop" type="button" aria-label="Chiudi indice"></button>
 <div class="layout">
@@ -50,7 +50,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <h2>Un solo percorso</h2>
   <p>Ogni step spiega, applica, produce un output e chiude con un checkpoint.</p>
   <ol>
-    <li><a href="#step-1">1. La domanda FoT</a></li><li><a href="#step-2">2. Dal PV al gate TEP</a></li><li><a href="#step-3">3. Dataset, unità e split</a></li><li><a href="#step-4">4. Obiettivo di Phase A</a></li><li><a href="#step-5">5. Feature: scelta di design</a></li><li><a href="#step-6">6. Normal, LOBO e soglie</a></li><li><a href="#step-7">7. Freeze prima dell'esame</a></li><li><a href="#step-8">8. Runtime reale: F1 W1</a></li><li><a href="#step-9">9. Flag, JSON e testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e historical test</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Un caso reale A/B/E</a></li><li><a href="#step-16">16. Valutazione, risultati e limiti</a></li>
+    <li><a href="#step-1">1. La domanda FoT</a></li><li><a href="#step-2">2. Dal PV al gate TEP</a></li><li><a href="#step-3">3. Dataset, unità e split</a></li><li><a href="#step-4">4. Obiettivo di Phase A</a></li><li><a href="#step-5">5. Feature: scelta di design</a></li><li><a href="#step-6">6. Normal, LOBO e soglie</a></li><li><a href="#step-7">7. Freeze prima dell'esame</a></li><li><a href="#step-8">8. Runtime reale: F1 W1</a></li><li><a href="#step-9">9. Flag, JSON e testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e historical test</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Condizioni e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
   </ol>
   <p class="source"><a href="README.md">Archivio pedagogico</a><br>Le fonti scientifiche frozen prevalgono.</p>
 </nav>
@@ -58,14 +58,14 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 <header>
   <p class="eyebrow">Federation over Text · Tennessee Eastman Process</p>
   <h1>Dal dato alla conoscenza condivisa, senza salti.</h1>
-  <p class="subtitle">Un unico percorso in 16 step: ogni concetto viene spiegato, applicato subito a un caso reale ridotto e chiuso da un output verificabile.</p>
+  <p class="subtitle">Un unico percorso in 17 step: ogni concetto viene spiegato, applicato subito a un caso reale ridotto e chiuso da un output verificabile.</p>
   <p>La lente principale è il pattern F1 osservato tramite XMEAS-1 e <code>shift_sigma</code>. La lente rimane; il run cambia quando lo impone il protocollo. Normal N1–N5 calibra, F1 batch 1 illustra il runtime development, un nuovo held-out F1 entra soltanto nella valutazione finale.</p>
   <div class="route" aria-label="Percorso sintetico"><span>serie raw</span><b>→</b><span>feature</span><b>→</b><span>soglia frozen</span><b>→</b><span>JSON</span><b>→</b><span>testo neutrale</span><b>→</b><span>insight peer</span><b>→</b><span>reasoning</span><b>→</b><span>valutazione offline</span></div>
 </header>
 <div class="orientation"><p><strong>Come leggere.</strong> Il pannello verde è l'applicazione concreta della spiegazione appena data. “Abbiamo prodotto” nomina l'artefatto in uscita; il checkpoint rende esplicito perché il passaggio successivo è legittimo.</p><p><strong>Semplificazione onesta.</strong> Per capire il calcolo zoomiamo su XMEAS-1. La pipeline reale continua a elaborare tutte le 41 XMEAS. Riduciamo la vista, non il metodo.</p></div>
 
 <section id="step-1" data-step="1">
-  <div class="step-kicker">Step 1 / 16</div><h2>La domanda FoT: che cosa deve viaggiare tra nodi?</h2>
+  <div class="step-kicker">Step 1 / 17</div><h2>La domanda FoT: che cosa deve viaggiare tra nodi?</h2>
   <p>Immaginiamo nodi distribuiti che osservano serie temporali proprie e hanno esperienza locale diversa: ciascuno conosce solo alcuni guasti. La domanda è se possano aiutarsi su condizioni localmente mai viste senza centralizzare le serie raw. In questo progetto <strong>Federation over Text</strong> significa che ogni nodo distilla evidenza locale in insight testuali con provenienza e condivide quelli, non dati grezzi, gradienti o pesi.</p>
   <dl class="decision"><dt>Problema</dt><dd>Conoscenza diagnostica non-IID.</dd><dt>Rischio</dt><dd>Centralizzare i segnali confonderebbe FoT con diagnosi centralizzata.</dd><dt>Decisione</dt><dd>Separare osservazione numerica, comunicazione testuale, insight e decisione.</dd><dt>Conseguenza</dt><dd>La ground truth entra soltanto nell'evaluator offline.</dd></dl>
   <div class="example"><div class="panel-label">Applicazione concreta</div><h3>Quattro ruoli, quattro oggetti diversi</h3><div class="chain"><span>Feature osservano</span><b>→</b><span>testo neutrale comunica</span><b>→</b><span>insight trasferiscono conoscenza</span><b>→</b><span>LLM decide</span></div><p>“XMEAS-1 supera una soglia in 8/8 finestre” è evidenza. “Questo pattern corrisponde a CLS-ZOGAA” è conoscenza diagnostica. Il progetto non le fonde.</p></div>
@@ -74,7 +74,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-2" data-step="2">
-  <div class="step-kicker">Step 2 / 16</div><h2>Il PV è il target; TEP è il gate metodologico</h2>
+  <div class="step-kicker">Step 2 / 17</div><h2>Il PV è il target; TEP è il gate metodologico</h2>
   <p>Il dominio empirico futuro è il fotovoltaico distribuito: siti eterogenei per clima, stagione, inverter e regime. Questa ricchezza rende difficile capire se un fallimento dipenda da FoT oppure da baseline, label e confondenti del dominio. Serve prima un ambiente controllato.</p>
   <dl class="decision"><dt>Problema</dt><dd>Nel PV verità diagnostica e normalità sono difficili da isolare.</dd><dt>Rischio</dt><dd>Attribuire a FoT errori o successi causati dal dominio.</dd><dt>Decisione</dt><dd>Usare il Tennessee Eastman Process come feasibility gate.</dd><dt>Conseguenza</dt><dd>TEP può sostenere la plausibilità del meccanismo, non la generalizzazione empirica al PV.</dd></dl>
   <div class="example"><div class="panel-label">Applicazione concreta</div><h3>Che cosa offre TEP</h3><p>Il simulatore fornisce segnali multivariati, fault noti, run replicati e un istante di attivazione verificato a 10 h. Possiamo controllare il percorso completo senza fingere che TEP e PV siano lo stesso dominio.</p></div>
@@ -83,7 +83,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-3" data-step="3">
-  <div class="step-kicker">Step 3 / 16</div><h2>Dataset, unità e split: prima distinguiamo gli oggetti</h2>
+  <div class="step-kicker">Step 3 / 17</div><h2>Dataset, unità e split: prima distinguiamo gli oggetti</h2>
   <p>La pipeline usa <strong>Time + 41 XMEAS</strong>; esclude le 12 XMV. Il campionamento è un minuto, cioè <code>1/60 h</code>. Un file fault dura 50 h: le prime 10 h precedono l'attivazione e le 40 h successive producono <strong>8 finestre da 5 h</strong>. Il Normal è un file da 500 h, diviso in 10 blocchi da 50 h; ogni blocco contiene <strong>10 finestre da 5 h</strong>.</p><p>Nel dataset considerato, <strong>4 classi di fault × 10 batch = 40 file di fault, più 1 file Normal da 500 h</strong>. Una finestra è una porzione descrittiva dello stesso run, non una replica fisica: questa distinzione tornerà cruciale allo Step finale, quando conteremo i casi statisticamente indipendenti.</p>
   <div class="example"><div class="panel-label">Applicazione concreta</div><h3>Cardinalità e ruoli</h3>
     <div class="scroll"><table><caption>Termini da non sovrapporre</caption><thead><tr><th>Termine</th><th>Che cos'è</th><th>Non confonderlo con</th></tr></thead><tbody><tr><td>Canale / variabile</td><td>Una delle 41 XMEAS misurata nel tempo.</td><td>Un campione: 41 canali ≠ 41 campioni.</td></tr><tr><td>Batch / run</td><td>Una simulazione completa 0–50 h salvata in un file/workbook.</td><td>Un segmento successivo: ogni batch riparte da 0 h; il numero identifica una replica.</td></tr><tr><td>Blocco Normal N1…N10</td><td>Un segmento da 50 h dell'unico file Normal da 500 h.</td><td>Dieci file o dieci simulazioni.</td></tr><tr><td>Classe</td><td>Il tipo di fault: F1, F8, F10 o F13.</td><td>Il batch 1–10: “F1–F5” non esiste; i fault sono quattro, mentre 1–5 sono batch.</td></tr></tbody></table></div>
@@ -95,7 +95,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-4" data-step="4">
-  <div class="step-kicker">Step 4 / 16 <span class="phase-badge design">Design / development-time</span></div><h2>Phase A deve descrivere, non diagnosticare</h2>
+  <div class="step-kicker">Step 4 / 17 <span class="phase-badge design">Design / development-time</span></div><h2>Phase A deve descrivere, non diagnosticare</h2>
   <p>V1 aveva prototipi diagnostici A/B/C/D già nel prompt: il modello poteva fare matching con conoscenza regalata. V2 trasforma invece una serie in <strong>evidenza strutturata</strong> e poi in <strong>testo neutrale</strong>, senza fault ID, classe o categorie automatiche come “oscillazione”.</p>
   <div class="example"><div class="panel-label">Applicazione concreta</div><h3>La frase ammessa</h3><blockquote>“XMEAS-1 supera la soglia di spostamento in 8/8 finestre, sempre con segno positivo.”</blockquote><p>Riporta conteggi e segno; non conclude quale fault sia presente.</p></div>
   <div class="output"><strong>Abbiamo prodotto:</strong> la specifica <code>time series → structured evidence → neutral text</code>.</div><div class="checkpoint"><strong>✓ Ora possiamo passare perché</strong> è chiaro cosa una feature deve osservare e cosa non deve spiegare.</div>
@@ -103,7 +103,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-5" data-step="5">
-  <div class="step-kicker">Step 5 / 16 <span class="phase-badge design">Design / development-time</span></div><h2>Le feature si scelgono una volta; al runtime si calcolano</h2>
+  <div class="step-kicker">Step 5 / 17 <span class="phase-badge design">Design / development-time</span></div><h2>Le feature si scelgono una volta; al runtime si calcolano</h2>
   <p>La scelta delle feature è una decisione di design sul development. Il calcolo delle feature è invece l'operazione ripetuta su ogni finestra. Confondere i due momenti farebbe sembrare che il metodo venga reinventato per ciascun fault.</p>
   <div class="example"><div class="panel-label">Applicazione reale ridotta</div><h3>Zoom su XMEAS-1, metodo reale su 41 canali</h3>
     <div class="scroll"><table><thead><tr><th>Feature</th><th>Quantifica</th><th>Non prova da sola</th></tr></thead><tbody><tr><td><code>shift_sigma</code></td><td>Spostamento della media in σ Normal</td><td>La causa</td></tr><tr><td><code>slope_sigma_h</code></td><td>Pendenza normalizzata per ora</td><td>Drift persistente</td></tr><tr><td><code>residual_std_ratio</code></td><td>Variabilità dopo detrend</td><td>Periodicità</td></tr><tr><td><code>diff_std_ratio</code></td><td>Variazioni campione-campione</td><td>Oscillazioni lente</td></tr><tr><td><code>raw_std_ratio</code></td><td>Dispersione descrittiva</td><td>Instabilità oscillatoria</td></tr></tbody></table></div>
@@ -114,7 +114,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-6" data-step="6">
-  <div class="step-kicker">Step 6 / 16 <span class="phase-badge design">Design / development-time</span></div><h2>Normal N1–N5, LOBO e soglia reale</h2>
+  <div class="step-kicker">Step 6 / 17 <span class="phase-badge design">Design / development-time</span></div><h2>Normal N1–N5, LOBO e soglia reale</h2>
   <p>La soglia nasce dal Normal development, non dal fault. N1–N5 forniscono 5 blocchi × 10 finestre = 50 finestre. Per ciascuna finestra e feature si calcolano le 41 XMEAS e si prende il massimo di sistema; i 50 massimi vengono ordinati e la soglia è il rango 49, con attivazione stretta <code>&gt;</code>.</p>
   <div class="callout"><strong>Perché prendiamo il massimo?</strong> Prima del confronto, lo score di ogni XMEAS è espresso rispetto al comportamento Normal di quella stessa variabile: per <code>shift_sigma</code>, per esempio, lo spostamento è misurato in deviazioni standard Normal. Gli score sono quindi adimensionali e confrontabili: non stiamo mettendo a confronto pressioni, temperature o portate nelle loro unità fisiche. Il massimo identifica, dentro quella finestra, <em>la deviazione standardizzata più estrema</em> tra i 41 canali e risponde alla domanda di sistema «almeno una variabile si è allontanata dal proprio normale più del previsto?». Non identifica la causa del cambiamento e non rende anomale le altre variabili; comprime la finestra in un solo score conservando il canale più distante dal suo riferimento. Calibrare la soglia sui massimi Normal, anziché su score individuali, incorpora inoltre nel riferimento il fatto che in ogni finestra cerchiamo l'estremo fra 41 opportunità.</div>
   <p>Il <strong>leave-one-block-out</strong> nasce qui: quando si misura N1, il riferimento usa N2+N3+N4+N5. Si ripete ciclicamente fino a N5.</p>
@@ -127,7 +127,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-7" data-step="7">
-  <div class="step-kicker">Step 7 / 16 <span class="phase-badge design">Design / development-time</span></div><h2>Il freeze separa costruzione ed esame</h2>
+  <div class="step-kicker">Step 7 / 17 <span class="phase-badge design">Design / development-time</span></div><h2>Il freeze separa costruzione ed esame</h2>
   <p>Ora vengono congelati feature, soglie, rappresentazione temporale, renderer ed evaluator. Il freeze impedisce che validation, test o held-out suggeriscano come riscrivere la regola con cui saranno giudicati.</p>
   <div class="example"><div class="panel-label">Applicazione concreta</div><h3>Prima e dopo</h3><div class="scroll"><table><thead><tr><th>Prima</th><th>Dopo</th></tr></thead><tbody><tr><td>Development sceglie feature e calibrazione.</td><td>Ogni caso riceve le stesse regole.</td></tr><tr><td>LOBO costruisce i riferimenti di calibrazione.</td><td>Runtime usa N1–N5 senza LOBO.</td></tr><tr><td>Renderer ed evaluator possono essere progettati.</td><td>Non vengono adattati agli esiti.</td></tr></tbody></table></div></div>
   <div class="output"><strong>Abbiamo prodotto:</strong> un V2 immutabile prima di validation e test.</div><div class="checkpoint"><strong>✓ Ora possiamo passare perché</strong> applicare la regola a F1 non può cambiarne definizione o soglia.</div>
@@ -135,7 +135,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-8" data-step="8">
-  <div class="step-kicker">Step 8 / 16 <span class="phase-badge runtime">Runtime / finestra × XMEAS</span></div><h2>Un passaggio reale: F1 batch 1, XMEAS-1, W1</h2>
+  <div class="step-kicker">Step 8 / 17 <span class="phase-badge runtime">Runtime / finestra × XMEAS</span></div><h2>Un passaggio reale: F1 batch 1, XMEAS-1, W1</h2>
   <p><strong>Cambiamo oggetto.</strong> N1–N5 calibravano; ora F1 batch 1, development, applica la regola frozen. Non è test indipendente e non usa LOBO. W1 è <code>[10,15)</code> h: 5 h × 60 = 300 misure dello stesso run.</p>
   <div class="example" id="raw-to-shift"><div class="panel-label">Worked example reale · raw → feature → flag</div><h3>Il calcolo completo</h3><ol>
     <li><strong>Anteprima raw.</strong><br><code id="worked-raw-preview">0.266206, 0.264258, 0.265880, 0.268725, 0.267920, …, 1.018145, 1.017490, 1.018571</code><br>La media usa tutti i <strong id="worked-window-n">300</strong> valori, non solo gli otto mostrati.</li>
@@ -149,7 +149,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-9" data-step="9">
-  <div class="step-kicker">Step 9 / 16 <span class="phase-badge runtime">Runtime / caso completo</span></div><h2>Dagli otto flag al JSON, poi al testo neutrale</h2>
+  <div class="step-kicker">Step 9 / 17 <span class="phase-badge runtime">Runtime / caso completo</span></div><h2>Dagli otto flag al JSON, poi al testo neutrale</h2>
   <p>W1 viene esteso alle otto finestre e alle 41 XMEAS. I flag diventano conteggi temporali: finestre attive, segni, run, prima/ultima attivazione, attività iniziale e tardiva. Il JSON conserva l'evidenza; il renderer ne crea una serializzazione selettiva.</p>
   <div class="example"><div class="panel-label">Coppia reale · structured evidence → neutral text</div><h3>Estratto JSON XMEAS-1, F1 batch 1</h3>
     <pre id="summary-json"><code>{
@@ -170,7 +170,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-10" data-step="10">
-  <div class="step-kicker">Step 10 / 16 <span class="phase-badge offline">Controllo offline</span></div><h2>L'evaluator Phase A controlla la rappresentazione; non classifica</h2>
+  <div class="step-kicker">Step 10 / 17 <span class="phase-badge offline">Controllo offline</span></div><h2>L'evaluator Phase A controlla la rappresentazione; non classifica</h2>
   <p>Solo ora entra l'evaluator. Lavora sul JSON e misura stabilità intra-classe e separabilità inter-classe. Una firma contiene 17 componenti normalizzate per XMEAS: 41 × 17 = 697 valori; la similarità è <code>1 − mean(abs(a−b))</code>.</p>
   <div class="example"><div class="panel-label">Applicazione concreta</div><h3>La domanda giusta</h3><p>Può chiedere se due run F1 hanno pattern temporali simili o se F1 è più vicino agli altri F1 che ai Normal. Non produce predicted label e non misura accuracy.</p><div class="callout"><strong>Descriptive separability ≠ diagnostic accuracy.</strong> Una firma separabile non garantisce che un reasoner la userà correttamente.</div></div>
   <div class="output"><strong>Abbiamo prodotto:</strong> un controllo preventivo della qualità della rappresentazione.</div><div class="checkpoint"><strong>✓ Ora possiamo passare perché</strong> la representation ha affrontato gli split storici senza essere riscritta.</div>
@@ -178,7 +178,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-11" data-step="11">
-  <div class="step-kicker">Step 11 / 16 <span class="phase-badge offline">Valutazione out-of-development</span></div><h2>Validation e historical test: applicare dopo il freeze</h2>
+  <div class="step-kicker">Step 11 / 17 <span class="phase-badge offline">Valutazione out-of-development</span></div><h2>Validation e historical test: applicare dopo il freeze</h2>
   <p>Dopo il freeze non si progetta più: si esegue la stessa pipeline runtime prima sulla validation — fault batch 6–7 e Normal N6–N7 — e poi sull'historical test — batch 8–10 e N8–N10. In entrambi i casi il percorso resta <code>finestre → feature → soglie congelate → JSON → testo neutrale → evaluator</code>. Non ci sono nuova calibrazione, LOBO o tuning: le regole vengono soltanto applicate.</p>
   <dl class="decision"><dt>Problema</dt><dd>Ogni volta che osserviamo risultati fuori development acquisiamo informazione su quei dati.</dd><dt>Rischio</dt><dd>Usarla per correggere il metodo trasformerebbe lo split osservato in altro development.</dd><dt>Decisione</dt><dd>Development progetta e calibra; dopo il freeze, validation offre il controllo intermedio e historical test resta chiuso fino alla verifica finale di Phase A.</dd><dt>Conseguenza</dt><dd>Ogni split viene “consumato” quando lo si apre, ma nessuno riscrive il V2 frozen.</dd></dl>
   <div class="example"><div class="panel-label">Applicazione reale dopo il freeze</div><h3>Prima validation, poi historical test</h3><div class="chain"><span>development</span><b>→</b><span>🔒 freeze</span><b>→</b><span>validation 6–7</span><b>→</b><span>historical test 8–10</span></div><p>Nel Normal validation, <strong>4/20 finestre (20%)</strong> risultano positive su almeno una feature primaria, contro <strong>3/50 (6%)</strong> in development. Il dato viene conservato e descritto, ma <strong>non</strong> viene usato per ricalibrare le soglie. L'historical test applica poi ancora lo stesso V2 frozen.</p></div>
@@ -187,7 +187,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-12" data-step="12">
-  <div class="step-kicker">Step 12 / 16 <span class="phase-badge offline">Confine sperimentale</span></div><h2>Perché serve un nuovo held-out</h2>
+  <div class="step-kicker">Step 12 / 17 <span class="phase-badge offline">Confine sperimentale</span></div><h2>Perché serve un nuovo held-out</h2>
   <p>Gli historical batch 8–10 erano test di Phase A, ma sono stati aperti. Un test osservato non è più vergine per Phase B. La catena è: historical test visto → non può essere nuovo test indipendente → servono run nuovi → vanno congelati prima di verbalizzazione e inference.</p>
   <div class="example"><div class="panel-label">Cambio di oggetto esplicito</div><h3>Il pattern F1 continua; il run no</h3><p><strong>Prima:</strong> F1 batch 1 ci ha mostrato il calcolo development. <strong>Ora:</strong> il final held-out contiene tre nuovi run per Normal, F1, F8, F10 e F13: 15 casi, fissati da manifest e SHA-256.</p><p>Il verbalizer resta quello frozen: baseline N1–N5, stesse soglie, otto finestre <code>[10,50)</code>. Il test non genera soglie né insight.</p></div>
   <div class="output"><strong>Abbiamo prodotto:</strong> 15 casi indipendenti dal percorso storico già osservato.</div><div class="checkpoint"><strong>✓ Ora possiamo passare perché</strong> possiamo interrogare agenti senza riusare F1 batch 1 come test.</div>
@@ -195,26 +195,43 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-13" data-step="13">
-  <div class="step-kicker">Step 13 / 16 <span class="phase-badge design">Phase B / conoscenza locale</span></div><h2>Agenti non-IID, pseudolabel ed esempi locali</h2>
-  <p>Quattro agenti conoscono tutti il Normal ma ciascuno un solo fault. Un esempio locale è <code>(testo neutrale, pseudolabel)</code>, non workbook o JSON. Ogni agente riceve due esempi del proprio fault (batch 1–2) e gli stessi due Normal (N1–N2).</p>
-  <div class="example"><div class="panel-label">Applicazione concreta</div><h3>Dove va il nostro F1 development</h3><div class="scroll"><table><thead><tr><th>Agente</th><th>Fault locale</th><th>Pseudolabel</th><th>F1</th></tr></thead><tbody><tr><td>Agent 1</td><td>F1</td><td>CLS-ZOGAA</td><td>locale</td></tr><tr><td>Agent 2</td><td>F8</td><td>CLS-OJNSG</td><td>unseen</td></tr><tr><td>Agent 3</td><td>F10</td><td>CLS-R463B</td><td>unseen</td></tr><tr><td>Agent 4</td><td>F13</td><td>CLS-Z3ISU</td><td>unseen</td></tr></tbody></table></div><p>F1 batch 1 è EXM-001 per Agent 1. Non diventa l'held-out diagnosticato più avanti.</p></div>
+  <div class="step-kicker">Step 13 / 17 <span class="phase-badge design">Phase B / conoscenza locale</span></div><h2>Agenti non-IID, pseudolabel ed esempi locali</h2>
+  <p>Quattro agenti conoscono tutti il Normal ma ciascuno un solo fault. Ogni agente riceve due esempi del proprio fault (batch 1–2) e gli stessi due Normal (N1–N2).</p>
+  <div class="example"><div class="panel-label">Applicazione concreta</div><h3>Che cosa significa pseudolabel e che cosa vede l'LLM</h3>
+    <p>Una <strong>pseudolabel</strong> sostituisce nel materiale prompt-facing il nome reale del fault con un token opaco <code>CLS-…</code>: F1, F8, F10 e F13 non vengono mostrati all'LLM, mentre <code>Normal</code> resta <code>Normal</code>. Il mapping reale↔opaco è noto <strong>soltanto all'evaluator</strong>. La pseudonimizzazione maschera il nome del fault, non la sua firma descritta nel testo.</p>
+    <p>Un esempio <strong>few-shot locale</strong> è la coppia <code>(neutral text, pseudolabel)</code>: non contiene il JSON numerico e non contiene il workbook.</p>
+    <div class="callout"><strong>Few-shot reale EXM-001 · F1 batch 1, identità offline.</strong><blockquote>Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 8/8 finestre, sempre con segno positivo; il run più lungo con segno coerente comprende 8 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-1 supera la soglia di pendenza in 6/8 finestre, con segno positivo in 3 e negativo in 3; il run più lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 10.0 h all'ultima a 35.0 h. XMEAS-20: variabilità residua dopo rimozione del trend lineare sopra soglia in 4/8 finestre; 2/2 nella fase iniziale e 0/2 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 1/8 finestre; 1/2 nella fase iniziale e 0/2 nelle ultime finestre. Su XMEAS-10, residual e diff superano simultaneamente le rispettive soglie in 1/8 finestre, incluse 0/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-1 (rapporto tra deviazioni standard 46.30).</blockquote><p><strong>Etichetta mostrata all'LLM:</strong> <code>CLS-ZOGAA</code>. La coppia è testo + etichetta; F1 e batch 1 restano provenance evaluator-side.</p></div>
+    <h3>Dove va il nostro F1 development</h3><div class="scroll"><table><thead><tr><th>Agente</th><th>Fault locale, solo offline</th><th>Pseudolabel prompt-facing</th><th>F1</th></tr></thead><tbody><tr><td>Agent 1</td><td>F1</td><td>CLS-ZOGAA</td><td>locale</td></tr><tr><td>Agent 2</td><td>F8</td><td>CLS-OJNSG</td><td>unseen</td></tr><tr><td>Agent 3</td><td>F10</td><td>CLS-R463B</td><td>unseen</td></tr><tr><td>Agent 4</td><td>F13</td><td>CLS-Z3ISU</td><td>unseen</td></tr></tbody></table></div><p>F1 batch 1 è EXM-001 per Agent 1. Non diventa l'held-out diagnosticato più avanti.</p></div>
   <div class="output"><strong>Abbiamo prodotto:</strong> quattro basi locali non-IID, selezionate senza cherry-picking.</div><div class="checkpoint"><strong>✓ Ora possiamo passare perché</strong> sappiamo chi possiede F1 e per chi resta unseen.</div>
-  <p class="source">Fonti: <a href="../phase_b/local_knowledge/local_examples.json">local examples</a>; <a href="../phase_b/config/evaluator_side/pseudolabel_mapping.json">mapping evaluator-side</a>.</p>
+  <p class="source">Fonti: <a href="../phase_b/local_knowledge/local_examples.json">local examples</a>; <a href="../phase_b/config/evaluator_side/local_example_sources.json">provenance esempi</a>; <a href="../phase_b/config/evaluator_side/pseudolabel_mapping.json">mapping evaluator-side</a>.</p>
 </section>
 
 <section id="step-14" data-step="14">
-  <div class="step-kicker">Step 14 / 16 <span class="phase-badge design">Phase B / federazione</span></div><h2>Gli insight distillano più casi; la federazione li distribuisce peer-only</h2>
-  <p>Gli esempi diagnostici usano batch 1–2. Gli insight vengono generati prima dell'held-out dai cinque testi development del fault locale (batch 1–5): due pattern per agente, otto totali. La federazione è deterministica: ogni agente riceve i sei insight dei tre peer, mai i propri.</p>
+  <div class="step-kicker">Step 14 / 17 <span class="phase-badge design">Phase B / federazione</span></div><h2>Gli insight distillano più casi; la federazione li distribuisce peer-only</h2>
+  <p>Gli esempi diagnostici usano batch 1–2. Gli insight vengono generati dai cinque testi development del fault locale (batch 1–5): <strong>esattamente 2 insight/osservazioni per agente, 8 totali</strong>. La generazione avviene prima di aprire il <strong>nuovo held-out Phase B</strong>, cioè i 15 run PBH; questo oggetto è distinto dall'historical test di Phase A, batch 8–10, già trattato negli Step 11–12. La federazione è deterministica: ogni agente riceve i sei insight dei tre peer, mai i propri.</p>
+  <dl class="decision"><dt>Modello</dt><dd><code>gpt-5.6-terra</code>, reasoning effort <code>medium</code>, Structured Outputs strict.</dd><dt>Regola</dt><dd><em>First structurally valid output wins</em>: viene accettata la prima risposta che passa lo schema, senza selezione o rigenerazione basata sul contenuto.</dd><dt>Esito reale</dt><dd>Per tutti e quattro gli agenti: 1 attempt, 0 retry, 2 insight accettati.</dd><dt>Conseguenza</dt><dd>Nessun insight è scelto retrospettivamente perché sembra diagnosticamente migliore.</dd></dl>
   <div class="example"><div class="panel-label">Applicazione reale · F1 diventa conoscenza trasferibile</div><h3>Da Agent 1 a un peer che non conosce F1</h3><pre><code>INS-001 · agent_1 · CLS-ZOGAA
 "XMEAS-1 exceeds the displacement threshold positively in all 8/8 windows,
  with one coherent 8-window run from 10.0 to 45.0 h; it also has the largest
  overall dispersion (standard-deviation ratio 46.06–46.50)."</code></pre><p>Il range deriva da cinque run development, non da uno. Agent 3 riceve INS-001 e INS-002 da Agent 1 più quattro insight dagli altri peer, ma non i propri F10.</p><div class="callout"><strong>8 generati, 6 ricevuti.</strong> La libreria globale ha otto insight; ciascuna peer library ne ha sei.</div></div>
-  <div class="output"><strong>Abbiamo prodotto:</strong> B genuina e il controllo E con stesso testo ma pseudolabel corrotte.</div><div class="checkpoint"><strong>✓ Ora possiamo passare perché</strong> Agent 3 ha conoscenza F1 da un peer senza ricevere dati raw.</div>
-  <p class="source">Fonti: <a href="../phase_b/insights/final_local_insights.json">insight frozen</a>; <a href="../phase_b/insights/peer_libraries/agent_3_B.json">Agent 3 B</a>.</p>
+  <div class="output"><strong>Abbiamo prodotto:</strong> otto insight frozen e, per ciascun agente, un blocco peer-only di sei osservazioni.</div><div class="checkpoint"><strong>✓ Ora possiamo passare perché</strong> Agent 3 ha conoscenza F1 da un peer senza ricevere dati raw; possiamo quindi definire le condizioni che controllano l'uso di quel blocco.</div>
+  <p class="source">Fonti: <a href="../phase_b/insights/final_local_insights.json">insight frozen</a>; <a href="../phase_b/insights/generation_runs.json">run di generazione</a>; <a href="../phase_b/insights/FINAL_INSIGHT_GENERATION_REPORT.md">report strutturale</a>; <a href="../phase_b/insights/peer_libraries/agent_3_B.json">peer library Agent 3</a>.</p>
 </section>
 
 <section id="step-15" data-step="15">
-  <div class="step-kicker">Step 15 / 16 <span class="phase-badge runtime">Phase B / inference frozen</span></div><h2>Un agent-case reale: PBH-004 visto da Agent 3</h2>
+  <div class="step-kicker">Step 15 / 17 <span class="phase-badge design">Phase B / protocollo frozen</span></div><h2>Condizioni controllate e struttura completa dell'inference</h2>
+  <p>Una <strong>condizione</strong> è una versione controllata dello stesso agent-case: neutral text held-out e few-shot locali restano identici, mentre cambia una sola variabile sperimentale, il blocco degli insight peer. In questo modo la differenza tra condizioni non può essere attribuita a un workbook diverso o a esempi locali diversi.</p>
+  <div class="example"><div class="panel-label">Disegno A/B/E frozen</div><h3>Che cosa cambia davvero</h3><div class="scroll"><table><thead><tr><th>Condizione</th><th>Input oltre ai few-shot locali</th><th>Domanda controllata</th></tr></thead><tbody><tr><td><strong>A — isolated</strong></td><td>Nessun insight peer: solo conoscenza locale.</td><td>Che cosa fa l'agente senza federazione?</td></tr><tr><td><strong>B — FoT</strong></td><td>6 insight peer genuini, con pseudolabel corrette.</td><td>Che cosa aggiunge la conoscenza peer corretta?</td></tr><tr><td><strong>E — corrupted</strong></td><td>Gli stessi 6 insight di B: stessi ID, fonti, testi, ordine e volume; cambiano soltanto le pseudolabel, permutate.</td><td>Il beneficio dipende dall'associazione corretta o dalla sola presenza di più testo?</td></tr></tbody></table></div>
+    <div class="callout"><strong>Perché E è cruciale.</strong> La permutazione è un <em>derangement</em> specifico per agente con zero punti fissi: nessuna pseudolabel resta associata alla classe originale. Per Agent 3, per esempio, <code>CLS-ZOGAA → CLS-OJNSG</code>. E isola quindi la correttezza dell'informazione dal volume e dalla forma del peer block.</div>
+    <h3>Dal disegno alle richieste</h3><div class="chain"><span>15 casi held-out</span><b>×</b><span>4 agenti</span><b>×</b><span>3 condizioni</span><b>×</b><span>R=3</span><b>=</b><span>540 richieste</span></div>
+    <p>Per ogni agent-case-condition, <strong>R=3</strong> significa tre chiamate con input identico. Una pseudolabel con almeno 2 voti diventa la prediction aggregata; senza maggioranza valida l'agente astiene, e l'astensione conta come errore nel protocollo. Le ripetizioni stabilizzano il non-determinismo dell'LLM: <strong>non sono tre esperimenti fisici</strong>.</p><p>Le 540 risposte diventano 180 esiti aggregati; tutte le predizioni vengono congelate <strong>prima</strong> di unirle alla ground truth.</p>
+  </div>
+  <div class="output"><strong>Abbiamo prodotto:</strong> tre condizioni comparabili, 540 richieste frozen e 180 prediction aggregate.</div><div class="checkpoint"><strong>✓ Ora possiamo passare perché</strong> sappiamo esattamente che cosa resta fisso, che cosa cambia e come tre chiamate diventano un singolo esito agent-case-condition.</div>
+  <p class="source">Fonti: <a href="../phase_b/PHASE_B_PROTOCOL_FREEZE.md">protocol freeze</a>; <a href="../phase_b/config/evaluator_side/condition_e_derangements.json">derangement E</a>; <a href="../phase_b/final_evaluation/inference_schedule.json">schedule da 540 richieste</a>.</p>
+</section>
+
+<section id="step-16" data-step="16">
+  <div class="step-kicker">Step 16 / 17 <span class="phase-badge runtime">Phase B / inference frozen</span></div><h2>Un agent-case reale: PBH-004 visto da Agent 3</h2>
   <p><strong>Cambiamo run, non lente.</strong> PBH-004 è il nuovo held-out <code>mode1_1_11.xlsx</code>, vero F1 noto solo all'evaluator. Per Agent 3 F1 è unseen. Il neutral text mostra XMEAS-1 level positivo 8/8, run coerente di otto finestre e dispersione massima 47.00.</p><p>Prima comprendiamo un prompt: testo held-out + quattro few-shot locali. Poi cambia soltanto il peer block.</p>
   <div class="example" id="real-abe-example"><div class="panel-label">Agent 3 × PBH-004 · record frozen</div><h3>La sola manipolazione A/B/E</h3><div class="scroll"><table><thead><tr><th>Condizione</th><th>Peer block</th><th>R=3</th><th>Aggregato</th></tr></thead><tbody><tr><td><strong>A</strong></td><td>Nessun insight</td><td><code>null ×3</code></td><td>astensione, incorrect</td></tr><tr><td><strong>B</strong></td><td>6 insight genuini; INS-001 associa F1 a CLS-ZOGAA</td><td><code>CLS-ZOGAA ×3</code></td><td class="yes">corretta</td></tr><tr><td><strong>E</strong></td><td>Stessi testi/ordine; INS-001 associa F1 a CLS-OJNSG</td><td><code>CLS-OJNSG ×3</code></td><td class="no">errata</td></tr></tbody></table></div>
     <p>I record hanno <code>used_insight_ids=[]</code>: non attribuiamo la singola risposta a INS-001. Confrontiamo correttamente le condizioni frozen nel loro insieme.</p><h3>Perché R=3 arriva solo ora</h3><p>Tre chiamate stabilizzano il non-determinismo; la maggioranza ≥2 produce la label, altrimenti astiene. <strong>R=3 non sono tre esperimenti fisici</strong>.</p>
@@ -223,8 +240,8 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <p class="source">Fonti: <a href="../phase_b/final_evaluation/inference/aggregate_records.jsonl">aggregate records</a>; <a href="../phase_b/insights/peer_libraries/agent_3_E.json">Agent 3 E</a>; <a href="../phase_b/final_evaluation/verbalized/neutral_text/PBH-004.txt">PBH-004</a>.</p>
 </section>
 
-<section id="step-16" data-step="16">
-  <div class="step-kicker">Step 16 / 16 <span class="phase-badge offline">Ground-truth evaluation</span></div><h2>Dalle osservazioni correlate ai risultati e ai limiti</h2>
+<section id="step-17" data-step="17">
+  <div class="step-kicker">Step 17 / 17 <span class="phase-badge offline">Ground-truth evaluation</span></div><h2>Dalle osservazioni correlate ai risultati e ai limiti</h2>
   <p>Un run fault è unseen per tre agenti. I 12 run fisici fault producono 36 agent-case per condizione, ma le tre righe dello stesso run guardano lo stesso segnale. L'unità statistica è il <strong>run fisico (12)</strong>, non la riga (36). Il bootstrap ricampiona run interi, mantenendo unite le tre osservazioni e stratificando per pseudolabel.</p>
   <div class="example"><div class="panel-label">Applicazione reale · dal caso al disegno completo</div><h3>La moltiplicazione che non crea evidenza fisica</h3><div class="chain"><span>1 run F1: PBH-004</span><b>→</b><span>Agent 2</span><span>Agent 3</span><span>Agent 4</span><b>→</b><span>3 osservazioni correlate</span></div>
     <div class="scroll"><table><caption>Classi locally unseen</caption><thead><tr><th>Condizione/contrasto</th><th>Risultato</th><th>Ruolo</th></tr></thead><tbody><tr><td>A</td><td>0/36 = 0.000</td><td>isolamento</td></tr><tr><td>B</td><td>31/36 = 0.861</td><td>insight genuini</td></tr><tr><td>E</td><td>3/36 = 0.083</td><td>associazioni corrotte</td></tr><tr><td><strong>B−A</strong></td><td><strong>+0.861</strong>; 95% [0.833, 0.917]</td><td><strong>primary preregistrata</strong></td></tr><tr><td><strong>B−E</strong></td><td><strong>+0.778</strong>; 95% [0.722, 0.833]</td><td><strong>specificity/mechanistic, non primary</strong></td></tr></tbody></table></div>
