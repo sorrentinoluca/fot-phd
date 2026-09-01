@@ -21,6 +21,7 @@ cross-domain generalization in PV systems.
 
 1. **Understand the project and experiment** →
    [`docs/fot_walkthrough_conversazione.html`](docs/fot_walkthrough_conversazione.html)
+   ([view in browser](https://htmlpreview.github.io/?https://github.com/sorrentinoluca/fot-phd/blob/main/docs/fot_walkthrough_conversazione.html))
 2. **Understand repository scope and project status** → this `README.md`
 3. **Independently verify the frozen results** →
    [`AUDIT_GUIDE.md`](AUDIT_GUIDE.md)

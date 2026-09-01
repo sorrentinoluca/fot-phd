@@ -94,6 +94,9 @@ class TutorialChecks(unittest.TestCase):
         for source, link in links:
             with self.subTest(link=link):
                 url = urlsplit(link)
+                if source == ROOT / "README.md" and url.scheme:
+                    self.assertIn(url.scheme, {"http", "https"})
+                    continue
                 self.assertFalse(url.scheme, "Guide must use local sources only")
                 path = (source.parent / unquote(url.path)).resolve() if url.path else source
                 self.assertTrue(path.exists(), path)
