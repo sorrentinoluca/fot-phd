@@ -2,12 +2,12 @@
 
 ## Inizia qui
 
-[Guida unitaria, dal dato alla valutazione](fot_walkthrough_conversazione.html) —
+[Guida unitaria, dal dato alla valutazione](../../../docs/fot_walkthrough_conversazione.html) —
 percorso completo in 17 step; ogni spiegazione è seguita dall'applicazione
 reale ridotta, dall'output prodotto e dal checkpoint per lo step successivo.
 La navigazione laterale è richiudibile e su mobile parte chiusa.
 
-[Guida passo per passo, Parte 1](fot_walkthrough_part1.html) — dal problema di
+[Guida passo per passo, Parte 1](../../../docs/fot_walkthrough_part1.html) — dal problema di
 ricerca al confine fra rappresentazione e reasoning (§0–15 della narrativa).
 Aprire l'HTML in un browser: funziona anche offline, senza installazioni o API.
 Le interazioni mostrano finestre e scelte LOBO già definite: non fanno tuning.
@@ -20,10 +20,10 @@ fossero lo stesso dato. La Parte 1 non esegue né illustra una nuova diagnosi.
 
 Fonti autorevoli, in ordine:
 
-1. [Freeze Phase A](../VERBALIZER_V2_FREEZE.md),
-   [freeze Phase B](../phase_b/PHASE_B_PROTOCOL_FREEZE.md) e artefatti scientifici;
-2. [narrativa tecnica canonica](FOT_PROJECT_TECHNICAL_NARRATIVE.md);
-3. [companion LLM](FOT_PROJECT_LLM_REFERENCE.md).
+1. [Freeze Phase A](../../phase_a/VERBALIZER_V2_FREEZE.md),
+   [freeze Phase B](../../../phase_b/PHASE_B_PROTOCOL_FREEZE.md) e artefatti scientifici;
+2. [narrativa tecnica canonica](../../narratives/FOT_PROJECT_TECHNICAL_NARRATIVE.md);
+3. [companion LLM](../../narratives/FOT_PROJECT_LLM_REFERENCE.md).
 
 Questa cartella è un supporto didattico post-results, non un nuovo protocollo,
 configurazione, risultato o freeze. In caso di conflitto prevalgono gli artefatti
@@ -37,9 +37,9 @@ senza cambiare un byte:
 
 | File | Uso | SHA-256 |
 |---|---|---|
-| [fot_7_flow_svg.html](archive/fot_7_flow_svg.html) | Schema precedente; contiene tre figure e le ambiguità discusse nell'audit | `9178397d2d3e6bb764fbf91814aa468fa5a0a78769dbc12a73dcd355b7412ae8` |
-| [explain_1.png](figures/explain_1.png) | Immagine storica Phase B, non descrizione normativa dell'esecuzione finale | `32151e73101f0882abe9fc4f44b9eddb0aab0b3fbf7c70bd3c835ed4d8e0f3bd` |
-| [explain_2.png](figures/explain_2.png) | Immagine storica Phase A, non tutorial completo | `63a5a7990c85fd7965978ede9967c37b99ba05fbe516fbcba48989a46b9292d6` |
+| [fot_7_flow_svg.html](../../../docs/archive/fot_7_flow_svg.html) | Schema precedente; contiene tre figure e le ambiguità discusse nell'audit | `9178397d2d3e6bb764fbf91814aa468fa5a0a78769dbc12a73dcd355b7412ae8` |
+| [explain_1.png](../../../docs/figures/explain_1.png) | Immagine storica Phase B, non descrizione normativa dell'esecuzione finale | `32151e73101f0882abe9fc4f44b9eddb0aab0b3fbf7c70bd3c835ed4d8e0f3bd` |
+| [explain_2.png](../../../docs/figures/explain_2.png) | Immagine storica Phase A, non tutorial completo | `63a5a7990c85fd7965978ede9967c37b99ba05fbe516fbcba48989a46b9292d6` |
 
 Attenzione: `explain_1.png` dice che Phase B non è ancora stata eseguita e può
 suggerire una generazione di insight dal caso held-out. Non è lo stato finale:

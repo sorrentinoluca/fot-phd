@@ -296,7 +296,7 @@ disciplina sperimentale; non ha testato la validità empirica nel PV.
   deve essere adattato al dominio fisico e validato nuovamente e in modo
   indipendente.
 
-![Percorso del progetto dal problema FoT nel fotovoltaico al proving ground TEP e ritorno alla fase empirica PV](figures/01_fot_pv_tep_pv_journey.png)
+![Percorso del progetto dal problema FoT nel fotovoltaico al proving ground TEP e ritorno alla fase empirica PV](../../docs/figures/01_fot_pv_tep_pv_journey.png)
 
 **Figura 1 — Dal problema PV al proving ground TEP e ritorno.**
 Il progetto nasce dalla domanda FoT nel fotovoltaico distribuito e usa TEP come
@@ -629,7 +629,7 @@ Phase A ha prodotto un layer informativo ma label-blind. Il JSON conserva più
 dettaglio del testo; il testo comunica fatti utili senza incorporare la
 decisione che Phase B deve studiare.
 
-![Pipeline Phase A dalle serie temporali multivariate alle feature, all'evidenza strutturata e al testo neutrale senza diagnosi](figures/02_phase_a_verbalization.png)
+![Pipeline Phase A dalle serie temporali multivariate alle feature, all'evidenza strutturata e al testo neutrale senza diagnosi](../../docs/figures/02_phase_a_verbalization.png)
 
 **Figura 2 — Separazione tra rappresentazione e diagnosi.**
 Phase A trasforma le serie temporali in feature, evidenza strutturata e testo
@@ -1528,7 +1528,7 @@ Ogni libreria B contiene sei insight: due da ciascuno dei tre peer. Self insight
 e Normal insight sono esclusi. Le librerie sono in
 `phase_b/insights/peer_libraries/`.
 
-![Quattro agenti locali mantengono i propri dataset e condividono soltanto insight testuali peer-to-peer con provenance](figures/03_phase_b_fot_topology.png)
+![Quattro agenti locali mantengono i propri dataset e condividono soltanto insight testuali peer-to-peer con provenance](../../docs/figures/03_phase_b_fot_topology.png)
 
 **Figura 3 — Topologia peer-only della Federation over Text.**
 Ogni agente deriva conoscenza dal proprio dataset locale e conserva localmente
@@ -1620,7 +1620,7 @@ Il contrasto B−A misura il beneficio primario della presenza di FoT rispetto
 all'isolamento; B−E testa se conta la correttezza dell'associazione e non il solo
 volume di testo.
 
-![Confronto controllato tra A isolata, B con insight FoT genuini ed E con gli stessi insight ma associazioni semantiche corrotte](figures/04_conditions_a_b_e.png)
+![Confronto controllato tra A isolata, B con insight FoT genuini ed E con gli stessi insight ma associazioni semantiche corrotte](../../docs/figures/04_conditions_a_b_e.png)
 
 **Figura 4 — Condizioni sperimentali A, B ed E.**
 A conserva soltanto conoscenza locale; B aggiunge insight peer genuini; E usa
@@ -1884,7 +1884,7 @@ freeze precedente.
 Prediction e ground truth evaluation hanno un confine formale. La sintesi
 post-results non sposta `phase-b-results-frozen`.
 
-![Catena dei freeze dall'held-out al protocollo e allo schedule, con prediction congelate prima dell'apertura del ground truth](figures/05_experimental_freeze_chain.png)
+![Catena dei freeze dall'held-out al protocollo e allo schedule, con prediction congelate prima dell'apertura del ground truth](../../docs/figures/05_experimental_freeze_chain.png)
 
 **Figura 5 — Catena di integrità sperimentale.**
 Held-out, protocollo, verbalizzazioni e schedule vengono fissati prima
@@ -2278,7 +2278,7 @@ La lettura prudente usa “supports the interpretation”, non “proves”. B�
 stabilisce il risultato primario nel protocollo; B−E ne rafforza la specificità
 meccanicistica senza sostituirlo.
 
-![Interpretazione delle condizioni A, B ed E con B meno A come primary preregistrata e B meno E come contrasto di specificità](figures/06_results_interpretation.png)
+![Interpretazione delle condizioni A, B ed E con B meno A come primary preregistrata e B meno E come contrasto di specificità](../../docs/figures/06_results_interpretation.png)
 
 **Figura 6 — Gerarchia corretta dell'evidenza Phase B.**
 A opera a un information floor sulle classi unseen e l'abstention resta
@@ -2854,7 +2854,7 @@ Perciò “shift rispetto alla baseline” non può essere trasferito automatica
 Una **operating-condition-conditioned baseline** è una possibile direzione da
 studiare, non un design già deciso né un protocollo frozen.
 
-![Passaggio dal feasibility gate TEP alla ricerca empirica PV distinguendo metodo riutilizzabile e representation layer da ridisegnare e rivalidare](figures/07_tep_to_pv_transition.png)
+![Passaggio dal feasibility gate TEP alla ricerca empirica PV distinguendo metodo riutilizzabile e representation layer da ridisegnare e rivalidare](../../docs/figures/07_tep_to_pv_transition.png)
 
 **Figura 7 — Dal feasibility gate TEP alla fase empirica PV.**
 La separazione representation–reasoning, la provenance, i controlli e la

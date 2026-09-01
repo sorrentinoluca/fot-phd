@@ -65,7 +65,7 @@ dispersion automatically into drift, oscillation, or diagnosis.
 
 Phase A therefore validates a descriptive interface, not a new numerical
 classifier. Its development, validation, test discipline, exact thresholds,
-and frozen hashes are preserved in [`VERBALIZER_V2_FREEZE.md`](VERBALIZER_V2_FREEZE.md),
+and frozen hashes are preserved in [`VERBALIZER_V2_FREEZE.md`](supporting_records/phase_a/VERBALIZER_V2_FREEZE.md),
 [`tep_validation_v2/`](tep_validation_v2/), and [`tep_test_v2/`](tep_test_v2/).
 
 ## Phase B — Federation over Text
@@ -158,29 +158,21 @@ chain directly.
 fot-phd/
 ├── README.md                         # project orientation
 ├── AUDIT_GUIDE.md                    # independent verification path
+├── requirements.txt                  # reference Python dependencies
 ├── docs/
-│   ├── fot_walkthrough_conversazione.html  # primary scientific/didactic guide
-│   ├── figures/                      # documented conceptual figures
-│   └── archive/                      # preserved earlier visual material
+│   └── fot_walkthrough_conversazione.html  # primary scientific/didactic guide
+├── supporting_records/               # supporting provenance, narrative, and historical records not required for initial supervisor review
 ├── code/                             # frozen Phase A implementation and evidence
+├── phase_b/                          # frozen Phase B protocol, execution, and results
+├── reproducibility/                  # Phase A verification artifacts
 ├── tep_validation_v2/                # Phase A validation artifacts
 ├── tep_test_v2/                      # Phase A final test artifacts
-├── phase_b/
-│   ├── config/                       # protocol and evaluator-side configuration
-│   ├── heldout/                      # held-out manifest, verifier, provenance
-│   ├── insights/                     # frozen local and peer insight libraries
-│   ├── evaluation/                   # aggregation, metrics, bootstrap
-│   ├── final_evaluation/inference/   # 540 repetitions and 180 aggregates
-│   ├── final_evaluation/             # frozen offline results
-│   └── tests/                        # protocol and artifact regressions
-├── reproducibility/                  # Phase A verification artifacts
-└── requirements.txt                  # reference Python dependencies
 ```
 
-Several additional Markdown files remain intentionally in place. Freeze
-records and hash-manifested documents cannot be moved without weakening or
-breaking path-based auditability; design and status records preserve the
-decision history even when a later freeze supersedes their operational status.
+Non-entry-point provenance, narrative, design, and status documents are
+consolidated under `supporting_records/`. Frozen or hash-bound documents inside
+`phase_b/` remain at their original paths so the committed audit chain and
+path-based manifests stay intact.
 
 ## Frozen milestones
 

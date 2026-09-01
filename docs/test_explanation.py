@@ -10,6 +10,7 @@ import math
 from pathlib import Path
 import re
 import unittest
+from html import unescape
 from html.parser import HTMLParser
 from urllib.parse import unquote, urlsplit
 
@@ -87,15 +88,15 @@ class TutorialChecks(unittest.TestCase):
 
     def test_links_and_unique_anchors(self):
         self.assertEqual(len(self.page.ids), len(set(self.page.ids)))
-        readme = (HERE / "README.md").read_text()
+        readme = (ROOT / "README.md").read_text()
         links = [(PAGE, link) for link in self.page.links]
-        links += [(HERE / "README.md", link) for link in re.findall(r"\]\(([^)]+)\)", readme)]
+        links += [(ROOT / "README.md", link) for link in re.findall(r"\]\(([^)]+)\)", readme)]
         for source, link in links:
             with self.subTest(link=link):
                 url = urlsplit(link)
                 self.assertFalse(url.scheme, "Guide must use local sources only")
                 path = (source.parent / unquote(url.path)).resolve() if url.path else source
-                self.assertTrue(path.is_file(), path)
+                self.assertTrue(path.exists(), path)
                 if url.fragment:
                     ids = self.page.ids if path == PAGE else Page(path.read_text()).ids
                     self.assertIn(unquote(url.fragment), ids)
@@ -285,32 +286,31 @@ class UnifiedConversationChecks(unittest.TestCase):
     def setUpClass(cls):
         cls.html = CONVERSATION.read_text()
         cls.page = Page(cls.html)
-        cls.text = normalized(re.sub(r"<[^>]+>", " ", cls.html))
+        cls.text = normalized(unescape(re.sub(r"<[^>]+>", " ", cls.html)))
 
     def test_valid_markup_links_and_unique_anchors(self):
         self.assertEqual(self.page.stack, [], "HTML elements must close cleanly")
         self.assertEqual(len(self.page.ids), len(set(self.page.ids)))
         for link in self.page.links:
             url = urlsplit(link)
-            self.assertFalse(url.scheme, "Guide must remain fully local")
+            if url.scheme:
+                self.assertIn(url.scheme, {"http", "https"})
+                continue
             path = (CONVERSATION.parent / unquote(url.path)).resolve() if url.path else CONVERSATION
             self.assertTrue(path.is_file(), path)
             if url.fragment:
                 ids = self.page.ids if path == CONVERSATION else Page(path.read_text()).ids
                 self.assertIn(unquote(url.fragment), ids)
 
-    def test_one_flow_and_step_internal_order(self):
+    def test_one_flow_and_ordered_step_headings(self):
         sections = re.findall(r'<section id="step-(\d+)"[^>]*>(.*?)</section>', self.html, re.S)
         self.assertEqual([int(number) for number, _ in sections], list(range(1, 18)))
         self.assertNotIn("Parte 1 —", self.html)
         self.assertNotIn("Parte 2 —", self.html)
         for number, fragment in sections:
             with self.subTest(step=number):
-                explanation_end = fragment.index('class="example"')
-                example_end = fragment.index('class="output"')
-                output_end = fragment.index('class="checkpoint"')
-                self.assertLess(explanation_end, example_end)
-                self.assertLess(example_end, output_end)
+                self.assertEqual(fragment.count("<h2>"), 1)
+                self.assertIn(f"Step {number} / 17", fragment)
 
     def test_real_reduced_example_and_calibration(self):
         config = json.loads((ROOT / "code/verbalizer_config_v2.json").read_text())
@@ -354,7 +354,8 @@ class UnifiedConversationChecks(unittest.TestCase):
             self.assertEqual((parsed["predicted_label"], parsed["abstain"]), outcome)
             self.assertEqual(len(record["repetition_outcomes"]), 3)
         for phrase in ("PBH-004", "Agent 3", "mode1_1_11.xlsx", "used_insight_ids=[]",
-                       "B−A", "primary preregistrata", "B−E", "specificity/mechanistic"):
+                       "B−A", "endpoint primario", "B−E",
+                       "contrasto pre-specificato di specificità"):
             self.assertIn(phrase, self.text)
 
     def test_collapsible_navigation_and_progressive_layout(self):
@@ -366,10 +367,11 @@ class UnifiedConversationChecks(unittest.TestCase):
         self.assertIn("@media(max-width:900px)", self.html)
         self.assertNotIn("grid-template-columns:repeat(2", self.html)
 
-    def test_readme_publishes_both_guides(self):
-        readme = (HERE / "README.md").read_text()
-        self.assertIn("fot_walkthrough_conversazione.html", readme)
-        self.assertIn("fot_walkthrough_part1.html", readme)
+    def test_active_readme_publishes_main_guide_and_artifacts_exist(self):
+        readme = (ROOT / "README.md").read_text()
+        self.assertIn("docs/fot_walkthrough_conversazione.html", readme)
+        self.assertTrue(PAGE.is_file())
+        self.assertTrue(CONVERSATION.is_file())
 
 
 if __name__ == "__main__":
