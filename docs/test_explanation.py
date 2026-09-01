@@ -17,6 +17,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 PAGE = HERE / "fot_walkthrough_part1.html"
 CONVERSATION = HERE / "fot_walkthrough_conversazione.html"
+ARCHIVE = HERE / "archive"
+FIGURES = HERE / "figures"
 
 
 class Page(HTMLParser):
@@ -246,13 +248,17 @@ class TutorialChecks(unittest.TestCase):
         self.assertIn(first["shift_sigma"], self.html)
 
     def test_archived_files_byte_identical(self):
-        expected = {
+        expected_archive = {
             "fot_7_flow_svg.html": "9178397d2d3e6bb764fbf91814aa468fa5a0a78769dbc12a73dcd355b7412ae8",
+        }
+        expected_figures = {
             "explain_1.png": "32151e73101f0882abe9fc4f44b9eddb0aab0b3fbf7c70bd3c835ed4d8e0f3bd",
             "explain_2.png": "63a5a7990c85fd7965978ede9967c37b99ba05fbe516fbcba48989a46b9292d6",
         }
-        for name, sha in expected.items():
-            self.assertEqual(hashlib.sha256((HERE / "archive" / name).read_bytes()).hexdigest(), sha)
+        for name, sha in expected_archive.items():
+            self.assertEqual(hashlib.sha256((ARCHIVE / name).read_bytes()).hexdigest(), sha)
+        for name, sha in expected_figures.items():
+            self.assertEqual(hashlib.sha256((FIGURES / name).read_bytes()).hexdigest(), sha)
 
     def test_phase_A_frozen_hashes(self):
         expected = {
@@ -295,7 +301,7 @@ class UnifiedConversationChecks(unittest.TestCase):
 
     def test_one_flow_and_step_internal_order(self):
         sections = re.findall(r'<section id="step-(\d+)"[^>]*>(.*?)</section>', self.html, re.S)
-        self.assertEqual([int(number) for number, _ in sections], list(range(1, 16)))
+        self.assertEqual([int(number) for number, _ in sections], list(range(1, 18)))
         self.assertNotIn("Parte 1 —", self.html)
         self.assertNotIn("Parte 2 —", self.html)
         for number, fragment in sections:

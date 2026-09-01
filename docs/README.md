@@ -3,7 +3,7 @@
 ## Inizia qui
 
 [Guida unitaria, dal dato alla valutazione](fot_walkthrough_conversazione.html) —
-percorso completo in 15 step; ogni spiegazione è seguita dall'applicazione
+percorso completo in 17 step; ogni spiegazione è seguita dall'applicazione
 reale ridotta, dall'output prodotto e dal checkpoint per lo step successivo.
 La navigazione laterale è richiudibile e su mobile parte chiusa.
 
@@ -22,8 +22,8 @@ Fonti autorevoli, in ordine:
 
 1. [Freeze Phase A](../VERBALIZER_V2_FREEZE.md),
    [freeze Phase B](../phase_b/PHASE_B_PROTOCOL_FREEZE.md) e artefatti scientifici;
-2. [narrativa tecnica canonica](../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md);
-3. [companion LLM](../docs/FOT_PROJECT_LLM_REFERENCE.md).
+2. [narrativa tecnica canonica](FOT_PROJECT_TECHNICAL_NARRATIVE.md);
+3. [companion LLM](FOT_PROJECT_LLM_REFERENCE.md).
 
 Questa cartella è un supporto didattico post-results, non un nuovo protocollo,
 configurazione, risultato o freeze. In caso di conflitto prevalgono gli artefatti
@@ -32,14 +32,14 @@ scientifici frozen. Il commit sorgente della guida è
 
 ## Materiale precedente conservato
 
-I tre file precedentemente locali in `docs/` sono stati raccolti in `archive/`
+Il materiale pedagogico precedente è conservato tra `archive/` e `figures/`
 senza cambiare un byte:
 
 | File | Uso | SHA-256 |
 |---|---|---|
 | [fot_7_flow_svg.html](archive/fot_7_flow_svg.html) | Schema precedente; contiene tre figure e le ambiguità discusse nell'audit | `9178397d2d3e6bb764fbf91814aa468fa5a0a78769dbc12a73dcd355b7412ae8` |
-| [explain_1.png](archive/explain_1.png) | Immagine storica Phase B, non descrizione normativa dell'esecuzione finale | `32151e73101f0882abe9fc4f44b9eddb0aab0b3fbf7c70bd3c835ed4d8e0f3bd` |
-| [explain_2.png](archive/explain_2.png) | Immagine storica Phase A, non tutorial completo | `63a5a7990c85fd7965978ede9967c37b99ba05fbe516fbcba48989a46b9292d6` |
+| [explain_1.png](figures/explain_1.png) | Immagine storica Phase B, non descrizione normativa dell'esecuzione finale | `32151e73101f0882abe9fc4f44b9eddb0aab0b3fbf7c70bd3c835ed4d8e0f3bd` |
+| [explain_2.png](figures/explain_2.png) | Immagine storica Phase A, non tutorial completo | `63a5a7990c85fd7965978ede9967c37b99ba05fbe516fbcba48989a46b9292d6` |
 
 Attenzione: `explain_1.png` dice che Phase B non è ancora stata eseguita e può
 suggerire una generazione di insight dal caso held-out. Non è lo stato finale:
@@ -54,7 +54,7 @@ finale furono 540 repetition e 541 provider attempt, includendo un retry.
 Da root:
 
 ```bash
-python explanation/test_explanation.py
+python docs/test_explanation.py
 ```
 
 I test leggono gli artefatti esistenti, controllano soglie, otto righe

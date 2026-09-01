@@ -45,7 +45,7 @@ section{background:white;border:1px solid var(--line);border-radius:14px;padding
 <p class="eyebrow">Federation over Text · Dentro il dato · Parte 1</p>
 <h1>Da un file di misure<br>a un testo che non diagnostica.</h1>
 <p class="subtitle">Un caso reale, otto finestre, nessun salto nascosto tra design, calibrazione ed esecuzione.</p>
-<p>Arriviamo al §15 della <a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md#s15">narrativa canonica</a>: il punto in cui la rappresentazione frozen può alimentare il reasoning. Non eseguiamo nuove analisi, non scegliamo nuove soglie e non anticipiamo una nuova diagnosi.</p>
+<p>Arriviamo al §15 della <a href="FOT_PROJECT_TECHNICAL_NARRATIVE.md#s15">narrativa canonica</a>: il punto in cui la rappresentazione frozen può alimentare il reasoning. Non eseguiamo nuove analisi, non scegliamo nuove soglie e non anticipiamo una nuova diagnosi.</p>
 </header>
 
 <section id="contratto">
@@ -65,7 +65,7 @@ section{background:white;border:1px solid var(--line);border-radius:14px;padding
 <h3>La lezione di V1</h3><p>Una deviazione standard alta può dipendere da uno spostamento di livello o da una rampa, non necessariamente da oscillazioni. Aggregare tutto il periodo post-onset nasconde quando i valori cambiano. Inoltre il precedente 5/5 aveva prototipi A/B/C/D già nel prompt: resta un sanity check, non validazione del trasferimento FoT.</p>
 <p><code>std_fault / std_normal</code> è un rapporto di <strong>deviazioni standard</strong>, non di varianze. Il V2 separa misure complementari e conserva il tempo. Non “corregge” questi problemi aggiungendo automaticamente FFT o wavelet.</p>
 <div class="warning">Questa guida spiega il PoC TEP. Non dimostra prestazioni PV, generalizzazione empirica cross-domain, assenza universale di negative transfer o superiorità rispetto a central ICL.</div>
-<p class="src"><a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md#s5">V1 storico</a> · <a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md#s6">Obiettivo V2</a> · <a href="../FOT_TEP_POC_FINAL_SYNTHESIS.md">Sintesi finale e limiti</a>.</p>
+<p class="src"><a href="FOT_PROJECT_TECHNICAL_NARRATIVE.md#s5">V1 storico</a> · <a href="FOT_PROJECT_TECHNICAL_NARRATIVE.md#s6">Obiettivo V2</a> · <a href="../FOT_TEP_POC_FINAL_SYNTHESIS.md">Sintesi finale e limiti</a>.</p>
 </section>
 
 <section id="dataset">
@@ -85,7 +85,7 @@ section{background:white;border:1px solid var(--line);border-radius:14px;padding
 <tr><td>Final held-out Phase B</td><td>Nuovi run</td><td>Nuovi run Normal</td><td>Identità congelate prima dell'uso diagnostico; percorso separato.</td></tr>
 </tbody></table></div>
 <p class="checkpoint"><strong>Dove siamo con il protagonista?</strong> Abbiamo identificato F1 batch 1 e il suo ruolo development. Non abbiamo ancora calcolato niente sul suo segnale. Le decisioni di design possono averlo considerato: per questo non verrà chiamato “test indipendente”.</p>
-<p class="src"><a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md#s4">Audit e split</a> · <a href="../code/tep_features.py">normalize_schema e iter_time_windows</a>.</p>
+<p class="src"><a href="FOT_PROJECT_TECHNICAL_NARRATIVE.md#s4">Audit e split</a> · <a href="../code/tep_features.py">normalize_schema e iter_time_windows</a>.</p>
 </section>
 
 <section id="design">
@@ -101,7 +101,7 @@ section{background:white;border:1px solid var(--line);border-radius:14px;padding
 <details><summary>Zoom sulle operazioni: dove vanno i 300 valori?</summary><p>Per un canale chiamiamo i dati <code>(tᵢ,xᵢ)</code>, i=1…300. La media usa tutti i valori. La pendenza OLS è <code>Σ(tᵢ−t̄)(xᵢ−x̄) / Σ(tᵢ−t̄)²</code>; i residui sono <code>xᵢ − [x̄ + slope·(tᵢ−t̄)]</code>. Le prime differenze sono i 299 valori <code>xᵢ−xᵢ₋₁</code>. Le std usano <code>ddof=1</code>. La derivata non viene ricostruita con FFT: sono operazioni time-domain fissate nel codice.</p></details>
 <dl class="decision"><dt>Problema</dt><dd>Step, rampa, variabilità lenta e noise possono aumentare la stessa std.</dd><dt>Rischio</dt><dd>Una singola feature riceve una diagnosi che non può identificare.</dd><dt>Decisione</dt><dd>Test sintetici e analisi development prima del freeze; mantenere misure complementari e sequenza temporale.</dd><dt>Conseguenza</dt><dd>Limiti espliciti: diff può perdere oscillazioni lente; uno step interno può contaminare diff e residui; detrend non cancella tutte le dinamiche non lineari.</dd></dl>
 <p>Le quattro feature non vengono “scelte di nuovo” guardando ogni F1 o ogni N6. Non si cambia il set per far funzionare un caso. La <strong>scelta</strong> è development; il <strong>calcolo</strong> ricorre su ogni finestra.</p>
-<p class="src"><a href="../code/tep_features.py">Formule frozen</a> · <a href="../code/test_features.py">Casi sintetici software</a> · <a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md#s7">Motivazioni delle feature</a>.</p>
+<p class="src"><a href="../code/tep_features.py">Formule frozen</a> · <a href="../code/test_features.py">Casi sintetici software</a> · <a href="FOT_PROJECT_TECHNICAL_NARRATIVE.md#s7">Motivazioni delle feature</a>.</p>
 </section>
 
 <section id="baseline">
@@ -292,7 +292,7 @@ section{background:white;border:1px solid var(--line);border-radius:14px;padding
 <p>Il freeze del verbalizer impedisce di attribuire alla federazione un miglioramento dovuto invece a nuove feature o a un renderer cambiato. L'evaluator con ground truth resta un componente offline separato, non un quarto ingresso del prompt.</p>
 <div class="checkpoint"><strong>STOP della Parte 1.</strong> Ci fermiamo al contratto d'ingresso Phase B. La Parte 2 potrà seguire pseudolabel, topologia non-IID, generazione degli insight, A/B/E, parser, retry, R=3, freeze delle prediction e valutazione. Non li comprimiamo in una scatola che sembri già spiegarli.</div>
 <p class="small">Orientamento, non risultato nuovo: B−A resta il contrasto primario preregistrato; B−E il contrasto specificity/mechanistic, non primary. La Phase B è già completata nel repository; questo arresto è pedagogico, non lo stato storico del progetto.</p>
-<p class="src"><a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md#s15">§15: dalla Phase A alla Phase B</a> · <a href="../phase_b/PHASE_B_PROTOCOL_FREEZE.md">Protocollo normativo</a> · <a href="../phase_b/conditions/builders.py">Separazione degli input al prompt</a>.</p>
+<p class="src"><a href="FOT_PROJECT_TECHNICAL_NARRATIVE.md#s15">§15: dalla Phase A alla Phase B</a> · <a href="../phase_b/PHASE_B_PROTOCOL_FREEZE.md">Protocollo normativo</a> · <a href="../phase_b/conditions/builders.py">Separazione degli input al prompt</a>.</p>
 </section>
 
 <section id="verifica">
@@ -309,7 +309,7 @@ section{background:white;border:1px solid var(--line);border-radius:14px;padding
 <details><summary>10. Che cosa è stato trasferito a PV?</summary><p class="answer">Una motivazione e un'architettura metodologica candidata: separazione representation/reasoning, provenance, peer federation e disciplina freeze/held-out. Feature, baseline, soglie, finestre e prestazioni PV richiedono adattamento e validazione indipendente.</p></details>
 <h3>Autorità, riproducibilità e limiti di questa pagina</h3><p>Fonte del contenuto: repository al commit <code>10acccdd3dd8b8bab9ee0b584c99899d59d8c906</code>. La pagina e i suoi dati embedded sono un <strong>estratto pedagogico</strong>, non una config operativa né un nuovo risultato. I test confrontano l'esempio con gli artefatti committati e verificano i link. Il ponte raw→shift è stato verificato in sola lettura sui due workbook sorgente; la pagina non apre workbook raw né invoca API.</p>
 <p>Gerarchia: artefatti sperimentali frozen → narrativa canonica → companion LLM → questa guida. Le fonti puntuali accompagnano ogni sezione. Alcuni link a file sorgente sono pensati per il repository; l'HTML può essere letto offline senza fetch, CDN, font remoti o librerie esterne.</p>
-<p><a href="../docs/FOT_PROJECT_TECHNICAL_NARRATIVE.md">Narrativa completa</a> · <a href="../docs/FOT_PROJECT_LLM_REFERENCE.md">Companion LLM</a> · <a href="README.md">Archivio e test della guida</a> · <a href="archive/fot_7_flow_svg.html">HTML precedente, conservato invariato</a>.</p>
+<p><a href="FOT_PROJECT_TECHNICAL_NARRATIVE.md">Narrativa completa</a> · <a href="FOT_PROJECT_LLM_REFERENCE.md">Companion LLM</a> · <a href="README.md">Archivio e test della guida</a> · <a href="archive/fot_7_flow_svg.html">HTML precedente, conservato invariato</a>.</p>
 </section>
 <footer>Fine Parte 1 · Nessuna modifica al layer scientifico frozen · Il tutorial non sostituisce il protocollo.</footer>
 </main></div>
