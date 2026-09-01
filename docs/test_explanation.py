@@ -358,7 +358,7 @@ class UnifiedConversationChecks(unittest.TestCase):
             self.assertEqual(len(record["repetition_outcomes"]), 3)
         for phrase in ("PBH-004", "Agent 3", "mode1_1_11.xlsx", "used_insight_ids=[]",
                        "B−A", "endpoint primario", "B−E",
-                       "contrasto pre-specificato di specificità"):
+                       "contrasto di specificità pre-specificato"):
             self.assertIn(phrase, self.text)
 
     def test_collapsible_navigation_and_progressive_layout(self):

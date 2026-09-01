@@ -351,10 +351,22 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
    <div class="s17row"><span class="s17lab">E</span><div class="s17track"><span class="s17seg ok" style="flex:3" title="3 corrette">3</span><span class="s17seg wr" style="flex:33" title="33 committed incorrect">33</span></div></div>
   </div>
   <div class="s17legend"><span><i style="background:#087367"></i>correct</span><span><i style="background:#a03932"></i>committed incorrect</span><span><i style="background:#8a99a3"></i>abstain</span><span>&middot; ogni barra = 36 agent-case</span></div>
-  <div class="callout"><strong>Descrittore selective-prediction<span class="s17tag post">post-hoc</span></strong> In A la <strong>coverage</strong> = 22/36 = <strong>0.611</strong> (frazione di casi in cui l'agente si sbilancia) e la <strong>committed accuracy</strong> = 0/22 = <strong>0.000</strong>: A non fallisce solo astenendosi, sbaglia anche quando decide. In B ed E la coverage &egrave; 1.000.</div>
+  <div class="callout full-width">In A, l'agente si astiene in 14/36 casi e produce una predizione in 22/36 casi. Nessuna delle 22 predizioni committed &egrave; corretta. Quindi lo 0/36 di A non deriva soltanto dalle astensioni: anche quando l'agente sceglie una classe localmente unseen, la decisione &egrave; errata. In B ed E, invece, non si osservano astensioni.</div>
   <p class="fig-cap"><strong>Figura 1 &mdash;</strong> Composizione degli esiti sui fault localmente unseen. Ogni barra contiene 36 agent-case aggregati derivati da 12 run fisici indipendenti; l'astensione &egrave; conteggiata come incorrect. A raggiunge il floor attraverso 14 astensioni e 22 predizioni committed errate; B produce 31 risposte corrette; E conserva lo stesso peer-information block di B ma con associazioni insight&ndash;pseudolabel corrotte.</p>
 
-  <h3>3 &middot; Figura 2 &mdash; Effect size con intervalli</h3>
+  <h3>3 &middot; Figura 2 &mdash; Contrasti B&minus;A e B&minus;E con intervalli di confidenza</h3>
+  <p>Questa figura mostra <strong>quanto cambia l'accuratezza della condizione FoT (B) rispetto alle due condizioni di controllo</strong>. Non rappresenta quindi le accuracy assolute di A, B ed E, ma le loro differenze.</p>
+  <p>Per leggere il grafico:</p>
+  <ul>
+    <li>il <strong>punto</strong> rappresenta la differenza di accuratezza osservata;</li>
+    <li>il <strong>segmento orizzontale</strong> rappresenta l'intervallo di confidenza al 95% ottenuto mediante il cluster bootstrap sui 12 run fisici;</li>
+    <li>la <strong>linea verticale a 0</strong> rappresenta l'assenza di differenza tra le due condizioni;</li>
+    <li>valori pi&ugrave; a destra indicano un vantaggio maggiore della condizione B.</li>
+  </ul>
+  <p>Il primo contrasto, <strong>B&minus;A</strong>, risponde alla domanda principale dell'esperimento: gli insight peer autentici aiutano un agente a riconoscere fault che non ha mai osservato localmente? Il risultato &egrave; <strong>+0.8611</strong>, con intervallo di confidenza <strong>[0.8333, 0.9167]</strong>. Nel campione osservato, B passa quindi da 0/36 risposte corrette di A a 31/36.</p>
+  <p>Il secondo contrasto, <strong>B&minus;E</strong>, pone una domanda diversa: il vantaggio di B dipende dalla corretta associazione semantica degli insight oppure potrebbe essere spiegato semplicemente dalla presenza di ulteriore testo nel prompt? Il risultato &egrave; <strong>+0.7778</strong>, con intervallo di confidenza <strong>[0.7222, 0.8333]</strong>. Poich&eacute; E contiene lo stesso peer-information block di B ma con le associazioni pseudolabel corrotte, questo contrasto supporta l'interpretazione che il beneficio osservato dipenda dalla corretta associazione dell'informazione trasferita e non dalla sola quantit&agrave; di testo aggiuntivo.</p>
+  <p>Entrambi gli intervalli rimangono interamente sopra lo zero. <strong>B&minus;A &egrave; il contrasto primario pre-specificato; B&minus;E &egrave; il contrasto di specificit&agrave; pre-specificato e non costituisce un secondo endpoint primario.</strong></p>
+  <p>La magnitudine di B&minus;A va comunque interpretata tenendo presente che A rappresenta un <strong>information floor</strong> per le classi localmente unseen: l'agente ricevente non possiede esempi locali della pseudoclasse corrispondente. Il valore +0.8611 non deve quindi essere interpretato come una misura generale delle prestazioni di FoT in altri problemi, modelli o domini.</p>
   <svg viewBox="0 0 680 214" role="img" aria-label="Forest plot dei contrasti B meno A e B meno E con intervalli di confidenza" style="max-width:680px;width:100%;height:auto;font-family:inherit">
     <line x1="230" y1="34" x2="230" y2="185" stroke="#eef2f4"/><line x1="370" y1="34" x2="370" y2="185" stroke="#eef2f4"/><line x1="510" y1="34" x2="510" y2="185" stroke="#eef2f4"/><line x1="650" y1="34" x2="650" y2="185" stroke="#eef2f4"/>
     <line x1="90" y1="185" x2="650" y2="185" stroke="#9fb1bc"/>
@@ -372,7 +384,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
     <text x="12" y="132" font-size="14" font-weight="800" fill="#234b60">B&minus;E</text>
     <text x="525.6" y="114" font-size="12" fill="#234b60" text-anchor="middle">+0.778 [0.722, 0.833]</text>
   </svg>
-  <p class="fig-cap"><strong>Figura 2 &mdash;</strong> Effetti pre-specificati nel protocollo frozen sui fault localmente unseen. B&minus;A &egrave; l'endpoint primario; B&minus;E &egrave; il contrasto pre-specificato di specificit&agrave;, non una seconda primary. Gli intervalli derivano da 10.000 ricampionamenti paired per run fisico, stratificati per pseudolabel, seed frozen 20260829. <em>Condition A represents an information-floor setting for locally unseen class semantics, because the receiving agent has no local exemplar of the corresponding pseudoclass.</em> La magnitudine di B&minus;A va letta rispetto a questo floor, non come misura generale di performance.</p>
+  <p class="fig-cap"><strong>Figura 2 &mdash;</strong> Differenze di accuratezza sui fault localmente unseen. I punti indicano i contrasti osservati e i segmenti i relativi intervalli di confidenza al 95%, calcolati con 10.000 ricampionamenti paired dei 12 run fisici, stratificati per pseudolabel (seed frozen 20260829).</p>
 
   <h3>4 &middot; Figura 3 &mdash; Eterogeneit&agrave;: heatmap run &times; agente</h3>
   <p>La heatmap mostra i <strong>12 run fisici individuali</strong> (una riga per run), non aggregati: le tre osservazioni agent-level sullo stesso run sono la struttura di cluster, non repliche indipendenti. Pannello principale <strong>B</strong>; A ed E come confronto compatto.</p>
