@@ -309,10 +309,11 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 #step-17 .s17legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin:8px 0 0;color:var(--muted)}
 #step-17 .s17legend span{display:inline-flex;align-items:center;gap:6px}
 #step-17 .s17legend i{width:13px;height:13px;border-radius:3px;display:inline-block}
-#step-17 .s17panels{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-start;margin:12px 0}
-#step-17 table.s17hm{width:auto;border-collapse:collapse;font-size:13px}
+#step-17 table.s17hm{width:100%;min-width:720px;border-collapse:collapse;font-size:13px}
 #step-17 table.s17hm th,#step-17 table.s17hm td{border:2px solid #fff;text-align:center;padding:0}
 #step-17 table.s17hm thead th{background:#edf3f6;color:#25485c;padding:5px 8px;border-color:var(--line)}
+#step-17 .s17hm tr.s17group-start>*{border-top:5px solid var(--paper)}
+#step-17 .s17num{background:#f7f9fa;color:#536875;font-weight:700;padding:4px 8px;width:42px;font-variant-numeric:tabular-nums}
 #step-17 .s17flab{background:#eef4f7;color:var(--navy);font-weight:850;padding:0 8px;width:auto}
 #step-17 .s17run{background:#f7f9fa;color:#25485c;font-weight:700;padding:4px 8px;white-space:nowrap;font-variant-numeric:tabular-nums;width:auto}
 #step-17 .s17-ok{background:#087367;color:#fff;font-weight:800}
@@ -320,8 +321,6 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 #step-17 .s17-ab{background:#8a99a3;color:#fff;font-weight:800}
 #step-17 .s17-seen{background:#d7dee2;color:#8595a0}
 #step-17 .s17hm td.s17-ok,#step-17 .s17hm td.s17-wr,#step-17 .s17hm td.s17-ab,#step-17 .s17hm td.s17-seen{width:34px;height:26px}
-#step-17 table.s17mini td.s17-ok,#step-17 table.s17mini td.s17-wr,#step-17 table.s17mini td.s17-ab,#step-17 table.s17mini td.s17-seen{width:15px;height:15px}
-#step-17 .s17minicap{font-weight:800;color:var(--navy);font-size:13px;margin:0 0 5px}
 #step-17 .s17fault{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
 #step-17 .s17fault span{border:1px solid #a9c6c3;border-radius:6px;padding:6px 10px;font-size:14px;background:var(--white);font-variant-numeric:tabular-nums}
 #step-17 .s17fault span.hot{border-color:#a03932;background:#f7e9e7;color:#7d2c26;font-weight:800}
@@ -386,63 +385,35 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   </svg>
   <p class="fig-cap"><strong>Figura 2 &mdash;</strong> Differenze di accuratezza sui fault localmente unseen. I punti indicano i contrasti osservati e i segmenti i relativi intervalli di confidenza al 95%, calcolati con 10.000 ricampionamenti paired dei 12 run fisici, stratificati per pseudolabel (seed frozen 20260829).</p>
 
-  <h3>4 &middot; Figura 3 &mdash; Eterogeneit&agrave;: heatmap run &times; agente</h3>
-  <p>La heatmap mostra i <strong>12 run fisici individuali</strong> (una riga per run), non aggregati: le tre osservazioni agent-level sullo stesso run sono la struttura di cluster, non repliche indipendenti. Pannello principale <strong>B</strong>; A ed E come confronto compatto.</p>
-  <div class="s17panels">
-   <div><p class="s17minicap">B &mdash; insight peer autentici</p>
-<table class="s17hm"><thead><tr><th>Fault</th><th>Run</th><th>A1</th><th>A2</th><th>A3</th><th>A4</th></tr></thead><tbody>
-<tr><th rowspan="3" class="s17flab">F1</th><td class="s17run">PBH-004</td><td class="s17-seen" title="seen (fault locale, escluso)">·</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td></tr>
-<tr><td class="s17run">PBH-005</td><td class="s17-seen" title="seen (fault locale, escluso)">·</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td></tr>
-<tr><td class="s17run">PBH-006</td><td class="s17-seen" title="seen (fault locale, escluso)">·</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td></tr>
-<tr><th rowspan="3" class="s17flab">F8</th><td class="s17run">PBH-007</td><td class="s17-ok" title="corretta">✓</td><td class="s17-seen" title="seen (fault locale, escluso)">·</td><td class="s17-wr" title="errata">✗</td><td class="s17-wr" title="errata">✗</td></tr>
-<tr><td class="s17run">PBH-008</td><td class="s17-ok" title="corretta">✓</td><td class="s17-seen" title="seen (fault locale, escluso)">·</td><td class="s17-wr" title="errata">✗</td><td class="s17-ok" title="corretta">✓</td></tr>
-<tr><td class="s17run">PBH-009</td><td class="s17-ok" title="corretta">✓</td><td class="s17-seen" title="seen (fault locale, escluso)">·</td><td class="s17-wr" title="errata">✗</td><td class="s17-wr" title="errata">✗</td></tr>
-<tr><th rowspan="3" class="s17flab">F10</th><td class="s17run">PBH-010</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td><td class="s17-seen" title="seen (fault locale, escluso)">·</td><td class="s17-ok" title="corretta">✓</td></tr>
-<tr><td class="s17run">PBH-011</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td><td class="s17-seen" title="seen (fault locale, escluso)">·</td><td class="s17-ok" title="corretta">✓</td></tr>
-<tr><td class="s17run">PBH-012</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td><td class="s17-seen" title="seen (fault locale, escluso)">·</td><td class="s17-ok" title="corretta">✓</td></tr>
-<tr><th rowspan="3" class="s17flab">F13</th><td class="s17run">PBH-013</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td><td class="s17-seen" title="seen (fault locale, escluso)">·</td></tr>
-<tr><td class="s17run">PBH-014</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td><td class="s17-seen" title="seen (fault locale, escluso)">·</td></tr>
-<tr><td class="s17run">PBH-015</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td><td class="s17-ok" title="corretta">✓</td><td class="s17-seen" title="seen (fault locale, escluso)">·</td></tr>
-</tbody></table>
-   </div>
-   <div><p class="s17minicap">A &mdash; floor</p>
-<table class="s17hm s17mini"><thead><tr><th></th><th>A1</th><th>A2</th><th>A3</th><th>A4</th></tr></thead><tbody>
-<tr><td class="s17run">PBH-004</td><td class="s17-seen"></td><td class="s17-wr"></td><td class="s17-ab"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-005</td><td class="s17-seen"></td><td class="s17-wr"></td><td class="s17-ab"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-006</td><td class="s17-seen"></td><td class="s17-wr"></td><td class="s17-ab"></td><td class="s17-ab"></td></tr>
-<tr><td class="s17run">PBH-007</td><td class="s17-ab"></td><td class="s17-seen"></td><td class="s17-wr"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-008</td><td class="s17-wr"></td><td class="s17-seen"></td><td class="s17-wr"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-009</td><td class="s17-ab"></td><td class="s17-seen"></td><td class="s17-ab"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-010</td><td class="s17-ab"></td><td class="s17-wr"></td><td class="s17-seen"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-011</td><td class="s17-ab"></td><td class="s17-wr"></td><td class="s17-seen"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-012</td><td class="s17-ab"></td><td class="s17-wr"></td><td class="s17-seen"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-013</td><td class="s17-ab"></td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-seen"></td></tr>
-<tr><td class="s17run">PBH-014</td><td class="s17-ab"></td><td class="s17-wr"></td><td class="s17-ab"></td><td class="s17-seen"></td></tr>
-<tr><td class="s17run">PBH-015</td><td class="s17-ab"></td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-seen"></td></tr>
-</tbody></table>
-   <p class="s17minicap" style="margin-top:14px">E &mdash; associazioni corrotte</p>
-<table class="s17hm s17mini"><thead><tr><th></th><th>A1</th><th>A2</th><th>A3</th><th>A4</th></tr></thead><tbody>
-<tr><td class="s17run">PBH-004</td><td class="s17-seen"></td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-005</td><td class="s17-seen"></td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-006</td><td class="s17-seen"></td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-007</td><td class="s17-wr"></td><td class="s17-seen"></td><td class="s17-wr"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-008</td><td class="s17-wr"></td><td class="s17-seen"></td><td class="s17-ok"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-009</td><td class="s17-wr"></td><td class="s17-seen"></td><td class="s17-wr"></td><td class="s17-ok"></td></tr>
-<tr><td class="s17run">PBH-010</td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-seen"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-011</td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-seen"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-012</td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-seen"></td><td class="s17-wr"></td></tr>
-<tr><td class="s17run">PBH-013</td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-seen"></td></tr>
-<tr><td class="s17run">PBH-014</td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-seen"></td></tr>
-<tr><td class="s17run">PBH-015</td><td class="s17-wr"></td><td class="s17-wr"></td><td class="s17-ok"></td><td class="s17-seen"></td></tr>
-</tbody></table>
-   </div>
+  <h3>4 &middot; Figura 3 &mdash; Dove si concentrano successi ed errori di FoT?</h3>
+  <p>Le 31 risposte corrette su 36 agent-case della condizione B non corrispondono a 36 osservazioni fisiche indipendenti. Il nuovo held-out contiene <strong>12 run di fault indipendenti</strong>: tre F1, tre F8, tre F10 e tre F13. Ogni run viene valutato dai quattro agenti, ma per l'analisi locally-unseen viene escluso l'agente che possiede localmente quel fault. Rimangono quindi tre receiving agents per run: <strong>12 run fisici &times; 3 receiving agents unseen = 36 agent-case unseen</strong>.</p>
+  <p>La figura seguente mostra una riga per ciascuno dei 12 run fisici. Una cella verde indica una classificazione unseen corretta in B, una cella rossa una classificazione errata e una cella grigia indica il caso local-seen, escluso dall'endpoint primario.</p>
+  <div class="scroll">
+  <table id="figure3-b-heatmap" class="s17hm"><thead><tr><th scope="col">#</th><th scope="col">Fault reale*</th><th scope="col">Run fisico</th><th scope="col">Agent 1</th><th scope="col">Agent 2</th><th scope="col">Agent 3</th><th scope="col">Agent 4</th></tr></thead><tbody>
+<tr><td class="s17num">1</td><th scope="row" class="s17flab">F1</th><td class="s17run">PBH-004</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr><td class="s17num">2</td><th scope="row" class="s17flab">F1</th><td class="s17run">PBH-005</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr><td class="s17num">3</td><th scope="row" class="s17flab">F1</th><td class="s17run">PBH-006</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr class="s17group-start"><td class="s17num">4</td><th scope="row" class="s17flab">F8</th><td class="s17run">PBH-007</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-wr" data-outcome="wrong" title="errata unseen">✗</td><td class="s17-wr" data-outcome="wrong" title="errata unseen">✗</td></tr>
+<tr><td class="s17num">5</td><th scope="row" class="s17flab">F8</th><td class="s17run">PBH-008</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-wr" data-outcome="wrong" title="errata unseen">✗</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr><td class="s17num">6</td><th scope="row" class="s17flab">F8</th><td class="s17run">PBH-009</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-wr" data-outcome="wrong" title="errata unseen">✗</td><td class="s17-wr" data-outcome="wrong" title="errata unseen">✗</td></tr>
+<tr class="s17group-start"><td class="s17num">7</td><th scope="row" class="s17flab">F10</th><td class="s17run">PBH-010</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr><td class="s17num">8</td><th scope="row" class="s17flab">F10</th><td class="s17run">PBH-011</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr><td class="s17num">9</td><th scope="row" class="s17flab">F10</th><td class="s17run">PBH-012</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr class="s17group-start"><td class="s17num">10</td><th scope="row" class="s17flab">F13</th><td class="s17run">PBH-013</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td></tr>
+<tr><td class="s17num">11</td><th scope="row" class="s17flab">F13</th><td class="s17run">PBH-014</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td></tr>
+<tr><td class="s17num">12</td><th scope="row" class="s17flab">F13</th><td class="s17run">PBH-015</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td></tr>
+  </tbody></table>
   </div>
-  <div class="s17legend"><span><i style="background:#087367"></i>corretta</span><span><i style="background:#a03932"></i>errata</span><span><i style="background:#8a99a3"></i>astensione</span><span><i style="background:#d7dee2"></i>seen (fault locale, escluso)</span></div>
-  <p style="margin-top:16px"><strong>Unseen-per-fault (in B):</strong></p>
+  <p class="fig-cap">* <strong>Fault reale</strong>: identit&agrave; evaluator-side, utilizzata esclusivamente nell'analisi offline dopo la frozen inference e non visibile agli agenti, che operavano nello spazio delle pseudolabel.</p>
+  <div class="s17legend"><span><i style="background:#087367"></i>✓ corretta unseen</span><span><i style="background:#a03932"></i>✗ errata unseen</span><span><i style="background:#d7dee2"></i>● local-seen &mdash; questo fault appartiene alla conoscenza locale dell'agente; la cella non entra nell'endpoint locally-unseen</span></div>
+  <p style="margin-top:16px"><strong>Risultati di B per fault reale &mdash; analisi descrittiva post-hoc</strong></p>
+  <p>Per ciascun fault ci sono 3 run fisici, ciascuno valutato dai 3 agenti che non possiedono localmente quel fault: quindi <strong>3 &times; 3 = 9 agent-case unseen per fault</strong>.</p>
   <div class="s17fault"><span>F1 &middot; 9/9</span><span class="hot">F8 &middot; 4/9</span><span>F10 &middot; 9/9</span><span>F13 &middot; 9/9</span></div>
-  <p>Tutti e <strong>cinque</strong> gli errori unseen di B appartengono a <strong>F8</strong> (PBH-007/008/009). F8 &egrave; riconosciuto dall'agente F1-owner (3/3) ma mancato dall'F10-owner (0/3) e dall'F13-owner (1/3): l'eterogeneit&agrave; &egrave; tra receiving agents. &Egrave; un risultato descrittivo che suggerisce che la difficolt&agrave; non &egrave; uniforme; i dati mostrano il pattern, non ne identificano la causa.</p>
-  <div class="callout"><strong>Nota sulle identit&agrave;.</strong> Le identit&agrave; reali dei fault (F1/F8/F10/F13) riportate in questa analisi sono <strong>evaluator-side</strong> e vengono utilizzate solo dopo l'inferenza frozen per l'analisi dei risultati; gli agenti operavano sullo spazio di pseudolabel previsto dal protocollo.</div>
-  <p class="fig-cap"><strong>Figura 3 &mdash;</strong> Eterogeneit&agrave; descrittiva (post-hoc): heatmap run &times; agente per condizione (pannello principale B; A ed E come confronto). Le celle &laquo;seen&raquo; sono il fault locale dell'agente, escluse dallo scoring unseen. Nove agent-case per fault non sono nove run indipendenti.</p>
+  <p>In B, F1, F10 e F13 sono riconosciuti correttamente in tutti i 9 agent-case unseen per fault. F8 &egrave; corretto in 4/9. Tutti e cinque gli errori unseen osservati in B sono quindi concentrati sugli agent-case associati ai tre run F8.</p>
+  <p>All'interno dei tre run F8 compare inoltre eterogeneit&agrave; tra i receiving agents: l'agente che possiede localmente F1 riconosce F8 in 3/3 run, quello che possiede localmente F10 in 0/3 e quello che possiede localmente F13 in 1/3.</p>
+  <p>Questa &egrave; un'analisi descrittiva post-hoc dei record frozen. Mostra dove si concentra la difficolt&agrave; osservata, ma non permette di identificarne la causa.</p>
+  <p>Per confronto, A contiene 0/36 risposte corrette, 22 errori committed e 14 astensioni; E contiene 3/36 risposte corrette e 33 errori. La composizione globale delle tre condizioni &egrave; gi&agrave; mostrata nella Figura 1.</p>
+  <p class="fig-cap"><strong>Figura 3 &mdash; Distribuzione degli outcome della condizione B nei 12 run fisici di fault del nuovo held-out.</strong> Ogni riga rappresenta un singolo run fisico; le quattro colonne rappresentano i quattro agenti. Per ogni run, la cella dell'agente che possiede localmente quel fault &egrave; indicata come local-seen ed esclusa dall'endpoint primario. Le altre tre celle costituiscono i tre agent-case locally-unseen associati al run. I 12 run producono quindi 36 agent-case unseen, non 36 osservazioni fisiche indipendenti. La figura &egrave; un'analisi descrittiva post-hoc dei record frozen.</p>
 
   <h3>5 &middot; Secondary &middot; preservation &middot; repetition stability</h3>
   <div class="scroll"><table><thead><tr><th>Scope</th><th>A</th><th>B</th><th>E</th></tr></thead><tbody>
