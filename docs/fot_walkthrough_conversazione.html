@@ -415,13 +415,32 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <p>Per confronto, A contiene 0/36 risposte corrette, 22 errori committed e 14 astensioni; E contiene 3/36 risposte corrette e 33 errori. La composizione globale delle tre condizioni &egrave; gi&agrave; mostrata nella Figura 1.</p>
   <p class="fig-cap"><strong>Figura 3 &mdash; Distribuzione degli outcome della condizione B nei 12 run fisici di fault del nuovo held-out.</strong> Ogni riga rappresenta un singolo run fisico; le quattro colonne rappresentano i quattro agenti. Per ogni run, la cella dell'agente che possiede localmente quel fault &egrave; indicata come local-seen ed esclusa dall'endpoint primario. Le altre tre celle costituiscono i tre agent-case locally-unseen associati al run. I 12 run producono quindi 36 agent-case unseen, non 36 osservazioni fisiche indipendenti. La figura &egrave; un'analisi descrittiva post-hoc dei record frozen.</p>
 
-  <h3>5 &middot; Secondary &middot; preservation &middot; repetition stability</h3>
-  <div class="scroll"><table><thead><tr><th>Scope</th><th>A</th><th>B</th><th>E</th></tr></thead><tbody>
-   <tr><td>Local-seen (n=12) <span class="s17tag pre">pre-spec.</span></td><td>12/12</td><td>12/12</td><td>12/12</td></tr>
-   <tr><td>Normal (n=12) <span class="s17tag pre">pre-spec.</span></td><td>12/12</td><td>12/12</td><td>12/12</td></tr>
-   <tr><td>B &middot; consistenza R=3 <span class="s17tag post">post-hoc</span></td><td colspan="3">33/36 decisioni unanimi &middot; 3/36 split</td></tr>
+  <h3>5 &middot; Cosa succede ai casi gi&agrave; conosciuti e quanto sono stabili le decisioni?</h3>
+  <p>Il risultato principale della Phase B riguarda i fault localmente unseen: vogliamo sapere se gli insight peer permettono al receiving agent di riconoscere condizioni che non possiede nella propria conoscenza locale. Un trasferimento utile, per&ograve;, non dovrebbe essere valutato soltanto su ci&ograve; che l'agente non conosce: &egrave; importante controllare anche che cosa accade ai casi che sa gi&agrave; riconoscere.</p>
+  <p>Per questo il protocollo frozen mantiene separati due outcome secondari: i fault <strong>local-seen</strong>, per i quali l'agente possiede esempi locali, e la condizione <strong>Normal</strong>. Non sono l'endpoint primario, che resta locally-unseen; sono outcome distinti usati per verificare se, nel campione held-out osservato, l'aggiunta degli insight peer sia accompagnata da una degradazione evidente delle prestazioni gi&agrave; acquisite.</p>
+
+  <h4>5.1 &middot; Preservation: FoT altera ci&ograve; che l'agente sa gi&agrave; riconoscere?</h4>
+  <p>Il controllo di preservation confronta A, B ed E sui casi local-seen e Normal. Se l'aggiunta degli insight peer producesse errori in condizioni precedentemente riconosciute correttamente, questo costituirebbe un segnale di possibile interferenza o negative transfer nel campione osservato.</p>
+  <div class="scroll"><table><thead><tr><th>Secondary outcome</th><th>A</th><th>B</th><th>E</th></tr></thead><tbody>
+   <tr><td>Local-seen <span class="s17tag pre">pre-specificato nel protocollo frozen</span></td><td>12/12</td><td>12/12</td><td>12/12</td></tr>
+   <tr><td>Normal <span class="s17tag pre">pre-specificato nel protocollo frozen</span></td><td>12/12</td><td>12/12</td><td>12/12</td></tr>
   </tbody></table></div>
-  <p>Preservation: <em>nel campione held-out osservato non &egrave; stata rilevata degradazione sulle condizioni local-seen e Normal: 12/12 in A, B ed E.</em> &Egrave; evidenza di preservation nel campione, non una garanzia generale di assenza di negative transfer. La consistenza delle decisioni nelle tre ripetizioni (33/36 unanimi) &egrave; un descrittore di <strong>decision stability across the R=3 repetitions</strong>: non dimostra robustezza rispetto a perturbazioni, modelli o distribuzioni diverse.</p>
+  <p>In ciascuno dei due scope ci sono <strong>12 agent-case</strong> osservati. Per i fault local-seen, ciascuno dei 12 run fisici di fault viene valutato dall'unico agente che possiede localmente quel fault. Per Normal, i tre run Normal del nuovo held-out vengono valutati dai quattro agenti, producendo <strong>3 &times; 4 = 12 agent-case</strong>.</p>
+  <p>Nel campione held-out osservato, tutti i casi local-seen e Normal risultano corretti in tutte e tre le condizioni: A, B ed E ottengono 12/12 in entrambi gli scope. <strong>Nel campione held-out osservato non &egrave; stata rilevata degradazione</strong> delle prestazioni su condizioni gi&agrave; conosciute quando vengono aggiunti gli insight peer.</p>
+  <p>Questo risultato &egrave; un controllo di preservation nel campione studiato. Non dimostra che FoT sia generalmente immune da negative transfer e non autorizza una claim universale di assenza di degradazione.</p>
+
+  <h4>5.2 &middot; Stabilit&agrave; delle decisioni nelle tre chiamate R=3</h4>
+  <p>Ogni agent-case-condition &egrave; stato eseguito tre volte. Le tre chiamate condividono lo stesso input hash e la stessa configurazione frozen, ma le risposte del modello non sono necessariamente identiche. Il protocollo aggrega le tre chiamate con la regola frozen: una pseudolabel valida con almeno due voti diventa la predizione aggregata; in assenza di una maggioranza valida di due voti, l'aggregato astiene.</p>
+  <p>Per descrivere la consistenza delle decisioni distinguiamo:</p>
+  <ul>
+   <li><strong>unanimous:</strong> le tre chiamate R=3 coincidono nella decisione, considerando pseudolabel predetta e stato di astensione;</li>
+   <li><strong>split:</strong> almeno una delle tre chiamate differisce; la regola frozen pu&ograve; comunque produrre una decisione aggregata quando una pseudolabel valida riceve almeno due voti.</li>
+  </ul>
+  <p><strong>Decisioni B sui 36 agent-case unseen</strong> <span class="s17tag post">post-hoc descrittivo</span></p>
+  <div class="s17fault"><span><strong>Unanimous</strong> &middot; 33/36 &middot; 91.67%</span><span><strong>Split</strong> &middot; 3/36 &middot; 8.33%</span></div>
+  <p>Questa decomposizione unanimous/split &egrave; una derivazione descrittiva post-hoc dei repetition records frozen. Non era uno degli endpoint utilizzati per giudicare il successo primario della Phase B.</p>
+  <p>Il fatto che 33/36 decisioni unseen di B siano unanimi indica che, nel setup frozen osservato, la maggior parte delle decisioni aggregate deriva da tre chiamate concordi. &Egrave; un descrittore della <strong>stabilit&agrave; delle decisioni tra le tre chiamate R=3</strong>, non una misura generale di robustezza. Le chiamate usano lo stesso input e la stessa configurazione: il risultato non dimostra stabilit&agrave; rispetto a perturbazioni dei dati, prompt diversi, altri modelli, altre configurazioni di reasoning o distribuzioni differenti.</p>
+  <div class="callout full-width"><strong>Come leggere questi controlli.</strong> Il primary result mostra il trasferimento sui fault localmente unseen. I secondary outcome mostrano che, nel campione osservato, questo beneficio non &egrave; accompagnato da una degradazione visibile sui casi local-seen o Normal. La verifica R=3 aggiunge un'informazione diversa: descrive quanto le tre chiamate concordano tra loro. Nessuno di questi controlli amplia il risultato oltre il setup TEP studiato.</div>
 
   <h3>6 &middot; Scope and limitations</h3>
   <ul>
