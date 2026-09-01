@@ -50,7 +50,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <h2>Un solo percorso</h2>
   <p>Ogni step spiega, applica, produce un output e chiude con un checkpoint.</p>
   <ol>
-    <li><a href="#step-1">1. Introduzione</a></li><li><a href="#step-2">2. Dataset</a></li><li><a href="#step-3">3. Analisi e split dei dataset</a></li><li><a href="#step-4">4. Pipeline di Phase A: le 6 operazioni</a></li><li><a href="#step-5">5. Scelta delle feature</a></li><li><a href="#step-6">6. Calibrazione delle soglie</a></li><li><a href="#step-7">7. Freeze prima dell'esame</a></li><li><a href="#step-8">8. Dalle feature ai flag</a></li><li><a href="#step-9">9. Dai flag al JSON e al testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e test split</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Condizioni e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
+    <li><a href="#step-1">1. Introduzione</a></li><li><a href="#step-2">2. Dataset</a></li><li><a href="#step-3">3. Analisi e split dei dataset</a></li><li><a href="#step-4">4. Pipeline di Phase A: le 6 operazioni</a></li><li><a href="#step-5">5. Scelta delle feature</a></li><li><a href="#step-6">6. Calibrazione delle soglie</a></li><li><a href="#step-7">7. Il freeze del metodo</a></li><li><a href="#step-8">8. Dalle feature ai flag</a></li><li><a href="#step-9">9. Dai flag al JSON e al testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e test split</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Condizioni e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
   </ol>
   <p class="source"><a href="README.md">Archivio pedagogico</a><br>Le fonti scientifiche frozen prevalgono.</p>
 </nav>
@@ -153,8 +153,8 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-7" data-step="7">
-  <div class="step-kicker">Step 7 / 17 <span class="phase-badge design">Design / development-time</span></div><h2>Il freeze separa costruzione ed esame</h2>
-  <p>Ora vengono congelati feature, soglie, rappresentazione temporale, renderer ed evaluator. Il freeze impedisce che validation, test o held-out suggeriscano come riscrivere la regola con cui saranno giudicati.</p>
+  <div class="step-kicker">Step 7 / 17 <span class="phase-badge design">Design / development-time</span></div><h2>Il freeze: congelare feature, soglie e renderer</h2>
+  <p>Prima di aprire validation, test e held-out vengono congelati feature, soglie, rappresentazione temporale, renderer ed evaluator. È il principio <em>freeze-before-test</em>: nessun dato di valutazione può più influenzare le regole con cui verrà giudicato. In questo modo si evita il <strong>leakage</strong> — cioè che osservare i risultati porti, anche inconsapevolmente, a riscrivere feature o soglie per farle combaciare con i casi da valutare. Da qui in avanti quelle regole si possono soltanto applicare, non ridefinire.</p>
   <div class="callout full-width"><strong>Che cosa è stato usato fino a qui.</strong> Fino al freeze sono entrati in gioco soltanto i blocchi <strong>Normal N1–N5</strong> (per calibrare le soglie) e i <strong>fault batch 1–5</strong>. Questi ultimi sono stati usati <strong>solo in fase di design/development, per scegliere <em>quali</em> feature usare</strong> — non per calcolare le soglie e non a runtime. La scelta delle feature è una decisione fatta una volta, a monte, non un'operazione ripetuta su ogni caso. I restanti dati — <strong>N6–N10</strong> e i <strong>fault batch 6–10</strong> — <strong>non sono ancora stati toccati</strong>: entreranno solo dopo il freeze, in validation e test. <span class="small">(N1–N5 servono in due momenti: a design-time per calibrare le soglie e poi come baseline di riferimento anche a runtime.)</span></div>
 
 </section>
@@ -162,13 +162,17 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 <section id="step-8" data-step="8">
   <div class="step-kicker">Step 8 / 17 <span class="phase-badge runtime">Runtime / finestra × XMEAS</span></div><h2>Dalle feature ai flag: soglie e segni</h2>
   <p>Per ogni finestra (le <strong>8</strong> del caso con fault) e per ogni variabile <strong>XMEAS</strong> (le <strong>41</strong>) vengono applicate le soglie: se il valore della feature è maggiore della soglia — ricordiamo che la soglia è stata calibrata sui <strong>Normal</strong> — viene generato un <strong>flag</strong> (attivo/non attivo) e, per le feature con segno (shift, slope), il relativo <strong>segno</strong>. Vediamo il calcolo reale su una singola finestra: F1 batch 1, XMEAS-1, W1. <span class="small">(Caso development/calibration, non test indipendente; non usa LOBO. W1 è <code>[10,15)</code> h: 5 h × 60 = 300 misure.)</span></p>
-  <div class="example" id="raw-to-shift"><div class="panel-label">Worked example reale · raw → feature → flag</div><h3>Il calcolo completo</h3><ol>
+  <div class="example" id="raw-to-shift"><div class="panel-label">Worked example reale · raw → feature → flag</div><h3>Il calcolo completo</h3>
+    <p class="small">Ricordiamo la feature che stiamo calcolando (la stessa dello Step 6):</p>
+    <pre><code>shift_sigma = (x̄_w − μ₀) / σ₀</code></pre>
+    <p class="small">dove <strong>x̄_w</strong> è la media della finestra, <strong>μ₀</strong> la media del riferimento Normal e <strong>σ₀</strong> la sua deviazione standard. Prima dei numeri, due chiarimenti sui termini che compaiono qui sotto: la <em>«anteprima raw»</em> sono le misure grezze di XMEAS-1 campionate ogni minuto dentro la finestra W1 (300 valori: 5 h × 60), di cui mostriamo solo i primi cinque e gli ultimi tre; la <em>«media W1»</em> è proprio x̄_w, la media aritmetica di quei 300 valori, cioè il numeratore che entra nella formula.</p>
+    <ol>
     <li><strong>Anteprima raw.</strong><br><code id="worked-raw-preview">0.266206, 0.264258, 0.265880, 0.268725, 0.267920, …, 1.018145, 1.017490, 1.018571</code><br>La media usa tutti i <strong id="worked-window-n">300</strong> valori, non solo gli otto mostrati.</li>
     <li><strong>Media W1.</strong><br><code>Σxᵢ = <span id="worked-window-sum">216.7053282371516</span></code><br><code>window_mean = <span id="worked-window-mean">0.7223510941238387</span></code></li>
     <li><strong>Riferimento pooled N1–N5.</strong> <strong id="worked-baseline-n">15000</strong> misure XMEAS-1 in <code>[0,250)</code> h.<br><code>μ₀ = <span id="worked-mu0">0.26679593084899306</span></code><br><code>σ₀ = <span id="worked-sigma0">0.005941491332146645</span></code>, std campionaria <code>ddof=1</code>.</li>
     <li><strong>Sostituzione.</strong><br><code id="worked-substitution">shift_sigma = (0.7223510941238387 − 0.26679593084899306)<br>              / 0.005941491332146645<br>            = <strong id="worked-shift">76.67353831016274</strong></code></li>
     <li><strong>Confronto.</strong> <code>|76.67353831016274| &gt; 1.9695333234149084</code> → <strong class="yes">level flag = 1</strong>, segno positivo conservato.</li>
-  </ol><details><summary>Provenienza e precisione</summary><div><p>W1: <code>mode1_1_1.xlsx</code>, righe Excel 602–901, XMEAS-1. Baseline: <code>mode1_normal_500.xlsx</code>, righe 2–15001 della colonna ricondotta a XMEAS-1. Il ricalcolo read-only coincide con il CSV entro l'ultima unità floating-point; qui è riportata la precisione frozen del CSV.</p></div></details><p><strong>Zoom, non toy:</strong> il runtime esegue 8 finestre × 41 XMEAS e tutte le feature frozen.</p></div>
+  </ol><details><summary>Provenienza e precisione</summary><div><p>W1: <code>mode1_1_1.xlsx</code>, righe Excel 602–901, XMEAS-1. Baseline: <code>mode1_normal_500.xlsx</code>, righe 2–15001 della colonna ricondotta a XMEAS-1. Il ricalcolo read-only coincide con il CSV entro l'ultima unità floating-point; qui è riportata la precisione frozen del CSV.</p></div></details></div>
 
 </section>
 
@@ -204,9 +208,21 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-10" data-step="10">
-  <div class="step-kicker">Step 10 / 17 <span class="phase-badge offline">Controllo offline</span></div><h2>L'evaluator Phase A controlla la rappresentazione; non classifica</h2>
-  <p>Solo ora entra l'evaluator. Lavora sul JSON e misura stabilità intra-classe e separabilità inter-classe. Una firma contiene 17 componenti normalizzate per XMEAS: 41 × 17 = 697 valori; la similarità è <code>1 − mean(abs(a−b))</code>.</p>
+  <div class="step-kicker">Step 10 / 17 <span class="phase-badge offline">Controllo offline</span></div><h2>Evaluator · signature vector</h2>
+  <p>Solo ora entra l'evaluator. Lavora sul JSON e misura stabilità intra-classe e separabilità inter-classe. Una firma contiene 17 componenti normalizzate per XMEAS: 41 × 17 = 697 valori; la similarità è <code>1 − mean(abs(a−b))</code>. Prima di dare quei testi a un reasoner, serviva misurare se firme dello stesso fault fossero simili fra i run e diverse dalle altre classi.</p>
   <div class="example"><div class="panel-label">Applicazione concreta</div><h3>La domanda giusta</h3><p>Può chiedere se due run F1 hanno pattern temporali simili o se F1 è più vicino agli altri F1 che ai Normal. Non produce predicted label e non misura accuracy.</p><div class="callout"><strong>Descriptive separability ≠ diagnostic accuracy.</strong> Una firma separabile non garantisce che un reasoner la userà correttamente.</div></div>
+
+  <div class="example" id="signature-mini"><div class="panel-label">Mini-esempio · a cosa serve la firma</div><h3>Confrontare due firme</h3>
+    <p class="small">Le firme reali hanno 697 componenti (41 XMEAS × 17): impossibili da leggere a occhio. Qui riduciamo a <strong>4 componenti schematiche</strong> — valori inventati, solo per illustrare la meccanica — dove ogni componente è una statistica normalizzata in <code>[0,1]</code> estratta dal JSON (per es. frazione di finestre attive, coerenza di segno, run più lungo, precocità dell'attivazione).</p>
+    <div class="scroll"><table><thead><tr><th>Firma</th><th>c₁</th><th>c₂</th><th>c₃</th><th>c₄</th></tr></thead><tbody>
+      <tr><th scope="row">F1 · run A</th><td>1.00</td><td>1.00</td><td>0.90</td><td>0.20</td></tr>
+      <tr><th scope="row">F1 · run B</th><td>1.00</td><td>0.95</td><td>0.85</td><td>0.25</td></tr>
+      <tr><th scope="row">Normal · run C</th><td>0.10</td><td>0.00</td><td>0.05</td><td>0.90</td></tr>
+    </tbody></table></div>
+    <h3>Similarità = <code>1 − mean(abs(a−b))</code></h3>
+    <p><strong>Intra-classe</strong> (F1·A vs F1·B): differenze assolute <code>|0.00|, |0.05|, |0.05|, |0.05|</code> → media <code>0.0375</code> → similarità <strong class="yes">0.9625</strong>. Due run dello stesso fault hanno firme quasi coincidenti: la rappresentazione è <strong>stabile</strong>.</p>
+    <p><strong>Inter-classe</strong> (F1·A vs Normal·C): differenze <code>|0.90|, |1.00|, |0.85|, |0.70|</code> → media <code>0.8625</code> → similarità <strong>0.1375</strong>. Fault e Normal sono lontani: la rappresentazione è <strong>separabile</strong>.</p>
+    <div class="callout"><strong>A cosa serve.</strong> Alta similarità intra-classe + bassa similarità inter-classe = il testo neutrale di Phase A conserva abbastanza struttura da distinguere le condizioni <em>senza mai nominarle</em>. È il pre-requisito descrittivo che rende sensato, nello step successivo, dare quei testi in pasto a un reasoner in Phase B — ma resta separabilità, non ancora accuracy diagnostica.</div></div>
 
 </section>
 
