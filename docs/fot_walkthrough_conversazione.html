@@ -294,10 +294,10 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 
 <section id="step-17" data-step="17">
 <style>
-#step-17 .s17prov{display:grid;grid-template-columns:1fr 1fr;gap:0 22px}
-#step-17 .s17prov h4{margin:8px 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--navy)}
-#step-17 .s17prov ul{margin:0;padding-left:20px}
-#step-17 .s17prov li{margin:2px 0;font-size:13.5px}
+#step-17 .s17prov{display:grid;grid-template-columns:1fr;gap:14px}
+#step-17 .s17prov h4{margin:8px 0 4px;font-size:15px;letter-spacing:0;color:var(--navy)}
+#step-17 .s17prov ul,#step-17 .s17prov ol{margin:0;padding-left:22px}
+#step-17 .s17prov li{margin:6px 0;font-size:14.5px;line-height:1.55}
 #step-17 .s17bars{margin:14px 0}
 #step-17 .s17row{display:flex;align-items:center;gap:12px;margin:8px 0}
 #step-17 .s17lab{width:22px;font-weight:850;color:var(--navy)}
@@ -334,10 +334,10 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 
   <p>Lo step conclusivo &egrave; la valutazione dell'intero esperimento. Ricordiamoci che TEP non &egrave; il dominio target, ma possiamo definirlo come il banco di prova controllato. La domanda scientifica di questa POC &egrave; in realt&agrave; &mdash; <em>&laquo;FoT pu&ograve; trasferire conoscenza discriminante tra agenti che operano su serie temporali multivariate eterogenee, permettendo il riconoscimento di una condizione temporale localmente unseen?&raquo;</em> &mdash; e <strong>non</strong> &laquo;FoT risolve la diagnosi dei fault?&raquo;, tantomeno &laquo;FoT funziona sul fotovoltaico?&raquo;.</p>
 
-  <div class="callout full-width"><strong>Provenienza epistemica dei risultati.</strong>
+  <div class="callout full-width"><strong>Provenienza dei risultati.</strong>
   <div class="s17prov">
-   <div><h4>Pre-specificati nel protocollo frozen</h4><ul><li>B&minus;A, endpoint primario (<code>Delta_unseen</code>);</li><li>B&minus;E, contrasto di specificit&agrave;/meccanismo (criterio pre-specificato <code>Delta_unseen &gt; Delta_E</code>);</li><li>criteri di supporto: B&minus;A&gt;0, positivo in &ge;3/4 agenti, helped&gt;harmed;</li><li>preservation (Normal, local-seen), pre-specificati come &laquo;secondary and separate&raquo;.</li></ul></div>
-   <div><h4>Derivazioni descrittive / post-hoc</h4><ul><li>coverage e committed accuracy (descrittore selective-prediction);</li><li>unseen-per-fault;</li><li>heatmap run &times; agente;</li><li>consistenza R=3 (unanimous vs split).</li></ul><p class="fig-cap">Legittime perch&eacute; derivate deterministicamente dai frozen record, ma non pre-specificate nel protocollo frozen.</p></div>
+   <div><h4>Che cosa avevamo deciso di misurare prima di conoscere gli esiti finali?</h4><ol><li><strong>B&minus;A:</strong> contrasto principale. Chiede se gli insight FoT autentici migliorano il riconoscimento dei fault localmente unseen rispetto all'agente isolato.</li><li><strong>B&minus;E:</strong> contrasto di specificit&agrave;. Chiede se il vantaggio di B dipende dalla corretta associazione semantica degli insight, invece che dalla semplice presenza di testo aggiuntivo.</li><li><strong>Criteri di supporto:</strong> per esempio B&minus;A &gt; 0, effetto positivo in almeno 3/4 agenti, <code>helped &gt; harmed</code>, e il criterio relativo a E.</li><li><strong>Normal e local-seen preservation:</strong> outcome secondari tenuti separati dal primary, per controllare che l'aggiunta degli insight non comprometta le condizioni gi&agrave; conosciute.</li></ol></div>
+   <div><h4>Dato il risultato frozen, che cosa possiamo descrivere ulteriormente senza cambiare l'analisi che avevamo deciso in anticipo?</h4><ul><li><strong>Coverage e committed accuracy di A.</strong> Il risultato primary dice semplicemente A = 0/36. Dopo possiamo decomporlo e vedere che A ha 14 astensioni e 22 decisioni committed, tutte e 22 errate. Questo aiuta a capire <em>come</em> si forma lo 0/36, ma non cambia l'endpoint.</li><li><strong>Unseen-per-fault.</strong> Dopo aver osservato il risultato possiamo chiedere dove sono distribuiti i 31/36 corretti di B: F1 9/9, F8 4/9, F10 9/9, F13 9/9. Questo rivela l'eterogeneit&agrave; su F8, ma <strong>F8 non diventa un nuovo endpoint pre-specificato</strong>.</li><li><strong>Heatmap run &times; agente.</strong> &Egrave; una visualizzazione dei medesimi frozen outcomes. Fa vedere quali combinazioni run/agente sono corrette o errate. Non produce nuova evidenza indipendente.</li><li><strong>R=3 unanimous vs split.</strong> Dai repetition records possiamo osservare che 33/36 decisioni unseen di B sono unanimi e 3/36 sono split. &Egrave; un descrittore di <em>decision stability</em>, non un test previsto per sostenere l'ipotesi principale.</li></ul></div>
   </div></div>
 
   <h3>1 &middot; Unit&agrave; sperimentale / denominatore</h3>
