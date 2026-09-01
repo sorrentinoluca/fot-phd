@@ -17,7 +17,7 @@ The TEP proof of concept is complete and frozen. It supports feasibility in the
 controlled setting studied here; it does not establish performance or
 cross-domain generalization in PV systems.
 
-## Supervisor reading path
+## Reading path
 
 1. **Understand the project and experiment** →
    [`docs/fot_walkthrough_conversazione.html`](docs/fot_walkthrough_conversazione.html)
