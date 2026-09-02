@@ -73,10 +73,11 @@ time-series / fault diagnosis* (contesto applicativo di confronto).
 (1) **Federation over Text** — Yao et al. 2026 (il metodo che applichiamo). (2) **Federated
 In-Context LLM Agent Learning** (arXiv:2412.08054) — federazione di conoscenza in linguaggio
 naturale, dati grezzi locali. (3) **FedCKD** — cross-client KD con dataset *label-exclusive*
-(struttura non-IID quasi identica). (4) **One-Shot Federated Distillation Using Monoclass
-Teachers** — client con una sola classe (analogo strutturale di "Normal + un guasto"). (5)
-**Federated zero-shot learning with mid-level semantic knowledge transfer** (Pattern Recognition
-2024) — trasferimento *semantico* verso classi non viste in FL. Adiacenti forti: Time-FFM, FedCoT.
+(struttura non-IID class-disjoint quasi identica; analogo strutturale di "Normal + un guasto"). (4)
+**FedMeta-FFD** (Chen et al., IEEE TNSE 2023) — federated meta-learning per nuove categorie di guasto
+cross-client (neighbor FDD più diretto). (5) **Federated zero-shot learning with mid-level semantic
+knowledge transfer** (Pattern Recognition 2024) — trasferimento *semantico* verso classi non viste in
+FL. Adiacenti forti: Time-FFM, FedCoT.
 
 **4. Novelty ancora difendibile.**
 Non il *metodo* FoT (è di Yao et al.). È difendibile una novelty di **combinazione + dominio +
@@ -547,7 +548,7 @@ model coinvolto; TS=serie temporali; FDD=fault/industrial; non-IID; Privacy form
 | 9 | FedProto 2022 (AAAI) | prototype fed. | **Prototipi** | no | no | no | sì (esplicito) | no | PRED |
 | 10 | FedGen 2021 (ICML) | data-free KD | Synth knowledge | no | no | no | sì | no | PRED |
 | 11 | FedCKD 2025/26 | cross-client KD | Logit/param | no | no | no | **label-exclusive** | no | PRED |
-| 12 | One-Shot Fed. Distill. Monoclass Teachers | one-shot distill. | Distill/param | no | no | no | **monoclass** | no | PRED |
+| 12 | Monoclass / one-shot fed. distillation (regime; preprint non verif.) | one-shot distill. | Distill/param | no | no | no | **monoclass** | no | PRED (regime) |
 | 13 | Fed. zero-shot, mid-level semantic transfer 2024 (Pattern Recog.) | FL ZSL | **Semantic attr.** | no | no | no | **unseen classes** | no | PRED |
 | 14 | PCDD — Bilateral Curation 2024 (arXiv) | FL non-IID | Param | no | no | no | **class-disjoint** | no | BG/PRED |
 | 15 | FedAvg 2017 (AISTATS) | FL param | **Param** | no | no | no | (degrada) | no | BG |
@@ -635,11 +636,17 @@ distillativo con aggregazione parametrica; scala maggiore. (5) Impedisce "**la s
 class-disjoint è la novità**". (6) Resta: *"l'oggetto federato è testo interpretabile e il transfer
 avviene in ICL, non via parametri"*.
 
-**N4 — One-Shot Federated Distillation, Monoclass Teachers.** (1) Ogni client ha una sola classe;
-distillazione one-shot verso un modello. (2) Analogo strutturale diretto di "Normal + un guasto per
-agente". (3) Nessuna aggregazione di modello: gli agenti restano LLM che ragionano su testo peer.
-(4) Garanzie/analisi one-shot distillation, modello risultante. (5) Impedisce "**agenti monoclasse
-che collaborano è nuovo**". (6) Resta: *novità nell'oggetto (testo) e nel meccanismo (ICL federato)*.
+**N4 — FedMeta-FFD (Chen, Tang, Li, IEEE TNSE 2023; DOI 10.1109/tnse.2023.3266942).** (1) Federated
+meta-learning per few-shot fault diagnosis: un global meta-learner si adatta rapidamente a un client
+nuovo o a una **categoria di guasto mai incontrata** con pochi esempi etichettati. (2) Vicino perché
+è FL + diagnosi guasti + **nuove categorie di guasto cross-client** — il neighbor FDD più diretto.
+(3) Noi riconosciamo guasti **mai visti localmente senza alcun esempio etichettato della classe**,
+via **testo peer LLM** (non parametri) e senza aggregare un modello. (4) Loro: meta-learner globale
+parametrico, richiede *alcuni* esempi della nuova classe, convergenza analizzata. (5) Impedisce
+"**primo trasferimento cross-client verso nuove classi di guasto**". (6) Resta: *nessun esempio della
+classe unseen + oggetto testuale + nessun modello aggregato*. *(N.B.: un preprint affine "one-shot
+federated distillation with monoclass teachers", HAL, resta non verificato in cataloghi indicizzati;
+il punto strutturale "un client–una classe" è comunque coperto, verificato, da FedCKD — vedi N3.)*
 
 **N5 — Federated zero-shot, mid-level semantic knowledge transfer (2024).** (1) FL che trasferisce
 conoscenza **semantica** per riconoscere classi **non viste**. (2) Combinazione "FL + semantica +
@@ -1078,8 +1085,11 @@ FL** (2021). 20. **PCDD / Bilateral Curation** (arXiv:2405.18972, 2024) — term
 class-disjoint. 21. **Le, Le, Le, Truong-Huu — FedCKD: A Knowledge Distillation Approach to
 Cross-Client Learning in FL with Label-Exclusive Datasets** (LNCS, 2026; DOI
 10.1007/978-981-92-1462-4_29) — *verificato*; da non confondere con l'omonimo "FedCKD:
-Cluster-Aware KD for medical FL" (2025). 22. **One-Shot Federated Distillation, Monoclass
-Teachers** (HAL hal-05272000) — verificare venue/DOI finale. 23. **Sun, Si, Wu, Gong — Federated
+Cluster-Aware KD for medical FL" (2025). 22. **Chen, Tang, Li — FedMeta-FFD: Industrial Edge
+Intelligence, Federated-Meta Learning for Few-Shot Fault Diagnosis** (IEEE TNSE 2023; DOI
+10.1109/tnse.2023.3266942) — *verificato*; neighbor FDD diretto (FL + meta-learning verso nuove
+categorie di guasto). *(Il preprint "one-shot monoclass-teachers", HAL hal-05272000, resta NON
+verificato in Crossref/OpenAlex: non citare finché venue/DOI non confermati.)* 23. **Sun, Si, Wu, Gong — Federated
 Zero-Shot Learning with Mid-Level Semantic Knowledge Transfer** (Pattern Recognition, 2024; DOI
 10.1016/j.patcog.2024.110824) — *verificato*; nota: aggrega un **modello globale** e usa attributi
 semantici ZSL (non testo LLM / non insight peer). 24. Zhao et al. — **ExpeL**
@@ -1088,7 +1098,8 @@ al. — **RAG** (NeurIPS 2020) — comparatore concettuale. 27. Burns et al. —
 generalization** (ICML 2024). 28. **FD-LLM** (Qaid et al., arXiv:2412.01218, 2024). 29. **FD-LLM**
 (Lin et al., Adv. Eng. Informatics 2025). 30. **SAX_HAR-LLM** (Pappa et al., ESWA 2026). 31. Liu et
 al. — **Deep Anomaly Detection for TS in IIoT (FL)** (IEEE IoT-J 2020). 32. **FL fault diagnosis in
-rotating machinery** (Elsevier 2023). 33. **Federated-Meta few-shot fault diagnosis**. 34. **A
+rotating machinery** (Elsevier 2023). 33. **Knowledge Distillation in Federated Learning: a
+comprehensive survey** (Discover Computing, 2025) — inquadramento del filone federated-KD. 34. **A
 Survey on Federated Fine-tuning of LLMs** (arXiv:2503.12016). 35. Zhao et al. — **ESAX+BoW** (IEEE
 TIM 2022).
 
@@ -1149,9 +1160,9 @@ ma divergenti dopo lettura (es. TEP FDD centralizzati generici → BG/NR).
 ri-verificare prima della submission. (ii) **Verificate in questa passata** via
 Crossref/OpenAlex: FedProto (DOI 10.1609/aaai.v36i8.20819), FedCKD label-exclusive (DOI
 10.1007/978-981-92-1462-4_29), Fed. ZSL mid-level semantic transfer (DOI
-10.1016/j.patcog.2024.110824). **Ancora da confermare** (record secondari): "One-Shot Federated
-Distillation, Monoclass Teachers" (HAL) e la federated-meta few-shot FDD — DOI/venue definitivi su
-IEEE Xplore/Scopus prima del camera-ready. (iii) Le citazioni
+10.1016/j.patcog.2024.110824), FedMeta-FFD (DOI 10.1109/tnse.2023.3266942). **Ancora da confermare**
+(solo record HAL): "One-Shot Federated Distillation, Monoclass Teachers" — **da non citare** finché
+venue/DOI non sono confermati (il punto strutturale è già coperto, verificato, da FedCKD). (iii) Le citazioni
 foundational (FedAvg/FedProx/SCAFFOLD/FedNova/FedMD/FedDF/FedGKT/FedProto/FedGen) sono ancorate a
 venue consolidate note; non ogni PDF è stato riaperto singolarmente in questa passata.
 
