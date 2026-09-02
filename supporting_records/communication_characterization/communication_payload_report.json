@@ -1,0 +1,1159 @@
+{
+  "actual_fot_textual_payload": {
+    "all_receiver_unit": {
+      "chars": 9387,
+      "definition": "one Condition-B prompt invocation for each of the four receivers",
+      "per_unique_insight_receiver_count": {
+        "INS-001": 3,
+        "INS-002": 3,
+        "INS-003": 3,
+        "INS-004": 3,
+        "INS-005": 3,
+        "INS-006": 3,
+        "INS-007": 3,
+        "INS-008": 3
+      },
+      "ratios": {
+        "formula": "sum_of_four_rendered_peer_block_utf8_bytes / (all_source_fault_raw_XMEAS_values * 8)",
+        "note": "The numerator includes three deliveries per unique insight; the denominator counts unique fault-source evidence once.",
+        "reference_raw_to_text": 1668.1500317863954,
+        "textual_to_raw": 0.0005994664634146341
+      },
+      "receiver_count": 4,
+      "total_insight_transmissions": 24,
+      "utf8_bytes": 9438
+    },
+    "full_frozen_condition_b_execution": {
+      "chars": 422415,
+      "definition": "15 held-out cases x 4 receivers x R=3 Condition-B calls",
+      "heldout_cases": 15,
+      "note": "This is repeated transmission across frozen calls, not unique knowledge size.",
+      "prompt_calls": 180,
+      "repetitions": 3,
+      "total_insight_transmissions": 1080,
+      "utf8_bytes": 424710
+    },
+    "primary_serialization": {
+      "byte_unit": "UTF-8 encoded bytes",
+      "character_unit": "Unicode code points as counted by Python len(str)",
+      "definition": "PEER INSIGHTS\\n + json.dumps(peer_insights, ensure_ascii=False, indent=2) + \\n\\n",
+      "name": "rendered Condition-B peer block"
+    },
+    "receivers": [
+      {
+        "insight_ids": [
+          "INS-003",
+          "INS-004",
+          "INS-005",
+          "INS-006",
+          "INS-007",
+          "INS-008"
+        ],
+        "json_artifact_representation": {
+          "chars": 2274,
+          "includes_terminal_newline": true,
+          "path": "phase_b/insights/peer_libraries/agent_1_B.json",
+          "utf8_bytes": 2289
+        },
+        "n_insights": 6,
+        "ratios": {
+          "peer_fault_experience_only": {
+            "formula": "rendered_peer_block_utf8_bytes / (peer_fault_raw_XMEAS_values * 8)",
+            "reference_raw_to_text": 5125.0,
+            "textual_to_raw": 0.0001951219512195122
+          },
+          "peer_fault_plus_shared_normal_once": {
+            "formula": "rendered_peer_block_utf8_bytes / ((peer_fault_raw_XMEAS_values + shared_Normal_N1_N5_XMEAS_values) * 8)",
+            "reference_raw_to_text": 7260.416666666667,
+            "textual_to_raw": 0.00013773314203730273
+          }
+        },
+        "receiver": "agent_1",
+        "rendered_prompt_block": {
+          "chars": 2289,
+          "utf8_bytes": 2304
+        },
+        "source_agents": [
+          "agent_2",
+          "agent_3",
+          "agent_4"
+        ]
+      },
+      {
+        "insight_ids": [
+          "INS-001",
+          "INS-002",
+          "INS-005",
+          "INS-006",
+          "INS-007",
+          "INS-008"
+        ],
+        "json_artifact_representation": {
+          "chars": 2312,
+          "includes_terminal_newline": true,
+          "path": "phase_b/insights/peer_libraries/agent_2_B.json",
+          "utf8_bytes": 2321
+        },
+        "n_insights": 6,
+        "ratios": {
+          "peer_fault_experience_only": {
+            "formula": "rendered_peer_block_utf8_bytes / (peer_fault_raw_XMEAS_values * 8)",
+            "reference_raw_to_text": 5054.7945205479455,
+            "textual_to_raw": 0.0001978319783197832
+          },
+          "peer_fault_plus_shared_normal_once": {
+            "formula": "rendered_peer_block_utf8_bytes / ((peer_fault_raw_XMEAS_values + shared_Normal_N1_N5_XMEAS_values) * 8)",
+            "reference_raw_to_text": 7160.958904109589,
+            "textual_to_raw": 0.00013964610234337637
+          }
+        },
+        "receiver": "agent_2",
+        "rendered_prompt_block": {
+          "chars": 2327,
+          "utf8_bytes": 2336
+        },
+        "source_agents": [
+          "agent_1",
+          "agent_3",
+          "agent_4"
+        ]
+      },
+      {
+        "insight_ids": [
+          "INS-001",
+          "INS-002",
+          "INS-003",
+          "INS-004",
+          "INS-007",
+          "INS-008"
+        ],
+        "json_artifact_representation": {
+          "chars": 2395,
+          "includes_terminal_newline": true,
+          "path": "phase_b/insights/peer_libraries/agent_3_B.json",
+          "utf8_bytes": 2405
+        },
+        "n_insights": 6,
+        "ratios": {
+          "peer_fault_experience_only": {
+            "formula": "rendered_peer_block_utf8_bytes / (peer_fault_raw_XMEAS_values * 8)",
+            "reference_raw_to_text": 4879.338842975207,
+            "textual_to_raw": 0.0002049457994579946
+          },
+          "peer_fault_plus_shared_normal_once": {
+            "formula": "rendered_peer_block_utf8_bytes / ((peer_fault_raw_XMEAS_values + shared_Normal_N1_N5_XMEAS_values) * 8)",
+            "reference_raw_to_text": 6912.396694214876,
+            "textual_to_raw": 0.0001446676231468197
+          }
+        },
+        "receiver": "agent_3",
+        "rendered_prompt_block": {
+          "chars": 2410,
+          "utf8_bytes": 2420
+        },
+        "source_agents": [
+          "agent_1",
+          "agent_2",
+          "agent_4"
+        ]
+      },
+      {
+        "insight_ids": [
+          "INS-001",
+          "INS-002",
+          "INS-003",
+          "INS-004",
+          "INS-005",
+          "INS-006"
+        ],
+        "json_artifact_representation": {
+          "chars": 2346,
+          "includes_terminal_newline": true,
+          "path": "phase_b/insights/peer_libraries/agent_4_B.json",
+          "utf8_bytes": 2363
+        },
+        "n_insights": 6,
+        "ratios": {
+          "peer_fault_experience_only": {
+            "formula": "rendered_peer_block_utf8_bytes / (peer_fault_raw_XMEAS_values * 8)",
+            "reference_raw_to_text": 4965.517241379311,
+            "textual_to_raw": 0.0002013888888888889
+          },
+          "peer_fault_plus_shared_normal_once": {
+            "formula": "rendered_peer_block_utf8_bytes / ((peer_fault_raw_XMEAS_values + shared_Normal_N1_N5_XMEAS_values) * 8)",
+            "reference_raw_to_text": 7034.482758620689,
+            "textual_to_raw": 0.00014215686274509804
+          }
+        },
+        "receiver": "agent_4",
+        "rendered_prompt_block": {
+          "chars": 2361,
+          "utf8_bytes": 2378
+        },
+        "source_agents": [
+          "agent_1",
+          "agent_2",
+          "agent_3"
+        ]
+      }
+    ],
+    "unique_knowledge_stored": {
+      "frozen_library_artifact": {
+        "chars": 3108,
+        "includes_terminal_newline": true,
+        "path": "phase_b/insights/final_local_insights.json",
+        "utf8_bytes": 3125
+      },
+      "n_unique_insights": 8,
+      "prompt_compatible_json_body": {
+        "chars": 3107,
+        "utf8_bytes": 3124
+      },
+      "ratios": {
+        "fault_experience_only": {
+          "formula": "frozen_unique_library_artifact_utf8_bytes / (all_source_fault_raw_XMEAS_values * 8)",
+          "reference_raw_to_text": 5038.08,
+          "textual_to_raw": 0.00019848831300813008
+        },
+        "fault_plus_shared_normal_once": {
+          "formula": "frozen_unique_library_artifact_utf8_bytes / ((all_source_fault_raw_XMEAS_values + shared_Normal_N1_N5_XMEAS_values) * 8)",
+          "reference_raw_to_text": 6612.48,
+          "textual_to_raw": 0.00015122919086333722
+        }
+      }
+    }
+  },
+  "assumptions": [
+    "Characters are Python Unicode code points; bytes are UTF-8 bytes.",
+    "The primary textual measure is the exact Condition-B peer block inserted by the frozen prompt builder.",
+    "Raw observation counts include only the 41 XMEAS values in the post-injection [10 h, 50 h) windows actually feature-extracted; Time, XMV, cost, and the endpoint at 50 h are excluded.",
+    "Dense float64 is an explicit theoretical reference serialization and is not the size of an XLSX file.",
+    "The receiver-level primary denominator counts the fault-specific development experience of its three peers. The shared Normal N1-N5 normalization reference is reported separately and in an inclusive alternative denominator, counted once.",
+    "Structured evidence counts the five non-duplicate numerical descriptors per window and XMEAS. It is upstream evidence; the insight-generation LLM directly received neutral text only."
+  ],
+  "claim_boundary": "This is a payload characterization, not a demonstration of communication efficiency, compression efficiency, bandwidth optimality, or superior communication cost.",
+  "dataset_source_commit": "309b944f35ac440ff0c70616947ffe723c766e14",
+  "frozen_artifact_hash_verification": {
+    "count": 19,
+    "status": "PASS",
+    "verified": {
+      "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+      "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+      "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519",
+      "phase_b/conditions/builders.py": "5a4906304e5ab09ad12cd004e8838dd337ac2f5544ac03d0c392f21ae2009bd9",
+      "phase_b/config/evaluator_side/pseudolabel_mapping.json": "f68a690df9c5d0d9505c8b388379c78ccdaa4143e9b4c4e4814ea6d7888b3035",
+      "phase_b/config/execution_config.json": "2a88d915af9c76a6d8ecd4331efe42d756a5a305d8a07479990996685419d234",
+      "phase_b/config/phase_b_protocol_frozen.json": "198b16c14265d6c6de3f913e11b1d03e42c4b837ef29857d5d541fc16265948c",
+      "phase_b/config/protocol_config.json": "a67b721609647c9a428c9895de1f0d684547e9fc8cf91f0a626f823af094e135",
+      "phase_b/execution/generate_final_insights.py": "3109f67fc3eb52e85fc51b61bb056a5026a7e6b37d6a93d6de7e28aaaf06a641",
+      "phase_b/insights/final_local_insights.json": "b7ea847ccaf72b04c407ae4878924719c5363d4ccc6851d3d5fef79386e4bcfd",
+      "phase_b/insights/generation_runs.json": "ed6f8b06a6ad01ef6dc0c6a23ea96d5a6183808ba6f28803320b874dc9883e19",
+      "phase_b/insights/input_bundles/agent_1.json": "105f6cb02164c46bffc6e0abd2fefa122a7a5c336a6cbbb3a8fbf11e25c38363",
+      "phase_b/insights/input_bundles/agent_2.json": "961283516a58958cb8e0a3cd222e17cdc92be5b9a1bde452c6d0c15e72331189",
+      "phase_b/insights/input_bundles/agent_3.json": "01b96cbcec60f49080a967d07191078a7f84a45d70ed59fc26cb78880dc40b4d",
+      "phase_b/insights/input_bundles/agent_4.json": "7ca958498798af4a7da6587810a98ea4b3a376a98c6a918b8b01f3ef84545ad1",
+      "phase_b/insights/peer_libraries/agent_1_B.json": "262768a6cada9e88106faa8d07367bb565e5ea0fdb9155cdee1095137a69693f",
+      "phase_b/insights/peer_libraries/agent_2_B.json": "4b0b5bdd228cb1daee5089691fb4612cbd0b7d337153f87264d9433d27e6b083",
+      "phase_b/insights/peer_libraries/agent_3_B.json": "fe5606c35e6a483f5db46acea7b8dae3c238bc2f02423e7b726fe8961528a9a0",
+      "phase_b/insights/peer_libraries/agent_4_B.json": "620ace1214f9ee7b163920deaadef7ee9d16d43ad7bb1de710f3a4559feaf4b3"
+    }
+  },
+  "interpretation": "FoT communication in this experiment is limited to compact textual insight payloads rather than raw time-series observations.",
+  "local_evidence_reference": {
+    "dataset_source_snapshot_verification": {
+      "commit": "309b944f35ac440ff0c70616947ffe723c766e14",
+      "commit_subject": "Add simulations with sp changes",
+      "development_workbooks_matching_lfs_pointers": 21,
+      "repository": "tennessee-eastman-dataset",
+      "status": "PASS"
+    },
+    "per_receiver_peer_sources": [
+      {
+        "peer_fault_plus_shared_normal_raw_values": 2091000,
+        "peer_fault_plus_shared_normal_reference_dense_float64_bytes": 16728000,
+        "peer_fault_raw_observation_values": 1476000,
+        "peer_fault_reference_dense_float64_bytes": 11808000,
+        "peer_source_agents": [
+          "agent_2",
+          "agent_3",
+          "agent_4"
+        ],
+        "peer_structured_numerical_feature_values": 24600,
+        "receiver": "agent_1"
+      },
+      {
+        "peer_fault_plus_shared_normal_raw_values": 2091000,
+        "peer_fault_plus_shared_normal_reference_dense_float64_bytes": 16728000,
+        "peer_fault_raw_observation_values": 1476000,
+        "peer_fault_reference_dense_float64_bytes": 11808000,
+        "peer_source_agents": [
+          "agent_1",
+          "agent_3",
+          "agent_4"
+        ],
+        "peer_structured_numerical_feature_values": 24600,
+        "receiver": "agent_2"
+      },
+      {
+        "peer_fault_plus_shared_normal_raw_values": 2091000,
+        "peer_fault_plus_shared_normal_reference_dense_float64_bytes": 16728000,
+        "peer_fault_raw_observation_values": 1476000,
+        "peer_fault_reference_dense_float64_bytes": 11808000,
+        "peer_source_agents": [
+          "agent_1",
+          "agent_2",
+          "agent_4"
+        ],
+        "peer_structured_numerical_feature_values": 24600,
+        "receiver": "agent_3"
+      },
+      {
+        "peer_fault_plus_shared_normal_raw_values": 2091000,
+        "peer_fault_plus_shared_normal_reference_dense_float64_bytes": 16728000,
+        "peer_fault_raw_observation_values": 1476000,
+        "peer_fault_reference_dense_float64_bytes": 11808000,
+        "peer_source_agents": [
+          "agent_1",
+          "agent_2",
+          "agent_3"
+        ],
+        "peer_structured_numerical_feature_values": 24600,
+        "receiver": "agent_4"
+      }
+    ],
+    "per_source_agent": [
+      {
+        "analysis_windows_total": 40,
+        "development_batches": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "evaluator_side_real_fault": "F1",
+        "n_development_batches": 5,
+        "numerical_feature_names": [
+          "shift_sigma",
+          "slope_sigma_h",
+          "residual_std_ratio",
+          "diff_std_ratio",
+          "raw_std_ratio"
+        ],
+        "numerical_features_per_window_variable": 5,
+        "post_injection_samples_consumed_per_batch": [
+          2400
+        ],
+        "post_injection_samples_consumed_total": 12000,
+        "raw_observation_values": 492000,
+        "reference_dense_float64_bytes": 3936000,
+        "source_agent": "agent_1",
+        "structured_numerical_feature_values": 8200,
+        "workbook_rows_loaded_per_batch": [
+          3001
+        ],
+        "workbooks": [
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_1_1.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_1_1.xlsx",
+              "lfs_sha256": "de4dc4336e19011a9f3f8099ce01a3b9e6c3d0f513861b32c769a1e313d907df",
+              "lfs_size_bytes": 1913848,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "de4dc4336e19011a9f3f8099ce01a3b9e6c3d0f513861b32c769a1e313d907df",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1913848,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_1_2.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_1_2.xlsx",
+              "lfs_sha256": "a66f2bf1200a005d24762cfdf6a0514b23ad60fe0ef380d3477fb49506d108fb",
+              "lfs_size_bytes": 1914890,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "a66f2bf1200a005d24762cfdf6a0514b23ad60fe0ef380d3477fb49506d108fb",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1914890,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_1_3.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_1_3.xlsx",
+              "lfs_sha256": "54f213fb345e99acaa039b806d47945b19ff719aa3c2f6ef0f029b3d2e84d182",
+              "lfs_size_bytes": 1913854,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "54f213fb345e99acaa039b806d47945b19ff719aa3c2f6ef0f029b3d2e84d182",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1913854,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_1_4.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_1_4.xlsx",
+              "lfs_sha256": "78f67eaea8d0a9650b1c3fcc23103516ac55348cdde1c6cfcac53d43fa9a3da2",
+              "lfs_size_bytes": 1913322,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "78f67eaea8d0a9650b1c3fcc23103516ac55348cdde1c6cfcac53d43fa9a3da2",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1913322,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_1_5.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_1_5.xlsx",
+              "lfs_sha256": "6eeb2fdf42cc7fc13e3e8e96c0f7b8d379504d110dbbc2b73bd8331e90145d05",
+              "lfs_size_bytes": 1914073,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "6eeb2fdf42cc7fc13e3e8e96c0f7b8d379504d110dbbc2b73bd8331e90145d05",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1914073,
+            "xmeas_variables": 41
+          }
+        ],
+        "xmeas_variables": 41
+      },
+      {
+        "analysis_windows_total": 40,
+        "development_batches": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "evaluator_side_real_fault": "F8",
+        "n_development_batches": 5,
+        "numerical_feature_names": [
+          "shift_sigma",
+          "slope_sigma_h",
+          "residual_std_ratio",
+          "diff_std_ratio",
+          "raw_std_ratio"
+        ],
+        "numerical_features_per_window_variable": 5,
+        "post_injection_samples_consumed_per_batch": [
+          2400
+        ],
+        "post_injection_samples_consumed_total": 12000,
+        "raw_observation_values": 492000,
+        "reference_dense_float64_bytes": 3936000,
+        "source_agent": "agent_2",
+        "structured_numerical_feature_values": 8200,
+        "workbook_rows_loaded_per_batch": [
+          3001
+        ],
+        "workbooks": [
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_8_1.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_8_1.xlsx",
+              "lfs_sha256": "e2870d45c6985523fd4a862fb24549f6f2113d38540a3cfaffd8bfa8542b7863",
+              "lfs_size_bytes": 1910652,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "e2870d45c6985523fd4a862fb24549f6f2113d38540a3cfaffd8bfa8542b7863",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1910652,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_8_2.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_8_2.xlsx",
+              "lfs_sha256": "16e0a9fe30d972907053599fdffed2c1706564899be37999fe532ef177a7de87",
+              "lfs_size_bytes": 1913828,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "16e0a9fe30d972907053599fdffed2c1706564899be37999fe532ef177a7de87",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1913828,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_8_3.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_8_3.xlsx",
+              "lfs_sha256": "de386e32376786c08c61f6132e11696f37d0f58be7682e7f53d9dfdb4eb2d2f8",
+              "lfs_size_bytes": 1913368,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "de386e32376786c08c61f6132e11696f37d0f58be7682e7f53d9dfdb4eb2d2f8",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1913368,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_8_4.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_8_4.xlsx",
+              "lfs_sha256": "b0ce33e3f7ed90cb3326a3a8a5131bd81d16e39afc2c18e907072353e1cadb75",
+              "lfs_size_bytes": 1913905,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "b0ce33e3f7ed90cb3326a3a8a5131bd81d16e39afc2c18e907072353e1cadb75",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1913905,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_8_5.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_8_5.xlsx",
+              "lfs_sha256": "ba2c37eeef76d502566e3144222f7d847a5c0cebe6b149638ef145706c317980",
+              "lfs_size_bytes": 1913625,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "ba2c37eeef76d502566e3144222f7d847a5c0cebe6b149638ef145706c317980",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1913625,
+            "xmeas_variables": 41
+          }
+        ],
+        "xmeas_variables": 41
+      },
+      {
+        "analysis_windows_total": 40,
+        "development_batches": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "evaluator_side_real_fault": "F10",
+        "n_development_batches": 5,
+        "numerical_feature_names": [
+          "shift_sigma",
+          "slope_sigma_h",
+          "residual_std_ratio",
+          "diff_std_ratio",
+          "raw_std_ratio"
+        ],
+        "numerical_features_per_window_variable": 5,
+        "post_injection_samples_consumed_per_batch": [
+          2400
+        ],
+        "post_injection_samples_consumed_total": 12000,
+        "raw_observation_values": 492000,
+        "reference_dense_float64_bytes": 3936000,
+        "source_agent": "agent_3",
+        "structured_numerical_feature_values": 8200,
+        "workbook_rows_loaded_per_batch": [
+          3001
+        ],
+        "workbooks": [
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_10_1.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_10_1.xlsx",
+              "lfs_sha256": "308bbacc3300fd35fb1165767078e15d30925db6bf220bd74c4e31bb51beab97",
+              "lfs_size_bytes": 1868799,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "308bbacc3300fd35fb1165767078e15d30925db6bf220bd74c4e31bb51beab97",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1868799,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_10_2.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_10_2.xlsx",
+              "lfs_sha256": "bde38d95ccb5b5d62e6138e2581dcda014bfc57070665c9b14ad34e79a382cc4",
+              "lfs_size_bytes": 1868838,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "bde38d95ccb5b5d62e6138e2581dcda014bfc57070665c9b14ad34e79a382cc4",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1868838,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_10_3.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_10_3.xlsx",
+              "lfs_sha256": "81a627db3583815dfefde0165eba2768b15bc06653c6f765b7f7570f242cf31b",
+              "lfs_size_bytes": 1868849,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "81a627db3583815dfefde0165eba2768b15bc06653c6f765b7f7570f242cf31b",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1868849,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_10_4.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_10_4.xlsx",
+              "lfs_sha256": "b84d769cfd40cb6d3a845736f531819d38f5026d57457f222a972c42243f282d",
+              "lfs_size_bytes": 1869656,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "b84d769cfd40cb6d3a845736f531819d38f5026d57457f222a972c42243f282d",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1869656,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_10_5.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_10_5.xlsx",
+              "lfs_sha256": "cde996de4c92eafb197531af2c6fe7fb7ba363df1966ee2833e16032ae0525ec",
+              "lfs_size_bytes": 1868987,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "cde996de4c92eafb197531af2c6fe7fb7ba363df1966ee2833e16032ae0525ec",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1868987,
+            "xmeas_variables": 41
+          }
+        ],
+        "xmeas_variables": 41
+      },
+      {
+        "analysis_windows_total": 40,
+        "development_batches": [
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "evaluator_side_real_fault": "F13",
+        "n_development_batches": 5,
+        "numerical_feature_names": [
+          "shift_sigma",
+          "slope_sigma_h",
+          "residual_std_ratio",
+          "diff_std_ratio",
+          "raw_std_ratio"
+        ],
+        "numerical_features_per_window_variable": 5,
+        "post_injection_samples_consumed_per_batch": [
+          2400
+        ],
+        "post_injection_samples_consumed_total": 12000,
+        "raw_observation_values": 492000,
+        "reference_dense_float64_bytes": 3936000,
+        "source_agent": "agent_4",
+        "structured_numerical_feature_values": 8200,
+        "workbook_rows_loaded_per_batch": [
+          3001
+        ],
+        "workbooks": [
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_13_1.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_13_1.xlsx",
+              "lfs_sha256": "ffdebc8a5be903631334812c86af78af5f0d8d687f9f15057276e78d54e9a722",
+              "lfs_size_bytes": 1869745,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "ffdebc8a5be903631334812c86af78af5f0d8d687f9f15057276e78d54e9a722",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1869745,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_13_2.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_13_2.xlsx",
+              "lfs_sha256": "df2660531d74487aa3a1e95aaf4c5e55487c9905790df509cc1a5e631bc1ea91",
+              "lfs_size_bytes": 1866807,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "df2660531d74487aa3a1e95aaf4c5e55487c9905790df509cc1a5e631bc1ea91",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1866807,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_13_3.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_13_3.xlsx",
+              "lfs_sha256": "789725f061d21c7311693c684f55d8cd885dc1bb64aa26422244aad6a944404f",
+              "lfs_size_bytes": 1870110,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "789725f061d21c7311693c684f55d8cd885dc1bb64aa26422244aad6a944404f",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1870110,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_13_4.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_13_4.xlsx",
+              "lfs_sha256": "1d1f73bcc5e2061398d2699e9575f277c135be18c4b63104a3e30236917dbfa8",
+              "lfs_size_bytes": 1870677,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "1d1f73bcc5e2061398d2699e9575f277c135be18c4b63104a3e30236917dbfa8",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1870677,
+            "xmeas_variables": 41
+          },
+          {
+            "analysis_windows": 8,
+            "normalized_xmeas_dtypes": [
+              "float64"
+            ],
+            "path": "code/tep_cache/mode1_13_5.xlsx",
+            "pinned_source_verification": {
+              "dataset_repository_path": "simulations/mode_1/faults/mode1_13_5.xlsx",
+              "lfs_sha256": "739a6d4ace2a7f65db9da6f377e9e74e02f2faafd5944adc420de2a862991a44",
+              "lfs_size_bytes": 1867917,
+              "local_match": true
+            },
+            "post_injection_samples_consumed": 2400,
+            "samples_per_window": [
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300,
+              300
+            ],
+            "sampling_interval_h": 0.01666666666666572,
+            "sha256": "739a6d4ace2a7f65db9da6f377e9e74e02f2faafd5944adc420de2a862991a44",
+            "time_end_h": 50.0,
+            "time_start_h": 0.0,
+            "workbook_rows_loaded": 3001,
+            "xlsx_file_size_bytes": 1867917,
+            "xmeas_variables": 41
+          }
+        ],
+        "xmeas_variables": 41
+      }
+    ],
+    "reference_serialization": {
+      "formula": "number_of_raw_XMEAS_values * 8 bytes",
+      "name": "theoretical dense float64 numerical payload",
+      "scope": "reference convention only; it is not the physical size of the XLSX files"
+    },
+    "shared_normal_reference": {
+      "baseline_summary_fields": [
+        "mean",
+        "std",
+        "diff_std",
+        "residual_std"
+      ],
+      "baseline_summary_scalars": 164,
+      "blocks": [
+        "N1",
+        "N2",
+        "N3",
+        "N4",
+        "N5"
+      ],
+      "frozen_threshold_scalars": 4,
+      "note": "The file size covers the full 500 h workbook and is not used in a payload ratio.",
+      "path": "code/tep_cache/mode1_normal_500.xlsx",
+      "pinned_source_verification": {
+        "dataset_repository_path": "simulations/mode_1/mode1_normal_500.xlsx",
+        "lfs_sha256": "79883dd0aabbd034c15337b0be1ffca37e59ea7b32443a15d560b7feda2b2e6a",
+        "lfs_size_bytes": 14121844,
+        "local_match": true
+      },
+      "raw_observation_values": 615000,
+      "reference_dense_float64_bytes": 4920000,
+      "role": "shared frozen normalization/calibration reference; not peer fault-specific experience",
+      "samples": 15000,
+      "xlsx_file_size_bytes": 14121844,
+      "xmeas_variables": 41
+    },
+    "structured_evidence_definition": {
+      "counted": "five base numerical descriptors per window and XMEAS",
+      "direct_insight_model_input": false,
+      "excluded": "abs_shift_sigma/abs_slope_sigma_h duplicates, threshold booleans, summaries, and text",
+      "feature_names": [
+        "shift_sigma",
+        "slope_sigma_h",
+        "residual_std_ratio",
+        "diff_std_ratio",
+        "raw_std_ratio"
+      ],
+      "note": "The insight-generation LLM received only the five neutral texts; structured numerical JSON was false in every bundle."
+    },
+    "system_unique_source_evidence": {
+      "fault_plus_shared_normal_raw_observation_values": 2583000,
+      "fault_plus_shared_normal_reference_dense_float64_bytes": 20664000,
+      "fault_raw_observation_values": 1968000,
+      "fault_reference_dense_float64_bytes": 15744000,
+      "fault_structured_numerical_feature_values": 32800
+    },
+    "window_consumption_rule": {
+      "interval": "left-closed/right-open [10 h, 50 h)",
+      "pre_injection_rows_loaded_but_not_feature-extracted": true,
+      "source": "code/tep_features.py::iter_time_windows and code/tep_verbalize_v2.py::verbalize_case",
+      "time_coordinate_excluded_from_raw_observation_count": true
+    }
+  },
+  "schema_version": "1.0",
+  "scope": "Experiment 1 frozen communication payload characterization",
+  "status": "DESCRIPTIVE_ONLY",
+  "token_count": {
+    "provider": "openai",
+    "reason": "response.usage records whole-prompt token totals, but the frozen artifacts do not identify a reproducible tokenizer for isolating the peer payload.",
+    "requested_model": "gpt-5.6-terra",
+    "returned_model": "gpt-5.6-terra",
+    "sdk_package": "openai",
+    "sdk_version": "3.6.0",
+    "status": "TOKEN COUNT NOT REPRODUCIBLY AVAILABLE FROM CURRENT ARTIFACTS",
+    "token_accounting_source": "response.usage",
+    "tokenizer_recorded": null
+  }
+}
