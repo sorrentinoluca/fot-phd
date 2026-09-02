@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "experiment": "Experiment 3 — Fresh Prospective Physical-Run Extension",
+  "status": "FROZEN_BEFORE_GENERATION",
+  "hash_algorithm": "SHA-256",
+  "freeze_tag": "exp3-heldout-frozen",
+  "source_head_before_freeze": "430590001922b28d618b739b12e3471e7ebd0afa",
+  "created_before_generation": true,
+  "exp3_workbooks_at_freeze": 0,
+  "artifacts": [
+    {
+      "path": ".gitignore",
+      "sha256": "4375d0a5aa9400b15321c97362ef697625e9b932383f6d632b05502d8744afda"
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "a0953ba19df3a9fa7848fa46d59399aef0ac16840dccfdbb1dc7d243cfc0ad88"
+    },
+    {
+      "path": "phase_b/exp3/EXP3_FRESH_RUN_PROTOCOL.md",
+      "sha256": "4834d4d85f2b665d51d9d36e0b9ca21f37b9ffda3c54d7546d96077bcc0e0632"
+    },
+    {
+      "path": "phase_b/exp3/RNG_RUNTIME_VALIDATION.md",
+      "sha256": "878c66fbff695a5e1c6950dcab8468a2343451c59630f4eeca37632d4ce1a460"
+    },
+    {
+      "path": "phase_b/exp3/exp3_attempt_log.schema.json",
+      "sha256": "01a0c314cb7dccaa95c8e6b8dbd8fdd975bb795be73719479529babbffe28490"
+    },
+    {
+      "path": "phase_b/exp3/exp3_attempt_log.template.json",
+      "sha256": "cd7d2e2df6cd575cc7416b0ec35d174687ef153ae9c3219897101c44b49388ba"
+    },
+    {
+      "path": "phase_b/exp3/exp3_case_plan.json",
+      "sha256": "f2d27ef19d6b5f923cc33fe3329e8a3922800ec9eff34afc58b47c54c03e5b3b"
+    },
+    {
+      "path": "phase_b/exp3/exp3_manifest_template.csv",
+      "sha256": "01a99133a6115398a1148bfd22c8b41a017ae4a6708056d8385c33eb077338cb"
+    },
+    {
+      "path": "phase_b/exp3/generate_exp3_heldout.m",
+      "sha256": "018b13d5e85a80e190b9d7a6931cfd40f0ee28639cb7ff8193dac2fb82aae813"
+    },
+    {
+      "path": "phase_b/exp3/validate_exp3_rng_runtime.m",
+      "sha256": "7397f24c9139d18aa42ea0003bd5715f6cde1736766610a1b2dc068c14987a98"
+    },
+    {
+      "path": "phase_b/exp3/verify_exp3_heldout.py",
+      "sha256": "58989125647ed4883f138a60a10d27f480073039ba27b5559cbaa18358fea927"
+    },
+    {
+      "path": "phase_b/tests/test_exp3_pre_freeze.py",
+      "sha256": "dbcfd4b4088200683d5cfb5930a2f2d6a9f3c336e8c95af751862ee8a0ef9ec7"
+    }
+  ]
+}

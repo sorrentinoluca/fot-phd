@@ -1,0 +1,352 @@
+{
+  "schema_version": "1.0",
+  "status": "FROZEN_BEFORE_GENERATION",
+  "experiment": "Experiment 3 — Fresh Prospective Physical-Run Extension",
+  "scope": "prospective fresh physical-run replication on the same four TEP fault classes",
+  "sample": {
+    "normal_physical_runs": 6,
+    "fault_physical_runs_per_class": 6,
+    "fault_classes": [
+      "F1",
+      "F8",
+      "F10",
+      "F13"
+    ],
+    "total_fault_physical_runs": 24,
+    "total_physical_runs": 30
+  },
+  "rng": {
+    "algorithm": "twister",
+    "master_allocation_base": 310000,
+    "primary_seed_formula": "master_allocation_base + canonical_ordinal",
+    "primary_seed_range": [
+      310001,
+      310030
+    ],
+    "replacement_seed_formula": "primary_seed + 1000000",
+    "allowed_attempts": [
+      0,
+      1
+    ],
+    "max_total_attempts": 2,
+    "bootstrap_seed": 310031
+  },
+  "runtime": {
+    "matlab_exact_version": "25.2.0.3312555 (R2025b) Update 6",
+    "matlab_release": "2025b",
+    "matlab_build": "3312555",
+    "matlab_date": "June 30, 2026",
+    "simulink_version": "25.2",
+    "simulink_release": "(R2025b)",
+    "simulink_product_date": "28-Jul-2025",
+    "simulink_separate_build": null,
+    "architecture": "MACA64",
+    "matlabroot": "/Applications/MATLAB_R2025b.app"
+  },
+  "simulator": {
+    "upstream_repository": "mv-per/tennessee-eastman-dataset",
+    "source_dataset_commit": "309b944f35ac440ff0c70616947ffe723c766e14",
+    "simulator_commit": "a0413e16c940f0fc8b554d6a86248020d7fb7527",
+    "model": "MultiLoop_mode1",
+    "tep_mode": "Mode 1",
+    "simulation_mode": "normal",
+    "solver": "ode45",
+    "start_time_h": 0.0,
+    "stop_time_h": 50.0,
+    "sampling_interval_h": 0.016666666666666666,
+    "fault_injection_h": 10.0,
+    "initial_state_file": "Mode1xInitial.mat",
+    "initial_state_sha256": "40eaebc92badb04ad026e358cfd28ec9c778fcf2d24a1b8f5d85565854da2747",
+    "model_sha256": "d2f6659f65935021d4b1813e7189be02e7ae9f5639b794e8edc4f2f3c5cddba8",
+    "sfunction_identity": "temexd_mod",
+    "sfunction_source_sha256": "0da41d939e5ab7ba122d7b70c124368ee0882fce40e775dba5d180e7a7e24e5e",
+    "sfunction_macos_mex_sha256": "68f632388cb698dd7b8c595000bc03c2e1d19200546b9d4357df90e3fc93af0d",
+    "custom_setpoints": false,
+    "expected_rows": 3001,
+    "expected_columns": 54,
+    "worksheet": "Sheet1"
+  },
+  "statistics": {
+    "independent_unit": "physical_run",
+    "agent_case_observations_independent": false,
+    "bootstrap": "paired_cluster_bootstrap_stratified_by_true_fault",
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 310031,
+    "primary_analysis": "Experiment_3_only",
+    "primary_contrast": "B-A",
+    "semantic_specificity_contrast": "B-E",
+    "experiment_1_plus_experiment_3": "secondary_descriptive_only"
+  },
+  "cases": [
+    {
+      "physical_case_id": "EXP3-N-001",
+      "condition": "Normal",
+      "run_index": 1,
+      "rng_algorithm": "twister",
+      "primary_seed": 310001,
+      "replacement_seed": 1310001,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-N-002",
+      "condition": "Normal",
+      "run_index": 2,
+      "rng_algorithm": "twister",
+      "primary_seed": 310002,
+      "replacement_seed": 1310002,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-N-003",
+      "condition": "Normal",
+      "run_index": 3,
+      "rng_algorithm": "twister",
+      "primary_seed": 310003,
+      "replacement_seed": 1310003,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-N-004",
+      "condition": "Normal",
+      "run_index": 4,
+      "rng_algorithm": "twister",
+      "primary_seed": 310004,
+      "replacement_seed": 1310004,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-N-005",
+      "condition": "Normal",
+      "run_index": 5,
+      "rng_algorithm": "twister",
+      "primary_seed": 310005,
+      "replacement_seed": 1310005,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-N-006",
+      "condition": "Normal",
+      "run_index": 6,
+      "rng_algorithm": "twister",
+      "primary_seed": 310006,
+      "replacement_seed": 1310006,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F1-001",
+      "condition": "F1",
+      "run_index": 1,
+      "rng_algorithm": "twister",
+      "primary_seed": 310007,
+      "replacement_seed": 1310007,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F1-002",
+      "condition": "F1",
+      "run_index": 2,
+      "rng_algorithm": "twister",
+      "primary_seed": 310008,
+      "replacement_seed": 1310008,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F1-003",
+      "condition": "F1",
+      "run_index": 3,
+      "rng_algorithm": "twister",
+      "primary_seed": 310009,
+      "replacement_seed": 1310009,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F1-004",
+      "condition": "F1",
+      "run_index": 4,
+      "rng_algorithm": "twister",
+      "primary_seed": 310010,
+      "replacement_seed": 1310010,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F1-005",
+      "condition": "F1",
+      "run_index": 5,
+      "rng_algorithm": "twister",
+      "primary_seed": 310011,
+      "replacement_seed": 1310011,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F1-006",
+      "condition": "F1",
+      "run_index": 6,
+      "rng_algorithm": "twister",
+      "primary_seed": 310012,
+      "replacement_seed": 1310012,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F8-001",
+      "condition": "F8",
+      "run_index": 1,
+      "rng_algorithm": "twister",
+      "primary_seed": 310013,
+      "replacement_seed": 1310013,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F8-002",
+      "condition": "F8",
+      "run_index": 2,
+      "rng_algorithm": "twister",
+      "primary_seed": 310014,
+      "replacement_seed": 1310014,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F8-003",
+      "condition": "F8",
+      "run_index": 3,
+      "rng_algorithm": "twister",
+      "primary_seed": 310015,
+      "replacement_seed": 1310015,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F8-004",
+      "condition": "F8",
+      "run_index": 4,
+      "rng_algorithm": "twister",
+      "primary_seed": 310016,
+      "replacement_seed": 1310016,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F8-005",
+      "condition": "F8",
+      "run_index": 5,
+      "rng_algorithm": "twister",
+      "primary_seed": 310017,
+      "replacement_seed": 1310017,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F8-006",
+      "condition": "F8",
+      "run_index": 6,
+      "rng_algorithm": "twister",
+      "primary_seed": 310018,
+      "replacement_seed": 1310018,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F10-001",
+      "condition": "F10",
+      "run_index": 1,
+      "rng_algorithm": "twister",
+      "primary_seed": 310019,
+      "replacement_seed": 1310019,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F10-002",
+      "condition": "F10",
+      "run_index": 2,
+      "rng_algorithm": "twister",
+      "primary_seed": 310020,
+      "replacement_seed": 1310020,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F10-003",
+      "condition": "F10",
+      "run_index": 3,
+      "rng_algorithm": "twister",
+      "primary_seed": 310021,
+      "replacement_seed": 1310021,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F10-004",
+      "condition": "F10",
+      "run_index": 4,
+      "rng_algorithm": "twister",
+      "primary_seed": 310022,
+      "replacement_seed": 1310022,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F10-005",
+      "condition": "F10",
+      "run_index": 5,
+      "rng_algorithm": "twister",
+      "primary_seed": 310023,
+      "replacement_seed": 1310023,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F10-006",
+      "condition": "F10",
+      "run_index": 6,
+      "rng_algorithm": "twister",
+      "primary_seed": 310024,
+      "replacement_seed": 1310024,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F13-001",
+      "condition": "F13",
+      "run_index": 1,
+      "rng_algorithm": "twister",
+      "primary_seed": 310025,
+      "replacement_seed": 1310025,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F13-002",
+      "condition": "F13",
+      "run_index": 2,
+      "rng_algorithm": "twister",
+      "primary_seed": 310026,
+      "replacement_seed": 1310026,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F13-003",
+      "condition": "F13",
+      "run_index": 3,
+      "rng_algorithm": "twister",
+      "primary_seed": 310027,
+      "replacement_seed": 1310027,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F13-004",
+      "condition": "F13",
+      "run_index": 4,
+      "rng_algorithm": "twister",
+      "primary_seed": 310028,
+      "replacement_seed": 1310028,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F13-005",
+      "condition": "F13",
+      "run_index": 5,
+      "rng_algorithm": "twister",
+      "primary_seed": 310029,
+      "replacement_seed": 1310029,
+      "max_total_attempts": 2
+    },
+    {
+      "physical_case_id": "EXP3-F13-006",
+      "condition": "F13",
+      "run_index": 6,
+      "rng_algorithm": "twister",
+      "primary_seed": 310030,
+      "replacement_seed": 1310030,
+      "max_total_attempts": 2
+    }
+  ]
+}

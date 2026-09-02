@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "exp3_attempt_log.schema.json",
+  "title": "Experiment 3 generation attempt log",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment",
+    "attempts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "experiment": {
+      "const": "Experiment 3 — Fresh Prospective Physical-Run Extension"
+    },
+    "attempts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/attempt"
+      }
+    }
+  },
+  "$defs": {
+    "nullableNumber": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "nullableInteger": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "nullableString": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "physical_case_id",
+        "fault_status",
+        "attempt",
+        "seed",
+        "rng_algorithm",
+        "started_at",
+        "completed_at",
+        "matlab_version",
+        "matlab_release",
+        "matlab_build",
+        "matlab_product_date",
+        "simulink_version",
+        "simulink_release",
+        "simulink_product_date",
+        "architecture",
+        "matlabroot",
+        "simulator_commit",
+        "model_name",
+        "simulation_mode",
+        "solver",
+        "sfunction_identity",
+        "sfunction_hash",
+        "sfunction_mex_hash",
+        "model_hash",
+        "initial_state_hash",
+        "case_plan_hash",
+        "generation_script_hash",
+        "output_path",
+        "output_size_bytes",
+        "output_sha256",
+        "rows",
+        "cols",
+        "time_start",
+        "time_end",
+        "sampling_interval",
+        "finite_check",
+        "structural_valid",
+        "technical_failure_reason"
+      ],
+      "properties": {
+        "physical_case_id": {
+          "type": "string",
+          "pattern": "^EXP3-(N|F1|F8|F10|F13)-00[1-6]$"
+        },
+        "fault_status": {
+          "enum": [
+            "Normal",
+            "F1",
+            "F8",
+            "F10",
+            "F13"
+          ]
+        },
+        "attempt": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "seed": {
+          "type": "integer"
+        },
+        "rng_algorithm": {
+          "const": "twister"
+        },
+        "started_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "matlab_version": {
+          "const": "25.2.0.3312555 (R2025b) Update 6"
+        },
+        "matlab_release": {
+          "const": "2025b"
+        },
+        "matlab_build": {
+          "const": "3312555"
+        },
+        "matlab_product_date": {
+          "const": "June 30, 2026"
+        },
+        "simulink_version": {
+          "const": "25.2"
+        },
+        "simulink_release": {
+          "const": "(R2025b)"
+        },
+        "simulink_product_date": {
+          "const": "28-Jul-2025"
+        },
+        "architecture": {
+          "const": "MACA64"
+        },
+        "matlabroot": {
+          "const": "/Applications/MATLAB_R2025b.app"
+        },
+        "simulator_commit": {
+          "const": "a0413e16c940f0fc8b554d6a86248020d7fb7527"
+        },
+        "model_name": {
+          "const": "MultiLoop_mode1"
+        },
+        "simulation_mode": {
+          "const": "normal"
+        },
+        "solver": {
+          "const": "ode45"
+        },
+        "sfunction_identity": {
+          "const": "temexd_mod"
+        },
+        "sfunction_hash": {
+          "const": "0da41d939e5ab7ba122d7b70c124368ee0882fce40e775dba5d180e7a7e24e5e"
+        },
+        "sfunction_mex_hash": {
+          "const": "68f632388cb698dd7b8c595000bc03c2e1d19200546b9d4357df90e3fc93af0d"
+        },
+        "model_hash": {
+          "const": "d2f6659f65935021d4b1813e7189be02e7ae9f5639b794e8edc4f2f3c5cddba8"
+        },
+        "initial_state_hash": {
+          "const": "40eaebc92badb04ad026e358cfd28ec9c778fcf2d24a1b8f5d85565854da2747"
+        },
+        "case_plan_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "generation_script_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "output_path": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "output_size_bytes": {
+          "$ref": "#/$defs/nullableInteger"
+        },
+        "output_sha256": {
+          "type": "string",
+          "pattern": "^$|^[0-9a-f]{64}$"
+        },
+        "rows": {
+          "$ref": "#/$defs/nullableInteger"
+        },
+        "cols": {
+          "$ref": "#/$defs/nullableInteger"
+        },
+        "time_start": {
+          "$ref": "#/$defs/nullableNumber"
+        },
+        "time_end": {
+          "$ref": "#/$defs/nullableNumber"
+        },
+        "sampling_interval": {
+          "$ref": "#/$defs/nullableNumber"
+        },
+        "finite_check": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "structural_valid": {
+          "type": "boolean"
+        },
+        "technical_failure_reason": {
+          "$ref": "#/$defs/nullableString"
+        }
+      }
+    }
+  }
+}

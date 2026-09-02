@@ -1,15 +1,14 @@
 # Experiment 3 — Fresh Prospective Physical-Run Extension
 
-**Status:** `DRAFT FOR SCIENTIFIC AUDIT — NOT FROZEN`<br>
+**Status:** `FROZEN BEFORE GENERATION`<br>
 **Experiment:** prospective fresh physical-run replication on the same four TEP fault classes<br>
 **Repository branch:** `main`<br>
 **Protocol scope:** Experiment 3 only; Experiment 1 remains immutable
 
-This document pre-specifies Experiment 3 before generation of any Experiment 3
-physical run. It is not a report of results, does not open an existing held-out
-set, and does not authorize simulation, verbalization, or LLM inference. The
-protocol cannot be frozen until every item marked **BLOCKER BEFORE FREEZE** has
-been resolved and recorded without inspecting diagnostic signal content.
+This document pre-specifies and freezes Experiment 3 before generation of any
+Experiment 3 physical run. It is not a report of results and does not open an
+existing held-out set. At this boundary, no Experiment 3 simulation,
+verbalization, or LLM inference has occurred.
 
 The source-of-truth order used here is:
 
@@ -135,12 +134,12 @@ Experiment 1.
 | 29 | `EXP3-F13-005` | F13 | 5 |
 | 30 | `EXP3-F13-006` | F13 | 6 |
 
-If a primary attempt is technically invalid, it retains this identifier in the
-append-only attempt log. A permitted replacement is a distinct physical run and
-receives the suffix `-R01` or `-R02` after the primary identifier. The analysis
-slot remains the original condition and run index; the manifest records the
-actual accepted physical-run identifier. This prevents a failed attempt and its
-replacement from sharing an identifier.
+If a primary attempt is technically invalid, the intended `physical_case_id`
+remains unchanged and every execution is distinguished by the mandatory
+`attempt` field. Attempt `0` is the primary realization and attempt `1` is the
+single permitted technical replacement. Output filenames encode both fields as
+`<physical_case_id>__attempt-<attempt>.xlsx`; the append-only attempt log retains
+both records. There is no attempt `2`.
 
 ## 5. RNG policy and full seed table
 
@@ -197,7 +196,7 @@ rule; MATLAB receives the 30 explicit per-run seeds below.
 | `EXP3-F13-005` | F13 | 5 | `twister` | 310029 |
 | `EXP3-F13-006` | F13 | 6 | `twister` | 310030 |
 
-### 5.3 Simulator RNG path and unresolved runtime proof
+### 5.3 Simulator RNG path and resolved runtime proof
 
 The frozen simulator model stores the plant block as:
 
@@ -221,23 +220,35 @@ user-selected measurement and process seeds: one MATLAB-controlled scalar is
 passed to the unchanged S-function, which then advances its own deterministic
 internal generator.
 
-**BLOCKER BEFORE FREEZE — RNG plumbing:** the repository does not contain a
-runtime record proving exactly when Simulink evaluates the stored `rand()`
-expression relative to a per-run `rng(run_seed, 'twister')`, nor that no model
-initialization action consumes a MATLAB random draw first. Before protocol
-freeze, a non-diagnostic runtime plumbing probe must demonstrate that:
+The sentinel-only runtime probe in
+`phase_b/exp3/RNG_RUNTIME_VALIDATION.md` resolved the RNG plumbing blocker. It
+established that `load_system`, including `PreLoadFcn=Mode_1_Init` and loading
+`Mode1xInitial`, does not change the MATLAB RNG state; `Mode_1_Init` and
+`TEplot` contain no `rand`, `randn`, or `rng` call; and one simulation advances
+the MATLAB RNG by exactly the single stored `rand()` S-function parameter.
 
-1. each of two clean executions with the same planned run seed passes the same
-   scalar seed to `temexd_mod` and produces a byte-equivalent numeric output;
-2. two distinct planned run seeds pass distinct scalar seeds;
-3. the probe does not inspect XMEAS/XMV behavior or select seeds by outcome;
-4. the exact evaluated S-function seed and pre-`sim` MATLAB RNG state are logged
-   in the generation manifest or an immutable companion record.
+Two clean executions with sentinel seed `987654321` produced exactly equal
+`3001 x 54` numeric matrices (`isequal=true`, maximum absolute difference `0`,
+SHA-256
+`ce64df11668eafc5e1ab7516ff9667614b0517f6ccd4df57eab94fb07b507c42`).
+Sentinel seed `123456789` produced a different realization
+(`isequal=false`, maximum absolute difference `131.55889448158541`, SHA-256
+`60e5f58c53458d9cc99d653391a459f41230e70fb2669e5c47eb0c86512950d9`).
+Neither sentinel belongs to the Experiment 3 allocation. No trajectory was
+interpreted and no seed was selected by outcome.
 
-No Experiment 3 physical run may be generated until this blocker is resolved.
-If the probe shows that `rng(run_seed, 'twister')` does not control the stored
-expression as specified, the generation mechanism must be revised and audited
-in a new protocol version before any Experiment 3 run is created.
+The validated generation order is fixed as:
+
+```matlab
+load_system('MultiLoop_mode1'); % initialization and Mode1xInitial
+dist = ...;                     % physical condition
+rng(seed, 'twister');           % final random-relevant operation
+sim('MultiLoop_mode1');
+```
+
+The two final statements must remain adjacent. The generation attempt log
+records the explicit algorithm and seed; the frozen script identity binds the
+code that preserves this placement.
 
 ## 6. Simulator configuration
 
@@ -254,8 +265,10 @@ behavior.
 | TEP operating mode | Mode 1 | `MultiLoop_mode1` and `Mode_1_Init.m` |
 | Simulink model | `MultiLoop_mode1` | Verified |
 | Simulink simulation mode | `normal` | Saved model parameter |
-| MATLAB release | R2025b | Frozen held-out manifest/generation record |
-| Simulink release | R2025b | Frozen narrative generation record; exact product version/build was not logged—see blocker below |
+| MATLAB exact version | `25.2.0.3312555 (R2025b) Update 6` | Captured by the sentinel-only runtime probe |
+| MATLAB release/build/date | `2025b` / `3312555` / `June 30, 2026` | Captured by `version`, `version('-release')`, and `ver('MATLAB')` |
+| Simulink version/release/date | `25.2` / `(R2025b)` / `28-Jul-2025` | Captured by `ver('Simulink')`; no separate Simulink build was exposed or invented |
+| Architecture / MATLAB root | `MACA64` / `/Applications/MATLAB_R2025b.app` | Captured by `computer` and `matlabroot` |
 | Model start time | `0.0` h | Saved model parameter |
 | Model stop time | `50` h | Saved model parameter |
 | Solver | `ode45`, variable-step | Saved model parameter |
@@ -285,18 +298,18 @@ solver is variable-step `ode45`; this field must not be misreported as the
 numerical integration step. The one-minute interval is the saved-output sampling
 interval, not the solver step.
 
-**BLOCKER BEFORE FREEZE — runtime version identity:** before freeze, the
-generation host must record `version`, `version('-release')`, and the full
-`ver('simulink')` result. The release must be R2025b and the exact Simulink
-product version/build must be added to this protocol or its machine-readable
-companion. The previous held-out record establishes R2025b but does not preserve
-the exact Simulink product build.
+The exact runtime evidence is preserved in
+`phase_b/exp3/RNG_RUNTIME_VALIDATION.md`; its reproducible sentinel probe is
+`phase_b/exp3/validate_exp3_rng_runtime.m`.
 
-**BLOCKER BEFORE FREEZE — generation implementation:** a dedicated Experiment 3
-generation script has not yet been created or frozen. It must implement the
-case/seed tables, no-overwrite behavior, attempt logging, exact path/hash checks,
-and Section 9 replacement policy. Its hash must be added before protocol freeze.
-This document does not authorize reusing an ad hoc command sequence.
+The dedicated single-case generator is
+`phase_b/exp3/generate_exp3_heldout.m`. It consumes the machine-readable plan,
+refuses overwrite, verifies pinned model/initial-state/S-function source/MEX
+hashes, records its own frozen SHA-256 plus complete runtime provenance, applies only
+the Section 9 structural checks, and appends an attempt record. The generator
+requires case-plan status `FROZEN_BEFORE_GENERATION` and verifies its own hash
+and the case-plan hash against `phase_b/exp3/EXP3_FREEZE_MANIFEST.json` before
+simulation.
 
 ## 7. Fault and injection configuration
 
@@ -365,9 +378,14 @@ After generation:
 - no run may be regenerated to obtain a more favorable realization;
 - no additional run may be added after scientific outcomes are visible.
 
-The prospective freeze prevents adaptive generation, outcome-dependent
-selection, and cherry-picking. It does not by itself prove statistical
-independence.
+**Prospective freeze:** fixing the case plan, seeds, replacement rule, runtime,
+generation code, and verifier before generation prevents adaptive generation,
+outcome-dependent selection, and cherry-picking.
+
+**Statistical independence:** the intended sampling units are separate physical
+realizations produced by distinct seeds and separate simulator executions under
+the frozen mechanism. This basis is different from the prospective freeze; the
+freeze does not by itself prove or guarantee statistical independence.
 
 ## 9. Technical validity, exclusion, and replacement policy
 
@@ -397,25 +415,30 @@ completion only; it does not assert a plant-state interpretation.
 
 Replacement is **yes**, but only for a failure in Section 9.1.
 
-- The failed attempt is never deleted or silently overwritten. Its identifier,
-  seed, failure code, logs, and any materialized file hash are retained in an
-  append-only attempt record.
-- Replacement attempt `j` receives identifier `<primary_id>-R0j`, where
-  `j ∈ {1,2}`.
-- Its seed is `primary_seed + 1,000,000 × j`. This deterministic rule is fixed
-  now and does not use the failed signal or any scientific outcome.
+- Attempt `0` is the primary attempt and uses the listed `primary_seed`.
+- Attempt `1` is the only permitted technical replacement and is allowed only
+  when attempt `0` has a non-empty technical failure reason from Section 9.1
+  and `structural_valid=false` in the append-only log.
+- Attempt `1` uses exactly `primary_seed + 1,000,000`. This deterministic rule
+  is fixed now and does not use the failed signal or any scientific outcome.
+- The failed attempt is never deleted or silently overwritten. The same
+  intended `physical_case_id`, its attempt number, seed, failure reason, logs,
+  and any materialized file hash remain in the append-only attempt log.
 - The replacement uses the same condition, run index, and all other frozen
   simulator settings.
-- At most two replacements are allowed per planned slot (three attempts total,
-  including the primary attempt).
-- If the second replacement also fails, generation stops with an incomplete
-  Experiment 3. The sample size is not reduced, the case is not analyzed, and
-  no alternative seed or extra recovery run may be chosen without a new audited
-  protocol version created before further generation.
+- The maximum is two total attempts per intended physical case. Attempt `2`
+  does not exist and is rejected by plan, schema, generator, and verifier.
+- If attempt `1` also fails, generation stops with an incomplete
+  Experiment 3 and the intended case remains `technically_failed` / missing.
+  The sample size is not reduced, the case is not analyzed, and no alternative
+  seed or extra recovery run may be chosen without a new audited protocol
+  version created before further generation.
 
-Only the first structurally valid attempt for a planned slot enters the 30-run
-held-out. Technical-invalidity status is determined before verbalization and
-without diagnostic inspection.
+Attempt `1` is forbidden when attempt `0` is technically valid, regardless of
+whether the trajectory appears weak, atypical, poorly verbalized, or
+misclassified. Only the first structurally valid attempt for a planned slot
+enters the 30-run held-out. Technical-invalidity status is determined before
+verbalization and without diagnostic inspection.
 
 ## 10. Frozen preprocessing, verbalizer, and FoT dependencies
 
@@ -616,6 +639,14 @@ The final manifest is populated only after actual generation and mechanical
 integrity verification. File-dependent fields remain `TBD` now; no final
 filename, size, or hash is invented in this protocol.
 
+The authoritative machine-readable template is
+`phase_b/exp3/exp3_manifest_template.csv`. It contains exactly 30 rows and the
+columns `physical_case_id`, `fault/status`, `attempt`, `seed`, `filename`,
+`size_bytes`, `SHA256`, `rows`, `cols`, `time_start`, `time_end`, `sampling`,
+`finite_check`, and `structural_valid`. The `attempt` and all output-dependent
+fields remain `TBD`; the seed column shows the planned attempt-0 seed. The table
+below is the corresponding human-readable planned-case overview.
+
 | physical_case_id | fault/status | seed | filename | size_bytes | SHA256 | rows | cols | time_start | time_end | sampling | finite_check | structural_valid |
 |---|---|---:|---|---:|---|---:|---:|---:|---:|---:|---|---|
 | `EXP3-N-001` | Normal | 310001 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
@@ -649,76 +680,98 @@ filename, size, or hash is invented in this protocol.
 | `EXP3-F13-005` | F13 | 310029 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
 | `EXP3-F13-006` | F13 | 310030 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD | TBD |
 
-The implementation may add attempt/provenance fields such as
-`planned_case_id`, `generation_attempt`, `replacement_of`,
-`technical_failure_code`, `matlab_rng_state_before_sim`, and
-`evaluated_sfunction_seed`; it may not remove the fields above. Replacement
-rows use the replacement physical-run ID and deterministic seed from Section 9.
+The append-only provenance schema and empty template are
+`phase_b/exp3/exp3_attempt_log.schema.json` and
+`phase_b/exp3/exp3_attempt_log.template.json`. They record every primary or
+replacement attempt, including technical failures. A final accepted manifest
+row retains the planned `physical_case_id` and records the accepted attempt and
+its deterministic seed from Section 9.
+
+The read-only fail-closed verifier is
+`phase_b/exp3/verify_exp3_heldout.py`. In pre-freeze mode it verifies the
+deterministic plan and empty templates without reading any workbook. After
+future generation it will additionally enforce attempt policy, exact
+provenance, workbook structure, filename/case coherence, manifest completeness,
+and absence of extra XLSX files.
+
+The final pre-generation hash boundary is
+`phase_b/exp3/EXP3_FREEZE_MANIFEST.json`. It pins the protocol, case plan,
+generator, verifier, attempt-log schema/template, manifest template, RNG
+probe/report, Exp3 regression test, dependency file, and raw-output ignore rule.
+The local tag `exp3-heldout-frozen` binds that manifest and these artifacts to
+the freeze commit. This tag denotes the prospective held-out generation
+protocol boundary; it does not claim that the future 30 workbooks already
+exist.
 
 ## 17. Freeze checklist
 
-The protocol may move from draft to frozen only when every item is checked and
-no Experiment 3 diagnostic signal has been inspected:
+The pre-generation freeze gates are satisfied without inspecting Experiment 3
+diagnostic signal content:
 
-- [ ] Scientific audit approves the RQ, same-four-class scope, fixed sample,
-      endpoints, and success/failure criteria.
-- [ ] All 30 primary IDs and seeds exactly match Sections 4 and 5.
-- [ ] RNG plumbing blocker is resolved by a non-diagnostic reproducibility
-      probe and its immutable record is linked.
-- [ ] MATLAB and Simulink runtime release/build identities are recorded and
+- [x] Scientific audit approves the RQ, same-four-class scope, fixed sample,
+      endpoints, and success/failure criteria (`READY FOR EXP3 FREEZE`).
+- [x] All 30 primary IDs and seeds exactly match Sections 4 and 5 and
+      `phase_b/exp3/exp3_case_plan.json`.
+- [x] RNG plumbing blocker is resolved by a non-diagnostic reproducibility
+      probe; its evidence record is prepared and linked for the future freeze.
+- [x] MATLAB and Simulink runtime identities exposed by the host are recorded and
       satisfy Section 6.
-- [ ] Dedicated generation script is implemented, reviewed, hash-pinned, and
-      proven to refuse overwrite.
-- [ ] Generation script verifies model, initial-state, S-function source, and
+- [x] Dedicated generation script is implemented, reviewed, hash-pinned, and
+      statically proven to refuse overwrite.
+- [x] Generation script verifies model, initial-state, S-function source, and
       MEX hashes before every generation session.
-- [ ] Integrity verifier implements only the Section 9 technical checks and is
+- [x] Integrity verifier implements only the Section 9 technical checks and is
       hash-pinned.
-- [ ] Attempt log and manifest schemas represent replacements without deleting
+- [x] Attempt log and manifest schemas represent replacements without deleting
       failed attempts.
-- [ ] Experiment 1 frozen artifacts are re-hashed against
+- [x] Experiment 1 frozen artifacts are re-hashed against
       `phase_b/PHASE_B_PROTOCOL_HASHES.json`.
-- [ ] The frozen Experiment 1 schedule-construction and execution-order rules
-      are reused without condition-order or prompt changes; an Experiment 3
-      schedule containing only the new IDs is generated and frozen before its
-      first inference.
-- [ ] New bootstrap seed is exactly `310031`; draws remain 10,000.
-- [ ] Raw output directory is ignored by Git and empty of Experiment 3 cases
+- [x] New bootstrap seed is exactly `310031`; draws remain 10,000.
+- [x] Raw output directory is ignored by Git and empty of Experiment 3 cases
       before generation.
-- [ ] Prospective diagnostic-access guard is enabled before the first run.
-- [ ] Protocol, machine-readable config if any, generation code, verifier, and
-      empty manifest template receive a freeze commit/tag before generation.
-- [ ] No simulation, feature extraction, neutral-text generation, LLM call, or
+- [x] The case plan is `FROZEN_BEFORE_GENERATION`; the generator verifies its
+      own hash and the plan hash against the freeze manifest before simulation.
+- [x] Protocol, machine-readable plan, generation code, verifier, empty
+      templates, tests, dependencies, and raw-output ignore rule are bound by
+      the dedicated freeze manifest and commit/tag.
+- [x] No simulation, feature extraction, neutral-text generation, LLM call, or
       scientific outcome evaluation occurred before that freeze.
 
-After generation, a separate held-out freeze is required before verbalization.
+The following is a later **pre-inference** gate, not a pre-generation freeze
+condition: the frozen Experiment 1 schedule-construction and execution-order
+rules must be reused without condition-order or prompt changes, and an
+Experiment 3 schedule containing only the new IDs must be generated and frozen
+before the first inference.
+
+After generation, a separate **data/manifest freeze** is required before
+verbalization.
 It must bind the accepted workbooks, failed-attempt provenance, exact file
 sizes/hashes, structural verification output, runtime identity, and actual RNG
 records. That future held-out freeze is distinct from the protocol freeze.
 
-## 18. Explicit unresolved blockers
+## 18. Blocker resolution and remaining freeze actions
 
-The following blockers are known at draft creation:
+The three implementation blockers identified in the initial draft are resolved
+at this pre-generation boundary:
 
-1. **BLOCKER BEFORE FREEZE — RNG evaluation timing and control.** Static source
-   establishes `rand()` as the S-function seed source, but a non-diagnostic
-   runtime probe must verify that the per-run MATLAB `twister` seed controls the
-   exact scalar passed to `temexd_mod` and reproduces output under the planned
-   load/simulation sequence.
-2. **BLOCKER BEFORE FREEZE — exact runtime identity.** R2025b is documented, but
-   the exact MATLAB and Simulink version/build values for the generation host
-   must be captured before freeze.
-3. **BLOCKER BEFORE FREEZE — generation and verification implementation.** The
-   dedicated Experiment 3 generation script, attempt log schema, and integrity
-   verifier configuration do not yet exist as hash-pinned artifacts. They must
-   implement this protocol without changing its scientific decisions.
+1. **RNG timing and control — resolved.** The sentinel-only runtime evidence and
+   reproducible probe are recorded in Section 5.3.
+2. **Exact runtime identity — resolved.** All version/build fields exposed by
+   MATLAB and Simulink are recorded in Section 6; no unavailable Simulink build
+   was invented.
+3. **Generation and verification infrastructure — resolved.** The deterministic
+   case plan, single-case generator, attempt-log schema/template, manifest
+   template, and fail-closed verifier are identified in Section 16.
 
-These blockers prevent protocol freeze and data generation. They do not leave
-the sample size, case identities, primary seeds, endpoint, or success criteria
-open for later choice.
+The scientific audit, final hashes, and freeze boundary are now complete. This
+task itself generates no Experiment 3 run. Any later generation must be a
+separate operation using the tagged artifacts unchanged. Sample size, case
+identities, seeds, replacement policy, endpoint, and success criteria are no
+longer open for choice.
 
 ---
 
-## Provenance consulted for this draft
+## Provenance consulted for this freeze
 
 - `FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md`
 - `README.md`
@@ -738,6 +791,14 @@ open for later choice.
 - `supporting_records/phase_a/VERBALIZER_V2_FREEZE.md`
 - isolated, byte-verified simulator sources under the ignored
   `tep_parent_a0413e16/simulator/` directory.
+- `phase_b/exp3/RNG_RUNTIME_VALIDATION.md`
+- `phase_b/exp3/validate_exp3_rng_runtime.m`
+- `phase_b/exp3/exp3_case_plan.json`
+- `phase_b/exp3/exp3_attempt_log.schema.json`
+- `phase_b/exp3/exp3_attempt_log.template.json`
+- `phase_b/exp3/exp3_manifest_template.csv`
+- `phase_b/exp3/generate_exp3_heldout.m`
+- `phase_b/exp3/verify_exp3_heldout.py`
 
 No Experiment 3 simulation, raw-data generation, verbalization, LLM inference,
 or scientific evaluation was performed while preparing this draft.
