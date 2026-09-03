@@ -82,6 +82,40 @@ EXPECTED_ATTEMPT_SIMULATOR = {
     "model_hash": EXPECTED_SIMULATOR["model_sha256"],
     "initial_state_hash": EXPECTED_SIMULATOR["initial_state_sha256"],
 }
+EXPECTED_EXTERNAL_DEPENDENCIES = {
+    "Mode1xInitial.mat": (
+        13592,
+        "40eaebc92badb04ad026e358cfd28ec9c778fcf2d24a1b8f5d85565854da2747",
+    ),
+    "Mode_1_Init.m": (
+        2270,
+        "9dfb4e404c8c982c035fe47472020443b0a1d3f37b55425219968489d92d8933",
+    ),
+    "MultiLoop_mode1.mdl": (
+        186660,
+        "d2f6659f65935021d4b1813e7189be02e7ae9f5639b794e8edc4f2f3c5cddba8",
+    ),
+    "TElib.mdl": (
+        12702,
+        "4605de6ca0e6da67626e2be6d5f328c735f8bf5a5a730dc67f558a3f1dabddba",
+    ),
+    "TEplot.m": (
+        4871,
+        "f10cc8751c1dd99c2efe989460871e701704bc8bde901d83a13834327e75b1be",
+    ),
+    "temexd_mod.c": (
+        195118,
+        "0da41d939e5ab7ba122d7b70c124368ee0882fce40e775dba5d180e7a7e24e5e",
+    ),
+    "temexd_mod.mexmaca64": (
+        90232,
+        "68f632388cb698dd7b8c595000bc03c2e1d19200546b9d4357df90e3fc93af0d",
+    ),
+    "teprob_mod.h": (
+        6907,
+        "e8d07857030a837443ce947361335f2e6f2ade5d2fa54a85bcc5c4a6d9afe939",
+    ),
+}
 EXPECTED_HISTORY = (
     (
         "b02e93f92bf6fa85a4fd0a2e010bac365a3a7c89",
@@ -162,9 +196,14 @@ REQUIRED_HARNESS_PATHS = {
     "phase_b/exp3/EXP3_CLOSURE.json",
     "phase_b/exp3/EXP3_CLOSURE_attempt_log_archive.json",
     "phase_b/exp3_v2/EXP3_V2_FRESH_RUN_PROTOCOL.md",
+    "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST.json",
+    "phase_b/exp3_v2/EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.json",
+    "phase_b/exp3_v2/EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.md",
     "phase_b/exp3_v2/append_exp3v2_attempt_record.m",
     "phase_b/exp3_v2/assert_exp3v2_freeze_boundary.m",
+    "phase_b/exp3_v2/assert_exp3v2_runtime_bundle.m",
     "phase_b/exp3_v2/configure_exp3v2_model.m",
+    "phase_b/exp3_v2/configure_exp3v2_file_generation.m",
     "phase_b/exp3_v2/exp3v2_attempt_log.schema.json",
     "phase_b/exp3_v2/exp3v2_attempt_log.template.json",
     "phase_b/exp3_v2/exp3v2_case_plan.json",
@@ -173,22 +212,21 @@ REQUIRED_HARNESS_PATHS = {
     "phase_b/exp3_v2/extract_exp3v2_outputs.m",
     "phase_b/exp3_v2/generate_exp3v2_heldout.m",
     "phase_b/exp3_v2/generate_exp3v2_sentinel.m",
+    "phase_b/exp3_v2/materialize_exp3v2_runtime.py",
     "phase_b/exp3_v2/restore_exp3v2_model_config.m",
+    "phase_b/exp3_v2/restore_exp3v2_file_generation.m",
     "phase_b/exp3_v2/run_exp3v2_engine.m",
     "phase_b/exp3_v2/sentinel_integration_run.m",
     "phase_b/exp3_v2/test_exp3v2_attempt_policy.m",
+    "phase_b/exp3_v2/test_exp3v2_file_generation_isolation.m",
     "phase_b/exp3_v2/test_exp3v2_manifest_contract.m",
     "phase_b/exp3_v2/test_exp3v2_model_config_management.m",
     "phase_b/exp3_v2/test_exp3v2_output_retrieval.m",
     "phase_b/exp3_v2/test_exp3v2_runtime_provenance.m",
     "phase_b/exp3_v2/verify_exp3v2_heldout.py",
     "phase_b/tests/test_exp3v2_pre_freeze.py",
-    "tep_parent_a0413e16/simulator/Mode1xInitial.mat",
-    "tep_parent_a0413e16/simulator/MultiLoop_mode1.mdl",
-    "tep_parent_a0413e16/simulator/temexd_mod.c",
-    "tep_parent_a0413e16/simulator/temexd_mod.mexmaca64",
+    "phase_b/tests/test_exp3v2_runtime_materialization.py",
     "phase_b/PHASE_B_PROTOCOL_HASHES.json",
-    "tep_exp3_heldout/exp3_attempt_log.json",
 }
 REQUIRED_HARNESS_PATHS.update(
     json.loads((ROOT / "phase_b/PHASE_B_PROTOCOL_HASHES.json").read_text())["artifacts"]
@@ -215,6 +253,12 @@ def git(*arguments: str) -> str:
         capture_output=True,
         text=True,
     ).stdout.strip()
+
+
+def git_bytes(*arguments: str) -> bytes:
+    return subprocess.run(
+        ["git", *arguments], cwd=ROOT, check=True, capture_output=True
+    ).stdout
 
 
 def canonical_cases() -> list[dict[str, Any]]:
@@ -256,15 +300,13 @@ def validate_history() -> list[str]:
 
     live = ROOT / "tep_exp3_heldout/exp3_attempt_log.json"
     archive = ROOT / "phase_b/exp3/EXP3_CLOSURE_attempt_log_archive.json"
-    for label, path in (("live", live), ("archive", archive)):
-        if not path.is_file() or sha256_file(path) != ATTEMPT_LOG_HASH:
-            errors.append(f"EXP3 {label} attempt-log hash mismatch")
-    if (
-        live.is_file()
-        and archive.is_file()
-        and live.read_bytes() != archive.read_bytes()
-    ):
-        errors.append("EXP3 closure attempt-log archive is not verbatim")
+    if not archive.is_file() or sha256_file(archive) != ATTEMPT_LOG_HASH:
+        errors.append("EXP3 archived attempt-log hash mismatch")
+    if live.exists():
+        if not live.is_file() or sha256_file(live) != ATTEMPT_LOG_HASH:
+            errors.append("EXP3 live attempt-log hash mismatch")
+        elif archive.is_file() and live.read_bytes() != archive.read_bytes():
+            errors.append("EXP3 closure attempt-log archive is not verbatim")
 
     try:
         manifest = json.loads(
@@ -282,19 +324,78 @@ def validate_history() -> list[str]:
     return errors
 
 
-def validate_simulator_files() -> list[str]:
-    simulator = ROOT / "tep_parent_a0413e16/simulator"
-    expected = {
-        "MultiLoop_mode1.mdl": EXPECTED_SIMULATOR["model_sha256"],
-        "Mode1xInitial.mat": EXPECTED_SIMULATOR["initial_state_sha256"],
-        "temexd_mod.c": EXPECTED_SIMULATOR["sfunction_source_sha256"],
-        "temexd_mod.mexmaca64": EXPECTED_SIMULATOR["sfunction_macos_mex_sha256"],
+def validate_external_dependency_inventory(manifest: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    dependencies = manifest.get("external_runtime_dependencies")
+    if not isinstance(dependencies, list):
+        return ["external_runtime_dependencies must be an array"]
+    required_fields = {"path", "size_bytes", "sha256", "role", "provenance"}
+    observed: dict[str, tuple[Any, Any]] = {}
+    for dependency in dependencies:
+        if not isinstance(dependency, dict) or set(dependency) != required_fields:
+            errors.append("external dependency entry schema mismatch")
+            continue
+        relative = dependency.get("path")
+        if not isinstance(relative, str):
+            errors.append("external dependency path must be a string")
+            continue
+        path = Path(relative)
+        if path.is_absolute() or ".." in path.parts:
+            errors.append(f"unsafe external dependency path: {relative}")
+            continue
+        if relative in observed:
+            errors.append(f"duplicate external dependency path: {relative}")
+        observed[relative] = (
+            dependency.get("size_bytes"),
+            dependency.get("sha256"),
+        )
+        if not isinstance(dependency.get("role"), str) or not dependency["role"]:
+            errors.append(f"external dependency role missing: {relative}")
+        if (
+            not isinstance(dependency.get("provenance"), str)
+            or not dependency["provenance"]
+        ):
+            errors.append(f"external dependency provenance missing: {relative}")
+    if set(observed) != set(EXPECTED_EXTERNAL_DEPENDENCIES):
+        errors.append("external dependency path set mismatch")
+    for relative, expected in EXPECTED_EXTERNAL_DEPENDENCIES.items():
+        if observed.get(relative) != expected:
+            errors.append(f"external dependency size/hash mismatch: {relative}")
+    return errors
+
+
+def validate_runtime_directory(
+    manifest: dict[str, Any], runtime_dir: Path
+) -> list[str]:
+    errors = validate_external_dependency_inventory(manifest)
+    if errors:
+        return errors
+    if runtime_dir.is_symlink() or not runtime_dir.is_dir():
+        return ["materialized runtime directory is missing or a symlink"]
+    expected = manifest["external_runtime_dependencies"]
+    expected_paths = {dependency["path"] for dependency in expected}
+    for path in runtime_dir.rglob("*"):
+        if path.is_symlink():
+            errors.append(
+                f"materialized runtime contains symlink: {path.relative_to(runtime_dir)}"
+            )
+    observed_paths = {
+        path.relative_to(runtime_dir).as_posix()
+        for path in runtime_dir.rglob("*")
+        if path.is_file()
     }
-    return [
-        f"simulator hash mismatch: {name}"
-        for name, digest in expected.items()
-        if not (simulator / name).is_file() or sha256_file(simulator / name) != digest
-    ]
+    if observed_paths != expected_paths:
+        errors.append("materialized runtime has missing or extra files")
+    for dependency in expected:
+        path = runtime_dir / dependency["path"]
+        if path.is_symlink() or not path.is_file():
+            errors.append(f"missing regular runtime dependency: {dependency['path']}")
+            continue
+        if path.stat().st_size != dependency["size_bytes"]:
+            errors.append(f"runtime dependency size mismatch: {dependency['path']}")
+        elif sha256_file(path) != dependency["sha256"]:
+            errors.append(f"runtime dependency hash mismatch: {dependency['path']}")
+    return errors
 
 
 def validate_case_plan(plan: dict[str, Any]) -> list[str]:
@@ -441,6 +542,21 @@ def validate_freeze_manifest(
             errors.append("harness manifest is not pre-sentinel")
         if payload.get("sentinel_runs_at_freeze") != 0:
             errors.append("harness manifest sentinel count must be zero")
+    if path.name == "EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json":
+        if payload.get("schema_version") != "2.0":
+            errors.append("revision 002 schema version mismatch")
+        if payload.get("manifest_revision") != "002":
+            errors.append("harness manifest revision mismatch")
+        if payload.get("freeze_tag") != "exp3-v2-harness-frozen-002":
+            errors.append("revision 002 harness freeze tag mismatch")
+        if payload.get("created_before_sentinel") is not True:
+            errors.append("revision 002 manifest is not pre-sentinel")
+        if payload.get("sentinel_runs_at_revision_preparation") != 0:
+            errors.append("revision 002 sentinel count must be zero")
+        if payload.get("status") == "PRE_FREEZE_DRAFT":
+            if payload.get("tag_created") is not False:
+                errors.append("draft revision 002 must record tag_created=false")
+        errors.extend(validate_external_dependency_inventory(payload))
     if path.name == "EXP3_V2_FREEZE_MANIFEST.json":
         if payload.get("freeze_tag") != "exp3-v2-heldout-frozen":
             errors.append("final freeze tag mismatch")
@@ -469,6 +585,10 @@ def validate_freeze_manifest(
             errors.append(f"missing freeze artifact: {relative}")
         elif sha256_file(ROOT / relative) != digest:
             errors.append(f"freeze artifact hash mismatch: {relative}")
+        if relative.as_posix() == "tep_exp3_heldout/exp3_attempt_log.json" or (
+            relative.parts[:2] == ("tep_parent_a0413e16", "simulator")
+        ):
+            errors.append(f"external or live ignored file in Git boundary: {relative}")
     status = payload.get("status")
     if status in {"HARNESS_FROZEN_FOR_SENTINEL", "FROZEN_BEFORE_GENERATION"}:
         tag = payload.get("freeze_tag")
@@ -478,6 +598,17 @@ def validate_freeze_manifest(
                 errors.append("freeze tag target does not equal HEAD")
         except Exception as exc:
             errors.append(f"freeze tag cannot be verified: {exc}")
+        for relative in paths:
+            try:
+                tagged_bytes = git_bytes("show", f"HEAD:{relative}")
+                if hashlib.sha256(tagged_bytes).hexdigest() != sha256_file(
+                    ROOT / relative
+                ):
+                    errors.append(f"Git tree/worktree artifact mismatch: {relative}")
+            except Exception as exc:
+                errors.append(
+                    f"artifact is not materialized by Git tree: {relative}: {exc}"
+                )
     return errors, payload
 
 
@@ -786,7 +917,10 @@ def validate_materialized(
 
 
 def prefreeze_checks(
-    case_plan_path: Path, harness_manifest_path: Path, final_manifest_path: Path
+    case_plan_path: Path,
+    harness_manifest_path: Path,
+    final_manifest_path: Path,
+    runtime_dir: Path | None = None,
 ) -> list[str]:
     errors: list[str] = []
     plan = json.loads(case_plan_path.read_text())
@@ -810,6 +944,8 @@ def prefreeze_checks(
     )
     errors.extend(manifest_errors)
     errors.extend(validate_generator_contract(harness))
+    if runtime_dir is not None:
+        errors.extend(validate_runtime_directory(harness, runtime_dir))
     try:
         final = json.loads(final_manifest_path.read_text())
         if final.get("status") not in {
@@ -850,7 +986,6 @@ def prefreeze_checks(
     except Exception as exc:
         errors.append(f"final freeze manifest cannot be read: {exc}")
     errors.extend(validate_history())
-    errors.extend(validate_simulator_files())
     return errors
 
 
@@ -870,10 +1005,11 @@ def sentinel_checks(args: argparse.Namespace) -> list[str]:
     )
     errors.extend(manifest_errors)
     errors.extend(validate_history())
-    errors.extend(validate_simulator_files())
+    harness = json.loads(args.harness_manifest.read_text())
+    errors.extend(validate_runtime_directory(harness, args.runtime_dir))
     if (
         args.harness_manifest.resolve()
-        != (SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST.json").resolve()
+        != (SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json").resolve()
     ):
         errors.append("sentinel mode accepts only the frozen harness manifest")
     for path in (args.attempt_log, args.manifest, args.data_dir):
@@ -881,6 +1017,8 @@ def sentinel_checks(args: argparse.Namespace) -> list[str]:
             path.resolve(), OLD_REAL_ROOT
         ):
             errors.append("sentinel path overlaps a real output root")
+        if paths_overlap(path.resolve(), args.runtime_dir.resolve()):
+            errors.append("sentinel output path overlaps materialized runtime")
     if not path_within(args.attempt_log, args.data_dir.parent) or not path_within(
         args.manifest, args.data_dir.parent
     ):
@@ -953,7 +1091,11 @@ def post_generation_checks(args: argparse.Namespace) -> list[str]:
         errors.append("real manifest is not the exact canonical 30-case set")
     errors.extend(validate_materialized(rows, payload, data_dir))
     errors.extend(validate_history())
-    errors.extend(validate_simulator_files())
+    if args.runtime_dir is None:
+        errors.append("post-generation verification requires a materialized runtime")
+    else:
+        final_manifest = json.loads(final_path.read_text())
+        errors.extend(validate_runtime_directory(final_manifest, args.runtime_dir))
     return errors
 
 
@@ -969,6 +1111,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--attempt-log", type=Path)
     parser.add_argument("--manifest", type=Path)
     parser.add_argument("--data-dir", type=Path)
+    parser.add_argument("--runtime-dir", type=Path)
     return parser.parse_args()
 
 
@@ -987,8 +1130,9 @@ def main() -> int:
             errors = prefreeze_checks(
                 args.case_plan or SCRIPT_DIR / "exp3v2_case_plan.json",
                 args.harness_manifest
-                or SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST.json",
+                or SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json",
                 args.final_manifest or SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST.json",
+                args.runtime_dir,
             )
             label = "pre-freeze infrastructure"
         elif args.sentinel:
@@ -998,6 +1142,7 @@ def main() -> int:
                 args.manifest,
                 args.data_dir,
                 args.harness_manifest,
+                args.runtime_dir,
             )
             if any(value is None for value in required) or any(
                 value is not None for value in (args.case_plan, args.final_manifest)

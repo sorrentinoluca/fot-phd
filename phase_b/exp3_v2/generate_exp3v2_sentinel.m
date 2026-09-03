@@ -11,14 +11,17 @@ repoRoot = fileparts(fileparts(scriptDir));
 planPath = fullfile(scriptDir, 'exp3v2_case_plan.json');
 descriptorPath = fullfile(scriptDir, 'exp3v2_sentinel_case.json');
 harnessManifestPath = fullfile(scriptDir, ...
-    'EXP3_V2_HARNESS_FREEZE_MANIFEST.json');
-simulatorDir = default_path(parser.Results.SimulatorDir, ...
-    fullfile(repoRoot, 'tep_parent_a0413e16', 'simulator'));
+    'EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json');
+simulatorDir = char(string(parser.Results.SimulatorDir));
+assert(strlength(string(simulatorDir)) > 0, ...
+    'EXP3V2:ExplicitRuntimeRequired', ...
+    'Sentinel requires an explicitly materialized runtime directory.');
 
 plan = jsondecode(fileread(planPath));
 descriptor = jsondecode(fileread(descriptorPath));
 harnessManifest = assert_exp3v2_freeze_boundary(harnessManifestPath, ...
-    'HARNESS_FROZEN_FOR_SENTINEL', 'exp3-v2-harness-frozen', repoRoot);
+    'HARNESS_FROZEN_FOR_SENTINEL', ...
+    'exp3-v2-harness-frozen-002', repoRoot);
 assert(harnessManifest.sentinel_runs_at_freeze == 0, ...
     'EXP3V2:SentinelAlreadyPresentAtFreeze', ...
     'Harness freeze must precede every V2 sentinel execution.');
@@ -70,14 +73,6 @@ config = struct( ...
     'simulator_dir', simulatorDir, ...
     'repo_root', repoRoot);
 record = run_exp3v2_engine(config);
-end
-
-function value = default_path(provided, fallback)
-if strlength(string(provided)) == 0
-    value = fallback;
-else
-    value = char(string(provided));
-end
 end
 
 function value = canonical_path(pathValue)

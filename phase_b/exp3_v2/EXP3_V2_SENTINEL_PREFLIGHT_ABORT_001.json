@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "status": "ABORTED_BEFORE_SENTINEL",
+  "date": "2026-09-03",
+  "harness_tag": "exp3-v2-harness-frozen",
+  "harness_commit": "c96519f46291fcf7da5fc64f1d71cd2934816600",
+  "preflight_stage": "clean_tagged_worktree_manifest_validation",
+  "reason": "Required manifest entries were absent from the tagged Git tree.",
+  "absent_tagged_paths": [
+    "tep_exp3_heldout/exp3_attempt_log.json",
+    "tep_parent_a0413e16/simulator/Mode1xInitial.mat",
+    "tep_parent_a0413e16/simulator/MultiLoop_mode1.mdl",
+    "tep_parent_a0413e16/simulator/temexd_mod.c",
+    "tep_parent_a0413e16/simulator/temexd_mod.mexmaca64"
+  ],
+  "sim_calls": 0,
+  "sentinel_executions": 0,
+  "seed": 987654321,
+  "seed_consumed": false,
+  "workbooks_created": 0,
+  "retry_performed": false,
+  "diagnostic_signal_inspected": false,
+  "real_path_interference": false
+}

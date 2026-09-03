@@ -45,6 +45,8 @@ assert(~isfile(outputPath), 'EXP3V2:RefuseOverwrite', ...
     'Refusing to overwrite existing output: %s', outputPath);
 
 expected = config.case_plan.simulator;
+runtimeManifest = jsondecode(fileread(config.boundary_manifest_path));
+assert_exp3v2_runtime_bundle(config.simulator_dir, runtimeManifest);
 modelName = char(expected.model);
 modelPath = fullfile(config.simulator_dir, [modelName '.mdl']);
 initialStatePath = fullfile(config.simulator_dir, ...

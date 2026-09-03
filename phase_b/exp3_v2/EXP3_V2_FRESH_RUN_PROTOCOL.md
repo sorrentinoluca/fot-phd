@@ -796,6 +796,65 @@ schemas, templates, verifier, and non-simulation regression tests are prepared.
 The harness is not yet frozen, the V2 sentinel has not run, and the final
 held-out boundary does not yet exist. This draft authorizes no simulation.
 
+## 19. Prospective harness Revision 002
+
+The first harness tag, `exp3-v2-harness-frozen`, is preserved as immutable
+aborted-preflight history. Its clean Git tree did not materialize the ignored
+live EXP3 attempt log or simulator files that its manifest incorrectly treated
+as Git-boundary artifacts. The preflight therefore stopped before MATLAB,
+before `sim`, and before consuming the sentinel seed. The permanent
+non-diagnostic record is
+`EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.json` and its Markdown companion.
+
+Revision 002 uses
+`EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json` and reserves the new prospective tag
+`exp3-v2-harness-frozen-002`. The tag does not yet exist. Its `artifacts` array
+contains only repository files intended to be materialized by the tagged Git
+tree. The ignored live log is excluded; the committed verbatim archive
+`phase_b/exp3/EXP3_CLOSURE_attempt_log_archive.json` is the mandatory historical
+boundary. A live log outside a clean checkout may be cross-checked when present,
+but its absence is not an error.
+
+Simulator bytes are separately enumerated under
+`external_runtime_dependencies`. The final inventory is the union of the seven
+non-cache user dependencies returned by MATLAB
+`dependencies.fileDependencyAnalysis(..., AnalyzeToolboxFiles=false)` on a
+cache-free bundle and the transitive `teprob_mod.h` include found in
+`temexd_mod.c`. Each dependency has
+an exact relative path, byte size, SHA-256, role, and provenance. MATLAB toolbox
+files are supplied by the separately pinned runtime identity and are not copied
+into the external bundle.
+
+`MultiLoop_mode1.slxc` is excluded. The pinned upstream commit does contain an
+older 7,785-byte cache blob, but the ignored local 10,220-byte file has different
+content and is therefore generated state rather than a faithful source blob.
+MathWorks defines `.slxc` as a cache of build artifacts used to accelerate later
+simulation or code generation. The frozen model uses normal simulation mode,
+loads successfully without the cache, and cache-free dependency analysis reports
+no missing dependency. Runtime materialization rejects any `.slxc` file.
+
+Before any future sentinel, `materialize_exp3v2_runtime.py` must receive an
+explicit source simulator directory. It rejects source symlinks, missing or
+altered allowlisted dependencies, an invalid dependency inventory, and unsafe
+or overlapping destinations. It copies only the nine allowlisted files into a
+unique child of the sentinel throwaway directory, then rejects missing, extra,
+symlinked, size-mismatched, or hash-mismatched destination files. The source
+directory is never written or used as the execution directory. The shared
+engine independently revalidates the exact materialized bundle before model
+loading.
+
+Before model loading, `configure_exp3v2_file_generation.m` redirects both the
+session `CacheFolder` and `CodeGenFolder` to dedicated children of the validated
+sentinel throwaway root. Both destinations are asserted disjoint from the source
+simulator directory and Git worktree. An `onCleanup` guard restores the exact
+previous file-generation configuration and MATLAB path on success or exception;
+success also performs and verifies restoration before deleting the throwaway.
+
+The verifier treats three disjoint domains explicitly: Git-tracked boundary
+artifacts, external runtime dependencies, and sentinel-only throwaway outputs.
+Revision 002 must be reviewed, committed, finalized, and tagged before a new
+sentinel can be authorized. No earlier approval authorizes that sentinel.
+
 ---
 
 ## Provenance consulted for this freeze
@@ -826,6 +885,10 @@ held-out boundary does not yet exist. This draft authorizes no simulation.
 - `phase_b/exp3_v2/exp3v2_manifest_template.csv`
 - `phase_b/exp3_v2/generate_exp3v2_heldout.m`
 - `phase_b/exp3_v2/verify_exp3v2_heldout.py`
+- MathWorks, “Share Simulink Cache Files for Faster Simulations” (`.slxc`
+  cache semantics).
+- MathWorks, `Simulink.fileGenControl` reference (`CacheFolder`,
+  `CodeGenFolder`, and restoration semantics).
 
 No Experiment 3 V2 simulation, raw-data generation, verbalization, LLM inference,
 or scientific evaluation was performed while preparing this draft.

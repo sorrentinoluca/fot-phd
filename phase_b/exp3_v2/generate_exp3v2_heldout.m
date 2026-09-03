@@ -20,8 +20,10 @@ freezeManifestPath = fullfile(scriptDir, 'EXP3_V2_FREEZE_MANIFEST.json');
 outputDir = fullfile(repoRoot, 'tep_exp3_v2_heldout', 'mode1');
 attemptLogPath = fullfile(repoRoot, ...
     'tep_exp3_v2_heldout', 'exp3v2_attempt_log.json');
-simulatorDir = default_path(parser.Results.SimulatorDir, ...
-    fullfile(repoRoot, 'tep_parent_a0413e16', 'simulator'));
+simulatorDir = char(string(parser.Results.SimulatorDir));
+assert(strlength(string(simulatorDir)) > 0, ...
+    'EXP3V2:ExplicitRuntimeRequired', ...
+    'Real generation requires an explicitly materialized runtime directory.');
 
 plan = jsondecode(fileread(casePlanPath));
 assert(strcmp(plan.status, 'FROZEN_BEFORE_GENERATION'), ...
@@ -54,12 +56,4 @@ config = struct( ...
     'simulator_dir', simulatorDir, ...
     'repo_root', repoRoot);
 record = run_exp3v2_engine(config);
-end
-
-function value = default_path(provided, fallback)
-if strlength(string(provided)) == 0
-    value = fallback;
-else
-    value = char(string(provided));
-end
 end

@@ -18,7 +18,7 @@ EXP3 = ROOT / "phase_b/exp3"
 V2 = ROOT / "phase_b/exp3_v2"
 PLAN_PATH = V2 / "exp3v2_case_plan.json"
 SCHEMA_PATH = V2 / "exp3v2_attempt_log.schema.json"
-HARNESS_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST.json"
+HARNESS_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json"
 FINAL_PATH = V2 / "EXP3_V2_FREEZE_MANIFEST.json"
 VERIFIER_PATH = V2 / "verify_exp3v2_heldout.py"
 EXPECTED_LOG_HASH = "04ea7d8af227c3a7f947b4dde434e77510c163ce9c108892ffa22f491f022904"
@@ -220,6 +220,21 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
         self.assertIn("state.original_dirty", restore)
         self.assertNotIn("save_system", configure + restore + self.engine)
 
+    def test_file_generation_is_isolated_and_restored(self) -> None:
+        configure = (V2 / "configure_exp3v2_file_generation.m").read_text()
+        restore = (V2 / "restore_exp3v2_file_generation.m").read_text()
+        sentinel = (V2 / "sentinel_integration_run.m").read_text()
+        self.assertIn("Simulink.fileGenControl('getConfig')", configure)
+        self.assertIn("'CacheFolder', cacheFolder", configure)
+        self.assertIn("'CodeGenFolder', codeGenFolder", configure)
+        self.assertIn("onCleanup(@() restore_exp3v2_file_generation(state))", configure)
+        self.assertIn("Simulink.fileGenControl('setConfig'", restore)
+        self.assertIn("restore_exp3v2_file_generation(fileGenState)", sentinel)
+        self.assertLess(
+            sentinel.index("configure_exp3v2_file_generation"),
+            sentinel.index("generate_exp3v2_sentinel"),
+        )
+
     def test_real_and_sentinel_authorization_are_separate(self) -> None:
         real = (V2 / "generate_exp3v2_heldout.m").read_text()
         sentinel = (V2 / "generate_exp3v2_sentinel.m").read_text()
@@ -227,8 +242,10 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
         self.assertIn("exp3-v2-heldout-frozen", real)
         self.assertIn("SentinelRejectedByRealWrapper", real)
         self.assertIn("HARNESS_FROZEN_FOR_SENTINEL", sentinel)
-        self.assertIn("exp3-v2-harness-frozen", sentinel)
+        self.assertIn("exp3-v2-harness-frozen-002", sentinel)
         self.assertIn("SentinelRealPathOverlap", sentinel)
+        self.assertIn("ExplicitRuntimeRequired", real)
+        self.assertIn("ExplicitRuntimeRequired", sentinel)
 
     def test_templates_are_exact_and_attempts_array_is_explicit(self) -> None:
         template_source = (V2 / "exp3v2_attempt_log.template.json").read_text()
@@ -249,8 +266,9 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
     def test_closure_archive_is_verbatim_and_exp3_files_are_immutable(self) -> None:
         live = ROOT / "tep_exp3_heldout/exp3_attempt_log.json"
         archive = EXP3 / "EXP3_CLOSURE_attempt_log_archive.json"
-        self.assertEqual(live.read_bytes(), archive.read_bytes())
         self.assertEqual(sha256_file(archive), EXPECTED_LOG_HASH)
+        if live.exists():
+            self.assertEqual(live.read_bytes(), archive.read_bytes())
         tracked = subprocess.run(
             ["git", "ls-tree", "-r", "--name-only", "1cad481", "phase_b/exp3"],
             cwd=ROOT,
@@ -263,9 +281,22 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
                 (ROOT / relative).read_bytes(), git_show("1cad481", relative)
             )
 
-    def test_history_exp1_and_simulator_are_intact(self) -> None:
+    def test_history_exp1_and_external_inventory_are_intact(self) -> None:
         self.assertEqual(verify.validate_history(), [])
-        self.assertEqual(verify.validate_simulator_files(), [])
+        harness = json.loads(HARNESS_PATH.read_text())
+        self.assertEqual(verify.validate_external_dependency_inventory(harness), [])
+
+    def test_aborted_preflight_is_recorded_without_seed_consumption(self) -> None:
+        evidence = json.loads(
+            (V2 / "EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.json").read_text()
+        )
+        self.assertEqual(evidence["status"], "ABORTED_BEFORE_SENTINEL")
+        self.assertEqual(evidence["sim_calls"], 0)
+        self.assertEqual(evidence["sentinel_executions"], 0)
+        self.assertFalse(evidence["seed_consumed"])
+        self.assertEqual(evidence["workbooks_created"], 0)
+        self.assertFalse(evidence["retry_performed"])
+        self.assertFalse(evidence["real_path_interference"])
 
     def test_protocol_preserves_science_and_open_gates(self) -> None:
         for token in (
@@ -280,24 +311,49 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
             "B−E is the supporting semantic-specificity contrast",
             "mandatory sentinel gate",
             "`exp3-v2-harness-frozen`",
+            "`exp3-v2-harness-frozen-002`",
             "`exp3-v2-heldout-frozen`",
         ):
             self.assertIn(token, self.protocol)
         self.assertNotIn("preregistered", self.protocol.lower())
 
-    def test_frozen_harness_hashes_and_prefreeze_verifier(self) -> None:
+    def test_revision_002_frozen_hashes_and_prefreeze_verifier(self) -> None:
         errors = verify.prefreeze_checks(PLAN_PATH, HARNESS_PATH, FINAL_PATH)
         self.assertEqual(errors, [])
         harness = json.loads(HARNESS_PATH.read_text())
         self.assertEqual(harness["status"], "HARNESS_FROZEN_FOR_SENTINEL")
+        self.assertEqual(harness["manifest_revision"], "002")
+        self.assertEqual(harness["freeze_tag"], "exp3-v2-harness-frozen-002")
+        self.assertTrue(harness["tag_created"])
         self.assertEqual(
-            harness["reviewed_candidate_commit"],
-            "8dff1d67693cc4423c3241d77c5fb6609b176ecd",
+            harness["human_approval"],
+            "APPROVO LA PREPARAZIONE DI EXP3_V2 HARNESS REVISION 002",
         )
-        self.assertEqual(harness["human_approval"], "APPROVO IL FREEZE HARNESS EXP3_V2")
+        self.assertEqual(
+            harness["freeze_human_approval"],
+            "APPROVO IL FREEZE HARNESS REVISION 002 EXP3_V2",
+        )
+        self.assertEqual(harness["freeze_human_approval_date"], "2026-09-03")
         self.assertEqual(
             {row["path"] for row in harness["artifacts"]},
             verify.REQUIRED_HARNESS_PATHS,
+        )
+        forbidden = {
+            "tep_exp3_heldout/exp3_attempt_log.json",
+            *{
+                f"tep_parent_a0413e16/simulator/{name}"
+                for name in verify.EXPECTED_EXTERNAL_DEPENDENCIES
+            },
+        }
+        self.assertTrue(forbidden.isdisjoint(verify.REQUIRED_HARNESS_PATHS))
+        self.assertEqual(
+            {row["path"] for row in harness["external_runtime_dependencies"]},
+            set(verify.EXPECTED_EXTERNAL_DEPENDENCIES),
+        )
+        self.assertEqual(len(harness["external_runtime_dependencies"]), 8)
+        self.assertNotIn(
+            "MultiLoop_mode1.slxc",
+            {row["path"] for row in harness["external_runtime_dependencies"]},
         )
 
     def test_mode_paths_are_mutually_exclusive(self) -> None:

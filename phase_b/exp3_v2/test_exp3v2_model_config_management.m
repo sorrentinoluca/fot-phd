@@ -1,11 +1,15 @@
-function result = test_exp3v2_model_config_management()
+function result = test_exp3v2_model_config_management(runtimeDir)
 %TEST_EXP3V2_MODEL_CONFIG_MANAGEMENT Test guarded changes without sim.
+
+assert(nargin == 1 && strlength(string(runtimeDir)) > 0, ...
+    'EXP3V2:ExplicitRuntimeRequired', ...
+    'Model configuration test requires a materialized runtime directory.');
 
 testExpectedValues();
 testUnexpectedStopFcn();
 testUnexpectedReturnWorkspaceOutputs();
 testRestoreAfterException();
-testPinnedModelByteIdentity();
+testPinnedModelByteIdentity(runtimeDir);
 result = true;
 fprintf(['PASS: V2 StopFcn/ReturnWorkspaceOutputs/Dirty restoration and ' ...
     'model byte identity verified; sim not called.\n']);
@@ -72,10 +76,8 @@ catch exception
 end
 end
 
-function testPinnedModelByteIdentity()
+function testPinnedModelByteIdentity(simulatorDir)
 scriptDir = fileparts([mfilename('fullpath') '.m']);
-repoRoot = fileparts(fileparts(scriptDir));
-simulatorDir = fullfile(repoRoot, 'tep_parent_a0413e16', 'simulator');
 modelPath = fullfile(simulatorDir, 'MultiLoop_mode1.mdl');
 before = sha256_file(modelPath);
 originalPath = path;
