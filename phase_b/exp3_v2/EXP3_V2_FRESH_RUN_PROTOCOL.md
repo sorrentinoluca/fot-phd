@@ -779,7 +779,12 @@ actions. Checking an item early is prohibited.
 - [x] Final manifest is committed and tagged `exp3-v2-heldout-frozen`; local
       and remote targets agree, the real attempt log is empty, and real V2
       workbook count is zero.
-- [ ] A separate explicit human authorization is received before
+- [x] The first authorized `EXP3V2-N-001` attempt 0 invocation is permanently
+      recorded as a pre-`rng`/pre-`sim` final-boundary preflight abort.
+- [x] Final Boundary Revision 002 is committed and tagged
+      `exp3-v2-heldout-frozen-002`; local and remote targets agree.
+- [ ] After Final Boundary Revision 002 is frozen, a fresh explicit human
+      authorization is received before retrying
       `EXP3V2-N-001` attempt 0.
 
 The following is a later **pre-inference** gate, not a pre-generation freeze
@@ -954,6 +959,41 @@ changes. No scientific case setting, ID, seed, replacement, or case ordering is
 changed. F5 and F6 call neither `rng` nor `sim`, execute no sentinel, create no
 workbook, and start no scientific generation. The next gate remains a separate
 explicit authorization for `EXP3V2-N-001` attempt 0.
+
+## 23. Frozen Final Boundary Revision 002
+
+The first authorized invocation of `EXP3V2-N-001` attempt 0 stopped during
+external-runtime inventory preflight, before `rng` and before `sim`. It created
+only the empty directories `tep_exp3_v2_heldout/` and
+`tep_exp3_v2_heldout/mode1/`; it created no attempt log and no workbook. Primary
+seed `320001` remains unconsumed, and attempt 0 remains eligible. The permanent
+record is `EXP3_V2_FINAL_BOUNDARY_REV002_PREFLIGHT_FAILURE.json` with a Markdown
+companion.
+
+The defect is confined to final-boundary packaging. The real wrapper selected
+`EXP3_V2_FREEZE_MANIFEST.json` as `boundary_manifest_path`, and the shared
+engine correctly used that same path as the runtime inventory. The original
+final manifest did not contain `external_runtime_dependencies`, so
+`assert_exp3v2_runtime_bundle` failed closed before any random or simulation
+call.
+
+After the explicit human approval
+`APPROVO IL FREEZE EXP3_V2 FINAL BOUNDARY REVISION 002` on 2026-09-03, Final
+Boundary Revision 002 uses manifest `EXP3_V2_FREEZE_MANIFEST_002.json`, status
+`FROZEN_BEFORE_GENERATION`, and annotated tag
+`exp3-v2-heldout-frozen-002` with `tag_created: true`. It copies the exact
+eight-dependency inventory already frozen by harness Revision 004, binds the
+successful sentinel evidence and original final-freeze provenance, and changes
+the real wrapper to select this new boundary. The case plan, all scientific
+allocations, the original final manifest/tag, harness Revision 004, sentinel
+evidence, and `run_exp3v2_engine.m` remain unchanged.
+
+The successful sentinel must not be rerun: it already validated the unchanged
+shared simulation path, eight-file runtime, workbook structure, restoration,
+isolation, and cleanup. The failed real invocation never reached `rng` or
+`sim`; Revision 002 changes only which final manifest supplies the already
+validated inventory. Rerunning the sentinel would consume a new non-scientific
+identity without testing any changed simulation behavior.
 
 ---
 

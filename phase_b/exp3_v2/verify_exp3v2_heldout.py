@@ -145,6 +145,10 @@ ACTIVE_SENTINEL_ID = "EXP3V2-SENTINEL-002"
 ACTIVE_SENTINEL_SEED = 987654322
 CONSUMED_SENTINELS = {"EXP3V2-SENTINEL-001": 987654321}
 FINAL_CANDIDATE_STATUS = "PENDING_HUMAN_FINAL_FREEZE"
+FINAL_REVISION_DRAFT_STATUS = "PRE_FREEZE_DRAFT"
+ORIGINAL_FINAL_MANIFEST_HASH = (
+    "cbefaefc585d68b66351961bdeb8289cec48079a5964f8bc660c82c5ec95dc5d"
+)
 SENTINEL_EVIDENCE_HASHES = {
     "EXP3_V2_SENTINEL_EVIDENCE.json": (
         "daf67273138bf192d77e62dd56bc8598a90070baaf4f8714a8851ed3ca9f3a86"
@@ -268,6 +272,12 @@ FINAL_REQUIRED_PATHS = REQUIRED_HARNESS_PATHS | {
     "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json",
     "phase_b/exp3_v2/EXP3_V2_SENTINEL_EVIDENCE.json",
     "phase_b/exp3_v2/EXP3_V2_SENTINEL_EVIDENCE.md",
+}
+FINAL_REVISION_002_REQUIRED_PATHS = FINAL_REQUIRED_PATHS | {
+    "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST.json",
+    "phase_b/exp3_v2/EXP3_V2_FINAL_BOUNDARY_REV002_PREFLIGHT_FAILURE.json",
+    "phase_b/exp3_v2/EXP3_V2_FINAL_BOUNDARY_REV002_PREFLIGHT_FAILURE.md",
+    "phase_b/exp3_v2/test_exp3v2_real_runtime_preflight.m",
 }
 
 
@@ -796,6 +806,123 @@ def validate_freeze_manifest(
             "annotated_tag": pending,
         }:
             errors.append("final manifest pending-finalization contract mismatch")
+    if path.name == "EXP3_V2_FREEZE_MANIFEST_002.json":
+        if payload.get("schema_version") != "3.0":
+            errors.append("final boundary revision 002 schema mismatch")
+        if payload.get("manifest_revision") != "002":
+            errors.append("final boundary revision mismatch")
+        if payload.get("status") not in {
+            FINAL_REVISION_DRAFT_STATUS,
+            "FROZEN_BEFORE_GENERATION",
+        }:
+            errors.append("final boundary revision 002 status mismatch")
+        if payload.get("freeze_tag") != "exp3-v2-heldout-frozen-002":
+            errors.append("final boundary revision 002 tag mismatch")
+        if (
+            payload.get("status") == FINAL_REVISION_DRAFT_STATUS
+            and payload.get("tag_created") is not False
+        ):
+            errors.append("draft final boundary must record tag_created=false")
+        if (
+            payload.get("status") == "FROZEN_BEFORE_GENERATION"
+            and payload.get("tag_created") is not True
+        ):
+            errors.append("frozen final boundary must record tag_created=true")
+        if payload.get("status") == "FROZEN_BEFORE_GENERATION":
+            if payload.get("freeze_human_approval") != (
+                "APPROVO IL FREEZE EXP3_V2 FINAL BOUNDARY REVISION 002"
+            ):
+                errors.append("revision 002 freeze approval mismatch")
+            if payload.get("freeze_human_approval_date") != "2026-09-03":
+                errors.append("revision 002 freeze approval date mismatch")
+        if payload.get("created_before_real_generation") is not True:
+            errors.append("revision 002 is not before real generation")
+        if payload.get("scientific_seeds_consumed") != 0:
+            errors.append("revision 002 scientific seed count must be zero")
+        if payload.get("real_workbooks_created") != 0:
+            errors.append("revision 002 real workbook count must be zero")
+        if payload.get("v2_workbooks_at_freeze") != 0:
+            errors.append("revision 002 frozen workbook count must be zero")
+        if payload.get("sentinel_validation_passed") is not True:
+            errors.append("revision 002 does not preserve sentinel PASS")
+        if payload.get("attempt_log_present") is not False:
+            errors.append("revision 002 attempt-log state mismatch")
+        if payload.get("original_final_boundary") != {
+            "tag": "exp3-v2-heldout-frozen",
+            "commit": "a55537dfc85db7e70f32ada21afffcb4e8824b96",
+            "manifest_path": "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST.json",
+            "manifest_sha256": ORIGINAL_FINAL_MANIFEST_HASH,
+            "status": "FROZEN_BEFORE_GENERATION",
+        }:
+            errors.append("revision 002 original final-boundary provenance mismatch")
+        original = json.loads((SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST.json").read_text())
+        if sha256_file(SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST.json") != (
+            ORIGINAL_FINAL_MANIFEST_HASH
+        ):
+            errors.append("original final manifest was modified")
+        if payload.get("harness_boundary") != original.get("harness_boundary"):
+            errors.append("revision 002 harness boundary mismatch")
+        if payload.get("sentinel_evidence") != original.get("sentinel_evidence"):
+            errors.append("revision 002 sentinel evidence mismatch")
+        if payload.get("case_plan") != {
+            "path": "phase_b/exp3_v2/exp3v2_case_plan.json",
+            "sha256": (
+                "84d5af21847033fe4a5924f42fca0fb772201116a9759d6d85f8356929f2b21e"
+            ),
+            "status": "FROZEN_BEFORE_GENERATION",
+            "scientific_allocations_unchanged": True,
+        }:
+            errors.append("revision 002 case-plan binding mismatch")
+        if payload.get("preflight_failure") != {
+            "physical_case_id": "EXP3V2-N-001",
+            "attempt": 0,
+            "primary_seed": 320001,
+            "failure_identifier": "EXP3V2:RuntimeDependencyManifest",
+            "rng_calls": 0,
+            "sim_calls": 0,
+            "attempt_log_present": False,
+            "workbooks_created": 0,
+            "only_empty_output_directories_created": True,
+            "seed_consumed": False,
+            "attempt_0_remains_eligible": True,
+            "json_path": (
+                "phase_b/exp3_v2/"
+                "EXP3_V2_FINAL_BOUNDARY_REV002_PREFLIGHT_FAILURE.json"
+            ),
+            "json_sha256": (
+                "7e46bcaa77748bcbea08c0246eaee3d235609dc580a2dce69b74be01047c7233"
+            ),
+            "markdown_path": (
+                "phase_b/exp3_v2/" "EXP3_V2_FINAL_BOUNDARY_REV002_PREFLIGHT_FAILURE.md"
+            ),
+            "markdown_sha256": (
+                "5f3c00228419df90e22890d32ad647ced626dd633438148a77c3c6af03d21faf"
+            ),
+        }:
+            errors.append("revision 002 preflight-failure binding mismatch")
+        if payload.get("shared_engine") != {
+            "path": "phase_b/exp3_v2/run_exp3v2_engine.m",
+            "sha256": (
+                "4e746a8b6504953d2bb0d4eb9982cdef1ee3c02d0d0f1cb374e5a9086e45a9f1"
+            ),
+            "modified": False,
+        }:
+            errors.append("revision 002 shared-engine immutability mismatch")
+        pending = payload.get("status") == FINAL_REVISION_DRAFT_STATUS
+        if payload.get("finalization_pending") != {
+            "human_review": pending,
+            "commit": pending,
+            "annotated_tag": pending,
+            "tag_push": pending,
+        }:
+            errors.append("revision 002 pending-finalization contract mismatch")
+        errors.extend(validate_external_dependency_inventory(payload))
+        if payload.get("status") == FINAL_REVISION_DRAFT_STATUS:
+            try:
+                git("rev-parse", "exp3-v2-heldout-frozen-002^{}")
+                errors.append("prospective final boundary revision 002 tag exists")
+            except Exception:
+                pass
     manifest_relative = path.resolve().relative_to(ROOT).as_posix()
     if manifest_relative in paths:
         errors.append("freeze manifest illegally contains its own hash")
@@ -822,10 +949,17 @@ def validate_freeze_manifest(
         tag = payload.get("freeze_tag")
         try:
             target = git("rev-parse", f"{tag}^{{}}")
+            historical_targets = {
+                "EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json": (
+                    "258f629f07aad84b6186381fa6a1dab52401bd2f"
+                ),
+                "EXP3_V2_FREEZE_MANIFEST.json": (
+                    "a55537dfc85db7e70f32ada21afffcb4e8824b96"
+                ),
+            }
             expected_target = (
-                "258f629f07aad84b6186381fa6a1dab52401bd2f"
+                historical_targets.get(path.name, git("rev-parse", "HEAD"))
                 if historical_boundary
-                and path.name == "EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json"
                 else git("rev-parse", "HEAD")
             )
             if target != expected_target:
@@ -906,9 +1040,13 @@ def validate_generator_contract(manifest: dict[str, Any]) -> list[str]:
     fields = set(
         re.findall(r"(?:freezeManifest|harnessManifest)\.([A-Za-z0-9_]+)", wrappers)
     )
-    final_manifest = json.loads(
-        (SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST.json").read_text()
+    revision_path = SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST_002.json"
+    final_path = (
+        revision_path
+        if revision_path.is_file()
+        else SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST.json"
     )
+    final_manifest = json.loads(final_path.read_text())
     missing = fields - (set(manifest) | set(final_manifest))
     if missing:
         errors.append(f"generator/manifest fields missing: {sorted(missing)}")
@@ -1244,10 +1382,15 @@ def prefreeze_checks(
     errors: list[str] = []
     plan = json.loads(case_plan_path.read_text())
     final = json.loads(final_manifest_path.read_text())
-    historical_harness = final.get("status") in {
-        FINAL_CANDIDATE_STATUS,
-        "FROZEN_BEFORE_GENERATION",
-    }
+    is_revision_002 = final_manifest_path.name == "EXP3_V2_FREEZE_MANIFEST_002.json"
+    historical_harness = (
+        final.get("status")
+        in {
+            FINAL_CANDIDATE_STATUS,
+            "FROZEN_BEFORE_GENERATION",
+        }
+        or is_revision_002
+    )
     errors.extend(validate_case_plan(plan))
     descriptor = json.loads((SCRIPT_DIR / "exp3v2_sentinel_case.json").read_text())
     errors.extend(validate_sentinel_descriptor(descriptor, plan))
@@ -1270,15 +1413,17 @@ def prefreeze_checks(
     errors.extend(manifest_errors)
     errors.extend(validate_generator_contract(harness))
     if runtime_dir is not None:
-        errors.extend(validate_runtime_directory(harness, runtime_dir))
+        runtime_manifest = final if is_revision_002 else harness
+        errors.extend(validate_runtime_directory(runtime_manifest, runtime_dir))
     try:
         if final.get("status") not in {
             "PENDING_SENTINEL_VALIDATION",
             FINAL_CANDIDATE_STATUS,
             "FROZEN_BEFORE_GENERATION",
+            FINAL_REVISION_DRAFT_STATUS,
         }:
             errors.append("final freeze manifest status mismatch")
-        if final.get("status") in {
+        if not is_revision_002 and final.get("status") in {
             FINAL_CANDIDATE_STATUS,
             "FROZEN_BEFORE_GENERATION",
         }:
@@ -1324,6 +1469,46 @@ def prefreeze_checks(
             )
             if plan.get("status") != expected_plan_status:
                 errors.append("case-plan status does not match final-freeze phase")
+        elif is_revision_002:
+            final_errors, _ = validate_freeze_manifest(
+                final_manifest_path,
+                {final.get("status")},
+                FINAL_REVISION_002_REQUIRED_PATHS,
+            )
+            errors.extend(final_errors)
+            errors.extend(validate_sentinel_evidence())
+            original_path = SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST.json"
+            original_errors, original = validate_freeze_manifest(
+                original_path,
+                {"FROZEN_BEFORE_GENERATION"},
+                FINAL_REQUIRED_PATHS,
+                historical_boundary=True,
+            )
+            errors.extend(original_errors)
+            baseline_hashes = {
+                row["path"]: row["sha256"] for row in original["artifacts"]
+            }
+            allowed = {
+                row["path"]: row for row in final.get("allowed_revision_changes", [])
+            }
+            observed_changes: set[str] = set()
+            for relative, original_hash in baseline_hashes.items():
+                observed_hash = sha256_file(ROOT / relative)
+                if observed_hash != original_hash:
+                    observed_changes.add(relative)
+                    change = allowed.get(relative)
+                    if (
+                        not isinstance(change, dict)
+                        or change.get("before_sha256") != original_hash
+                        or change.get("after_sha256") != observed_hash
+                    ):
+                        errors.append(
+                            f"unreviewed final-boundary revision change: {relative}"
+                        )
+            if set(allowed) != observed_changes:
+                errors.append("final-boundary revision change set mismatch")
+            if plan.get("status") != "FROZEN_BEFORE_GENERATION":
+                errors.append("revision 002 must preserve the frozen case plan")
     except Exception as exc:
         errors.append(f"final freeze manifest cannot be read: {exc}")
     errors.extend(validate_history())
@@ -1424,7 +1609,7 @@ def post_generation_checks(args: argparse.Namespace) -> list[str]:
     errors.extend(validate_case_plan(plan))
     if plan.get("status") != "FROZEN_BEFORE_GENERATION":
         errors.append("post-generation verification requires final-frozen plan")
-    final_path = args.final_manifest or SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST.json"
+    final_path = args.final_manifest or SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST_002.json"
     manifest_errors, _ = validate_freeze_manifest(
         final_path, {"FROZEN_BEFORE_GENERATION"}
     )
@@ -1486,7 +1671,7 @@ def main() -> int:
                 args.case_plan or SCRIPT_DIR / "exp3v2_case_plan.json",
                 args.harness_manifest
                 or SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json",
-                args.final_manifest or SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST.json",
+                args.final_manifest or SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST_002.json",
                 args.runtime_dir,
             )
             label = "pre-freeze infrastructure"

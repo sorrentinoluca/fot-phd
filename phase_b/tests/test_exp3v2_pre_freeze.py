@@ -21,7 +21,8 @@ SCHEMA_PATH = V2 / "exp3v2_attempt_log.schema.json"
 HARNESS_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json"
 REVISION_002_MANIFEST_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json"
 REVISION_003_MANIFEST_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json"
-FINAL_PATH = V2 / "EXP3_V2_FREEZE_MANIFEST.json"
+ORIGINAL_FINAL_PATH = V2 / "EXP3_V2_FREEZE_MANIFEST.json"
+FINAL_PATH = V2 / "EXP3_V2_FREEZE_MANIFEST_002.json"
 VERIFIER_PATH = V2 / "verify_exp3v2_heldout.py"
 EXPECTED_LOG_HASH = "04ea7d8af227c3a7f947b4dde434e77510c163ce9c108892ffa22f491f022904"
 
@@ -337,6 +338,7 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
             "`exp3-v2-harness-frozen-003`",
             "`exp3-v2-harness-frozen-004`",
             "`exp3-v2-heldout-frozen`",
+            "`exp3-v2-heldout-frozen-002`",
             "`PENDING_HUMAN_FINAL_FREEZE`",
         ):
             self.assertIn(token, self.protocol)
@@ -424,7 +426,7 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
             {row["path"] for row in harness["external_runtime_dependencies"]},
         )
 
-    def test_revision_004_sentinel_evidence_and_final_freeze(self) -> None:
+    def test_revision_004_sentinel_evidence_and_original_final_freeze(self) -> None:
         evidence_hashes = {
             "EXP3_V2_SENTINEL_EVIDENCE.json": (
                 "daf67273138bf192d77e62dd56bc8598a90070baaf4f8714a8851ed3ca9f3a86"
@@ -448,7 +450,7 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
             "337f3e709554dfa95a52fd0bab8bedbacb71a400378bc709a22538380d94fbd6",
         )
 
-        final = json.loads(FINAL_PATH.read_text())
+        final = json.loads(ORIGINAL_FINAL_PATH.read_text())
         self.assertEqual(final["status"], "FROZEN_BEFORE_GENERATION")
         self.assertEqual(final["freeze_tag"], "exp3-v2-heldout-frozen")
         self.assertTrue(final["tag_created"])
@@ -482,6 +484,119 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
             },
         )
         self.assertEqual(list(ROOT.rglob("EXP3V2-SENTINEL-002__attempt-0.xlsx")), [])
+
+    def test_final_boundary_revision_002_is_final_frozen_and_complete(self) -> None:
+        self.assertEqual(
+            sha256_file(ORIGINAL_FINAL_PATH),
+            "cbefaefc585d68b66351961bdeb8289cec48079a5964f8bc660c82c5ec95dc5d",
+        )
+        self.assertEqual(
+            git_show(
+                "exp3-v2-heldout-frozen",
+                "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST.json",
+            ),
+            ORIGINAL_FINAL_PATH.read_bytes(),
+        )
+        final = json.loads(FINAL_PATH.read_text())
+        self.assertEqual(final["status"], "FROZEN_BEFORE_GENERATION")
+        self.assertEqual(final["manifest_revision"], "002")
+        self.assertEqual(final["freeze_tag"], "exp3-v2-heldout-frozen-002")
+        self.assertTrue(final["tag_created"])
+        self.assertEqual(
+            final["freeze_human_approval"],
+            "APPROVO IL FREEZE EXP3_V2 FINAL BOUNDARY REVISION 002",
+        )
+        self.assertEqual(final["freeze_human_approval_date"], "2026-09-03")
+        self.assertEqual(set(final["finalization_pending"].values()), {False})
+        self.assertEqual(len(final["external_runtime_dependencies"]), 8)
+        self.assertEqual(
+            final["external_runtime_dependencies"],
+            json.loads(HARNESS_PATH.read_text())["external_runtime_dependencies"],
+        )
+        self.assertEqual(final["scientific_seeds_consumed"], 0)
+        self.assertEqual(final["real_workbooks_created"], 0)
+        self.assertFalse(final["attempt_log_present"])
+        self.assertFalse(final["preflight_failure"]["seed_consumed"])
+        self.assertTrue(final["preflight_failure"]["attempt_0_remains_eligible"])
+        self.assertEqual(
+            {row["path"] for row in final["artifacts"]},
+            verify.FINAL_REVISION_002_REQUIRED_PATHS,
+        )
+        self.assertNotIn(
+            "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST_002.json",
+            verify.FINAL_REVISION_002_REQUIRED_PATHS,
+        )
+        self.assertEqual(
+            {row["path"] for row in final["allowed_revision_changes"]},
+            {
+                "phase_b/exp3_v2/EXP3_V2_FRESH_RUN_PROTOCOL.md",
+                "phase_b/exp3_v2/generate_exp3v2_heldout.m",
+                "phase_b/exp3_v2/test_exp3v2_manifest_contract.m",
+                "phase_b/exp3_v2/verify_exp3v2_heldout.py",
+                "phase_b/tests/test_exp3v2_pre_freeze.py",
+                "phase_b/tests/test_exp3v2_runtime_materialization.py",
+            },
+        )
+        result = subprocess.run(
+            ["git", "rev-parse", "--verify", "refs/tags/exp3-v2-heldout-frozen-002"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(
+            subprocess.run(
+                ["git", "rev-parse", "exp3-v2-heldout-frozen-002^{}"],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip(),
+            subprocess.run(
+                ["git", "rev-parse", "HEAD"],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip(),
+        )
+
+    def test_first_real_run_preflight_failure_preserves_attempt_zero(self) -> None:
+        record = json.loads(
+            (V2 / "EXP3_V2_FINAL_BOUNDARY_REV002_PREFLIGHT_FAILURE.json").read_text()
+        )
+        self.assertEqual(record["status"], "ABORTED_BEFORE_RNG_AND_SIM")
+        self.assertEqual(record["invocation"]["physical_case_id"], "EXP3V2-N-001")
+        self.assertEqual(record["invocation"]["attempt"], 0)
+        self.assertEqual(record["invocation"]["primary_seed"], 320001)
+        self.assertEqual(set(record["execution_counters"].values()), {0})
+        self.assertFalse(record["filesystem_observation"]["attempt_log_present"])
+        self.assertFalse(record["filesystem_observation"]["workbook_present"])
+        self.assertTrue(record["filesystem_observation"]["directories_empty"])
+        self.assertFalse(record["eligibility"]["seed_consumed"])
+        self.assertTrue(record["eligibility"]["attempt_0_remains_eligible"])
+
+    def test_real_wrapper_selects_revision_002_without_engine_change(self) -> None:
+        wrapper = (V2 / "generate_exp3v2_heldout.m").read_text()
+        self.assertIn("'EXP3_V2_FREEZE_MANIFEST_002.json'", wrapper)
+        self.assertIn("'exp3-v2-heldout-frozen-002'", wrapper)
+        self.assertNotIn(
+            "freezeManifestPath = fullfile(scriptDir, "
+            "'EXP3_V2_FREEZE_MANIFEST.json')",
+            wrapper,
+        )
+        engine_path = V2 / "run_exp3v2_engine.m"
+        self.assertEqual(
+            sha256_file(engine_path),
+            "4e746a8b6504953d2bb0d4eb9982cdef1ee3c02d0d0f1cb374e5a9086e45a9f1",
+        )
+        self.assertEqual(
+            engine_path.read_bytes(),
+            git_show("exp3-v2-heldout-frozen", "phase_b/exp3_v2/run_exp3v2_engine.m"),
+        )
+        source = (V2 / "test_exp3v2_real_runtime_preflight.m").read_text()
+        self.assertNotRegex(source, r"\brng\s*\(")
+        self.assertNotRegex(source, r"\bsim\s*\(")
 
     def test_preexecution_incident_chain_is_distinct_and_archived(self) -> None:
         record = json.loads(

@@ -60,7 +60,7 @@ class Exp3V2RuntimeMaterializationTests(unittest.TestCase):
                 verify.prefreeze_checks(
                     V2 / "exp3v2_case_plan.json",
                     MANIFEST_PATH,
-                    V2 / "EXP3_V2_FREEZE_MANIFEST.json",
+                    V2 / "EXP3_V2_FREEZE_MANIFEST_002.json",
                     runtime,
                 ),
                 [],

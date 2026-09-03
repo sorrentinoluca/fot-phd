@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "record_type": "EXP3_V2_FIRST_REAL_RUN_PREFLIGHT_FAILURE",
+  "status": "ABORTED_BEFORE_RNG_AND_SIM",
+  "recorded_on": "2026-09-03",
+  "source": "Human-reported invocation outcome corroborated by the observed empty real-output directories",
+  "invocation": {
+    "physical_case_id": "EXP3V2-N-001",
+    "attempt": 0,
+    "primary_seed": 320001
+  },
+  "failure": {
+    "identifier": "EXP3V2:RuntimeDependencyManifest",
+    "stage": "external runtime inventory preflight",
+    "boundary_manifest_path": "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST.json",
+    "root_cause": "The real wrapper passed the original final manifest as boundary_manifest_path, and the shared engine used that same manifest as the runtime inventory; the original final manifest has no external_runtime_dependencies field."
+  },
+  "execution_counters": {
+    "rng_calls": 0,
+    "sim_calls": 0,
+    "sentinel_executions": 0,
+    "workbooks_created": 0,
+    "attempt_log_records_created": 0,
+    "scientific_seeds_consumed": 0
+  },
+  "filesystem_observation": {
+    "real_output_root": "tep_exp3_v2_heldout",
+    "directories_present": [
+      "tep_exp3_v2_heldout",
+      "tep_exp3_v2_heldout/mode1"
+    ],
+    "directories_empty": true,
+    "attempt_log_present": false,
+    "workbook_present": false,
+    "regular_files_present": []
+  },
+  "eligibility": {
+    "primary_seed": 320001,
+    "seed_consumed": false,
+    "attempt_0_remains_eligible": true,
+    "replacement_seed_unchanged": true
+  },
+  "scientific_behavior": {
+    "shared_engine_modified": false,
+    "case_plan_modified": false,
+    "allocations_modified": false,
+    "sentinel_rerun_required": false
+  }
+}

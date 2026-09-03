@@ -1,0 +1,53 @@
+function result = test_exp3v2_real_runtime_preflight(runtimeDir)
+%TEST_EXP3V2_REAL_RUNTIME_PREFLIGHT Exercise the exact real boundary, no sim.
+
+scriptDir = fileparts([mfilename('fullpath') '.m']);
+wrapperSource = fileread(fullfile(scriptDir, 'generate_exp3v2_heldout.m'));
+pathToken = regexp(wrapperSource, ...
+    "freezeManifestPath = fullfile\(scriptDir, '([^']+)'\);", ...
+    'tokens', 'once');
+assert(isscalar(pathToken), 'EXP3V2:RealBoundaryPathContract', ...
+    'The real wrapper must select exactly one final boundary manifest.');
+manifestName = pathToken{1};
+assert(strcmp(manifestName, 'EXP3_V2_FREEZE_MANIFEST_002.json'), ...
+    'EXP3V2:RealBoundaryRevision', ...
+    'The real wrapper must select Final Boundary Revision 002.');
+assert(contains(wrapperSource, "'exp3-v2-heldout-frozen-002'"), ...
+    'EXP3V2:RealBoundaryTag', ...
+    'The real wrapper must select the Revision 002 prospective tag.');
+
+originalManifest = jsondecode(fileread(fullfile(scriptDir, ...
+    'EXP3_V2_FREEZE_MANIFEST.json')));
+assert_identifier(@() assert_exp3v2_runtime_bundle( ...
+    runtimeDir, originalManifest), 'EXP3V2:RuntimeDependencyManifest');
+
+selectedManifest = jsondecode(fileread(fullfile(scriptDir, manifestName)));
+dependencies = assert_exp3v2_runtime_bundle(runtimeDir, selectedManifest);
+assert(numel(dependencies) == 8, 'EXP3V2:RealRuntimeDependencyCount', ...
+    'The selected real boundary must validate exactly eight dependencies.');
+
+engineSource = fileread(fullfile(scriptDir, 'run_exp3v2_engine.m'));
+preflightIndex = strfind(engineSource, ...
+    'assert_exp3v2_runtime_bundle(config.simulator_dir, runtimeManifest)');
+rngIndex = regexp(engineSource, '\<rng\s*\(', 'once');
+simIndex = regexp(engineSource, '\<sim\s*\(', 'once');
+assert(isscalar(preflightIndex) && isscalar(rngIndex) && isscalar(simIndex) && ...
+    preflightIndex < rngIndex && preflightIndex < simIndex, ...
+    'EXP3V2:RealRuntimePreflightOrdering', ...
+    'Runtime inventory validation must precede every possible rng/sim call.');
+
+result = true;
+fprintf(['PASS: exact real-wrapper Final Boundary Revision 002 validates ' ...
+    'the eight-file runtime before rng/sim; neither was called.\n']);
+end
+
+function assert_identifier(operation, expected)
+observed = '';
+try
+    operation();
+catch exception
+    observed = exception.identifier;
+end
+assert(strcmp(observed, expected), 'EXP3V2:RegressionIdentifier', ...
+    'Expected %s, observed %s.', expected, observed);
+end
