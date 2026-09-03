@@ -486,9 +486,9 @@ dynamics, disturbance mapping, seed, solver, injection time, sampling, horizon,
 or any scientific parameter.
 
 Before any real V2 seed may be consumed, the current exact harness revision
-must be committed and tagged. For Revision 003 the prospective tag is
-`exp3-v2-harness-frozen-003`. From a clean checkout at that tag, the sole
-sentinel `EXP3V2-SENTINEL-001`, seed `987654321`, must exercise the same shared
+must be committed and tagged. For Revision 004 the prospective tag is
+`exp3-v2-harness-frozen-004`. From a clean checkout at that tag, the sole
+eligible sentinel `EXP3V2-SENTINEL-002`, seed `987654322`, must exercise the same shared
 engine through workbook writing, round-trip structural checking, and verifier
 `--sentinel`. It writes only inside a unique safe temporary directory disjoint
 from both real output roots, retains no cell values or diagnostic summaries,
@@ -764,10 +764,14 @@ the final `FROZEN_BEFORE_GENERATION` boundary.
 The following gates remain open until the stated human reviews and freeze
 actions. Checking an item early is prohibited.
 
-- [ ] Human reviews the non-simulation implementation and F2 evidence.
-- [ ] Revision 003 harness manifest is finalized, committed, and tagged
+- [x] Revision 003 harness manifest was finalized, committed, and tagged
       `exp3-v2-harness-frozen-003`; local and remote targets agree.
-- [ ] The mandatory end-to-end sentinel passes once from the exact clean
+- [x] Revision 003 sentinel `EXP3V2-SENTINEL-001` executed once and failed
+      end-to-end verification; its identity and seed are consumed.
+- [ ] Human reviews the Revision 004 non-simulation implementation and evidence.
+- [ ] Revision 004 harness manifest is finalized, committed, and tagged
+      `exp3-v2-harness-frozen-004`; local and remote targets agree.
+- [ ] The Revision 004 end-to-end sentinel passes once from the exact clean
       harness tag, with restoration and cleanup evidence.
 - [ ] Real case plan changes only from `PRE_FREEZE_DRAFT` to
       `FROZEN_BEFORE_GENERATION` after sentinel PASS.
@@ -876,14 +880,39 @@ used by the engine against an empty base workspace and separately injected
 `tout`, `simout`, and `xmv`; it verifies cleanup and unchanged global random
 stream state without calling `rng` or simulation.
 
-Revision 003 uses draft manifest
-`EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json` and reserves tag
-`exp3-v2-harness-frozen-003`. The status remains `PRE_FREEZE_DRAFT` and
-`tag_created` remains false until explicit human freeze approval. Revision 002,
-its manifest, commit, and both earlier tags remain immutable. The scientific
-plan, seeds, RNG placement, model configuration, schemas, validity criteria,
-replacement policy, eight-file external runtime bundle, and `.slxc` rejection
-are unchanged. This draft authorizes no sentinel or scientific generation.
+Revision 003 was frozen as manifest
+`EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json` and tag
+`exp3-v2-harness-frozen-003`. Its one authorized sentinel execution consumed
+`EXP3V2-SENTINEL-001` and seed `987654321`, called `rng` once and `sim` once,
+and produced a technically valid `3001 × 54` throwaway workbook. End-to-end
+verification failed and no retry occurred. No scientific seed was consumed and
+no real EXP3_V2 workbook was produced. The permanent record and byte-identical
+available evidence are stored in the Revision 003 sentinel-failure artifacts.
+
+## 21. Prospective harness Revision 004
+
+Revision 004 corrects two non-scientific harness defects found by the Revision
+003 sentinel. The wrapper now receives an explicit Python executable and, before
+the shared engine can reach `rng` or `sim`, requires that it resolve to an
+absolute regular executable running Python `3.13.9` with importable
+`jsonschema==4.25.0` and `openpyxl==3.1.5`. Package versions are obtained with
+`importlib.metadata.version`. The resolved executable is shell-quoted, used for
+both materialization and verification, and recorded with its versions in
+sentinel evidence.
+
+Numeric sentinel-manifest fields now use deterministic `%.17g` formatting for
+finite scalar doubles. In particular, the binary64 value `1/60` is serialized
+as `0.016666666666666666`, round-trips exactly, and remains within the verifier
+tolerance. Revision 003's `0.016667` CSV is immutable.
+
+Revision 004 uses draft manifest
+`EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json`, status `PRE_FREEZE_DRAFT`, and
+reserves tag `exp3-v2-harness-frozen-004` without creating it. Its new eligible
+sentinel is `EXP3V2-SENTINEL-002`, prospective non-scientific seed `987654322`.
+`EXP3V2-SENTINEL-001` and seed `987654321` are consumed and ineligible for
+reuse. All 30 scientific IDs and seed allocations, the case-plan bytes,
+scientific settings, eight-file runtime bundle, and `.slxc` exclusion are
+unchanged. This draft authorizes no sentinel or scientific generation.
 
 ---
 

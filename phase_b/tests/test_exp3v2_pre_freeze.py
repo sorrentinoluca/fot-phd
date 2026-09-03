@@ -18,8 +18,9 @@ EXP3 = ROOT / "phase_b/exp3"
 V2 = ROOT / "phase_b/exp3_v2"
 PLAN_PATH = V2 / "exp3v2_case_plan.json"
 SCHEMA_PATH = V2 / "exp3v2_attempt_log.schema.json"
-HARNESS_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json"
+HARNESS_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json"
 REVISION_002_MANIFEST_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json"
+REVISION_003_MANIFEST_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json"
 FINAL_PATH = V2 / "EXP3_V2_FREEZE_MANIFEST.json"
 VERIFIER_PATH = V2 / "verify_exp3v2_heldout.py"
 EXPECTED_LOG_HASH = "04ea7d8af227c3a7f947b4dde434e77510c163ce9c108892ffa22f491f022904"
@@ -121,13 +122,20 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
         all_v2 = set(primary) | set(replacement) | {320031}
         old = set(range(310001, 310031)) | set(range(1310001, 1310031))
         self.assertFalse(all_v2 & old)
-        self.assertFalse(all_v2 & {987654321, 123456789})
+        self.assertFalse(all_v2 & {987654321, 987654322, 123456789})
 
     def test_sentinel_identity_is_separate_and_collision_free(self) -> None:
         descriptor = json.loads((V2 / "exp3v2_sentinel_case.json").read_text())
         self.assertEqual(verify.validate_sentinel_descriptor(descriptor, self.plan), [])
         self.assertEqual(descriptor["status"], "SENTINEL_VALIDATION_ONLY")
+        self.assertEqual(descriptor["physical_case_id"], "EXP3V2-SENTINEL-002")
+        self.assertEqual(descriptor["seed"], 987654322)
         self.assertFalse(descriptor["replacement_allowed"])
+        self.assertEqual(
+            descriptor["consumed_sentinels"][0]["physical_case_id"],
+            "EXP3V2-SENTINEL-001",
+        )
+        self.assertFalse(descriptor["consumed_sentinels"][0]["eligible_for_reuse"])
 
     def test_attempt_schema_and_policy_are_fail_closed(self) -> None:
         attempt_schema = self.schema["$defs"]["attempt"]
@@ -256,7 +264,7 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
         self.assertIn("exp3-v2-heldout-frozen", real)
         self.assertIn("SentinelRejectedByRealWrapper", real)
         self.assertIn("HARNESS_FROZEN_FOR_SENTINEL", sentinel)
-        self.assertIn("exp3-v2-harness-frozen-003", sentinel)
+        self.assertIn("exp3-v2-harness-frozen-004", sentinel)
         self.assertIn("SentinelRealPathOverlap", sentinel)
         self.assertIn("ExplicitRuntimeRequired", real)
         self.assertIn("ExplicitRuntimeRequired", sentinel)
@@ -327,6 +335,7 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
             "`exp3-v2-harness-frozen`",
             "`exp3-v2-harness-frozen-002`",
             "`exp3-v2-harness-frozen-003`",
+            "`exp3-v2-harness-frozen-004`",
             "`exp3-v2-heldout-frozen`",
         ):
             self.assertIn(token, self.protocol)
@@ -343,35 +352,52 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
             REVISION_002_MANIFEST_PATH.read_bytes(),
         )
 
-    def test_revision_003_frozen_hashes_and_prefreeze_verifier(self) -> None:
+    def test_revision_003_manifest_is_immutable(self) -> None:
+        expected = "e9db49a5a71a4ffbb83213f81224e54569d85c841a31ca492c29a0fb32a62e03"
+        self.assertEqual(sha256_file(REVISION_003_MANIFEST_PATH), expected)
+        self.assertEqual(
+            git_show(
+                "exp3-v2-harness-frozen-003",
+                "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json",
+            ),
+            REVISION_003_MANIFEST_PATH.read_bytes(),
+        )
+
+    def test_revision_004_frozen_hashes_and_prefreeze_verifier(self) -> None:
         errors = verify.prefreeze_checks(PLAN_PATH, HARNESS_PATH, FINAL_PATH)
         self.assertEqual(errors, [])
         harness = json.loads(HARNESS_PATH.read_text())
         self.assertEqual(harness["status"], "HARNESS_FROZEN_FOR_SENTINEL")
-        self.assertEqual(harness["manifest_revision"], "003")
-        self.assertEqual(harness["freeze_tag"], "exp3-v2-harness-frozen-003")
+        self.assertEqual(harness["manifest_revision"], "004")
+        self.assertEqual(harness["freeze_tag"], "exp3-v2-harness-frozen-004")
         self.assertTrue(harness["tag_created"])
         self.assertEqual(
             harness["human_approval"],
-            "Prepare EXP3_V2 Harness Revision 003",
+            "Prepare EXP3_V2 Harness Revision 004 in draft form only",
         )
         self.assertEqual(
             harness["freeze_human_approval"],
-            "APPROVO IL FREEZE HARNESS EXP3_V2 REVISION 003",
+            "APPROVO IL FREEZE HARNESS EXP3_V2 REVISION 004",
         )
         self.assertEqual(harness["freeze_human_approval_date"], "2026-09-03")
         self.assertEqual(
-            harness["parent_revision_002"],
+            harness["parent_revision_003"],
             {
-                "commit": "261e54b10fe2c0a8897627ff7626c1a2d05672f8",
-                "tag": "exp3-v2-harness-frozen-002",
+                "commit": "bce8f0e2f24db7033b7ddbecc38e1bfaa74c85a6",
+                "tag": "exp3-v2-harness-frozen-003",
                 "manifest_sha256": (
-                    "c552a6f474491243f549f9588eec52d61fe65922ef8734ff843ef75745710019"
+                    "e9db49a5a71a4ffbb83213f81224e54569d85c841a31ca492c29a0fb32a62e03"
                 ),
             },
         )
-        self.assertEqual(harness["unavailable_incident_evidence"], [])
-        self.assertFalse(harness["sentinel_seed_consumed"])
+        self.assertEqual(
+            harness["active_sentinel"]["physical_case_id"],
+            "EXP3V2-SENTINEL-002",
+        )
+        self.assertEqual(harness["active_sentinel"]["seed"], 987654322)
+        self.assertFalse(harness["active_sentinel"]["seed_consumed"])
+        self.assertEqual(harness["consumed_sentinels"][0]["seed"], 987654321)
+        self.assertFalse(harness["consumed_sentinels"][0]["eligible_for_reuse"])
         self.assertEqual(harness["rng_seed_calls_at_revision_preparation"], 0)
         self.assertEqual(harness["sim_calls_at_revision_preparation"], 0)
         self.assertEqual(harness["workbooks_created_at_revision_preparation"], 0)
@@ -428,6 +454,81 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
         }
         for name, digest in archives.items():
             self.assertEqual(sha256_file(V2 / name), digest)
+
+    def test_revision_003_sentinel_failure_is_permanent_and_consumed(self) -> None:
+        record = json.loads((V2 / "EXP3_V2_REV003_SENTINEL_FAILURE.json").read_text())
+        sentinel = record["sentinel"]
+        self.assertEqual(sentinel["physical_case_id"], "EXP3V2-SENTINEL-001")
+        self.assertEqual(sentinel["seed"], 987654321)
+        self.assertTrue(sentinel["seed_consumed"])
+        self.assertEqual(sentinel["rng_calls"], 1)
+        self.assertEqual(sentinel["sim_calls"], 1)
+        self.assertFalse(sentinel["retry_performed"])
+        workbook = record["throwaway_workbook"]
+        self.assertEqual((workbook["rows"], workbook["cols"]), (3001, 54))
+        self.assertEqual(workbook["size_bytes"], 1704651)
+        self.assertEqual(
+            workbook["sha256"],
+            "a1980855174e9db82416f576e84aa720eddd758b5686b9ecfc376aeedfa282a9",
+        )
+        self.assertFalse(workbook["committed"])
+        self.assertEqual(record["scientific_seeds_consumed"], 0)
+        self.assertEqual(record["real_exp3v2_workbooks_created"], 0)
+        archives = {
+            "EXP3_V2_REV003_SENTINEL_FAILURE_ARCHIVE.json": (
+                "04fae56a1b10cddf4e27c0a43367fbd4eb80b6591d7c813edeb9ce55f8e5e57c"
+            ),
+            "EXP3_V2_REV003_SENTINEL_ATTEMPT_LOG_ARCHIVE.json": (
+                "2ef6166cf783b9a915f3f569528b1a9f9a335f200655edd8e169fe5eb69a5f40"
+            ),
+            "EXP3_V2_REV003_SENTINEL_MANIFEST_ARCHIVE.csv": (
+                "ca51663b9d721c5b109b7bfbe8a815b8e814f77cd2911c3f1587be998e6783b1"
+            ),
+        }
+        for name, digest in archives.items():
+            self.assertEqual(sha256_file(V2 / name), digest)
+
+    def test_python_preflight_precedes_engine_and_uses_pinned_executable(self) -> None:
+        wrapper = (V2 / "sentinel_integration_run.m").read_text()
+        preflight = (V2 / "validate_exp3v2_python_runtime.m").read_text()
+        regression = (V2 / "test_exp3v2_python_runtime_preflight.m").read_text()
+        self.assertLess(
+            wrapper.index("validate_exp3v2_python_runtime"),
+            wrapper.index("generate_exp3v2_sentinel"),
+        )
+        self.assertNotIn('python3 "', wrapper)
+        self.assertGreaterEqual(wrapper.count("pythonRuntime.executable_path"), 2)
+        self.assertIn("importlib.metadata", preflight)
+        self.assertNotIn("__version__", preflight)
+        for token in (
+            "3.13.9",
+            "4.25.0",
+            "3.1.5",
+            "PythonExecutableNotRegular",
+            "PythonExecutableNotExecutable",
+            "PythonRuntimeProbeFailed",
+        ):
+            self.assertIn(token, preflight + regression)
+        self.assertNotRegex(preflight + regression, r"\brng\s*\(")
+        self.assertNotRegex(preflight + regression, r"\bsim\s*\(")
+
+    def test_round_trip_sampling_manifest_passes_verifier_contract(self) -> None:
+        formatter = (V2 / "format_exp3v2_csv_scalar.m").read_text()
+        self.assertIn("sprintf('%.17g', double(input))", formatter)
+        row = {
+            "physical_case_id": "EXP3V2-SENTINEL-002",
+            "attempt": "0",
+            "seed": "987654322",
+            "filename": "EXP3V2-SENTINEL-002__attempt-0.xlsx",
+            "sampling": "0.016666666666666666",
+        }
+        self.assertEqual(verify.validate_sentinel_manifest_row(row), [])
+        truncated = dict(row, sampling="0.016667")
+        self.assertIn(
+            "sentinel manifest sampling mismatch",
+            verify.validate_sentinel_manifest_row(truncated),
+        )
+        self.assertEqual(float(row["sampling"]), 1 / 60)
 
     def test_mode_paths_are_mutually_exclusive(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

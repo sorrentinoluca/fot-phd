@@ -1,19 +1,30 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "2.0",
   "status": "SENTINEL_VALIDATION_ONLY",
   "experiment": "Experiment 3 V2 — Prospective Fresh-Run Held-Out",
-  "physical_case_id": "EXP3V2-SENTINEL-001",
+  "physical_case_id": "EXP3V2-SENTINEL-002",
   "condition": "Normal",
   "attempt": 0,
-  "seed": 987654321,
+  "seed": 987654322,
   "rng_algorithm": "twister",
   "replacement_allowed": false,
   "destination_policy": "unique throwaway directory outside tep_exp3_v2_heldout and tep_exp3_heldout",
+  "consumed_sentinels": [
+    {
+      "physical_case_id": "EXP3V2-SENTINEL-001",
+      "seed": 987654321,
+      "harness_revision": "003",
+      "eligible_for_reuse": false,
+      "outcome": "END_TO_END_VERIFICATION_FAILED"
+    }
+  ],
   "non_collision_assertions": {
     "must_not_match_real_case_id": true,
     "must_not_match_primary_seed": true,
     "must_not_match_replacement_seed": true,
     "must_not_match_bootstrap_seed": true,
-    "must_not_match_secondary_sentinel_seed": 123456789
+    "must_not_match_secondary_sentinel_seed": 123456789,
+    "must_not_match_consumed_sentinel_id": "EXP3V2-SENTINEL-001",
+    "must_not_match_consumed_sentinel_seed": 987654321
   }
 }

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "experiment": "Experiment 3 V2 — Prospective Fresh-Run Held-Out",
+  "classification": "SENTINEL_EXECUTED_VERIFIER_FAILED",
+  "harness_revision": "003",
+  "harness_tag": "exp3-v2-harness-frozen-003",
+  "harness_commit": "bce8f0e2f24db7033b7ddbecc38e1bfaa74c85a6",
+  "harness_manifest_sha256": "e9db49a5a71a4ffbb83213f81224e54569d85c841a31ca492c29a0fb32a62e03",
+  "sentinel": {
+    "physical_case_id": "EXP3V2-SENTINEL-001",
+    "seed": 987654321,
+    "rng_algorithm": "twister",
+    "seed_consumed": true,
+    "rng_calls": 1,
+    "sim_calls": 1,
+    "retry_performed": false
+  },
+  "throwaway_workbook": {
+    "filename": "EXP3V2-SENTINEL-001__attempt-0.xlsx",
+    "size_bytes": 1704651,
+    "sha256": "a1980855174e9db82416f576e84aa720eddd758b5686b9ecfc376aeedfa282a9",
+    "rows": 3001,
+    "cols": 54,
+    "structural_valid_before_end_to_end_verification": true,
+    "committed": false,
+    "cell_values_inspected_during_revision_004_preparation": false
+  },
+  "end_to_end_verification": {
+    "status": "FAIL",
+    "initial_failure_identifier": "EXP3V2:SentinelVerifierFailed",
+    "initial_failure_reason": "Ambient python3 could not import jsonschema.",
+    "forensic_python_executable": "/opt/anaconda3/bin/python3",
+    "forensic_python_version": "3.13.9",
+    "forensic_jsonschema_version": "4.25.0",
+    "forensic_openpyxl_version": "3.1.5",
+    "forensic_result": "FAIL",
+    "forensic_failure_reason": "The sentinel manifest CSV serialized the exact 1/60 sampling interval as 0.016667, which differs by more than the verifier tolerance.",
+    "failed_csv_sampling_value": "0.016667",
+    "exact_binary64_sampling_value": "0.016666666666666666"
+  },
+  "archived_evidence": [
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_FAILURE_ARCHIVE.json",
+      "size_bytes": 1129,
+      "sha256": "04fae56a1b10cddf4e27c0a43367fbd4eb80b6591d7c813edeb9ce55f8e5e57c",
+      "byte_identical_to_available_source": true
+    },
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_ATTEMPT_LOG_ARCHIVE.json",
+      "size_bytes": 1808,
+      "sha256": "2ef6166cf783b9a915f3f569528b1a9f9a335f200655edd8e169fe5eb69a5f40",
+      "byte_identical_to_available_source": true
+    },
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_MANIFEST_ARCHIVE.csv",
+      "size_bytes": 319,
+      "sha256": "ca51663b9d721c5b109b7bfbe8a815b8e814f77cd2911c3f1587be998e6783b1",
+      "byte_identical_to_available_source": true
+    }
+  ],
+  "scientific_seeds_consumed": 0,
+  "real_exp3v2_workbooks_created": 0,
+  "diagnostic_signal_inspected": false,
+  "revision_003_sentinel_eligible_for_retry": false
+}

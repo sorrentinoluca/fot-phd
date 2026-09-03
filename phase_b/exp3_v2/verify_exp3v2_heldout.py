@@ -141,6 +141,9 @@ EXPECTED_HISTORY = (
 ATTEMPT_LOG_HASH = "04ea7d8af227c3a7f947b4dde434e77510c163ce9c108892ffa22f491f022904"
 HASH_RE = re.compile(r"^[0-9a-f]{64}$")
 TIME_TOLERANCE = 1e-10
+ACTIVE_SENTINEL_ID = "EXP3V2-SENTINEL-002"
+ACTIVE_SENTINEL_SEED = 987654322
+CONSUMED_SENTINELS = {"EXP3V2-SENTINEL-001": 987654321}
 MANIFEST_FIELDS = (
     "physical_case_id",
     "fault/status",
@@ -198,12 +201,18 @@ REQUIRED_HARNESS_PATHS = {
     "phase_b/exp3_v2/EXP3_V2_FRESH_RUN_PROTOCOL.md",
     "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST.json",
     "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json",
+    "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json",
     "phase_b/exp3_v2/EXP3_V2_REV002_EXTERNAL_DRIVER_ATTEMPT_LOG_ARCHIVE.json",
     "phase_b/exp3_v2/EXP3_V2_REV002_EXTERNAL_DRIVER_FAILURE_ARCHIVE.json",
     "phase_b/exp3_v2/EXP3_V2_REV002_OFFICIAL_WRAPPER_ATTEMPT_LOG_ARCHIVE.json",
     "phase_b/exp3_v2/EXP3_V2_REV002_OFFICIAL_WRAPPER_FAILURE_ARCHIVE.json",
     "phase_b/exp3_v2/EXP3_V2_REV003_PREEXECUTION_INCIDENTS.json",
     "phase_b/exp3_v2/EXP3_V2_REV003_PREEXECUTION_INCIDENTS.md",
+    "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_ATTEMPT_LOG_ARCHIVE.json",
+    "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_FAILURE.json",
+    "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_FAILURE.md",
+    "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_FAILURE_ARCHIVE.json",
+    "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_MANIFEST_ARCHIVE.csv",
     "phase_b/exp3_v2/EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.json",
     "phase_b/exp3_v2/EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.md",
     "phase_b/exp3_v2/append_exp3v2_attempt_record.m",
@@ -216,8 +225,10 @@ REQUIRED_HARNESS_PATHS = {
     "phase_b/exp3_v2/exp3v2_case_plan.json",
     "phase_b/exp3_v2/exp3v2_manifest_template.csv",
     "phase_b/exp3_v2/exp3v2_sentinel_case.json",
+    "phase_b/exp3_v2/exp3v2_shell_quote.m",
     "phase_b/exp3_v2/exp3v2_workspace_outputs_present.m",
     "phase_b/exp3_v2/extract_exp3v2_outputs.m",
+    "phase_b/exp3_v2/format_exp3v2_csv_scalar.m",
     "phase_b/exp3_v2/generate_exp3v2_heldout.m",
     "phase_b/exp3_v2/generate_exp3v2_sentinel.m",
     "phase_b/exp3_v2/materialize_exp3v2_runtime.py",
@@ -230,9 +241,13 @@ REQUIRED_HARNESS_PATHS = {
     "phase_b/exp3_v2/test_exp3v2_manifest_contract.m",
     "phase_b/exp3_v2/test_exp3v2_model_config_management.m",
     "phase_b/exp3_v2/test_exp3v2_output_retrieval.m",
+    "phase_b/exp3_v2/test_exp3v2_csv_serialization.m",
+    "phase_b/exp3_v2/test_exp3v2_python_runtime_preflight.m",
     "phase_b/exp3_v2/test_exp3v2_runtime_provenance.m",
     "phase_b/exp3_v2/test_exp3v2_workspace_isolation.m",
     "phase_b/exp3_v2/verify_exp3v2_heldout.py",
+    "phase_b/exp3_v2/validate_exp3v2_python_runtime.m",
+    "phase_b/exp3_v2/write_exp3v2_sentinel_manifest.m",
     "phase_b/tests/test_exp3v2_pre_freeze.py",
     "phase_b/tests/test_exp3v2_runtime_materialization.py",
     "phase_b/PHASE_B_PROTOCOL_HASHES.json",
@@ -425,7 +440,7 @@ def validate_case_plan(plan: dict[str, Any]) -> list[str]:
     if set(primary) & set(replacement):
         errors.append("primary/replacement seed collision")
     forbidden = set(range(310001, 310031)) | set(range(1310001, 1310031))
-    forbidden |= {987654321, 123456789, 320031}
+    forbidden |= {987654321, 987654322, 123456789, 320031}
     if (set(primary) | set(replacement)) & forbidden:
         errors.append("V2 run seeds collide with EXP3, sentinel, or bootstrap seeds")
     expected_rng = {
@@ -476,10 +491,10 @@ def validate_sentinel_descriptor(
     errors: list[str] = []
     expected = {
         "status": "SENTINEL_VALIDATION_ONLY",
-        "physical_case_id": "EXP3V2-SENTINEL-001",
+        "physical_case_id": ACTIVE_SENTINEL_ID,
         "condition": "Normal",
         "attempt": 0,
-        "seed": 987654321,
+        "seed": ACTIVE_SENTINEL_SEED,
         "rng_algorithm": "twister",
         "replacement_allowed": False,
     }
@@ -492,6 +507,24 @@ def validate_sentinel_descriptor(
     seeds |= {row["replacement_seed"] for row in plan["cases"]}
     if descriptor.get("physical_case_id") in ids or descriptor.get("seed") in seeds:
         errors.append("sentinel identity or seed collides with real allocation")
+    consumed = descriptor.get("consumed_sentinels")
+    if not isinstance(consumed, list) or len(consumed) != 1:
+        errors.append("consumed sentinel history mismatch")
+    else:
+        entry = consumed[0]
+        if (
+            entry.get("physical_case_id") != "EXP3V2-SENTINEL-001"
+            or entry.get("seed") != 987654321
+            or entry.get("harness_revision") != "003"
+            or entry.get("eligible_for_reuse") is not False
+            or entry.get("outcome") != "END_TO_END_VERIFICATION_FAILED"
+        ):
+            errors.append("consumed sentinel entry mismatch")
+    if (
+        descriptor.get("physical_case_id") in CONSUMED_SENTINELS
+        or descriptor.get("seed") in CONSUMED_SENTINELS.values()
+    ):
+        errors.append("active sentinel reuses a consumed identity or seed")
     return errors
 
 
@@ -595,6 +628,64 @@ def validate_freeze_manifest(
             errors.append("revision 003 case-plan hash mismatch")
         if payload.get("unavailable_incident_evidence") != []:
             errors.append("revision 003 unavailable-evidence disclosure mismatch")
+        errors.extend(validate_external_dependency_inventory(payload))
+    if path.name == "EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json":
+        if payload.get("schema_version") != "4.0":
+            errors.append("revision 004 schema version mismatch")
+        if payload.get("manifest_revision") != "004":
+            errors.append("revision 004 harness manifest revision mismatch")
+        if payload.get("freeze_tag") != "exp3-v2-harness-frozen-004":
+            errors.append("revision 004 harness freeze tag mismatch")
+        if payload.get("created_before_sentinel") is not True:
+            errors.append("revision 004 manifest is not pre-sentinel")
+        if (
+            payload.get("status") == "PRE_FREEZE_DRAFT"
+            and payload.get("tag_created") is not False
+        ):
+            errors.append("draft revision 004 must record tag_created=false")
+        if (
+            payload.get("status") == "HARNESS_FROZEN_FOR_SENTINEL"
+            and payload.get("tag_created") is not True
+        ):
+            errors.append("frozen revision 004 must record tag_created=true")
+        parent = payload.get("parent_revision_003")
+        if not isinstance(parent, dict) or parent != {
+            "commit": "bce8f0e2f24db7033b7ddbecc38e1bfaa74c85a6",
+            "tag": "exp3-v2-harness-frozen-003",
+            "manifest_sha256": (
+                "e9db49a5a71a4ffbb83213f81224e54569d85c841a31ca492c29a0fb32a62e03"
+            ),
+        }:
+            errors.append("revision 004 parent provenance mismatch")
+        if payload.get("case_plan_sha256") != (
+            "3d102383b9eb8d5de14bffef862c2b5715d8bbcf05359decb5fdf31efe31a014"
+        ):
+            errors.append("revision 004 case-plan hash mismatch")
+        if payload.get("active_sentinel") != {
+            "physical_case_id": ACTIVE_SENTINEL_ID,
+            "seed": ACTIVE_SENTINEL_SEED,
+            "seed_consumed": False,
+        }:
+            errors.append("revision 004 active sentinel mismatch")
+        if payload.get("consumed_sentinels") != [
+            {
+                "physical_case_id": "EXP3V2-SENTINEL-001",
+                "seed": 987654321,
+                "harness_revision": "003",
+                "rng_calls": 1,
+                "sim_calls": 1,
+                "eligible_for_reuse": False,
+            }
+        ]:
+            errors.append("revision 004 consumed sentinel history mismatch")
+        if payload.get("sentinel_executions_at_revision_preparation") != 0:
+            errors.append("revision 004 new sentinel count must be zero")
+        if payload.get("rng_seed_calls_at_revision_preparation") != 0:
+            errors.append("revision 004 preparation RNG count must be zero")
+        if payload.get("sim_calls_at_revision_preparation") != 0:
+            errors.append("revision 004 preparation sim count must be zero")
+        if payload.get("workbooks_created_at_revision_preparation") != 0:
+            errors.append("revision 004 preparation workbook count must be zero")
         errors.extend(validate_external_dependency_inventory(payload))
     if path.name == "EXP3_V2_FREEZE_MANIFEST.json":
         if payload.get("freeze_tag") != "exp3-v2-heldout-frozen":
@@ -1029,6 +1120,25 @@ def prefreeze_checks(
     return errors
 
 
+def validate_sentinel_manifest_row(row: dict[str, str]) -> list[str]:
+    errors: list[str] = []
+    if row.get("physical_case_id") != ACTIVE_SENTINEL_ID:
+        errors.append("sentinel manifest identity mismatch")
+    if row.get("attempt") != "0" or row.get("seed") != str(ACTIVE_SENTINEL_SEED):
+        errors.append("sentinel manifest attempt/seed mismatch")
+    expected_filename = f"{ACTIVE_SENTINEL_ID}__attempt-0.xlsx"
+    if row.get("filename") != expected_filename:
+        errors.append("sentinel manifest filename mismatch")
+    try:
+        sampling = float(row["sampling"])
+    except (KeyError, TypeError, ValueError):
+        errors.append("sentinel manifest sampling is not numeric")
+    else:
+        if not close(sampling, EXPECTED_SIMULATOR["sampling_interval_h"]):
+            errors.append("sentinel manifest sampling mismatch")
+    return errors
+
+
 def sentinel_checks(args: argparse.Namespace) -> list[str]:
     errors: list[str] = []
     plan = json.loads((SCRIPT_DIR / "exp3v2_case_plan.json").read_text())
@@ -1049,7 +1159,7 @@ def sentinel_checks(args: argparse.Namespace) -> list[str]:
     errors.extend(validate_runtime_directory(harness, args.runtime_dir))
     if (
         args.harness_manifest.resolve()
-        != (SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json").resolve()
+        != (SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json").resolve()
     ):
         errors.append("sentinel mode accepts only the frozen harness manifest")
     for path in (args.attempt_log, args.manifest, args.data_dir):
@@ -1071,8 +1181,8 @@ def sentinel_checks(args: argparse.Namespace) -> list[str]:
     if set(record) != ATTEMPT_FIELDS:
         errors.append("sentinel attempt technical-provenance field set mismatch")
     if (
-        record.get("physical_case_id") != "EXP3V2-SENTINEL-001"
-        or record.get("seed") != 987654321
+        record.get("physical_case_id") != ACTIVE_SENTINEL_ID
+        or record.get("seed") != ACTIVE_SENTINEL_SEED
         or record.get("attempt") != 0
     ):
         errors.append("sentinel attempt identity mismatch")
@@ -1089,15 +1199,10 @@ def sentinel_checks(args: argparse.Namespace) -> list[str]:
         errors.append("sentinel attempt output path is outside throwaway data dir")
     errors.extend(validate_structural_record(record, "sentinel attempt"))
     rows = load_manifest(args.manifest)
-    if len(rows) != 1 or rows[0].get("physical_case_id") != "EXP3V2-SENTINEL-001":
+    if len(rows) != 1:
         errors.append("sentinel manifest must contain exactly the sentinel row")
     else:
-        if (
-            rows[0].get("attempt") != "0"
-            or rows[0].get("seed") != "987654321"
-            or rows[0].get("filename") != "EXP3V2-SENTINEL-001__attempt-0.xlsx"
-        ):
-            errors.append("sentinel manifest identity/seed/filename mismatch")
+        errors.extend(validate_sentinel_manifest_row(rows[0]))
         errors.extend(validate_materialized(rows, log, args.data_dir))
     return errors
 
@@ -1170,7 +1275,7 @@ def main() -> int:
             errors = prefreeze_checks(
                 args.case_plan or SCRIPT_DIR / "exp3v2_case_plan.json",
                 args.harness_manifest
-                or SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json",
+                or SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json",
                 args.final_manifest or SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST.json",
                 args.runtime_dir,
             )

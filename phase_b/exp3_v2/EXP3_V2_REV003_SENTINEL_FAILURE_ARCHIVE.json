@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "status": "FAIL",
+  "harness_revision": "003",
+  "harness_tag": "exp3-v2-harness-frozen-003",
+  "harness_commit": "bce8f0e2f24db7033b7ddbecc38e1bfaa74c85a6",
+  "physical_case_id": "EXP3V2-SENTINEL-001",
+  "seed": 9.87654321E+8,
+  "error_identifier": "EXP3V2:SentinelVerifierFailed",
+  "error_message": "Sentinel verifier failed: Traceback (most recent call last):\n  File \"/private/tmp/exp3v2-sentinel-001-rev003.yD0lgf/worktree/phase_b/exp3_v2/verify_exp3v2_heldout.py\", line 19, in <module>\n    from jsonschema import Draft202012Validator, FormatChecker\nModuleNotFoundError: No module named 'jsonschema'\n",
+  "diagnostic_signal_inspected": false,
+  "real_path_snapshot_before": {
+    "v2_workbook_count": 0,
+    "old_workbook_count": 0,
+    "v2_total_file_count": 0,
+    "old_total_file_count": 0,
+    "v2_attempt_log_sha256": "",
+    "old_attempt_log_sha256": ""
+  },
+  "real_path_snapshot_after": {
+    "v2_workbook_count": 0,
+    "old_workbook_count": 0,
+    "v2_total_file_count": 0,
+    "old_total_file_count": 0,
+    "v2_attempt_log_sha256": "",
+    "old_attempt_log_sha256": ""
+  }
+}
