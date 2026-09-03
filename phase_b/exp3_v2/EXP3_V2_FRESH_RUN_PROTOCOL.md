@@ -768,15 +768,15 @@ actions. Checking an item early is prohibited.
       `exp3-v2-harness-frozen-003`; local and remote targets agree.
 - [x] Revision 003 sentinel `EXP3V2-SENTINEL-001` executed once and failed
       end-to-end verification; its identity and seed are consumed.
-- [ ] Human reviews the Revision 004 non-simulation implementation and evidence.
-- [ ] Revision 004 harness manifest is finalized, committed, and tagged
+- [x] Human reviews the Revision 004 non-simulation implementation and evidence.
+- [x] Revision 004 harness manifest is finalized, committed, and tagged
       `exp3-v2-harness-frozen-004`; local and remote targets agree.
-- [ ] The Revision 004 end-to-end sentinel passes once from the exact clean
+- [x] The Revision 004 end-to-end sentinel passes once from the exact clean
       harness tag, with restoration and cleanup evidence.
-- [ ] Real case plan changes only from `PRE_FREEZE_DRAFT` to
+- [x] Real case plan changes only from `PRE_FREEZE_DRAFT` to
       `FROZEN_BEFORE_GENERATION` after sentinel PASS.
-- [ ] Human reviews sentinel evidence and the final freeze candidate.
-- [ ] Final manifest is committed and tagged `exp3-v2-heldout-frozen`; local
+- [x] Human reviews sentinel evidence and the final freeze candidate.
+- [x] Final manifest is committed and tagged `exp3-v2-heldout-frozen`; local
       and remote targets agree, the real attempt log is empty, and real V2
       workbook count is zero.
 - [ ] A separate explicit human authorization is received before
@@ -798,8 +798,9 @@ records. That future held-out freeze is distinct from the protocol freeze.
 
 The deterministic allocation, runtime identity, shared-engine implementation,
 schemas, templates, verifier, and non-simulation regression tests are prepared.
-The harness is not yet frozen, the V2 sentinel has not run, and the final
-held-out boundary does not yet exist. This draft authorizes no simulation.
+Harness Revision 004 is frozen and its one authorized sentinel has passed. The
+final held-out boundary does not yet exist: its candidate remains subject to
+human review, commit, and tag. This draft authorizes no simulation.
 
 ## 19. Prospective harness Revision 002
 
@@ -889,7 +890,7 @@ verification failed and no retry occurred. No scientific seed was consumed and
 no real EXP3_V2 workbook was produced. The permanent record and byte-identical
 available evidence are stored in the Revision 003 sentinel-failure artifacts.
 
-## 21. Prospective harness Revision 004
+## 21. Frozen harness Revision 004
 
 Revision 004 corrects two non-scientific harness defects found by the Revision
 003 sentinel. The wrapper now receives an explicit Python executable and, before
@@ -905,14 +906,54 @@ finite scalar doubles. In particular, the binary64 value `1/60` is serialized
 as `0.016666666666666666`, round-trips exactly, and remains within the verifier
 tolerance. Revision 003's `0.016667` CSV is immutable.
 
-Revision 004 uses draft manifest
-`EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json`, status `PRE_FREEZE_DRAFT`, and
-reserves tag `exp3-v2-harness-frozen-004` without creating it. Its new eligible
-sentinel is `EXP3V2-SENTINEL-002`, prospective non-scientific seed `987654322`.
+Revision 004 uses manifest
+`EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json`, status
+`HARNESS_FROZEN_FOR_SENTINEL`, and immutable tag
+`exp3-v2-harness-frozen-004` at commit
+`258f629f07aad84b6186381fa6a1dab52401bd2f`. Its authorized sentinel was
+`EXP3V2-SENTINEL-002`, non-scientific seed `987654322`.
 `EXP3V2-SENTINEL-001` and seed `987654321` are consumed and ineligible for
 reuse. All 30 scientific IDs and seed allocations, the case-plan bytes,
 scientific settings, eight-file runtime bundle, and `.slxc` exclusion are
-unchanged. This draft authorizes no sentinel or scientific generation.
+unchanged.
+
+The sentinel ran once from a clean worktree of the exact Revision 004 tag. It
+called `rng` once and `sim` once, produced a technically valid throwaway
+workbook of 1,704,419 bytes and `3001 × 54`, and completed the verifier,
+numeric round trip, model restoration, file-generation restoration, runtime
+isolation, source/real-path non-interference, and cleanup checks with `PASS`.
+The workbook SHA-256 was
+`337f3e709554dfa95a52fd0bab8bedbacb71a400378bc709a22538380d94fbd6`.
+Cleanup deleted the throwaway root, so no sentinel workbook is retained. No
+scientific seed was consumed and no real EXP3_V2 workbook was created.
+
+## 22. F5 sentinel-evidence integration and final-freeze candidate
+
+The byte-identical persistent sentinel records are
+`EXP3_V2_SENTINEL_EVIDENCE.json` (SHA-256
+`daf67273138bf192d77e62dd56bc8598a90070baaf4f8714a8851ed3ca9f3a86`)
+and `EXP3_V2_SENTINEL_EVIDENCE.md` (SHA-256
+`84823762a9c1109b565afe0c319999a89eb033016ab523d33896317129ceb227`).
+They bind Revision 004, its exact tag, commit and manifest, the sentinel ID and
+seed, the workbook size/hash/dimensions, the pinned Python and MATLAB runtimes,
+and every required PASS/restoration/isolation result. The workbook itself is
+not retained or inspected during F5.
+
+F5 produced `EXP3_V2_FREEZE_MANIFEST.json` as a non-self-referential review
+candidate with status `PENDING_HUMAN_FINAL_FREEZE` and `tag_created: false`.
+After the explicit human approval `APPROVO IL FINAL FREEZE EXP3_V2` on
+2026-09-03, F6 changes only the case-plan status to
+`FROZEN_BEFORE_GENERATION`, completes the reviewed artifact hashes, records
+`tag_created: true`, and freezes the same manifest at annotated tag
+`exp3-v2-heldout-frozen`. The final manifest deliberately excludes its own
+hash; the annotated Git tag supplies the immutable commit binding.
+
+The final boundary includes the immutable Revision 004 harness, both sentinel
+evidence files, and only the reviewed post-sentinel/finalization contract
+changes. No scientific case setting, ID, seed, replacement, or case ordering is
+changed. F5 and F6 call neither `rng` nor `sim`, execute no sentinel, create no
+workbook, and start no scientific generation. The next gate remains a separate
+explicit authorization for `EXP3V2-N-001` attempt 0.
 
 ---
 

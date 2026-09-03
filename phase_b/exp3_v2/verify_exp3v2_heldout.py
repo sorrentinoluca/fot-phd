@@ -144,6 +144,15 @@ TIME_TOLERANCE = 1e-10
 ACTIVE_SENTINEL_ID = "EXP3V2-SENTINEL-002"
 ACTIVE_SENTINEL_SEED = 987654322
 CONSUMED_SENTINELS = {"EXP3V2-SENTINEL-001": 987654321}
+FINAL_CANDIDATE_STATUS = "PENDING_HUMAN_FINAL_FREEZE"
+SENTINEL_EVIDENCE_HASHES = {
+    "EXP3_V2_SENTINEL_EVIDENCE.json": (
+        "daf67273138bf192d77e62dd56bc8598a90070baaf4f8714a8851ed3ca9f3a86"
+    ),
+    "EXP3_V2_SENTINEL_EVIDENCE.md": (
+        "84823762a9c1109b565afe0c319999a89eb033016ab523d33896317129ceb227"
+    ),
+}
 MANIFEST_FIELDS = (
     "physical_case_id",
     "fault/status",
@@ -255,6 +264,11 @@ REQUIRED_HARNESS_PATHS = {
 REQUIRED_HARNESS_PATHS.update(
     json.loads((ROOT / "phase_b/PHASE_B_PROTOCOL_HASHES.json").read_text())["artifacts"]
 )
+FINAL_REQUIRED_PATHS = REQUIRED_HARNESS_PATHS | {
+    "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json",
+    "phase_b/exp3_v2/EXP3_V2_SENTINEL_EVIDENCE.json",
+    "phase_b/exp3_v2/EXP3_V2_SENTINEL_EVIDENCE.md",
+}
 
 
 def sha256_file(path: Path) -> str:
@@ -556,7 +570,11 @@ def validate_manifest_template(rows: list[dict[str, str]]) -> list[str]:
 
 
 def validate_freeze_manifest(
-    path: Path, allowed_statuses: set[str], required_paths: set[str] | None = None
+    path: Path,
+    allowed_statuses: set[str],
+    required_paths: set[str] | None = None,
+    *,
+    historical_boundary: bool = False,
 ) -> tuple[list[str], dict[str, Any]]:
     errors: list[str] = []
     try:
@@ -572,6 +590,8 @@ def validate_freeze_manifest(
     artifacts = payload.get("artifacts")
     if not isinstance(artifacts, list):
         return errors + ["freeze manifest artifacts must be an array"], payload
+    if payload.get("artifact_count") != len(artifacts):
+        errors.append("freeze manifest artifact count mismatch")
     paths = [row.get("path") for row in artifacts if isinstance(row, dict)]
     if len(paths) != len(set(paths)):
         errors.append("freeze manifest has duplicate artifact paths")
@@ -690,14 +710,92 @@ def validate_freeze_manifest(
     if path.name == "EXP3_V2_FREEZE_MANIFEST.json":
         if payload.get("freeze_tag") != "exp3-v2-heldout-frozen":
             errors.append("final freeze tag mismatch")
+        if (
+            payload.get("status") == FINAL_CANDIDATE_STATUS
+            and payload.get("tag_created") is not False
+        ):
+            errors.append("final review candidate must record tag_created=false")
+        if (
+            payload.get("status") == "FROZEN_BEFORE_GENERATION"
+            and payload.get("tag_created") is not True
+        ):
+            errors.append("final frozen manifest must record tag_created=true")
+        if payload.get("status") == "FROZEN_BEFORE_GENERATION":
+            if payload.get("freeze_human_approval") != (
+                "APPROVO IL FINAL FREEZE EXP3_V2"
+            ):
+                errors.append("final freeze human approval mismatch")
+            if payload.get("freeze_human_approval_date") != "2026-09-03":
+                errors.append("final freeze human approval date mismatch")
         if payload.get("created_before_real_generation") is not True:
             errors.append("final manifest is not pre-generation")
         if payload.get("sentinel_validation_passed") is not True:
             errors.append("final manifest does not bind sentinel PASS")
         if payload.get("v2_workbooks_at_freeze") != 0:
             errors.append("final manifest workbook count must be zero")
+        if payload.get("real_attempt_log_present") is not False:
+            errors.append("final manifest real attempt-log state mismatch")
+        if payload.get("scientific_seeds_consumed") != 0:
+            errors.append("final manifest scientific seed count must be zero")
         if not artifacts:
             errors.append("final freeze manifest artifacts are empty")
+        if payload.get("harness_artifact_count") != len(REQUIRED_HARNESS_PATHS):
+            errors.append("final manifest harness artifact count mismatch")
+        if payload.get("harness_boundary") != {
+            "revision": "004",
+            "tag": "exp3-v2-harness-frozen-004",
+            "commit": "258f629f07aad84b6186381fa6a1dab52401bd2f",
+            "manifest_sha256": (
+                "dacc810bd29203d3d701e3613a9ce8c72dc6423aa475f5c4e8c8b4989b40e139"
+            ),
+        }:
+            errors.append("final manifest harness boundary mismatch")
+        if payload.get("sentinel_evidence") != {
+            "physical_case_id": ACTIVE_SENTINEL_ID,
+            "seed": ACTIVE_SENTINEL_SEED,
+            "json_path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_EVIDENCE.json",
+            "json_sha256": SENTINEL_EVIDENCE_HASHES["EXP3_V2_SENTINEL_EVIDENCE.json"],
+            "markdown_path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_EVIDENCE.md",
+            "markdown_sha256": SENTINEL_EVIDENCE_HASHES["EXP3_V2_SENTINEL_EVIDENCE.md"],
+            "workbook_sha256": (
+                "337f3e709554dfa95a52fd0bab8bedbacb71a400378bc709a22538380d94fbd6"
+            ),
+            "workbook_size_bytes": 1704419,
+            "rows": 3001,
+            "cols": 54,
+            "verifier": "PASS",
+            "round_trip": "PASS",
+            "restoration": "PASS",
+            "isolation": "PASS",
+            "real_path_non_interference": "PASS",
+            "throwaway_cleanup": "PASS",
+        }:
+            errors.append("final manifest sentinel evidence binding mismatch")
+        if payload.get("case_plan") != {
+            "path": "phase_b/exp3_v2/exp3v2_case_plan.json",
+            "sha256": (
+                "3d102383b9eb8d5de14bffef862c2b5715d8bbcf05359decb5fdf31efe31a014"
+                if payload.get("status") == FINAL_CANDIDATE_STATUS
+                else "84d5af21847033fe4a5924f42fca0fb772201116a9759d6d85f8356929f2b21e"
+            ),
+            "status": (
+                "PRE_FREEZE_DRAFT"
+                if payload.get("status") == FINAL_CANDIDATE_STATUS
+                else "FROZEN_BEFORE_GENERATION"
+            ),
+            "bytes_unchanged_from_harness": (
+                payload.get("status") == FINAL_CANDIDATE_STATUS
+            ),
+        }:
+            errors.append("final manifest case-plan binding mismatch")
+        pending = payload.get("status") == FINAL_CANDIDATE_STATUS
+        if payload.get("finalization_pending") != {
+            "human_review": pending,
+            "case_plan_status_transition": pending,
+            "commit": pending,
+            "annotated_tag": pending,
+        }:
+            errors.append("final manifest pending-finalization contract mismatch")
     manifest_relative = path.resolve().relative_to(ROOT).as_posix()
     if manifest_relative in paths:
         errors.append("freeze manifest illegally contains its own hash")
@@ -713,7 +811,7 @@ def validate_freeze_manifest(
             errors.append(f"invalid freeze artifact hash: {relative}")
         elif not (ROOT / relative).is_file():
             errors.append(f"missing freeze artifact: {relative}")
-        elif sha256_file(ROOT / relative) != digest:
+        elif not historical_boundary and sha256_file(ROOT / relative) != digest:
             errors.append(f"freeze artifact hash mismatch: {relative}")
         if relative.as_posix() == "tep_exp3_heldout/exp3_attempt_log.json" or (
             relative.parts[:2] == ("tep_parent_a0413e16", "simulator")
@@ -724,16 +822,30 @@ def validate_freeze_manifest(
         tag = payload.get("freeze_tag")
         try:
             target = git("rev-parse", f"{tag}^{{}}")
-            if target != git("rev-parse", "HEAD"):
-                errors.append("freeze tag target does not equal HEAD")
+            expected_target = (
+                "258f629f07aad84b6186381fa6a1dab52401bd2f"
+                if historical_boundary
+                and path.name == "EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json"
+                else git("rev-parse", "HEAD")
+            )
+            if target != expected_target:
+                errors.append("freeze tag target does not equal expected commit")
         except Exception as exc:
             errors.append(f"freeze tag cannot be verified: {exc}")
+        artifact_hashes = {
+            row["path"]: row["sha256"]
+            for row in artifacts
+            if isinstance(row, dict) and set(row) == {"path", "sha256"}
+        }
         for relative in paths:
             try:
-                tagged_bytes = git_bytes("show", f"HEAD:{relative}")
-                if hashlib.sha256(tagged_bytes).hexdigest() != sha256_file(
-                    ROOT / relative
-                ):
+                tagged_bytes = git_bytes("show", f"{tag}:{relative}")
+                comparison_hash = (
+                    artifact_hashes.get(relative)
+                    if historical_boundary
+                    else sha256_file(ROOT / relative)
+                )
+                if hashlib.sha256(tagged_bytes).hexdigest() != comparison_hash:
                     errors.append(f"Git tree/worktree artifact mismatch: {relative}")
             except Exception as exc:
                 errors.append(
@@ -1047,6 +1159,82 @@ def validate_materialized(
     return errors
 
 
+def validate_sentinel_evidence() -> list[str]:
+    errors: list[str] = []
+    for name, expected_hash in SENTINEL_EVIDENCE_HASHES.items():
+        path = SCRIPT_DIR / name
+        if not path.is_file():
+            errors.append(f"missing sentinel evidence: {name}")
+        elif sha256_file(path) != expected_hash:
+            errors.append(f"sentinel evidence hash mismatch: {name}")
+    json_path = SCRIPT_DIR / "EXP3_V2_SENTINEL_EVIDENCE.json"
+    if not json_path.is_file():
+        return errors
+    try:
+        evidence = json.loads(json_path.read_text())
+    except Exception as exc:
+        return errors + [f"sentinel evidence cannot be read: {exc}"]
+    expected = {
+        "status": "PASS",
+        "harness_revision": "004",
+        "harness_tag": "exp3-v2-harness-frozen-004",
+        "harness_commit": "258f629f07aad84b6186381fa6a1dab52401bd2f",
+        "harness_manifest_sha256": (
+            "dacc810bd29203d3d701e3613a9ce8c72dc6423aa475f5c4e8c8b4989b40e139"
+        ),
+        "physical_case_id": ACTIVE_SENTINEL_ID,
+        "seed": ACTIVE_SENTINEL_SEED,
+        "rng_algorithm": "twister",
+        "workbook_sha256": (
+            "337f3e709554dfa95a52fd0bab8bedbacb71a400378bc709a22538380d94fbd6"
+        ),
+        "workbook_size_bytes": 1704419,
+        "rows": 3001,
+        "cols": 54,
+        "time_axis_check": "PASS",
+        "finiteness_check": "PASS",
+        "round_trip_check": "PASS",
+        "verifier_output": "PASS: Experiment 3 V2 sentinel verification succeeded.",
+        "runtime_materialization": "PASS",
+        "throwaway_cleanup": "PASS",
+    }
+    for field, value in expected.items():
+        if evidence.get(field) != value:
+            errors.append(f"sentinel evidence {field} mismatch")
+    for field in (
+        "stopfcn_restored",
+        "return_workspace_outputs_restored",
+        "dirty_state_restored",
+        "model_sha256_restored",
+        "injected_error_restoration_test",
+        "source_simulator_unchanged",
+        "file_generation_isolated",
+        "file_generation_configuration_restored",
+        "real_path_non_interference",
+    ):
+        if evidence.get(field) is not True:
+            errors.append(f"sentinel evidence {field} is not true")
+    if evidence.get("python_runtime") != {
+        "executable_path": "/opt/anaconda3/bin/python3.13",
+        "python_version": "3.13.9",
+        "jsonschema_version": "4.25.0",
+        "openpyxl_version": "3.1.5",
+    }:
+        errors.append("sentinel evidence Python runtime mismatch")
+    if evidence.get("runtime") != EXPECTED_RUNTIME:
+        errors.append("sentinel evidence MATLAB/Simulink runtime mismatch")
+    harness = json.loads(
+        (SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json").read_text()
+    )
+    if evidence.get("artifact_hashes") != harness.get("artifacts"):
+        errors.append("sentinel evidence harness artifact hashes mismatch")
+    if evidence.get("external_runtime_dependencies") != harness.get(
+        "external_runtime_dependencies"
+    ):
+        errors.append("sentinel evidence external runtime inventory mismatch")
+    return errors
+
+
 def prefreeze_checks(
     case_plan_path: Path,
     harness_manifest_path: Path,
@@ -1055,6 +1243,11 @@ def prefreeze_checks(
 ) -> list[str]:
     errors: list[str] = []
     plan = json.loads(case_plan_path.read_text())
+    final = json.loads(final_manifest_path.read_text())
+    historical_harness = final.get("status") in {
+        FINAL_CANDIDATE_STATUS,
+        "FROZEN_BEFORE_GENERATION",
+    }
     errors.extend(validate_case_plan(plan))
     descriptor = json.loads((SCRIPT_DIR / "exp3v2_sentinel_case.json").read_text())
     errors.extend(validate_sentinel_descriptor(descriptor, plan))
@@ -1072,27 +1265,33 @@ def prefreeze_checks(
         harness_manifest_path,
         {"PRE_FREEZE_DRAFT", "HARNESS_FROZEN_FOR_SENTINEL"},
         REQUIRED_HARNESS_PATHS,
+        historical_boundary=historical_harness,
     )
     errors.extend(manifest_errors)
     errors.extend(validate_generator_contract(harness))
     if runtime_dir is not None:
         errors.extend(validate_runtime_directory(harness, runtime_dir))
     try:
-        final = json.loads(final_manifest_path.read_text())
         if final.get("status") not in {
             "PENDING_SENTINEL_VALIDATION",
+            FINAL_CANDIDATE_STATUS,
             "FROZEN_BEFORE_GENERATION",
         }:
             errors.append("final freeze manifest status mismatch")
-        if final.get("status") == "FROZEN_BEFORE_GENERATION":
+        if final.get("status") in {
+            FINAL_CANDIDATE_STATUS,
+            "FROZEN_BEFORE_GENERATION",
+        }:
             final_errors, _ = validate_freeze_manifest(
-                final_manifest_path, {"FROZEN_BEFORE_GENERATION"}
+                final_manifest_path, {final.get("status")}, FINAL_REQUIRED_PATHS
             )
             errors.extend(final_errors)
+            errors.extend(validate_sentinel_evidence())
             frozen_harness_errors, frozen_harness = validate_freeze_manifest(
                 harness_manifest_path,
                 {"HARNESS_FROZEN_FOR_SENTINEL"},
                 REQUIRED_HARNESS_PATHS,
+                historical_boundary=True,
             )
             errors.extend(frozen_harness_errors)
             harness_hashes = {
@@ -1102,9 +1301,11 @@ def prefreeze_checks(
                 row["path"]: row
                 for row in final.get("allowed_finalization_changes", [])
             }
+            observed_changes: set[str] = set()
             for relative, original_hash in harness_hashes.items():
                 observed_hash = sha256_file(ROOT / relative)
                 if observed_hash != original_hash:
+                    observed_changes.add(relative)
                     change = allowed.get(relative)
                     if (
                         not isinstance(change, dict)
@@ -1114,6 +1315,15 @@ def prefreeze_checks(
                         errors.append(
                             f"unreviewed harness artifact change after sentinel: {relative}"
                         )
+            if set(allowed) != observed_changes:
+                errors.append("allowed finalization change set mismatch")
+            expected_plan_status = (
+                "PRE_FREEZE_DRAFT"
+                if final.get("status") == FINAL_CANDIDATE_STATUS
+                else "FROZEN_BEFORE_GENERATION"
+            )
+            if plan.get("status") != expected_plan_status:
+                errors.append("case-plan status does not match final-freeze phase")
     except Exception as exc:
         errors.append(f"final freeze manifest cannot be read: {exc}")
     errors.extend(validate_history())

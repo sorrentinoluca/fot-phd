@@ -1,99 +1,51 @@
 {
-  "schema_version": "2.0",
-  "experiment": "Experiment 3 V2 — Prospective Fresh-Run Held-Out",
-  "status": "FROZEN_BEFORE_GENERATION",
-  "hash_algorithm": "SHA-256",
-  "freeze_tag": "exp3-v2-heldout-frozen",
-  "tag_created": true,
-  "freeze_human_approval": "APPROVO IL FINAL FREEZE EXP3_V2",
-  "freeze_human_approval_date": "2026-09-03",
-  "source_candidate_manifest_sha256": "695d09038fd2b010728dafc140b86f04e9084625b218af3a2b7edb5a63ff0f6c",
-  "created_before_real_generation": true,
-  "sentinel_validation_passed": true,
-  "v2_workbooks_at_freeze": 0,
-  "real_attempt_log_present": false,
-  "scientific_seeds_consumed": 0,
-  "harness_boundary": {
-    "revision": "004",
-    "tag": "exp3-v2-harness-frozen-004",
-    "commit": "258f629f07aad84b6186381fa6a1dab52401bd2f",
-    "manifest_sha256": "dacc810bd29203d3d701e3613a9ce8c72dc6423aa475f5c4e8c8b4989b40e139"
+  "schema_version": "1.0",
+  "status": "PASS",
+  "harness_revision": "004",
+  "harness_tag": "exp3-v2-harness-frozen-004",
+  "harness_commit": "258f629f07aad84b6186381fa6a1dab52401bd2f",
+  "harness_manifest_sha256": "dacc810bd29203d3d701e3613a9ce8c72dc6423aa475f5c4e8c8b4989b40e139",
+  "physical_case_id": "EXP3V2-SENTINEL-002",
+  "seed": 9.87654322E+8,
+  "rng_algorithm": "twister",
+  "python_runtime": {
+    "executable_path": "/opt/anaconda3/bin/python3.13",
+    "python_version": "3.13.9",
+    "jsonschema_version": "4.25.0",
+    "openpyxl_version": "3.1.5"
   },
-  "harness_artifact_count": 114,
-  "sentinel_evidence": {
-    "physical_case_id": "EXP3V2-SENTINEL-002",
-    "seed": 987654322,
-    "json_path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_EVIDENCE.json",
-    "json_sha256": "daf67273138bf192d77e62dd56bc8598a90070baaf4f8714a8851ed3ca9f3a86",
-    "markdown_path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_EVIDENCE.md",
-    "markdown_sha256": "84823762a9c1109b565afe0c319999a89eb033016ab523d33896317129ceb227",
-    "workbook_sha256": "337f3e709554dfa95a52fd0bab8bedbacb71a400378bc709a22538380d94fbd6",
-    "workbook_size_bytes": 1704419,
-    "rows": 3001,
-    "cols": 54,
-    "verifier": "PASS",
-    "round_trip": "PASS",
-    "restoration": "PASS",
-    "isolation": "PASS",
-    "real_path_non_interference": "PASS",
-    "throwaway_cleanup": "PASS"
+  "runtime": {
+    "matlab_version_full": "25.2.0.3312555 (R2025b) Update 6",
+    "matlab_release": "2025b",
+    "matlab_build": "3312555",
+    "matlab_product_date": "28-Jul-2025",
+    "matlab_runtime_update_date": "June 30, 2026",
+    "simulink_version": "25.2",
+    "simulink_release": "(R2025b)",
+    "simulink_product_date": "28-Jul-2025",
+    "architecture": "MACA64",
+    "matlabroot": "/Applications/MATLAB_R2025b.app"
   },
-  "case_plan": {
-    "path": "phase_b/exp3_v2/exp3v2_case_plan.json",
-    "sha256": "84d5af21847033fe4a5924f42fca0fb772201116a9759d6d85f8356929f2b21e",
-    "status": "FROZEN_BEFORE_GENERATION",
-    "bytes_unchanged_from_harness": false
-  },
-  "finalization_pending": {
-    "human_review": false,
-    "case_plan_status_transition": false,
-    "commit": false,
-    "annotated_tag": false
-  },
-  "supersedes": {
-    "exp3_freeze_commit": "b02e93f92bf6fa85a4fd0a2e010bac365a3a7c89",
-    "exp3_freeze_tag": "exp3-heldout-frozen",
-    "hotfix_001_commit": "cdba0202435d1c97ea79cfff586e59534ce9baad",
-    "hotfix_002_commit": "28130023a34eda778c04a001a9f631404bd6b9a6",
-    "hotfix_002_tag": "exp3-post-freeze-hotfix-002",
-    "hotfix_003_commit": "0d869720e6ac4d1b396b3b9d731463324d296e26",
-    "hotfix_003_tag": "exp3-post-freeze-hotfix-003",
-    "hotfix_004_commit": "1cad481839475afaa6ad784bba25c1c45bb260ed",
-    "hotfix_004_tag": "exp3-post-freeze-hotfix-004",
-    "aborted_harness_commit": "c96519f46291fcf7da5fc64f1d71cd2934816600",
-    "aborted_harness_tag": "exp3-v2-harness-frozen",
-    "revision_002_commit": "261e54b10fe2c0a8897627ff7626c1a2d05672f8",
-    "revision_002_tag": "exp3-v2-harness-frozen-002",
-    "revision_002_manifest_sha256": "c552a6f474491243f549f9588eec52d61fe65922ef8734ff843ef75745710019",
-    "revision_003_commit": "bce8f0e2f24db7033b7ddbecc38e1bfaa74c85a6",
-    "revision_003_tag": "exp3-v2-harness-frozen-003",
-    "revision_003_manifest_sha256": "e9db49a5a71a4ffbb83213f81224e54569d85c841a31ca492c29a0fb32a62e03",
-    "revision_003_sentinel_outcome": "END_TO_END_VERIFICATION_FAILED"
-  },
-  "allowed_finalization_changes": [
-    {
-      "path": "phase_b/exp3_v2/EXP3_V2_FRESH_RUN_PROTOCOL.md",
-      "before_sha256": "51030ab4111110e11b8474c40f6d7d58bf7019b8a172c81fce60f4a2ed8f164c",
-      "after_sha256": "39dc9a639d57bd0b0ccc495e902339887018743e489dce919fd0cad3cb792977"
-    },
-    {
-      "path": "phase_b/exp3_v2/exp3v2_case_plan.json",
-      "before_sha256": "3d102383b9eb8d5de14bffef862c2b5715d8bbcf05359decb5fdf31efe31a014",
-      "after_sha256": "84d5af21847033fe4a5924f42fca0fb772201116a9759d6d85f8356929f2b21e"
-    },
-    {
-      "path": "phase_b/exp3_v2/verify_exp3v2_heldout.py",
-      "before_sha256": "ae2307858d8b26ea6e24cd0b4369c237f8b67940af0bd09f0f91cb5a37d69ad1",
-      "after_sha256": "69b55f5beda1291da28f4779b4f8edc2f9db05d38c6f9c6886d4eb531ecb2afa"
-    },
-    {
-      "path": "phase_b/tests/test_exp3v2_pre_freeze.py",
-      "before_sha256": "15a742a5321190cb3d0382fbb19e020f29df1cdb81e95a72ceae92225543d0d7",
-      "after_sha256": "6e1d9e58c5b5e1abeda31ff858e35b8f312eaa3eeed6243cce867ed5d533a956"
-    }
-  ],
-  "artifact_count": 117,
-  "artifacts": [
+  "workbook_sha256": "337f3e709554dfa95a52fd0bab8bedbacb71a400378bc709a22538380d94fbd6",
+  "workbook_size_bytes": 1.704419E+6,
+  "rows": 3001,
+  "cols": 54,
+  "time_axis_check": "PASS",
+  "finiteness_check": "PASS",
+  "round_trip_check": "PASS",
+  "verifier_output": "PASS: Experiment 3 V2 sentinel verification succeeded.",
+  "stopfcn_restored": true,
+  "return_workspace_outputs_restored": true,
+  "dirty_state_restored": true,
+  "model_sha256_restored": true,
+  "injected_error_restoration_test": true,
+  "runtime_materialization": "PASS",
+  "source_simulator_unchanged": true,
+  "file_generation_isolated": true,
+  "file_generation_configuration_restored": true,
+  "real_path_non_interference": true,
+  "throwaway_cleanup": "PASS",
+  "artifact_hashes": [
     {
       "path": ".gitignore",
       "sha256": "45e201c551ef431359e683290e23f2ddb9e788fa3082ff6fe30bf18abca7982e"
@@ -224,7 +176,7 @@
     },
     {
       "path": "phase_b/exp3_v2/EXP3_V2_FRESH_RUN_PROTOCOL.md",
-      "sha256": "39dc9a639d57bd0b0ccc495e902339887018743e489dce919fd0cad3cb792977"
+      "sha256": "51030ab4111110e11b8474c40f6d7d58bf7019b8a172c81fce60f4a2ed8f164c"
     },
     {
       "path": "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST.json",
@@ -237,10 +189,6 @@
     {
       "path": "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json",
       "sha256": "e9db49a5a71a4ffbb83213f81224e54569d85c841a31ca492c29a0fb32a62e03"
-    },
-    {
-      "path": "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json",
-      "sha256": "dacc810bd29203d3d701e3613a9ce8c72dc6423aa475f5c4e8c8b4989b40e139"
     },
     {
       "path": "phase_b/exp3_v2/EXP3_V2_REV002_EXTERNAL_DRIVER_ATTEMPT_LOG_ARCHIVE.json",
@@ -287,14 +235,6 @@
       "sha256": "ca51663b9d721c5b109b7bfbe8a815b8e814f77cd2911c3f1587be998e6783b1"
     },
     {
-      "path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_EVIDENCE.json",
-      "sha256": "daf67273138bf192d77e62dd56bc8598a90070baaf4f8714a8851ed3ca9f3a86"
-    },
-    {
-      "path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_EVIDENCE.md",
-      "sha256": "84823762a9c1109b565afe0c319999a89eb033016ab523d33896317129ceb227"
-    },
-    {
       "path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.json",
       "sha256": "42993fa5f437afff8207bedede0ba7e1ed34ce67059a46f7f16692cf6b27e312"
     },
@@ -332,7 +272,7 @@
     },
     {
       "path": "phase_b/exp3_v2/exp3v2_case_plan.json",
-      "sha256": "84d5af21847033fe4a5924f42fca0fb772201116a9759d6d85f8356929f2b21e"
+      "sha256": "3d102383b9eb8d5de14bffef862c2b5715d8bbcf05359decb5fdf31efe31a014"
     },
     {
       "path": "phase_b/exp3_v2/exp3v2_manifest_template.csv",
@@ -428,7 +368,7 @@
     },
     {
       "path": "phase_b/exp3_v2/verify_exp3v2_heldout.py",
-      "sha256": "69b55f5beda1291da28f4779b4f8edc2f9db05d38c6f9c6886d4eb531ecb2afa"
+      "sha256": "ae2307858d8b26ea6e24cd0b4369c237f8b67940af0bd09f0f91cb5a37d69ad1"
     },
     {
       "path": "phase_b/exp3_v2/write_exp3v2_sentinel_manifest.m",
@@ -552,7 +492,7 @@
     },
     {
       "path": "phase_b/tests/test_exp3v2_pre_freeze.py",
-      "sha256": "6e1d9e58c5b5e1abeda31ff858e35b8f312eaa3eeed6243cce867ed5d533a956"
+      "sha256": "15a742a5321190cb3d0382fbb19e020f29df1cdb81e95a72ceae92225543d0d7"
     },
     {
       "path": "phase_b/tests/test_exp3v2_runtime_materialization.py",
@@ -561,6 +501,64 @@
     {
       "path": "requirements.txt",
       "sha256": "a0953ba19df3a9fa7848fa46d59399aef0ac16840dccfdbb1dc7d243cfc0ad88"
+    }
+  ],
+  "external_runtime_dependencies": [
+    {
+      "path": "Mode1xInitial.mat",
+      "size_bytes": 13592,
+      "sha256": "40eaebc92badb04ad026e358cfd28ec9c778fcf2d24a1b8f5d85565854da2747",
+      "role": "Mode 1 initial-state MAT file loaded by Mode_1_Init.m",
+      "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; MATLAB dependency analyzer"
+    },
+    {
+      "path": "Mode_1_Init.m",
+      "size_bytes": 2270,
+      "sha256": "9dfb4e404c8c982c035fe47472020443b0a1d3f37b55425219968489d92d8933",
+      "role": "MultiLoop_mode1 PreLoadFcn initialization script",
+      "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; model callback and MATLAB dependency analyzer"
+    },
+    {
+      "path": "MultiLoop_mode1.mdl",
+      "size_bytes": 186660,
+      "sha256": "d2f6659f65935021d4b1813e7189be02e7ae9f5639b794e8edc4f2f3c5cddba8",
+      "role": "root Simulink model",
+      "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; designated root model"
+    },
+    {
+      "path": "TElib.mdl",
+      "size_bytes": 12702,
+      "sha256": "4605de6ca0e6da67626e2be6d5f328c735f8bf5a5a730dc67f558a3f1dabddba",
+      "role": "linked Discrete PI and Vel PI Simulink library",
+      "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; model references and MATLAB dependency analyzer"
+    },
+    {
+      "path": "TEplot.m",
+      "size_bytes": 4871,
+      "sha256": "f10cc8751c1dd99c2efe989460871e701704bc8bde901d83a13834327e75b1be",
+      "role": "model StopFcn callback, verified before temporary suppression",
+      "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; model callback and MATLAB dependency analyzer"
+    },
+    {
+      "path": "temexd_mod.c",
+      "size_bytes": 195118,
+      "sha256": "0da41d939e5ab7ba122d7b70c124368ee0882fce40e775dba5d180e7a7e24e5e",
+      "role": "TE plant S-function source",
+      "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; MATLAB dependency analyzer"
+    },
+    {
+      "path": "temexd_mod.mexmaca64",
+      "size_bytes": 90232,
+      "sha256": "68f632388cb698dd7b8c595000bc03c2e1d19200546b9d4357df90e3fc93af0d",
+      "role": "arm64 macOS executable TE plant S-function",
+      "provenance": "locally built pinned binary for MATLAB R2025b/MACA64; MATLAB dependency analyzer"
+    },
+    {
+      "path": "teprob_mod.h",
+      "size_bytes": 6907,
+      "sha256": "e8d07857030a837443ce947361335f2e6f2ade5d2fa54a85bcc5c4a6d9afe939",
+      "role": "transitive build header included by temexd_mod.c",
+      "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; static C include inspection"
     }
   ]
 }

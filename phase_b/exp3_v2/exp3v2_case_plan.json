@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "status": "PRE_FREEZE_DRAFT",
+  "status": "FROZEN_BEFORE_GENERATION",
   "experiment": "Experiment 3 V2 — Prospective Fresh-Run Held-Out",
   "scope": "prospective fresh-run replication on the same four fault classes",
   "supersedes": "Experiment 3 closed as CLOSED_INCOMPLETE_ATTEMPTS_EXHAUSTED",

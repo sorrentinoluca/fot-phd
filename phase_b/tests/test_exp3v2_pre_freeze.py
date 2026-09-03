@@ -105,9 +105,9 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
         }
         return verify.validate_attempt_log(payload, self.plan, self.schema)
 
-    def test_case_plan_is_exactly_canonical_and_still_draft(self) -> None:
+    def test_case_plan_is_exactly_canonical_and_final_frozen(self) -> None:
         self.assertEqual(verify.validate_case_plan(self.plan), [])
-        self.assertEqual(self.plan["status"], "PRE_FREEZE_DRAFT")
+        self.assertEqual(self.plan["status"], "FROZEN_BEFORE_GENERATION")
         self.assertEqual(self.plan["cases"], verify.canonical_cases())
         self.assertEqual(
             Counter(row["condition"] for row in self.plan["cases"]),
@@ -337,6 +337,7 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
             "`exp3-v2-harness-frozen-003`",
             "`exp3-v2-harness-frozen-004`",
             "`exp3-v2-heldout-frozen`",
+            "`PENDING_HUMAN_FINAL_FREEZE`",
         ):
             self.assertIn(token, self.protocol)
         self.assertNotIn("preregistered", self.protocol.lower())
@@ -422,6 +423,65 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
             "MultiLoop_mode1.slxc",
             {row["path"] for row in harness["external_runtime_dependencies"]},
         )
+
+    def test_revision_004_sentinel_evidence_and_final_freeze(self) -> None:
+        evidence_hashes = {
+            "EXP3_V2_SENTINEL_EVIDENCE.json": (
+                "daf67273138bf192d77e62dd56bc8598a90070baaf4f8714a8851ed3ca9f3a86"
+            ),
+            "EXP3_V2_SENTINEL_EVIDENCE.md": (
+                "84823762a9c1109b565afe0c319999a89eb033016ab523d33896317129ceb227"
+            ),
+        }
+        for name, digest in evidence_hashes.items():
+            self.assertEqual(sha256_file(V2 / name), digest)
+        self.assertEqual(verify.validate_sentinel_evidence(), [])
+
+        evidence = json.loads((V2 / "EXP3_V2_SENTINEL_EVIDENCE.json").read_text())
+        self.assertEqual(evidence["harness_revision"], "004")
+        self.assertEqual(evidence["physical_case_id"], "EXP3V2-SENTINEL-002")
+        self.assertEqual(evidence["seed"], 987654322)
+        self.assertEqual((evidence["rows"], evidence["cols"]), (3001, 54))
+        self.assertEqual(evidence["workbook_size_bytes"], 1704419)
+        self.assertEqual(
+            evidence["workbook_sha256"],
+            "337f3e709554dfa95a52fd0bab8bedbacb71a400378bc709a22538380d94fbd6",
+        )
+
+        final = json.loads(FINAL_PATH.read_text())
+        self.assertEqual(final["status"], "FROZEN_BEFORE_GENERATION")
+        self.assertEqual(final["freeze_tag"], "exp3-v2-heldout-frozen")
+        self.assertTrue(final["tag_created"])
+        self.assertTrue(final["sentinel_validation_passed"])
+        self.assertEqual(final["v2_workbooks_at_freeze"], 0)
+        self.assertEqual(final["case_plan"]["status"], "FROZEN_BEFORE_GENERATION")
+        self.assertEqual(
+            final["case_plan"]["sha256"],
+            "84d5af21847033fe4a5924f42fca0fb772201116a9759d6d85f8356929f2b21e",
+        )
+        self.assertFalse(final["case_plan"]["bytes_unchanged_from_harness"])
+        self.assertEqual(set(final["finalization_pending"].values()), {False})
+        self.assertEqual(
+            final["freeze_human_approval"], "APPROVO IL FINAL FREEZE EXP3_V2"
+        )
+        self.assertEqual(
+            {row["path"] for row in final["artifacts"]},
+            verify.FINAL_REQUIRED_PATHS,
+        )
+        self.assertNotIn(
+            "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST.json",
+            verify.FINAL_REQUIRED_PATHS,
+        )
+        self.assertEqual(
+            {row["path"] for row in final["allowed_finalization_changes"]},
+            {
+                "phase_b/exp3_v2/EXP3_V2_FRESH_RUN_PROTOCOL.md",
+                "phase_b/exp3_v2/exp3v2_case_plan.json",
+                "phase_b/exp3_v2/verify_exp3v2_heldout.py",
+                "phase_b/tests/test_exp3v2_pre_freeze.py",
+            },
+        )
+        self.assertEqual(list(ROOT.rglob("EXP3V2-SENTINEL-002__attempt-0.xlsx")), [])
 
     def test_preexecution_incident_chain_is_distinct_and_archived(self) -> None:
         record = json.loads(
