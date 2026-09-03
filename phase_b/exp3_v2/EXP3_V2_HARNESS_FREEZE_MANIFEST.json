@@ -1,10 +1,13 @@
 {
   "schema_version": "1.0",
   "experiment": "Experiment 3 V2 — Prospective Fresh-Run Held-Out",
-  "status": "PRE_FREEZE_DRAFT",
+  "status": "HARNESS_FROZEN_FOR_SENTINEL",
   "hash_algorithm": "SHA-256",
   "freeze_tag": "exp3-v2-harness-frozen",
   "source_base_commit": "1cad481839475afaa6ad784bba25c1c45bb260ed",
+  "reviewed_candidate_commit": "8dff1d67693cc4423c3241d77c5fb6609b176ecd",
+  "human_approval": "APPROVO IL FREEZE HARNESS EXP3_V2",
+  "human_approval_date": "2026-09-03",
   "created_before_sentinel": true,
   "sentinel_runs_at_freeze": 0,
   "supersedes": {
@@ -349,7 +352,7 @@
     },
     {
       "path": "phase_b/tests/test_exp3v2_pre_freeze.py",
-      "sha256": "01e82ef4a67ae73ec84ac5131c9c33640275a2de18a7ec2669db338434ec3a6d"
+      "sha256": "6a486427dbd0a422bad89f3634014121a82ee600e788e814e9fd1668fdc769fe"
     },
     {
       "path": "requirements.txt",

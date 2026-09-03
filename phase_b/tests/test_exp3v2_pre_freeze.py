@@ -285,11 +285,16 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
             self.assertIn(token, self.protocol)
         self.assertNotIn("preregistered", self.protocol.lower())
 
-    def test_harness_candidate_hashes_and_prefreeze_verifier(self) -> None:
+    def test_frozen_harness_hashes_and_prefreeze_verifier(self) -> None:
         errors = verify.prefreeze_checks(PLAN_PATH, HARNESS_PATH, FINAL_PATH)
         self.assertEqual(errors, [])
         harness = json.loads(HARNESS_PATH.read_text())
-        self.assertEqual(harness["status"], "PRE_FREEZE_DRAFT")
+        self.assertEqual(harness["status"], "HARNESS_FROZEN_FOR_SENTINEL")
+        self.assertEqual(
+            harness["reviewed_candidate_commit"],
+            "8dff1d67693cc4423c3241d77c5fb6609b176ecd",
+        )
+        self.assertEqual(harness["human_approval"], "APPROVO IL FREEZE HARNESS EXP3_V2")
         self.assertEqual(
             {row["path"] for row in harness["artifacts"]},
             verify.REQUIRED_HARNESS_PATHS,
