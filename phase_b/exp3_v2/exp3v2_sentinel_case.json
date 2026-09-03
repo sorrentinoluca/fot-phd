@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "status": "SENTINEL_VALIDATION_ONLY",
+  "experiment": "Experiment 3 V2 — Prospective Fresh-Run Held-Out",
+  "physical_case_id": "EXP3V2-SENTINEL-001",
+  "condition": "Normal",
+  "attempt": 0,
+  "seed": 987654321,
+  "rng_algorithm": "twister",
+  "replacement_allowed": false,
+  "destination_policy": "unique throwaway directory outside tep_exp3_v2_heldout and tep_exp3_heldout",
+  "non_collision_assertions": {
+    "must_not_match_real_case_id": true,
+    "must_not_match_primary_seed": true,
+    "must_not_match_replacement_seed": true,
+    "must_not_match_bootstrap_seed": true,
+    "must_not_match_secondary_sentinel_seed": 123456789
+  }
+}

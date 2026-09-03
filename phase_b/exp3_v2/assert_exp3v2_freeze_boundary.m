@@ -1,0 +1,56 @@
+function manifest = assert_exp3v2_freeze_boundary(manifestPath, expectedStatus, ...
+        expectedTag, repoRoot)
+%ASSERT_EXP3V2_FREEZE_BOUNDARY Verify manifest hashes and exact Git tag target.
+
+manifest = jsondecode(fileread(manifestPath));
+assert(strcmp(manifest.status, expectedStatus), ...
+    'EXP3V2:FreezeManifestStatus', 'Freeze manifest status mismatch.');
+assert(strcmp(manifest.hash_algorithm, 'SHA-256'), ...
+    'EXP3V2:FreezeManifestAlgorithm', 'Hash algorithm must be SHA-256.');
+assert(strcmp(manifest.freeze_tag, expectedTag), ...
+    'EXP3V2:FreezeManifestTag', 'Freeze tag mismatch.');
+assert(isfield(manifest, 'supersedes') && isfield(manifest, 'artifacts'), ...
+    'EXP3V2:FreezeManifestContract', ...
+    'Freeze manifest is missing required provenance fields.');
+
+for index = 1:numel(manifest.artifacts)
+    artifact = manifest.artifacts(index);
+    assert(~strcmp(artifact.path, relative_path(manifestPath, repoRoot)), ...
+        'EXP3V2:SelfHashForbidden', ...
+        'A freeze manifest must not list its own hash.');
+    artifactPath = fullfile(repoRoot, artifact.path);
+    assert(strcmp(sha256_file(artifactPath), artifact.sha256), ...
+        'EXP3V2:FreezeArtifactHashMismatch', ...
+        'Freeze artifact hash mismatch: %s', artifact.path);
+end
+
+[headStatus, headText] = system(sprintf('git -C "%s" rev-parse HEAD', repoRoot));
+[tagStatus, tagText] = system(sprintf( ...
+    'git -C "%s" rev-parse "%s^{}"', repoRoot, expectedTag));
+assert(headStatus == 0 && tagStatus == 0, 'EXP3V2:FreezeGitLookup', ...
+    'Could not resolve HEAD and the required freeze tag.');
+assert(strcmp(strtrim(headText), strtrim(tagText)), ...
+    'EXP3V2:FreezeHeadTagMismatch', ...
+    'HEAD must equal the required freeze tag target.');
+end
+
+function value = relative_path(pathValue, rootValue)
+pathValue = char(java.io.File(pathValue).getCanonicalPath());
+rootValue = char(java.io.File(rootValue).getCanonicalPath());
+prefix = [rootValue filesep];
+assert(startsWith(pathValue, prefix), 'EXP3V2:ManifestOutsideRepository', ...
+    'Freeze manifest must be inside the repository.');
+value = strrep(pathValue(numel(prefix) + 1:end), filesep, '/');
+end
+
+function digestHex = sha256_file(path)
+assert(isfile(path), 'EXP3V2:HashInputMissing', 'Missing hash input: %s', path);
+fid = fopen(path, 'rb');
+assert(fid ~= -1, 'EXP3V2:HashInputOpen', 'Cannot open hash input: %s', path);
+cleanup = onCleanup(@() fclose(fid));
+bytes = fread(fid, Inf, 'uint8=>uint8');
+digest = java.security.MessageDigest.getInstance('SHA-256');
+digest.update(bytes);
+raw = typecast(digest.digest(), 'uint8');
+digestHex = lower(reshape(dec2hex(raw, 2).', 1, []));
+end

@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "experiment": "Experiment 3 — Fresh Prospective Physical-Run Extension",
+  "status": "CLOSED_INCOMPLETE_ATTEMPTS_EXHAUSTED",
+  "closed_on": "2026-09-03",
+  "exhaustion_basis": "EXP3_FRESH_RUN_PROTOCOL.md Section 9.2: maximum two total attempts; after attempt 1 fails no alternative seed or extra recovery run is permitted without a new audited protocol version created before further generation",
+  "completion": {
+    "planned_cases": 30,
+    "completed_cases": 0,
+    "workbooks_produced": 0,
+    "accepted_scientific_outputs": 0,
+    "scientific_signal_observed": false
+  },
+  "immutable_chain": [
+    {
+      "stage": "freeze",
+      "commit": "b02e93f92bf6fa85a4fd0a2e010bac365a3a7c89",
+      "tag": "exp3-heldout-frozen"
+    },
+    {
+      "stage": "hotfix_001",
+      "commit": "cdba0202435d1c97ea79cfff586e59534ce9baad",
+      "tag": "exp3-heldout-frozen-hotfix-001"
+    },
+    {
+      "stage": "hotfix_002",
+      "commit": "28130023a34eda778c04a001a9f631404bd6b9a6",
+      "tag": "exp3-post-freeze-hotfix-002"
+    },
+    {
+      "stage": "hotfix_003",
+      "commit": "0d869720e6ac4d1b396b3b9d731463324d296e26",
+      "tag": "exp3-post-freeze-hotfix-003"
+    },
+    {
+      "stage": "hotfix_004",
+      "commit": "1cad481839475afaa6ad784bba25c1c45bb260ed",
+      "tag": "exp3-post-freeze-hotfix-004"
+    }
+  ],
+  "chain_relationship": "linear ancestry freeze -> hotfix_001 -> hotfix_002 -> hotfix_003 -> hotfix_004",
+  "incidents": [
+    {
+      "number": 1,
+      "stage": "before_sim",
+      "error": "Unrecognized field name attempt (empty untyped struct([]))",
+      "fixed_by": "hotfix_001",
+      "attempt_consumed": false
+    },
+    {
+      "number": 2,
+      "stage": "before_sim",
+      "error": "MATLAB product date mismatch (ver('MATLAB').Date versus version('-date'))",
+      "fixed_by": "hotfix_002",
+      "attempt_consumed": false
+    },
+    {
+      "number": 3,
+      "stage": "during_sim_stopfcn",
+      "error": "Simulink:Engine:CallbackEvalErr (StopFcn=TEplot reads base tout)",
+      "fixed_by": "hotfix_003",
+      "attempt_consumed": true,
+      "attempt": 0,
+      "seed": 310001
+    },
+    {
+      "number": 4,
+      "stage": "before_sim",
+      "error": "Unrecognized field name frozen_original_generator_sha256",
+      "fixed_by": "hotfix_004",
+      "attempt_consumed": false
+    },
+    {
+      "number": 5,
+      "stage": "after_sim_returned",
+      "error": "MATLAB:structRefFromNonStruct at simResult.who",
+      "fixed_by": null,
+      "attempt_consumed": true,
+      "attempt": 1,
+      "seed": 1310001
+    }
+  ],
+  "attempt_log_archive": {
+    "live_path": "tep_exp3_heldout/exp3_attempt_log.json",
+    "archive_path": "phase_b/exp3/EXP3_CLOSURE_attempt_log_archive.json",
+    "copy_semantics": "verbatim",
+    "records": 2,
+    "sha256": "04ea7d8af227c3a7f947b4dde434e77510c163ce9c108892ffa22f491f022904"
+  },
+  "superseded_by": "Experiment 3 V2",
+  "immutability_statement": "EXP3_V2 supersedes EXP3 without modifying, rewriting, deleting, moving, or retagging any EXP3 or Experiment 1 historical artifact."
+}

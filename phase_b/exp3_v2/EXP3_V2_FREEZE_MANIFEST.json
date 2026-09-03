@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0",
+  "experiment": "Experiment 3 V2 — Prospective Fresh-Run Held-Out",
+  "status": "PENDING_SENTINEL_VALIDATION",
+  "hash_algorithm": "SHA-256",
+  "freeze_tag": "exp3-v2-heldout-frozen",
+  "created_before_real_generation": true,
+  "sentinel_validation_passed": false,
+  "v2_workbooks_at_freeze": 0,
+  "supersedes": {
+    "exp3_freeze_commit": "b02e93f92bf6fa85a4fd0a2e010bac365a3a7c89",
+    "exp3_freeze_tag": "exp3-heldout-frozen",
+    "hotfix_001_commit": "cdba0202435d1c97ea79cfff586e59534ce9baad",
+    "hotfix_002_commit": "28130023a34eda778c04a001a9f631404bd6b9a6",
+    "hotfix_002_tag": "exp3-post-freeze-hotfix-002",
+    "hotfix_003_commit": "0d869720e6ac4d1b396b3b9d731463324d296e26",
+    "hotfix_003_tag": "exp3-post-freeze-hotfix-003",
+    "hotfix_004_commit": "1cad481839475afaa6ad784bba25c1c45bb260ed",
+    "hotfix_004_tag": "exp3-post-freeze-hotfix-004"
+  },
+  "harness_artifact_hashes": {},
+  "artifacts": []
+}
