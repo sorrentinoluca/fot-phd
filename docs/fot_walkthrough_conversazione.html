@@ -81,12 +81,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 <button id="nav-backdrop" class="nav-backdrop" type="button" aria-label="Chiudi indice"></button>
 <div class="layout">
 <nav id="guide-nav" class="guide-nav" aria-label="Indice del percorso">
-  <h2>Un solo percorso</h2>
-  <p>Ogni step spiega, applica, produce un output e chiude con un checkpoint.</p>
-  <ol>
-    <li><a href="#step-1">1. Introduzione</a></li><li><a href="#step-2">2. Dataset</a></li><li><a href="#step-3">3. Analisi e split dei dataset</a></li><li><a href="#step-4">4. Pipeline di Phase A: le 6 operazioni</a></li><li><a href="#step-5">5. Scelta delle feature</a></li><li><a href="#step-6">6. Calibrazione delle soglie</a></li><li><a href="#step-7">7. Il freeze del metodo</a></li><li><a href="#step-8">8. Dalle feature ai flag</a></li><li><a href="#step-9">9. Dai flag al JSON e al testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e test split</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Condizioni e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
-  </ol>
-  <p class="source"><a href="../README.md">Archivio pedagogico</a><br>Le fonti scientifiche frozen prevalgono.</p>
+  <h2>Indice</h2>
 </nav>
 <main id="main">
 <header>
@@ -468,10 +463,9 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <h3>7 &middot; Claim finale</h3>
   <div class="callout full-width"><p>Nel protocollo frozen e sui 12 run fisici di fault del nuovo held-out TEP, gli insight peer autentici hanno aumentato l'accuratezza sui fault localmente unseen da <strong>0/36 (A) a 31/36 (B)</strong>; il contrasto primario <strong>B&minus;A &egrave; +0.8611 [0.8333, 0.9167]</strong>. A parit&agrave; di testi, ID, ordine e volume del peer block, la corruzione delle associazioni ha ridotto l'accuratezza a <strong>3/36</strong>: <em>il contrasto B&minus;E supporta l'interpretazione che il beneficio osservato dipenda dalla corretta associazione semantica dell'informazione trasferita, anzich&eacute; dalla mera presenza o dal volume del testo aggiuntivo</em> (B&minus;E +0.7778 [0.7222, 0.8333]). <em>La condizione A rappresenta uno scenario di limite informativo per la semantica delle classi localmente unseen, perch&eacute; l'agente ricevente non dispone di alcun esempio locale della pseudoclasse corrispondente</em>; la magnitudine di B&minus;A va quindi letta rispetto a questo floor. Questi risultati supportano la <strong>feasibility</strong> del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico, non forniscono garanzie di privacy, n&eacute; stabiliscono superiorit&agrave; rispetto a una baseline centralizzata ICL a pari informazione. La validazione empirica sul fotovoltaico &egrave; la fase successiva.</p></div>
 
-  <p class="source"><a href="../README.md">Archivio pedagogico</a> &middot; Prevalgono gli artefatti frozen e la narrativa canonica.</p>
 </section>
 
-<footer><p>Guida pedagogica post-results. In caso di conflitto prevalgono gli artefatti frozen e la narrativa canonica.</p><p><a href="#main">Torna all'inizio</a> · <a href="../README.md">Indice explanation</a></p></footer>
+<footer><p><a href="#main">Torna all'inizio</a> · <a href="../README.md">Indice explanation</a></p></footer>
 </main></div>
 <script>
 (() => {
