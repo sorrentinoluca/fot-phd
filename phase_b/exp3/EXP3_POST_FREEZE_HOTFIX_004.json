@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "hotfix_id": "EXP3_POST_FREEZE_HOTFIX_004",
+  "status": "AUTHORIZED_BEFORE_RETRY_OF_REPLACEMENT_ATTEMPT",
+  "created_on": "2026-09-03",
+  "classification": "post-freeze generator-manifest contract completion",
+  "parent_commit": "0d869720e6ac4d1b396b3b9d731463324d296e26",
+  "parent_tag": "exp3-post-freeze-hotfix-003",
+  "generator_sha256": "da419e5d48282af4ca36263e402a54d5b26055e07efed95fa3207020472facbe",
+  "case_plan_sha256": "967423e16c257a78453c91a28bc5730b016649ef8df3d4fd582fdc55de29cdf4",
+  "attempt_log_sha256_at_discovery": "0b2f2e6bf3c82e85da72591919fade41033c63431202f2f97dae6bd1d59a9729",
+  "failed_invocation": {
+    "physical_case_id": "EXP3-N-001",
+    "attempt": 1,
+    "seed": 1310001,
+    "sim_called": false,
+    "workbooks_created": 0,
+    "attempt_log_changed": false,
+    "failure_message": "Unrecognized field name \"frozen_original_generator_sha256\"."
+  },
+  "manifest_contract_repair": {
+    "path": "phase_b/exp3/EXP3_POST_FREEZE_HOTFIX_003.json",
+    "before_sha256": "da59f2f4dd4366d4e82fead0a33b33d8a103de0beda01e372826ebaf9f424a40",
+    "after_sha256": "53ecfa479a286d054f00789cad12903eddbe94975bb4d117d71ba6126a1f3939",
+    "added_fields": {
+      "frozen_original_generator_sha256": "018b13d5e85a80e190b9d7a6931cfd40f0ee28639cb7ff8193dac2fb82aae813",
+      "frozen_original_case_plan_sha256": "f2d27ef19d6b5f923cc33fe3329e8a3922800ec9eff34afc58b47c54c03e5b3b",
+      "hotfix_001_generator_sha256": "54d89c033414e67bfe1cacaaa879dd46d1391ed3c322452e275770adf8a38b24"
+    }
+  },
+  "authorized_retry": {
+    "physical_case_id": "EXP3-N-001",
+    "attempt": 1,
+    "seed": 1310001,
+    "rng_algorithm": "twister"
+  },
+  "regression_test": {
+   "path": "phase_b/exp3/test_exp3_hotfix_manifest_contract.m",
+   "sha256": "aff1128b5c6b5ca34f2af1145c476f209a1b7632790d271524d8f3233701fbec",
+   "result": "PASS",
+   "sim_called": false
+  },
+  "generator_code_changed": false,
+  "case_plan_changed": false,
+  "attempt_log_changed": false,
+  "scientific_protocol_changed": false,
+  "experiment_1_frozen_artifacts_changed": false
+}
