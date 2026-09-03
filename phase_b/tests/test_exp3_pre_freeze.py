@@ -27,11 +27,18 @@ HOTFIX_001_MANIFEST_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_001.json"
 HOTFIX_001_REPORT_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_001.md"
 HOTFIX_002_MANIFEST_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_002.json"
 HOTFIX_002_REPORT_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_002.md"
+HOTFIX_003_MANIFEST_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_003.json"
+HOTFIX_003_REPORT_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_003.md"
 MATLAB_POLICY_TEST_PATH = EXP3 / "test_exp3_attempt_policy.m"
 MATLAB_RUNTIME_TEST_PATH = EXP3 / "test_exp3_runtime_provenance.m"
+MATLAB_STOPFCN_TEST_PATH = EXP3 / "test_exp3_stopfcn_management.m"
+STOPFCN_HELPER_PATH = EXP3 / "suppress_exp3_plot_stopfcn.m"
+STOPFCN_RESTORE_PATH = EXP3 / "restore_exp3_plot_stopfcn.m"
 EXP3_FREEZE_TAG = "exp3-heldout-frozen"
 EXP3_FREEZE_COMMIT = "b02e93f92bf6fa85a4fd0a2e010bac365a3a7c89"
 HOTFIX_001_COMMIT = "cdba0202435d1c97ea79cfff586e59534ce9baad"
+HOTFIX_002_COMMIT = "28130023a34eda778c04a001a9f631404bd6b9a6"
+HOTFIX_002_TAG = "exp3-post-freeze-hotfix-002"
 FROZEN_GENERATOR_SHA256 = (
     "018b13d5e85a80e190b9d7a6931cfd40f0ee28639cb7ff8193dac2fb82aae813"
 )
@@ -392,6 +399,74 @@ class Exp3PreFreezeTests(unittest.TestCase):
             "output directory created, but no scientific output created",
             " ".join(report.split()),
         )
+        self.assertEqual(
+            subprocess.run(
+                ["git", "rev-parse", f"{HOTFIX_002_TAG}^{{}}"],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip(),
+            HOTFIX_002_COMMIT,
+        )
+        self.assertEqual(
+            HOTFIX_002_MANIFEST_PATH.read_bytes(),
+            git_show_bytes(
+                HOTFIX_002_COMMIT,
+                "phase_b/exp3/EXP3_POST_FREEZE_HOTFIX_002.json",
+            ),
+        )
+        for artifact in hotfix["changed_artifacts"]:
+            self.assertEqual(
+                hashlib.sha256(
+                    git_show_bytes(HOTFIX_002_COMMIT, artifact["path"])
+                ).hexdigest(),
+                artifact["after_sha256"],
+                artifact["path"],
+            )
+
+    def test_post_freeze_hotfix_003_boundary_and_chain(self) -> None:
+        hotfix = json.loads(HOTFIX_003_MANIFEST_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(hotfix["hotfix_id"], "EXP3_POST_FREEZE_HOTFIX_003")
+        self.assertEqual(hotfix["status"], "AUTHORIZED_BEFORE_REPLACEMENT_ATTEMPT")
+        self.assertEqual(hotfix["original_freeze_commit"], EXP3_FREEZE_COMMIT)
+        self.assertEqual(hotfix["hotfix_001_commit"], HOTFIX_001_COMMIT)
+        self.assertEqual(hotfix["hotfix_002_commit"], HOTFIX_002_COMMIT)
+        self.assertEqual(hotfix["hotfix_002_tag"], HOTFIX_002_TAG)
+        self.assertEqual(
+            hotfix["failed_invocation"],
+            {
+                "physical_case_id": "EXP3-N-001",
+                "attempt": 0,
+                "seed": 310001,
+                "sim_called": True,
+                "sim_returned_successfully": False,
+                "workbooks_created": 0,
+                "output_size_bytes": 0,
+                "output_sha256": "",
+                "signal_inspection": False,
+                "attempt_log_created": True,
+                "attempt_0_recorded_technical_failure": True,
+                "scientific_accepted_output": False,
+            },
+        )
+        self.assertEqual(
+            hotfix["authorized_restart"],
+            {
+                "physical_case_id": "EXP3-N-001",
+                "attempt": 1,
+                "seed": 1310001,
+                "rng_algorithm": "twister",
+            },
+        )
+        self.assertFalse(hotfix["scientific_protocol_changed"])
+        self.assertFalse(hotfix["experiment_1_frozen_artifacts_changed"])
+        report = HOTFIX_003_REPORT_PATH.read_text(encoding="utf-8")
+        self.assertIn("Simulink:Engine:CallbackEvalErr", report)
+        self.assertIn("Unrecognized function or variable 'tout'", report)
+        self.assertIn("seed `310001` is consumed", " ".join(report.split()))
+        self.assertIn("attempt `1`", report)
+        self.assertIn("seed `1310001`", report)
 
     def test_matlab_attempt_policy_regression_matches_generator(self) -> None:
         matlab_test = MATLAB_POLICY_TEST_PATH.read_text(encoding="utf-8")
@@ -433,6 +508,39 @@ class Exp3PreFreezeTests(unittest.TestCase):
         self.assertEqual(generator_assert.strip(), test_assert.strip())
         self.assertNotRegex(matlab_test, r"\bsim\s*\(")
 
+    def test_stopfcn_management_is_fail_closed_and_never_calls_sim(self) -> None:
+        helper = STOPFCN_HELPER_PATH.read_text(encoding="utf-8")
+        restore = STOPFCN_RESTORE_PATH.read_text(encoding="utf-8")
+        matlab_test = MATLAB_STOPFCN_TEST_PATH.read_text(encoding="utf-8")
+        self.assertIn("strcmp(originalStopFcn, 'TEplot')", helper)
+        self.assertIn(
+            "cleanupGuard = onCleanup(@() restore_exp3_plot_stopfcn(state));", helper
+        )
+        self.assertIn("set_param(modelName, 'StopFcn', '');", helper)
+        self.assertIn("set_param(modelName, 'StopFcn', originalStopFcn);", restore)
+        self.assertIn("ModelDirtyRestoreFailed", restore)
+        self.assertNotIn("save_system", helper)
+        self.assertNotIn("save_system", restore)
+        self.assertNotRegex(matlab_test, r"\bsim\s*\(")
+        for token in (
+            "some_other_callback",
+            "testEmptyCallback",
+            "testRestoreAfterException",
+            "testPinnedModelUnchanged",
+        ):
+            self.assertIn(token, matlab_test)
+
+    def test_generator_suppresses_only_plotting_callback_before_rng(self) -> None:
+        suppression = self.generator.index("suppress_exp3_plot_stopfcn(modelName)")
+        rng_call = self.generator.index("rng(seed, 'twister');")
+        sim_call = self.generator.index("simResult = sim(modelName);")
+        self.assertLess(suppression, rng_call)
+        self.assertLess(rng_call, sim_call)
+        self.assertIn(
+            "restore_exp3_plot_stopfcn(stopFcnState);", self.generator[sim_call:]
+        )
+        self.assertNotIn("save_system", self.generator)
+
     def test_exp3_python_dependencies_are_pinned(self) -> None:
         requirements = (ROOT / "requirements.txt").read_text(encoding="utf-8")
         self.assertIn("jsonschema==4.25.0", requirements.splitlines())
@@ -462,9 +570,16 @@ class Exp3PreFreezeTests(unittest.TestCase):
         generated = ROOT / "tep_exp3_heldout"
         if generated.exists():
             self.assertTrue(generated.is_dir())
+            files = [path for path in generated.rglob("*") if path.is_file()]
             self.assertEqual(
-                [path for path in generated.rglob("*") if path.is_file()], []
+                [path for path in files if path.suffix.lower() == ".xlsx"], []
             )
+            unexpected = [
+                path
+                for path in files
+                if path.relative_to(generated).as_posix() != "exp3_attempt_log.json"
+            ]
+            self.assertEqual(unexpected, [])
         self.assertEqual(list(EXP3.glob("*.xlsx")), [])
 
     def test_all_experiment_one_frozen_hashes_remain_exact(self) -> None:

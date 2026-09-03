@@ -314,6 +314,14 @@ freeze boundary plus the authorized post-freeze implementation/provenance
 delta before simulation. The original
 `phase_b/exp3/EXP3_FREEZE_MANIFEST.json` and tag remain unchanged.
 
+For function-scoped headless generation, the generator temporarily suppresses
+only the plotting/post-processing callback `StopFcn = TEplot`. It requires
+that exact frozen value, installs cleanup before changing it, restores and
+verifies the callback and the original in-memory model `Dirty` state after
+success or exception, and never saves the model. Plant dynamics, RNG, initial
+state, disturbance configuration, solver, sampling, and horizon are unchanged;
+the model file must remain byte-identical.
+
 ## 7. Fault and injection configuration
 
 The disturbance vector has length 28. For a fault run it is initialized to zero

@@ -29,8 +29,27 @@ failedPrimary.technical_failure_reason = 'EXP3:StructuralInvalid';
 replacementLog = struct('attempts', failedPrimary);
 assert_attempt_allowed(replacementLog, caseId, 1, 1310001, caseEntry);
 
+scriptDir = fileparts([mfilename('fullpath') '.m']);
+repoRoot = fileparts(fileparts(scriptDir));
+realLogPath = fullfile(repoRoot, 'tep_exp3_heldout', 'exp3_attempt_log.json');
+if isfile(realLogPath)
+    realLog = jsondecode(fileread(realLogPath));
+    realPrimary = realLog.attempts;
+    assert(strcmp(realPrimary.physical_case_id, caseId) && ...
+        realPrimary.attempt == 0 && realPrimary.seed == 310001 && ...
+        ~realPrimary.structural_valid && ...
+        contains(realPrimary.technical_failure_reason, ...
+        'Simulink:Engine:CallbackEvalErr'), ...
+        'EXP3:RealAttemptLogMismatch', ...
+        'The real attempt-0 technical-failure record is not as expected.');
+    assert_identifier(@() assert_attempt_allowed( ...
+        realLog, caseId, 0, 310001, caseEntry), 'EXP3:DuplicateAttempt');
+    assert_attempt_allowed(realLog, caseId, 1, 1310001, caseEntry);
+end
+
 result = true;
-fprintf('PASS: empty, duplicate, unauthorized replacement, valid replacement.\n');
+fprintf(['PASS: empty, duplicate, unauthorized replacement, valid replacement; ' ...
+    'real attempt 0 rejected and attempt 1 authorized when log is present.\n']);
 end
 
 function assert_identifier(operation, expectedIdentifier)

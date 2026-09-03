@@ -111,7 +111,10 @@ EXP3_FREEZE_TAG = "exp3-heldout-frozen"
 EXP3_FREEZE_COMMIT = "b02e93f92bf6fa85a4fd0a2e010bac365a3a7c89"
 HOTFIX_001_COMMIT = "cdba0202435d1c97ea79cfff586e59534ce9baad"
 HOTFIX_001_PATH = SCRIPT_DIR / "EXP3_POST_FREEZE_HOTFIX_001.json"
+HOTFIX_002_COMMIT = "28130023a34eda778c04a001a9f631404bd6b9a6"
+HOTFIX_002_TAG = "exp3-post-freeze-hotfix-002"
 HOTFIX_002_PATH = SCRIPT_DIR / "EXP3_POST_FREEZE_HOTFIX_002.json"
+HOTFIX_003_PATH = SCRIPT_DIR / "EXP3_POST_FREEZE_HOTFIX_003.json"
 HOTFIX_002_ARTIFACT_PATHS = {
     "phase_b/exp3/EXP3_FRESH_RUN_PROTOCOL.md",
     "phase_b/exp3/EXP3_POST_FREEZE_HOTFIX_002.md",
@@ -121,6 +124,17 @@ HOTFIX_002_ARTIFACT_PATHS = {
     "phase_b/exp3/generate_exp3_heldout.m",
     "phase_b/exp3/test_exp3_runtime_provenance.m",
     "phase_b/exp3/validate_exp3_rng_runtime.m",
+    "phase_b/exp3/verify_exp3_heldout.py",
+    "phase_b/tests/test_exp3_pre_freeze.py",
+}
+HOTFIX_003_ARTIFACT_PATHS = {
+    "phase_b/exp3/EXP3_FRESH_RUN_PROTOCOL.md",
+    "phase_b/exp3/EXP3_POST_FREEZE_HOTFIX_003.md",
+    "phase_b/exp3/generate_exp3_heldout.m",
+    "phase_b/exp3/restore_exp3_plot_stopfcn.m",
+    "phase_b/exp3/suppress_exp3_plot_stopfcn.m",
+    "phase_b/exp3/test_exp3_attempt_policy.m",
+    "phase_b/exp3/test_exp3_stopfcn_management.m",
     "phase_b/exp3/verify_exp3_heldout.py",
     "phase_b/tests/test_exp3_pre_freeze.py",
 }
@@ -261,10 +275,17 @@ def validate_freeze_manifest(path: Path) -> list[str]:
         if sha256_bytes(tagged_bytes) != expected_hash:
             errors.append(f"frozen tagged artifact hash mismatch: {row['path']}")
 
+    errors.extend(validate_hotfix_002(path))
+    errors.extend(validate_hotfix_003(path))
+    return errors
+
+
+def validate_hotfix_002(freeze_manifest_path: Path) -> list[str]:
+    errors: list[str] = []
     try:
         hotfix = json.loads(HOTFIX_002_PATH.read_text(encoding="utf-8"))
     except Exception as exc:
-        return errors + [f"hotfix 002 manifest cannot be read: {exc}"]
+        return [f"hotfix 002 manifest cannot be read: {exc}"]
     expected_hotfix_metadata = {
         "schema_version": "1.0",
         "hotfix_id": "EXP3_POST_FREEZE_HOTFIX_002",
@@ -278,7 +299,9 @@ def validate_freeze_manifest(path: Path) -> list[str]:
     for field, expected in expected_hotfix_metadata.items():
         if hotfix.get(field) != expected:
             errors.append(f"hotfix 002 {field} mismatch")
-    if hotfix.get("original_freeze_manifest_sha256") != sha256_file(path):
+    if hotfix.get("original_freeze_manifest_sha256") != sha256_file(
+        freeze_manifest_path
+    ):
         errors.append("hotfix 002 original freeze manifest hash mismatch")
     if hotfix.get("hotfix_001_manifest_sha256") != sha256_file(HOTFIX_001_PATH):
         errors.append("hotfix 002 hotfix 001 manifest hash mismatch")
@@ -320,17 +343,37 @@ def validate_freeze_manifest(path: Path) -> list[str]:
     if hotfix.get("runtime_semantics") != expected_semantics:
         errors.append("hotfix 002 runtime field semantics mismatch")
 
+    try:
+        target = subprocess.run(
+            ["git", "rev-parse", f"{HOTFIX_002_TAG}^{{}}"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        if target != HOTFIX_002_COMMIT:
+            errors.append("hotfix 002 tag target mismatch")
+        if HOTFIX_002_PATH.read_bytes() != git_show_bytes(
+            HOTFIX_002_COMMIT,
+            "phase_b/exp3/EXP3_POST_FREEZE_HOTFIX_002.json",
+        ):
+            errors.append("hotfix 002 manifest differs from committed bytes")
+    except Exception as exc:
+        errors.append(f"hotfix 002 commit/tag cannot be verified: {exc}")
+
     changed = hotfix.get("changed_artifacts")
-    if not isinstance(changed, list):
-        return errors + ["hotfix 002 changed_artifacts must be an array"]
-    changed_paths = [row.get("path") for row in changed if isinstance(row, dict)]
-    if len(changed_paths) != len(set(changed_paths)):
-        errors.append("hotfix 002 contains duplicate artifact paths")
-    if set(changed_paths) != HOTFIX_002_ARTIFACT_PATHS:
-        errors.append("hotfix 002 artifact path set mismatch")
+    errors.extend(
+        validate_hotfix_artifacts(
+            changed,
+            HOTFIX_002_ARTIFACT_PATHS,
+            HOTFIX_001_COMMIT,
+            HOTFIX_002_COMMIT,
+            "hotfix 002",
+        )
+    )
     artifact_after = {
         row.get("path"): row.get("after_sha256")
-        for row in changed
+        for row in changed or []
         if isinstance(row, dict)
     }
     if hotfix.get("hotfix_002_generator_sha256") != artifact_after.get(
@@ -341,40 +384,160 @@ def validate_freeze_manifest(path: Path) -> list[str]:
         "phase_b/exp3/exp3_case_plan.json"
     ):
         errors.append("hotfix 002 case-plan hash aliases disagree")
+    return errors
+
+
+def validate_hotfix_003(freeze_manifest_path: Path) -> list[str]:
+    errors: list[str] = []
+    try:
+        hotfix = json.loads(HOTFIX_003_PATH.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return [f"hotfix 003 manifest cannot be read: {exc}"]
+    expected_metadata = {
+        "schema_version": "1.0",
+        "hotfix_id": "EXP3_POST_FREEZE_HOTFIX_003",
+        "status": "AUTHORIZED_BEFORE_REPLACEMENT_ATTEMPT",
+        "original_freeze_commit": EXP3_FREEZE_COMMIT,
+        "original_freeze_tag": EXP3_FREEZE_TAG,
+        "hotfix_001_commit": HOTFIX_001_COMMIT,
+        "hotfix_002_commit": HOTFIX_002_COMMIT,
+        "hotfix_002_tag": HOTFIX_002_TAG,
+        "scientific_protocol_changed": False,
+        "experiment_1_frozen_artifacts_changed": False,
+    }
+    for field, expected in expected_metadata.items():
+        if hotfix.get(field) != expected:
+            errors.append(f"hotfix 003 {field} mismatch")
+    if hotfix.get("original_freeze_manifest_sha256") != sha256_file(
+        freeze_manifest_path
+    ):
+        errors.append("hotfix 003 original freeze manifest hash mismatch")
+    if hotfix.get("hotfix_001_manifest_sha256") != sha256_file(HOTFIX_001_PATH):
+        errors.append("hotfix 003 hotfix 001 manifest hash mismatch")
+    if hotfix.get("hotfix_002_manifest_sha256") != sha256_file(HOTFIX_002_PATH):
+        errors.append("hotfix 003 hotfix 002 manifest hash mismatch")
+    expected_boundary = {
+        "physical_case_id": "EXP3-N-001",
+        "attempt": 0,
+        "seed": 310001,
+        "sim_called": True,
+        "sim_returned_successfully": False,
+        "workbooks_created": 0,
+        "output_size_bytes": 0,
+        "output_sha256": "",
+        "signal_inspection": False,
+        "attempt_log_created": True,
+        "attempt_0_recorded_technical_failure": True,
+        "scientific_accepted_output": False,
+    }
+    if hotfix.get("failed_invocation") != expected_boundary:
+        errors.append("hotfix 003 failed-invocation boundary mismatch")
+    expected_restart = {
+        "physical_case_id": "EXP3-N-001",
+        "attempt": 1,
+        "seed": 1310001,
+        "rng_algorithm": "twister",
+    }
+    if hotfix.get("authorized_restart") != expected_restart:
+        errors.append("hotfix 003 authorized-restart mismatch")
+    expected_callback = {
+        "expected_original_stopfcn": "TEplot",
+        "temporary_stopfcn": "",
+        "restore_required": True,
+        "model_save_allowed": False,
+        "model_sha256": EXPECTED_SIMULATOR["model_hash"],
+    }
+    if hotfix.get("callback_management") != expected_callback:
+        errors.append("hotfix 003 callback-management mismatch")
+    if hotfix.get("attempt_log_sha256_at_discovery") != (
+        "0b2f2e6bf3c82e85da72591919fade41033c63431202f2f97dae6bd1d59a9729"
+    ):
+        errors.append("hotfix 003 attempt-log discovery hash mismatch")
+    changed = hotfix.get("changed_artifacts")
+    errors.extend(
+        validate_hotfix_artifacts(
+            changed,
+            HOTFIX_003_ARTIFACT_PATHS,
+            HOTFIX_002_COMMIT,
+            None,
+            "hotfix 003",
+        )
+    )
+    artifact_after = {
+        row.get("path"): row.get("after_sha256")
+        for row in changed or []
+        if isinstance(row, dict)
+    }
+    if hotfix.get("hotfix_003_generator_sha256") != artifact_after.get(
+        "phase_b/exp3/generate_exp3_heldout.m"
+    ):
+        errors.append("hotfix 003 generator hash aliases disagree")
+    if hotfix.get("hotfix_003_case_plan_sha256") != sha256_file(
+        SCRIPT_DIR / "exp3_case_plan.json"
+    ):
+        errors.append("hotfix 003 case-plan hash mismatch")
+    return errors
+
+
+def validate_hotfix_artifacts(
+    changed: Any,
+    expected_paths: set[str],
+    before_revision: str,
+    after_revision: str | None,
+    label: str,
+) -> list[str]:
+    errors: list[str] = []
+    if not isinstance(changed, list):
+        return [f"{label} changed_artifacts must be an array"]
+    changed_paths = [row.get("path") for row in changed if isinstance(row, dict)]
+    if len(changed_paths) != len(set(changed_paths)):
+        errors.append(f"{label} contains duplicate artifact paths")
+    if set(changed_paths) != expected_paths:
+        errors.append(f"{label} artifact path set mismatch")
     for row in changed:
         if not isinstance(row, dict) or set(row) != {
             "path",
             "before_sha256",
             "after_sha256",
         }:
-            errors.append("hotfix 002 artifact entry schema mismatch")
+            errors.append(f"{label} artifact entry schema mismatch")
             continue
         relative = Path(row["path"])
         if relative.is_absolute() or ".." in relative.parts:
-            errors.append(f"invalid hotfix 002 path: {row['path']!r}")
+            errors.append(f"invalid {label} path: {row['path']!r}")
             continue
         after_hash = row["after_sha256"]
         if not isinstance(after_hash, str) or not HASH_PATTERN.fullmatch(after_hash):
-            errors.append(f"invalid hotfix 002 SHA-256: {row['path']}")
+            errors.append(f"invalid {label} SHA-256: {row['path']}")
             continue
-        artifact = ROOT / relative
-        if not artifact.is_file():
-            errors.append(f"hotfix 002 artifact missing: {row['path']}")
-        elif sha256_file(artifact) != after_hash:
-            errors.append(f"hotfix 002 artifact hash mismatch: {row['path']}")
+        try:
+            if after_revision is None:
+                artifact = ROOT / relative
+                if not artifact.is_file():
+                    errors.append(f"{label} artifact missing: {row['path']}")
+                    continue
+                observed_after = sha256_file(artifact)
+            else:
+                observed_after = sha256_bytes(
+                    git_show_bytes(after_revision, row["path"])
+                )
+            if observed_after != after_hash:
+                errors.append(f"{label} artifact hash mismatch: {row['path']}")
+        except Exception as exc:
+            errors.append(f"{label} artifact cannot be verified: {row['path']}: {exc}")
         before_hash = row["before_sha256"]
         try:
-            previous_bytes = git_show_bytes(HOTFIX_001_COMMIT, row["path"])
+            previous_bytes = git_show_bytes(before_revision, row["path"])
         except subprocess.CalledProcessError:
             if before_hash is not None:
-                errors.append(f"hotfix 002 new artifact has prior hash: {row['path']}")
+                errors.append(f"{label} new artifact has prior hash: {row['path']}")
         else:
             if (
                 not isinstance(before_hash, str)
                 or not HASH_PATTERN.fullmatch(before_hash)
                 or sha256_bytes(previous_bytes) != before_hash
             ):
-                errors.append(f"hotfix 002 prior artifact hash mismatch: {row['path']}")
+                errors.append(f"{label} prior artifact hash mismatch: {row['path']}")
     return errors
 
 
@@ -523,6 +686,8 @@ def validate_attempt_log(
     attempts = payload.get("attempts", [])
     by_case = {row["physical_case_id"]: row for row in plan["cases"]}
     expected_script_hash = sha256_file(generation_script)
+    hotfix_002 = json.loads(HOTFIX_002_PATH.read_text(encoding="utf-8"))
+    hotfix_002_script_hash = hotfix_002["hotfix_002_generator_sha256"]
     expected_case_plan_hash = sha256_file(case_plan_path)
     seen: set[tuple[str, int]] = set()
     prior_by_case: dict[str, dict[int, dict[str, Any]]] = {}
@@ -568,7 +733,18 @@ def validate_attempt_log(
         for field, expected_value in {**EXPECTED_RUNTIME, **EXPECTED_SIMULATOR}.items():
             if row[field] != expected_value:
                 errors.append(f"{label} {field} mismatch")
-        if row["generation_script_hash"] != expected_script_hash:
+        legacy_failure_hash_allowed = (
+            case_id == "EXP3-N-001"
+            and attempt == 0
+            and row["seed"] == 310001
+            and row["structural_valid"] is False
+            and populated(row["technical_failure_reason"])
+            and row["generation_script_hash"] == hotfix_002_script_hash
+        )
+        if (
+            row["generation_script_hash"] != expected_script_hash
+            and not legacy_failure_hash_allowed
+        ):
             errors.append(f"{label} generation_script_hash mismatch")
         if not HASH_PATTERN.fullmatch(row["generation_script_hash"]):
             errors.append(f"{label} invalid generation_script_hash")

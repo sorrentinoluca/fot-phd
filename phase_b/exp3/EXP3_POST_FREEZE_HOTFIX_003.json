@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "hotfix_id": "EXP3_POST_FREEZE_HOTFIX_003",
+  "status": "AUTHORIZED_BEFORE_REPLACEMENT_ATTEMPT",
+  "discovered_on": "2026-09-03",
+  "classification": "post-freeze headless plotting-callback hotfix",
+  "original_freeze_commit": "b02e93f92bf6fa85a4fd0a2e010bac365a3a7c89",
+  "original_freeze_tag": "exp3-heldout-frozen",
+  "original_freeze_manifest_sha256": "5a94ab951495e71227475820bf70501259ebd5b07f109bb0360ba391cb92c016",
+  "hotfix_001_commit": "cdba0202435d1c97ea79cfff586e59534ce9baad",
+  "hotfix_001_manifest_sha256": "038d2f830a5d5e76718949fd39aeac2405dfb2d5a72b410fd72ae547c9e617bc",
+  "hotfix_002_commit": "28130023a34eda778c04a001a9f631404bd6b9a6",
+  "hotfix_002_tag": "exp3-post-freeze-hotfix-002",
+  "hotfix_002_manifest_sha256": "2a7f66c2611ab4da33c8ebc67125151599d6dd62ac8795d4ddcbbc86034a852c",
+  "hotfix_002_generator_sha256": "f1cf1647df149e26bee94281e3c55ee1561dce143be942fa361733458268bd6f",
+  "hotfix_003_generator_sha256": "da419e5d48282af4ca36263e402a54d5b26055e07efed95fa3207020472facbe",
+  "hotfix_003_case_plan_sha256": "967423e16c257a78453c91a28bc5730b016649ef8df3d4fd582fdc55de29cdf4",
+  "attempt_log_sha256_at_discovery": "0b2f2e6bf3c82e85da72591919fade41033c63431202f2f97dae6bd1d59a9729",
+  "failed_invocation": {
+    "physical_case_id": "EXP3-N-001",
+    "attempt": 0,
+    "seed": 310001,
+    "sim_called": true,
+    "sim_returned_successfully": false,
+    "workbooks_created": 0,
+    "output_size_bytes": 0,
+    "output_sha256": "",
+    "signal_inspection": false,
+    "attempt_log_created": true,
+    "attempt_0_recorded_technical_failure": true,
+    "scientific_accepted_output": false
+  },
+  "failure": {
+    "identifier": "Simulink:Engine:CallbackEvalErr",
+    "stopfcn": "TEplot",
+    "missing_variable": "tout"
+  },
+  "callback_management": {
+    "expected_original_stopfcn": "TEplot",
+    "temporary_stopfcn": "",
+    "restore_required": true,
+    "model_save_allowed": false,
+    "model_sha256": "d2f6659f65935021d4b1813e7189be02e7ae9f5639b794e8edc4f2f3c5cddba8"
+  },
+  "authorized_restart": {
+    "physical_case_id": "EXP3-N-001",
+    "attempt": 1,
+    "seed": 1310001,
+    "rng_algorithm": "twister"
+  },
+  "changed_artifacts": [
+    {
+      "path": "phase_b/exp3/EXP3_FRESH_RUN_PROTOCOL.md",
+      "before_sha256": "e337a2942a0a0d4d840e3fd3789ff1165b78cf9b0e9a7de5e824e4b589bc3237",
+      "after_sha256": "bb1d74befcda0d31fd8908a7cc1ff602f22aed532bd064202f903ce9e570b13f"
+    },
+    {
+      "path": "phase_b/exp3/EXP3_POST_FREEZE_HOTFIX_003.md",
+      "before_sha256": null,
+      "after_sha256": "6ce1eb93595bfedde0c28b0abddc3fad82065d578ea6c78c5eb369abf191e905"
+    },
+    {
+      "path": "phase_b/exp3/generate_exp3_heldout.m",
+      "before_sha256": "f1cf1647df149e26bee94281e3c55ee1561dce143be942fa361733458268bd6f",
+      "after_sha256": "da419e5d48282af4ca36263e402a54d5b26055e07efed95fa3207020472facbe"
+    },
+    {
+      "path": "phase_b/exp3/restore_exp3_plot_stopfcn.m",
+      "before_sha256": null,
+      "after_sha256": "b8e45d6c0773598f36b525f9fee118932eb5bb2b33f8cb3def67e7094dddcd05"
+    },
+    {
+      "path": "phase_b/exp3/suppress_exp3_plot_stopfcn.m",
+      "before_sha256": null,
+      "after_sha256": "7930dd867e069cd8513efc42285ff1797e110d2f3a2f2072a95a71f45ae82597"
+    },
+    {
+      "path": "phase_b/exp3/test_exp3_attempt_policy.m",
+      "before_sha256": "035609ac6e88d06534524c6e88a2574d394c8f6b7d8dd0986888ec6f3979a352",
+      "after_sha256": "17c72cced1412cc016d33270eb367afb326ae619ad21d757fdc4c16026fcfa8e"
+    },
+    {
+      "path": "phase_b/exp3/test_exp3_stopfcn_management.m",
+      "before_sha256": null,
+      "after_sha256": "2aa1b3ff42d9c50275090fc7361222902aacd9bc6d961e0fc46e9fe6ec11442c"
+    },
+    {
+      "path": "phase_b/exp3/verify_exp3_heldout.py",
+      "before_sha256": "794a7a7e214011776d02796f881bb900811cc52f19ce44a804dddca6c6a9ee3f",
+      "after_sha256": "158603283b086d2ddf2a34312392eb3ac91ad82b9289435b23157eb5e30aaf36"
+    },
+    {
+      "path": "phase_b/tests/test_exp3_pre_freeze.py",
+      "before_sha256": "3c162cb17a78bc36f40ec9b4d9237566b92d41d344377a53b563c0a397a32392",
+      "after_sha256": "a1d66381ed747c66d3065f88c0bc30d2b527d38bf7f5d97cc78bd43d9b28880f"
+    }
+  ],
+  "scientific_protocol_changed": false,
+  "experiment_1_frozen_artifacts_changed": false
+}
