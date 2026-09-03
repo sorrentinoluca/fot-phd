@@ -6,6 +6,7 @@ import hashlib
 import importlib.util
 import json
 import re
+import subprocess
 import unittest
 from collections import Counter
 from pathlib import Path
@@ -22,6 +23,17 @@ PROTOCOL_PATH = EXP3 / "EXP3_FRESH_RUN_PROTOCOL.md"
 RNG_EVIDENCE_PATH = EXP3 / "RNG_RUNTIME_VALIDATION.md"
 RNG_PROBE_PATH = EXP3 / "validate_exp3_rng_runtime.m"
 FREEZE_MANIFEST_PATH = EXP3 / "EXP3_FREEZE_MANIFEST.json"
+HOTFIX_MANIFEST_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_001.json"
+HOTFIX_REPORT_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_001.md"
+MATLAB_POLICY_TEST_PATH = EXP3 / "test_exp3_attempt_policy.m"
+EXP3_FREEZE_TAG = "exp3-heldout-frozen"
+EXP3_FREEZE_COMMIT = "b02e93f92bf6fa85a4fd0a2e010bac365a3a7c89"
+FROZEN_GENERATOR_SHA256 = (
+    "018b13d5e85a80e190b9d7a6931cfd40f0ee28639cb7ff8193dac2fb82aae813"
+)
+FROZEN_CASE_PLAN_SHA256 = (
+    "f2d27ef19d6b5f923cc33fe3329e8a3922800ec9eff34afc58b47c54c03e5b3b"
+)
 
 spec = importlib.util.spec_from_file_location(
     "verify_exp3_heldout", EXP3 / "verify_exp3_heldout.py"
@@ -33,6 +45,15 @@ spec.loader.exec_module(verify)
 
 def sha256_file(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def git_show_bytes(revision: str, relative: str) -> bytes:
+    return subprocess.run(
+        ["git", "show", f"{revision}:{relative}"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    ).stdout
 
 
 class Exp3PreFreezeTests(unittest.TestCase):
@@ -156,7 +177,7 @@ class Exp3PreFreezeTests(unittest.TestCase):
         errors = self.validate_attempts([row])
         self.assertTrue(any("sampling mismatch" in error for error in errors))
 
-    def test_empty_attempt_and_manifest_templates_are_exact(self) -> None:
+    def test_empty_templates_and_original_verifier_remain_fail_closed(self) -> None:
         errors = verify.prefreeze_checks(
             PLAN_PATH,
             MANIFEST_TEMPLATE_PATH,
@@ -164,7 +185,15 @@ class Exp3PreFreezeTests(unittest.TestCase):
             SCHEMA_PATH,
             FREEZE_MANIFEST_PATH,
         )
-        self.assertEqual(errors, [])
+        self.assertEqual(
+            errors,
+            [
+                "frozen artifact hash mismatch: "
+                "phase_b/exp3/generate_exp3_heldout.m",
+                "frozen artifact hash mismatch: "
+                "phase_b/tests/test_exp3_pre_freeze.py",
+            ],
+        )
         attempt_template = json.loads(ATTEMPT_TEMPLATE_PATH.read_text(encoding="utf-8"))
         self.assertEqual(attempt_template["attempts"], [])
         with MANIFEST_TEMPLATE_PATH.open(newline="", encoding="utf-8") as stream:
@@ -229,8 +258,85 @@ class Exp3PreFreezeTests(unittest.TestCase):
         self.assertNotIn("-R02", self.protocol)
         self.assertNotIn("three attempts total", self.protocol)
 
-    def test_freeze_manifest_hashes_all_exp3_boundary_artifacts(self) -> None:
-        self.assertEqual(verify.validate_freeze_manifest(FREEZE_MANIFEST_PATH), [])
+    def test_original_freeze_manifest_hashes_tagged_boundary_artifacts(self) -> None:
+        self.assertEqual(
+            subprocess.run(
+                ["git", "rev-parse", f"{EXP3_FREEZE_TAG}^{{}}"],
+                cwd=ROOT,
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip(),
+            EXP3_FREEZE_COMMIT,
+        )
+        manifest_bytes = git_show_bytes(
+            EXP3_FREEZE_TAG, "phase_b/exp3/EXP3_FREEZE_MANIFEST.json"
+        )
+        self.assertEqual(FREEZE_MANIFEST_PATH.read_bytes(), manifest_bytes)
+        manifest = json.loads(manifest_bytes)
+        for artifact in manifest["artifacts"]:
+            tagged_bytes = git_show_bytes(EXP3_FREEZE_TAG, artifact["path"])
+            self.assertEqual(
+                hashlib.sha256(tagged_bytes).hexdigest(),
+                artifact["sha256"],
+                artifact["path"],
+            )
+
+    def test_post_freeze_hotfix_delta_is_narrow_and_hash_bound(self) -> None:
+        hotfix = json.loads(HOTFIX_MANIFEST_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(hotfix["hotfix_id"], "EXP3_POST_FREEZE_HOTFIX_001")
+        self.assertEqual(hotfix["status"], "AUTHORIZED_BEFORE_FIRST_SIMULATION")
+        self.assertEqual(hotfix["original_freeze_commit"], EXP3_FREEZE_COMMIT)
+        self.assertEqual(hotfix["original_freeze_tag"], EXP3_FREEZE_TAG)
+        self.assertEqual(
+            hotfix["frozen_original_generator_sha256"], FROZEN_GENERATOR_SHA256
+        )
+        self.assertEqual(
+            hotfix["hotfixed_generator_sha256"], sha256_file(GENERATOR_PATH)
+        )
+        self.assertEqual(hotfix["case_plan_sha256"], FROZEN_CASE_PLAN_SHA256)
+        self.assertEqual(sha256_file(PLAN_PATH), FROZEN_CASE_PLAN_SHA256)
+        self.assertFalse(hotfix["scientific_protocol_changed"])
+        self.assertFalse(hotfix["experiment_1_frozen_artifacts_changed"])
+        self.assertEqual(
+            hotfix["first_invocation"],
+            {
+                "physical_case_id": "EXP3-N-001",
+                "attempt": 0,
+                "seed": 310001,
+                "sim_called": False,
+                "output_directory_created": False,
+                "attempt_log_created": False,
+                "workbooks_created": 0,
+            },
+        )
+        report = HOTFIX_REPORT_PATH.read_text(encoding="utf-8")
+        self.assertIn("No scientific protocol element was changed.", report)
+        self.assertIn("`EXP3-N-001`", report)
+        self.assertIn("attempt `0`", report)
+        self.assertIn("seed `310001`", report)
+
+    def test_matlab_attempt_policy_regression_matches_generator(self) -> None:
+        matlab_test = MATLAB_POLICY_TEST_PATH.read_text(encoding="utf-8")
+        generator_policy = self.generator.split("function assert_attempt_allowed", 1)[
+            1
+        ].split("function runtime = capture_runtime()", 1)[0]
+        test_policy = matlab_test.split("function assert_attempt_allowed", 1)[1]
+        self.assertEqual(generator_policy.strip(), test_policy.strip())
+        self.assertNotRegex(matlab_test, r"\bsim\s*\(")
+        self.assertIn("EXP3:DuplicateAttempt", matlab_test)
+        self.assertIn("EXP3:ReplacementWithoutPrimary", matlab_test)
+        self.assertIn("EXP3:UnauthorizedReplacement", matlab_test)
+
+    def test_generator_empty_state_fix_preserves_attempt_policy(self) -> None:
+        self.assertIn(
+            "prior = struct('attempt', {}, 'structural_valid', {}, ...",
+            self.generator,
+        )
+        self.assertIn("EXP3:DuplicateAttempt", self.generator)
+        self.assertIn("EXP3:ReplacementWithoutPrimary", self.generator)
+        self.assertIn("EXP3:UnauthorizedReplacement", self.generator)
+        self.assertIn("EXP3:AttemptLimit", self.generator)
 
     def test_exp3_python_dependencies_are_pinned(self) -> None:
         requirements = (ROOT / "requirements.txt").read_text(encoding="utf-8")

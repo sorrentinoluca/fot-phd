@@ -1,0 +1,23 @@
+{
+  "hotfix_id": "EXP3_POST_FREEZE_HOTFIX_001",
+  "status": "AUTHORIZED_BEFORE_FIRST_SIMULATION",
+  "discovered_on": "2026-09-03",
+  "original_freeze_commit": "b02e93f92bf6fa85a4fd0a2e010bac365a3a7c89",
+  "original_freeze_tag": "exp3-heldout-frozen",
+  "original_freeze_manifest_sha256": "5a94ab951495e71227475820bf70501259ebd5b07f109bb0360ba391cb92c016",
+  "frozen_original_generator_sha256": "018b13d5e85a80e190b9d7a6931cfd40f0ee28639cb7ff8193dac2fb82aae813",
+  "hotfixed_generator_sha256": "54d89c033414e67bfe1cacaaa879dd46d1391ed3c322452e275770adf8a38b24",
+  "case_plan_sha256": "f2d27ef19d6b5f923cc33fe3329e8a3922800ec9eff34afc58b47c54c03e5b3b",
+  "first_invocation": {
+    "physical_case_id": "EXP3-N-001",
+    "attempt": 0,
+    "seed": 310001,
+    "sim_called": false,
+    "output_directory_created": false,
+    "attempt_log_created": false,
+    "workbooks_created": 0
+  },
+  "change_scope": "safe handling of the empty initial attempt-log state",
+  "scientific_protocol_changed": false,
+  "experiment_1_frozen_artifacts_changed": false
+}
