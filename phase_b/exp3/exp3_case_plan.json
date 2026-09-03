@@ -32,14 +32,14 @@
     "bootstrap_seed": 310031
   },
   "runtime": {
-    "matlab_exact_version": "25.2.0.3312555 (R2025b) Update 6",
+    "matlab_version_full": "25.2.0.3312555 (R2025b) Update 6",
     "matlab_release": "2025b",
     "matlab_build": "3312555",
-    "matlab_date": "June 30, 2026",
+    "matlab_product_date": "28-Jul-2025",
+    "matlab_runtime_update_date": "June 30, 2026",
     "simulink_version": "25.2",
     "simulink_release": "(R2025b)",
     "simulink_product_date": "28-Jul-2025",
-    "simulink_separate_build": null,
     "architecture": "MACA64",
     "matlabroot": "/Applications/MATLAB_R2025b.app"
   },

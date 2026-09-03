@@ -53,10 +53,11 @@
         "rng_algorithm",
         "started_at",
         "completed_at",
-        "matlab_version",
+        "matlab_version_full",
         "matlab_release",
         "matlab_build",
         "matlab_product_date",
+        "matlab_runtime_update_date",
         "simulink_version",
         "simulink_release",
         "simulink_product_date",
@@ -118,7 +119,7 @@
           "type": "string",
           "format": "date-time"
         },
-        "matlab_version": {
+        "matlab_version_full": {
           "const": "25.2.0.3312555 (R2025b) Update 6"
         },
         "matlab_release": {
@@ -128,6 +129,9 @@
           "const": "3312555"
         },
         "matlab_product_date": {
+          "const": "28-Jul-2025"
+        },
+        "matlab_runtime_update_date": {
           "const": "June 30, 2026"
         },
         "simulink_version": {

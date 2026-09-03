@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "hotfix_id": "EXP3_POST_FREEZE_HOTFIX_002",
+  "status": "AUTHORIZED_BEFORE_FIRST_SIMULATION",
+  "discovered_on": "2026-09-03",
+  "classification": "post-freeze provenance/runtime-validation hotfix",
+  "original_freeze_commit": "b02e93f92bf6fa85a4fd0a2e010bac365a3a7c89",
+  "original_freeze_tag": "exp3-heldout-frozen",
+  "original_freeze_manifest_sha256": "5a94ab951495e71227475820bf70501259ebd5b07f109bb0360ba391cb92c016",
+  "frozen_original_generator_sha256": "018b13d5e85a80e190b9d7a6931cfd40f0ee28639cb7ff8193dac2fb82aae813",
+  "frozen_original_case_plan_sha256": "f2d27ef19d6b5f923cc33fe3329e8a3922800ec9eff34afc58b47c54c03e5b3b",
+  "hotfix_001_commit": "cdba0202435d1c97ea79cfff586e59534ce9baad",
+  "hotfix_001_manifest_sha256": "038d2f830a5d5e76718949fd39aeac2405dfb2d5a72b410fd72ae547c9e617bc",
+  "hotfix_001_generator_sha256": "54d89c033414e67bfe1cacaaa879dd46d1391ed3c322452e275770adf8a38b24",
+  "hotfix_002_generator_sha256": "f1cf1647df149e26bee94281e3c55ee1561dce143be942fa361733458268bd6f",
+  "hotfix_002_case_plan_sha256": "967423e16c257a78453c91a28bc5730b016649ef8df3d4fd582fdc55de29cdf4",
+  "failed_invocation": {
+    "physical_case_id": "EXP3-N-001",
+    "attempt": 0,
+    "seed": 310001,
+    "sim_called": false,
+    "run_rng_consumed": false,
+    "output_directories_created": true,
+    "directories_empty": true,
+    "workbooks_created": 0,
+    "attempt_log_created": false,
+    "final_manifest_created": false,
+    "scientific_outcome_observed": false
+  },
+  "actual_vs_expected": {
+    "actual_matlab_product_date": "28-Jul-2025",
+    "previous_frozen_expected_value": "June 30, 2026",
+    "previous_value_actual_api": "version('-date')"
+  },
+  "runtime_semantics": {
+    "matlab_version_full": "version",
+    "matlab_release": "version('-release')",
+    "matlab_build": "parsed from version",
+    "matlab_product_date": "ver('MATLAB').Date",
+    "matlab_runtime_update_date": "version('-date')"
+  },
+  "changed_artifacts": [
+    {
+      "path": "phase_b/exp3/EXP3_FRESH_RUN_PROTOCOL.md",
+      "before_sha256": "4834d4d85f2b665d51d9d36e0b9ca21f37b9ffda3c54d7546d96077bcc0e0632",
+      "after_sha256": "e337a2942a0a0d4d840e3fd3789ff1165b78cf9b0e9a7de5e824e4b589bc3237"
+    },
+    {
+      "path": "phase_b/exp3/EXP3_POST_FREEZE_HOTFIX_002.md",
+      "before_sha256": null,
+      "after_sha256": "4d49fbe288fae24dbdde7ddfc774f53d997be0ef72fe835c2e0ca44eb77375ab"
+    },
+    {
+      "path": "phase_b/exp3/RNG_RUNTIME_VALIDATION.md",
+      "before_sha256": "878c66fbff695a5e1c6950dcab8468a2343451c59630f4eeca37632d4ce1a460",
+      "after_sha256": "425242736ea11b69f0980b7e98065cdbbe7df51d01b7e680a6359ce1a934f326"
+    },
+    {
+      "path": "phase_b/exp3/exp3_attempt_log.schema.json",
+      "before_sha256": "01a0c314cb7dccaa95c8e6b8dbd8fdd975bb795be73719479529babbffe28490",
+      "after_sha256": "f0b4b54471bcf9f81da772616d7076feb7700bf1ffe356bef165db24e96a72de"
+    },
+    {
+      "path": "phase_b/exp3/exp3_case_plan.json",
+      "before_sha256": "f2d27ef19d6b5f923cc33fe3329e8a3922800ec9eff34afc58b47c54c03e5b3b",
+      "after_sha256": "967423e16c257a78453c91a28bc5730b016649ef8df3d4fd582fdc55de29cdf4"
+    },
+    {
+      "path": "phase_b/exp3/generate_exp3_heldout.m",
+      "before_sha256": "54d89c033414e67bfe1cacaaa879dd46d1391ed3c322452e275770adf8a38b24",
+      "after_sha256": "f1cf1647df149e26bee94281e3c55ee1561dce143be942fa361733458268bd6f"
+    },
+    {
+      "path": "phase_b/exp3/test_exp3_runtime_provenance.m",
+      "before_sha256": null,
+      "after_sha256": "4f9f206332edc1716c042649d8bf5c952b69875e4f258949e1cdce45eadd79bd"
+    },
+    {
+      "path": "phase_b/exp3/validate_exp3_rng_runtime.m",
+      "before_sha256": "7397f24c9139d18aa42ea0003bd5715f6cde1736766610a1b2dc068c14987a98",
+      "after_sha256": "d21ffaba3ceaf5796ef2f45caf8388c9bc58122c4b9c25fe4dd97dec37d67dbb"
+    },
+    {
+      "path": "phase_b/exp3/verify_exp3_heldout.py",
+      "before_sha256": "58989125647ed4883f138a60a10d27f480073039ba27b5559cbaa18358fea927",
+      "after_sha256": "794a7a7e214011776d02796f881bb900811cc52f19ce44a804dddca6c6a9ee3f"
+    },
+    {
+      "path": "phase_b/tests/test_exp3_pre_freeze.py",
+      "before_sha256": "e08bbca63782b674d283217e6f43e313308a0391e08de654ddc3ef65d61eb4b0",
+      "after_sha256": "3c162cb17a78bc36f40ec9b4d9237566b92d41d344377a53b563c0a397a32392"
+    }
+  ],
+  "scientific_protocol_changed": false,
+  "experiment_1_frozen_artifacts_changed": false
+}

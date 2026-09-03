@@ -23,11 +23,15 @@ PROTOCOL_PATH = EXP3 / "EXP3_FRESH_RUN_PROTOCOL.md"
 RNG_EVIDENCE_PATH = EXP3 / "RNG_RUNTIME_VALIDATION.md"
 RNG_PROBE_PATH = EXP3 / "validate_exp3_rng_runtime.m"
 FREEZE_MANIFEST_PATH = EXP3 / "EXP3_FREEZE_MANIFEST.json"
-HOTFIX_MANIFEST_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_001.json"
-HOTFIX_REPORT_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_001.md"
+HOTFIX_001_MANIFEST_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_001.json"
+HOTFIX_001_REPORT_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_001.md"
+HOTFIX_002_MANIFEST_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_002.json"
+HOTFIX_002_REPORT_PATH = EXP3 / "EXP3_POST_FREEZE_HOTFIX_002.md"
 MATLAB_POLICY_TEST_PATH = EXP3 / "test_exp3_attempt_policy.m"
+MATLAB_RUNTIME_TEST_PATH = EXP3 / "test_exp3_runtime_provenance.m"
 EXP3_FREEZE_TAG = "exp3-heldout-frozen"
 EXP3_FREEZE_COMMIT = "b02e93f92bf6fa85a4fd0a2e010bac365a3a7c89"
+HOTFIX_001_COMMIT = "cdba0202435d1c97ea79cfff586e59534ce9baad"
 FROZEN_GENERATOR_SHA256 = (
     "018b13d5e85a80e190b9d7a6931cfd40f0ee28639cb7ff8193dac2fb82aae813"
 )
@@ -171,13 +175,40 @@ class Exp3PreFreezeTests(unittest.TestCase):
         self.assertTrue(any("seed mismatch" in error for error in errors))
         self.assertTrue(any("matlab_build" in error for error in errors))
 
+    def test_runtime_provenance_accepts_exact_values_and_rejects_mismatch(self) -> None:
+        case = self.plan["cases"][0]
+        correct = self.make_attempt(case, 0, True)
+        self.assertEqual(self.validate_attempts([correct]), [])
+        for field in (
+            "matlab_version_full",
+            "matlab_release",
+            "matlab_build",
+            "matlab_product_date",
+            "matlab_runtime_update_date",
+        ):
+            wrong = copy.deepcopy(correct)
+            wrong[field] = "wrong"
+            errors = self.validate_attempts([wrong])
+            self.assertTrue(any(f"{field} mismatch" in error for error in errors))
+
+    def test_runtime_field_names_are_consistent_across_artifacts(self) -> None:
+        runtime_fields = set(verify.EXPECTED_RUNTIME)
+        self.assertEqual(runtime_fields, set(self.plan["runtime"]))
+        attempt = self.schema["$defs"]["attempt"]
+        self.assertTrue(runtime_fields.issubset(attempt["required"]))
+        for field, expected in verify.EXPECTED_RUNTIME.items():
+            self.assertEqual(attempt["properties"][field]["const"], expected)
+            self.assertIn(f"'{field}', runtime.{field}", self.generator)
+        self.assertNotIn("matlab_exact_version", self.plan["runtime"])
+        self.assertNotIn("matlab_date", self.plan["runtime"])
+
     def test_structural_values_are_enforced_on_valid_attempts(self) -> None:
         row = self.make_attempt(self.plan["cases"][0], 0, True)
         row["sampling_interval"] = 0.5
         errors = self.validate_attempts([row])
         self.assertTrue(any("sampling mismatch" in error for error in errors))
 
-    def test_empty_templates_and_original_verifier_remain_fail_closed(self) -> None:
+    def test_empty_templates_and_hotfix_aware_verifier_pass(self) -> None:
         errors = verify.prefreeze_checks(
             PLAN_PATH,
             MANIFEST_TEMPLATE_PATH,
@@ -185,15 +216,7 @@ class Exp3PreFreezeTests(unittest.TestCase):
             SCHEMA_PATH,
             FREEZE_MANIFEST_PATH,
         )
-        self.assertEqual(
-            errors,
-            [
-                "frozen artifact hash mismatch: "
-                "phase_b/exp3/generate_exp3_heldout.m",
-                "frozen artifact hash mismatch: "
-                "phase_b/tests/test_exp3_pre_freeze.py",
-            ],
-        )
+        self.assertEqual(errors, [])
         attempt_template = json.loads(ATTEMPT_TEMPLATE_PATH.read_text(encoding="utf-8"))
         self.assertEqual(attempt_template["attempts"], [])
         with MANIFEST_TEMPLATE_PATH.open(newline="", encoding="utf-8") as stream:
@@ -223,7 +246,7 @@ class Exp3PreFreezeTests(unittest.TestCase):
         self.assertIn("FROZEN_BEFORE_GENERATION", self.generator)
         self.assertIn("EXP3_FREEZE_MANIFEST.json", self.generator)
         self.assertIn("GenerationScriptNotFrozen", self.generator)
-        self.assertIn("CasePlanNotFrozen", self.generator)
+        self.assertIn("HotfixCasePlanHashMismatch", self.generator)
 
     def test_generator_contains_no_scientific_selection_pipeline(self) -> None:
         lowered = self.generator.lower()
@@ -282,8 +305,8 @@ class Exp3PreFreezeTests(unittest.TestCase):
                 artifact["path"],
             )
 
-    def test_post_freeze_hotfix_delta_is_narrow_and_hash_bound(self) -> None:
-        hotfix = json.loads(HOTFIX_MANIFEST_PATH.read_text(encoding="utf-8"))
+    def test_post_freeze_hotfix_001_remains_immutable_and_bound(self) -> None:
+        hotfix = json.loads(HOTFIX_001_MANIFEST_PATH.read_text(encoding="utf-8"))
         self.assertEqual(hotfix["hotfix_id"], "EXP3_POST_FREEZE_HOTFIX_001")
         self.assertEqual(hotfix["status"], "AUTHORIZED_BEFORE_FIRST_SIMULATION")
         self.assertEqual(hotfix["original_freeze_commit"], EXP3_FREEZE_COMMIT)
@@ -292,10 +315,27 @@ class Exp3PreFreezeTests(unittest.TestCase):
             hotfix["frozen_original_generator_sha256"], FROZEN_GENERATOR_SHA256
         )
         self.assertEqual(
-            hotfix["hotfixed_generator_sha256"], sha256_file(GENERATOR_PATH)
+            hotfix["hotfixed_generator_sha256"],
+            hashlib.sha256(
+                git_show_bytes(
+                    HOTFIX_001_COMMIT, "phase_b/exp3/generate_exp3_heldout.m"
+                )
+            ).hexdigest(),
         )
         self.assertEqual(hotfix["case_plan_sha256"], FROZEN_CASE_PLAN_SHA256)
-        self.assertEqual(sha256_file(PLAN_PATH), FROZEN_CASE_PLAN_SHA256)
+        self.assertEqual(
+            hashlib.sha256(
+                git_show_bytes(HOTFIX_001_COMMIT, "phase_b/exp3/exp3_case_plan.json")
+            ).hexdigest(),
+            FROZEN_CASE_PLAN_SHA256,
+        )
+        self.assertEqual(
+            HOTFIX_001_MANIFEST_PATH.read_bytes(),
+            git_show_bytes(
+                HOTFIX_001_COMMIT,
+                "phase_b/exp3/EXP3_POST_FREEZE_HOTFIX_001.json",
+            ),
+        )
         self.assertFalse(hotfix["scientific_protocol_changed"])
         self.assertFalse(hotfix["experiment_1_frozen_artifacts_changed"])
         self.assertEqual(
@@ -310,11 +350,48 @@ class Exp3PreFreezeTests(unittest.TestCase):
                 "workbooks_created": 0,
             },
         )
-        report = HOTFIX_REPORT_PATH.read_text(encoding="utf-8")
+        report = HOTFIX_001_REPORT_PATH.read_text(encoding="utf-8")
         self.assertIn("No scientific protocol element was changed.", report)
         self.assertIn("`EXP3-N-001`", report)
         self.assertIn("attempt `0`", report)
         self.assertIn("seed `310001`", report)
+
+    def test_post_freeze_hotfix_002_boundary_and_runtime_semantics(self) -> None:
+        hotfix = json.loads(HOTFIX_002_MANIFEST_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(hotfix["hotfix_id"], "EXP3_POST_FREEZE_HOTFIX_002")
+        self.assertEqual(hotfix["hotfix_001_commit"], HOTFIX_001_COMMIT)
+        self.assertFalse(hotfix["scientific_protocol_changed"])
+        self.assertFalse(hotfix["experiment_1_frozen_artifacts_changed"])
+        self.assertEqual(
+            hotfix["actual_vs_expected"],
+            {
+                "actual_matlab_product_date": "28-Jul-2025",
+                "previous_frozen_expected_value": "June 30, 2026",
+                "previous_value_actual_api": "version('-date')",
+            },
+        )
+        self.assertEqual(
+            hotfix["failed_invocation"],
+            {
+                "physical_case_id": "EXP3-N-001",
+                "attempt": 0,
+                "seed": 310001,
+                "sim_called": False,
+                "run_rng_consumed": False,
+                "output_directories_created": True,
+                "directories_empty": True,
+                "workbooks_created": 0,
+                "attempt_log_created": False,
+                "final_manifest_created": False,
+                "scientific_outcome_observed": False,
+            },
+        )
+        report = HOTFIX_002_REPORT_PATH.read_text(encoding="utf-8")
+        self.assertIn("No scientific protocol element was changed.", report)
+        self.assertIn(
+            "output directory created, but no scientific output created",
+            " ".join(report.split()),
+        )
 
     def test_matlab_attempt_policy_regression_matches_generator(self) -> None:
         matlab_test = MATLAB_POLICY_TEST_PATH.read_text(encoding="utf-8")
@@ -337,6 +414,24 @@ class Exp3PreFreezeTests(unittest.TestCase):
         self.assertIn("EXP3:ReplacementWithoutPrimary", self.generator)
         self.assertIn("EXP3:UnauthorizedReplacement", self.generator)
         self.assertIn("EXP3:AttemptLimit", self.generator)
+
+    def test_matlab_runtime_regression_matches_generator_and_never_calls_sim(
+        self,
+    ) -> None:
+        matlab_test = MATLAB_RUNTIME_TEST_PATH.read_text(encoding="utf-8")
+        generator_capture = self.generator.split(
+            "function runtime = capture_runtime()", 1
+        )[1].split("function assert_runtime", 1)[0]
+        test_capture = matlab_test.split("function runtime = capture_runtime()", 1)[
+            1
+        ].split("function assert_runtime", 1)[0]
+        generator_assert = self.generator.split("function assert_runtime", 1)[1].split(
+            "function record = empty_record", 1
+        )[0]
+        test_assert = matlab_test.split("function assert_runtime", 1)[1]
+        self.assertEqual(generator_capture.strip(), test_capture.strip())
+        self.assertEqual(generator_assert.strip(), test_assert.strip())
+        self.assertNotRegex(matlab_test, r"\bsim\s*\(")
 
     def test_exp3_python_dependencies_are_pinned(self) -> None:
         requirements = (ROOT / "requirements.txt").read_text(encoding="utf-8")
@@ -365,7 +460,11 @@ class Exp3PreFreezeTests(unittest.TestCase):
         gitignore = (ROOT / ".gitignore").read_text(encoding="utf-8")
         self.assertIn("tep_exp3_heldout/", gitignore.splitlines())
         generated = ROOT / "tep_exp3_heldout"
-        self.assertFalse(generated.exists())
+        if generated.exists():
+            self.assertTrue(generated.is_dir())
+            self.assertEqual(
+                [path for path in generated.rglob("*") if path.is_file()], []
+            )
         self.assertEqual(list(EXP3.glob("*.xlsx")), [])
 
     def test_all_experiment_one_frozen_hashes_remain_exact(self) -> None:

@@ -265,8 +265,10 @@ behavior.
 | TEP operating mode | Mode 1 | `MultiLoop_mode1` and `Mode_1_Init.m` |
 | Simulink model | `MultiLoop_mode1` | Verified |
 | Simulink simulation mode | `normal` | Saved model parameter |
-| MATLAB exact version | `25.2.0.3312555 (R2025b) Update 6` | Captured by the sentinel-only runtime probe |
-| MATLAB release/build/date | `2025b` / `3312555` / `June 30, 2026` | Captured by `version`, `version('-release')`, and `ver('MATLAB')` |
+| MATLAB full version | `25.2.0.3312555 (R2025b) Update 6` | Captured by `version` in the sentinel-only runtime probe |
+| MATLAB release/build | `2025b` / `3312555` | Release captured by `version('-release')`; build parsed fail-closed from the full version |
+| MATLAB product date | `28-Jul-2025` | Captured by `ver('MATLAB').Date` |
+| MATLAB runtime/update date | `June 30, 2026` | Captured separately by `version('-date')`; it is not the MATLAB product date |
 | Simulink version/release/date | `25.2` / `(R2025b)` / `28-Jul-2025` | Captured by `ver('Simulink')`; no separate Simulink build was exposed or invented |
 | Architecture / MATLAB root | `MACA64` / `/Applications/MATLAB_R2025b.app` | Captured by `computer` and `matlabroot` |
 | Model start time | `0.0` h | Saved model parameter |
@@ -307,9 +309,10 @@ The dedicated single-case generator is
 refuses overwrite, verifies pinned model/initial-state/S-function source/MEX
 hashes, records its own frozen SHA-256 plus complete runtime provenance, applies only
 the Section 9 structural checks, and appends an attempt record. The generator
-requires case-plan status `FROZEN_BEFORE_GENERATION` and verifies its own hash
-and the case-plan hash against `phase_b/exp3/EXP3_FREEZE_MANIFEST.json` before
-simulation.
+requires case-plan status `FROZEN_BEFORE_GENERATION` and verifies the original
+freeze boundary plus the authorized post-freeze implementation/provenance
+delta before simulation. The original
+`phase_b/exp3/EXP3_FREEZE_MANIFEST.json` and tag remain unchanged.
 
 ## 7. Fault and injection configuration
 

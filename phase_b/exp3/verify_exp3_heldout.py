@@ -9,6 +9,7 @@ import hashlib
 import json
 import math
 import re
+import subprocess
 import sys
 from collections import Counter
 from pathlib import Path
@@ -28,10 +29,11 @@ EXPECTED_HEADER = (
     + [f"XMV-{index}" for index in range(1, 13)]
 )
 EXPECTED_RUNTIME = {
-    "matlab_version": "25.2.0.3312555 (R2025b) Update 6",
+    "matlab_version_full": "25.2.0.3312555 (R2025b) Update 6",
     "matlab_release": "2025b",
     "matlab_build": "3312555",
-    "matlab_product_date": "June 30, 2026",
+    "matlab_product_date": "28-Jul-2025",
+    "matlab_runtime_update_date": "June 30, 2026",
     "simulink_version": "25.2",
     "simulink_release": "(R2025b)",
     "simulink_product_date": "28-Jul-2025",
@@ -105,6 +107,23 @@ EXPECTED_FREEZE_PATHS = {
     "phase_b/exp3/verify_exp3_heldout.py",
     "phase_b/tests/test_exp3_pre_freeze.py",
 }
+EXP3_FREEZE_TAG = "exp3-heldout-frozen"
+EXP3_FREEZE_COMMIT = "b02e93f92bf6fa85a4fd0a2e010bac365a3a7c89"
+HOTFIX_001_COMMIT = "cdba0202435d1c97ea79cfff586e59534ce9baad"
+HOTFIX_001_PATH = SCRIPT_DIR / "EXP3_POST_FREEZE_HOTFIX_001.json"
+HOTFIX_002_PATH = SCRIPT_DIR / "EXP3_POST_FREEZE_HOTFIX_002.json"
+HOTFIX_002_ARTIFACT_PATHS = {
+    "phase_b/exp3/EXP3_FRESH_RUN_PROTOCOL.md",
+    "phase_b/exp3/EXP3_POST_FREEZE_HOTFIX_002.md",
+    "phase_b/exp3/RNG_RUNTIME_VALIDATION.md",
+    "phase_b/exp3/exp3_attempt_log.schema.json",
+    "phase_b/exp3/exp3_case_plan.json",
+    "phase_b/exp3/generate_exp3_heldout.m",
+    "phase_b/exp3/test_exp3_runtime_provenance.m",
+    "phase_b/exp3/validate_exp3_rng_runtime.m",
+    "phase_b/exp3/verify_exp3_heldout.py",
+    "phase_b/tests/test_exp3_pre_freeze.py",
+}
 
 
 def sha256_file(path: Path) -> str:
@@ -113,6 +132,19 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def sha256_bytes(payload: bytes) -> str:
+    return hashlib.sha256(payload).hexdigest()
+
+
+def git_show_bytes(revision: str, relative: str) -> bytes:
+    return subprocess.run(
+        ["git", "show", f"{revision}:{relative}"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+    ).stdout
 
 
 def close(left: float, right: float) -> bool:
@@ -189,6 +221,24 @@ def validate_freeze_manifest(path: Path) -> list[str]:
         errors.append("freeze manifest contains duplicate paths")
     if set(paths) != EXPECTED_FREEZE_PATHS:
         errors.append("freeze manifest artifact path set mismatch")
+    try:
+        freeze_target = subprocess.run(
+            ["git", "rev-parse", f"{EXP3_FREEZE_TAG}^{{}}"],
+            cwd=ROOT,
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        if freeze_target != EXP3_FREEZE_COMMIT:
+            errors.append("original freeze tag target mismatch")
+        tagged_manifest = git_show_bytes(
+            EXP3_FREEZE_TAG, "phase_b/exp3/EXP3_FREEZE_MANIFEST.json"
+        )
+        if path.read_bytes() != tagged_manifest:
+            errors.append("original freeze manifest differs from tagged bytes")
+    except Exception as exc:
+        errors.append(f"original freeze tag cannot be verified: {exc}")
+
     for row in artifacts:
         if not isinstance(row, dict) or set(row) != {"path", "sha256"}:
             errors.append("freeze manifest artifact entry schema mismatch")
@@ -203,11 +253,128 @@ def validate_freeze_manifest(path: Path) -> list[str]:
         ):
             errors.append(f"invalid frozen SHA-256: {row['path']}")
             continue
+        try:
+            tagged_bytes = git_show_bytes(EXP3_FREEZE_TAG, row["path"])
+        except Exception as exc:
+            errors.append(f"frozen tagged artifact missing: {row['path']}: {exc}")
+            continue
+        if sha256_bytes(tagged_bytes) != expected_hash:
+            errors.append(f"frozen tagged artifact hash mismatch: {row['path']}")
+
+    try:
+        hotfix = json.loads(HOTFIX_002_PATH.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return errors + [f"hotfix 002 manifest cannot be read: {exc}"]
+    expected_hotfix_metadata = {
+        "schema_version": "1.0",
+        "hotfix_id": "EXP3_POST_FREEZE_HOTFIX_002",
+        "status": "AUTHORIZED_BEFORE_FIRST_SIMULATION",
+        "original_freeze_commit": EXP3_FREEZE_COMMIT,
+        "original_freeze_tag": EXP3_FREEZE_TAG,
+        "hotfix_001_commit": HOTFIX_001_COMMIT,
+        "scientific_protocol_changed": False,
+        "experiment_1_frozen_artifacts_changed": False,
+    }
+    for field, expected in expected_hotfix_metadata.items():
+        if hotfix.get(field) != expected:
+            errors.append(f"hotfix 002 {field} mismatch")
+    if hotfix.get("original_freeze_manifest_sha256") != sha256_file(path):
+        errors.append("hotfix 002 original freeze manifest hash mismatch")
+    if hotfix.get("hotfix_001_manifest_sha256") != sha256_file(HOTFIX_001_PATH):
+        errors.append("hotfix 002 hotfix 001 manifest hash mismatch")
+    try:
+        hotfix001 = json.loads(HOTFIX_001_PATH.read_text(encoding="utf-8"))
+        hotfix001_generator = sha256_bytes(
+            git_show_bytes(HOTFIX_001_COMMIT, "phase_b/exp3/generate_exp3_heldout.m")
+        )
+        if (
+            hotfix.get("hotfix_001_generator_sha256") != hotfix001_generator
+            or hotfix001.get("hotfixed_generator_sha256") != hotfix001_generator
+        ):
+            errors.append("hotfix 002 hotfix 001 generator hash mismatch")
+    except Exception as exc:
+        errors.append(f"hotfix 001 chain cannot be verified: {exc}")
+
+    expected_boundary = {
+        "physical_case_id": "EXP3-N-001",
+        "attempt": 0,
+        "seed": 310001,
+        "sim_called": False,
+        "run_rng_consumed": False,
+        "output_directories_created": True,
+        "directories_empty": True,
+        "workbooks_created": 0,
+        "attempt_log_created": False,
+        "final_manifest_created": False,
+        "scientific_outcome_observed": False,
+    }
+    if hotfix.get("failed_invocation") != expected_boundary:
+        errors.append("hotfix 002 failed-invocation boundary mismatch")
+    expected_semantics = {
+        "matlab_version_full": "version",
+        "matlab_release": "version('-release')",
+        "matlab_build": "parsed from version",
+        "matlab_product_date": "ver('MATLAB').Date",
+        "matlab_runtime_update_date": "version('-date')",
+    }
+    if hotfix.get("runtime_semantics") != expected_semantics:
+        errors.append("hotfix 002 runtime field semantics mismatch")
+
+    changed = hotfix.get("changed_artifacts")
+    if not isinstance(changed, list):
+        return errors + ["hotfix 002 changed_artifacts must be an array"]
+    changed_paths = [row.get("path") for row in changed if isinstance(row, dict)]
+    if len(changed_paths) != len(set(changed_paths)):
+        errors.append("hotfix 002 contains duplicate artifact paths")
+    if set(changed_paths) != HOTFIX_002_ARTIFACT_PATHS:
+        errors.append("hotfix 002 artifact path set mismatch")
+    artifact_after = {
+        row.get("path"): row.get("after_sha256")
+        for row in changed
+        if isinstance(row, dict)
+    }
+    if hotfix.get("hotfix_002_generator_sha256") != artifact_after.get(
+        "phase_b/exp3/generate_exp3_heldout.m"
+    ):
+        errors.append("hotfix 002 generator hash aliases disagree")
+    if hotfix.get("hotfix_002_case_plan_sha256") != artifact_after.get(
+        "phase_b/exp3/exp3_case_plan.json"
+    ):
+        errors.append("hotfix 002 case-plan hash aliases disagree")
+    for row in changed:
+        if not isinstance(row, dict) or set(row) != {
+            "path",
+            "before_sha256",
+            "after_sha256",
+        }:
+            errors.append("hotfix 002 artifact entry schema mismatch")
+            continue
+        relative = Path(row["path"])
+        if relative.is_absolute() or ".." in relative.parts:
+            errors.append(f"invalid hotfix 002 path: {row['path']!r}")
+            continue
+        after_hash = row["after_sha256"]
+        if not isinstance(after_hash, str) or not HASH_PATTERN.fullmatch(after_hash):
+            errors.append(f"invalid hotfix 002 SHA-256: {row['path']}")
+            continue
         artifact = ROOT / relative
         if not artifact.is_file():
-            errors.append(f"frozen artifact missing: {row['path']}")
-        elif sha256_file(artifact) != expected_hash:
-            errors.append(f"frozen artifact hash mismatch: {row['path']}")
+            errors.append(f"hotfix 002 artifact missing: {row['path']}")
+        elif sha256_file(artifact) != after_hash:
+            errors.append(f"hotfix 002 artifact hash mismatch: {row['path']}")
+        before_hash = row["before_sha256"]
+        try:
+            previous_bytes = git_show_bytes(HOTFIX_001_COMMIT, row["path"])
+        except subprocess.CalledProcessError:
+            if before_hash is not None:
+                errors.append(f"hotfix 002 new artifact has prior hash: {row['path']}")
+        else:
+            if (
+                not isinstance(before_hash, str)
+                or not HASH_PATTERN.fullmatch(before_hash)
+                or sha256_bytes(previous_bytes) != before_hash
+            ):
+                errors.append(f"hotfix 002 prior artifact hash mismatch: {row['path']}")
     return errors
 
 
@@ -292,16 +459,19 @@ def validate_case_plan(plan: dict[str, Any]) -> list[str]:
 
     runtime = plan.get("runtime", {})
     plan_runtime_map = {
-        "matlab_exact_version": EXPECTED_RUNTIME["matlab_version"],
+        "matlab_version_full": EXPECTED_RUNTIME["matlab_version_full"],
         "matlab_release": EXPECTED_RUNTIME["matlab_release"],
         "matlab_build": EXPECTED_RUNTIME["matlab_build"],
-        "matlab_date": EXPECTED_RUNTIME["matlab_product_date"],
+        "matlab_product_date": EXPECTED_RUNTIME["matlab_product_date"],
+        "matlab_runtime_update_date": EXPECTED_RUNTIME["matlab_runtime_update_date"],
         "simulink_version": EXPECTED_RUNTIME["simulink_version"],
         "simulink_release": EXPECTED_RUNTIME["simulink_release"],
         "simulink_product_date": EXPECTED_RUNTIME["simulink_product_date"],
         "architecture": EXPECTED_RUNTIME["architecture"],
         "matlabroot": EXPECTED_RUNTIME["matlabroot"],
     }
+    if set(runtime) != set(plan_runtime_map):
+        errors.append("runtime field set mismatch")
     for field, expected_value in plan_runtime_map.items():
         if runtime.get(field) != expected_value:
             errors.append(f"runtime.{field} mismatch")

@@ -12,6 +12,7 @@ The runtime was queried with:
 ```matlab
 version
 version('-release')
+version('-date')
 ver('MATLAB')
 ver('Simulink')
 computer
@@ -22,10 +23,11 @@ The exact captured identity was:
 
 | Field | Captured value |
 |---|---|
-| MATLAB exact version | `25.2.0.3312555 (R2025b) Update 6` |
+| MATLAB full version (`version`) | `25.2.0.3312555 (R2025b) Update 6` |
 | MATLAB release | `2025b` |
 | MATLAB runtime build | `3312555` |
-| MATLAB product date | `June 30, 2026` |
+| MATLAB product date (`ver('MATLAB').Date`) | `28-Jul-2025` |
+| MATLAB runtime/update date (`version('-date')`) | `June 30, 2026` |
 | Simulink version | `25.2` |
 | Simulink release | `(R2025b)` |
 | Simulink product date | `28-Jul-2025` |
