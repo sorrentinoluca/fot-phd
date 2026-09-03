@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 V2 = ROOT / "phase_b/exp3_v2"
-MANIFEST_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json"
+MANIFEST_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json"
 SOURCE = ROOT / "tep_parent_a0413e16/simulator"
 
 

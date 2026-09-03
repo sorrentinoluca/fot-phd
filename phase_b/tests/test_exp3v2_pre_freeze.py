@@ -18,7 +18,8 @@ EXP3 = ROOT / "phase_b/exp3"
 V2 = ROOT / "phase_b/exp3_v2"
 PLAN_PATH = V2 / "exp3v2_case_plan.json"
 SCHEMA_PATH = V2 / "exp3v2_attempt_log.schema.json"
-HARNESS_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json"
+HARNESS_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json"
+REVISION_002_MANIFEST_PATH = V2 / "EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json"
 FINAL_PATH = V2 / "EXP3_V2_FREEZE_MANIFEST.json"
 VERIFIER_PATH = V2 / "verify_exp3v2_heldout.py"
 EXPECTED_LOG_HASH = "04ea7d8af227c3a7f947b4dde434e77510c163ce9c108892ffa22f491f022904"
@@ -210,6 +211,19 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
         self.assertNotIn("evalin", self.extractor)
         self.assertNotIn("simResult.who", self.engine + self.extractor)
 
+    def test_workspace_isolation_uses_tested_text_scalar_contract(self) -> None:
+        helper = (V2 / "exp3v2_workspace_outputs_present.m").read_text()
+        regression = (V2 / "test_exp3v2_workspace_isolation.m").read_text()
+        self.assertIn("exp3v2_workspace_outputs_present()", self.engine)
+        self.assertIn("expression = \"exist('tout','var') || \" +", helper)
+        self.assertIn("isstring(expression) && isscalar(expression)", helper)
+        self.assertNotIn("[\"exist('tout','var') || \"", self.engine + helper)
+        for name in ("tout", "simout", "xmv"):
+            self.assertIn(f"assignin('base', '{name}', 1)", regression)
+        self.assertIn("RandStream.getGlobalStream()", regression)
+        self.assertNotRegex(regression, r"\brng\s*\(")
+        self.assertNotRegex(regression, r"\bsim\s*\(")
+
     def test_model_changes_use_one_guard_and_never_save(self) -> None:
         configure = (V2 / "configure_exp3v2_model.m").read_text()
         restore = (V2 / "restore_exp3v2_model_config.m").read_text()
@@ -242,7 +256,7 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
         self.assertIn("exp3-v2-heldout-frozen", real)
         self.assertIn("SentinelRejectedByRealWrapper", real)
         self.assertIn("HARNESS_FROZEN_FOR_SENTINEL", sentinel)
-        self.assertIn("exp3-v2-harness-frozen-002", sentinel)
+        self.assertIn("exp3-v2-harness-frozen-003", sentinel)
         self.assertIn("SentinelRealPathOverlap", sentinel)
         self.assertIn("ExplicitRuntimeRequired", real)
         self.assertIn("ExplicitRuntimeRequired", sentinel)
@@ -312,28 +326,55 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
             "mandatory sentinel gate",
             "`exp3-v2-harness-frozen`",
             "`exp3-v2-harness-frozen-002`",
+            "`exp3-v2-harness-frozen-003`",
             "`exp3-v2-heldout-frozen`",
         ):
             self.assertIn(token, self.protocol)
         self.assertNotIn("preregistered", self.protocol.lower())
 
-    def test_revision_002_frozen_hashes_and_prefreeze_verifier(self) -> None:
+    def test_revision_002_manifest_is_immutable(self) -> None:
+        expected = "c552a6f474491243f549f9588eec52d61fe65922ef8734ff843ef75745710019"
+        self.assertEqual(sha256_file(REVISION_002_MANIFEST_PATH), expected)
+        self.assertEqual(
+            git_show(
+                "exp3-v2-harness-frozen-002",
+                "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json",
+            ),
+            REVISION_002_MANIFEST_PATH.read_bytes(),
+        )
+
+    def test_revision_003_frozen_hashes_and_prefreeze_verifier(self) -> None:
         errors = verify.prefreeze_checks(PLAN_PATH, HARNESS_PATH, FINAL_PATH)
         self.assertEqual(errors, [])
         harness = json.loads(HARNESS_PATH.read_text())
         self.assertEqual(harness["status"], "HARNESS_FROZEN_FOR_SENTINEL")
-        self.assertEqual(harness["manifest_revision"], "002")
-        self.assertEqual(harness["freeze_tag"], "exp3-v2-harness-frozen-002")
+        self.assertEqual(harness["manifest_revision"], "003")
+        self.assertEqual(harness["freeze_tag"], "exp3-v2-harness-frozen-003")
         self.assertTrue(harness["tag_created"])
         self.assertEqual(
             harness["human_approval"],
-            "APPROVO LA PREPARAZIONE DI EXP3_V2 HARNESS REVISION 002",
+            "Prepare EXP3_V2 Harness Revision 003",
         )
         self.assertEqual(
             harness["freeze_human_approval"],
-            "APPROVO IL FREEZE HARNESS REVISION 002 EXP3_V2",
+            "APPROVO IL FREEZE HARNESS EXP3_V2 REVISION 003",
         )
         self.assertEqual(harness["freeze_human_approval_date"], "2026-09-03")
+        self.assertEqual(
+            harness["parent_revision_002"],
+            {
+                "commit": "261e54b10fe2c0a8897627ff7626c1a2d05672f8",
+                "tag": "exp3-v2-harness-frozen-002",
+                "manifest_sha256": (
+                    "c552a6f474491243f549f9588eec52d61fe65922ef8734ff843ef75745710019"
+                ),
+            },
+        )
+        self.assertEqual(harness["unavailable_incident_evidence"], [])
+        self.assertFalse(harness["sentinel_seed_consumed"])
+        self.assertEqual(harness["rng_seed_calls_at_revision_preparation"], 0)
+        self.assertEqual(harness["sim_calls_at_revision_preparation"], 0)
+        self.assertEqual(harness["workbooks_created_at_revision_preparation"], 0)
         self.assertEqual(
             {row["path"] for row in harness["artifacts"]},
             verify.REQUIRED_HARNESS_PATHS,
@@ -355,6 +396,38 @@ class Exp3V2PreFreezeTests(unittest.TestCase):
             "MultiLoop_mode1.slxc",
             {row["path"] for row in harness["external_runtime_dependencies"]},
         )
+
+    def test_preexecution_incident_chain_is_distinct_and_archived(self) -> None:
+        record = json.loads(
+            (V2 / "EXP3_V2_REV003_PREEXECUTION_INCIDENTS.json").read_text()
+        )
+        self.assertEqual([row["ordinal"] for row in record["events"]], [1, 2, 3])
+        self.assertTrue(
+            all(
+                row["classification"] == "PRE_EXECUTION_TECHNICAL_ABORT"
+                and row["rng_calls"] == 0
+                and row["sim_calls"] == 0
+                and not row["sentinel_simulation_completed"]
+                for row in record["events"]
+            )
+        )
+        self.assertEqual(record["unavailable_evidence"], [])
+        archives = {
+            "EXP3_V2_REV002_EXTERNAL_DRIVER_FAILURE_ARCHIVE.json": (
+                "b074f871556ddfc229cfc842e71a8d7884ad19c7206d48c3f06ebee3f4bef6ff"
+            ),
+            "EXP3_V2_REV002_EXTERNAL_DRIVER_ATTEMPT_LOG_ARCHIVE.json": (
+                "6b392bfef158585e2127721a676773b4419aff2d655edae159318908fdffd1bd"
+            ),
+            "EXP3_V2_REV002_OFFICIAL_WRAPPER_FAILURE_ARCHIVE.json": (
+                "aaf58e8626fb300e740801dbd509b4cbf0b662bcd2a45b13fef09e89266dba25"
+            ),
+            "EXP3_V2_REV002_OFFICIAL_WRAPPER_ATTEMPT_LOG_ARCHIVE.json": (
+                "d10d281781a920439479f1b052649fd6bb8f16c2ecc076306bb5f910c1be4260"
+            ),
+        }
+        for name, digest in archives.items():
+            self.assertEqual(sha256_file(V2 / name), digest)
 
     def test_mode_paths_are_mutually_exclusive(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0-preserved-throwaway",
+  "status": "FAIL",
+  "harness_revision": "002",
+  "harness_tag": "exp3-v2-harness-frozen-002",
+  "harness_commit": "261e54b10fe2c0a8897627ff7626c1a2d05672f8",
+  "physical_case_id": "EXP3V2-SENTINEL-001",
+  "seed": 9.87654321E+8,
+  "retry_performed": false,
+  "scientific_seed_consumed": false,
+  "scientific_signal_inspected": false,
+  "error_identifier": "EXP3V2:WrongModelPath",
+  "error_message": "Loaded model path mismatch.",
+  "throwaway_cleanup": "PRESERVED_BY_HUMAN_INSTRUCTION",
+  "throwaway_root": "/tmp/exp3v2-sentinel-001-rev002.jfag7u/throwaway"
+}

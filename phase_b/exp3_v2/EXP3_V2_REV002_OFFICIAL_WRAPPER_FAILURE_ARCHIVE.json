@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "status": "FAIL",
+  "harness_revision": "002",
+  "harness_tag": "exp3-v2-harness-frozen-002",
+  "harness_commit": "261e54b10fe2c0a8897627ff7626c1a2d05672f8",
+  "physical_case_id": "EXP3V2-SENTINEL-001",
+  "seed": 9.87654321E+8,
+  "error_identifier": "MATLAB:string:MustBeStringScalarOrCharacterVector",
+  "error_message": "Argument must be a text scalar.",
+  "diagnostic_signal_inspected": false,
+  "real_path_snapshot_before": {
+    "v2_workbook_count": 0,
+    "old_workbook_count": 0,
+    "v2_total_file_count": 0,
+    "old_total_file_count": 0,
+    "v2_attempt_log_sha256": "",
+    "old_attempt_log_sha256": ""
+  },
+  "real_path_snapshot_after": {
+    "v2_workbook_count": 0,
+    "old_workbook_count": 0,
+    "v2_total_file_count": 0,
+    "old_total_file_count": 0,
+    "v2_attempt_log_sha256": "",
+    "old_attempt_log_sha256": ""
+  }
+}

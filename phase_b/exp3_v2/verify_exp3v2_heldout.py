@@ -197,6 +197,13 @@ REQUIRED_HARNESS_PATHS = {
     "phase_b/exp3/EXP3_CLOSURE_attempt_log_archive.json",
     "phase_b/exp3_v2/EXP3_V2_FRESH_RUN_PROTOCOL.md",
     "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST.json",
+    "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json",
+    "phase_b/exp3_v2/EXP3_V2_REV002_EXTERNAL_DRIVER_ATTEMPT_LOG_ARCHIVE.json",
+    "phase_b/exp3_v2/EXP3_V2_REV002_EXTERNAL_DRIVER_FAILURE_ARCHIVE.json",
+    "phase_b/exp3_v2/EXP3_V2_REV002_OFFICIAL_WRAPPER_ATTEMPT_LOG_ARCHIVE.json",
+    "phase_b/exp3_v2/EXP3_V2_REV002_OFFICIAL_WRAPPER_FAILURE_ARCHIVE.json",
+    "phase_b/exp3_v2/EXP3_V2_REV003_PREEXECUTION_INCIDENTS.json",
+    "phase_b/exp3_v2/EXP3_V2_REV003_PREEXECUTION_INCIDENTS.md",
     "phase_b/exp3_v2/EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.json",
     "phase_b/exp3_v2/EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.md",
     "phase_b/exp3_v2/append_exp3v2_attempt_record.m",
@@ -209,6 +216,7 @@ REQUIRED_HARNESS_PATHS = {
     "phase_b/exp3_v2/exp3v2_case_plan.json",
     "phase_b/exp3_v2/exp3v2_manifest_template.csv",
     "phase_b/exp3_v2/exp3v2_sentinel_case.json",
+    "phase_b/exp3_v2/exp3v2_workspace_outputs_present.m",
     "phase_b/exp3_v2/extract_exp3v2_outputs.m",
     "phase_b/exp3_v2/generate_exp3v2_heldout.m",
     "phase_b/exp3_v2/generate_exp3v2_sentinel.m",
@@ -223,6 +231,7 @@ REQUIRED_HARNESS_PATHS = {
     "phase_b/exp3_v2/test_exp3v2_model_config_management.m",
     "phase_b/exp3_v2/test_exp3v2_output_retrieval.m",
     "phase_b/exp3_v2/test_exp3v2_runtime_provenance.m",
+    "phase_b/exp3_v2/test_exp3v2_workspace_isolation.m",
     "phase_b/exp3_v2/verify_exp3v2_heldout.py",
     "phase_b/tests/test_exp3v2_pre_freeze.py",
     "phase_b/tests/test_exp3v2_runtime_materialization.py",
@@ -557,6 +566,36 @@ def validate_freeze_manifest(
             if payload.get("tag_created") is not False:
                 errors.append("draft revision 002 must record tag_created=false")
         errors.extend(validate_external_dependency_inventory(payload))
+    if path.name == "EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json":
+        if payload.get("schema_version") != "3.0":
+            errors.append("revision 003 schema version mismatch")
+        if payload.get("manifest_revision") != "003":
+            errors.append("revision 003 harness manifest revision mismatch")
+        if payload.get("freeze_tag") != "exp3-v2-harness-frozen-003":
+            errors.append("revision 003 harness freeze tag mismatch")
+        if payload.get("created_before_sentinel") is not True:
+            errors.append("revision 003 manifest is not pre-sentinel")
+        if payload.get("sentinel_executions_at_revision_preparation") != 0:
+            errors.append("revision 003 sentinel count must be zero")
+        if payload.get("status") == "PRE_FREEZE_DRAFT":
+            if payload.get("tag_created") is not False:
+                errors.append("draft revision 003 must record tag_created=false")
+        parent = payload.get("parent_revision_002")
+        if not isinstance(parent, dict) or parent != {
+            "commit": "261e54b10fe2c0a8897627ff7626c1a2d05672f8",
+            "tag": "exp3-v2-harness-frozen-002",
+            "manifest_sha256": (
+                "c552a6f474491243f549f9588eec52d61fe65922ef8734ff843ef75745710019"
+            ),
+        }:
+            errors.append("revision 003 parent provenance mismatch")
+        if payload.get("case_plan_sha256") != (
+            "3d102383b9eb8d5de14bffef862c2b5715d8bbcf05359decb5fdf31efe31a014"
+        ):
+            errors.append("revision 003 case-plan hash mismatch")
+        if payload.get("unavailable_incident_evidence") != []:
+            errors.append("revision 003 unavailable-evidence disclosure mismatch")
+        errors.extend(validate_external_dependency_inventory(payload))
     if path.name == "EXP3_V2_FREEZE_MANIFEST.json":
         if payload.get("freeze_tag") != "exp3-v2-heldout-frozen":
             errors.append("final freeze tag mismatch")
@@ -655,6 +694,7 @@ def validate_generator_contract(manifest: dict[str, Any]) -> list[str]:
         "restore_exp3v2_model_config(configState)",
         "ReturnWorkspaceOutputs",
         "clear tout simout xmv",
+        "exp3v2_workspace_outputs_present()",
     ):
         if token not in engine:
             errors.append(f"shared-engine safety contract missing: {token}")
@@ -1009,7 +1049,7 @@ def sentinel_checks(args: argparse.Namespace) -> list[str]:
     errors.extend(validate_runtime_directory(harness, args.runtime_dir))
     if (
         args.harness_manifest.resolve()
-        != (SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json").resolve()
+        != (SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json").resolve()
     ):
         errors.append("sentinel mode accepts only the frozen harness manifest")
     for path in (args.attempt_log, args.manifest, args.data_dir):
@@ -1130,7 +1170,7 @@ def main() -> int:
             errors = prefreeze_checks(
                 args.case_plan or SCRIPT_DIR / "exp3v2_case_plan.json",
                 args.harness_manifest
-                or SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json",
+                or SCRIPT_DIR / "EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json",
                 args.final_manifest or SCRIPT_DIR / "EXP3_V2_FREEZE_MANIFEST.json",
                 args.runtime_dir,
             )

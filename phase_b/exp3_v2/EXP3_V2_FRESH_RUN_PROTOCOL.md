@@ -485,8 +485,9 @@ accepted afterward. This output-marshalling correction does not change plant
 dynamics, disturbance mapping, seed, solver, injection time, sampling, horizon,
 or any scientific parameter.
 
-Before any real V2 seed may be consumed, the exact harness must be committed
-and tagged `exp3-v2-harness-frozen`. From a clean checkout at that tag, the sole
+Before any real V2 seed may be consumed, the current exact harness revision
+must be committed and tagged. For Revision 003 the prospective tag is
+`exp3-v2-harness-frozen-003`. From a clean checkout at that tag, the sole
 sentinel `EXP3V2-SENTINEL-001`, seed `987654321`, must exercise the same shared
 engine through workbook writing, round-trip structural checking, and verifier
 `--sentinel`. It writes only inside a unique safe temporary directory disjoint
@@ -764,8 +765,8 @@ The following gates remain open until the stated human reviews and freeze
 actions. Checking an item early is prohibited.
 
 - [ ] Human reviews the non-simulation implementation and F2 evidence.
-- [ ] Harness manifest is finalized, committed, and tagged
-      `exp3-v2-harness-frozen`; local and remote targets agree.
+- [ ] Revision 003 harness manifest is finalized, committed, and tagged
+      `exp3-v2-harness-frozen-003`; local and remote targets agree.
 - [ ] The mandatory end-to-end sentinel passes once from the exact clean
       harness tag, with restoration and cleanup evidence.
 - [ ] Real case plan changes only from `PRE_FREEZE_DRAFT` to
@@ -807,8 +808,9 @@ non-diagnostic record is
 `EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.json` and its Markdown companion.
 
 Revision 002 uses
-`EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json` and reserves the new prospective tag
-`exp3-v2-harness-frozen-002`. The tag does not yet exist. Its `artifacts` array
+`EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json` and is immutably frozen at tag
+`exp3-v2-harness-frozen-002`, commit
+`261e54b10fe2c0a8897627ff7626c1a2d05672f8`. Its `artifacts` array
 contains only repository files intended to be materialized by the tagged Git
 tree. The ignored live log is excluded; the committed verbatim archive
 `phase_b/exp3/EXP3_CLOSURE_attempt_log_archive.json` is the mandatory historical
@@ -836,7 +838,7 @@ no missing dependency. Runtime materialization rejects any `.slxc` file.
 Before any future sentinel, `materialize_exp3v2_runtime.py` must receive an
 explicit source simulator directory. It rejects source symlinks, missing or
 altered allowlisted dependencies, an invalid dependency inventory, and unsafe
-or overlapping destinations. It copies only the nine allowlisted files into a
+or overlapping destinations. It copies only the eight allowlisted files into a
 unique child of the sentinel throwaway directory, then rejects missing, extra,
 symlinked, size-mismatched, or hash-mismatched destination files. The source
 directory is never written or used as the execution directory. The shared
@@ -852,8 +854,36 @@ success also performs and verifies restoration before deleting the throwaway.
 
 The verifier treats three disjoint domains explicitly: Git-tracked boundary
 artifacts, external runtime dependencies, and sentinel-only throwaway outputs.
-Revision 002 must be reviewed, committed, finalized, and tagged before a new
-sentinel can be authorized. No earlier approval authorizes that sentinel.
+
+## 20. Prospective harness Revision 003
+
+Three events are classified separately as pre-execution technical aborts, not
+completed sentinel simulations: the Revision 001 missing-artifact preflight,
+the Revision 002 external-driver `EXP3V2:WrongModelPath` abort, and the Revision
+002 official-wrapper `MATLAB:string:MustBeStringScalarOrCharacterVector` abort.
+All occurred before `rng` and `sim`. Across them the sentinel seed `987654321`
+was never passed to `rng`, no scientific seed was consumed, and no workbook was
+created. `EXP3_V2_REV003_PREEXECUTION_INCIDENTS.json` and its Markdown companion
+bind the surviving evidence, including four byte-identical JSON archives and
+the hashes of independent temporary logs that remain available.
+
+The official Revision 002 wrapper exposed one non-scientific MATLAB defect in
+the frozen engine: square brackets joined two string scalars into a 1×2 string
+array, but `evalin` accepts only a char vector or string scalar. Revision 003
+preserves the assertion and constructs the same logical expression as one
+string scalar with `+`. A dedicated regression test exercises the exact helper
+used by the engine against an empty base workspace and separately injected
+`tout`, `simout`, and `xmv`; it verifies cleanup and unchanged global random
+stream state without calling `rng` or simulation.
+
+Revision 003 uses draft manifest
+`EXP3_V2_HARNESS_FREEZE_MANIFEST_003.json` and reserves tag
+`exp3-v2-harness-frozen-003`. The status remains `PRE_FREEZE_DRAFT` and
+`tag_created` remains false until explicit human freeze approval. Revision 002,
+its manifest, commit, and both earlier tags remain immutable. The scientific
+plan, seeds, RNG placement, model configuration, schemas, validity criteria,
+replacement policy, eight-file external runtime bundle, and `.slxc` rejection
+are unchanged. This draft authorizes no sentinel or scientific generation.
 
 ---
 

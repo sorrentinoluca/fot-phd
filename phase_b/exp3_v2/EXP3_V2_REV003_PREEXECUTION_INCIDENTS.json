@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0",
+  "record_revision": "003",
+  "status": "PRE_EXECUTION_ABORTS_RECONCILED",
+  "recorded_at": "2026-09-03",
+  "immutable_revision_002": {
+    "commit": "261e54b10fe2c0a8897627ff7626c1a2d05672f8",
+    "tag": "exp3-v2-harness-frozen-002",
+    "manifest": "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST_002.json",
+    "manifest_sha256": "c552a6f474491243f549f9588eec52d61fe65922ef8734ff843ef75745710019"
+  },
+  "aggregate_execution_state": {
+    "completed_sentinel_simulations": 0,
+    "rng_seed_calls": 0,
+    "sim_calls": 0,
+    "sentinel_seed_consumed": false,
+    "scientific_seeds_consumed": 0,
+    "workbooks_created": 0
+  },
+  "events": [
+    {
+      "ordinal": 1,
+      "name": "Revision 001 missing-artifact preflight abort",
+      "classification": "PRE_EXECUTION_TECHNICAL_ABORT",
+      "error_identifier": "EXP3V2:CleanCheckoutBoundaryIncomplete",
+      "rng_calls": 0,
+      "sim_calls": 0,
+      "sentinel_simulation_completed": false
+    },
+    {
+      "ordinal": 2,
+      "name": "Revision 002 external-driver path-canonicalization abort",
+      "classification": "PRE_EXECUTION_TECHNICAL_ABORT",
+      "error_identifier": "EXP3V2:WrongModelPath",
+      "rng_calls": 0,
+      "sim_calls": 0,
+      "sentinel_simulation_completed": false
+    },
+    {
+      "ordinal": 3,
+      "name": "Revision 002 official-wrapper MATLAB text-scalar abort",
+      "classification": "PRE_EXECUTION_TECHNICAL_ABORT",
+      "error_identifier": "MATLAB:string:MustBeStringScalarOrCharacterVector",
+      "tagged_location": "phase_b/exp3_v2/run_exp3v2_engine.m:120",
+      "rng_calls": 0,
+      "sim_calls": 0,
+      "sentinel_simulation_completed": false
+    }
+  ],
+  "reported_path_reconciliation": [
+    {
+      "reported_path": "/tmp/exp3v2-sentinel-001-rev002.jfag7u",
+      "available": true,
+      "canonical_path": "/private/tmp/exp3v2-sentinel-001-rev002.jfag7u",
+      "kind": "directory",
+      "byte_size": 71692323,
+      "byte_size_semantics": "sum of 338 recursive regular files",
+      "sha256": "7f4fd07a840f0046c35ed8d667a8e76774bfcd50f2546241161422e6a26c13fd",
+      "sha256_semantics": "SHA-256 of sorted UTF-8 rows: file SHA-256, byte size, relative POSIX path",
+      "repository_status": "outside repository; contains a linked clean tagged worktree"
+    },
+    {
+      "reported_path": "/tmp/exp3v2-sentinel-001-rev002.jfag7u/worktree/phase_b/exp3_v2/EXP3_V2_SENTINEL_FAILURE_EVIDENCE.json",
+      "available": true,
+      "canonical_path": "/private/tmp/exp3v2-sentinel-001-rev002.jfag7u/worktree/phase_b/exp3_v2/EXP3_V2_SENTINEL_FAILURE_EVIDENCE.json",
+      "kind": "file",
+      "byte_size": 872,
+      "sha256": "aaf58e8626fb300e740801dbd509b4cbf0b662bcd2a45b13fef09e89266dba25",
+      "repository_status": "untracked in the temporary Revision 002 worktree"
+    },
+    {
+      "reported_path": "/tmp/exp3v2-sentinel-official-rev002.DHC7hN/SENTINEL_OFFICIAL_MATLAB.log",
+      "available": true,
+      "canonical_path": "/private/tmp/exp3v2-sentinel-official-rev002.DHC7hN/SENTINEL_OFFICIAL_MATLAB.log",
+      "kind": "file",
+      "byte_size": 842,
+      "sha256": "a0a3de5a97336a12ad1d5308f46144356449d326baafeed0bc5af58a3d939d8b",
+      "repository_status": "outside repository"
+    },
+    {
+      "reported_path": "/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tp6adb8e3e_1d09_4a03_ae28_be9aac09f932",
+      "available": true,
+      "canonical_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tp6adb8e3e_1d09_4a03_ae28_be9aac09f932",
+      "kind": "directory",
+      "byte_size": 514155,
+      "byte_size_semantics": "sum of 9 recursive regular files",
+      "sha256": "a5ca584bb4b2c0851fba4914d5b05d8cc8e828ff4aeb63653f0f932a382dd1d6",
+      "sha256_semantics": "SHA-256 of sorted UTF-8 rows: file SHA-256, byte size, relative POSIX path",
+      "repository_status": "outside repository"
+    }
+  ],
+  "available_incident_evidence": [
+    {
+      "event": 1,
+      "path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.json",
+      "byte_size": 864,
+      "sha256": "42993fa5f437afff8207bedede0ba7e1ed34ce67059a46f7f16692cf6b27e312",
+      "repository_status": "tracked"
+    },
+    {
+      "event": 1,
+      "path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.md",
+      "byte_size": 795,
+      "sha256": "1df48faac23834c21e190102c963b2b353abeee8998fd882c3565c390816ccb9",
+      "repository_status": "tracked"
+    },
+    {
+      "event": 2,
+      "path": "/private/tmp/exp3v2-sentinel-001-rev002.jfag7u/throwaway/EXP3_V2_SENTINEL_FAILURE_EVIDENCE_THROWAWAY.json",
+      "byte_size": 611,
+      "sha256": "b074f871556ddfc229cfc842e71a8d7884ad19c7206d48c3f06ebee3f4bef6ff",
+      "repository_status": "outside repository",
+      "verbatim_archive": "phase_b/exp3_v2/EXP3_V2_REV002_EXTERNAL_DRIVER_FAILURE_ARCHIVE.json"
+    },
+    {
+      "event": 2,
+      "path": "/private/tmp/exp3v2-sentinel-001-rev002.jfag7u/throwaway/sentinel_attempt_log.json",
+      "byte_size": 1732,
+      "sha256": "6b392bfef158585e2127721a676773b4419aff2d655edae159318908fdffd1bd",
+      "repository_status": "outside repository",
+      "verbatim_archive": "phase_b/exp3_v2/EXP3_V2_REV002_EXTERNAL_DRIVER_ATTEMPT_LOG_ARCHIVE.json"
+    },
+    {
+      "event": 2,
+      "path": "/private/tmp/exp3v2-sentinel-001-rev002.jfag7u/throwaway/PREFLIGHT_MATLAB.log",
+      "byte_size": 256,
+      "sha256": "97095db73a9360ec0df42e064828b6b5d820a454b8a96374ffd4e45f0ac7e64d",
+      "repository_status": "outside repository"
+    },
+    {
+      "event": 2,
+      "path": "/private/tmp/exp3v2-sentinel-001-rev002.jfag7u/throwaway/SENTINEL_MATLAB.log",
+      "byte_size": 673,
+      "sha256": "8797d03dd44ae6957006e348aa3324d20f6339d28ead8057a3a36b6be5c784db",
+      "repository_status": "outside repository"
+    },
+    {
+      "event": 2,
+      "path": "/private/tmp/exp3v2-sentinel-001-rev002.jfag7u/throwaway/run_sentinel_preserve.m",
+      "byte_size": 11257,
+      "sha256": "b976dc37a799415aaf1e939d12610e01b7d0408326988a871d2803a895909c2c",
+      "repository_status": "outside repository"
+    },
+    {
+      "event": 3,
+      "path": "/private/tmp/exp3v2-sentinel-001-rev002.jfag7u/worktree/phase_b/exp3_v2/EXP3_V2_SENTINEL_FAILURE_EVIDENCE.json",
+      "byte_size": 872,
+      "sha256": "aaf58e8626fb300e740801dbd509b4cbf0b662bcd2a45b13fef09e89266dba25",
+      "repository_status": "untracked in temporary Revision 002 worktree",
+      "verbatim_archive": "phase_b/exp3_v2/EXP3_V2_REV002_OFFICIAL_WRAPPER_FAILURE_ARCHIVE.json"
+    },
+    {
+      "event": 3,
+      "path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tp6adb8e3e_1d09_4a03_ae28_be9aac09f932/sentinel_attempt_log.json",
+      "byte_size": 1803,
+      "sha256": "d10d281781a920439479f1b052649fd6bb8f16c2ecc076306bb5f910c1be4260",
+      "repository_status": "outside repository",
+      "verbatim_archive": "phase_b/exp3_v2/EXP3_V2_REV002_OFFICIAL_WRAPPER_ATTEMPT_LOG_ARCHIVE.json"
+    },
+    {
+      "event": 3,
+      "path": "/private/tmp/exp3v2-sentinel-official-rev002.DHC7hN/SENTINEL_OFFICIAL_MATLAB.log",
+      "byte_size": 842,
+      "sha256": "a0a3de5a97336a12ad1d5308f46144356449d326baafeed0bc5af58a3d939d8b",
+      "repository_status": "outside repository"
+    }
+  ],
+  "unavailable_evidence": [],
+  "root_cause": {
+    "tagged_expression": "evalin('base', [\"exist('tout','var') || \" ... \"exist('simout','var') || exist('xmv','var')\"])",
+    "observed_type": "string 1x2",
+    "observed_is_scalar": false,
+    "matlab_rejection": "MATLAB:string:MustBeStringScalarOrCharacterVector",
+    "failure_preceded_rng_and_sim": true
+  }
+}
