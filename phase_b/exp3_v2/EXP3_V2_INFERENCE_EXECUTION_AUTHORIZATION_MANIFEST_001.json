@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "manifest_kind": "EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION",
+  "status": "FROZEN_BEFORE_INFERENCE",
+  "prospective_tag": "exp3-v2-inference-execution-frozen-001",
+  "tag_created": true,
+  "manifest_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_MANIFEST_001.json",
+  "human_approval": {
+    "approved": true,
+    "approved_at": "2026-09-04T13:40:57Z",
+    "approval_text_sha256": "ca5f4792b549a89d01131002107e7311ba3c769900d38a37e26dc916adb94d6e",
+    "scope": "EXP3_V2_1080_JOB_INFERENCE_EXECUTION"
+  },
+  "harness_binding": {
+    "tag": "exp3-v2-inference-harness-frozen-001",
+    "commit": "24b030a07652649556953aaa1a2cfb29e54ab2f7",
+    "manifest_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_HARNESS_MANIFEST_001.json",
+    "manifest_sha256": "68256cf4eeab3eb3e9c44b16914dcbfc4e9514a2db8e570b2f61cd7576365bf6"
+  },
+  "sentinel_binding": {
+    "sentinel_id": "EXP3V2-INFERENCE-SENTINEL-001",
+    "provider_submission_count": 1,
+    "evidence_path": "phase_b/exp3_v2/inference_sentinel_001/EXP3_V2_INFERENCE_SENTINEL_EVIDENCE_001.json",
+    "evidence_sha256": "540028b80daba1c76ca85ae233278073ba883d645bed4c415b42fcb15b613882",
+    "intent_path": "phase_b/exp3_v2/inference_sentinel_001/sentinel_intent.json",
+    "intent_sha256": "6a4935134cc51be9ee5b97a6fef5316b75810abc115f3bfaab20a24355075c3e",
+    "receipt_path": "phase_b/exp3_v2/inference_sentinel_001/sentinel_receipt.json",
+    "receipt_sha256": "306a56c8f587f75eabebfde7311559227fc1d64c5bc8d02c31b818ff9cb69e92",
+    "returned_model": "gpt-5.6-terra",
+    "token_accounting_pass": true,
+    "verifier_pass": true
+  },
+  "integrity_bindings": {
+    "schedule_sha256": "e0049a789a53b7cf3e1ff6c0ee432502815038f0916c4456e5ceda6b0271d697",
+    "runner_sha256": "57b3bd985acf97c5cc9804720a5d3ff0c53b6fa825333a20f43a28bd685d53f8",
+    "runtime_lock_sha256": "863da1b62bb3c8297bf1612f6c3640bcd0fd87e16d156fa8eca6f634f5b05350"
+  },
+  "non_self_referential": {
+    "manifest_sha256_recorded": false,
+    "authorization_commit_recorded": false,
+    "tag_object_recorded": false
+  }
+}
