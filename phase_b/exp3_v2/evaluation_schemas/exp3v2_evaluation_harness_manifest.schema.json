@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EXP3_V2 evaluation harness freeze manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "manifest_revision", "status", "prospective_tag",
+    "tag_created", "non_self_referential", "package_scope", "upstream_tags",
+    "inputs", "runtime", "harness_artifacts", "freeze_commit_allowlist",
+    "future_execution", "future_results_freeze", "review_counters"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "manifest_revision": {"const": "001"},
+    "status": {"enum": ["PRE_FREEZE_DRAFT", "HARNESS_FROZEN_BEFORE_EVALUATION"]},
+    "prospective_tag": {"const": "exp3-v2-evaluation-harness-frozen-001"},
+    "tag_created": {"type": "boolean"},
+    "non_self_referential": {"const": true},
+    "package_scope": {"const": "MINIMAL_CONFIRMATORY_ONLY"},
+    "upstream_tags": {
+      "type": "array", "minItems": 7, "maxItems": 7,
+      "items": {"$ref": "#/$defs/tagBinding"}
+    },
+    "inputs": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_plan", "data_manifest", "pseudolabel_mapping", "aggregate_records"],
+      "properties": {
+        "case_plan": {"$ref": "#/$defs/fileBinding"},
+        "data_manifest": {"$ref": "#/$defs/fileBinding"},
+        "pseudolabel_mapping": {"$ref": "#/$defs/fileBinding"},
+        "aggregate_records": {"$ref": "#/$defs/fileBinding"}
+      }
+    },
+    "runtime": {
+      "type": "object", "additionalProperties": false,
+      "required": ["python_version", "numpy_version", "jsonschema_version", "requirements_path", "lock_path"],
+      "properties": {
+        "python_version": {"const": "3.13.9"},
+        "numpy_version": {"const": "2.5.2"},
+        "jsonschema_version": {"const": "4.25.0"},
+        "requirements_path": {"type": "string"},
+        "lock_path": {"type": "string"}
+      }
+    },
+    "harness_artifacts": {
+      "type": "array", "minItems": 1, "items": {"$ref": "#/$defs/fileBinding"}
+    },
+    "freeze_commit_allowlist": {
+      "type": "array", "minItems": 1, "items": {"type": "string"}, "uniqueItems": true
+    },
+    "future_execution": {"type": "object"},
+    "future_results_freeze": {"type": "object"},
+    "review_counters": {
+      "const": {
+        "real_predictions_opened": 0,
+        "prediction_truth_joins": 0,
+        "metrics_calculated": 0,
+        "evaluation_executions": 0,
+        "api_calls": 0
+      }
+    }
+  },
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "size_bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "size_bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "tagBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "tag", "tag_object", "peeled_commit", "manifest_path", "manifest_sha256"],
+      "properties": {
+        "role": {"enum": ["source", "data", "verbalization_harness", "verbalizations", "inference_harness", "execution_authorization", "inference_outputs"]},
+        "tag": {"type": "string"},
+        "tag_object": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "peeled_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "manifest_path": {"type": "string"},
+        "manifest_sha256": {"$ref": "#/$defs/hash"}
+      }
+    }
+  }
+}

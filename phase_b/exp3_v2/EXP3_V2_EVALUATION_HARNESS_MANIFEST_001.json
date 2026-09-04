@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.0",
+  "manifest_revision": "001",
+  "status": "HARNESS_FROZEN_BEFORE_EVALUATION",
+  "prospective_tag": "exp3-v2-evaluation-harness-frozen-001",
+  "tag_created": true,
+  "non_self_referential": true,
+  "package_scope": "MINIMAL_CONFIRMATORY_ONLY",
+  "upstream_tags": [
+    {
+      "role": "source",
+      "tag": "exp3-v2-heldout-frozen-002",
+      "tag_object": "eaddc2c0791febcccce6412c0a9cc2cf81b3cb21",
+      "peeled_commit": "6f88abdecc25e015064e5fc2c59000f8a1a0bc7e",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST_002.json",
+      "manifest_sha256": "8e50fb79a31a336f3e93e4057ee10d4551a3f3f7a8f717096a433259de7ee26f"
+    },
+    {
+      "role": "data",
+      "tag": "exp3-v2-heldout-data-frozen-001",
+      "tag_object": "34319bbb28fcedadd15acc5dfa2183b3fe733ce3",
+      "peeled_commit": "7bcf309910920b52c485125312599d1ded9c4c74",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_DATA_FREEZE_MANIFEST_001.json",
+      "manifest_sha256": "adb8875ace9155906bb28332791fc3278409a4e5389abfb78c8d14aacc750ad2"
+    },
+    {
+      "role": "verbalization_harness",
+      "tag": "exp3-v2-verbalization-harness-frozen-001",
+      "tag_object": "b2ac5c24835e1f5817baa0e1e8ba13d498777e7d",
+      "peeled_commit": "0ca1ebf339a49c78908e00f65093aeccccc1616f",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_HARNESS_MANIFEST_001.json",
+      "manifest_sha256": "8eb4ec8953112555d4f4168127e7296be7d33a8d0fc513249d49328f4775f1b5"
+    },
+    {
+      "role": "verbalizations",
+      "tag": "exp3-v2-verbalizations-frozen-001",
+      "tag_object": "4eeb14e77c5d5b45395da0d88012bcf30cea83ea",
+      "peeled_commit": "4159fba5e4d23cbc9af62c2aad72f11eda1491db",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_DATA_FREEZE_MANIFEST_001.json",
+      "manifest_sha256": "d75d51a3c30efc7ed5e2a82f5f17cdecf77e2484d17a87e3716f4abbb8fe35a7"
+    },
+    {
+      "role": "inference_harness",
+      "tag": "exp3-v2-inference-harness-frozen-001",
+      "tag_object": "df1f77fee805b19d7a6e782c0ea696dd6c3ffa07",
+      "peeled_commit": "24b030a07652649556953aaa1a2cfb29e54ab2f7",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_HARNESS_MANIFEST_001.json",
+      "manifest_sha256": "68256cf4eeab3eb3e9c44b16914dcbfc4e9514a2db8e570b2f61cd7576365bf6"
+    },
+    {
+      "role": "execution_authorization",
+      "tag": "exp3-v2-inference-execution-frozen-001",
+      "tag_object": "74a14b941cbf229b48529c9c7202613ac4a482c7",
+      "peeled_commit": "c62c871657c061826efda708aacd386779a16d02",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_MANIFEST_001.json",
+      "manifest_sha256": "04fd71e4d625d0057b2cb8aa82ce921e3344a364d00a37cc0bd882caa44a253b"
+    },
+    {
+      "role": "inference_outputs",
+      "tag": "exp3-v2-inference-frozen-001",
+      "tag_object": "e1aa80d2f54d4cefdbc7273cbcdb139f0df57563",
+      "peeled_commit": "9a7ccaa95bae8c0d2d00dc0959e177eb90a5cd61",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_DATA_FREEZE_MANIFEST_001.json",
+      "manifest_sha256": "ab3ee52bc391546bb4b75e7575b6709bc1192513fb17a731278c2c43648674f0"
+    }
+  ],
+  "inputs": {
+    "case_plan": {
+      "path": "phase_b/exp3_v2/exp3v2_case_plan.json",
+      "size_bytes": 10179,
+      "sha256": "84d5af21847033fe4a5924f42fca0fb772201116a9759d6d85f8356929f2b21e"
+    },
+    "data_manifest": {
+      "path": "tep_exp3_v2_heldout/exp3v2_manifest.csv",
+      "size_bytes": 5377,
+      "sha256": "08dc4ec9b7d32812c83ab8b0c065da37b494e94145f7cc244869d5b702f6de77"
+    },
+    "pseudolabel_mapping": {
+      "path": "phase_b/config/evaluator_side/pseudolabel_mapping.json",
+      "size_bytes": 320,
+      "sha256": "f68a690df9c5d0d9505c8b388379c78ccdaa4143e9b4c4e4814ea6d7888b3035"
+    },
+    "aggregate_records": {
+      "path": "inference_outputs/aggregate_records.jsonl",
+      "size_bytes": 198468,
+      "sha256": "0fac87d1cf51597c61ae7be176970990001bed5b015756594a848d1e1bcca656"
+    }
+  },
+  "runtime": {
+    "python_version": "3.13.9",
+    "numpy_version": "2.5.2",
+    "jsonschema_version": "4.25.0",
+    "requirements_path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_REQUIREMENTS_001.txt",
+    "lock_path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_RUNTIME_LOCK_001.json"
+  },
+  "harness_artifacts": [
+    {"path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_CONFIG_001.json", "size_bytes": 1835, "sha256": "5d836027adb493c7c12d3fa495696960a1f208ddaa9b102a7d1d5ba551b6ffdb"},
+    {"path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_PROTOCOL_001.md", "size_bytes": 8583, "sha256": "8f9b7706a58b8c9caef788e2c61ef69129711bfde0b2c9029c3573c1caf785c8"},
+    {"path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_REQUIREMENTS_001.txt", "size_bytes": 630, "sha256": "2beff0c2c239cee74bb8df61f3f76ea2f6e313037caa8d35e3d1db8b9dcf1dac"},
+    {"path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_RESULTS_FREEZE_PROTOCOL_001.md", "size_bytes": 1295, "sha256": "b8adfb2b7256abe3772b6a4cc516913a08f22c92db8c8b31ad4b4b3b5018ef48"},
+    {"path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_RUNTIME_LOCK_001.json", "size_bytes": 2511, "sha256": "270fd9afcba1e7b83971e1283eb51d3cb89d10ca36a4e0c52b35eec12430af2c"},
+    {"path": "phase_b/exp3_v2/evaluate_exp3v2_frozen_predictions.py", "size_bytes": 28288, "sha256": "272f56d01711ce6879969aa1f5c3f662a706b63957c1652e41cfbad8c6052990"},
+    {"path": "phase_b/exp3_v2/evaluation_schemas/exp3v2_evaluation_bootstrap.schema.json", "size_bytes": 1542, "sha256": "223da3d26ac249059cd3746317ca56389cda6081334f566b1dd967ce5ab5e0e0"},
+    {"path": "phase_b/exp3_v2/evaluation_schemas/exp3v2_evaluation_config.schema.json", "size_bytes": 2647, "sha256": "cd9e2f0f3ed9c21352dc7472ec45604f81b65e3d5b9cb8721baf431aa5119e50"},
+    {"path": "phase_b/exp3_v2/evaluation_schemas/exp3v2_evaluation_harness_manifest.schema.json", "size_bytes": 3513, "sha256": "4495ad89b9a68058f352a255426e15639b1d1025fba56422d365a11f98dfde38"},
+    {"path": "phase_b/exp3_v2/evaluation_schemas/exp3v2_evaluation_output_hash_manifest.schema.json", "size_bytes": 1069, "sha256": "9c68a3c79463709f388f7c479a148c66d95dcc92ee55a47a5308024815f0e17c"},
+    {"path": "phase_b/exp3_v2/evaluation_schemas/exp3v2_evaluation_results.schema.json", "size_bytes": 4160, "sha256": "ab76ad3f7e6c943f7cedf143c749760e679554e786abbf7646aec98f03f7520f"},
+    {"path": "phase_b/exp3_v2/verify_exp3v2_evaluation.py", "size_bytes": 6318, "sha256": "c20de70519d70d3634e808b662a08ca8936af863adba44377c667418d42d8e1c"},
+    {"path": "phase_b/tests/test_exp3v2_evaluation.py", "size_bytes": 28060, "sha256": "357880d46dba19f0c035564362ac7aea1c6cba35eb2d917f24c345713a443c55"}
+  ],
+  "freeze_commit_allowlist": [
+    "phase_b/exp3_v2/EXP3_V2_EVALUATION_CONFIG_001.json",
+    "phase_b/exp3_v2/EXP3_V2_EVALUATION_HARNESS_MANIFEST_001.json",
+    "phase_b/exp3_v2/EXP3_V2_EVALUATION_PROTOCOL_001.md",
+    "phase_b/exp3_v2/EXP3_V2_EVALUATION_REQUIREMENTS_001.txt",
+    "phase_b/exp3_v2/EXP3_V2_EVALUATION_RESULTS_FREEZE_PROTOCOL_001.md",
+    "phase_b/exp3_v2/EXP3_V2_EVALUATION_RUNTIME_LOCK_001.json",
+    "phase_b/exp3_v2/evaluate_exp3v2_frozen_predictions.py",
+    "phase_b/exp3_v2/evaluation_schemas/exp3v2_evaluation_bootstrap.schema.json",
+    "phase_b/exp3_v2/evaluation_schemas/exp3v2_evaluation_config.schema.json",
+    "phase_b/exp3_v2/evaluation_schemas/exp3v2_evaluation_harness_manifest.schema.json",
+    "phase_b/exp3_v2/evaluation_schemas/exp3v2_evaluation_output_hash_manifest.schema.json",
+    "phase_b/exp3_v2/evaluation_schemas/exp3v2_evaluation_results.schema.json",
+    "phase_b/exp3_v2/verify_exp3v2_evaluation.py",
+    "phase_b/tests/test_exp3v2_evaluation.py"
+  ],
+  "future_execution": {
+    "harness_parent_commit": "c62c871657c061826efda708aacd386779a16d02",
+    "harness_root": "/private/tmp/exp3v2-evaluation-harness-001/worktree",
+    "runtime": "/private/tmp/exp3v2-evaluation-runtime-001/bin/python3",
+    "output_root": "/private/tmp/exp3v2-evaluation-run-001/output",
+    "output_root_must_not_exist": true,
+    "output_files": [
+      "exp3v2_confirmatory_bootstrap.json",
+      "exp3v2_confirmatory_results.json",
+      "exp3v2_evaluation_output_hash_manifest.json"
+    ],
+    "approved_output_contract": {
+      "primary_unseen_per_condition": {
+        "denominator": 72,
+        "fields": ["correct", "incorrect", "abstentions", "accuracy"]
+      },
+      "contrasts": ["B_minus_A_unseen", "B_minus_E_unseen"],
+      "bootstrap": {
+        "draws": 10000,
+        "seed": 320031,
+        "persist_complete_distributions": true,
+        "confidence_interval": "95_PERCENT_PERCENTILE"
+      },
+      "secondary_descriptive_per_condition": {
+        "local_seen": 24,
+        "normal": 24,
+        "overall": 120,
+        "fields": ["correct", "incorrect", "abstentions", "accuracy"],
+        "bootstrap_confidence_intervals": false,
+        "success_criteria": false
+      }
+    },
+    "optional_analyses": [],
+    "retry_policy": "NO_AUTOMATIC_RETRY_RETAIN_FAILURE_ROOT",
+    "requires_separate_post_harness_human_authorization": true
+  },
+  "future_results_freeze": {
+    "prospective_tag": "exp3-v2-results-frozen-001",
+    "status": "NOT_CREATED",
+    "topology": "PARENTLESS_THREE_FILE_PAYLOAD_PLUS_GOVERNANCE_CHILD_ANNOTATED_TAG_ONLY",
+    "ordinary_git": true,
+    "lfs": false,
+    "branch_publication": false
+  },
+  "review_counters": {
+    "real_predictions_opened": 0,
+    "prediction_truth_joins": 0,
+    "metrics_calculated": 0,
+    "evaluation_executions": 0,
+    "api_calls": 0
+  }
+}

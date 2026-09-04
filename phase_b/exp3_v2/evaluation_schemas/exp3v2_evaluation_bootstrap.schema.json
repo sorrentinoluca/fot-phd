@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EXP3_V2 confirmatory paired cluster bootstrap",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["method", "draws", "seed", "quantiles", "quantile_method", "n_physical_clusters", "n_agent_case_rows", "clusters_per_pseudolabel", "rows_per_physical_cluster", "paired_conditions", "B_minus_A", "B_minus_E"],
+  "properties": {
+    "method": {"const": "paired physical_case_id cluster bootstrap stratified by true pseudolabel"},
+    "draws": {"const": 10000},
+    "seed": {"const": 320031},
+    "quantiles": {"const": [0.025, 0.975]},
+    "quantile_method": {"const": "numpy.quantile default linear"},
+    "n_physical_clusters": {"const": 24},
+    "n_agent_case_rows": {"const": 72},
+    "clusters_per_pseudolabel": {"const": 6},
+    "rows_per_physical_cluster": {"const": 3},
+    "paired_conditions": {"const": true},
+    "B_minus_A": {"$ref": "#/$defs/interval"},
+    "B_minus_E": {"$ref": "#/$defs/interval"}
+  },
+  "$defs": {
+    "interval": {
+      "type": "object", "additionalProperties": false,
+      "required": ["point_estimate", "confidence_level", "ci_lower", "ci_upper", "distribution"],
+      "properties": {
+        "point_estimate": {"type": "number"},
+        "confidence_level": {"const": 0.95},
+        "ci_lower": {"type": "number"},
+        "ci_upper": {"type": "number"},
+        "distribution": {
+          "type": "array", "minItems": 10000, "maxItems": 10000,
+          "items": {"type": "number"}
+        }
+      }
+    }
+  }
+}
