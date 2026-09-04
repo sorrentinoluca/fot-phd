@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "contract_kind": "EXP3_V2_INFERENCE_SCHEDULE",
+  "status": "PRE_FREEZE_DRAFT",
+  "prospective_tag": "exp3-v2-inference-harness-frozen-001",
+  "randomized": false,
+  "schedule_seed": null,
+  "physical_case_ids": [
+    "EXP3V2-N-001",
+    "EXP3V2-N-002",
+    "EXP3V2-N-003",
+    "EXP3V2-N-004",
+    "EXP3V2-N-005",
+    "EXP3V2-N-006",
+    "EXP3V2-F1-001",
+    "EXP3V2-F1-002",
+    "EXP3V2-F1-003",
+    "EXP3V2-F1-004",
+    "EXP3V2-F1-005",
+    "EXP3V2-F1-006",
+    "EXP3V2-F8-001",
+    "EXP3V2-F8-002",
+    "EXP3V2-F8-003",
+    "EXP3V2-F8-004",
+    "EXP3V2-F8-005",
+    "EXP3V2-F8-006",
+    "EXP3V2-F10-001",
+    "EXP3V2-F10-002",
+    "EXP3V2-F10-003",
+    "EXP3V2-F10-004",
+    "EXP3V2-F10-005",
+    "EXP3V2-F10-006",
+    "EXP3V2-F13-001",
+    "EXP3V2-F13-002",
+    "EXP3V2-F13-003",
+    "EXP3V2-F13-004",
+    "EXP3V2-F13-005",
+    "EXP3V2-F13-006"
+  ],
+  "agent_ids": [
+    "agent_1",
+    "agent_2",
+    "agent_3",
+    "agent_4"
+  ],
+  "repetitions": [
+    1,
+    2,
+    3
+  ],
+  "conditions": [
+    "A",
+    "B",
+    "E"
+  ],
+  "condition_rotation": [
+    [
+      "A",
+      "B",
+      "E"
+    ],
+    [
+      "B",
+      "E",
+      "A"
+    ],
+    [
+      "E",
+      "A",
+      "B"
+    ]
+  ],
+  "rotation_rule": "block_index modulo 3",
+  "iteration_order": [
+    "physical_case_id in listed canonical order",
+    "agent_id ascending",
+    "repetition ascending",
+    "condition in the selected block rotation"
+  ],
+  "expected_block_count": 360,
+  "expected_job_count": 1080,
+  "expected_condition_count": 360,
+  "expected_condition_position_count": 120,
+  "stateless_calls": true,
+  "source_bindings": {
+    "source_tag": "exp3-v2-heldout-frozen-002",
+    "data_tag": "exp3-v2-heldout-data-frozen-001",
+    "verbalization_harness_tag": "exp3-v2-verbalization-harness-frozen-001",
+    "verbalizations_tag": "exp3-v2-verbalizations-frozen-001",
+    "verbalization_output_manifest_sha256": "79f9331ba7bf1f17a8ee0c60dd85c9e73a1cc59e13341e8b6e46fc6068039b1a"
+  }
+}

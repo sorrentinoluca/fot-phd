@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EXP3_V2 inference execution metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status", "planned_repetition_records", "completed_repetition_records",
+    "condition_counts", "aggregate_records", "schedule_sha256",
+    "schedule_adherence", "stateless_calls", "single_process_sequential",
+    "provider", "requested_model", "returned_models", "reasoning_effort",
+    "temperature", "seed", "max_output_tokens", "structured_outputs_strict",
+    "max_structural_retries", "structural_retries_total",
+    "provider_network_failures", "ambiguous_request_states", "final_parse_failures",
+    "provider_attempts", "cumulative_input_tokens", "cumulative_output_tokens",
+    "cumulative_total_tokens", "token_accounting_complete", "ground_truth_joined",
+    "metrics_calculated", "completed_at"
+  ],
+  "properties": {
+    "status": {"const": "COMPLETE_PENDING_INFERENCE_DATA_FREEZE"},
+    "planned_repetition_records": {"const": 1080},
+    "completed_repetition_records": {"const": 1080},
+    "condition_counts": {
+      "const": {"A": 360, "B": 360, "E": 360}
+    },
+    "aggregate_records": {"const": 360},
+    "schedule_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "schedule_adherence": {"const": true},
+    "stateless_calls": {"const": true},
+    "single_process_sequential": {"const": true},
+    "provider": {"const": "openai"},
+    "requested_model": {"const": "gpt-5.6-terra"},
+    "returned_models": {"const": ["gpt-5.6-terra"]},
+    "reasoning_effort": {"const": "medium"},
+    "temperature": {"type": "null"},
+    "seed": {"type": "null"},
+    "max_output_tokens": {"const": 512},
+    "structured_outputs_strict": {"const": true},
+    "max_structural_retries": {"const": 2},
+    "structural_retries_total": {"type": "integer", "minimum": 0},
+    "provider_network_failures": {"type": "integer", "minimum": 0},
+    "ambiguous_request_states": {"const": 0},
+    "final_parse_failures": {"type": "integer", "minimum": 0},
+    "provider_attempts": {"type": "integer", "minimum": 1080, "maximum": 3240},
+    "cumulative_input_tokens": {"type": "integer", "minimum": 0},
+    "cumulative_output_tokens": {"type": "integer", "minimum": 0},
+    "cumulative_total_tokens": {"type": "integer", "minimum": 0},
+    "token_accounting_complete": {"const": true},
+    "ground_truth_joined": {"const": false},
+    "metrics_calculated": {"const": false},
+    "completed_at": {"type": "string", "format": "date-time"}
+  }
+}

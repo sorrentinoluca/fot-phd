@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EXP3_V2 infrastructure or ambiguous inference failure",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "failure_kind", "sequence_index", "attempt", "job_key", "timestamp",
+    "prompt_hash", "input_hash", "intent_path", "response_path",
+    "ambiguous", "error_type", "message"
+  ],
+  "properties": {
+    "failure_kind": {"enum": ["infrastructure_failure", "ambiguous_request_state"]},
+    "sequence_index": {"type": "integer", "minimum": 0, "maximum": 1079},
+    "attempt": {"type": "integer", "minimum": 1, "maximum": 3},
+    "job_key": {"type": "string", "minLength": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "prompt_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "input_hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "intent_path": {"type": "string", "minLength": 1},
+    "response_path": {"type": ["string", "null"]},
+    "ambiguous": {"const": true},
+    "error_type": {"type": "string", "minLength": 1},
+    "message": {"type": "string", "minLength": 1}
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "template_kind": "EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_TEMPLATE",
+  "status": "PRE_FREEZE_DRAFT",
+  "final_status": "FROZEN_BEFORE_INFERENCE",
+  "prospective_tag": "exp3-v2-inference-execution-frozen-001",
+  "tag_created": false,
+  "final_manifest_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_MANIFEST_001.json",
+  "human_approval": null,
+  "harness_binding": {
+    "tag": "exp3-v2-inference-harness-frozen-001",
+    "commit": null,
+    "manifest_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_HARNESS_MANIFEST_001.json",
+    "manifest_sha256": null
+  },
+  "sentinel_binding": {
+    "sentinel_id": "EXP3V2-INFERENCE-SENTINEL-001",
+    "provider_submission_count": 1,
+    "evidence_path": "phase_b/exp3_v2/inference_sentinel_001/EXP3_V2_INFERENCE_SENTINEL_EVIDENCE_001.json",
+    "evidence_sha256": null,
+    "intent_path": "phase_b/exp3_v2/inference_sentinel_001/sentinel_intent.json",
+    "intent_sha256": null,
+    "receipt_path": "phase_b/exp3_v2/inference_sentinel_001/sentinel_receipt.json",
+    "receipt_sha256": null,
+    "returned_model": "gpt-5.6-terra",
+    "token_accounting_pass": true,
+    "verifier_pass": true
+  },
+  "integrity_bindings": {
+    "schedule_sha256": "e0049a789a53b7cf3e1ff6c0ee432502815038f0916c4456e5ceda6b0271d697",
+    "runner_sha256": "57b3bd985acf97c5cc9804720a5d3ff0c53b6fa825333a20f43a28bd685d53f8",
+    "runtime_lock_sha256": "863da1b62bb3c8297bf1612f6c3640bcd0fd87e16d156fa8eca6f634f5b05350"
+  },
+  "authorization_commit": {
+    "required_parent": "exact harness commit",
+    "additions_only": [
+      "phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_MANIFEST_001.json",
+      "phase_b/exp3_v2/inference_sentinel_001/EXP3_V2_INFERENCE_SENTINEL_EVIDENCE_001.json",
+      "phase_b/exp3_v2/inference_sentinel_001/sentinel_intent.json",
+      "phase_b/exp3_v2/inference_sentinel_001/sentinel_receipt.json"
+    ],
+    "modifies_harness_tree": false
+  },
+  "non_self_referential": {
+    "manifest_sha256_recorded": false,
+    "authorization_commit_recorded": false,
+    "tag_object_recorded": false
+  },
+  "notes": [
+    "This template is frozen with the harness and is never edited after harness freeze.",
+    "After a one-call sentinel PASS, a new final manifest is created at final_manifest_path.",
+    "Null fields require byte-identity evidence, the actual harness commit and explicit human approval before authorization freeze.",
+    "Sentinel PASS alone never authorizes batch inference."
+  ]
+}

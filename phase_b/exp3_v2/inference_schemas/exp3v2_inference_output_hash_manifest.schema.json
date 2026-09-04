@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EXP3_V2 inference output hash manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "status", "schedule_sha256", "repetition_record_count",
+    "aggregate_record_count", "artifacts", "inventory_sha256",
+    "ground_truth_included", "metrics_calculated"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "status": {"const": "COMPLETE_PENDING_INFERENCE_DATA_FREEZE"},
+    "schedule_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "repetition_record_count": {"const": 1080},
+    "aggregate_record_count": {"const": 360},
+    "artifacts": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "size_bytes", "sha256"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "size_bytes": {"type": "integer", "minimum": 0},
+          "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        }
+      }
+    },
+    "inventory_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "ground_truth_included": {"const": false},
+    "metrics_calculated": {"const": false}
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EXP3_V2 post-sentinel inference execution authorization",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manifest_kind",
+    "status",
+    "prospective_tag",
+    "tag_created",
+    "manifest_path",
+    "human_approval",
+    "harness_binding",
+    "sentinel_binding",
+    "integrity_bindings",
+    "non_self_referential"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "manifest_kind": {"const": "EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION"},
+    "status": {"const": "FROZEN_BEFORE_INFERENCE"},
+    "prospective_tag": {"const": "exp3-v2-inference-execution-frozen-001"},
+    "tag_created": {"const": true},
+    "manifest_path": {"const": "phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_MANIFEST_001.json"},
+    "human_approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["approved", "approved_at", "approval_text_sha256", "scope"],
+      "properties": {
+        "approved": {"const": true},
+        "approved_at": {"type": "string", "minLength": 1},
+        "approval_text_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "scope": {"const": "EXP3_V2_1080_JOB_INFERENCE_EXECUTION"}
+      }
+    },
+    "harness_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tag", "commit", "manifest_path", "manifest_sha256"],
+      "properties": {
+        "tag": {"const": "exp3-v2-inference-harness-frozen-001"},
+        "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "manifest_path": {"const": "phase_b/exp3_v2/EXP3_V2_INFERENCE_HARNESS_MANIFEST_001.json"},
+        "manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "sentinel_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sentinel_id",
+        "provider_submission_count",
+        "evidence_path",
+        "evidence_sha256",
+        "intent_path",
+        "intent_sha256",
+        "receipt_path",
+        "receipt_sha256",
+        "returned_model",
+        "token_accounting_pass",
+        "verifier_pass"
+      ],
+      "properties": {
+        "sentinel_id": {"const": "EXP3V2-INFERENCE-SENTINEL-001"},
+        "provider_submission_count": {"const": 1},
+        "evidence_path": {"const": "phase_b/exp3_v2/inference_sentinel_001/EXP3_V2_INFERENCE_SENTINEL_EVIDENCE_001.json"},
+        "evidence_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "intent_path": {"const": "phase_b/exp3_v2/inference_sentinel_001/sentinel_intent.json"},
+        "intent_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "receipt_path": {"const": "phase_b/exp3_v2/inference_sentinel_001/sentinel_receipt.json"},
+        "receipt_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "returned_model": {"const": "gpt-5.6-terra"},
+        "token_accounting_pass": {"const": true},
+        "verifier_pass": {"const": true}
+      }
+    },
+    "integrity_bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schedule_sha256", "runner_sha256", "runtime_lock_sha256"],
+      "properties": {
+        "schedule_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "runner_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "runtime_lock_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "non_self_referential": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest_sha256_recorded", "authorization_commit_recorded", "tag_object_recorded"],
+      "properties": {
+        "manifest_sha256_recorded": {"const": false},
+        "authorization_commit_recorded": {"const": false},
+        "tag_object_recorded": {"const": false}
+      }
+    }
+  }
+}

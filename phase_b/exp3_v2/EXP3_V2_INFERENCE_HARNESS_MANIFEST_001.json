@@ -1,0 +1,1025 @@
+{
+  "schema_version": "1.0",
+  "manifest_kind": "EXP3_V2_INFERENCE_HARNESS_FREEZE",
+  "harness_revision": 1,
+  "status": "HARNESS_FROZEN_FOR_INFERENCE",
+  "prospective_tag": "exp3-v2-inference-harness-frozen-001",
+  "tag_created": true,
+  "prepared_on": "2026-09-04",
+  "human_freeze_approval": "APPROVO IL FREEZE PUBBLICO DELL’HARNESS DI INFERENZA EXP3_V2",
+  "manifest_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_HARNESS_MANIFEST_001.json",
+  "non_self_referential": {
+    "manifest_sha256_recorded_in_manifest": false,
+    "prospective_commit_recorded": false,
+    "prospective_tag_object_recorded": false,
+    "upstream_objects_recorded": true
+  },
+  "repository": {
+    "origin_url": "https://github.com/sorrentinoluca/fot-phd.git",
+    "publication_mode": "annotated tag only after separate human approval",
+    "branch_push": false,
+    "force_push": false
+  },
+  "upstream_tags": [
+    {
+      "role": "source_boundary",
+      "name": "exp3-v2-heldout-frozen-002",
+      "tag_object": "eaddc2c0791febcccce6412c0a9cc2cf81b3cb21",
+      "peeled_commit": "6f88abdecc25e015064e5fc2c59000f8a1a0bc7e"
+    },
+    {
+      "role": "data_boundary",
+      "name": "exp3-v2-heldout-data-frozen-001",
+      "tag_object": "34319bbb28fcedadd15acc5dfa2183b3fe733ce3",
+      "peeled_commit": "7bcf309910920b52c485125312599d1ded9c4c74"
+    },
+    {
+      "role": "verbalization_harness",
+      "name": "exp3-v2-verbalization-harness-frozen-001",
+      "tag_object": "b2ac5c24835e1f5817baa0e1e8ba13d498777e7d",
+      "peeled_commit": "0ca1ebf339a49c78908e00f65093aeccccc1616f"
+    },
+    {
+      "role": "verbalization_payload",
+      "name": "exp3-v2-verbalizations-frozen-001",
+      "tag_object": "4eeb14e77c5d5b45395da0d88012bcf30cea83ea",
+      "peeled_commit": "4159fba5e4d23cbc9af62c2aad72f11eda1491db"
+    }
+  ],
+  "upstream_manifest_bindings": [
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST_002.json",
+      "tag": "exp3-v2-heldout-frozen-002",
+      "sha256": "8e50fb79a31a336f3e93e4057ee10d4551a3f3f7a8f717096a433259de7ee26f"
+    },
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_DATA_FREEZE_MANIFEST_001.json",
+      "tag": "exp3-v2-heldout-data-frozen-001",
+      "sha256": "adb8875ace9155906bb28332791fc3278409a4e5389abfb78c8d14aacc750ad2"
+    },
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_HARNESS_MANIFEST_001.json",
+      "tag": "exp3-v2-verbalization-harness-frozen-001",
+      "sha256": "8eb4ec8953112555d4f4168127e7296be7d33a8d0fc513249d49328f4775f1b5"
+    },
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_DATA_FREEZE_MANIFEST_001.json",
+      "tag": "exp3-v2-verbalizations-frozen-001",
+      "sha256": "d75d51a3c30efc7ed5e2a82f5f17cdecf77e2484d17a87e3716f4abbb8fe35a7"
+    }
+  ],
+  "schedule": {
+    "path": "phase_b/exp3_v2/exp3v2_inference_schedule_001.json",
+    "contract_path": "phase_b/exp3_v2/exp3v2_inference_schedule_contract_001.json",
+    "sha256": "e0049a789a53b7cf3e1ff6c0ee432502815038f0916c4456e5ceda6b0271d697",
+    "randomized": false,
+    "seed": null,
+    "case_count": 30,
+    "agent_count": 4,
+    "repetitions": 3,
+    "conditions": [
+      "A",
+      "B",
+      "E"
+    ],
+    "block_count": 360,
+    "job_count": 1080,
+    "per_condition_count": {
+      "A": 360,
+      "B": 360,
+      "E": 360
+    },
+    "per_condition_position_count": 120,
+    "rotation_rule": "block_index modulo 3"
+  },
+  "execution_contract": {
+    "concurrency": 1,
+    "request_order": "strict ascending sequence_index",
+    "exclusive_lock": true,
+    "stale_lock_auto_removal": false,
+    "stateless": true,
+    "store": false,
+    "provider": "openai",
+    "api_family": "Responses API",
+    "endpoint": "/v1/responses",
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "medium",
+    "temperature_sent": false,
+    "provider_seed_sent": false,
+    "max_output_tokens": 512,
+    "timeout_seconds": 120,
+    "sdk_automatic_retries": 0,
+    "max_structural_retries": 2
+  },
+  "durable_state_machine": {
+    "order": [
+      "fsynced_request_intent",
+      "provider_submission",
+      "atomic_fsynced_provider_response",
+      "validated_repetition_record"
+    ],
+    "request_intent_without_response": "AMBIGUOUS_STOP_NO_AUTOMATIC_REPEAT",
+    "resume_requires_complete_pre_submission_ambiguity_scan": true,
+    "record_skip_requires_full_validation": true,
+    "journal_directory": "request_journal",
+    "record_directory": "records",
+    "failure_directory": "failures"
+  },
+  "sentinel": {
+    "sentinel_id": "EXP3V2-INFERENCE-SENTINEL-001",
+    "status": "PROSPECTIVE_NOT_EXECUTED",
+    "permitted_provider_submissions": 1,
+    "automatic_retry": false,
+    "structural_corrections": 0,
+    "manifest_path": "/private/tmp/exp3v2-inference-harness-001/worktree/phase_b/exp3_v2/EXP3_V2_INFERENCE_HARNESS_MANIFEST_001.json",
+    "runner_path": "phase_b/exp3_v2/run_exp3v2_inference_sentinel.py",
+    "verifier_path": "phase_b/exp3_v2/verify_exp3v2_inference_sentinel.py",
+    "output_root": "/private/tmp/exp3v2-inference-sentinel-001",
+    "scientific_output_root": "/private/tmp/exp3v2-inference-run-001/output",
+    "prompt_sha256": "1ce6475d5d7112ddd7e53c3d8f08abc8fe89227fdda3fea0a9fb8ce8f0ef432e",
+    "synthetic_label_space": [
+      "SYNTHETIC-ALPHA",
+      "SYNTHETIC-BETA",
+      "SYNTHETIC-GAMMA"
+    ],
+    "expected_label": "SYNTHETIC-ALPHA",
+    "uses_real_neutral_text": false,
+    "uses_case_ids": false,
+    "uses_insights": false,
+    "uses_derangements": false,
+    "uses_real_labels": false,
+    "request_parameters_identical_to_production": true,
+    "durable_order": [
+      "atomic_fsynced_intent",
+      "exactly_one_provider_submission",
+      "atomic_fsynced_receipt",
+      "atomic_evidence"
+    ],
+    "intent_without_receipt": "AMBIGUOUS_EXHAUSTED_NO_AUTOMATIC_RETRY",
+    "any_post_submission_failure": "EXHAUSTED_NEW_REVIEWED_HARNESS_REVISION_AND_SENTINEL_REQUIRED",
+    "success_requirements": {
+      "http_success": true,
+      "returned_model": "gpt-5.6-terra",
+      "strict_schema": true,
+      "synthetic_label": true,
+      "integer_token_accounting": true,
+      "input_plus_output_equals_total": true,
+      "provider_submission_count": 1
+    },
+    "command": "/private/tmp/exp3v2-inference-runtime-001/bin/python3 /private/tmp/exp3v2-inference-harness-001/worktree/phase_b/exp3_v2/run_exp3v2_inference_sentinel.py --manifest /private/tmp/exp3v2-inference-harness-001/worktree/phase_b/exp3_v2/EXP3_V2_INFERENCE_HARNESS_MANIFEST_001.json --sentinel-root /private/tmp/exp3v2-inference-sentinel-001",
+    "verifier_command": "/private/tmp/exp3v2-inference-runtime-001/bin/python3 /private/tmp/exp3v2-inference-harness-001/worktree/phase_b/exp3_v2/verify_exp3v2_inference_sentinel.py --manifest /private/tmp/exp3v2-inference-harness-001/worktree/phase_b/exp3_v2/EXP3_V2_INFERENCE_HARNESS_MANIFEST_001.json --sentinel-root /private/tmp/exp3v2-inference-sentinel-001"
+  },
+  "execution_authorization": {
+    "required_before_batch": true,
+    "template_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_TEMPLATE_001.json",
+    "schema_path": "phase_b/exp3_v2/inference_schemas/exp3v2_inference_execution_authorization.schema.json",
+    "prospective_tag": "exp3-v2-inference-execution-frozen-001",
+    "final_status": "FROZEN_BEFORE_INFERENCE",
+    "checkout_root": "/private/tmp/exp3v2-inference-authorization-001/worktree",
+    "manifest_path": "/private/tmp/exp3v2-inference-authorization-001/worktree/phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_MANIFEST_001.json",
+    "sentinel_artifact_directory": "phase_b/exp3_v2/inference_sentinel_001",
+    "authorization_commit_parent": "exact harness tag commit",
+    "authorization_commit_additions": [
+      "phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_MANIFEST_001.json",
+      "phase_b/exp3_v2/inference_sentinel_001/EXP3_V2_INFERENCE_SENTINEL_EVIDENCE_001.json",
+      "phase_b/exp3_v2/inference_sentinel_001/sentinel_intent.json",
+      "phase_b/exp3_v2/inference_sentinel_001/sentinel_receipt.json"
+    ],
+    "explicit_human_approval_required": true,
+    "sentinel_pass_alone_authorizes_batch": false,
+    "fail_before_credentials_or_client_on_absence_or_mismatch": true
+  },
+  "leakage_boundary": {
+    "case_text_source": "neutral_text_only",
+    "case_ids_in_prompt": false,
+    "paths_in_prompt": false,
+    "real_fault_labels_in_prompt": false,
+    "evaluator_mapping_loaded": false,
+    "condition_a_insights": false,
+    "condition_b_peer_only": true,
+    "condition_e_opaque_derangement_only": true,
+    "allowlisted_e_derangement_path": "phase_b/config/evaluator_side/condition_e_derangements.json",
+    "forbidden_evaluator_mapping_path": "phase_b/config/evaluator_side/pseudolabel_mapping.json"
+  },
+  "runtime": {
+    "invocation_executable": "/private/tmp/exp3v2-inference-runtime-001/bin/python3",
+    "canonical_base_executable": "/opt/anaconda3/bin/python3.13",
+    "python_version": "3.13.9",
+    "lock_path": "/private/tmp/exp3v2-inference-harness-001/worktree/phase_b/exp3_v2/EXP3_V2_INFERENCE_RUNTIME_LOCK_001.json",
+    "requirements_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_REQUIREMENTS_001.txt",
+    "runtime_lock_sha256": "863da1b62bb3c8297bf1612f6c3640bcd0fd87e16d156fa8eca6f634f5b05350",
+    "requirements_sha256": "28f80faa1c19003576673d24e9e510630890cffec04547f93957667395245224",
+    "complete_distribution_count": 20,
+    "clean_hash_pinned_install": "PASS",
+    "credentials_accessed": false
+  },
+  "inputs": {
+    "tag": "exp3-v2-verbalizations-frozen-001",
+    "output_manifest_path": "verbalization_outputs/EXP3_V2_VERBALIZATION_OUTPUT_MANIFEST_001.json",
+    "output_manifest_sha256": "79f9331ba7bf1f17a8ee0c60dd85c9e73a1cc59e13341e8b6e46fc6068039b1a",
+    "output_inventory_sha256": "f71320cf173edbb582e0b8823c6d6636dff8585d028cb0c128f3cd4ddf9bf8c6",
+    "case_count": 30,
+    "structured_json_used_for_inference": false,
+    "raw_workbooks_used_for_inference": false,
+    "canonical_relative_paths_only": true,
+    "cases": [
+      {
+        "order": 1,
+        "physical_case_id": "EXP3V2-N-001",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-N-001.txt",
+        "size_bytes": 520,
+        "sha256": "df38a875c1865978a939e404eb8a22faba8b98276207566efe0b17285c7596cf"
+      },
+      {
+        "order": 2,
+        "physical_case_id": "EXP3V2-N-002",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-N-002.txt",
+        "size_bytes": 374,
+        "sha256": "c1046722fa277caa0ecd635558e798bf229895c31b91fde6bce9e4528959249b"
+      },
+      {
+        "order": 3,
+        "physical_case_id": "EXP3V2-N-003",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-N-003.txt",
+        "size_bytes": 429,
+        "sha256": "e7dc02a97714ea9c47f579232c3d386f00502df9c6e5a0513c2cf2a8f3c49e2a"
+      },
+      {
+        "order": 4,
+        "physical_case_id": "EXP3V2-N-004",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-N-004.txt",
+        "size_bytes": 429,
+        "sha256": "1f9c1d045c898619bd14db02cd8be3a4f432b63fe98a371dcd17a88bb38e0c10"
+      },
+      {
+        "order": 5,
+        "physical_case_id": "EXP3V2-N-005",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-N-005.txt",
+        "size_bytes": 374,
+        "sha256": "42a3475bc9ae001457d0bb8022fa14113d5541acc723980684c8eba5dbae811a"
+      },
+      {
+        "order": 6,
+        "physical_case_id": "EXP3V2-N-006",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-N-006.txt",
+        "size_bytes": 465,
+        "sha256": "d8e80ed8782399382777430a6ee55ebf93099915ce6ebe68ea80deaf5207fec0"
+      },
+      {
+        "order": 7,
+        "physical_case_id": "EXP3V2-F1-001",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F1-001.txt",
+        "size_bytes": 955,
+        "sha256": "49dd5ceff4a5e5546a21949f1ca542da94d65a18631c50969ef6ba6af730c2a0"
+      },
+      {
+        "order": 8,
+        "physical_case_id": "EXP3V2-F1-002",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F1-002.txt",
+        "size_bytes": 955,
+        "sha256": "b2d77ef1020acae01962c8177c59b24d3adf3e25d124943db8bce9eada294d1b"
+      },
+      {
+        "order": 9,
+        "physical_case_id": "EXP3V2-F1-003",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F1-003.txt",
+        "size_bytes": 955,
+        "sha256": "9a3dcd5de2040ab83847aeaa127f274d560c7f9182e4bc682c2452ad8968ac34"
+      },
+      {
+        "order": 10,
+        "physical_case_id": "EXP3V2-F1-004",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F1-004.txt",
+        "size_bytes": 955,
+        "sha256": "7fa548aba6a9c4c78086fc1d86f25d0064e52a4a5a9de9ff7f68776311144398"
+      },
+      {
+        "order": 11,
+        "physical_case_id": "EXP3V2-F1-005",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F1-005.txt",
+        "size_bytes": 955,
+        "sha256": "004c149853070f6ba3dd39e61161f83557edb8c5e34de36b75564dc3d26c7a28"
+      },
+      {
+        "order": 12,
+        "physical_case_id": "EXP3V2-F1-006",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F1-006.txt",
+        "size_bytes": 955,
+        "sha256": "03b658d96d58a4159aac79fcbe6327b5c146218a74d3c262369eeae420882ace"
+      },
+      {
+        "order": 13,
+        "physical_case_id": "EXP3V2-F8-001",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F8-001.txt",
+        "size_bytes": 956,
+        "sha256": "09c4f74e93918dbc58323dbb986bc0ebeeef1c5952880ed6eb21266a01a49a0f"
+      },
+      {
+        "order": 14,
+        "physical_case_id": "EXP3V2-F8-002",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F8-002.txt",
+        "size_bytes": 969,
+        "sha256": "de2a778708d398ae411beecff3324e17814454c8131f1fc9df5d784ef99cd729"
+      },
+      {
+        "order": 15,
+        "physical_case_id": "EXP3V2-F8-003",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F8-003.txt",
+        "size_bytes": 969,
+        "sha256": "896774678364d5c00b4d289174b25a95f1c5b70ce7cc9737a09f8e63a5ac308b"
+      },
+      {
+        "order": 16,
+        "physical_case_id": "EXP3V2-F8-004",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F8-004.txt",
+        "size_bytes": 970,
+        "sha256": "6c7297606f17ccae8ffa8d058b67ad679c49ba6cff2cfce4fc8d522034778688"
+      },
+      {
+        "order": 17,
+        "physical_case_id": "EXP3V2-F8-005",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F8-005.txt",
+        "size_bytes": 969,
+        "sha256": "3862f231c410d20490dd4f4d37572b09327e613838accfa7c2fb4843378ad308"
+      },
+      {
+        "order": 18,
+        "physical_case_id": "EXP3V2-F8-006",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F8-006.txt",
+        "size_bytes": 970,
+        "sha256": "17428189ad3e173cca6b01718d647bbba1c946c6e7d281829303e7e433c6a769"
+      },
+      {
+        "order": 19,
+        "physical_case_id": "EXP3V2-F10-001",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F10-001.txt",
+        "size_bytes": 972,
+        "sha256": "1d0c3d39f9b8f7ab79c03c1c92f095acac8d68a546696526596405f4cb804bcc"
+      },
+      {
+        "order": 20,
+        "physical_case_id": "EXP3V2-F10-002",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F10-002.txt",
+        "size_bytes": 972,
+        "sha256": "ca051224e506108a785fb359ecf70a109815b044e07946a8a4786992dc5dbb64"
+      },
+      {
+        "order": 21,
+        "physical_case_id": "EXP3V2-F10-003",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F10-003.txt",
+        "size_bytes": 972,
+        "sha256": "775c109bfdb9976da02385d351c6f406eaf10f56afe794bee9d640a6782836da"
+      },
+      {
+        "order": 22,
+        "physical_case_id": "EXP3V2-F10-004",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F10-004.txt",
+        "size_bytes": 972,
+        "sha256": "d654e5d26a90e6b0cfe5368f7bc2efe1376c4e8ea300ff365ebf389fe2f1854d"
+      },
+      {
+        "order": 23,
+        "physical_case_id": "EXP3V2-F10-005",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F10-005.txt",
+        "size_bytes": 972,
+        "sha256": "a79681ed7637af99f553bae1623cf9a1b7aeeef2249cadcf706213db33a697ab"
+      },
+      {
+        "order": 24,
+        "physical_case_id": "EXP3V2-F10-006",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F10-006.txt",
+        "size_bytes": 972,
+        "sha256": "5a56cd5852edf0b48cba776e7af7f58c0b06994aec5730349aeec6a3b3205f52"
+      },
+      {
+        "order": 25,
+        "physical_case_id": "EXP3V2-F13-001",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F13-001.txt",
+        "size_bytes": 956,
+        "sha256": "7e97fdb06663f3a7dab274af6393bb3bb1f0b2e81d0c9a4c9a092720a45fd627"
+      },
+      {
+        "order": 26,
+        "physical_case_id": "EXP3V2-F13-002",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F13-002.txt",
+        "size_bytes": 971,
+        "sha256": "e4982e85ffcbc150be891f0d6ada176010cf43d4f22951944bef9f2f287d668e"
+      },
+      {
+        "order": 27,
+        "physical_case_id": "EXP3V2-F13-003",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F13-003.txt",
+        "size_bytes": 970,
+        "sha256": "5042be9df87f8727b7e026d083ef5aa7c8a73071f3644f85cb42a183bc03c8d5"
+      },
+      {
+        "order": 28,
+        "physical_case_id": "EXP3V2-F13-004",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F13-004.txt",
+        "size_bytes": 954,
+        "sha256": "3bf18a50c3744e275a548efc46b4e9f4f564126af94e4e7a3d86d71d4c159a5a"
+      },
+      {
+        "order": 29,
+        "physical_case_id": "EXP3V2-F13-005",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F13-005.txt",
+        "size_bytes": 970,
+        "sha256": "4f5a35dfc90c48a061590d364ccbc321012461154ced2668846c872d148829f8"
+      },
+      {
+        "order": 30,
+        "physical_case_id": "EXP3V2-F13-006",
+        "path": "verbalization_outputs/neutral_text/EXP3V2-F13-006.txt",
+        "size_bytes": 955,
+        "sha256": "5096710a596c973e2c8d98d2279edb20aee6e144b92665c623d259e6a5b8276f"
+      }
+    ]
+  },
+  "output_contract": {
+    "root": "/private/tmp/exp3v2-inference-run-001/output",
+    "must_not_exist_before_first_run": true,
+    "no_repository_output": true,
+    "files": [
+      "repetition_records.jsonl",
+      "aggregate_records.jsonl",
+      "execution_metadata.json",
+      "inference_output_hash_manifest.json"
+    ],
+    "journal_and_per_job_records_manifested": true,
+    "ground_truth_included": false,
+    "accuracy_calculated": false,
+    "prospective_post_inference_tag": "exp3-v2-inference-frozen-001"
+  },
+  "output_schemas": [
+    "phase_b/exp3_v2/inference_schemas/exp3v2_inference_repetition_record.schema.json",
+    "phase_b/exp3_v2/inference_schemas/exp3v2_inference_request_journal.schema.json",
+    "phase_b/exp3_v2/inference_schemas/exp3v2_inference_failure.schema.json",
+    "phase_b/exp3_v2/inference_schemas/exp3v2_inference_aggregate.schema.json",
+    "phase_b/exp3_v2/inference_schemas/exp3v2_inference_execution_authorization.schema.json",
+    "phase_b/exp3_v2/inference_schemas/exp3v2_inference_execution_metadata.schema.json",
+    "phase_b/exp3_v2/inference_schemas/exp3v2_inference_output_hash_manifest.schema.json",
+    "phase_b/exp3_v2/inference_schemas/exp3v2_inference_sentinel_evidence.schema.json",
+    "phase_b/exp3_v2/inference_schemas/exp3v2_inference_sentinel_journal.schema.json"
+  ],
+  "frozen_reused_artifacts": [
+    {
+      "path": "phase_b/__init__.py",
+      "size_bytes": 86,
+      "sha256": "f2c34171ea4caece4f8f596f1345261bd15050ff8589cc47bc7a109f638f0b6b"
+    },
+    {
+      "path": "phase_b/config/__init__.py",
+      "size_bytes": 190,
+      "sha256": "8c0dd69ea8d5acecbcc56856bf1fcb19895fb8f61ba3d84ea86aa17cce9d4947"
+    },
+    {
+      "path": "phase_b/config/protocol.py",
+      "size_bytes": 5738,
+      "sha256": "fa2488d1d964c98682c3fc82d650bbe43d74a3f9f041e5745ca71a51331e7b2e"
+    },
+    {
+      "path": "phase_b/config/protocol_config.json",
+      "size_bytes": 2350,
+      "sha256": "a67b721609647c9a428c9895de1f0d684547e9fc8cf91f0a626f823af094e135"
+    },
+    {
+      "path": "phase_b/config/execution_config.json",
+      "size_bytes": 1654,
+      "sha256": "2a88d915af9c76a6d8ecd4331efe42d756a5a305d8a07479990996685419d234"
+    },
+    {
+      "path": "phase_b/prompts/__init__.py",
+      "size_bytes": 59,
+      "sha256": "6a4cdbe8686e3b1b35833cdab9f18e9c1cc4c3edb55ab9cef7665f8869f4d616"
+    },
+    {
+      "path": "phase_b/prompts/isolated_A.txt",
+      "size_bytes": 850,
+      "sha256": "cecc664e5d9b9558ca7f8675bee37ae59a5d97a5ff0518175a8a8855a5328289"
+    },
+    {
+      "path": "phase_b/prompts/fot_B.txt",
+      "size_bytes": 850,
+      "sha256": "cecc664e5d9b9558ca7f8675bee37ae59a5d97a5ff0518175a8a8855a5328289"
+    },
+    {
+      "path": "phase_b/prompts/corrupted_E.txt",
+      "size_bytes": 850,
+      "sha256": "cecc664e5d9b9558ca7f8675bee37ae59a5d97a5ff0518175a8a8855a5328289"
+    },
+    {
+      "path": "phase_b/prompts/leakage.py",
+      "size_bytes": 2093,
+      "sha256": "da1a39c72d36d7c04d276097d2de4c57fecb94642027870bd802b449b429ee76"
+    },
+    {
+      "path": "phase_b/conditions/__init__.py",
+      "size_bytes": 523,
+      "sha256": "3098cbf9d6f20ce8befcfcb52d6a581d4a6309f6085e24c635333d29f33938b0"
+    },
+    {
+      "path": "phase_b/conditions/builders.py",
+      "size_bytes": 7846,
+      "sha256": "5a4906304e5ab09ad12cd004e8838dd337ac2f5544ac03d0c392f21ae2009bd9"
+    },
+    {
+      "path": "phase_b/conditions/parser.py",
+      "size_bytes": 4011,
+      "sha256": "bdddfe99ba6e4328a071ea94c221a91cc5942252865691a280bcd6687301eb99"
+    },
+    {
+      "path": "phase_b/conditions/retry.py",
+      "size_bytes": 2020,
+      "sha256": "ba144230e0e99111c7b6154acc7574aec32aeddb2146bf2a39ff8d6af5321b29"
+    },
+    {
+      "path": "phase_b/conditions/diagnostic_output.schema.json",
+      "size_bytes": 796,
+      "sha256": "5abed6a82be2ecd1a6654a32124338fe08c1dceae0c24b51e0ec9e6c99363b19"
+    },
+    {
+      "path": "phase_b/conditions/diagnostic_output.openai.schema.json",
+      "size_bytes": 554,
+      "sha256": "6ef214cdebbfe06e59a7a5a2f51f3fb93dd8d47e8397f6bc5bc68047e1364bf8"
+    },
+    {
+      "path": "phase_b/insights/__init__.py",
+      "size_bytes": 371,
+      "sha256": "d4c1ee080a7d45ba8931fba7facc20d16053cc339afa1032787bcc4b189d015a"
+    },
+    {
+      "path": "phase_b/insights/library.py",
+      "size_bytes": 6235,
+      "sha256": "679f2074067f13c29f63237e25dd0c86a979d48232ecf0c333cf8e7e41fe93c9"
+    },
+    {
+      "path": "phase_b/insights/final_local_insights.json",
+      "size_bytes": 3125,
+      "sha256": "b7ea847ccaf72b04c407ae4878924719c5363d4ccc6851d3d5fef79386e4bcfd"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_1_B.json",
+      "size_bytes": 2289,
+      "sha256": "262768a6cada9e88106faa8d07367bb565e5ea0fdb9155cdee1095137a69693f"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_1_E.json",
+      "size_bytes": 2289,
+      "sha256": "945250d00fd01c0742360d62b4a0e175642788627c0b1760aa84d3dfd2ed87ad"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_2_B.json",
+      "size_bytes": 2321,
+      "sha256": "4b0b5bdd228cb1daee5089691fb4612cbd0b7d337153f87264d9433d27e6b083"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_2_E.json",
+      "size_bytes": 2321,
+      "sha256": "564a5f30dc75ea991a2776cbae6389d561619cef53907f09dc5a8af05edfd744"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_3_B.json",
+      "size_bytes": 2405,
+      "sha256": "fe5606c35e6a483f5db46acea7b8dae3c238bc2f02423e7b726fe8961528a9a0"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_3_E.json",
+      "size_bytes": 2405,
+      "sha256": "62ee45b36fa22b8ad61f89b5850f2913c553448cffbc74c8b5b2e20d35f86912"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_4_B.json",
+      "size_bytes": 2363,
+      "sha256": "620ace1214f9ee7b163920deaadef7ee9d16d43ad7bb1de710f3a4559feaf4b3"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_4_E.json",
+      "size_bytes": 2363,
+      "sha256": "c2b9e7cda177629ee97d682a7e404a6ae5e6badff0274fe062b671e94256d16d"
+    },
+    {
+      "path": "phase_b/local_knowledge/__init__.py",
+      "size_bytes": 62,
+      "sha256": "93c8298871ff533dfe87b363321cbb021e1430624d006db5fe2b96058b0fac36"
+    },
+    {
+      "path": "phase_b/local_knowledge/local_examples.json",
+      "size_bytes": 13707,
+      "sha256": "468d51b7987b8655fc80638d99366dbe3632af0606c9034ca6db7fd1fdcd0a5c"
+    },
+    {
+      "path": "phase_b/execution/__init__.py",
+      "size_bytes": 246,
+      "sha256": "faf713192950df374f7c5ae88de8f53de73baf5940503a6358e1edf16077e3b7"
+    },
+    {
+      "path": "phase_b/execution/openai_adapter.py",
+      "size_bytes": 6191,
+      "sha256": "39d7317e3a0c7808d297617356dfc580120b0f32c58a5e6e71eb45bf9f3eee06"
+    },
+    {
+      "path": "phase_b/evaluation/__init__.py",
+      "size_bytes": 431,
+      "sha256": "a7165842ca14a70f5466589157b42803e5ac26d8cfbf85f1a84aa22a57f704b3"
+    },
+    {
+      "path": "phase_b/evaluation/aggregation.py",
+      "size_bytes": 3095,
+      "sha256": "ce44166fcb9f871d2b46073e8049a3d6ca6fca0aadfbcf49067d5af95f3bc212"
+    },
+    {
+      "path": "phase_b/evaluation/records.py",
+      "size_bytes": 3361,
+      "sha256": "2dd9e98fe3b11f72cdb1f0a02b2dfec52292869b5e59a060edac7283594f67d4"
+    },
+    {
+      "path": "phase_b/evaluation/bootstrap.py",
+      "size_bytes": 5636,
+      "sha256": "524751fede48e678ee66b9f783be8fdeaefe7bebe32772e5367ba9be9c3d9df5"
+    },
+    {
+      "path": "phase_b/evaluation/metrics.py",
+      "size_bytes": 8874,
+      "sha256": "9aa8e6d12957c10e3059c95dcb93efa59679e97a7374500aea9e86ad26e9f0cb"
+    },
+    {
+      "path": "phase_b/config/evaluator_side/condition_e_derangements.json",
+      "size_bytes": 625,
+      "sha256": "e8a0bdbf5a0b7c04d1ba978fd7e18f55b933d8062125ea11c1fb117f9990b231"
+    }
+  ],
+  "harness_artifacts": [
+    {
+      "path": "phase_b/__init__.py",
+      "size_bytes": 86,
+      "sha256": "f2c34171ea4caece4f8f596f1345261bd15050ff8589cc47bc7a109f638f0b6b"
+    },
+    {
+      "path": "phase_b/config/__init__.py",
+      "size_bytes": 190,
+      "sha256": "8c0dd69ea8d5acecbcc56856bf1fcb19895fb8f61ba3d84ea86aa17cce9d4947"
+    },
+    {
+      "path": "phase_b/config/protocol.py",
+      "size_bytes": 5738,
+      "sha256": "fa2488d1d964c98682c3fc82d650bbe43d74a3f9f041e5745ca71a51331e7b2e"
+    },
+    {
+      "path": "phase_b/config/protocol_config.json",
+      "size_bytes": 2350,
+      "sha256": "a67b721609647c9a428c9895de1f0d684547e9fc8cf91f0a626f823af094e135"
+    },
+    {
+      "path": "phase_b/config/execution_config.json",
+      "size_bytes": 1654,
+      "sha256": "2a88d915af9c76a6d8ecd4331efe42d756a5a305d8a07479990996685419d234"
+    },
+    {
+      "path": "phase_b/prompts/__init__.py",
+      "size_bytes": 59,
+      "sha256": "6a4cdbe8686e3b1b35833cdab9f18e9c1cc4c3edb55ab9cef7665f8869f4d616"
+    },
+    {
+      "path": "phase_b/prompts/isolated_A.txt",
+      "size_bytes": 850,
+      "sha256": "cecc664e5d9b9558ca7f8675bee37ae59a5d97a5ff0518175a8a8855a5328289"
+    },
+    {
+      "path": "phase_b/prompts/fot_B.txt",
+      "size_bytes": 850,
+      "sha256": "cecc664e5d9b9558ca7f8675bee37ae59a5d97a5ff0518175a8a8855a5328289"
+    },
+    {
+      "path": "phase_b/prompts/corrupted_E.txt",
+      "size_bytes": 850,
+      "sha256": "cecc664e5d9b9558ca7f8675bee37ae59a5d97a5ff0518175a8a8855a5328289"
+    },
+    {
+      "path": "phase_b/prompts/leakage.py",
+      "size_bytes": 2093,
+      "sha256": "da1a39c72d36d7c04d276097d2de4c57fecb94642027870bd802b449b429ee76"
+    },
+    {
+      "path": "phase_b/conditions/__init__.py",
+      "size_bytes": 523,
+      "sha256": "3098cbf9d6f20ce8befcfcb52d6a581d4a6309f6085e24c635333d29f33938b0"
+    },
+    {
+      "path": "phase_b/conditions/builders.py",
+      "size_bytes": 7846,
+      "sha256": "5a4906304e5ab09ad12cd004e8838dd337ac2f5544ac03d0c392f21ae2009bd9"
+    },
+    {
+      "path": "phase_b/conditions/parser.py",
+      "size_bytes": 4011,
+      "sha256": "bdddfe99ba6e4328a071ea94c221a91cc5942252865691a280bcd6687301eb99"
+    },
+    {
+      "path": "phase_b/conditions/retry.py",
+      "size_bytes": 2020,
+      "sha256": "ba144230e0e99111c7b6154acc7574aec32aeddb2146bf2a39ff8d6af5321b29"
+    },
+    {
+      "path": "phase_b/conditions/diagnostic_output.schema.json",
+      "size_bytes": 796,
+      "sha256": "5abed6a82be2ecd1a6654a32124338fe08c1dceae0c24b51e0ec9e6c99363b19"
+    },
+    {
+      "path": "phase_b/conditions/diagnostic_output.openai.schema.json",
+      "size_bytes": 554,
+      "sha256": "6ef214cdebbfe06e59a7a5a2f51f3fb93dd8d47e8397f6bc5bc68047e1364bf8"
+    },
+    {
+      "path": "phase_b/insights/__init__.py",
+      "size_bytes": 371,
+      "sha256": "d4c1ee080a7d45ba8931fba7facc20d16053cc339afa1032787bcc4b189d015a"
+    },
+    {
+      "path": "phase_b/insights/library.py",
+      "size_bytes": 6235,
+      "sha256": "679f2074067f13c29f63237e25dd0c86a979d48232ecf0c333cf8e7e41fe93c9"
+    },
+    {
+      "path": "phase_b/insights/final_local_insights.json",
+      "size_bytes": 3125,
+      "sha256": "b7ea847ccaf72b04c407ae4878924719c5363d4ccc6851d3d5fef79386e4bcfd"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_1_B.json",
+      "size_bytes": 2289,
+      "sha256": "262768a6cada9e88106faa8d07367bb565e5ea0fdb9155cdee1095137a69693f"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_1_E.json",
+      "size_bytes": 2289,
+      "sha256": "945250d00fd01c0742360d62b4a0e175642788627c0b1760aa84d3dfd2ed87ad"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_2_B.json",
+      "size_bytes": 2321,
+      "sha256": "4b0b5bdd228cb1daee5089691fb4612cbd0b7d337153f87264d9433d27e6b083"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_2_E.json",
+      "size_bytes": 2321,
+      "sha256": "564a5f30dc75ea991a2776cbae6389d561619cef53907f09dc5a8af05edfd744"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_3_B.json",
+      "size_bytes": 2405,
+      "sha256": "fe5606c35e6a483f5db46acea7b8dae3c238bc2f02423e7b726fe8961528a9a0"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_3_E.json",
+      "size_bytes": 2405,
+      "sha256": "62ee45b36fa22b8ad61f89b5850f2913c553448cffbc74c8b5b2e20d35f86912"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_4_B.json",
+      "size_bytes": 2363,
+      "sha256": "620ace1214f9ee7b163920deaadef7ee9d16d43ad7bb1de710f3a4559feaf4b3"
+    },
+    {
+      "path": "phase_b/insights/peer_libraries/agent_4_E.json",
+      "size_bytes": 2363,
+      "sha256": "c2b9e7cda177629ee97d682a7e404a6ae5e6badff0274fe062b671e94256d16d"
+    },
+    {
+      "path": "phase_b/local_knowledge/__init__.py",
+      "size_bytes": 62,
+      "sha256": "93c8298871ff533dfe87b363321cbb021e1430624d006db5fe2b96058b0fac36"
+    },
+    {
+      "path": "phase_b/local_knowledge/local_examples.json",
+      "size_bytes": 13707,
+      "sha256": "468d51b7987b8655fc80638d99366dbe3632af0606c9034ca6db7fd1fdcd0a5c"
+    },
+    {
+      "path": "phase_b/execution/__init__.py",
+      "size_bytes": 246,
+      "sha256": "faf713192950df374f7c5ae88de8f53de73baf5940503a6358e1edf16077e3b7"
+    },
+    {
+      "path": "phase_b/execution/openai_adapter.py",
+      "size_bytes": 6191,
+      "sha256": "39d7317e3a0c7808d297617356dfc580120b0f32c58a5e6e71eb45bf9f3eee06"
+    },
+    {
+      "path": "phase_b/evaluation/__init__.py",
+      "size_bytes": 431,
+      "sha256": "a7165842ca14a70f5466589157b42803e5ac26d8cfbf85f1a84aa22a57f704b3"
+    },
+    {
+      "path": "phase_b/evaluation/aggregation.py",
+      "size_bytes": 3095,
+      "sha256": "ce44166fcb9f871d2b46073e8049a3d6ca6fca0aadfbcf49067d5af95f3bc212"
+    },
+    {
+      "path": "phase_b/evaluation/records.py",
+      "size_bytes": 3361,
+      "sha256": "2dd9e98fe3b11f72cdb1f0a02b2dfec52292869b5e59a060edac7283594f67d4"
+    },
+    {
+      "path": "phase_b/evaluation/bootstrap.py",
+      "size_bytes": 5636,
+      "sha256": "524751fede48e678ee66b9f783be8fdeaefe7bebe32772e5367ba9be9c3d9df5"
+    },
+    {
+      "path": "phase_b/evaluation/metrics.py",
+      "size_bytes": 8874,
+      "sha256": "9aa8e6d12957c10e3059c95dcb93efa59679e97a7374500aea9e86ad26e9f0cb"
+    },
+    {
+      "path": "phase_b/config/evaluator_side/condition_e_derangements.json",
+      "size_bytes": 625,
+      "sha256": "e8a0bdbf5a0b7c04d1ba978fd7e18f55b933d8062125ea11c1fb117f9990b231"
+    },
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_TEMPLATE_001.json",
+      "size_bytes": 2496,
+      "sha256": "b3c1b382b11aaca830b241832d363ee1dacd5ddd93cb9b984dac47c1d5aebea5"
+    },
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_PROTOCOL_001.md",
+      "size_bytes": 15376,
+      "sha256": "15cb9ab12ce2fff9564bdb65a47a13d4270b50b10e08c515fcf70dd8ec9738e7"
+    },
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_REQUIREMENTS_001.txt",
+      "size_bytes": 2160,
+      "sha256": "28f80faa1c19003576673d24e9e510630890cffec04547f93957667395245224"
+    },
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_RUNTIME_LOCK_001.json",
+      "size_bytes": 4439,
+      "sha256": "863da1b62bb3c8297bf1612f6c3640bcd0fd87e16d156fa8eca6f634f5b05350"
+    },
+    {
+      "path": "phase_b/exp3_v2/build_exp3v2_inference_schedule.py",
+      "size_bytes": 5844,
+      "sha256": "7c085d6d28530484b01b5741fa71ca3c446da112247d5dba58e719817d0d85c6"
+    },
+    {
+      "path": "phase_b/exp3_v2/exp3v2_inference_schedule_001.json",
+      "size_bytes": 161858,
+      "sha256": "e0049a789a53b7cf3e1ff6c0ee432502815038f0916c4456e5ceda6b0271d697"
+    },
+    {
+      "path": "phase_b/exp3_v2/exp3v2_inference_schedule_contract_001.json",
+      "size_bytes": 1991,
+      "sha256": "9e133a95d20ecd57d6bc45def4168b3c45f2caf5342cc39dca3ff934ae738e05"
+    },
+    {
+      "path": "phase_b/exp3_v2/inference_schemas/exp3v2_inference_aggregate.schema.json",
+      "size_bytes": 1225,
+      "sha256": "107272574adce718ec624c1ff0e1729a9c0b6dc6f641b485bab3b84a6e69c379"
+    },
+    {
+      "path": "phase_b/exp3_v2/inference_schemas/exp3v2_inference_execution_authorization.schema.json",
+      "size_bytes": 3893,
+      "sha256": "6cec44ee10467b925ba61317f9202ba2f43cdb473434e8b72b682170c7dd05fa"
+    },
+    {
+      "path": "phase_b/exp3_v2/inference_schemas/exp3v2_inference_execution_metadata.schema.json",
+      "size_bytes": 2532,
+      "sha256": "5614aba736b8794cc18e4c901dcd0538abca76cc9ba6aced67d498eae99e8882"
+    },
+    {
+      "path": "phase_b/exp3_v2/inference_schemas/exp3v2_inference_failure.schema.json",
+      "size_bytes": 1121,
+      "sha256": "1c0546c6a1099235a258dbbc7318c2933c62b0b7ec9be6642d88b1bc9f253f65"
+    },
+    {
+      "path": "phase_b/exp3_v2/inference_schemas/exp3v2_inference_output_hash_manifest.schema.json",
+      "size_bytes": 1270,
+      "sha256": "295d84c2ebca09b7777f90c2e5fb1dca8bd20a1ec542c81479574c4b4aa78e3c"
+    },
+    {
+      "path": "phase_b/exp3_v2/inference_schemas/exp3v2_inference_repetition_record.schema.json",
+      "size_bytes": 3152,
+      "sha256": "9a3f0994ead2aaf5196feccf17c5c86506c0fba0b2cfe0c8e1d7e375e5ae9939"
+    },
+    {
+      "path": "phase_b/exp3_v2/inference_schemas/exp3v2_inference_request_journal.schema.json",
+      "size_bytes": 2950,
+      "sha256": "fdd335a5e50157dde06aab31b07f7211f2f1b910523e102e3908e47c3e765e8d"
+    },
+    {
+      "path": "phase_b/exp3_v2/inference_schemas/exp3v2_inference_sentinel_evidence.schema.json",
+      "size_bytes": 3241,
+      "sha256": "541fd72ca7bd7c13196f06ccb3137d130e1ce42fb9fc76190c5aa5dc03025c8b"
+    },
+    {
+      "path": "phase_b/exp3_v2/inference_schemas/exp3v2_inference_sentinel_journal.schema.json",
+      "size_bytes": 2957,
+      "sha256": "a7f1dfd2fb265993615763feab552afefccb1a494395a45b56c56a757e7a3770"
+    },
+    {
+      "path": "phase_b/exp3_v2/run_exp3v2_inference.py",
+      "size_bytes": 52953,
+      "sha256": "57b3bd985acf97c5cc9804720a5d3ff0c53b6fa825333a20f43a28bd685d53f8"
+    },
+    {
+      "path": "phase_b/exp3_v2/run_exp3v2_inference_sentinel.py",
+      "size_bytes": 11373,
+      "sha256": "0d1656d48592fb1e50cbe279a3be75dd89241fa43014a844412a9b50028cbaa3"
+    },
+    {
+      "path": "phase_b/exp3_v2/validate_exp3v2_inference_runtime.py",
+      "size_bytes": 3191,
+      "sha256": "3b4f1d3dc28b57bba4b130dcdbd4861f5557f0743c3260580a6a42fdc8972854"
+    },
+    {
+      "path": "phase_b/exp3_v2/verify_exp3v2_inference.py",
+      "size_bytes": 8918,
+      "sha256": "4a7786601236c143c7018cffae68552b9798c40106120083accf1fdd54faa3f2"
+    },
+    {
+      "path": "phase_b/exp3_v2/verify_exp3v2_inference_sentinel.py",
+      "size_bytes": 6590,
+      "sha256": "dbb04b23e2710dc6f79de778dac76557deda4757feec111c41532aa1f7d35a63"
+    },
+    {
+      "path": "phase_b/tests/test_exp3v2_inference_harness.py",
+      "size_bytes": 21041,
+      "sha256": "b9279033dde28757b6c0a94c14430f03103e64a7a1d4620b6182f00b4c5ee079"
+    },
+    {
+      "path": "phase_b/tests/test_exp3v2_inference_sentinel.py",
+      "size_bytes": 19009,
+      "sha256": "f3bf33b3470f9b57f5397bc9c94741886f6c7c1e842958f2ccfc2abbee131758"
+    }
+  ],
+  "freeze_commit_allowlist": {
+    "count": 24,
+    "paths": [
+      "phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_TEMPLATE_001.json",
+      "phase_b/exp3_v2/EXP3_V2_INFERENCE_HARNESS_MANIFEST_001.json",
+      "phase_b/exp3_v2/EXP3_V2_INFERENCE_PROTOCOL_001.md",
+      "phase_b/exp3_v2/EXP3_V2_INFERENCE_REQUIREMENTS_001.txt",
+      "phase_b/exp3_v2/EXP3_V2_INFERENCE_RUNTIME_LOCK_001.json",
+      "phase_b/exp3_v2/build_exp3v2_inference_schedule.py",
+      "phase_b/exp3_v2/exp3v2_inference_schedule_001.json",
+      "phase_b/exp3_v2/exp3v2_inference_schedule_contract_001.json",
+      "phase_b/exp3_v2/inference_schemas/exp3v2_inference_aggregate.schema.json",
+      "phase_b/exp3_v2/inference_schemas/exp3v2_inference_execution_authorization.schema.json",
+      "phase_b/exp3_v2/inference_schemas/exp3v2_inference_execution_metadata.schema.json",
+      "phase_b/exp3_v2/inference_schemas/exp3v2_inference_failure.schema.json",
+      "phase_b/exp3_v2/inference_schemas/exp3v2_inference_output_hash_manifest.schema.json",
+      "phase_b/exp3_v2/inference_schemas/exp3v2_inference_repetition_record.schema.json",
+      "phase_b/exp3_v2/inference_schemas/exp3v2_inference_request_journal.schema.json",
+      "phase_b/exp3_v2/inference_schemas/exp3v2_inference_sentinel_evidence.schema.json",
+      "phase_b/exp3_v2/inference_schemas/exp3v2_inference_sentinel_journal.schema.json",
+      "phase_b/exp3_v2/run_exp3v2_inference.py",
+      "phase_b/exp3_v2/run_exp3v2_inference_sentinel.py",
+      "phase_b/exp3_v2/validate_exp3v2_inference_runtime.py",
+      "phase_b/exp3_v2/verify_exp3v2_inference.py",
+      "phase_b/exp3_v2/verify_exp3v2_inference_sentinel.py",
+      "phase_b/tests/test_exp3v2_inference_harness.py",
+      "phase_b/tests/test_exp3v2_inference_sentinel.py"
+    ]
+  },
+  "future_execution": {
+    "manifest_path": "/private/tmp/exp3v2-inference-harness-001/worktree/phase_b/exp3_v2/EXP3_V2_INFERENCE_HARNESS_MANIFEST_001.json",
+    "source_root": "/private/tmp/exp3v2-inference-source-001/worktree",
+    "data_root": "/private/tmp/exp3v2-inference-data-001/worktree",
+    "verbalization_harness_root": "/private/tmp/exp3v2-inference-verbalization-harness-001/worktree",
+    "verbalizations_root": "/private/tmp/exp3v2-inference-verbalizations-001/worktree",
+    "authorization_manifest_path": "/private/tmp/exp3v2-inference-authorization-001/worktree/phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_MANIFEST_001.json",
+    "authorization_root": "/private/tmp/exp3v2-inference-authorization-001/worktree",
+    "output_root": "/private/tmp/exp3v2-inference-run-001/output",
+    "command": "/private/tmp/exp3v2-inference-runtime-001/bin/python3 /private/tmp/exp3v2-inference-harness-001/worktree/phase_b/exp3_v2/run_exp3v2_inference.py --manifest /private/tmp/exp3v2-inference-harness-001/worktree/phase_b/exp3_v2/EXP3_V2_INFERENCE_HARNESS_MANIFEST_001.json --source-root /private/tmp/exp3v2-inference-source-001/worktree --data-root /private/tmp/exp3v2-inference-data-001/worktree --verbalization-harness-root /private/tmp/exp3v2-inference-verbalization-harness-001/worktree --verbalizations-root /private/tmp/exp3v2-inference-verbalizations-001/worktree --authorization-manifest /private/tmp/exp3v2-inference-authorization-001/worktree/phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_MANIFEST_001.json --authorization-root /private/tmp/exp3v2-inference-authorization-001/worktree --output-root /private/tmp/exp3v2-inference-run-001/output"
+  },
+  "review_validation": {
+    "api_calls": 0,
+    "llm_calls": 0,
+    "openai_api_key_accessed": false,
+    "raw_workbooks_opened": 0,
+    "predictions_evaluated": 0,
+    "accuracy_calculated": false,
+    "sentinel_executions": 0,
+    "sentinel_provider_calls": 0,
+    "synthetic_unittest_count": 26,
+    "applicable_phase_b_unittest_count": 61,
+    "synthetic_unittest_result": "PASS",
+    "full_1080_fake_client_rehearsal": "PASS",
+    "synthetic_sentinel_pass_and_failure_matrix": "PASS",
+    "synthetic_authorization_tag_rehearsal": "PASS",
+    "batch_refusal_before_authorization": "PASS",
+    "wheelhouse_hash_count": "20/20 PASS",
+    "black": "PASS",
+    "ruff": "PASS",
+    "clean_hash_pinned_install": "PASS"
+  },
+  "prohibitions": {
+    "no_api_without_separate_approval": true,
+    "no_evaluator_mapping_in_runner": true,
+    "no_accuracy_or_evaluation": true,
+    "no_raw_workbook_access": true,
+    "no_security_bypass_cli_option": true,
+    "no_automatic_ambiguous_retry": true,
+    "no_automatic_stale_lock_removal": true,
+    "no_batch_before_execution_authorization_freeze": true,
+    "no_sentinel_retry_after_submission": true
+  }
+}

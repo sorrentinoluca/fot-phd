@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EXP3_V2 R=3 aggregate inference record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "physical_case_id", "agent_id", "condition", "parsed_output",
+    "repetition_outcomes", "aggregation_rule"
+  ],
+  "properties": {
+    "physical_case_id": {"type": "string", "pattern": "^EXP3V2-(N|F1|F8|F10|F13)-00[1-6]$"},
+    "agent_id": {"type": "string", "pattern": "^agent_[1-4]$"},
+    "condition": {"enum": ["A", "B", "E"]},
+    "parsed_output": {"$ref": "../../../conditions/diagnostic_output.schema.json"},
+    "repetition_outcomes": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["repetition", "predicted_label", "abstain", "parse_failure"],
+        "properties": {
+          "repetition": {"type": "integer", "minimum": 1, "maximum": 3},
+          "predicted_label": {"type": ["string", "null"]},
+          "abstain": {"type": "boolean"},
+          "parse_failure": {"type": "boolean"}
+        }
+      }
+    },
+    "aggregation_rule": {"const": "frozen_valid_label_majority_2_of_3_else_abstain"}
+  }
+}
