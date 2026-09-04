@@ -1,0 +1,282 @@
+{
+  "schema_version": "1.0",
+  "manifest_kind": "EXP3_V2_VERBALIZATION_HARNESS_FREEZE",
+  "harness_revision": 1,
+  "status": "HARNESS_FROZEN_FOR_VERBALIZATION",
+  "prospective_tag": "exp3-v2-verbalization-harness-frozen-001",
+  "tag_created": true,
+  "prepared_on": "2026-09-04",
+  "frozen_on": "2026-09-04",
+  "freeze_human_approval": "APPROVO IL FREEZE DELL’HARNESS DI VERBALIZZAZIONE EXP3_V2",
+  "non_self_referential": {
+    "manifest_includes_its_own_sha256": false,
+    "manifest_includes_containing_commit_id": false,
+    "manifest_includes_prospective_tag_name": true,
+    "freeze_binding": "the future annotated tag binds the final manifest bytes and containing commit"
+  },
+  "boundaries": {
+    "source": {
+      "tag": "exp3-v2-heldout-frozen-002",
+      "tag_object": "eaddc2c0791febcccce6412c0a9cc2cf81b3cb21",
+      "commit": "6f88abdecc25e015064e5fc2c59000f8a1a0bc7e",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST_002.json",
+      "manifest_size_bytes": 28896,
+      "manifest_sha256": "8e50fb79a31a336f3e93e4057ee10d4551a3f3f7a8f717096a433259de7ee26f",
+      "status": "FROZEN_BEFORE_GENERATION"
+    },
+    "data": {
+      "tag": "exp3-v2-heldout-data-frozen-001",
+      "tag_object": "34319bbb28fcedadd15acc5dfa2183b3fe733ce3",
+      "commit": "7bcf309910920b52c485125312599d1ded9c4c74",
+      "data_commit": "53d867e544a6fadf3519542acfe74fcd7c076c3c",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_DATA_FREEZE_MANIFEST_001.json",
+      "manifest_size_bytes": 46657,
+      "manifest_sha256": "adb8875ace9155906bb28332791fc3278409a4e5389abfb78c8d14aacc750ad2",
+      "portable_verifier_path": "phase_b/exp3_v2/verify_exp3v2_data_freeze.py",
+      "portable_verifier_size_bytes": 20551,
+      "portable_verifier_sha256": "7bdf265e9928b3f9277a6f0f2d8e93cce812dd00ec5dc57df9f9dcb8ccb06697",
+      "status": "FROZEN_BEFORE_VERBALIZATION"
+    }
+  },
+  "frozen_assets": [
+    {
+      "path": "code/tep_verbalize_v2.py",
+      "size_bytes": 27842,
+      "sha256": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+      "source_tag": "exp3-v2-heldout-frozen-002",
+      "role": "frozen neutral V2 verbalizer"
+    },
+    {
+      "path": "code/tep_features.py",
+      "size_bytes": 10439,
+      "sha256": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+      "source_tag": "exp3-v2-heldout-frozen-002",
+      "role": "frozen feature implementation"
+    },
+    {
+      "path": "code/verbalizer_config_v2.json",
+      "size_bytes": 2769,
+      "sha256": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519",
+      "source_tag": "exp3-v2-heldout-frozen-002",
+      "role": "frozen thresholds and temporal configuration"
+    },
+    {
+      "path": "phase_b/conditions/diagnostic_output.schema.json",
+      "size_bytes": 796,
+      "sha256": "5abed6a82be2ecd1a6654a32124338fe08c1dceae0c24b51e0ec9e6c99363b19",
+      "source_tag": "exp3-v2-heldout-frozen-002",
+      "role": "unchanged downstream diagnostic output schema"
+    }
+  ],
+  "harness_artifacts": [
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_BASELINE_STATS_001.json",
+      "size_bytes": 5348,
+      "sha256": "50502b400478fd5e4ed18e95f58dabbb5ac2fbfa29f57a9bbc7dae0ead7ec4d2",
+      "role": "precomputed development-only baseline statistics"
+    },
+    {
+      "path": "phase_b/exp3_v2/run_exp3v2_verbalization.py",
+      "size_bytes": 23134,
+      "sha256": "df7e170037513ef72074d0151361c1a2bf0c5d180ad853a0266fb7297d4b48b0",
+      "role": "fail-closed execution harness"
+    },
+    {
+      "path": "phase_b/exp3_v2/verify_exp3v2_verbalizations.py",
+      "size_bytes": 14477,
+      "sha256": "c8daf51c66180379dd8c33724ef64996b17ba2397d6c06354101d30326117ad7",
+      "role": "portable post-verbalization verifier"
+    },
+    {
+      "path": "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_PROTOCOL_001.md",
+      "size_bytes": 10418,
+      "sha256": "de1f5c0bd083e6b7420e6d29577d3330dcaf4a218bb77c060df3630da93e5d3e",
+      "role": "execution, cleanup and final-freeze protocol"
+    },
+    {
+      "path": "phase_b/tests/test_exp3v2_verbalization_harness.py",
+      "size_bytes": 28260,
+      "sha256": "62573f158e6101d33a78a6b184691b67f8452d4841bef8533a0d4bec79a0f084",
+      "role": "synthetic and production-boundary regression tests"
+    }
+  ],
+  "freeze_commit_allowlist": {
+    "policy": "the dedicated harness-freeze commit may add exactly these six paths and no other path",
+    "path_count": 6,
+    "paths": [
+      "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_BASELINE_STATS_001.json",
+      "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_HARNESS_MANIFEST_001.json",
+      "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_PROTOCOL_001.md",
+      "phase_b/exp3_v2/run_exp3v2_verbalization.py",
+      "phase_b/exp3_v2/verify_exp3v2_verbalizations.py",
+      "phase_b/tests/test_exp3v2_verbalization_harness.py"
+    ]
+  },
+  "baseline_statistics": {
+    "path": "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_BASELINE_STATS_001.json",
+    "size_bytes": 5348,
+    "sha256": "50502b400478fd5e4ed18e95f58dabbb5ac2fbfa29f57a9bbc7dae0ead7ec4d2",
+    "artifact_status": "FROZEN_DEVELOPMENT_BASELINE_STATISTICS",
+    "required_execution_status": "FROZEN_DEVELOPMENT_BASELINE_STATISTICS",
+    "source_workbook_path": "code/tep_cache/mode1_normal_500.xlsx",
+    "source_workbook_size_bytes": 14121844,
+    "source_workbook_sha256": "79883dd0aabbd034c15337b0be1ffca37e59ea7b32443a15d560b7feda2b2e6a",
+    "runtime_policy": "load frozen statistics only; never open the development workbook or recompute baseline statistics"
+  },
+  "python_runtime": {
+    "invocation_executable": "/opt/anaconda3/bin/python3",
+    "canonical_executable": "/opt/anaconda3/bin/python3.13",
+    "python_version": "3.13.9",
+    "version_source": "sys.version_info and importlib.metadata.version",
+    "packages": {
+      "pandas": "2.3.3",
+      "numpy": "2.3.5",
+      "openpyxl": "3.1.5",
+      "jsonschema": "4.25.0"
+    }
+  },
+  "inputs": {
+    "data_checkout_path": "/private/tmp/exp3v2-verbalization-data-001/worktree",
+    "workbook_directory": "tep_exp3_v2_heldout/mode1",
+    "path_policy": "resolve only canonical paths relative to the data-tag checkout",
+    "attempt_log_absolute_output_paths_used": false,
+    "case_count": 30,
+    "attempt": 0,
+    "seed_range": [320001, 320030],
+    "input_inventory_source": "data_artifacts.workbook_inventory in the frozen data manifest",
+    "input_inventory_sha256": "c95624a2f48e9c9f76fb925254de3f445d178ce30f59eec86ee6601358231fbe",
+    "concatenated_workbook_bytes_sha256": "1c3d5d906d8548a17d452ed6327213db42bcbb973c61528cf22b95d08d908d6d",
+    "canonical_case_ids": [
+      "EXP3V2-N-001", "EXP3V2-N-002", "EXP3V2-N-003",
+      "EXP3V2-N-004", "EXP3V2-N-005", "EXP3V2-N-006",
+      "EXP3V2-F1-001", "EXP3V2-F1-002", "EXP3V2-F1-003",
+      "EXP3V2-F1-004", "EXP3V2-F1-005", "EXP3V2-F1-006",
+      "EXP3V2-F8-001", "EXP3V2-F8-002", "EXP3V2-F8-003",
+      "EXP3V2-F8-004", "EXP3V2-F8-005", "EXP3V2-F8-006",
+      "EXP3V2-F10-001", "EXP3V2-F10-002", "EXP3V2-F10-003",
+      "EXP3V2-F10-004", "EXP3V2-F10-005", "EXP3V2-F10-006",
+      "EXP3V2-F13-001", "EXP3V2-F13-002", "EXP3V2-F13-003",
+      "EXP3V2-F13-004", "EXP3V2-F13-005", "EXP3V2-F13-006"
+    ],
+    "refusal_conditions": [
+      "missing or extra identity",
+      "non-attempt-0 record",
+      "missing, extra, non-regular or symlinked workbook-directory entry",
+      "size or SHA-256 mismatch",
+      "dirty or wrongly tagged data checkout"
+    ]
+  },
+  "window_contract": {
+    "start_h_inclusive": 10.0,
+    "end_h_exclusive": 50.0,
+    "window_hours": 5.0,
+    "window_count": 8,
+    "windows_h": [
+      [10.0, 15.0], [15.0, 20.0], [20.0, 25.0], [25.0, 30.0],
+      [30.0, 35.0], [35.0, 40.0], [40.0, 45.0], [45.0, 50.0]
+    ]
+  },
+  "outputs": {
+    "output_root": "/private/tmp/exp3v2-verbalization-run-001/output",
+    "output_root_must_not_exist": true,
+    "structured_directory": "structured_json",
+    "neutral_text_directory": "neutral_text",
+    "output_manifest": "EXP3_V2_VERBALIZATION_OUTPUT_MANIFEST_001.json",
+    "structured_count": 30,
+    "neutral_text_count": 30,
+    "deterministic_manifest": true,
+    "manifest_contains": "canonical relative filenames, byte sizes and SHA-256 hashes",
+    "overwrite_allowed": false
+  },
+  "prohibitions": {
+    "llm_calls_prohibited": true,
+    "network_calls_prohibited": true,
+    "random_number_generation_prohibited": true,
+    "threshold_refitting_prohibited": true,
+    "baseline_recomputation_prohibited": true,
+    "raw_workbook_modification_prohibited": true,
+    "diagnostic_inference_prohibited": true,
+    "label_conditioning_prohibited": true
+  },
+  "failure_handling": {
+    "preflight_before_workbook_open": true,
+    "automatic_retry": false,
+    "partial_output_policy": "remove only the newly created dedicated output root",
+    "input_cleanup": "never modify, move, rename or delete source/data checkout files",
+    "next_attempt": "requires human review and a newly absent output root"
+  },
+  "future_invocation": {
+    "harness_checkout": "/private/tmp/exp3v2-verbalization-harness-001/worktree",
+    "command": "/opt/anaconda3/bin/python3 /private/tmp/exp3v2-verbalization-harness-001/worktree/phase_b/exp3_v2/run_exp3v2_verbalization.py --manifest /private/tmp/exp3v2-verbalization-harness-001/worktree/phase_b/exp3_v2/EXP3_V2_VERBALIZATION_HARNESS_MANIFEST_001.json --data-root /private/tmp/exp3v2-verbalization-data-001/worktree --output-root /private/tmp/exp3v2-verbalization-run-001/output"
+  },
+  "repository_checkout_contract": {
+    "origin_url": "https://github.com/sorrentinoluca/fot-phd.git",
+    "destinations_must_be_absent": true,
+    "harness_commands": [
+      "git init /private/tmp/exp3v2-verbalization-harness-001/worktree",
+      "git -C /private/tmp/exp3v2-verbalization-harness-001/worktree remote add origin https://github.com/sorrentinoluca/fot-phd.git",
+      "git -C /private/tmp/exp3v2-verbalization-harness-001/worktree fetch --no-tags origin refs/tags/exp3-v2-heldout-frozen-002:refs/tags/exp3-v2-heldout-frozen-002 refs/tags/exp3-v2-verbalization-harness-frozen-001:refs/tags/exp3-v2-verbalization-harness-frozen-001",
+      "git -C /private/tmp/exp3v2-verbalization-harness-001/worktree checkout --detach 'refs/tags/exp3-v2-verbalization-harness-frozen-001^{}'",
+      "test \"$(git -C /private/tmp/exp3v2-verbalization-harness-001/worktree cat-file -t refs/tags/exp3-v2-verbalization-harness-frozen-001)\" = tag",
+      "test \"$(git -C /private/tmp/exp3v2-verbalization-harness-001/worktree rev-parse HEAD)\" = \"$(git -C /private/tmp/exp3v2-verbalization-harness-001/worktree rev-parse 'refs/tags/exp3-v2-verbalization-harness-frozen-001^{}')\"",
+      "test -z \"$(git -C /private/tmp/exp3v2-verbalization-harness-001/worktree status --porcelain --untracked-files=all)\""
+    ],
+    "data_commands": [
+      "git init /private/tmp/exp3v2-verbalization-data-001/worktree",
+      "git -C /private/tmp/exp3v2-verbalization-data-001/worktree remote add origin https://github.com/sorrentinoluca/fot-phd.git",
+      "git -C /private/tmp/exp3v2-verbalization-data-001/worktree fetch --no-tags origin refs/tags/exp3-v2-heldout-data-frozen-001:refs/tags/exp3-v2-heldout-data-frozen-001",
+      "git -C /private/tmp/exp3v2-verbalization-data-001/worktree checkout --detach 'refs/tags/exp3-v2-heldout-data-frozen-001^{}'",
+      "test \"$(git -C /private/tmp/exp3v2-verbalization-data-001/worktree cat-file -t refs/tags/exp3-v2-heldout-data-frozen-001)\" = tag",
+      "test \"$(git -C /private/tmp/exp3v2-verbalization-data-001/worktree rev-parse HEAD)\" = \"$(git -C /private/tmp/exp3v2-verbalization-data-001/worktree rev-parse 'refs/tags/exp3-v2-heldout-data-frozen-001^{}')\"",
+      "test -z \"$(git -C /private/tmp/exp3v2-verbalization-data-001/worktree status --porcelain --untracked-files=all)\""
+    ]
+  },
+  "final_verbalization_freeze": {
+    "review_manifest": "EXP3_V2_VERBALIZATION_DATA_FREEZE_MANIFEST_001.json",
+    "review_status": "PENDING_HUMAN_VERBALIZATION_FREEZE",
+    "prospective_tag": "exp3-v2-verbalizations-frozen-001",
+    "strategy": "isolated two-commit parentless payload plus one-manifest governance child; annotated tag only; no branch",
+    "payload_root": "verbalization_outputs",
+    "payload_tree_count": 61,
+    "governance_tree_count": 62,
+    "tag_only_fetch_sufficient_for_verification": false,
+    "verification_design": "run the verifier from an exact detached harness-tag checkout, resolve raw inputs from an exact detached data-tag checkout, and verify outputs in an exact detached final-tag checkout",
+    "required_detached_tags": [
+      "exp3-v2-verbalization-harness-frozen-001",
+      "exp3-v2-heldout-frozen-002",
+      "exp3-v2-heldout-data-frozen-001",
+      "exp3-v2-verbalizations-frozen-001"
+    ],
+    "final_checkout_commands": [
+      "git init /private/tmp/exp3v2-verbalization-final-verify-001/worktree",
+      "git -C /private/tmp/exp3v2-verbalization-final-verify-001/worktree remote add origin https://github.com/sorrentinoluca/fot-phd.git",
+      "git -C /private/tmp/exp3v2-verbalization-final-verify-001/worktree fetch --no-tags origin refs/tags/exp3-v2-verbalizations-frozen-001:refs/tags/exp3-v2-verbalizations-frozen-001",
+      "git -C /private/tmp/exp3v2-verbalization-final-verify-001/worktree checkout --detach 'refs/tags/exp3-v2-verbalizations-frozen-001^{}'",
+      "test \"$(git -C /private/tmp/exp3v2-verbalization-final-verify-001/worktree cat-file -t refs/tags/exp3-v2-verbalizations-frozen-001)\" = tag",
+      "test \"$(git -C /private/tmp/exp3v2-verbalization-final-verify-001/worktree rev-parse HEAD)\" = \"$(git -C /private/tmp/exp3v2-verbalization-final-verify-001/worktree rev-parse 'refs/tags/exp3-v2-verbalizations-frozen-001^{}')\"",
+      "test -z \"$(git -C /private/tmp/exp3v2-verbalization-final-verify-001/worktree status --porcelain --untracked-files=all)\"",
+      "/opt/anaconda3/bin/python3 /private/tmp/exp3v2-verbalization-harness-001/worktree/phase_b/exp3_v2/verify_exp3v2_verbalizations.py --manifest /private/tmp/exp3v2-verbalization-harness-001/worktree/phase_b/exp3_v2/EXP3_V2_VERBALIZATION_HARNESS_MANIFEST_001.json --data-root /private/tmp/exp3v2-verbalization-data-001/worktree --output-root /private/tmp/exp3v2-verbalization-final-verify-001/worktree/verbalization_outputs"
+    ],
+    "human_approval_required": true
+  },
+  "review_validation": {
+    "exp3_v2_workbooks_opened": 0,
+    "exp3_v2_verbalizations_created": 0,
+    "inference_runs": 0,
+    "rng_calls": 0,
+    "network_calls": 0,
+    "synthetic_integration_executions": 3,
+    "synthetic_cases_processed": 90,
+    "synthetic_outputs_retained": 0,
+    "coordinated_neutral_text_tamper_regression": "PASS: rejected after matching size, file SHA-256 and aggregate digest were updated",
+    "production_cli_annotated_tag_boundary_rehearsal": "PASS: actual CLI, enforcement enabled, synthetic workbooks and isolated temporary Git repositories only",
+    "final_freeze_three_checkout_rehearsal": "PASS: parentless 61-path payload, 62-path governance tree, annotated tag, no branch refs, verifier executed from harness checkout against dedicated final output root",
+    "harness_tests": "8/8 PASS",
+    "existing_runtime_materialization_tests": "7/7 PASS",
+    "ruff": "PASS",
+    "black": "PASS",
+    "python_compile": "PASS",
+    "git_diff_check": "PASS",
+    "status": "PASS"
+  }
+}
