@@ -1,0 +1,1 @@
+Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-26 (rapporto tra deviazioni standard 1.25).
