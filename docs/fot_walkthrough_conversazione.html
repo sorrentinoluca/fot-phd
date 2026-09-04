@@ -17,6 +17,7 @@ a{color:var(--blue);text-underline-offset:3px}a:hover{color:var(--teal)}a:focus-
 .guide-nav{position:sticky;top:86px;align-self:start;height:calc(100vh - 108px);overflow:auto;padding:17px 16px 22px;background:var(--white);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);transition:opacity .18s ease,transform .22s ease}
 .guide-nav h2{font-size:17px;margin:3px 0 5px;color:var(--navy)}.guide-nav p{font-size:13px;color:var(--muted);margin:0 0 12px}.guide-nav ol{list-style:none;margin:0;padding:0}.guide-nav li{margin:3px 0}
 .guide-nav a{display:block;padding:7px 9px;border-radius:7px;color:#304b5c;text-decoration:none;font-size:13.5px;line-height:1.35}.guide-nav a:hover{background:#eef4f7}.guide-nav a[aria-current="step"]{background:var(--teal-soft);color:#075f57;font-weight:800;border-left:4px solid var(--teal);padding-left:7px}
+.guide-nav .nav-phase{margin:7px 0;border:1px solid var(--line);border-radius:8px;background:#f8fafb}.guide-nav .nav-phase summary{padding:8px 9px;font-size:13.5px}.guide-nav .nav-phase>ol{padding:2px 5px 7px}.guide-nav .nav-phase-empty{margin:0;padding:2px 10px 10px;font-size:12.5px}
 .nav-backdrop{display:none}body.nav-collapsed .layout{grid-template-columns:0 minmax(0,1fr);gap:0}body.nav-collapsed .guide-nav{opacity:0;transform:translateX(-24px);pointer-events:none;overflow:hidden;padding-left:0;padding-right:0;border-width:0}
 main{min-width:0;width:100%;max-width:1200px;margin:0 auto}header{padding:clamp(28px,5vw,58px);background:linear-gradient(125deg,#123b56,#086e65);color:var(--white);border-radius:18px;box-shadow:var(--shadow)}
 header h1{width:100%;max-width:none;font-size:clamp(32px,5vw,56px);line-height:1.08;margin:10px 0 18px}header p{max-width:78ch;margin:12px 0;color:#e6f1f3}.eyebrow,.panel-label,.phase-badge{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:850}.subtitle{font-size:clamp(19px,2.2vw,24px);line-height:1.45}
@@ -82,8 +83,13 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 <div class="layout">
 <nav id="guide-nav" class="guide-nav" aria-label="Indice del percorso">
   <h2>Indice</h2>
-  <ol>
-    <li><a href="#step-1">1. Introduzione</a></li><li><a href="#step-2">2. Dataset</a></li><li><a href="#step-3">3. Analisi e split dei dataset</a></li><li><a href="#step-4">4. Pipeline di Phase A: le 6 operazioni</a></li><li><a href="#step-5">5. Scelta delle feature</a></li><li><a href="#step-6">6. Calibrazione delle soglie</a></li><li><a href="#step-7">7. Il freeze del metodo</a></li><li><a href="#step-8">8. Dalle feature ai flag</a></li><li><a href="#step-9">9. Dai flag al JSON e al testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e test split</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Condizioni e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
+  <ol class="nav-root">
+    <li><a href="#step-1">1. Introduzione</a></li>
+    <li><details class="nav-phase" open><summary>Fase 1</summary><ol>
+      <li><a href="#step-2">2. Dataset</a></li><li><a href="#step-3">3. Analisi e split dei dataset</a></li><li><a href="#step-4">4. Pipeline di Phase A: le 6 operazioni</a></li><li><a href="#step-5">5. Scelta delle feature</a></li><li><a href="#step-6">6. Calibrazione delle soglie</a></li><li><a href="#step-7">7. Il freeze del metodo</a></li><li><a href="#step-8">8. Dalle feature ai flag</a></li><li><a href="#step-9">9. Dai flag al JSON e al testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e test split</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Condizioni e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
+    </ol></details></li>
+    <li><details class="nav-phase"><summary>Fase 2</summary><p class="nav-phase-empty">Contenuti da aggiungere.</p></details></li>
+    <li><details class="nav-phase"><summary>Fase 3</summary><p class="nav-phase-empty">Contenuti da aggiungere.</p></details></li>
   </ol>
   <p class="source"><a href="../README.md">Archivio pedagogico</a><br>Le fonti scientifiche frozen prevalgono.</p>
 </nav>
