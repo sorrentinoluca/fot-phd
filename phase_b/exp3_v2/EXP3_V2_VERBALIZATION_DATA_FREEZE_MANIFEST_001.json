@@ -1,0 +1,745 @@
+{
+  "execution_evidence": {
+    "authoritative_output_root": "/private/tmp/exp3v2-verbalization-run-001/output",
+    "case_count": 30,
+    "data_tag": "exp3-v2-heldout-data-frozen-001",
+    "harness_tag": "exp3-v2-verbalization-harness-frozen-001",
+    "inference_executed": false,
+    "neutral_text_count": 30,
+    "output_inventory_sha256": "f71320cf173edbb582e0b8823c6d6636dff8585d028cb0c128f3cd4ddf9bf8c6",
+    "output_manifest": {
+      "sha256": "79f9331ba7bf1f17a8ee0c60dd85c9e73a1cc59e13341e8b6e46fc6068039b1a",
+      "size_bytes": 21654,
+      "source_relative_path": "EXP3_V2_VERBALIZATION_OUTPUT_MANIFEST_001.json",
+      "status": "COMPLETE_PENDING_VERBALIZATION_DATA_FREEZE"
+    },
+    "runner_rerun_during_freeze_preparation": false,
+    "runtime": {
+      "jsonschema": "4.25.0",
+      "numpy": "2.3.5",
+      "openpyxl": "3.1.5",
+      "pandas": "2.3.3",
+      "python": "3.13.9"
+    },
+    "scientific_content_inspected_or_reported": false,
+    "source_tag": "exp3-v2-heldout-frozen-002",
+    "structured_json_count": 30,
+    "total_file_count": 61,
+    "window_contract": {
+      "end_h_exclusive": 50.0,
+      "start_h_inclusive": 10.0,
+      "window_count": 8,
+      "window_hours": 5.0,
+      "windows_h": [
+        [
+          10.0,
+          15.0
+        ],
+        [
+          15.0,
+          20.0
+        ],
+        [
+          20.0,
+          25.0
+        ],
+        [
+          25.0,
+          30.0
+        ],
+        [
+          30.0,
+          35.0
+        ],
+        [
+          35.0,
+          40.0
+        ],
+        [
+          40.0,
+          45.0
+        ],
+        [
+          45.0,
+          50.0
+        ]
+      ]
+    }
+  },
+  "freeze_revision": 1,
+  "frozen_boundaries": {
+    "data": {
+      "commit": "7bcf309910920b52c485125312599d1ded9c4c74",
+      "data_commit": "53d867e544a6fadf3519542acfe74fcd7c076c3c",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_DATA_FREEZE_MANIFEST_001.json",
+      "manifest_sha256": "adb8875ace9155906bb28332791fc3278409a4e5389abfb78c8d14aacc750ad2",
+      "manifest_size_bytes": 46657,
+      "portable_verifier_path": "phase_b/exp3_v2/verify_exp3v2_data_freeze.py",
+      "portable_verifier_sha256": "7bdf265e9928b3f9277a6f0f2d8e93cce812dd00ec5dc57df9f9dcb8ccb06697",
+      "portable_verifier_size_bytes": 20551,
+      "status": "FROZEN_BEFORE_VERBALIZATION",
+      "tag": "exp3-v2-heldout-data-frozen-001",
+      "tag_object": "34319bbb28fcedadd15acc5dfa2183b3fe733ce3"
+    },
+    "harness": {
+      "commit": "0ca1ebf339a49c78908e00f65093aeccccc1616f",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_HARNESS_MANIFEST_001.json",
+      "manifest_sha256": "8eb4ec8953112555d4f4168127e7296be7d33a8d0fc513249d49328f4775f1b5",
+      "manifest_size_bytes": 15361,
+      "status": "HARNESS_FROZEN_FOR_VERBALIZATION",
+      "tag": "exp3-v2-verbalization-harness-frozen-001",
+      "tag_object": "b2ac5c24835e1f5817baa0e1e8ba13d498777e7d"
+    },
+    "source": {
+      "commit": "6f88abdecc25e015064e5fc2c59000f8a1a0bc7e",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST_002.json",
+      "manifest_sha256": "8e50fb79a31a336f3e93e4057ee10d4551a3f3f7a8f717096a433259de7ee26f",
+      "manifest_size_bytes": 28896,
+      "status": "FROZEN_BEFORE_GENERATION",
+      "tag": "exp3-v2-heldout-frozen-002",
+      "tag_object": "eaddc2c0791febcccce6412c0a9cc2cf81b3cb21"
+    }
+  },
+  "governance": {
+    "actual_payload_commit": "5be0c3c14e7e1601708486d56c2cb4cee29658ab",
+    "annotated_tag_required": true,
+    "final_status_after_approval": "FROZEN_BEFORE_INFERENCE",
+    "governance_additions": [
+      "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_DATA_FREEZE_MANIFEST_001.json"
+    ],
+    "governance_commit_parent_count": 1,
+    "governance_tree_path_count": 62,
+    "human_approval_recorded": true,
+    "human_approval_required": false,
+    "manifest_path": "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_DATA_FREEZE_MANIFEST_001.json",
+    "payload_commit_parent_count": 0,
+    "publish_only_tag_ref": "refs/tags/exp3-v2-verbalizations-frozen-001"
+  },
+  "human_freeze_approval": "APPROVO IL FREEZE PUBBLICO DELLE VERBALIZZAZIONI EXP3_V2",
+  "manifest_kind": "EXP3_V2_VERBALIZATION_DATA_FREEZE",
+  "non_self_referential": {
+    "freeze_binding": "the future annotated tag binds the final governance-manifest bytes and governance commit; the finalized manifest may record the actual parentless payload commit only",
+    "manifest_includes_containing_commit_id": false,
+    "manifest_includes_governance_commit_id": false,
+    "manifest_includes_its_own_sha256": false,
+    "manifest_includes_prospective_tag_name": true,
+    "actual_payload_commit": "5be0c3c14e7e1601708486d56c2cb4cee29658ab"
+  },
+  "payload": {
+    "artifacts": [
+      {
+        "artifact_kind": "deterministic_output_manifest",
+        "frozen_relative_path": "verbalization_outputs/EXP3_V2_VERBALIZATION_OUTPUT_MANIFEST_001.json",
+        "order": 1,
+        "physical_case_id": null,
+        "sha256": "79f9331ba7bf1f17a8ee0c60dd85c9e73a1cc59e13341e8b6e46fc6068039b1a",
+        "size_bytes": 21654,
+        "source_relative_path": "EXP3_V2_VERBALIZATION_OUTPUT_MANIFEST_001.json"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-N-001.json",
+        "order": 2,
+        "physical_case_id": "EXP3V2-N-001",
+        "sha256": "c9544a53a057c11bbe42be2104b38fecce8fc0b57db27624db6c410e00105fd3",
+        "size_bytes": 323815,
+        "source_relative_path": "structured_json/EXP3V2-N-001.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-N-001.txt",
+        "order": 3,
+        "physical_case_id": "EXP3V2-N-001",
+        "sha256": "df38a875c1865978a939e404eb8a22faba8b98276207566efe0b17285c7596cf",
+        "size_bytes": 520,
+        "source_relative_path": "neutral_text/EXP3V2-N-001.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-N-002.json",
+        "order": 4,
+        "physical_case_id": "EXP3V2-N-002",
+        "sha256": "78ac92ebe3c13e7d1edc8de3650f5f1d9a2e887b134386af23cbac8206944651",
+        "size_bytes": 323661,
+        "source_relative_path": "structured_json/EXP3V2-N-002.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-N-002.txt",
+        "order": 5,
+        "physical_case_id": "EXP3V2-N-002",
+        "sha256": "c1046722fa277caa0ecd635558e798bf229895c31b91fde6bce9e4528959249b",
+        "size_bytes": 374,
+        "source_relative_path": "neutral_text/EXP3V2-N-002.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-N-003.json",
+        "order": 6,
+        "physical_case_id": "EXP3V2-N-003",
+        "sha256": "529a5672fa0a7558363abc3c81c6753d153dd355caf9375f77929fe336764782",
+        "size_bytes": 323698,
+        "source_relative_path": "structured_json/EXP3V2-N-003.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-N-003.txt",
+        "order": 7,
+        "physical_case_id": "EXP3V2-N-003",
+        "sha256": "e7dc02a97714ea9c47f579232c3d386f00502df9c6e5a0513c2cf2a8f3c49e2a",
+        "size_bytes": 429,
+        "source_relative_path": "neutral_text/EXP3V2-N-003.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-N-004.json",
+        "order": 8,
+        "physical_case_id": "EXP3V2-N-004",
+        "sha256": "8e4365027a4bebdc58d09e6235a303a76bb864efa88fa44ef15e7885772f258a",
+        "size_bytes": 323627,
+        "source_relative_path": "structured_json/EXP3V2-N-004.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-N-004.txt",
+        "order": 9,
+        "physical_case_id": "EXP3V2-N-004",
+        "sha256": "1f9c1d045c898619bd14db02cd8be3a4f432b63fe98a371dcd17a88bb38e0c10",
+        "size_bytes": 429,
+        "source_relative_path": "neutral_text/EXP3V2-N-004.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-N-005.json",
+        "order": 10,
+        "physical_case_id": "EXP3V2-N-005",
+        "sha256": "08c1cc5eb0251d9533a0022a32c4a6ac44fa08afd9cc2f123b91bd3068073a6f",
+        "size_bytes": 323678,
+        "source_relative_path": "structured_json/EXP3V2-N-005.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-N-005.txt",
+        "order": 11,
+        "physical_case_id": "EXP3V2-N-005",
+        "sha256": "42a3475bc9ae001457d0bb8022fa14113d5541acc723980684c8eba5dbae811a",
+        "size_bytes": 374,
+        "source_relative_path": "neutral_text/EXP3V2-N-005.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-N-006.json",
+        "order": 12,
+        "physical_case_id": "EXP3V2-N-006",
+        "sha256": "5aefb43149a97b706aa6971bad1ea05b9848a0ce0eb46d95511f2f0f834fa011",
+        "size_bytes": 323663,
+        "source_relative_path": "structured_json/EXP3V2-N-006.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-N-006.txt",
+        "order": 13,
+        "physical_case_id": "EXP3V2-N-006",
+        "sha256": "d8e80ed8782399382777430a6ee55ebf93099915ce6ebe68ea80deaf5207fec0",
+        "size_bytes": 465,
+        "source_relative_path": "neutral_text/EXP3V2-N-006.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F1-001.json",
+        "order": 14,
+        "physical_case_id": "EXP3V2-F1-001",
+        "sha256": "c6964f929ae9254e270fb359758e8280c5a6a7fda04d839447f2120acf6e5f15",
+        "size_bytes": 329092,
+        "source_relative_path": "structured_json/EXP3V2-F1-001.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F1-001.txt",
+        "order": 15,
+        "physical_case_id": "EXP3V2-F1-001",
+        "sha256": "49dd5ceff4a5e5546a21949f1ca542da94d65a18631c50969ef6ba6af730c2a0",
+        "size_bytes": 955,
+        "source_relative_path": "neutral_text/EXP3V2-F1-001.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F1-002.json",
+        "order": 16,
+        "physical_case_id": "EXP3V2-F1-002",
+        "sha256": "ebc4b459caa5d134afb9d76cca4524805f85e13f759037e5ae0ac0aa2c0f3cf6",
+        "size_bytes": 329283,
+        "source_relative_path": "structured_json/EXP3V2-F1-002.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F1-002.txt",
+        "order": 17,
+        "physical_case_id": "EXP3V2-F1-002",
+        "sha256": "b2d77ef1020acae01962c8177c59b24d3adf3e25d124943db8bce9eada294d1b",
+        "size_bytes": 955,
+        "source_relative_path": "neutral_text/EXP3V2-F1-002.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F1-003.json",
+        "order": 18,
+        "physical_case_id": "EXP3V2-F1-003",
+        "sha256": "aa64f0ee81221b044fd5a16cd7349a07938cf4b2a47602bdad7d0187fc3fc035",
+        "size_bytes": 329307,
+        "source_relative_path": "structured_json/EXP3V2-F1-003.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F1-003.txt",
+        "order": 19,
+        "physical_case_id": "EXP3V2-F1-003",
+        "sha256": "9a3dcd5de2040ab83847aeaa127f274d560c7f9182e4bc682c2452ad8968ac34",
+        "size_bytes": 955,
+        "source_relative_path": "neutral_text/EXP3V2-F1-003.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F1-004.json",
+        "order": 20,
+        "physical_case_id": "EXP3V2-F1-004",
+        "sha256": "70af2d56a5b1306e178897dfd80b4ee8e677e78711e7395d9c37b34a0626cf14",
+        "size_bytes": 329454,
+        "source_relative_path": "structured_json/EXP3V2-F1-004.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F1-004.txt",
+        "order": 21,
+        "physical_case_id": "EXP3V2-F1-004",
+        "sha256": "7fa548aba6a9c4c78086fc1d86f25d0064e52a4a5a9de9ff7f68776311144398",
+        "size_bytes": 955,
+        "source_relative_path": "neutral_text/EXP3V2-F1-004.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F1-005.json",
+        "order": 22,
+        "physical_case_id": "EXP3V2-F1-005",
+        "sha256": "68eb1e12481931ddf801243770d3b5599eb3507bc83e30f58086460044f6abd1",
+        "size_bytes": 329114,
+        "source_relative_path": "structured_json/EXP3V2-F1-005.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F1-005.txt",
+        "order": 23,
+        "physical_case_id": "EXP3V2-F1-005",
+        "sha256": "004c149853070f6ba3dd39e61161f83557edb8c5e34de36b75564dc3d26c7a28",
+        "size_bytes": 955,
+        "source_relative_path": "neutral_text/EXP3V2-F1-005.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F1-006.json",
+        "order": 24,
+        "physical_case_id": "EXP3V2-F1-006",
+        "sha256": "630cd27c1ed3ec7ce462bed113928a6a00823f32bdbf21506710e4eaac130eb1",
+        "size_bytes": 329382,
+        "source_relative_path": "structured_json/EXP3V2-F1-006.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F1-006.txt",
+        "order": 25,
+        "physical_case_id": "EXP3V2-F1-006",
+        "sha256": "03b658d96d58a4159aac79fcbe6327b5c146218a74d3c262369eeae420882ace",
+        "size_bytes": 955,
+        "source_relative_path": "neutral_text/EXP3V2-F1-006.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F8-001.json",
+        "order": 26,
+        "physical_case_id": "EXP3V2-F8-001",
+        "sha256": "69fe84b236fc35335bfe053cdcad4eb5929cbf6a926026c0ad4473706e00c6a5",
+        "size_bytes": 336207,
+        "source_relative_path": "structured_json/EXP3V2-F8-001.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F8-001.txt",
+        "order": 27,
+        "physical_case_id": "EXP3V2-F8-001",
+        "sha256": "09c4f74e93918dbc58323dbb986bc0ebeeef1c5952880ed6eb21266a01a49a0f",
+        "size_bytes": 956,
+        "source_relative_path": "neutral_text/EXP3V2-F8-001.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F8-002.json",
+        "order": 28,
+        "physical_case_id": "EXP3V2-F8-002",
+        "sha256": "7ebe7f1e2cc906265b5e051663eb90298e5974fd0c74da61afb089cc2a4d5afd",
+        "size_bytes": 338040,
+        "source_relative_path": "structured_json/EXP3V2-F8-002.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F8-002.txt",
+        "order": 29,
+        "physical_case_id": "EXP3V2-F8-002",
+        "sha256": "de2a778708d398ae411beecff3324e17814454c8131f1fc9df5d784ef99cd729",
+        "size_bytes": 969,
+        "source_relative_path": "neutral_text/EXP3V2-F8-002.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F8-003.json",
+        "order": 30,
+        "physical_case_id": "EXP3V2-F8-003",
+        "sha256": "d59ed7719d35d509c90a038712dd23c553d5292ae3ef61ca11fbecb7bf38b91b",
+        "size_bytes": 337530,
+        "source_relative_path": "structured_json/EXP3V2-F8-003.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F8-003.txt",
+        "order": 31,
+        "physical_case_id": "EXP3V2-F8-003",
+        "sha256": "896774678364d5c00b4d289174b25a95f1c5b70ce7cc9737a09f8e63a5ac308b",
+        "size_bytes": 969,
+        "source_relative_path": "neutral_text/EXP3V2-F8-003.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F8-004.json",
+        "order": 32,
+        "physical_case_id": "EXP3V2-F8-004",
+        "sha256": "2f25618a334898d4d43470c8909b380e1e2cddc25394cb6e8f86d679ba9f0ace",
+        "size_bytes": 334262,
+        "source_relative_path": "structured_json/EXP3V2-F8-004.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F8-004.txt",
+        "order": 33,
+        "physical_case_id": "EXP3V2-F8-004",
+        "sha256": "6c7297606f17ccae8ffa8d058b67ad679c49ba6cff2cfce4fc8d522034778688",
+        "size_bytes": 970,
+        "source_relative_path": "neutral_text/EXP3V2-F8-004.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F8-005.json",
+        "order": 34,
+        "physical_case_id": "EXP3V2-F8-005",
+        "sha256": "6d0a76e78f482119303235f45b04bc1ef050af575a0e498b99ccfbfdcf8c1cb6",
+        "size_bytes": 335984,
+        "source_relative_path": "structured_json/EXP3V2-F8-005.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F8-005.txt",
+        "order": 35,
+        "physical_case_id": "EXP3V2-F8-005",
+        "sha256": "3862f231c410d20490dd4f4d37572b09327e613838accfa7c2fb4843378ad308",
+        "size_bytes": 969,
+        "source_relative_path": "neutral_text/EXP3V2-F8-005.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F8-006.json",
+        "order": 36,
+        "physical_case_id": "EXP3V2-F8-006",
+        "sha256": "e58b97e5a404858cc7dfdf7625ed0c461a8bdb91e41e9efc71efbd2f652181a6",
+        "size_bytes": 338585,
+        "source_relative_path": "structured_json/EXP3V2-F8-006.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F8-006.txt",
+        "order": 37,
+        "physical_case_id": "EXP3V2-F8-006",
+        "sha256": "17428189ad3e173cca6b01718d647bbba1c946c6e7d281829303e7e433c6a769",
+        "size_bytes": 970,
+        "source_relative_path": "neutral_text/EXP3V2-F8-006.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F10-001.json",
+        "order": 38,
+        "physical_case_id": "EXP3V2-F10-001",
+        "sha256": "37ba8beacea74662c9f41e8e87a2ec9f7c2afcf15cd0f036025236d53578a665",
+        "size_bytes": 324859,
+        "source_relative_path": "structured_json/EXP3V2-F10-001.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F10-001.txt",
+        "order": 39,
+        "physical_case_id": "EXP3V2-F10-001",
+        "sha256": "1d0c3d39f9b8f7ab79c03c1c92f095acac8d68a546696526596405f4cb804bcc",
+        "size_bytes": 972,
+        "source_relative_path": "neutral_text/EXP3V2-F10-001.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F10-002.json",
+        "order": 40,
+        "physical_case_id": "EXP3V2-F10-002",
+        "sha256": "f3be0cafe420e5ad80104ea1b2e9cc479ee3be9ee19bf471e2e762adbd092862",
+        "size_bytes": 325241,
+        "source_relative_path": "structured_json/EXP3V2-F10-002.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F10-002.txt",
+        "order": 41,
+        "physical_case_id": "EXP3V2-F10-002",
+        "sha256": "ca051224e506108a785fb359ecf70a109815b044e07946a8a4786992dc5dbb64",
+        "size_bytes": 972,
+        "source_relative_path": "neutral_text/EXP3V2-F10-002.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F10-003.json",
+        "order": 42,
+        "physical_case_id": "EXP3V2-F10-003",
+        "sha256": "72b5ca4ae21a06fdec42bcdccfb571efe456d406c3a97542e0a24bd881537d34",
+        "size_bytes": 324807,
+        "source_relative_path": "structured_json/EXP3V2-F10-003.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F10-003.txt",
+        "order": 43,
+        "physical_case_id": "EXP3V2-F10-003",
+        "sha256": "775c109bfdb9976da02385d351c6f406eaf10f56afe794bee9d640a6782836da",
+        "size_bytes": 972,
+        "source_relative_path": "neutral_text/EXP3V2-F10-003.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F10-004.json",
+        "order": 44,
+        "physical_case_id": "EXP3V2-F10-004",
+        "sha256": "3b510ef6971b917d72b9f0ac0f6409b8152c21a422a48c3219f6fdf7215b3227",
+        "size_bytes": 325255,
+        "source_relative_path": "structured_json/EXP3V2-F10-004.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F10-004.txt",
+        "order": 45,
+        "physical_case_id": "EXP3V2-F10-004",
+        "sha256": "d654e5d26a90e6b0cfe5368f7bc2efe1376c4e8ea300ff365ebf389fe2f1854d",
+        "size_bytes": 972,
+        "source_relative_path": "neutral_text/EXP3V2-F10-004.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F10-005.json",
+        "order": 46,
+        "physical_case_id": "EXP3V2-F10-005",
+        "sha256": "5369c421cdea0c71bdb3721ec94f9892e5929ff52bd162a5a4d12710c2b6be9c",
+        "size_bytes": 325030,
+        "source_relative_path": "structured_json/EXP3V2-F10-005.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F10-005.txt",
+        "order": 47,
+        "physical_case_id": "EXP3V2-F10-005",
+        "sha256": "a79681ed7637af99f553bae1623cf9a1b7aeeef2249cadcf706213db33a697ab",
+        "size_bytes": 972,
+        "source_relative_path": "neutral_text/EXP3V2-F10-005.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F10-006.json",
+        "order": 48,
+        "physical_case_id": "EXP3V2-F10-006",
+        "sha256": "a56f2de755f7a36ebe2382d470138d20989861fb528fdaa563de262248e389ca",
+        "size_bytes": 324556,
+        "source_relative_path": "structured_json/EXP3V2-F10-006.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F10-006.txt",
+        "order": 49,
+        "physical_case_id": "EXP3V2-F10-006",
+        "sha256": "5a56cd5852edf0b48cba776e7af7f58c0b06994aec5730349aeec6a3b3205f52",
+        "size_bytes": 972,
+        "source_relative_path": "neutral_text/EXP3V2-F10-006.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F13-001.json",
+        "order": 50,
+        "physical_case_id": "EXP3V2-F13-001",
+        "sha256": "89f2ee23ba5a46e80161a89bfec5f76249fac7129fa99776e5fb72471fffab27",
+        "size_bytes": 345017,
+        "source_relative_path": "structured_json/EXP3V2-F13-001.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F13-001.txt",
+        "order": 51,
+        "physical_case_id": "EXP3V2-F13-001",
+        "sha256": "7e97fdb06663f3a7dab274af6393bb3bb1f0b2e81d0c9a4c9a092720a45fd627",
+        "size_bytes": 956,
+        "source_relative_path": "neutral_text/EXP3V2-F13-001.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F13-002.json",
+        "order": 52,
+        "physical_case_id": "EXP3V2-F13-002",
+        "sha256": "cb5a6015ced11821ca7bae875e1bb6870a39f852b72fecd603bc26e0dd0d6a69",
+        "size_bytes": 338961,
+        "source_relative_path": "structured_json/EXP3V2-F13-002.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F13-002.txt",
+        "order": 53,
+        "physical_case_id": "EXP3V2-F13-002",
+        "sha256": "e4982e85ffcbc150be891f0d6ada176010cf43d4f22951944bef9f2f287d668e",
+        "size_bytes": 971,
+        "source_relative_path": "neutral_text/EXP3V2-F13-002.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F13-003.json",
+        "order": 54,
+        "physical_case_id": "EXP3V2-F13-003",
+        "sha256": "6f1c92157eef53b6259a76fe9c50d441ea62408b63d915199c2b63b1cc416b80",
+        "size_bytes": 344678,
+        "source_relative_path": "structured_json/EXP3V2-F13-003.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F13-003.txt",
+        "order": 55,
+        "physical_case_id": "EXP3V2-F13-003",
+        "sha256": "5042be9df87f8727b7e026d083ef5aa7c8a73071f3644f85cb42a183bc03c8d5",
+        "size_bytes": 970,
+        "source_relative_path": "neutral_text/EXP3V2-F13-003.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F13-004.json",
+        "order": 56,
+        "physical_case_id": "EXP3V2-F13-004",
+        "sha256": "f7857c72eb1cf954ae8ba91151b59ad94d28550500c9b203a154c281ca0d4880",
+        "size_bytes": 348890,
+        "source_relative_path": "structured_json/EXP3V2-F13-004.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F13-004.txt",
+        "order": 57,
+        "physical_case_id": "EXP3V2-F13-004",
+        "sha256": "3bf18a50c3744e275a548efc46b4e9f4f564126af94e4e7a3d86d71d4c159a5a",
+        "size_bytes": 954,
+        "source_relative_path": "neutral_text/EXP3V2-F13-004.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F13-005.json",
+        "order": 58,
+        "physical_case_id": "EXP3V2-F13-005",
+        "sha256": "a04aa84217214faf24b9c5f2f6daeb2b548f08e10a525f6aa2086f3927b21f01",
+        "size_bytes": 344868,
+        "source_relative_path": "structured_json/EXP3V2-F13-005.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F13-005.txt",
+        "order": 59,
+        "physical_case_id": "EXP3V2-F13-005",
+        "sha256": "4f5a35dfc90c48a061590d364ccbc321012461154ced2668846c872d148829f8",
+        "size_bytes": 970,
+        "source_relative_path": "neutral_text/EXP3V2-F13-005.txt"
+      },
+      {
+        "artifact_kind": "structured_json",
+        "frozen_relative_path": "verbalization_outputs/structured_json/EXP3V2-F13-006.json",
+        "order": 60,
+        "physical_case_id": "EXP3V2-F13-006",
+        "sha256": "d5907f38c636559be47f9e0641ff449452194d91f92d8c3f5969d6664d536436",
+        "size_bytes": 340005,
+        "source_relative_path": "structured_json/EXP3V2-F13-006.json"
+      },
+      {
+        "artifact_kind": "neutral_text",
+        "frozen_relative_path": "verbalization_outputs/neutral_text/EXP3V2-F13-006.txt",
+        "order": 61,
+        "physical_case_id": "EXP3V2-F13-006",
+        "sha256": "5096710a596c973e2c8d98d2279edb20aee6e144b92665c623d259e6a5b8276f",
+        "size_bytes": 955,
+        "source_relative_path": "neutral_text/EXP3V2-F13-006.txt"
+      }
+    ],
+    "canonical_inventory_order": "output manifest first, then structured JSON and neutral text paired in canonical case order",
+    "concatenated_bytes_sha256": "fa959f4d732fcd18769ea351532917ff7af43521bea9c8a9076e581b21a58b30",
+    "inventory_line_format": "order,frozen_relative_path,size_bytes,sha256\\n",
+    "inventory_sha256": "905e8d134e95537cdc1cbc3c8592f29f9a81978a0f12b8d29eaeb55c90175dc3",
+    "neutral_text_count": 30,
+    "output_manifest_count": 1,
+    "root": "verbalization_outputs",
+    "structured_json_count": 30,
+    "total_size_bytes": 9997935,
+    "tree_path_count": 61
+  },
+  "portable_verification_design": {
+    "exact_commands_source": "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_PROTOCOL_001.md at harness tag exp3-v2-verbalization-harness-frozen-001",
+    "final_tag_only_is_sufficient": false,
+    "output_checkout_subdirectory": "verbalization_outputs",
+    "raw_data_identity_checkout": "exp3-v2-heldout-data-frozen-001",
+    "required_exact_detached_tags": [
+      "exp3-v2-verbalization-harness-frozen-001",
+      "exp3-v2-heldout-frozen-002",
+      "exp3-v2-heldout-data-frozen-001",
+      "exp3-v2-verbalizations-frozen-001"
+    ],
+    "verifier_checkout": "exp3-v2-verbalization-harness-frozen-001"
+  },
+  "prepared_on": "2026-09-04",
+  "prohibitions_and_attestations": {
+    "baseline_recomputed": false,
+    "llm_or_network_inference_executed": false,
+    "output_files_modified_renamed_or_deleted": false,
+    "rng_used": false,
+    "scientific_signal_values_inspected_or_reported": false,
+    "thresholds_refit": false,
+    "workbooks_opened_with_excel_parser": false
+  },
+  "prospective_tag": "exp3-v2-verbalizations-frozen-001",
+  "repository": {
+    "branch_publication": "prohibited",
+    "force_update": "prohibited",
+    "history_shape": "disconnected tag-only two-commit history",
+    "origin_url": "https://github.com/sorrentinoluca/fot-phd.git",
+    "storage": "ordinary Git without LFS"
+  },
+  "schema_version": "1.0",
+  "status": "FROZEN_BEFORE_INFERENCE",
+  "tag_created": true,
+  "frozen_on": "2026-09-04",
+  "verification": {
+    "checks": {
+      "canonical_case_order": "PASS",
+      "exact_output_tree": "PASS",
+      "input_attempts_seeds_sizes_hashes": "PASS",
+      "neutral_text_byte_equality_to_hash_pinned_render_text": "PASS",
+      "output_inventory_digest": "PASS",
+      "schema": "PASS",
+      "structured_contract_time_windows_finiteness": "PASS"
+    },
+    "command": "/opt/anaconda3/bin/python3 /private/tmp/exp3v2-verbalization-harness-001/worktree/phase_b/exp3_v2/verify_exp3v2_verbalizations.py --manifest /private/tmp/exp3v2-verbalization-harness-001/worktree/phase_b/exp3_v2/EXP3_V2_VERBALIZATION_HARNESS_MANIFEST_001.json --data-root /private/tmp/exp3v2-verbalization-data-001/worktree --output-root /private/tmp/exp3v2-verbalization-run-001/output",
+    "frozen_verifier": {
+      "path": "phase_b/exp3_v2/verify_exp3v2_verbalizations.py",
+      "sha256": "c8daf51c66180379dd8c33724ef64996b17ba2397d6c06354101d30326117ad7",
+      "size_bytes": 14477,
+      "source_tag": "exp3-v2-verbalization-harness-frozen-001"
+    },
+    "result": "PASS"
+  }
+}
