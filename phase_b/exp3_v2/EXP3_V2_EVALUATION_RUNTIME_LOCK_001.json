@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "status": "PRE_FREEZE_DRAFT",
+  "runtime_kind": "EXP3_V2_CONFIRMATORY_EVALUATION_PYTHON_RUNTIME",
+  "platform": "macOS arm64",
+  "canonical_base_executable": "/opt/anaconda3/bin/python3.13",
+  "python_version": "3.13.9",
+  "invocation_executable": "/private/tmp/exp3v2-evaluation-runtime-001/bin/python3",
+  "requirements": {
+    "path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_REQUIREMENTS_001.txt",
+    "size_bytes": 630,
+    "sha256": "2beff0c2c239cee74bb8df61f3f76ea2f6e313037caa8d35e3d1db8b9dcf1dac"
+  },
+  "direct_requirements": {
+    "jsonschema": "4.25.0",
+    "numpy": "2.5.2"
+  },
+  "complete_environment": {
+    "attrs": "26.1.0",
+    "jsonschema": "4.25.0",
+    "jsonschema-specifications": "2025.9.1",
+    "numpy": "2.5.2",
+    "referencing": "0.37.0",
+    "rpds-py": "2026.6.3"
+  },
+  "wheelhouse": {
+    "required_path": "/private/tmp/exp3v2-evaluation-wheelhouse-001",
+    "artifact_count": 6,
+    "artifacts": [
+      {
+        "filename": "attrs-26.1.0-py3-none-any.whl",
+        "sha256": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309"
+      },
+      {
+        "filename": "jsonschema-4.25.0-py3-none-any.whl",
+        "sha256": "24c2e8da302de79c8b9382fee3e76b355e44d2a4364bb207159ce10b517bd716"
+      },
+      {
+        "filename": "jsonschema_specifications-2025.9.1-py3-none-any.whl",
+        "sha256": "98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe"
+      },
+      {
+        "filename": "numpy-2.5.2-cp313-cp313-macosx_14_0_arm64.whl",
+        "sha256": "29d81e97f668489cba8ebfd796b9bdd453525d35dd9e162e2daec94bf3fc7740"
+      },
+      {
+        "filename": "referencing-0.37.0-py3-none-any.whl",
+        "sha256": "381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231"
+      },
+      {
+        "filename": "rpds_py-2026.6.3-cp313-cp313-macosx_11_0_arm64.whl",
+        "sha256": "f4d78253f6996be4901669ad25319f842f740eccf4d58e3c7f3dd39e6dde1d8f"
+      }
+    ]
+  },
+  "clean_install_command": "/opt/anaconda3/bin/python3.13 -m venv /private/tmp/exp3v2-evaluation-runtime-001 && /private/tmp/exp3v2-evaluation-runtime-001/bin/python3 -m pip install --no-index --find-links /private/tmp/exp3v2-evaluation-wheelhouse-001 --require-hashes --only-binary=:all: -r /private/tmp/exp3v2-evaluation-harness-001/worktree/phase_b/exp3_v2/EXP3_V2_EVALUATION_REQUIREMENTS_001.txt",
+  "forbidden_packages": ["openai", "pandas", "openpyxl"],
+  "credentials_required": false,
+  "network_required_after_materialization": false
+}

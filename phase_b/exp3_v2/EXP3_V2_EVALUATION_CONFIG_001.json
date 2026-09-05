@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "status": "PRE_FREEZE_DRAFT",
+  "analysis_population": "EXP3_V2_MINIMAL_CONFIRMATORY_PRIMARY_AND_DESCRIPTIVE_POPULATIONS",
+  "conditions": ["A", "B", "E"],
+  "agents": ["agent_1", "agent_2", "agent_3", "agent_4"],
+  "label_space": [
+    "CLS-ZOGAA",
+    "CLS-OJNSG",
+    "CLS-R463B",
+    "CLS-Z3ISU",
+    "Normal"
+  ],
+  "denominators": {
+    "repetitions_total": 1080,
+    "repetitions_per_condition": 360,
+    "aggregates_total": 360,
+    "aggregates_per_condition": 120,
+    "primary_unseen_per_condition": 72,
+    "secondary_local_seen_per_condition": 24,
+    "secondary_normal_per_condition": 24,
+    "secondary_overall_per_condition": 120,
+    "physical_fault_clusters": 24,
+    "clusters_per_fault_stratum": 6,
+    "agent_rows_per_physical_fault_cluster": 3
+  },
+  "contrasts": {
+    "primary": "B_minus_A",
+    "supporting": "B_minus_E"
+  },
+  "bootstrap": {
+    "method": "paired_physical_case_cluster_stratified_by_true_pseudolabel",
+    "draws": 10000,
+    "seed": 320031,
+    "confidence_level": 0.95,
+    "quantiles": [0.025, 0.975],
+    "quantile_method": "numpy.quantile default linear",
+    "same_draws_for_both_contrasts": true,
+    "persist_complete_distributions": true
+  },
+  "secondary_descriptive_outputs": {
+    "populations": ["local_seen", "normal", "overall"],
+    "fields": ["n", "correct", "incorrect", "abstentions", "accuracy"],
+    "bootstrap_confidence_intervals": false,
+    "success_criteria": false
+  },
+  "success_criteria": {
+    "replication": [
+      "observed_B_minus_A_gt_0",
+      "B_minus_A_ci_lower_gt_0"
+    ],
+    "semantic_specificity": ["observed_B_minus_E_gt_0"],
+    "B_minus_E_ci_exclusion_is_gate": false
+  },
+  "abstention_treatment": "incorrect",
+  "missing_record_policy": "FAIL_CLOSED_NO_DENOMINATOR_REDUCTION",
+  "optional_analyses": []
+}

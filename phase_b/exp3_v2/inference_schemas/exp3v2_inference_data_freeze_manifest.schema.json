@@ -1,0 +1,411 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "exp3v2_inference_data_freeze_manifest.schema.json",
+  "title": "EXP3_V2 inference data freeze manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manifest_kind",
+    "manifest_revision",
+    "status",
+    "prospective_tag",
+    "tag_created",
+    "prepared_on",
+    "frozen_on",
+    "human_freeze_approval",
+    "non_self_referential",
+    "repository",
+    "governance",
+    "upstream_tags",
+    "upstream_manifest_bindings",
+    "execution_summary",
+    "payload",
+    "portable_verification",
+    "leakage_attestation",
+    "prohibitions",
+    "review_validation"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "manifest_kind": {"const": "EXP3_V2_INFERENCE_DATA_FREEZE"},
+    "manifest_revision": {"const": 1},
+    "status": {
+      "enum": [
+        "PENDING_HUMAN_INFERENCE_DATA_FREEZE",
+        "FROZEN_BEFORE_EVALUATION"
+      ]
+    },
+    "prospective_tag": {"const": "exp3-v2-inference-frozen-001"},
+    "tag_created": {"type": "boolean"},
+    "prepared_on": {"type": "string", "format": "date"},
+    "frozen_on": {"type": ["string", "null"], "format": "date-time"},
+    "human_freeze_approval": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["approved", "approved_at", "approval_text_sha256", "scope"],
+          "properties": {
+            "approved": {"const": true},
+            "approved_at": {"type": "string", "format": "date-time"},
+            "approval_text_sha256": {"$ref": "#/$defs/sha256"},
+            "scope": {"const": "EXP3_V2_INFERENCE_DATA_FREEZE_001"}
+          }
+        }
+      ]
+    },
+    "non_self_referential": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_sha256_recorded",
+        "governance_commit_recorded",
+        "tag_object_recorded",
+        "payload_commit_may_be_recorded"
+      ],
+      "properties": {
+        "manifest_sha256_recorded": {"const": false},
+        "governance_commit_recorded": {"const": false},
+        "tag_object_recorded": {"const": false},
+        "payload_commit_may_be_recorded": {"const": true}
+      }
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "origin_url",
+        "visibility",
+        "storage",
+        "git_lfs",
+        "history_shape",
+        "published_ref_kind",
+        "branch_publication",
+        "force_update"
+      ],
+      "properties": {
+        "origin_url": {"const": "https://github.com/sorrentinoluca/fot-phd.git"},
+        "visibility": {"const": "public"},
+        "storage": {"const": "ordinary_git"},
+        "git_lfs": {"const": false},
+        "history_shape": {"const": "disconnected_parentless_payload_then_governance_child"},
+        "published_ref_kind": {"const": "annotated_tag_only"},
+        "branch_publication": {"const": false},
+        "force_update": {"const": false}
+      }
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "payload_commit_parent_count",
+        "actual_payload_commit",
+        "governance_commit_parent_count",
+        "tag_target",
+        "payload_tree_path_count",
+        "governance_tree_path_count",
+        "file_allowlist"
+      ],
+      "properties": {
+        "payload_commit_parent_count": {"const": 0},
+        "actual_payload_commit": {
+          "oneOf": [{"type": "null"}, {"$ref": "#/$defs/commit"}]
+        },
+        "governance_commit_parent_count": {"const": 1},
+        "tag_target": {"const": "governance_commit"},
+        "payload_tree_path_count": {"const": 3248},
+        "governance_tree_path_count": {"const": 3253},
+        "file_allowlist": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "upstream_tags": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/tag_binding"}
+    },
+    "upstream_manifest_bindings": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"$ref": "#/$defs/manifest_binding"}
+    },
+    "execution_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repetition_jobs",
+        "aggregate_records",
+        "condition_counts",
+        "provider_submissions",
+        "structural_corrections",
+        "infrastructure_failures",
+        "ambiguous_states",
+        "final_parse_failures",
+        "returned_model",
+        "input_tokens",
+        "output_tokens",
+        "total_tokens",
+        "schedule_sha256"
+      ],
+      "properties": {
+        "repetition_jobs": {"const": 1080},
+        "aggregate_records": {"const": 360},
+        "condition_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["A", "B", "E"],
+          "properties": {
+            "A": {"const": 360},
+            "B": {"const": 360},
+            "E": {"const": 360}
+          }
+        },
+        "provider_submissions": {"const": 1082},
+        "structural_corrections": {"const": 2},
+        "infrastructure_failures": {"const": 0},
+        "ambiguous_states": {"const": 0},
+        "final_parse_failures": {"const": 0},
+        "returned_model": {"const": "gpt-5.6-terra"},
+        "input_tokens": {"const": 2239179},
+        "output_tokens": {"const": 173300},
+        "total_tokens": {"const": 2412479},
+        "schedule_sha256": {
+          "const": "e0049a789a53b7cf3e1ff6c0ee432502815038f0916c4456e5ceda6b0271d697"
+        }
+      }
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authoritative_source_root_provenance",
+        "source_root_required_for_clone_verification",
+        "clone_relative_root",
+        "path_count",
+        "total_size_bytes",
+        "frozen_output_inventory_sha256",
+        "complete_file_inventory_sha256",
+        "principal_sha256",
+        "artifacts"
+      ],
+      "properties": {
+        "authoritative_source_root_provenance": {
+          "const": "/private/tmp/exp3v2-inference-run-001/output"
+        },
+        "source_root_required_for_clone_verification": {"const": false},
+        "clone_relative_root": {"const": "inference_outputs"},
+        "path_count": {"const": 3248},
+        "total_size_bytes": {"const": 20718869},
+        "frozen_output_inventory_sha256": {
+          "const": "3343f6315a5f8cd9e8d11a18fe26c13e70de91a9479a5e1a3ee2ab2c9281f1ea"
+        },
+        "complete_file_inventory_sha256": {
+          "const": "7eeb7bb53340d98236082bf64d83f71d2e6cc59c307389f566eabf367b709e72"
+        },
+        "principal_sha256": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "execution_metadata.json",
+            "repetition_records.jsonl",
+            "aggregate_records.jsonl",
+            "inference_output_hash_manifest.json"
+          ],
+          "properties": {
+            "execution_metadata.json": {"$ref": "#/$defs/sha256"},
+            "repetition_records.jsonl": {"$ref": "#/$defs/sha256"},
+            "aggregate_records.jsonl": {"$ref": "#/$defs/sha256"},
+            "inference_output_hash_manifest.json": {"$ref": "#/$defs/sha256"}
+          }
+        },
+        "artifacts": {
+          "type": "array",
+          "minItems": 3248,
+          "maxItems": 3248,
+          "items": {"$ref": "#/$defs/artifact"}
+        }
+      }
+    },
+    "portable_verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "final_tag_alone_sufficient",
+        "required_annotated_tags",
+        "runtime_invocation",
+        "python_version",
+        "complete_distribution_count",
+        "verifier_path",
+        "protocol_path"
+      ],
+      "properties": {
+        "final_tag_alone_sufficient": {"const": false},
+        "required_annotated_tags": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {"type": "string"}
+        },
+        "runtime_invocation": {
+          "const": "/private/tmp/exp3v2-inference-runtime-001/bin/python3"
+        },
+        "python_version": {"const": "3.13.9"},
+        "complete_distribution_count": {"const": 20},
+        "verifier_path": {
+          "const": "phase_b/exp3_v2/verify_exp3v2_inference_data_freeze.py"
+        },
+        "protocol_path": {
+          "const": "phase_b/exp3_v2/EXP3_V2_INFERENCE_DATA_FREEZE_PROTOCOL_001.md"
+        }
+      }
+    },
+    "leakage_attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ground_truth_loaded",
+        "evaluator_mapping_loaded",
+        "metrics_calculated",
+        "predictions_reported",
+        "credentials_persisted",
+        "credential_pattern_hits",
+        "forbidden_json_key_hits"
+      ],
+      "properties": {
+        "ground_truth_loaded": {"const": false},
+        "evaluator_mapping_loaded": {"const": false},
+        "metrics_calculated": {"const": false},
+        "predictions_reported": {"const": false},
+        "credentials_persisted": {"const": false},
+        "credential_pattern_hits": {"const": 0},
+        "forbidden_json_key_hits": {"const": 0}
+      }
+    },
+    "prohibitions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "outcome_based_exclusion",
+        "selective_freezing",
+        "payload_modification",
+        "evaluation_before_freeze",
+        "branch_publication",
+        "force_push"
+      ],
+      "properties": {
+        "outcome_based_exclusion": {"const": false},
+        "selective_freezing": {"const": false},
+        "payload_modification": {"const": false},
+        "evaluation_before_freeze": {"const": false},
+        "branch_publication": {"const": false},
+        "force_push": {"const": false}
+      }
+    },
+    "review_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "frozen_verifier",
+        "portable_verifier",
+        "schemas",
+        "complete_inventory",
+        "leakage_scan",
+        "isolated_rehearsal",
+        "authoritative_output_preserved"
+      ],
+      "properties": {
+        "frozen_verifier": {"const": "PASS"},
+        "portable_verifier": {"const": "PASS"},
+        "schemas": {"const": "PASS"},
+        "complete_inventory": {"const": "PASS"},
+        "leakage_scan": {"const": "PASS"},
+        "isolated_rehearsal": {"enum": ["PENDING", "PASS"]},
+        "authoritative_output_preserved": {"const": true}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"status": {"const": "PENDING_HUMAN_INFERENCE_DATA_FREEZE"}},
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "tag_created": {"const": false},
+          "frozen_on": {"type": "null"},
+          "human_freeze_approval": {"type": "null"},
+          "governance": {
+            "properties": {"actual_payload_commit": {"type": "null"}}
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"status": {"const": "FROZEN_BEFORE_EVALUATION"}},
+        "required": ["status"]
+      },
+      "then": {
+        "properties": {
+          "tag_created": {"const": true},
+          "frozen_on": {"type": "string"},
+          "human_freeze_approval": {"type": "object"},
+          "governance": {
+            "properties": {"actual_payload_commit": {"$ref": "#/$defs/commit"}}
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "size_bytes", "sha256"],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+        },
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "tag_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "name", "tag_object", "peeled_commit"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 1},
+        "tag_object": {"$ref": "#/$defs/commit"},
+        "peeled_commit": {"$ref": "#/$defs/commit"}
+      }
+    },
+    "manifest_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "tag", "path", "sha256"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "tag": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

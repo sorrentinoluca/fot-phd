@@ -1,0 +1,1171 @@
+{
+  "schema_version": "1.0",
+  "manifest_kind": "EXP3_V2_POST_GENERATION_DATA_FREEZE",
+  "manifest_revision": "001",
+  "experiment": "Experiment 3 V2 — Prospective Fresh-Run Held-Out",
+  "status": "PENDING_HUMAN_DATA_FREEZE",
+  "hash_algorithm": "SHA-256",
+  "prepared_on": "2026-09-03",
+  "prospective_tag": "exp3-v2-heldout-data-frozen-001",
+  "tag_created": false,
+  "commit_created": false,
+  "non_self_referential": {
+    "manifest_includes_its_own_sha256": false,
+    "manifest_includes_prospective_commit_id": false,
+    "immutable_binding_method": "Finalize this manifest without a self-hash, commit it after the data-object commit, and bind the resulting commit with an annotated tag."
+  },
+  "source_repository": {
+    "path": "/Users/luker/fot-tep",
+    "head_commit": "6f88abdecc25e015064e5fc2c59000f8a1a0bc7e",
+    "remote": "origin",
+    "remote_url": "https://github.com/sorrentinoluca/fot-phd.git",
+    "remote_web_url": "https://github.com/sorrentinoluca/fot-phd",
+    "visibility": "public",
+    "default_branch": "main",
+    "main_branch_modified": false,
+    "ignore_policy": {
+      "gitignore_path": ".gitignore",
+      "gitignore_sha256": "45e201c551ef431359e683290e23f2ddb9e788fa3082ff6fe30bf18abca7982e",
+      "heldout_root_ignored": true,
+      "xlsx_glob_ignored": true,
+      "policy_text": "Dataset workbooks must not be committed to this source repository."
+    },
+    "attribute_scope": {
+      "root_gitattributes_present": false,
+      "applicable_gitattributes_present": false,
+      "git_check_attr_reported_attributes": false,
+      "checked_path": "tep_exp3_v2_heldout/mode1/EXP3V2-N-001__attempt-0.xlsx",
+      "nested_sibling_gitattributes_path": "tennessee-eastman-dataset/.gitattributes",
+      "nested_sibling_gitattributes_sha256": "0afca89ff0e8f085ed74bf4e40eba5e92220d7537ff41a8c497f8e0e07e54bbf",
+      "nested_sibling_rule": "*.xlsx filter=lfs diff=lfs merge=lfs -text",
+      "nested_sibling_rule_applies_to_proposed_paths": false,
+      "confirmation_method": "git check-attr -a returned no attributes for the canonical EXP3_V2 workbook path"
+    },
+    "lfs_state": {
+      "git_lfs_client_available": false,
+      "lfs_rules_present": false,
+      "lfs_dependency_required": false
+    },
+    "prospective_tag_absent_local_and_remote_at_review": true
+  },
+  "frozen_boundaries": {
+    "final_boundary_revision_002": {
+      "path": "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST_002.json",
+      "size_bytes": 28896,
+      "sha256": "8e50fb79a31a336f3e93e4057ee10d4551a3f3f7a8f717096a433259de7ee26f",
+      "tag": "exp3-v2-heldout-frozen-002",
+      "commit": "6f88abdecc25e015064e5fc2c59000f8a1a0bc7e",
+      "status": "FROZEN_BEFORE_GENERATION"
+    },
+    "original_final_boundary": {
+      "path": "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST.json",
+      "size_bytes": 22788,
+      "sha256": "cbefaefc585d68b66351961bdeb8289cec48079a5964f8bc660c82c5ec95dc5d",
+      "tag": "exp3-v2-heldout-frozen",
+      "commit": "a55537dfc85db7e70f32ada21afffcb4e8824b96"
+    },
+    "harness_revision_004": {
+      "path": "phase_b/exp3_v2/EXP3_V2_HARNESS_FREEZE_MANIFEST_004.json",
+      "size_bytes": 26534,
+      "sha256": "dacc810bd29203d3d701e3613a9ce8c72dc6423aa475f5c4e8c8b4989b40e139",
+      "tag": "exp3-v2-harness-frozen-004",
+      "commit": "258f629f07aad84b6186381fa6a1dab52401bd2f",
+      "status": "HARNESS_FROZEN_FOR_SENTINEL"
+    },
+    "case_plan": {
+      "path": "phase_b/exp3_v2/exp3v2_case_plan.json",
+      "size_bytes": 10179,
+      "sha256": "84d5af21847033fe4a5924f42fca0fb772201116a9759d6d85f8356929f2b21e",
+      "status": "FROZEN_BEFORE_GENERATION",
+      "scientific_allocations_unchanged": true
+    }
+  },
+  "sentinel_success": {
+    "physical_case_id": "EXP3V2-SENTINEL-002",
+    "seed": 987654322.0,
+    "rng_algorithm": "twister",
+    "evidence_json": {
+      "path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_EVIDENCE.json",
+      "size_bytes": 22398,
+      "sha256": "daf67273138bf192d77e62dd56bc8598a90070baaf4f8714a8851ed3ca9f3a86"
+    },
+    "evidence_markdown": {
+      "path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_EVIDENCE.md",
+      "size_bytes": 620,
+      "sha256": "84823762a9c1109b565afe0c319999a89eb033016ab523d33896317129ceb227"
+    },
+    "harness_revision": "004",
+    "harness_tag": "exp3-v2-harness-frozen-004",
+    "harness_commit": "258f629f07aad84b6186381fa6a1dab52401bd2f",
+    "harness_manifest_sha256": "dacc810bd29203d3d701e3613a9ce8c72dc6423aa475f5c4e8c8b4989b40e139",
+    "verifier": "PASS",
+    "round_trip": "PASS",
+    "restoration": "PASS",
+    "isolation": "PASS",
+    "real_path_non_interference": "PASS",
+    "throwaway_cleanup": "PASS"
+  },
+  "prior_preexecution_and_failure_provenance": {
+    "revision_001_preflight_abort": {
+      "sentinel_executions": 0,
+      "rng_calls": 0,
+      "sim_calls": 0,
+      "seed": 987654321,
+      "seed_consumed": false,
+      "retry_performed": false
+    },
+    "revision_002_preexecution_aborts": {
+      "event_count": 2,
+      "completed_sentinel_simulations": 0,
+      "rng_calls": 0,
+      "sim_calls": 0,
+      "seed": 987654321,
+      "seed_consumed": false
+    },
+    "revision_003_sentinel_failure": {
+      "physical_case_id": "EXP3V2-SENTINEL-001",
+      "seed": 987654321,
+      "seed_consumed": true,
+      "rng_calls": 1,
+      "sim_calls": 1,
+      "retry_performed": false,
+      "workbook_size_bytes": 1704651,
+      "workbook_sha256": "a1980855174e9db82416f576e84aa720eddd758b5686b9ecfc376aeedfa282a9",
+      "structural_valid": true,
+      "end_to_end_verifier": "FAIL",
+      "scientific_seeds_consumed": 0,
+      "real_workbooks_created": 0
+    },
+    "first_real_run_preflight_abort": {
+      "physical_case_id": "EXP3V2-N-001",
+      "attempt": 0,
+      "primary_seed": 320001,
+      "rng_calls": 0,
+      "sim_calls": 0,
+      "attempt_log_records_created": 0,
+      "workbooks_created": 0,
+      "seed_consumed_at_abort": false,
+      "attempt_0_remained_eligible": true
+    },
+    "bound_records": [
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.json",
+        "size_bytes": 864,
+        "sha256": "42993fa5f437afff8207bedede0ba7e1ed34ce67059a46f7f16692cf6b27e312"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_SENTINEL_PREFLIGHT_ABORT_001.md",
+        "size_bytes": 795,
+        "sha256": "1df48faac23834c21e190102c963b2b353abeee8998fd882c3565c390816ccb9"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_REV002_EXTERNAL_DRIVER_FAILURE_ARCHIVE.json",
+        "size_bytes": 611,
+        "sha256": "b074f871556ddfc229cfc842e71a8d7884ad19c7206d48c3f06ebee3f4bef6ff"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_REV002_EXTERNAL_DRIVER_ATTEMPT_LOG_ARCHIVE.json",
+        "size_bytes": 1732,
+        "sha256": "6b392bfef158585e2127721a676773b4419aff2d655edae159318908fdffd1bd"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_REV002_OFFICIAL_WRAPPER_FAILURE_ARCHIVE.json",
+        "size_bytes": 872,
+        "sha256": "aaf58e8626fb300e740801dbd509b4cbf0b662bcd2a45b13fef09e89266dba25"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_REV002_OFFICIAL_WRAPPER_ATTEMPT_LOG_ARCHIVE.json",
+        "size_bytes": 1803,
+        "sha256": "d10d281781a920439479f1b052649fd6bb8f16c2ecc076306bb5f910c1be4260"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_REV003_PREEXECUTION_INCIDENTS.json",
+        "size_bytes": 7576,
+        "sha256": "5a8e1f8213aa33ef92be201483b98fc4374badac8b58e00c8db3926235ae8a99"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_REV003_PREEXECUTION_INCIDENTS.md",
+        "size_bytes": 1686,
+        "sha256": "1c700c61e0549d9475eea2db8d4e7a7995da0e30ba040a505b91405fe19f7747"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_FAILURE.json",
+        "size_bytes": 2640,
+        "sha256": "db81ad504ab1f471f5da8f42bd03d71bfe606b492dcbf5e35b6b57ca523da706"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_FAILURE.md",
+        "size_bytes": 1199,
+        "sha256": "0cd2fb74085be08c4e3a52634a14f8a1c2f48e39e3a68deba7256486031378ad"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_FAILURE_ARCHIVE.json",
+        "size_bytes": 1129,
+        "sha256": "04fae56a1b10cddf4e27c0a43367fbd4eb80b6591d7c813edeb9ce55f8e5e57c"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_ATTEMPT_LOG_ARCHIVE.json",
+        "size_bytes": 1808,
+        "sha256": "2ef6166cf783b9a915f3f569528b1a9f9a335f200655edd8e169fe5eb69a5f40"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_REV003_SENTINEL_MANIFEST_ARCHIVE.csv",
+        "size_bytes": 319,
+        "sha256": "ca51663b9d721c5b109b7bfbe8a815b8e814f77cd2911c3f1587be998e6783b1"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_FINAL_BOUNDARY_REV002_PREFLIGHT_FAILURE.json",
+        "size_bytes": 1672,
+        "sha256": "7e46bcaa77748bcbea08c0246eaee3d235609dc580a2dce69b74be01047c7233"
+      },
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_FINAL_BOUNDARY_REV002_PREFLIGHT_FAILURE.md",
+        "size_bytes": 1050,
+        "sha256": "5f3c00228419df90e22890d32ad647ced626dd633438148a77c3c6af03d21faf"
+      }
+    ]
+  },
+  "generation_provenance": {
+    "accepted_workbooks": 30,
+    "canonical_order": [
+      "EXP3V2-N-001",
+      "EXP3V2-N-002",
+      "EXP3V2-N-003",
+      "EXP3V2-N-004",
+      "EXP3V2-N-005",
+      "EXP3V2-N-006",
+      "EXP3V2-F1-001",
+      "EXP3V2-F1-002",
+      "EXP3V2-F1-003",
+      "EXP3V2-F1-004",
+      "EXP3V2-F1-005",
+      "EXP3V2-F1-006",
+      "EXP3V2-F8-001",
+      "EXP3V2-F8-002",
+      "EXP3V2-F8-003",
+      "EXP3V2-F8-004",
+      "EXP3V2-F8-005",
+      "EXP3V2-F8-006",
+      "EXP3V2-F10-001",
+      "EXP3V2-F10-002",
+      "EXP3V2-F10-003",
+      "EXP3V2-F10-004",
+      "EXP3V2-F10-005",
+      "EXP3V2-F10-006",
+      "EXP3V2-F13-001",
+      "EXP3V2-F13-002",
+      "EXP3V2-F13-003",
+      "EXP3V2-F13-004",
+      "EXP3V2-F13-005",
+      "EXP3V2-F13-006"
+    ],
+    "condition_counts": {
+      "Normal": 6,
+      "F1": 6,
+      "F8": 6,
+      "F10": 6,
+      "F13": 6
+    },
+    "attempts": {
+      "accepted_attempt": 0,
+      "attempt_0_records": 30,
+      "failed_attempt_records": 0,
+      "replacement_attempt_records": 0,
+      "replacement_seed_used": false
+    },
+    "primary_seed_range": {
+      "first": 320001,
+      "last": 320030,
+      "count": 30,
+      "all_consumed_by_accepted_attempts": true
+    },
+    "rng": {
+      "algorithm": "twister",
+      "seed_recorded_per_attempt": true,
+      "replacement_seed_used": false
+    },
+    "simulation": {
+      "model_name": "MultiLoop_mode1",
+      "simulation_mode": "normal",
+      "solver": "ode45",
+      "simulator_commit": "a0413e16c940f0fc8b554d6a86248020d7fb7527",
+      "generation_script_sha256": "4e746a8b6504953d2bb0d4eb9982cdef1ee3c02d0d0f1cb374e5a9086e45a9f1",
+      "sfunction_identity": "temexd_mod",
+      "sfunction_source_sha256": "0da41d939e5ab7ba122d7b70c124368ee0882fce40e775dba5d180e7a7e24e5e",
+      "sfunction_binary_sha256": "68f632388cb698dd7b8c595000bc03c2e1d19200546b9d4357df90e3fc93af0d",
+      "model_sha256": "d2f6659f65935021d4b1813e7189be02e7ae9f5639b794e8edc4f2f3c5cddba8",
+      "initial_state_sha256": "40eaebc92badb04ad026e358cfd28ec9c778fcf2d24a1b8f5d85565854da2747"
+    },
+    "matlab_runtime": {
+      "matlab_version_full": "25.2.0.3312555 (R2025b) Update 6",
+      "matlab_release": "2025b",
+      "matlab_build": "3312555",
+      "matlab_product_date": "28-Jul-2025",
+      "matlab_runtime_update_date": "June 30, 2026",
+      "simulink_version": "25.2",
+      "simulink_release": "(R2025b)",
+      "simulink_product_date": "28-Jul-2025",
+      "architecture": "MACA64",
+      "matlabroot": "/Applications/MATLAB_R2025b.app"
+    },
+    "scientific_signal_content_inspection": {
+      "diagnostic_inspection_performed": false,
+      "signal_values_extracted_or_summarized": false,
+      "scientific_verbalization_performed": false,
+      "automated_official_structural_verification_only": true
+    }
+  },
+  "external_runtime_identity": {
+    "materialized_runtime_path": "/Users/luker/exp3v2_runtime_parent/exp3v2-runtime-1vk965iw",
+    "dependency_count": 8,
+    "total_bytes": 512352,
+    "inventory_sha256": "5dfb729844ba6d69800a8b1d3e8ec28c4f34aaeb532651e96ef36876c6889681",
+    "all_size_and_sha256_checks_passed": true,
+    "slxc_excluded": true,
+    "dependencies": [
+      {
+        "path": "Mode1xInitial.mat",
+        "size_bytes": 13592,
+        "sha256": "40eaebc92badb04ad026e358cfd28ec9c778fcf2d24a1b8f5d85565854da2747",
+        "role": "Mode 1 initial-state MAT file loaded by Mode_1_Init.m",
+        "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; MATLAB dependency analyzer"
+      },
+      {
+        "path": "Mode_1_Init.m",
+        "size_bytes": 2270,
+        "sha256": "9dfb4e404c8c982c035fe47472020443b0a1d3f37b55425219968489d92d8933",
+        "role": "MultiLoop_mode1 PreLoadFcn initialization script",
+        "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; model callback and MATLAB dependency analyzer"
+      },
+      {
+        "path": "MultiLoop_mode1.mdl",
+        "size_bytes": 186660,
+        "sha256": "d2f6659f65935021d4b1813e7189be02e7ae9f5639b794e8edc4f2f3c5cddba8",
+        "role": "root Simulink model",
+        "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; designated root model"
+      },
+      {
+        "path": "TElib.mdl",
+        "size_bytes": 12702,
+        "sha256": "4605de6ca0e6da67626e2be6d5f328c735f8bf5a5a730dc67f558a3f1dabddba",
+        "role": "linked Discrete PI and Vel PI Simulink library",
+        "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; model references and MATLAB dependency analyzer"
+      },
+      {
+        "path": "TEplot.m",
+        "size_bytes": 4871,
+        "sha256": "f10cc8751c1dd99c2efe989460871e701704bc8bde901d83a13834327e75b1be",
+        "role": "model StopFcn callback, verified before temporary suppression",
+        "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; model callback and MATLAB dependency analyzer"
+      },
+      {
+        "path": "temexd_mod.c",
+        "size_bytes": 195118,
+        "sha256": "0da41d939e5ab7ba122d7b70c124368ee0882fce40e775dba5d180e7a7e24e5e",
+        "role": "TE plant S-function source",
+        "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; MATLAB dependency analyzer"
+      },
+      {
+        "path": "temexd_mod.mexmaca64",
+        "size_bytes": 90232,
+        "sha256": "68f632388cb698dd7b8c595000bc03c2e1d19200546b9d4357df90e3fc93af0d",
+        "role": "arm64 macOS executable TE plant S-function",
+        "provenance": "locally built pinned binary for MATLAB R2025b/MACA64; MATLAB dependency analyzer"
+      },
+      {
+        "path": "teprob_mod.h",
+        "size_bytes": 6907,
+        "sha256": "e8d07857030a837443ce947361335f2e6f2ade5d2fa54a85bcc5c4a6d9afe939",
+        "role": "transitive build header included by temexd_mod.c",
+        "provenance": "simulator snapshot a0413e16c940f0fc8b554d6a86248020d7fb7527; static C include inspection"
+      }
+    ]
+  },
+  "data_artifacts": {
+    "attempt_log": {
+      "path": "tep_exp3_v2_heldout/exp3v2_attempt_log.json",
+      "size_bytes": 48460,
+      "sha256": "3e3d8d23260acdffc06ca199f0ae567305445dc2b93e6573d971ea48ae889909",
+      "records": 30,
+      "tracking_state": "ignored"
+    },
+    "populated_manifest": {
+      "path": "tep_exp3_v2_heldout/exp3v2_manifest.csv",
+      "size_bytes": 5377,
+      "sha256": "08dc4ec9b7d32812c83ab8b0c065da37b494e94145f7cc244869d5b702f6de77",
+      "rows": 30,
+      "tracking_state": "ignored"
+    },
+    "workbook_inventory": [
+      {
+        "order": 1,
+        "physical_case_id": "EXP3V2-N-001",
+        "condition": "Normal",
+        "attempt": 0,
+        "seed": 320001,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-N-001__attempt-0.xlsx",
+        "filename": "EXP3V2-N-001__attempt-0.xlsx",
+        "size_bytes": 1704691,
+        "sha256": "3e3f0bd928ef4db930584689d13a79dbce368ee6783920d250a4c66137d1d35c",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 2,
+        "physical_case_id": "EXP3V2-N-002",
+        "condition": "Normal",
+        "attempt": 0,
+        "seed": 320002,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-N-002__attempt-0.xlsx",
+        "filename": "EXP3V2-N-002__attempt-0.xlsx",
+        "size_bytes": 1704630,
+        "sha256": "b36bccacdc386b1ca3aefe0856b18f735c48a805c052c012b270e7c1c53bbbdf",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 3,
+        "physical_case_id": "EXP3V2-N-003",
+        "condition": "Normal",
+        "attempt": 0,
+        "seed": 320003,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-N-003__attempt-0.xlsx",
+        "filename": "EXP3V2-N-003__attempt-0.xlsx",
+        "size_bytes": 1704289,
+        "sha256": "36ef20b35161d071267e1607ee44e57332eb9a7b117b049580350247dd7c8e24",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 4,
+        "physical_case_id": "EXP3V2-N-004",
+        "condition": "Normal",
+        "attempt": 0,
+        "seed": 320004,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-N-004__attempt-0.xlsx",
+        "filename": "EXP3V2-N-004__attempt-0.xlsx",
+        "size_bytes": 1704633,
+        "sha256": "08f3e943c831fa1a43ce91ea7fb9115614019302ff60aac89c360e28cc2c595e",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 5,
+        "physical_case_id": "EXP3V2-N-005",
+        "condition": "Normal",
+        "attempt": 0,
+        "seed": 320005,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-N-005__attempt-0.xlsx",
+        "filename": "EXP3V2-N-005__attempt-0.xlsx",
+        "size_bytes": 1704770,
+        "sha256": "ba81b8b98cf82a654d8afb00c06f9521dbd2d882da1204dd0a37c72b2800d51e",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 6,
+        "physical_case_id": "EXP3V2-N-006",
+        "condition": "Normal",
+        "attempt": 0,
+        "seed": 320006,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-N-006__attempt-0.xlsx",
+        "filename": "EXP3V2-N-006__attempt-0.xlsx",
+        "size_bytes": 1705000,
+        "sha256": "70e3d3ca61527a6cc6f6a6e477f4ce753c3d4fc2b6db9dd30f51112cd8ffaab8",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 7,
+        "physical_case_id": "EXP3V2-F1-001",
+        "condition": "F1",
+        "attempt": 0,
+        "seed": 320007,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F1-001__attempt-0.xlsx",
+        "filename": "EXP3V2-F1-001__attempt-0.xlsx",
+        "size_bytes": 1706084,
+        "sha256": "2c4ea547df2888fd57599f6c763524d800c55a2543785470c8f5057a203dc68d",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 8,
+        "physical_case_id": "EXP3V2-F1-002",
+        "condition": "F1",
+        "attempt": 0,
+        "seed": 320008,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F1-002__attempt-0.xlsx",
+        "filename": "EXP3V2-F1-002__attempt-0.xlsx",
+        "size_bytes": 1706272,
+        "sha256": "481f27ce813a921d33cf3941de824669c985a455a7d6c32db6cabbf135a6a021",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 9,
+        "physical_case_id": "EXP3V2-F1-003",
+        "condition": "F1",
+        "attempt": 0,
+        "seed": 320009,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F1-003__attempt-0.xlsx",
+        "filename": "EXP3V2-F1-003__attempt-0.xlsx",
+        "size_bytes": 1705634,
+        "sha256": "c3f6fd12adff320bf7913aefbd3c1632481eda0aa6a169b8227c2881e38150c2",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 10,
+        "physical_case_id": "EXP3V2-F1-004",
+        "condition": "F1",
+        "attempt": 0,
+        "seed": 320010,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F1-004__attempt-0.xlsx",
+        "filename": "EXP3V2-F1-004__attempt-0.xlsx",
+        "size_bytes": 1706422,
+        "sha256": "32b77b8d711dc795ff02b3ff2dd58b2b7e3097a5060d71ad3eaae08438ccb0d8",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 11,
+        "physical_case_id": "EXP3V2-F1-005",
+        "condition": "F1",
+        "attempt": 0,
+        "seed": 320011,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F1-005__attempt-0.xlsx",
+        "filename": "EXP3V2-F1-005__attempt-0.xlsx",
+        "size_bytes": 1705262,
+        "sha256": "a94d019f4bc98b4c16042c8bc00b6b3a8bad678c96327cc46e253f1f1f5c9bcf",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 12,
+        "physical_case_id": "EXP3V2-F1-006",
+        "condition": "F1",
+        "attempt": 0,
+        "seed": 320012,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F1-006__attempt-0.xlsx",
+        "filename": "EXP3V2-F1-006__attempt-0.xlsx",
+        "size_bytes": 1706218,
+        "sha256": "808dabdcab87c4ac0a40476a3bb08a284b383ea3be62803b6b8854738e115597",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 13,
+        "physical_case_id": "EXP3V2-F8-001",
+        "condition": "F8",
+        "attempt": 0,
+        "seed": 320013,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F8-001__attempt-0.xlsx",
+        "filename": "EXP3V2-F8-001__attempt-0.xlsx",
+        "size_bytes": 1708452,
+        "sha256": "6a91b6ee718dc93a576b0964c960e1a07ee9c41a3b18cdcdbcf242c51054b3de",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 14,
+        "physical_case_id": "EXP3V2-F8-002",
+        "condition": "F8",
+        "attempt": 0,
+        "seed": 320014,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F8-002__attempt-0.xlsx",
+        "filename": "EXP3V2-F8-002__attempt-0.xlsx",
+        "size_bytes": 1709010,
+        "sha256": "f34c9847afbdfb30c3a998fa7404d97514214baea01de84508b3ec5214c52f39",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 15,
+        "physical_case_id": "EXP3V2-F8-003",
+        "condition": "F8",
+        "attempt": 0,
+        "seed": 320015,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F8-003__attempt-0.xlsx",
+        "filename": "EXP3V2-F8-003__attempt-0.xlsx",
+        "size_bytes": 1706087,
+        "sha256": "d932c613e1117aea25c7d1529ec5d900e7de0d9abc19ff18a52fb9a17d433877",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 16,
+        "physical_case_id": "EXP3V2-F8-004",
+        "condition": "F8",
+        "attempt": 0,
+        "seed": 320016,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F8-004__attempt-0.xlsx",
+        "filename": "EXP3V2-F8-004__attempt-0.xlsx",
+        "size_bytes": 1707952,
+        "sha256": "c05781905f38d85b95d70f854a390ca6f9ca2e95b6ea5794f90c90f322fd926e",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 17,
+        "physical_case_id": "EXP3V2-F8-005",
+        "condition": "F8",
+        "attempt": 0,
+        "seed": 320017,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F8-005__attempt-0.xlsx",
+        "filename": "EXP3V2-F8-005__attempt-0.xlsx",
+        "size_bytes": 1708161,
+        "sha256": "fe3b1c1a9bb99920fb5d589d58514e76589902fd12196884565fd6648051f68e",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 18,
+        "physical_case_id": "EXP3V2-F8-006",
+        "condition": "F8",
+        "attempt": 0,
+        "seed": 320018,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F8-006__attempt-0.xlsx",
+        "filename": "EXP3V2-F8-006__attempt-0.xlsx",
+        "size_bytes": 1707204,
+        "sha256": "337cb31b9d9c5547d22be2d436cdf7eca1a3474da2d67c16b748b369aab1669d",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 19,
+        "physical_case_id": "EXP3V2-F10-001",
+        "condition": "F10",
+        "attempt": 0,
+        "seed": 320019,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F10-001__attempt-0.xlsx",
+        "filename": "EXP3V2-F10-001__attempt-0.xlsx",
+        "size_bytes": 1704888,
+        "sha256": "bb7183da6be54c3968516d4dca243e777baa8d9262c2e4e0598380956ed2c0c5",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 20,
+        "physical_case_id": "EXP3V2-F10-002",
+        "condition": "F10",
+        "attempt": 0,
+        "seed": 320020,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F10-002__attempt-0.xlsx",
+        "filename": "EXP3V2-F10-002__attempt-0.xlsx",
+        "size_bytes": 1705325,
+        "sha256": "c2afb47c563d42ac04252a66b17615ebf0a2029e22c5d76e4531cdb32b924f5a",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 21,
+        "physical_case_id": "EXP3V2-F10-003",
+        "condition": "F10",
+        "attempt": 0,
+        "seed": 320021,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F10-003__attempt-0.xlsx",
+        "filename": "EXP3V2-F10-003__attempt-0.xlsx",
+        "size_bytes": 1704825,
+        "sha256": "f4b70837e56c4c92be74ca12c97a7a67bb66a251a6fe40c700ba246b43438c50",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 22,
+        "physical_case_id": "EXP3V2-F10-004",
+        "condition": "F10",
+        "attempt": 0,
+        "seed": 320022,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F10-004__attempt-0.xlsx",
+        "filename": "EXP3V2-F10-004__attempt-0.xlsx",
+        "size_bytes": 1704862,
+        "sha256": "43833d21c41bac4e259dfe36fc528f85c97c927c7a9efb4cfa43fd048399488b",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 23,
+        "physical_case_id": "EXP3V2-F10-005",
+        "condition": "F10",
+        "attempt": 0,
+        "seed": 320023,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F10-005__attempt-0.xlsx",
+        "filename": "EXP3V2-F10-005__attempt-0.xlsx",
+        "size_bytes": 1705115,
+        "sha256": "b94cad150de9a3531c06b15161ee8c2c8d98d8f75b68fd419c62944a7de5dcac",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 24,
+        "physical_case_id": "EXP3V2-F10-006",
+        "condition": "F10",
+        "attempt": 0,
+        "seed": 320024,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F10-006__attempt-0.xlsx",
+        "filename": "EXP3V2-F10-006__attempt-0.xlsx",
+        "size_bytes": 1704905,
+        "sha256": "3304faca09681453636388fc4f1c3fde29ee717449b361febac2ef3fd2da08d6",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 25,
+        "physical_case_id": "EXP3V2-F13-001",
+        "condition": "F13",
+        "attempt": 0,
+        "seed": 320025,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F13-001__attempt-0.xlsx",
+        "filename": "EXP3V2-F13-001__attempt-0.xlsx",
+        "size_bytes": 1707377,
+        "sha256": "95233e6f44373855cf68b1337dd9073e496a5c2ccc85bfbe8927a2532e02f9f0",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 26,
+        "physical_case_id": "EXP3V2-F13-002",
+        "condition": "F13",
+        "attempt": 0,
+        "seed": 320026,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F13-002__attempt-0.xlsx",
+        "filename": "EXP3V2-F13-002__attempt-0.xlsx",
+        "size_bytes": 1707981,
+        "sha256": "662f4f318108e294646753e94ce56225dce26997b4e1be53d8d6cc9a460d6d39",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 27,
+        "physical_case_id": "EXP3V2-F13-003",
+        "condition": "F13",
+        "attempt": 0,
+        "seed": 320027,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F13-003__attempt-0.xlsx",
+        "filename": "EXP3V2-F13-003__attempt-0.xlsx",
+        "size_bytes": 1708539,
+        "sha256": "e0e4702c797f7057b4f258c6eb2c5b221f19aed7ceecbfb07eb9f265f68a8fac",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 28,
+        "physical_case_id": "EXP3V2-F13-004",
+        "condition": "F13",
+        "attempt": 0,
+        "seed": 320028,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F13-004__attempt-0.xlsx",
+        "filename": "EXP3V2-F13-004__attempt-0.xlsx",
+        "size_bytes": 1708100,
+        "sha256": "016a6e75cbfa44cc0f62d8158beb1c44ec8358dc1e6d0cd5f7dafa0cf03ab2a6",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 29,
+        "physical_case_id": "EXP3V2-F13-005",
+        "condition": "F13",
+        "attempt": 0,
+        "seed": 320029,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F13-005__attempt-0.xlsx",
+        "filename": "EXP3V2-F13-005__attempt-0.xlsx",
+        "size_bytes": 1707073,
+        "sha256": "0b7383b0b40285a6a425d67f4b6ed979f3610736154257deaf484d46e0fa6544",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      },
+      {
+        "order": 30,
+        "physical_case_id": "EXP3V2-F13-006",
+        "condition": "F13",
+        "attempt": 0,
+        "seed": 320030,
+        "path": "tep_exp3_v2_heldout/mode1/EXP3V2-F13-006__attempt-0.xlsx",
+        "filename": "EXP3V2-F13-006__attempt-0.xlsx",
+        "size_bytes": 1708286,
+        "sha256": "d23599e05cfded57370e9608b021863dd576498a48c7931fb010fa10910cfd2c",
+        "structural_metadata": {
+          "rows": 3001,
+          "columns": 54,
+          "time_start": 0.0,
+          "time_end": 50.0,
+          "sampling_interval": 0.016666666666666666,
+          "finite_check": true,
+          "structural_valid": true
+        }
+      }
+    ],
+    "aggregate_digests": {
+      "workbook_count": 30,
+      "total_workbook_bytes": 51188047,
+      "inventory_serialization": "UTF-8 rows filename,size_bytes,sha256 followed by LF in canonical order",
+      "inventory_sha256": "c95624a2f48e9c9f76fb925254de3f445d178ce30f59eec86ee6601358231fbe",
+      "concatenated_workbook_bytes_order": "canonical workbook order",
+      "concatenated_workbook_bytes_sha256": "1c3d5d906d8548a17d452ed6327213db42bcbb973c61528cf22b95d08d908d6d"
+    }
+  },
+  "official_post_generation_verification": {
+    "verifier_path": "phase_b/exp3_v2/verify_exp3v2_heldout.py",
+    "verifier_sha256": "d0a66cf19e974fabe261a026154bac895b5022160d7b2ed82022818ed87de907",
+    "python_executable": "/opt/anaconda3/bin/python3.13",
+    "python_version": "3.13.9",
+    "jsonschema_version": "4.25.0",
+    "openpyxl_version": "3.1.5",
+    "final_manifest": "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST_002.json",
+    "attempt_log": "tep_exp3_v2_heldout/exp3v2_attempt_log.json",
+    "populated_manifest": "tep_exp3_v2_heldout/exp3v2_manifest.csv",
+    "data_directory": "tep_exp3_v2_heldout/mode1",
+    "runtime_directory": "/Users/luker/exp3v2_runtime_parent/exp3v2-runtime-1vk965iw",
+    "result": "PASS",
+    "output": "PASS: Experiment 3 V2 held-out verification succeeded."
+  },
+  "clean_clone_portability": {
+    "original_attempt_log_output_paths_preserved_byte_identically": true,
+    "absolute_output_paths_are_immutable_provenance_only": true,
+    "attempt_log_path_normalization_performed": false,
+    "portable_workbook_resolution": "Resolve each workbook only as <checkout-root>/tep_exp3_v2_heldout/mode1/<validated basename>, using the canonical relative path in workbook_inventory.",
+    "existing_official_verifier_modified": false,
+    "existing_official_verifier_raw_clean_clone_pass_claimed": false,
+    "existing_official_verifier_limitation": "Its attempt-log validation requires each historical absolute output_path to be within the verifier worktree's REAL_ROOT, so a raw disconnected clean-clone invocation is expected to fail that path-locality check.",
+    "portable_verifier_required_for_data_tag": true
+  },
+  "portable_data_verifier": {
+    "path": "phase_b/exp3_v2/verify_exp3v2_data_freeze.py",
+    "size_bytes": 20549,
+    "sha256": "b2b9f603f70a222a90bec5f21b48095d183504d25a06e7714826713612285dc0",
+    "attempt_schema_validation": "Embedded exact top-level and attempt-record field/type/constant contract from exp3v2_attempt_log.schema.json; source schema SHA-256 8b1d15ff147e662cc94aa0a15e21f43445707fa138c41c7b470e354a40b98c7e.",
+    "relative_path_policy": "Historical absolute output_path strings must remain absolute and have the canonical basename, but are never resolved for cloned workbook access.",
+    "checks": [
+      "attempt-log and data-freeze manifest schema contracts",
+      "exact canonical 30-case order and condition counts",
+      "attempt 0 and primary seeds 320001 through 320030",
+      "per-file byte sizes and SHA-256 hashes",
+      "XLSX container, worksheet, header, rows, columns, time axis, sampling, numeric finiteness and structural validity",
+      "attempt-log and populated-manifest hashes",
+      "inventory and concatenated-workbook-byte aggregate digests",
+      "exact 34-path checked-out governance tree with no symlink or unrelated file"
+    ]
+  },
+  "proposed_immutable_git_strategy": {
+    "status": "REVIEW_ONLY_ORDINARY_GIT_TAG_HISTORY",
+    "recommendation": "Create a disconnected two-commit history in the existing public origin using ordinary Git, publish only its annotated tag, and publish no data branch.",
+    "authorization_scope": "This prospective disconnected data history is explicitly requested for the existing origin and does not modify main or weaken the .gitignore policy in main history.",
+    "tag_repository": "https://github.com/sorrentinoluca/fot-phd.git",
+    "storage": "ordinary Git blobs; no Git LFS pointers, client, rules, quota, or retrieval dependency",
+    "history_relationship": "The data commit is a root commit with no parent and no ancestry relationship to main. The governance commit has exactly the data commit as its sole parent.",
+    "published_refs": [
+      "refs/tags/exp3-v2-heldout-data-frozen-001"
+    ],
+    "published_branches": [],
+    "prospective_data_commit": {
+      "created": false,
+      "object_id": null,
+      "parent_count": 0,
+      "tree_file_count": 32,
+      "tree_payload_bytes": 51241884
+    },
+    "prospective_governance_commit": {
+      "created": false,
+      "object_id": null,
+      "sole_parent": "prospective_data_commit",
+      "adds_only": [
+        "phase_b/exp3_v2/EXP3_V2_DATA_FREEZE_MANIFEST_001.json",
+        "phase_b/exp3_v2/verify_exp3v2_data_freeze.py"
+      ],
+      "tree_file_count": 34
+    },
+    "host_limit_review": {
+      "provider": "GitHub.com",
+      "ordinary_git_warning_threshold_bytes": 52428800,
+      "ordinary_git_hard_file_limit_bytes": 104857600,
+      "recommended_repository_size_ceiling_bytes": 1073741824,
+      "largest_file_path": "tep_exp3_v2_heldout/mode1/EXP3V2-F8-002__attempt-0.xlsx",
+      "largest_file_size_bytes": 1709010,
+      "files_at_or_above_warning_threshold": 0,
+      "files_above_hard_limit": 0,
+      "data_tree_payload_bytes": 51241884,
+      "data_tree_payload_mib": 48.86806869506836,
+      "portable_verifier_additional_bytes": 20549,
+      "existing_repository_size_kib_reported_by_github_api": 41343,
+      "projected_repository_payload_bytes_excluding_self_manifest_before_git_compression_and_object_overhead": 93597665,
+      "projected_repository_payload_excluding_self_manifest_mib_before_git_compression_and_object_overhead": 89.26168918609619,
+      "self_manifest_size_excluded_from_embedded_projection_to_avoid_self_reference": true,
+      "acceptable_under_reviewed_host_limits": true
+    },
+    "reachability_contract": "An annotated tag points to the governance commit, whose sole parent is the root data commit; fetching that tag therefore makes both commits, both trees, and every ordinary-Git workbook blob reachable without any branch or LFS service.",
+    "isolated_future_operation": "Use a new temporary --no-checkout clone of origin, a temporary index, and an allowlist-only staging directory. Re-hash every source byte before and after copying; create the parentless data commit and its governance child without checking out or modifying main; create the annotated tag; push only refs/tags/exp3-v2-heldout-data-frozen-001; verify from a second fresh temporary clone fetched by tag; remove temporary clones only after verification.",
+    "two_commit_non_self_referential_sequence": [
+      {
+        "ordinal": 1,
+        "purpose": "data-object commit",
+        "files": [
+          "tep_exp3_v2_heldout/exp3v2_attempt_log.json",
+          "tep_exp3_v2_heldout/exp3v2_manifest.csv",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-N-001__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-N-002__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-N-003__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-N-004__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-N-005__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-N-006__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F1-001__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F1-002__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F1-003__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F1-004__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F1-005__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F1-006__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F8-001__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F8-002__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F8-003__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F8-004__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F8-005__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F8-006__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F10-001__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F10-002__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F10-003__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F10-004__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F10-005__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F10-006__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F13-001__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F13-002__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F13-003__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F13-004__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F13-005__attempt-0.xlsx",
+          "tep_exp3_v2_heldout/mode1/EXP3V2-F13-006__attempt-0.xlsx"
+        ]
+      },
+      {
+        "ordinal": 2,
+        "purpose": "governance commit binding the immutable parent data-object commit",
+        "files": [
+          "phase_b/exp3_v2/EXP3_V2_DATA_FREEZE_MANIFEST_001.json",
+          "phase_b/exp3_v2/verify_exp3v2_data_freeze.py"
+        ]
+      }
+    ],
+    "required_controls": [
+      "Use an isolated temporary --no-checkout clone and never the main worktree index",
+      "Create the data commit with no parent from exactly the 32 allowlisted files",
+      "Create the governance commit with the data commit as its sole parent and add only the draft manifest",
+      "Verify both trees with git ls-tree and reject every extra path",
+      "Verify all 30 ordinary-Git workbook blobs are reachable non-pointer blobs and reproduce every size and SHA-256",
+      "Create the annotated tag only after human approval",
+      "Push only refs/tags/exp3-v2-heldout-data-frozen-001 and no branch ref",
+      "Fetch the tag into a second fresh temporary clone and verify all 34 paths and all recorded hashes with the portable verifier"
+    ],
+    "prospective_tag": "exp3-v2-heldout-data-frozen-001"
+  },
+  "review_gates": {
+    "human_data_freeze_approval_received": false,
+    "staging_performed": false,
+    "commit_performed": false,
+    "tag_created": false,
+    "tag_pushed": false,
+    "inference_started": false
+  },
+  "blockers_to_final_freeze": [
+    "Explicit human approval for the final data-freeze commit/tag operation has not yet been granted."
+  ]
+}
