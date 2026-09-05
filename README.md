@@ -157,23 +157,36 @@ chain directly.
 
 ```text
 fot-phd/
-├── README.md                         # project orientation
-├── AUDIT_GUIDE.md                    # independent verification path
-├── requirements.txt                  # reference Python dependencies
-├── docs/
-│   └── fot_walkthrough_conversazione.html  # primary scientific/didactic guide
-├── supporting_records/               # supporting provenance, narrative, and historical records not required for initial supervisor review
-├── code/                             # frozen Phase A implementation and evidence
-├── phase_b/                          # frozen Phase B protocol, execution, and results
-├── reproducibility/                  # Phase A verification artifacts
-├── tep_validation_v2/                # Phase A validation artifacts
-├── tep_test_v2/                      # Phase A final test artifacts
+├── README.md                           # project orientation
+├── AUDIT_GUIDE.md                      # independent verification path
+├── DOCUMENTATION_INDEX.md              # complete documentation inventory
+├── requirements.txt                    # reference Python dependencies
+├── docs/                              # documentation, walkthrough, literature, audits, prompts
+│   ├── fot_walkthrough_conversazione.html  # primary scientific/didactic guide
+│   ├── FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md
+│   ├── FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md
+│   ├── audits/                        # pre-freeze and post-freeze audit reports
+│   ├── prompts/                       # operational AI prompts
+│   └── figures/                       # walkthrough and paper figures
+├── code/                              # frozen Phase A implementation and evidence
+├── phase_b/                           # frozen Phase B protocol, execution, and results
+│   ├── final_evaluation/              #   Experiment 1 — frozen results and evaluation report
+│   ├── exp3/                          #   Experiment 3 — closed incomplete
+│   └── exp3_v2/                       #   Experiment 3 V2 — confirmatory revision
+├── supporting_records/                # provenance, narratives, and historical records
+├── papers/                            # reference papers
+├── reproducibility/                   # Phase A verification artifacts
+├── tep_validation_v2/                 # Phase A validation artifacts
+├── tep_test_v2/                       # Phase A final test artifacts
 ```
 
 Non-entry-point provenance, narrative, design, and status documents are
 consolidated under `supporting_records/`. Frozen or hash-bound documents inside
 `phase_b/` remain at their original paths so the committed audit chain and
 path-based manifests stay intact.
+
+For a full inventory of all documentation files with descriptions, see
+[`DOCUMENTATION_INDEX.md`](DOCUMENTATION_INDEX.md).
 
 ## Frozen milestones
 

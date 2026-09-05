@@ -61,7 +61,7 @@ Priority order (highest wins in conflicts):
 2. Machine-readable configurations and manifests
 3. Audit reports
 4. README/documentation
-5. Paper/literature planning documents (`FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`, `FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md`)
+5. Paper/literature planning documents (`docs/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`, `docs/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md`)
 6. Chat summaries / narratives
 
 ---
@@ -194,7 +194,7 @@ V3 is a future/PV concept. Do not mention it for TEP.
 
 Name: **Communication Payload Characterization** — never "communication efficiency".
 
-Three quantities to report (per `FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md §4-J`):
+Three quantities to report (per `docs/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md §4-J`):
 1. **Textual payload per receiver:** UTF-8 byte count + token count of the 6 transmitted peer insights
 2. **Unique library size:** 8 insights total (2 per agent), with byte/token total
 3. **Descriptive ratio** under an explicitly declared serialization convention (e.g., "compared to a row-wise UTF-8 serialization of the local raw workbook retained by one agent")
@@ -299,7 +299,7 @@ EXP3 provenance chain (all immutable):
 
 ## 18. Literature Backbone
 
-(Sources verified in `FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md` and `docs/related_work_scan.md`. Mark uncertain refs as `[REFERENCE TO VERIFY]`.)
+(Sources verified in `docs/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md` and `docs/related_work_scan.md`. Mark uncertain refs as `[REFERENCE TO VERIFY]`.)
 
 **FoT / textual knowledge federation:**
 - **Yao et al. 2026 — Federation over Text** (arXiv:2604.16778v2): the method this project applies. Original FoT for multi-agent reasoning; already claims cross-domain transfer in text space. Our delta: TS domain + class-disjoint non-IID + semantic specificity control.
@@ -446,8 +446,8 @@ Key committed artifacts:
 - `phase_b/exp3/EXP3_POST_FREEZE_HOTFIX_001.md` through `004.json`
 - `phase_b/PHASE_B_PROTOCOL_FREEZE.md` — Exp1 protocol freeze
 - `phase_b/PHASE_B_PROTOCOL_HASHES.json` — 56 frozen artifact hashes
-- `FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md` — literature review + reviewer analysis
-- `FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md` (Rev.2) — experiment strategy + payload definition
+- `docs/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md` — literature review + reviewer analysis
+- `docs/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md` (Rev.2) — experiment strategy + payload definition
 
 Key UNTRACKED files (not scientifically frozen, but operationally important):
 - `phase_b/exp3/EXP3_CLOSURE.json` + `EXP3_CLOSURE.md` — EXP3 formal closure

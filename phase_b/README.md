@@ -1,10 +1,42 @@
-# Phase B Federation-over-Text framework
+# Phase B — Federation-over-Text experimental programme
 
-Status: **implemented for development/plumbing, not protocol-frozen**.
+This directory contains the complete Phase B experimental programme: protocol,
+execution machinery, frozen artifacts, and results for the FoT held-out
+experiments on TEP.
 
-This directory implements the experimental machinery for the Phase B FoT PoC.
-It does not select an LLM, generate definitive insights, open the independent
-held-out, or run the final A/B/E evaluation.
+## Experiments
+
+| Experiment | Directory | Status | Description |
+|---|---|---|---|
+| **Experiment 1** | `final_evaluation/` | Completed and frozen | First complete held-out evaluation. Produced the primary FoT effect (B−A = +0.8611). Results frozen and auditable via `AUDIT_GUIDE.md`. |
+| **Experiment 3** | `exp3/` | Closed incomplete | Prospective replica on new physical fault realisations. Closed due to technical attempt exhaustion. No scientific data produced. |
+| **Experiment 3 V2** | `exp3_v2/` | Completed, results pending freeze | Corrective revision of Exp3 with fixed technical procedure. Same scientific design, new realisations. Confirmatory results support primary B−A contrast. |
+
+Experiment 2 is a distinct experiment within the project; its materials are not
+housed in this directory.
+
+## Directory overview
+
+| Path | Contents |
+|---|---|
+| `config/` | Protocol schema, execution settings, evaluator-side mappings |
+| `conditions/` | A/B/E condition rendering, strict parsers, bounded retry |
+| `evaluation/` | Run records, token logs, offline metrics, clustered bootstrap |
+| `execution/` | Isolated OpenAI Responses adapter and capability probe |
+| `exp3/` | Experiment 3 protocol, freeze manifests, hotfixes, closure |
+| `exp3_v2/` | Experiment 3 V2 protocol, data/inference/evaluation freeze manifests and schemas |
+| `final_evaluation/` | Experiment 1 frozen inference, predictions, metrics, and evaluation report |
+| `heldout/` | Held-out generation, manifest, and integrity verifier |
+| `insights/` | Insight generation, schema, peer libraries, provenance validation |
+| `local_knowledge/` | Deterministic local-example builder |
+| `prompts/` | Diagnostic and insight-generation prompt templates |
+| `reports/` | LLM capability probe artifacts |
+| `runs/` | Execution run records |
+| `tests/` | Software and fixture tests (no held-out data, no LLM calls) |
+
+> **Frozen paths.** Files inside this directory are referenced by hash-bound
+> manifests, audit chains, and git tags. Do not rename or move them — the
+> committed provenance chain depends on their current paths.
 
 ## Architecture
 

@@ -184,7 +184,7 @@ quella di `FOT_TEP_POC_FINAL_SYNTHESIS.md`.
 
 ### Problemi incontrati e decisioni
 
-Documenti storici come `PHASE_B_EXPERIMENT_DESIGN.md` e
+Documenti storici come `supporting_records/historical/PHASE_B_EXPERIMENT_DESIGN.md` e
 `PHASE_B_EXPERIMENT_DESIGN_V2.md` contengono opzioni ancora aperte. Non vanno
 letti come se fossero già il protocollo eseguito. Il freeze machine-readable
 `phase_b/config/phase_b_protocol_frozen.json` risolve quelle opzioni.
