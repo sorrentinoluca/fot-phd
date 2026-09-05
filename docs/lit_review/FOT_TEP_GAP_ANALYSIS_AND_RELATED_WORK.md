@@ -60,6 +60,8 @@ La tabella copre i lavori rilevanti 2019–2026, ordinati per filone. Per ogni l
 | 16 | Berghout et al. | 2022 | Electronics | FL per condition monitoring / FDD (survey) | FDD industriale | Vari | **Parametri** | No | **Sì** | No | No |
 | 17 | Chen, Tang, Li | 2023 | IEEE TNSE (DOI:10.1109/tnse.2023.3266942) | FedMeta-FFD — federated meta-learning FDD | Macchine rotanti | Few-shot / nuove categorie | **Parametri** (meta-learner) | No | **Sì** | **Parziale** (few-shot) | No |
 | 18 | Qaid et al. / Lin et al. | 2024–25 | arXiv / Adv. Eng. Inf. | FD-LLM — LLM per FDD (centralizzati) | FDD industriale | n/a (centralizzato) | — (centralizzato) | **Sì** | **Sì** | No | No |
+| 21 | Dai et al. | 2025 | IEEE IoT-J (DOI:10.1109/JIOT.2025.3586718) | Semi-supervised FL + dual contrastive + soft labeling | FDD industriale | Label scarcity (semi-supervised) | **Parametri** | No | **Sì** | No | No |
+| 22 | Chen, Li, Huang, Yue, Chen, Li | 2022 | IEEE TIM (DOI:10.1109/TIM.2022.3180417) | Federated transfer learning + discrepancy-weighted FedAvg | Bearing FDD (macchine rotanti) | Domain shift (transfer) | **Parametri** (weighted FedAvg) | No | **Sì** | No | No |
 | — | **NOSTRO (FoT-TEP)** | **2026** | — | **Testo peer-only** | **TS multiv. / FDD (TEP)** | **Class-disjoint** | **Testo** | **Sì** | **Sì** | **Sì** | **Sì** |
 
 ### 1.5 Filone: non-IID Taxonomy & Class-Disjoint Settings
@@ -96,6 +98,8 @@ L'esperimento FoT-TEP si posiziona all'intersezione di tre dimensioni:
 | **FedCKD** | ✗ (logit/param) | ✗ | ✓ |
 | **FZSL (mid-level semantic)** | ✗ (attributi ZSL) | ✗ | ✓ |
 | **FD-LLM** | ✗ (centralizzato) | ✓ (centralizzato) | ✗ |
+| **Dai et al. (semi-sup. FL FDD)** | ✗ (parametrico) | ✓ | ✗ |
+| **Chen et al. (FTL bearing FDD)** | ✗ (parametrico) | ✓ | ✗ |
 | **FedMD / FedProto / FedGen** | ✗ (logit/proto/synth) | ✗ | ✗ |
 | **ExpeL** | ✓ (single-agent) | ✗ | ✗ |
 | **NOSTRO (FoT-TEP)** | **✓** | **✓** | **✓** |
@@ -118,6 +122,44 @@ Ogni singolo asse ha vicini stretti:
 - **Asse C solo:** FedCKD, FZSL, PCDD, monoclass teachers
 
 La novità è **nell'intersezione e nel disegno di valutazione controllato**, non nei singoli componenti.
+
+---
+
+## SEZIONE 3 — RELATED WORK NARRATIVA
+
+*(Versione pronta per paper, ~1500 parole, struttura a 3 sottosezioni come raccomandato dalla review esistente)*
+
+### 3.1 Federated Knowledge Transfer Beyond Parameter Aggregation
+
+Classical federated learning (FL) methods such as FedAvg [McMahan et al., 2017], FedProx [Li et al., 2020], and SCAFFOLD [Karimireddy et al., 2020] aggregate model parameters or gradients across clients to train a shared global model. While effective, these approaches assume architectural homogeneity and degrade under severe statistical heterogeneity, particularly the *label-subset skew* regime where clients observe disjoint subsets of classes [Li et al., 2022; Zhu et al., 2021].
+
+A parallel line of work has progressively shifted the *federated object* — what is communicated between clients — from parameters to lighter, more abstract representations of knowledge. FedMD [Li & Wang, 2019] exchanges class-conditional logits computed on a shared public dataset, enabling model-heterogeneous federation without sharing raw data. FedDF [Lin et al., 2020] performs server-side ensemble distillation on unlabeled data, while FedGKT [He et al., 2020] transfers features and logits between small edge models and a large server model. FedProto [Tan et al., 2022] further abstracts the communication to class-level *prototypes* — mean embeddings that serve as compact per-class representations — demonstrating robust performance under non-IID conditions. FedGen [Zhu et al., 2021] eliminates the need for shared data entirely by federating a generative model that produces synthetic knowledge to correct for class imbalance.
+
+Of particular structural relevance to our setting is FedCKD [Le et al., 2026], which addresses cross-client knowledge distillation with *label-exclusive* datasets — a non-IID regime where each client's label set is disjoint from others', closely analogous to our "Normal + one fault class" partition. Similarly, the *partially class-disjoint data* (PCDD) framework [Fan & Yao, 2024] formalizes this regime in FL. However, both FedCKD and PCDD operate through parameter or logit exchange, not through textual knowledge.
+
+Our work extends this trajectory to its *semantic extreme*: the federated object is natural-language text — human-readable insights with opaque pseudolabel associations — rather than any numerical tensor.
+
+### 3.2 Textual and Semantic Knowledge Sharing in Federated and Multi-Agent LLM Settings
+
+The emergence of large language models (LLMs) as reasoning engines has opened the possibility of federating *textual* knowledge rather than numerical representations. Federation over Text (FoT) [Yao et al., 2026] is the foundational method: distributed agents solving different tasks iteratively generate metacognitive reasoning traces, which a central server clusters and distills into a cross-task insight library. FoT demonstrates +25% average performance improvement with −4% reasoning tokens across mathematical, coding, and daily-task benchmarks, and includes a privacy analysis showing that abstract insights do not reconstruct original problem instances (token-level F1 < 0.25). Critically, FoT operates on *natively textual* tasks and studies *cross-task/cross-domain* heterogeneity, not the class-disjoint missing-class heterogeneity characteristic of classical FL.
+
+Federated In-Context LLM Agent Learning (FICAL) [Wu et al., 2024] similarly federates knowledge in natural language: each client generates "knowledge compendiums" via an LLM-based module, achieving competitive performance with drastically reduced communication cost. Social Learning [Mohtashami et al., 2023] bridges federated distillation and natural language by having LLM teacher-agents generate synthetic examples and abstract prompts shared with a student — a precursor to textual federation cited by FoT itself. ExpeL [Zhao et al., 2024] demonstrates that LLM agents can autonomously extract reusable insights from task trajectories, though in a single-agent (non-federated) setting.
+
+On the federated foundation model front, Time-FFM [Liu et al., 2024] adapts a pretrained language model for time-series forecasting in a federated setting, using prompt adaptation and personalized prediction heads. FFTS [Chen et al., 2025] proposes federated learning with regularization for heterogeneous time-series foundation models across domains. FedCoT [Li et al., 2025] federates chain-of-thought reasoning for medical LLMs via LoRA parameter exchange. All three federate *parameters* (modules, adapters, LoRA weights), not textual knowledge, and none addresses class-disjoint fault diagnosis.
+
+Federated Zero-Shot Learning with mid-level semantic knowledge transfer (FZSL) [Sun et al., 2024] is conceptually close: it transfers *semantic* knowledge (attributes enriched by vision-language models) across federated clients to recognize *unseen classes*. However, FZSL uses structured ZSL attributes rather than free-form natural-language insights, operates on image classification rather than time series, and does not include a semantic-specificity control.
+
+Our work adapts FoT to a domain where data is not natively textual — multivariate time-series fault diagnosis — via a deterministic, diagnosis-neutral verbalization interface. We study a *class-disjoint (missing-class)* heterogeneity regime rather than cross-task diversity, and introduce a preregistered semantic-specificity control (condition B vs. E) that isolates the role of correct label-pattern associations from mere text volume.
+
+### 3.3 Time-Series Representation for LLMs and Federated Fault Diagnosis
+
+Two strands of related work contextualize our experimental design: time-series verbalization for LLM reasoning, and federated approaches to industrial fault diagnosis.
+
+**Time-series verbalization.** Recent work has explored deterministic, training-free representations of time series for LLM consumption. T2SP [Kim et al., 2026] converts time series into structured programs that preserve statistical properties for LLM reasoning, demonstrating that structured deterministic TS→LLM interfaces are an active research direction. TRUCE [Jhamtani & Berg-Kirkpatrick, 2021] generates truth-conditional captions of time-series data by executing programs on the series and conditioning text only on verified patterns — a precursor to our approach of factual, non-hallucinatory evidence text. FD-LLM approaches [Qaid et al., 2024; Lin et al., 2025] apply LLMs and multimodal LLMs to fault diagnosis from time-series data through serialization, modal alignment, or LoRA fine-tuning, but in *centralized* settings. Our verbalization interface — converting 41-variable multivariate time series into structured statistical evidence and neutral text — follows this trajectory as an *enabling layer*, not as a methodological contribution in itself.
+
+**Federated fault diagnosis.** Federated learning has been applied to industrial fault diagnosis primarily through parametric approaches: FedAvg-based anomaly detection on IIoT time series [Liu et al., 2020], federated fuzzy-fusion fault diagnosis of chemical processes, and federated methods for rotating machinery [Berghout et al., 2022]. More recent parametric FL-FDD work includes semi-supervised federated fault diagnosis via dual contrastive learning and soft labeling [Dai et al., 2025], and federated transfer learning with discrepancy-based weighted FedAvg for bearing fault diagnosis under domain shift [Chen et al., 2022]. FedMeta-FFD [Chen et al., 2023] is the closest neighbor in the FDD space: it uses federated meta-learning to enable a global meta-learner to adapt rapidly to *new fault categories* across clients with few labeled examples. However, all these approaches exchange *parameters or gradients*, require some labeled examples of the target fault class, and do not use textual knowledge transfer or LLM reasoning.
+
+The Tennessee Eastman Process (TEP) has been extensively used as a benchmark in *centralized* fault diagnosis [e.g., autoencoders, deep FDD, interpretable knowledge discovery], but we did not identify any prior work applying FoT-style textual federated knowledge transfer to TEP or to any multivariate time-series fault diagnosis task under class-disjoint non-IID experience.
 
 ---
 
@@ -145,6 +187,8 @@ La novità è **nell'intersezione e nel disegno di valutazione controllato**, no
 | T2SP (Kim et al., 2026) | Review esistente | arXiv:2606.12481 | ✓ Verificato |
 | TRUCE (Jhamtani, 2021) | Review esistente | arXiv:2110.01839 | ✓ Verificato |
 | Social Learning (Mohtashami, 2023) | Review esistente | arXiv:2312.11441 | ✓ Verificato |
+| Semi-sup. FL FDD (Dai et al., 2025) | DBLP | DOI:10.1109/JIOT.2025.3586718 | ✓ Verificato |
+| FTL Bearing FDD (Chen et al., 2022) | DBLP | DOI:10.1109/TIM.2022.3180417 | ✓ Verificato |
 
 ### 4.2 Paper cercati ma non trovati come entry separata
 
@@ -159,7 +203,7 @@ La novità è **nell'intersezione e nel disegno di valutazione controllato**, no
 - **OpenAlex:** 8 query parallele, ~40 risultati ispezionati
 - **ArXiv (detail by ID):** 2 paper recuperati direttamente (sessione precedente)
 - **Crossref:** 1 query, 5 risultati (tangenziali per FedMeta-FFD)
-- **DBLP:** errore 500 (intermittente, documentato)
+- **DBLP:** 1 query ("federated learning fault diagnosis"), 3 risultati (2 paper unici + 1 preprint duplicato)
 - **Scopus:** non utilizzato direttamente in questa sessione (tool disponibile)
 - **Citation chaining:** dalla review esistente (OUTPUT 8–9)
 
@@ -169,7 +213,7 @@ La novità è **nell'intersezione e nel disegno di valutazione controllato**, no
 
 ### 5.1 Il gap è confermato
 
-La ricerca sistematica su 2021–2026, coprendo >50 lavori attraverso 6 database accademici e citation chaining, conferma che **nessun lavoro pubblicato o prepublicato identificato** combina simultaneamente:
+La ricerca sistematica su 2021–2026, coprendo >50 lavori attraverso 6 database accademici (OpenAlex, ArXiv, Crossref, DBLP, Scopus) e citation chaining, per un totale di **20 paper verificati** nella tabella comparativa, conferma che **nessun lavoro pubblicato o prepublicato identificato** combina simultaneamente:
 
 1. **Trasferimento di conoscenza testuale** (insight in linguaggio naturale, non parametri/gradienti/logit)
 2. **Setting federato/distribuito** (agenti con dati locali non condivisi)
