@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FoT–TEP Manuscript Blueprint</title>
+<style>
+  :root{
+    --bg:#f7f7f4; --panel:#ffffff; --ink:#1c1d21; --muted:#5c5f66;
+    --line:#e2e2dc; --accent:#2f5d50; --accent2:#8a3b2e; --accent3:#3b4a6b;
+    --chip:#eef2ef; --warn-bg:#fbf3e6; --warn-ink:#8a5b16; --warn-line:#e6cf9e;
+    --ok-bg:#eaf3ee; --ok-ink:#2f6b4f; --ok-line:#bcdcc7;
+    --code-bg:#f0f1ee; --shadow:0 1px 2px rgba(0,0,0,.05),0 6px 20px rgba(0,0,0,.04);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#16171a; --panel:#1e2024; --ink:#e9e9e6; --muted:#a3a6ad;
+      --line:#2e3137; --accent:#79c3ac; --accent2:#e0917f; --accent3:#9fb0d8;
+      --chip:#26302c; --warn-bg:#33290f; --warn-ink:#e7c583; --warn-line:#5a4a22;
+      --ok-bg:#17271e; --ok-ink:#8fd4ab; --ok-line:#2c4a39;
+      --code-bg:#24262b; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#16171a; --panel:#1e2024; --ink:#e9e9e6; --muted:#a3a6ad;
+    --line:#2e3137; --accent:#79c3ac; --accent2:#e0917f; --accent3:#9fb0d8;
+    --chip:#26302c; --warn-bg:#33290f; --warn-ink:#e7c583; --warn-line:#5a4a22;
+    --ok-bg:#17271e; --ok-ink:#8fd4ab; --ok-line:#2c4a39;
+    --code-bg:#24262b; --shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.25);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:40px 22px 90px}
+  header.top{border-bottom:2px solid var(--accent);padding-bottom:22px;margin-bottom:8px}
+  .kicker{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  h1{font-size:1.9rem;line-height:1.2;margin:.35em 0 .2em}
+  .sub{color:var(--muted);font-size:1rem;max-width:70ch}
+  .meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .chip{background:var(--chip);border:1px solid var(--line);border-radius:999px;
+    padding:4px 12px;font-size:.78rem;color:var(--muted)}
+  h2{font-size:1.35rem;margin:2.4em 0 .5em;padding-top:.4em;border-top:1px solid var(--line);
+    display:flex;align-items:baseline;gap:.5em}
+  h2 .sec{color:var(--accent);font-weight:800;font-size:1rem;
+    border:1.5px solid var(--accent);border-radius:8px;padding:1px 9px;flex:none}
+  h3{font-size:1.08rem;margin:1.7em 0 .3em;color:var(--ink)}
+  h4{font-size:.98rem;margin:1.2em 0 .2em;color:var(--accent3)}
+  p{margin:.55em 0}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+  a:hover{border-bottom-color:var(--accent)}
+  .lead{font-size:1.05rem;color:var(--ink)}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:18px 20px;margin:16px 0;box-shadow:var(--shadow)}
+  .panel h3:first-child,.panel h4:first-child{margin-top:0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:720px){.grid2{grid-template-columns:1fr}}
+  .field{margin:.5em 0}
+  .field .k{font-weight:700;color:var(--accent3);font-size:.82rem;text-transform:uppercase;
+    letter-spacing:.04em;display:block;margin-bottom:1px}
+  .draft{border-left:3px solid var(--accent);background:var(--chip);
+    padding:10px 14px;border-radius:0 8px 8px 0;font-size:.95rem;margin:.6em 0}
+  .draft .lbl{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:700;display:block;margin-bottom:2px}
+  code{background:var(--code-bg);border-radius:5px;padding:1px 6px;font-size:.86em;
+    font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace}
+  .quote{font-style:italic;border-left:3px solid var(--accent2);padding:6px 14px;color:var(--ink);margin:.6em 0;background:var(--panel)}
+  .warn{background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-ink);
+    border-radius:10px;padding:12px 16px;margin:14px 0;font-size:.92rem}
+  .warn strong{color:var(--warn-ink)}
+  .ok{background:var(--ok-bg);border:1px solid var(--ok-line);color:var(--ok-ink);
+    border-radius:10px;padding:12px 16px;margin:14px 0;font-size:.92rem}
+  .tag{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.05em;
+    padding:1px 7px;border-radius:5px;vertical-align:middle}
+  .must{background:var(--accent2);color:#fff}
+  .should{background:var(--accent3);color:#fff}
+  .opt{background:var(--chip);color:var(--muted);border:1px solid var(--line)}
+  .ver{background:var(--ok-bg);color:var(--ok-ink);border:1px solid var(--ok-line)}
+  .toverify{background:var(--warn-bg);color:var(--warn-ink);border:1px solid var(--warn-line)}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.87rem}
+  th,td{border:1px solid var(--line);padding:7px 10px;text-align:left;vertical-align:top}
+  th{background:var(--chip);font-weight:700;font-size:.8rem}
+  td.n{white-space:nowrap;font-weight:600}
+  .scroll{overflow-x:auto}
+  ol.toc{columns:2;column-gap:28px;padding-left:1.1em;margin:.5em 0}
+  @media (max-width:600px){ol.toc{columns:1}}
+  ol.toc li{margin:.2em 0}
+  .pill{font-size:.72rem;color:var(--muted)}
+  ul.tight{margin:.4em 0;padding-left:1.2em}
+  ul.tight li{margin:.25em 0}
+  .num{font-variant-numeric:tabular-nums}
+  .footer{margin-top:50px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
+  hr.soft{border:none;border-top:1px dashed var(--line);margin:1.4em 0}
+  .s0{color:var(--accent2);font-weight:700}
+  @media print{
+    body{background:#fff;font-size:11pt}
+    .panel{box-shadow:none;break-inside:avoid}
+    h2{break-after:avoid}
+    .wrap{max-width:none;padding:0}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="kicker">Senior-author manuscript design · confidential working note</div>
+  <h1>Federation over Text on Multivariate Time-Series Experience<br>— Manuscript Blueprint for IEEE BigData 2026</h1>
+  <p class="sub">Progettazione strutturale (non stesura) del full paper per la Special Session on Federated Learning on Big Data. Ogni sezione è pensata per essere <em>compatta, conservativa nei claim e difficile da fraintendere</em>. Vincoli: 10 pagine IEEE two-column, references incluse, no appendix.</p>
+  <div class="meta-row">
+    <span class="chip">Target: IEEE BigData 2026 — FL on Big Data</span>
+    <span class="chip">Full paper · ≤10 pp · two-column</span>
+    <span class="chip">Tesi: controlled evaluation, non "new FL algorithm"</span>
+    <span class="chip">Testbed: Tennessee Eastman Process</span>
+  </div>
+</header>
+
+<div class="panel">
+  <h3>Come leggere questo documento</h3>
+  <p>Segue esattamente l'ordine richiesto (A → K). Le sezioni A–B fissano identità e tesi; C è il cuore (struttura sezione-per-sezione con <em>drafting notes</em>); D–J sono viste operative sulla stessa struttura; K è un red-team ostile che rivede la struttura e produce la versione finale corretta. Convenzioni: <span class="tag ver">VERIFIED</span> reference confermata via web; <span class="tag toverify">TO VERIFY</span> da controllare prima della submission; <span class="tag must">MUST</span>/<span class="tag should">SHOULD</span>/<span class="tag opt">OPTIONAL</span> priorità di figure/tabelle. I placeholder risultati sono <code>[EXP2 RESULT TO INSERT]</code> / <code>[EXP3 RESULT TO INSERT]</code> — nessun numero inventato.</p>
+</div>
+
+<div class="panel">
+  <strong>Indice</strong>
+  <ol class="toc">
+    <li><a href="#A">A · Title strategy (5 titoli)</a></li>
+    <li><a href="#B">B · One-sentence thesis</a></li>
+    <li><a href="#C">C · Full paper structure (sezione per sezione)</a></li>
+    <li><a href="#D">D · Introduction blueprint (paragrafo per paragrafo)</a></li>
+    <li><a href="#E">E · Related Work architecture (per filoni)</a></li>
+    <li><a href="#F">F · Three contribution statements</a></li>
+    <li><a href="#G">G · Figure / Table plan</a></li>
+    <li><a href="#H">H · Results narrative (ordine)</a></li>
+    <li><a href="#I">I · Discussion structure</a></li>
+    <li><a href="#J">J · Page budget</a></li>
+    <li><a href="#K">K · Reviewer red-team + struttura finale</a></li>
+    <li><a href="#refs">Ref · Bibliography backbone + stato verifica</a></li>
+  </ol>
+</div>
+
+<!-- ============ A ============ -->
+<h2 id="A"><span class="sec">A</span> Recommended paper title strategy</h2>
+<p>Principio: nessun titolo deve suggerire un nuovo algoritmo FL parametrico o un contributo di representation learning. Le parole-segnale prudenti sono <em>controlled evaluation</em>, <em>textual knowledge transfer</em>, <em>class-disjoint / locally unseen</em>. Evitare <em>"efficient"</em>, <em>"privacy-preserving"</em>, <em>"novel framework"</em> nel titolo.</p>
+
+<h4>Conservativi (2)</h4>
+<div class="panel">
+  <p><strong>T1.</strong> <em>A Controlled Evaluation of Federation over Text for Class-Disjoint Multivariate Time-Series Fault Recognition</em></p>
+  <p><strong>T2.</strong> <em>Can Textual Peer Knowledge Transfer Discriminative Information Across Agents with Class-Disjoint Temporal Experience? A Controlled Study on the Tennessee Eastman Process</em></p>
+</div>
+<h4>Più forti (2)</h4>
+<div class="panel">
+  <p><strong>T3.</strong> <em>Federated Textual Knowledge Transfer for Recognizing Locally Unseen Faults in Distributed Multivariate Time Series</em></p>
+  <p><strong>T4.</strong> <em>Sharing Insights, Not Signals: Semantic-Specificity-Controlled Federation over Text for Heterogeneous Time-Series Agents</em></p>
+</div>
+<h4 class="s0">Raccomandazione finale</h4>
+<div class="ok">
+  <p><strong>T5 (recommended).</strong> <em>Federating Insights over Text: A Controlled, Auditable Study of Textual Knowledge Transfer for Class-Disjoint Multivariate Time-Series Fault Recognition</em></p>
+  <p style="margin-bottom:0">Perché: (i) "Federating Insights over Text" collega esplicitamente a FoT senza rivendicarne la paternità; (ii) "Controlled, Auditable Study" segnala al reviewer BigData che il contributo è <em>evaluation design</em>, non un nuovo metodo; (iii) "Class-Disjoint … Fault Recognition" comunica il setting non-IID estremo e il task (recognition of locally unseen conditions), che è l'headline. Se il titolo risultasse troppo lungo per il template, fallback su <strong>T1</strong>.</p>
+</div>
+
+<!-- ============ B ============ -->
+<h2 id="B"><span class="sec">B</span> One-sentence paper thesis</h2>
+<div class="quote" style="font-size:1.05rem">
+  In a controlled, auditable Tennessee Eastman setting, semantically correct textual insights federated among agents with class-disjoint multivariate time-series experience transfer discriminative knowledge sufficient to recognize locally unseen fault conditions — while raw observations remain local — and this benefit is shown to depend on the <em>semantic correctness</em> of the transferred pseudolabel–pattern associations, not on the mere presence or volume of text.
+</div>
+<p class="pill">Nota: la frase contiene già il claim positivo (transfer works), il controllo (E: dipende dalla correttezza semantica) e il confine (raw non scambiato; setting controllato). È la "spine sentence" da ripetere quasi-verbatim in Abstract, fine Introduction e prima frase di Conclusion.</p>
+
+<!-- ============ C ============ -->
+<h2 id="C"><span class="sec">C</span> Recommended full paper structure</h2>
+<p>La struttura candidata dell'utente è buona ma va <strong>corretta in tre punti</strong> (vedi motivazione sotto e red-team K): (1) fondere "Problem Setting" e "Federation-over-Text Adaptation" in un'unica sezione Metodo per non frammentare; (2) tenere il verbalizer come <em>sottosezione contenuta</em> dentro il Metodo, mai come sezione propria; (3) dare a Results una struttura fissa Exp1 → specificity → preservation → Exp2 → Exp3 → payload. Struttura raccomandata:</p>
+<div class="panel">
+  <ol class="tight">
+    <li><strong>Introduction</strong></li>
+    <li><strong>Related Work</strong></li>
+    <li><strong>Problem Setting and Federation-over-Text Adaptation</strong> (include il verbalizer come sottosezione)</li>
+    <li><strong>Controlled Evaluation Protocol</strong> (TEP, A/B/E, statistica, Exp1/2/3 design)</li>
+    <li><strong>Results</strong></li>
+    <li><strong>Discussion</strong></li>
+    <li><strong>Conclusion</strong></li>
+  </ol>
+  <p class="pill" style="margin-bottom:0">Motivo dello scostamento dalla struttura a 7 dell'utente: è quasi identica, ma unire Metodo (§3) e separare nettamente il <em>protocollo di valutazione</em> (§4) dal <em>metodo</em> (§3) è ciò che i reviewer di BigData premiano — rende leggibile "cosa è il sistema" vs "come lo abbiamo testato in modo auditable". La complessità sperimentale (A/B/E, R=3, cluster bootstrap, Exp1/2/3) merita una sezione protocollo dedicata, altrimenti soffoca il Metodo.</p>
+</div>
+
+<!-- 1 Introduction -->
+<h3>§1 — Introduction</h3>
+<div class="panel">
+  <div class="field"><span class="k">Purpose</span> Portare il reviewer dal problema generale (distributed industrial monitoring, heterogeneous/non-IID local experience) alla domanda precisa (può la conoscenza testuale peer trasferire informazione discriminativa tra agenti class-disjoint?) e ai key results, stabilendo subito il tono conservativo.</div>
+  <div class="field"><span class="k">Content to write</span> Progressione a 7 paragrafi (dettaglio in §D). Chiudere con thesis sentence + contributions.</div>
+  <div class="field"><span class="k">Reviewer takeaway</span> "Gli autori non inventano FoT né il verbalizer; propongono una valutazione controllata e verificabile di un meccanismo di trasferimento testuale in un setting non-IID estremo, motivato dal PV ma isolato nel TEP."</div>
+  <div class="field"><span class="k">Evidence / references</span> Yao et al. 2026 (FoT); McMahan 2017 (FedAvg, per contrasto); Time-FFM (adjacent FL-TS); PV come motivazione (nessun dato PV). Headline numbers: A=0%, B=86.1%, E=8.3%.</div>
+  <div class="field"><span class="k">Figures / tables</span> Figure 1 (pipeline overview) ancorata qui o a inizio §3.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Apri con l'osservazione che il monitoraggio industriale distribuito produce esperienza locale eterogenea e spesso class-disjoint, e che le label di guasto sul campo sono difficili da ottenere. Osserva che la collaborazione federata non deve necessariamente scambiare parametri: esiste una traiettoria dell'oggetto federato (parameters → logits → prototypes → synthetic → foundation-model adaptation → explicit textual knowledge). Introduci FoT (Yao et al.) come estremo semantico di questa traiettoria, nato per reasoning/text tasks. Enuncia il gap: non è noto se insight testuali trasferiscano conoscenza <em>discriminativa</em> tra agenti che osservano distribuzioni temporali class-disjoint. Spiega perché serve un testbed controllato con ground truth verificabile prima del PV, e qui inserisci il paragrafo di motivazione PV in forma prudente. Chiudi con approccio (adattamento controllato di FoT al TEP, A/B/E), key results a una cifra, e i tre contribution bullets.</div>
+</div>
+
+<!-- 2 Related Work -->
+<h3>§2 — Related Work</h3>
+<div class="panel">
+  <div class="field"><span class="k">Purpose</span> Collocare il lavoro rispetto a cinque filoni e far emergere <em>naturalmente</em> il gap, senza lista-di-paper. Deve difendere il positioning FL prudente (non sostituzione di FedAvg).</div>
+  <div class="field"><span class="k">Content to write</span> Cinque mini-paragrafi tematici (architettura dettagliata in §E), ciascuno chiuso da una frase di contrasto verso il nostro setting.</div>
+  <div class="field"><span class="k">Reviewer takeaway</span> "La letteratura è coperta con precisione; il gap (multivariate temporal, missing-class non-IID, semantic-specificity control) è reale e non colmato dai lavori citati."</div>
+  <div class="field"><span class="k">Evidence / references</span> FedAvg; FedMD/FedProto/FedGen (traiettoria oggetto scambiato); Time-FFM (FL-TS foundation); T2SP/TRUCE/ESAX/(SAX_HAR-LLM) (deterministic TS→text); FedMeta-FFD/FedCKD (federated fault diagnosis, class-exclusive); Federated In-Context LLM Agent Learning (NL knowledge federation); Yao et al. (FoT).</div>
+  <div class="field"><span class="k">Figures / tables</span> Table 1 (relation to prior work) vive qui.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Non elencare paper uno per uno: costruisci cinque correnti (A parameter FL; B distillation/prototype/synthetic → "l'oggetto scambiato può non essere i parametri"; C FL su time-series/foundation, con Time-FFM come contrasto architetturale; D deterministic TS→structured/text come <em>enabling interface</em>, non nostra novelty; E NL/LLM-agent knowledge federation, incl. FoT originale). Ogni corrente termina con una frase-ponte ("…tuttavia nessuno di questi valuta il trasferimento testuale sotto esperienza temporale class-disjoint con controllo di specificità semantica"). Chiudi il §2 con una frase-gap unica che Table 1 poi visualizza. Usa formulazioni "to the best of our review" — mai "first ever".</div>
+</div>
+
+<!-- 3 Method -->
+<h3>§3 — Problem Setting and Federation-over-Text Adaptation</h3>
+<div class="panel">
+  <div class="field"><span class="k">Purpose</span> Definire formalmente il setting (agenti, class-disjoint experience, pseudolabel opache, oggetto federato = testo) e descrivere l'adattamento di FoT, includendo l'evidence interface deterministica.</div>
+  <div class="field"><span class="k">Reviewer takeaway</span> "Il setting è ben definito; l'oggetto federato è testo distillato, non gradienti/pesi/prototipi; il verbalizer è enabling, non il contributo."</div>
+  <div class="field"><span class="k">Figures / tables</span> Figure 1 (pipeline) se non già in §1; schema TS→evidence→LLM→insight→federation.</div>
+
+  <h4>3.1 Problem setting and federated object</h4>
+  <div class="field"><span class="k">Content</span> Formalizza N=4 agenti; ciascuno conosce Normal + un fault locale via pseudolabel opaca; gli altri 3 fault sono locally unseen. Definisci l'oggetto federato come <em>distilled textual insight</em>; niente raw observations, niente gradienti/pesi/parametri.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Definisci con notazione leggera: per ogni agente il supporto locale delle classi, la pseudolabel opaca (l'agente non conosce il "nome fisico" del fault, solo un token), e la nozione di <em>locally unseen</em>. Enuncia esplicitamente il vincolo di comunicazione: si scambiano solo insight testuali. Colloca FoT come estremo semantico della traiettoria dell'oggetto federato. Usa terminologia prudente (federated textual knowledge transfer / semantic knowledge federation), mai "new FL algorithm".</div>
+
+  <h4>3.2 Federation-over-Text adaptation</h4>
+  <div class="field"><span class="k">Content</span> Local reasoning → textual insight distillation → semantic sharing library → receiver reasoning con insight peer. Il nostro delta rispetto a Yao et al.: multivariate temporal evidence; class-disjoint/missing-class heterogeneity; pseudolabel opache; valutazione A/B/E di specificità semantica; proving ground industriale.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Descrivi il ciclo FoT adattato in 4–6 frasi: come un agente produce un insight testuale dalla propria esperienza, come gli insight peer entrano nel contesto del receiver, e cosa il receiver deve fare (riconoscere una condizione locally unseen). Rendi esplicito "we adapt/evaluate FoT", mai "we propose FoT". Elenca il delta come adattamento, non come nuovo metodo.</div>
+
+  <h4>3.3 Diagnosis-neutral temporal evidence interface (verbalizer V2)</h4>
+  <div class="field"><span class="k">Content</span> Descrizione ad alto livello di V2: deterministico, training-free, diagnosis-neutral. Elementi: baseline-relative shift; signed trend/slope; variability changes; residual behavior; active temporal windows; sign consistency; persistence; temporal phases; multivariate evidence. Solo quanto basta per riproducibilità.</div>
+  <div class="field"><span class="k">Reviewer takeaway</span> "Il layer testuale NON contiene la risposta e NON è il contributo FoT."</div>
+  <div class="field"><span class="k">References</span> T2SP, TRUCE, ESAX, (SAX_HAR-LLM se verificato).</div>
+  <div class="warn"><strong>Guard-rail spazio:</strong> massimo ~0.5–0.6 colonne. Se supera, il paper diventa "un paper sul verbalizer" e il reviewer sposta il baricentro dal contributo reale. Nessuna trattazione algoritmica lunga; nessun V3.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Spiega che V2 converte serie multivariate in evidenza temporale strutturata leggibile dal reasoner, in modo deterministico e senza incorporare la diagnosi. Elenca gli elementi (shift baseline-relative, trend con segno, variabilità, residui, finestre attive, consistenza di segno, persistenza, fasi temporali, evidenza multivariata) in una-due frasi ciascuno gruppo, non uno per riga. Sottolinea "diagnosis-neutral": l'etichetta non è ricavabile dal solo testo evidenziale. Cita T2SP/TRUCE/ESAX come evidenza che astrazioni strutturali deterministiche sono interfacce utili tra TS e LLM off-the-shelf, e usa questo per dire che il verbalizer non è la nostra novelty primaria.</div>
+</div>
+
+<!-- 4 Protocol -->
+<h3>§4 — Controlled Evaluation Protocol</h3>
+<div class="panel">
+  <div class="field"><span class="k">Purpose</span> Rendere l'intera valutazione <em>auditable</em>: dataset, condizioni A/B/E, unità statistica, bootstrap, ed esperimenti Exp1/2/3 con endpoint pre-specificati.</div>
+  <div class="field"><span class="k">Reviewer takeaway</span> "Il disegno è rigoroso, frozen e verificabile; i contrasti misurano ciò che dicono di misurare."</div>
+  <div class="field"><span class="k">Figures / tables</span> Figure 2 (A/B/E design).</div>
+
+  <h4>4.1 Testbed: Tennessee Eastman Process</h4>
+  <div class="draft"><span class="lbl">Drafting note</span> Descrivi TEP come controlled proving ground con ground truth verificabile; 4 fault F1/F8/F10/F13; 4 agenti; ciascuno Normal + un fault locale. Chiarisci che TEP è testbed, non il dominio finale (PV). Non affermare che TEP simuli il PV.</div>
+
+  <h4>4.2 Conditions A / B / E</h4>
+  <div class="draft"><span class="lbl">Drafting note</span> A = isolated (nessun insight peer). B = correct peer textual knowledge: 6 insight peer per receiver (2 per ciascuna delle 3 pseudoclassi peer; niente self-insight; niente Normal-insight). E = semantic corruption control: stesso bundle di B per quantità, ID, ordine, source, evidence scope, observed text, ma associazioni pseudolabel corrotte via <em>zero-fixed-point derangement</em>. Enfatizza che E isola se il beneficio dipende dalla correttezza semantica dell'associazione e non dalla presenza/quantità di testo. Figure 2 deve rendere questo visivamente.</div>
+
+  <h4>4.3 Statistical design</h4>
+  <div class="draft"><span class="lbl">Drafting note</span> R=3 chiamate con "same input hash and same frozen configuration" — <strong>non</strong> "identical repetitions". Unità statistica = physical fault run (12 runs), NON le 36 agent-case observations; ogni run produce 3 unseen receiver observations. Bootstrap: paired, clusterizzato sul physical run, stratificato per pseudolabel/fault. Endpoint e criteri: "pre-specified", NON "preregistered". Definisci qui la primary locally-unseen population (n=36 agent-cases/condition) e il preservation set.</div>
+
+  <h4>4.4 Experiments Exp1 / Exp2 / Exp3</h4>
+  <div class="scroll">
+  <table>
+    <tr><th>Exp</th><th>Cosa varia</th><th>RQ</th><th>Claim consentita</th><th>Analisi</th></tr>
+    <tr><td class="n">Exp1<br>(frozen)</td><td>A/B/E su 4 agenti, 4 fault, TEP</td><td>Può la conoscenza testuale peer far riconoscere fault locally unseen?</td><td>transfer works; benefit depends on semantic correctness; raw non scambiato</td><td>primary; risultati frozen (§5)</td></tr>
+    <tr><td class="n">Exp2</td><td>solo il <em>consumer</em> reasoning model; insight frozen dal producer originale</td><td>L'effetto persiste se gli stessi insight frozen sono consumati da modelli diversi?</td><td>cross-model portability of frozen textual knowledge <em>(NON "model-general", NON independent replication)</em></td><td>per-model, no pooling</td></tr>
+    <tr><td class="n">Exp3</td><td>30 nuovi physical run (6 Normal + 6×F1/F8/F10/F13); 24 new fault runs</td><td>L'effetto si riproduce su nuove realizzazioni fisiche degli stessi 4 fault?</td><td>prospective fresh-run replication <em>(NON new-fault generalization, NON robustness, NON external validation)</em></td><td>Exp3 separato da Exp1; pooled Exp1+Exp3 solo secondary descriptive</td></tr>
+  </table>
+  </div>
+  <div class="warn"><strong>Producer vs Consumer:</strong> in Exp2 gli insight originali frozen restano quelli del producer model; cambia solo il modello che li consuma. Riportare per modello, senza pooling tra modelli. Usa <code>[EXP2 RESULT TO INSERT]</code> / <code>[EXP3 RESULT TO INSERT]</code> se i numeri non sono ancora disponibili alla prima stesura — la struttura deve funzionare comunque.</div>
+</div>
+
+<!-- 5 Results -->
+<h3>§5 — Results</h3>
+<div class="panel">
+  <div class="field"><span class="k">Purpose</span> Presentare i risultati nell'ordine che costruisce l'argomento: meccanismo → specificità → preservazione → portabilità → replica → payload.</div>
+  <div class="field"><span class="k">Reviewer takeaway</span> "Il beneficio è grande e consistente (B vs A), è semanticamente specifico (B vs E), non danneggia le classi note, e — se Exp2/3 confermano — è portabile e riproducibile."</div>
+  <div class="field"><span class="k">Figures / tables</span> Table 2 (Exp1 main); Table 3 (Exp2/Exp3 replication); compact subsection/table per payload.</div>
+
+  <h4>5.1 Exp1 — mechanism transfer (B vs A)</h4>
+  <div class="ok">
+    <p style="margin:.2em 0"><strong>Primary locally-unseen population, n=36 agent-cases/condition:</strong> A = 0/36 = 0% · B = 31/36 = 86.11% · E = 3/36 = 8.33%.</p>
+    <p style="margin:.2em 0">Contrasti: B−A = +0.861 · B−E = +0.778. Paired cluster bootstrap (12 physical runs): CI B−A [0.833, 0.917]; CI B−E [0.722, 0.833].</p>
+    <p style="margin:.2em 0">Per-agent B: agent1 = 1.00 · agent2 = 1.00 · agent3 = 0.667 · agent4 = 0.778.</p>
+    <p style="margin:.2em 0">Transfer analysis: helped = 31 · harmed = 0 · unchanged-incorrect = 5.</p>
+  </div>
+  <div class="warn"><strong>Non</strong> usare <code>harmed=0</code> come prova di assenza di negative transfer: A ha un floor di 0/36, quindi harmed non è misurabile per costruzione. Dichiaralo esplicitamente.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Apri con B vs A come effetto-meccanismo: da 0% a 86.1% sulle condizioni locally unseen. Riporta i CI del cluster bootstrap. Presenta il per-agent B per mostrare che l'effetto non è guidato da un solo agente (anche i due più bassi, 0.667/0.778, sono largamente sopra A). Riporta helped/harmed/unchanged ma con il caveat del floor.</div>
+
+  <h4>5.2 Exp1 — semantic specificity (B vs E)</h4>
+  <div class="draft"><span class="lbl">Drafting note</span> Questo è il risultato che regge la tesi. Con testo identico per quantità/ID/ordine/source/scope/observed text ma associazioni pseudolabel corrotte, la performance crolla a 8.33% (vicino ad A). Quindi il beneficio dipende dalla <em>correttezza semantica dell'associazione pseudolabel–pattern</em>, non dalla mera presenza o volume di testo. Cita CI B−E.</div>
+
+  <h4>5.3 Exp1 — preservation of known classes</h4>
+  <div class="draft"><span class="lbl">Drafting note</span> Local-seen = 12/12 in A/B/E; Normal = 12/12 in A/B/E. Messaggio: il trasferimento non compromette il riconoscimento delle classi già note localmente. Chiarisci che headline = unseen performance, NON overall accuracy.</div>
+
+  <h4>5.4 Exp2 — cross-model portability</h4>
+  <div class="draft"><span class="lbl">Drafting note</span> Presenta per-model, senza pooling. Se disponibile, riporta B/E per ciascun consumer model; altrimenti <code>[EXP2 RESULT TO INSERT]</code>. Claim massima: la conoscenza testuale frozen resta utilizzabile attraverso i modelli testati. Mai "FoT is model-general".</div>
+
+  <h4>5.5 Exp3 — fresh-run prospective replication</h4>
+  <div class="draft"><span class="lbl">Drafting note</span> Riporta Exp3 separato da Exp1 (primary). Pooled Exp1+Exp3 solo come secondary descriptive. Se disponibile, riporta i contrasti sui 24 new fault runs; altrimenti <code>[EXP3 RESULT TO INSERT]</code>. Claim massima: l'effetto si riproduce su nuove realizzazioni fisiche degli stessi 4 fault. Mai "generalizes to new faults".</div>
+
+  <h4>5.6 Communication payload characterization</h4>
+  <div class="warn"><strong>Titolo obbligatorio:</strong> "Communication Payload Characterization" — NON "communication efficiency". Il rapporto è <em>textual-to-raw payload ratio under the stated serialization convention</em>, NON un compression ratio lossless.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Descrittivo, non un claim di efficienza. In B, per receiver: 6 peer insight ≈ 2.3–2.4 KB UTF-8. Unità con 4 receiver: 24 insight transmissions, 9,438 UTF-8 bytes. Unique insight library: 8 insight, 3,125 bytes. Reference peer raw evidence per receiver: 1,476,000 scalar raw values (dense float64 teorico). Rapporto osservato ≈ 0.000195–0.000205 sotto la convenzione dichiarata. Spiega esplicitamente che il denominatore è una <em>reference raw-experience serialization</em>, non necessariamente traffico che un altro metodo avrebbe obbligatoriamente trasmesso.</div>
+</div>
+
+<!-- 6 Discussion -->
+<h3>§6 — Discussion</h3>
+<div class="panel">
+  <div class="field"><span class="k">Purpose</span> Interpretare in modo sobrio; separare ciò che gli esperimenti stabiliscono da ciò che NON stabiliscono; elencare limitazioni; transizione disciplinata al PV.</div>
+  <div class="field"><span class="k">Reviewer takeaway</span> "Gli autori conoscono i confini del proprio claim; le limitazioni non invalidano la RQ controllata."</div>
+  <div class="field"><span class="k">References</span> richiama contrasto con Time-FFM (parameter federation) e con FoT originale (text tasks vs temporal discriminative transfer).</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Struttura §I qui sotto in dettaglio. Apri con "what the experiments establish" (transfer, semantic specificity, preservation, no raw exchange; +portability/replication se confermate). Poi "what they do not establish" (no privacy formale, no robustness, no generalization a nuovi fault/domini, no confronto parameter-FL, no superiorità su centralization, no PV). Chiudi con la transizione PV in 2–3 frasi.</div>
+</div>
+
+<!-- 7 Conclusion -->
+<h3>§7 — Conclusion</h3>
+<div class="panel">
+  <div class="field"><span class="k">Purpose</span> Ribadire la tesi in forma compatta e la transizione al lavoro futuro PV, senza trasformare future work in contributo corrente.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Riprendi la thesis sentence. Una frase per ciascun risultato-chiave (Exp1 mechanism, semantic specificity, preservation; Exp2/3 se confermati; payload come characterization). Chiudi con la transizione PV prudente ("Having established the feasibility of the knowledge-transfer mechanism under controlled temporal conditions, the subsequent phase evaluates whether this capability persists in the substantially more complex photovoltaic domain."). Nessun nuovo claim.</div>
+</div>
+
+<!-- ============ D ============ -->
+<h2 id="D"><span class="sec">D</span> Introduction — paragraph-by-paragraph blueprint</h2>
+<p>La progressione a 7 paragrafi dell'utente è quasi ottimale. Un solo miglioramento: fondere concettualmente P6 (approccio) e l'anticipazione dei key results così che il primo numero (0% → 86% → 8%) compaia già in Introduction. Blueprint:</p>
+<div class="panel">
+  <p><strong>P1 — General problem.</strong> Distributed industrial monitoring; siti/agenti con esperienza locale eterogenea e potenzialmente non-IID; label di guasto spesso scarse/non verificabili. <span class="pill">Ruolo: stabilire rilevanza per la Special Session.</span></p>
+  <p><strong>P2 — Parametric FL is not the only collaboration.</strong> Introdurre la traiettoria dell'oggetto federato: parameters → logits/distillation → prototypes → synthetic → foundation-model adaptation → explicit textual knowledge. <span class="pill">Ruolo: preparare il positioning prudente; citare FedAvg/FedMD/FedProto/FedGen.</span></p>
+  <p><strong>P3 — FoT as knowledge federation in text space.</strong> Presentare FoT (Yao et al. 2026) come estremo semantico della traiettoria, nato per reasoning/text tasks. <span class="pill">Ruolo: dichiarare che FoT non è nostro.</span></p>
+  <p><strong>P4 — Gap.</strong> Non è noto se insight testuali trasferiscano conoscenza <em>discriminativa</em> tra agenti che osservano distribuzioni temporali class-disjoint (missing-class non-IID). <span class="pill">Ruolo: la RQ primaria emerge qui.</span></p>
+  <p><strong>P5 — Why a controlled testbed before PV.</strong> Serve ground truth verificabile prima del dominio finale; qui il paragrafo di motivazione PV (prudente, senza dati PV). <span class="pill">Ruolo: motivazione applicativa + disciplina dei claim.</span></p>
+  <p><strong>P6 — Approach + key results.</strong> Adattamento controllato di FoT al TEP con condizioni A/B/E; anticipa 0% (A) → 86.1% (B) → 8.3% (E) e il ruolo di E come controllo di specificità semantica. <span class="pill">Ruolo: dare al reviewer il risultato subito.</span></p>
+  <p><strong>P7 — Contributions.</strong> I tre bullet di §F, più la thesis sentence. <span class="pill">Ruolo: chiusura netta.</span></p>
+</div>
+<div class="quote">Formulazione PV consigliata (P5), da usare quasi-verbatim: "The target application motivating this work is distributed photovoltaic monitoring, where physically separated sites accumulate heterogeneous local experience while reliable field fault labels can be difficult to obtain. We therefore isolate the knowledge-transfer question first in a controlled multivariate process with verifiable fault ground truth."</div>
+<div class="warn">In Introduction, <strong>non</strong> scrivere che: il TEP simula il PV · i risultati generalizzano al PV · il dataset PV è stato valutato · gli stessi fault/feature valgono per PV. Nessun dettaglio del dataset PV inutilizzato (numero impianti, 41 variabili meteo, 4 anni, 5-min sampling). Abstract: preferire "distributed industrial monitoring"; PV esplicito soprattutto in Introduction.</div>
+
+<!-- ============ E ============ -->
+<h2 id="E"><span class="sec">E</span> Related Work architecture (per filoni)</h2>
+<p>Cinque correnti concettuali, ciascuna con citazioni assegnate e con la frase-di-contrasto che porta al gap. Nessuna lista piatta.</p>
+
+<div class="panel">
+  <h4>Corrente A — Classical parameter-based FL</h4>
+  <p><strong>Citazioni:</strong> FedAvg (McMahan et al. 2017). <strong>Ruolo:</strong> definire cosa il nostro setting NON fa (parameter aggregation). <strong>Contrasto:</strong> "…il nostro oggetto federato non è un insieme di parametri." Poco spazio.</p>
+</div>
+<div class="panel">
+  <h4>Corrente B — Federated distillation / non-parametric exchange</h4>
+  <p><strong>Citazioni:</strong> FedMD (distillation/logit-based), FedProto (prototypes), FedGen (synthetic knowledge). <strong>Ruolo:</strong> mostrare che l'oggetto scambiato può differire dai parametri — la traiettoria. <strong>Contrasto:</strong> "…ma nessuno di questi scambia conoscenza <em>testuale esplicita</em>; FoT ne è l'estremo semantico." Non dire che FoT è equivalente a questi.</p>
+</div>
+<div class="panel">
+  <h4>Corrente C — FL su time-series / foundation models</h4>
+  <p><strong>Citazioni:</strong> Time-FFM (Liu et al., NeurIPS 2024). <strong>Ruolo:</strong> adjacent work obbligatorio; costruire il contrasto architetturale. <strong>Contrasto (chiave):</strong> Time-FFM = distributed TS → learned representation/foundation model → parameter federation → forecasting; il nostro = distributed TS → deterministic evidence abstraction → local LLM reasoning → textual insight federation → recognition of locally unseen faults.</p>
+</div>
+<div class="panel">
+  <h4>Corrente D — Deterministic TS → structured/text representation</h4>
+  <p><strong>Citazioni:</strong> T2SP (arXiv:2606.12481), TRUCE (EMNLP 2021), ESAX (IEEE TIM 2022), SAX_HAR-LLM <span class="tag toverify">TO VERIFY</span>. <strong>Ruolo:</strong> stabilire che astrazioni deterministiche TS→testo sono interfacce note → il verbalizer NON è la nostra novelty primaria. <strong>Contrasto:</strong> "…queste forniscono l'interfaccia; il nostro contributo è la valutazione controllata del <em>trasferimento</em>, non l'interfaccia."</p>
+</div>
+<div class="panel">
+  <h4>Corrente E — Federated NL / LLM-agent knowledge sharing (incl. FoT)</h4>
+  <p><strong>Citazioni:</strong> Yao et al. 2026 (FoT), Federated In-Context LLM Agent Learning (arXiv:2412.08054), FedMeta-FFD <span class="tag toverify">TO VERIFY</span> e FedCKD (class/label-exclusive federated KD) per il fault diagnosis federato class-disjoint. <strong>Ruolo:</strong> mostrare che la federazione di conoscenza in linguaggio naturale non nasce con noi. <strong>Contrasto (gap finale):</strong> "…ma nessuno, per quanto rivisto, valuta il trasferimento testuale su evidenza temporale multivariata con esperienza missing-class non-IID e un controllo di specificità semantica." Questa frase è ciò che Table 1 visualizza.</p>
+</div>
+<p class="pill">Ordine consigliato di lettura per il reviewer: A → B → C → D → E, così il gap si stringe progressivamente da "parametri" a "testo su TS class-disjoint". Chiudi §2 con l'unica frase-gap, non con un elenco.</p>
+
+<!-- ============ F ============ -->
+<h2 id="F"><span class="sec">F</span> Three final contribution statements</h2>
+<p>Massimo tre, forti ma sostenibili. Testo quasi paper-ready:</p>
+<div class="panel">
+  <p><strong>C1.</strong> We present a <em>controlled adaptation and evaluation</em> of Federation over Text to heterogeneous multivariate time-series experience, in which agents hold class-disjoint local fault knowledge expressed through opaque pseudolabels and must recognize locally unseen fault conditions by consuming only peer-derived textual insights — without exchanging raw time-series observations.</p>
+  <p><strong>C2.</strong> We introduce a <em>semantic-specificity evaluation</em> that isolates whether the transfer benefit stems from the correctness of the pseudolabel–pattern associations rather than from the presence or volume of text, via a matched corruption control (identical bundle, zero-fixed-point derangement of associations); in the frozen Tennessee Eastman study this benefit is large (locally-unseen recognition 0% → 86.1%) and collapses under corruption (→ 8.3%).</p>
+  <p><strong>C3.</strong> We provide an <em>auditable, pre-specified evaluation protocol</em> — physical-run clustered bootstrap, matched conditions, and frozen artifacts — extended along a cross-model portability dimension (consumer-only) and a fresh-run prospective replication, together with a communication <em>payload characterization</em> of the exchanged textual knowledge under a stated serialization convention.</p>
+</div>
+<p class="pill">Nota novelty: la novelty è la <em>combinazione + evaluation design</em>, non i singoli componenti. Usare "to the best of our review, we did not identify…" invece di "first ever".</p>
+
+<!-- ============ G ============ -->
+<h2 id="G"><span class="sec">G</span> Figure / Table plan</h2>
+<p>Preferenza per poche figure ad alta densità. Piano entro 10 pagine:</p>
+<div class="scroll">
+<table>
+  <tr><th>#</th><th>Titolo</th><th>Contenuto</th><th>Perché serve</th><th>Priorità</th></tr>
+  <tr>
+    <td class="n">Fig 1</td><td>System / pipeline overview</td>
+    <td>local multivariate TS → deterministic evidence (V2) → local reasoning → local insight → peer textual federation → receiver diagnosis. Evidenziare che raw resta locale.</td>
+    <td>Dà al reviewer il modello mentale in un colpo d'occhio; mostra dove il testo sostituisce i raw.</td>
+    <td><span class="tag must">MUST</span></td>
+  </tr>
+  <tr>
+    <td class="n">Fig 2</td><td>Experimental A/B/E design</td>
+    <td>A = no peer info · B = semantically correct peer insights · E = stesso bundle testuale ma associazione pseudolabel corrotta (derangement). Rendere visivo che B ed E differiscono solo nella correttezza semantica.</td>
+    <td>È la figura che dimostra il controllo di specificità semantica — cuore della tesi.</td>
+    <td><span class="tag must">MUST</span></td>
+  </tr>
+  <tr>
+    <td class="n">Table 1</td><td>Relation to prior work</td>
+    <td>Colonne: method · distributed data · exchanged object · time-series · class-disjoint experience · natural-language knowledge · semantic-specificity evaluation. Righe: FedAvg, FedMD/FedProto/FedGen, Time-FFM, T2SP/TRUCE, FedMeta-FFD/FedCKD, FoT, ours.</td>
+    <td>Visualizza il gap senza rivendicare "first". Niente checkmark aggressivi; usare "—/partial/yes" prudenti.</td>
+    <td><span class="tag must">MUST</span></td>
+  </tr>
+  <tr>
+    <td class="n">Table 2</td><td>Exp1 main results</td>
+    <td>A/B/E su primary locally-unseen (n=36): accuracy, contrasti B−A/B−E, CI cluster bootstrap; per-agent B; preservation (local-seen 12/12, Normal 12/12); transfer analysis con caveat floor.</td>
+    <td>Il risultato principale, tutto in una tabella densa.</td>
+    <td><span class="tag must">MUST</span></td>
+  </tr>
+  <tr>
+    <td class="n">Table 3</td><td>Exp2 / Exp3 replication</td>
+    <td>Exp2 per-model (no pooling) + Exp3 fresh-run (separato da Exp1); placeholder <code>[EXP2/EXP3 RESULT TO INSERT]</code> se non disponibili.</td>
+    <td>Copre portabilità e replica; la struttura regge anche se parzialmente vuota.</td>
+    <td><span class="tag should">SHOULD</span></td>
+  </tr>
+  <tr>
+    <td class="n">§5.6</td><td>Communication payload (compact subsection o mini-table)</td>
+    <td>bytes per receiver / per unità, unique library, reference raw values, ratio ≈ 1.95–2.05e-4 sotto convenzione dichiarata.</td>
+    <td>Characterization descrittiva; non merita una figura piena.</td>
+    <td><span class="tag opt">OPTIONAL</span></td>
+  </tr>
+</table>
+</div>
+<p class="pill">Combinazione consigliata entro budget: 2 figure (Fig 1, Fig 2) + 3 tabelle (T1, T2, T3), payload come sotto-sezione compatta. Se lo spazio stringe, T3 può diventare in-text con i soli contrasti principali.</p>
+
+<!-- ============ H ============ -->
+<h2 id="H"><span class="sec">H</span> Results narrative (ordine)</h2>
+<p>Ordine fisso, ciascun passo prepara il successivo:</p>
+<div class="panel">
+  <ol class="tight">
+    <li><strong>Exp1 mechanism transfer (B vs A).</strong> 0% → 86.1%; CI [0.833, 0.917]; per-agent; caveat floor su harmed=0.</li>
+    <li><strong>Exp1 semantic specificity (B vs E).</strong> 86.1% → 8.3%; CI B−E [0.722, 0.833]; il beneficio dipende dalla correttezza semantica, non dal volume di testo.</li>
+    <li><strong>Preservation.</strong> local-seen 12/12 e Normal 12/12 in A/B/E; headline = unseen, non overall accuracy.</li>
+    <li><strong>Exp2 cross-model portability.</strong> per-model, consumer-only; <code>[EXP2 RESULT TO INSERT]</code> se assente.</li>
+    <li><strong>Exp3 fresh-run replication.</strong> separato da Exp1 (primary); pooled solo secondary descriptive; <code>[EXP3 RESULT TO INSERT]</code> se assente.</li>
+    <li><strong>Communication payload characterization.</strong> descrittivo; ratio sotto convenzione dichiarata; NON efficiency/compression.</li>
+  </ol>
+  <p class="pill" style="margin-bottom:0">Nessun numero Exp2/Exp3 inventato: usare i placeholder marcati. L'argomento resta valido con i soli Exp1 results, che sono frozen.</p>
+</div>
+
+<!-- ============ I ============ -->
+<h2 id="I"><span class="sec">I</span> Discussion structure</h2>
+<div class="grid2">
+  <div class="panel">
+    <h4>Findings</h4>
+    <ul class="tight">
+      <li>Il trasferimento testuale peer abilita il riconoscimento di condizioni locally unseen (B≫A).</li>
+      <li>Il beneficio è semanticamente specifico (B≫E con bundle identico).</li>
+      <li>Le classi note sono preservate.</li>
+      <li>Raw observations non scambiate.</li>
+      <li>Se confermato: portabilità cross-model (consumer) e replica fresh-run.</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h4>Interpretation</h4>
+    <p>La correttezza dell'associazione pseudolabel–pattern è il veicolo dell'informazione discriminativa; il testo è condizione necessaria ma non sufficiente. FoT si colloca all'estremo semantico della traiettoria dell'oggetto federato.</p>
+  </div>
+  <div class="panel">
+    <h4>Relation to previous work</h4>
+    <p>Contrasto con Time-FFM (parameter federation su rappresentazioni apprese) e con FoT originale (task testuali/reasoning): estendiamo la valutazione a evidenza temporale multivariata class-disjoint con controllo di specificità. Il verbalizer poggia su T2SP/TRUCE/ESAX (non è la novelty).</p>
+  </div>
+  <div class="panel">
+    <h4>Limitations (esplicite)</h4>
+    <ul class="tight">
+      <li>single simulated industrial process; only four fault classes; limited client count.</li>
+      <li>original insights da un solo producer model; Exp2 = consumer-only portability, non end-to-end model generality.</li>
+      <li>no formal privacy guarantees; no parameter-FL comparison; no superiority-to-centralization claim.</li>
+      <li>no PV evaluation; communication characterization ≠ communication efficiency.</li>
+    </ul>
+  </div>
+</div>
+<div class="panel">
+  <h4>Implications</h4>
+  <p>La federazione di conoscenza testuale è una modalità di collaborazione praticabile quando i raw restano locali e le label sono scarse/opache — utile come componente, non come sostituto del parameter-FL. Mostrare perché le limitazioni non invalidano la RQ controllata: la RQ è di <em>feasibility/mechanism</em> in un setting con ground truth verificabile, non di generalizzazione o superiorità.</p>
+  <h4>PV future transition (breve, disciplinata)</h4>
+  <div class="quote">"Having established the feasibility of the knowledge-transfer mechanism under controlled temporal conditions, the subsequent phase evaluates whether this capability persists in the substantially more complex photovoltaic domain."</div>
+  <p class="pill">Non trasformare il future work in contributo corrente.</p>
+</div>
+
+<!-- ============ J ============ -->
+<h2 id="J"><span class="sec">J</span> Page budget (10 pp IEEE, references incluse)</h2>
+<div class="scroll">
+<table>
+  <tr><th>Macro-sezione</th><th>Pagine (≈)</th><th>Colonne (≈)</th><th>Note</th></tr>
+  <tr><td class="n">Abstract + Introduction</td><td>1.25</td><td>2.5</td><td>Include Fig 1 se ancorata qui; 7 paragrafi compatti.</td></tr>
+  <tr><td class="n">Related Work</td><td>1.25</td><td>2.5</td><td>5 correnti + Table 1.</td></tr>
+  <tr><td class="n">Method (§3)</td><td>1.5</td><td>3.0</td><td>Verbalizer ≤0.6 col; Fig 1 se non in §1.</td></tr>
+  <tr><td class="n">Evaluation Protocol (§4)</td><td>1.5</td><td>3.0</td><td>A/B/E + statistica + Exp1/2/3; Fig 2.</td></tr>
+  <tr><td class="n">Results (§5)</td><td>1.75</td><td>3.5</td><td>Table 2, Table 3, payload subsection.</td></tr>
+  <tr><td class="n">Discussion (§6)</td><td>1.0</td><td>2.0</td><td>Findings / not-established / limitations / PV.</td></tr>
+  <tr><td class="n">Conclusion (§7)</td><td>0.5</td><td>1.0</td><td>Tesi + transizione PV.</td></tr>
+  <tr><td class="n">References</td><td>1.0</td><td>2.0</td><td>~18–22 riferimenti two-column.</td></tr>
+  <tr><td class="n" style="font-weight:800">Totale</td><td style="font-weight:800">9.75</td><td style="font-weight:800">—</td><td>~0.25 pp di margine per overflow tabelle.</td></tr>
+</table>
+</div>
+<p class="pill">Se lo spazio si stringe: comprimere §3.3 (verbalizer) e trasformare Table 3 in in-text. Il margine di 0.25 pp è deliberato: le tabelle IEEE two-column spesso sforano.</p>
+
+<!-- ============ K ============ -->
+<h2 id="K"><span class="sec">K</span> Reviewer red-team + struttura finale corretta</h2>
+<p>Mi comporto ora da reviewer ostile di IEEE BigData. Sette attacchi plausibili e la correzione strutturale per ciascuno.</p>
+
+<div class="panel">
+  <h4>R1 — "Contribution buried"</h4>
+  <p><strong>Attacco:</strong> il contributo (evaluation design + semantic specificity) rischia di annegare tra descrizione del testbed e del verbalizer. <strong>Fix:</strong> anticipare i numeri (0/86/8) in Introduction P6; C2 (semantic specificity) come contributo esplicito; Fig 2 come figura MUST; §5.2 è il climax dei Results.</p>
+</div>
+<div class="panel">
+  <h4>R2 — "Troppo spazio al verbalizer"</h4>
+  <p><strong>Attacco:</strong> se §3.3 cresce, il paper sembra su representation learning. <strong>Fix:</strong> cap rigido ≤0.6 colonne; frase esplicita "the evidence interface is enabling, not the contribution"; ancorare a T2SP/TRUCE per dire che è un'interfaccia nota. Nessun V3.</p>
+</div>
+<div class="panel">
+  <h4>R3 — "Related Work debole / FL positioning ambiguo"</h4>
+  <p><strong>Attacco:</strong> "è davvero federated learning?" oppure "manca il confronto con parameter-FL". <strong>Fix:</strong> Corrente A definisce cosa NON facciamo; la traiettoria dell'oggetto federato (Corrente B) colloca FoT senza rivendicare sostituzione di FedAvg; Discussion dichiara esplicitamente "no parameter-FL comparison" come limitazione scelta, non dimenticanza. Terminologia prudente ovunque (federated textual knowledge transfer).</p>
+</div>
+<div class="panel">
+  <h4>R4 — "Evaluation troppo complessa"</h4>
+  <p><strong>Attacco:</strong> A/B/E + R=3 + cluster bootstrap + Exp1/2/3 confondono. <strong>Fix:</strong> sezione §4 dedicata (motivo dello scostamento dalla struttura utente); Fig 2 per A/B/E; una frase che dichiara l'unità statistica (physical run, non agent-case) e "pre-specified, not preregistered". Table 2 concentra tutto Exp1.</p>
+</div>
+<div class="panel">
+  <h4>R5 — "PV distraction"</h4>
+  <p><strong>Attacco:</strong> il PV compare ma non è valutato → over-claim o fuori tema. <strong>Fix:</strong> PV solo in Introduction P5 (motivazione) e Conclusion (future work); Abstract usa "distributed industrial monitoring"; nessun dato/dettaglio PV; guard-rail espliciti nel §D.</p>
+</div>
+<div class="panel">
+  <h4>R6 — "Claims troppo forti"</h4>
+  <p><strong>Attacco:</strong> parole come efficient/robust/privacy/generalizable/model-general. <strong>Fix:</strong> claim policy applicata: payload = characterization (non efficiency); Exp2 = cross-model portability (non model-general); Exp3 = fresh-run replication (non generalization); harmed=0 con caveat floor; "to the best of our review" invece di "first".</p>
+</div>
+<div class="panel">
+  <h4>R7 — "harmed=0 e n piccolo"</h4>
+  <p><strong>Attacco:</strong> "no negative transfer" non è dimostrabile con floor 0/36; N=4 client, 4 fault. <strong>Fix:</strong> dichiarare esplicitamente il limite del floor; riportare per-agent e CI cluster bootstrap; inquadrare come studio di feasibility/mechanism, non di scala. Limitazioni "limited client count / four fault classes" già elencate.</p>
+</div>
+
+<div class="ok">
+  <h4 style="margin-top:0">Struttura finale corretta (post red-team)</h4>
+  <p>La struttura a 7 sezioni proposta in §C regge agli attacchi con le seguenti <strong>tre correzioni confermate</strong>: (1) <em>Evaluation Protocol</em> come sezione §4 separata dal Metodo §3 — assorbe R4 e R7; (2) verbalizer confinato in §3.3 con cap di spazio — assorbe R2; (3) numeri-chiave anticipati in Introduction e semantic specificity elevata a contributo/figura MUST — assorbe R1. Nessun'altra modifica strutturale è necessaria: la sequenza Introduction → Related Work → Method → Evaluation Protocol → Results → Discussion → Conclusion è quella raccomandata per la submission.</p>
+</div>
+
+<!-- ============ REFS ============ -->
+<h2 id="refs">Bibliography backbone — stato di verifica</h2>
+<div class="warn">Regola: nessun riferimento inventato. Le voci <span class="tag toverify">TO VERIFY</span> vanno confermate (titolo, autori, anno, venue, DOI/arXiv) prima della submission; finché non confermate, non usarle come fatto consolidato. Le voci ✅ sono state verificate via web in questa sessione (settembre 2026).</p>
+</div>
+<div class="scroll">
+<table>
+  <tr><th>Key</th><th>Riferimento</th><th>Ruolo nel paper</th><th>Stato</th></tr>
+  <tr><td class="n">Yao 2026 (FoT)</td><td>D. Yao, T. Rabbani, M. Zaheer, T. Li. "Federation over Text: Insight Sharing for Multi-Agent Reasoning." 2026. arXiv:2604.16778.</td><td>Metodo di riferimento (adattato, non proposto).</td><td><span class="tag ver">VERIFIED</span></td></tr>
+  <tr><td class="n">McMahan 2017</td><td>McMahan et al. "Communication-Efficient Learning of Deep Networks from Decentralized Data." AISTATS 2017. (FedAvg)</td><td>Definisce cosa NON facciamo (parameter aggregation).</td><td><span class="tag ver">VERIFIED</span> (classic)</td></tr>
+  <tr><td class="n">FedMD</td><td>Li & Wang. "FedMD: Heterogenous Federated Learning via Model Distillation." NeurIPS 2019 workshop.</td><td>Traiettoria oggetto federato (distillation).</td><td><span class="tag toverify">VERIFY</span> venue/anno</td></tr>
+  <tr><td class="n">FedProto</td><td>Tan et al. "FedProto: Federated Prototype Learning across Heterogeneous Clients." AAAI 2022.</td><td>Traiettoria (prototipi).</td><td><span class="tag toverify">VERIFY</span> dettagli</td></tr>
+  <tr><td class="n">FedGen</td><td>Zhu et al. "Data-Free Knowledge Distillation for Heterogeneous Federated Learning." ICML 2021.</td><td>Traiettoria (synthetic knowledge).</td><td><span class="tag toverify">VERIFY</span> dettagli</td></tr>
+  <tr><td class="n">Time-FFM</td><td>Liu et al. "Time-FFM: Towards LM-Empowered Federated Foundation Model for Time Series Forecasting." NeurIPS 2024. arXiv:2405.14252.</td><td>Adjacent FL-TS; contrasto architetturale.</td><td><span class="tag ver">VERIFIED</span></td></tr>
+  <tr><td class="n">T2SP</td><td>"Representing Time Series as Structured Programs for LLM Reasoning." 2026. arXiv:2606.12481. <em>(NB: titolo reale ≠ "Time-Series to Structured Programs")</em></td><td>Deterministic TS→structured come enabling interface.</td><td><span class="tag ver">VERIFIED</span></td></tr>
+  <tr><td class="n">TRUCE</td><td>H. Jhamtani, T. Berg-Kirkpatrick. "Truth-Conditional Captions for Time Series Data." EMNLP 2021. <em>(NB: "Truth-Conditional", non "truncated recursive")</em></td><td>Structured temporal descriptions / grounding.</td><td><span class="tag ver">VERIFIED</span></td></tr>
+  <tr><td class="n">ESAX</td><td>Zhao et al. Extended SAX symbolic temporal representation. IEEE TIM 2022.</td><td>Riferimento storico symbolic TS representation.</td><td><span class="tag toverify">VERIFY</span> titolo/DOI</td></tr>
+  <tr><td class="n">SAX_HAR-LLM</td><td>Pappa et al. Expert Systems with Applications 2026 (symbolic/LLM TS reasoning).</td><td>Esempio recente symbolic+LLM (solo se verificato).</td><td><span class="tag toverify">TO VERIFY</span> (non trovato)</td></tr>
+  <tr><td class="n">FedMeta-FFD</td><td>Chen et al., IEEE TNSE 2023. Candidato: "Industrial Edge Intelligence: Federated-Meta Learning Framework for Few-Shot Fault Diagnosis," IEEE.</td><td>Vicino parametrico in federated fault diagnosis / new-category.</td><td><span class="tag toverify">TO VERIFY</span> acronimo/venue/autori</td></tr>
+  <tr><td class="n">FedCKD</td><td>"FedCKD: A Knowledge Distillation Approach to Cross-client Learning in Federated Learning with Label-exclusive Datasets."</td><td>Cross-client / class-exclusive KD (analogo class-disjoint).</td><td><span class="tag ver">VERIFIED</span> titolo · <span class="tag toverify">VERIFY</span> venue/anno</td></tr>
+  <tr><td class="n">FedICL-Agent</td><td>"Federated In-Context LLM Agent Learning." 2024. arXiv:2412.08054.</td><td>NL knowledge federation tra agenti (precedente al nostro).</td><td><span class="tag ver">VERIFIED</span></td></tr>
+  <tr><td class="n">TEP</td><td>Downs & Vogel. "A plant-wide industrial process control problem." Computers & Chemical Engineering, 1993.</td><td>Testbed (controlled proving ground).</td><td><span class="tag ver">VERIFIED</span> (classic)</td></tr>
+</table>
+</div>
+
+<div class="footer">
+  <p><strong>Guiding principle (da mantenere in ogni sezione).</strong> The authors do not claim to have invented Federation over Text or time-series verbalization. Instead, they provide a carefully controlled, auditable evaluation showing that semantically correct textual knowledge can transfer discriminative information across agents with class-disjoint multivariate temporal experience, while raw time-series observations remain local.</p>
+  <p>Working note prodotta come supporto alla progettazione del manoscritto (fase di design strutturale, non stesura). Riferimenti verificati via ricerca web a settembre 2026; le voci contrassegnate TO VERIFY richiedono conferma bibliografica prima della submission.</p>
+</div>
+
+</div>
+</body>
+</html>

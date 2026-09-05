@@ -252,7 +252,7 @@ flowchart LR
 ```
 
 TEP è quindi un banco di prova intermedio, non la destinazione applicativa.
-Lo stato storico più antico conservato in `FoT_setup_prompt_server.md` parte dal
+Lo stato storico più antico conservato in `docs/prompts/FoT_setup_prompt_server.md` parte dal
 paradigma del lavoro *Federation over Text: Insight Sharing for Multi-Agent
 Reasoning*: agenti con LLM frozen distillano reasoning trace in insight, che
 vengono aggregati e ridistribuiti come testo, senza gradienti né fine-tuning.
@@ -266,7 +266,7 @@ da una futura idea personalizzata con contesto \(G_i\) per client e
 `harmed-client rate`. Quella variante non è stata testata nel PoC TEP. La
 Phase B ha invece adottato una topologia peer-only deterministica per isolare il
 trasferimento su classi unseen. La formulazione successiva della Phase A è in
-`PROJECT_UNDERSTANDING.md`; la chiusura canonica è
+`docs/PROJECT_UNDERSTANDING.md`; la chiusura canonica è
 `FOT_TEP_POC_FINAL_SYNTHESIS.md`.
 
 ### Problemi incontrati e decisioni
@@ -1091,7 +1091,7 @@ La S-function usa `Parameters=[] rand()`: run successivi ricevono valori
 successivi di MATLAB `rand()`. Nessun `rng(seed)` manuale è nei generatori e lo
 stato RNG iniziale non fu registrato. Si può quindi documentare la produzione
 di repliche stocastiche distinte, ma non promettere replay bitwise dai soli
-script. Un documento Phase A precedente, `PROJECT_UNDERSTANDING.md`, marcava
+script. Un documento Phase A precedente, `docs/PROJECT_UNDERSTANDING.md`, marcava
 ancora come non disponibile il controllo empirico pre/post 10 h e manteneva il
 default `InitialOutput=0` come caveat aperto. La successiva closure
 `INJECTION_TIME_VERIFICATION.md` ha aggiunto il controllo development-only:
@@ -2590,7 +2590,7 @@ Associare ogni artefatto a funzione, fase, stato e momento di lettura.
 | Path | Funzione | Fase/stato | Quando leggerlo |
 |---|---|---|---|
 | `FOT_TEP_POC_FINAL_SYNTHESIS.md` | claim finale canonica | post-results | primo per interpretare risultati |
-| `PROJECT_UNDERSTANDING.md` | contesto/visione | storico | per origine e lessico |
+| `docs/PROJECT_UNDERSTANDING.md` | contesto/visione | storico | per origine e lessico |
 | `code/tep_characterize.py`, `code/tep_verbalize.py` | prototipo V1 | superseded | per capire gli errori iniziali |
 | `code/tep_features.py` | feature numeriche | Phase A frozen | prima del verbalizer |
 | `code/verbalizer_config_v2.json` | soglie e tempi | Phase A frozen | con il codice V2 |
