@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
+import argparse
 import hashlib
 import importlib.metadata
 import json
@@ -10,6 +11,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 import jsonschema
 
@@ -344,23 +346,187 @@ class Exp3V2EvaluationTests(unittest.TestCase):
         tampered = evaluator.output_manifest(result_bytes + b" ", bootstrap_bytes)
         self.assertNotEqual(first["inventory_sha256"], tampered["inventory_sha256"])
 
-    def test_draft_manifest_blocks_production_before_runtime_or_inputs(self) -> None:
-        frozen_manifest_path = HERE / "EXP3_V2_EVALUATION_HARNESS_MANIFEST_001.json"
-        draft = evaluator.load_json(frozen_manifest_path)
+    def test_manifest_test_remains_valid_before_and_after_freeze(self) -> None:
+        manifest_path = HERE / "EXP3_V2_EVALUATION_HARNESS_MANIFEST_002.json"
+        canonical_manifest = evaluator.load_json(manifest_path)
+        schema = evaluator.load_json(
+            HERE / "evaluation_schemas" / evaluator.HARNESS_SCHEMA
+        )
+        jsonschema.Draft202012Validator(schema).validate(canonical_manifest)
+        self.assertIn(
+            canonical_manifest["status"],
+            {"PRE_FREEZE_DRAFT", evaluator.FROZEN_STATUS},
+        )
+        draft = deepcopy(canonical_manifest)
         draft["status"] = "PRE_FREEZE_DRAFT"
         draft["tag_created"] = False
-        schema = evaluator.load_json(
-            HERE / "evaluation_schemas/exp3v2_evaluation_harness_manifest.schema.json"
-        )
         jsonschema.Draft202012Validator(schema).validate(draft)
-        self.assertEqual(draft["status"], "PRE_FREEZE_DRAFT")
-        self.assertFalse(draft["tag_created"])
 
         with tempfile.TemporaryDirectory() as temporary:
-            draft_path = Path(temporary) / frozen_manifest_path.name
+            draft_path = Path(temporary) / manifest_path.name
             draft_path.write_bytes(evaluator.canonical_json_bytes(draft))
             with self.assertRaisesRegex(RuntimeError, "not frozen"):
                 evaluator.validate_harness_boundary(draft_path)
+
+    @staticmethod
+    def synthetic_run_args(output_root: Path) -> argparse.Namespace:
+        return argparse.Namespace(
+            harness_manifest=Path("/synthetic/harness-manifest.json"),
+            source_root=Path("/synthetic/source"),
+            data_root=Path("/synthetic/data"),
+            verbalization_harness_root=Path("/synthetic/verbalization-harness"),
+            verbalizations_root=Path("/synthetic/verbalizations"),
+            inference_harness_root=Path("/synthetic/inference-harness"),
+            authorization_root=Path("/synthetic/authorization"),
+            inference_root=Path("/synthetic/inference"),
+            output_root=output_root,
+        )
+
+    @staticmethod
+    def reservation_manifest(output_root: Path) -> dict:
+        return {
+            "future_execution": {"output_root": str(output_root)},
+            "inputs": {
+                name: {"path": f"synthetic/{name}", "size_bytes": 0, "sha256": "0" * 64}
+                for name in (
+                    "case_plan",
+                    "data_manifest",
+                    "pseudolabel_mapping",
+                    "aggregate_records",
+                )
+            },
+        }
+
+    def test_missing_parent_is_created_and_reserved_before_scientific_input(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            output_root = Path(temporary) / "dedicated-parent" / "output"
+            manifest = self.reservation_manifest(output_root)
+            events: list[str] = []
+            real_reserve = evaluator.reserve_output_root
+
+            def reserve(path: Path, value: dict) -> Path:
+                events.append("reservation")
+                return real_reserve(path, value)
+
+            with (
+                mock.patch.object(
+                    evaluator,
+                    "validate_harness_boundary",
+                    side_effect=lambda _: (
+                        events.append("boundary") or (manifest, Path(temporary))
+                    ),
+                ),
+                mock.patch.object(
+                    evaluator,
+                    "validate_upstream_checkouts",
+                    side_effect=lambda *_: events.append("upstream"),
+                ),
+                mock.patch.object(
+                    evaluator,
+                    "verify_runtime",
+                    side_effect=lambda: events.append("runtime"),
+                ),
+                mock.patch.object(
+                    evaluator, "reserve_output_root", side_effect=reserve
+                ),
+                mock.patch.object(
+                    evaluator,
+                    "verify_file",
+                    side_effect=lambda *_: (
+                        events.append("input")
+                        or (_ for _ in ()).throw(RuntimeError("synthetic stop"))
+                    ),
+                ),
+                mock.patch.object(evaluator.np.random, "default_rng") as rng,
+            ):
+                with self.assertRaisesRegex(RuntimeError, "synthetic stop"):
+                    evaluator.run(self.synthetic_run_args(output_root))
+            self.assertEqual(
+                events, ["boundary", "upstream", "runtime", "reservation", "input"]
+            )
+            self.assertTrue(output_root.parent.is_dir())
+            self.assertTrue(output_root.is_dir())
+            rng.assert_not_called()
+
+    def test_existing_output_refuses_before_input_or_rng(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            output_root = Path(temporary) / "dedicated-parent" / "output"
+            output_root.mkdir(parents=True)
+            manifest = self.reservation_manifest(output_root)
+            with (
+                mock.patch.object(
+                    evaluator,
+                    "validate_harness_boundary",
+                    return_value=(manifest, Path(temporary)),
+                ),
+                mock.patch.object(evaluator, "validate_upstream_checkouts"),
+                mock.patch.object(evaluator, "verify_runtime"),
+                mock.patch.object(evaluator, "verify_file") as verify_file,
+                mock.patch.object(evaluator.np.random, "default_rng") as rng,
+            ):
+                with self.assertRaisesRegex(RuntimeError, "must not exist"):
+                    evaluator.run(self.synthetic_run_args(output_root))
+            verify_file.assert_not_called()
+            rng.assert_not_called()
+
+    def test_symlink_and_non_directory_parent_refuse_before_inputs(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            target = base / "target"
+            target.mkdir()
+            symlink_parent = base / "symlink-parent"
+            symlink_parent.symlink_to(target, target_is_directory=True)
+            symlink_output = symlink_parent / "output"
+            with self.assertRaisesRegex(RuntimeError, "symlink"):
+                evaluator.reserve_output_root(
+                    symlink_output, self.reservation_manifest(symlink_output)
+                )
+
+            file_parent = base / "file-parent"
+            file_parent.write_text("synthetic\n", encoding="utf-8")
+            file_output = file_parent / "output"
+            with self.assertRaisesRegex(RuntimeError, "not a directory"):
+                evaluator.reserve_output_root(
+                    file_output, self.reservation_manifest(file_output)
+                )
+
+    def test_failure_after_reservation_retains_root_without_retry(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            output_root = Path(temporary) / "dedicated-parent" / "output"
+            manifest = self.reservation_manifest(output_root)
+            with (
+                mock.patch.object(
+                    evaluator,
+                    "validate_harness_boundary",
+                    return_value=(manifest, Path(temporary)),
+                ),
+                mock.patch.object(evaluator, "validate_upstream_checkouts"),
+                mock.patch.object(evaluator, "verify_runtime"),
+                mock.patch.object(
+                    evaluator,
+                    "verify_file",
+                    side_effect=RuntimeError("synthetic post-reservation failure"),
+                ) as verify_file,
+                mock.patch.object(evaluator.np.random, "default_rng") as rng,
+            ):
+                with self.assertRaisesRegex(RuntimeError, "post-reservation"):
+                    evaluator.run(self.synthetic_run_args(output_root))
+            self.assertTrue(output_root.is_dir())
+            self.assertEqual(verify_file.call_count, 1)
+            rng.assert_not_called()
+
+    def test_wrong_output_path_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary:
+            authorized = Path(temporary) / "authorized" / "output"
+            wrong = Path(temporary) / "wrong" / "output"
+            with self.assertRaisesRegex(RuntimeError, "differs from frozen"):
+                evaluator.reserve_output_root(
+                    wrong, self.reservation_manifest(authorized)
+                )
+            self.assertFalse(authorized.parent.exists())
+            self.assertFalse(wrong.parent.exists())
 
     def test_clean_detached_annotated_tag_enforcement(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
@@ -570,10 +736,14 @@ class Exp3V2EvaluationTests(unittest.TestCase):
 
             harness = base / "harness"
             harness.mkdir()
-            allowlist = evaluator.load_json(
-                HERE / "EXP3_V2_EVALUATION_HARNESS_MANIFEST_001.json"
-            )["freeze_commit_allowlist"]
-            for relative in allowlist:
+            candidate_manifest = evaluator.load_json(
+                HERE / "EXP3_V2_EVALUATION_HARNESS_MANIFEST_002.json"
+            )
+            harness_paths = [
+                *[item["path"] for item in candidate_manifest["harness_artifacts"]],
+                "phase_b/exp3_v2/EXP3_V2_EVALUATION_HARNESS_MANIFEST_002.json",
+            ]
+            for relative in harness_paths:
                 source = ROOT / relative
                 destination = harness / relative
                 destination.parent.mkdir(parents=True, exist_ok=True)
@@ -583,7 +753,7 @@ class Exp3V2EvaluationTests(unittest.TestCase):
             config["status"] = "FROZEN_BEFORE_EVALUATION"
             config_path.write_bytes(canonical(config))
             manifest_path = (
-                harness / "phase_b/exp3_v2/EXP3_V2_EVALUATION_HARNESS_MANIFEST_001.json"
+                harness / "phase_b/exp3_v2/EXP3_V2_EVALUATION_HARNESS_MANIFEST_002.json"
             )
             manifest = json.loads(manifest_path.read_text())
             manifest["status"] = evaluator.FROZEN_STATUS
@@ -616,13 +786,19 @@ class Exp3V2EvaluationTests(unittest.TestCase):
                 binding["size_bytes"] = path.stat().st_size
                 binding["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
             manifest_path.write_bytes(canonical(manifest))
+            output_root = base / "initially-absent-parent" / "output"
+            manifest["future_execution"]["output_root"] = str(output_root)
+            manifest_path.write_bytes(canonical(manifest))
             initialize_tagged_repo(
                 harness,
                 evaluator.HARNESS_TAG,
-                {relative: (harness / relative).read_bytes() for relative in allowlist},
+                {
+                    relative: (harness / relative).read_bytes()
+                    for relative in harness_paths
+                },
             )
 
-            output_root = base / "output"
+            self.assertFalse(output_root.parent.exists())
             command = [
                 sys.executable,
                 str(harness / "phase_b/exp3_v2/evaluate_exp3v2_frozen_predictions.py"),

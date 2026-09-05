@@ -27,7 +27,8 @@ import numpy as np
 
 HERE = Path(__file__).resolve().parent
 SCHEMA_DIR = HERE / "evaluation_schemas"
-HARNESS_TAG = "exp3-v2-evaluation-harness-frozen-001"
+HARNESS_TAG = "exp3-v2-evaluation-harness-frozen-002"
+HARNESS_SCHEMA = "exp3v2_evaluation_harness_manifest_002.schema.json"
 FROZEN_STATUS = "HARNESS_FROZEN_BEFORE_EVALUATION"
 AGENTS = ("agent_1", "agent_2", "agent_3", "agent_4")
 CONDITIONS = ("A", "B", "E")
@@ -139,7 +140,7 @@ def verify_file(path: Path, binding: dict[str, Any]) -> None:
 def validate_harness_boundary(manifest_path: Path) -> tuple[dict[str, Any], Path]:
     harness_root = manifest_path.resolve().parents[2]
     manifest = load_json(manifest_path)
-    validate_schema(manifest, "exp3v2_evaluation_harness_manifest.schema.json")
+    validate_schema(manifest, HARNESS_SCHEMA)
     if manifest["status"] != FROZEN_STATUS or manifest["tag_created"] is not True:
         raise RuntimeError("evaluation harness is not frozen")
     if manifest["prospective_tag"] != HARNESS_TAG:
@@ -632,6 +633,46 @@ def atomic_write_new(path: Path, content: bytes) -> None:
     temporary.replace(path)
 
 
+def reserve_output_root(requested: Path, manifest: dict[str, Any]) -> Path:
+    authorized_text = manifest.get("future_execution", {}).get("output_root")
+    if (
+        not isinstance(authorized_text, str)
+        or not requested.is_absolute()
+        or str(requested) != authorized_text
+    ):
+        raise RuntimeError("evaluation output path differs from frozen authorization")
+
+    output_root = requested
+    parent = output_root.parent
+    if parent.is_symlink():
+        raise RuntimeError("evaluation output parent is a symlink")
+    if parent.exists():
+        if not parent.is_dir():
+            raise RuntimeError("evaluation output parent is not a directory")
+    else:
+        parent_parent = parent.parent
+        if parent_parent.is_symlink() or not parent_parent.is_dir():
+            raise RuntimeError("dedicated evaluation output parent cannot be created")
+        try:
+            parent.mkdir(mode=0o700, parents=False, exist_ok=False)
+        except FileExistsError as error:
+            raise RuntimeError(
+                "evaluation output parent appeared concurrently"
+            ) from error
+        if parent.is_symlink() or not parent.is_dir():
+            raise RuntimeError("created evaluation output parent is invalid")
+
+    if output_root.exists() or output_root.is_symlink():
+        raise RuntimeError("evaluation output root must not exist")
+    try:
+        output_root.mkdir(mode=0o700, parents=False, exist_ok=False)
+    except FileExistsError as error:
+        raise RuntimeError("evaluation output root already exists") from error
+    if output_root.is_symlink() or not output_root.is_dir():
+        raise RuntimeError("reserved evaluation output root is invalid")
+    return output_root
+
+
 def run(args: argparse.Namespace) -> dict[str, Any]:
     manifest_path = args.harness_manifest.resolve()
     manifest, _ = validate_harness_boundary(manifest_path)
@@ -645,10 +686,8 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
         "inference_outputs": args.inference_root.resolve(),
     }
     validate_upstream_checkouts(manifest, roots)
-    output_root = args.output_root.resolve()
-    if output_root.exists() or output_root.is_symlink():
-        raise RuntimeError("evaluation output root must not exist")
     verify_runtime()
+    output_root = reserve_output_root(args.output_root, manifest)
 
     inputs = manifest["inputs"]
     source = roots["source"]
@@ -682,7 +721,6 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     manifest_bytes = canonical_json_bytes(
         output_manifest(result_bytes, bootstrap_bytes)
     )
-    output_root.mkdir(parents=False, exist_ok=False)
     try:
         atomic_write_new(
             output_root / "exp3v2_confirmatory_bootstrap.json", bootstrap_bytes

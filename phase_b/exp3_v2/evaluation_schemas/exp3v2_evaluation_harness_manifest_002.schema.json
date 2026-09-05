@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EXP3_V2 evaluation harness recovery freeze manifest Revision 002",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version", "manifest_revision", "status", "prospective_tag",
+    "tag_created", "future_frozen_status", "non_self_referential", "package_scope",
+    "revision_001_boundary", "revision_001_failure", "upstream_tags",
+    "inputs", "scientific_contract", "runtime", "harness_artifacts",
+    "freeze_commit_allowlist", "output_reservation", "seed_recovery",
+    "future_execution", "future_results_freeze", "review_counters"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "manifest_revision": {"const": "002"},
+    "status": {"enum": ["PRE_FREEZE_DRAFT", "HARNESS_FROZEN_BEFORE_EVALUATION"]},
+    "prospective_tag": {"const": "exp3-v2-evaluation-harness-frozen-002"},
+    "tag_created": {"type": "boolean"},
+    "future_frozen_status": {"const": "HARNESS_FROZEN_BEFORE_EVALUATION"},
+    "non_self_referential": {"const": true},
+    "package_scope": {"const": "MINIMAL_CONFIRMATORY_ONLY"},
+    "revision_001_boundary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["tag", "tag_object", "target_commit", "parent_commit", "manifest_sha256"],
+      "properties": {
+        "tag": {"const": "exp3-v2-evaluation-harness-frozen-001"},
+        "tag_object": {"const": "43163e51ebd4e592aaf3d03d7bec50c4cd0b63fb"},
+        "target_commit": {"const": "25dc65bba805f15836f09e9613505bf483199a4f"},
+        "parent_commit": {"const": "c62c871657c061826efda708aacd386779a16d02"},
+        "manifest_sha256": {"const": "d8454d13ed7299fdac690657fcacb731e8b8b6f0c0cebf2213af5adf1e7547cd"}
+      }
+    },
+    "revision_001_failure": {
+      "type": "object", "additionalProperties": false,
+      "required": ["records", "evaluator_invocations", "retries", "verifier_executions", "default_rng_invocations", "seed", "output_files_created", "output_root_final_state", "revision_exhausted"],
+      "properties": {
+        "records": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"$ref": "#/$defs/fileBinding"}},
+        "evaluator_invocations": {"const": 1},
+        "retries": {"const": 0},
+        "verifier_executions": {"const": 0},
+        "default_rng_invocations": {"const": 1},
+        "seed": {"const": 320031},
+        "output_files_created": {"const": 0},
+        "output_root_final_state": {"const": "ABSENT"},
+        "revision_exhausted": {"const": true}
+      }
+    },
+    "upstream_tags": {
+      "type": "array", "minItems": 7, "maxItems": 7,
+      "items": {"$ref": "#/$defs/tagBinding"}
+    },
+    "inputs": {
+      "type": "object", "additionalProperties": false,
+      "required": ["case_plan", "data_manifest", "pseudolabel_mapping", "aggregate_records"],
+      "properties": {
+        "case_plan": {"$ref": "#/$defs/fileBinding"},
+        "data_manifest": {"$ref": "#/$defs/fileBinding"},
+        "pseudolabel_mapping": {"$ref": "#/$defs/fileBinding"},
+        "aggregate_records": {"$ref": "#/$defs/fileBinding"}
+      }
+    },
+    "scientific_contract": {
+      "type": "object", "additionalProperties": false,
+      "required": ["config", "unchanged_from_revision_001", "draws", "seed", "rng", "quantile_method", "output_files"],
+      "properties": {
+        "config": {"$ref": "#/$defs/fileBinding"},
+        "unchanged_from_revision_001": {"const": true},
+        "draws": {"const": 10000},
+        "seed": {"const": 320031},
+        "rng": {"const": "numpy.random.default_rng"},
+        "quantile_method": {"const": "numpy.quantile default linear"},
+        "output_files": {"const": ["exp3v2_confirmatory_bootstrap.json", "exp3v2_confirmatory_results.json", "exp3v2_evaluation_output_hash_manifest.json"]}
+      }
+    },
+    "runtime": {
+      "type": "object", "additionalProperties": false,
+      "required": ["python_version", "numpy_version", "jsonschema_version", "requirements", "lock", "unchanged_from_revision_001"],
+      "properties": {
+        "python_version": {"const": "3.13.9"},
+        "numpy_version": {"const": "2.5.2"},
+        "jsonschema_version": {"const": "4.25.0"},
+        "requirements": {"$ref": "#/$defs/fileBinding"},
+        "lock": {"$ref": "#/$defs/fileBinding"},
+        "unchanged_from_revision_001": {"const": true}
+      }
+    },
+    "harness_artifacts": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/fileBinding"}},
+    "freeze_commit_allowlist": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+    "output_reservation": {
+      "const": {
+        "authorized_output_root": "/private/tmp/exp3v2-evaluation-run-001/output",
+        "create_missing_dedicated_parent": true,
+        "exclusive_no_overwrite": true,
+        "reject_symlinks": true,
+        "reject_non_directories": true,
+        "before_scientific_inputs": true,
+        "retain_after_failure": true,
+        "automatic_cleanup": false
+      }
+    },
+    "seed_recovery": {
+      "const": {
+        "seed": 320031,
+        "revision_001_default_rng_invocations": 1,
+        "revision_001_exhausted": true,
+        "revision_001_reuse_eligible": false,
+        "revision_002_mode": "PROSPECTIVE_DETERMINISTIC_REPLAY_SAME_STREAM",
+        "new_seed_selected": false,
+        "additional_draws": 0,
+        "authorized_by_draft": false,
+        "requires_post_freeze_audit": true,
+        "requires_separate_human_execution_approval": true
+      }
+    },
+    "future_execution": {
+      "type": "object", "additionalProperties": false,
+      "required": ["harness_parent_commit", "harness_root", "runtime", "output_root", "manifest_path", "output_root_must_not_exist", "output_files", "retry_policy", "authorized_by_draft", "requires_post_freeze_audit", "requires_separate_human_authorization"],
+      "properties": {
+        "harness_parent_commit": {"const": "25dc65bba805f15836f09e9613505bf483199a4f"},
+        "harness_root": {"const": "/private/tmp/exp3v2-evaluation-harness-002/worktree"},
+        "runtime": {"const": "/private/tmp/exp3v2-evaluation-runtime-001/bin/python3"},
+        "output_root": {"type": "string", "pattern": "^/"},
+        "manifest_path": {"const": "phase_b/exp3_v2/EXP3_V2_EVALUATION_HARNESS_MANIFEST_002.json"},
+        "output_root_must_not_exist": {"const": true},
+        "output_files": {"const": ["exp3v2_confirmatory_bootstrap.json", "exp3v2_confirmatory_results.json", "exp3v2_evaluation_output_hash_manifest.json"]},
+        "retry_policy": {"const": "NO_AUTOMATIC_RETRY_RETAIN_FAILURE_ROOT"},
+        "authorized_by_draft": {"const": false},
+        "requires_post_freeze_audit": {"const": true},
+        "requires_separate_human_authorization": {"const": true}
+      }
+    },
+    "future_results_freeze": {
+      "const": {
+        "prospective_tag": "exp3-v2-results-frozen-001",
+        "status": "NOT_CREATED",
+        "unchanged_from_revision_001": true
+      }
+    },
+    "review_counters": {
+      "const": {
+        "real_predictions_opened": 0,
+        "real_ground_truth_opened": 0,
+        "prediction_truth_joins": 0,
+        "real_metrics_calculated": 0,
+        "real_rng_invocations": 0,
+        "evaluation_executions": 0,
+        "replays": 0,
+        "scientific_output_files_created": 0,
+        "api_llm_calls": 0,
+        "credentials_accessed": 0,
+        "commits_created": 0,
+        "tags_created": 0,
+        "pushes": 0
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "PRE_FREEZE_DRAFT"}}},
+      "then": {"properties": {"tag_created": {"const": false}}}
+    },
+    {
+      "if": {"properties": {"status": {"const": "HARNESS_FROZEN_BEFORE_EVALUATION"}}},
+      "then": {"properties": {"tag_created": {"const": true}}}
+    }
+  ],
+  "$defs": {
+    "hash": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "fileBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["path", "size_bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "size_bytes": {"type": "integer", "minimum": 0},
+        "sha256": {"$ref": "#/$defs/hash"}
+      }
+    },
+    "tagBinding": {
+      "type": "object", "additionalProperties": false,
+      "required": ["role", "tag", "tag_object", "peeled_commit", "manifest_path", "manifest_sha256"],
+      "properties": {
+        "role": {"enum": ["source", "data", "verbalization_harness", "verbalizations", "inference_harness", "execution_authorization", "inference_outputs"]},
+        "tag": {"type": "string"},
+        "tag_object": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "peeled_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "manifest_path": {"type": "string"},
+        "manifest_sha256": {"$ref": "#/$defs/hash"}
+      }
+    }
+  }
+}

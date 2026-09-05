@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "record_type": "EXP3_V2_EVALUATION_EXECUTION_FAILURE",
+  "record_status": "REVIEW_ONLY_DRAFT_FOR_PERMANENT_RECORD",
+  "evaluation_invocation_timestamp": null,
+  "frozen_boundary_identity": {
+    "harness_revision": "001",
+    "harness_tag": "exp3-v2-evaluation-harness-frozen-001",
+    "tag_object": "43163e51ebd4e592aaf3d03d7bec50c4cd0b63fb",
+    "target_commit": "25dc65bba805f15836f09e9613505bf483199a4f",
+    "parent_commit": "c62c871657c061826efda708aacd386779a16d02",
+    "frozen_manifest_sha256": "d8454d13ed7299fdac690657fcacb731e8b8b6f0c0cebf2213af5adf1e7547cd",
+    "frozen_config_sha256": "5d836027adb493c7c12d3fa495696960a1f208ddaa9b102a7d1d5ba551b6ffdb",
+    "frozen_protocol_sha256": "8f9b7706a58b8c9caef788e2c61ef69129711bfde0b2c9029c3573c1caf785c8",
+    "frozen_evaluator_sha256": "272f56d01711ce6879969aa1f5c3f662a706b63957c1652e41cfbad8c6052990"
+  },
+  "technical_failure": {
+    "error": "FileNotFoundError: /private/tmp/exp3v2-evaluation-run-001/output",
+    "cause": "The frozen runner executed output_root.mkdir(parents=False) while the parent /private/tmp/exp3v2-evaluation-run-001 was absent.",
+    "failure_point": "AFTER_IN_MEMORY_EVALUATION_AND_BOOTSTRAP_BEFORE_ANY_OUTPUT_WRITE"
+  },
+  "execution_counters": {
+    "sole_authorized_execution_performed": true,
+    "evaluator_invocations": 1,
+    "retries": 0,
+    "verifier_executions": 0,
+    "numpy_random_default_rng_320031_invocations": 1,
+    "api_llm_calls": 0,
+    "credentials_accessed": 0
+  },
+  "seed_state": {
+    "bootstrap_seed": 320031,
+    "used": true,
+    "eligible_for_reuse_under_revision_001": false,
+    "revision_001_execution_exhausted": true,
+    "future_replay_policy": "A deterministic replay using seed 320031 requires an explicitly defined, reviewed and authorized future Revision 002; this record grants no replay authorization."
+  },
+  "output_state": {
+    "output_root": "/private/tmp/exp3v2-evaluation-run-001/output",
+    "final_output_root_state": "ABSENT",
+    "output_files_created": 0,
+    "results_freeze_tag": "exp3-v2-results-frozen-001",
+    "results_freeze_tag_created": false,
+    "results_frozen": false,
+    "results_published": false
+  },
+  "inspection_state": {
+    "results_inspected_or_reported": 0,
+    "metrics_inspected_or_reported": 0,
+    "bootstrap_distributions_inspected_or_reported": 0,
+    "scientific_values_inspected_or_reported": 0,
+    "ground_truth_or_predictions_reported": 0
+  },
+  "post_failure_integrity": {
+    "frozen_checkouts_clean": "8/8",
+    "frozen_artifacts_modified": 0
+  },
+  "governance_consequences": {
+    "automatic_retry_authorized": false,
+    "revision_001_retry_authorized": false,
+    "revision_001_seed_reuse_authorized": false,
+    "result_freeze_authorized": false
+  },
+  "next_permitted_step": "Prepare and review a future Revision 002 definition and correction; do not execute an evaluator or replay seed 320031 without separate explicit authorization.",
+  "record_preparation_operation_counters": {
+    "evaluator_invocations": 0,
+    "retries": 0,
+    "rng_invocations": 0,
+    "metrics_calculated": 0,
+    "output_files_created": 0,
+    "commits_created": 0,
+    "tags_created": 0,
+    "pushes": 0
+  }
+}
