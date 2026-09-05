@@ -77,7 +77,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 <a class="skip" href="#main">Vai al contenuto</a>
 <div class="topbar">
   <button id="nav-toggle" class="nav-toggle" type="button" aria-controls="guide-nav" aria-expanded="true"><span class="icon" aria-hidden="true">☰</span><span id="nav-label">Nascondi indice</span></button>
-  <span class="progress-label" aria-live="polite">Step <span id="current-step">1</span> / 17</span>
+  <span class="progress-label" aria-live="polite">Step <span id="current-step">1</span> / 24</span>
 </div>
 <button id="nav-backdrop" class="nav-backdrop" type="button" aria-label="Chiudi indice"></button>
 <div class="layout">
@@ -88,7 +88,15 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
     <li><details class="nav-phase" open><summary>Fase 1</summary><ol>
       <li><a href="#step-2">2. Dataset</a></li><li><a href="#step-3">3. Analisi e split dei dataset</a></li><li><a href="#step-4">4. Pipeline di Phase A: le 6 operazioni</a></li><li><a href="#step-5">5. Scelta delle feature</a></li><li><a href="#step-6">6. Calibrazione delle soglie</a></li><li><a href="#step-7">7. Il freeze del metodo</a></li><li><a href="#step-8">8. Dalle feature ai flag</a></li><li><a href="#step-9">9. Dai flag al JSON e al testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e test split</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Condizioni e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
     </ol></details></li>
-    <li><details class="nav-phase"><summary>Fase 2</summary><p class="nav-phase-empty">Contenuti da aggiungere.</p></details></li>
+    <li><details class="nav-phase" open><summary>Fase 2 — Replica confirmatory (Experiment 3 V2)</summary><ol>
+      <li><a href="#step-18">18. Perché una replica prospettica</a></li>
+      <li><a href="#step-19">19. Da Experiment 3 a EXP3_V2</a></li>
+      <li><a href="#step-20">20. Disegno confirmatory frozen</a></li>
+      <li><a href="#step-21">21. Risultati primari unseen</a></li>
+      <li><a href="#step-22">22. Contrasti e bootstrap</a></li>
+      <li><a href="#step-23">23. Risultati secondari descrittivi</a></li>
+      <li><a href="#step-24">24. Interpretazione, limiti e provenienza frozen</a></li>
+    </ol></details></li>
     <li><details class="nav-phase"><summary>Fase 3</summary><p class="nav-phase-empty">Contenuti da aggiungere.</p></details></li>
   </ol>
   <p class="source"><a href="../README.md">Archivio pedagogico</a><br>Le fonti scientifiche frozen prevalgono.</p>
@@ -473,6 +481,91 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <h3>7 &middot; Claim finale</h3>
   <div class="callout full-width"><p>Nel protocollo frozen e sui 12 run fisici di fault del nuovo held-out TEP, gli insight peer autentici hanno aumentato l'accuratezza sui fault localmente unseen da <strong>0/36 (A) a 31/36 (B)</strong>; il contrasto primario <strong>B&minus;A &egrave; +0.8611 [0.8333, 0.9167]</strong>. A parit&agrave; di testi, ID, ordine e volume del peer block, la corruzione delle associazioni ha ridotto l'accuratezza a <strong>3/36</strong>: <em>il contrasto B&minus;E supporta l'interpretazione che il beneficio osservato dipenda dalla corretta associazione semantica dell'informazione trasferita, anzich&eacute; dalla mera presenza o dal volume del testo aggiuntivo</em> (B&minus;E +0.7778 [0.7222, 0.8333]). <em>La condizione A rappresenta uno scenario di limite informativo per la semantica delle classi localmente unseen, perch&eacute; l'agente ricevente non dispone di alcun esempio locale della pseudoclasse corrispondente</em>; la magnitudine di B&minus;A va quindi letta rispetto a questo floor. Questi risultati supportano la <strong>feasibility</strong> del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico, non forniscono garanzie di privacy, n&eacute; stabiliscono superiorit&agrave; rispetto a una baseline centralizzata ICL a pari informazione. La validazione empirica sul fotovoltaico &egrave; la fase successiva.</p></div>
 
+</section>
+
+<section id="step-18" data-step="18">
+  <div class="step-kicker">Step 18 / 24 <span class="phase-badge design">Replica prospettica</span></div>
+  <h2>Perché una replica prospettica</h2>
+  <p>Experiment 1 ha prodotto il risultato originale del programma held-out. Per verificarne la riproducibilità senza riaprire quei casi, è stata pianificata una replica prospettica su nuove realizzazioni fisiche delle stesse quattro classi. Non si tratta di nuovi fault, nuovi domini o di una generalizzazione oltre il perimetro sperimentale studiato.</p>
+</section>
+
+<section id="step-19" data-step="19">
+  <div class="step-kicker">Step 19 / 24 <span class="phase-badge design">Continuità sperimentale</span></div>
+  <h2>Da Experiment 3 a EXP3_V2</h2>
+  <div class="callout full-width">
+    <p><strong>Chiusura e sostituzione.</strong> Experiment 3 era la replica prospettica pianificata, ma è stato chiuso per esaurimento tecnico prima di produrre risultati scientifici. EXP3_V2 è la revisione correttiva e sostitutiva: completa la replica sulle nuove realizzazioni, senza trasformare la chiusura tecnica di Experiment 3 in un risultato scientifico negativo.</p>
+  </div>
+</section>
+
+<section id="step-20" data-step="20">
+  <div class="step-kicker">Step 20 / 24 <span class="phase-badge design">Disegno confirmatory frozen</span></div>
+  <h2>Il disegno confirmatory di EXP3_V2</h2>
+  <div class="example">
+    <div class="panel-label">Disegno pre-specificato</div>
+    <h3>Che cosa viene confrontato</h3>
+    <p>La popolazione primaria comprende i casi localmente unseen. Le condizioni A, B ed E sono valutate sugli stessi casi e le astensioni contano come errori. B−A è il contrasto primario: il criterio di replica richiede congiuntamente un valore osservato maggiore di zero e un limite inferiore del relativo CI maggiore di zero. B−E è il contrasto supporting per semantic specificity; la sua differenza osservata positiva costituisce l’evidenza supporting pre-specificata, mentre l’esclusione dello zero dal relativo CI non è un gate aggiuntivo.</p>
+    <div class="chain"><span>nuove realizzazioni fisiche</span><b>→</b><span>A / B / E</span><b>→</b><span>aggregati frozen</span><b>→</b><span>bootstrap pre-specificato</span></div>
+  </div>
+</section>
+
+<section id="step-21" data-step="21">
+  <div class="step-kicker">Step 21 / 24 <span class="phase-badge offline">Risultati primari unseen</span></div>
+  <h2>I risultati frozen sui casi localmente unseen</h2>
+  <div class="scroll">
+    <table>
+      <caption>Popolazione primaria unseen</caption>
+      <thead><tr><th>Condizione</th><th>Corretti / 72</th><th>Accuratezza</th><th>Astensioni</th></tr></thead>
+      <tbody>
+        <tr><td><strong>A</strong></td><td class="num">0 / 72</td><td class="num">0.0%</td><td class="num">30</td></tr>
+        <tr><td><strong>B</strong></td><td class="num">68 / 72</td><td class="num">94.4%</td><td class="num">0</td></tr>
+        <tr><td><strong>E</strong></td><td class="num">4 / 72</td><td class="num">5.6%</td><td class="num">0</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Ogni astensione è conteggiata come errore, secondo la convenzione frozen.</p>
+</section>
+
+<section id="step-22" data-step="22">
+  <div class="step-kicker">Step 22 / 24 <span class="phase-badge offline">Contrasti e bootstrap</span></div>
+  <h2>Dal confronto ai criteri pre-specificati</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Contrasto</th><th>Stima</th><th>CI percentile 95%</th><th>Ruolo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>B−A</strong></td><td class="num">0.9444</td><td class="num">[0.8611, 1.0]</td><td>Contrasto primario; entrambi i criteri pre-specificati sono soddisfatti.</td></tr>
+        <tr><td><strong>B−E</strong></td><td class="num">0.8889</td><td class="num">[0.7778, 0.9861]</td><td>Evidenza supporting per semantic specificity; il CI non costituisce un gate aggiuntivo.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Gli intervalli derivano da un paired physical-case cluster bootstrap, stratificato per pseudolabel, con 10.000 draw e seed 320031.</p>
+  <div class="callout">
+    <p><strong>Criterio di replica.</strong> Il contrasto B−A osservato è maggiore di zero e il limite inferiore del relativo CI è maggiore di zero. Entrambe le condizioni del criterio pre-specificato sono quindi soddisfatte.</p>
+  </div>
+</section>
+
+<section id="step-23" data-step="23">
+  <div class="step-kicker">Step 23 / 24 <span class="phase-badge offline">Risultati secondari descrittivi</span></div>
+  <h2>Local-seen, Normal e overall</h2>
+  <p>Le popolazioni local-seen, Normal e overall sono risultati secondari esclusivamente descrittivi e non aggiungono criteri inferenziali.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Condizione</th><th>Local-seen</th><th>Normal</th><th>Overall</th></tr></thead>
+      <tbody>
+        <tr><td><strong>A</strong></td><td class="num">24/24 (100.0%)</td><td class="num">24/24 (100.0%)</td><td class="num">48/120 (40.0%)</td></tr>
+        <tr><td><strong>B</strong></td><td class="num">19/24 (79.2%)</td><td class="num">24/24 (100.0%)</td><td class="num">111/120 (92.5%)</td></tr>
+        <tr><td><strong>E</strong></td><td class="num">22/24 (91.7%)</td><td class="num">24/24 (100.0%)</td><td class="num">50/120 (41.7%)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="step-24" data-step="24">
+  <div class="step-kicker">Step 24 / 24 <span class="phase-badge offline">Interpretazione e provenienza</span></div>
+  <h2>Che cosa supporta la replica, e che cosa non dimostra</h2>
+  <div class="callout full-width">
+    <p>Il criterio pre-specificato di replica è supportato sulle nuove realizzazioni fisiche delle stesse quattro classi. B−E fornisce evidenza supporting per semantic specificity senza modificare la decisione primaria; il suo CI non è utilizzato come gate aggiuntivo. L’interpretazione resta limitata al disegno frozen di EXP3_V2 e non dimostra generalizzazione a nuovi fault o nuovi domini.</p>
+  </div>
+  <p class="source">Fonte frozen: tag annotato <a href="https://github.com/sorrentinoluca/fot-phd/tree/exp3-v2-results-frozen-001"><code>exp3-v2-results-frozen-001</code></a>. Nel tag i tre blob sono conservati sotto <code>evaluation_outputs/</code>; non sono materializzati nel branch corrente in <code>phase_b/exp3_v2/evaluation_outputs/</code>.</p>
 </section>
 
 <footer><p><a href="#main">Torna all'inizio</a> · <a href="../README.md">Indice explanation</a></p></footer>

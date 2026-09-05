@@ -10,7 +10,7 @@ experiments on TEP.
 |---|---|---|---|
 | **Experiment 1** | `final_evaluation/` | Completed and frozen | First complete held-out evaluation. Produced the primary FoT effect (B−A = +0.8611). Results frozen and auditable via `AUDIT_GUIDE.md`. |
 | **Experiment 3** | `exp3/` | Closed incomplete | Prospective replica on new physical fault realisations. Closed due to technical attempt exhaustion. No scientific data produced. |
-| **Experiment 3 V2** | `exp3_v2/` | Completed, results pending freeze | Corrective revision of Exp3 with fixed technical procedure. Same scientific design, new realisations. Confirmatory results support primary B−A contrast. |
+| **Experiment 3 V2** | [`exp3_v2/`](exp3_v2/) | Completed and frozen (tag-only) | Corrective and substitutive prospective replica of Experiment 3 on new physical realisations of the same four classes. Confirmatory results are frozen under [`exp3-v2-results-frozen-001`](https://github.com/sorrentinoluca/fot-phd/tree/exp3-v2-results-frozen-001); the three evaluation outputs remain governed by that tag and are not materialized on this branch. |
 
 Experiment 2 is a distinct experiment within the project; its materials are not
 housed in this directory.
