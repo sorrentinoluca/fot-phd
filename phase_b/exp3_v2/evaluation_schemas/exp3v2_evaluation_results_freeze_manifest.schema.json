@@ -1,0 +1,351 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "exp3v2_evaluation_results_freeze_manifest.schema.json",
+  "title": "EXP3_V2 evaluation results freeze manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "manifest_kind",
+    "manifest_revision",
+    "status",
+    "prospective_tag",
+    "tag_created",
+    "prepared_on",
+    "frozen_on",
+    "human_freeze_approval",
+    "non_self_referential",
+    "repository",
+    "governance",
+    "boundary_tags",
+    "critical_artifacts",
+    "execution_provenance",
+    "payload",
+    "portable_verification",
+    "prohibitions",
+    "review_validation"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "manifest_kind": {"const": "EXP3_V2_EVALUATION_RESULTS_FREEZE"},
+    "manifest_revision": {"const": 1},
+    "status": {
+      "enum": [
+        "PENDING_HUMAN_EVALUATION_RESULTS_FREEZE",
+        "FROZEN_BEFORE_VERBALIZATION"
+      ]
+    },
+    "prospective_tag": {"const": "exp3-v2-results-frozen-001"},
+    "tag_created": {"type": "boolean"},
+    "prepared_on": {"type": "string", "format": "date"},
+    "frozen_on": {"type": ["string", "null"], "format": "date-time"},
+    "human_freeze_approval": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["approved", "approved_at", "approval_text_sha256", "scope"],
+          "properties": {
+            "approved": {"const": true},
+            "approved_at": {"type": "string", "format": "date-time"},
+            "approval_text_sha256": {"$ref": "#/$defs/sha256"},
+            "scope": {
+              "enum": [
+                "EXP3_V2_EVALUATION_RESULTS_FREEZE_001",
+                "SYNTHETIC_ISOLATED_REHEARSAL_ONLY"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "non_self_referential": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_sha256_recorded",
+        "governance_commit_recorded",
+        "tag_object_recorded",
+        "payload_commit_may_be_recorded"
+      ],
+      "properties": {
+        "manifest_sha256_recorded": {"const": false},
+        "governance_commit_recorded": {"const": false},
+        "tag_object_recorded": {"const": false},
+        "payload_commit_may_be_recorded": {"const": true}
+      }
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "origin_url",
+        "visibility",
+        "storage",
+        "git_lfs",
+        "history_shape",
+        "published_ref_kind",
+        "branch_publication",
+        "force_update"
+      ],
+      "properties": {
+        "origin_url": {"const": "https://github.com/sorrentinoluca/fot-phd.git"},
+        "visibility": {"const": "public"},
+        "storage": {"const": "ordinary_git"},
+        "git_lfs": {"const": false},
+        "history_shape": {"const": "disconnected_parentless_payload_then_governance_child"},
+        "published_ref_kind": {"const": "annotated_tag_only"},
+        "branch_publication": {"const": false},
+        "force_update": {"const": false}
+      }
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "payload_commit_parent_count",
+        "actual_payload_commit",
+        "governance_commit_parent_count",
+        "tag_target",
+        "payload_tree_path_count",
+        "governance_tree_path_count",
+        "file_allowlist",
+        "non_manifest_artifacts"
+      ],
+      "properties": {
+        "payload_commit_parent_count": {"const": 0},
+        "actual_payload_commit": {
+          "oneOf": [{"type": "null"}, {"$ref": "#/$defs/commit"}]
+        },
+        "governance_commit_parent_count": {"const": 1},
+        "tag_target": {"const": "governance_commit"},
+        "payload_tree_path_count": {"const": 3},
+        "governance_tree_path_count": {"const": 8},
+        "file_allowlist": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "non_manifest_artifacts": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {"$ref": "#/$defs/artifact"}
+        }
+      }
+    },
+    "boundary_tags": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {"$ref": "#/$defs/tag_binding"}
+    },
+    "critical_artifacts": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {"$ref": "#/$defs/critical_artifact"}
+    },
+    "execution_provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["revision_001", "revision_002", "separate_verifier", "outcome_based_selection"],
+      "properties": {
+        "revision_001": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["evaluator_invocations", "default_rng_invocations", "seed", "draws", "retries", "verifier_invocations", "output_files", "failed_after_in_memory_before_write", "exhausted", "replay_eligible"],
+          "properties": {
+            "evaluator_invocations": {"const": 1},
+            "default_rng_invocations": {"const": 1},
+            "seed": {"const": 320031},
+            "draws": {"const": 10000},
+            "retries": {"const": 0},
+            "verifier_invocations": {"const": 0},
+            "output_files": {"const": 0},
+            "failed_after_in_memory_before_write": {"const": true},
+            "exhausted": {"const": true},
+            "replay_eligible": {"const": false}
+          }
+        },
+        "revision_002": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["evaluator_invocations", "replays", "retries", "default_rng_invocations", "seed", "draws", "output_files", "exit_code", "status"],
+          "properties": {
+            "evaluator_invocations": {"const": 1},
+            "replays": {"const": 1},
+            "retries": {"const": 0},
+            "default_rng_invocations": {"const": 1},
+            "seed": {"const": 320031},
+            "draws": {"const": 10000},
+            "output_files": {"const": 3},
+            "exit_code": {"const": 0},
+            "status": {"const": "PASS"}
+          }
+        },
+        "separate_verifier": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["invocations", "retries", "exit_code", "status", "bootstrap_recomputations", "default_rng_invocations", "seed", "draws", "byte_identity_before_after"],
+          "properties": {
+            "invocations": {"const": 1},
+            "retries": {"const": 0},
+            "exit_code": {"const": 0},
+            "status": {"const": "PASS"},
+            "bootstrap_recomputations": {"const": 1},
+            "default_rng_invocations": {"const": 1},
+            "seed": {"const": 320031},
+            "draws": {"const": 10000},
+            "byte_identity_before_after": {"const": true}
+          }
+        },
+        "outcome_based_selection": {"const": false}
+      }
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authoritative_source_root_provenance", "clone_relative_root", "path_count", "total_size_bytes", "inventory_sha256", "concatenated_bytes_sha256", "artifacts"],
+      "properties": {
+        "authoritative_source_root_provenance": {"const": "/private/tmp/exp3v2-evaluation-run-001/output"},
+        "clone_relative_root": {"const": "evaluation_outputs"},
+        "path_count": {"const": 3},
+        "total_size_bytes": {"const": 352817},
+        "inventory_sha256": {"const": "23161e0cbb7a099f44aa4503538aee03ef343be7d47e19c9711865709ba45d86"},
+        "concatenated_bytes_sha256": {"const": "7a13563934be6e14ee23af5a41010a3188bbb7fe5604f2305a1bb8e5dd0f55e4"},
+        "artifacts": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {"$ref": "#/$defs/artifact"}
+        }
+      }
+    },
+    "portable_verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["final_tag_alone_sufficient", "required_annotated_tags", "runtime", "python_version", "numpy_version", "jsonschema_version", "portable_verifier_path", "frozen_semantic_verifier_path", "semantic_recomputation_required_for_public_freeze"],
+      "properties": {
+        "final_tag_alone_sufficient": {"const": false},
+        "required_annotated_tags": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "runtime": {"const": "/private/tmp/exp3v2-evaluation-runtime-001/bin/python3"},
+        "python_version": {"const": "3.13.9"},
+        "numpy_version": {"const": "2.5.2"},
+        "jsonschema_version": {"const": "4.25.0"},
+        "portable_verifier_path": {"const": "phase_b/exp3_v2/verify_exp3v2_evaluation_results_freeze.py"},
+        "frozen_semantic_verifier_path": {"const": "phase_b/exp3_v2/verify_exp3v2_evaluation.py"},
+        "semantic_recomputation_required_for_public_freeze": {"const": true}
+      }
+    },
+    "prohibitions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome_based_exclusion", "selective_freezing", "payload_modification", "additional_evaluation", "additional_verifier_before_freeze_approval", "branch_publication", "force_push", "git_lfs"],
+      "properties": {
+        "outcome_based_exclusion": {"const": false},
+        "selective_freezing": {"const": false},
+        "payload_modification": {"const": false},
+        "additional_evaluation": {"const": false},
+        "additional_verifier_before_freeze_approval": {"const": false},
+        "branch_publication": {"const": false},
+        "force_push": {"const": false},
+        "git_lfs": {"const": false}
+      }
+    },
+    "review_validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authoritative_hashes", "prior_frozen_verifier", "portable_verifier", "schemas", "isolated_rehearsal", "coordinated_tamper_rejected", "authoritative_output_preserved"],
+      "properties": {
+        "authoritative_hashes": {"const": "PASS"},
+        "prior_frozen_verifier": {"const": "PASS"},
+        "portable_verifier": {"enum": ["PENDING", "PASS"]},
+        "schemas": {"enum": ["PENDING", "PASS"]},
+        "isolated_rehearsal": {"enum": ["PENDING", "PASS"]},
+        "coordinated_tamper_rejected": {"enum": ["PENDING", "PASS"]},
+        "authoritative_output_preserved": {"const": true}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "PENDING_HUMAN_EVALUATION_RESULTS_FREEZE"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "tag_created": {"const": false},
+          "frozen_on": {"type": "null"},
+          "human_freeze_approval": {"type": "null"},
+          "governance": {"properties": {"actual_payload_commit": {"type": "null"}}}
+        }
+      }
+    },
+    {
+      "if": {"properties": {"status": {"const": "FROZEN_BEFORE_VERBALIZATION"}}, "required": ["status"]},
+      "then": {
+        "properties": {
+          "tag_created": {"const": true},
+          "frozen_on": {"type": "string"},
+          "human_freeze_approval": {"type": "object"},
+          "governance": {"properties": {"actual_payload_commit": {"$ref": "#/$defs/commit"}}},
+          "review_validation": {
+            "properties": {
+              "portable_verifier": {"const": "PASS"},
+              "schemas": {"const": "PASS"},
+              "isolated_rehearsal": {"const": "PASS"},
+              "coordinated_tamper_rejected": {"const": "PASS"}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "size_bytes", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "tag_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "name", "tag_object", "peeled_commit", "manifest_path", "manifest_sha256"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "name": {"type": "string", "minLength": 1},
+        "tag_object": {"$ref": "#/$defs/commit"},
+        "peeled_commit": {"$ref": "#/$defs/commit"},
+        "manifest_path": {"type": "string", "minLength": 1},
+        "manifest_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "critical_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "boundary_tag", "path", "size_bytes", "sha256"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "boundary_tag": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "size_bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

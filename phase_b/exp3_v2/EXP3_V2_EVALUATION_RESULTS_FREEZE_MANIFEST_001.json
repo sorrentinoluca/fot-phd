@@ -1,0 +1,297 @@
+{
+  "schema_version": "1.0",
+  "manifest_kind": "EXP3_V2_EVALUATION_RESULTS_FREEZE",
+  "manifest_revision": 1,
+  "status": "FROZEN_BEFORE_VERBALIZATION",
+  "prospective_tag": "exp3-v2-results-frozen-001",
+  "tag_created": true,
+  "prepared_on": "2026-09-05",
+  "frozen_on": "2026-09-05T10:55:05Z",
+  "human_freeze_approval": {
+    "approved": true,
+    "approved_at": "2026-09-05T10:55:05Z",
+    "approval_text_sha256": "b3c7a239aec58850010f5a96463cb8b7c86c7bf7472045d51e026cbd77fcd2ca",
+    "scope": "EXP3_V2_EVALUATION_RESULTS_FREEZE_001"
+  },
+  "non_self_referential": {
+    "manifest_sha256_recorded": false,
+    "governance_commit_recorded": false,
+    "tag_object_recorded": false,
+    "payload_commit_may_be_recorded": true
+  },
+  "repository": {
+    "origin_url": "https://github.com/sorrentinoluca/fot-phd.git",
+    "visibility": "public",
+    "storage": "ordinary_git",
+    "git_lfs": false,
+    "history_shape": "disconnected_parentless_payload_then_governance_child",
+    "published_ref_kind": "annotated_tag_only",
+    "branch_publication": false,
+    "force_update": false
+  },
+  "governance": {
+    "payload_commit_parent_count": 0,
+    "actual_payload_commit": "81b0a7f61e6eaa2d229fe66d9fd768c021aaef41",
+    "governance_commit_parent_count": 1,
+    "tag_target": "governance_commit",
+    "payload_tree_path_count": 3,
+    "governance_tree_path_count": 8,
+    "file_allowlist": [
+      "phase_b/exp3_v2/EXP3_V2_EVALUATION_RESULTS_FREEZE_PROTOCOL_002.md",
+      "phase_b/exp3_v2/evaluation_schemas/exp3v2_evaluation_results_freeze_manifest.schema.json",
+      "phase_b/exp3_v2/EXP3_V2_EVALUATION_RESULTS_FREEZE_MANIFEST_001.json",
+      "phase_b/exp3_v2/verify_exp3v2_evaluation_results_freeze.py",
+      "phase_b/tests/test_exp3v2_evaluation_results_freeze.py"
+    ],
+    "non_manifest_artifacts": [
+      {
+        "path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_RESULTS_FREEZE_PROTOCOL_002.md",
+        "size_bytes": 9496,
+        "sha256": "3e31141e82e5228495309981fceb68d291ca098d774fd2bcd1000e00bc3010c7"
+      },
+      {
+        "path": "phase_b/exp3_v2/evaluation_schemas/exp3v2_evaluation_results_freeze_manifest.schema.json",
+        "size_bytes": 13361,
+        "sha256": "cb782ed8d41ae6c6f42d41aaab0e16a290c16427034d15864094b67b9df24615"
+      },
+      {
+        "path": "phase_b/exp3_v2/verify_exp3v2_evaluation_results_freeze.py",
+        "size_bytes": 30353,
+        "sha256": "4c03e8a6b370b4a8e5c3136f1cccbc0205c015df79afde3fb0b413e2f7ce3cc0"
+      },
+      {
+        "path": "phase_b/tests/test_exp3v2_evaluation_results_freeze.py",
+        "size_bytes": 15153,
+        "sha256": "d94a7bbe1f6f48b5ab6ec8dfcc7ab9d49d7469cb597f8998c1737c9f24225dfb"
+      }
+    ]
+  },
+  "boundary_tags": [
+    {
+      "role": "source",
+      "name": "exp3-v2-heldout-frozen-002",
+      "tag_object": "eaddc2c0791febcccce6412c0a9cc2cf81b3cb21",
+      "peeled_commit": "6f88abdecc25e015064e5fc2c59000f8a1a0bc7e",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_FREEZE_MANIFEST_002.json",
+      "manifest_sha256": "8e50fb79a31a336f3e93e4057ee10d4551a3f3f7a8f717096a433259de7ee26f"
+    },
+    {
+      "role": "data",
+      "name": "exp3-v2-heldout-data-frozen-001",
+      "tag_object": "34319bbb28fcedadd15acc5dfa2183b3fe733ce3",
+      "peeled_commit": "7bcf309910920b52c485125312599d1ded9c4c74",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_DATA_FREEZE_MANIFEST_001.json",
+      "manifest_sha256": "adb8875ace9155906bb28332791fc3278409a4e5389abfb78c8d14aacc750ad2"
+    },
+    {
+      "role": "verbalization_harness",
+      "name": "exp3-v2-verbalization-harness-frozen-001",
+      "tag_object": "b2ac5c24835e1f5817baa0e1e8ba13d498777e7d",
+      "peeled_commit": "0ca1ebf339a49c78908e00f65093aeccccc1616f",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_HARNESS_MANIFEST_001.json",
+      "manifest_sha256": "8eb4ec8953112555d4f4168127e7296be7d33a8d0fc513249d49328f4775f1b5"
+    },
+    {
+      "role": "verbalizations",
+      "name": "exp3-v2-verbalizations-frozen-001",
+      "tag_object": "4eeb14e77c5d5b45395da0d88012bcf30cea83ea",
+      "peeled_commit": "4159fba5e4d23cbc9af62c2aad72f11eda1491db",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_VERBALIZATION_DATA_FREEZE_MANIFEST_001.json",
+      "manifest_sha256": "d75d51a3c30efc7ed5e2a82f5f17cdecf77e2484d17a87e3716f4abbb8fe35a7"
+    },
+    {
+      "role": "inference_harness",
+      "name": "exp3-v2-inference-harness-frozen-001",
+      "tag_object": "df1f77fee805b19d7a6e782c0ea696dd6c3ffa07",
+      "peeled_commit": "24b030a07652649556953aaa1a2cfb29e54ab2f7",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_HARNESS_MANIFEST_001.json",
+      "manifest_sha256": "68256cf4eeab3eb3e9c44b16914dcbfc4e9514a2db8e570b2f61cd7576365bf6"
+    },
+    {
+      "role": "execution_authorization",
+      "name": "exp3-v2-inference-execution-frozen-001",
+      "tag_object": "74a14b941cbf229b48529c9c7202613ac4a482c7",
+      "peeled_commit": "c62c871657c061826efda708aacd386779a16d02",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_EXECUTION_AUTHORIZATION_MANIFEST_001.json",
+      "manifest_sha256": "04fd71e4d625d0057b2cb8aa82ce921e3344a364d00a37cc0bd882caa44a253b"
+    },
+    {
+      "role": "inference_outputs",
+      "name": "exp3-v2-inference-frozen-001",
+      "tag_object": "e1aa80d2f54d4cefdbc7273cbcdb139f0df57563",
+      "peeled_commit": "9a7ccaa95bae8c0d2d00dc0959e177eb90a5cd61",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_INFERENCE_DATA_FREEZE_MANIFEST_001.json",
+      "manifest_sha256": "ab3ee52bc391546bb4b75e7575b6709bc1192513fb17a731278c2c43648674f0"
+    },
+    {
+      "role": "evaluation_harness_revision_001",
+      "name": "exp3-v2-evaluation-harness-frozen-001",
+      "tag_object": "43163e51ebd4e592aaf3d03d7bec50c4cd0b63fb",
+      "peeled_commit": "25dc65bba805f15836f09e9613505bf483199a4f",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_HARNESS_MANIFEST_001.json",
+      "manifest_sha256": "d8454d13ed7299fdac690657fcacb731e8b8b6f0c0cebf2213af5adf1e7547cd"
+    },
+    {
+      "role": "evaluation_harness_revision_002",
+      "name": "exp3-v2-evaluation-harness-frozen-002",
+      "tag_object": "77115c2b608a19d1e1f1be6187928bfb3f0d297d",
+      "peeled_commit": "d0da3921051787539c4ddfa1ee4d0714ee6c0139",
+      "manifest_path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_HARNESS_MANIFEST_002.json",
+      "manifest_sha256": "853ce14dd53837459837ef8549124a4d65cb20e40078f88010477162cce3efa6"
+    }
+  ],
+  "critical_artifacts": [
+    {
+      "role": "revision_001_manifest",
+      "boundary_tag": "exp3-v2-evaluation-harness-frozen-001",
+      "path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_HARNESS_MANIFEST_001.json",
+      "size_bytes": 9428,
+      "sha256": "d8454d13ed7299fdac690657fcacb731e8b8b6f0c0cebf2213af5adf1e7547cd"
+    },
+    {
+      "role": "revision_002_manifest",
+      "boundary_tag": "exp3-v2-evaluation-harness-frozen-002",
+      "path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_HARNESS_MANIFEST_002.json",
+      "size_bytes": 11977,
+      "sha256": "853ce14dd53837459837ef8549124a4d65cb20e40078f88010477162cce3efa6"
+    },
+    {
+      "role": "revision_002_evaluator",
+      "boundary_tag": "exp3-v2-evaluation-harness-frozen-002",
+      "path": "phase_b/exp3_v2/evaluate_exp3v2_frozen_predictions.py",
+      "size_bytes": 29904,
+      "sha256": "e7be1b11686aec68fd220bba6b4502b5bbdc5c2960d847ee240113222c6bd919"
+    },
+    {
+      "role": "revision_002_verifier",
+      "boundary_tag": "exp3-v2-evaluation-harness-frozen-002",
+      "path": "phase_b/exp3_v2/verify_exp3v2_evaluation.py",
+      "size_bytes": 6318,
+      "sha256": "c20de70519d70d3634e808b662a08ca8936af863adba44377c667418d42d8e1c"
+    },
+    {
+      "role": "frozen_scientific_config",
+      "boundary_tag": "exp3-v2-evaluation-harness-frozen-002",
+      "path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_CONFIG_001.json",
+      "size_bytes": 1835,
+      "sha256": "5d836027adb493c7c12d3fa495696960a1f208ddaa9b102a7d1d5ba551b6ffdb"
+    },
+    {
+      "role": "revision_001_failure_json",
+      "boundary_tag": "exp3-v2-evaluation-harness-frozen-002",
+      "path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_REV001_EXECUTION_FAILURE.json",
+      "size_bytes": 3209,
+      "sha256": "b6233abefada6334bc3ea3b20aa372c9da6fe396f556a9306d366730a3115433"
+    },
+    {
+      "role": "revision_001_failure_markdown",
+      "boundary_tag": "exp3-v2-evaluation-harness-frozen-002",
+      "path": "phase_b/exp3_v2/EXP3_V2_EVALUATION_REV001_EXECUTION_FAILURE.md",
+      "size_bytes": 2934,
+      "sha256": "192de37a6a3545aa9a935ab459f9916f8deb5b6f02ea4c398125993165a7f042"
+    }
+  ],
+  "execution_provenance": {
+    "revision_001": {
+      "evaluator_invocations": 1,
+      "default_rng_invocations": 1,
+      "seed": 320031,
+      "draws": 10000,
+      "retries": 0,
+      "verifier_invocations": 0,
+      "output_files": 0,
+      "failed_after_in_memory_before_write": true,
+      "exhausted": true,
+      "replay_eligible": false
+    },
+    "revision_002": {
+      "evaluator_invocations": 1,
+      "replays": 1,
+      "retries": 0,
+      "default_rng_invocations": 1,
+      "seed": 320031,
+      "draws": 10000,
+      "output_files": 3,
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    "separate_verifier": {
+      "invocations": 1,
+      "retries": 0,
+      "exit_code": 0,
+      "status": "PASS",
+      "bootstrap_recomputations": 1,
+      "default_rng_invocations": 1,
+      "seed": 320031,
+      "draws": 10000,
+      "byte_identity_before_after": true
+    },
+    "outcome_based_selection": false
+  },
+  "payload": {
+    "authoritative_source_root_provenance": "/private/tmp/exp3v2-evaluation-run-001/output",
+    "clone_relative_root": "evaluation_outputs",
+    "path_count": 3,
+    "total_size_bytes": 352817,
+    "inventory_sha256": "23161e0cbb7a099f44aa4503538aee03ef343be7d47e19c9711865709ba45d86",
+    "concatenated_bytes_sha256": "7a13563934be6e14ee23af5a41010a3188bbb7fe5604f2305a1bb8e5dd0f55e4",
+    "artifacts": [
+      {
+        "path": "exp3v2_confirmatory_bootstrap.json",
+        "size_bytes": 350285,
+        "sha256": "05a0f4446f8cdf6c20a8cf3e804472ddceb838b708245173906f5f2d81bfa9e8"
+      },
+      {
+        "path": "exp3v2_confirmatory_results.json",
+        "size_bytes": 2033,
+        "sha256": "e01b948cc78f2d35e79db4430db530c68cea3381385fb635bb5dd8145a58ffdb"
+      },
+      {
+        "path": "exp3v2_evaluation_output_hash_manifest.json",
+        "size_bytes": 499,
+        "sha256": "48811e09f310c3133018bb3d60a05abc5553d77efcba2337d81e5e385e67d448"
+      }
+    ]
+  },
+  "portable_verification": {
+    "final_tag_alone_sufficient": false,
+    "required_annotated_tags": [
+      "exp3-v2-heldout-frozen-002",
+      "exp3-v2-heldout-data-frozen-001",
+      "exp3-v2-verbalization-harness-frozen-001",
+      "exp3-v2-verbalizations-frozen-001",
+      "exp3-v2-inference-harness-frozen-001",
+      "exp3-v2-inference-execution-frozen-001",
+      "exp3-v2-inference-frozen-001",
+      "exp3-v2-evaluation-harness-frozen-001",
+      "exp3-v2-evaluation-harness-frozen-002",
+      "exp3-v2-results-frozen-001"
+    ],
+    "runtime": "/private/tmp/exp3v2-evaluation-runtime-001/bin/python3",
+    "python_version": "3.13.9",
+    "numpy_version": "2.5.2",
+    "jsonschema_version": "4.25.0",
+    "portable_verifier_path": "phase_b/exp3_v2/verify_exp3v2_evaluation_results_freeze.py",
+    "frozen_semantic_verifier_path": "phase_b/exp3_v2/verify_exp3v2_evaluation.py",
+    "semantic_recomputation_required_for_public_freeze": true
+  },
+  "prohibitions": {
+    "outcome_based_exclusion": false,
+    "selective_freezing": false,
+    "payload_modification": false,
+    "additional_evaluation": false,
+    "additional_verifier_before_freeze_approval": false,
+    "branch_publication": false,
+    "force_push": false,
+    "git_lfs": false
+  },
+  "review_validation": {
+    "authoritative_hashes": "PASS",
+    "prior_frozen_verifier": "PASS",
+    "portable_verifier": "PASS",
+    "schemas": "PASS",
+    "isolated_rehearsal": "PASS",
+    "coordinated_tamper_rejected": "PASS",
+    "authoritative_output_preserved": true
+  }
+}
