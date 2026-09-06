@@ -9,8 +9,11 @@ consistent prompt_sha256, then applies majority-≥2 voting.
 
 from __future__ import annotations
 
+import hashlib
+import json
 from collections import Counter, defaultdict
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Any, Iterable
 
 from icl.runner.records_c import CRunRecord, LABEL_SPACE as _RECORD_LABEL_SPACE
@@ -25,6 +28,17 @@ class CAggregatePrediction:
     physical_case_id: str           # PBH-XXX
     parsed_output: dict[str, Any]   # majority-voted prediction
     repetition_outcomes: tuple[dict[str, Any], ...]  # per-repetition detail
+    aggregation_rule: str = "majority_2_of_3"  # R7 P1-4
+
+    def to_dict(self) -> dict[str, Any]:
+        """Serialize to a plain dict (repetition_outcomes becomes a list)."""
+        d = asdict(self)
+        # asdict converts tuples to lists already, which is what we want.
+        return d
+
+    def to_jsonl_line(self) -> str:
+        """Serialize to a single JSON line."""
+        return json.dumps(self.to_dict(), ensure_ascii=False, separators=(",", ":"))
 
 
 def aggregate_c_records(
@@ -149,7 +163,113 @@ def aggregate_c_records(
                 physical_case_id=case_id,
                 parsed_output=parsed_output,
                 repetition_outcomes=repetition_outcomes,
+                aggregation_rule="majority_2_of_3",
             )
         )
 
     return aggregates
+
+
+# ------------------------------------------------------------------
+# Writer / manifest  (R7 review P1-4)
+# ------------------------------------------------------------------
+
+ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_AGGREGATE_PATH = ROOT / "icl" / "inference" / "c_aggregate_records.jsonl"
+DEFAULT_AGGREGATE_MANIFEST_PATH = (
+    ROOT / "icl" / "full_evaluation" / "c_aggregate_manifest.json"
+)
+
+
+def write_c_aggregates(
+    aggregates: list[CAggregatePrediction],
+    output_path: Path | None = None,
+) -> str:
+    """Write aggregate records to JSONL and return file SHA-256."""
+    path = output_path if output_path is not None else DEFAULT_AGGREGATE_PATH
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lines = [agg.to_jsonl_line() for agg in aggregates]
+    content = "\n".join(lines) + "\n"
+    path.write_text(content, encoding="utf-8")
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def write_aggregate_manifest(
+    aggregate_sha256: str,
+    record_count: int,
+    c_records_sha256: str,
+    schedule_sha256: str,
+    *,
+    manifest_path: Path | None = None,
+    schedule_ref_path: str = "icl/full_evaluation/c_schedule.json",
+) -> None:
+    """Write the aggregate predictions manifest (R7 P1-4)."""
+    path = (
+        manifest_path
+        if manifest_path is not None
+        else DEFAULT_AGGREGATE_MANIFEST_PATH
+    )
+    manifest = {
+        "c_aggregate_records_sha256": aggregate_sha256,
+        "record_count": record_count,
+        "aggregation_rule": "majority_2_of_3",
+        "source_c_records_sha256": c_records_sha256,
+        "schedule_reference": {
+            "path": schedule_ref_path,
+            "sha256": schedule_sha256,
+        },
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+
+
+def verify_aggregate_freeze(
+    *,
+    aggregate_path: Path | None = None,
+    manifest_path: Path | None = None,
+) -> dict[str, Any]:
+    """Verify aggregate records against their manifest.  Fail-closed."""
+    agg_path = aggregate_path if aggregate_path is not None else DEFAULT_AGGREGATE_PATH
+    man_path = manifest_path if manifest_path is not None else DEFAULT_AGGREGATE_MANIFEST_PATH
+
+    manifest = json.loads(man_path.read_text(encoding="utf-8"))
+
+    _REQUIRED = {
+        "c_aggregate_records_sha256", "record_count",
+        "aggregation_rule", "source_c_records_sha256",
+        "schedule_reference",
+    }
+    missing = _REQUIRED - set(manifest)
+    if missing:
+        raise RuntimeError(
+            f"c_aggregate_manifest.json missing required keys: {sorted(missing)}"
+        )
+
+    expected_sha = manifest["c_aggregate_records_sha256"]
+    actual_sha = hashlib.sha256(agg_path.read_bytes()).hexdigest()
+    if actual_sha != expected_sha:
+        raise RuntimeError(
+            f"c_aggregate_records.jsonl hash mismatch: "
+            f"expected {expected_sha[:16]}…, got {actual_sha[:16]}…"
+        )
+
+    raw_text = agg_path.read_text(encoding="utf-8")
+    lines = [ln for ln in raw_text.strip().split("\n") if ln.strip()]
+    if len(lines) != manifest["record_count"]:
+        raise RuntimeError(
+            f"aggregate record count mismatch: "
+            f"expected {manifest['record_count']}, got {len(lines)}"
+        )
+
+    if manifest["aggregation_rule"] != "majority_2_of_3":
+        raise RuntimeError(
+            f"unexpected aggregation_rule: {manifest['aggregation_rule']!r}"
+        )
+
+    return {
+        "c_aggregate_manifest_verified": True,
+        "c_aggregate_records_sha256": actual_sha,
+        "record_count": len(lines),
+        "aggregation_rule": manifest["aggregation_rule"],
+        "source_c_records_sha256": manifest["source_c_records_sha256"],
+    }

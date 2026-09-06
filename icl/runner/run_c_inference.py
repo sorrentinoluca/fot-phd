@@ -242,14 +242,55 @@ def _build_raw_attempts(
 # ------------------------------------------------------------------
 
 def _is_transient(exc: Exception) -> bool:
-    """Return True if *exc* is a transient network/server error."""
+    """Return True if *exc* is a transient network/server error.
+
+    Checks both Python built-in network exceptions *and* openai-specific
+    exceptions (APIConnectionError, APITimeoutError) which do not inherit
+    from the Python built-ins.  (R7 review P1-1.)
+    """
     if isinstance(exc, (ConnectionError, TimeoutError, OSError)):
+        return True
+    # openai.APIConnectionError / openai.APITimeoutError do not inherit from
+    # Python's ConnectionError / TimeoutError — check by class name so that
+    # the runner module does not hard-depend on openai at import time.
+    exc_qualname = type(exc).__qualname__
+    exc_module = type(exc).__module__ or ""
+    if exc_module.startswith("openai") and exc_qualname in (
+        "APIConnectionError", "APITimeoutError",
+    ):
         return True
     # OpenAI / httpx status-code errors.
     status = getattr(exc, "status_code", None) or getattr(exc, "status", None)
     if status is not None and int(status) in _RETRYABLE_STATUS_CODES:
         return True
     return False
+
+
+def _call_with_network_retry(
+    fn: Any,
+    *,
+    max_retries: int = _MAX_NETWORK_RETRIES,
+) -> Any:
+    """Call *fn* with exponential-backoff retry on transient errors.
+
+    Standalone wrapper around the retry logic also used by
+    :class:`_PerCallNetworkRetry`.  Tests and one-off call-sites that
+    don't need the context-manager adapter-patching use this directly.
+    """
+    backoff = _INITIAL_BACKOFF_S
+    for attempt in range(max_retries + 1):
+        try:
+            return fn()
+        except Exception as exc:
+            if attempt == max_retries or not _is_transient(exc):
+                raise
+            _log.warning(
+                "transient error (attempt %d/%d): %s — retrying in %.1fs",
+                attempt + 1, max_retries + 1, exc, backoff,
+            )
+            time.sleep(backoff)
+            backoff *= _BACKOFF_FACTOR
+    raise AssertionError("unreachable")  # pragma: no cover
 
 
 class _PerCallNetworkRetry:
@@ -313,6 +354,7 @@ def run_c_inference(
     allowed_insight_ids: tuple[str, ...] | None = None,
     pilot_only: bool = False,
     max_structural_retries: int = 2,
+    openai_sdk_version: str = "",
 ) -> dict[str, int]:
     """Execute the Condition C inference loop.
 
@@ -383,6 +425,7 @@ def run_c_inference(
             model_returned=provider_attempts[-1].returned_model,
             reasoning_effort=reasoning_effort,
             timestamp_iso=datetime.now(timezone.utc).isoformat(),
+            openai_sdk_version=openai_sdk_version,
             stateless=True,
             network_retries=net_retry_details,
         )
@@ -440,14 +483,27 @@ def main() -> int:
     verify_inference_freeze(args.freeze_manifest)
     print("Freeze guard: PASS")
 
+    # R7 P1-2: verify SDK version matches protocol before any inference.
+    expected_sdk = exec_config.get("sdk_version", "")
+    expected_pkg = exec_config.get("sdk_package", "openai")
+    # Lazy import to avoid openai dependency at module level.
+    from phase_b.execution.openai_adapter import OpenAIAdapter
+    import importlib
+    sdk_mod = importlib.import_module(expected_pkg)
+    actual_sdk_version: str = getattr(sdk_mod, "__version__", "")
+    if actual_sdk_version != expected_sdk:
+        raise RuntimeError(
+            f"SDK version mismatch: protocol requires "
+            f"{expected_pkg}=={expected_sdk}, installed "
+            f"{expected_pkg}=={actual_sdk_version}"
+        )
+    print(f"SDK version check: {expected_pkg}=={actual_sdk_version} OK")
+
     case_texts = load_case_texts()
     print(f"Loaded {len(case_texts)} case texts")
 
     schedule = json.loads(SCHEDULE_PATH.read_text(encoding="utf-8"))
     print(f"Schedule: {len(schedule)} entries")
-
-    # Lazy import to avoid openai dependency at module level.
-    from phase_b.execution.openai_adapter import OpenAIAdapter
 
     adapter = OpenAIAdapter(requested_model=model)
 
@@ -462,6 +518,7 @@ def main() -> int:
         schema=schema,
         pilot_only=args.pilot_only,
         max_structural_retries=max_retries,
+        openai_sdk_version=actual_sdk_version,
     )
 
     print(json.dumps(summary, indent=2))

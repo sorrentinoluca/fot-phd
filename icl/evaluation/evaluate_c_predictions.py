@@ -626,6 +626,16 @@ def verify_c_predictions_freeze(
     schedule: list[dict[str, Any]] = json.loads(
         sched_path.read_text(encoding="utf-8")
     )
+
+    # R7 P1-3: record count must equal schedule length (45 for full
+    # evaluation).  The pilot subset (15) is not valid for evaluation.
+    if expected_count != len(schedule):
+        raise RuntimeError(
+            f"record count ({expected_count}) does not match schedule "
+            f"length ({len(schedule)}): evaluation requires the full "
+            f"schedule, not a pilot subset"
+        )
+
     sched_lookup: dict[int, dict[str, Any]] = {
         e["sequence_index"]: e for e in schedule
     }
@@ -737,6 +747,16 @@ def evaluate_c_predictions(
     Evaluation results dict with condition_c_metrics, delta_c_minus_b,
     bootstrap, and integrity information.
     """
+    # Predictions integrity barrier FIRST (mandatory / fail-closed).
+    # R7 review P2-1: predictions barrier must run before evaluator guard
+    # so that a tampered c_records.jsonl is caught before any evaluation
+    # artifacts (ground truth) are loaded.
+    predictions_integrity = verify_c_predictions_freeze(
+        c_records_path=c_records_path,
+        manifest_path=c_predictions_manifest_path,
+        schedule_path=c_schedule_path,
+    )
+
     # Evaluator-side freeze guard (mandatory / fail-closed, R5 review).
     evaluator_integrity = verify_evaluator_freeze(
         manifest_path=(
@@ -744,13 +764,6 @@ def evaluate_c_predictions(
             if evaluator_manifest_path is not None
             else EVALUATOR_FREEZE_MANIFEST_PATH
         ),
-    )
-
-    # Predictions integrity barrier (mandatory / fail-closed).
-    predictions_integrity = verify_c_predictions_freeze(
-        c_records_path=c_records_path,
-        manifest_path=c_predictions_manifest_path,
-        schedule_path=c_schedule_path,
     )
 
     # Use records from verified file when available (P1-4: tie input
@@ -849,3 +862,131 @@ def evaluate_c_predictions(
     results["predictions_freeze_integrity"] = predictions_integrity
 
     return results
+
+
+# ------------------------------------------------------------------
+# Pilot gate  (R7 review P2-2)
+# ------------------------------------------------------------------
+
+PILOT_CASE_IDS = frozenset({
+    "PBH-001", "PBH-004", "PBH-007", "PBH-010", "PBH-013",
+})
+_PILOT_RECORD_COUNT = 15  # 5 pilot cases × 3 reps
+
+
+def verify_pilot_gate(
+    *,
+    c_records_path: Path | None = None,
+    schedule_path: Path | None = None,
+    expected_model: str | None = None,
+    expected_sdk_version: str | None = None,
+) -> dict[str, Any]:
+    """Blind pilot gate: 15/15 valid records, correct model, no parse failures.
+
+    Raises RuntimeError on any failure.  Returns integrity dict on success.
+
+    Checks (all fail-closed):
+      1. Exactly 15 records present (5 pilot cases × 3 reps).
+      2. All 15 records have valid=True (no parse failures).
+      3. All records reference the correct model (model_requested).
+      4. All records have consistent prompt_sha256 per case_id.
+      5. If *expected_sdk_version* is given, all records match it.
+    """
+    rec_path = c_records_path if c_records_path is not None else C_RECORDS_PATH
+    sched_path = schedule_path if schedule_path is not None else C_SCHEDULE_PATH
+
+    raw_text = rec_path.read_text(encoding="utf-8")
+    lines = [ln for ln in raw_text.strip().split("\n") if ln.strip()]
+
+    # Load schedule to identify pilot entries.
+    schedule: list[dict[str, Any]] = json.loads(
+        sched_path.read_text(encoding="utf-8")
+    )
+    pilot_indices = frozenset(
+        e["sequence_index"] for e in schedule if e["pilot"]
+    )
+    if len(pilot_indices) != _PILOT_RECORD_COUNT:
+        raise RuntimeError(
+            f"schedule has {len(pilot_indices)} pilot entries, "
+            f"expected {_PILOT_RECORD_COUNT}"
+        )
+
+    # Parse all records and filter pilot.
+    pilot_records: list[CRunRecord] = []
+    for i, line in enumerate(lines):
+        try:
+            rec = CRunRecord.from_jsonl_line(line)
+        except Exception as exc:
+            raise RuntimeError(
+                f"c_records.jsonl line {i}: parse error: {exc}"
+            ) from exc
+        if rec.sequence_index in pilot_indices:
+            pilot_records.append(rec)
+
+    # 1. Exactly 15 pilot records.
+    if len(pilot_records) != _PILOT_RECORD_COUNT:
+        raise RuntimeError(
+            f"pilot gate: expected {_PILOT_RECORD_COUNT} pilot records, "
+            f"got {len(pilot_records)}"
+        )
+
+    # 2. All valid=True (no parse failures).
+    invalid = [
+        (r.sequence_index, r.physical_case_id)
+        for r in pilot_records if not r.valid
+    ]
+    if invalid:
+        raise RuntimeError(
+            f"pilot gate: {len(invalid)} record(s) have valid=False — "
+            f"indices {[idx for idx, _ in invalid]}"
+        )
+
+    # 3. Correct model.
+    if expected_model is not None:
+        wrong_model = [
+            (r.sequence_index, r.model_requested)
+            for r in pilot_records
+            if r.model_requested != expected_model
+        ]
+        if wrong_model:
+            raise RuntimeError(
+                f"pilot gate: {len(wrong_model)} record(s) have wrong "
+                f"model_requested — expected {expected_model!r}, got "
+                f"{set(m for _, m in wrong_model)}"
+            )
+
+    # 4. Consistent prompt_sha256 per case_id.
+    prompt_by_case: dict[str, set[str]] = defaultdict(set)
+    for r in pilot_records:
+        prompt_by_case[r.physical_case_id].add(r.prompt_sha256)
+    inconsistent = {
+        cid: hashes for cid, hashes in prompt_by_case.items()
+        if len(hashes) > 1
+    }
+    if inconsistent:
+        raise RuntimeError(
+            f"pilot gate: inconsistent prompt_sha256 for cases "
+            f"{sorted(inconsistent)}"
+        )
+
+    # 5. SDK version.
+    if expected_sdk_version is not None:
+        wrong_sdk = [
+            (r.sequence_index, r.openai_sdk_version)
+            for r in pilot_records
+            if r.openai_sdk_version != expected_sdk_version
+        ]
+        if wrong_sdk:
+            raise RuntimeError(
+                f"pilot gate: {len(wrong_sdk)} record(s) have wrong "
+                f"openai_sdk_version — expected {expected_sdk_version!r}"
+            )
+
+    return {
+        "pilot_gate_passed": True,
+        "pilot_records": _PILOT_RECORD_COUNT,
+        "pilot_all_valid": True,
+        "model_checked": expected_model,
+        "sdk_version_checked": expected_sdk_version,
+        "pilot_case_ids": sorted(PILOT_CASE_IDS),
+    }

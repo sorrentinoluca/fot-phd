@@ -50,6 +50,7 @@ def _valid_record_dict(**overrides) -> dict:
         "model_returned": "gpt-5.6-terra",
         "reasoning_effort": "medium",
         "timestamp_iso": "2026-09-06T12:00:00+00:00",
+        "openai_sdk_version": "3.6.0",
         "stateless": True,
     }
     base.update(overrides)
@@ -130,6 +131,21 @@ class TestCRunRecordRejections(unittest.TestCase):
     def test_reject_stateless_false(self) -> None:
         with self.assertRaises(ValueError):
             CRunRecord.from_dict(_valid_record_dict(stateless=False))
+
+    def test_reject_empty_sdk_version(self) -> None:
+        with self.assertRaises(ValueError):
+            CRunRecord.from_dict(_valid_record_dict(openai_sdk_version=""))
+
+    def test_reject_missing_sdk_version(self) -> None:
+        d = _valid_record_dict()
+        d.pop("openai_sdk_version", None)
+        # from_dict will use the default "" which fails validation
+        with self.assertRaises(ValueError):
+            CRunRecord.from_dict(d)
+
+    def test_valid_sdk_version_accepted(self) -> None:
+        rec = CRunRecord.from_dict(_valid_record_dict(openai_sdk_version="3.6.0"))
+        self.assertEqual(rec.openai_sdk_version, "3.6.0")
 
     def test_reject_bad_parsed_output_keys(self) -> None:
         bad = {"predicted_label": "CLS-ZOGAA", "abstain": False}

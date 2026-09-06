@@ -18,6 +18,7 @@
     "model_returned",
     "reasoning_effort",
     "timestamp_iso",
+    "openai_sdk_version",
     "stateless",
     "network_retries"
   ],
@@ -187,6 +188,11 @@
     "timestamp_iso": {
       "type": "string",
       "format": "date-time"
+    },
+    "openai_sdk_version": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Version string of the openai SDK used for inference (R7 P1-2)"
     },
     "stateless": {
       "type": "boolean",

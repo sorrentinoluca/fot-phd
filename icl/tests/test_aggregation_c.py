@@ -80,6 +80,7 @@ def _make_record(
         model_returned="gpt-5.6-terra",
         reasoning_effort="medium",
         timestamp_iso="2026-09-06T12:00:00+00:00",
+        openai_sdk_version="3.6.0",
         stateless=True,
     )
 
@@ -436,6 +437,7 @@ class TestValidFlagExclusion(unittest.TestCase):
             model_returned="gpt-5.6-terra",
             reasoning_effort="medium",
             timestamp_iso="2026-09-06T12:00:00+00:00",
+            openai_sdk_version="3.6.0",
             stateless=True,
         )
         r3 = _make_record(
@@ -478,6 +480,7 @@ class TestValidFlagExclusion(unittest.TestCase):
             model_returned="gpt-5.6-terra",
             reasoning_effort="medium",
             timestamp_iso="2026-09-06T12:00:00+00:00",
+            openai_sdk_version="3.6.0",
             stateless=True,
         )
         r3 = CRunRecord(
@@ -505,6 +508,7 @@ class TestValidFlagExclusion(unittest.TestCase):
             model_returned="gpt-5.6-terra",
             reasoning_effort="medium",
             timestamp_iso="2026-09-06T12:00:00+00:00",
+            openai_sdk_version="3.6.0",
             stateless=True,
         )
 

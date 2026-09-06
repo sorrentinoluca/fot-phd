@@ -30,6 +30,7 @@ from icl.evaluation.evaluate_c_predictions import (
     unseen_agents,
     verify_c_predictions_freeze,
     verify_evaluator_freeze,
+    verify_pilot_gate,
 )
 from icl.runner.records_c import CRunRecord, LABEL_SPACE
 
@@ -102,7 +103,9 @@ def _make_c_record(
         }],
         retry_count=0, model_requested="gpt-5.6-terra",
         model_returned="gpt-5.6-terra", reasoning_effort="medium",
-        timestamp_iso="2026-09-06T12:00:00+00:00", stateless=True,
+        timestamp_iso="2026-09-06T12:00:00+00:00",
+        openai_sdk_version="3.6.0",
+        stateless=True,
     )
 
 
@@ -1421,8 +1424,14 @@ class TestVerifyCPredictionsFreeze(unittest.TestCase):
 
     def test_invalid_record_raises(self) -> None:
         """A line that fails CRunRecord validation raises RuntimeError."""
-        schedule = self._build_schedule()
-        sched_sha = self._write_schedule(schedule)
+        # Use a 1-entry schedule so record_count matches (P1-3 won't
+        # reject for count mismatch before the invalid-record check).
+        mini_schedule = [{
+            "condition": "C", "physical_case_id": "PBH-001",
+            "pilot": True, "receiver_id": "central",
+            "repetition": 1, "sequence_index": 0,
+        }]
+        sched_sha = self._write_schedule(mini_schedule)
         bad_line = json.dumps({"agent_id": "wrong"})
         self.records_path.write_text(bad_line + "\n", encoding="utf-8")
         bad_sha = hashlib.sha256(self.records_path.read_bytes()).hexdigest()
@@ -1624,6 +1633,302 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
         )
         self.assertIn("predictions_freeze_integrity", result)
         self.assertEqual(result["predictions_freeze_integrity"], pred_integrity)
+
+
+class TestRecordCountMatchesSchedule(unittest.TestCase):
+    """R7 P1-3: verify_c_predictions_freeze must reject record_count != schedule length."""
+
+    def setUp(self) -> None:
+        self.tmpdir = Path(tempfile.mkdtemp())
+        self.records_path = self.tmpdir / "c_records.jsonl"
+        self.manifest_path = self.tmpdir / "c_predictions_manifest.json"
+        self.schedule_path = self.tmpdir / "c_schedule.json"
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.tmpdir, ignore_errors=True)
+
+    def test_pilot_15_rejected_against_full_schedule(self) -> None:
+        """15 records from a pilot subset are rejected by the full 45-entry schedule."""
+        # Build full 45-entry schedule.
+        schedule: list[dict[str, Any]] = []
+        cases = [
+            ("PBH-001", True), ("PBH-004", True), ("PBH-007", True),
+            ("PBH-010", True), ("PBH-013", True),
+            ("PBH-002", False), ("PBH-003", False), ("PBH-005", False),
+            ("PBH-006", False), ("PBH-008", False), ("PBH-009", False),
+            ("PBH-011", False), ("PBH-012", False), ("PBH-014", False),
+            ("PBH-015", False),
+        ]
+        seq = 0
+        for cid, pilot in cases:
+            for rep in (1, 2, 3):
+                schedule.append({
+                    "condition": "C", "physical_case_id": cid,
+                    "pilot": pilot, "receiver_id": "central",
+                    "repetition": rep, "sequence_index": seq,
+                })
+                seq += 1
+        self.schedule_path.write_text(json.dumps(schedule), encoding="utf-8")
+        sched_sha = hashlib.sha256(self.schedule_path.read_bytes()).hexdigest()
+
+        # Write only 15 pilot records.
+        pilot_entries = [e for e in schedule if e["pilot"]]
+        lines: list[str] = []
+        for entry in pilot_entries:
+            rec = _make_c_record(
+                entry["physical_case_id"],
+                repetition=entry["repetition"],
+                sequence_index=entry["sequence_index"],
+            )
+            lines.append(json.dumps(rec.to_dict(), ensure_ascii=False))
+        self.records_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        rec_sha = hashlib.sha256(self.records_path.read_bytes()).hexdigest()
+
+        manifest = {
+            "c_records_sha256": rec_sha,
+            "record_count": 15,
+            "schedule_reference": {
+                "path": "icl/full_evaluation/c_schedule.json",
+                "sha256": sched_sha,
+            },
+        }
+        self.manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_c_predictions_freeze(
+                c_records_path=self.records_path,
+                manifest_path=self.manifest_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("does not match schedule length", str(ctx.exception))
+
+
+class TestGuardOrder(unittest.TestCase):
+    """R7 P2-1: predictions barrier must run before evaluator guard."""
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
+    @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
+    def test_predictions_barrier_runs_first(self, mock_pred, mock_eval) -> None:
+        """When predictions barrier raises, evaluator guard is never called."""
+        mock_pred.side_effect = RuntimeError("predictions tampered")
+        with self.assertRaises(RuntimeError):
+            evaluate_c_predictions(
+                _all_correct_records(),
+                case_truth=_CLASS_ASSIGNMENT,
+                agents_config=_AGENTS_CONFIG,
+                b_records=[],
+            )
+        mock_pred.assert_called_once()
+        mock_eval.assert_not_called()
+
+
+class TestPilotGate(unittest.TestCase):
+    """R7 P2-2: pilot gate verification."""
+
+    _PILOT_CASES = [
+        ("PBH-001", True), ("PBH-004", True), ("PBH-007", True),
+        ("PBH-010", True), ("PBH-013", True),
+    ]
+    _ALL_CASES = _PILOT_CASES + [
+        ("PBH-002", False), ("PBH-003", False), ("PBH-005", False),
+        ("PBH-006", False), ("PBH-008", False), ("PBH-009", False),
+        ("PBH-011", False), ("PBH-012", False), ("PBH-014", False),
+        ("PBH-015", False),
+    ]
+
+    def setUp(self) -> None:
+        self.tmpdir = Path(tempfile.mkdtemp())
+        self.records_path = self.tmpdir / "c_records.jsonl"
+        self.schedule_path = self.tmpdir / "c_schedule.json"
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.tmpdir, ignore_errors=True)
+
+    def _build_schedule(self) -> list[dict[str, Any]]:
+        entries: list[dict[str, Any]] = []
+        seq = 0
+        for cid, pilot in self._ALL_CASES:
+            for rep in (1, 2, 3):
+                entries.append({
+                    "condition": "C", "physical_case_id": cid,
+                    "pilot": pilot, "receiver_id": "central",
+                    "repetition": rep, "sequence_index": seq,
+                })
+                seq += 1
+        return entries
+
+    def _write_pilot_records(
+        self, schedule: list[dict[str, Any]], *,
+        make_invalid_index: int | None = None,
+        wrong_model_index: int | None = None,
+        wrong_sdk_index: int | None = None,
+    ) -> None:
+        pilot_entries = [e for e in schedule if e["pilot"]]
+        lines: list[str] = []
+        for i, entry in enumerate(pilot_entries):
+            rec = _make_c_record(
+                entry["physical_case_id"],
+                repetition=entry["repetition"],
+                sequence_index=entry["sequence_index"],
+                parse_failure=(i == make_invalid_index),
+            )
+            if i == wrong_model_index:
+                # Replace model_requested in serialized dict.
+                d = rec.to_dict()
+                d["model_requested"] = "wrong-model"
+                lines.append(json.dumps(d, ensure_ascii=False))
+                continue
+            if i == wrong_sdk_index:
+                d = rec.to_dict()
+                d["openai_sdk_version"] = "0.0.0"
+                lines.append(json.dumps(d, ensure_ascii=False))
+                continue
+            lines.append(json.dumps(rec.to_dict(), ensure_ascii=False))
+        self.records_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    def test_pilot_gate_pass(self) -> None:
+        schedule = self._build_schedule()
+        self.schedule_path.write_text(json.dumps(schedule), encoding="utf-8")
+        self._write_pilot_records(schedule)
+        result = verify_pilot_gate(
+            c_records_path=self.records_path,
+            schedule_path=self.schedule_path,
+            expected_model="gpt-5.6-terra",
+            expected_sdk_version="3.6.0",
+        )
+        self.assertTrue(result["pilot_gate_passed"])
+        self.assertEqual(result["pilot_records"], 15)
+
+    def test_pilot_gate_invalid_record_fails(self) -> None:
+        schedule = self._build_schedule()
+        self.schedule_path.write_text(json.dumps(schedule), encoding="utf-8")
+        self._write_pilot_records(schedule, make_invalid_index=2)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_pilot_gate(
+                c_records_path=self.records_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("valid=False", str(ctx.exception))
+
+    def test_pilot_gate_wrong_model_fails(self) -> None:
+        schedule = self._build_schedule()
+        self.schedule_path.write_text(json.dumps(schedule), encoding="utf-8")
+        self._write_pilot_records(schedule, wrong_model_index=0)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_pilot_gate(
+                c_records_path=self.records_path,
+                schedule_path=self.schedule_path,
+                expected_model="gpt-5.6-terra",
+            )
+        self.assertIn("wrong model_requested", str(ctx.exception))
+
+    def test_pilot_gate_wrong_sdk_fails(self) -> None:
+        schedule = self._build_schedule()
+        self.schedule_path.write_text(json.dumps(schedule), encoding="utf-8")
+        self._write_pilot_records(schedule, wrong_sdk_index=0)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_pilot_gate(
+                c_records_path=self.records_path,
+                schedule_path=self.schedule_path,
+                expected_sdk_version="3.6.0",
+            )
+        self.assertIn("wrong openai_sdk_version", str(ctx.exception))
+
+
+class TestAggregateFreeze(unittest.TestCase):
+    """R7 P1-4: aggregate predictions freeze writer and verifier."""
+
+    def setUp(self) -> None:
+        self.tmpdir = Path(tempfile.mkdtemp())
+        self.agg_path = self.tmpdir / "c_aggregate_records.jsonl"
+        self.manifest_path = self.tmpdir / "c_aggregate_manifest.json"
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.tmpdir, ignore_errors=True)
+
+    def _make_aggregates(self) -> list["CAggregatePrediction"]:
+        from icl.evaluation.aggregation_c import CAggregatePrediction
+        aggs = []
+        for cid in sorted(_CASE_IDS):
+            aggs.append(CAggregatePrediction(
+                agent_id="central",
+                condition="C",
+                physical_case_id=cid,
+                parsed_output={
+                    "predicted_label": "Normal",
+                    "abstain": False,
+                    "used_insight_ids": [],
+                    "reasoning_summary": "aggregate_majority_2_of_3",
+                },
+                repetition_outcomes=(
+                    {"repetition": 1, "predicted_label": "Normal",
+                     "abstain": False, "parse_failure": False},
+                    {"repetition": 2, "predicted_label": "Normal",
+                     "abstain": False, "parse_failure": False},
+                    {"repetition": 3, "predicted_label": "Normal",
+                     "abstain": False, "parse_failure": False},
+                ),
+                aggregation_rule="majority_2_of_3",
+            ))
+        return aggs
+
+    def test_write_and_verify_roundtrip(self) -> None:
+        from icl.evaluation.aggregation_c import (
+            write_c_aggregates,
+            write_aggregate_manifest,
+            verify_aggregate_freeze,
+        )
+        aggs = self._make_aggregates()
+        agg_sha = write_c_aggregates(aggs, output_path=self.agg_path)
+        write_aggregate_manifest(
+            aggregate_sha256=agg_sha,
+            record_count=len(aggs),
+            c_records_sha256="a" * 64,
+            schedule_sha256="b" * 64,
+            manifest_path=self.manifest_path,
+        )
+        result = verify_aggregate_freeze(
+            aggregate_path=self.agg_path,
+            manifest_path=self.manifest_path,
+        )
+        self.assertTrue(result["c_aggregate_manifest_verified"])
+        self.assertEqual(result["record_count"], 15)
+
+    def test_verify_hash_mismatch_raises(self) -> None:
+        from icl.evaluation.aggregation_c import (
+            write_c_aggregates,
+            write_aggregate_manifest,
+            verify_aggregate_freeze,
+        )
+        aggs = self._make_aggregates()
+        write_c_aggregates(aggs, output_path=self.agg_path)
+        write_aggregate_manifest(
+            aggregate_sha256="0" * 64,
+            record_count=len(aggs),
+            c_records_sha256="a" * 64,
+            schedule_sha256="b" * 64,
+            manifest_path=self.manifest_path,
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+            )
+        self.assertIn("hash mismatch", str(ctx.exception))
+
+    def test_aggregation_rule_in_dataclass(self) -> None:
+        from icl.evaluation.aggregation_c import CAggregatePrediction
+        agg = CAggregatePrediction(
+            agent_id="central", condition="C",
+            physical_case_id="PBH-001",
+            parsed_output={"predicted_label": "Normal", "abstain": False,
+                           "used_insight_ids": [], "reasoning_summary": "x"},
+            repetition_outcomes=(),
+            aggregation_rule="majority_2_of_3",
+        )
+        self.assertEqual(agg.aggregation_rule, "majority_2_of_3")
+        d = agg.to_dict()
+        self.assertEqual(d["aggregation_rule"], "majority_2_of_3")
 
 
 if __name__ == "__main__":

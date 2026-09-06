@@ -37,6 +37,7 @@ class CRunRecord:
     model_returned: str
     reasoning_effort: str
     timestamp_iso: str
+    openai_sdk_version: str = ""    # R7: SDK version provenance (P1-2)
     stateless: bool = True
     network_retries: list[dict[str, Any]] = field(default_factory=list)
 
@@ -159,6 +160,9 @@ class CRunRecord:
             raise ValueError("model_returned is required")
         if self.reasoning_effort not in {"low", "medium", "high"}:
             raise ValueError(f"invalid reasoning_effort: {self.reasoning_effort!r}")
+        # R7 P1-2: SDK version provenance.
+        if not isinstance(self.openai_sdk_version, str) or not self.openai_sdk_version.strip():
+            raise ValueError("openai_sdk_version is required (non-empty string)")
         try:
             parsed_time = datetime.fromisoformat(self.timestamp_iso.replace("Z", "+00:00"))
         except ValueError as exc:

@@ -202,6 +202,7 @@ def _valid_record_line(
         model_returned="gpt-5.6-terra",
         reasoning_effort="medium",
         timestamp_iso="2026-09-06T12:00:00+00:00",
+        openai_sdk_version="3.6.0",
         stateless=True,
     )
     return record.to_jsonl_line()
@@ -365,6 +366,7 @@ class TestRunCInference(unittest.TestCase):
             case_texts=_case_texts_for(schedule),
             reasoning_effort="medium",
             schema={"type": "object"},
+            openai_sdk_version="3.6.0",
         )
         self.assertEqual(summary["completed"], 6)
         self.assertEqual(summary["skipped"], 0)
@@ -383,6 +385,7 @@ class TestRunCInference(unittest.TestCase):
             case_texts=_case_texts_for(schedule),
             reasoning_effort="medium",
             schema={"type": "object"},
+            openai_sdk_version="3.6.0",
         )
         self.assertEqual(summary["completed"], 3)
         self.assertEqual(summary["skipped"], 3)
@@ -399,6 +402,7 @@ class TestRunCInference(unittest.TestCase):
             case_texts=_case_texts_for(schedule),
             reasoning_effort="medium",
             schema={"type": "object"},
+            openai_sdk_version="3.6.0",
         )
         adapter2 = _MockAdapter()
         summary2 = run_c_inference(
@@ -408,6 +412,7 @@ class TestRunCInference(unittest.TestCase):
             case_texts=_case_texts_for(schedule),
             reasoning_effort="medium",
             schema={"type": "object"},
+            openai_sdk_version="3.6.0",
         )
         self.assertEqual(summary2["completed"], 0)
         self.assertEqual(summary2["skipped"], 3)
@@ -423,6 +428,7 @@ class TestRunCInference(unittest.TestCase):
             case_texts=_case_texts_for(schedule),
             reasoning_effort="medium",
             schema={"type": "object"},
+            openai_sdk_version="3.6.0",
             pilot_only=True,
         )
         self.assertEqual(summary["completed"], 6)
@@ -438,6 +444,7 @@ class TestRunCInference(unittest.TestCase):
             case_texts=_case_texts_for(schedule),
             reasoning_effort="medium",
             schema={"type": "object"},
+            openai_sdk_version="3.6.0",
         )
         record = json.loads(self._read_lines()[0])
         self.assertEqual(record["agent_id"], "central")
@@ -464,6 +471,7 @@ class TestRunCInference(unittest.TestCase):
             case_texts=_case_texts_for(schedule),
             reasoning_effort="medium",
             schema={"type": "object"},
+            openai_sdk_version="3.6.0",
         )
         for line in self._read_lines():
             record = json.loads(line)
@@ -479,6 +487,7 @@ class TestRunCInference(unittest.TestCase):
             case_texts=_case_texts_for(schedule),
             reasoning_effort="medium",
             schema={"type": "object"},
+            openai_sdk_version="3.6.0",
         )
         self.assertEqual(mock_render.call_count, 1)
 
@@ -492,6 +501,7 @@ class TestRunCInference(unittest.TestCase):
             case_texts=_case_texts_for(schedule),
             reasoning_effort="medium",
             schema={"type": "object"},
+            openai_sdk_version="3.6.0",
         )
         for line in self._read_lines():
             record = CRunRecord.from_jsonl_line(line)
@@ -508,6 +518,7 @@ class TestRunCInference(unittest.TestCase):
             case_texts=_case_texts_for(schedule),
             reasoning_effort="medium",
             schema={"type": "object"},
+            openai_sdk_version="3.6.0",
         )
         indices = [
             json.loads(line)["sequence_index"]
@@ -753,6 +764,34 @@ class TestIsTransient(unittest.TestCase):
 
     def test_runtime_error_not_transient(self) -> None:
         self.assertFalse(_is_transient(RuntimeError("logic error")))
+
+    # R7 P1-1: openai-specific exceptions.
+
+    def test_openai_api_connection_error(self) -> None:
+        """openai.APIConnectionError is transient (detected by class name)."""
+        # Simulate without importing openai — create a class with the right
+        # qualname and module.
+        exc = type("APIConnectionError", (Exception,), {})("conn failed")
+        type(exc).__module__ = "openai"
+        self.assertTrue(_is_transient(exc))
+
+    def test_openai_api_timeout_error(self) -> None:
+        """openai.APITimeoutError is transient (detected by class name)."""
+        exc = type("APITimeoutError", (Exception,), {})("timed out")
+        type(exc).__module__ = "openai"
+        self.assertTrue(_is_transient(exc))
+
+    def test_openai_submodule_exception(self) -> None:
+        """Exceptions from openai.* submodules are also caught."""
+        exc = type("APIConnectionError", (Exception,), {})("conn failed")
+        type(exc).__module__ = "openai._exceptions"
+        self.assertTrue(_is_transient(exc))
+
+    def test_non_openai_api_connection_error_not_transient(self) -> None:
+        """APIConnectionError from a different module is not transient."""
+        exc = type("APIConnectionError", (Exception,), {})("conn failed")
+        type(exc).__module__ = "some_other_lib"
+        self.assertFalse(_is_transient(exc))
 
 
 # ------------------------------------------------------------------
