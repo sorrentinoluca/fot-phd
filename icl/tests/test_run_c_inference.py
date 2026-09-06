@@ -17,6 +17,7 @@ from icl.runner.run_c_inference import (
     DEFAULT_OUTPUT_PATH,
     FREEZE_MANIFEST_PATH,
     _CANONICAL_INFERENCE_ARTIFACT_COUNT,
+    _CANONICAL_INFERENCE_ARTIFACT_PATHS,
     _build_raw_attempts,
     _PerCallNetworkRetry,
     _is_transient,
@@ -555,10 +556,16 @@ class TestFreezeGuard(unittest.TestCase):
             hashes[rel] = h
         return hashes
 
+    def _make_canonical_artifacts(self) -> dict[str, str]:
+        """Create files matching the canonical artifact paths; return hashes."""
+        hashes: dict[str, str] = {}
+        for rel in sorted(_CANONICAL_INFERENCE_ARTIFACT_PATHS):
+            h = self._write(rel, json.dumps({"path": rel}))
+            hashes[rel] = h
+        return hashes
+
     def test_pass(self) -> None:
-        artifact_hashes = self._make_n_artifacts(
-            _CANONICAL_INFERENCE_ARTIFACT_COUNT,
-        )
+        artifact_hashes = self._make_canonical_artifacts()
         verb_hash = self._write("verb_manifest.json", '{"cases": []}')
 
         manifest = {
@@ -573,9 +580,7 @@ class TestFreezeGuard(unittest.TestCase):
         self.assertIn("artifact_hashes", result)
 
     def test_artifact_hash_mismatch(self) -> None:
-        artifact_hashes = self._make_n_artifacts(
-            _CANONICAL_INFERENCE_ARTIFACT_COUNT,
-        )
+        artifact_hashes = self._make_canonical_artifacts()
         verb_hash = self._write("verb_manifest.json", "{}")
         # Corrupt one hash.
         first_key = next(iter(artifact_hashes))
@@ -595,9 +600,7 @@ class TestFreezeGuard(unittest.TestCase):
         self.assertIn(first_key, str(ctx.exception))
 
     def test_verbalization_manifest_mismatch(self) -> None:
-        artifact_hashes = self._make_n_artifacts(
-            _CANONICAL_INFERENCE_ARTIFACT_COUNT,
-        )
+        artifact_hashes = self._make_canonical_artifacts()
         self._write("verb_manifest.json", '{"cases": []}')
 
         manifest = {
@@ -636,6 +639,31 @@ class TestFreezeGuard(unittest.TestCase):
     def test_canonical_count_constant(self) -> None:
         """R8: the constant is 23."""
         self.assertEqual(_CANONICAL_INFERENCE_ARTIFACT_COUNT, 23)
+
+    def test_non_canonical_paths_rejected(self) -> None:
+        """R9: 23 artifacts with wrong paths are rejected."""
+        # Build 23 dummy files with non-canonical names.
+        artifact_hashes = self._make_n_artifacts(
+            _CANONICAL_INFERENCE_ARTIFACT_COUNT,
+        )
+        verb_hash = self._write("verb_manifest.json", "{}")
+        manifest = {
+            "artifact_hashes": artifact_hashes,
+            "verbalizations_manifest_path": "verb_manifest.json",
+            "verbalizations_manifest_sha256": verb_hash,
+        }
+        manifest_path = self.tmpdir / "freeze.json"
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_inference_freeze(manifest_path, root=self.tmpdir)
+        self.assertIn("canonical set", str(ctx.exception))
+
+    def test_canonical_paths_constant_matches_count(self) -> None:
+        """R9: paths frozenset has exactly _CANONICAL_INFERENCE_ARTIFACT_COUNT entries."""
+        self.assertEqual(
+            len(_CANONICAL_INFERENCE_ARTIFACT_PATHS),
+            _CANONICAL_INFERENCE_ARTIFACT_COUNT,
+        )
 
 
 
@@ -694,7 +722,7 @@ class TestFirewall(unittest.TestCase):
         """Runner must not read Phase B predictions."""
         source_path = ROOT / "icl" / "runner" / "run_c_inference.py"
         source = source_path.read_text(encoding="utf-8")
-        forbidden = ["b_records", "predictions/b_", "run_record.schema"]
+        forbidden = ["b_records", "predictions/b_", "phase_b/schemas/run_record"]
         for term in forbidden:
             self.assertNotIn(
                 term, source,

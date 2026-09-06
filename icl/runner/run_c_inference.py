@@ -62,6 +62,34 @@ def _file_sha256(path: Path) -> str:
 
 _CANONICAL_INFERENCE_ARTIFACT_COUNT = 23
 
+_CANONICAL_INFERENCE_ARTIFACT_PATHS = frozenset({
+    "icl/conditions/builder_c.py",
+    "icl/config/condition_c_config.json",
+    "icl/full_evaluation/c_schedule.json",
+    "icl/full_evaluation/protocol_amendment_c.json",
+    "icl/full_evaluation/protocol_amendment_c.md",
+    "icl/pooled_libraries/pooled_examples.json",
+    "icl/pooled_libraries/pooled_insights.json",
+    "icl/prompts/pooled_C.txt",
+    "icl/runner/build_c_schedule.py",
+    "icl/runner/records_c.py",
+    "icl/runner/run_c_inference.py",
+    "icl/schemas/c_run_record.schema.json",
+    "icl/tests/test_build_c_schedule.py",
+    "icl/tests/test_builder_c.py",
+    "icl/tests/test_records_c.py",
+    "icl/tests/test_run_c_inference.py",
+    "phase_b/conditions/diagnostic_output.openai.schema.json",
+    "phase_b/conditions/parser.py",
+    "phase_b/conditions/retry.py",
+    "phase_b/config/execution_config.json",
+    "phase_b/execution/openai_adapter.py",
+    "phase_b/heldout/phase_b_heldout_manifest.csv",
+    "phase_b/prompts/leakage.py",
+})
+
+assert len(_CANONICAL_INFERENCE_ARTIFACT_PATHS) == _CANONICAL_INFERENCE_ARTIFACT_COUNT
+
 
 def verify_inference_freeze(
     manifest_path: Path,
@@ -85,6 +113,21 @@ def verify_inference_freeze(
             f"freeze guard: manifest must have exactly "
             f"{_CANONICAL_INFERENCE_ARTIFACT_COUNT} artifact hashes, "
             f"got {artifact_count}"
+        )
+
+    # R9: reject manifests with non-canonical paths.
+    manifest_paths = frozenset(manifest["artifact_hashes"].keys())
+    if manifest_paths != _CANONICAL_INFERENCE_ARTIFACT_PATHS:
+        extra = manifest_paths - _CANONICAL_INFERENCE_ARTIFACT_PATHS
+        missing = _CANONICAL_INFERENCE_ARTIFACT_PATHS - manifest_paths
+        parts = []
+        if extra:
+            parts.append(f"unexpected: {sorted(extra)}")
+        if missing:
+            parts.append(f"missing: {sorted(missing)}")
+        raise RuntimeError(
+            f"freeze guard: manifest artifact paths do not match "
+            f"canonical set — {'; '.join(parts)}"
         )
 
     for rel_path, expected in manifest["artifact_hashes"].items():

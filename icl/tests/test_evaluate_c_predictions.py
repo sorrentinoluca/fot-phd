@@ -221,6 +221,33 @@ def _full_b_records(
     return records
 
 
+def _verified_aggregates_for_records(
+    records: list[CRunRecord] | None = None,
+    case_truth: dict[str, str] | None = None,
+) -> dict[str, dict[str, Any]]:
+    """Build ``verified_aggregates`` dict matching what verify_aggregate_freeze
+    would return for the given records.  Used in mocks.
+    """
+    from icl.evaluation.aggregation_c import aggregate_c_records
+    if records is None:
+        records = _all_correct_records()
+    if case_truth is None:
+        case_truth = _CLASS_ASSIGNMENT
+    aggs = aggregate_c_records(records, expected_case_ids=set(case_truth))
+    return {agg.physical_case_id: agg.to_dict() for agg in aggs}
+
+
+def _mock_agg_freeze_result(
+    records: list[CRunRecord] | None = None,
+) -> dict[str, Any]:
+    """Return value for mocked verify_aggregate_freeze, with verified_aggregates."""
+    return {
+        "c_aggregate_manifest_verified": True,
+        "record_count": 15,
+        "verified_aggregates": _verified_aggregates_for_records(records),
+    }
+
+
 # ================================================================== tests
 
 
@@ -852,7 +879,7 @@ class TestFirewall(unittest.TestCase):
 
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-    return_value={"c_aggregate_manifest_verified": True, "record_count": 15},
+    return_value=_mock_agg_freeze_result(),
 )
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
@@ -967,7 +994,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
 
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-    return_value={"c_aggregate_manifest_verified": True, "record_count": 15},
+    return_value=_mock_agg_freeze_result(),
 )
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
@@ -1000,7 +1027,7 @@ class TestIntegrationWithAggregation(unittest.TestCase):
 
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-    return_value={"c_aggregate_manifest_verified": True, "record_count": 15},
+    return_value=_mock_agg_freeze_result(),
 )
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
@@ -1461,7 +1488,7 @@ class TestPipelineInvokesGuard(unittest.TestCase):
     """P1-5: evaluate_c_predictions must call verify_evaluator_freeze."""
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
+           return_value=_mock_agg_freeze_result())
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
            return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
@@ -1477,7 +1504,7 @@ class TestPipelineInvokesGuard(unittest.TestCase):
         mock_guard.assert_called_once()
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
+           return_value=_mock_agg_freeze_result())
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
            return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
@@ -1494,7 +1521,7 @@ class TestPipelineInvokesGuard(unittest.TestCase):
         self.assertIn("hash mismatch", str(ctx.exception))
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
+           return_value=_mock_agg_freeze_result())
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
            return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
@@ -1509,7 +1536,7 @@ class TestPipelineInvokesGuard(unittest.TestCase):
             )
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
+           return_value=_mock_agg_freeze_result())
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
            return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
@@ -1532,7 +1559,7 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
     """P1-3: evaluate_c_predictions must call verify_c_predictions_freeze."""
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
+           return_value=_mock_agg_freeze_result())
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
@@ -1551,7 +1578,7 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
         mock_pred_guard.assert_called_once()
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
+           return_value=_mock_agg_freeze_result())
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
@@ -1567,7 +1594,7 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
         self.assertIn("c_records hash mismatch", str(ctx.exception))
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
+           return_value=_mock_agg_freeze_result())
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
@@ -1582,7 +1609,7 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
             )
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
+           return_value=_mock_agg_freeze_result())
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
@@ -1604,7 +1631,7 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
         self.assertEqual(call_kwargs[1]["manifest_path"], custom)
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
+           return_value=_mock_agg_freeze_result())
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
@@ -1628,7 +1655,7 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
         )
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
+           return_value=_mock_agg_freeze_result())
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
@@ -1649,7 +1676,7 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
         self.assertIn("No records available", str(ctx.exception))
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
+           return_value=_mock_agg_freeze_result())
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
@@ -1741,7 +1768,7 @@ class TestGuardOrder(unittest.TestCase):
     """R7 P2-1: predictions barrier must run before evaluator guard."""
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
-           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
+           return_value=_mock_agg_freeze_result())
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     def test_predictions_barrier_runs_first(self, mock_pred, mock_eval, mock_agg) -> None:
@@ -1917,11 +1944,27 @@ class TestAggregateFreeze(unittest.TestCase):
     def _write_cross_verify_files(
         self,
     ) -> tuple[str, str]:
-        """Write dummy c_records.jsonl and c_schedule.json for cross-verification.
+        """Write c_records.jsonl and c_schedule.json for cross-verification.
+
+        R9: raw records must match aggregate repetition_outcomes so that
+        check 11 (cross-verify against raw records) passes on the happy path.
 
         Returns (c_records_sha256, schedule_sha256).
         """
-        c_records_content = '{"dummy":"record"}\n'
+        # Build 45 raw records matching _make_aggregates() outcomes.
+        raw_lines: list[str] = []
+        for cid in sorted(_CASE_IDS):
+            for rep in (1, 2, 3):
+                raw = {
+                    "physical_case_id": cid,
+                    "repetition": rep,
+                    "parsed_output": {
+                        "predicted_label": "Normal",
+                        "abstain": False,
+                    },
+                }
+                raw_lines.append(json.dumps(raw, separators=(",", ":")))
+        c_records_content = "\n".join(raw_lines) + "\n"
         self.c_records_path.write_text(c_records_content, encoding="utf-8")
         c_rec_sha = hashlib.sha256(self.c_records_path.read_bytes()).hexdigest()
 
@@ -2005,7 +2048,7 @@ class TestPipelineInvokesAggregateGuard(unittest.TestCase):
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
     def test_aggregate_guard_is_called(self, mock_eval, mock_pred, mock_agg) -> None:
-        mock_agg.return_value = {"c_aggregate_manifest_verified": True, "record_count": 15}
+        mock_agg.return_value = _mock_agg_freeze_result()
         evaluate_c_predictions(
             _all_correct_records(),
             case_truth=_CLASS_ASSIGNMENT,
@@ -2036,7 +2079,7 @@ class TestPipelineInvokesAggregateGuard(unittest.TestCase):
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
     def test_aggregate_integrity_in_results(self, mock_eval, mock_pred, mock_agg) -> None:
-        agg_integrity = {"c_aggregate_manifest_verified": True, "record_count": 15}
+        agg_integrity = _mock_agg_freeze_result()
         mock_agg.return_value = agg_integrity
         result = evaluate_c_predictions(
             _all_correct_records(),
@@ -2220,6 +2263,135 @@ class TestPilotGateR8Checks(unittest.TestCase):
             "case ID mismatch" in err or "physical_case_id mismatch" in err,
             f"unexpected error: {err}",
         )
+
+
+class TestR9CrossVerifyAggregates(unittest.TestCase):
+    """R9: pipeline cross-verifies recomputed aggregates against frozen."""
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value=_mock_agg_freeze_result())
+    @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
+           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+           return_value={"evaluator_manifest_verified": True})
+    def test_consistent_aggregates_pass(self, mock_eval, mock_pred, mock_agg) -> None:
+        """Recomputed aggregates match frozen → passes."""
+        result = evaluate_c_predictions(
+            _all_correct_records(),
+            case_truth=_CLASS_ASSIGNMENT,
+            agents_config=_AGENTS_CONFIG,
+            b_records=[],
+        )
+        self.assertIn("condition_c_metrics", result)
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
+           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+           return_value={"evaluator_manifest_verified": True})
+    def test_label_mismatch_rejected(self, mock_eval, mock_pred) -> None:
+        """Frozen aggregate has different label → RuntimeError."""
+        # Build frozen aggregates where PBH-004 says "Normal" instead of truth.
+        frozen = _verified_aggregates_for_records()
+        frozen["PBH-004"]["parsed_output"]["predicted_label"] = "Normal"
+        mock_result = {
+            "c_aggregate_manifest_verified": True,
+            "record_count": 15,
+            "verified_aggregates": frozen,
+        }
+        with patch(
+            "icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+            return_value=mock_result,
+        ):
+            with self.assertRaises(RuntimeError) as ctx:
+                evaluate_c_predictions(
+                    _all_correct_records(),
+                    case_truth=_CLASS_ASSIGNMENT,
+                    agents_config=_AGENTS_CONFIG,
+                    b_records=[],
+                )
+            err = str(ctx.exception)
+            self.assertIn("R9 cross-verify", err)
+            self.assertIn("PBH-004", err)
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
+           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+           return_value={"evaluator_manifest_verified": True})
+    def test_abstain_mismatch_rejected(self, mock_eval, mock_pred) -> None:
+        """Frozen aggregate has different abstain → RuntimeError."""
+        frozen = _verified_aggregates_for_records()
+        frozen["PBH-007"]["parsed_output"]["abstain"] = True
+        mock_result = {
+            "c_aggregate_manifest_verified": True,
+            "record_count": 15,
+            "verified_aggregates": frozen,
+        }
+        with patch(
+            "icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+            return_value=mock_result,
+        ):
+            with self.assertRaises(RuntimeError) as ctx:
+                evaluate_c_predictions(
+                    _all_correct_records(),
+                    case_truth=_CLASS_ASSIGNMENT,
+                    agents_config=_AGENTS_CONFIG,
+                    b_records=[],
+                )
+            err = str(ctx.exception)
+            self.assertIn("R9 cross-verify", err)
+            self.assertIn("abstain", err)
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
+           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+           return_value={"evaluator_manifest_verified": True})
+    def test_missing_verified_aggregates_rejected(self, mock_eval, mock_pred) -> None:
+        """verify_aggregate_freeze returns no verified_aggregates → RuntimeError."""
+        mock_result = {
+            "c_aggregate_manifest_verified": True,
+            "record_count": 15,
+            # No verified_aggregates key.
+        }
+        with patch(
+            "icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+            return_value=mock_result,
+        ):
+            with self.assertRaises(RuntimeError) as ctx:
+                evaluate_c_predictions(
+                    _all_correct_records(),
+                    case_truth=_CLASS_ASSIGNMENT,
+                    agents_config=_AGENTS_CONFIG,
+                    b_records=[],
+                )
+            self.assertIn("verified_aggregates", str(ctx.exception))
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
+           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+           return_value={"evaluator_manifest_verified": True})
+    def test_missing_case_in_frozen_rejected(self, mock_eval, mock_pred) -> None:
+        """Frozen aggregates missing a case → RuntimeError."""
+        frozen = _verified_aggregates_for_records()
+        del frozen["PBH-010"]
+        mock_result = {
+            "c_aggregate_manifest_verified": True,
+            "record_count": 15,
+            "verified_aggregates": frozen,
+        }
+        with patch(
+            "icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+            return_value=mock_result,
+        ):
+            with self.assertRaises(RuntimeError) as ctx:
+                evaluate_c_predictions(
+                    _all_correct_records(),
+                    case_truth=_CLASS_ASSIGNMENT,
+                    agents_config=_AGENTS_CONFIG,
+                    b_records=[],
+                )
+            err = str(ctx.exception)
+            self.assertIn("R9 cross-verify", err)
+            self.assertIn("PBH-010", err)
 
 
 if __name__ == "__main__":

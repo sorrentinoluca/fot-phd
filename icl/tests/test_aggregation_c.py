@@ -614,6 +614,31 @@ class TestExpectedCaseIds(unittest.TestCase):
 _CASE_IDS = [f"PBH-{i:03d}" for i in range(1, 16)]
 
 
+def _make_raw_records_jsonl(
+    aggs: list[CAggregatePrediction] | None = None,
+) -> str:
+    """Build JSONL content for c_records.jsonl matching aggregates' outcomes.
+
+    Each aggregate's repetition_outcomes are expanded into one raw record per
+    repetition.  If *aggs* is None, ``_make_standard_aggregates()`` is used.
+    """
+    if aggs is None:
+        aggs = _make_standard_aggregates()
+    lines: list[str] = []
+    for agg in aggs:
+        for outcome in agg.repetition_outcomes:
+            raw: dict[str, Any] = {
+                "physical_case_id": agg.physical_case_id,
+                "repetition": outcome["repetition"],
+                "parsed_output": {
+                    "predicted_label": outcome["predicted_label"],
+                    "abstain": outcome.get("abstain", False),
+                },
+            }
+            lines.append(json.dumps(raw, separators=(",", ":")))
+    return "\n".join(lines) + "\n"
+
+
 def _make_standard_aggregates() -> list[CAggregatePrediction]:
     """Build 15 CAggregatePrediction objects, one per case."""
     aggs = []
@@ -697,9 +722,16 @@ class TestVerifyAggregateFreezeR8(unittest.TestCase):
     def tearDown(self) -> None:
         shutil.rmtree(self.tmpdir, ignore_errors=True)
 
-    def _write_cross_verify_files(self) -> tuple[str, str]:
-        """Write dummy c_records.jsonl and c_schedule.json, return their SHA-256."""
-        c_content = '{"dummy":"record"}\n'
+    def _write_cross_verify_files(
+        self,
+        aggs: list[CAggregatePrediction] | None = None,
+    ) -> tuple[str, str]:
+        """Write c_records.jsonl and c_schedule.json, return their SHA-256.
+
+        R9: raw records now match the aggregate repetition_outcomes so that
+        check 11 (cross-verify against raw records) passes on the happy path.
+        """
+        c_content = _make_raw_records_jsonl(aggs)
         self.c_records_path.write_text(c_content, encoding="utf-8")
         c_sha = hashlib.sha256(self.c_records_path.read_bytes()).hexdigest()
 
@@ -870,6 +902,195 @@ class TestVerifyAggregateFreezeR8(unittest.TestCase):
             "record count" in err.lower(),
             f"unexpected error: {err}",
         )
+
+
+class TestVerifyAggregateFreezeR9(unittest.TestCase):
+    """R9: semantic derivation checks added to verify_aggregate_freeze.
+
+    - agent_id must be 'central'
+    - condition must be 'C'
+    - parsed_output.predicted_label must match majority vote from outcomes
+    - repetition_outcomes must match raw c_records.jsonl labels
+    """
+
+    def setUp(self) -> None:
+        self.tmpdir = Path(tempfile.mkdtemp())
+        self.agg_path = self.tmpdir / "c_aggregate_records.jsonl"
+        self.manifest_path = self.tmpdir / "c_aggregate_manifest.json"
+        self.c_records_path = self.tmpdir / "c_records.jsonl"
+        self.schedule_path = self.tmpdir / "c_schedule.json"
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.tmpdir, ignore_errors=True)
+
+    # ---- helpers ----
+
+    def _write_schedule(self) -> str:
+        s_content = '[{"dummy":"schedule"}]'
+        self.schedule_path.write_text(s_content, encoding="utf-8")
+        return hashlib.sha256(self.schedule_path.read_bytes()).hexdigest()
+
+    def _write_setup_from_dicts(
+        self,
+        agg_dicts: list[dict[str, Any]],
+        *,
+        raw_records_content: str | None = None,
+    ) -> tuple[str, str, str]:
+        """Write aggregates (from raw dicts), manifest, schedule, raw records.
+
+        If *raw_records_content* is not None it is used verbatim for
+        ``c_records.jsonl``; otherwise matching raw records are derived
+        from *agg_dicts*' repetition_outcomes.
+
+        Returns ``(agg_sha, c_sha, s_sha)``.
+        """
+        s_sha = self._write_schedule()
+
+        # --- raw records ---
+        if raw_records_content is None:
+            # Derive matching raw records from the aggregate dicts.
+            raw_lines: list[str] = []
+            for d in agg_dicts:
+                for outcome in d["repetition_outcomes"]:
+                    raw: dict[str, Any] = {
+                        "physical_case_id": d["physical_case_id"],
+                        "repetition": outcome["repetition"],
+                        "parsed_output": {
+                            "predicted_label": outcome["predicted_label"],
+                            "abstain": outcome.get("abstain", False),
+                        },
+                    }
+                    raw_lines.append(json.dumps(raw, separators=(",", ":")))
+            raw_content = "\n".join(raw_lines) + "\n"
+        else:
+            raw_content = raw_records_content
+
+        self.c_records_path.write_text(raw_content, encoding="utf-8")
+        c_sha = hashlib.sha256(self.c_records_path.read_bytes()).hexdigest()
+
+        # --- aggregate JSONL ---
+        agg_content = "\n".join(
+            json.dumps(d, ensure_ascii=False, separators=(",", ":"))
+            for d in agg_dicts
+        ) + "\n"
+        self.agg_path.write_text(agg_content, encoding="utf-8")
+        agg_sha = hashlib.sha256(self.agg_path.read_bytes()).hexdigest()
+
+        # --- manifest ---
+        write_aggregate_manifest(
+            aggregate_sha256=agg_sha,
+            record_count=len(agg_dicts),
+            c_records_sha256=c_sha,
+            schedule_sha256=s_sha,
+            manifest_path=self.manifest_path,
+        )
+        return agg_sha, c_sha, s_sha
+
+    def _standard_agg_dicts(self) -> list[dict[str, Any]]:
+        return [agg.to_dict() for agg in _make_standard_aggregates()]
+
+    # ---- tests ----
+
+    def test_wrong_agent_id_rejected(self) -> None:
+        """R9: agent_id != 'central' in one aggregate → RuntimeError."""
+        dicts = self._standard_agg_dicts()
+        dicts[5]["agent_id"] = "rogue_agent"
+        self._write_setup_from_dicts(dicts)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        err = str(ctx.exception)
+        self.assertIn("agent_id", err)
+        self.assertIn("central", err)
+
+    def test_wrong_condition_rejected(self) -> None:
+        """R9: condition != 'C' in one aggregate → RuntimeError."""
+        dicts = self._standard_agg_dicts()
+        dicts[3]["condition"] = "B"
+        self._write_setup_from_dicts(dicts)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        err = str(ctx.exception)
+        self.assertIn("condition", err)
+        self.assertIn("'C'", err)
+
+    def test_majority_label_inconsistency_rejected(self) -> None:
+        """R9: parsed_output.predicted_label ≠ majority vote → RuntimeError."""
+        dicts = self._standard_agg_dicts()
+        # All 3 outcomes say "Normal" but parsed_output says "CLS-ZOGAA".
+        dicts[7]["parsed_output"]["predicted_label"] = "CLS-ZOGAA"
+        self._write_setup_from_dicts(dicts)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("majority vote", str(ctx.exception))
+
+    def test_no_majority_without_abstain_rejected(self) -> None:
+        """R9: no majority in outcomes but abstain is False → RuntimeError."""
+        dicts = self._standard_agg_dicts()
+        # Make all 3 outcomes different labels — no majority possible.
+        dicts[0]["repetition_outcomes"][0]["predicted_label"] = "Normal"
+        dicts[0]["repetition_outcomes"][1]["predicted_label"] = "CLS-ZOGAA"
+        dicts[0]["repetition_outcomes"][2]["predicted_label"] = "CLS-OJNSG"
+        # Keep parsed_output claiming a definite prediction (not abstain).
+        dicts[0]["parsed_output"]["abstain"] = False
+        self._write_setup_from_dicts(dicts)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("abstain", str(ctx.exception))
+
+    def test_repetition_outcome_label_mismatch_raw_rejected(self) -> None:
+        """R9: repetition_outcomes labels differ from raw c_records → RuntimeError."""
+        dicts = self._standard_agg_dicts()
+
+        # Build raw records that differ from the aggregates on one case.
+        raw_lines: list[str] = []
+        for d in dicts:
+            for outcome in d["repetition_outcomes"]:
+                label = outcome["predicted_label"]
+                # Tamper: PBH-001, rep 1 → different label in raw records.
+                if d["physical_case_id"] == "PBH-001" and outcome["repetition"] == 1:
+                    label = "CLS-ZOGAA"
+                raw: dict[str, Any] = {
+                    "physical_case_id": d["physical_case_id"],
+                    "repetition": outcome["repetition"],
+                    "parsed_output": {
+                        "predicted_label": label,
+                        "abstain": outcome.get("abstain", False),
+                    },
+                }
+                raw_lines.append(json.dumps(raw, separators=(",", ":")))
+        tampered_raw = "\n".join(raw_lines) + "\n"
+
+        self._write_setup_from_dicts(dicts, raw_records_content=tampered_raw)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        err = str(ctx.exception)
+        self.assertIn("raw record label", err)
+        self.assertIn("PBH-001", err)
 
 
 if __name__ == "__main__":

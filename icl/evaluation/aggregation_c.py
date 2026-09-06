@@ -339,6 +339,7 @@ def verify_aggregate_freeze(
 
     # --- 5 + 6 + 7. Parse each record and validate ---
     seen_case_ids: set[str] = set()
+    parsed_records_for_case: dict[str, dict] = {}
     for i, line in enumerate(lines):
         try:
             obj = json.loads(line)
@@ -386,6 +387,49 @@ def verify_aggregate_freeze(
                 f"aggregation_rule must be 'majority_2_of_3', "
                 f"got {obj['aggregation_rule']!r}"
             )
+
+        # R9: agent_id must be "central".
+        if obj.get("agent_id") != "central":
+            raise RuntimeError(
+                f"c_aggregate_records.jsonl line {i} ({case_id}): "
+                f"agent_id must be 'central', got {obj.get('agent_id')!r}"
+            )
+
+        # R9: condition must be "C".
+        if obj.get("condition") != "C":
+            raise RuntimeError(
+                f"c_aggregate_records.jsonl line {i} ({case_id}): "
+                f"condition must be 'C', got {obj.get('condition')!r}"
+            )
+
+        # R9: majority-label consistency — parsed_output.predicted_label
+        # must match the actual majority vote of repetition_outcomes.
+        outcome_labels = [
+            o.get("predicted_label") for o in outcomes
+            if not o.get("abstain") and not o.get("parse_failure")
+        ]
+        outcome_votes = Counter(outcome_labels)
+        majority_winners = [lbl for lbl, cnt in outcome_votes.items() if cnt >= 2]
+        po = obj.get("parsed_output", {})
+        if len(majority_winners) == 1:
+            if po.get("predicted_label") != majority_winners[0]:
+                raise RuntimeError(
+                    f"c_aggregate_records.jsonl line {i} ({case_id}): "
+                    f"parsed_output.predicted_label "
+                    f"{po.get('predicted_label')!r} does not match "
+                    f"majority vote {majority_winners[0]!r} from "
+                    f"repetition_outcomes"
+                )
+        else:
+            # No majority — must be abstain.
+            if not po.get("abstain"):
+                raise RuntimeError(
+                    f"c_aggregate_records.jsonl line {i} ({case_id}): "
+                    f"no majority in repetition_outcomes but "
+                    f"parsed_output.abstain is not True"
+                )
+
+        parsed_records_for_case[case_id] = obj
 
     # Check for missing case IDs.
     if seen_case_ids != _EXPECTED_CASE_IDS:
@@ -441,6 +485,40 @@ def verify_aggregate_freeze(
             f"actual is {actual_sched_sha[:16]}…"
         )
 
+    # --- 11. R9: cross-verify repetition_outcomes against raw c_records ---
+    raw_lines = _c_rec_path.read_text(encoding="utf-8").strip().split("\n")
+    raw_by_case: dict[str, list[dict]] = defaultdict(list)
+    for raw_line in raw_lines:
+        if not raw_line.strip():
+            continue
+        raw_obj = json.loads(raw_line)
+        raw_by_case[raw_obj["physical_case_id"]].append(raw_obj)
+
+    for case_id, agg_obj in parsed_records_for_case.items():
+        raw_recs = sorted(
+            raw_by_case.get(case_id, []),
+            key=lambda r: r["repetition"],
+        )
+        agg_outcomes = agg_obj["repetition_outcomes"]
+        if len(raw_recs) != len(agg_outcomes):
+            raise RuntimeError(
+                f"aggregate {case_id}: {len(agg_outcomes)} "
+                f"repetition_outcomes but {len(raw_recs)} raw records"
+            )
+        for j, (raw_rec, agg_out) in enumerate(
+            zip(raw_recs, agg_outcomes)
+        ):
+            raw_label = raw_rec.get("parsed_output", {}).get(
+                "predicted_label"
+            )
+            agg_label = agg_out.get("predicted_label")
+            if raw_label != agg_label:
+                raise RuntimeError(
+                    f"aggregate {case_id} repetition {j+1}: "
+                    f"outcome label {agg_label!r} does not match "
+                    f"raw record label {raw_label!r}"
+                )
+
     return {
         "c_aggregate_manifest_verified": True,
         "c_aggregate_records_sha256": actual_sha,
@@ -448,4 +526,5 @@ def verify_aggregate_freeze(
         "aggregation_rule": manifest["aggregation_rule"],
         "source_c_records_sha256": manifest["source_c_records_sha256"],
         "status": manifest["status"],
+        "verified_aggregates": parsed_records_for_case,
     }

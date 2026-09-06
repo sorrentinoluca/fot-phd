@@ -33,6 +33,7 @@ from typing import Any
 
 from icl.evaluation.aggregation_c import (
     CAggregatePrediction,
+    DEFAULT_AGGREGATE_PATH,
     aggregate_c_records,
     verify_aggregate_freeze,
 )
@@ -720,6 +721,7 @@ def evaluate_c_predictions(
     c_records_path: Path | None = None,
     c_predictions_manifest_path: Path | None = None,
     c_schedule_path: Path | None = None,
+    c_aggregate_path: Path | None = None,
 ) -> dict[str, Any]:
     """Run the full Condition C evaluation pipeline.
 
@@ -770,7 +772,12 @@ def evaluate_c_predictions(
     # Aggregate freeze barrier (R8 P1: verify aggregated predictions).
     # Cross-verifies aggregate records against their manifest, validates
     # case IDs, repetition_outcomes, source hash, and schedule hash.
+    _agg_path = (
+        c_aggregate_path if c_aggregate_path is not None
+        else DEFAULT_AGGREGATE_PATH
+    )
     aggregate_integrity = verify_aggregate_freeze(
+        aggregate_path=_agg_path,
         c_records_path=c_records_path,
         schedule_path=c_schedule_path,
     )
@@ -816,6 +823,46 @@ def evaluate_c_predictions(
         label_space=label_space,
         expected_case_ids=set(case_truth),
     )
+
+    # R9: cross-verify recomputed aggregates against frozen aggregates.
+    # verify_aggregate_freeze (above) returns the verified aggregate records
+    # keyed by case_id.  We ensure the pipeline actually *uses* a result
+    # consistent with that frozen artifact, not an arbitrary recomputation.
+    frozen_by_case: dict[str, dict[str, Any]] | None = (
+        aggregate_integrity.get("verified_aggregates")
+    )
+    if frozen_by_case is None:
+        raise RuntimeError(
+            "R9 cross-verify: verify_aggregate_freeze did not return "
+            "verified_aggregates — cannot confirm consistency"
+        )
+
+    for agg in aggregates:
+        cid = agg.physical_case_id
+        if cid not in frozen_by_case:
+            raise RuntimeError(
+                f"R9 cross-verify: recomputed aggregate for {cid} "
+                f"has no matching frozen record"
+            )
+        frozen = frozen_by_case[cid]
+        # Compare predicted_label.
+        recomputed_label = agg.parsed_output.get("predicted_label")
+        frozen_label = frozen.get("parsed_output", {}).get("predicted_label")
+        if recomputed_label != frozen_label:
+            raise RuntimeError(
+                f"R9 cross-verify: recomputed predicted_label for {cid} "
+                f"is {recomputed_label!r} but frozen aggregate says "
+                f"{frozen_label!r}"
+            )
+        # Compare abstain.
+        recomputed_abstain = agg.parsed_output.get("abstain")
+        frozen_abstain = frozen.get("parsed_output", {}).get("abstain")
+        if recomputed_abstain != frozen_abstain:
+            raise RuntimeError(
+                f"R9 cross-verify: recomputed abstain for {cid} "
+                f"is {recomputed_abstain!r} but frozen aggregate says "
+                f"{frozen_abstain!r}"
+            )
 
     # Validate all aggregates have truth.
     missing = {
