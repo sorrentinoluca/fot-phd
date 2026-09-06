@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Percorso didattico unitario del proof-of-concept Federation over Text sul Tennessee Eastman Process: dai dati raw alla rappresentazione testuale, agli insight federati e alla valutazione offline.">
+<title>FoT su TEP — Un unico percorso, dal dato alla valutazione</title>
+<script>document.documentElement.classList.add('js');</script>
+<style>
+:root{--paper:#f3f6f8;--ink:#172632;--muted:#536875;--line:#cfd9df;--navy:#123b56;--blue:#1f638c;--teal:#08796d;--teal-soft:#e9f5f2;--amber:#8a5a13;--amber-soft:#fff5df;--white:#fff;--shadow:0 12px 32px rgba(22,52,69,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:84px}body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.66 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--blue);text-underline-offset:3px}a:hover{color:var(--teal)}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #f1a52b;outline-offset:4px}
+.skip{position:fixed;left:-9999px;top:10px;z-index:100;background:var(--white);padding:.7rem 1rem;border-radius:7px}.skip:focus{left:12px}
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;min-height:62px;padding:10px 22px;background:rgba(243,246,248,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}
+.nav-toggle{display:inline-flex;align-items:center;gap:8px;border:1px solid #9fb1bc;border-radius:8px;background:var(--white);color:var(--navy);font:inherit;font-weight:750;padding:8px 12px;cursor:pointer}.nav-toggle .icon{font-size:20px;line-height:1}.progress-label{margin-left:auto;color:var(--muted);font-size:14px;font-weight:750;white-space:nowrap}
+.layout{max-width:1580px;margin:auto;display:grid;grid-template-columns:280px minmax(0,1fr);gap:28px;padding:24px 28px 56px;transition:grid-template-columns .22s ease,gap .22s ease}
+.guide-nav{position:sticky;top:86px;align-self:start;height:calc(100vh - 108px);overflow:auto;padding:17px 16px 22px;background:var(--white);border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);transition:opacity .18s ease,transform .22s ease}
+.guide-nav h2{font-size:17px;margin:3px 0 5px;color:var(--navy)}.guide-nav p{font-size:13px;color:var(--muted);margin:0 0 12px}.guide-nav ol{list-style:none;margin:0;padding:0}.guide-nav li{margin:3px 0}
+.guide-nav a{display:block;padding:7px 9px;border-radius:7px;color:#304b5c;text-decoration:none;font-size:13.5px;line-height:1.35}.guide-nav a:hover{background:#eef4f7}.guide-nav a[aria-current="step"]{background:var(--teal-soft);color:#075f57;font-weight:800;border-left:4px solid var(--teal);padding-left:7px}
+.guide-nav .nav-phase{margin:7px 0;border:1px solid var(--line);border-radius:8px;background:#f8fafb}.guide-nav .nav-phase summary{padding:8px 9px;font-size:13.5px}.guide-nav .nav-phase>ol{padding:2px 5px 7px}.guide-nav .nav-phase-empty{margin:0;padding:2px 10px 10px;font-size:12.5px}
+.nav-backdrop{display:none}body.nav-collapsed .layout{grid-template-columns:0 minmax(0,1fr);gap:0}body.nav-collapsed .guide-nav{opacity:0;transform:translateX(-24px);pointer-events:none;overflow:hidden;padding-left:0;padding-right:0;border-width:0}
+main{min-width:0;width:100%;max-width:1200px;margin:0 auto}header{padding:clamp(28px,5vw,58px);background:linear-gradient(125deg,#123b56,#086e65);color:var(--white);border-radius:18px;box-shadow:var(--shadow)}
+header h1{width:100%;max-width:none;font-size:clamp(32px,5vw,56px);line-height:1.08;margin:10px 0 18px}header p{max-width:78ch;margin:12px 0;color:#e6f1f3}.eyebrow,.panel-label,.phase-badge{font-size:12px;letter-spacing:.09em;text-transform:uppercase;font-weight:850}.subtitle{font-size:clamp(19px,2.2vw,24px);line-height:1.45}
+.route{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:23px 0 0}.route span{padding:6px 9px;border:1px solid rgba(255,255,255,.35);border-radius:6px;font-size:13px;background:rgba(255,255,255,.08)}.route b{color:#bfeae4}
+.orientation{margin:18px 0 28px;padding:18px 22px;border-left:5px solid var(--teal);background:var(--white);border-radius:0 10px 10px 0}.orientation p{margin:5px 0;max-width:82ch}
+section{scroll-margin-top:82px;background:var(--white);border:1px solid var(--line);border-radius:15px;padding:clamp(24px,4vw,42px);margin:22px 0;box-shadow:0 6px 20px rgba(22,52,69,.055)}section>ul,section>ol,section>h3{max-width:82ch}
+.step-kicker{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--teal);font-size:13px;font-weight:850;letter-spacing:.07em;text-transform:uppercase}.phase-badge{display:inline-block;padding:3px 9px;border-radius:999px;letter-spacing:.04em}.design{background:var(--amber-soft);color:var(--amber)}.runtime{background:var(--teal-soft);color:#09645b}.offline{background:#eaf0fa;color:#315d92}
+h2{font-size:clamp(26px,3vw,34px);line-height:1.2;margin:9px 0 20px;color:var(--navy)}h3{font-size:20px;line-height:1.35;margin:27px 0 10px;color:#234b60}p{margin:12px 0}ul,ol{padding-left:25px}li{margin:.42rem 0}
+code{font-size:.9em;overflow-wrap:anywhere;background:#edf2f5;padding:1px 5px;border-radius:4px}pre{margin:13px 0;background:#102d3d;color:#edf7f8;padding:18px;border-radius:9px;overflow:auto;font-size:13.5px;line-height:1.55}pre code{background:none;padding:0;color:inherit;overflow-wrap:normal}
+.decision{display:grid;grid-template-columns:125px minmax(0,1fr);gap:7px 16px;max-width:82ch;margin-left:auto;margin-right:auto;background:#f7f9fa;border:1px solid var(--line);padding:17px 19px;border-radius:9px}.decision dt{font-weight:850;color:var(--navy)}.decision dd{margin:0}
+.example{width:100%;margin:24px 0 17px;padding:21px 23px;border:1px solid #9bc8c2;border-left:6px solid var(--teal);border-radius:10px;background:var(--teal-soft)}.example h3{margin:4px 0 12px;max-width:none;color:#075e56}.example p,.example ul,.example ol{max-width:88ch}.example .panel-label{color:#087066}
+.output,.checkpoint{width:100%;margin:13px 0;padding:14px 18px;border-radius:8px}.output{background:#edf3f8;border-left:5px solid var(--blue)}.checkpoint{background:var(--amber-soft);border-left:5px solid #d49326}.output strong,.checkpoint strong{color:var(--navy)}
+.scroll{overflow-x:auto;margin:15px 0;border:1px solid var(--line);border-radius:8px;background:var(--white)}table{width:100%;border-collapse:collapse;font-size:14px}caption{text-align:left;font-weight:800;padding:10px 12px;color:var(--muted);background:#f7f9fa}th,td{padding:9px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{background:#edf3f6;color:#25485c}tr:last-child td{border-bottom:0}.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.chain{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:17px 0}.chain span{background:var(--white);border:1px solid #a9c6c3;padding:7px 10px;border-radius:6px;font-size:14px}.chain b{color:var(--teal)}
+.callout{padding:15px 18px;border-left:5px solid var(--amber);background:var(--amber-soft);border-radius:0 8px 8px 0;max-width:82ch}.callout.full-width{width:100%;max-width:none}blockquote{margin:15px 0;padding:17px 20px;border-left:5px solid var(--blue);background:var(--white);border-radius:0 8px 8px 0}
+details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:#f8fafb}summary{cursor:pointer;padding:12px 15px;font-weight:800;color:var(--navy)}details>div{padding:0 15px 15px}.source{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin-top:24px;max-width:none}.yes{color:#087367;font-weight:850}.no{color:#a03932;font-weight:850}footer{margin:28px 0 0;padding:24px;color:var(--muted);text-align:center;font-size:14px}
+#step-17 .s17prov{display:grid;grid-template-columns:1fr;gap:14px}
+#step-17 .s17prov h4{margin:8px 0 4px;font-size:15px;letter-spacing:0;color:var(--navy)}
+#step-17 .s17prov ul,#step-17 .s17prov ol{margin:0;padding-left:22px}
+#step-17 .s17prov li{margin:6px 0;font-size:14.5px;line-height:1.55}
+#step-17 .s17bars{margin:14px 0}
+#step-17 .s17row{display:flex;align-items:center;gap:12px;margin:8px 0}
+#step-17 .s17lab{width:22px;font-weight:850;color:var(--navy)}
+#step-17 .s17track{flex:1;display:flex;height:32px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+#step-17 .s17seg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;min-width:0}
+#step-17 .s17seg.ok{background:#087367}
+#step-17 .s17seg.wr{background:#a03932}
+#step-17 .s17seg.ab{background:#8a99a3}
+#step-17 .s17legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin:8px 0 0;color:var(--muted)}
+#step-17 .s17legend span{display:inline-flex;align-items:center;gap:6px}
+#step-17 .s17legend i{width:13px;height:13px;border-radius:3px;display:inline-block}
+#step-17 table.s17hm{width:100%;min-width:720px;border-collapse:collapse;font-size:13px}
+#step-17 table.s17hm th,#step-17 table.s17hm td{border:2px solid #fff;text-align:center;padding:0}
+#step-17 table.s17hm thead th{background:#edf3f6;color:#25485c;padding:5px 8px;border-color:var(--line)}
+#step-17 .s17hm tr.s17group-start>*{border-top:5px solid var(--paper)}
+#step-17 .s17num{background:#f7f9fa;color:#536875;font-weight:700;padding:4px 8px;width:42px;font-variant-numeric:tabular-nums}
+#step-17 .s17flab{background:#eef4f7;color:var(--navy);font-weight:850;padding:0 8px;width:auto}
+#step-17 .s17run{background:#f7f9fa;color:#25485c;font-weight:700;padding:4px 8px;white-space:nowrap;font-variant-numeric:tabular-nums;width:auto}
+#step-17 .s17-ok{background:#087367;color:#fff;font-weight:800}
+#step-17 .s17-wr{background:#a03932;color:#fff;font-weight:800}
+#step-17 .s17-ab{background:#8a99a3;color:#fff;font-weight:800}
+#step-17 .s17-seen{background:#d7dee2;color:#8595a0}
+#step-17 .s17hm td.s17-ok,#step-17 .s17hm td.s17-wr,#step-17 .s17hm td.s17-ab,#step-17 .s17hm td.s17-seen{width:34px;height:26px}
+#step-17 .s17fault{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+#step-17 .s17fault span{border:1px solid #a9c6c3;border-radius:6px;padding:6px 10px;font-size:14px;background:var(--white);font-variant-numeric:tabular-nums}
+#step-17 .s17fault span.hot{border-color:#a03932;background:#f7e9e7;color:#7d2c26;font-weight:800}
+#step-17 .fig-cap{font-size:13px;color:var(--muted);max-width:90ch;margin:8px 0 0}
+#step-17 .s17tag{display:inline-block;font-size:10.5px;font-weight:850;letter-spacing:.04em;text-transform:uppercase;padding:1px 7px;border-radius:999px;margin-left:4px}
+#step-17 .s17tag.pre{background:var(--teal-soft);color:#075f57}
+#step-17 .s17tag.post{background:#eef0f2;color:#5a6b76}
+#step-21 .s17bars{margin:14px 0}
+#step-21 .s17row{display:flex;align-items:center;gap:12px;margin:8px 0}
+#step-21 .s17lab{width:22px;font-weight:850;color:var(--navy)}
+#step-21 .s17track{flex:1;display:flex;height:32px;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+#step-21 .s17seg{display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;min-width:0}
+#step-21 .s17seg.ok{background:#087367}
+#step-21 .s17seg.wr{background:#a03932}
+#step-21 .s17seg.ab{background:#8a99a3}
+#step-21 .s17legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin:8px 0 0;color:var(--muted)}
+#step-21 .s17legend span{display:inline-flex;align-items:center;gap:6px}
+#step-21 .s17legend i{width:13px;height:13px;border-radius:3px;display:inline-block}
+#step-21 table.s17hm{width:100%;min-width:720px;border-collapse:collapse;font-size:13px}
+#step-21 table.s17hm th,#step-21 table.s17hm td{border:2px solid #fff;text-align:center;padding:0}
+#step-21 table.s17hm thead th{background:#edf3f6;color:#25485c;padding:5px 8px;border-color:var(--line)}
+#step-21 .s17hm tr.s17group-start>*{border-top:5px solid var(--paper)}
+#step-21 .s17num{background:#f7f9fa;color:#536875;font-weight:700;padding:4px 8px;width:42px;font-variant-numeric:tabular-nums}
+#step-21 .s17flab{background:#eef4f7;color:var(--navy);font-weight:850;padding:0 8px;width:auto}
+#step-21 .s17run{background:#f7f9fa;color:#25485c;font-weight:700;padding:4px 8px;white-space:nowrap;font-variant-numeric:tabular-nums;width:auto}
+#step-21 .s17-ok{background:#087367;color:#fff;font-weight:800}
+#step-21 .s17-wr{background:#a03932;color:#fff;font-weight:800}
+#step-21 .s17-ab{background:#8a99a3;color:#fff;font-weight:800}
+#step-21 .s17-seen{background:#d7dee2;color:#8595a0}
+#step-21 .s17-seen-err{background:#e8c5c3;color:#7d2c26;font-weight:800}
+#step-21 .s17hm td.s17-ok,#step-21 .s17hm td.s17-wr,#step-21 .s17hm td.s17-ab,#step-21 .s17hm td.s17-seen,#step-21 .s17hm td.s17-seen-err{width:34px;height:26px}
+#step-21 .s17fault{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+#step-21 .s17fault span{border:1px solid #a9c6c3;border-radius:6px;padding:6px 10px;font-size:14px;background:var(--white);font-variant-numeric:tabular-nums}
+#step-21 .s17fault span.hot{border-color:#a03932;background:#f7e9e7;color:#7d2c26;font-weight:800}
+#step-21 .fig-cap,#step-22 .fig-cap,#step-23 .fig-cap,#step-24 .fig-cap{font-size:13px;color:var(--muted);max-width:90ch;margin:8px 0 0}
+#step-21 .s17tag,#step-22 .s17tag,#step-23 .s17tag{display:inline-block;font-size:10.5px;font-weight:850;letter-spacing:.04em;text-transform:uppercase;padding:1px 7px;border-radius:999px;margin-left:4px}
+#step-21 .s17tag.pre,#step-22 .s17tag.pre,#step-23 .s17tag.pre{background:var(--teal-soft);color:#075f57}
+#step-21 .s17tag.post,#step-22 .s17tag.post,#step-23 .s17tag.post{background:#eef0f2;color:#5a6b76}
+.comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:18px 0}.comparison-grid .cg-header{background:var(--navy);color:#fff;padding:12px 16px;font-weight:850;text-align:center;font-size:15px}.comparison-grid .cg-cell{padding:10px 14px;border-bottom:1px solid var(--line);font-size:14px;line-height:1.55}.comparison-grid .cg-cell:nth-child(4n+3),.comparison-grid .cg-cell:nth-child(4n+4){background:#f8fafb}.comparison-grid .cg-label{font-weight:800;color:var(--navy);padding:10px 14px;border-bottom:1px solid var(--line);background:#edf3f6;grid-column:1/-1;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
+@media(max-width:900px){html{scroll-padding-top:76px}.topbar{padding:9px 14px}.layout{display:block;padding:14px 14px 44px}.js .guide-nav{position:fixed;z-index:70;left:0;top:0;width:min(86vw,340px);height:100vh;border-radius:0;transform:translateX(-105%);opacity:1;pointer-events:none;padding:72px 18px 25px;transition:transform .22s ease;overflow:auto}.js body.nav-open .guide-nav{transform:translateX(0);pointer-events:auto}.js body.nav-collapsed .guide-nav{opacity:1;border-width:1px;padding:72px 18px 25px}.js body.nav-open .nav-backdrop{display:block;position:fixed;z-index:60;inset:0;background:rgba(8,27,38,.48);border:0}main{max-width:100%}section{margin:16px 0}}
+@media(max-width:560px){body{font-size:16px}.progress-label{font-size:12px}.nav-toggle{padding:7px 9px}header{border-radius:13px}section{padding:22px 16px}.example{padding:18px 15px}.decision{grid-template-columns:1fr;gap:2px}.decision dd{margin-bottom:8px}.chain{align-items:stretch;flex-direction:column}.chain b{text-align:center}}
+@media print{.topbar,.guide-nav,.nav-backdrop,.skip{display:none!important}.layout{display:block;padding:0}.layout main{max-width:none}body{background:white;font-size:11pt}header,section{box-shadow:none}section{break-inside:auto}details>div{display:block!important}pre{white-space:pre-wrap}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Vai al contenuto</a>
+<div class="topbar">
+  <button id="nav-toggle" class="nav-toggle" type="button" aria-controls="guide-nav" aria-expanded="true"><span class="icon" aria-hidden="true">☰</span><span id="nav-label">Nascondi indice</span></button>
+  <span class="progress-label" aria-live="polite">Step <span id="current-step">1</span> / 24</span>
+</div>
+<button id="nav-backdrop" class="nav-backdrop" type="button" aria-label="Chiudi indice"></button>
+<div class="layout">
+<nav id="guide-nav" class="guide-nav" aria-label="Indice del percorso">
+  <h2>Indice</h2>
+  <ol class="nav-root">
+    <li><a href="#step-1">1. Introduzione</a></li>
+    <li><details class="nav-phase" open><summary>Fase 1</summary><ol>
+      <li><a href="#step-2">2. Dataset</a></li><li><a href="#step-3">3. Analisi e split dei dataset</a></li><li><a href="#step-4">4. Pipeline di Phase A: le 6 operazioni</a></li><li><a href="#step-5">5. Scelta delle feature</a></li><li><a href="#step-6">6. Calibrazione delle soglie</a></li><li><a href="#step-7">7. Il freeze del metodo</a></li><li><a href="#step-8">8. Dalle feature ai flag</a></li><li><a href="#step-9">9. Dai flag al JSON e al testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e test split</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Configurazioni informative e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
+    </ol></details></li>
+    <li><details class="nav-phase" open><summary>Fase 2 — Replica confirmatory (Experiment 3 V2)</summary><ol>
+      <li><a href="#step-18">18. Perché un esperimento confermativo su nuove realizzazioni simulate</a></li>
+      <li><a href="#step-19">19. Da Experiment 3 a EXP3_V2</a></li>
+      <li><a href="#step-20">20. Disegno confirmatory frozen</a></li>
+      <li><a href="#step-21">21. Risultati primari unseen</a></li>
+      <li><a href="#step-22">22. Contrasti e bootstrap</a></li>
+      <li><a href="#step-23">23. Risultati secondari descrittivi</a></li>
+      <li><a href="#step-24">24. Interpretazione, limiti e provenienza frozen</a></li>
+    </ol></details></li>
+    <li><details class="nav-phase"><summary>Fase 3</summary><p class="nav-phase-empty">Contenuti da aggiungere.</p></details></li>
+  </ol>
+  <p class="source"><a href="../README.md">Archivio pedagogico</a><br>Le fonti scientifiche frozen prevalgono.</p>
+</nav>
+<main id="main">
+<header>
+  <h1>FoT (Federation over Text) — Un ponte verso i dati PV attraverso TEP</h1>
+</header>
+<section id="step-1" data-step="1">
+  <div class="step-kicker">Step 1 / 17</div><h2>Introduzione</h2>
+  <p>Il dominio di base è quello degli impianti <strong>fotovoltaici (PV) distribuiti</strong>. Ogni sito osserva proprie serie temporali e propri eventi; clima, impianto, guasti, inverter e regime operativo rendono plausibile una conoscenza locale eterogenea, cioè <strong>non-IID</strong>.</p>
+  <p>L'obiettivo è esplorare una federazione in cui i siti non debbano centralizzare dati grezzi né scambiarsi necessariamente pesi o gradienti di un modello: ciascun nodo sintetizza conoscenza locale in <strong>testo strutturato</strong> e gli altri nodi la usano per ragionare. La ground truth entra soltanto nella valutazione offline; osservazione numerica, comunicazione testuale, insight e decisione restano separati, così che un buon testo non venga confuso con una diagnosi corretta.</p>
+  <p>L'idea parte dal paradigma del lavoro <em>Federation over Text: Insight Sharing for Multi-Agent Reasoning</em> (Yao, Rabbani, Zaheer, Li — <a href="https://arxiv.org/abs/2604.16778">arXiv:2604.16778</a>, repo <a href="https://github.com/dixiyao/FoT">github.com/dixiyao/FoT</a>): agenti con LLM frozen distillano <em>reasoning trace</em> in insight, che vengono aggregati e ridistribuiti come testo, senza gradienti né fine-tuning. In quel lavoro originale il paradigma è applicato a task di reasoning testuale (matematica, QA, coding); qui viene portato su un dominio nuovo, la <strong>diagnosi di guasti su serie temporali</strong>.</p>
+  <p>Come banco di prova controllato si usa il <strong>Tennessee Eastman Process (TEP)</strong>, un processo chimico simulato con fault noti e ground truth verificabile. I dati provengono dallo snapshot upstream <a href="https://github.com/mv-per/tennessee-eastman-dataset">github.com/mv-per/tennessee-eastman-dataset</a> (commit pinnato <code>309b944f</code>). TEP è un <strong>gate di fattibilità metodologica</strong>: permette di verificare il meccanismo FoT in condizioni note, non è la destinazione applicativa finale, che resta il fotovoltaico.</p>
+  <h3>1.2 Lessico operativo e unità di analisi</h3>
+  <p>Nel paradigma FoT, la questione sperimentale non è soltanto se ciascun nodo sappia riconoscere ciò che ha già osservato, ma anche se possa utilizzare la conoscenza testuale prodotta da altri nodi per diagnosticare tipi di guasto assenti dalla propria esperienza locale.</p>
+  <p>L’esperimento prevede quattro agenti, intesi come astrazioni di nodi diagnostici distribuiti. Ogni agente osserva l’andamento delle variabili misurate del processo, indicate come variabili XMEAS, e deve stabilire quale stato o tipo di guasto spieghi meglio il comportamento osservato. Gli agenti possiedono esperienze locali differenti: ciascuno dispone di conoscenze ricavate dai tipi di guasto osservati localmente.</p>
+  <p>I tipi di guasto, denominati formalmente <em>fault classes</em>, sono F1, F8, F10 e F13. Per ciascun tipo vengono generate <em>K</em> realizzazioni simulate, cioè simulazioni indipendenti dello stesso guasto. Il valore di <em>K</em> può variare tra gli esperimenti ed è specificato nei passaggi corrispondenti.</p>
+  <p>Ogni realizzazione simulata viene sottoposta a tutti e quattro gli agenti. L’unità elementare della valutazione è quindi la coppia <strong>agente–realizzazione</strong>. La relazione tra l’esperienza locale dell’agente e il tipo di guasto determina se questa valutazione è <strong>local-seen</strong> oppure <strong>local-unseen</strong>.</p>
+  <p>Per l’agente che possiede esperienza locale relativa a quel tipo di guasto, la valutazione è <strong>local-seen</strong>. Per gli altri tre agenti, che non hanno osservato localmente quel tipo durante la costruzione della propria conoscenza diagnostica, la valutazione è <strong>local-unseen</strong>, denominata semplicemente <em>unseen</em> nei risultati frozen.</p>
+  <p>Ogni realizzazione produce pertanto una valutazione <strong>local-seen</strong> e tre valutazioni <strong>local-unseen</strong>. Con <em>K</em> realizzazioni per ciascuno dei quattro tipi di guasto, si ottengono complessivamente 4 × <em>K</em> valutazioni <strong>local-seen</strong> e 12 × <em>K</em> valutazioni <strong>local-unseen</strong> per ogni configurazione informativa. I valori concreti di <em>K</em> e le dimensioni campionarie risultanti sono riportati nelle sezioni dedicate ai singoli esperimenti.</p>
+  <p>Le realizzazioni <strong>Normal</strong> rappresentano invece il funzionamento normale del processo, in assenza dei quattro tipi di guasto considerati. Le relative valutazioni vengono mantenute separate da quelle <strong>local-seen</strong> e <strong>local-unseen</strong>.</p>
+  <p>Nel seguito, un <strong>insight</strong> è una breve unità di conoscenza testuale che sintetizza ciò che un agente ha appreso dalla propria esperienza locale. Gli insight possono essere raccolti e messi a disposizione degli altri agenti come parte del contesto testuale utilizzato durante la diagnosi, senza trasferire i dati grezzi da cui sono stati ricavati.</p>
+  <p>Le configurazioni informative <strong>A</strong>, <strong>B</strong> ed <strong>E</strong>, indicate formalmente nei protocolli come <em>conditions</em>, stabiliscono se gli insight vengono forniti e in quale relazione si trovano con il tipo di guasto da riconoscere:</p>
+  <ul>
+    <li><strong>A</strong> costituisce il riferimento senza insight condivisi;</li>
+    <li><strong>B</strong> mette a disposizione insight pertinenti al tipo di guasto da riconoscere;</li>
+    <li><strong>E</strong> funge da controllo della pertinenza dell’informazione: gli insight sono presenti, ma la loro associazione con i tipi di guasto viene deliberatamente alterata secondo la mappatura di controllo stabilita dal protocollo.</li>
+  </ul>
+  <p>Il confronto tra queste configurazioni informative permette di distinguere l’effetto della semplice presenza di testo dall’effetto prodotto da conoscenza pertinente al tipo di guasto.</p>
+  <h3>1.3 Obiettivi sperimentali</h3>
+  <p>L’obiettivo principale è verificare se la configurazione informativa <strong>B</strong> migliori, rispetto alla configurazione informativa <strong>A</strong>, la diagnosi delle realizzazioni <strong>local-unseen</strong>. Il confronto primario <strong>B−A</strong> valuta quindi se un agente possa utilizzare conoscenza condivisa per riconoscere un tipo di guasto che non ha incontrato nella propria esperienza locale.</p>
+  <p>Il confronto <strong>B−E</strong> ha invece funzione di supporto e valuta la pertinenza dell’informazione, indicata formalmente come <em>specificità semantica</em>. Esso permette di verificare se l’eventuale beneficio dipenda dalla corretta relazione tra l’<strong>insight</strong> e il tipo di guasto, anziché dalla sola presenza di informazioni testuali. <strong>B−E</strong> non costituisce un secondo confronto primario.</p>
+  <p>I meccanismi concreti con cui vengono costruite le configurazioni informative <strong>A</strong>, <strong>B</strong> ed <strong>E</strong> — la struttura del prompt, la federazione degli insight e la permutazione di controllo — sono descritti negli Step 15 e 16. Le popolazioni <strong>local-seen</strong>, <strong>Normal</strong> e overall rimangono descrittive e non introducono ulteriori obiettivi confermativi.</p>
+  <h3>1.4 Review in sintesi</h3>
+  <p>Una review mirata della letteratura, documentata nella <a href="lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md">gap analysis e related work</a>, ha esaminato l’intersezione tra federazione della conoscenza testuale, sistemi multi-agente, esperienze locali disgiunte per tipo di guasto e diagnosi di serie temporali multivariate.</p>
+  <p>La ricerca ha compreso:</p>
+  <ol>
+    <li><strong>OpenAlex</strong>: otto query eseguite in parallelo e circa 40 risultati ispezionati;</li>
+    <li><strong>ArXiv</strong>: due articoli recuperati direttamente tramite identificativo durante una precedente fase della review;</li>
+    <li><strong>Crossref</strong>: una query e cinque risultati, prevalentemente tangenziali rispetto al tema FedMeta-FFD;</li>
+    <li><strong>DBLP</strong>: interrogazione non completata a causa di un errore HTTP 500 intermittente, documentato nella review;</li>
+    <li><strong>Scopus</strong>: non interrogato direttamente;</li>
+    <li><strong>Citation chaining</strong>: esame delle relazioni bibliografiche individuate dalla review preesistente, documentato negli Output 8–9.</li>
+  </ol>
+  <p>Nei limiti delle fonti, delle query e delle procedure consultate, non è stato individuato un lavoro precedente che combini simultaneamente tutti gli elementi centrali di questo progetto: insight testuali derivati dall’esperienza locale, condivisione fra agenti distribuiti con esperienza disgiunta per tipo di guasto e diagnosi di fault su serie temporali multivariate.</p>
+  <p>La conseguente affermazione di novità viene pertanto formulata in modo qualificato:</p>
+  <blockquote><em>“To the best of our knowledge, no prior work federates locally-derived textual insights across distributed agents with class-disjoint experience to diagnose faults in multivariate time series.”</em></blockquote>
+  <p>Questa conclusione non implica l’assenza assoluta di lavori non recuperati dalla ricerca. Definisce invece il gap emerso entro il perimetro documentato della review e motiva la domanda sperimentale affrontata dal progetto.</p>
+</section>
+
+<section id="step-2" data-step="2">
+  <div class="step-kicker">Step 2 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span></div><h2>Dataset</h2>
+  <p>Il <strong>Tennessee Eastman Process</strong> è un impianto chimico simulato. Il suo simulatore fornisce segnali multivariati, fault noti, run replicabili e un istante di attivazione del guasto verificato a <strong>10 h</strong>: è quindi un ottimo banco di prova, con una <strong>ground truth controllabile</strong> che il dominio fotovoltaico reale non offre. La pipeline legge da ogni file <code>Time</code> più <strong>41 variabili misurate XMEAS</strong>.</p>
+  <p>Nel progetto si usano due tipi di dato:</p>
+  <ul>
+    <li><strong>Dataset Normal</strong> — un solo file di processo <em>senza fault</em>, lungo <strong>500 h</strong>, con <strong>30001 righe</strong> (500 h × 60 = 30000 campioni, più la riga di endpoint a 500 h). Campionamento <strong>1 minuto</strong> (<code>1/60 h</code>). L'ultima riga (l'endpoint) viene <strong>esclusa</strong> dai blocchi: 30000 righe si dividono esattamente in 10 blocchi da 50 h, mentre la 30001ª cadrebbe fuori dalla suddivisione uniforme. 41 XMEAS per riga.</li>
+    <li><strong>Dataset di fault</strong> — i quattro fault studiati sono <strong>F1, F8, F10, F13</strong>. Ogni file è un run (batch) da <strong>50 h</strong>, <strong>3001 righe</strong> (50 h × 60 + endpoint), campionamento 1 minuto, 41 XMEAS. Il fault è iniettato a 10 h, quindi le prime 10 h sono processo nominale e le 40 h successive contengono la firma del guasto.</li>
+  </ul>
+  <p>I file di fault contengono anche <strong>12 variabili manipolate XMV</strong> (le grandezze che l'operatore può controllare). Vengono <strong>escluse</strong> dalla rappresentazione: il layer Phase A è stato definito sulle sole XMEAS e congelato così; aggiungere le XMV dopo aver osservato i dati cambierebbe la rappresentazione a valle del freeze. La pipeline conserva quindi soltanto <code>Time</code> + 41 XMEAS.</p>
+  <details><summary>Le 41 variabili misurate XMEAS (nomenclatura standard del processo)</summary><div>
+    <p>Nel dataset i canali sono identificati come <code>XMEAS-1 … XMEAS-41</code>. La loro denominazione fisica standard nel Tennessee Eastman Process è la seguente (misure continue 1–22; composizioni da analizzatore 23–41):</p>
+    <div class="scroll"><table><thead><tr><th>#</th><th>Variabile</th><th>#</th><th>Variabile</th></tr></thead><tbody>
+      <tr><td>XMEAS-1</td><td>A Feed (stream 1)</td><td>XMEAS-22</td><td>Separator cooling water outlet temp.</td></tr>
+      <tr><td>XMEAS-2</td><td>D Feed (stream 2)</td><td>XMEAS-23</td><td>Composition A (reactor feed)</td></tr>
+      <tr><td>XMEAS-3</td><td>E Feed (stream 3)</td><td>XMEAS-24</td><td>Composition B (reactor feed)</td></tr>
+      <tr><td>XMEAS-4</td><td>A and C Feed (stream 4)</td><td>XMEAS-25</td><td>Composition C (reactor feed)</td></tr>
+      <tr><td>XMEAS-5</td><td>Recycle Flow (stream 8)</td><td>XMEAS-26</td><td>Composition D (reactor feed)</td></tr>
+      <tr><td>XMEAS-6</td><td>Reactor Feed Rate (stream 6)</td><td>XMEAS-27</td><td>Composition E (reactor feed)</td></tr>
+      <tr><td>XMEAS-7</td><td>Reactor Pressure</td><td>XMEAS-28</td><td>Composition F (reactor feed)</td></tr>
+      <tr><td>XMEAS-8</td><td>Reactor Level</td><td>XMEAS-29</td><td>Composition A (purge)</td></tr>
+      <tr><td>XMEAS-9</td><td>Reactor Temperature</td><td>XMEAS-30</td><td>Composition B (purge)</td></tr>
+      <tr><td>XMEAS-10</td><td>Purge Rate (stream 9)</td><td>XMEAS-31</td><td>Composition C (purge)</td></tr>
+      <tr><td>XMEAS-11</td><td>Product Separator Temperature</td><td>XMEAS-32</td><td>Composition D (purge)</td></tr>
+      <tr><td>XMEAS-12</td><td>Product Separator Level</td><td>XMEAS-33</td><td>Composition E (purge)</td></tr>
+      <tr><td>XMEAS-13</td><td>Product Separator Pressure</td><td>XMEAS-34</td><td>Composition F (purge)</td></tr>
+      <tr><td>XMEAS-14</td><td>Product Separator Underflow (stream 10)</td><td>XMEAS-35</td><td>Composition G (purge)</td></tr>
+      <tr><td>XMEAS-15</td><td>Stripper Level</td><td>XMEAS-36</td><td>Composition H (purge)</td></tr>
+      <tr><td>XMEAS-16</td><td>Stripper Pressure</td><td>XMEAS-37</td><td>Composition D (product)</td></tr>
+      <tr><td>XMEAS-17</td><td>Stripper Underflow (stream 11)</td><td>XMEAS-38</td><td>Composition E (product)</td></tr>
+      <tr><td>XMEAS-18</td><td>Stripper Temperature</td><td>XMEAS-39</td><td>Composition F (product)</td></tr>
+      <tr><td>XMEAS-19</td><td>Stripper Steam Flow</td><td>XMEAS-40</td><td>Composition G (product)</td></tr>
+      <tr><td>XMEAS-20</td><td>Compressor Work</td><td>XMEAS-41</td><td>Composition H (product)</td></tr>
+      <tr><td>XMEAS-21</td><td>Reactor cooling water outlet temp.</td><td></td><td></td></tr>
+    </tbody></table></div>
+    <p class="small">Nomenclatura canonica del TEP (Downs &amp; Vogel, 1993). Il repository tratta i canali come <code>XMEAS-1…41</code> senza etichette descrittive; questi nomi sono forniti solo come riferimento fisico.</p>
+  </div></details>
+</section>
+
+<section id="step-3" data-step="3">
+  <div class="step-kicker">Step 3 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span></div><h2>Analisi e split dei dataset</h2>
+  <p>Il dataset Normal è un file da 500 h, diviso in <strong>10 blocchi da 50 h</strong> (N1…N10); ogni blocco N<sub>i</sub> viene ulteriormente suddiviso in <strong>10 finestre da 5 h</strong> (N1-f1, N1-f2, …). Il campionamento è un minuto, cioè <code>1/60 h</code>. I file di fault sono quattro: <strong>F1, F8, F10, F13</strong>; ogni run dura 50 h: le prime 10 h precedono l'attivazione e le 40 h successive producono <strong>8 finestre da 5 h</strong>. Una finestra è una porzione descrittiva dello stesso run, non una replica fisica: questa distinzione tornerà cruciale allo Step finale, quando conteremo i casi statisticamente indipendenti.</p>
+  <h3>Split dei dati e ruoli distinti</h3>
+  <div class="scroll"><table><thead><tr><th>Split</th><th>Fault (F1, F8, F10, F13)</th><th>Normal</th><th>Ruolo</th></tr></thead><tbody><tr><th scope="row">Development/calibration</th><td>batch 1–5</td><td>N1–N5</td><td>costruisce e calibra il metodo</td></tr><tr><th scope="row">Validation</th><td>batch 6–7</td><td>N6–N7</td><td>controllo fuori sviluppo, nessun tuning</td></tr><tr><th scope="row">Test split</th><td>batch 8–10</td><td>N8–N10</td><td>verifica finale, aperto dopo il freeze</td></tr></tbody></table></div>
+  <div class="example"><h3>Struttura temporale e finestratura</h3>
+    <div class="scroll"><table><caption>Come nasce la finestratura (struttura pre-splitting)</caption><thead><tr><th>Oggetto</th><th>Intervallo</th><th>Suddivisione</th><th>N. finestre</th></tr></thead><tbody>
+      <tr><td>Run di fault — pre-fault</td><td>0–10 h</td><td>escluso dall'analisi (processo nominale)</td><td>—</td></tr>
+      <tr><td>Run di fault — post-fault</td><td>10–50 h</td><td>[10,15) [15,20) … [45,50)</td><td><strong>8</strong></td></tr>
+      <tr><td>Blocco Normal completo</td><td>0–50 h</td><td>[0,5) [5,10) … [45,50)</td><td><strong>10</strong></td></tr>
+    </tbody></table></div>
+    <p class="small">L'iniezione del fault a 10 h è ciò che rende 8 le finestre del caso con fault (40 h ÷ 5 h), mentre un blocco Normal completo (50 h) ne produce 10. Non è una proprietà universale della serie: dipende dall'intervallo analizzato.</p>
+    <h3>Schema splitting</h3>
+    <div class="scroll"><table><caption>Scenario con fault</caption><thead><tr><th>Pre-fault</th><th>Iniezione del fault</th><th>Post-fault</th></tr></thead><tbody><tr><td><strong>0–10 h</strong><br>Processo nominale, escluso dall'analisi del caso fault.</td><td><strong>10 h</strong><br>Il fault diventa attivo.</td><td><strong>10–50 h</strong><br>Intervallo analizzato.</td></tr></tbody></table></div>
+    <div class="scroll"><table><caption>Finestratura</caption><thead><tr><th>Oggetto</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th></tr></thead><tbody><tr><th scope="row">Caso con fault<br><span class="small">analisi 10–50 h</span></th><td>10–15</td><td>15–20</td><td>20–25</td><td>25–30</td><td>30–35</td><td>35–40</td><td>40–45</td><td>45–50</td><td>—</td><td>—</td></tr><tr><th scope="row">Blocco Normal completo<br><span class="small">0–50 h</span></th><td>0–5</td><td>5–10</td><td>10–15</td><td>15–20</td><td>20–25</td><td>25–30</td><td>30–35</td><td>35–40</td><td>40–45</td><td>45–50</td></tr></tbody></table></div>
+    <p class="small"><strong>8 finestre da 5 h</strong> per il caso con fault; <strong>10 finestre da 5 h</strong> per il blocco Normal completo.</p>
+  </div>
+</section>
+
+<section id="step-4" data-step="4">
+  <div class="step-kicker">Step 4 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge design">Design / development-time</span></div><h2>La pipeline di Phase A: le sei operazioni</h2>
+  <p>Di seguito le fasi svolte dalla pipeline della fase A del progetto.</p>
+  <div class="scroll"><table><thead><tr><th>Ordine</th><th>Fase</th><th>Quando e che cosa produce</th></tr></thead><tbody><tr><td>1</td><td><strong>Scelta delle feature</strong></td><td>Decisione di design, eseguita una volta. Si caratterizzano i <strong>fault batch 1–5</strong> per decidere <em>quali</em> feature usare (shift, slope, residual, diff); qui <strong>non</strong> si calcolano soglie.</td></tr><tr><td>2</td><td><strong>Calibrazione delle soglie</strong></td><td>Eseguita <strong>soltanto sui blocchi Normal N1–N5</strong>, senza mai guardare i fault; produce baseline e soglie. I fault influenzano <em>quali</em> feature, non il <em>valore</em> delle soglie.</td></tr><tr><td>3</td><td><strong>Freeze</strong></td><td>Congela feature, baseline, soglie, struttura e renderer. Avviene dopo la calibrazione; da qui in avanti le regole si applicano soltanto, non si ridefiniscono.</td></tr><tr><td>4</td><td><strong>Calcolo delle feature e applicazione delle soglie</strong></td><td>A runtime, per ogni finestra × XMEAS, calcola i <strong>valori delle feature</strong> e li confronta con le soglie già congelate (flag 0/1).</td></tr><tr><td>5</td><td><strong>Dalle finestre al JSON</strong></td><td>Aggrega flag e struttura temporale in evidenza numerica auditabile.</td></tr><tr><td>6</td><td><strong>Dal JSON al testo neutrale</strong></td><td>Renderizza fatti quantitativi senza fault ID o diagnosi automatica.</td></tr></tbody></table></div>
+</section>
+
+<section id="step-5" data-step="5">
+  <div class="step-kicker">Step 5 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge design">Design / development-time</span></div><h2>Scelta delle feature</h2>
+  <p>La <strong>scelta</strong> delle feature è una decisione di design sul development/calibration. Il <strong>calcolo</strong> delle feature è invece l'operazione ripetuta su ogni finestra. Confondere i due momenti farebbe sembrare che il metodo venga reinventato per ciascun fault.</p>
+  <div class="example"><div class="panel-label">Elenco delle feature</div>
+    <div class="scroll"><table><thead><tr><th>Feature</th><th>Quantifica</th><th>Non prova da sola</th></tr></thead><tbody><tr><td><code>shift_sigma</code></td><td>Spostamento della media in σ Normal</td><td>La causa</td></tr><tr><td><code>slope_sigma_h</code></td><td>Pendenza normalizzata per ora</td><td>Drift persistente</td></tr><tr><td><code>residual_std_ratio</code></td><td>Variabilità dopo detrend</td><td>Periodicità</td></tr><tr><td><code>diff_std_ratio</code></td><td>Variazioni campione-campione</td><td>Oscillazioni lente</td></tr><tr><td><code>raw_std_ratio</code></td><td>Dispersione descrittiva</td><td>Instabilità oscillatoria</td></tr></tbody></table></div>
+  </div>
+
+</section>
+
+<section id="step-6" data-step="6">
+  <div class="step-kicker">Step 6 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge design">Design / development-time</span></div><h2>Calibrazione delle soglie</h2>
+  <p>In questa fase di <strong>calibrazione</strong> vengono calcolate le soglie che saranno utilizzate nelle fasi successive per valutare le evidenze dei casi di fault. È importante sottolineare che la calibrazione usa esclusivamente i blocchi <strong>N1–N5 Normal</strong> della fase development/calibration e non utilizza i fault. N1–N5 forniscono 5 blocchi × 10 finestre = 50 finestre. Per ciascuna finestra e feature si calcolano le 41 XMEAS e si prende il massimo di sistema; i 50 massimi vengono ordinati e la soglia è il valore al <strong>rango 49</strong>, cioè il 49º elemento ordinato, con attivazione stretta <code>&gt;</code>. Come esempio, <code>shift_sigma</code> viene calcolata così:</p>
+  <pre><code>shift_sigma = (x̄_w − μ₀) / σ₀</code></pre>
+  <ul><li><code>x̄_w</code>: media della stessa XMEAS nella finestra corrente;</li><li><code>μ₀</code>: media della baseline Normal N1–N5 per quella XMEAS;</li><li><code>σ₀</code>: deviazione standard campionaria della baseline Normal N1–N5 per quella XMEAS.</li></ul>
+  <p>Il confronto con la soglia usa il modulo: <code>|shift_sigma| &gt; soglia</code>; il segno resta disponibile nell'evidenza strutturata.</p>
+  <div class="callout full-width"><strong>Perché prendiamo il massimo?</strong> Prima del confronto, lo score di ogni XMEAS è espresso rispetto al comportamento Normal di quella stessa variabile: per <code>shift_sigma</code>, per esempio, lo spostamento è misurato in deviazioni standard Normal. Gli score sono quindi adimensionali e confrontabili: non stiamo mettendo a confronto pressioni, temperature o portate nelle loro unità fisiche. Il massimo identifica, dentro quella finestra, <em>la deviazione standardizzata più estrema</em> tra i 41 canali e risponde alla domanda di sistema «almeno una variabile si è allontanata dal proprio normale più del previsto?». Non identifica la causa del cambiamento e non rende anomale le altre variabili; comprime la finestra in un solo score conservando il canale più distante dal suo riferimento. Calibrare la soglia sui massimi Normal, anziché su score individuali, incorpora inoltre nel riferimento il fatto che in ogni finestra cerchiamo l'estremo fra 41 opportunità.</div>
+  <p>Il <strong>leave-one-block-out</strong> nasce qui: quando si misura N1, il riferimento usa N2+N3+N4+N5. Si ripete ciclicamente fino a N5.</p>
+  <div class="example" id="calibration-example"><div class="panel-label">Esempio reale</div><h3>Dalle 50 finestre alla soglia shift</h3><div class="chain"><span>N1–N5</span><b>→</b><span>50 finestre</span><b>→</b><span>max |shift| su 41 canali</span><b>→</b><span>sort</span><b>→</b><span>rango 49</span></div>
+    <div class="scroll"><table id="calibration-tail"><caption>Coda reale degli score <code>max_abs_shift</code></caption><thead><tr><th>Rango</th><th>Score</th><th>Finestra</th><th>Esito</th></tr></thead><tbody><tr><td>47</td><td class="num">1.2688185320140528</td><td>N3 [135,140)</td><td>sotto</td></tr><tr><td>48</td><td class="num">1.5988379030092623</td><td>N2 [85,90)</td><td>sotto</td></tr><tr><td><strong>49</strong></td><td class="num"><strong id="worked-shift-threshold">1.9695333234149084</strong></td><td>N4 [190,195)</td><td><strong>soglia</strong></td></tr><tr><td>50</td><td class="num">2.0050511992352518</td><td>N2 [95,100)</td><td>unico <code>&gt;</code> soglia</td></tr></tbody></table></div><p>Mostriamo solo la coda, ma ogni score è davvero il massimo sui 41 canali.</p>
+  </div>
+
+</section>
+
+<section id="step-7" data-step="7">
+  <div class="step-kicker">Step 7 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge design">Design / development-time</span></div><h2>Il freeze: congelare feature, soglie e renderer</h2>
+  <p>Prima di aprire validation, test e held-out vengono congelati feature, soglie, rappresentazione temporale, renderer ed evaluator. È il principio <em>freeze-before-test</em>: nessun dato di valutazione può più influenzare le regole con cui verrà giudicato. In questo modo si evita il <strong>leakage</strong> — cioè che osservare i risultati porti, anche inconsapevolmente, a riscrivere feature o soglie per farle combaciare con i casi da valutare. Da qui in avanti quelle regole si possono soltanto applicare, non ridefinire.</p>
+  <div class="callout full-width"><strong>Che cosa è stato usato fino a qui.</strong> Fino al freeze sono entrati in gioco soltanto i blocchi <strong>Normal N1–N5</strong> (per calibrare le soglie) e i <strong>fault batch 1–5</strong>. Questi ultimi sono stati usati <strong>solo in fase di design/development, per scegliere <em>quali</em> feature usare</strong> — non per calcolare le soglie e non a runtime. La scelta delle feature è una decisione fatta una volta, a monte, non un'operazione ripetuta su ogni caso. I restanti dati — <strong>N6–N10</strong> e i <strong>fault batch 6–10</strong> — <strong>non sono ancora stati toccati</strong>: entreranno solo dopo il freeze, in validation e test. <span class="small">(N1–N5 servono in due momenti: a design-time per calibrare le soglie e poi come baseline di riferimento anche a runtime.)</span></div>
+
+</section>
+
+<section id="step-8" data-step="8">
+  <div class="step-kicker">Step 8 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge runtime">Runtime / finestra × XMEAS</span></div><h2>Dalle feature ai flag: soglie e segni</h2>
+  <p>Per ogni finestra (le <strong>8</strong> del caso con fault) e per ogni variabile <strong>XMEAS</strong> (le <strong>41</strong>) vengono applicate le soglie: se il valore della feature è maggiore della soglia — ricordiamo che la soglia è stata calibrata sui <strong>Normal</strong> — viene generato un <strong>flag</strong> (attivo/non attivo) e, per le feature con segno (shift, slope), il relativo <strong>segno</strong>. Vediamo il calcolo reale su una singola finestra: F1 batch 1, XMEAS-1, W1. <span class="small">(Caso development/calibration, non test indipendente; non usa LOBO. W1 è <code>[10,15)</code> h: 5 h × 60 = 300 misure.)</span></p>
+  <div class="example" id="raw-to-shift"><div class="panel-label">Worked example reale · raw → feature → flag</div><h3>Il calcolo completo</h3>
+    <p class="small">Ricordiamo la feature che stiamo calcolando (la stessa dello Step 6):</p>
+    <pre><code>shift_sigma = (x̄_w − μ₀) / σ₀</code></pre>
+    <p class="small">dove <strong>x̄_w</strong> è la media della finestra, <strong>μ₀</strong> la media del riferimento Normal e <strong>σ₀</strong> la sua deviazione standard. Prima dei numeri, due chiarimenti sui termini che compaiono qui sotto: la <em>«anteprima raw»</em> sono le misure grezze di XMEAS-1 campionate ogni minuto dentro la finestra W1 (300 valori: 5 h × 60), di cui mostriamo solo i primi cinque e gli ultimi tre; la <em>«media W1»</em> è proprio x̄_w, la media aritmetica di quei 300 valori, cioè il numeratore che entra nella formula.</p>
+    <ol>
+    <li><strong>Anteprima raw.</strong><br><code id="worked-raw-preview">0.266206, 0.264258, 0.265880, 0.268725, 0.267920, …, 1.018145, 1.017490, 1.018571</code><br>La media usa tutti i <strong id="worked-window-n">300</strong> valori, non solo gli otto mostrati.</li>
+    <li><strong>Media W1.</strong><br><code>Σxᵢ = <span id="worked-window-sum">216.7053282371516</span></code><br><code>window_mean = <span id="worked-window-mean">0.7223510941238387</span></code></li>
+    <li><strong>Riferimento pooled N1–N5.</strong> <strong id="worked-baseline-n">15000</strong> misure XMEAS-1 in <code>[0,250)</code> h.<br><code>μ₀ = <span id="worked-mu0">0.26679593084899306</span></code><br><code>σ₀ = <span id="worked-sigma0">0.005941491332146645</span></code>, std campionaria <code>ddof=1</code>.</li>
+    <li><strong>Sostituzione.</strong><br><code id="worked-substitution">shift_sigma = (0.7223510941238387 − 0.26679593084899306)<br>              / 0.005941491332146645<br>            = <strong id="worked-shift">76.67353831016274</strong></code></li>
+    <li><strong>Confronto.</strong> <code>|76.67353831016274| &gt; 1.9695333234149084</code> → <strong class="yes">level flag = 1</strong>, segno positivo conservato.</li>
+  </ol><details><summary>Provenienza e precisione</summary><div><p>W1: <code>mode1_1_1.xlsx</code>, righe Excel 602–901, XMEAS-1. Baseline: <code>mode1_normal_500.xlsx</code>, righe 2–15001 della colonna ricondotta a XMEAS-1. Il ricalcolo read-only coincide con il CSV entro l'ultima unità floating-point; qui è riportata la precisione frozen del CSV.</p></div></details></div>
+
+</section>
+
+<section id="step-9" data-step="9">
+  <div class="step-kicker">Step 9 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge runtime">Runtime / caso completo</span></div><h2>Dai flag al JSON, fino al testo neutrale</h2>
+  <p>La griglia di flag (8 finestre × 41 XMEAS) viene utilizzata per generare un <strong>JSON strutturato</strong>, che il renderer trasforma in una <strong>descrizione neutrale</strong>. Si sottolinea che nel testo prodotto non sono presenti ID di fault, nessuna etichetta di classe, nessuna diagnosi: è presente solo un testo descrittivo dei fatti osservati, mai un'interpretazione o una diagnosi.</p>
+  <div class="example"><div class="panel-label">Esempio reale · F1 batch 1, XMEAS-1</div>
+    <h3>1 · I flag per finestra (feature <code>level</code>, 1 = attivo)</h3>
+    <div class="scroll"><table><thead><tr><th>Finestra</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th></tr></thead><tbody><tr><th scope="row">flag level</th><td class="yes">1</td><td class="yes">1</td><td class="yes">1</td><td class="yes">1</td><td class="yes">1</td><td class="yes">1</td><td class="yes">1</td><td class="yes">1</td></tr><tr><th scope="row">segno</th><td>+</td><td>+</td><td>+</td><td>+</td><td>+</td><td>+</td><td>+</td><td>+</td></tr></tbody></table></div>
+    <h3>2 · Evidenza numerica strutturata (JSON, estratto reale)</h3>
+    <pre id="summary-json"><code>{
+  "variable": "XMEAS-1",
+  "window_size_h": 5,
+  "level": {
+    "n_active_windows": 8, "active_fraction": 1.0,
+    "positive_count": 8, "negative_count": 0,
+    "sign_consistency": 1.0, "longest_same_sign_run": 8,
+    "first_active_window": 10.0, "last_active_window": 45.0,
+    "early_active": true, "late_active": true
+  }
+}</code></pre>
+    <h3>3 · Firma (temporal summary)</h3>
+    <ul>
+      <li><code>n_active_windows = 8</code> — numero di finestre con flag = 1.</li>
+      <li><code>positive_count = 8</code> — finestre attive con segno positivo (qui tutte).</li>
+      <li><code>late_active = true</code> — presenza di attivazioni nelle ultime finestre (fase tardiva).</li>
+      <li><code>longest_same_sign_run = 8</code> — lunghezza massima di finestre attive consecutive con lo stesso segno.</li>
+    </ul>
+    <h3>4 · Testo neutrale reale (EXM-001)</h3><blockquote id="neutral-text">Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 8/8 finestre, sempre con segno positivo; il run più lungo con segno coerente comprende 8 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-1 supera la soglia di pendenza in 6/8 finestre, con segno positivo in 3 e negativo in 3; il run più lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 10.0 h all'ultima a 35.0 h. XMEAS-20: variabilità residua dopo rimozione del trend lineare sopra soglia in 4/8 finestre; 2/2 nella fase iniziale e 0/2 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 1/8 finestre; 1/2 nella fase iniziale e 0/2 nelle ultime finestre. Su XMEAS-10, residual e diff superano simultaneamente le rispettive soglie in 1/8 finestre, incluse 0/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-1 (rapporto tra deviazioni standard 46.30).</blockquote>
+    <p>L'estratto JSON mostra la parte <code>level</code> di XMEAS-1. Il testo completo nasce dal JSON completo a 41 canali, quindi cita altri canali quando dominano altre sezioni (qui XMEAS-20 e XMEAS-10). Non contiene F1, batch, pseudolabel o soglie: nessuna diagnosi, solo fatti.</p>
+  </div>
+
+</section>
+
+<section id="step-10" data-step="10">
+  <div class="step-kicker">Step 10 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge offline">Controllo offline</span></div><h2>Evaluator · signature vector</h2>
+  <p>Solo ora entra l'evaluator, con uno scopo preciso: verificare offline se la rappresentazione neutrale conserva una struttura sufficientemente stabile e separabile prima che i testi vengano affidati a un reasoner. Lavora sul JSON e misura stabilità intra-classe e separabilità inter-classe. Una firma contiene 17 componenti normalizzate per XMEAS: 41 × 17 = 697 valori; la similarità è <code>1 − mean(abs(a−b))</code>. L'evaluator può quindi chiedere se due run F1 presentano pattern temporali simili o se un run F1 è più vicino agli altri F1 che ai Normal. Non produce una predicted label e non misura accuracy: valuta la qualità descrittiva della rappresentazione. <strong>La separabilità descrittiva non equivale all'accuratezza diagnostica</strong>, perché una firma separabile non garantisce che un reasoner la utilizzi correttamente.</p>
+
+  <div class="example" id="signature-mini"><div class="panel-label">Mini-esempio · a cosa serve la firma</div><h3>Confrontare due firme</h3>
+    <p class="small">Le firme reali hanno 697 componenti (41 XMEAS × 17): impossibili da leggere a occhio. Qui riduciamo a <strong>4 componenti schematiche</strong> — valori inventati, solo per illustrare la meccanica — dove ogni componente è una statistica normalizzata in <code>[0,1]</code> estratta dal JSON (per es. frazione di finestre attive, coerenza di segno, run più lungo, precocità dell'attivazione).</p>
+    <div class="scroll"><table><thead><tr><th>Firma</th><th>c₁</th><th>c₂</th><th>c₃</th><th>c₄</th></tr></thead><tbody>
+      <tr><th scope="row">F1 · run A</th><td>1.00</td><td>1.00</td><td>0.90</td><td>0.20</td></tr>
+      <tr><th scope="row">F1 · run B</th><td>1.00</td><td>0.95</td><td>0.85</td><td>0.25</td></tr>
+      <tr><th scope="row">Normal · run C</th><td>0.10</td><td>0.00</td><td>0.05</td><td>0.90</td></tr>
+    </tbody></table></div>
+    <h3>Similarità = <code>1 − mean(abs(a−b))</code></h3>
+    <p><strong>Intra-classe</strong> (F1·A vs F1·B): differenze assolute <code>|0.00|, |0.05|, |0.05|, |0.05|</code> → media <code>0.0375</code> → similarità <strong class="yes">0.9625</strong>. Due run dello stesso fault hanno firme quasi coincidenti: la rappresentazione è <strong>stabile</strong>.</p>
+    <p><strong>Inter-classe</strong> (F1·A vs Normal·C): differenze <code>|0.90|, |1.00|, |0.85|, |0.70|</code> → media <code>0.8625</code> → similarità <strong>0.1375</strong>. Fault e Normal sono lontani: la rappresentazione è <strong>separabile</strong>.</p>
+    <div class="callout"><strong>A cosa serve.</strong> Alta similarità intra-classe + bassa similarità inter-classe = il testo neutrale di Phase A conserva abbastanza struttura da distinguere le condizioni <em>senza mai nominarle</em>. È il pre-requisito descrittivo che rende sensato, nello step successivo, dare quei testi in pasto a un reasoner in Phase B — ma resta separabilità, non ancora accuracy diagnostica.</div></div>
+
+</section>
+
+<section id="step-11" data-step="11">
+  <div class="step-kicker">Step 11 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge offline">Valutazione out-of-development/calibration</span></div><h2>Validation e test split: applicare dopo il freeze</h2>
+  <p>La progettazione si è terminata con il freeze; adesso si esegue la stessa pipeline runtime prima sulla validation (fault batch 6–7 e Normal N6–N7) e poi sul test split (batch 8–10 e N8–N10). In entrambi i casi il percorso è sempre <code>finestre → feature → soglie congelate → JSON → testo neutrale → evaluator</code>. È importante notare come lo split «development/calibration» sia utilizzato per progettare e calibrare, in seguito al freeze la validation è utilizzata per effettuare controlli intermedi e alla fine il test split resta chiuso fino alla verifica finale di Phase A.</p>
+
+</section>
+
+<section id="step-12" data-step="12">
+  <div class="step-kicker">Step 12 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge offline">Confine sperimentale</span></div><h2>Nuove simulazioni indipendenti</h2>
+  <p>I batch 8–10 del test split erano test di Phase A, ma sono stati aperti. Un test osservato non è più vergine per Phase B. La catena è: test split visto → non può essere nuovo test indipendente → servono run nuovi → vanno congelati prima di verbalizzazione e inference. Un test indipendente e congelato prima dell'inferenza serve proprio a questo: impedisce il leakage da riuso di uno split già osservato e offre una misura non distorta della generalizzazione, senza che il test possa ricalibrare soglie o insight (nessun overfitting al set di valutazione). Questi 15 run congelati sono il materiale su cui si aprirà <strong>Phase B</strong> (dal prossimo step): fin qui — Step 4–12 — siamo rimasti dentro Phase A.</p>
+  <div class="scroll"><table><caption class="panel-label">15 nuove realizzazioni simulate = 3 Normali + 3 run per ciascun fault</caption><thead><tr><th scope="col">Normal</th><th scope="col">F1</th><th scope="col">F8</th><th scope="col">F10</th><th scope="col">F13</th></tr></thead><tbody><tr><td>3 run</td><td>3 run</td><td>3 run</td><td>3 run</td><td>3 run</td></tr></tbody></table></div>
+
+</section>
+
+<section id="step-13" data-step="13">
+  <div class="step-kicker">Step 13 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge design">Phase B / conoscenza locale</span></div><h2>Agenti non-IID, pseudolabel ed esempi locali</h2>
+  <div class="callout full-width"><strong>Inizia Phase B.</strong> Finora (Step 4–12) siamo rimasti in Phase A: pipeline deterministica, soglie calibrate e congelate, nessun LLM. Da qui entrano in gioco gli agenti, il reasoner e la federazione. La pipeline Phase A non viene ri-progettata: gli agenti la <em>riusano</em> così com'è, applicando baseline e soglie congelate senza mai ricalibrarle.</div>
+  <p>Quattro agenti conoscono tutti il Normal ma ciascuno un solo fault. Ogni agente riceve due esempi del proprio fault (batch 1–2) e gli stessi due Normal (N1–N2).</p>
+  <div class="scroll"><table><caption class="panel-label">Distribuzione non-IID: ogni agente conosce solo il proprio fault</caption><thead><tr><th scope="col">Agente A</th><th scope="col">Agente B</th><th scope="col">Agente C</th><th scope="col">Agente D</th></tr></thead><tbody><tr><td>2 Normali<br>+ 2 esempi da F1</td><td>2 Normali<br>+ 2 esempi da F8</td><td>2 Normali<br>+ 2 esempi da F10</td><td>2 Normali<br>+ 2 esempi da F13</td></tr></tbody></table></div>
+  <div class="callout full-width"><strong>Da dove vengono i dati.</strong> Attenzione a non confondere tre cose distinte: gli <strong>esempi</strong> del few-shot sono batch 1–2 di fault e Normal N1–N2 dal <strong>TEP originale</strong> (gli stessi workbook di Phase A), non i run indipendenti; il <strong>caso da diagnosticare</strong> sarà invece un run del <strong>held-out indipendente</strong> — i 15 PBH dello Step 12 — e comparirà solo all'inferenza (Step 16); le <strong>soglie</strong> restano quelle calibrate in Phase A sul TEP originale (Normal N1–N5), congelate e mai ricalcolate.</div>
+  <div class="example"><div class="panel-label">Prima operazione di Phase B · il few-shot locale</div><h3>Ogni agente costruisce i propri esempi few-shot</h3>
+    <p>La prima cosa che fa ogni agente è preparare il proprio <strong>few-shot locale</strong>: prende i casi che conosce (i suoi batch 1–2 di fault e i Normal N1–N2), li fa passare per la pipeline Phase A già congelata e ne ricava esempi pronti da mostrare al reasoner. Non è materiale che «compare» già pronto: viene ricostruito dai workbook, senza LLM e senza ricalibrare nulla. Il ramo few-shot usa batch 1–2; il ramo insight dello step successivo riparte separatamente dai batch 1–5.</p>
+    <div class="scroll"><table><thead><tr><th>Passaggio</th><th>Che cosa accade realmente</th></tr></thead><tbody><tr><td><strong>Input dei casi</strong></td><td>Per ciascun agente: i workbook fissi batch 1–2 del proprio fault locale e i blocchi Normal N1–N2. La baseline development/calibration N1–N5 resta il riferimento frozen.</td></tr><tr><td><strong>Operazione</strong></td><td>Con questi input, l'agente riesegue la pipeline Phase A congelata (<code>finestre → feature → soglie già congelate → flag → JSON → testo neutrale</code>) e associa a ogni caso la sua <strong>pseudolabel</strong> — un'etichetta opaca che nasconde il nome reale del fault (spiegata in dettaglio qui sotto). Nessun LLM, nessuna ricalibrazione delle soglie.</td></tr><tr><td><strong>Output</strong></td><td>4 pack × 4 esempi, ciascuno ridotto alla coppia <code>(testo neutrale, pseudolabel)</code>.</td></tr></tbody></table></div></div>
+  <div class="example"><h3>Che cosa significa pseudolabel e che cosa vede l'LLM</h3>
+    <p>Una <strong>pseudolabel</strong> sostituisce nel materiale prompt-facing il nome reale del fault con un token opaco <code>CLS-…</code>: F1, F8, F10 e F13 non vengono mostrati all'LLM, mentre <code>Normal</code> resta <code>Normal</code>. Il mapping reale↔opaco è noto <strong>soltanto all'evaluator</strong>. La pseudonimizzazione maschera il nome del fault, non la sua firma descritta nel testo.</p>
+    <h3>Com'è composto il prompt few-shot dell'agente</h3>
+    <div class="scroll"><table><thead><tr><th scope="col">Testo neutrale dell'held-out<br><span class="small">(caso da diagnosticare)</span></th><th scope="col">+ Esempi locali few-shot<br><span class="small">(dello stesso agente)</span></th><th scope="col">+ Spazio delle etichette<br><span class="small">(Normal + i fault, come token opachi)</span></th></tr></thead><tbody><tr><td>Il testo di un nuovo caso, senza etichetta.</td><td>Le coppie <code>(testo neutrale, pseudolabel)</code> costruite sopra.</td><td>L'insieme delle scelte possibili: <code>Normal</code> e le pseudolabel <code>CLS-…</code>, non i nomi reali F1/F8/F10/F13.</td></tr></tbody></table></div>
+    <p class="small">Lo schema mostra i tre ingredienti a livello concettuale. Sul lato prompt-facing i fault restano token opachi <code>CLS-…</code>; i nomi F1/F8/F10/F13 sono noti solo all'evaluator.</p>
+    <p>Un esempio <strong>few-shot locale</strong> è la coppia <code>(neutral text, pseudolabel)</code>: non contiene il JSON numerico e non contiene il workbook.</p>
+    <div class="callout"><strong>Few-shot reale EXM-001 · F1 batch 1, identità offline.</strong><blockquote>Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 8/8 finestre, sempre con segno positivo; il run più lungo con segno coerente comprende 8 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-1 supera la soglia di pendenza in 6/8 finestre, con segno positivo in 3 e negativo in 3; il run più lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 10.0 h all'ultima a 35.0 h. XMEAS-20: variabilità residua dopo rimozione del trend lineare sopra soglia in 4/8 finestre; 2/2 nella fase iniziale e 0/2 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 1/8 finestre; 1/2 nella fase iniziale e 0/2 nelle ultime finestre. Su XMEAS-10, residual e diff superano simultaneamente le rispettive soglie in 1/8 finestre, incluse 0/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-1 (rapporto tra deviazioni standard 46.30).</blockquote><p><strong>Etichetta mostrata all'LLM:</strong> <code>CLS-ZOGAA</code>. La coppia è testo + etichetta; F1 e batch 1 restano provenance evaluator-side.</p></div>
+  </div>
+
+</section>
+
+<section id="step-14" data-step="14">
+  <div class="step-kicker">Step 14 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge design">Phase B / federazione</span></div><h2>Gli insight distillano più casi; la federazione li distribuisce peer-only</h2>
+  <p>Dopo il few-shot, ogni agente compie una seconda operazione: condensa ciò che sa del proprio fault in due brevi osservazioni testuali, gli <strong>insight</strong>. Per farlo riparte dai cinque casi development/calibration del fault locale (batch 1–5, dati TEP originali già usati in Phase A), li fa passare per la stessa pipeline congelata ottenendone i testi neutrali e chiede all'LLM di distillarne le regolarità ricorrenti: <strong>2 insight per agente, 8 in totale</strong>. Questo è un ramo distinto dal few-shot dello Step 13: non usa come input il file degli esempi locali. Tutto avviene <strong>prima di aprire diagnosticamente</strong> i 15 run indipendenti dello Step 12, già generati e congelati: gli insight nascono soltanto da ciò che l'agente conosceva già. Infine avviene la <strong>federazione</strong>: ogni agente riceve i sei insight degli altri tre peer — mai i propri — così la conoscenza circola come testo, senza scambiare dati grezzi né parametri del modello.</p>
+  <div class="example"><div class="panel-label">Ramo insight separato · input → operazione → output</div><h3>Cinque run vengono riverbalizzati prima della distillazione LLM</h3><div class="scroll"><table><thead><tr><th>Passaggio</th><th>Che cosa accade realmente</th></tr></thead><tbody><tr><td><strong>Input</strong></td><td>Un bundle distinto per agente, <code>phase_b/insights/input_bundles/agent_N.json</code>, con 5 testi neutrali del fault locale. I testi sono ricostruiti direttamente dai workbook development/calibration batch 1–5 tramite <code>verbalize_case</code> e la pipeline frozen; non provengono dal file few-shot.</td></tr><tr><td><strong>Operazione</strong></td><td>Dopo la ri-esecuzione deterministica <code>finestre → feature → soglie congelate → flag → JSON → testo neutrale</code>, il bundle viene passato a <code>gpt-5.6-terra</code>, reasoning <code>medium</code>. Vale <em>first structurally valid output wins</em>; nell'esecuzione frozen ogni agente ha richiesto 1 attempt e 0 retry. Nessuna soglia viene ricalibrata.</td></tr><tr><td><strong>Output</strong></td><td>2 insight strutturati per agente, quindi 8 totali in <code>final_local_insights.json</code>.</td></tr></tbody></table></div></div>
+  <dl class="decision"><dt>Modello</dt><dd><code>gpt-5.6-terra</code>, reasoning effort <code>medium</code>, Structured Outputs strict.</dd><dt>Regola</dt><dd><em>First structurally valid output wins</em>: viene accettata la prima risposta che passa lo schema, senza selezione o rigenerazione basata sul contenuto.</dd><dt>Esito reale</dt><dd>Per tutti e quattro gli agenti: 1 attempt, 0 retry, 2 insight accettati.</dd></dl>
+  <div class="example"><div class="panel-label">Esempio: F1 diventa conoscenza trasferibile</div><h3>Da Agent 1 a un peer che non conosce F1</h3><pre><code>INS-001 · agent_1 · CLS-ZOGAA
+"XMEAS-1 exceeds the displacement threshold positively in all 8/8 windows,
+ with one coherent 8-window run from 10.0 to 45.0 h; it also has the largest
+ overall dispersion (standard-deviation ratio 46.06–46.50)."</code></pre><p>Il range deriva da cinque run development/calibration, non da uno. Agent 3 riceve INS-001 e INS-002 da Agent 1 più quattro insight dagli altri peer, ma non i propri F10.</p><div class="callout"><strong>8 generati, 6 ricevuti.</strong> La libreria globale ha otto insight; ciascuna peer library ne ha sei.</div></div>
+
+</section>
+
+<section id="step-15" data-step="15">
+  <div class="step-kicker">Step 15 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge design">Phase B / protocollo frozen</span></div><h2>Configurazioni informative controllate e struttura completa dell'inference</h2>
+  <p>Una <strong>configurazione informativa</strong> è una versione controllata dello stesso agent-case: neutral text held-out e few-shot locali restano identici, mentre cambia una sola variabile sperimentale, il blocco degli insight peer. In questo modo la differenza tra configurazioni informative non può essere attribuita a un workbook diverso o a esempi locali diversi.</p>
+  <div class="example"><div class="panel-label">Disegno A/B/E frozen</div><h3>Che cosa cambia davvero</h3><div class="scroll"><table><thead><tr><th>Configurazione informativa</th><th>Input oltre ai few-shot locali</th><th>Domanda controllata</th></tr></thead><tbody><tr><td><strong>A — isolated</strong></td><td>Nessun insight peer: solo conoscenza locale.</td><td>Che cosa fa l'agente senza federazione?</td></tr><tr><td><strong>B — FoT</strong></td><td>6 insight peer genuini, con pseudolabel corrette.</td><td>Che cosa aggiunge la conoscenza peer corretta?</td></tr><tr><td><strong>E — corrupted</strong></td><td>Gli stessi 6 insight di B: stessi ID, fonti, testi, ordine e volume; cambiano soltanto le pseudolabel, permutate.</td><td>Il beneficio dipende dall'associazione corretta o dalla sola presenza di più testo?</td></tr></tbody></table></div>
+    <div class="callout"><strong>Perché E è cruciale.</strong> La permutazione è un <em>derangement</em> specifico per agente con zero punti fissi: nessuna pseudolabel resta associata alla classe originale. Per Agent 3, per esempio, <code>CLS-ZOGAA → CLS-OJNSG</code>. E isola quindi la correttezza dell'informazione dal volume e dalla forma del peer block.</div>
+    <h3>Dal disegno alle richieste</h3><div class="chain"><span>15 casi held-out</span><b>×</b><span>4 agenti</span><b>×</b><span>3 configurazioni informative</span><b>×</b><span>R=3</span><b>=</b><span>540 richieste</span></div>
+    <p>Per ogni agent-case–configurazione informativa, <strong>R=3</strong> significa tre chiamate con input identico. Una pseudolabel con almeno 2 voti diventa la prediction aggregata; senza maggioranza valida l'agente astiene, e l'astensione conta come errore nel protocollo. Le ripetizioni stabilizzano il non-determinismo dell'LLM: <strong>non sono tre esperimenti fisici</strong>.</p><p>Le 540 risposte diventano 180 esiti aggregati; tutte le predizioni vengono congelate <strong>prima</strong> di unirle alla ground truth. L'analisi del trasferimento (Step 17) si concentrerà poi soltanto sui casi in cui il fault è <em>unseen</em> per l'agente — 36 agent-case per configurazione informativa.</p>
+  </div>
+
+</section>
+
+<section id="step-16" data-step="16">
+  <div class="step-kicker">Step 16 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge runtime">Phase B / inference frozen</span></div><h2>Dal testo neutrale alla decisione: PBH-004 visto da Agent 3</h2>
+  <p>Finora abbiamo definito le tre configurazioni informative. Vediamo ora che cosa accade realmente allo stesso caso quando attraversa A, B ed E. PBH-004 è un nuovo run held-out di F1 (<code>mode1_1_11.xlsx</code>), ma questa identità è conosciuta soltanto dall'evaluator. La pipeline congelata trasforma il workbook nel suo testo neutrale; quel testo viene poi presentato ad Agent 3, che possiede esempi locali di F10 e per il quale F1 è quindi una classe <em>unseen</em>. Il caso, i few-shot, il modello e il prompt restano gli stessi: cambia soltanto il blocco degli insight peer.</p>
+  <p>Il testo neutrale di PBH-004 segnala XMEAS-1 sopra la soglia di spostamento in 8/8 finestre, sempre positivo, con dispersione massima 47.00: la firma di F1, osservata però su un run mai visto.</p>
+  <div class="chain"><span>PBH-004</span><b>→</b><span>pipeline Phase A congelata</span><b>→</b><span>testo neutrale</span><b>→</b><span>Agent 3</span><b>→</b><span>A / B / E</span><b>→</b><span>tre esiti aggregati</span><b>→</b><span>ground truth ancora chiusa</span></div>
+  <div class="example" id="real-abe-example"><div class="panel-label">Agent 3 × PBH-004 · record frozen</div><h3>La sola manipolazione A/B/E</h3><div class="scroll"><table><thead><tr><th>Configurazione informativa</th><th>Peer block</th><th>R=3</th><th>Aggregato</th></tr></thead><tbody><tr><td><strong>A</strong></td><td>Nessun insight</td><td><code>null ×3</code></td><td>astensione, incorrect</td></tr><tr><td><strong>B</strong></td><td>6 insight genuini; INS-001 associa F1 a CLS-ZOGAA</td><td><code>CLS-ZOGAA ×3</code></td><td class="yes">corretta</td></tr><tr><td><strong>E</strong></td><td>Stessi testi/ordine; INS-001 associa F1 a CLS-OJNSG</td><td><code>CLS-OJNSG ×3</code></td><td class="no">errata</td></tr></tbody></table></div>
+    <p>I record hanno <code>used_insight_ids=[]</code>: non attribuiamo la singola risposta a INS-001. Confrontiamo correttamente le configurazioni informative frozen nel loro insieme.</p>
+  </div>
+
+</section>
+
+<section id="step-17" data-step="17">
+  <div class="step-kicker">Step 17 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge offline">Ground-truth evaluation</span></div><h2>Risultati Phase B: trasferimento di conoscenza sui fault localmente unseen</h2>
+
+  <p>Lo step conclusivo &egrave; la valutazione dell'intero esperimento. Ricordiamoci che TEP non &egrave; il dominio target, ma possiamo definirlo come il banco di prova controllato. La domanda scientifica di questa POC &egrave; in realt&agrave; &mdash; <em>&laquo;FoT pu&ograve; trasferire conoscenza discriminante tra agenti che operano su serie temporali multivariate eterogenee, permettendo il riconoscimento di una condizione temporale localmente unseen?&raquo;</em> &mdash; e <strong>non</strong> &laquo;FoT risolve la diagnosi dei fault?&raquo;, tantomeno &laquo;FoT funziona sul fotovoltaico?&raquo;.</p>
+
+  <div class="callout full-width"><strong>Provenienza dei risultati.</strong>
+  <div class="s17prov">
+   <div><h4>Che cosa avevamo deciso di misurare prima di conoscere gli esiti finali?</h4><ol><li><strong>B&minus;A:</strong> contrasto principale. Chiede se gli insight FoT autentici migliorano il riconoscimento dei fault localmente unseen rispetto all'agente isolato.</li><li><strong>B&minus;E:</strong> contrasto sulla pertinenza dell'informazione. Chiede se il vantaggio di B dipende dalla corretta associazione semantica degli insight, invece che dalla semplice presenza di testo aggiuntivo.</li><li><strong>Criteri di supporto:</strong> per esempio B&minus;A &gt; 0, effetto positivo in almeno 3/4 agenti, <code>helped &gt; harmed</code>, e il criterio relativo a E.</li><li><strong>Normal e local-seen preservation:</strong> outcome secondari tenuti separati dal primary, per controllare che l'aggiunta degli insight non comprometta le condizioni gi&agrave; conosciute.</li></ol></div>
+   <div><h4>Dato il risultato frozen, che cosa possiamo descrivere ulteriormente senza cambiare l'analisi che avevamo deciso in anticipo?</h4><ul><li><strong>Coverage e committed accuracy di A.</strong> Il risultato primary dice semplicemente A = 0/36. Dopo possiamo decomporlo e vedere che A ha 14 astensioni e 22 decisioni committed, tutte e 22 errate. Questo aiuta a capire <em>come</em> si forma lo 0/36, ma non cambia l'endpoint.</li><li><strong>Unseen-per-fault.</strong> Dopo aver osservato il risultato possiamo chiedere dove sono distribuiti i 31/36 corretti di B: F1 9/9, F8 4/9, F10 9/9, F13 9/9. Questo rivela l'eterogeneit&agrave; su F8, ma <strong>F8 non diventa un nuovo endpoint pre-specificato</strong>.</li><li><strong>Heatmap run &times; agente.</strong> &Egrave; una visualizzazione dei medesimi frozen outcomes. Fa vedere quali combinazioni run/agente sono corrette o errate. Non produce nuova evidenza indipendente.</li><li><strong>R=3 unanimous vs split.</strong> Dai repetition records possiamo osservare che 33/36 decisioni unseen di B sono unanimi e 3/36 sono split. &Egrave; un descrittore di <em>decision stability</em>, non un test previsto per sostenere l'ipotesi principale.</li></ul></div>
+  </div></div>
+
+  <h3>1 &middot; 12 run fisici &rarr; 36 agent-case</h3>
+  <p>L'endpoint primario riguarda esclusivamente i fault <strong>localmente unseen</strong>: <strong>12 run fisici indipendenti</strong> (tre per ciascuno dei quattro fault), ciascuno giudicato dai <strong>tre agenti</strong> che non conoscono localmente quel fault &rarr; <strong>36 agent-case per configurazione informativa</strong>. Le tre osservazioni sullo stesso run sono correlate: l'unit&agrave; indipendente &egrave; il <strong>run fisico (12)</strong>, non l'agent-case (36) n&eacute; la singola chiamata LLM. Le predizioni sono gli aggregati frozen di <strong>R=3 chiamate con lo stesso input hash e la stessa configurazione frozen</strong>; l'<strong>astensione conta come incorrect</strong>; gli intervalli derivano da un <strong>cluster bootstrap paired</strong> sui 12 run, stratificato per pseudolabel (10.000 draws, seed frozen 20260829). I criteri di supporto pre-specificati nel protocollo frozen risultano soddisfatti <strong>4/4</strong>:</p>
+  <ol>
+   <li><code>B&minus;A &gt; 0</code>;</li>
+   <li>effetto positivo in almeno <code>3/4</code> agenti;</li>
+   <li><code>helped &gt; harmed</code>;</li>
+   <li><code>Delta_unseen &gt; Delta_E</code>, dove <code>Delta_unseen = B&minus;A</code> e <code>Delta_E = E&minus;A</code> (numericamente equivalente a <code>B&minus;E &gt; 0</code>).</li>
+  </ol>
+  <div class="chain"><span>12 run fisici indipendenti</span><b>&rarr;</b><span>3 agenti unseen per run</span><b>&rarr;</b><span>36 agent-case per configurazione informativa</span><b>&rarr;</b><span>A / B / E sugli stessi agent-case</span><b>&rarr;</b><span>bootstrap sui 12 run, non sulle 36 righe</span></div>
+
+  <h3>2 &middot; Figura 1 &mdash; Composizione degli esiti A/B/E</h3>
+  <div class="s17bars">
+   <div class="s17row"><span class="s17lab">A</span><div class="s17track"><span class="s17seg wr" style="flex:22" title="22 errate con decisione">22</span><span class="s17seg ab" style="flex:14" title="14 astensioni">14</span></div></div>
+   <div class="s17row"><span class="s17lab">B</span><div class="s17track"><span class="s17seg ok" style="flex:31" title="31 corrette">31</span><span class="s17seg wr" style="flex:5" title="5 errate con decisione">5</span></div></div>
+   <div class="s17row"><span class="s17lab">E</span><div class="s17track"><span class="s17seg ok" style="flex:3" title="3 corrette">3</span><span class="s17seg wr" style="flex:33" title="33 errate con decisione">33</span></div></div>
+  </div>
+  <div class="s17legend"><span><i style="background:#087367"></i>corretta</span><span><i style="background:#a03932"></i>errata con decisione</span><span><i style="background:#8a99a3"></i>astensione</span><span>&middot; ogni barra = 36 agent-case</span></div>
+  <div class="callout full-width">In A, l'agente si astiene in 14/36 casi e produce una predizione in 22/36 casi. Nessuna delle 22 predizioni committed &egrave; corretta. Quindi lo 0/36 di A non deriva soltanto dalle astensioni: anche quando l'agente sceglie una classe localmente unseen, la decisione &egrave; errata. In B ed E, invece, non si osservano astensioni.</div>
+  <p class="fig-cap"><strong>Figura 1 &mdash;</strong> Composizione degli esiti sui fault localmente unseen. Ogni barra contiene 36 agent-case aggregati derivati da 12 run fisici indipendenti; l'astensione &egrave; conteggiata come incorrect. A raggiunge il floor attraverso 14 astensioni e 22 predizioni committed errate; B produce 31 risposte corrette; E conserva lo stesso peer-information block di B ma con associazioni insight&ndash;pseudolabel corrotte.</p>
+
+  <h3>3 &middot; Figura 2 &mdash; Contrasti B&minus;A e B&minus;E con intervalli di confidenza</h3>
+  <p>Questa figura mostra <strong>quanto cambia l'accuratezza della configurazione informativa FoT (B) rispetto alle due configurazioni informative di controllo</strong>. Non rappresenta quindi le accuracy assolute di A, B ed E, ma le loro differenze.</p>
+  <p>Per leggere il grafico:</p>
+  <ul>
+    <li>il <strong>punto</strong> rappresenta la differenza di accuratezza osservata;</li>
+    <li>il <strong>segmento orizzontale</strong> rappresenta l'intervallo di confidenza al 95% ottenuto mediante il cluster bootstrap sui 12 run fisici;</li>
+    <li>la <strong>linea verticale a &Delta;=0</strong> rappresenta l'assenza di differenza tra le configurazioni informative confrontate;</li>
+    <li>valori positivi, pi&ugrave; a destra, indicano un vantaggio maggiore della configurazione informativa B.</li>
+  </ul>
+  <p>Il primo contrasto, <strong>B&minus;A</strong>, risponde alla domanda principale dell'esperimento: gli insight peer autentici aiutano un agente a riconoscere fault che non ha mai osservato localmente? Il risultato &egrave; <strong>+0.8611</strong>, con intervallo di confidenza <strong>[0.8333, 0.9167]</strong>. Nel campione osservato, B passa quindi da 0/36 risposte corrette di A a 31/36.</p>
+  <p>Il secondo contrasto, <strong>B&minus;E</strong>, pone una domanda diversa: il vantaggio di B dipende dalla corretta associazione semantica degli insight oppure potrebbe essere spiegato semplicemente dalla presenza di ulteriore testo nel prompt? Il risultato &egrave; <strong>+0.7778</strong>, con intervallo di confidenza <strong>[0.7222, 0.8333]</strong>. Poich&eacute; E contiene lo stesso peer-information block di B ma con le associazioni pseudolabel corrotte, questo contrasto supporta l'interpretazione che il beneficio osservato dipenda dalla corretta associazione dell'informazione trasferita e non dalla sola quantit&agrave; di testo aggiuntivo.</p>
+  <p>Entrambi gli intervalli rimangono interamente sopra lo zero. <strong>B&minus;A &egrave; il contrasto primario pre-specificato; B&minus;E &egrave; il contrasto sulla pertinenza dell'informazione pre-specificato e non costituisce un secondo endpoint primario.</strong></p>
+  <p>La magnitudine di B&minus;A va comunque interpretata tenendo presente che A rappresenta un <strong>information floor</strong> per le classi localmente unseen: l'agente ricevente non possiede esempi locali della pseudoclasse corrispondente. Il valore +0.8611 non deve quindi essere interpretato come una misura generale delle prestazioni di FoT in altri problemi, modelli o domini.</p>
+  <svg viewBox="0 0 680 238" role="img" aria-label="Forest plot delle differenze di accuratezza B meno A e B meno E con intervalli di confidenza" style="max-width:680px;width:100%;height:auto;font-family:inherit">
+    <title>Differenze di accuratezza B meno A e B meno E</title>
+    <desc>Il punto indica la differenza osservata, il segmento l'intervallo di confidenza bootstrap al 95 per cento e la linea verticale a delta zero l'assenza di differenza.</desc>
+    <line x1="230" y1="34" x2="230" y2="185" stroke="#eef2f4"/><line x1="370" y1="34" x2="370" y2="185" stroke="#eef2f4"/><line x1="510" y1="34" x2="510" y2="185" stroke="#eef2f4"/><line x1="650" y1="34" x2="650" y2="185" stroke="#eef2f4"/>
+    <line x1="90" y1="185" x2="650" y2="185" stroke="#9fb1bc"/>
+    <line x1="90" y1="34" x2="90" y2="185" stroke="#a03932" stroke-dasharray="4 3"/>
+    <text x="90" y="205" font-size="11" fill="#a03932" text-anchor="middle">0</text>
+    <text x="230" y="205" font-size="11" fill="#5a6b76" text-anchor="middle">0.25</text>
+    <text x="370" y="205" font-size="11" fill="#5a6b76" text-anchor="middle">0.50</text>
+    <text x="510" y="205" font-size="11" fill="#5a6b76" text-anchor="middle">0.75</text>
+    <text x="650" y="205" font-size="11" fill="#5a6b76" text-anchor="middle">1.00</text>
+    <text x="96" y="30" font-size="10.5" fill="#a03932">&Delta; = 0 &middot; nessuna differenza</text>
+    <line x1="556.6" y1="72" x2="603.3" y2="72" stroke="#087367" stroke-width="3"/><circle cx="572.2" cy="72" r="6" fill="#087367"/>
+    <text x="12" y="76" font-size="14" font-weight="800" fill="#234b60">B&minus;A</text>
+    <text x="100" y="91" font-size="10.5" fill="#7d2c26">riferimento A = 0/36 (information floor)</text>
+    <text x="572.2" y="58" font-size="12" fill="#234b60" text-anchor="middle">+0.861 [0.833, 0.917]</text>
+    <line x1="494.4" y1="128" x2="556.6" y2="128" stroke="#2f6f8f" stroke-width="3"/><circle cx="525.6" cy="128" r="6" fill="#2f6f8f"/>
+    <text x="12" y="132" font-size="14" font-weight="800" fill="#234b60">B&minus;E</text>
+    <text x="525.6" y="114" font-size="12" fill="#234b60" text-anchor="middle">+0.778 [0.722, 0.833]</text>
+    <text x="370" y="230" font-size="12" font-weight="700" fill="#234b60" text-anchor="middle">&Delta; accuratezza rispetto al riferimento</text>
+  </svg>
+  <p class="fig-cap"><strong>Figura 2 &mdash;</strong> Differenze di accuratezza sui fault localmente unseen. I punti indicano i contrasti osservati e i segmenti i relativi intervalli di confidenza al 95%, calcolati con 10.000 ricampionamenti paired dei 12 run fisici, stratificati per pseudolabel (seed frozen 20260829).</p>
+  <div class="callout full-width"><strong>Nota sull'incertezza.</strong> Gli intervalli sono ottenuti mediante cluster bootstrap paired sui 12 run fisici indipendenti, mantenendo insieme le tre osservazioni dei receiving agents associate allo stesso run. Con soli 12 cluster indipendenti, gli intervalli vanno interpretati nel contesto di questo PoC controllato e non come una caratterizzazione generale dell'incertezza di FoT.</div>
+
+  <h3>4 &middot; Figura 3 &mdash; Dove si concentrano successi ed errori di FoT?</h3>
+  <p>Le 31 risposte corrette su 36 agent-case della configurazione informativa B non corrispondono a 36 osservazioni fisiche indipendenti. Il nuovo held-out contiene <strong>12 run di fault indipendenti</strong>: tre F1, tre F8, tre F10 e tre F13. Ogni run viene valutato dai quattro agenti, ma per l'analisi locally-unseen viene escluso l'agente che possiede localmente quel fault. Rimangono quindi tre receiving agents per run: <strong>12 run fisici &times; 3 receiving agents unseen = 36 agent-case unseen</strong>.</p>
+  <p>La figura seguente mostra una riga per ciascuno dei 12 run fisici. Una cella verde indica una classificazione unseen corretta in B, una cella rossa una classificazione errata e una cella grigia indica il caso local-seen, escluso dall'endpoint primario.</p>
+  <div class="scroll">
+  <table id="figure3-b-heatmap" class="s17hm"><thead><tr><th scope="col">#</th><th scope="col">Fault reale*</th><th scope="col">Run fisico</th><th scope="col">Agent 1</th><th scope="col">Agent 2</th><th scope="col">Agent 3</th><th scope="col">Agent 4</th></tr></thead><tbody>
+<tr><td class="s17num">1</td><th scope="row" class="s17flab">F1</th><td class="s17run">PBH-004</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr><td class="s17num">2</td><th scope="row" class="s17flab">F1</th><td class="s17run">PBH-005</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr><td class="s17num">3</td><th scope="row" class="s17flab">F1</th><td class="s17run">PBH-006</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr class="s17group-start"><td class="s17num">4</td><th scope="row" class="s17flab">F8</th><td class="s17run">PBH-007</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-wr" data-outcome="wrong" title="errata unseen">✗</td><td class="s17-wr" data-outcome="wrong" title="errata unseen">✗</td></tr>
+<tr><td class="s17num">5</td><th scope="row" class="s17flab">F8</th><td class="s17run">PBH-008</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-wr" data-outcome="wrong" title="errata unseen">✗</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr><td class="s17num">6</td><th scope="row" class="s17flab">F8</th><td class="s17run">PBH-009</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-wr" data-outcome="wrong" title="errata unseen">✗</td><td class="s17-wr" data-outcome="wrong" title="errata unseen">✗</td></tr>
+<tr class="s17group-start"><td class="s17num">7</td><th scope="row" class="s17flab">F10</th><td class="s17run">PBH-010</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr><td class="s17num">8</td><th scope="row" class="s17flab">F10</th><td class="s17run">PBH-011</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr><td class="s17num">9</td><th scope="row" class="s17flab">F10</th><td class="s17run">PBH-012</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td></tr>
+<tr class="s17group-start"><td class="s17num">10</td><th scope="row" class="s17flab">F13</th><td class="s17run">PBH-013</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td></tr>
+<tr><td class="s17num">11</td><th scope="row" class="s17flab">F13</th><td class="s17run">PBH-014</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td></tr>
+<tr><td class="s17num">12</td><th scope="row" class="s17flab">F13</th><td class="s17run">PBH-015</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-ok" data-outcome="correct" title="corretta unseen">✓</td><td class="s17-seen" data-outcome="seen" title="local-seen, esclusa dall'endpoint primario">●</td></tr>
+  </tbody></table>
+  </div>
+  <p class="fig-cap">* <strong>Fault reale</strong>: identit&agrave; evaluator-side, utilizzata esclusivamente nell'analisi offline dopo la frozen inference e non visibile agli agenti, che operavano nello spazio delle pseudolabel.</p>
+  <div class="s17legend"><span><i style="background:#087367"></i>✓ corretta unseen</span><span><i style="background:#a03932"></i>✗ errata unseen</span><span><i style="background:#d7dee2"></i>● local-seen &mdash; questo fault appartiene alla conoscenza locale dell'agente; la cella non entra nell'endpoint locally-unseen</span></div>
+  <p style="margin-top:16px"><strong>Risultati di B per fault reale &mdash; analisi descrittiva post-hoc</strong></p>
+  <p>Per ciascun fault ci sono 3 run fisici, ciascuno valutato dai 3 agenti che non possiedono localmente quel fault: quindi <strong>3 &times; 3 = 9 agent-case unseen per fault</strong>.</p>
+  <div class="s17fault"><span>F1 &middot; 9/9</span><span class="hot">F8 &middot; 4/9</span><span>F10 &middot; 9/9</span><span>F13 &middot; 9/9</span></div>
+  <p>In B, F1, F10 e F13 sono riconosciuti correttamente in tutti i 9 agent-case unseen per fault. F8 &egrave; corretto in 4/9. Tutti e cinque gli errori unseen osservati in B sono quindi concentrati sugli agent-case associati ai tre run F8.</p>
+  <p>All'interno dei tre run F8 compare inoltre eterogeneit&agrave; tra i receiving agents: l'agente che possiede localmente F1 riconosce F8 in 3/3 run, quello che possiede localmente F10 in 0/3 e quello che possiede localmente F13 in 1/3.</p>
+  <p>Questa &egrave; un'analisi descrittiva post-hoc dei record frozen. Mostra dove si concentra la difficolt&agrave; osservata, ma non permette di identificarne la causa.</p>
+  <p>Per confronto, A contiene 0/36 risposte corrette, 22 errori committed e 14 astensioni; E contiene 3/36 risposte corrette e 33 errori. La composizione globale delle tre configurazioni informative &egrave; gi&agrave; mostrata nella Figura 1.</p>
+  <p class="fig-cap"><strong>Figura 3 &mdash; Distribuzione degli outcome della configurazione informativa B nei 12 run fisici di fault del nuovo held-out.</strong> Ogni riga rappresenta un singolo run fisico; le quattro colonne rappresentano i quattro agenti. Per ogni run, la cella dell'agente che possiede localmente quel fault &egrave; indicata come local-seen ed esclusa dall'endpoint primario. Le altre tre celle costituiscono i tre agent-case locally-unseen associati al run. I 12 run producono quindi 36 agent-case unseen, non 36 osservazioni fisiche indipendenti. La figura &egrave; un'analisi descrittiva post-hoc dei record frozen.</p>
+
+  <h3>5 &middot; Cosa succede ai casi gi&agrave; conosciuti e quanto sono stabili le decisioni?</h3>
+  <p>Il risultato principale della Phase B riguarda i fault localmente unseen: vogliamo sapere se gli insight peer permettono al receiving agent di riconoscere condizioni che non possiede nella propria conoscenza locale. Un trasferimento utile, per&ograve;, non dovrebbe essere valutato soltanto su ci&ograve; che l'agente non conosce: &egrave; importante controllare anche che cosa accade ai casi che sa gi&agrave; riconoscere.</p>
+  <p>Per questo il protocollo frozen mantiene separati due outcome secondari: i fault <strong>local-seen</strong>, per i quali l'agente possiede esempi locali, e la condizione <strong>Normal</strong>. Non sono l'endpoint primario, che resta locally-unseen; sono outcome distinti usati per verificare se, nel campione held-out osservato, l'aggiunta degli insight peer sia accompagnata da una degradazione evidente delle prestazioni gi&agrave; acquisite.</p>
+
+  <h4>5.1 &middot; Preservation: FoT altera ci&ograve; che l'agente sa gi&agrave; riconoscere?</h4>
+  <p>Il controllo di preservation confronta A, B ed E sui casi local-seen e Normal. Se l'aggiunta degli insight peer producesse errori in condizioni precedentemente riconosciute correttamente, questo costituirebbe un segnale di possibile interferenza o negative transfer nel campione osservato.</p>
+  <div class="scroll"><table><thead><tr><th>Secondary outcome</th><th>A</th><th>B</th><th>E</th></tr></thead><tbody>
+   <tr><td>Local-seen <span class="s17tag pre">pre-specificato nel protocollo frozen</span></td><td>12/12</td><td>12/12</td><td>12/12</td></tr>
+   <tr><td>Normal <span class="s17tag pre">pre-specificato nel protocollo frozen</span></td><td>12/12</td><td>12/12</td><td>12/12</td></tr>
+  </tbody></table></div>
+  <p>In ciascuno dei due scope ci sono <strong>12 agent-case</strong> osservati. Per i fault local-seen, ciascuno dei 12 run fisici di fault viene valutato dall'unico agente che possiede localmente quel fault. Per Normal, i tre run Normal del nuovo held-out vengono valutati dai quattro agenti, producendo <strong>3 &times; 4 = 12 agent-case</strong>.</p>
+  <p>Nel campione held-out osservato, tutti i casi local-seen e Normal risultano corretti in tutte e tre le configurazioni informative: A, B ed E ottengono 12/12 in entrambi gli scope. <strong>Nel campione held-out osservato non &egrave; stata rilevata degradazione</strong> delle prestazioni su condizioni gi&agrave; conosciute quando vengono aggiunti gli insight peer.</p>
+  <p>Questo risultato &egrave; un controllo di preservation nel campione studiato. Non dimostra che FoT sia generalmente immune da negative transfer e non autorizza una claim universale di assenza di degradazione.</p>
+
+  <h4>5.2 &middot; Stabilit&agrave; delle decisioni nelle tre chiamate R=3</h4>
+  <p>Ogni agent-case-condition &egrave; stato eseguito tre volte. Le tre chiamate condividono lo stesso input hash e la stessa configurazione frozen, ma le risposte del modello non sono necessariamente identiche. Il protocollo aggrega le tre chiamate con la regola frozen: una pseudolabel valida con almeno due voti diventa la predizione aggregata; in assenza di una maggioranza valida di due voti, l'aggregato astiene.</p>
+  <p>Per descrivere la consistenza delle decisioni distinguiamo:</p>
+  <ul>
+   <li><strong>unanimous:</strong> le tre chiamate R=3 coincidono nella decisione, considerando pseudolabel predetta e stato di astensione;</li>
+   <li><strong>split:</strong> almeno una delle tre chiamate differisce; la regola frozen pu&ograve; comunque produrre una decisione aggregata quando una pseudolabel valida riceve almeno due voti.</li>
+  </ul>
+  <p><strong>Decisioni B sui 36 agent-case unseen</strong> <span class="s17tag post">post-hoc descrittivo</span></p>
+  <div class="s17fault"><span><strong>Unanimous</strong> &middot; 33/36 &middot; 91.67%</span><span><strong>Split</strong> &middot; 3/36 &middot; 8.33%</span></div>
+  <p>Questa decomposizione unanimous/split &egrave; una derivazione descrittiva post-hoc dei repetition records frozen. Non era uno degli endpoint utilizzati per giudicare il successo primario della Phase B.</p>
+  <p>Il fatto che 33/36 decisioni unseen di B siano unanimi indica che, nel setup frozen osservato, la maggior parte delle decisioni aggregate deriva da tre chiamate concordi. &Egrave; un descrittore della <strong>stabilit&agrave; delle decisioni tra le tre chiamate R=3</strong>, non una misura generale di robustezza. Le chiamate usano lo stesso input e la stessa configurazione: il risultato non dimostra stabilit&agrave; rispetto a perturbazioni dei dati, prompt diversi, altri modelli, altre configurazioni di reasoning o distribuzioni differenti.</p>
+  <div class="callout full-width"><strong>Come leggere questi controlli.</strong> Il primary result mostra il trasferimento sui fault localmente unseen. I secondary outcome mostrano che, nel campione osservato, questo beneficio non &egrave; accompagnato da una degradazione visibile sui casi local-seen o Normal. La verifica R=3 aggiunge un'informazione diversa: descrive quanto le tre chiamate concordano tra loro. Nessuno di questi controlli amplia il risultato oltre il setup TEP studiato.</div>
+
+  <h3>6 &middot; Scope and limitations</h3>
+  <ul>
+   <li>TEP &egrave; una POC metodologica controllata; il fotovoltaico &egrave; il dominio-obiettivo finale.</li>
+   <li>A &egrave; una baseline information-floor per la semantica delle classi localmente unseen.</li>
+   <li>Riconoscimento in spazio di pseudolabel chiuso, non diagnosi open-world.</li>
+   <li>Solo 12 cluster indipendenti.</li>
+   <li>Un solo simulatore/processo.</li>
+   <li>Una sola configurazione LLM/reasoning.</li>
+   <li>Nessuna garanzia formale di privacy.</li>
+   <li>Nessuna baseline ICL centralizzata a pari informazione.</li>
+   <li>Nessuna claim di generalizzazione al PV o cross-domain.</li>
+   <li>harmed=0 non &egrave; evidenza di assenza generale di negative transfer.</li>
+  </ul>
+
+  <h3>7 &middot; Claim finale</h3>
+  <div class="callout full-width"><p>Nel protocollo frozen e sui 12 run fisici di fault del nuovo held-out TEP, gli insight peer autentici hanno aumentato l'accuratezza sui fault localmente unseen da <strong>0/36 (A) a 31/36 (B)</strong>; il contrasto primario <strong>B&minus;A &egrave; +0.8611 [0.8333, 0.9167]</strong>. A parit&agrave; di testi, ID, ordine e volume del peer block, la corruzione delle associazioni ha ridotto l'accuratezza a <strong>3/36</strong>: <em>il contrasto B&minus;E supporta l'interpretazione che il beneficio osservato dipenda dalla corretta associazione dell'informazione trasferita, anzich&eacute; dalla mera presenza o dal volume del testo aggiuntivo</em> (B&minus;E +0.7778 [0.7222, 0.8333]). <em>La configurazione informativa A rappresenta uno scenario di limite informativo per la semantica delle classi localmente unseen, perch&eacute; l'agente ricevente non dispone di alcun esempio locale della pseudoclasse corrispondente</em>; la magnitudine di B&minus;A va quindi letta rispetto a questo floor. Questi risultati supportano la <strong>feasibility</strong> del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico, non forniscono garanzie di privacy, n&eacute; stabiliscono superiorit&agrave; rispetto a una baseline centralizzata ICL a pari informazione. La validazione empirica sul fotovoltaico &egrave; la fase successiva.</p></div>
+
+</section>
+
+<div style="margin:40px 0;display:flex;align-items:center;gap:18px">
+  <div style="flex:1;height:2px;background:linear-gradient(to right,var(--teal),transparent)"></div>
+  <div style="padding:10px 22px;border-radius:999px;background:linear-gradient(125deg,#123b56,#086e65);color:#fff;font-size:13px;font-weight:850;letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;box-shadow:0 4px 14px rgba(8,110,101,.25)">Fase 2 &mdash; Replica confirmatory · EXP3_V2</div>
+  <div style="flex:1;height:2px;background:linear-gradient(to left,var(--teal),transparent)"></div>
+</div>
+
+<div class="orientation">
+  <p><strong>Dalla Fase 1 alla Fase 2.</strong> Lo Step 17 ha mostrato che, su 12 run fisici held-out, gli insight FoT autentici hanno portato l'accuratezza unseen da 0/36 (A) a 31/36 (B), con un contrasto B&minus;A di +0.861 [0.833, 0.917]. Ma quel risultato poggia su un singolo campione held-out di 12 run fisici. La domanda che apre la Fase 2 &egrave;: <em>il fenomeno si riproduce su nuove realizzazioni indipendenti delle stesse classi?</em></p>
+  <p>Tutto il metodo &mdash; feature, soglie, agenti, insight, configurazioni informative, protocollo frozen &mdash; rimane identico. Cambiano solo i dati fisici sottostanti: 24 nuovi run di fault (6 per classe) e 6 nuovi run Normal, il doppio della Fase 1. L'architettura sperimentale e le decisioni di analisi sono state congelate <em>prima</em> di generare questi dati.</p>
+</div>
+
+<section id="step-18" data-step="18">
+  <div class="step-kicker">Step 18 / 24 <span class="phase-badge design">Esperimento confermativo su nuove realizzazioni simulate</span></div>
+  <h2>Perché un esperimento confermativo su nuove realizzazioni simulate</h2>
+  <p>Un held-out, per definizione, può essere aperto una sola volta: dopo che i risultati di Experiment 1 sono stati osservati, quei dati non sono più vergini rispetto all'ipotesi. Non è quindi possibile riusarli per rispondere alla domanda <em>«il risultato regge su realizzazioni fisiche diverse?»</em> senza introdurre un rischio di conferma post-hoc.</p>
+  <p>Il rischio specifico da escludere non è il data leakage classico — il protocollo frozen lo controlla già — ma qualcosa di più sottile: che le dodici realizzazioni fisiche del held-out di Experiment 1 abbiano caratteristiche idiosincratiche (pattern di rumore, transitori, derive di sensore) che hanno favorito il trasferimento in quel campione particolare, senza che il fenomeno sia riproducibile su run indipendenti delle stesse classi.</p>
+  <p>EXP3_V2 è un esperimento confermativo su nuove realizzazioni simulate, definito prima dell’analisi dei risultati. <strong>«Prospettico»</strong> significa che ipotesi, popolazione, contrasti e criterio di successo vengono fissati <em>prima</em> di generare i nuovi dati: non si adatta la procedura ai risultati già visti. Le nuove realizzazioni fisiche sono run TEP indipendenti delle stesse quattro classi — non reruns dei file già usati, non nuove classi, non un dominio diverso. Il perimetro sperimentale rimane deliberatamente invariato: il metodo, gli agenti, le soglie e il protocollo frozen di Experiment 1 vengono riapplicati as-is alle nuove realizzazioni. L'obiettivo non è la generalizzazione, ma verificare se l'effetto osservato sia riproducibile quando i dati fisici cambiano pur restando fisso tutto il resto.</p>
+</section>
+
+<section id="step-19" data-step="19">
+  <div class="step-kicker">Step 19 / 24 <span class="phase-badge offline">Nuovo held-out</span></div>
+  <h2>Le nuove realizzazioni fisiche di EXP3_V2</h2>
+  <p>Per costruire il nuovo held-out sono stati generati run TEP indipendenti degli stessi quattro tipi di guasto studiati in Experiment 1, più i casi Normal. I run sono stati congelati prima di qualsiasi inferenza, applicando la stessa logica freeze-before-test che ha governato la Fase 1: nessun dato del nuovo held-out ha influenzato feature, soglie, agenti o insight, che restano quelli di Experiment 1 senza ricalibrazione.</p>
+  <div class="scroll"><table><caption class="panel-label">30 nuove realizzazioni simulate = 6 Normali + 6 run per ciascun fault</caption><thead><tr><th scope="col">Normal</th><th scope="col">F1</th><th scope="col">F8</th><th scope="col">F10</th><th scope="col">F13</th></tr></thead><tbody><tr><td>6 run</td><td>6 run</td><td>6 run</td><td>6 run</td><td>6 run</td></tr></tbody></table></div>
+  <p>Il raddoppio rispetto ai 15 run di Experiment 1 (3 per classe) porta a 72 agent-case unseen, aumentando la potenza statistica del contrasto primario B−A senza modificare il disegno sperimentale.</p></section>
+
+<section id="step-20" data-step="20">
+  <div class="step-kicker">Step 20 / 24 <span class="phase-badge design">Disegno confirmatory frozen</span></div>
+  <h2>Il disegno confirmatory di EXP3_V2</h2>
+  <p>Un disegno <strong>confirmatory frozen</strong> significa che ipotesi primaria, popolazione di analisi, contrasti e criteri di successo sono stati scritti prima di aprire i dati — e non possono essere modificati dopo aver visto i risultati. L'analisi è quindi eseguita una volta sola, sui record già congelati, senza margine di aggiustamento retroattivo.</p>
+
+  <div class="example">
+    <div class="panel-label">Popolazione e configurazioni informative</div>
+    <h3>Chi viene valutato e in quale configurazione informativa</h3>
+    <p><strong>Popolazione primaria:</strong> i casi <em>locally unseen</em>, cioè i fault run valutati dall'agente che non possiede esempi locali di quella classe. Ogni fault ha tre agenti che non lo conoscono: con 6 run per fault e 4 fault, la popolazione primaria è <strong>6 × 4 × 3 = 72 agent-case</strong>.</p>
+    <p>Ciascuno di questi 72 agent-case viene valutato in tre configurazioni informative — A, B ed E — definite esattamente come in Experiment 1 (Step 15):</p>
+    <div class="scroll"><table><thead><tr><th>Configurazione informativa</th><th>Che cosa riceve l'agente oltre ai few-shot locali</th></tr></thead><tbody>
+      <tr><td><strong>A — isolated</strong></td><td>Nessun insight peer. Misura la performance senza alcuna federazione.</td></tr>
+      <tr><td><strong>B — FoT</strong></td><td>6 insight peer autentici, con associazioni semantiche corrette.</td></tr>
+      <tr><td><strong>E — corrupted</strong></td><td>Gli stessi 6 insight di B — stessi testi, stessi ID, stesso volume — ma con le pseudolabel permutate in modo che nessuna rimanga associata alla classe originale.</td></tr>
+    </tbody></table></div>
+    <p>Le astensioni (nessuna maggioranza tra le R=3 risposte) contano come errori in tutte e tre le configurazioni informative.</p>
+  </div>
+
+  <div class="example">
+    <div class="panel-label">Contrasti e criterio di replica</div>
+    <h3>Che cosa si confronta e come si decide</h3>
+    <p><strong>B−A (contrasto primario):</strong> la differenza di accuratezza tra la configurazione informativa con federazione autentica e quella senza. Risponde alla domanda: <em>«aggiungere insight peer corretti aumenta la capacità di riconoscere fault unseen?»</em>. Il criterio di replica richiede <em>congiuntamente</em> che la differenza osservata sia positiva <em>e</em> che il limite inferiore del suo intervallo di confidenza al 95% sia positivo — entrambe le condizioni devono essere soddisfatte.</p>
+    <p><strong>B−E (evidenza supporting):</strong> la differenza tra insight autentici e insight con associazioni corrotte. Risponde alla domanda: <em>«il beneficio di B dipende dal contenuto semanticamente corretto degli insight, o basta avere più testo nel prompt?»</em>. Un valore positivo di B−E costituisce l’evidenza di supporto pre-specificata. Il relativo intervallo di confidenza al 95% viene riportato per descrivere l’incertezza della stima, ma l’esclusione dello zero non costituisce un ulteriore criterio decisionale per la replica.</p>
+    <div class="chain"><span>72 agent-case unseen</span><b>×</b><span>configurazioni informative A / B / E</span><b>→</b><span>aggregati frozen</span><b>→</b><span>bootstrap cluster-paired</span><b>→</b><span>contrasti B−A · B−E</span></div>
+  </div></section>
+
+<section id="step-21" data-step="21">
+  <div class="step-kicker">Step 21 / 24 <span class="phase-badge offline">Risultati primari unseen</span></div>
+  <h2>Risultati EXP3_V2: trasferimento di conoscenza sui fault localmente unseen</h2>
+
+  <p>L'endpoint primario riguarda esclusivamente i fault <strong>localmente unseen</strong>: <strong>24 run fisici indipendenti</strong> (sei per ciascuno dei quattro fault), ciascuno giudicato dai <strong>tre agenti</strong> che non conoscono localmente quel fault &rarr; <strong>72 agent-case per configurazione informativa</strong>. Le tre osservazioni sullo stesso run sono correlate: l'unit&agrave; indipendente &egrave; il <strong>run fisico (24)</strong>, non l'agent-case (72). Le predizioni sono gli aggregati frozen di R=3 chiamate; l'<strong>astensione conta come incorrect</strong>; gli intervalli derivano da un <strong>cluster bootstrap paired</strong> sui 24 run, stratificato per pseudolabel (10.000 draws, seed frozen 320031).</p>
+
+  <div class="chain"><span>24 run fisici indipendenti</span><b>&rarr;</b><span>3 agenti unseen per run</span><b>&rarr;</b><span>72 agent-case per configurazione informativa</span><b>&rarr;</b><span>A / B / E sugli stessi agent-case</span><b>&rarr;</b><span>bootstrap sui 24 run, non sulle 72 righe</span></div>
+
+  <h3>1 &middot; Tabella riassuntiva</h3>
+  <div class="scroll">
+    <table>
+      <caption>Popolazione primaria unseen &mdash; EXP3_V2</caption>
+      <thead><tr><th>Configurazione informativa</th><th>Corretti / 72</th><th>Accuratezza</th><th>Astensioni</th><th>Errori committed</th></tr></thead>
+      <tbody>
+        <tr><td><strong>A</strong></td><td class="num">0 / 72</td><td class="num">0.0%</td><td class="num">30</td><td class="num">42</td></tr>
+        <tr><td><strong>B</strong></td><td class="num">68 / 72</td><td class="num">94.4%</td><td class="num">0</td><td class="num">4</td></tr>
+        <tr><td><strong>E</strong></td><td class="num">4 / 72</td><td class="num">5.6%</td><td class="num">0</td><td class="num">68</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>2 &middot; Figura 4 &mdash; Composizione degli esiti A/B/E</h3>
+  <div class="s17bars">
+   <div class="s17row"><span class="s17lab">A</span><div class="s17track"><span class="s17seg wr" style="flex:42" title="42 errate con decisione">42</span><span class="s17seg ab" style="flex:30" title="30 astensioni">30</span></div></div>
+   <div class="s17row"><span class="s17lab">B</span><div class="s17track"><span class="s17seg ok" style="flex:68" title="68 corrette">68</span><span class="s17seg wr" style="flex:4" title="4 errate con decisione">4</span></div></div>
+   <div class="s17row"><span class="s17lab">E</span><div class="s17track"><span class="s17seg ok" style="flex:4" title="4 corrette">4</span><span class="s17seg wr" style="flex:68" title="68 errate con decisione">68</span></div></div>
+  </div>
+  <div class="s17legend"><span><i style="background:#087367"></i>corretta</span><span><i style="background:#a03932"></i>errata con decisione</span><span><i style="background:#8a99a3"></i>astensione</span><span>&middot; ogni barra = 72 agent-case</span></div>
+  <div class="callout full-width"><strong>Decomposizione dello 0/72 di A.</strong> In A, l'agente si astiene in 30/72 casi e produce una predizione committed in 42/72 casi. Nessuna delle 42 predizioni committed &egrave; corretta. Lo 0/72 non deriva soltanto dalle astensioni: anche quando l'agente sceglie una classe localmente unseen, la decisione &egrave; errata. In B ed E, invece, non si osservano astensioni.</div>
+  <p class="fig-cap"><strong>Figura 4 &mdash;</strong> Composizione degli esiti sui fault localmente unseen. Ogni barra contiene 72 agent-case aggregati derivati da 24 run fisici indipendenti; l'astensione &egrave; conteggiata come incorrect. A raggiunge il floor attraverso 30 astensioni e 42 predizioni committed errate; B produce 68 risposte corrette; E conserva lo stesso peer-information block di B ma con associazioni insight&ndash;pseudolabel corrotte e produce 4 risposte corrette.</p>
+
+  <h3>3 &middot; Figura 5 &mdash; Dove si concentrano successi ed errori di FoT?</h3>
+  <p>Le 68 risposte corrette su 72 agent-case della configurazione informativa B derivano da <strong>24 run di fault indipendenti</strong>: sei F1, sei F8, sei F10 e sei F13. Ogni run viene valutato dai quattro agenti, ma per l'analisi locally-unseen viene escluso l'agente che possiede localmente quel fault. Rimangono quindi tre receiving agents per run: <strong>24 run fisici &times; 3 receiving agents unseen = 72 agent-case unseen</strong>.</p>
+  <p>La figura seguente mostra una riga per ciascuno dei 24 run fisici. Una cella verde indica una classificazione unseen corretta in B, una cella rossa una classificazione errata. Le celle con sfondo grigio chiaro indicano il caso local-seen, escluso dall'endpoint primario; quelle con sfondo rosato indicano un errore local-seen.</p>
+  <div class="scroll">
+  <table class="s17hm"><thead><tr><th scope="col">#</th><th scope="col">Fault reale*</th><th scope="col">Run fisico</th><th scope="col">Agent 1<br><span style="font-weight:400;font-size:11px">(F1)</span></th><th scope="col">Agent 2<br><span style="font-weight:400;font-size:11px">(F8)</span></th><th scope="col">Agent 3<br><span style="font-weight:400;font-size:11px">(F10)</span></th><th scope="col">Agent 4<br><span style="font-weight:400;font-size:11px">(F13)</span></th></tr></thead><tbody>
+<tr><td class="s17num">1</td><th scope="row" class="s17flab">F1</th><td class="s17run">EXP3V2-F1-001</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">2</td><th scope="row" class="s17flab">F1</th><td class="s17run">EXP3V2-F1-002</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">3</td><th scope="row" class="s17flab">F1</th><td class="s17run">EXP3V2-F1-003</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">4</td><th scope="row" class="s17flab">F1</th><td class="s17run">EXP3V2-F1-004</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">5</td><th scope="row" class="s17flab">F1</th><td class="s17run">EXP3V2-F1-005</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">6</td><th scope="row" class="s17flab">F1</th><td class="s17run">EXP3V2-F1-006</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr class="s17group-start"><td class="s17num">7</td><th scope="row" class="s17flab">F8</th><td class="s17run">EXP3V2-F8-001</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">8</td><th scope="row" class="s17flab">F8</th><td class="s17run">EXP3V2-F8-002</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">9</td><th scope="row" class="s17flab">F8</th><td class="s17run">EXP3V2-F8-003</td><td class="s17-wr" title="errata unseen">&cross;</td><td class="s17-seen-err" title="local-seen, errore">&cross;</td><td class="s17-wr" title="errata unseen">&cross;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">10</td><th scope="row" class="s17flab">F8</th><td class="s17run">EXP3V2-F8-004</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">11</td><th scope="row" class="s17flab">F8</th><td class="s17run">EXP3V2-F8-005</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">12</td><th scope="row" class="s17flab">F8</th><td class="s17run">EXP3V2-F8-006</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr class="s17group-start"><td class="s17num">13</td><th scope="row" class="s17flab">F10</th><td class="s17run">EXP3V2-F10-001</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">14</td><th scope="row" class="s17flab">F10</th><td class="s17run">EXP3V2-F10-002</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">15</td><th scope="row" class="s17flab">F10</th><td class="s17run">EXP3V2-F10-003</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">16</td><th scope="row" class="s17flab">F10</th><td class="s17run">EXP3V2-F10-004</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">17</td><th scope="row" class="s17flab">F10</th><td class="s17run">EXP3V2-F10-005</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr><td class="s17num">18</td><th scope="row" class="s17flab">F10</th><td class="s17run">EXP3V2-F10-006</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td><td class="s17-ok" title="corretta unseen">&check;</td></tr>
+<tr class="s17group-start"><td class="s17num">19</td><th scope="row" class="s17flab">F13</th><td class="s17run">EXP3V2-F13-001</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td></tr>
+<tr><td class="s17num">20</td><th scope="row" class="s17flab">F13</th><td class="s17run">EXP3V2-F13-002</td><td class="s17-wr" title="errata unseen">&cross;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-wr" title="errata unseen">&cross;</td><td class="s17-seen-err" title="local-seen, errore">&cross;</td></tr>
+<tr><td class="s17num">21</td><th scope="row" class="s17flab">F13</th><td class="s17run">EXP3V2-F13-003</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen-err" title="local-seen, errore">&cross;</td></tr>
+<tr><td class="s17num">22</td><th scope="row" class="s17flab">F13</th><td class="s17run">EXP3V2-F13-004</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen-err" title="local-seen, errore">&cross;</td></tr>
+<tr><td class="s17num">23</td><th scope="row" class="s17flab">F13</th><td class="s17run">EXP3V2-F13-005</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen-err" title="local-seen, errore">&cross;</td></tr>
+<tr><td class="s17num">24</td><th scope="row" class="s17flab">F13</th><td class="s17run">EXP3V2-F13-006</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-ok" title="corretta unseen">&check;</td><td class="s17-seen" title="local-seen">&bull;</td></tr>
+  </tbody></table>
+  </div>
+  <p class="fig-cap">* <strong>Fault reale</strong>: identit&agrave; evaluator-side, utilizzata esclusivamente nell'analisi offline dopo la frozen inference. Le celle con sfondo rosato indicano errori local-seen dell'agente che possiede quel fault.</p>
+  <div class="s17legend"><span><i style="background:#087367"></i>&check; corretta unseen</span><span><i style="background:#a03932"></i>&cross; errata unseen</span><span><i style="background:#d7dee2"></i>&bull; local-seen corretta</span><span><i style="background:#e8c5c3"></i>&cross; local-seen errata</span></div>
+
+  <p style="margin-top:16px"><strong>Risultati di B per fault reale &mdash; analisi descrittiva post-hoc</strong></p>
+  <p>Per ciascun fault ci sono 6 run fisici, ciascuno valutato dai 3 agenti che non possiedono localmente quel fault: quindi <strong>6 &times; 3 = 18 agent-case unseen per fault</strong>.</p>
+  <div class="s17fault"><span>F1 &middot; 18/18</span><span>F8 &middot; 16/18</span><span>F10 &middot; 18/18</span><span class="hot">F13 &middot; 16/18</span></div>
+  <p>In B, F1 e F10 sono riconosciuti correttamente in tutti i 18 agent-case unseen per fault. F8 e F13 presentano ciascuno 2 errori unseen.</p>
+
+  <p><strong>Per-agent unseen accuracy di B</strong> <span class="s17tag post">post-hoc descrittivo</span></p>
+  <div class="s17fault"><span class="hot">Agent 1 (F1) &middot; 16/18</span><span>Agent 2 (F8) &middot; 18/18</span><span class="hot">Agent 3 (F10) &middot; 16/18</span><span>Agent 4 (F13) &middot; 18/18</span></div>
+  <p>Tutti e quattro gli errori unseen di B sono concentrati su due run specifici &mdash; EXP3V2-F8-003 e EXP3V2-F13-002 &mdash; dove sia Agent 1 sia Agent 3 sbagliano contemporaneamente. Agent 2 e Agent 4 non commettono errori unseen.</p>
+
+  <p class="fig-cap"><strong>Figura 5 &mdash; Distribuzione degli outcome della configurazione informativa B nei 24 run fisici di fault di EXP3_V2.</strong> Ogni riga rappresenta un singolo run fisico; le quattro colonne rappresentano i quattro agenti. Per ogni run, la cella dell'agente che possiede localmente quel fault &egrave; indicata come local-seen. Le altre tre celle costituiscono i tre agent-case locally-unseen. I 24 run producono 72 agent-case unseen, non 72 osservazioni fisiche indipendenti. La figura &egrave; un'analisi descrittiva post-hoc dei record frozen.</p>
+</section>
+
+<section id="step-22" data-step="22">
+  <div class="step-kicker">Step 22 / 24 <span class="phase-badge offline">Contrasti e bootstrap</span></div>
+  <h2>Contrasti B&minus;A e B&minus;E con intervalli di confidenza</h2>
+
+  <h3>1 &middot; Tabella dei contrasti</h3>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Contrasto</th><th>Stima</th><th>CI percentile 95%</th><th>Ruolo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>B&minus;A</strong></td><td class="num">0.9444</td><td class="num">[0.8611, 1.0]</td><td>Contrasto primario; entrambi i criteri pre-specificati sono soddisfatti.</td></tr>
+        <tr><td><strong>B&minus;E</strong></td><td class="num">0.8889</td><td class="num">[0.7778, 0.9861]</td><td>Evidenza supporting per la pertinenza dell'informazione; il CI non costituisce un gate aggiuntivo.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>2 &middot; Figura 6 &mdash; Forest plot dei contrasti EXP3_V2</h3>
+  <p>Questa figura mostra <strong>quanto cambia l'accuratezza della configurazione informativa FoT (B) rispetto alle due configurazioni informative di controllo</strong>. Non rappresenta le accuracy assolute di A, B ed E, ma le loro differenze.</p>
+  <p>Per leggere il grafico: il <strong>punto</strong> rappresenta la differenza osservata; il <strong>segmento orizzontale</strong> l'intervallo di confidenza al 95%; la <strong>linea verticale a &Delta;=0</strong> l'assenza di differenza; valori pi&ugrave; a destra indicano un vantaggio maggiore di B.</p>
+
+  <svg viewBox="0 0 680 238" role="img" aria-label="Forest plot delle differenze di accuratezza B meno A e B meno E con intervalli di confidenza — EXP3_V2" style="max-width:680px;width:100%;height:auto;font-family:inherit">
+    <title>Differenze di accuratezza B meno A e B meno E — EXP3_V2</title>
+    <desc>Il punto indica la differenza osservata, il segmento l'intervallo di confidenza bootstrap al 95 per cento e la linea verticale a delta zero l'assenza di differenza.</desc>
+    <line x1="90" y1="34" x2="90" y2="185" stroke="#a03932" stroke-dasharray="4 3"/>
+    <line x1="230" y1="34" x2="230" y2="185" stroke="#eef2f4"/><line x1="370" y1="34" x2="370" y2="185" stroke="#eef2f4"/><line x1="510" y1="34" x2="510" y2="185" stroke="#eef2f4"/><line x1="650" y1="34" x2="650" y2="185" stroke="#eef2f4"/>
+    <line x1="90" y1="185" x2="650" y2="185" stroke="#9fb1bc"/>
+    <text x="90" y="205" font-size="11" fill="#a03932" text-anchor="middle">0</text>
+    <text x="230" y="205" font-size="11" fill="#5a6b76" text-anchor="middle">0.25</text>
+    <text x="370" y="205" font-size="11" fill="#5a6b76" text-anchor="middle">0.50</text>
+    <text x="510" y="205" font-size="11" fill="#5a6b76" text-anchor="middle">0.75</text>
+    <text x="650" y="205" font-size="11" fill="#5a6b76" text-anchor="middle">1.00</text>
+    <text x="96" y="30" font-size="10.5" fill="#a03932">&Delta; = 0 &middot; nessuna differenza</text>
+    <!-- B-A: 0.9444 [0.8611, 1.0] — mapped: 0→90, 1→650, so x = 90 + val*560 -->
+    <!-- 0.8611→572.2, 0.9444→618.9, 1.0→650 -->
+    <line x1="572.2" y1="72" x2="650" y2="72" stroke="#087367" stroke-width="3"/><circle cx="618.9" cy="72" r="6" fill="#087367"/>
+    <text x="12" y="76" font-size="14" font-weight="800" fill="#234b60">B&minus;A</text>
+    <text x="100" y="91" font-size="10.5" fill="#7d2c26">riferimento A = 0/72 (information floor)</text>
+    <text x="610" y="58" font-size="12" fill="#234b60" text-anchor="middle">+0.944 [0.861, 1.0]</text>
+    <!-- B-E: 0.8889 [0.7778, 0.9861] — 0.7778→525.6, 0.8889→587.8, 0.9861→642.2 -->
+    <line x1="525.6" y1="128" x2="642.2" y2="128" stroke="#2f6f8f" stroke-width="3"/><circle cx="587.8" cy="128" r="6" fill="#2f6f8f"/>
+    <text x="12" y="132" font-size="14" font-weight="800" fill="#234b60">B&minus;E</text>
+    <text x="584" y="114" font-size="12" fill="#234b60" text-anchor="middle">+0.889 [0.778, 0.986]</text>
+    <text x="370" y="230" font-size="12" font-weight="700" fill="#234b60" text-anchor="middle">&Delta; accuratezza rispetto al riferimento</text>
+  </svg>
+  <p class="fig-cap"><strong>Figura 6 &mdash;</strong> Differenze di accuratezza sui fault localmente unseen. I punti indicano i contrasti osservati e i segmenti i relativi intervalli di confidenza al 95%, calcolati con 10.000 ricampionamenti paired dei 24 run fisici, stratificati per pseudolabel (seed frozen 320031).</p>
+
+  <div class="callout full-width">
+    <p><strong>Criterio di replica.</strong> Il contrasto B&minus;A osservato &egrave; +0.9444 &gt; 0 e il limite inferiore del CI al 95% &egrave; 0.8611 &gt; 0. Entrambe le condizioni del criterio pre-specificato sono quindi soddisfatte. Entrambi gli intervalli rimangono interamente sopra lo zero.</p>
+    <p>B&minus;A &egrave; il contrasto primario pre-specificato; B&minus;E &egrave; il contrasto sulla pertinenza dell'informazione pre-specificato e non costituisce un secondo endpoint primario. La magnitudine di B&minus;A va interpretata tenendo presente che A rappresenta un <strong>information floor</strong> per le classi localmente unseen.</p>
+  </div>
+  <div class="callout full-width"><strong>Nota sull'incertezza.</strong> Gli intervalli sono ottenuti mediante cluster bootstrap paired sui 24 run fisici indipendenti, mantenendo insieme le tre osservazioni dei receiving agents associate allo stesso run. Con 24 cluster indipendenti (il doppio di Experiment 1), gli intervalli sono pi&ugrave; stretti ma vanno comunque interpretati nel contesto di questo PoC controllato.</div>
+</section>
+
+<section id="step-23" data-step="23">
+  <div class="step-kicker">Step 23 / 24 <span class="phase-badge offline">Risultati secondari descrittivi</span></div>
+  <h2>Local-seen, Normal e overall</h2>
+  <p>Le popolazioni local-seen, Normal e overall sono risultati secondari esclusivamente descrittivi e non aggiungono criteri inferenziali.</p>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Configurazione informativa</th><th>Local-seen (fault)</th><th>Normal</th><th>Overall</th></tr></thead>
+      <tbody>
+        <tr><td><strong>A</strong></td><td class="num">24/24 (100.0%)</td><td class="num">24/24 (100.0%)</td><td class="num">48/120 (40.0%)</td></tr>
+        <tr><td><strong>B</strong></td><td class="num">19/24 (79.2%)</td><td class="num">24/24 (100.0%)</td><td class="num">111/120 (92.5%)</td></tr>
+        <tr><td><strong>E</strong></td><td class="num">22/24 (91.7%)</td><td class="num">24/24 (100.0%)</td><td class="num">50/120 (41.7%)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout full-width"><strong>Osservazione sulla degradazione local-seen di B.</strong> In Experiment 1, i fault local-seen erano 12/12 in tutte e tre le configurazioni informative: nessuna degradazione. In EXP3_V2, A mantiene 24/24 ma <strong>B scende a 19/24</strong>: cinque casi local-seen diventano errori quando gli insight peer vengono aggiunti. I cinque errori riguardano Agent 4 (F13) su quattro run e Agent 2 (F8) su uno. In particolare:
+  <ul style="margin:6px 0 0;padding-left:22px">
+    <li>Agent 4 sbaglia i run F13-002, -003, -004, -005 (4 errori local-seen su 6 run del proprio fault)</li>
+    <li>Agent 2 sbaglia il run F8-003 (1 errore local-seen su 6 run del proprio fault)</li>
+  </ul>
+  <p style="margin:8px 0 0">Anche E mostra una leggera degradazione (22/24). Questo &egrave; un segnale descrittivo che gli insight peer, in alcune combinazioni run&ndash;agente, possono interferire con il riconoscimento di fault gi&agrave; noti localmente. Il fenomeno non era osservabile con soli 12 local-seen di Experiment 1. Non essendo un endpoint primario, la sua entit&agrave; non altera la decisione sulla replica, ma va registrato come osservazione rilevante per il disegno futuro.</p>
+  </div>
+
+  <h3>Tabella comparativa: Experiment 1 vs EXP3_V2</h3>
+  <div class="comparison-grid">
+    <div class="cg-header">Experiment 1 (Fase 1)</div>
+    <div class="cg-header">EXP3_V2 (Fase 2)</div>
+    <div class="cg-label">Dimensioni del campione</div>
+    <div class="cg-cell">12 run di fault (3 per classe) + 3 Normal<br>36 agent-case unseen per configurazione informativa</div>
+    <div class="cg-cell">24 run di fault (6 per classe) + 6 Normal<br>72 agent-case unseen per configurazione informativa</div>
+    <div class="cg-label">Risultati primari unseen</div>
+    <div class="cg-cell"><strong>A:</strong> 0/36 &middot; <strong>B:</strong> 31/36 &middot; <strong>E:</strong> 3/36</div>
+    <div class="cg-cell"><strong>A:</strong> 0/72 &middot; <strong>B:</strong> 68/72 &middot; <strong>E:</strong> 4/72</div>
+    <div class="cg-label">Contrasto B&minus;A [CI 95%]</div>
+    <div class="cg-cell">+0.861 [0.833, 0.917]<br>12 cluster, seed 20260829</div>
+    <div class="cg-cell">+0.944 [0.861, 1.0]<br>24 cluster, seed 320031</div>
+    <div class="cg-label">Contrasto B&minus;E [CI 95%]</div>
+    <div class="cg-cell">+0.778 [0.722, 0.833]</div>
+    <div class="cg-cell">+0.889 [0.778, 0.986]</div>
+    <div class="cg-label">Decomposizione A</div>
+    <div class="cg-cell">22 errori committed + 14 astensioni = 0/36</div>
+    <div class="cg-cell">42 errori committed + 30 astensioni = 0/72</div>
+    <div class="cg-label">Local-seen fault (B)</div>
+    <div class="cg-cell">12/12 (100%) &mdash; nessuna degradazione</div>
+    <div class="cg-cell"><strong>19/24 (79.2%)</strong> &mdash; 5 errori local-seen</div>
+    <div class="cg-label">Normal (B)</div>
+    <div class="cg-cell">12/12 (100%)</div>
+    <div class="cg-cell">24/24 (100%)</div>
+  </div>
+  <p class="fig-cap">La tabella confronta i risultati dei due esperimenti sullo stesso disegno sperimentale. L'incremento della dimensione campionaria da 12 a 24 run fisici restringe gli intervalli di confidenza. La degradazione local-seen osservata in EXP3_V2 non era visibile in Experiment 1.</p>
+</section>
+
+<section id="step-24" data-step="24">
+  <div class="step-kicker">Step 24 / 24 <span class="phase-badge offline">Interpretazione, limiti e provenienza frozen</span></div>
+  <h2>Che cosa supporta la replica, e che cosa non dimostra</h2>
+
+  <h3>1 &middot; Scope and limitations</h3>
+  <ul>
+   <li>TEP &egrave; una POC metodologica controllata; il fotovoltaico &egrave; il dominio-obiettivo finale.</li>
+   <li>A &egrave; una baseline information-floor per la semantica delle classi localmente unseen.</li>
+   <li>Riconoscimento in spazio di pseudolabel chiuso, non diagnosi open-world.</li>
+   <li>24 cluster indipendenti (il doppio di Experiment 1, ma pur sempre un campione limitato).</li>
+   <li>Un solo simulatore/processo (TEP).</li>
+   <li>Una sola configurazione LLM/reasoning (<code>gpt-5.6-terra</code>, reasoning <code>medium</code>).</li>
+   <li>Nessuna garanzia formale di privacy.</li>
+   <li>Nessuna baseline ICL centralizzata a pari informazione.</li>
+   <li>Nessuna claim di generalizzazione al PV o cross-domain.</li>
+   <li>La degradazione local-seen osservata in B (19/24 vs 24/24 di A) &egrave; un segnale descrittivo che merita approfondimento nel disegno futuro, ma non invalida il primary result unseen.</li>
+   <li>Il disegno riproduce <em>le stesse classi di fault</em> su nuove realizzazioni, non generalizza a fault non studiati.</li>
+  </ul>
+
+  <h3>2 &middot; Claim finale &mdash; EXP3_V2</h3>
+  <div class="callout full-width"><p>Nel protocollo frozen e sulle 24 nuove realizzazioni fisiche di fault del held-out EXP3_V2, gli insight peer autentici hanno aumentato l’accuratezza sui fault localmente unseen da <strong>0/72 (A) a 68/72 (B)</strong>; il contrasto primario <strong>B&minus;A &egrave; +0.9444 [0.8611, 1.0]</strong>. Il criterio pre-specificato di replica &mdash; B&minus;A &gt; 0 con limite inferiore del CI &gt; 0 &mdash; &egrave; soddisfatto.</p>
+  <p>A parit&agrave; di testi, ID, ordine e volume del peer block, la corruzione delle associazioni ha ridotto l’accuratezza a <strong>4/72</strong>: il contrasto B&minus;E +0.8889 [0.7778, 0.9861] supporta l’interpretazione che il beneficio osservato dipenda dalla corretta associazione dell’informazione trasferita. <em>La configurazione informativa A rappresenta uno scenario di limite informativo per la semantica delle classi localmente unseen</em>; la magnitudine di B&minus;A va letta rispetto a questo floor.</p>
+  <p>EXP3_V2 rafforza il risultato di Experiment 1 raddoppiando la dimensione campionaria e riproducendo l’effetto su realizzazioni fisiche indipendenti. Tuttavia, la degradazione local-seen (B: 19/24 vs A: 24/24) indica che gli insight peer possono interferire con il riconoscimento dei fault gi&agrave; noti in alcune combinazioni run&ndash;agente &mdash; un aspetto non emerso con il campione pi&ugrave; piccolo di Experiment 1.</p>
+  <p>Questi risultati supportano la <strong>feasibility</strong> e la <strong>riproducibilit&agrave;</strong> del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico, non forniscono garanzie di privacy, n&eacute; stabiliscono superiorit&agrave; rispetto a una baseline centralizzata ICL a pari informazione. La validazione empirica sul fotovoltaico &egrave; la fase successiva.</p></div>
+
+  <p class="source">Fonti frozen: tag annotati <a href="https://github.com/sorrentinoluca/fot-phd/tree/exp3-v2-results-frozen-001"><code>exp3-v2-results-frozen-001</code></a> (risultati di valutazione) e <a href="https://github.com/sorrentinoluca/fot-phd/tree/exp3-v2-inference-frozen-001"><code>exp3-v2-inference-frozen-001</code></a> (record di inference). Nel tag i blob sono conservati sotto <code>evaluation_outputs/</code> e <code>inference_outputs/</code>; non sono materializzati nel branch corrente.</p>
+</section>
+
+<footer><p><a href="#main">Torna all'inizio</a> · <a href="../README.md">Indice explanation</a></p></footer>
+</main></div>
+<script>
+(() => {
+  const body=document.body,toggle=document.getElementById('nav-toggle'),label=document.getElementById('nav-label'),nav=document.getElementById('guide-nav'),backdrop=document.getElementById('nav-backdrop'),current=document.getElementById('current-step');
+  const links=[...nav.querySelectorAll('a[href^="#step-"]')],sections=[...document.querySelectorAll('section[data-step]')],mobile=window.matchMedia('(max-width: 900px)');
+  const isOpen=()=>mobile.matches?body.classList.contains('nav-open'):!body.classList.contains('nav-collapsed');
+  function render(){const open=isOpen();toggle.setAttribute('aria-expanded',String(open));label.textContent=open?'Nascondi indice':'Mostra indice'}
+  function closeMobile(focus=false){body.classList.remove('nav-open');body.classList.add('nav-collapsed');render();if(focus)toggle.focus()}
+  function reset(){if(mobile.matches)closeMobile();else{body.classList.remove('nav-open','nav-collapsed');render()}}
+  toggle.addEventListener('click',()=>{if(mobile.matches){const opening=!body.classList.contains('nav-open');body.classList.toggle('nav-open',opening);body.classList.toggle('nav-collapsed',!opening);render();if(opening)links[0].focus()}else{body.classList.toggle('nav-collapsed');render()}});
+  backdrop.addEventListener('click',()=>closeMobile(true));links.forEach(link=>link.addEventListener('click',()=>{if(mobile.matches)closeMobile()}));document.addEventListener('keydown',event=>{if(event.key==='Escape'&&mobile.matches&&body.classList.contains('nav-open'))closeMobile(true)});mobile.addEventListener('change',reset);
+  function updateCurrent(){const readingLine=window.innerHeight*.3;const active=sections.find(section=>{const box=section.getBoundingClientRect();return box.top<=readingLine&&box.bottom>readingLine})||sections[0];const step=active.dataset.step;current.textContent=step;links.forEach(link=>link.getAttribute('href')===`#step-${step}`?link.setAttribute('aria-current','step'):link.removeAttribute('aria-current'))}
+  const observer=new IntersectionObserver(updateCurrent,{rootMargin:'-18% 0px -62% 0px',threshold:[0,.1]});
+  sections.forEach(section=>observer.observe(section));window.addEventListener('scroll',updateCurrent,{passive:true});window.addEventListener('resize',updateCurrent);updateCurrent();reset();
+})();
+</script>
+</body>
+</html>
