@@ -218,26 +218,88 @@ def write_aggregate_manifest(
             "path": schedule_ref_path,
             "sha256": schedule_sha256,
         },
+        "status": "IMMUTABLE_BEFORE_EVALUATION",
     }
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+
+
+DEFAULT_PREDICTIONS_MANIFEST_PATH = (
+    ROOT / "icl" / "full_evaluation" / "c_predictions_manifest.json"
+)
+
+
+def write_c_predictions_manifest(
+    c_records_sha256: str,
+    record_count: int,
+    schedule_sha256: str,
+    *,
+    manifest_path: Path | None = None,
+    schedule_ref_path: str = "icl/full_evaluation/c_schedule.json",
+) -> None:
+    """Write the raw predictions manifest (c_predictions_manifest.json).
+
+    This manifest ties c_records.jsonl to its hash, record count, and
+    the schedule it was produced from.  Required by the evaluator
+    predictions barrier (verify_c_predictions_freeze).
+    """
+    path = (
+        manifest_path
+        if manifest_path is not None
+        else DEFAULT_PREDICTIONS_MANIFEST_PATH
+    )
+    manifest = {
+        "c_records_sha256": c_records_sha256,
+        "record_count": record_count,
+        "schedule_reference": {
+            "path": schedule_ref_path,
+            "sha256": schedule_sha256,
+        },
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+
+
+_EXPECTED_CASE_IDS = frozenset(
+    f"PBH-{i:03d}" for i in range(1, 16)
+)
+_EXPECTED_AGGREGATE_COUNT = 15  # one per physical case
 
 
 def verify_aggregate_freeze(
     *,
     aggregate_path: Path | None = None,
     manifest_path: Path | None = None,
+    c_records_path: Path | None = None,
+    schedule_path: Path | None = None,
 ) -> dict[str, Any]:
-    """Verify aggregate records against their manifest.  Fail-closed."""
+    """Verify aggregate records against their manifest.  Fail-closed.
+
+    All checks are mandatory — omitting any parameter falls back to the
+    canonical default path, and every default must exist.
+
+    Checks:
+      1. Manifest has all required keys including ``status``.
+      2. ``status`` is ``IMMUTABLE_BEFORE_EVALUATION``.
+      3. File hash matches manifest.
+      4. Exactly 15 records (one per physical case).
+      5. Each record parses to a valid CAggregatePrediction.
+      6. Case IDs are exactly PBH-001 … PBH-015 (no extras, no missing).
+      7. Each record has exactly 3 ``repetition_outcomes`` entries.
+      8. ``aggregation_rule`` is ``majority_2_of_3``.
+      9. ``source_c_records_sha256`` matches actual c_records.jsonl.
+     10. ``schedule_reference.sha256`` matches actual c_schedule.json.
+    """
     agg_path = aggregate_path if aggregate_path is not None else DEFAULT_AGGREGATE_PATH
     man_path = manifest_path if manifest_path is not None else DEFAULT_AGGREGATE_MANIFEST_PATH
 
     manifest = json.loads(man_path.read_text(encoding="utf-8"))
 
+    # --- 1. Required keys ---
     _REQUIRED = {
         "c_aggregate_records_sha256", "record_count",
         "aggregation_rule", "source_c_records_sha256",
-        "schedule_reference",
+        "schedule_reference", "status",
     }
     missing = _REQUIRED - set(manifest)
     if missing:
@@ -245,6 +307,14 @@ def verify_aggregate_freeze(
             f"c_aggregate_manifest.json missing required keys: {sorted(missing)}"
         )
 
+    # --- 2. Status must be IMMUTABLE_BEFORE_EVALUATION ---
+    if manifest["status"] != "IMMUTABLE_BEFORE_EVALUATION":
+        raise RuntimeError(
+            f"aggregate manifest status must be "
+            f"'IMMUTABLE_BEFORE_EVALUATION', got {manifest['status']!r}"
+        )
+
+    # --- 3. File hash ---
     expected_sha = manifest["c_aggregate_records_sha256"]
     actual_sha = hashlib.sha256(agg_path.read_bytes()).hexdigest()
     if actual_sha != expected_sha:
@@ -253,17 +323,122 @@ def verify_aggregate_freeze(
             f"expected {expected_sha[:16]}…, got {actual_sha[:16]}…"
         )
 
+    # --- 4. Exactly 15 records ---
     raw_text = agg_path.read_text(encoding="utf-8")
     lines = [ln for ln in raw_text.strip().split("\n") if ln.strip()]
+    if len(lines) != _EXPECTED_AGGREGATE_COUNT:
+        raise RuntimeError(
+            f"aggregate record count must be {_EXPECTED_AGGREGATE_COUNT}, "
+            f"got {len(lines)}"
+        )
     if len(lines) != manifest["record_count"]:
         raise RuntimeError(
-            f"aggregate record count mismatch: "
-            f"expected {manifest['record_count']}, got {len(lines)}"
+            f"aggregate record count ({len(lines)}) does not match "
+            f"manifest record_count ({manifest['record_count']})"
         )
 
+    # --- 5 + 6 + 7. Parse each record and validate ---
+    seen_case_ids: set[str] = set()
+    for i, line in enumerate(lines):
+        try:
+            obj = json.loads(line)
+        except json.JSONDecodeError as exc:
+            raise RuntimeError(
+                f"c_aggregate_records.jsonl line {i}: JSON parse error: {exc}"
+            ) from exc
+
+        # Validate required fields.
+        for key in ("agent_id", "condition", "physical_case_id",
+                     "parsed_output", "repetition_outcomes",
+                     "aggregation_rule"):
+            if key not in obj:
+                raise RuntimeError(
+                    f"c_aggregate_records.jsonl line {i}: missing key {key!r}"
+                )
+
+        case_id = obj["physical_case_id"]
+        if case_id in seen_case_ids:
+            raise RuntimeError(
+                f"duplicate physical_case_id {case_id!r} at line {i}"
+            )
+        seen_case_ids.add(case_id)
+
+        # Validate case_id format.
+        if case_id not in _EXPECTED_CASE_IDS:
+            raise RuntimeError(
+                f"c_aggregate_records.jsonl line {i}: unexpected "
+                f"physical_case_id {case_id!r}"
+            )
+
+        # Validate repetition_outcomes has exactly 3 entries.
+        outcomes = obj.get("repetition_outcomes", [])
+        if not isinstance(outcomes, list) or len(outcomes) != 3:
+            raise RuntimeError(
+                f"c_aggregate_records.jsonl line {i} ({case_id}): "
+                f"repetition_outcomes must have exactly 3 entries, "
+                f"got {len(outcomes) if isinstance(outcomes, list) else type(outcomes).__name__}"
+            )
+
+        # Validate aggregation_rule per record.
+        if obj["aggregation_rule"] != "majority_2_of_3":
+            raise RuntimeError(
+                f"c_aggregate_records.jsonl line {i} ({case_id}): "
+                f"aggregation_rule must be 'majority_2_of_3', "
+                f"got {obj['aggregation_rule']!r}"
+            )
+
+    # Check for missing case IDs.
+    if seen_case_ids != _EXPECTED_CASE_IDS:
+        missing_ids = sorted(_EXPECTED_CASE_IDS - seen_case_ids)
+        extra_ids = sorted(seen_case_ids - _EXPECTED_CASE_IDS)
+        raise RuntimeError(
+            f"aggregate case ID mismatch: "
+            f"missing={missing_ids}, extra={extra_ids}"
+        )
+
+    # --- 8. Manifest aggregation_rule ---
     if manifest["aggregation_rule"] != "majority_2_of_3":
         raise RuntimeError(
             f"unexpected aggregation_rule: {manifest['aggregation_rule']!r}"
+        )
+
+    # --- 9. Cross-verify source_c_records_sha256 ---
+    _c_rec_path = (
+        c_records_path if c_records_path is not None
+        else Path(__file__).resolve().parents[2]
+        / "icl" / "inference" / "c_records.jsonl"
+    )
+    if _c_rec_path.exists():
+        actual_c_sha = hashlib.sha256(_c_rec_path.read_bytes()).hexdigest()
+        if actual_c_sha != manifest["source_c_records_sha256"]:
+            raise RuntimeError(
+                f"source_c_records_sha256 mismatch: manifest says "
+                f"{manifest['source_c_records_sha256'][:16]}…, "
+                f"actual c_records.jsonl is {actual_c_sha[:16]}…"
+            )
+    else:
+        raise RuntimeError(
+            f"c_records.jsonl not found at {_c_rec_path} — "
+            f"cannot cross-verify source_c_records_sha256"
+        )
+
+    # --- 10. Cross-verify schedule_reference.sha256 ---
+    sched_ref = manifest["schedule_reference"]
+    if not isinstance(sched_ref, dict) or "sha256" not in sched_ref:
+        raise RuntimeError(
+            "schedule_reference must be a dict with at least 'sha256'"
+        )
+    _sched_path = (
+        schedule_path if schedule_path is not None
+        else Path(__file__).resolve().parents[2]
+        / "icl" / "full_evaluation" / "c_schedule.json"
+    )
+    actual_sched_sha = hashlib.sha256(_sched_path.read_bytes()).hexdigest()
+    if actual_sched_sha != sched_ref["sha256"]:
+        raise RuntimeError(
+            f"aggregate manifest schedule_reference.sha256 mismatch: "
+            f"manifest says {sched_ref['sha256'][:16]}…, "
+            f"actual is {actual_sched_sha[:16]}…"
         )
 
     return {
@@ -272,4 +447,5 @@ def verify_aggregate_freeze(
         "record_count": len(lines),
         "aggregation_rule": manifest["aggregation_rule"],
         "source_c_records_sha256": manifest["source_c_records_sha256"],
+        "status": manifest["status"],
     }

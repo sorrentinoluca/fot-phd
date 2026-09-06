@@ -16,6 +16,7 @@ from icl.runner.records_c import CRunRecord
 from icl.runner.run_c_inference import (
     DEFAULT_OUTPUT_PATH,
     FREEZE_MANIFEST_PATH,
+    _CANONICAL_INFERENCE_ARTIFACT_COUNT,
     _build_raw_attempts,
     _PerCallNetworkRetry,
     _is_transient,
@@ -545,16 +546,23 @@ class TestFreezeGuard(unittest.TestCase):
         p.write_text(content, encoding="utf-8")
         return hashlib.sha256(content.encode("utf-8")).hexdigest()
 
+    def _make_n_artifacts(self, n: int) -> dict[str, str]:
+        """Create *n* dummy artifact files; return {rel_path: sha256}."""
+        hashes: dict[str, str] = {}
+        for i in range(n):
+            rel = f"artifact_{i:03d}.json"
+            h = self._write(rel, json.dumps({"idx": i}))
+            hashes[rel] = h
+        return hashes
+
     def test_pass(self) -> None:
-        h1 = self._write("artifact_a.json", '{"key": "value"}')
-        h2 = self._write("artifact_b.txt", "some content")
+        artifact_hashes = self._make_n_artifacts(
+            _CANONICAL_INFERENCE_ARTIFACT_COUNT,
+        )
         verb_hash = self._write("verb_manifest.json", '{"cases": []}')
 
         manifest = {
-            "artifact_hashes": {
-                "artifact_a.json": h1,
-                "artifact_b.txt": h2,
-            },
+            "artifact_hashes": artifact_hashes,
             "verbalizations_manifest_path": "verb_manifest.json",
             "verbalizations_manifest_sha256": verb_hash,
         }
@@ -565,13 +573,16 @@ class TestFreezeGuard(unittest.TestCase):
         self.assertIn("artifact_hashes", result)
 
     def test_artifact_hash_mismatch(self) -> None:
-        self._write("artifact_a.json", '{"key": "value"}')
+        artifact_hashes = self._make_n_artifacts(
+            _CANONICAL_INFERENCE_ARTIFACT_COUNT,
+        )
         verb_hash = self._write("verb_manifest.json", "{}")
+        # Corrupt one hash.
+        first_key = next(iter(artifact_hashes))
+        artifact_hashes[first_key] = "0" * 64
 
         manifest = {
-            "artifact_hashes": {
-                "artifact_a.json": "0" * 64,
-            },
+            "artifact_hashes": artifact_hashes,
             "verbalizations_manifest_path": "verb_manifest.json",
             "verbalizations_manifest_sha256": verb_hash,
         }
@@ -581,16 +592,16 @@ class TestFreezeGuard(unittest.TestCase):
         with self.assertRaises(RuntimeError) as ctx:
             verify_inference_freeze(manifest_path, root=self.tmpdir)
         self.assertIn("freeze guard", str(ctx.exception))
-        self.assertIn("artifact_a.json", str(ctx.exception))
+        self.assertIn(first_key, str(ctx.exception))
 
     def test_verbalization_manifest_mismatch(self) -> None:
-        h1 = self._write("artifact_a.json", "{}")
+        artifact_hashes = self._make_n_artifacts(
+            _CANONICAL_INFERENCE_ARTIFACT_COUNT,
+        )
         self._write("verb_manifest.json", '{"cases": []}')
 
         manifest = {
-            "artifact_hashes": {
-                "artifact_a.json": h1,
-            },
+            "artifact_hashes": artifact_hashes,
             "verbalizations_manifest_path": "verb_manifest.json",
             "verbalizations_manifest_sha256": "0" * 64,
         }
@@ -600,6 +611,31 @@ class TestFreezeGuard(unittest.TestCase):
         with self.assertRaises(RuntimeError) as ctx:
             verify_inference_freeze(manifest_path, root=self.tmpdir)
         self.assertIn("verbalizations manifest", str(ctx.exception))
+
+    def test_wrong_artifact_count_raises(self) -> None:
+        """R8: manifest with != 23 artifact hashes is rejected."""
+        for bad_count in (0, 1, 22, 24, 50):
+            artifact_hashes = self._make_n_artifacts(bad_count)
+            verb_hash = self._write("verb_manifest.json", "{}")
+            manifest = {
+                "artifact_hashes": artifact_hashes,
+                "verbalizations_manifest_path": "verb_manifest.json",
+                "verbalizations_manifest_sha256": verb_hash,
+            }
+            manifest_path = self.tmpdir / "freeze.json"
+            manifest_path.write_text(
+                json.dumps(manifest), encoding="utf-8",
+            )
+            with self.assertRaises(RuntimeError, msg=f"count={bad_count}") as ctx:
+                verify_inference_freeze(manifest_path, root=self.tmpdir)
+            self.assertIn(
+                str(_CANONICAL_INFERENCE_ARTIFACT_COUNT),
+                str(ctx.exception),
+            )
+
+    def test_canonical_count_constant(self) -> None:
+        """R8: the constant is 23."""
+        self.assertEqual(_CANONICAL_INFERENCE_ARTIFACT_COUNT, 23)
 
 
 
@@ -615,7 +651,10 @@ class TestFreezeGuardIntegration(unittest.TestCase):
         result = verify_inference_freeze(FREEZE_MANIFEST_PATH)
         self.assertIn("artifact_hashes", result)
         self.assertIsInstance(result["artifact_hashes"], dict)
-        self.assertGreater(len(result["artifact_hashes"]), 0)
+        self.assertEqual(
+            len(result["artifact_hashes"]),
+            _CANONICAL_INFERENCE_ARTIFACT_COUNT,
+        )
 
     def test_real_manifest_has_verbalizations_keys(self) -> None:
         """The manifest must carry verbalizations_manifest_path and

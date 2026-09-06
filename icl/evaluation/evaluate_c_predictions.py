@@ -34,6 +34,7 @@ from typing import Any
 from icl.evaluation.aggregation_c import (
     CAggregatePrediction,
     aggregate_c_records,
+    verify_aggregate_freeze,
 )
 from icl.runner.records_c import CRunRecord, LABEL_SPACE as _RECORD_LABEL_SPACE
 
@@ -766,6 +767,14 @@ def evaluate_c_predictions(
         ),
     )
 
+    # Aggregate freeze barrier (R8 P1: verify aggregated predictions).
+    # Cross-verifies aggregate records against their manifest, validates
+    # case IDs, repetition_outcomes, source hash, and schedule hash.
+    aggregate_integrity = verify_aggregate_freeze(
+        c_records_path=c_records_path,
+        schedule_path=c_schedule_path,
+    )
+
     # Use records from verified file when available (P1-4: tie input
     # to verified artifact).  Fall back to c_records parameter only
     # when verify did not return parsed records (e.g. mocked in tests).
@@ -860,6 +869,7 @@ def evaluate_c_predictions(
         results["ground_truth_join"] = truth_integrity
     results["evaluator_freeze_integrity"] = evaluator_integrity
     results["predictions_freeze_integrity"] = predictions_integrity
+    results["aggregate_freeze_integrity"] = aggregate_integrity
 
     return results
 
@@ -878,19 +888,26 @@ def verify_pilot_gate(
     *,
     c_records_path: Path | None = None,
     schedule_path: Path | None = None,
-    expected_model: str | None = None,
-    expected_sdk_version: str | None = None,
+    expected_model: str,
+    expected_sdk_version: str,
 ) -> dict[str, Any]:
     """Blind pilot gate: 15/15 valid records, correct model, no parse failures.
 
     Raises RuntimeError on any failure.  Returns integrity dict on success.
 
+    Both *expected_model* and *expected_sdk_version* are **required** —
+    omitting them would silently skip checks (R8: fail-closed).
+
     Checks (all fail-closed):
-      1. Exactly 15 records present (5 pilot cases × 3 reps).
+      1. Exactly 15 pilot records present (5 pilot cases × 3 reps).
       2. All 15 records have valid=True (no parse failures).
-      3. All records reference the correct model (model_requested).
-      4. All records have consistent prompt_sha256 per case_id.
-      5. If *expected_sdk_version* is given, all records match it.
+      3. model_requested AND model_returned match *expected_model*.
+      4. openai_sdk_version matches *expected_sdk_version*.
+      5. Consistent prompt_sha256 per case_id.
+      6. Unique sequence_index values (no duplicates).
+      7. Schedule identity: (case_id, repetition) match schedule per index.
+      8. Exactly 3 repetitions {1, 2, 3} per pilot case.
+      9. Pilot case IDs are exactly PILOT_CASE_IDS.
     """
     rec_path = c_records_path if c_records_path is not None else C_RECORDS_PATH
     sched_path = schedule_path if schedule_path is not None else C_SCHEDULE_PATH
@@ -898,21 +915,25 @@ def verify_pilot_gate(
     raw_text = rec_path.read_text(encoding="utf-8")
     lines = [ln for ln in raw_text.strip().split("\n") if ln.strip()]
 
-    # Load schedule to identify pilot entries.
+    # Load schedule to identify pilot entries and build lookup.
     schedule: list[dict[str, Any]] = json.loads(
         sched_path.read_text(encoding="utf-8")
     )
-    pilot_indices = frozenset(
-        e["sequence_index"] for e in schedule if e["pilot"]
-    )
+    pilot_entries = [e for e in schedule if e["pilot"]]
+    pilot_indices = frozenset(e["sequence_index"] for e in pilot_entries)
     if len(pilot_indices) != _PILOT_RECORD_COUNT:
         raise RuntimeError(
             f"schedule has {len(pilot_indices)} pilot entries, "
             f"expected {_PILOT_RECORD_COUNT}"
         )
+    # Build schedule lookup for identity cross-check.
+    sched_lookup: dict[int, dict[str, Any]] = {
+        e["sequence_index"]: e for e in pilot_entries
+    }
 
     # Parse all records and filter pilot.
     pilot_records: list[CRunRecord] = []
+    seen_indices: set[int] = set()
     for i, line in enumerate(lines):
         try:
             rec = CRunRecord.from_jsonl_line(line)
@@ -921,6 +942,13 @@ def verify_pilot_gate(
                 f"c_records.jsonl line {i}: parse error: {exc}"
             ) from exc
         if rec.sequence_index in pilot_indices:
+            # 6. Unique sequence_index (reject duplicates).
+            if rec.sequence_index in seen_indices:
+                raise RuntimeError(
+                    f"pilot gate: duplicate sequence_index "
+                    f"{rec.sequence_index} at line {i}"
+                )
+            seen_indices.add(rec.sequence_index)
             pilot_records.append(rec)
 
     # 1. Exactly 15 pilot records.
@@ -941,21 +969,43 @@ def verify_pilot_gate(
             f"indices {[idx for idx, _ in invalid]}"
         )
 
-    # 3. Correct model.
-    if expected_model is not None:
-        wrong_model = [
-            (r.sequence_index, r.model_requested)
-            for r in pilot_records
-            if r.model_requested != expected_model
-        ]
-        if wrong_model:
-            raise RuntimeError(
-                f"pilot gate: {len(wrong_model)} record(s) have wrong "
-                f"model_requested — expected {expected_model!r}, got "
-                f"{set(m for _, m in wrong_model)}"
-            )
+    # 3. model_requested AND model_returned must match expected_model.
+    wrong_model_req = [
+        (r.sequence_index, r.model_requested)
+        for r in pilot_records
+        if r.model_requested != expected_model
+    ]
+    if wrong_model_req:
+        raise RuntimeError(
+            f"pilot gate: {len(wrong_model_req)} record(s) have wrong "
+            f"model_requested — expected {expected_model!r}, got "
+            f"{set(m for _, m in wrong_model_req)}"
+        )
+    wrong_model_ret = [
+        (r.sequence_index, r.model_returned)
+        for r in pilot_records
+        if r.model_returned != expected_model
+    ]
+    if wrong_model_ret:
+        raise RuntimeError(
+            f"pilot gate: {len(wrong_model_ret)} record(s) have wrong "
+            f"model_returned — expected {expected_model!r}, got "
+            f"{set(m for _, m in wrong_model_ret)}"
+        )
 
-    # 4. Consistent prompt_sha256 per case_id.
+    # 4. SDK version (required, not optional).
+    wrong_sdk = [
+        (r.sequence_index, r.openai_sdk_version)
+        for r in pilot_records
+        if r.openai_sdk_version != expected_sdk_version
+    ]
+    if wrong_sdk:
+        raise RuntimeError(
+            f"pilot gate: {len(wrong_sdk)} record(s) have wrong "
+            f"openai_sdk_version — expected {expected_sdk_version!r}"
+        )
+
+    # 5. Consistent prompt_sha256 per case_id.
     prompt_by_case: dict[str, set[str]] = defaultdict(set)
     for r in pilot_records:
         prompt_by_case[r.physical_case_id].add(r.prompt_sha256)
@@ -969,24 +1019,56 @@ def verify_pilot_gate(
             f"{sorted(inconsistent)}"
         )
 
-    # 5. SDK version.
-    if expected_sdk_version is not None:
-        wrong_sdk = [
-            (r.sequence_index, r.openai_sdk_version)
-            for r in pilot_records
-            if r.openai_sdk_version != expected_sdk_version
-        ]
-        if wrong_sdk:
+    # 7. Schedule identity: (case_id, repetition) match for each record.
+    for r in pilot_records:
+        sched_entry = sched_lookup.get(r.sequence_index)
+        if sched_entry is None:
             raise RuntimeError(
-                f"pilot gate: {len(wrong_sdk)} record(s) have wrong "
-                f"openai_sdk_version — expected {expected_sdk_version!r}"
+                f"pilot gate: sequence_index {r.sequence_index} "
+                f"not in pilot schedule"
             )
+        if r.physical_case_id != sched_entry["physical_case_id"]:
+            raise RuntimeError(
+                f"pilot gate: physical_case_id mismatch at "
+                f"sequence_index {r.sequence_index}: record has "
+                f"{r.physical_case_id!r}, schedule has "
+                f"{sched_entry['physical_case_id']!r}"
+            )
+        if r.repetition != sched_entry["repetition"]:
+            raise RuntimeError(
+                f"pilot gate: repetition mismatch at "
+                f"sequence_index {r.sequence_index}: record has "
+                f"{r.repetition}, schedule has {sched_entry['repetition']}"
+            )
+
+    # 8. Exactly 3 repetitions {1, 2, 3} per pilot case.
+    reps_by_case: dict[str, list[int]] = defaultdict(list)
+    for r in pilot_records:
+        reps_by_case[r.physical_case_id].append(r.repetition)
+    for cid in sorted(reps_by_case):
+        reps = sorted(reps_by_case[cid])
+        if reps != [1, 2, 3]:
+            raise RuntimeError(
+                f"pilot gate: {cid} has repetitions {reps}, "
+                f"expected [1, 2, 3]"
+            )
+
+    # 9. Pilot case IDs must be exactly PILOT_CASE_IDS.
+    actual_pilot_ids = set(reps_by_case.keys())
+    if actual_pilot_ids != PILOT_CASE_IDS:
+        missing_ids = sorted(PILOT_CASE_IDS - actual_pilot_ids)
+        extra_ids = sorted(actual_pilot_ids - PILOT_CASE_IDS)
+        raise RuntimeError(
+            f"pilot gate: case ID mismatch — "
+            f"missing={missing_ids}, extra={extra_ids}"
+        )
 
     return {
         "pilot_gate_passed": True,
         "pilot_records": _PILOT_RECORD_COUNT,
         "pilot_all_valid": True,
         "model_checked": expected_model,
+        "model_returned_checked": expected_model,
         "sdk_version_checked": expected_sdk_version,
         "pilot_case_ids": sorted(PILOT_CASE_IDS),
     }

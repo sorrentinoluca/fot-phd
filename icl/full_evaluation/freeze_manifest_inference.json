@@ -9,7 +9,7 @@
     "phase_b/conditions/diagnostic_output.openai.schema.json": "6ef214cdebbfe06e59a7a5a2f51f3fb93dd8d47e8397f6bc5bc68047e1364bf8",
     "icl/conditions/builder_c.py": "5249fe683c0e37306f4444aad83a08b18ffab2457af3bc59ec855b713fed5e3f",
     "icl/runner/build_c_schedule.py": "bc96055e60e7665690221ccb5b8e4a2196434f62546eaa888b50a9210358c333",
-    "icl/runner/run_c_inference.py": "88e2e03d5a3f599a3d6edaf9528a497096b9902d5201c242baea30dbec1532a3",
+    "icl/runner/run_c_inference.py": "46e68d0bdf365ecc49581ea654ea172e13a31bb148dc0a2555b2ef583cb26203",
     "icl/runner/records_c.py": "8e2ac0076208b45df8ee98d983d741ce5d2f687d49456ce71650d37baf8cec5e",
     "icl/schemas/c_run_record.schema.json": "9e84a232e667dc8c4575571f557109e9c373b127e89c7659c61c364d57f8f9de",
     "phase_b/conditions/parser.py": "bdddfe99ba6e4328a071ea94c221a91cc5942252865691a280bcd6687301eb99",
@@ -19,12 +19,12 @@
     "phase_b/execution/openai_adapter.py": "39d7317e3a0c7808d297617356dfc580120b0f32c58a5e6e71eb45bf9f3eee06",
     "phase_b/heldout/phase_b_heldout_manifest.csv": "610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3",
     "icl/full_evaluation/c_schedule.json": "3f1b102a89ecd9202fd045a8a39912380e534f68f1675574c7bb3d6ecaf4b986",
-    "icl/full_evaluation/protocol_amendment_c.md": "3e7af7bc04db77ba06975a1c14cbd6c986f74d4bccb82a8f2dd0db19febc0b77",
-    "icl/full_evaluation/protocol_amendment_c.json": "3e773d8f87ecc240e5ec7d7d5b5f21048bf5751720dd35c27043ae6ba93204ee",
+    "icl/full_evaluation/protocol_amendment_c.md": "b07fb9cae4d55fd48b4400a7b56df0ccf82cee0a85b6b857f6ed98f5525eb6bc",
+    "icl/full_evaluation/protocol_amendment_c.json": "b2b10d95db030fff4f2d9fa277de28b6a83552a16ebb84cbc0dbb67ea7f4d451",
     "icl/tests/test_builder_c.py": "76a570d809dfb353489fb4271cc32336053346fc451d8a5e31236689cef56bef",
     "icl/tests/test_records_c.py": "c223e2deedc2b990223c651c76509079a6580201e042688492883ea6d7c1dbbb",
     "icl/tests/test_build_c_schedule.py": "7e8c8e48c801facd6bb5a1a85105deebbc3baec2aab30f412ee7fccc3e7d42c7",
-    "icl/tests/test_run_c_inference.py": "807c41d50d4cf9b24688e34b2cdca05d63f01ed90845710b833f3d72cef8a1fe"
+    "icl/tests/test_run_c_inference.py": "78bc238933cafaab473098e9547ba8fd892ded7b1669265d6ef1351602da9aa9"
   },
   "verbalizations_manifest_path": "phase_b/final_evaluation/heldout_verbalizations_manifest.json",
   "verbalizations_manifest_sha256": "a5a00e6f3724ba5af50f8c4b09e82a6e61676b0a1019276733925c6d3fc7ef68"

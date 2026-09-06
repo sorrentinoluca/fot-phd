@@ -44,11 +44,21 @@ rule are unchanged from Exp 1.
 
 In addition to structural retries, each LLM call is wrapped in a
 **network-level retry** layer: up to 4 retries on transient errors
-(connection failures, timeouts, HTTP 429/500/502/503/504), with
+(connection failures, timeouts, HTTP 429/500/502/503/504, and
+`openai.APIConnectionError` / `openai.APITimeoutError`), with
 exponential backoff starting at 2 s and a factor of 2.  Network retries
 are recorded in each `CRunRecord` via the `network_retries` field, which
 stores per-retry provenance (attempt index, error type, error message,
 backoff duration, and timestamp).
+
+## SDK version enforcement
+
+The runner verifies that the installed `openai` SDK version matches the
+protocol-required version (`3.6.0`, from `execution_config.json`) before
+any LLM call.  The actual version is recorded in each `CRunRecord` via
+the `openai_sdk_version` field (a required non-empty string in the JSON
+schema).  The pilot gate independently verifies that all 15 pilot records
+carry the expected SDK version.
 
 "Full-information" refers to the union of prompt-facing frozen artifacts
 (labeled examples + textual insights), not to the totality of source texts.
@@ -84,13 +94,39 @@ each `CRunRecord` is invariantly `true`.
 ## Firewall between inference and evaluation
 
 - The inference-side freeze manifest (`freeze_manifest_inference.json`) is
-  verified by the runner before any LLM call. The runner never accesses
-  the evaluator-side manifest or pseudolabel mapping.
+  verified by the runner before any LLM call.  The manifest must contain
+  exactly 23 artifact hashes (the canonical set); a reduced manifest is
+  rejected.  The runner never accesses the evaluator-side manifest or
+  pseudolabel mapping.
 - The evaluator-side freeze manifest (`freeze_manifest_evaluator.json`) is
   verified by `evaluate_c_predictions.py` only after all Condition C
-  predictions are frozen. The evaluator never modifies inference artifacts.
+  predictions are frozen.  The evaluator never modifies inference artifacts.
+- The raw predictions manifest (`c_predictions_manifest.json`) ties
+  `c_records.jsonl` to its SHA-256 hash, record count, and schedule
+  reference.  Verified by the evaluator's predictions barrier before any
+  ground-truth join.
+- The aggregate manifest (`c_aggregate_manifest.json`) ties
+  `c_aggregate_records.jsonl` to its hash, record count (must be exactly
+  15), source `c_records.jsonl` hash, schedule reference, and
+  `aggregation_rule`.  It carries `status: IMMUTABLE_BEFORE_EVALUATION`.
+  Cross-verified against the actual files: source hash matches
+  `c_records.jsonl`, schedule hash matches `c_schedule.json`, each
+  aggregate has exactly 3 `repetition_outcomes`, and case IDs are exactly
+  PBH-001 through PBH-015.
 - No join with ground truth occurs until all 45 Condition C records are
   complete and frozen.
+
+## Pilot gate
+
+Before full evaluation, `verify_pilot_gate()` provides a blind quality
+check on the first 15 records (5 pilot cases × 3 repetitions).  Both
+`expected_model` and `expected_sdk_version` are **required** parameters
+(fail-closed).  The gate verifies: all 15 records present with unique
+`sequence_index` values; all `valid=True`; `model_requested` and
+`model_returned` match the expected model; `openai_sdk_version` matches;
+consistent `prompt_sha256` per case; schedule identity cross-check
+(case_id and repetition per index); exactly 3 repetitions {1, 2, 3} per
+case; and pilot case IDs are exactly the canonical five.
 
 ## Evaluation metrics
 

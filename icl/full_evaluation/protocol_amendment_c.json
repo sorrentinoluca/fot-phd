@@ -94,11 +94,20 @@
       "retryable_exceptions": [
         "ConnectionError",
         "TimeoutError",
-        "OSError"
+        "OSError",
+        "openai.APIConnectionError",
+        "openai.APITimeoutError"
       ],
       "tracked_in_record_field": "network_retries",
       "tracked_in_record_format": "list of per-retry dicts with keys: attempt, error_type, error_message, backoff_seconds, timestamp_iso"
     }
+  },
+  "openai_sdk_version": {
+    "required": "3.6.0",
+    "verified_at": "runner startup (before any LLM call)",
+    "stored_in_record_field": "openai_sdk_version",
+    "pilot_gate_checks": true,
+    "schema_field": "icl/schemas/c_run_record.schema.json#/properties/openai_sdk_version"
   },
   "stateless_calls": true,
   "statelessness_requirements": {
@@ -111,6 +120,7 @@
   },
   "firewall": {
     "inference_side_manifest": "icl/full_evaluation/freeze_manifest_inference.json",
+    "inference_side_canonical_artifact_count": 23,
     "evaluator_side_manifest": "icl/full_evaluation/freeze_manifest_evaluator.json",
     "runner_accesses_evaluator_manifest": false,
     "evaluator_modifies_inference_artifacts": false,
@@ -120,7 +130,43 @@
       "c_records_sha256",
       "record_count",
       "schedule_reference"
-    ]
+    ],
+    "aggregate_manifest": "icl/full_evaluation/c_aggregate_manifest.json",
+    "aggregate_manifest_status": "IMMUTABLE_BEFORE_EVALUATION",
+    "aggregate_manifest_required_keys": [
+      "c_aggregate_records_sha256",
+      "record_count",
+      "aggregation_rule",
+      "source_c_records_sha256",
+      "schedule_reference",
+      "status"
+    ],
+    "aggregate_manifest_cross_verification": [
+      "source_c_records_sha256 matches actual c_records.jsonl",
+      "schedule_reference.sha256 matches actual c_schedule.json",
+      "record_count must be exactly 15",
+      "each record has exactly 3 repetition_outcomes",
+      "case IDs are exactly PBH-001 through PBH-015"
+    ],
+    "pilot_gate": {
+      "function": "verify_pilot_gate",
+      "required_parameters": [
+        "expected_model",
+        "expected_sdk_version"
+      ],
+      "checks": [
+        "exactly 15 pilot records (5 cases x 3 reps)",
+        "all valid=True",
+        "model_requested matches expected_model",
+        "model_returned matches expected_model",
+        "openai_sdk_version matches expected_sdk_version",
+        "consistent prompt_sha256 per case_id",
+        "unique sequence_index values",
+        "schedule identity (case_id, repetition) per index",
+        "exactly 3 repetitions {1,2,3} per case",
+        "case IDs are exactly PILOT_CASE_IDS"
+      ]
+    }
   },
   "evaluation": {
     "metrics": [

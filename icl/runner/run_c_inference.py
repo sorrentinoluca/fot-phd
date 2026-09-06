@@ -60,6 +60,9 @@ def _file_sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+_CANONICAL_INFERENCE_ARTIFACT_COUNT = 23
+
+
 def verify_inference_freeze(
     manifest_path: Path,
     *,
@@ -67,9 +70,22 @@ def verify_inference_freeze(
 ) -> dict[str, Any]:
     """Verify all inference-side artifact hashes; raise on mismatch.
 
+    Fail-closed: the manifest must contain exactly the canonical set of
+    23 artifacts.  A reduced manifest (e.g. via ``--freeze-manifest``)
+    is rejected.
+
     Returns the parsed freeze manifest on success.
     """
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    # R8: reject arbitrarily reduced manifests.
+    artifact_count = len(manifest.get("artifact_hashes", {}))
+    if artifact_count != _CANONICAL_INFERENCE_ARTIFACT_COUNT:
+        raise RuntimeError(
+            f"freeze guard: manifest must have exactly "
+            f"{_CANONICAL_INFERENCE_ARTIFACT_COUNT} artifact hashes, "
+            f"got {artifact_count}"
+        )
 
     for rel_path, expected in manifest["artifact_hashes"].items():
         actual = _file_sha256(root / rel_path)

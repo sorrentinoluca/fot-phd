@@ -851,6 +851,10 @@ class TestFirewall(unittest.TestCase):
 
 
 @patch(
+    "icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+    return_value={"c_aggregate_manifest_verified": True, "record_count": 15},
+)
+@patch(
     "icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
     return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64},
 )
@@ -861,7 +865,7 @@ class TestFirewall(unittest.TestCase):
 class TestEvaluateCPredictions(unittest.TestCase):
     """Integration tests for the full pipeline."""
 
-    def test_full_pipeline_all_correct(self, mock_freeze, mock_pred_freeze) -> None:
+    def test_full_pipeline_all_correct(self, mock_freeze, mock_pred_freeze, mock_agg_freeze) -> None:
         """C all correct + B all correct → delta = 0."""
         records = _all_correct_records()
         b_recs = _full_b_records(all_correct=True)
@@ -888,7 +892,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
         )
         self.assertIn("bootstrap", result)
 
-    def test_pipeline_c_better_than_b(self, mock_freeze, mock_pred_freeze) -> None:
+    def test_pipeline_c_better_than_b(self, mock_freeze, mock_pred_freeze, mock_agg_freeze) -> None:
         """C all correct, B all wrong → delta = 1.0."""
         records = _all_correct_records()
         b_recs = _full_b_records(all_correct=False)
@@ -904,7 +908,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
             result["delta_c_minus_b"]["delta_C_minus_B"], 1.0,
         )
 
-    def test_pipeline_no_b_records(self, mock_freeze, mock_pred_freeze) -> None:
+    def test_pipeline_no_b_records(self, mock_freeze, mock_pred_freeze, mock_agg_freeze) -> None:
         """No B records → no delta or bootstrap in output."""
         records = _all_correct_records()
         result = evaluate_c_predictions(
@@ -919,7 +923,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
         self.assertNotIn("delta_c_minus_b", result)
         self.assertNotIn("bootstrap", result)
 
-    def test_invalid_truth_labels_raises(self, mock_freeze, mock_pred_freeze) -> None:
+    def test_invalid_truth_labels_raises(self, mock_freeze, mock_pred_freeze, mock_agg_freeze) -> None:
         records = _all_correct_records()
         bad_truth = {cid: "INVALID_LABEL" for cid in _CASE_IDS}
         with self.assertRaises(ValueError) as ctx:
@@ -933,7 +937,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
             )
         self.assertIn("outside the label space", str(ctx.exception))
 
-    def test_agents_config_validation_wrong_count(self, mock_freeze, mock_pred_freeze) -> None:
+    def test_agents_config_validation_wrong_count(self, mock_freeze, mock_pred_freeze, mock_agg_freeze) -> None:
         """Not 4 agents → ValueError."""
         bad = {"agent_1": "CLS-ZOGAA", "agent_2": "CLS-OJNSG"}
         with self.assertRaises(ValueError) as ctx:
@@ -945,7 +949,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
             )
         self.assertIn("4 agents", str(ctx.exception))
 
-    def test_agents_config_validation_duplicate_labels(self, mock_freeze, mock_pred_freeze) -> None:
+    def test_agents_config_validation_duplicate_labels(self, mock_freeze, mock_pred_freeze, mock_agg_freeze) -> None:
         """Duplicate local_fault_labels → ValueError."""
         bad = {
             "agent_1": "CLS-ZOGAA", "agent_2": "CLS-ZOGAA",
@@ -962,6 +966,10 @@ class TestEvaluateCPredictions(unittest.TestCase):
 
 
 @patch(
+    "icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+    return_value={"c_aggregate_manifest_verified": True, "record_count": 15},
+)
+@patch(
     "icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
     return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64},
 )
@@ -972,7 +980,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
 class TestIntegrationWithAggregation(unittest.TestCase):
     """Verify aggregation + evaluation work together from raw CRunRecords."""
 
-    def test_aggregation_feeds_evaluator(self, mock_freeze, mock_pred_freeze) -> None:
+    def test_aggregation_feeds_evaluator(self, mock_freeze, mock_pred_freeze, mock_agg_freeze) -> None:
         records = _all_correct_records()
         b_recs = _full_b_records(all_correct=True)
         result = evaluate_c_predictions(
@@ -990,6 +998,10 @@ class TestIntegrationWithAggregation(unittest.TestCase):
         self.assertEqual(metrics["accuracy_C_fault"]["n"], 12)
 
 
+@patch(
+    "icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+    return_value={"c_aggregate_manifest_verified": True, "record_count": 15},
+)
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
     return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64},
@@ -1023,7 +1035,7 @@ class TestEndToEndEvaluatorSide(unittest.TestCase):
         )):
             self.skipTest("project phase_b files not available")
 
-    def test_load_case_truth_from_real_files(self, mock_freeze, mock_pred_freeze) -> None:
+    def test_load_case_truth_from_real_files(self, mock_freeze, mock_pred_freeze, mock_agg_freeze) -> None:
         """load_case_truth reads the real manifest and mapping correctly."""
         case_truth, integrity = load_case_truth(
             heldout_manifest_path=self.heldout_path,
@@ -1041,7 +1053,7 @@ class TestEndToEndEvaluatorSide(unittest.TestCase):
         self.assertTrue(integrity["unique_mapping"])
         self.assertEqual(integrity["fault_pseudoclass_count"], 4)
 
-    def test_load_agents_config_from_real_file(self, mock_freeze, mock_pred_freeze) -> None:
+    def test_load_agents_config_from_real_file(self, mock_freeze, mock_pred_freeze, mock_agg_freeze) -> None:
         """load_agents_config returns 4 agents with distinct labels."""
         config = load_agents_config(self.config_path)
         self.assertEqual(len(config), 4)
@@ -1051,7 +1063,7 @@ class TestEndToEndEvaluatorSide(unittest.TestCase):
             self.assertIn(label, LABEL_SPACE)
             self.assertNotEqual(label, "Normal")
 
-    def test_full_pipeline_with_real_truth(self, mock_freeze, mock_pred_freeze) -> None:
+    def test_full_pipeline_with_real_truth(self, mock_freeze, mock_pred_freeze, mock_agg_freeze) -> None:
         """Full pipeline using real truth, synthetic C records."""
         case_truth, _ = load_case_truth(
             heldout_manifest_path=self.heldout_path,
@@ -1448,10 +1460,12 @@ class TestVerifyCPredictionsFreeze(unittest.TestCase):
 class TestPipelineInvokesGuard(unittest.TestCase):
     """P1-5: evaluate_c_predictions must call verify_evaluator_freeze."""
 
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
            return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
-    def test_guard_is_called(self, mock_guard, mock_pred_guard) -> None:
+    def test_guard_is_called(self, mock_guard, mock_pred_guard, mock_agg_guard) -> None:
         mock_guard.return_value = {"evaluator_manifest_verified": True}
         records = _all_correct_records()
         evaluate_c_predictions(
@@ -1462,10 +1476,12 @@ class TestPipelineInvokesGuard(unittest.TestCase):
         )
         mock_guard.assert_called_once()
 
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
            return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
-    def test_guard_failure_blocks_pipeline(self, mock_guard, mock_pred_guard) -> None:
+    def test_guard_failure_blocks_pipeline(self, mock_guard, mock_pred_guard, mock_agg_guard) -> None:
         mock_guard.side_effect = RuntimeError("hash mismatch")
         records = _all_correct_records()
         with self.assertRaises(RuntimeError) as ctx:
@@ -1477,10 +1493,12 @@ class TestPipelineInvokesGuard(unittest.TestCase):
             )
         self.assertIn("hash mismatch", str(ctx.exception))
 
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
            return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
-    def test_guard_missing_manifest_blocks(self, mock_guard, mock_pred_guard) -> None:
+    def test_guard_missing_manifest_blocks(self, mock_guard, mock_pred_guard, mock_agg_guard) -> None:
         mock_guard.side_effect = FileNotFoundError("manifest not found")
         with self.assertRaises(FileNotFoundError):
             evaluate_c_predictions(
@@ -1490,10 +1508,12 @@ class TestPipelineInvokesGuard(unittest.TestCase):
                 b_records=[],
             )
 
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
            return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
-    def test_custom_manifest_path_forwarded(self, mock_guard, mock_pred_guard) -> None:
+    def test_custom_manifest_path_forwarded(self, mock_guard, mock_pred_guard, mock_agg_guard) -> None:
         mock_guard.return_value = {"evaluator_manifest_verified": True}
         custom = Path("/tmp/custom_eval_manifest.json")
         evaluate_c_predictions(
@@ -1511,10 +1531,12 @@ class TestPipelineInvokesGuard(unittest.TestCase):
 class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
     """P1-3: evaluate_c_predictions must call verify_c_predictions_freeze."""
 
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
-    def test_predictions_guard_is_called(self, mock_eval_guard, mock_pred_guard) -> None:
+    def test_predictions_guard_is_called(self, mock_eval_guard, mock_pred_guard, mock_agg_guard) -> None:
         mock_pred_guard.return_value = {
             "c_predictions_manifest_verified": True,
             "c_records_sha256": "a" * 64, "record_count": 45,
@@ -1528,10 +1550,12 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
         )
         mock_pred_guard.assert_called_once()
 
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
-    def test_predictions_guard_failure_blocks(self, mock_eval_guard, mock_pred_guard) -> None:
+    def test_predictions_guard_failure_blocks(self, mock_eval_guard, mock_pred_guard, mock_agg_guard) -> None:
         mock_pred_guard.side_effect = RuntimeError("c_records hash mismatch")
         with self.assertRaises(RuntimeError) as ctx:
             evaluate_c_predictions(
@@ -1542,10 +1566,12 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
             )
         self.assertIn("c_records hash mismatch", str(ctx.exception))
 
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
-    def test_predictions_guard_missing_manifest_blocks(self, mock_eval_guard, mock_pred_guard) -> None:
+    def test_predictions_guard_missing_manifest_blocks(self, mock_eval_guard, mock_pred_guard, mock_agg_guard) -> None:
         mock_pred_guard.side_effect = FileNotFoundError("predictions manifest not found")
         with self.assertRaises(FileNotFoundError):
             evaluate_c_predictions(
@@ -1555,10 +1581,12 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
                 b_records=[],
             )
 
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
-    def test_custom_predictions_manifest_forwarded(self, mock_eval_guard, mock_pred_guard) -> None:
+    def test_custom_predictions_manifest_forwarded(self, mock_eval_guard, mock_pred_guard, mock_agg_guard) -> None:
         mock_pred_guard.return_value = {
             "c_predictions_manifest_verified": True,
             "c_records_sha256": "a" * 64, "record_count": 45,
@@ -1575,10 +1603,12 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
         call_kwargs = mock_pred_guard.call_args
         self.assertEqual(call_kwargs[1]["manifest_path"], custom)
 
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
-    def test_verified_records_used_over_c_records(self, mock_eval_guard, mock_pred_guard) -> None:
+    def test_verified_records_used_over_c_records(self, mock_eval_guard, mock_pred_guard, mock_agg_guard) -> None:
         """P1-4: when verified_records is returned, pipeline uses it."""
         verified = _all_correct_records()
         mock_pred_guard.return_value = {
@@ -1597,10 +1627,12 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
             result["condition_c_metrics"]["overall"]["accuracy"], 1.0,
         )
 
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
-    def test_c_records_none_no_verified_raises(self, mock_eval_guard, mock_pred_guard) -> None:
+    def test_c_records_none_no_verified_raises(self, mock_eval_guard, mock_pred_guard, mock_agg_guard) -> None:
         """P1-4: c_records=None and no verified_records → ValueError."""
         mock_pred_guard.return_value = {
             "c_predictions_manifest_verified": True,
@@ -1616,10 +1648,12 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
             )
         self.assertIn("No records available", str(ctx.exception))
 
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
            return_value={"evaluator_manifest_verified": True})
-    def test_result_includes_predictions_integrity(self, mock_eval_guard, mock_pred_guard) -> None:
+    def test_result_includes_predictions_integrity(self, mock_eval_guard, mock_pred_guard, mock_agg_guard) -> None:
         pred_integrity = {
             "c_predictions_manifest_verified": True,
             "c_records_sha256": "a" * 64, "record_count": 45,
@@ -1706,9 +1740,11 @@ class TestRecordCountMatchesSchedule(unittest.TestCase):
 class TestGuardOrder(unittest.TestCase):
     """R7 P2-1: predictions barrier must run before evaluator guard."""
 
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
+           return_value={"c_aggregate_manifest_verified": True, "record_count": 15})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
-    def test_predictions_barrier_runs_first(self, mock_pred, mock_eval) -> None:
+    def test_predictions_barrier_runs_first(self, mock_pred, mock_eval, mock_agg) -> None:
         """When predictions barrier raises, evaluator guard is never called."""
         mock_pred.side_effect = RuntimeError("predictions tampered")
         with self.assertRaises(RuntimeError):
@@ -1807,6 +1843,8 @@ class TestPilotGate(unittest.TestCase):
             verify_pilot_gate(
                 c_records_path=self.records_path,
                 schedule_path=self.schedule_path,
+                expected_model="gpt-5.6-terra",
+                expected_sdk_version="3.6.0",
             )
         self.assertIn("valid=False", str(ctx.exception))
 
@@ -1819,6 +1857,7 @@ class TestPilotGate(unittest.TestCase):
                 c_records_path=self.records_path,
                 schedule_path=self.schedule_path,
                 expected_model="gpt-5.6-terra",
+                expected_sdk_version="3.6.0",
             )
         self.assertIn("wrong model_requested", str(ctx.exception))
 
@@ -1830,6 +1869,7 @@ class TestPilotGate(unittest.TestCase):
             verify_pilot_gate(
                 c_records_path=self.records_path,
                 schedule_path=self.schedule_path,
+                expected_model="gpt-5.6-terra",
                 expected_sdk_version="3.6.0",
             )
         self.assertIn("wrong openai_sdk_version", str(ctx.exception))
@@ -1842,6 +1882,8 @@ class TestAggregateFreeze(unittest.TestCase):
         self.tmpdir = Path(tempfile.mkdtemp())
         self.agg_path = self.tmpdir / "c_aggregate_records.jsonl"
         self.manifest_path = self.tmpdir / "c_aggregate_manifest.json"
+        self.c_records_path = self.tmpdir / "c_records.jsonl"
+        self.schedule_path = self.tmpdir / "c_schedule.json"
 
     def tearDown(self) -> None:
         shutil.rmtree(self.tmpdir, ignore_errors=True)
@@ -1872,24 +1914,44 @@ class TestAggregateFreeze(unittest.TestCase):
             ))
         return aggs
 
+    def _write_cross_verify_files(
+        self,
+    ) -> tuple[str, str]:
+        """Write dummy c_records.jsonl and c_schedule.json for cross-verification.
+
+        Returns (c_records_sha256, schedule_sha256).
+        """
+        c_records_content = '{"dummy":"record"}\n'
+        self.c_records_path.write_text(c_records_content, encoding="utf-8")
+        c_rec_sha = hashlib.sha256(self.c_records_path.read_bytes()).hexdigest()
+
+        schedule_content = '[{"dummy":"schedule"}]'
+        self.schedule_path.write_text(schedule_content, encoding="utf-8")
+        sched_sha = hashlib.sha256(self.schedule_path.read_bytes()).hexdigest()
+
+        return c_rec_sha, sched_sha
+
     def test_write_and_verify_roundtrip(self) -> None:
         from icl.evaluation.aggregation_c import (
             write_c_aggregates,
             write_aggregate_manifest,
             verify_aggregate_freeze,
         )
+        c_rec_sha, sched_sha = self._write_cross_verify_files()
         aggs = self._make_aggregates()
         agg_sha = write_c_aggregates(aggs, output_path=self.agg_path)
         write_aggregate_manifest(
             aggregate_sha256=agg_sha,
             record_count=len(aggs),
-            c_records_sha256="a" * 64,
-            schedule_sha256="b" * 64,
+            c_records_sha256=c_rec_sha,
+            schedule_sha256=sched_sha,
             manifest_path=self.manifest_path,
         )
         result = verify_aggregate_freeze(
             aggregate_path=self.agg_path,
             manifest_path=self.manifest_path,
+            c_records_path=self.c_records_path,
+            schedule_path=self.schedule_path,
         )
         self.assertTrue(result["c_aggregate_manifest_verified"])
         self.assertEqual(result["record_count"], 15)
@@ -1900,19 +1962,22 @@ class TestAggregateFreeze(unittest.TestCase):
             write_aggregate_manifest,
             verify_aggregate_freeze,
         )
+        c_rec_sha, sched_sha = self._write_cross_verify_files()
         aggs = self._make_aggregates()
         write_c_aggregates(aggs, output_path=self.agg_path)
         write_aggregate_manifest(
             aggregate_sha256="0" * 64,
             record_count=len(aggs),
-            c_records_sha256="a" * 64,
-            schedule_sha256="b" * 64,
+            c_records_sha256=c_rec_sha,
+            schedule_sha256=sched_sha,
             manifest_path=self.manifest_path,
         )
         with self.assertRaises(RuntimeError) as ctx:
             verify_aggregate_freeze(
                 aggregate_path=self.agg_path,
                 manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
             )
         self.assertIn("hash mismatch", str(ctx.exception))
 
@@ -1929,6 +1994,232 @@ class TestAggregateFreeze(unittest.TestCase):
         self.assertEqual(agg.aggregation_rule, "majority_2_of_3")
         d = agg.to_dict()
         self.assertEqual(d["aggregation_rule"], "majority_2_of_3")
+
+
+class TestPipelineInvokesAggregateGuard(unittest.TestCase):
+    """R8 P1: pipeline must call verify_aggregate_freeze."""
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze")
+    @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
+           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+           return_value={"evaluator_manifest_verified": True})
+    def test_aggregate_guard_is_called(self, mock_eval, mock_pred, mock_agg) -> None:
+        mock_agg.return_value = {"c_aggregate_manifest_verified": True, "record_count": 15}
+        evaluate_c_predictions(
+            _all_correct_records(),
+            case_truth=_CLASS_ASSIGNMENT,
+            agents_config=_AGENTS_CONFIG,
+            b_records=[],
+        )
+        mock_agg.assert_called_once()
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze")
+    @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
+           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+           return_value={"evaluator_manifest_verified": True})
+    def test_aggregate_guard_failure_blocks_pipeline(self, mock_eval, mock_pred, mock_agg) -> None:
+        mock_agg.side_effect = RuntimeError("aggregate hash mismatch")
+        with self.assertRaises(RuntimeError) as ctx:
+            evaluate_c_predictions(
+                _all_correct_records(),
+                case_truth=_CLASS_ASSIGNMENT,
+                agents_config=_AGENTS_CONFIG,
+                b_records=[],
+            )
+        self.assertIn("aggregate hash mismatch", str(ctx.exception))
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze")
+    @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
+           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+           return_value={"evaluator_manifest_verified": True})
+    def test_aggregate_integrity_in_results(self, mock_eval, mock_pred, mock_agg) -> None:
+        agg_integrity = {"c_aggregate_manifest_verified": True, "record_count": 15}
+        mock_agg.return_value = agg_integrity
+        result = evaluate_c_predictions(
+            _all_correct_records(),
+            case_truth=_CLASS_ASSIGNMENT,
+            agents_config=_AGENTS_CONFIG,
+            b_records=[],
+        )
+        self.assertIn("aggregate_freeze_integrity", result)
+        self.assertEqual(result["aggregate_freeze_integrity"], agg_integrity)
+
+
+class TestPilotGateR8Checks(unittest.TestCase):
+    """R8: additional pilot gate negative-path tests."""
+
+    _PILOT_CASES = [
+        ("PBH-001", True), ("PBH-004", True), ("PBH-007", True),
+        ("PBH-010", True), ("PBH-013", True),
+    ]
+    _ALL_CASES = _PILOT_CASES + [
+        ("PBH-002", False), ("PBH-003", False), ("PBH-005", False),
+        ("PBH-006", False), ("PBH-008", False), ("PBH-009", False),
+        ("PBH-011", False), ("PBH-012", False), ("PBH-014", False),
+        ("PBH-015", False),
+    ]
+
+    def setUp(self) -> None:
+        self.tmpdir = Path(tempfile.mkdtemp())
+        self.records_path = self.tmpdir / "c_records.jsonl"
+        self.schedule_path = self.tmpdir / "c_schedule.json"
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.tmpdir, ignore_errors=True)
+
+    def _build_schedule(self) -> list[dict[str, Any]]:
+        entries: list[dict[str, Any]] = []
+        seq = 0
+        for cid, pilot in self._ALL_CASES:
+            for rep in (1, 2, 3):
+                entries.append({
+                    "condition": "C", "physical_case_id": cid,
+                    "pilot": pilot, "receiver_id": "central",
+                    "repetition": rep, "sequence_index": seq,
+                })
+                seq += 1
+        return entries
+
+    def _write_pilot_records_custom(
+        self,
+        schedule: list[dict[str, Any]],
+        *,
+        model_returned_override: dict[int, str] | None = None,
+        duplicate_seq_index: bool = False,
+        case_id_override: dict[int, str] | None = None,
+        repetition_override: dict[int, int] | None = None,
+        replace_pilot_case: tuple[str, str] | None = None,
+    ) -> None:
+        """Write pilot records with fine-grained overrides."""
+        pilot_entries = [e for e in schedule if e["pilot"]]
+        lines: list[str] = []
+        for i, entry in enumerate(pilot_entries):
+            cid = entry["physical_case_id"]
+            rep = entry["repetition"]
+            seq = entry["sequence_index"]
+
+            if replace_pilot_case and cid == replace_pilot_case[0]:
+                cid = replace_pilot_case[1]
+
+            if case_id_override and i in case_id_override:
+                cid = case_id_override[i]
+
+            if repetition_override and i in repetition_override:
+                rep = repetition_override[i]
+
+            if duplicate_seq_index:
+                seq = 0  # all get seq=0
+
+            rec = _make_c_record(
+                cid, repetition=rep, sequence_index=seq,
+            )
+            d = rec.to_dict()
+
+            if model_returned_override and i in model_returned_override:
+                d["model_returned"] = model_returned_override[i]
+
+            lines.append(json.dumps(d, ensure_ascii=False))
+
+        self.records_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    def test_wrong_model_returned_fails(self) -> None:
+        """R8 check 3: model_returned mismatch → RuntimeError."""
+        schedule = self._build_schedule()
+        self.schedule_path.write_text(json.dumps(schedule), encoding="utf-8")
+        self._write_pilot_records_custom(
+            schedule, model_returned_override={0: "wrong-returned-model"},
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_pilot_gate(
+                c_records_path=self.records_path,
+                schedule_path=self.schedule_path,
+                expected_model="gpt-5.6-terra",
+                expected_sdk_version="3.6.0",
+            )
+        self.assertIn("model_returned", str(ctx.exception))
+
+    def test_duplicate_sequence_index_fails(self) -> None:
+        """R8 check 6: duplicate sequence_index → RuntimeError."""
+        schedule = self._build_schedule()
+        self.schedule_path.write_text(json.dumps(schedule), encoding="utf-8")
+        self._write_pilot_records_custom(
+            schedule, duplicate_seq_index=True,
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_pilot_gate(
+                c_records_path=self.records_path,
+                schedule_path=self.schedule_path,
+                expected_model="gpt-5.6-terra",
+                expected_sdk_version="3.6.0",
+            )
+        self.assertIn("duplicate sequence_index", str(ctx.exception))
+
+    def test_schedule_identity_case_mismatch_fails(self) -> None:
+        """R8 check 7: case_id doesn't match schedule → RuntimeError."""
+        schedule = self._build_schedule()
+        self.schedule_path.write_text(json.dumps(schedule), encoding="utf-8")
+        # Override record 0 (PBH-001 rep 1) to have PBH-999.
+        self._write_pilot_records_custom(
+            schedule, case_id_override={0: "PBH-999"},
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_pilot_gate(
+                c_records_path=self.records_path,
+                schedule_path=self.schedule_path,
+                expected_model="gpt-5.6-terra",
+                expected_sdk_version="3.6.0",
+            )
+        err = str(ctx.exception)
+        self.assertTrue(
+            "physical_case_id mismatch" in err or "case ID mismatch" in err,
+            f"unexpected error: {err}",
+        )
+
+    def test_wrong_repetitions_fails(self) -> None:
+        """R8 check 8: wrong repetition set per case → RuntimeError."""
+        schedule = self._build_schedule()
+        self.schedule_path.write_text(json.dumps(schedule), encoding="utf-8")
+        # PBH-001 has entries at indices 0,1,2 (reps 1,2,3).
+        # Change rep 3 to rep 2 → case has {1,2,2} instead of {1,2,3}.
+        self._write_pilot_records_custom(
+            schedule, repetition_override={2: 2},
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_pilot_gate(
+                c_records_path=self.records_path,
+                schedule_path=self.schedule_path,
+                expected_model="gpt-5.6-terra",
+                expected_sdk_version="3.6.0",
+            )
+        err = str(ctx.exception)
+        self.assertTrue(
+            "repetition" in err.lower(),
+            f"unexpected error: {err}",
+        )
+
+    def test_wrong_pilot_case_ids_fails(self) -> None:
+        """R8 check 9: pilot case IDs don't match canonical set → RuntimeError."""
+        schedule = self._build_schedule()
+        self.schedule_path.write_text(json.dumps(schedule), encoding="utf-8")
+        # Replace PBH-001 with PBH-002 in records → wrong pilot set.
+        self._write_pilot_records_custom(
+            schedule, replace_pilot_case=("PBH-001", "PBH-002"),
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_pilot_gate(
+                c_records_path=self.records_path,
+                schedule_path=self.schedule_path,
+                expected_model="gpt-5.6-terra",
+                expected_sdk_version="3.6.0",
+            )
+        err = str(ctx.exception)
+        self.assertTrue(
+            "case ID mismatch" in err or "physical_case_id mismatch" in err,
+            f"unexpected error: {err}",
+        )
 
 
 if __name__ == "__main__":

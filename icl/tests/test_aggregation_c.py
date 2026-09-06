@@ -3,12 +3,20 @@
 from __future__ import annotations
 
 import hashlib
+import json
+import shutil
+import tempfile
 import unittest
+from pathlib import Path
 from typing import Any
 
 from icl.evaluation.aggregation_c import (
     CAggregatePrediction,
     aggregate_c_records,
+    verify_aggregate_freeze,
+    write_aggregate_manifest,
+    write_c_aggregates,
+    write_c_predictions_manifest,
 )
 from icl.runner.records_c import CRunRecord, LABEL_SPACE
 
@@ -597,6 +605,271 @@ class TestExpectedCaseIds(unittest.TestCase):
         with self.assertRaises(ValueError) as ctx:
             aggregate_c_records(records, expected_case_ids=set())
         self.assertIn("extra", str(ctx.exception))
+
+
+# ================================================================== R8 tests
+
+
+# 15 canonical case IDs.
+_CASE_IDS = [f"PBH-{i:03d}" for i in range(1, 16)]
+
+
+def _make_standard_aggregates() -> list[CAggregatePrediction]:
+    """Build 15 CAggregatePrediction objects, one per case."""
+    aggs = []
+    for cid in sorted(_CASE_IDS):
+        aggs.append(CAggregatePrediction(
+            agent_id="central",
+            condition="C",
+            physical_case_id=cid,
+            parsed_output={
+                "predicted_label": "Normal",
+                "abstain": False,
+                "used_insight_ids": [],
+                "reasoning_summary": "aggregate_majority_2_of_3",
+            },
+            repetition_outcomes=(
+                {"repetition": 1, "predicted_label": "Normal",
+                 "abstain": False, "parse_failure": False},
+                {"repetition": 2, "predicted_label": "Normal",
+                 "abstain": False, "parse_failure": False},
+                {"repetition": 3, "predicted_label": "Normal",
+                 "abstain": False, "parse_failure": False},
+            ),
+            aggregation_rule="majority_2_of_3",
+        ))
+    return aggs
+
+
+class TestWriteCPredictionsManifest(unittest.TestCase):
+    """R8: write_c_predictions_manifest writer."""
+
+    def setUp(self) -> None:
+        self.tmpdir = Path(tempfile.mkdtemp())
+        self.manifest_path = self.tmpdir / "c_predictions_manifest.json"
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.tmpdir, ignore_errors=True)
+
+    def test_roundtrip_structure(self) -> None:
+        """Written manifest contains the three required keys."""
+        write_c_predictions_manifest(
+            c_records_sha256="a" * 64,
+            record_count=45,
+            schedule_sha256="b" * 64,
+            manifest_path=self.manifest_path,
+        )
+        manifest = json.loads(self.manifest_path.read_text(encoding="utf-8"))
+        self.assertEqual(manifest["c_records_sha256"], "a" * 64)
+        self.assertEqual(manifest["record_count"], 45)
+        self.assertIn("schedule_reference", manifest)
+        self.assertEqual(manifest["schedule_reference"]["sha256"], "b" * 64)
+        self.assertEqual(
+            manifest["schedule_reference"]["path"],
+            "icl/full_evaluation/c_schedule.json",
+        )
+
+    def test_custom_schedule_ref_path(self) -> None:
+        write_c_predictions_manifest(
+            c_records_sha256="c" * 64,
+            record_count=15,
+            schedule_sha256="d" * 64,
+            manifest_path=self.manifest_path,
+            schedule_ref_path="custom/path.json",
+        )
+        manifest = json.loads(self.manifest_path.read_text(encoding="utf-8"))
+        self.assertEqual(
+            manifest["schedule_reference"]["path"],
+            "custom/path.json",
+        )
+
+
+class TestVerifyAggregateFreezeR8(unittest.TestCase):
+    """R8: hardened verify_aggregate_freeze with 10 checks."""
+
+    def setUp(self) -> None:
+        self.tmpdir = Path(tempfile.mkdtemp())
+        self.agg_path = self.tmpdir / "c_aggregate_records.jsonl"
+        self.manifest_path = self.tmpdir / "c_aggregate_manifest.json"
+        self.c_records_path = self.tmpdir / "c_records.jsonl"
+        self.schedule_path = self.tmpdir / "c_schedule.json"
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.tmpdir, ignore_errors=True)
+
+    def _write_cross_verify_files(self) -> tuple[str, str]:
+        """Write dummy c_records.jsonl and c_schedule.json, return their SHA-256."""
+        c_content = '{"dummy":"record"}\n'
+        self.c_records_path.write_text(c_content, encoding="utf-8")
+        c_sha = hashlib.sha256(self.c_records_path.read_bytes()).hexdigest()
+
+        s_content = '[{"dummy":"schedule"}]'
+        self.schedule_path.write_text(s_content, encoding="utf-8")
+        s_sha = hashlib.sha256(self.schedule_path.read_bytes()).hexdigest()
+
+        return c_sha, s_sha
+
+    def _write_good_setup(self) -> tuple[str, str, str]:
+        """Write aggregates + manifest + cross-verify files. Returns (agg_sha, c_sha, s_sha)."""
+        c_sha, s_sha = self._write_cross_verify_files()
+        aggs = _make_standard_aggregates()
+        agg_sha = write_c_aggregates(aggs, output_path=self.agg_path)
+        write_aggregate_manifest(
+            aggregate_sha256=agg_sha,
+            record_count=len(aggs),
+            c_records_sha256=c_sha,
+            schedule_sha256=s_sha,
+            manifest_path=self.manifest_path,
+        )
+        return agg_sha, c_sha, s_sha
+
+    def test_happy_path(self) -> None:
+        """Full 10-check verification passes."""
+        self._write_good_setup()
+        result = verify_aggregate_freeze(
+            aggregate_path=self.agg_path,
+            manifest_path=self.manifest_path,
+            c_records_path=self.c_records_path,
+            schedule_path=self.schedule_path,
+        )
+        self.assertTrue(result["c_aggregate_manifest_verified"])
+        self.assertEqual(result["record_count"], 15)
+
+    def test_missing_status_key_raises(self) -> None:
+        """Check 1: missing 'status' key → RuntimeError."""
+        c_sha, s_sha = self._write_cross_verify_files()
+        aggs = _make_standard_aggregates()
+        agg_sha = write_c_aggregates(aggs, output_path=self.agg_path)
+        # Write manifest manually without status.
+        manifest = {
+            "c_aggregate_records_sha256": agg_sha,
+            "record_count": 15,
+            "aggregation_rule": "majority_2_of_3",
+            "source_c_records_sha256": c_sha,
+            "schedule_reference": {"path": "x", "sha256": s_sha},
+        }
+        self.manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("missing required keys", str(ctx.exception))
+
+    def test_wrong_status_raises(self) -> None:
+        """Check 2: status != IMMUTABLE_BEFORE_EVALUATION → RuntimeError."""
+        c_sha, s_sha = self._write_cross_verify_files()
+        aggs = _make_standard_aggregates()
+        agg_sha = write_c_aggregates(aggs, output_path=self.agg_path)
+        manifest = {
+            "c_aggregate_records_sha256": agg_sha,
+            "record_count": 15,
+            "aggregation_rule": "majority_2_of_3",
+            "source_c_records_sha256": c_sha,
+            "schedule_reference": {"path": "x", "sha256": s_sha},
+            "status": "MUTABLE",
+        }
+        self.manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("IMMUTABLE_BEFORE_EVALUATION", str(ctx.exception))
+
+    def test_source_c_records_sha_mismatch_raises(self) -> None:
+        """Check 9: source_c_records_sha256 doesn't match actual → RuntimeError."""
+        c_sha, s_sha = self._write_cross_verify_files()
+        aggs = _make_standard_aggregates()
+        agg_sha = write_c_aggregates(aggs, output_path=self.agg_path)
+        write_aggregate_manifest(
+            aggregate_sha256=agg_sha,
+            record_count=len(aggs),
+            c_records_sha256="0" * 64,  # wrong c_records hash
+            schedule_sha256=s_sha,
+            manifest_path=self.manifest_path,
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("source_c_records_sha256 mismatch", str(ctx.exception))
+
+    def test_schedule_sha_mismatch_raises(self) -> None:
+        """Check 10: schedule_reference.sha256 doesn't match actual → RuntimeError."""
+        c_sha, s_sha = self._write_cross_verify_files()
+        aggs = _make_standard_aggregates()
+        agg_sha = write_c_aggregates(aggs, output_path=self.agg_path)
+        write_aggregate_manifest(
+            aggregate_sha256=agg_sha,
+            record_count=len(aggs),
+            c_records_sha256=c_sha,
+            schedule_sha256="0" * 64,  # wrong schedule hash
+            manifest_path=self.manifest_path,
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("schedule_reference.sha256 mismatch", str(ctx.exception))
+
+    def test_wrong_aggregation_rule_raises(self) -> None:
+        """Check 8: aggregation_rule != majority_2_of_3 → RuntimeError."""
+        c_sha, s_sha = self._write_cross_verify_files()
+        aggs = _make_standard_aggregates()
+        agg_sha = write_c_aggregates(aggs, output_path=self.agg_path)
+        manifest = {
+            "c_aggregate_records_sha256": agg_sha,
+            "record_count": 15,
+            "aggregation_rule": "simple_majority",
+            "source_c_records_sha256": c_sha,
+            "schedule_reference": {"path": "x", "sha256": s_sha},
+            "status": "IMMUTABLE_BEFORE_EVALUATION",
+        }
+        self.manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("aggregation_rule", str(ctx.exception))
+
+    def test_wrong_record_count_raises(self) -> None:
+        """Check 4: record_count mismatch in manifest → RuntimeError."""
+        c_sha, s_sha = self._write_cross_verify_files()
+        aggs = _make_standard_aggregates()
+        agg_sha = write_c_aggregates(aggs, output_path=self.agg_path)
+        write_aggregate_manifest(
+            aggregate_sha256=agg_sha,
+            record_count=10,  # wrong count
+            c_records_sha256=c_sha,
+            schedule_sha256=s_sha,
+            manifest_path=self.manifest_path,
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        err = str(ctx.exception)
+        self.assertTrue(
+            "record count" in err.lower(),
+            f"unexpected error: {err}",
+        )
 
 
 if __name__ == "__main__":
