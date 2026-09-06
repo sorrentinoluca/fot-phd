@@ -1,0 +1,104 @@
+{
+  "amendment_id": "C-001",
+  "base_protocol_commit": "3d86f64d43e14e7e0de520cb047ca1043bf9c1c0",
+  "base_protocol_tag": "phase-b-protocol-frozen",
+  "created_before_condition_c_inference": true,
+  "completed_condition_c_inference_at_decision": 0,
+  "planned_condition_c_inference": 45,
+  "post_hoc": true,
+  "post_hoc_note": "Condition C designed and executed after observing A/B/E results on the same held-out set",
+  "condition": {
+    "name": "C",
+    "full_name": "centralized_full_information_pooled_icl",
+    "description": "Post-hoc full-information empirical reference: receiver-independent context with all 10 examples (covering all fault classes) and all 8 insights",
+    "agent_id": "central",
+    "receiver_independent": true,
+    "examples_count": 10,
+    "insights_count": 8,
+    "label_space": ["CLS-ZOGAA", "CLS-OJNSG", "CLS-R463B", "CLS-Z3ISU", "Normal"]
+  },
+  "scheduling": {
+    "unit": "physical_case_id × repetition",
+    "physical_case_ids": [
+      "PBH-001", "PBH-002", "PBH-003", "PBH-004", "PBH-005",
+      "PBH-006", "PBH-007", "PBH-008", "PBH-009", "PBH-010",
+      "PBH-011", "PBH-012", "PBH-013", "PBH-014", "PBH-015"
+    ],
+    "repetitions": [1, 2, 3],
+    "ordering": "(pilot DESC, physical_case_id ASC, repetition ASC)",
+    "pilot_cases": ["PBH-001", "PBH-004", "PBH-007", "PBH-010", "PBH-013"],
+    "pilot_sequence_indices": [0, 14],
+    "non_pilot_sequence_indices": [15, 44],
+    "total_entries": 45,
+    "pilot_entries": 15,
+    "non_pilot_entries": 30
+  },
+  "inference_schedule": {
+    "path": "icl/full_evaluation/c_schedule.json",
+    "entry_count": 45,
+    "sha256": "3f1b102a89ecd9202fd045a8a39912380e534f68f1675574c7bb3d6ecaf4b986"
+  },
+  "execution_config": {
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "medium",
+    "temperature": null,
+    "seed": null,
+    "structured_output_strict": true,
+    "max_structural_retries": 2,
+    "repetitions": 3
+  },
+  "stateless_calls": true,
+  "statelessness_requirements": {
+    "complete_self_contained_prompt": true,
+    "new_independent_request": true,
+    "conversation_history": false,
+    "previous_response_id": false,
+    "conversation_thread_or_session_state": false,
+    "cross_request_output_carryover": false
+  },
+  "firewall": {
+    "inference_side_manifest": "icl/full_evaluation/freeze_manifest_inference.json",
+    "evaluator_side_manifest": "icl/full_evaluation/freeze_manifest_evaluator.json",
+    "runner_accesses_evaluator_manifest": false,
+    "evaluator_modifies_inference_artifacts": false,
+    "ground_truth_join_after_all_predictions_frozen": true
+  },
+  "evaluation": {
+    "metrics": [
+      "accuracy_C_fault",
+      "accuracy_C_normal",
+      "delta_C_minus_B"
+    ],
+    "paired_delta_formula": "delta = (1/12) sum_i [1(C_i=y_i) - (1/|U_i|) sum_{a in U_i} 1(B_{ia}=y_i)]",
+    "paired_delta_scope": "12 fault cases only",
+    "bootstrap_iterations": 10000,
+    "bootstrap_seed": 20260906,
+    "bootstrap_clusters": 12,
+    "bootstrap_strata": "4 fault classes × 3 cases",
+    "bootstrap_ci_level": 0.95,
+    "bootstrap_method": "percentile"
+  },
+  "verbalization_immutability_evidence": {
+    "commit": "32f0856040614870d3784a4811e76cee0eee77e3",
+    "manifest_path": "phase_b/final_evaluation/heldout_verbalizations_manifest.json",
+    "manifest_sha256": "a5a00e6f3724ba5af50f8c4b09e82a6e61676b0a1019276733925c6d3fc7ef68",
+    "individual_neutral_text_hashes_recorded_in_manifest": true
+  },
+  "unchanged_protocol_elements": [
+    "held-out data",
+    "verbalizations",
+    "pseudolabels",
+    "local examples",
+    "insights",
+    "B/E libraries",
+    "derangements",
+    "prompts",
+    "provider and model",
+    "reasoning effort",
+    "retry policy",
+    "R",
+    "aggregation rule",
+    "hypotheses",
+    "existing Exp 1 metrics and bootstrap"
+  ]
+}

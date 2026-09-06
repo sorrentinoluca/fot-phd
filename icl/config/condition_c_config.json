@@ -1,0 +1,23 @@
+{
+  "condition": "C",
+  "condition_name": "centralized_full_information_pooled_icl",
+  "description": "Post-hoc full-information empirical reference: receiver-independent context with all 10 examples (covering all fault classes) and all 8 insights. Full-information refers to the union of prompt-facing frozen artifacts, not all source texts.",
+  "examples": {
+    "source": "union of LKP-001..LKP-004 deduplicated on Normal",
+    "count": 10,
+    "covers_all_fault_classes": true
+  },
+  "insights": {
+    "source": "final_local_insights.json (unfiltered)",
+    "count": 8,
+    "includes_self": true,
+    "filtering": "none"
+  },
+  "receiver_independent": true,
+  "ordering_examples": "example_id",
+  "ordering_insights": "insight_id",
+  "derangement": null,
+  "template": "pooled_C.txt",
+  "post_hoc": true,
+  "role": "post-hoc full-information empirical reference, not a method to beat"
+}
