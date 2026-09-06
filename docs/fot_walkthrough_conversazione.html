@@ -844,14 +844,40 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 <script>
 (() => {
   const body=document.body,toggle=document.getElementById('nav-toggle'),label=document.getElementById('nav-label'),nav=document.getElementById('guide-nav'),backdrop=document.getElementById('nav-backdrop'),current=document.getElementById('current-step');
-  const links=[...nav.querySelectorAll('a[href^="#step-"]')],sections=[...document.querySelectorAll('section[data-step]')],mobile=window.matchMedia('(max-width: 900px)');
+  const links=[...nav.querySelectorAll('a[href^="#"]')],sections=[...document.querySelectorAll('section[data-step]')],mobile=window.matchMedia('(max-width: 900px)');
   const isOpen=()=>mobile.matches?body.classList.contains('nav-open'):!body.classList.contains('nav-collapsed');
   function render(){const open=isOpen();toggle.setAttribute('aria-expanded',String(open));label.textContent=open?'Nascondi indice':'Mostra indice'}
   function closeMobile(focus=false){body.classList.remove('nav-open');body.classList.add('nav-collapsed');render();if(focus)toggle.focus()}
   function reset(){if(mobile.matches)closeMobile();else{body.classList.remove('nav-open','nav-collapsed');render()}}
   toggle.addEventListener('click',()=>{if(mobile.matches){const opening=!body.classList.contains('nav-open');body.classList.toggle('nav-open',opening);body.classList.toggle('nav-collapsed',!opening);render();if(opening)links[0].focus()}else{body.classList.toggle('nav-collapsed');render()}});
   backdrop.addEventListener('click',()=>closeMobile(true));links.forEach(link=>link.addEventListener('click',()=>{if(mobile.matches)closeMobile()}));document.addEventListener('keydown',event=>{if(event.key==='Escape'&&mobile.matches&&body.classList.contains('nav-open'))closeMobile(true)});mobile.addEventListener('change',reset);
-  function updateCurrent(){const readingLine=window.innerHeight*.3;const active=sections.find(section=>{const box=section.getBoundingClientRect();return box.top<=readingLine&&box.bottom>readingLine})||sections[0];const step=active.dataset.step;current.textContent=step;if(step==='1'){const subs=[...document.querySelectorAll('#step-1 h3[id^="sub-1-"]')];let bestSub=null;for(const s of subs){if(s.getBoundingClientRect().top<=readingLine)bestSub=s}const bestHref=bestSub?'#'+bestSub.id:'#step-1';links.forEach(link=>{const href=link.getAttribute('href');const isPhase0=href==='#step-1'||href.startsWith('#sub-1-');if(isPhase0){if(href===bestHref){link.setAttribute('aria-current','step')}else{link.removeAttribute('aria-current')}}else{link.removeAttribute('aria-current')}})}else{links.forEach(link=>{const isActive=link.getAttribute('href')===`#step-${step}`;if(isActive){link.setAttribute('aria-current','step')}else{link.removeAttribute('aria-current')}})}}
+  function updateCurrent(){
+    const readingLine=window.innerHeight*.3;
+    const active=sections.find(section=>{const box=section.getBoundingClientRect();return box.top<=readingLine&&box.bottom>readingLine})||sections[0];
+    const step=active.dataset.step;
+    current.textContent=step;
+    if(step==='1'){
+      const hash=window.location.hash;
+      const explicitSub=(hash&&hash.startsWith('#sub-1-'))?hash:null;
+      const subs=[...document.querySelectorAll('#step-1 h3[id^="sub-1-"]')];
+      let bestSub=null;
+      for(const s of subs){if(s.getBoundingClientRect().top<=readingLine)bestSub=s}
+      const bestHref=explicitSub || (bestSub ? `#${bestSub.id}` : '#step-1');
+      links.forEach(link=>{
+        const href=link.getAttribute('href');
+        const isPhase0=href==='#step-1'||href.startsWith('#sub-1-');
+        if(isPhase0){
+          if(href===bestHref){link.setAttribute('aria-current','step')}else{link.removeAttribute('aria-current')}
+        }else{link.removeAttribute('aria-current')}
+      });
+    } else {
+      links.forEach(link=>{
+        const isActive=link.getAttribute('href')===`#step-${step}`;
+        if(isActive){link.setAttribute('aria-current','step')}else{link.removeAttribute('aria-current')}
+      });
+    }
+  }
+  window.addEventListener('hashchange',updateCurrent);
   const observer=new IntersectionObserver(updateCurrent,{rootMargin:'-18% 0px -62% 0px',threshold:[0,.1]});
   sections.forEach(section=>observer.observe(section));window.addEventListener('scroll',updateCurrent,{passive:true});window.addEventListener('resize',updateCurrent);updateCurrent();reset();
 })();
