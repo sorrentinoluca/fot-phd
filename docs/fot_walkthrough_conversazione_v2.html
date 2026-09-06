@@ -121,13 +121,13 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
       <li><a href="#step-2">2. Dataset</a></li><li><a href="#step-3">3. Analisi e split dei dataset</a></li><li><a href="#step-4">4. Pipeline di Phase A: le 6 operazioni</a></li><li><a href="#step-5">5. Scelta delle feature</a></li><li><a href="#step-6">6. Calibrazione delle soglie</a></li><li><a href="#step-7">7. Il freeze del metodo</a></li><li><a href="#step-8">8. Dalle feature ai flag</a></li><li><a href="#step-9">9. Dai flag al JSON e al testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e test split</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Configurazioni informative e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
     </ol></details></li>
     <li><details class="nav-phase" open><summary>Fase 2 — Replica confirmatory (Experiment 3 V2)</summary><ol>
-      <li><a href="#step-18">18. Perché un esperimento confermativo su nuove realizzazioni simulate</a></li>
-      <li><a href="#step-19">19. Da Experiment 3 a EXP3_V2</a></li>
-      <li><a href="#step-20">20. Disegno confirmatory frozen</a></li>
+      <li><a href="#step-18">18. Nuovo esperimento confermativo</a></li>
+      <li><a href="#step-19">19. Nuovi run TEP</a></li>
+      <li><a href="#step-20">20. Struttura Exp3</a></li>
       <li><a href="#step-21">21. Risultati primari unseen</a></li>
-      <li><a href="#step-22">22. Contrasti e bootstrap</a></li>
+      <li><a href="#step-22">22. Quanto differiscono le configurazioni informative</a></li>
       <li><a href="#step-23">23. Risultati secondari descrittivi</a></li>
-      <li><a href="#step-24">24. Interpretazione, limiti e provenienza frozen</a></li>
+      <li><a href="#step-24">24. Interpretazione e limiti</a></li>
     </ol></details></li>
     <li><details class="nav-phase"><summary>Fase 3</summary><p class="nav-phase-empty">Contenuti da aggiungere.</p></details></li>
   </ol>
@@ -563,10 +563,10 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 
 <section id="step-18" data-step="18">
   <div class="step-kicker">Step 18 / 24 <span class="phase-badge design">Esperimento confermativo su nuove realizzazioni simulate</span></div>
-  <h2>Perché un esperimento confermativo su nuove realizzazioni simulate</h2>
+  <h2>Esperimento confermativo su nuove realizzazioni simulate</h2>
   <p>Un held-out, per definizione, può essere aperto una sola volta: dopo che i risultati di Experiment 1 sono stati osservati, quei dati non sono più vergini rispetto all'ipotesi. Non è quindi possibile riusarli per rispondere alla domanda <em>«il risultato regge su realizzazioni fisiche diverse?»</em> senza introdurre un rischio di conferma post-hoc.</p>
-  <p>Il rischio specifico da escludere non è il data leakage classico — il protocollo frozen lo controlla già — ma qualcosa di più sottile: che le dodici realizzazioni fisiche del held-out di Experiment 1 abbiano caratteristiche idiosincratiche (pattern di rumore, transitori, derive di sensore) che hanno favorito il trasferimento in quel campione particolare, senza che il fenomeno sia riproducibile su run indipendenti delle stesse classi.</p>
-  <p>EXP3_V2 è un esperimento confermativo su nuove realizzazioni simulate, definito prima dell’analisi dei risultati. <strong>«Prospettico»</strong> significa che ipotesi, popolazione, contrasti e criterio di successo vengono fissati <em>prima</em> di generare i nuovi dati: non si adatta la procedura ai risultati già visti. Le nuove realizzazioni fisiche sono run TEP indipendenti delle stesse quattro classi — non reruns dei file già usati, non nuove classi, non un dominio diverso. Il perimetro sperimentale rimane deliberatamente invariato: il metodo, gli agenti, le soglie e il protocollo frozen di Experiment 1 vengono riapplicati as-is alle nuove realizzazioni. L'obiettivo non è la generalizzazione, ma verificare se l'effetto osservato sia riproducibile quando i dati fisici cambiano pur restando fisso tutto il resto.</p>
+  <p>Il rischio specifico da escludere non è il data leakage classico — il protocollo frozen lo controlla già — ma che le dodici realizzazioni fisiche del held-out di Experiment 1 abbiano caratteristiche idiosincratiche (pattern di rumore, transitori, derive di sensore) che hanno favorito il trasferimento in quel campione particolare, senza che il fenomeno sia riproducibile su run indipendenti delle stesse classi.</p>
+  <p>Le nuove realizzazioni fisiche sono run TEP indipendenti delle stesse quattro classi — non reruns dei file già usati, non nuove classi, non un dominio diverso. Il perimetro sperimentale rimane deliberatamente invariato: il metodo, gli agenti, le soglie e il protocollo frozen di Experiment 1 vengono riapplicati as-is alle nuove realizzazioni. L'obiettivo non è la generalizzazione, ma verificare se l'effetto osservato sia riproducibile quando i dati fisici cambiano pur restando fisso tutto il resto.</p>
 </section>
 
 <section id="step-19" data-step="19">
@@ -603,8 +603,8 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   </div></section>
 
 <section id="step-21" data-step="21">
-  <div class="step-kicker">Step 21 / 24 <span class="phase-badge offline">Risultati primari unseen</span></div>
-  <h2>Risultati EXP3_V2: trasferimento di conoscenza sui fault localmente unseen</h2>
+  <div class="step-kicker">Step 21 / 24</div>
+  <h2>Diagnosi di guasti non osservati localmente</h2>
 
   <p>L'endpoint primario riguarda esclusivamente i fault <strong>localmente unseen</strong>: <strong>24 run fisici indipendenti</strong> (sei per ciascuno dei quattro fault), ciascuno giudicato dai <strong>tre agenti</strong> che non conoscono localmente quel fault &rarr; <strong>72 agent-case per configurazione informativa</strong>. Le tre osservazioni sullo stesso run sono correlate: l'unit&agrave; indipendente &egrave; il <strong>run fisico (24)</strong>, non l'agent-case (72). Le predizioni sono gli aggregati frozen di R=3 chiamate; l'<strong>astensione conta come incorrect</strong>; gli intervalli derivano da un <strong>cluster bootstrap paired</strong> sui 24 run, stratificato per pseudolabel (10.000 draws, seed frozen 320031).</p>
 
@@ -680,8 +680,8 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-22" data-step="22">
-  <div class="step-kicker">Step 22 / 24 <span class="phase-badge offline">Contrasti e bootstrap</span></div>
-  <h2>Contrasti B&minus;A e B&minus;E con intervalli di confidenza</h2>
+  <div class="step-kicker">Step 22 / 24</div>
+  <h2>B&minus;A primario e B&minus;E di supporto: differenze di accuratezza e intervalli di confidenza</h2>
 
   <h3>1 &middot; Tabella dei contrasti</h3>
   <div class="scroll">
@@ -732,8 +732,8 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-23" data-step="23">
-  <div class="step-kicker">Step 23 / 24 <span class="phase-badge offline">Risultati secondari descrittivi</span></div>
-  <h2>Local-seen, Normal e overall</h2>
+  <div class="step-kicker">Step 23 / 24</div>
+  <h2>Risultati secondari descrittivi</h2>
   <p>Le popolazioni local-seen, Normal e overall sono risultati secondari esclusivamente descrittivi e non aggiungono criteri inferenziali.</p>
   <div class="scroll">
     <table>
