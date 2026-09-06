@@ -121,7 +121,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
       <li><a href="#step-1">1.2 Lessico operativo e unità di analisi</a></li>
       <li><a href="#step-1">1.3 Obiettivi sperimentali</a></li>
       <li><a href="#step-1">1.4 Review in sintesi</a></li>
-      <li><a href="#step-1">1.5 Critiche verso il PV</a></li>
+        <li><a href="#step-1">1.5 Critiche costruttive e limiti noti</a></li>
       </ol></details></li>
     <li><details class="nav-phase" open><summary><a href="#step-2">Fase 1</a></summary><ol>
       <li><a href="#step-2">2. Dataset</a></li><li><a href="#step-3">3. Analisi e split dei dataset</a></li><li><a href="#step-4">4. Pipeline di Phase A: le 6 operazioni</a></li><li><a href="#step-5">5. Scelta delle feature</a></li><li><a href="#step-6">6. Calibrazione delle soglie</a></li><li><a href="#step-7">7. Il freeze del metodo</a></li><li><a href="#step-8">8. Dalle feature ai flag</a></li><li><a href="#step-9">9. Dai flag al JSON e al testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e test split</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Configurazioni informative e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
@@ -183,6 +183,30 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <p>La conseguente affermazione di novità viene pertanto formulata in modo qualificato:</p>
   <blockquote><em>“To the best of our knowledge, no prior work federates locally-derived textual insights across distributed agents with class-disjoint experience to diagnose faults in multivariate time series.”</em></blockquote>
   <p>Questa conclusione non implica l’assenza assoluta di lavori non recuperati dalla ricerca. Definisce invece il gap emerso entro il perimetro documentato della review e motiva la domanda sperimentale affrontata dal progetto.</p>
+  <h3>1.5 Critiche costruttive e limiti noti</h3>
+
+  <p>Le critiche che seguono sono dichiarate in anticipo perché derivano direttamente dalle scelte di design del progetto. Riconoscerle non riduce il valore della prova di fattibilità; lo circoscrive.</p>
+
+  <h4>Federazione simulata su un singolo processo</h4>
+
+  <p>Nel progetto attuale la federazione esiste a livello logico: quattro agenti possiedono esperienze locali diverse e condividono esclusivamente insight testuali. Tuttavia i dati provengono dallo stesso processo simulato TEP; non viene pertanto dimostrata una reale eterogeneità tra impianti fisicamente distinti.</p>
+
+  <p>Mancano alcuni aspetti caratteristici di una federazione reale: differenze tra siti, inverter o condizioni ambientali; proprietari e confini dei dati distinti; problemi di comunicazione e disponibilità dei nodi; generalizzazione verso impianti mai osservati.</p>
+
+  <p>Questa scelta è deliberata. Il TEP offre una ground truth controllabile — fault noti, istante di iniezione verificato, run replicabili — che il dominio fotovoltaico reale non fornisce nella fase attuale. Il progetto usa dunque il TEP come <em>gate di fattibilità metodologica</em> della federazione testuale, non come validazione completa di un sistema federato industriale. In una futura applicazione fotovoltaica, gli agenti dovranno corrispondere a impianti, inverter o stringhe differenti, ciascuno caratterizzato da dati, condizioni operative ed esperienze di guasto proprie. Una validazione multi-sito su dati PV reali costituisce il passaggio necessario per rispondere pienamente a questa critica.</p>
+
+  <h4>Assenza di baseline classiche ed esterne</h4>
+
+  <p>Le configurazioni informative A, B ed E permettono di verificare internamente se la condivisione di insight pertinenti produca un beneficio e se tale beneficio dipenda dalla pertinenza dell'informazione. Non consentono però di stabilire se FoT sia migliore dei metodi diagnostici esistenti.</p>
+
+  <p>Un confronto più completo dovrebbe comprendere almeno due piani di baseline:</p>
+
+  <ol>
+    <li><strong>Baseline interne al paradigma testuale</strong> — un modello <em>local-only</em>, in cui ciascun agente usa l'LLM con la sola esperienza locale senza federazione, e un modello <em>centralized pooled</em>, in cui un singolo agente dispone dell'esperienza aggregata di tutti i nodi. Queste baseline verificherebbero se la federazione testuale superi sia l'isolamento sia la centralizzazione dei dati entro lo stesso paradigma.</li>
+    <li><strong>Baseline esterne al paradigma</strong> — metodi diagnostici convenzionali come PCA/DPCA, SVM o Random Forest, e tecniche propriamente federate come FedAvg o FedProx. Queste baseline verificherebbero se il paradigma testuale sia competitivo rispetto a quello numerico.</li>
+  </ol>
+
+  <p>L'assenza di queste baseline non invalida l'esperimento: il progetto conserva valore come prova controllata del meccanismo, mostrando che insight testuali pertinenti possono aiutare gli agenti sui tipi di guasto assenti dalla loro esperienza locale. L'assenza limita però qualsiasi affermazione secondo cui FoT sia complessivamente migliore degli approcci diagnostici tradizionali o delle tecniche federate esistenti. I confronti primari A–B–E restano validi entro il loro perimetro: misurano l'effetto incrementale della federazione testuale, non la posizione assoluta di FoT nel panorama diagnostico.</p>
 </section>
 
 <section id="step-2" data-step="2">
