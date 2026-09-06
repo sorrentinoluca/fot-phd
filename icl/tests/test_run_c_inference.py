@@ -591,6 +591,33 @@ class TestFreezeGuard(unittest.TestCase):
         self.assertIn("verbalizations manifest", str(ctx.exception))
 
 
+
+
+class TestFreezeGuardIntegration(unittest.TestCase):
+    """Integration: verify_inference_freeze against the real manifest on disk."""
+
+    def test_real_manifest_passes(self) -> None:
+        """Run verify_inference_freeze(FREEZE_MANIFEST_PATH) on the actual
+        freeze_manifest_inference.json.  This catches structural regressions
+        (missing keys, removed artifacts) that unit tests with synthetic
+        fixtures cannot detect."""
+        result = verify_inference_freeze(FREEZE_MANIFEST_PATH)
+        self.assertIn("artifact_hashes", result)
+        self.assertIsInstance(result["artifact_hashes"], dict)
+        self.assertGreater(len(result["artifact_hashes"]), 0)
+
+    def test_real_manifest_has_verbalizations_keys(self) -> None:
+        """The manifest must carry verbalizations_manifest_path and
+        verbalizations_manifest_sha256 — verify_inference_freeze reads them."""
+        manifest = json.loads(FREEZE_MANIFEST_PATH.read_text(encoding="utf-8"))
+        self.assertIn("verbalizations_manifest_path", manifest)
+        self.assertIn("verbalizations_manifest_sha256", manifest)
+
+    def test_real_manifest_has_manifest_type(self) -> None:
+        manifest = json.loads(FREEZE_MANIFEST_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(manifest["manifest_type"], "freeze_manifest_inference")
+
+
 # ------------------------------------------------------------------
 # Tests: firewall (source-code scan)
 # ------------------------------------------------------------------

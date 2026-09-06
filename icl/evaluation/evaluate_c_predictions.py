@@ -708,6 +708,7 @@ def evaluate_c_predictions(
     evaluator_manifest_path: Path | None = None,
     c_records_path: Path | None = None,
     c_predictions_manifest_path: Path | None = None,
+    c_schedule_path: Path | None = None,
 ) -> dict[str, Any]:
     """Run the full Condition C evaluation pipeline.
 
@@ -749,6 +750,7 @@ def evaluate_c_predictions(
     predictions_integrity = verify_c_predictions_freeze(
         c_records_path=c_records_path,
         manifest_path=c_predictions_manifest_path,
+        schedule_path=c_schedule_path,
     )
 
     # Use records from verified file when available (P1-4: tie input

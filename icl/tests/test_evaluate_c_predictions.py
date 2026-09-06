@@ -1399,6 +1399,43 @@ class TestVerifyCPredictionsFreeze(unittest.TestCase):
         self.assertIn("duplicate sequence_index", str(ctx.exception))
 
 
+    # ---- verified records returned ----
+
+    def test_verified_records_returned(self) -> None:
+        """Result includes parsed CRunRecord instances."""
+        schedule = self._build_schedule()
+        sched_sha = self._write_schedule(schedule)
+        rec_sha = self._write_records(schedule)
+        self._write_manifest(rec_sha, 45, sched_sha)
+        result = verify_c_predictions_freeze(
+            c_records_path=self.records_path,
+            manifest_path=self.manifest_path,
+            schedule_path=self.schedule_path,
+        )
+        self.assertIn("verified_records", result)
+        self.assertEqual(len(result["verified_records"]), 45)
+        for rec in result["verified_records"]:
+            self.assertIsInstance(rec, CRunRecord)
+
+    # ---- invalid record ----
+
+    def test_invalid_record_raises(self) -> None:
+        """A line that fails CRunRecord validation raises RuntimeError."""
+        schedule = self._build_schedule()
+        sched_sha = self._write_schedule(schedule)
+        bad_line = json.dumps({"agent_id": "wrong"})
+        self.records_path.write_text(bad_line + "\n", encoding="utf-8")
+        bad_sha = hashlib.sha256(self.records_path.read_bytes()).hexdigest()
+        self._write_manifest(bad_sha, 1, sched_sha)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_c_predictions_freeze(
+                c_records_path=self.records_path,
+                manifest_path=self.manifest_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("invalid CRunRecord", str(ctx.exception))
+
+
 class TestPipelineInvokesGuard(unittest.TestCase):
     """P1-5: evaluate_c_predictions must call verify_evaluator_freeze."""
 
