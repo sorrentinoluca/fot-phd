@@ -117,10 +117,10 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <h2>Indice</h2>
   <ol class="nav-root">
     <li><a href="#step-1">1. Introduzione</a></li>
-    <li><details class="nav-phase" open><summary>Fase 1</summary><ol>
+    <li><details class="nav-phase" open><summary><a href="#step-2">Fase 1</a></summary><ol>
       <li><a href="#step-2">2. Dataset</a></li><li><a href="#step-3">3. Analisi e split dei dataset</a></li><li><a href="#step-4">4. Pipeline di Phase A: le 6 operazioni</a></li><li><a href="#step-5">5. Scelta delle feature</a></li><li><a href="#step-6">6. Calibrazione delle soglie</a></li><li><a href="#step-7">7. Il freeze del metodo</a></li><li><a href="#step-8">8. Dalle feature ai flag</a></li><li><a href="#step-9">9. Dai flag al JSON e al testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e test split</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Configurazioni informative e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
     </ol></details></li>
-    <li><details class="nav-phase" open><summary>Fase 2 — Replica confirmatory (Experiment 3 V2)</summary><ol>
+    <li><details class="nav-phase" open><summary><a href="#step-18">Fase 2</a></summary><ol>
       <li><a href="#step-18">18. Nuovo esperimento confermativo</a></li>
       <li><a href="#step-19">19. Nuovi run TEP</a></li>
       <li><a href="#step-20">20. Struttura Exp3</a></li>
@@ -131,7 +131,6 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
     </ol></details></li>
     <li><details class="nav-phase"><summary>Fase 3</summary><p class="nav-phase-empty">Contenuti da aggiungere.</p></details></li>
   </ol>
-  <p class="source"><a href="../README.md">Archivio pedagogico</a><br>Le fonti scientifiche frozen prevalgono.</p>
 </nav>
 <main id="main">
 <header>
@@ -552,7 +551,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 
 <div style="margin:40px 0;display:flex;align-items:center;gap:18px">
   <div style="flex:1;height:2px;background:linear-gradient(to right,var(--teal),transparent)"></div>
-  <div style="padding:10px 22px;border-radius:999px;background:linear-gradient(125deg,#123b56,#086e65);color:#fff;font-size:13px;font-weight:850;letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;box-shadow:0 4px 14px rgba(8,110,101,.25)">Fase 2 &mdash; Replica confirmatory · EXP3_V2</div>
+  <div style="padding:10px 22px;border-radius:999px;background:linear-gradient(125deg,#123b56,#086e65);color:#fff;font-size:13px;font-weight:850;letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;box-shadow:0 4px 14px rgba(8,110,101,.25)">Fase 2 &mdash; EXP3_V2</div>
   <div style="flex:1;height:2px;background:linear-gradient(to left,var(--teal),transparent)"></div>
 </div>
 
@@ -562,7 +561,8 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </div>
 
 <section id="step-18" data-step="18">
-  <div class="step-kicker">Step 18 / 24 <span class="phase-badge design">Esperimento confermativo su nuove realizzazioni simulate</span></div>
+  <div class="step-kicker">Step 18 / 24 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge design">Esperimento confermativo su nuove realizzazioni simulate</span></div>
+  <h2>Perché un esperimento confermativo su nuove realizzazioni simulate</h2>
   <h2>Esperimento confermativo su nuove realizzazioni simulate</h2>
   <p>Un held-out, per definizione, può essere aperto una sola volta: dopo che i risultati di Experiment 1 sono stati osservati, quei dati non sono più vergini rispetto all'ipotesi. Non è quindi possibile riusarli per rispondere alla domanda <em>«il risultato regge su realizzazioni fisiche diverse?»</em> senza introdurre un rischio di conferma post-hoc.</p>
   <p>Il rischio specifico da escludere non è il data leakage classico — il protocollo frozen lo controlla già — ma che le dodici realizzazioni fisiche del held-out di Experiment 1 abbiano caratteristiche idiosincratiche (pattern di rumore, transitori, derive di sensore) che hanno favorito il trasferimento in quel campione particolare, senza che il fenomeno sia riproducibile su run indipendenti delle stesse classi.</p>
@@ -570,14 +570,14 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-19" data-step="19">
-  <div class="step-kicker">Step 19 / 24 <span class="phase-badge offline">Nuovo held-out</span></div>
+  <div class="step-kicker">Step 19 / 24 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge offline">Nuovo held-out</span></div>
   <h2>Le nuove realizzazioni fisiche di EXP3_V2</h2>
   <p>Per costruire il nuovo held-out sono stati generati run TEP indipendenti degli stessi quattro tipi di guasto studiati in Experiment 1, più i casi Normal. I run sono stati congelati prima di qualsiasi inferenza, applicando la stessa logica freeze-before-test che ha governato la Fase 1: nessun dato del nuovo held-out ha influenzato feature, soglie, agenti o insight, che restano quelli di Experiment 1 senza ricalibrazione.</p>
   <div class="scroll"><table><caption class="panel-label">30 nuove realizzazioni simulate = 6 Normali + 6 run per ciascun fault</caption><thead><tr><th scope="col">Normal</th><th scope="col">F1</th><th scope="col">F8</th><th scope="col">F10</th><th scope="col">F13</th></tr></thead><tbody><tr><td>6 run</td><td>6 run</td><td>6 run</td><td>6 run</td><td>6 run</td></tr></tbody></table></div>
   <p>Il raddoppio rispetto ai 15 run di Experiment 1 (3 per classe) porta a 72 agent-case unseen, aumentando la potenza statistica del contrasto primario B−A senza modificare il disegno sperimentale.</p></section>
 
 <section id="step-20" data-step="20">
-  <div class="step-kicker">Step 20 / 24 <span class="phase-badge design">Disegno confirmatory frozen</span></div>
+  <div class="step-kicker">Step 20 / 24 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge design">Disegno confirmatory frozen</span></div>
   <h2>Il disegno confirmatory di EXP3_V2</h2>
   <p>Un disegno <strong>confirmatory frozen</strong> significa che ipotesi primaria, popolazione di analisi, contrasti e criteri di successo sono stati scritti prima di aprire i dati — e non possono essere modificati dopo aver visto i risultati. L'analisi è quindi eseguita una volta sola, sui record già congelati, senza margine di aggiustamento retroattivo.</p>
 
@@ -603,7 +603,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   </div></section>
 
 <section id="step-21" data-step="21">
-  <div class="step-kicker">Step 21 / 24</div>
+  <div class="step-kicker">Step 21 / 24 <span class="phase-badge runtime">Fase 2</span></div>
   <h2>Diagnosi di guasti non osservati localmente</h2>
 
   <p>L'endpoint primario riguarda esclusivamente i fault <strong>localmente unseen</strong>: <strong>24 run fisici indipendenti</strong> (sei per ciascuno dei quattro fault), ciascuno giudicato dai <strong>tre agenti</strong> che non conoscono localmente quel fault &rarr; <strong>72 agent-case per configurazione informativa</strong>. Le tre osservazioni sullo stesso run sono correlate: l'unit&agrave; indipendente &egrave; il <strong>run fisico (24)</strong>, non l'agent-case (72). Le predizioni sono gli aggregati frozen di R=3 chiamate; l'<strong>astensione conta come incorrect</strong>; gli intervalli derivano da un <strong>cluster bootstrap paired</strong> sui 24 run, stratificato per pseudolabel (10.000 draws, seed frozen 320031).</p>
@@ -680,7 +680,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-22" data-step="22">
-  <div class="step-kicker">Step 22 / 24</div>
+  <div class="step-kicker">Step 22 / 24 <span class="phase-badge runtime">Fase 2</span></div>
   <h2>B&minus;A primario e B&minus;E di supporto: differenze di accuratezza e intervalli di confidenza</h2>
 
   <h3>1 &middot; Tabella dei contrasti</h3>
@@ -732,7 +732,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-23" data-step="23">
-  <div class="step-kicker">Step 23 / 24</div>
+  <div class="step-kicker">Step 23 / 24 <span class="phase-badge runtime">Fase 2</span></div>
   <h2>Risultati secondari descrittivi</h2>
   <p>Le popolazioni local-seen, Normal e overall sono risultati secondari esclusivamente descrittivi e non aggiungono criteri inferenziali.</p>
   <div class="scroll">
@@ -784,7 +784,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-24" data-step="24">
-  <div class="step-kicker">Step 24 / 24 <span class="phase-badge offline">Interpretazione, limiti e provenienza frozen</span></div>
+  <div class="step-kicker">Step 24 / 24 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge offline">Interpretazione, limiti e provenienza frozen</span></div>
   <h2>Che cosa supporta la replica, e che cosa non dimostra</h2>
 
   <h3>1 &middot; Scope and limitations</h3>
@@ -808,7 +808,6 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <p>EXP3_V2 rafforza il risultato di Experiment 1 raddoppiando la dimensione campionaria e riproducendo l’effetto su realizzazioni fisiche indipendenti. Tuttavia, la degradazione local-seen (B: 19/24 vs A: 24/24) indica che gli insight peer possono interferire con il riconoscimento dei fault gi&agrave; noti in alcune combinazioni run&ndash;agente &mdash; un aspetto non emerso con il campione pi&ugrave; piccolo di Experiment 1.</p>
   <p>Questi risultati supportano la <strong>feasibility</strong> e la <strong>riproducibilit&agrave;</strong> del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico, non forniscono garanzie di privacy, n&eacute; stabiliscono superiorit&agrave; rispetto a una baseline centralizzata ICL a pari informazione. La validazione empirica sul fotovoltaico &egrave; la fase successiva.</p></div>
 
-  <p class="source">Fonti frozen: tag annotati <a href="https://github.com/sorrentinoluca/fot-phd/tree/exp3-v2-results-frozen-001"><code>exp3-v2-results-frozen-001</code></a> (risultati di valutazione) e <a href="https://github.com/sorrentinoluca/fot-phd/tree/exp3-v2-inference-frozen-001"><code>exp3-v2-inference-frozen-001</code></a> (record di inference). Nel tag i blob sono conservati sotto <code>evaluation_outputs/</code> e <code>inference_outputs/</code>; non sono materializzati nel branch corrente.</p>
 </section>
 
 <footer><p><a href="#main">Torna all'inizio</a> · <a href="../README.md">Indice explanation</a></p></footer>
@@ -823,7 +822,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   function reset(){if(mobile.matches)closeMobile();else{body.classList.remove('nav-open','nav-collapsed');render()}}
   toggle.addEventListener('click',()=>{if(mobile.matches){const opening=!body.classList.contains('nav-open');body.classList.toggle('nav-open',opening);body.classList.toggle('nav-collapsed',!opening);render();if(opening)links[0].focus()}else{body.classList.toggle('nav-collapsed');render()}});
   backdrop.addEventListener('click',()=>closeMobile(true));links.forEach(link=>link.addEventListener('click',()=>{if(mobile.matches)closeMobile()}));document.addEventListener('keydown',event=>{if(event.key==='Escape'&&mobile.matches&&body.classList.contains('nav-open'))closeMobile(true)});mobile.addEventListener('change',reset);
-  function updateCurrent(){const readingLine=window.innerHeight*.3;const active=sections.find(section=>{const box=section.getBoundingClientRect();return box.top<=readingLine&&box.bottom>readingLine})||sections[0];const step=active.dataset.step;current.textContent=step;links.forEach(link=>link.getAttribute('href')===`#step-${step}`?link.setAttribute('aria-current','step'):link.removeAttribute('aria-current'))}
+  function updateCurrent(){const readingLine=window.innerHeight*.3;const active=sections.find(section=>{const box=section.getBoundingClientRect();return box.top<=readingLine&&box.bottom>readingLine})||sections[0];const step=active.dataset.step;current.textContent=step;links.forEach(link=>{const isActive=link.getAttribute('href')===`#step-${step}`;link.toggleAttribute('aria-current',isActive);if(isActive)link.scrollIntoView({block:'nearest',inline:'nearest'})})}
   const observer=new IntersectionObserver(updateCurrent,{rootMargin:'-18% 0px -62% 0px',threshold:[0,.1]});
   sections.forEach(section=>observer.observe(section));window.addEventListener('scroll',updateCurrent,{passive:true});window.addEventListener('resize',updateCurrent);updateCurrent();reset();
 })();
