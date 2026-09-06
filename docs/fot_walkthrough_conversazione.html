@@ -100,7 +100,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 #step-21 .s17tag.pre,#step-22 .s17tag.pre,#step-23 .s17tag.pre{background:var(--teal-soft);color:#075f57}
 #step-21 .s17tag.post,#step-22 .s17tag.post,#step-23 .s17tag.post{background:#eef0f2;color:#5a6b76}
 .comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:18px 0}.comparison-grid .cg-header{background:var(--navy);color:#fff;padding:12px 16px;font-weight:850;text-align:center;font-size:15px}.comparison-grid .cg-cell{padding:10px 14px;border-bottom:1px solid var(--line);font-size:14px;line-height:1.55}.comparison-grid .cg-cell:nth-child(4n+3),.comparison-grid .cg-cell:nth-child(4n+4){background:#f8fafb}.comparison-grid .cg-label{font-weight:800;color:var(--navy);padding:10px 14px;border-bottom:1px solid var(--line);background:#edf3f6;grid-column:1/-1;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
-@media(max-width:900px){html{scroll-padding-top:76px}.topbar{padding:9px 14px}.layout{display:block;padding:14px 14px 44px}.js .guide-nav{position:fixed;z-index:70;left:0;top:0;width:min(86vw,340px);height:100vh;border-radius:0;transform:translateX(-105%);opacity:1;pointer-events:none;padding:72px 18px 25px;transition:transform .22s ease;overflow:auto}.js body.nav-open .guide-nav{transform:translateX(0);pointer-events:auto}.js body.nav-collapsed .guide-nav{opacity:1;border-width:1px;padding:72px 18px 25px}.js body.nav-open .nav-backdrop{display:block;position:fixed;z-index:60;inset:0;background:rgba(8,27,38,.48);border:0}main{max-width:100%}section{margin:16px 0}}
+#step-1 h3[id^="sub-1-"]{scroll-margin-top:84px}@media(max-width:900px){html{scroll-padding-top:76px}.topbar{padding:9px 14px}.layout{display:block;padding:14px 14px 44px}.js .guide-nav{position:fixed;z-index:70;left:0;top:0;width:min(86vw,340px);height:100vh;border-radius:0;transform:translateX(-105%);opacity:1;pointer-events:none;padding:72px 18px 25px;transition:transform .22s ease;overflow:auto}.js body.nav-open .guide-nav{transform:translateX(0);pointer-events:auto}.js body.nav-collapsed .guide-nav{opacity:1;border-width:1px;padding:72px 18px 25px}.js body.nav-open .nav-backdrop{display:block;position:fixed;z-index:60;inset:0;background:rgba(8,27,38,.48);border:0}main{max-width:100%}section{margin:16px 0}}
 @media(max-width:560px){body{font-size:16px}.progress-label{font-size:12px}.nav-toggle{padding:7px 9px}header{border-radius:13px}section{padding:22px 16px}.example{padding:18px 15px}.decision{grid-template-columns:1fr;gap:2px}.decision dd{margin-bottom:8px}.chain{align-items:stretch;flex-direction:column}.chain b{text-align:center}}
 @media print{.topbar,.guide-nav,.nav-backdrop,.skip{display:none!important}.layout{display:block;padding:0}.layout main{max-width:none}body{background:white;font-size:11pt}header,section{box-shadow:none}section{break-inside:auto}details>div{display:block!important}pre{white-space:pre-wrap}}
 </style>
@@ -118,15 +118,15 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <ol class="nav-root">
     <li><details class="nav-phase" open><summary><a href="#step-1">Fase 0</a></summary><ol>
       <li><a href="#step-1">1. Introduzione</a></li>
-      <li><a href="#step-1">1.2 Lessico operativo e unità di analisi</a></li>
-      <li><a href="#step-1">1.3 Obiettivi sperimentali</a></li>
-      <li><a href="#step-1">1.4 Review in sintesi</a></li>
-        <li><a href="#step-1">1.5 Critiche costruttive e limiti noti</a></li>
+      <li><a href="#sub-1-2">1.2 Lessico operativo e unità di analisi</a></li>
+      <li><a href="#sub-1-3">1.3 Obiettivi sperimentali</a></li>
+      <li><a href="#sub-1-4">1.4 Review in sintesi</a></li>
+        <li><a href="#sub-1-5">1.5 Critiche costruttive e limiti noti</a></li>
       </ol></details></li>
-    <li><details class="nav-phase" open><summary><a href="#step-2">Fase 1</a></summary><ol>
+    <li><details class="nav-phase"><summary><a href="#step-2">Fase 1</a></summary><ol>
       <li><a href="#step-2">2. Dataset</a></li><li><a href="#step-3">3. Analisi e split dei dataset</a></li><li><a href="#step-4">4. Pipeline di Phase A: le 6 operazioni</a></li><li><a href="#step-5">5. Scelta delle feature</a></li><li><a href="#step-6">6. Calibrazione delle soglie</a></li><li><a href="#step-7">7. Il freeze del metodo</a></li><li><a href="#step-8">8. Dalle feature ai flag</a></li><li><a href="#step-9">9. Dai flag al JSON e al testo</a></li><li><a href="#step-10">10. Evaluator Phase A</a></li><li><a href="#step-11">11. Validation e test split</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Configurazioni informative e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
     </ol></details></li>
-    <li><details class="nav-phase" open><summary><a href="#step-18">Fase 2</a></summary><ol>
+    <li><details class="nav-phase"><summary><a href="#step-18">Fase 2</a></summary><ol>
       <li><a href="#step-18">18. Nuovo esperimento confermativo</a></li>
       <li><a href="#step-19">19. Nuovi run TEP</a></li>
       <li><a href="#step-20">20. Struttura Exp3</a></li>
@@ -148,7 +148,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <p>L'obiettivo è esplorare una federazione in cui i siti non debbano centralizzare dati grezzi né scambiarsi necessariamente pesi o gradienti di un modello: ciascun nodo sintetizza conoscenza locale in <strong>testo strutturato</strong> e gli altri nodi la usano per ragionare. La ground truth entra soltanto nella valutazione offline; osservazione numerica, comunicazione testuale, insight e decisione restano separati, così che un buon testo non venga confuso con una diagnosi corretta.</p>
   <p>L'idea parte dal paradigma del lavoro <em>Federation over Text: Insight Sharing for Multi-Agent Reasoning</em> (Yao, Rabbani, Zaheer, Li — <a href="https://arxiv.org/abs/2604.16778">arXiv:2604.16778</a>, repo <a href="https://github.com/dixiyao/FoT">github.com/dixiyao/FoT</a>): agenti con LLM frozen distillano <em>reasoning trace</em> in insight, che vengono aggregati e ridistribuiti come testo, senza gradienti né fine-tuning. In quel lavoro originale il paradigma è applicato a task di reasoning testuale (matematica, QA, coding); qui viene portato su un dominio nuovo, la <strong>diagnosi di guasti su serie temporali</strong>.</p>
   <p>Come banco di prova controllato si usa il <strong>Tennessee Eastman Process (TEP)</strong>, un processo chimico simulato con fault noti e ground truth verificabile. I dati provengono dallo snapshot upstream <a href="https://github.com/mv-per/tennessee-eastman-dataset">github.com/mv-per/tennessee-eastman-dataset</a> (commit pinnato <code>309b944f</code>). TEP è un <strong>gate di fattibilità metodologica</strong>: permette di verificare il meccanismo FoT in condizioni note, non è la destinazione applicativa finale, che resta il fotovoltaico.</p>
-  <h3>1.2 Lessico operativo e unità di analisi</h3>
+  <h3 id="sub-1-2">1.2 Lessico operativo e unità di analisi</h3>
   <p>Nel paradigma FoT, la questione sperimentale non è soltanto se ciascun nodo sappia riconoscere ciò che ha già osservato, ma anche se possa utilizzare la conoscenza testuale prodotta da altri nodi per diagnosticare tipi di guasto assenti dalla propria esperienza locale.</p>
   <p>L’esperimento prevede quattro agenti, intesi come astrazioni di nodi diagnostici distribuiti. Ogni agente osserva l’andamento delle variabili misurate del processo, indicate come variabili XMEAS, e deve stabilire quale stato o tipo di guasto spieghi meglio il comportamento osservato. Gli agenti possiedono esperienze locali differenti: ciascuno dispone di conoscenze ricavate dai tipi di guasto osservati localmente.</p>
   <p>I tipi di guasto, denominati formalmente <em>fault classes</em>, sono F1, F8, F10 e F13. Per ciascun tipo vengono generate <em>K</em> realizzazioni simulate, cioè simulazioni indipendenti dello stesso guasto. Il valore di <em>K</em> può variare tra gli esperimenti ed è specificato nei passaggi corrispondenti.</p>
@@ -164,11 +164,11 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
     <li><strong>E</strong> funge da controllo della pertinenza dell’informazione: gli insight sono presenti, ma la loro associazione con i tipi di guasto viene deliberatamente alterata secondo la mappatura di controllo stabilita dal protocollo.</li>
   </ul>
   <p>Il confronto tra queste configurazioni informative permette di distinguere l’effetto della semplice presenza di testo dall’effetto prodotto da conoscenza pertinente al tipo di guasto.</p>
-  <h3>1.3 Obiettivi sperimentali</h3>
+  <h3 id="sub-1-3">1.3 Obiettivi sperimentali</h3>
   <p>L’obiettivo principale è verificare se la configurazione informativa <strong>B</strong> migliori, rispetto alla configurazione informativa <strong>A</strong>, la diagnosi delle realizzazioni <strong>local-unseen</strong>. Il confronto primario <strong>B−A</strong> valuta quindi se un agente possa utilizzare conoscenza condivisa per riconoscere un tipo di guasto che non ha incontrato nella propria esperienza locale.</p>
   <p>Il confronto <strong>B−E</strong> ha invece funzione di supporto e valuta la pertinenza dell’informazione, indicata formalmente come <em>specificità semantica</em>. Esso permette di verificare se l’eventuale beneficio dipenda dalla corretta relazione tra l’<strong>insight</strong> e il tipo di guasto, anziché dalla sola presenza di informazioni testuali. <strong>B−E</strong> non costituisce un secondo confronto primario.</p>
   <p>I meccanismi concreti con cui vengono costruite le configurazioni informative <strong>A</strong>, <strong>B</strong> ed <strong>E</strong> — la struttura del prompt, la federazione degli insight e la permutazione di controllo — sono descritti negli Step 15 e 16. Le popolazioni <strong>local-seen</strong>, <strong>Normal</strong> e overall rimangono descrittive e non introducono ulteriori obiettivi confermativi.</p>
-  <h3>1.4 Review in sintesi</h3>
+  <h3 id="sub-1-4">1.4 Review in sintesi</h3>
   <p>Una review mirata della letteratura, documentata nella <a href="lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md">gap analysis e related work</a>, ha esaminato l’intersezione tra federazione della conoscenza testuale, sistemi multi-agente, esperienze locali disgiunte per tipo di guasto e diagnosi di serie temporali multivariate.</p>
   <p>La ricerca ha compreso:</p>
   <ol>
@@ -183,7 +183,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <p>La conseguente affermazione di novità viene pertanto formulata in modo qualificato:</p>
   <blockquote><em>“To the best of our knowledge, no prior work federates locally-derived textual insights across distributed agents with class-disjoint experience to diagnose faults in multivariate time series.”</em></blockquote>
   <p>Questa conclusione non implica l’assenza assoluta di lavori non recuperati dalla ricerca. Definisce invece il gap emerso entro il perimetro documentato della review e motiva la domanda sperimentale affrontata dal progetto.</p>
-  <h3>1.5 Critiche costruttive e limiti noti</h3>
+  <h3 id="sub-1-5">1.5 Critiche costruttive e limiti noti</h3>
 
   <p>Le critiche che seguono sono dichiarate in anticipo perché derivano direttamente dalle scelte di design del progetto. Riconoscerle non riduce il valore della prova di fattibilità; lo circoscrive.</p>
 
@@ -851,7 +851,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   function reset(){if(mobile.matches)closeMobile();else{body.classList.remove('nav-open','nav-collapsed');render()}}
   toggle.addEventListener('click',()=>{if(mobile.matches){const opening=!body.classList.contains('nav-open');body.classList.toggle('nav-open',opening);body.classList.toggle('nav-collapsed',!opening);render();if(opening)links[0].focus()}else{body.classList.toggle('nav-collapsed');render()}});
   backdrop.addEventListener('click',()=>closeMobile(true));links.forEach(link=>link.addEventListener('click',()=>{if(mobile.matches)closeMobile()}));document.addEventListener('keydown',event=>{if(event.key==='Escape'&&mobile.matches&&body.classList.contains('nav-open'))closeMobile(true)});mobile.addEventListener('change',reset);
-  function updateCurrent(){const readingLine=window.innerHeight*.3;const active=sections.find(section=>{const box=section.getBoundingClientRect();return box.top<=readingLine&&box.bottom>readingLine})||sections[0];const step=active.dataset.step;current.textContent=step;links.forEach(link=>{const isActive=link.getAttribute('href')===`#step-${step}`;if(isActive){link.setAttribute('aria-current','step')}else{link.removeAttribute('aria-current')}})}
+  function updateCurrent(){const readingLine=window.innerHeight*.3;const active=sections.find(section=>{const box=section.getBoundingClientRect();return box.top<=readingLine&&box.bottom>readingLine})||sections[0];const step=active.dataset.step;current.textContent=step;if(step==='1'){const subs=[...document.querySelectorAll('#step-1 h3[id^="sub-1-"]')];let bestSub=null;for(const s of subs){if(s.getBoundingClientRect().top<=readingLine)bestSub=s}const bestHref=bestSub?'#'+bestSub.id:'#step-1';links.forEach(link=>{const href=link.getAttribute('href');const isPhase0=href==='#step-1'||href.startsWith('#sub-1-');if(isPhase0){if(href===bestHref){link.setAttribute('aria-current','step')}else{link.removeAttribute('aria-current')}}else{link.removeAttribute('aria-current')}})}else{links.forEach(link=>{const isActive=link.getAttribute('href')===`#step-${step}`;if(isActive){link.setAttribute('aria-current','step')}else{link.removeAttribute('aria-current')}})}}
   const observer=new IntersectionObserver(updateCurrent,{rootMargin:'-18% 0px -62% 0px',threshold:[0,.1]});
   sections.forEach(section=>observer.observe(section));window.addEventListener('scroll',updateCurrent,{passive:true});window.addEventListener('resize',updateCurrent);updateCurrent();reset();
 })();
