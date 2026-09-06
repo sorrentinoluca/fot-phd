@@ -252,39 +252,49 @@ def _is_transient(exc: Exception) -> bool:
     return False
 
 
-def _call_with_network_retry(
-    fn,
-    *,
-    max_retries: int = _MAX_NETWORK_RETRIES,
-):
-    """Call *fn* with exponential-backoff retry on transient errors.
+class _PerCallNetworkRetry:
+    """Context manager: wraps adapter.create_response with per-call network retry.
 
-    Returns ``(result, network_retries)`` where *network_retries* is a
-    list of per-retry provenance dicts (empty on first-try success).
+    Pushes network retry down to the individual API call level so that
+    structural retries inside ``execute_diagnostic`` are preserved when
+    a transient network error occurs mid-sequence.
     """
-    backoff = _INITIAL_BACKOFF_S
-    retries: list[dict[str, Any]] = []
-    for attempt in range(max_retries + 1):
-        try:
-            result = fn()
-            return result, retries
-        except Exception as exc:
-            if attempt == max_retries or not _is_transient(exc):
-                raise
-            retries.append({
-                "attempt": attempt,
-                "error_type": type(exc).__name__,
-                "error_message": str(exc),
-                "backoff_seconds": backoff,
-                "timestamp_iso": datetime.now(timezone.utc).isoformat(),
-            })
-            _log.warning(
-                "transient error (attempt %d/%d): %s — retrying in %.1fs",
-                attempt + 1, max_retries + 1, exc, backoff,
-            )
-            time.sleep(backoff)
-            backoff *= _BACKOFF_FACTOR
-    raise AssertionError("unreachable")  # pragma: no cover
+
+    def __init__(self, adapter: Any) -> None:
+        self._adapter = adapter
+        self._original = adapter.create_response
+        self.network_retries: list[dict[str, Any]] = []
+
+    def __enter__(self) -> "_PerCallNetworkRetry":
+        self._adapter.create_response = self._retrying_create_response
+        return self
+
+    def __exit__(self, *exc_info: Any) -> None:
+        self._adapter.create_response = self._original
+
+    def _retrying_create_response(self, **kwargs: Any) -> Any:
+        backoff = _INITIAL_BACKOFF_S
+        for attempt in range(_MAX_NETWORK_RETRIES + 1):
+            try:
+                return self._original(**kwargs)
+            except Exception as exc:
+                if attempt == _MAX_NETWORK_RETRIES or not _is_transient(exc):
+                    raise
+                self.network_retries.append({
+                    "attempt": attempt,
+                    "error_type": type(exc).__name__,
+                    "error_message": str(exc),
+                    "backoff_seconds": backoff,
+                    "timestamp_iso": datetime.now(timezone.utc).isoformat(),
+                })
+                _log.warning(
+                    "transient network error (attempt %d/%d): %s "
+                    "— retrying in %.1fs",
+                    attempt + 1, _MAX_NETWORK_RETRIES + 1, exc, backoff,
+                )
+                time.sleep(backoff)
+                backoff *= _BACKOFF_FACTOR
+        raise AssertionError("unreachable")  # pragma: no cover
 
 
 # ------------------------------------------------------------------
@@ -342,8 +352,8 @@ def run_c_inference(
             )
         rendered = prompt_cache[case_id]
 
-        execution, net_retry_details = _call_with_network_retry(
-            lambda: adapter.execute_diagnostic(
+        with _PerCallNetworkRetry(adapter) as _net_retry:
+            execution = adapter.execute_diagnostic(
                 prompt=rendered.text,
                 label_space=label_space,
                 allowed_insight_ids=allowed_insight_ids,
@@ -351,7 +361,7 @@ def run_c_inference(
                 schema=schema,
                 max_structural_retries=max_structural_retries,
             )
-        )
+        net_retry_details = _net_retry.network_retries
 
         result = execution.result
         provider_attempts = execution.provider_attempts

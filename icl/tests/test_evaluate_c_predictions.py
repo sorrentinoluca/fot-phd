@@ -1118,15 +1118,16 @@ class TestVerifyCPredictionsFreeze(unittest.TestCase):
             json.dumps(manifest), encoding="utf-8"
         )
 
-    def test_pass_hash_only(self) -> None:
+    def test_missing_record_count_raises(self) -> None:
+        """record_count is mandatory in a complete predictions manifest."""
         sha = self._write_records(3)
-        self._write_manifest(sha)
-        result = verify_c_predictions_freeze(
-            c_records_path=self.records_path,
-            manifest_path=self.manifest_path,
-        )
-        self.assertTrue(result["c_predictions_manifest_verified"])
-        self.assertEqual(result["c_records_sha256"], sha)
+        self._write_manifest(sha)  # no record_count
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_c_predictions_freeze(
+                c_records_path=self.records_path,
+                manifest_path=self.manifest_path,
+            )
+        self.assertIn("record_count", str(ctx.exception))
 
     def test_pass_with_record_count(self) -> None:
         sha = self._write_records(3)
@@ -1201,6 +1202,62 @@ class TestVerifyCPredictionsFreeze(unittest.TestCase):
                 manifest_path=self.manifest_path,
             )
         self.assertIn("invalid CRunRecord", str(ctx.exception))
+
+    def test_duplicate_sequence_index_raises(self) -> None:
+        """Duplicate sequence_index values are rejected."""
+        lines = []
+        for i in range(3):
+            rec = _make_c_record("PBH-001", repetition=(i % 3) + 1,
+                                 sequence_index=0)  # all index 0
+            lines.append(json.dumps(rec.to_dict(), ensure_ascii=False))
+        self.records_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        import hashlib as _hl
+        sha = _hl.sha256(self.records_path.read_bytes()).hexdigest()
+        self._write_manifest(sha, record_count=3)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_c_predictions_freeze(
+                c_records_path=self.records_path,
+                manifest_path=self.manifest_path,
+            )
+        self.assertIn("duplicate sequence_index", str(ctx.exception))
+
+    def test_sequence_index_gap_raises(self) -> None:
+        """Missing sequence indices (gaps) are rejected."""
+        lines = []
+        # Write indices 0, 1, 3 — missing 2
+        for i in [0, 1, 3]:
+            rec = _make_c_record("PBH-001", repetition=(i % 3) + 1,
+                                 sequence_index=i)
+            lines.append(json.dumps(rec.to_dict(), ensure_ascii=False))
+        self.records_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        import hashlib as _hl
+        sha = _hl.sha256(self.records_path.read_bytes()).hexdigest()
+        self._write_manifest(sha, record_count=3)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_c_predictions_freeze(
+                c_records_path=self.records_path,
+                manifest_path=self.manifest_path,
+            )
+        self.assertIn("completeness check failed", str(ctx.exception))
+
+    def test_sequence_completeness_pass(self) -> None:
+        """All sequence indices 0..N-1 present passes completeness."""
+        n = 5
+        lines = []
+        for i in range(n):
+            rec = _make_c_record("PBH-001", repetition=(i % 3) + 1,
+                                 sequence_index=i)
+            lines.append(json.dumps(rec.to_dict(), ensure_ascii=False))
+        self.records_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+        import hashlib as _hl
+        sha = _hl.sha256(self.records_path.read_bytes()).hexdigest()
+        self._write_manifest(sha, record_count=n)
+        result = verify_c_predictions_freeze(
+            c_records_path=self.records_path,
+            manifest_path=self.manifest_path,
+        )
+        self.assertTrue(result["c_predictions_manifest_verified"])
+        self.assertEqual(result["record_count"], n)
 
 
 class TestPipelineInvokesGuard(unittest.TestCase):

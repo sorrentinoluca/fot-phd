@@ -17,7 +17,7 @@ from icl.runner.run_c_inference import (
     DEFAULT_OUTPUT_PATH,
     FREEZE_MANIFEST_PATH,
     _build_raw_attempts,
-    _call_with_network_retry,
+    _PerCallNetworkRetry,
     _is_transient,
     load_existing_indices,
     run_c_inference,
@@ -98,6 +98,10 @@ class _MockAdapter:
     def __init__(self, model: str = "gpt-5.6-terra") -> None:
         self.requested_model = model
         self.call_count = 0
+
+    def create_response(self, **kwargs: Any) -> Any:
+        """Dummy create_response — required by _PerCallNetworkRetry."""
+        return None  # pragma: no cover
 
     def execute_diagnostic(
         self, *, prompt, label_space, allowed_insight_ids,
@@ -728,70 +732,117 @@ class TestIsTransient(unittest.TestCase):
 # Tests: _call_with_network_retry
 # ------------------------------------------------------------------
 
-class TestCallWithNetworkRetry(unittest.TestCase):
+class TestPerCallNetworkRetry(unittest.TestCase):
+    """Tests for _PerCallNetworkRetry (per-call network retry wrapper)."""
+
+    def _make_adapter(self) -> types.SimpleNamespace:
+        """Return a minimal adapter with a create_response method."""
+        adapter = types.SimpleNamespace()
+        adapter.create_response = lambda **kw: {"raw": "ok"}
+        return adapter
 
     def test_success_first_try(self) -> None:
-        result = _call_with_network_retry(lambda: 42, max_retries=3)
-        self.assertEqual(result[0], 42)
-        self.assertEqual(result[1], [])
+        adapter = self._make_adapter()
+        with _PerCallNetworkRetry(adapter) as nr:
+            result = adapter.create_response(prompt="hi")
+        self.assertEqual(result, {"raw": "ok"})
+        self.assertEqual(nr.network_retries, [])
 
     @patch("icl.runner.run_c_inference.time.sleep")
     def test_retries_on_transient(self, mock_sleep) -> None:
+        adapter = self._make_adapter()
         calls = {"n": 0}
-        def flaky():
+        original = adapter.create_response
+        def flaky(**kw):
             calls["n"] += 1
             if calls["n"] < 3:
                 raise ConnectionError("transient")
-            return "ok"
-        result = _call_with_network_retry(flaky, max_retries=4)
-        self.assertEqual(result[0], "ok")
-        self.assertIsInstance(result[1], list)
-        self.assertEqual(len(result[1]), 2)
-        # Each retry entry has required keys.
-        for entry in result[1]:
+            return original(**kw)
+        adapter.create_response = flaky
+        with _PerCallNetworkRetry(adapter) as nr:
+            result = adapter.create_response(prompt="test")
+        self.assertEqual(result, {"raw": "ok"})
+        self.assertEqual(len(nr.network_retries), 2)
+        for entry in nr.network_retries:
             self.assertIn("attempt", entry)
             self.assertIn("error_type", entry)
             self.assertIn("error_message", entry)
             self.assertIn("backoff_seconds", entry)
             self.assertIn("timestamp_iso", entry)
-        self.assertEqual(calls["n"], 3)
         self.assertEqual(mock_sleep.call_count, 2)
 
     @patch("icl.runner.run_c_inference.time.sleep")
     def test_gives_up_after_max_retries(self, mock_sleep) -> None:
-        def always_fail():
-            raise ConnectionError("down")
+        adapter = self._make_adapter()
+        adapter.create_response = lambda **kw: (_ for _ in ()).throw(
+            ConnectionError("down"))
         with self.assertRaises(ConnectionError):
-            _call_with_network_retry(always_fail, max_retries=2)
-        self.assertEqual(mock_sleep.call_count, 2)
+            with _PerCallNetworkRetry(adapter) as nr:
+                adapter.create_response(prompt="x")
 
     def test_propagates_non_transient(self) -> None:
-        def bad():
-            raise ValueError("not transient")
+        adapter = self._make_adapter()
+        adapter.create_response = lambda **kw: (_ for _ in ()).throw(
+            ValueError("not transient"))
         with self.assertRaises(ValueError):
-            _call_with_network_retry(bad, max_retries=3)
+            with _PerCallNetworkRetry(adapter) as nr:
+                adapter.create_response(prompt="x")
 
     @patch("icl.runner.run_c_inference.time.sleep")
     def test_exponential_backoff(self, mock_sleep) -> None:
+        adapter = self._make_adapter()
         calls = {"n": 0}
-        def flaky():
+        original = adapter.create_response
+        def flaky(**kw):
             calls["n"] += 1
             if calls["n"] < 4:
                 raise TimeoutError("slow")
-            return "done"
-        result = _call_with_network_retry(flaky, max_retries=4)
-        self.assertEqual(result[0], "done")
-        self.assertEqual(len(result[1]), 3)
-        # Verify backoff_seconds in retry entries: 2.0, 4.0, 8.0
-        backoffs = [e["backoff_seconds"] for e in result[1]]
+            return original(**kw)
+        adapter.create_response = flaky
+        with _PerCallNetworkRetry(adapter) as nr:
+            adapter.create_response(prompt="test")
+        self.assertEqual(len(nr.network_retries), 3)
+        backoffs = [e["backoff_seconds"] for e in nr.network_retries]
         self.assertAlmostEqual(backoffs[0], 2.0)
         self.assertAlmostEqual(backoffs[1], 4.0)
         self.assertAlmostEqual(backoffs[2], 8.0)
-        # Backoff: 2.0, 4.0, 8.0
         delays = [c[0][0] for c in mock_sleep.call_args_list]
         self.assertAlmostEqual(delays[0], 2.0)
         self.assertAlmostEqual(delays[1], 4.0)
         self.assertAlmostEqual(delays[2], 8.0)
+
+    def test_restores_original_on_exit(self) -> None:
+        adapter = self._make_adapter()
+        original = adapter.create_response
+        with _PerCallNetworkRetry(adapter):
+            self.assertIsNot(adapter.create_response, original)
+        self.assertIs(adapter.create_response, original)
+
+    @patch("icl.runner.run_c_inference.time.sleep")
+    def test_structural_retries_preserved(self, mock_sleep) -> None:
+        """Network retry wraps each create_response call individually,
+        so structural retries inside execute_diagnostic are preserved."""
+        adapter = self._make_adapter()
+        cr_calls = {"n": 0}
+        original = adapter.create_response
+        def flaky_cr(**kw):
+            cr_calls["n"] += 1
+            # Fail on the 2nd call with transient error, succeed on retry.
+            if cr_calls["n"] == 2:
+                raise ConnectionError("transient on 2nd structural attempt")
+            return original(**kw)
+        adapter.create_response = flaky_cr
+        # Simulate execute_diagnostic making 3 calls to create_response.
+        results = []
+        with _PerCallNetworkRetry(adapter) as nr:
+            results.append(adapter.create_response(prompt="call1"))
+            results.append(adapter.create_response(prompt="call2"))
+            results.append(adapter.create_response(prompt="call3"))
+        # All 3 calls succeeded (call2 was retried once).
+        self.assertEqual(len(results), 3)
+        self.assertEqual(len(nr.network_retries), 1)
+        # 4 total underlying calls: 1 + (1 fail + 1 retry) + 1
+        self.assertEqual(cr_calls["n"], 4)
 
 
 # ------------------------------------------------------------------

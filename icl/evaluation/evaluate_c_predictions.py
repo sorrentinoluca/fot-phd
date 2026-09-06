@@ -582,17 +582,21 @@ def verify_c_predictions_freeze(
             f"expected {expected[:16]}…, got {actual[:16]}…"
         )
 
-    expected_count = manifest.get("record_count")
-    if expected_count is not None:
-        actual_count = sum(
-            1 for line in rec_path.read_text(encoding="utf-8").strip().split("\n")
-            if line.strip()
+    # record_count is mandatory in a complete predictions manifest.
+    if "record_count" not in manifest:
+        raise RuntimeError(
+            "c_predictions_hash_manifest.json missing required key: record_count"
         )
-        if actual_count != expected_count:
-            raise RuntimeError(
-                f"c_records.jsonl record count mismatch: "
-                f"expected {expected_count}, got {actual_count}"
-            )
+    expected_count: int = manifest["record_count"]
+    actual_count = sum(
+        1 for line in rec_path.read_text(encoding="utf-8").strip().split("\n")
+        if line.strip()
+    )
+    if actual_count != expected_count:
+        raise RuntimeError(
+            f"c_records.jsonl record count mismatch: "
+            f"expected {expected_count}, got {actual_count}"
+        )
 
     # Parse and validate every record (P1-3: full record validation).
     raw_text = rec_path.read_text(encoding="utf-8")
@@ -606,10 +610,31 @@ def verify_c_predictions_freeze(
                 f"c_records.jsonl line {i}: invalid CRunRecord: {exc}"
             ) from exc
 
+    # Schedule completeness: every sequence_index 0..N-1 must appear
+    # exactly once (no gaps, no duplicates).
+    seen_indices: dict[int, int] = {}
+    for i, rec in enumerate(records):
+        idx = rec.sequence_index
+        if idx in seen_indices:
+            raise RuntimeError(
+                f"duplicate sequence_index {idx} at lines "
+                f"{seen_indices[idx]} and {i}"
+            )
+        seen_indices[idx] = i
+    expected_indices = set(range(expected_count))
+    actual_indices = set(seen_indices)
+    if actual_indices != expected_indices:
+        missing = sorted(expected_indices - actual_indices)
+        extra = sorted(actual_indices - expected_indices)
+        raise RuntimeError(
+            f"sequence_index completeness check failed: "
+            f"missing={missing}, extra={extra}"
+        )
+
     return {
         "c_predictions_manifest_verified": True,
         "c_records_sha256": actual,
-        "record_count": expected_count if expected_count is not None else len(records),
+        "record_count": expected_count,
         "verified_records": records,
     }
 
