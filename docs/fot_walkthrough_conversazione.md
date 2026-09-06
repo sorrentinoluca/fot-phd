@@ -34,7 +34,7 @@ Nel seguito, un **insight** è una breve unità di conoscenza testuale che sinte
 
 Le configurazioni informative **A**, **B** ed **E**, indicate formalmente nei protocolli come *conditions*, stabiliscono se gli insight vengono forniti e in quale relazione si trovano con il tipo di guasto da riconoscere:
 
-- **A** costituisce il riferimento senza insight condivisi;
+- **A** costituisce il riferimento senza insight — né peer né propri: l'agente usa soltanto i few-shot etichettati della propria esperienza locale, senza includere i propri insight generati localmente;
 - **B** mette a disposizione insight pertinenti al tipo di guasto da riconoscere;
 - **E** funge da controllo della pertinenza dell’informazione: gli insight sono presenti, ma la loro associazione con i tipi di guasto viene deliberatamente alterata secondo la mappatura di controllo stabilita dal protocollo.
 
@@ -87,10 +87,10 @@ Le configurazioni informative A, B ed E permettono di verificare internamente se
 
 Un confronto più completo dovrebbe comprendere almeno due piani di baseline:
 
-1. **Baseline interne al paradigma testuale** — un modello *local-only*, in cui ciascun agente usa l'LLM con la sola esperienza locale senza federazione, e un modello *centralized pooled*, in cui un singolo agente dispone dell'esperienza aggregata di tutti i nodi. Queste baseline verificherebbero se la federazione testuale superi sia l'isolamento sia la centralizzazione dei dati entro lo stesso paradigma.
-2. **Baseline esterne al paradigma** — metodi diagnostici convenzionali come PCA/DPCA, SVM o Random Forest, e tecniche propriamente federate come FedAvg o FedProx. Queste baseline verificherebbero se il paradigma testuale sia competitivo rispetto a quello numerico.
+1. **Baseline interna al paradigma testuale — centralized pooled.** Un singolo agente dispone dell'esperienza testuale aggregata di tutti i nodi: tutti gli esempi etichettati e tutti gli insight, senza la separazione imposta dalla federazione. Questa baseline verifica se la federazione testuale raggiunga una performance comparabile a quella di un contesto centralizzato con informazione completa, entro lo stesso paradigma (cfr. FedMD [Li & Wang, 2019] e FedCKD [Le et al., 2026] per i comparatori centralizzati nel FL parametrico; FoT [Yao et al., 2026] per il paradigma testuale originale, il cui ablation study rimuove la libreria degli insight senza un comparatore centralizzato esplicito). Una variante *local-only* — in cui ciascun agente usi i propri insight generati localmente senza federazione — non è inclusa come condizione separata: gli insight propri descrivono soltanto la classe di guasto già nota all'agente e non forniscono informazione sulle classi mancanti, cosicché sulle valutazioni *locally-unseen* il risultato atteso è D ≈ A ≈ 0; sulle valutazioni *local-seen* la configurazione A raggiunge già il ceiling osservato. Il valore sperimentale aggiunto di una condizione D sarebbe pertanto trascurabile.
+2. **Baseline esterne al paradigma** — metodi diagnostici convenzionali come PCA/DPCA, SVM o Random Forest, e tecniche propriamente federate come FedAvg o FedProx (cfr. la tassonomia non-IID di Li et al., ICDE 2022; il survey FL-FDD di Berghout et al., 2022; FedMeta-FFD di Chen et al., IEEE TNSE 2023 per il meta-learning federato su fault diagnosis). Queste baseline verificherebbero se il paradigma testuale sia competitivo rispetto a quello numerico.
 
-L'assenza di queste baseline non invalida l'esperimento: il progetto conserva valore come prova controllata del meccanismo, mostrando che insight testuali pertinenti possono aiutare gli agenti sui tipi di guasto assenti dalla loro esperienza locale. L'assenza limita però qualsiasi affermazione secondo cui FoT sia complessivamente migliore degli approcci diagnostici tradizionali o delle tecniche federate esistenti. I confronti primari A–B–E restano validi entro il loro perimetro: misurano l'effetto incrementale della federazione testuale, non la posizione assoluta di FoT nel panorama diagnostico.
+L'assenza di queste baseline non invalida l'esperimento: il progetto conserva valore come prova controllata del meccanismo, mostrando che insight testuali pertinenti possono aiutare gli agenti sui tipi di guasto assenti dalla loro esperienza locale. L'assenza limita però qualsiasi affermazione secondo cui FoT sia complessivamente migliore degli approcci diagnostici tradizionali o delle tecniche federate esistenti. I confronti primari A–B–E restano validi entro il loro perimetro: misurano l'effetto incrementale della federazione testuale, non la posizione assoluta di FoT nel panorama diagnostico. Una gap analysis sistematica della letteratura 2021–2026, documentata in [FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md](lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md) e nella [literature review estesa](lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md), conferma che nessun lavoro identificato combina simultaneamente trasferimento di conoscenza testuale, setting federato su serie temporali/FDD e classi localmente non viste sotto non-IID class-disjoint, e identifica il comparatore centralizzato come l'unica baseline interna con alto ritorno sperimentale.
 
 **Step 2 / 17(Ph.A)**
 
@@ -475,7 +475,7 @@ Una **configurazione informativa** è una versione controllata dello stesso agen
 >
 > | Configurazione informativa | Input oltre ai few-shot locali | Domanda controllata |
 > | --- | --- | --- |
-> | **A — isolated** | Nessun insight peer: solo conoscenza locale. | Che cosa fa l'agente senza federazione? |
+> | **A — isolated** | Nessun insight — né peer né propri: solo few-shot etichettati della propria esperienza locale, senza includere i propri insight generati localmente. | Che cosa fa l'agente senza federazione e senza insight? |
 > | **B — FoT** | 6 insight peer genuini, con pseudolabel corrette. | Che cosa aggiunge la conoscenza peer corretta? |
 > | **E — corrupted** | Gli stessi 6 insight di B: stessi ID, fonti, testi, ordine e volume; cambiano soltanto le pseudolabel, permutate. | Il beneficio dipende dall'associazione corretta o dalla sola presenza di più testo? |
 >
@@ -684,7 +684,7 @@ Il fatto che 33/36 decisioni unseen di B siano unanimi indica che, nel setup fro
 ### 6 · Scope and limitations
 
 - TEP è una POC metodologica controllata; il fotovoltaico è il dominio-obiettivo finale.
-- A è una baseline information-floor per la semantica delle classi localmente unseen.
+- A è una baseline information-floor per la semantica delle classi localmente unseen: non include nemmeno i propri insight generati localmente, che descrivono soltanto la classe già nota e non fornirebbero informazione sulle classi mancanti (D ≈ A sugli unseen).
 - Riconoscimento in spazio di pseudolabel chiuso, non diagnosi open-world.
 - Solo 12 cluster indipendenti.
 - Un solo simulatore/processo.
@@ -744,7 +744,7 @@ Un disegno **confirmatory frozen** significa che ipotesi primaria, popolazione d
 >
 > | Configurazione informativa | Che cosa riceve l'agente oltre ai few-shot locali |
 > | --- | --- |
-> | **A — isolated** | Nessun insight peer. Misura la performance senza alcuna federazione. |
+> | **A — isolated** | Nessun insight — né peer né propri: solo few-shot etichettati locali. Misura la performance senza alcuna federazione e senza insight. |
 > | **B — FoT** | 6 insight peer autentici, con associazioni semantiche corrette. |
 > | **E — corrupted** | Gli stessi 6 insight di B — stessi testi, stessi ID, stesso volume — ma con le pseudolabel permutate in modo che nessuna rimanga associata alla classe originale. |
 >
@@ -967,7 +967,7 @@ La tabella confronta i risultati dei due esperimenti sullo stesso disegno sperim
 ### 1 · Scope and limitations
 
 - TEP è una POC metodologica controllata; il fotovoltaico è il dominio-obiettivo finale.
-- A è una baseline information-floor per la semantica delle classi localmente unseen.
+- A è una baseline information-floor per la semantica delle classi localmente unseen: non include nemmeno i propri insight generati localmente, che descrivono soltanto la classe già nota e non fornirebbero informazione sulle classi mancanti (D ≈ A sugli unseen).
 - Riconoscimento in spazio di pseudolabel chiuso, non diagnosi open-world.
 - 24 cluster indipendenti (il doppio di Experiment 1, ma pur sempre un campione limitato).
 - Un solo simulatore/processo (TEP).
