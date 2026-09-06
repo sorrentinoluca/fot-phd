@@ -136,7 +136,7 @@ class TestMajorityVoting(unittest.TestCase):
     def test_unanimous(self) -> None:
         """3/3 same label → majority winner."""
         records = _triplet(labels=("CLS-ZOGAA", "CLS-ZOGAA", "CLS-ZOGAA"))
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertEqual(len(aggs), 1)
         self.assertEqual(aggs[0].parsed_output["predicted_label"], "CLS-ZOGAA")
         self.assertFalse(aggs[0].parsed_output["abstain"])
@@ -148,7 +148,7 @@ class TestMajorityVoting(unittest.TestCase):
     def test_two_of_three(self) -> None:
         """2/3 same label → majority winner."""
         records = _triplet(labels=("Normal", "CLS-OJNSG", "Normal"))
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertEqual(len(aggs), 1)
         self.assertEqual(aggs[0].parsed_output["predicted_label"], "Normal")
         self.assertFalse(aggs[0].parsed_output["abstain"])
@@ -158,7 +158,7 @@ class TestMajorityVoting(unittest.TestCase):
         records = _triplet(
             labels=("CLS-ZOGAA", "CLS-OJNSG", "CLS-R463B"),
         )
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertEqual(len(aggs), 1)
         self.assertIsNone(aggs[0].parsed_output["predicted_label"])
         self.assertTrue(aggs[0].parsed_output["abstain"])
@@ -173,7 +173,7 @@ class TestMajorityVoting(unittest.TestCase):
             labels=(None, None, None),
             abstains=(True, True, True),
         )
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertEqual(len(aggs), 1)
         self.assertTrue(aggs[0].parsed_output["abstain"])
         self.assertIsNone(aggs[0].parsed_output["predicted_label"])
@@ -184,7 +184,7 @@ class TestMajorityVoting(unittest.TestCase):
             labels=(None, "Normal", None),
             abstains=(True, False, True),
         )
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertTrue(aggs[0].parsed_output["abstain"])
 
     def test_one_abstain_two_agree(self) -> None:
@@ -193,7 +193,7 @@ class TestMajorityVoting(unittest.TestCase):
             labels=(None, "CLS-R463B", "CLS-R463B"),
             abstains=(True, False, False),
         )
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertEqual(
             aggs[0].parsed_output["predicted_label"], "CLS-R463B"
         )
@@ -205,7 +205,7 @@ class TestMajorityVoting(unittest.TestCase):
             labels=(None, "CLS-ZOGAA", "CLS-OJNSG"),
             abstains=(True, False, False),
         )
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertTrue(aggs[0].parsed_output["abstain"])
 
 
@@ -218,7 +218,7 @@ class TestParseFailure(unittest.TestCase):
             labels=(None, "Normal", "Normal"),
             parse_failures=(True, False, False),
         )
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertEqual(aggs[0].parsed_output["predicted_label"], "Normal")
 
     def test_two_parse_failures(self) -> None:
@@ -227,7 +227,7 @@ class TestParseFailure(unittest.TestCase):
             labels=(None, None, "CLS-Z3ISU"),
             parse_failures=(True, True, False),
         )
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertTrue(aggs[0].parsed_output["abstain"])
 
     def test_all_parse_failures(self) -> None:
@@ -236,7 +236,7 @@ class TestParseFailure(unittest.TestCase):
             labels=(None, None, None),
             parse_failures=(True, True, True),
         )
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertTrue(aggs[0].parsed_output["abstain"])
         self.assertEqual(
             aggs[0].parsed_output["reasoning_summary"],
@@ -249,7 +249,7 @@ class TestRepetitionOutcomes(unittest.TestCase):
 
     def test_outcomes_structure(self) -> None:
         records = _triplet(labels=("Normal", "CLS-ZOGAA", "Normal"))
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         outcomes = aggs[0].repetition_outcomes
         self.assertEqual(len(outcomes), 3)
         for i, out in enumerate(outcomes):
@@ -263,7 +263,7 @@ class TestRepetitionOutcomes(unittest.TestCase):
             labels=(None, "Normal", "Normal"),
             parse_failures=(True, False, False),
         )
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         outcomes = aggs[0].repetition_outcomes
         self.assertTrue(outcomes[0]["parse_failure"])
         self.assertFalse(outcomes[1]["parse_failure"])
@@ -272,7 +272,7 @@ class TestRepetitionOutcomes(unittest.TestCase):
     def test_outcome_labels_match_input(self) -> None:
         labels = ("CLS-ZOGAA", "CLS-OJNSG", "CLS-ZOGAA")
         records = _triplet(labels=labels)
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         for i, out in enumerate(aggs[0].repetition_outcomes):
             self.assertEqual(out["predicted_label"], labels[i])
             self.assertFalse(out["abstain"])
@@ -289,7 +289,7 @@ class TestMultipleCases(unittest.TestCase):
             _triplet("PBH-004", ("CLS-ZOGAA",) * 3, prompt_sha256=hash_a)
             + _triplet("PBH-001", ("Normal",) * 3, prompt_sha256=hash_b)
         )
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001", "PBH-004"})
         self.assertEqual(len(aggs), 2)
         self.assertEqual(aggs[0].physical_case_id, "PBH-001")
         self.assertEqual(aggs[1].physical_case_id, "PBH-004")
@@ -303,7 +303,7 @@ class TestMultipleCases(unittest.TestCase):
     def test_identity_fields(self) -> None:
         """agent_id and condition are always "central" / "C"."""
         records = _triplet()
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertEqual(aggs[0].agent_id, "central")
         self.assertEqual(aggs[0].condition, "C")
 
@@ -318,7 +318,7 @@ class TestValidationErrors(unittest.TestCase):
             _make_record(repetition=3, sequence_index=2),
         ]
         with self.assertRaises(ValueError) as ctx:
-            aggregate_c_records(records, expected_case_ids=None)
+            aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertIn("[1, 2, 3]", str(ctx.exception))
 
     def test_duplicate_repetition(self) -> None:
@@ -329,7 +329,7 @@ class TestValidationErrors(unittest.TestCase):
             _make_record(repetition=3, sequence_index=2),
         ]
         with self.assertRaises(ValueError) as ctx:
-            aggregate_c_records(records, expected_case_ids=None)
+            aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertIn("[1, 2, 3]", str(ctx.exception))
 
     def test_inconsistent_prompt_sha256(self) -> None:
@@ -342,7 +342,7 @@ class TestValidationErrors(unittest.TestCase):
             _make_record(repetition=3, prompt_sha256=hash_a, sequence_index=2),
         ]
         with self.assertRaises(ValueError) as ctx:
-            aggregate_c_records(records, expected_case_ids=None)
+            aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertIn("prompt_sha256", str(ctx.exception))
 
     def test_four_records_for_case(self) -> None:
@@ -352,7 +352,7 @@ class TestValidationErrors(unittest.TestCase):
             for r in [1, 2, 3, 3]
         ]
         with self.assertRaises(ValueError):
-            aggregate_c_records(records, expected_case_ids=None)
+            aggregate_c_records(records, expected_case_ids={"PBH-001"})
 
 
 class TestDictInput(unittest.TestCase):
@@ -360,7 +360,7 @@ class TestDictInput(unittest.TestCase):
 
     def test_from_dicts(self) -> None:
         records_as_dicts = [r.to_dict() for r in _triplet()]
-        aggs = aggregate_c_records(records_as_dicts, expected_case_ids=None)
+        aggs = aggregate_c_records(records_as_dicts, expected_case_ids={"PBH-001"})
         self.assertEqual(len(aggs), 1)
         self.assertEqual(aggs[0].parsed_output["predicted_label"], "Normal")
 
@@ -368,7 +368,7 @@ class TestDictInput(unittest.TestCase):
         """Mix of CRunRecord and dict is accepted."""
         triplet = _triplet()
         mixed: list[Any] = [triplet[0], triplet[1].to_dict(), triplet[2]]
-        aggs = aggregate_c_records(mixed, expected_case_ids=None)
+        aggs = aggregate_c_records(mixed, expected_case_ids={"PBH-001"})
         self.assertEqual(len(aggs), 1)
 
 
@@ -381,7 +381,7 @@ class TestCustomLabelSpace(unittest.TestCase):
         records = _triplet(
             labels=("Normal", "CLS-ZOGAA", "CLS-ZOGAA"),
         )
-        aggs = aggregate_c_records(records, label_space=["Normal"], expected_case_ids=None)
+        aggs = aggregate_c_records(records, label_space=["Normal"], expected_case_ids={"PBH-001"})
         # Only 1 vote for "Normal", 0 counted for CLS-ZOGAA → no majority.
         self.assertTrue(aggs[0].parsed_output["abstain"])
 
@@ -389,7 +389,7 @@ class TestCustomLabelSpace(unittest.TestCase):
         """Default label_space covers all five canonical labels."""
         for label in LABEL_SPACE:
             records = _triplet(labels=(label, label, label))
-            aggs = aggregate_c_records(records, expected_case_ids=None)
+            aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
             self.assertEqual(
                 aggs[0].parsed_output["predicted_label"], label
             )
@@ -442,7 +442,7 @@ class TestValidFlagExclusion(unittest.TestCase):
             repetition=3, predicted_label="CLS-ZOGAA", sequence_index=2,
         )
 
-        aggs = aggregate_c_records([r1, r2, r3], expected_case_ids=None)
+        aggs = aggregate_c_records([r1, r2, r3], expected_case_ids={"PBH-001"})
         self.assertEqual(len(aggs), 1)
         # CLS-ZOGAA has 2 valid votes → majority.
         self.assertEqual(aggs[0].parsed_output["predicted_label"], "CLS-ZOGAA")
@@ -508,7 +508,7 @@ class TestValidFlagExclusion(unittest.TestCase):
             stateless=True,
         )
 
-        aggs = aggregate_c_records([r1, r2, r3], expected_case_ids=None)
+        aggs = aggregate_c_records([r1, r2, r3], expected_case_ids={"PBH-001"})
         self.assertEqual(len(aggs), 1)
         # Only 1 valid vote — no majority → abstain.
         self.assertTrue(aggs[0].parsed_output["abstain"])
@@ -519,7 +519,7 @@ class TestOutputContract(unittest.TestCase):
 
     def test_majority_keys(self) -> None:
         records = _triplet()
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         keys = set(aggs[0].parsed_output)
         self.assertEqual(
             keys,
@@ -528,7 +528,7 @@ class TestOutputContract(unittest.TestCase):
 
     def test_no_majority_keys(self) -> None:
         records = _triplet(labels=("CLS-ZOGAA", "CLS-OJNSG", "CLS-R463B"))
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         keys = set(aggs[0].parsed_output)
         self.assertEqual(
             keys,
@@ -538,12 +538,12 @@ class TestOutputContract(unittest.TestCase):
     def test_used_insight_ids_empty_in_aggregate(self) -> None:
         """Aggregate always has empty used_insight_ids."""
         records = _triplet()
-        aggs = aggregate_c_records(records, expected_case_ids=None)
+        aggs = aggregate_c_records(records, expected_case_ids={"PBH-001"})
         self.assertEqual(aggs[0].parsed_output["used_insight_ids"], [])
 
     def test_empty_input(self) -> None:
         """No records → empty list (not an error)."""
-        aggs = aggregate_c_records([], expected_case_ids=None)
+        aggs = aggregate_c_records([], expected_case_ids=set())
         self.assertEqual(aggs, [])
 
 
@@ -581,12 +581,6 @@ class TestExpectedCaseIds(unittest.TestCase):
             )
         self.assertIn("extra", str(ctx.exception))
         self.assertIn("PBH-002", str(ctx.exception))
-
-    def test_none_skips_check(self) -> None:
-        """Without expected_case_ids, any set of cases is accepted."""
-        records = _triplet("PBH-001")
-        aggs = aggregate_c_records(records, expected_case_ids=None)
-        self.assertEqual(len(aggs), 1)
 
     def test_empty_expected_empty_records(self) -> None:
         """Both empty → no error, empty result."""

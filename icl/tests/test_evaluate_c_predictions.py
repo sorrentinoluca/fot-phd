@@ -1174,6 +1174,34 @@ class TestVerifyCPredictionsFreeze(unittest.TestCase):
                 manifest_path=self.tmpdir / "nonexistent.json",
             )
 
+    def test_verified_records_returned(self) -> None:
+        """P1-3: result includes parsed CRunRecord instances."""
+        sha = self._write_records(3)
+        self._write_manifest(sha, record_count=3)
+        result = verify_c_predictions_freeze(
+            c_records_path=self.records_path,
+            manifest_path=self.manifest_path,
+        )
+        self.assertIn("verified_records", result)
+        self.assertEqual(len(result["verified_records"]), 3)
+        for rec in result["verified_records"]:
+            self.assertIsInstance(rec, CRunRecord)
+
+    def test_invalid_record_raises(self) -> None:
+        """P1-3: a line that fails CRunRecord validation raises RuntimeError."""
+        # Write a valid-hash file with invalid record content.
+        bad_line = json.dumps({"agent_id": "wrong"})
+        self.records_path.write_text(bad_line + "\n", encoding="utf-8")
+        import hashlib as _hl
+        sha = _hl.sha256(self.records_path.read_bytes()).hexdigest()
+        self._write_manifest(sha, record_count=1)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_c_predictions_freeze(
+                c_records_path=self.records_path,
+                manifest_path=self.manifest_path,
+            )
+        self.assertIn("invalid CRunRecord", str(ctx.exception))
+
 
 class TestPipelineInvokesGuard(unittest.TestCase):
     """P1-5: evaluate_c_predictions must call verify_evaluator_freeze."""
@@ -1302,6 +1330,46 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
         )
         call_kwargs = mock_pred_guard.call_args
         self.assertEqual(call_kwargs[1]["manifest_path"], custom)
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+           return_value={"evaluator_manifest_verified": True})
+    def test_verified_records_used_over_c_records(self, mock_eval_guard, mock_pred_guard) -> None:
+        """P1-4: when verified_records is returned, pipeline uses it."""
+        verified = _all_correct_records()
+        mock_pred_guard.return_value = {
+            "c_predictions_manifest_verified": True,
+            "c_records_sha256": "a" * 64, "record_count": 45,
+            "verified_records": verified,
+        }
+        # Pass c_records=None — pipeline must use verified_records.
+        result = evaluate_c_predictions(
+            None,
+            case_truth=_CLASS_ASSIGNMENT,
+            agents_config=_AGENTS_CONFIG,
+            b_records=[],
+        )
+        self.assertAlmostEqual(
+            result["condition_c_metrics"]["overall"]["accuracy"], 1.0,
+        )
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+           return_value={"evaluator_manifest_verified": True})
+    def test_c_records_none_no_verified_raises(self, mock_eval_guard, mock_pred_guard) -> None:
+        """P1-4: c_records=None and no verified_records → ValueError."""
+        mock_pred_guard.return_value = {
+            "c_predictions_manifest_verified": True,
+            "c_records_sha256": "a" * 64, "record_count": 45,
+        }
+        with self.assertRaises(ValueError) as ctx:
+            evaluate_c_predictions(
+                None,
+                case_truth=_CLASS_ASSIGNMENT,
+                agents_config=_AGENTS_CONFIG,
+                b_records=[],
+            )
+        self.assertIn("No records available", str(ctx.exception))
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze")
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",

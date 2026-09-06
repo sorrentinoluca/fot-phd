@@ -19,7 +19,7 @@
     "reasoning_effort",
     "timestamp_iso",
     "stateless",
-    "network_retry_count"
+    "network_retries"
   ],
   "properties": {
     "agent_id": {
@@ -192,10 +192,42 @@
       "type": "boolean",
       "const": true
     },
-    "network_retry_count": {
-      "type": "integer",
-      "minimum": 0,
-      "description": "Number of transient network-level retries before the successful call"
+    "network_retries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "attempt",
+          "error_type",
+          "error_message",
+          "backoff_seconds",
+          "timestamp_iso"
+        ],
+        "properties": {
+          "attempt": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "error_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "error_message": {
+            "type": "string"
+          },
+          "backoff_seconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "timestamp_iso": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "default": [],
+      "description": "Per-retry provenance for transient network-level retries before the successful call"
     }
   }
 }

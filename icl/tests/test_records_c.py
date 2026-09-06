@@ -314,49 +314,89 @@ class TestInsightIdValidation(unittest.TestCase):
 
 
 
-class TestNetworkRetryCountValidation(unittest.TestCase):
-    """Validate network_retry_count field in CRunRecord."""
+class TestNetworkRetriesValidation(unittest.TestCase):
+    """Validate network_retries field (list of per-retry dicts) in CRunRecord."""
 
-    def test_valid_zero(self) -> None:
-        d = _valid_record_dict(network_retry_count=0)
-        record = CRunRecord.from_dict(d)
-        self.assertEqual(record.network_retry_count, 0)
+    def _valid_retry_entry(self, attempt: int = 0) -> dict:
+        return {
+            "attempt": attempt,
+            "error_type": "ConnectionError",
+            "error_message": "Connection refused",
+            "backoff_seconds": 2.0 * (2 ** attempt),
+            "timestamp_iso": "2026-09-06T12:00:00+00:00",
+        }
 
-    def test_valid_positive(self) -> None:
-        d = _valid_record_dict(network_retry_count=3)
-        record = CRunRecord.from_dict(d)
-        self.assertEqual(record.network_retry_count, 3)
-
-    def test_default_zero(self) -> None:
-        """Omitting network_retry_count defaults to 0."""
+    def test_default_empty_list(self) -> None:
+        """Omitting network_retries defaults to []."""
         d = _valid_record_dict()
         record = CRunRecord.from_dict(d)
-        self.assertEqual(record.network_retry_count, 0)
+        self.assertEqual(record.network_retries, [])
 
-    def test_reject_negative(self) -> None:
-        d = _valid_record_dict(network_retry_count=-1)
-        with self.assertRaises(ValueError) as ctx:
-            CRunRecord.from_dict(d)
-        self.assertIn('network_retry_count', str(ctx.exception))
-
-    def test_reject_non_int(self) -> None:
-        d = _valid_record_dict(network_retry_count=1.5)
-        with self.assertRaises(ValueError) as ctx:
-            CRunRecord.from_dict(d)
-        self.assertIn('network_retry_count', str(ctx.exception))
-
-    def test_reject_string(self) -> None:
-        d = _valid_record_dict(network_retry_count='0')
-        with self.assertRaises(ValueError) as ctx:
-            CRunRecord.from_dict(d)
-        self.assertIn('network_retry_count', str(ctx.exception))
+    def test_valid_with_retries(self) -> None:
+        retries = [self._valid_retry_entry(0), self._valid_retry_entry(1)]
+        d = _valid_record_dict(network_retries=retries)
+        record = CRunRecord.from_dict(d)
+        self.assertEqual(len(record.network_retries), 2)
 
     def test_roundtrip_preserves(self) -> None:
-        d = _valid_record_dict(network_retry_count=4)
+        retries = [self._valid_retry_entry(0)]
+        d = _valid_record_dict(network_retries=retries)
         record = CRunRecord.from_dict(d)
         line = record.to_jsonl_line()
         restored = CRunRecord.from_jsonl_line(line)
-        self.assertEqual(restored.network_retry_count, 4)
+        self.assertEqual(len(restored.network_retries), 1)
+        self.assertEqual(restored.network_retries[0]["attempt"], 0)
+
+    def test_reject_non_list(self) -> None:
+        d = _valid_record_dict(network_retries=3)
+        with self.assertRaises(ValueError) as ctx:
+            CRunRecord.from_dict(d)
+        self.assertIn('network_retries', str(ctx.exception))
+
+    def test_reject_entry_not_dict(self) -> None:
+        d = _valid_record_dict(network_retries=["not_a_dict"])
+        with self.assertRaises(ValueError) as ctx:
+            CRunRecord.from_dict(d)
+        self.assertIn('network_retries', str(ctx.exception))
+
+    def test_reject_missing_keys(self) -> None:
+        bad_entry = {"attempt": 0, "error_type": "ConnectionError"}
+        d = _valid_record_dict(network_retries=[bad_entry])
+        with self.assertRaises(ValueError) as ctx:
+            CRunRecord.from_dict(d)
+        self.assertIn('network_retries', str(ctx.exception))
+
+    def test_reject_negative_attempt(self) -> None:
+        entry = self._valid_retry_entry(0)
+        entry["attempt"] = -1
+        d = _valid_record_dict(network_retries=[entry])
+        with self.assertRaises(ValueError) as ctx:
+            CRunRecord.from_dict(d)
+        self.assertIn('network_retries', str(ctx.exception))
+
+    def test_reject_negative_backoff(self) -> None:
+        entry = self._valid_retry_entry(0)
+        entry["backoff_seconds"] = -1.0
+        d = _valid_record_dict(network_retries=[entry])
+        with self.assertRaises(ValueError) as ctx:
+            CRunRecord.from_dict(d)
+        self.assertIn('network_retries', str(ctx.exception))
+
+    def test_reject_bad_timestamp(self) -> None:
+        entry = self._valid_retry_entry(0)
+        entry["timestamp_iso"] = "not-a-date"
+        d = _valid_record_dict(network_retries=[entry])
+        with self.assertRaises(ValueError) as ctx:
+            CRunRecord.from_dict(d)
+        self.assertIn('network_retries', str(ctx.exception))
+
+    def test_reject_empty_error_type(self) -> None:
+        entry = self._valid_retry_entry(0)
+        entry["error_type"] = ""
+        d = _valid_record_dict(network_retries=[entry])
+        with self.assertRaises(ValueError) as ctx:
+            CRunRecord.from_dict(d)
+        self.assertIn('network_retries', str(ctx.exception))
 
 
 class TestCRunRecordSchema(unittest.TestCase):

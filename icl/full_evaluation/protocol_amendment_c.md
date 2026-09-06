@@ -46,7 +46,9 @@ In addition to structural retries, each LLM call is wrapped in a
 **network-level retry** layer: up to 4 retries on transient errors
 (connection failures, timeouts, HTTP 429/500/502/503/504), with
 exponential backoff starting at 2 s and a factor of 2.  Network retries
-are recorded in each `CRunRecord` via the `network_retry_count` field.
+are recorded in each `CRunRecord` via the `network_retries` field, which
+stores per-retry provenance (attempt index, error type, error message,
+backoff duration, and timestamp).
 
 "Full-information" refers to the union of prompt-facing frozen artifacts
 (labeled examples + textual insights), not to the totality of source texts.

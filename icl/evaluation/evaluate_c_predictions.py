@@ -35,7 +35,7 @@ from icl.evaluation.aggregation_c import (
     CAggregatePrediction,
     aggregate_c_records,
 )
-from icl.runner.records_c import LABEL_SPACE as _RECORD_LABEL_SPACE
+from icl.runner.records_c import CRunRecord, LABEL_SPACE as _RECORD_LABEL_SPACE
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -594,10 +594,23 @@ def verify_c_predictions_freeze(
                 f"expected {expected_count}, got {actual_count}"
             )
 
+    # Parse and validate every record (P1-3: full record validation).
+    raw_text = rec_path.read_text(encoding="utf-8")
+    lines = [ln for ln in raw_text.strip().split("\n") if ln.strip()]
+    records: list[CRunRecord] = []
+    for i, line in enumerate(lines):
+        try:
+            records.append(CRunRecord.from_jsonl_line(line))
+        except Exception as exc:
+            raise RuntimeError(
+                f"c_records.jsonl line {i}: invalid CRunRecord: {exc}"
+            ) from exc
+
     return {
         "c_predictions_manifest_verified": True,
         "c_records_sha256": actual,
-        "record_count": expected_count,
+        "record_count": expected_count if expected_count is not None else len(records),
+        "verified_records": records,
     }
 
 
@@ -606,7 +619,7 @@ def verify_c_predictions_freeze(
 # ------------------------------------------------------------------
 
 def evaluate_c_predictions(
-    c_records: list[Any],
+    c_records: list[Any] | None = None,
     *,
     case_truth: dict[str, str] | None = None,
     agents_config: dict[str, str] | None = None,
@@ -660,6 +673,17 @@ def evaluate_c_predictions(
         manifest_path=c_predictions_manifest_path,
     )
 
+    # Use records from verified file when available (P1-4: tie input
+    # to verified artifact).  Fall back to c_records parameter only
+    # when verify did not return parsed records (e.g. mocked in tests).
+    verified_records = predictions_integrity.pop("verified_records", None)
+    eval_records = verified_records if verified_records is not None else c_records
+    if eval_records is None:
+        raise ValueError(
+            "No records available: verify_c_predictions_freeze did not "
+            "return records and c_records was not provided"
+        )
+
     if label_space is None:
         label_space = set(_RECORD_LABEL_SPACE)
 
@@ -686,7 +710,7 @@ def evaluate_c_predictions(
 
     # Aggregate C records (completeness validated against truth keys).
     aggregates = aggregate_c_records(
-        c_records,
+        eval_records,
         label_space=label_space,
         expected_case_ids=set(case_truth),
     )

@@ -449,7 +449,7 @@ class TestRunCInference(unittest.TestCase):
         self.assertEqual(record["model_returned"], "gpt-5.6-terra")
         self.assertEqual(len(record["raw_attempts"]), 1)
         self.assertTrue(record["raw_attempts"][0]["parse_success"])
-        self.assertEqual(record["network_retry_count"], 0)
+        self.assertEqual(record["network_retries"], [])
 
     def test_all_records_stateless(self, mock_render) -> None:
         schedule = _make_schedule(1, 1)
@@ -732,7 +732,8 @@ class TestCallWithNetworkRetry(unittest.TestCase):
 
     def test_success_first_try(self) -> None:
         result = _call_with_network_retry(lambda: 42, max_retries=3)
-        self.assertEqual(result, (42, 0))
+        self.assertEqual(result[0], 42)
+        self.assertEqual(result[1], [])
 
     @patch("icl.runner.run_c_inference.time.sleep")
     def test_retries_on_transient(self, mock_sleep) -> None:
@@ -743,7 +744,16 @@ class TestCallWithNetworkRetry(unittest.TestCase):
                 raise ConnectionError("transient")
             return "ok"
         result = _call_with_network_retry(flaky, max_retries=4)
-        self.assertEqual(result, ("ok", 2))
+        self.assertEqual(result[0], "ok")
+        self.assertIsInstance(result[1], list)
+        self.assertEqual(len(result[1]), 2)
+        # Each retry entry has required keys.
+        for entry in result[1]:
+            self.assertIn("attempt", entry)
+            self.assertIn("error_type", entry)
+            self.assertIn("error_message", entry)
+            self.assertIn("backoff_seconds", entry)
+            self.assertIn("timestamp_iso", entry)
         self.assertEqual(calls["n"], 3)
         self.assertEqual(mock_sleep.call_count, 2)
 
@@ -770,7 +780,13 @@ class TestCallWithNetworkRetry(unittest.TestCase):
                 raise TimeoutError("slow")
             return "done"
         result = _call_with_network_retry(flaky, max_retries=4)
-        self.assertEqual(result, ("done", 3))
+        self.assertEqual(result[0], "done")
+        self.assertEqual(len(result[1]), 3)
+        # Verify backoff_seconds in retry entries: 2.0, 4.0, 8.0
+        backoffs = [e["backoff_seconds"] for e in result[1]]
+        self.assertAlmostEqual(backoffs[0], 2.0)
+        self.assertAlmostEqual(backoffs[1], 4.0)
+        self.assertAlmostEqual(backoffs[2], 8.0)
         # Backoff: 2.0, 4.0, 8.0
         delays = [c[0][0] for c in mock_sleep.call_args_list]
         self.assertAlmostEqual(delays[0], 2.0)

@@ -38,7 +38,7 @@ class CRunRecord:
     reasoning_effort: str
     timestamp_iso: str
     stateless: bool = True
-    network_retry_count: int = 0
+    network_retries: list[dict[str, Any]] = field(default_factory=list)
 
     def validate(self) -> None:
         # Identity
@@ -167,8 +167,43 @@ class CRunRecord:
             raise ValueError("timestamp_iso must include a timezone")
         if self.stateless is not True:
             raise ValueError("stateless must be true for Condition C")
-        if not isinstance(self.network_retry_count, int) or self.network_retry_count < 0:
-            raise ValueError("network_retry_count must be a non-negative integer")
+        # Network retries provenance (per-retry detail).
+        if not isinstance(self.network_retries, list):
+            raise ValueError("network_retries must be a list")
+        _nr_required = {"attempt", "error_type", "error_message",
+                        "backoff_seconds", "timestamp_iso"}
+        for i, nr in enumerate(self.network_retries):
+            if not isinstance(nr, dict):
+                raise ValueError(f"network_retries[{i}] must be a dict")
+            if set(nr) != _nr_required:
+                raise ValueError(
+                    f"network_retries[{i}] keys must be exactly "
+                    f"{sorted(_nr_required)}, got {sorted(nr)}"
+                )
+            if not isinstance(nr["attempt"], int) or nr["attempt"] < 0:
+                raise ValueError(
+                    f"network_retries[{i}].attempt must be a non-negative int"
+                )
+            if not isinstance(nr["error_type"], str) or not nr["error_type"].strip():
+                raise ValueError(
+                    f"network_retries[{i}].error_type must be a non-empty string"
+                )
+            if not isinstance(nr["error_message"], str):
+                raise ValueError(
+                    f"network_retries[{i}].error_message must be a string"
+                )
+            if not isinstance(nr["backoff_seconds"], (int, float)) or nr["backoff_seconds"] < 0:
+                raise ValueError(
+                    f"network_retries[{i}].backoff_seconds must be non-negative"
+                )
+            try:
+                datetime.fromisoformat(
+                    nr["timestamp_iso"].replace("Z", "+00:00")
+                )
+            except (ValueError, AttributeError) as exc:
+                raise ValueError(
+                    f"network_retries[{i}].timestamp_iso must be ISO-8601"
+                ) from exc
 
     def to_dict(self) -> dict[str, Any]:
         self.validate()

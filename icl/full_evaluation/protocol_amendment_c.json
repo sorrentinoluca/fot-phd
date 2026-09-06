@@ -96,7 +96,8 @@
         "TimeoutError",
         "OSError"
       ],
-      "tracked_in_record_field": "network_retry_count"
+      "tracked_in_record_field": "network_retries",
+      "tracked_in_record_format": "list of per-retry dicts with keys: attempt, error_type, error_message, backoff_seconds, timestamp_iso"
     }
   },
   "stateless_calls": true,

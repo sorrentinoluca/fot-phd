@@ -31,7 +31,7 @@ def aggregate_c_records(
     values: Iterable[CRunRecord | dict[str, Any]],
     *,
     label_space: Iterable[str] | None = None,
-    expected_case_ids: set[str] | None,
+    expected_case_ids: set[str],
 ) -> list[CAggregatePrediction]:
     """Aggregate Condition C run records via R=3 majority voting.
 
@@ -69,16 +69,15 @@ def aggregate_c_records(
         )
         groups[record.physical_case_id].append(record)
 
-    # --- validate completeness (when expected set provided) ---
-    if expected_case_ids is not None:
-        actual_ids = set(groups)
-        if actual_ids != expected_case_ids:
-            missing = sorted(expected_case_ids - actual_ids)
-            extra = sorted(actual_ids - expected_case_ids)
-            raise ValueError(
-                f"aggregate completeness check failed: "
-                f"missing={missing}, extra={extra}"
-            )
+    # --- validate completeness (mandatory) ---
+    actual_ids = set(groups)
+    if actual_ids != expected_case_ids:
+        missing = sorted(expected_case_ids - actual_ids)
+        extra = sorted(actual_ids - expected_case_ids)
+        raise ValueError(
+            f"aggregate completeness check failed: "
+            f"missing={missing}, extra={extra}"
+        )
 
     # --- aggregate each group ---
     aggregates: list[CAggregatePrediction] = []
