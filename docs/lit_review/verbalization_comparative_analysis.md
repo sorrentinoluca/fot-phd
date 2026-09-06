@@ -29,12 +29,19 @@ Dalla literature review emergono tre macro-categorie di approcci, ciascuna con u
 | Categoria | Approcci | Principio |
 |---|---|---|
 | **A. Codifica Numerica Diretta** | LLMTime, PromptCast | I numeri stessi diventano token testuali |
-| **B. Allineamento Latente** | Time-LLM, TEST, S²IP-LLM | Embedding delle serie temporali nello spazio semantico dell'LLM |
-| **C. Generazione Descrittiva** | TSLM, BEDTime, Chronicle, GPT4MTS | Un modello produce descrizioni in linguaggio naturale |
+| **B. Allineamento Latente** | Time-LLM, TEST, S²IP-LLM, CLaSP (Ito et al. 2025) | Embedding delle serie temporali nello spazio semantico dell'LLM (o allineamento contrastivo TS↔NL) |
+| **C. Generazione Descrittiva / Captioning** | TSLM, BEDTime, Chronicle, GPT4MTS, T3 (Sharma et al. 2021), Repr2Seq (Li et al. 2023), TADACap (Fons et al. 2024) | Un modello produce descrizioni in linguaggio naturale; sotto-filone *truth-conditional* (TRUCE, Jhamtani 2021) che vincola la generazione a pattern verificati |
+| **D. Data-to-Text Deterministico / Linguistico** | Fuzzy D2T (Ramos-Soto et al. 2017), ICA2TEXT (Cascallar-Fuentes et al. 2022) | NLG basata su regole/fuzzy logic senza componenti appresi: dati → regole linguistiche → testo strutturato |
+| **E. Rappresentazione Simbolica** | ESAX+BoW (Zhao et al. 2022), SAX_HAR-LLM (Pappa et al. 2026), HSQP (Abdullahi et al. 2026) | Serie → token simbolici (SAX/ESAX/quantizzazione gerarchica) → feature o input per LLM |
+| **F. LLM per Diagnosi da Segnali** | FD-LLM (Qaid et al. 2024), FD-LLM (Lin et al. 2025), LLM-TSFD | LLM come classificatore/diagnosticatore su feature o serializzazioni di TS |
 
-Il progetto FoT-TEP non rientra in nessuna di queste tre categorie. Introduce una **quarta strategia** che definiamo:
+Le categorie A–C e F erano già identificate nella versione precedente di questa analisi. Le categorie **D** (D2T deterministico) e **E** (simbolico) emergono dalla matrice comparativa strutturata (`FoT_literature_review.xlsx`) e completano il panorama con approcci che condividono con il progetto FoT-TEP la filosofia del determinismo e dell'assenza di modelli appresi nella fase di trasformazione.
 
-> **D. Verbalizzazione Strutturata Domain-Driven**: le serie temporali vengono prima ridotte a feature statistiche interpretabili tramite regole deterministiche domain-specific, poi le feature vengono rese in linguaggio naturale tramite un renderer basato su template. Non c'è alcun modello appreso nel processo di verbalizzazione.
+Il progetto FoT-TEP non rientra in nessuna di queste sei categorie. Introduce una **settima strategia** che definiamo:
+
+> **G. Verbalizzazione Strutturata Domain-Driven**: le serie temporali vengono prima ridotte a feature statistiche interpretabili tramite regole deterministiche domain-specific, poi le feature vengono rese in linguaggio naturale tramite un renderer basato su template. Non c'è alcun modello appreso nel processo di verbalizzazione.
+
+Il progetto eredita da **D** il determinismo e le regole, da **E** la riduzione a rappresentazione intermedia interpretabile, e da **C** (filone truth-conditional) l'obiettivo della fedeltà fattuale — combinandoli con calibrazione statistica formale (soglie conformal, α=0.05), semantica temporale strutturata (fasi, run, persistenza) e separazione esplicita verbalizzazione/diagnosi.
 
 ---
 
@@ -53,6 +60,16 @@ Il progetto FoT-TEP non rientra in nessuna di queste tre categorie. Introduce un
 | **Chronicle** | Tokenizzazione unificata numeri+testo | Pre-training congiunto | Non deterministico |
 | **GPT4MTS** | Dual encoding numerico+testuale con cross-attention | Cross-attention appresa | Non deterministico |
 | **LLM-TSFD** | Feature statistiche → template testuali → LLM | Nessuno nel verbalizzatore | Deterministico |
+| **TRUCE** (Jhamtani 2021) | Programmi eseguiti sulla serie → caption condizionato ai risultati verificati | Decoder neurale con vincolo truth-conditional | Semi-deterministico (vincolo di fedeltà) |
+| **T3** (Sharma 2021) | Serie → knowledge graph denso → narrazione via PLM | PLM + knowledge graph | Non deterministico |
+| **Repr2Seq** (Li 2023) | Representation learning della serie → decoder neurale → testo | Encoder+decoder appresi end-to-end | Non deterministico |
+| **TADACap** (Fons 2024) | Retrieval-based captioning domain-aware su immagini di serie | Retrieval adattivo (no retraining) | Semi-deterministico |
+| **CLaSP** (Ito 2025) | Contrastive learning TS↔descrizioni NL (stile CLIP) | Apprendimento contrastivo | Non deterministico |
+| **Fuzzy D2T** (Ramos-Soto 2017) | Dati → insiemi fuzzy → regole linguistiche → testo | Nessuno (regole) | **Deterministico** |
+| **ICA2TEXT** (Cascallar-Fuentes 2022) | Dati qualità dell'aria → NLG linguistico deterministico | Nessuno (regole) | **Deterministico** |
+| **ESAX+BoW** (Zhao 2022) | Extremum-SAX → stringhe simboliche → bag-of-words → feature (Laplacian score) | Nessuno (simbolico) | **Deterministico** |
+| **SAX_HAR-LLM** (Pappa 2026) | SAX → token ordinati + descrittori cinematici → LLM fine-tuned | Fine-tuning LLM | Semi-deterministico (SAX deterministico, LLM no) |
+| **HSQP** (Abdullahi 2026) | Tokenizzazione gerarchica simbolica+quantizzata → plug-and-play su LLM frozen | Nessuno nel tokenizzatore | **Deterministico** (tokenizzazione) |
 | **FoT-TEP V2** | Feature statistiche + soglie congelate → renderer neutrale | **Nessuno** | **Completamente deterministico** |
 
 **Osservazione critica**: Il progetto FoT-TEP condivide la filosofia di LLM-TSFD (estrazione di feature → template testuali → ragionamento LLM) ma va significativamente oltre in tre aspetti:
@@ -71,6 +88,13 @@ Il progetto FoT-TEP non rientra in nessuna di queste tre categorie. Introduce un
 | **TEST** | Segmenti di serie temporale | Monovariata per segmento | Assente |
 | **TSLM** | Intera serie temporale | Monovariata | Tendenze globali |
 | **LLM-TSFD** | Feature aggregate | Multivariata | Aggregata, no finestre |
+| **TRUCE** | Intera serie + programmi | Monovariata | Pattern verificati (no fasi) |
+| **T3** | Intera serie → knowledge graph | Multi-dominio | Grafo, no fasi strutturate |
+| **Fuzzy D2T** | Dati aggregati per periodo | Multivariata (business) | Periodi (no fasi formali) |
+| **ICA2TEXT** | Dati ambientali per periodo | Multivariata (qualità aria) | Periodi |
+| **ESAX+BoW** | Serie → segmenti SAX | Monovariata (vibrazione) | Implicita (segmenti) |
+| **SAX_HAR-LLM** | Serie → token SAX + cinematici | Multivariata (inerziale) | Token ordinati temporalmente |
+| **HSQP** | Serie → token gerarchici | Monovariata per benchmark | Implicita (posizionale) |
 | **FoT-TEP V2** | **Feature per finestra per variabile** | **41 variabili simultanee** | **Tre fasi + run + episodi** |
 
 Il progetto FoT-TEP opera a una granularità senza precedenti nella letteratura: 41 variabili × 8 finestre × 5 feature = **1.640 valori** ridotti a una struttura intermedia di 697 componenti normalizzate (per l'evaluator) e a un testo di circa 100–200 parole (per il renderer). Nessun altro approccio gestisce simultaneamente questo volume di informazione multivariata con semantica temporale strutturata.
@@ -132,6 +156,32 @@ La scelta architetturale del progetto di rendere il verbalizzatore *completament
 
 Questa separazione è cruciale per l'architettura federata: il testo scambiato tra agenti è **evidenza**, non diagnosi. Ogni agente riceve le stesse osservazioni neutrali e applica il proprio ragionamento diagnostico, permettendo il dibattito multi-agente (Du et al., 2024) su interpretazioni diverse della stessa evidenza.
 
+### 3.6 Fedeltà Garantita
+
+Una dimensione cruciale emersa dalla matrice comparativa strutturata è la **garanzia di fedeltà** — ovvero se l'approccio può produrre descrizioni fattuali errate (allucinazioni) o se la corrispondenza testo↔dati è assicurata per costruzione.
+
+| Approccio | Fedeltà garantita? | Meccanismo |
+|---|---|---|
+| **LLMTime** | Sì (triviale) | I numeri sono copiati, non interpretati |
+| **PromptCast** | Sì (triviale) | Template fissi con valori inline |
+| **TRUCE** | Mira alla fedeltà | Vincolo truth-conditional appreso (riduce errori fattuali, ma non li elimina) |
+| **T3** | No | Privilegia ricchezza vs fedeltà; grafo intermedio non garantisce correttezza |
+| **Repr2Seq** | No | End-to-end appreso, nessuna garanzia |
+| **TADACap** | No | Captioning ricco, non fedele per costruzione |
+| **Time-LLM / TEST / S²IP-LLM** | No | Allineamento latente: il testo è uno spazio di proiezione, non una descrizione |
+| **TSLM / Chronicle / GPT4MTS** | No | Generazione libera con rischio di allucinazione |
+| **CLaSP** | N/A | Retrieval, non generazione di testo |
+| **Fuzzy D2T** | **Sì (regole)** | Le regole linguistiche producono solo affermazioni derivate dai dati |
+| **ICA2TEXT** | **Sì (regole)** | NLG deterministico, output vincolato dalle regole |
+| **ESAX+BoW** | **Sì (simbolico)** | Produce vettori numerici/simbolici, non testo libero |
+| **SAX_HAR-LLM** | Parziale | SAX deterministico e fedele; LLM fine-tuned non garantisce fedeltà |
+| **HSQP** | Sì (tokenizzazione) | Tokenizzazione deterministica; il reasoner a valle può sbagliare |
+| **LLM-TSFD** | Sì (per la fase di estrazione) | Feature deterministiche; template con indicatori diagnostici (non neutrali) |
+| **FD-LLM (Qaid / Lin)** | No | LLM classificatore; nessuna garanzia strutturale |
+| **FoT-TEP V2** | **Sì, per costruzione** | Nessuna generazione libera; renderer deterministico con vocabolario controllato e soglie calibrate |
+
+**Osservazione chiave**: la fedeltà garantita è una proprietà rara nella letteratura. Solo gli approcci a regole/template (Fuzzy D2T, ICA2TEXT, LLM-TSFD, FoT-TEP) e quelli puramente simbolici (ESAX+BoW, HSQP) la possiedono. Il progetto FoT-TEP si distingue ulteriormente perché combina fedeltà garantita con **calibrazione statistica formale** delle soglie — i sistemi D2T a regole (Fuzzy D2T, ICA2TEXT) usano tipicamente soglie manuali o predefinite dal dominio, non derivate quantitativamente dai dati.
+
 ---
 
 ## 4. Posizionamento Rispetto ai Framework della Letteratura
@@ -181,6 +231,51 @@ Il paper "Federation over Text" (arXiv:2604.16778) — presente nella cartella `
 - Il paper non specifica *come* produrre gli insight da dati numerici → il verbalizzatore V2 fornisce questa risposta per il dominio delle serie temporali industriali.
 - La neutralità del testo prodotto è coerente con la filosofia federata: agenti diversi possono applicare ragionamenti diagnostici diversi sulla stessa evidenza testuale.
 
+### 4.5 Rispetto ai Sistemi D2T Deterministici e alle Rappresentazioni Simboliche
+
+La matrice comparativa strutturata ha evidenziato due filoni — **D2T deterministico/linguistico** (Fuzzy D2T, ICA2TEXT) e **rappresentazioni simboliche** (ESAX+BoW, SAX_HAR-LLM, HSQP) — che condividono con il progetto FoT-TEP la filosofia del determinismo senza modelli appresi, ma con differenze sostanziali.
+
+**Rispetto al D2T deterministico (Fuzzy D2T, ICA2TEXT):**
+
+| Aspetto | Fuzzy D2T / ICA2TEXT | FoT-TEP V2 |
+|---|---|---|
+| Regole | Fuzzy sets / regole linguistiche manuali | Feature statistiche + soglie calibrate (conformal, α=0.05) |
+| Dominio | Business intelligence / qualità dell'aria | Serie temporali industriali multivariate (41 var.) |
+| Semantica temporale | Periodi, nessuna logica di persistenza | Fasi + run + episodi + drift coerente |
+| Output | Testo con interpretazioni di dominio | Testo puramente osservazionale (neutro) |
+| Congelamento | Non previsto | Hash SHA-256 + protocollo formale |
+
+Il Fuzzy D2T (Ramos-Soto et al. 2017) è il **prior art più diretto** per il verbalizzatore deterministico: è NLG basato su regole senza componenti appresi, produce testo da dati strutturati. La differenza chiave è che il FoT-TEP **calibra le soglie statisticamente** anziché definirle manualmente, e mantiene il testo **neutrale** (senza interpretazioni di dominio) per alimentare il ragionamento dell'LLM a valle.
+
+**Rispetto alle rappresentazioni simboliche (ESAX+BoW, SAX_HAR-LLM, HSQP):**
+
+| Aspetto | ESAX+BoW / SAX_HAR-LLM / HSQP | FoT-TEP V2 |
+|---|---|---|
+| Rappresentazione intermedia | Simboli SAX / token discreti | Feature statistiche continue normalizzate |
+| Output | Vettori numerici (BoW) o token per LLM | Testo in linguaggio naturale |
+| Leggibilità umana | Bassa (simboli opachi) | Alta (testo osservazionale) |
+| Auditabilità | Media (ESAX), alta per SAX_HAR-LLM (attention ↔ assi) | Alta (flag→conteggi tracciabili) |
+| Dominio | Vibrazione meccanica / HAR inerziale | Processo chimico multivariato |
+
+SAX_HAR-LLM (Pappa et al. 2026) è particolarmente rilevante: dimostra che un'interfaccia simbolica interpretabile TS→LLM è un'architettura praticabile, con enfasi sull'auditabilità (Elsevier, peer-reviewed). ESAX+BoW (Zhao et al. 2022) formalizza la catena feature→simboli→conteggi che è affine al nostro Step 9 (conteggi di soglia per variabile). HSQP (Abdullahi et al. 2026) propone una tokenizzazione standard plug-and-play per alimentare un reasoner LLM frozen — filosofia vicina al nostro verbalizzatore come modulo indipendente dal reasoner.
+
+### 4.6 Lezioni Operative dalla Letteratura per il Progetto
+
+Dall'analisi comparativa strutturata emergono indicazioni concrete per possibili evoluzioni del verbalizzatore:
+
+| Paper | Lezione operativa | Rilevanza | Rischio / trade-off |
+|---|---|---|---|
+| **TRUCE** (Jhamtani 2021) | Formalizzare la "fedeltà" come criterio esplicito e misurabile del verbalizzatore | Alta | È appresa → rischio residuo di allucinazione; non fedele-by-construction |
+| **ESAX+BoW** (Zhao 2022) | Formalizzare la catena feature→simboli→conteggi (affine al nostro Step 9) | Alta | Produce vettori numerici, non testo neutrale leggibile |
+| **SAX_HAR-LLM** (Pappa 2026) | Interfaccia simbolica interpretabile TS→LLM con enfasi auditabilità | Alta | Fine-tuning LLM; costo/accuratezza; non frozen |
+| **FD-LLM** (Qaid 2024) | Opzione (b) feature statistiche tempo/frequenza → LLM = comparatore diretto della pipeline Phase A→B | Alta | LLM classificatore, non testo neutrale |
+| **CLaSP** (Ito 2025) | Separabilità concetto↔descrizione: rafforza il Step 10 (signature/separabilità) | Media | Non genera testo; è retrieval, non verbalizzazione |
+| **Kawarada et al.** (2024) | Ottimizzare la selezione degli esempi few-shot locali (criterio Pearson > Euclidea) per Phase B | Media | Non tocca Phase A; pertinente al few-shot in-context |
+| **Fuzzy D2T** (Ramos-Soto 2017) | Prior art diretto del verbalizzatore deterministico (posizionamento di filone) | Alta | Dominio non-sensoristico; abstract da verificare su full-text |
+| **T3** (Sharma 2021) | Idea del grafo di conoscenza intermedio per strutturare l'evidenza prima del testo | Media | Abbandona template → perde determinismo e neutralità |
+| **HSQP** (Abdullahi 2026) | Tokenizzazione standard per alimentare un reasoner frozen | Media | Obiettivo forecasting, non generazione di testo |
+| **TADACap** (Fons 2024) | Adattamento a nuovo dominio senza retraining (utile per TEP→PV) | Bassa | Opera su immagini di serie; captioning ricco, non fedele |
+
 ---
 
 ## 5. Punti di Forza e Limitazioni
@@ -227,15 +322,41 @@ Questa posizione è complementare, non antagonista, rispetto agli approcci con c
 
 ## 7. Tabella Riassuntiva
 
-| Dimensione | FoT-TEP V2 | LLMTime | PromptCast | Time-LLM | TEST | TSLM | LLM-TSFD |
-|---|---|---|---|---|---|---|---|
-| Apprendimento | Nessuno | Nessuno | Fine-tuning | Proiezione | Proiezione | Enc+Dec | Nessuno |
-| Determinismo | Completo | Dipende da LLM | Parziale | No | No | No | Parziale |
-| Multivariata | 41 var. | Mono | Mono | Mono | Mono | Mono | Multi |
-| Semantica temp. | Fasi+run+persist. | Nessuna | Timestamp | Patch | Nessuna | Globale | Assente |
-| Neutralità | Totale | N/A | N/A | N/A | Implicita | Variabile | Parziale |
-| Dominio | Integrato | Assente | Minimo | Prototipi | Prototipi | Appreso | Template |
-| Congelamento | SHA-256+protocollo | No | No | No | No | No | No |
-| Fed. ready | Progettato | No | Parziale | No | Parziale | Sì | No |
-| Feature freq. | No | N/A | N/A | Implicite | Implicite | Implicite | Sì |
-| Riproducibilità | Totale | Bassa | Media | Bassa | Bassa | Bassa | Media |
+| Dimensione | FoT-TEP V2 | LLMTime | PromptCast | Time-LLM | TEST | TSLM | LLM-TSFD | Fuzzy D2T | ESAX+BoW | SAX_HAR-LLM | TRUCE |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Apprendimento | Nessuno | Nessuno | Fine-tuning | Proiezione | Proiezione | Enc+Dec | Nessuno | Nessuno | Nessuno | Fine-tuning LLM | Neurale vincolato |
+| Determinismo | Completo | Dipende da LLM | Parziale | No | No | No | Parziale | **Completo** | **Completo** | Parziale | Parziale |
+| Multivariata | 41 var. | Mono | Mono | Mono | Mono | Mono | Multi | Multi | Mono | Multi (inerziale) | Mono |
+| Semantica temp. | Fasi+run+persist. | Nessuna | Timestamp | Patch | Nessuna | Globale | Assente | Periodi | Segmenti | Token ordinati | Pattern verificati |
+| Neutralità | Totale | N/A | N/A | N/A | Implicita | Variabile | Parziale | No (interpreta) | N/A (numerico) | Parziale | Alta (truth-cond.) |
+| Fedeltà garant. | **Sì** | Sì (triviale) | Sì (triviale) | No | No | No | Sì (estraz.) | **Sì** | **Sì** | Parziale | Mira a sì |
+| Dominio | Integrato | Assente | Minimo | Prototipi | Prototipi | Appreso | Template | Regole fuzzy | Simbolico | Cinematico | Programmi |
+| Congelamento | SHA-256+protocollo | No | No | No | No | No | No | No | No | No | No |
+| Fed. ready | Progettato | No | Parziale | No | Parziale | Sì | No | No | No | No | No |
+| Feature freq. | No | N/A | N/A | Implicite | Implicite | Implicite | Sì | No | No | No | No |
+| Riproducibilità | Totale | Bassa | Media | Bassa | Bassa | Bassa | Media | Alta | Alta | Media | Media |
+| Leggib. umana | Alta | Bassa | Media | Nulla | Nulla | Alta | Media | Alta | Bassa | Media | Alta |
+
+---
+
+## 8. Fonti della Matrice Comparativa
+
+I paper aggiuntivi integrati in questa analisi (sezioni 2, 3.1, 3.2, 3.6, 4.5, 4.6) provengono dalla matrice comparativa strutturata `FoT_literature_review.xlsx` (ricerca del 2026-09-02, 15 paper schedati). I metadati bibliografici (titolo, autori, anno, venue, DOI) sono fattuali e derivati da Scopus e OpenAlex. Le colonne analitiche (rilevanza, lezioni operative, rischi) sono valutazioni del progetto.
+
+**Paper della matrice XLSX integrati in questa revisione:**
+
+| # | Paper | Anno | Venue | DOI | Categoria |
+|---|---|---|---|---|---|
+| 1 | Truth-Conditional Captions (Jhamtani; Berg-Kirkpatrick) | 2021 | EMNLP | 10.18653/v1/2021.emnlp-main.55 | C (captioning fedele) |
+| 2 | T3: Domain-Agnostic Neural TS Narration (Sharma et al.) | 2021 | IEEE ICDM | 10.1109/ICDM51629.2021.00165 | C (generazione descrittiva) |
+| 3 | Repr2Seq (Li et al.) | 2023 | IJCNN | 10.1109/IJCNN54540.2023.10191421 | C (generazione descrittiva) |
+| 4 | Demonstration Selection for TS D2T (Kawarada et al.) | 2024 | EMNLP Findings | 10.18653/v1/2024.findings-emnlp.435 | In-context selection |
+| 5 | TADACap (Fons et al.) | 2024 | ACM ICAIF | 10.1145/3677052.3698690 | C (captioning adattivo) |
+| 6 | CLaSP (Ito et al.) | 2025 | EUSIPCO | 10.23919/EUSIPCO63237.2025.11226094 | B (allineamento contrastivo) |
+| 7 | Fuzzy D2T (Ramos-Soto; Bugarín et al.) | 2017 | AISC (Springer) | 10.1007/978-3-319-66827-7_20 | D (D2T deterministico) |
+| 8 | ICA2TEXT (Cascallar-Fuentes et al.) | 2022 | CEUR | — (no DOI) | D (D2T deterministico) |
+| 9 | ESAX+BoW (Zhao et al.) | 2022 | IEEE TIM | 10.1109/TIM.2022.3185658 | E (simbolico/fault) |
+| 10 | SAX_HAR-LLM (Pappa et al.) | 2026 | Expert Syst. w/ Appl. | 10.1016/j.eswa.2026.133478 | E (simbolico → LLM) |
+| 11 | HSQP (Abdullahi et al.) | 2026 | IEEE Access | 10.1109/ACCESS.2026.3674765 | E (simbolico/quantizzato) |
+| 12 | FD-LLM (Qaid et al.) | 2024 | arXiv | 10.48550/arXiv.2412.01218 | F (LLM diagnosi) |
+| 13 | FD-LLM (Lin et al.) | 2025 | Adv. Eng. Informatics | 10.1016/j.aei.2025.103208 | F (LLM diagnosi) |

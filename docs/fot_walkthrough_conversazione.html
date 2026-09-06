@@ -109,7 +109,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 <a class="skip" href="#main">Vai al contenuto</a>
 <div class="topbar">
   <button id="nav-toggle" class="nav-toggle" type="button" aria-controls="guide-nav" aria-expanded="true"><span class="icon" aria-hidden="true">☰</span><span id="nav-label">Nascondi indice</span></button>
-  <span class="progress-label" aria-live="polite">Step <span id="current-step">1</span> / 24</span>
+  <span class="progress-label" aria-live="polite">Step <span id="current-step">1</span> / 25</span>
 </div>
 <button id="nav-backdrop" class="nav-backdrop" type="button" aria-label="Chiudi indice"></button>
 <div class="layout">
@@ -135,7 +135,9 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
       <li><a href="#step-23">23. Risultati secondari descrittivi</a></li>
       <li><a href="#step-24">24. Interpretazione e limiti</a></li>
     </ol></details></li>
-    <li><details class="nav-phase"><summary><a href="#main">Fase 3</a></summary><p class="nav-phase-empty">Contenuti da aggiungere.</p></details></li>
+    <li><details class="nav-phase"><summary><a href="#step-25">Fase 3</a></summary><ol>
+      <li><a href="#step-25">25. Intro preliminare</a></li>
+    </ol></details></li>
   </ol>
 </nav>
 <main id="main">
@@ -591,7 +593,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </div>
 
 <section id="step-18" data-step="18">
-  <div class="step-kicker">Step 18 / 24 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge design">Esperimento confermativo su nuove realizzazioni simulate</span></div>
+  <div class="step-kicker">Step 18 / 25 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge design">Esperimento confermativo su nuove realizzazioni simulate</span></div>
   <h2>Esperimento confermativo su nuove realizzazioni simulate</h2>
   <p>Un held-out, per definizione, può essere aperto una sola volta: dopo che i risultati di Experiment 1 sono stati osservati, quei dati non sono più vergini rispetto all'ipotesi. Non è quindi possibile riusarli per rispondere alla domanda <em>«il risultato regge su realizzazioni fisiche diverse?»</em> senza introdurre un rischio di conferma post-hoc.</p>
   <p>Il rischio specifico da escludere non è il data leakage classico — il protocollo frozen lo controlla già — ma che le dodici realizzazioni fisiche del held-out di Experiment 1 abbiano caratteristiche idiosincratiche (pattern di rumore, transitori, derive di sensore) che hanno favorito il trasferimento in quel campione particolare, senza che il fenomeno sia riproducibile su run indipendenti delle stesse classi.</p>
@@ -599,14 +601,14 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-19" data-step="19">
-  <div class="step-kicker">Step 19 / 24 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge offline">Nuovo held-out</span></div>
+  <div class="step-kicker">Step 19 / 25 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge offline">Nuovo held-out</span></div>
   <h2>Le nuove realizzazioni fisiche di EXP3_V2</h2>
   <p>Per costruire il nuovo held-out sono stati generati run TEP indipendenti degli stessi quattro tipi di guasto studiati in Experiment 1, più i casi Normal. I run sono stati congelati prima di qualsiasi inferenza, applicando la stessa logica freeze-before-test che ha governato la Fase 1: nessun dato del nuovo held-out ha influenzato feature, soglie, agenti o insight, che restano quelli di Experiment 1 senza ricalibrazione.</p>
   <div class="scroll"><table><caption class="panel-label">30 nuove realizzazioni simulate = 6 Normali + 6 run per ciascun fault</caption><thead><tr><th scope="col">Normal</th><th scope="col">F1</th><th scope="col">F8</th><th scope="col">F10</th><th scope="col">F13</th></tr></thead><tbody><tr><td>6 run</td><td>6 run</td><td>6 run</td><td>6 run</td><td>6 run</td></tr></tbody></table></div>
   <p>Il raddoppio rispetto ai 15 run di Experiment 1 (3 per classe) porta a 72 agent-case unseen, aumentando la potenza statistica del contrasto primario B−A senza modificare il disegno sperimentale.</p></section>
 
 <section id="step-20" data-step="20">
-  <div class="step-kicker">Step 20 / 24 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge design">Disegno confirmatory frozen</span></div>
+  <div class="step-kicker">Step 20 / 25 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge design">Disegno confirmatory frozen</span></div>
   <h2>Il disegno confirmatory di EXP3_V2</h2>
   <p>Un disegno <strong>confirmatory frozen</strong> significa che ipotesi primaria, popolazione di analisi, contrasti e criteri di successo sono stati scritti prima di aprire i dati — e non possono essere modificati dopo aver visto i risultati. L'analisi è quindi eseguita una volta sola, sui record già congelati, senza margine di aggiustamento retroattivo.</p>
 
@@ -632,7 +634,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   </div></section>
 
 <section id="step-21" data-step="21">
-  <div class="step-kicker">Step 21 / 24 <span class="phase-badge runtime">Fase 2</span></div>
+  <div class="step-kicker">Step 21 / 25 <span class="phase-badge runtime">Fase 2</span></div>
   <h2>Diagnosi di guasti non osservati localmente</h2>
 
   <p>L'endpoint primario riguarda esclusivamente i fault <strong>localmente unseen</strong>: <strong>24 run fisici indipendenti</strong> (sei per ciascuno dei quattro fault), ciascuno giudicato dai <strong>tre agenti</strong> che non conoscono localmente quel fault &rarr; <strong>72 agent-case per configurazione informativa</strong>. Le tre osservazioni sullo stesso run sono correlate: l'unit&agrave; indipendente &egrave; il <strong>run fisico (24)</strong>, non l'agent-case (72). Le predizioni sono gli aggregati frozen di R=3 chiamate; l'<strong>astensione conta come incorrect</strong>; gli intervalli derivano da un <strong>cluster bootstrap paired</strong> sui 24 run, stratificato per pseudolabel (10.000 draws, seed frozen 320031).</p>
@@ -709,7 +711,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-22" data-step="22">
-  <div class="step-kicker">Step 22 / 24 <span class="phase-badge runtime">Fase 2</span></div>
+  <div class="step-kicker">Step 22 / 25 <span class="phase-badge runtime">Fase 2</span></div>
   <h2>B&minus;A primario e B&minus;E di supporto: differenze di accuratezza e intervalli di confidenza</h2>
 
   <h3>1 &middot; Tabella dei contrasti</h3>
@@ -761,7 +763,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-23" data-step="23">
-  <div class="step-kicker">Step 23 / 24 <span class="phase-badge runtime">Fase 2</span></div>
+  <div class="step-kicker">Step 23 / 25 <span class="phase-badge runtime">Fase 2</span></div>
   <h2>Risultati secondari descrittivi</h2>
   <p>Le popolazioni local-seen, Normal e overall sono risultati secondari esclusivamente descrittivi e non aggiungono criteri inferenziali.</p>
   <div class="scroll">
@@ -813,7 +815,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-24" data-step="24">
-  <div class="step-kicker">Step 24 / 24 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge offline">Interpretazione, limiti e provenienza frozen</span></div>
+  <div class="step-kicker">Step 24 / 25 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge offline">Interpretazione, limiti e provenienza frozen</span></div>
   <h2>Che cosa supporta la replica, e che cosa non dimostra</h2>
 
   <h3>1 &middot; Scope and limitations</h3>
@@ -839,6 +841,33 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 
 </section>
 
+
+<div style="display:flex;align-items:center;gap:14px;margin:38px 0 0">
+  <div style="flex:1;height:2px;background:linear-gradient(to right,var(--teal),transparent)"></div>
+  <div style="padding:10px 22px;border-radius:999px;background:linear-gradient(125deg,#123b56,#086e65);color:#fff;font-size:13px;font-weight:850;letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;box-shadow:0 4px 14px rgba(8,110,101,.25)">Fase 3 &mdash; Portabilit&agrave; cross-model &middot; EXP2</div>
+  <div style="flex:1;height:2px;background:linear-gradient(to left,var(--teal),transparent)"></div>
+</div>
+
+<div class="orientation">
+  <p><strong>Dalla Fase 2 alla Fase 3.</strong> Experiment 1 ha stabilito l&rsquo;effetto di trasferimento e la sua specificit&agrave; semantica; Experiment 3 (Fase 2) lo ha replicato su realizzazioni fisiche indipendenti. Entrambi, per&ograve;, hanno utilizzato un unico reasoning model (<code>gpt-5.6-terra</code>) sia per produrre gli insight sia per consumarli in fase di classificazione. Resta aperta una domanda: <em>la conoscenza testuale congelata &egrave; accoppiata al reasoner che l&rsquo;ha generata, oppure pu&ograve; essere consumata utilmente da modelli diversi?</em></p>
+</div>
+
+<section id="step-25" data-step="25">
+  <div class="step-kicker">Step 25 / 25 <span class="phase-badge runtime">Fase 3</span> <span class="phase-badge design">Portabilit&agrave; cross-model</span></div>
+  <h2>Intro preliminare</h2>
+
+  <p>La distinzione chiave &egrave; tra <strong>producer</strong> e <strong>consumer</strong>. Il producer &mdash; il modello che ha generato gli insight a partire dai casi development/calibration &mdash; rimane <code>gpt-5.6-terra</code> e non viene variato: gli insight peer restano quelli frozen di Experiment 1, byte per byte. Ci&ograve; che varia &egrave; esclusivamente il consumer, cio&egrave; il reasoning model che riceve il caso da classificare, gli esempi locali few-shot e gli insight federati e deve produrre la pseudolabel finale. Experiment 2 testa quindi la <strong>portabilit&agrave; cross-model della conoscenza testuale congelata</strong>: la stessa evidenza, la stessa conoscenza, gli stessi casi &mdash; un reasoner diverso.</p>
+
+  <p>Tutti gli altri elementi sperimentali sono mantenuti identici: held-out frozen di Experiment 1, verbalizer V2, pseudolabel opache, configurazioni informative A/B/E, prompt, regola di aggregazione, evaluator e bootstrap. In questo modo, qualsiasi variazione osservata pu&ograve; essere attribuita al cambio del consumer e non a differenze nei dati o nella conoscenza trasferita.</p>
+
+  <p>La scelta dei reasoner include almeno un modello <strong>open-weight</strong>, che serve anche da ancora di riproducibilit&agrave;: un risultato replicabile con pesi pubblici e inferenza deterministica (temperature&nbsp;0, seed fisso) &egrave; pi&ugrave; difficile da contestare di uno ottenuto esclusivamente con API proprietarie. L&rsquo;aggiunta di un secondo modello di famiglia diversa dall&rsquo;originale rafforza ulteriormente la claim.</p>
+
+  <p>La research question di Experiment 2 &egrave;:</p>
+  <blockquote><em>Does the transfer effect and its semantic specificity persist when the same frozen peer textual knowledge is consumed by different reasoning models?</em></blockquote>
+
+  <p>Un risultato positivo fornirebbe evidenza che la conoscenza testuale prodotta nel setting FoT non &egrave; accoppiata al reasoner originale &mdash; propriet&agrave; rilevante per la praticabilit&agrave; del meccanismo, che si aggancia al risultato <em>weak-to-strong in text space</em> della letteratura. Tuttavia, poich&eacute; il producer degli insight non viene variato e l&rsquo;held-out &egrave; lo stesso di Experiment 1, la claim resta circoscritta alla portabilit&agrave; del consumo: parlare di &laquo;model-generality end-to-end&raquo; richiederebbe variare anche la produzione. Experiment 2 &egrave; quindi complementare a Experiment 3 (Fase 2): l&agrave; cambiavano i dati fisici a parit&agrave; di reasoner, qui cambia il reasoner a parit&agrave; di dati e conoscenza.</p>
+
+</section>
 <footer><p><a href="#main">Torna all'inizio</a> · <a href="../README.md">Indice explanation</a></p></footer>
 </main></div>
 <script>
