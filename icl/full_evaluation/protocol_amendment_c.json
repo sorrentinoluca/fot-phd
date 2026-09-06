@@ -114,7 +114,13 @@
     "evaluator_side_manifest": "icl/full_evaluation/freeze_manifest_evaluator.json",
     "runner_accesses_evaluator_manifest": false,
     "evaluator_modifies_inference_artifacts": false,
-    "ground_truth_join_after_all_predictions_frozen": true
+    "ground_truth_join_after_all_predictions_frozen": true,
+    "predictions_manifest": "icl/full_evaluation/c_predictions_manifest.json",
+    "predictions_manifest_required_keys": [
+      "c_records_sha256",
+      "record_count",
+      "schedule_reference"
+    ]
   },
   "evaluation": {
     "metrics": [

@@ -59,9 +59,9 @@ EVALUATOR_FREEZE_MANIFEST_PATH = (
     ROOT / "icl" / "full_evaluation" / "freeze_manifest_evaluator.json"
 )
 C_RECORDS_PATH = ROOT / "icl" / "inference" / "c_records.jsonl"
+C_SCHEDULE_PATH = ROOT / "icl" / "full_evaluation" / "c_schedule.json"
 C_PREDICTIONS_MANIFEST_PATH = (
-    ROOT / "icl" / "full_evaluation" / "predictions"
-    / "c_predictions_hash_manifest.json"
+    ROOT / "icl" / "full_evaluation" / "c_predictions_manifest.json"
 )
 
 ABSTAIN_TOKEN = "__ABSTAIN__"
@@ -559,21 +559,38 @@ def verify_c_predictions_freeze(
     *,
     c_records_path: Path | None = None,
     manifest_path: Path | None = None,
-    root: Path = ROOT,
+    schedule_path: Path | None = None,
 ) -> dict[str, Any]:
     """Verify c_records.jsonl integrity against its predictions manifest.
 
-    Fail-closed: raises FileNotFoundError if either file is missing,
-    RuntimeError if the hash does not match.
+    Fail-closed: raises on missing files, hash mismatch, count mismatch,
+    invalid records, schedule reference mismatch, or schedule cross-check
+    failure.
+
+    The predictions manifest must contain:
+      - c_records_sha256: SHA-256 of c_records.jsonl
+      - record_count: expected number of records
+      - schedule_reference: {path, sha256} tying predictions to the schedule
 
     Returns integrity dict on success.
     """
     rec_path = c_records_path if c_records_path is not None else C_RECORDS_PATH
     man_path = manifest_path if manifest_path is not None else C_PREDICTIONS_MANIFEST_PATH
+    sched_path = schedule_path if schedule_path is not None else C_SCHEDULE_PATH
 
-    # Both must exist (fail-closed).
+    # All must exist (fail-closed).
     manifest = json.loads(man_path.read_text(encoding="utf-8"))
 
+    # --- Required manifest keys ---
+    _REQUIRED_KEYS = {"c_records_sha256", "record_count", "schedule_reference"}
+    missing_keys = _REQUIRED_KEYS - set(manifest)
+    if missing_keys:
+        raise RuntimeError(
+            f"c_predictions_manifest.json missing required keys: "
+            f"{sorted(missing_keys)}"
+        )
+
+    # --- Hash verification ---
     expected = manifest["c_records_sha256"]
     actual = _sha256_file(rec_path)
     if actual != expected:
@@ -582,38 +599,50 @@ def verify_c_predictions_freeze(
             f"expected {expected[:16]}…, got {actual[:16]}…"
         )
 
-    # record_count is mandatory in a complete predictions manifest.
-    if "record_count" not in manifest:
-        raise RuntimeError(
-            "c_predictions_hash_manifest.json missing required key: record_count"
-        )
+    # --- Record count ---
     expected_count: int = manifest["record_count"]
-    actual_count = sum(
-        1 for line in rec_path.read_text(encoding="utf-8").strip().split("\n")
-        if line.strip()
-    )
-    if actual_count != expected_count:
-        raise RuntimeError(
-            f"c_records.jsonl record count mismatch: "
-            f"expected {expected_count}, got {actual_count}"
-        )
-
-    # Parse and validate every record (P1-3: full record validation).
     raw_text = rec_path.read_text(encoding="utf-8")
     lines = [ln for ln in raw_text.strip().split("\n") if ln.strip()]
+    if len(lines) != expected_count:
+        raise RuntimeError(
+            f"c_records.jsonl record count mismatch: "
+            f"expected {expected_count}, got {len(lines)}"
+        )
+
+    # --- Schedule reference verification ---
+    sched_ref = manifest["schedule_reference"]
+    if not isinstance(sched_ref, dict) or "sha256" not in sched_ref:
+        raise RuntimeError(
+            "schedule_reference must be a dict with at least 'sha256'"
+        )
+    actual_sched_sha = _sha256_file(sched_path)
+    if actual_sched_sha != sched_ref["sha256"]:
+        raise RuntimeError(
+            f"schedule SHA-256 mismatch: manifest says "
+            f"{sched_ref['sha256'][:16]}…, actual {actual_sched_sha[:16]}…"
+        )
+
+    # Load schedule for cross-check.
+    schedule: list[dict[str, Any]] = json.loads(
+        sched_path.read_text(encoding="utf-8")
+    )
+    sched_lookup: dict[int, dict[str, Any]] = {
+        e["sequence_index"]: e for e in schedule
+    }
+
+    # --- Parse, validate, and cross-check every record ---
     records: list[CRunRecord] = []
+    seen_indices: dict[int, int] = {}
     for i, line in enumerate(lines):
         try:
-            records.append(CRunRecord.from_jsonl_line(line))
+            rec = CRunRecord.from_jsonl_line(line)
         except Exception as exc:
             raise RuntimeError(
                 f"c_records.jsonl line {i}: invalid CRunRecord: {exc}"
             ) from exc
+        records.append(rec)
 
-    # Schedule completeness: every sequence_index 0..N-1 must appear
-    # exactly once (no gaps, no duplicates).
-    seen_indices: dict[int, int] = {}
-    for i, rec in enumerate(records):
+        # Duplicate check.
         idx = rec.sequence_index
         if idx in seen_indices:
             raise RuntimeError(
@@ -621,6 +650,29 @@ def verify_c_predictions_freeze(
                 f"{seen_indices[idx]} and {i}"
             )
         seen_indices[idx] = i
+
+        # Schedule cross-check: (sequence_index, case_id, repetition).
+        expected_entry = sched_lookup.get(idx)
+        if expected_entry is None:
+            raise RuntimeError(
+                f"record {i}: sequence_index {idx} not in schedule"
+            )
+        if rec.physical_case_id != expected_entry["physical_case_id"]:
+            raise RuntimeError(
+                f"record {i}: physical_case_id mismatch at "
+                f"sequence_index {idx}: record has "
+                f"{rec.physical_case_id!r}, schedule has "
+                f"{expected_entry['physical_case_id']!r}"
+            )
+        if rec.repetition != expected_entry["repetition"]:
+            raise RuntimeError(
+                f"record {i}: repetition mismatch at "
+                f"sequence_index {idx}: record has "
+                f"{rec.repetition}, schedule has "
+                f"{expected_entry['repetition']}"
+            )
+
+    # --- Sequence completeness ---
     expected_indices = set(range(expected_count))
     actual_indices = set(seen_indices)
     if actual_indices != expected_indices:
@@ -635,6 +687,7 @@ def verify_c_predictions_freeze(
         "c_predictions_manifest_verified": True,
         "c_records_sha256": actual,
         "record_count": expected_count,
+        "schedule_sha256": actual_sched_sha,
         "verified_records": records,
     }
 

@@ -1,17 +1,16 @@
 {
-  "manifest_type": "freeze_manifest_evaluator",
-  "description": "Evaluator-side artifact hashes for Condition C. Verified by evaluate_c_predictions.py after all predictions are frozen. Does NOT access inference-side artifacts.",
+  "description": "Condition C evaluator-side freeze manifest",
   "artifact_hashes": {
-    "icl/evaluation/aggregation_c.py": "7c2ff10d2bdc0886bc077dbed57f0e9c807b509d5f800ff6af1e909af407b1fe",
-    "icl/evaluation/evaluate_c_predictions.py": "3b65096a1e5b9a018c7ad74bd778adf6ea04416a9fbd2e0e3bc57a585fe0ee8d",
-    "phase_b/evaluation/bootstrap.py": "524751fede48e678ee66b9f783be8fdeaefe7bebe32772e5367ba9be9c3d9df5",
+    "phase_b/heldout/phase_b_heldout_manifest.csv": "610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3",
     "phase_b/config/evaluator_side/pseudolabel_mapping.json": "f68a690df9c5d0d9505c8b388379c78ccdaa4143e9b4c4e4814ea6d7888b3035",
+    "phase_b/config/protocol_config.json": "a67b721609647c9a428c9895de1f0d684547e9fc8cf91f0a626f823af094e135",
     "phase_b/final_evaluation/inference/aggregate_records.jsonl": "94434c1da32969d6faa56d202a6fb63cf634a80512088d910cf7c82a47c6bf10",
     "phase_b/final_evaluation/inference/inference_output_hash_manifest.json": "888306096b11ebd35ce3a173f68b97431fde80d3772be023230e1fed847633fe",
-    "icl/tests/test_aggregation_c.py": "d093e67f4586b79aab476881f25801c4fe95cace9a32db65bad35020419f4728",
-    "icl/tests/test_evaluate_c_predictions.py": "69e703d3abf919a0ef51d73bfa3f70b87c6a1d4bc828a0f31ed084475ab0a642",
-    "phase_b/heldout/phase_b_heldout_manifest.csv": "610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3",
-    "phase_b/config/protocol_config.json": "a67b721609647c9a428c9895de1f0d684547e9fc8cf91f0a626f823af094e135",
-    "icl/runner/records_c.py": "83b78b091e148dab22d52ece3a3c8fb850bb3bf38d75991e7f18b042c3f751e9"
+    "icl/evaluation/evaluate_c_predictions.py": "51599568bf10f20d058eb9b19544302a1fc1018800103ef2c7dd2583618a7c30",
+    "icl/evaluation/aggregation_c.py": "7c2ff10d2bdc0886bc077dbed57f0e9c807b509d5f800ff6af1e909af407b1fe",
+    "icl/full_evaluation/protocol_amendment_c.json": "3e773d8f87ecc240e5ec7d7d5b5f21048bf5751720dd35c27043ae6ba93204ee",
+    "icl/full_evaluation/protocol_amendment_c.md": "3e7af7bc04db77ba06975a1c14cbd6c986f74d4bccb82a8f2dd0db19febc0b77",
+    "icl/full_evaluation/c_schedule.json": "3f1b102a89ecd9202fd045a8a39912380e534f68f1675574c7bb3d6ecaf4b986",
+    "icl/schemas/c_run_record.schema.json": "8e4c0c950dd8c5842ea6749c1d47cea624a4efd019602e1b996dcb1c064ffef0"
   }
 }

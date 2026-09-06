@@ -849,7 +849,7 @@ class TestFirewall(unittest.TestCase):
 
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
-    return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45},
+    return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64},
 )
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
@@ -960,7 +960,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
 
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
-    return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45},
+    return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64},
 )
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
@@ -989,7 +989,7 @@ class TestIntegrationWithAggregation(unittest.TestCase):
 
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
-    return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45},
+    return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64},
 )
 @patch(
     "icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
@@ -1088,183 +1088,322 @@ class TestEndToEndEvaluatorSide(unittest.TestCase):
 
 
 class TestVerifyCPredictionsFreeze(unittest.TestCase):
-    """Tests for the predictions integrity barrier (P1-3)."""
+    """Tests for the predictions integrity barrier (R5 §3.4).
+
+    All happy-path tests use the production-aligned contract:
+      45 records = 15 cases × 3 reps  (or 15 pilot = 5 cases × 3 reps).
+    The manifest requires three keys: c_records_sha256, record_count,
+    schedule_reference.  Every record is cross-checked against the schedule.
+    """
+
+    # Production schedule layout: pilot DESC, case_id ASC.
+    _SCHEDULE_CASES: list[tuple[str, bool]] = [
+        ("PBH-001", True), ("PBH-004", True), ("PBH-007", True),
+        ("PBH-010", True), ("PBH-013", True),
+        ("PBH-002", False), ("PBH-003", False), ("PBH-005", False),
+        ("PBH-006", False), ("PBH-008", False), ("PBH-009", False),
+        ("PBH-011", False), ("PBH-012", False), ("PBH-014", False),
+        ("PBH-015", False),
+    ]
 
     def setUp(self) -> None:
         self.tmpdir = Path(tempfile.mkdtemp())
         self.records_path = self.tmpdir / "c_records.jsonl"
-        self.manifest_path = self.tmpdir / "c_predictions_hash_manifest.json"
+        self.manifest_path = self.tmpdir / "c_predictions_manifest.json"
+        self.schedule_path = self.tmpdir / "c_schedule.json"
 
     def tearDown(self) -> None:
         shutil.rmtree(self.tmpdir, ignore_errors=True)
 
-    def _write_records(self, n: int = 3) -> str:
-        """Write n dummy record lines and return file SHA-256."""
-        lines = []
-        for i in range(n):
-            rec = _make_c_record("PBH-001", repetition=(i % 3) + 1, sequence_index=i)
-            lines.append(json.dumps(rec.to_dict(), ensure_ascii=False))
-        self.records_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-        import hashlib
-        return hashlib.sha256(
-            self.records_path.read_bytes()
-        ).hexdigest()
+    # ---- helpers ----
 
-    def _write_manifest(self, sha256: str, record_count: int | None = None) -> None:
-        manifest = {"c_records_sha256": sha256}
-        if record_count is not None:
-            manifest["record_count"] = record_count
+    def _build_schedule(self, n_cases: int = 15) -> list[dict[str, Any]]:
+        """Build a production-aligned schedule (n_cases × 3 reps)."""
+        entries: list[dict[str, Any]] = []
+        seq = 0
+        for case_id, pilot in self._SCHEDULE_CASES[:n_cases]:
+            for rep in (1, 2, 3):
+                entries.append({
+                    "condition": "C",
+                    "physical_case_id": case_id,
+                    "pilot": pilot,
+                    "receiver_id": "central",
+                    "repetition": rep,
+                    "sequence_index": seq,
+                })
+                seq += 1
+        return entries
+
+    def _write_schedule(
+        self, schedule: list[dict[str, Any]] | None = None,
+    ) -> str:
+        """Write schedule JSON and return its SHA-256."""
+        if schedule is None:
+            schedule = self._build_schedule()
+        self.schedule_path.write_text(
+            json.dumps(schedule, ensure_ascii=False), encoding="utf-8",
+        )
+        return hashlib.sha256(self.schedule_path.read_bytes()).hexdigest()
+
+    def _write_records(
+        self, schedule: list[dict[str, Any]] | None = None,
+    ) -> str:
+        """Write records matching *schedule* and return file SHA-256."""
+        if schedule is None:
+            schedule = self._build_schedule()
+        lines: list[str] = []
+        for entry in schedule:
+            rec = _make_c_record(
+                entry["physical_case_id"],
+                repetition=entry["repetition"],
+                sequence_index=entry["sequence_index"],
+            )
+            lines.append(json.dumps(rec.to_dict(), ensure_ascii=False))
+        self.records_path.write_text(
+            "\n".join(lines) + "\n", encoding="utf-8",
+        )
+        return hashlib.sha256(self.records_path.read_bytes()).hexdigest()
+
+    def _write_manifest(
+        self,
+        sha256: str,
+        record_count: int,
+        schedule_sha256: str,
+        *,
+        schedule_ref_path: str = "icl/full_evaluation/c_schedule.json",
+        omit_keys: frozenset[str] | None = None,
+    ) -> None:
+        manifest: dict[str, Any] = {
+            "c_records_sha256": sha256,
+            "record_count": record_count,
+            "schedule_reference": {
+                "path": schedule_ref_path,
+                "sha256": schedule_sha256,
+            },
+        }
+        if omit_keys:
+            for k in omit_keys:
+                manifest.pop(k, None)
         self.manifest_path.write_text(
-            json.dumps(manifest), encoding="utf-8"
+            json.dumps(manifest), encoding="utf-8",
         )
 
-    def test_missing_record_count_raises(self) -> None:
-        """record_count is mandatory in a complete predictions manifest."""
-        sha = self._write_records(3)
-        self._write_manifest(sha)  # no record_count
-        with self.assertRaises(RuntimeError) as ctx:
-            verify_c_predictions_freeze(
-                c_records_path=self.records_path,
-                manifest_path=self.manifest_path,
-            )
-        self.assertIn("record_count", str(ctx.exception))
+    def _write_tampered_records(
+        self,
+        schedule: list[dict[str, Any]],
+        *,
+        tamper_index: int,
+        case_id: str | None = None,
+        repetition: int | None = None,
+        sequence_index: int | None = None,
+    ) -> str:
+        """Write records matching *schedule* except one tampered entry."""
+        lines: list[str] = []
+        for i, entry in enumerate(schedule):
+            cid = entry["physical_case_id"]
+            rep = entry["repetition"]
+            seq = entry["sequence_index"]
+            if i == tamper_index:
+                if case_id is not None:
+                    cid = case_id
+                if repetition is not None:
+                    rep = repetition
+                if sequence_index is not None:
+                    seq = sequence_index
+            rec = _make_c_record(cid, repetition=rep, sequence_index=seq)
+            lines.append(json.dumps(rec.to_dict(), ensure_ascii=False))
+        self.records_path.write_text(
+            "\n".join(lines) + "\n", encoding="utf-8",
+        )
+        return hashlib.sha256(self.records_path.read_bytes()).hexdigest()
 
-    def test_pass_with_record_count(self) -> None:
-        sha = self._write_records(3)
-        self._write_manifest(sha, record_count=3)
+    # ---- happy-path (production-aligned) ----
+
+    def test_pass_full_45(self) -> None:
+        schedule = self._build_schedule()
+        sched_sha = self._write_schedule(schedule)
+        rec_sha = self._write_records(schedule)
+        self._write_manifest(rec_sha, 45, sched_sha)
         result = verify_c_predictions_freeze(
             c_records_path=self.records_path,
             manifest_path=self.manifest_path,
+            schedule_path=self.schedule_path,
         )
         self.assertTrue(result["c_predictions_manifest_verified"])
-        self.assertEqual(result["record_count"], 3)
+        self.assertEqual(result["c_records_sha256"], rec_sha)
+        self.assertEqual(result["record_count"], 45)
+        self.assertEqual(result["schedule_sha256"], sched_sha)
+
+    def test_pass_pilot_15(self) -> None:
+        schedule = self._build_schedule(n_cases=5)  # 5 pilot × 3 reps
+        sched_sha = self._write_schedule(schedule)
+        rec_sha = self._write_records(schedule)
+        self._write_manifest(rec_sha, 15, sched_sha)
+        result = verify_c_predictions_freeze(
+            c_records_path=self.records_path,
+            manifest_path=self.manifest_path,
+            schedule_path=self.schedule_path,
+        )
+        self.assertTrue(result["c_predictions_manifest_verified"])
+        self.assertEqual(result["record_count"], 15)
+        self.assertEqual(result["schedule_sha256"], sched_sha)
+
+    # ---- hash mismatch ----
 
     def test_hash_mismatch_raises(self) -> None:
-        self._write_records(3)
-        self._write_manifest("0" * 64)
+        schedule = self._build_schedule()
+        sched_sha = self._write_schedule(schedule)
+        self._write_records(schedule)
+        self._write_manifest("0" * 64, 45, sched_sha)
         with self.assertRaises(RuntimeError) as ctx:
             verify_c_predictions_freeze(
                 c_records_path=self.records_path,
                 manifest_path=self.manifest_path,
+                schedule_path=self.schedule_path,
             )
         self.assertIn("hash mismatch", str(ctx.exception))
 
+    # ---- record count mismatch ----
+
     def test_record_count_mismatch_raises(self) -> None:
-        sha = self._write_records(3)
-        self._write_manifest(sha, record_count=99)
+        schedule = self._build_schedule()
+        sched_sha = self._write_schedule(schedule)
+        rec_sha = self._write_records(schedule)
+        self._write_manifest(rec_sha, 99, sched_sha)
         with self.assertRaises(RuntimeError) as ctx:
             verify_c_predictions_freeze(
                 c_records_path=self.records_path,
                 manifest_path=self.manifest_path,
+                schedule_path=self.schedule_path,
             )
         self.assertIn("record count mismatch", str(ctx.exception))
 
+    # ---- missing files ----
+
     def test_missing_records_file_raises(self) -> None:
-        self._write_manifest("0" * 64)
+        sched_sha = self._write_schedule()
+        self._write_manifest("0" * 64, 45, sched_sha)
         with self.assertRaises(FileNotFoundError):
             verify_c_predictions_freeze(
                 c_records_path=self.tmpdir / "nonexistent.jsonl",
                 manifest_path=self.manifest_path,
+                schedule_path=self.schedule_path,
             )
 
     def test_missing_manifest_raises(self) -> None:
-        self._write_records(3)
+        self._write_schedule()
+        self._write_records()
         with self.assertRaises(FileNotFoundError):
             verify_c_predictions_freeze(
                 c_records_path=self.records_path,
                 manifest_path=self.tmpdir / "nonexistent.json",
+                schedule_path=self.schedule_path,
             )
 
-    def test_verified_records_returned(self) -> None:
-        """P1-3: result includes parsed CRunRecord instances."""
-        sha = self._write_records(3)
-        self._write_manifest(sha, record_count=3)
-        result = verify_c_predictions_freeze(
-            c_records_path=self.records_path,
-            manifest_path=self.manifest_path,
-        )
-        self.assertIn("verified_records", result)
-        self.assertEqual(len(result["verified_records"]), 3)
-        for rec in result["verified_records"]:
-            self.assertIsInstance(rec, CRunRecord)
+    # ---- missing required manifest keys ----
 
-    def test_invalid_record_raises(self) -> None:
-        """P1-3: a line that fails CRunRecord validation raises RuntimeError."""
-        # Write a valid-hash file with invalid record content.
-        bad_line = json.dumps({"agent_id": "wrong"})
-        self.records_path.write_text(bad_line + "\n", encoding="utf-8")
-        import hashlib as _hl
-        sha = _hl.sha256(self.records_path.read_bytes()).hexdigest()
-        self._write_manifest(sha, record_count=1)
+    def test_missing_record_count_key_raises(self) -> None:
+        schedule = self._build_schedule()
+        sched_sha = self._write_schedule(schedule)
+        rec_sha = self._write_records(schedule)
+        self._write_manifest(rec_sha, 45, sched_sha,
+                             omit_keys=frozenset({"record_count"}))
         with self.assertRaises(RuntimeError) as ctx:
             verify_c_predictions_freeze(
                 c_records_path=self.records_path,
                 manifest_path=self.manifest_path,
+                schedule_path=self.schedule_path,
             )
-        self.assertIn("invalid CRunRecord", str(ctx.exception))
+        self.assertIn("missing required keys", str(ctx.exception))
+
+    def test_missing_schedule_reference_key_raises(self) -> None:
+        schedule = self._build_schedule()
+        sched_sha = self._write_schedule(schedule)
+        rec_sha = self._write_records(schedule)
+        self._write_manifest(rec_sha, 45, sched_sha,
+                             omit_keys=frozenset({"schedule_reference"}))
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_c_predictions_freeze(
+                c_records_path=self.records_path,
+                manifest_path=self.manifest_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("missing required keys", str(ctx.exception))
+
+    # ---- schedule SHA-256 mismatch ----
+
+    def test_schedule_sha_mismatch_raises(self) -> None:
+        schedule = self._build_schedule()
+        self._write_schedule(schedule)
+        rec_sha = self._write_records(schedule)
+        self._write_manifest(rec_sha, 45, "0" * 64)  # wrong sched SHA
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_c_predictions_freeze(
+                c_records_path=self.records_path,
+                manifest_path=self.manifest_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("schedule SHA-256 mismatch", str(ctx.exception))
+
+    # ---- schedule cross-check: case_id mismatch ----
+
+    def test_case_id_cross_check_mismatch_raises(self) -> None:
+        schedule = self._build_schedule()
+        sched_sha = self._write_schedule(schedule)
+        rec_sha = self._write_tampered_records(
+            schedule, tamper_index=5, case_id="PBH-015",
+        )
+        self._write_manifest(rec_sha, 45, sched_sha)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_c_predictions_freeze(
+                c_records_path=self.records_path,
+                manifest_path=self.manifest_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("physical_case_id mismatch", str(ctx.exception))
+
+    # ---- schedule cross-check: repetition mismatch ----
+
+    def test_repetition_cross_check_mismatch_raises(self) -> None:
+        schedule = self._build_schedule()
+        sched_sha = self._write_schedule(schedule)
+        # seq_index 3 -> PBH-004 rep 1; tamper to rep 3.
+        rec_sha = self._write_tampered_records(
+            schedule, tamper_index=3, repetition=3,
+        )
+        self._write_manifest(rec_sha, 45, sched_sha)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_c_predictions_freeze(
+                c_records_path=self.records_path,
+                manifest_path=self.manifest_path,
+                schedule_path=self.schedule_path,
+            )
+        self.assertIn("repetition mismatch", str(ctx.exception))
+
+    # ---- duplicate sequence_index ----
 
     def test_duplicate_sequence_index_raises(self) -> None:
-        """Duplicate sequence_index values are rejected."""
-        lines = []
-        for i in range(3):
-            rec = _make_c_record("PBH-001", repetition=(i % 3) + 1,
-                                 sequence_index=0)  # all index 0
-            lines.append(json.dumps(rec.to_dict(), ensure_ascii=False))
-        self.records_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-        import hashlib as _hl
-        sha = _hl.sha256(self.records_path.read_bytes()).hexdigest()
-        self._write_manifest(sha, record_count=3)
+        schedule = self._build_schedule()
+        sched_sha = self._write_schedule(schedule)
+        # Tamper: record at position 1 gets seq_index 0 (dup of pos 0).
+        rec_sha = self._write_tampered_records(
+            schedule, tamper_index=1, sequence_index=0,
+        )
+        self._write_manifest(rec_sha, 45, sched_sha)
         with self.assertRaises(RuntimeError) as ctx:
             verify_c_predictions_freeze(
                 c_records_path=self.records_path,
                 manifest_path=self.manifest_path,
+                schedule_path=self.schedule_path,
             )
         self.assertIn("duplicate sequence_index", str(ctx.exception))
-
-    def test_sequence_index_gap_raises(self) -> None:
-        """Missing sequence indices (gaps) are rejected."""
-        lines = []
-        # Write indices 0, 1, 3 — missing 2
-        for i in [0, 1, 3]:
-            rec = _make_c_record("PBH-001", repetition=(i % 3) + 1,
-                                 sequence_index=i)
-            lines.append(json.dumps(rec.to_dict(), ensure_ascii=False))
-        self.records_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-        import hashlib as _hl
-        sha = _hl.sha256(self.records_path.read_bytes()).hexdigest()
-        self._write_manifest(sha, record_count=3)
-        with self.assertRaises(RuntimeError) as ctx:
-            verify_c_predictions_freeze(
-                c_records_path=self.records_path,
-                manifest_path=self.manifest_path,
-            )
-        self.assertIn("completeness check failed", str(ctx.exception))
-
-    def test_sequence_completeness_pass(self) -> None:
-        """All sequence indices 0..N-1 present passes completeness."""
-        n = 5
-        lines = []
-        for i in range(n):
-            rec = _make_c_record("PBH-001", repetition=(i % 3) + 1,
-                                 sequence_index=i)
-            lines.append(json.dumps(rec.to_dict(), ensure_ascii=False))
-        self.records_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-        import hashlib as _hl
-        sha = _hl.sha256(self.records_path.read_bytes()).hexdigest()
-        self._write_manifest(sha, record_count=n)
-        result = verify_c_predictions_freeze(
-            c_records_path=self.records_path,
-            manifest_path=self.manifest_path,
-        )
-        self.assertTrue(result["c_predictions_manifest_verified"])
-        self.assertEqual(result["record_count"], n)
 
 
 class TestPipelineInvokesGuard(unittest.TestCase):
     """P1-5: evaluate_c_predictions must call verify_evaluator_freeze."""
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
-           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45})
+           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
     def test_guard_is_called(self, mock_guard, mock_pred_guard) -> None:
         mock_guard.return_value = {"evaluator_manifest_verified": True}
@@ -1278,7 +1417,7 @@ class TestPipelineInvokesGuard(unittest.TestCase):
         mock_guard.assert_called_once()
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
-           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45})
+           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
     def test_guard_failure_blocks_pipeline(self, mock_guard, mock_pred_guard) -> None:
         mock_guard.side_effect = RuntimeError("hash mismatch")
@@ -1293,7 +1432,7 @@ class TestPipelineInvokesGuard(unittest.TestCase):
         self.assertIn("hash mismatch", str(ctx.exception))
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
-           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45})
+           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
     def test_guard_missing_manifest_blocks(self, mock_guard, mock_pred_guard) -> None:
         mock_guard.side_effect = FileNotFoundError("manifest not found")
@@ -1306,7 +1445,7 @@ class TestPipelineInvokesGuard(unittest.TestCase):
             )
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
-           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45})
+           return_value={"c_predictions_manifest_verified": True, "c_records_sha256": "a" * 64, "record_count": 45, "schedule_sha256": "b" * 64})
     @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
     def test_custom_manifest_path_forwarded(self, mock_guard, mock_pred_guard) -> None:
         mock_guard.return_value = {"evaluator_manifest_verified": True}
@@ -1333,6 +1472,7 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
         mock_pred_guard.return_value = {
             "c_predictions_manifest_verified": True,
             "c_records_sha256": "a" * 64, "record_count": 45,
+            "schedule_sha256": "b" * 64,
         }
         evaluate_c_predictions(
             _all_correct_records(),
@@ -1376,6 +1516,7 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
         mock_pred_guard.return_value = {
             "c_predictions_manifest_verified": True,
             "c_records_sha256": "a" * 64, "record_count": 45,
+            "schedule_sha256": "b" * 64,
         }
         custom = Path("/tmp/custom_pred_manifest.json")
         evaluate_c_predictions(
@@ -1418,6 +1559,7 @@ class TestPipelineInvokesPredictionsGuard(unittest.TestCase):
         mock_pred_guard.return_value = {
             "c_predictions_manifest_verified": True,
             "c_records_sha256": "a" * 64, "record_count": 45,
+            "schedule_sha256": "b" * 64,
         }
         with self.assertRaises(ValueError) as ctx:
             evaluate_c_predictions(

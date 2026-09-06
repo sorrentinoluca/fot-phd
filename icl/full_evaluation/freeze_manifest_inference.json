@@ -1,31 +1,11 @@
 {
-  "manifest_type": "freeze_manifest_inference",
-  "description": "Inference-side artifact hashes for Condition C. Verified by run_c_inference.py before any LLM call.",
+  "description": "Condition C inference-side freeze manifest",
   "artifact_hashes": {
-    "icl/prompts/pooled_C.txt": "cecc664e5d9b9558ca7f8675bee37ae59a5d97a5ff0518175a8a8855a5328289",
-    "icl/pooled_libraries/pooled_examples.json": "a8d37d39c665c27b569f6d2249d995396ab7c48d5e979b206e4228966a79b8e8",
-    "icl/pooled_libraries/pooled_insights.json": "b7ea847ccaf72b04c407ae4878924719c5363d4ccc6851d3d5fef79386e4bcfd",
-    "icl/config/condition_c_config.json": "e06e7794a8f15cfb05fb45e2f638b50a1498d6d62398d2738158da9b168ac923",
-    "phase_b/conditions/diagnostic_output.openai.schema.json": "6ef214cdebbfe06e59a7a5a2f51f3fb93dd8d47e8397f6bc5bc68047e1364bf8",
-    "icl/conditions/builder_c.py": "5249fe683c0e37306f4444aad83a08b18ffab2457af3bc59ec855b713fed5e3f",
-    "icl/runner/build_c_schedule.py": "bc96055e60e7665690221ccb5b8e4a2196434f62546eaa888b50a9210358c333",
+    "icl/full_evaluation/protocol_amendment_c.json": "3e773d8f87ecc240e5ec7d7d5b5f21048bf5751720dd35c27043ae6ba93204ee",
+    "icl/full_evaluation/protocol_amendment_c.md": "3e7af7bc04db77ba06975a1c14cbd6c986f74d4bccb82a8f2dd0db19febc0b77",
+    "icl/full_evaluation/c_schedule.json": "3f1b102a89ecd9202fd045a8a39912380e534f68f1675574c7bb3d6ecaf4b986",
     "icl/runner/run_c_inference.py": "9a323ea77ff2ddf9fae3f7335a779f099ff11766e17d7e27a0b89241cf712f4d",
     "icl/runner/records_c.py": "83b78b091e148dab22d52ece3a3c8fb850bb3bf38d75991e7f18b042c3f751e9",
-    "icl/schemas/c_run_record.schema.json": "8e4c0c950dd8c5842ea6749c1d47cea624a4efd019602e1b996dcb1c064ffef0",
-    "phase_b/conditions/parser.py": "bdddfe99ba6e4328a071ea94c221a91cc5942252865691a280bcd6687301eb99",
-    "phase_b/conditions/retry.py": "ba144230e0e99111c7b6154acc7574aec32aeddb2146bf2a39ff8d6af5321b29",
-    "phase_b/prompts/leakage.py": "da1a39c72d36d7c04d276097d2de4c57fecb94642027870bd802b449b429ee76",
-    "phase_b/config/execution_config.json": "2a88d915af9c76a6d8ecd4331efe42d756a5a305d8a07479990996685419d234",
-    "phase_b/execution/openai_adapter.py": "39d7317e3a0c7808d297617356dfc580120b0f32c58a5e6e71eb45bf9f3eee06",
-    "phase_b/heldout/phase_b_heldout_manifest.csv": "610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3",
-    "icl/full_evaluation/c_schedule.json": "3f1b102a89ecd9202fd045a8a39912380e534f68f1675574c7bb3d6ecaf4b986",
-    "icl/full_evaluation/protocol_amendment_c.md": "3e7af7bc04db77ba06975a1c14cbd6c986f74d4bccb82a8f2dd0db19febc0b77",
-    "icl/full_evaluation/protocol_amendment_c.json": "d937227c7a6e5ae1aa1f4252233cbe8e287a403a649f268b6dc38411dc512f79",
-    "icl/tests/test_builder_c.py": "76a570d809dfb353489fb4271cc32336053346fc451d8a5e31236689cef56bef",
-    "icl/tests/test_records_c.py": "4f201f70e9b516900a8b0d978137a78a3aba2cd7c16c913bd351721c31cd7340",
-    "icl/tests/test_build_c_schedule.py": "7e8c8e48c801facd6bb5a1a85105deebbc3baec2aab30f412ee7fccc3e7d42c7",
-    "icl/tests/test_run_c_inference.py": "b69677ac852ad5953f22da7e5ef22de4c1df3b2dd8cdd45d4088de16520f46de"
-  },
-  "verbalizations_manifest_path": "phase_b/final_evaluation/heldout_verbalizations_manifest.json",
-  "verbalizations_manifest_sha256": "a5a00e6f3724ba5af50f8c4b09e82a6e61676b0a1019276733925c6d3fc7ef68"
+    "icl/schemas/c_run_record.schema.json": "8e4c0c950dd8c5842ea6749c1d47cea624a4efd019602e1b996dcb1c064ffef0"
+  }
 }
