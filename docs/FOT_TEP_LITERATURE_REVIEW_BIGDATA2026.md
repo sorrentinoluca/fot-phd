@@ -484,6 +484,18 @@ Cosa confronterebbe un reviewer di diagnosi guasti federata.
   2023) — **ADJ**. FL parametrico su macchine rotanti.
 - **Industrial Edge Intelligence: Federated-Meta Learning for Few-Shot Fault Diagnosis** — **ADJ**.
   Meta-learning federato per pochi campioni / nuovi guasti; parametrico.
+- **Dai et al. — Semi-supervised FL + dual contrastive + soft labeling for FDD** (IEEE IoT-J 2025;
+  DOI 10.1109/JIOT.2025.3586718) — **ADJ**. FL semi-supervisionato con apprendimento contrastivo
+  duale e soft labeling per diagnosi guasti industriali sotto label scarcity. Federa **parametri**.
+  Nessun LLM, nessun scambio testuale, nessuna classe localmente non vista.
+- **Chen, Li, Huang, Yue, Chen, Li — Federated transfer learning + discrepancy-weighted FedAvg for
+  bearing FDD** (IEEE TIM 2022; DOI 10.1109/TIM.2022.3180417) — **ADJ**. FL con transfer learning
+  e aggregazione pesata per discrepanza su diagnosi guasti di cuscinetti sotto domain shift. Federa
+  **parametri** (weighted FedAvg). Nessun LLM, nessun scambio testuale.
+- **Chen et al. — FFTS: Federated Foundation Model for Heterogeneous Time Series** (AAAI 2025;
+  DOI 10.1609/aaai.v39i15.33739) — **ADJ**. Foundation model federato per TS eterogenee
+  (forecasting/imputation/anomaly detection) con parametri + regolarizzazione. Federa **parametri**.
+  TS sì, ma forecasting/imputation, non FDD; nessun scambio testuale, nessuna classe non vista.
 - **TEP** in letteratura è quasi sempre usato in setting **centralizzati** (autoencoder, deep FDD,
   interpretable knowledge discovery). Non ho identificato un lavoro che faccia **FoT/textual
   federated knowledge transfer su TEP**.
@@ -560,6 +572,9 @@ model coinvolto; TS=serie temporali; FDD=fault/industrial; non-IID; Privacy form
 | 21 | T2SP 2026 (arXiv) | TS→program repr. | — (repr.) | uses LLM | **sì** | no | n/a | no | BG |
 | 22 | TRUCE 2021 (EMNLP) | TS captioning | — (repr.) | no | **sì** | no | n/a | no | BG |
 | 23 | FD-LLM (Qaid 2024; Lin 2025) | LLM FDD (central) | — (central) | sì | **sì** | **sì** | n/a | no | BG |
+| 24 | Dai et al. 2025 (IEEE IoT-J) | semi-sup. FL FDD | **Param** | no | **sì** | **sì** | label scarcity | no | ADJ |
+| 25 | Chen et al. 2022 (IEEE TIM) | FL transfer learning FDD | **Param** (weighted) | no | **sì** | **sì** | domain shift | no | ADJ |
+| 26 | FFTS — Chen et al. 2025 (AAAI) | federated FM TS | **Param** + regol. | sì | **sì** | no (forec./imp.) | domini TS | no | ADJ |
 | — | **NOSTRO (TEP FoT)** | **FL-like textual KT** | **Text (insight+pseudolabel)** | sì | **sì** | **sì** | **class-disjoint/unseen** | **no** | — |
 
 ## E.2 Schede compatte (campi completi) per i lavori-chiave
@@ -1102,6 +1117,14 @@ rotating machinery** (Elsevier 2023). 33. **Knowledge Distillation in Federated 
 comprehensive survey** (Discover Computing, 2025) — inquadramento del filone federated-KD. 34. **A
 Survey on Federated Fine-tuning of LLMs** (arXiv:2503.12016). 35. Zhao et al. — **ESAX+BoW** (IEEE
 TIM 2022).
+36. **Dai et al. — Semi-supervised FL + dual contrastive + soft labeling for FDD** (IEEE IoT-J 2025;
+DOI 10.1109/JIOT.2025.3586718) — *verificato*; FL semi-supervisionato per FDD industriale sotto
+label scarcity; parametrico. 37. **Chen, Li, Huang, Yue, Chen, Li — Federated transfer learning +
+discrepancy-weighted FedAvg for bearing FDD** (IEEE TIM 2022; DOI 10.1109/TIM.2022.3180417) —
+*verificato*; FL con transfer learning per cuscinetti sotto domain shift; parametrico. 38. **Chen
+et al. — FFTS: Federated Foundation Model for Heterogeneous Time Series** (AAAI 2025; DOI
+10.1609/aaai.v39i15.33739) — *verificato*; foundation model federato per TS eterogenee; parametrico;
+adiacente a Time-FFM sull'asse FL+FM+TS.
 
 ### OPTIONAL / BACKGROUND
 Personalized FL (Ditto/pFedMe); federated prompt learning (arXiv:2501.13904); ACE/HyperAgents/

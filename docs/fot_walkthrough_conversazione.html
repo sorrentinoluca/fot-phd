@@ -135,7 +135,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
       <li><a href="#step-23">23. Risultati secondari descrittivi</a></li>
       <li><a href="#step-24">24. Interpretazione e limiti</a></li>
     </ol></details></li>
-    <li><details class="nav-phase"><summary>Fase 3</summary><p class="nav-phase-empty">Contenuti da aggiungere.</p></details></li>
+    <li><details class="nav-phase"><summary><a href="#main">Fase 3</a></summary><p class="nav-phase-empty">Contenuti da aggiungere.</p></details></li>
   </ol>
 </nav>
 <main id="main">
@@ -850,7 +850,27 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   function closeMobile(focus=false){body.classList.remove('nav-open');body.classList.add('nav-collapsed');render();if(focus)toggle.focus()}
   function reset(){if(mobile.matches)closeMobile();else{body.classList.remove('nav-open','nav-collapsed');render()}}
   toggle.addEventListener('click',()=>{if(mobile.matches){const opening=!body.classList.contains('nav-open');body.classList.toggle('nav-open',opening);body.classList.toggle('nav-collapsed',!opening);render();if(opening)links[0].focus()}else{body.classList.toggle('nav-collapsed');render()}});
-  backdrop.addEventListener('click',()=>closeMobile(true));links.forEach(link=>link.addEventListener('click',()=>{if(mobile.matches)closeMobile()}));document.addEventListener('keydown',event=>{if(event.key==='Escape'&&mobile.matches&&body.classList.contains('nav-open'))closeMobile(true)});mobile.addEventListener('change',reset);
+  backdrop.addEventListener('click',()=>closeMobile(true));
+  links.forEach(link=>{
+    if(link.closest('.nav-phase')) return;
+    link.addEventListener('click',()=>{if(mobile.matches)closeMobile()});
+  });
+  [...nav.querySelectorAll('.nav-phase summary')].forEach(summary=>{
+    const link=summary.querySelector('a[href^="#"]');
+    if(!link)return;
+    const details=summary.parentElement;
+    summary.addEventListener('click',event=>{
+      event.preventDefault();
+      details.open=!details.open;
+      if(mobile.matches)closeMobile();
+      const href=link.getAttribute('href');
+      if(href&&href.startsWith('#')){
+        const target=document.querySelector(href);
+        if(target){target.scrollIntoView({behavior:'auto',block:'start'});history.replaceState(null,'',href);}
+      }
+    });
+  });
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&mobile.matches&&body.classList.contains('nav-open'))closeMobile(true)});mobile.addEventListener('change',reset);
   function updateCurrent(){
     const readingLine=window.innerHeight*.3;
     const active=sections.find(section=>{const box=section.getBoundingClientRect();return box.top<=readingLine&&box.bottom>readingLine})||sections[0];
