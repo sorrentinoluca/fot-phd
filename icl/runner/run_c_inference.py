@@ -91,6 +91,11 @@ _CANONICAL_INFERENCE_ARTIFACT_PATHS = frozenset({
 assert len(_CANONICAL_INFERENCE_ARTIFACT_PATHS) == _CANONICAL_INFERENCE_ARTIFACT_COUNT
 
 
+_CANONICAL_VERBALIZATIONS_MANIFEST_REL = (
+    "phase_b/final_evaluation/heldout_verbalizations_manifest.json"
+)
+
+
 def verify_inference_freeze(
     manifest_path: Path,
     *,
@@ -104,7 +109,31 @@ def verify_inference_freeze(
 
     Returns the parsed freeze manifest on success.
     """
+    # R10: reject non-canonical manifest path.
+    canonical = root / "icl" / "full_evaluation" / "freeze_manifest_inference.json"
+    if manifest_path.resolve() != canonical.resolve():
+        raise RuntimeError(
+            f"freeze guard: manifest path must be the canonical "
+            f"{canonical}, got {manifest_path.resolve()}"
+        )
+
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+
+    # R10: validate manifest_type.
+    if manifest.get("manifest_type") != "freeze_manifest_inference":
+        raise RuntimeError(
+            f"freeze guard: manifest_type must be "
+            f"'freeze_manifest_inference', "
+            f"got {manifest.get('manifest_type')!r}"
+        )
+
+    # R10: validate verbalizations_manifest_path is canonical.
+    verb_rel = manifest.get("verbalizations_manifest_path", "")
+    if verb_rel != _CANONICAL_VERBALIZATIONS_MANIFEST_REL:
+        raise RuntimeError(
+            f"freeze guard: verbalizations_manifest_path must be "
+            f"'{_CANONICAL_VERBALIZATIONS_MANIFEST_REL}', got {verb_rel!r}"
+        )
 
     # R8: reject arbitrarily reduced manifests.
     artifact_count = len(manifest.get("artifact_hashes", {}))

@@ -33,7 +33,10 @@ class CAggregatePrediction:
     def to_dict(self) -> dict[str, Any]:
         """Serialize to a plain dict (repetition_outcomes becomes a list)."""
         d = asdict(self)
-        # asdict converts tuples to lists already, which is what we want.
+        # asdict preserves tuples; convert to list so the dict round-trips
+        # identically through JSON (json.loads always yields lists).
+        if isinstance(d.get("repetition_outcomes"), tuple):
+            d["repetition_outcomes"] = list(d["repetition_outcomes"])
         return d
 
     def to_jsonl_line(self) -> str:
@@ -388,47 +391,6 @@ def verify_aggregate_freeze(
                 f"got {obj['aggregation_rule']!r}"
             )
 
-        # R9: agent_id must be "central".
-        if obj.get("agent_id") != "central":
-            raise RuntimeError(
-                f"c_aggregate_records.jsonl line {i} ({case_id}): "
-                f"agent_id must be 'central', got {obj.get('agent_id')!r}"
-            )
-
-        # R9: condition must be "C".
-        if obj.get("condition") != "C":
-            raise RuntimeError(
-                f"c_aggregate_records.jsonl line {i} ({case_id}): "
-                f"condition must be 'C', got {obj.get('condition')!r}"
-            )
-
-        # R9: majority-label consistency — parsed_output.predicted_label
-        # must match the actual majority vote of repetition_outcomes.
-        outcome_labels = [
-            o.get("predicted_label") for o in outcomes
-            if not o.get("abstain") and not o.get("parse_failure")
-        ]
-        outcome_votes = Counter(outcome_labels)
-        majority_winners = [lbl for lbl, cnt in outcome_votes.items() if cnt >= 2]
-        po = obj.get("parsed_output", {})
-        if len(majority_winners) == 1:
-            if po.get("predicted_label") != majority_winners[0]:
-                raise RuntimeError(
-                    f"c_aggregate_records.jsonl line {i} ({case_id}): "
-                    f"parsed_output.predicted_label "
-                    f"{po.get('predicted_label')!r} does not match "
-                    f"majority vote {majority_winners[0]!r} from "
-                    f"repetition_outcomes"
-                )
-        else:
-            # No majority — must be abstain.
-            if not po.get("abstain"):
-                raise RuntimeError(
-                    f"c_aggregate_records.jsonl line {i} ({case_id}): "
-                    f"no majority in repetition_outcomes but "
-                    f"parsed_output.abstain is not True"
-                )
-
         parsed_records_for_case[case_id] = obj
 
     # Check for missing case IDs.
@@ -485,39 +447,44 @@ def verify_aggregate_freeze(
             f"actual is {actual_sched_sha[:16]}…"
         )
 
-    # --- 11. R9: cross-verify repetition_outcomes against raw c_records ---
-    raw_lines = _c_rec_path.read_text(encoding="utf-8").strip().split("\n")
-    raw_by_case: dict[str, list[dict]] = defaultdict(list)
-    for raw_line in raw_lines:
-        if not raw_line.strip():
-            continue
-        raw_obj = json.loads(raw_line)
-        raw_by_case[raw_obj["physical_case_id"]].append(raw_obj)
+    # --- 11. R10: integral recomputation cross-verification ---
+    # Load raw records via CRunRecord, recompute aggregates from scratch
+    # with aggregate_c_records(), and compare each frozen aggregate dict
+    # against the recomputed dict.  This eliminates majority-voting logic
+    # duplication and catches *any* semantic drift — repetition numbers,
+    # abstain flags, labels, agent_id, condition, etc.
+    raw_lines_recomp = _c_rec_path.read_text(encoding="utf-8").strip().split("\n")
+    raw_records = [
+        CRunRecord.from_jsonl_line(ln)
+        for ln in raw_lines_recomp
+        if ln.strip()
+    ]
+    recomputed = aggregate_c_records(
+        raw_records, expected_case_ids=_EXPECTED_CASE_IDS,
+    )
+    recomputed_by_case = {
+        agg.physical_case_id: agg.to_dict() for agg in recomputed
+    }
 
-    for case_id, agg_obj in parsed_records_for_case.items():
-        raw_recs = sorted(
-            raw_by_case.get(case_id, []),
-            key=lambda r: r["repetition"],
-        )
-        agg_outcomes = agg_obj["repetition_outcomes"]
-        if len(raw_recs) != len(agg_outcomes):
+    for case_id, frozen_obj in parsed_records_for_case.items():
+        if case_id not in recomputed_by_case:
             raise RuntimeError(
-                f"aggregate {case_id}: {len(agg_outcomes)} "
-                f"repetition_outcomes but {len(raw_recs)} raw records"
+                f"R10 recomputation: case {case_id} present in frozen "
+                f"aggregates but absent from recomputation"
             )
-        for j, (raw_rec, agg_out) in enumerate(
-            zip(raw_recs, agg_outcomes)
-        ):
-            raw_label = raw_rec.get("parsed_output", {}).get(
-                "predicted_label"
+        recomp = recomputed_by_case[case_id]
+        if frozen_obj != recomp:
+            diffs = []
+            for key in sorted(set(frozen_obj) | set(recomp)):
+                if frozen_obj.get(key) != recomp.get(key):
+                    diffs.append(
+                        f"{key}: frozen={frozen_obj.get(key)!r}, "
+                        f"recomputed={recomp.get(key)!r}"
+                    )
+            raise RuntimeError(
+                f"R10 recomputation: frozen aggregate for {case_id} "
+                f"differs from recomputation — {'; '.join(diffs)}"
             )
-            agg_label = agg_out.get("predicted_label")
-            if raw_label != agg_label:
-                raise RuntimeError(
-                    f"aggregate {case_id} repetition {j+1}: "
-                    f"outcome label {agg_label!r} does not match "
-                    f"raw record label {raw_label!r}"
-                )
 
     return {
         "c_aggregate_manifest_verified": True,

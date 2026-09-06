@@ -614,28 +614,94 @@ class TestExpectedCaseIds(unittest.TestCase):
 _CASE_IDS = [f"PBH-{i:03d}" for i in range(1, 16)]
 
 
+def _outcome_to_crunrecord_dict(
+    case_id: str,
+    outcome: dict[str, Any],
+    seq_index: int,
+) -> dict[str, Any]:
+    """Create a full CRunRecord-compliant dict from an aggregate outcome.
+
+    R10: raw records must survive ``CRunRecord.from_jsonl_line()`` so that
+    integral recomputation in ``verify_aggregate_freeze`` works.
+    """
+    abstain = bool(outcome.get("abstain", False))
+    label = None if abstain else outcome["predicted_label"]
+    parse_failure = outcome.get("parse_failure", False)
+    valid = not parse_failure and (not abstain or True)
+    # CRunRecord validation: valid=True requires parse_success=True
+    # and error_type=None.  For parse failures: valid=False,
+    # parse_success=False, error_type="parse".
+    if parse_failure:
+        valid = False
+        parse_success = False
+        error_type: str | None = "parse"
+        # parse_failure records are abstain=True, label=None
+        abstain = True
+        label = None
+        reasoning = "parse_failure"
+    else:
+        valid = True
+        parse_success = True
+        error_type = None
+        reasoning = "test_stub"
+    return {
+        "agent_id": "central",
+        "condition": "C",
+        "physical_case_id": case_id,
+        "repetition": outcome["repetition"],
+        "sequence_index": seq_index,
+        "parsed_output": {
+            "predicted_label": label,
+            "abstain": abstain,
+            "used_insight_ids": [],
+            "reasoning_summary": reasoning,
+        },
+        "valid": valid,
+        "prompt_sha256": "a" * 64,
+        "raw_attempts": [{
+            "attempt_index": 0,
+            "raw_response": "test",
+            "parse_success": parse_success,
+            "error_type": error_type,
+            "request_id": "req_test",
+            "response_id": "resp_test",
+            "token_usage": {
+                "prompt_tokens": 100,
+                "completion_tokens": 50,
+                "total_tokens": 150,
+            },
+        }],
+        "retry_count": 0,
+        "model_requested": "gpt-5.6-terra",
+        "model_returned": "gpt-5.6-terra",
+        "reasoning_effort": "high",
+        "timestamp_iso": "2026-09-06T00:00:00+00:00",
+        "openai_sdk_version": "3.6.0",
+        "stateless": True,
+        "network_retries": [],
+    }
+
+
 def _make_raw_records_jsonl(
     aggs: list[CAggregatePrediction] | None = None,
 ) -> str:
     """Build JSONL content for c_records.jsonl matching aggregates' outcomes.
 
-    Each aggregate's repetition_outcomes are expanded into one raw record per
-    repetition.  If *aggs* is None, ``_make_standard_aggregates()`` is used.
+    Each aggregate's repetition_outcomes are expanded into one full
+    CRunRecord per repetition.  R10: records must pass
+    ``CRunRecord.from_jsonl_line()`` for integral recomputation.
     """
     if aggs is None:
         aggs = _make_standard_aggregates()
     lines: list[str] = []
+    seq = 0
     for agg in aggs:
         for outcome in agg.repetition_outcomes:
-            raw: dict[str, Any] = {
-                "physical_case_id": agg.physical_case_id,
-                "repetition": outcome["repetition"],
-                "parsed_output": {
-                    "predicted_label": outcome["predicted_label"],
-                    "abstain": outcome.get("abstain", False),
-                },
-            }
+            raw = _outcome_to_crunrecord_dict(
+                agg.physical_case_id, outcome, seq,
+            )
             lines.append(json.dumps(raw, separators=(",", ":")))
+            seq += 1
     return "\n".join(lines) + "\n"
 
 
@@ -904,13 +970,13 @@ class TestVerifyAggregateFreezeR8(unittest.TestCase):
         )
 
 
-class TestVerifyAggregateFreezeR9(unittest.TestCase):
-    """R9: semantic derivation checks added to verify_aggregate_freeze.
+class TestVerifyAggregateFreezeR10(unittest.TestCase):
+    """R10: integral recomputation cross-verification in verify_aggregate_freeze.
 
-    - agent_id must be 'central'
-    - condition must be 'C'
-    - parsed_output.predicted_label must match majority vote from outcomes
-    - repetition_outcomes must match raw c_records.jsonl labels
+    Raw records are loaded via CRunRecord.from_jsonl_line(), recomputed
+    via aggregate_c_records(), and the result is compared integrally
+    against the frozen aggregate file.  Any semantic drift — agent_id,
+    condition, label, abstain, repetition number — is caught.
     """
 
     def setUp(self) -> None:
@@ -940,27 +1006,23 @@ class TestVerifyAggregateFreezeR9(unittest.TestCase):
 
         If *raw_records_content* is not None it is used verbatim for
         ``c_records.jsonl``; otherwise matching raw records are derived
-        from *agg_dicts*' repetition_outcomes.
+        from *agg_dicts*' repetition_outcomes as full CRunRecords.
 
         Returns ``(agg_sha, c_sha, s_sha)``.
         """
         s_sha = self._write_schedule()
 
-        # --- raw records ---
+        # --- raw records (full CRunRecord-compliant) ---
         if raw_records_content is None:
-            # Derive matching raw records from the aggregate dicts.
             raw_lines: list[str] = []
+            seq = 0
             for d in agg_dicts:
                 for outcome in d["repetition_outcomes"]:
-                    raw: dict[str, Any] = {
-                        "physical_case_id": d["physical_case_id"],
-                        "repetition": outcome["repetition"],
-                        "parsed_output": {
-                            "predicted_label": outcome["predicted_label"],
-                            "abstain": outcome.get("abstain", False),
-                        },
-                    }
+                    raw = _outcome_to_crunrecord_dict(
+                        d["physical_case_id"], outcome, seq,
+                    )
                     raw_lines.append(json.dumps(raw, separators=(",", ":")))
+                    seq += 1
             raw_content = "\n".join(raw_lines) + "\n"
         else:
             raw_content = raw_records_content
@@ -992,7 +1054,7 @@ class TestVerifyAggregateFreezeR9(unittest.TestCase):
     # ---- tests ----
 
     def test_wrong_agent_id_rejected(self) -> None:
-        """R9: agent_id != 'central' in one aggregate → RuntimeError."""
+        """R10: agent_id='rogue_agent' in frozen → differs from recomputation."""
         dicts = self._standard_agg_dicts()
         dicts[5]["agent_id"] = "rogue_agent"
         self._write_setup_from_dicts(dicts)
@@ -1004,11 +1066,11 @@ class TestVerifyAggregateFreezeR9(unittest.TestCase):
                 schedule_path=self.schedule_path,
             )
         err = str(ctx.exception)
+        self.assertIn("R10 recomputation", err)
         self.assertIn("agent_id", err)
-        self.assertIn("central", err)
 
     def test_wrong_condition_rejected(self) -> None:
-        """R9: condition != 'C' in one aggregate → RuntimeError."""
+        """R10: condition='B' in frozen → differs from recomputation."""
         dicts = self._standard_agg_dicts()
         dicts[3]["condition"] = "B"
         self._write_setup_from_dicts(dicts)
@@ -1020,11 +1082,11 @@ class TestVerifyAggregateFreezeR9(unittest.TestCase):
                 schedule_path=self.schedule_path,
             )
         err = str(ctx.exception)
+        self.assertIn("R10 recomputation", err)
         self.assertIn("condition", err)
-        self.assertIn("'C'", err)
 
     def test_majority_label_inconsistency_rejected(self) -> None:
-        """R9: parsed_output.predicted_label ≠ majority vote → RuntimeError."""
+        """R10: parsed_output.predicted_label tampered → recomputation mismatch."""
         dicts = self._standard_agg_dicts()
         # All 3 outcomes say "Normal" but parsed_output says "CLS-ZOGAA".
         dicts[7]["parsed_output"]["predicted_label"] = "CLS-ZOGAA"
@@ -1036,10 +1098,12 @@ class TestVerifyAggregateFreezeR9(unittest.TestCase):
                 c_records_path=self.c_records_path,
                 schedule_path=self.schedule_path,
             )
-        self.assertIn("majority vote", str(ctx.exception))
+        err = str(ctx.exception)
+        self.assertIn("R10 recomputation", err)
+        self.assertIn("parsed_output", err)
 
     def test_no_majority_without_abstain_rejected(self) -> None:
-        """R9: no majority in outcomes but abstain is False → RuntimeError."""
+        """R10: 3 different labels but abstain=False → recomputation says abstain=True."""
         dicts = self._standard_agg_dicts()
         # Make all 3 outcomes different labels — no majority possible.
         dicts[0]["repetition_outcomes"][0]["predicted_label"] = "Normal"
@@ -1055,29 +1119,27 @@ class TestVerifyAggregateFreezeR9(unittest.TestCase):
                 c_records_path=self.c_records_path,
                 schedule_path=self.schedule_path,
             )
-        self.assertIn("abstain", str(ctx.exception))
+        err = str(ctx.exception)
+        self.assertIn("R10 recomputation", err)
 
-    def test_repetition_outcome_label_mismatch_raw_rejected(self) -> None:
-        """R9: repetition_outcomes labels differ from raw c_records → RuntimeError."""
+    def test_raw_label_mismatch_rejected(self) -> None:
+        """R10: raw c_records differ from frozen outcomes → recomputation mismatch."""
         dicts = self._standard_agg_dicts()
 
         # Build raw records that differ from the aggregates on one case.
         raw_lines: list[str] = []
+        seq = 0
         for d in dicts:
             for outcome in d["repetition_outcomes"]:
-                label = outcome["predicted_label"]
+                out = dict(outcome)
                 # Tamper: PBH-001, rep 1 → different label in raw records.
-                if d["physical_case_id"] == "PBH-001" and outcome["repetition"] == 1:
-                    label = "CLS-ZOGAA"
-                raw: dict[str, Any] = {
-                    "physical_case_id": d["physical_case_id"],
-                    "repetition": outcome["repetition"],
-                    "parsed_output": {
-                        "predicted_label": label,
-                        "abstain": outcome.get("abstain", False),
-                    },
-                }
+                if d["physical_case_id"] == "PBH-001" and out["repetition"] == 1:
+                    out["predicted_label"] = "CLS-ZOGAA"
+                raw = _outcome_to_crunrecord_dict(
+                    d["physical_case_id"], out, seq,
+                )
                 raw_lines.append(json.dumps(raw, separators=(",", ":")))
+                seq += 1
         tampered_raw = "\n".join(raw_lines) + "\n"
 
         self._write_setup_from_dicts(dicts, raw_records_content=tampered_raw)
@@ -1089,8 +1151,61 @@ class TestVerifyAggregateFreezeR9(unittest.TestCase):
                 schedule_path=self.schedule_path,
             )
         err = str(ctx.exception)
-        self.assertIn("raw record label", err)
+        self.assertIn("R10 recomputation", err)
         self.assertIn("PBH-001", err)
+
+    def test_repetition_number_mismatch_rejected(self) -> None:
+        """R10: frozen repetition_outcomes has repetition=99 → recomputation mismatch."""
+        dicts = self._standard_agg_dicts()
+        # Tamper frozen aggregate: change repetition number in outcome.
+        dicts[2]["repetition_outcomes"][0]["repetition"] = 99
+        self._write_setup_from_dicts(dicts)
+        with self.assertRaises((RuntimeError, ValueError)) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        # May fail during recomputation (invalid repetitions) or during
+        # the integral comparison.
+        err = str(ctx.exception)
+        self.assertTrue(
+            "repetition" in err.lower() or "R10 recomputation" in err,
+            f"unexpected error: {err}",
+        )
+
+    def test_abstain_per_rep_mismatch_rejected(self) -> None:
+        """R10: frozen outcome claims abstain=True but raw record has abstain=False."""
+        dicts = self._standard_agg_dicts()
+        # Tamper frozen aggregate: mark rep 1 as abstain in outcomes.
+        dicts[4]["repetition_outcomes"][0]["abstain"] = True
+        dicts[4]["repetition_outcomes"][0]["predicted_label"] = None
+        # Raw records are derived from the UNTAMPERED outcomes (all Normal).
+        # But _write_setup_from_dicts derives raw from tampered dicts,
+        # so we override raw_records_content to use the correct ones.
+        correct_dicts = self._standard_agg_dicts()
+        raw_lines: list[str] = []
+        seq = 0
+        for d in correct_dicts:
+            for outcome in d["repetition_outcomes"]:
+                raw = _outcome_to_crunrecord_dict(
+                    d["physical_case_id"], outcome, seq,
+                )
+                raw_lines.append(json.dumps(raw, separators=(",", ":")))
+                seq += 1
+        correct_raw = "\n".join(raw_lines) + "\n"
+
+        self._write_setup_from_dicts(dicts, raw_records_content=correct_raw)
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_aggregate_freeze(
+                aggregate_path=self.agg_path,
+                manifest_path=self.manifest_path,
+                c_records_path=self.c_records_path,
+                schedule_path=self.schedule_path,
+            )
+        err = str(ctx.exception)
+        self.assertIn("R10 recomputation", err)
 
 
 if __name__ == "__main__":

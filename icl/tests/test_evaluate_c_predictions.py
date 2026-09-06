@@ -1946,24 +1946,23 @@ class TestAggregateFreeze(unittest.TestCase):
     ) -> tuple[str, str]:
         """Write c_records.jsonl and c_schedule.json for cross-verification.
 
-        R9: raw records must match aggregate repetition_outcomes so that
-        check 11 (cross-verify against raw records) passes on the happy path.
+        R10: raw records must be full CRunRecord-compliant JSONL so that
+        the integral recomputation check (CRunRecord.from_jsonl_line +
+        aggregate_c_records) passes on the happy path.
 
         Returns (c_records_sha256, schedule_sha256).
         """
         # Build 45 raw records matching _make_aggregates() outcomes.
         raw_lines: list[str] = []
+        seq = 0
         for cid in sorted(_CASE_IDS):
             for rep in (1, 2, 3):
-                raw = {
-                    "physical_case_id": cid,
-                    "repetition": rep,
-                    "parsed_output": {
-                        "predicted_label": "Normal",
-                        "abstain": False,
-                    },
-                }
-                raw_lines.append(json.dumps(raw, separators=(",", ":")))
+                rec = _make_c_record(
+                    cid, repetition=rep, predicted_label="Normal",
+                    sequence_index=seq,
+                )
+                raw_lines.append(json.dumps(rec.to_dict(), ensure_ascii=False))
+                seq += 1
         c_records_content = "\n".join(raw_lines) + "\n"
         self.c_records_path.write_text(c_records_content, encoding="utf-8")
         c_rec_sha = hashlib.sha256(self.c_records_path.read_bytes()).hexdigest()
@@ -2265,8 +2264,8 @@ class TestPilotGateR8Checks(unittest.TestCase):
         )
 
 
-class TestR9CrossVerifyAggregates(unittest.TestCase):
-    """R9: pipeline cross-verifies recomputed aggregates against frozen."""
+class TestR10CrossVerifyAggregates(unittest.TestCase):
+    """R10: pipeline cross-verifies recomputed aggregates against frozen (integral)."""
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_aggregate_freeze",
            return_value=_mock_agg_freeze_result())
@@ -2310,7 +2309,7 @@ class TestR9CrossVerifyAggregates(unittest.TestCase):
                     b_records=[],
                 )
             err = str(ctx.exception)
-            self.assertIn("R9 cross-verify", err)
+            self.assertIn("R10 cross-verify", err)
             self.assertIn("PBH-004", err)
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
@@ -2338,7 +2337,7 @@ class TestR9CrossVerifyAggregates(unittest.TestCase):
                     b_records=[],
                 )
             err = str(ctx.exception)
-            self.assertIn("R9 cross-verify", err)
+            self.assertIn("R10 cross-verify", err)
             self.assertIn("abstain", err)
 
     @patch("icl.evaluation.evaluate_c_predictions.verify_c_predictions_freeze",
@@ -2390,7 +2389,7 @@ class TestR9CrossVerifyAggregates(unittest.TestCase):
                     b_records=[],
                 )
             err = str(ctx.exception)
-            self.assertIn("R9 cross-verify", err)
+            self.assertIn("R10 cross-verify", err)
             self.assertIn("PBH-010", err)
 
 

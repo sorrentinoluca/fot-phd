@@ -18,6 +18,7 @@ from icl.runner.run_c_inference import (
     FREEZE_MANIFEST_PATH,
     _CANONICAL_INFERENCE_ARTIFACT_COUNT,
     _CANONICAL_INFERENCE_ARTIFACT_PATHS,
+    _CANONICAL_VERBALIZATIONS_MANIFEST_REL,
     _build_raw_attempts,
     _PerCallNetworkRetry,
     _is_transient,
@@ -535,6 +536,9 @@ class TestRunCInference(unittest.TestCase):
 
 class TestFreezeGuard(unittest.TestCase):
 
+    # R10: canonical manifest location relative to root.
+    _MANIFEST_REL = "icl/full_evaluation/freeze_manifest_inference.json"
+
     def setUp(self) -> None:
         self.tmpdir = Path(tempfile.mkdtemp())
 
@@ -564,36 +568,45 @@ class TestFreezeGuard(unittest.TestCase):
             hashes[rel] = h
         return hashes
 
-    def test_pass(self) -> None:
-        artifact_hashes = self._make_canonical_artifacts()
-        verb_hash = self._write("verb_manifest.json", '{"cases": []}')
-
+    def _write_manifest(
+        self,
+        artifact_hashes: dict[str, str],
+        verb_hash: str,
+        *,
+        manifest_type: str = "freeze_manifest_inference",
+        verb_rel: str | None = None,
+    ) -> Path:
+        """Write manifest at the canonical path; return its Path."""
+        if verb_rel is None:
+            verb_rel = _CANONICAL_VERBALIZATIONS_MANIFEST_REL
         manifest = {
+            "manifest_type": manifest_type,
             "artifact_hashes": artifact_hashes,
-            "verbalizations_manifest_path": "verb_manifest.json",
+            "verbalizations_manifest_path": verb_rel,
             "verbalizations_manifest_sha256": verb_hash,
         }
-        manifest_path = self.tmpdir / "freeze.json"
+        manifest_path = self.tmpdir / self._MANIFEST_REL
+        manifest_path.parent.mkdir(parents=True, exist_ok=True)
         manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        return manifest_path
 
+    def test_pass(self) -> None:
+        artifact_hashes = self._make_canonical_artifacts()
+        verb_hash = self._write(
+            _CANONICAL_VERBALIZATIONS_MANIFEST_REL, '{"cases": []}',
+        )
+        manifest_path = self._write_manifest(artifact_hashes, verb_hash)
         result = verify_inference_freeze(manifest_path, root=self.tmpdir)
         self.assertIn("artifact_hashes", result)
 
     def test_artifact_hash_mismatch(self) -> None:
         artifact_hashes = self._make_canonical_artifacts()
-        verb_hash = self._write("verb_manifest.json", "{}")
-        # Corrupt one hash.
+        verb_hash = self._write(
+            _CANONICAL_VERBALIZATIONS_MANIFEST_REL, "{}",
+        )
         first_key = next(iter(artifact_hashes))
         artifact_hashes[first_key] = "0" * 64
-
-        manifest = {
-            "artifact_hashes": artifact_hashes,
-            "verbalizations_manifest_path": "verb_manifest.json",
-            "verbalizations_manifest_sha256": verb_hash,
-        }
-        manifest_path = self.tmpdir / "freeze.json"
-        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
-
+        manifest_path = self._write_manifest(artifact_hashes, verb_hash)
         with self.assertRaises(RuntimeError) as ctx:
             verify_inference_freeze(manifest_path, root=self.tmpdir)
         self.assertIn("freeze guard", str(ctx.exception))
@@ -601,16 +614,10 @@ class TestFreezeGuard(unittest.TestCase):
 
     def test_verbalization_manifest_mismatch(self) -> None:
         artifact_hashes = self._make_canonical_artifacts()
-        self._write("verb_manifest.json", '{"cases": []}')
-
-        manifest = {
-            "artifact_hashes": artifact_hashes,
-            "verbalizations_manifest_path": "verb_manifest.json",
-            "verbalizations_manifest_sha256": "0" * 64,
-        }
-        manifest_path = self.tmpdir / "freeze.json"
-        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
-
+        self._write(
+            _CANONICAL_VERBALIZATIONS_MANIFEST_REL, '{"cases": []}',
+        )
+        manifest_path = self._write_manifest(artifact_hashes, "0" * 64)
         with self.assertRaises(RuntimeError) as ctx:
             verify_inference_freeze(manifest_path, root=self.tmpdir)
         self.assertIn("verbalizations manifest", str(ctx.exception))
@@ -619,16 +626,10 @@ class TestFreezeGuard(unittest.TestCase):
         """R8: manifest with != 23 artifact hashes is rejected."""
         for bad_count in (0, 1, 22, 24, 50):
             artifact_hashes = self._make_n_artifacts(bad_count)
-            verb_hash = self._write("verb_manifest.json", "{}")
-            manifest = {
-                "artifact_hashes": artifact_hashes,
-                "verbalizations_manifest_path": "verb_manifest.json",
-                "verbalizations_manifest_sha256": verb_hash,
-            }
-            manifest_path = self.tmpdir / "freeze.json"
-            manifest_path.write_text(
-                json.dumps(manifest), encoding="utf-8",
+            verb_hash = self._write(
+                _CANONICAL_VERBALIZATIONS_MANIFEST_REL, "{}",
             )
+            manifest_path = self._write_manifest(artifact_hashes, verb_hash)
             with self.assertRaises(RuntimeError, msg=f"count={bad_count}") as ctx:
                 verify_inference_freeze(manifest_path, root=self.tmpdir)
             self.assertIn(
@@ -642,18 +643,13 @@ class TestFreezeGuard(unittest.TestCase):
 
     def test_non_canonical_paths_rejected(self) -> None:
         """R9: 23 artifacts with wrong paths are rejected."""
-        # Build 23 dummy files with non-canonical names.
         artifact_hashes = self._make_n_artifacts(
             _CANONICAL_INFERENCE_ARTIFACT_COUNT,
         )
-        verb_hash = self._write("verb_manifest.json", "{}")
-        manifest = {
-            "artifact_hashes": artifact_hashes,
-            "verbalizations_manifest_path": "verb_manifest.json",
-            "verbalizations_manifest_sha256": verb_hash,
-        }
-        manifest_path = self.tmpdir / "freeze.json"
-        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        verb_hash = self._write(
+            _CANONICAL_VERBALIZATIONS_MANIFEST_REL, "{}",
+        )
+        manifest_path = self._write_manifest(artifact_hashes, verb_hash)
         with self.assertRaises(RuntimeError) as ctx:
             verify_inference_freeze(manifest_path, root=self.tmpdir)
         self.assertIn("canonical set", str(ctx.exception))
@@ -664,6 +660,72 @@ class TestFreezeGuard(unittest.TestCase):
             len(_CANONICAL_INFERENCE_ARTIFACT_PATHS),
             _CANONICAL_INFERENCE_ARTIFACT_COUNT,
         )
+
+    # ---- R10: manifest trust root ----
+
+    def test_non_canonical_manifest_path_rejected(self) -> None:
+        """R10: verify_inference_freeze rejects a manifest not at the canonical path."""
+        artifact_hashes = self._make_canonical_artifacts()
+        verb_hash = self._write(
+            _CANONICAL_VERBALIZATIONS_MANIFEST_REL, "{}",
+        )
+        # Write manifest at a non-canonical location.
+        alt_path = self.tmpdir / "sneaky_manifest.json"
+        manifest = {
+            "manifest_type": "freeze_manifest_inference",
+            "artifact_hashes": artifact_hashes,
+            "verbalizations_manifest_path": _CANONICAL_VERBALIZATIONS_MANIFEST_REL,
+            "verbalizations_manifest_sha256": verb_hash,
+        }
+        alt_path.write_text(json.dumps(manifest), encoding="utf-8")
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_inference_freeze(alt_path, root=self.tmpdir)
+        self.assertIn("canonical", str(ctx.exception))
+
+    def test_wrong_manifest_type_rejected(self) -> None:
+        """R10: manifest_type != 'freeze_manifest_inference' is rejected."""
+        artifact_hashes = self._make_canonical_artifacts()
+        verb_hash = self._write(
+            _CANONICAL_VERBALIZATIONS_MANIFEST_REL, "{}",
+        )
+        manifest_path = self._write_manifest(
+            artifact_hashes, verb_hash,
+            manifest_type="freeze_manifest_evaluator",
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_inference_freeze(manifest_path, root=self.tmpdir)
+        self.assertIn("manifest_type", str(ctx.exception))
+
+    def test_missing_manifest_type_rejected(self) -> None:
+        """R10: missing manifest_type key is rejected."""
+        artifact_hashes = self._make_canonical_artifacts()
+        verb_hash = self._write(
+            _CANONICAL_VERBALIZATIONS_MANIFEST_REL, "{}",
+        )
+        # Write manifest without manifest_type.
+        manifest = {
+            "artifact_hashes": artifact_hashes,
+            "verbalizations_manifest_path": _CANONICAL_VERBALIZATIONS_MANIFEST_REL,
+            "verbalizations_manifest_sha256": verb_hash,
+        }
+        manifest_path = self.tmpdir / self._MANIFEST_REL
+        manifest_path.parent.mkdir(parents=True, exist_ok=True)
+        manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_inference_freeze(manifest_path, root=self.tmpdir)
+        self.assertIn("manifest_type", str(ctx.exception))
+
+    def test_non_canonical_verb_path_rejected(self) -> None:
+        """R10: non-canonical verbalizations_manifest_path is rejected."""
+        artifact_hashes = self._make_canonical_artifacts()
+        verb_hash = self._write("some/other/path.json", "{}")
+        manifest_path = self._write_manifest(
+            artifact_hashes, verb_hash,
+            verb_rel="some/other/path.json",
+        )
+        with self.assertRaises(RuntimeError) as ctx:
+            verify_inference_freeze(manifest_path, root=self.tmpdir)
+        self.assertIn("verbalizations_manifest_path", str(ctx.exception))
 
 
 

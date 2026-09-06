@@ -824,16 +824,16 @@ def evaluate_c_predictions(
         expected_case_ids=set(case_truth),
     )
 
-    # R9: cross-verify recomputed aggregates against frozen aggregates.
-    # verify_aggregate_freeze (above) returns the verified aggregate records
-    # keyed by case_id.  We ensure the pipeline actually *uses* a result
-    # consistent with that frozen artifact, not an arbitrary recomputation.
+    # R10: integral cross-verify — recomputed aggregates must match
+    # the frozen verified aggregates on every field, not just label/abstain.
+    # This catches repetition-number, abstain-per-rep, agent_id, condition,
+    # and any other semantic drift that field-by-field checks would miss.
     frozen_by_case: dict[str, dict[str, Any]] | None = (
         aggregate_integrity.get("verified_aggregates")
     )
     if frozen_by_case is None:
         raise RuntimeError(
-            "R9 cross-verify: verify_aggregate_freeze did not return "
+            "R10 cross-verify: verify_aggregate_freeze did not return "
             "verified_aggregates — cannot confirm consistency"
         )
 
@@ -841,27 +841,22 @@ def evaluate_c_predictions(
         cid = agg.physical_case_id
         if cid not in frozen_by_case:
             raise RuntimeError(
-                f"R9 cross-verify: recomputed aggregate for {cid} "
+                f"R10 cross-verify: recomputed aggregate for {cid} "
                 f"has no matching frozen record"
             )
+        recomp_dict = agg.to_dict()
         frozen = frozen_by_case[cid]
-        # Compare predicted_label.
-        recomputed_label = agg.parsed_output.get("predicted_label")
-        frozen_label = frozen.get("parsed_output", {}).get("predicted_label")
-        if recomputed_label != frozen_label:
+        if recomp_dict != frozen:
+            diffs = []
+            for key in sorted(set(recomp_dict) | set(frozen)):
+                if recomp_dict.get(key) != frozen.get(key):
+                    diffs.append(
+                        f"{key}: recomputed={recomp_dict.get(key)!r}, "
+                        f"frozen={frozen.get(key)!r}"
+                    )
             raise RuntimeError(
-                f"R9 cross-verify: recomputed predicted_label for {cid} "
-                f"is {recomputed_label!r} but frozen aggregate says "
-                f"{frozen_label!r}"
-            )
-        # Compare abstain.
-        recomputed_abstain = agg.parsed_output.get("abstain")
-        frozen_abstain = frozen.get("parsed_output", {}).get("abstain")
-        if recomputed_abstain != frozen_abstain:
-            raise RuntimeError(
-                f"R9 cross-verify: recomputed abstain for {cid} "
-                f"is {recomputed_abstain!r} but frozen aggregate says "
-                f"{frozen_abstain!r}"
+                f"R10 cross-verify: recomputed aggregate for {cid} "
+                f"differs from frozen — {'; '.join(diffs)}"
             )
 
     # Validate all aggregates have truth.

@@ -9,7 +9,7 @@
     "phase_b/conditions/diagnostic_output.openai.schema.json": "6ef214cdebbfe06e59a7a5a2f51f3fb93dd8d47e8397f6bc5bc68047e1364bf8",
     "icl/conditions/builder_c.py": "5249fe683c0e37306f4444aad83a08b18ffab2457af3bc59ec855b713fed5e3f",
     "icl/runner/build_c_schedule.py": "bc96055e60e7665690221ccb5b8e4a2196434f62546eaa888b50a9210358c333",
-    "icl/runner/run_c_inference.py": "75e9cb2411659e13b25cf0b7556413be2fdafda813a4e4268290d3b309e7eb30",
+    "icl/runner/run_c_inference.py": "1135b29d22542f76234630fdcf214c3dae39dd1fa3f8299462daf82a5a2d31a3",
     "icl/runner/records_c.py": "8e2ac0076208b45df8ee98d983d741ce5d2f687d49456ce71650d37baf8cec5e",
     "icl/schemas/c_run_record.schema.json": "9e84a232e667dc8c4575571f557109e9c373b127e89c7659c61c364d57f8f9de",
     "phase_b/conditions/parser.py": "bdddfe99ba6e4328a071ea94c221a91cc5942252865691a280bcd6687301eb99",
@@ -24,7 +24,7 @@
     "icl/tests/test_builder_c.py": "76a570d809dfb353489fb4271cc32336053346fc451d8a5e31236689cef56bef",
     "icl/tests/test_records_c.py": "c223e2deedc2b990223c651c76509079a6580201e042688492883ea6d7c1dbbb",
     "icl/tests/test_build_c_schedule.py": "7e8c8e48c801facd6bb5a1a85105deebbc3baec2aab30f412ee7fccc3e7d42c7",
-    "icl/tests/test_run_c_inference.py": "ffe07a53b53594ed3d7396d6b72ee42eede25161d85e840d712ea339c643bb89"
+    "icl/tests/test_run_c_inference.py": "975ac7eb5d127cacba29002cca98f8a683dc564a1fbda20ec7049a1f644f75d5"
   },
   "verbalizations_manifest_path": "phase_b/final_evaluation/heldout_verbalizations_manifest.json",
   "verbalizations_manifest_sha256": "a5a00e6f3724ba5af50f8c4b09e82a6e61676b0a1019276733925c6d3fc7ef68"
