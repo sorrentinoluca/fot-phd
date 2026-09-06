@@ -38,9 +38,15 @@ with a **receiver-independent** context containing:
   `pooled_insights.json`.
 
 The prompt template is byte-identical to the A/B/E template. The output
-schema, model (`gpt-5.6-terra`), reasoning effort (`medium`), retry policy
-(max 2 structural retries), and `R = 3` majority aggregation rule are
-unchanged from Exp 1.
+schema, model (`gpt-5.6-terra`), reasoning effort (`medium`), structural
+retry policy (max 2 structural retries), and `R = 3` majority aggregation
+rule are unchanged from Exp 1.
+
+In addition to structural retries, each LLM call is wrapped in a
+**network-level retry** layer: up to 4 retries on transient errors
+(connection failures, timeouts, HTTP 429/500/502/503/504), with
+exponential backoff starting at 2 s and a factor of 2.  Network retries
+are recorded in each `CRunRecord` via the `network_retry_count` field.
 
 "Full-information" refers to the union of prompt-facing frozen artifacts
 (labeled examples + textual insights), not to the totality of source texts.

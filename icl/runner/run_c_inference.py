@@ -257,11 +257,16 @@ def _call_with_network_retry(
     *,
     max_retries: int = _MAX_NETWORK_RETRIES,
 ):
-    """Call *fn* with exponential-backoff retry on transient errors."""
+    """Call *fn* with exponential-backoff retry on transient errors.
+
+    Returns ``(result, network_retry_count)`` so the caller can record
+    how many transient failures were retried.
+    """
     backoff = _INITIAL_BACKOFF_S
     for attempt in range(max_retries + 1):
         try:
-            return fn()
+            result = fn()
+            return result, attempt
         except Exception as exc:
             if attempt == max_retries or not _is_transient(exc):
                 raise
@@ -329,7 +334,7 @@ def run_c_inference(
             )
         rendered = prompt_cache[case_id]
 
-        execution = _call_with_network_retry(
+        execution, net_retries = _call_with_network_retry(
             lambda: adapter.execute_diagnostic(
                 prompt=rendered.text,
                 label_space=label_space,
@@ -361,6 +366,7 @@ def run_c_inference(
             reasoning_effort=reasoning_effort,
             timestamp_iso=datetime.now(timezone.utc).isoformat(),
             stateless=True,
+            network_retry_count=net_retries,
         )
 
         line = record.to_jsonl_line()

@@ -31,7 +31,7 @@ def aggregate_c_records(
     values: Iterable[CRunRecord | dict[str, Any]],
     *,
     label_space: Iterable[str] | None = None,
-    expected_case_ids: set[str] | None = None,
+    expected_case_ids: set[str] | None,
 ) -> list[CAggregatePrediction]:
     """Aggregate Condition C run records via R=3 majority voting.
 

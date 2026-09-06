@@ -58,6 +58,11 @@ INFERENCE_HASH_MANIFEST_PATH = (
 EVALUATOR_FREEZE_MANIFEST_PATH = (
     ROOT / "icl" / "full_evaluation" / "freeze_manifest_evaluator.json"
 )
+C_RECORDS_PATH = ROOT / "icl" / "inference" / "c_records.jsonl"
+C_PREDICTIONS_MANIFEST_PATH = (
+    ROOT / "icl" / "full_evaluation" / "predictions"
+    / "c_predictions_hash_manifest.json"
+)
 
 ABSTAIN_TOKEN = "__ABSTAIN__"
 
@@ -547,6 +552,56 @@ def verify_evaluator_freeze(
 
 
 # ------------------------------------------------------------------
+# Predictions integrity barrier (fail-closed)
+# ------------------------------------------------------------------
+
+def verify_c_predictions_freeze(
+    *,
+    c_records_path: Path | None = None,
+    manifest_path: Path | None = None,
+    root: Path = ROOT,
+) -> dict[str, Any]:
+    """Verify c_records.jsonl integrity against its predictions manifest.
+
+    Fail-closed: raises FileNotFoundError if either file is missing,
+    RuntimeError if the hash does not match.
+
+    Returns integrity dict on success.
+    """
+    rec_path = c_records_path if c_records_path is not None else C_RECORDS_PATH
+    man_path = manifest_path if manifest_path is not None else C_PREDICTIONS_MANIFEST_PATH
+
+    # Both must exist (fail-closed).
+    manifest = json.loads(man_path.read_text(encoding="utf-8"))
+
+    expected = manifest["c_records_sha256"]
+    actual = _sha256_file(rec_path)
+    if actual != expected:
+        raise RuntimeError(
+            f"c_records.jsonl hash mismatch: "
+            f"expected {expected[:16]}…, got {actual[:16]}…"
+        )
+
+    expected_count = manifest.get("record_count")
+    if expected_count is not None:
+        actual_count = sum(
+            1 for line in rec_path.read_text(encoding="utf-8").strip().split("\n")
+            if line.strip()
+        )
+        if actual_count != expected_count:
+            raise RuntimeError(
+                f"c_records.jsonl record count mismatch: "
+                f"expected {expected_count}, got {actual_count}"
+            )
+
+    return {
+        "c_predictions_manifest_verified": True,
+        "c_records_sha256": actual,
+        "record_count": expected_count,
+    }
+
+
+# ------------------------------------------------------------------
 # Full evaluation pipeline
 # ------------------------------------------------------------------
 
@@ -560,6 +615,8 @@ def evaluate_c_predictions(
     bootstrap_iterations: int = 10000,
     bootstrap_seed: int = 20260906,
     evaluator_manifest_path: Path | None = None,
+    c_records_path: Path | None = None,
+    c_predictions_manifest_path: Path | None = None,
 ) -> dict[str, Any]:
     """Run the full Condition C evaluation pipeline.
 
@@ -595,6 +652,12 @@ def evaluate_c_predictions(
             if evaluator_manifest_path is not None
             else EVALUATOR_FREEZE_MANIFEST_PATH
         ),
+    )
+
+    # Predictions integrity barrier (mandatory / fail-closed).
+    predictions_integrity = verify_c_predictions_freeze(
+        c_records_path=c_records_path,
+        manifest_path=c_predictions_manifest_path,
     )
 
     if label_space is None:
@@ -679,5 +742,6 @@ def evaluate_c_predictions(
     if truth_integrity is not None:
         results["ground_truth_join"] = truth_integrity
     results["evaluator_freeze_integrity"] = evaluator_integrity
+    results["predictions_freeze_integrity"] = predictions_integrity
 
     return results

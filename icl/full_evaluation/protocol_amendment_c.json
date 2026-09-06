@@ -15,20 +15,54 @@
     "receiver_independent": true,
     "examples_count": 10,
     "insights_count": 8,
-    "label_space": ["CLS-ZOGAA", "CLS-OJNSG", "CLS-R463B", "CLS-Z3ISU", "Normal"]
+    "label_space": [
+      "CLS-ZOGAA",
+      "CLS-OJNSG",
+      "CLS-R463B",
+      "CLS-Z3ISU",
+      "Normal"
+    ]
   },
   "scheduling": {
-    "unit": "physical_case_id × repetition",
+    "unit": "physical_case_id \u00d7 repetition",
     "physical_case_ids": [
-      "PBH-001", "PBH-002", "PBH-003", "PBH-004", "PBH-005",
-      "PBH-006", "PBH-007", "PBH-008", "PBH-009", "PBH-010",
-      "PBH-011", "PBH-012", "PBH-013", "PBH-014", "PBH-015"
+      "PBH-001",
+      "PBH-002",
+      "PBH-003",
+      "PBH-004",
+      "PBH-005",
+      "PBH-006",
+      "PBH-007",
+      "PBH-008",
+      "PBH-009",
+      "PBH-010",
+      "PBH-011",
+      "PBH-012",
+      "PBH-013",
+      "PBH-014",
+      "PBH-015"
     ],
-    "repetitions": [1, 2, 3],
+    "repetitions": [
+      1,
+      2,
+      3
+    ],
     "ordering": "(pilot DESC, physical_case_id ASC, repetition ASC)",
-    "pilot_cases": ["PBH-001", "PBH-004", "PBH-007", "PBH-010", "PBH-013"],
-    "pilot_sequence_indices": [0, 14],
-    "non_pilot_sequence_indices": [15, 44],
+    "pilot_cases": [
+      "PBH-001",
+      "PBH-004",
+      "PBH-007",
+      "PBH-010",
+      "PBH-013"
+    ],
+    "pilot_sequence_indices": [
+      0,
+      14
+    ],
+    "non_pilot_sequence_indices": [
+      15,
+      44
+    ],
     "total_entries": 45,
     "pilot_entries": 15,
     "non_pilot_entries": 30
@@ -45,7 +79,25 @@
     "seed": null,
     "structured_output_strict": true,
     "max_structural_retries": 2,
-    "repetitions": 3
+    "repetitions": 3,
+    "network_retry_policy": {
+      "max_network_retries": 4,
+      "initial_backoff_seconds": 2.0,
+      "backoff_factor": 2.0,
+      "retryable_status_codes": [
+        429,
+        500,
+        502,
+        503,
+        504
+      ],
+      "retryable_exceptions": [
+        "ConnectionError",
+        "TimeoutError",
+        "OSError"
+      ],
+      "tracked_in_record_field": "network_retry_count"
+    }
   },
   "stateless_calls": true,
   "statelessness_requirements": {
@@ -74,7 +126,7 @@
     "bootstrap_iterations": 10000,
     "bootstrap_seed": 20260906,
     "bootstrap_clusters": 12,
-    "bootstrap_strata": "4 fault classes × 3 cases",
+    "bootstrap_strata": "4 fault classes \u00d7 3 cases",
     "bootstrap_ci_level": 0.95,
     "bootstrap_method": "percentile"
   },

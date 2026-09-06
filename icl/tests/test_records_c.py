@@ -313,6 +313,52 @@ class TestInsightIdValidation(unittest.TestCase):
         self.assertEqual(record.parsed_output["used_insight_ids"], [])
 
 
+
+class TestNetworkRetryCountValidation(unittest.TestCase):
+    """Validate network_retry_count field in CRunRecord."""
+
+    def test_valid_zero(self) -> None:
+        d = _valid_record_dict(network_retry_count=0)
+        record = CRunRecord.from_dict(d)
+        self.assertEqual(record.network_retry_count, 0)
+
+    def test_valid_positive(self) -> None:
+        d = _valid_record_dict(network_retry_count=3)
+        record = CRunRecord.from_dict(d)
+        self.assertEqual(record.network_retry_count, 3)
+
+    def test_default_zero(self) -> None:
+        """Omitting network_retry_count defaults to 0."""
+        d = _valid_record_dict()
+        record = CRunRecord.from_dict(d)
+        self.assertEqual(record.network_retry_count, 0)
+
+    def test_reject_negative(self) -> None:
+        d = _valid_record_dict(network_retry_count=-1)
+        with self.assertRaises(ValueError) as ctx:
+            CRunRecord.from_dict(d)
+        self.assertIn('network_retry_count', str(ctx.exception))
+
+    def test_reject_non_int(self) -> None:
+        d = _valid_record_dict(network_retry_count=1.5)
+        with self.assertRaises(ValueError) as ctx:
+            CRunRecord.from_dict(d)
+        self.assertIn('network_retry_count', str(ctx.exception))
+
+    def test_reject_string(self) -> None:
+        d = _valid_record_dict(network_retry_count='0')
+        with self.assertRaises(ValueError) as ctx:
+            CRunRecord.from_dict(d)
+        self.assertIn('network_retry_count', str(ctx.exception))
+
+    def test_roundtrip_preserves(self) -> None:
+        d = _valid_record_dict(network_retry_count=4)
+        record = CRunRecord.from_dict(d)
+        line = record.to_jsonl_line()
+        restored = CRunRecord.from_jsonl_line(line)
+        self.assertEqual(restored.network_retry_count, 4)
+
+
 class TestCRunRecordSchema(unittest.TestCase):
     def test_schema_loads(self) -> None:
         schema_path = ROOT / "icl" / "schemas" / "c_run_record.schema.json"

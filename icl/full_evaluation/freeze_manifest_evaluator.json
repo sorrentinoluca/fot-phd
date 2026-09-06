@@ -2,16 +2,16 @@
   "manifest_type": "freeze_manifest_evaluator",
   "description": "Evaluator-side artifact hashes for Condition C. Verified by evaluate_c_predictions.py after all predictions are frozen. Does NOT access inference-side artifacts.",
   "artifact_hashes": {
-    "icl/evaluation/aggregation_c.py": "dc82c65dd211b1977d4a3419de02e937d2b63e0281be9b6676aa9e75d9026769",
-    "icl/evaluation/evaluate_c_predictions.py": "989780ec39e7b10f6450bc0cb0218f7653fa5a90824a994ef7b8233293ed55ba",
+    "icl/evaluation/aggregation_c.py": "c4571c9bb80bd44279bef3c5635f5c7c88e4e449aae97be7617f8ebfbcf6fc0d",
+    "icl/evaluation/evaluate_c_predictions.py": "ee93c8fccebb206a891ed97926c852f9013d9f39d5365cf2bf13cfbc93099d84",
     "phase_b/evaluation/bootstrap.py": "524751fede48e678ee66b9f783be8fdeaefe7bebe32772e5367ba9be9c3d9df5",
     "phase_b/config/evaluator_side/pseudolabel_mapping.json": "f68a690df9c5d0d9505c8b388379c78ccdaa4143e9b4c4e4814ea6d7888b3035",
     "phase_b/final_evaluation/inference/aggregate_records.jsonl": "94434c1da32969d6faa56d202a6fb63cf634a80512088d910cf7c82a47c6bf10",
     "phase_b/final_evaluation/inference/inference_output_hash_manifest.json": "888306096b11ebd35ce3a173f68b97431fde80d3772be023230e1fed847633fe",
-    "icl/tests/test_aggregation_c.py": "cd56b388113c448509a33a18a45e5a40d42dc9ec4cc2d7c12504013c6d211150",
-    "icl/tests/test_evaluate_c_predictions.py": "077bebadf88c16eb0b052c9a8de1a5e2e5d28782e3da962c0e65b9239bea6529",
+    "icl/tests/test_aggregation_c.py": "0a971f6d74bfc6093c602411ecdb82431ea069457b7dc0904ac1581dae7d26ff",
+    "icl/tests/test_evaluate_c_predictions.py": "dba9e2179e753548219fdec6154291734e9c857bee141028d987093d115ee26c",
     "phase_b/heldout/phase_b_heldout_manifest.csv": "610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3",
     "phase_b/config/protocol_config.json": "a67b721609647c9a428c9895de1f0d684547e9fc8cf91f0a626f823af094e135",
-    "icl/runner/records_c.py": "3df4b3b197301cd163a404046e07ab82268e3704256376679d89806ae84f3893"
+    "icl/runner/records_c.py": "a4d60b8514ca754eea1b7d81732205c08c2ddeac5f08dec21e83df52690e6287"
   }
 }

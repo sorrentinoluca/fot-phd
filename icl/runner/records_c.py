@@ -38,6 +38,7 @@ class CRunRecord:
     reasoning_effort: str
     timestamp_iso: str
     stateless: bool = True
+    network_retry_count: int = 0
 
     def validate(self) -> None:
         # Identity
@@ -166,6 +167,8 @@ class CRunRecord:
             raise ValueError("timestamp_iso must include a timezone")
         if self.stateless is not True:
             raise ValueError("stateless must be true for Condition C")
+        if not isinstance(self.network_retry_count, int) or self.network_retry_count < 0:
+            raise ValueError("network_retry_count must be a non-negative integer")
 
     def to_dict(self) -> dict[str, Any]:
         self.validate()
