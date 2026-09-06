@@ -2,13 +2,16 @@
   "manifest_type": "freeze_manifest_evaluator",
   "description": "Evaluator-side artifact hashes for Condition C. Verified by evaluate_c_predictions.py after all predictions are frozen. Does NOT access inference-side artifacts.",
   "artifact_hashes": {
-    "icl/evaluation/aggregation_c.py": "b5a44246798d0c1eff52fff520930b4728971d1248596b676560f29743edfe81",
-    "icl/evaluation/evaluate_c_predictions.py": "6292664a36aa2a1f5f48117333b8af4e809e3764324b7671162b68a786d1496b",
+    "icl/evaluation/aggregation_c.py": "dc82c65dd211b1977d4a3419de02e937d2b63e0281be9b6676aa9e75d9026769",
+    "icl/evaluation/evaluate_c_predictions.py": "989780ec39e7b10f6450bc0cb0218f7653fa5a90824a994ef7b8233293ed55ba",
     "phase_b/evaluation/bootstrap.py": "524751fede48e678ee66b9f783be8fdeaefe7bebe32772e5367ba9be9c3d9df5",
     "phase_b/config/evaluator_side/pseudolabel_mapping.json": "f68a690df9c5d0d9505c8b388379c78ccdaa4143e9b4c4e4814ea6d7888b3035",
     "phase_b/final_evaluation/inference/aggregate_records.jsonl": "94434c1da32969d6faa56d202a6fb63cf634a80512088d910cf7c82a47c6bf10",
     "phase_b/final_evaluation/inference/inference_output_hash_manifest.json": "888306096b11ebd35ce3a173f68b97431fde80d3772be023230e1fed847633fe",
-    "icl/tests/test_aggregation_c.py": "d28092b8f4f98de8e495b25ba69452552ded3efaf02fa53a881212d9fb0fa71b",
-    "icl/tests/test_evaluate_c_predictions.py": "11b139980ccea84d289b5d842082e373bb3fd91cabd1abec658c9d80140bb203"
+    "icl/tests/test_aggregation_c.py": "cd56b388113c448509a33a18a45e5a40d42dc9ec4cc2d7c12504013c6d211150",
+    "icl/tests/test_evaluate_c_predictions.py": "077bebadf88c16eb0b052c9a8de1a5e2e5d28782e3da962c0e65b9239bea6529",
+    "phase_b/heldout/phase_b_heldout_manifest.csv": "610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3",
+    "phase_b/config/protocol_config.json": "a67b721609647c9a428c9895de1f0d684547e9fc8cf91f0a626f823af094e135",
+    "icl/runner/records_c.py": "3df4b3b197301cd163a404046e07ab82268e3704256376679d89806ae84f3893"
   }
 }

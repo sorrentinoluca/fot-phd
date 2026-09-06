@@ -11,6 +11,7 @@ import json
 import shutil
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 from typing import Any
 
@@ -631,8 +632,8 @@ class TestVerifyEvaluatorFreeze(unittest.TestCase):
             "real_to_opaque": {"F1": "CLS-ZOGAA"},
             "normal_label": "Normal",
         })
-        self._write("mapping.json", mapping_content)
-        self._write("manifest.csv", "case_id,class_offline\n")
+        mapping_hash = self._write("mapping.json", mapping_content)
+        csv_hash = self._write("manifest.csv", "case_id,class_offline\n")
         b_agg_content = '{"agent_id":"agent_1"}\n'
         b_hash = self._write("b_agg.jsonl", b_agg_content)
         hash_manifest = json.dumps({
@@ -640,8 +641,17 @@ class TestVerifyEvaluatorFreeze(unittest.TestCase):
         })
         self._write("hash_manifest.json", hash_manifest)
 
+        # Create a real evaluator freeze manifest (fail-closed requires it).
+        eval_manifest = json.dumps({
+            "artifact_hashes": {
+                "mapping.json": mapping_hash,
+                "manifest.csv": csv_hash,
+            },
+        })
+        self._write("eval_freeze.json", eval_manifest)
+
         result = verify_evaluator_freeze(
-            manifest_path=self.tmpdir / "no_eval_manifest.json",
+            manifest_path=self.tmpdir / "eval_freeze.json",
             heldout_manifest_path=self.tmpdir / "manifest.csv",
             mapping_path=self.tmpdir / "mapping.json",
             b_aggregate_path=self.tmpdir / "b_agg.jsonl",
@@ -652,13 +662,37 @@ class TestVerifyEvaluatorFreeze(unittest.TestCase):
         self.assertIn("heldout_manifest_sha256", result)
         self.assertIn("b_aggregate_sha256", result)
         self.assertTrue(result.get("b_aggregate_hash_verified"))
+        self.assertTrue(result.get("evaluator_manifest_verified"))
 
-    def test_missing_mapping_raises(self) -> None:
+    def test_missing_manifest_raises(self) -> None:
+        """P1-4: missing evaluator manifest → FileNotFoundError (fail-closed)."""
+        mapping_content = json.dumps({
+            "real_to_opaque": {"F1": "CLS-ZOGAA"},
+            "normal_label": "Normal",
+        })
+        self._write("mapping.json", mapping_content)
         self._write("manifest.csv", "")
         self._write("b_agg.jsonl", "")
         with self.assertRaises(FileNotFoundError):
             verify_evaluator_freeze(
-                manifest_path=self.tmpdir / "no_eval_manifest.json",
+                manifest_path=self.tmpdir / "nonexistent_manifest.json",
+                heldout_manifest_path=self.tmpdir / "manifest.csv",
+                mapping_path=self.tmpdir / "mapping.json",
+                b_aggregate_path=self.tmpdir / "b_agg.jsonl",
+                hash_manifest_path=self.tmpdir / "hash_manifest.json",
+                root=self.tmpdir,
+            )
+
+    def test_missing_mapping_raises(self) -> None:
+        csv_hash = self._write("manifest.csv", "")
+        self._write("b_agg.jsonl", "")
+        eval_manifest = json.dumps({"artifact_hashes": {
+            "manifest.csv": csv_hash,
+        }})
+        self._write("eval_freeze.json", eval_manifest)
+        with self.assertRaises(FileNotFoundError):
+            verify_evaluator_freeze(
+                manifest_path=self.tmpdir / "eval_freeze.json",
                 heldout_manifest_path=self.tmpdir / "manifest.csv",
                 mapping_path=self.tmpdir / "nonexistent.json",
                 b_aggregate_path=self.tmpdir / "b_agg.jsonl",
@@ -667,12 +701,17 @@ class TestVerifyEvaluatorFreeze(unittest.TestCase):
             )
 
     def test_bad_mapping_keys_raises(self) -> None:
-        self._write("mapping.json", json.dumps({"wrong": "keys"}))
-        self._write("manifest.csv", "")
+        mapping_hash = self._write("mapping.json", json.dumps({"wrong": "keys"}))
+        csv_hash = self._write("manifest.csv", "")
         self._write("b_agg.jsonl", "")
+        eval_manifest = json.dumps({"artifact_hashes": {
+            "mapping.json": mapping_hash,
+            "manifest.csv": csv_hash,
+        }})
+        self._write("eval_freeze.json", eval_manifest)
         with self.assertRaises(ValueError):
             verify_evaluator_freeze(
-                manifest_path=self.tmpdir / "no_eval_manifest.json",
+                manifest_path=self.tmpdir / "eval_freeze.json",
                 heldout_manifest_path=self.tmpdir / "manifest.csv",
                 mapping_path=self.tmpdir / "mapping.json",
                 b_aggregate_path=self.tmpdir / "b_agg.jsonl",
@@ -685,15 +724,20 @@ class TestVerifyEvaluatorFreeze(unittest.TestCase):
             "real_to_opaque": {"F1": "CLS-ZOGAA"},
             "normal_label": "Normal",
         })
-        self._write("mapping.json", mapping)
-        self._write("manifest.csv", "")
+        mapping_hash = self._write("mapping.json", mapping)
+        csv_hash = self._write("manifest.csv", "")
         self._write("b_agg.jsonl", '{"data":"value"}\n')
         self._write("hash_manifest.json", json.dumps({
             "artifacts": {"b_agg.jsonl": "0" * 64},
         }))
+        eval_manifest = json.dumps({"artifact_hashes": {
+            "mapping.json": mapping_hash,
+            "manifest.csv": csv_hash,
+        }})
+        self._write("eval_freeze.json", eval_manifest)
         with self.assertRaises(RuntimeError) as ctx:
             verify_evaluator_freeze(
-                manifest_path=self.tmpdir / "no_eval_manifest.json",
+                manifest_path=self.tmpdir / "eval_freeze.json",
                 heldout_manifest_path=self.tmpdir / "manifest.csv",
                 mapping_path=self.tmpdir / "mapping.json",
                 b_aggregate_path=self.tmpdir / "b_agg.jsonl",
@@ -802,10 +846,14 @@ class TestFirewall(unittest.TestCase):
         self.assertNotIn("pseudolabel_mapping", source)
 
 
+@patch(
+    "icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+    return_value={"evaluator_manifest_verified": True},
+)
 class TestEvaluateCPredictions(unittest.TestCase):
     """Integration tests for the full pipeline."""
 
-    def test_full_pipeline_all_correct(self) -> None:
+    def test_full_pipeline_all_correct(self, mock_freeze) -> None:
         """C all correct + B all correct → delta = 0."""
         records = _all_correct_records()
         b_recs = _full_b_records(all_correct=True)
@@ -832,7 +880,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
         )
         self.assertIn("bootstrap", result)
 
-    def test_pipeline_c_better_than_b(self) -> None:
+    def test_pipeline_c_better_than_b(self, mock_freeze) -> None:
         """C all correct, B all wrong → delta = 1.0."""
         records = _all_correct_records()
         b_recs = _full_b_records(all_correct=False)
@@ -848,7 +896,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
             result["delta_c_minus_b"]["delta_C_minus_B"], 1.0,
         )
 
-    def test_pipeline_no_b_records(self) -> None:
+    def test_pipeline_no_b_records(self, mock_freeze) -> None:
         """No B records → no delta or bootstrap in output."""
         records = _all_correct_records()
         result = evaluate_c_predictions(
@@ -863,7 +911,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
         self.assertNotIn("delta_c_minus_b", result)
         self.assertNotIn("bootstrap", result)
 
-    def test_invalid_truth_labels_raises(self) -> None:
+    def test_invalid_truth_labels_raises(self, mock_freeze) -> None:
         records = _all_correct_records()
         bad_truth = {cid: "INVALID_LABEL" for cid in _CASE_IDS}
         with self.assertRaises(ValueError) as ctx:
@@ -877,7 +925,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
             )
         self.assertIn("outside the label space", str(ctx.exception))
 
-    def test_agents_config_validation_wrong_count(self) -> None:
+    def test_agents_config_validation_wrong_count(self, mock_freeze) -> None:
         """Not 4 agents → ValueError."""
         bad = {"agent_1": "CLS-ZOGAA", "agent_2": "CLS-OJNSG"}
         with self.assertRaises(ValueError) as ctx:
@@ -889,7 +937,7 @@ class TestEvaluateCPredictions(unittest.TestCase):
             )
         self.assertIn("4 agents", str(ctx.exception))
 
-    def test_agents_config_validation_duplicate_labels(self) -> None:
+    def test_agents_config_validation_duplicate_labels(self, mock_freeze) -> None:
         """Duplicate local_fault_labels → ValueError."""
         bad = {
             "agent_1": "CLS-ZOGAA", "agent_2": "CLS-ZOGAA",
@@ -905,10 +953,14 @@ class TestEvaluateCPredictions(unittest.TestCase):
         self.assertIn("distinct", str(ctx.exception))
 
 
+@patch(
+    "icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+    return_value={"evaluator_manifest_verified": True},
+)
 class TestIntegrationWithAggregation(unittest.TestCase):
     """Verify aggregation + evaluation work together from raw CRunRecords."""
 
-    def test_aggregation_feeds_evaluator(self) -> None:
+    def test_aggregation_feeds_evaluator(self, mock_freeze) -> None:
         records = _all_correct_records()
         b_recs = _full_b_records(all_correct=True)
         result = evaluate_c_predictions(
@@ -926,6 +978,10 @@ class TestIntegrationWithAggregation(unittest.TestCase):
         self.assertEqual(metrics["accuracy_C_fault"]["n"], 12)
 
 
+@patch(
+    "icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze",
+    return_value={"evaluator_manifest_verified": True},
+)
 class TestEndToEndEvaluatorSide(unittest.TestCase):
     """End-to-end test using real frozen manifests (read-only, evaluator side).
 
@@ -951,7 +1007,7 @@ class TestEndToEndEvaluatorSide(unittest.TestCase):
         )):
             self.skipTest("project phase_b files not available")
 
-    def test_load_case_truth_from_real_files(self) -> None:
+    def test_load_case_truth_from_real_files(self, mock_freeze) -> None:
         """load_case_truth reads the real manifest and mapping correctly."""
         case_truth, integrity = load_case_truth(
             heldout_manifest_path=self.heldout_path,
@@ -969,7 +1025,7 @@ class TestEndToEndEvaluatorSide(unittest.TestCase):
         self.assertTrue(integrity["unique_mapping"])
         self.assertEqual(integrity["fault_pseudoclass_count"], 4)
 
-    def test_load_agents_config_from_real_file(self) -> None:
+    def test_load_agents_config_from_real_file(self, mock_freeze) -> None:
         """load_agents_config returns 4 agents with distinct labels."""
         config = load_agents_config(self.config_path)
         self.assertEqual(len(config), 4)
@@ -979,7 +1035,7 @@ class TestEndToEndEvaluatorSide(unittest.TestCase):
             self.assertIn(label, LABEL_SPACE)
             self.assertNotEqual(label, "Normal")
 
-    def test_full_pipeline_with_real_truth(self) -> None:
+    def test_full_pipeline_with_real_truth(self, mock_freeze) -> None:
         """Full pipeline using real truth, synthetic C records."""
         case_truth, _ = load_case_truth(
             heldout_manifest_path=self.heldout_path,
@@ -1015,6 +1071,60 @@ class TestEndToEndEvaluatorSide(unittest.TestCase):
         self.assertEqual(
             result["condition_c_metrics"]["accuracy_C_normal"]["n"], 3,
         )
+
+
+class TestPipelineInvokesGuard(unittest.TestCase):
+    """P1-5: evaluate_c_predictions must call verify_evaluator_freeze."""
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
+    def test_guard_is_called(self, mock_guard) -> None:
+        mock_guard.return_value = {"evaluator_manifest_verified": True}
+        records = _all_correct_records()
+        evaluate_c_predictions(
+            records,
+            case_truth=_CLASS_ASSIGNMENT,
+            agents_config=_AGENTS_CONFIG,
+            b_records=[],
+        )
+        mock_guard.assert_called_once()
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
+    def test_guard_failure_blocks_pipeline(self, mock_guard) -> None:
+        mock_guard.side_effect = RuntimeError("hash mismatch")
+        records = _all_correct_records()
+        with self.assertRaises(RuntimeError) as ctx:
+            evaluate_c_predictions(
+                records,
+                case_truth=_CLASS_ASSIGNMENT,
+                agents_config=_AGENTS_CONFIG,
+                b_records=[],
+            )
+        self.assertIn("hash mismatch", str(ctx.exception))
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
+    def test_guard_missing_manifest_blocks(self, mock_guard) -> None:
+        mock_guard.side_effect = FileNotFoundError("manifest not found")
+        with self.assertRaises(FileNotFoundError):
+            evaluate_c_predictions(
+                _all_correct_records(),
+                case_truth=_CLASS_ASSIGNMENT,
+                agents_config=_AGENTS_CONFIG,
+                b_records=[],
+            )
+
+    @patch("icl.evaluation.evaluate_c_predictions.verify_evaluator_freeze")
+    def test_custom_manifest_path_forwarded(self, mock_guard) -> None:
+        mock_guard.return_value = {"evaluator_manifest_verified": True}
+        custom = Path("/tmp/custom_eval_manifest.json")
+        evaluate_c_predictions(
+            _all_correct_records(),
+            case_truth=_CLASS_ASSIGNMENT,
+            agents_config=_AGENTS_CONFIG,
+            b_records=[],
+            evaluator_manifest_path=custom,
+        )
+        call_kwargs = mock_guard.call_args
+        self.assertEqual(call_kwargs[1]["manifest_path"], custom)
 
 
 if __name__ == "__main__":

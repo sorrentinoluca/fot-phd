@@ -13,6 +13,7 @@ HASH = re.compile(r"^[0-9a-f]{64}$")
 CASE_ID = re.compile(r"^PBH-\d{3}$")
 LABEL_SPACE = {"CLS-ZOGAA", "CLS-OJNSG", "CLS-R463B", "CLS-Z3ISU", "Normal"}
 INS_ID = re.compile(r"^INS-\d{3}$")
+VALID_INSIGHT_IDS = frozenset(f"INS-{i:03d}" for i in range(1, 9))
 
 
 @dataclass(frozen=True)
@@ -75,6 +76,10 @@ class CRunRecord:
             if not INS_ID.fullmatch(ins_id):
                 raise ValueError(
                     f"invalid insight ID format: {ins_id!r} (expected INS-NNN)"
+                )
+            if ins_id not in VALID_INSIGHT_IDS:
+                raise ValueError(
+                    f"insight ID {ins_id!r} not in frozen set of 8 insights"
                 )
         if len(used) != len(set(used)):
             raise ValueError("used_insight_ids contains duplicates")

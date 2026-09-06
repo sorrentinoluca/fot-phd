@@ -489,17 +489,16 @@ def verify_evaluator_freeze(
     """
     integrity: dict[str, Any] = {}
 
-    # ── Manifest-based hash verification (when manifest exists) ──
-    if manifest_path.exists():
-        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-        for rel_path, expected in manifest["artifact_hashes"].items():
-            actual = _sha256_file(root / rel_path)
-            if actual != expected:
-                raise RuntimeError(
-                    f"evaluator freeze guard: {rel_path} hash mismatch "
-                    f"(expected {expected[:16]}…, got {actual[:16]}…)"
-                )
-        integrity["evaluator_manifest_verified"] = True
+    # ── Manifest-based hash verification (mandatory / fail-closed) ──
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    for rel_path, expected in manifest["artifact_hashes"].items():
+        actual = _sha256_file(root / rel_path)
+        if actual != expected:
+            raise RuntimeError(
+                f"evaluator freeze guard: {rel_path} hash mismatch "
+                f"(expected {expected[:16]}…, got {actual[:16]}…)"
+            )
+    integrity["evaluator_manifest_verified"] = True
 
     # ── Structural checks (always run) ──
 
@@ -560,6 +559,7 @@ def evaluate_c_predictions(
     b_records: list[dict[str, Any]] | None = None,
     bootstrap_iterations: int = 10000,
     bootstrap_seed: int = 20260906,
+    evaluator_manifest_path: Path | None = None,
 ) -> dict[str, Any]:
     """Run the full Condition C evaluation pipeline.
 
@@ -588,6 +588,15 @@ def evaluate_c_predictions(
     Evaluation results dict with condition_c_metrics, delta_c_minus_b,
     bootstrap, and integrity information.
     """
+    # Evaluator-side freeze guard (mandatory / fail-closed, R5 review).
+    evaluator_integrity = verify_evaluator_freeze(
+        manifest_path=(
+            evaluator_manifest_path
+            if evaluator_manifest_path is not None
+            else EVALUATOR_FREEZE_MANIFEST_PATH
+        ),
+    )
+
     if label_space is None:
         label_space = set(_RECORD_LABEL_SPACE)
 
@@ -612,8 +621,12 @@ def evaluate_c_predictions(
     if len(set(agents_config.values())) != 4:
         raise ValueError("agents must have distinct local_fault_labels")
 
-    # Aggregate C records.
-    aggregates = aggregate_c_records(c_records, label_space=label_space)
+    # Aggregate C records (completeness validated against truth keys).
+    aggregates = aggregate_c_records(
+        c_records,
+        label_space=label_space,
+        expected_case_ids=set(case_truth),
+    )
 
     # Validate all aggregates have truth.
     missing = {
@@ -665,5 +678,6 @@ def evaluate_c_predictions(
         results["bootstrap"] = bootstrap_result
     if truth_integrity is not None:
         results["ground_truth_join"] = truth_integrity
+    results["evaluator_freeze_integrity"] = evaluator_integrity
 
     return results

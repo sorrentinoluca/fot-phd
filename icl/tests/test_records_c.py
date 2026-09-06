@@ -7,7 +7,7 @@ import unittest
 from copy import deepcopy
 from pathlib import Path
 
-from icl.runner.records_c import CRunRecord
+from icl.runner.records_c import CRunRecord, VALID_INSIGHT_IDS
 
 
 ROOT = Path(__file__).resolve().parents[2]

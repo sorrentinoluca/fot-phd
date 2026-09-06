@@ -12,6 +12,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import logging
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -23,6 +25,15 @@ from icl.conditions.builder_c import (
 )
 from icl.runner.build_c_schedule import SCHEDULE_PATH
 from icl.runner.records_c import CRunRecord
+
+
+_log = logging.getLogger(__name__)
+
+# Network retry parameters (R5 review: transient error resilience).
+_MAX_NETWORK_RETRIES = 4
+_INITIAL_BACKOFF_S = 2.0
+_BACKOFF_FACTOR = 2.0
+_RETRYABLE_STATUS_CODES = frozenset({429, 500, 502, 503, 504})
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -121,14 +132,30 @@ def load_case_texts(
 # Resume support
 # ------------------------------------------------------------------
 
-def load_existing_indices(path: Path) -> set[int]:
+def load_existing_indices(
+    path: Path,
+    schedule: list[dict[str, Any]] | None = None,
+) -> set[int]:
     """Read existing c_records.jsonl and return completed sequence_index values.
 
     Each line is validated as a full CRunRecord (fail-fast on corruption).
     Duplicate sequence_index values are detected and rejected.
+
+    When *schedule* is provided, each record's ``(physical_case_id, repetition)``
+    is verified against the schedule entry at the corresponding
+    ``sequence_index`` (fail-fast on identity mismatch).
     """
     if not path.exists():
         return set()
+
+    # Build schedule lookup for identity verification.
+    schedule_lookup: dict[int, tuple[str, int]] | None = None
+    if schedule is not None:
+        schedule_lookup = {
+            e["sequence_index"]: (e["physical_case_id"], e["repetition"])
+            for e in schedule
+        }
+
     indices: set[int] = set()
     with path.open(encoding="utf-8") as f:
         for line_num, line in enumerate(f, 1):
@@ -146,6 +173,20 @@ def load_existing_indices(path: Path) -> set[int]:
                     f"duplicate sequence_index {record.sequence_index} "
                     f"at line {line_num}"
                 )
+            # Verify identity against schedule (R5 review: resume safety).
+            if schedule_lookup is not None:
+                expected = schedule_lookup.get(record.sequence_index)
+                if expected is None:
+                    raise RuntimeError(
+                        f"sequence_index {record.sequence_index} at line "
+                        f"{line_num} not found in schedule"
+                    )
+                actual = (record.physical_case_id, record.repetition)
+                if actual != expected:
+                    raise RuntimeError(
+                        f"identity mismatch at line {line_num}: "
+                        f"record has {actual}, schedule expects {expected}"
+                    )
             indices.add(record.sequence_index)
     return indices
 
@@ -197,6 +238,43 @@ def _build_raw_attempts(
 
 
 # ------------------------------------------------------------------
+# Network retry  (R5 review point: transient error resilience)
+# ------------------------------------------------------------------
+
+def _is_transient(exc: Exception) -> bool:
+    """Return True if *exc* is a transient network/server error."""
+    if isinstance(exc, (ConnectionError, TimeoutError, OSError)):
+        return True
+    # OpenAI / httpx status-code errors.
+    status = getattr(exc, "status_code", None) or getattr(exc, "status", None)
+    if status is not None and int(status) in _RETRYABLE_STATUS_CODES:
+        return True
+    return False
+
+
+def _call_with_network_retry(
+    fn,
+    *,
+    max_retries: int = _MAX_NETWORK_RETRIES,
+):
+    """Call *fn* with exponential-backoff retry on transient errors."""
+    backoff = _INITIAL_BACKOFF_S
+    for attempt in range(max_retries + 1):
+        try:
+            return fn()
+        except Exception as exc:
+            if attempt == max_retries or not _is_transient(exc):
+                raise
+            _log.warning(
+                "transient error (attempt %d/%d): %s — retrying in %.1fs",
+                attempt + 1, max_retries + 1, exc, backoff,
+            )
+            time.sleep(backoff)
+            backoff *= _BACKOFF_FACTOR
+    raise AssertionError("unreachable")  # pragma: no cover
+
+
+# ------------------------------------------------------------------
 # Main inference loop
 # ------------------------------------------------------------------
 
@@ -226,7 +304,7 @@ def run_c_inference(
     if allowed_insight_ids is None:
         allowed_insight_ids = ALL_INSIGHT_IDS
 
-    existing = load_existing_indices(output_path)
+    existing = load_existing_indices(output_path, schedule=schedule)
 
     if pilot_only:
         schedule = [e for e in schedule if e["pilot"]]
@@ -251,13 +329,15 @@ def run_c_inference(
             )
         rendered = prompt_cache[case_id]
 
-        execution = adapter.execute_diagnostic(
-            prompt=rendered.text,
-            label_space=label_space,
-            allowed_insight_ids=allowed_insight_ids,
-            reasoning_effort=reasoning_effort,
-            schema=schema,
-            max_structural_retries=max_structural_retries,
+        execution = _call_with_network_retry(
+            lambda: adapter.execute_diagnostic(
+                prompt=rendered.text,
+                label_space=label_space,
+                allowed_insight_ids=allowed_insight_ids,
+                reasoning_effort=reasoning_effort,
+                schema=schema,
+                max_structural_retries=max_structural_retries,
+            )
         )
 
         result = execution.result

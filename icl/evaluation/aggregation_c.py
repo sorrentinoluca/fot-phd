@@ -31,6 +31,7 @@ def aggregate_c_records(
     values: Iterable[CRunRecord | dict[str, Any]],
     *,
     label_space: Iterable[str] | None = None,
+    expected_case_ids: set[str] | None = None,
 ) -> list[CAggregatePrediction]:
     """Aggregate Condition C run records via R=3 majority voting.
 
@@ -40,6 +41,9 @@ def aggregate_c_records(
         CRunRecord instances or raw dicts (deserialized JSONL lines).
     label_space:
         Valid label set.  Defaults to the canonical Condition C labels.
+    expected_case_ids:
+        When provided, the set of physical_case_ids in the input must
+        match exactly (fail-fast on incomplete or extraneous data).
 
     Returns
     -------
@@ -49,8 +53,9 @@ def aggregate_c_records(
     Raises
     ------
     ValueError
-        If any group does not have exactly repetitions {1, 2, 3} or if
-        repetitions within a group have inconsistent prompt_sha256.
+        If any group does not have exactly repetitions {1, 2, 3}, if
+        repetitions within a group have inconsistent prompt_sha256,
+        or if *expected_case_ids* is given and the actual set differs.
     """
     labels = set(label_space) if label_space is not None else set(_RECORD_LABEL_SPACE)
 
@@ -63,6 +68,17 @@ def aggregate_c_records(
             else CRunRecord.from_dict(value)
         )
         groups[record.physical_case_id].append(record)
+
+    # --- validate completeness (when expected set provided) ---
+    if expected_case_ids is not None:
+        actual_ids = set(groups)
+        if actual_ids != expected_case_ids:
+            missing = sorted(expected_case_ids - actual_ids)
+            extra = sorted(actual_ids - expected_case_ids)
+            raise ValueError(
+                f"aggregate completeness check failed: "
+                f"missing={missing}, extra={extra}"
+            )
 
     # --- aggregate each group ---
     aggregates: list[CAggregatePrediction] = []

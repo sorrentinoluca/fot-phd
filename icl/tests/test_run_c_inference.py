@@ -17,6 +17,8 @@ from icl.runner.run_c_inference import (
     DEFAULT_OUTPUT_PATH,
     FREEZE_MANIFEST_PATH,
     _build_raw_attempts,
+    _call_with_network_retry,
+    _is_transient,
     load_existing_indices,
     run_c_inference,
     verify_inference_freeze,
@@ -325,11 +327,22 @@ class TestRunCInference(unittest.TestCase):
     def tearDown(self) -> None:
         shutil.rmtree(self.tmpdir, ignore_errors=True)
 
-    def _pre_populate(self, indices: set[int]) -> None:
+    def _pre_populate(
+        self, indices: set[int], schedule: list[dict] | None = None,
+    ) -> None:
         """Write valid CRunRecord entries for resume testing."""
+        sched_lookup = {e["sequence_index"]: e for e in schedule} if schedule else {}
         with self.output_path.open("w", encoding="utf-8") as f:
             for idx in sorted(indices):
-                f.write(_valid_record_line(idx) + "\n")
+                if idx in sched_lookup:
+                    entry = sched_lookup[idx]
+                    f.write(_valid_record_line(
+                        idx,
+                        case_id=entry["physical_case_id"],
+                        repetition=entry["repetition"],
+                    ) + "\n")
+                else:
+                    f.write(_valid_record_line(idx) + "\n")
 
     def _read_lines(self) -> list[str]:
         return [
@@ -357,7 +370,7 @@ class TestRunCInference(unittest.TestCase):
 
     def test_resume_skips_existing(self, mock_render) -> None:
         schedule = _make_schedule(1, 1)
-        self._pre_populate({0, 1, 2})
+        self._pre_populate({0, 1, 2}, schedule=schedule)
         adapter = _MockAdapter()
         summary = run_c_inference(
             schedule=schedule,
@@ -666,6 +679,157 @@ class TestMandatoryFreeze(unittest.TestCase):
         )
         # Must contain unconditional verify_inference_freeze call.
         self.assertIn("verify_inference_freeze(args.freeze_manifest)", source)
+
+
+# ------------------------------------------------------------------
+# Tests: _is_transient
+# ------------------------------------------------------------------
+
+class TestIsTransient(unittest.TestCase):
+
+    def test_connection_error(self) -> None:
+        self.assertTrue(_is_transient(ConnectionError("reset")))
+
+    def test_timeout_error(self) -> None:
+        self.assertTrue(_is_transient(TimeoutError("timed out")))
+
+    def test_os_error(self) -> None:
+        self.assertTrue(_is_transient(OSError("network unreachable")))
+
+    def test_status_429(self) -> None:
+        exc = Exception("rate limited")
+        exc.status_code = 429
+        self.assertTrue(_is_transient(exc))
+
+    def test_status_502(self) -> None:
+        exc = Exception("bad gateway")
+        exc.status_code = 502
+        self.assertTrue(_is_transient(exc))
+
+    def test_status_503(self) -> None:
+        exc = Exception("unavailable")
+        exc.status_code = 503
+        self.assertTrue(_is_transient(exc))
+
+    def test_status_400_not_transient(self) -> None:
+        exc = Exception("bad request")
+        exc.status_code = 400
+        self.assertFalse(_is_transient(exc))
+
+    def test_value_error_not_transient(self) -> None:
+        self.assertFalse(_is_transient(ValueError("bad value")))
+
+    def test_runtime_error_not_transient(self) -> None:
+        self.assertFalse(_is_transient(RuntimeError("logic error")))
+
+
+# ------------------------------------------------------------------
+# Tests: _call_with_network_retry
+# ------------------------------------------------------------------
+
+class TestCallWithNetworkRetry(unittest.TestCase):
+
+    def test_success_first_try(self) -> None:
+        result = _call_with_network_retry(lambda: 42, max_retries=3)
+        self.assertEqual(result, 42)
+
+    @patch("icl.runner.run_c_inference.time.sleep")
+    def test_retries_on_transient(self, mock_sleep) -> None:
+        calls = {"n": 0}
+        def flaky():
+            calls["n"] += 1
+            if calls["n"] < 3:
+                raise ConnectionError("transient")
+            return "ok"
+        result = _call_with_network_retry(flaky, max_retries=4)
+        self.assertEqual(result, "ok")
+        self.assertEqual(calls["n"], 3)
+        self.assertEqual(mock_sleep.call_count, 2)
+
+    @patch("icl.runner.run_c_inference.time.sleep")
+    def test_gives_up_after_max_retries(self, mock_sleep) -> None:
+        def always_fail():
+            raise ConnectionError("down")
+        with self.assertRaises(ConnectionError):
+            _call_with_network_retry(always_fail, max_retries=2)
+        self.assertEqual(mock_sleep.call_count, 2)
+
+    def test_propagates_non_transient(self) -> None:
+        def bad():
+            raise ValueError("not transient")
+        with self.assertRaises(ValueError):
+            _call_with_network_retry(bad, max_retries=3)
+
+    @patch("icl.runner.run_c_inference.time.sleep")
+    def test_exponential_backoff(self, mock_sleep) -> None:
+        calls = {"n": 0}
+        def flaky():
+            calls["n"] += 1
+            if calls["n"] < 4:
+                raise TimeoutError("slow")
+            return "done"
+        _call_with_network_retry(flaky, max_retries=4)
+        # Backoff: 2.0, 4.0, 8.0
+        delays = [c[0][0] for c in mock_sleep.call_args_list]
+        self.assertAlmostEqual(delays[0], 2.0)
+        self.assertAlmostEqual(delays[1], 4.0)
+        self.assertAlmostEqual(delays[2], 8.0)
+
+
+# ------------------------------------------------------------------
+# Tests: load_existing_indices with schedule identity (P1-2)
+# ------------------------------------------------------------------
+
+class TestLoadExistingIndicesScheduleIdentity(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.tmpdir = Path(tempfile.mkdtemp())
+
+    def tearDown(self) -> None:
+        shutil.rmtree(self.tmpdir, ignore_errors=True)
+
+    def test_identity_match_passes(self) -> None:
+        """Records matching schedule identity are accepted."""
+        p = self.tmpdir / "records.jsonl"
+        schedule = _make_schedule(1, 0)  # PBH-001, reps 1-3, seq 0-2
+        with p.open("w", encoding="utf-8") as f:
+            for entry in schedule:
+                f.write(_valid_record_line(
+                    entry["sequence_index"],
+                    case_id=entry["physical_case_id"],
+                    repetition=entry["repetition"],
+                ) + "\n")
+        result = load_existing_indices(p, schedule=schedule)
+        self.assertEqual(result, {0, 1, 2})
+
+    def test_identity_mismatch_raises(self) -> None:
+        """Record with wrong case_id for its sequence_index → RuntimeError."""
+        p = self.tmpdir / "records.jsonl"
+        schedule = _make_schedule(1, 0)
+        # Write record with PBH-002 at sequence_index 0 (schedule says PBH-001)
+        with p.open("w", encoding="utf-8") as f:
+            f.write(_valid_record_line(0, case_id="PBH-002", repetition=1) + "\n")
+        with self.assertRaises(RuntimeError) as ctx:
+            load_existing_indices(p, schedule=schedule)
+        self.assertIn("identity mismatch", str(ctx.exception))
+
+    def test_unknown_sequence_index_raises(self) -> None:
+        """Record with sequence_index not in schedule → RuntimeError."""
+        p = self.tmpdir / "records.jsonl"
+        schedule = _make_schedule(1, 0)  # seq 0-2 only
+        with p.open("w", encoding="utf-8") as f:
+            f.write(_valid_record_line(3, case_id="PBH-001", repetition=1) + "\n")
+        with self.assertRaises(RuntimeError) as ctx:
+            load_existing_indices(p, schedule=schedule)
+        self.assertIn("not found in schedule", str(ctx.exception))
+
+    def test_no_schedule_skips_identity_check(self) -> None:
+        """Without schedule, identity check is skipped (backward compat)."""
+        p = self.tmpdir / "records.jsonl"
+        with p.open("w", encoding="utf-8") as f:
+            f.write(_valid_record_line(0) + "\n")
+        result = load_existing_indices(p)
+        self.assertEqual(result, {0})
 
 
 if __name__ == "__main__":

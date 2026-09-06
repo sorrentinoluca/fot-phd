@@ -547,5 +547,59 @@ class TestOutputContract(unittest.TestCase):
         self.assertEqual(aggs, [])
 
 
+class TestExpectedCaseIds(unittest.TestCase):
+    """P1-3: aggregate completeness validation via expected_case_ids."""
+
+    def test_matching_ids_passes(self) -> None:
+        """When expected matches actual, no error."""
+        records = _triplet("PBH-001") + _triplet("PBH-002",
+            labels=("CLS-ZOGAA", "CLS-ZOGAA", "CLS-ZOGAA"),
+            prompt_sha256=hashlib.sha256(b"prompt-b").hexdigest())
+        aggs = aggregate_c_records(
+            records, expected_case_ids={"PBH-001", "PBH-002"},
+        )
+        self.assertEqual(len(aggs), 2)
+
+    def test_missing_case_raises(self) -> None:
+        """Expected has a case not in records → ValueError."""
+        records = _triplet("PBH-001")
+        with self.assertRaises(ValueError) as ctx:
+            aggregate_c_records(
+                records, expected_case_ids={"PBH-001", "PBH-002"},
+            )
+        self.assertIn("missing", str(ctx.exception))
+        self.assertIn("PBH-002", str(ctx.exception))
+
+    def test_extra_case_raises(self) -> None:
+        """Records have a case not in expected → ValueError."""
+        records = _triplet("PBH-001") + _triplet("PBH-002",
+            labels=("CLS-ZOGAA", "CLS-ZOGAA", "CLS-ZOGAA"),
+            prompt_sha256=hashlib.sha256(b"prompt-b").hexdigest())
+        with self.assertRaises(ValueError) as ctx:
+            aggregate_c_records(
+                records, expected_case_ids={"PBH-001"},
+            )
+        self.assertIn("extra", str(ctx.exception))
+        self.assertIn("PBH-002", str(ctx.exception))
+
+    def test_none_skips_check(self) -> None:
+        """Without expected_case_ids, any set of cases is accepted."""
+        records = _triplet("PBH-001")
+        aggs = aggregate_c_records(records, expected_case_ids=None)
+        self.assertEqual(len(aggs), 1)
+
+    def test_empty_expected_empty_records(self) -> None:
+        """Both empty → no error, empty result."""
+        aggs = aggregate_c_records([], expected_case_ids=set())
+        self.assertEqual(aggs, [])
+
+    def test_empty_expected_nonempty_records_raises(self) -> None:
+        """Records present but expected is empty → ValueError."""
+        records = _triplet("PBH-001")
+        with self.assertRaises(ValueError) as ctx:
+            aggregate_c_records(records, expected_case_ids=set())
+        self.assertIn("extra", str(ctx.exception))
+
+
 if __name__ == "__main__":
     unittest.main()
