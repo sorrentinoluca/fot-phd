@@ -1,0 +1,8 @@
+{
+  "c_records_sha256": "d64725aee15f0c0c118648cfa74ec9251f711fd70e89ba9af618e49966a56251",
+  "record_count": 45,
+  "schedule_reference": {
+    "path": "icl/full_evaluation/c_schedule.json",
+    "sha256": "3f1b102a89ecd9202fd045a8a39912380e534f68f1675574c7bb3d6ecaf4b986"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "c_aggregate_records_sha256": "3cd11f8bd9863976e7e224de28c9b1b22c0710b2dcfde1dee30df44ef2b1c95c",
+  "record_count": 15,
+  "aggregation_rule": "majority_2_of_3",
+  "source_c_records_sha256": "d64725aee15f0c0c118648cfa74ec9251f711fd70e89ba9af618e49966a56251",
+  "schedule_reference": {
+    "path": "icl/full_evaluation/c_schedule.json",
+    "sha256": "3f1b102a89ecd9202fd045a8a39912380e534f68f1675574c7bb3d6ecaf4b986"
+  },
+  "status": "IMMUTABLE_BEFORE_EVALUATION"
+}
