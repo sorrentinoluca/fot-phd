@@ -92,6 +92,24 @@ Un confronto più completo dovrebbe comprendere almeno due piani di baseline:
 
 La mancata disponibilità delle baseline esterne e della local-only separata non invalida l'esperimento: il progetto conserva valore come prova controllata del meccanismo, mostrando che insight testuali pertinenti possono aiutare gli agenti sui tipi di guasto assenti dalla loro esperienza locale. Limita però qualsiasi affermazione secondo cui FoT sia complessivamente migliore degli approcci diagnostici tradizionali o delle tecniche federate esistenti. I confronti A–B–E e il confronto descrittivo con C restano validi entro il loro perimetro: misurano rispettivamente l'effetto incrementale della federazione testuale e la collocazione di B rispetto a un contesto centralizzato più ricco, non la posizione assoluta di FoT nel panorama diagnostico. Una gap analysis sistematica della letteratura 2021–2026, documentata in [FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md](lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md) e nella [literature review estesa](lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md), conferma che nessun lavoro identificato combina simultaneamente trasferimento di conoscenza testuale, setting federato su serie temporali/FDD e classi localmente non viste sotto non-IID class-disjoint.
 
+### 1.6 Quick results overview
+
+Le novità che il progetto introduce o esplora, incrociate con la gap analysis e la literature review:
+
+1. **Novità di combinazione (confermata come gap nella letteratura).** Nessun lavoro identificato tra i 20+ paper verificati combina simultaneamente: trasferimento di conoscenza testuale + setting federato su serie temporali/FDD + classi localmente non viste sotto non-IID class-disjoint. Ogni singolo asse ha lavori vicini (FoT per il testo, FedMeta-FFD per il FL su FDD, FedCKD per il class-disjoint), ma l'intersezione dei tre è vuota.
+2. **Controllo di specificità semantica pre-registrato (B vs E).** Il derangement delle associazioni pseudolabel↔insight a parità di testo, volume e ordine è un disegno di valutazione non riscontrato altrove in questo contesto. Isola se il beneficio dipende dalla correttezza dell'informazione o dalla sola presenza di testo aggiuntivo — e i risultati confermano la prima ipotesi (B−E = +0.78 nell'Exp1, +0.89 nell'Exp3_V2).
+3. **Pipeline di verbalizzazione "structured domain-driven" (V2).** L'analisi comparativa con la letteratura (20+ approcci in 7 categorie) posiziona il verbalizzatore come una settima strategia: completamente deterministico, con soglie calibrate statisticamente (conformal, α=0.05), semantica temporale strutturata (run, fasi, persistenza), vocabolario controllato e neutralità diagnostica garantita per costruzione. Nessun altro approccio TS→testo combina tutte queste proprietà.
+4. **Replica confermativa su nuove realizzazioni fisiche (Exp3_V2).** Il raddoppio del campione (da 12 a 24 run) conferma l'effetto (B−A = +0.94) e fa emergere un fenomeno non visibile nel campione più piccolo: una degradazione local-seen (19/24 in B vs 24/24 in A), segnale di possibile negative transfer che rimane aperto per indagine futura.
+
+### 1.7 Lazy points
+
+Mi restano queste cose da fare o valutare; in ordine di priorità:
+
+- Un solo LLM producer, un solo simulatore, spazio di pseudolabel chiuso (non open-world), nessuna garanzia formale di privacy.
+- Il riferimento centralizzato (condition C) è stata applicata solo all'Exp1 e non all'Exp3_V2
+- La degradazione local-seen in B emerge nell'Exp3_V2 ma non è ancora stata diagnosticata.
+- La federazione è simulata su un singolo processo (TEP); la validazione su impianti PV reali multi-sito è il passo successivo dichiarato.
+
 **Step 2 / 27(Ph.A)**
 
 ## Dataset
@@ -990,21 +1008,15 @@ La tabella confronta i risultati dei due esperimenti sullo stesso disegno sperim
 >
 > EXP3_V2 rafforza il risultato di Experiment 1 raddoppiando la dimensione campionaria e riproducendo l’effetto su realizzazioni fisiche indipendenti. Tuttavia, la degradazione local-seen (B: 19/24 vs A: 24/24) indica che gli insight peer possono interferire con il riconoscimento dei fault già noti in alcune combinazioni run–agente — un aspetto non emerso con il campione più piccolo di Experiment 1.
 >
-> Questi risultati supportano la **feasibility** e la **riproducibilità** del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico e non forniscono garanzie di privacy. EXP3_V2 resta privo di un proprio comparatore centralized pooled: Condition C non è stata eseguita su queste realizzazioni.
+> Questi risultati supportano la **feasibility** e la **riproducibilità** del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico e non forniscono garanzie di privacy. EXP3_V2 resta privo di un proprio comparatore centralized pooled: il riferimento centralizzato C non è stato eseguito su queste realizzazioni.
 
 > **Transizione cronologica.** Il blocco seguente è collocato dopo la Fase 2 perché Condition C è stata introdotta successivamente nella cronologia del progetto. Gli Step 25–26 riaprono però il confronto di **Experiment 1**: usano il suo medesimo held-out e non i run EXP3_V2.
 
-Federazione VS centralizzazione
-
-**Dalla Fase 2 al riferimento centralizzato.** Questa collocazione segue la cronologia del progetto, ma Condition C riapre il confronto di Experiment 1. È una **centralized full-information pooled ICL post-hoc exploratory reference** applicata esclusivamente ai 15 casi del suo held-out; non è una baseline di EXP3_V2.
-
 **Step 25 / 27Federazione VS centralizzazione**
 
-## Condizione C: design e razionale entro il paradigma testuale
+Abbiamo chiesto: quanto perde il sistema a quattro agenti rispetto a uno solo che sa tutto? Per rispondere abbiamo costruito un agente unico a cui abbiamo dato tutte le conoscenze degli altri quattro — gli stessi esempi, le stesse descrizioni testuali dei guasti. Non dati grezzi o informazioni riservate, solo ciò che nella federazione verrebbe scambiato tra i nodi. Il confronto è diretto perché entrambi lavorano con lo stesso tipo di materiale, ma non alla pari: l'agente centralizzato vede tutto insieme, quelli federati vedono solo pezzi.
 
-Condition C risponde a una domanda descrittiva: *dove si colloca la federazione peer-only B rispetto a un singolo agente che riceve tutta l'esperienza testuale prompt-facing congelata?* C è receiver-independent e usa lo stesso spazio di pseudolabel e lo stesso paradigma testuale, ma non è un confronto a condizioni informative equivalenti.
-
-**Full-information** è qui un termine strettamente circoscritto all'unione degli artefatti prompt-facing frozen: esempi etichettati e insight testuali. Non implica accesso a tutti i dati grezzi, a tutti i testi sorgente, alla ground truth o a informazione evaluator-side.
+**Full-information** è qui circoscritto all'unione degli artefatti prompt-facing frozen — esempi etichettati e insight testuali — e non implica accesso ai dati grezzi, ai testi sorgente, alla ground truth o a informazione evaluator-side.
 
 > C e B: contesti diversi entro lo stesso paradigma
 >
@@ -1025,8 +1037,6 @@ C classifica i **15 casi del held-out di Experiment 1** (12 fault + 3 Normal), c
 - `temperature=null` e `seed=null`.
 - R=3, structured output strict e inferenza stateless.
 - Nessun accesso alla ground truth prima del freeze delle predizioni; join soltanto evaluator-side.
-
-> **Natura post-hoc.** Condition C non era nel protocollo originale A/B/E ed è stata progettata dopo aver osservato quei risultati sul medesimo held-out. Un amendment e un freeze dedicati sono stati completati prima delle chiamate LLM di C: il carattere post-hoc riguarda la decisione di introdurre il confronto, non un adattamento delle predizioni dopo averne visto gli esiti.
 
 **Step 26 / 27Risultati C e confronto descrittivo C−B**
 
@@ -1068,10 +1078,6 @@ Per ciascun caso *i*, C contribuisce una decisione e B la media delle decisioni 
 ### 2 · Interpretazione e provenienza
 
 C è una **centralized full-information pooled ICL post-hoc exploratory reference**: colloca B entro lo stesso paradigma testuale, ma quantità, forma e struttura del contesto cambiano simultaneamente. Il risultato è descrittivo, temporalmente confondibile e non autorizza una lettura causale o una superiorità generale.
-
-**Provenienza compatta.** [Risultato frozen](../icl/full_evaluation/evaluation_results_c.json) · [review indipendente](audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md) · [piano](../icl/PLAN_CENTRAL_POOLED_ICL.md). Code freeze `condition-c-freeze-r10` → `60ccc7539714e909aae7318cc72031d7acdd4e78`; predictions freeze `condition-c-predictions-frozen-r10` → `8d6b7a0`; results freeze `condition-c-results-frozen-r10` → `89e4caebe635973ef438d4b601bb4f761417193a`; independent review commit `da64287a`; SHA-256 di `evaluation_results_c.json`: `1ea60e12ded77e5d7758d71d3d2e863d5f741c91d41a03511c81935061435cd5`.
-
-> **Verdetto della review indipendente: GO WITH LIMITATIONS.** Le metriche e il CI sono corretti; la concentrazione su un solo strato e la risoluzione minima del bootstrap devono accompagnare ogni sintesi del risultato.
 
 Fase 3 — Portabilità cross-model · EXP2
 

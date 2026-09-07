@@ -167,7 +167,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <p>Nel seguito, un <strong>insight</strong> è una breve unità di conoscenza testuale che sintetizza ciò che un agente ha appreso dalla propria esperienza locale. Gli insight possono essere raccolti e messi a disposizione degli altri agenti come parte del contesto testuale utilizzato durante la diagnosi, senza trasferire i dati grezzi da cui sono stati ricavati.</p>
   <p>Le configurazioni informative <strong>A</strong>, <strong>B</strong> ed <strong>E</strong>, indicate formalmente nei protocolli come <em>conditions</em>, stabiliscono se gli insight vengono forniti e in quale relazione si trovano con il tipo di guasto da riconoscere:</p>
   <ul>
-    <li><strong>A</strong> costituisce il riferimento senza insight condivisi;</li>
+    <li><strong>A</strong> costituisce il riferimento senza insight &mdash; n&eacute; peer n&eacute; propri: l&rsquo;agente usa soltanto i few-shot etichettati della propria esperienza locale, senza includere i propri insight generati localmente;</li>
     <li><strong>B</strong> mette a disposizione insight pertinenti al tipo di guasto da riconoscere;</li>
     <li><strong>E</strong> funge da controllo della pertinenza dell’informazione: gli insight sono presenti, ma la loro associazione con i tipi di guasto viene deliberatamente alterata secondo la mappatura di controllo stabilita dal protocollo.</li>
   </ul>
@@ -211,7 +211,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <p>Un confronto più completo dovrebbe comprendere almeno due piani di baseline:</p>
 
   <ol>
-    <li><strong>Baseline interne al paradigma testuale</strong> — una vera <em>local-only</em>, in cui ciascun agente userebbe anche gli insight generati localmente senza federazione, e il riferimento <em>centralized pooled</em> realizzato come Condition C, in cui un singolo agente dispone dell'esperienza testuale aggregata di tutti i nodi. A non coincide con la local-only: è una baseline senza insight e costituisce un <em>information floor</em> per le classi locally-unseen. La local-only non è stata implementata come condizione separata; il valore aggiunto atteso era limitato perché gli insight propri riguardano soltanto il fault già noto localmente, ma questa resta un'aspettativa metodologica, non un risultato empiricamente misurato.</li>
+    <li><strong>Baseline interne al paradigma testuale.</strong> Una vera <em>local-only</em> farebbe usare a ciascun agente anche gli insight generati localmente, senza federazione. A non coincide con questa configurazione: è una baseline senza insight e costituisce un <em>information floor</em> per le classi locally-unseen. La local-only non è stata implementata come condizione separata; il valore aggiunto atteso era limitato perché gli insight propri riguardano soltanto il fault già noto localmente, ma questa resta un'aspettativa metodologica e non un risultato empiricamente misurato. Il riferimento <em>centralized pooled</em> è stato invece realizzato come Condition C e usa un singolo agente con l'esperienza testuale prompt-facing aggregata di tutti i nodi.</li>
     <li><strong>Baseline esterne al paradigma</strong> — metodi diagnostici convenzionali come PCA/DPCA, SVM o Random Forest, e tecniche propriamente federate come FedAvg o FedProx. Queste baseline verificherebbero se il paradigma testuale sia competitivo rispetto a quello numerico.</li>
   </ol>
 
@@ -650,7 +650,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
     <p><strong>Popolazione primaria:</strong> i casi <em>locally unseen</em>, cioè i fault run valutati dall'agente che non possiede esempi locali di quella classe. Ogni fault ha tre agenti che non lo conoscono: con 6 run per fault e 4 fault, la popolazione primaria è <strong>6 × 4 × 3 = 72 agent-case</strong>.</p>
     <p>Ciascuno di questi 72 agent-case viene valutato in tre configurazioni informative — A, B ed E — definite esattamente come in Experiment 1 (Step 15):</p>
     <div class="scroll"><table><thead><tr><th>Configurazione informativa</th><th>Che cosa riceve l'agente oltre ai few-shot locali</th></tr></thead><tbody>
-      <tr><td><strong>A — isolated</strong></td><td>Nessun insight peer. Misura la performance senza alcuna federazione.</td></tr>
+      <tr><td><strong>A — isolated</strong></td><td>Nessun insight — né peer né propri: solo few-shot etichettati locali. Misura la performance senza alcuna federazione e senza insight.</td></tr>
       <tr><td><strong>B — FoT</strong></td><td>6 insight peer autentici, con associazioni semantiche corrette.</td></tr>
       <tr><td><strong>E — corrupted</strong></td><td>Gli stessi 6 insight di B — stessi testi, stessi ID, stesso volume — ma con le pseudolabel permutate in modo che nessuna rimanga associata alla classe originale.</td></tr>
     </tbody></table></div>
@@ -896,7 +896,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
       <tr><td><strong>C</strong></td><td>10 pooled: 2 per ciascuna delle 4 classi fault + 2 Normal</td><td>8, inclusi quelli che in B sarebbero propri</td><td>Unico contesto centralizzato, receiver-independent</td></tr>
       <tr><td><strong>B</strong></td><td>4 locali per receiving agent: 2 del fault noto + 2 Normal</td><td>6 peer</td><td>Contesto diverso per ciascun receiving agent</td></tr>
     </tbody></table></div>
-    <p>I 10 esempi di C provengono dall'<strong>unione frozen dei pack LKP-001&hellip;LKP-004</strong>, deduplicata per gli esempi Normal e ordinata per <code>example_id</code>. Lo schedule frozen disciplina invece le <strong>45 richieste di inferenza</strong>; non seleziona gli esempi pooled.</p>
+    <p>Da dove vengono i 10 esempi di C? Ogni agente ha il suo pacchetto di esempi etichettati (LKP-001&hellip;LKP-004). Per C si prendono tutti e quattro i pacchetti e si fondono in un unico mazzo. Siccome gli esempi Normal sono gli stessi in ogni pacchetto, dopo la deduplicazione restano <strong>10 esempi</strong>: 2 per ognuno dei 4 guasti + 2 Normal, ordinati per <code>example_id</code>. Lo <strong>schedule frozen</strong> è una cosa separata: governa <strong>quali casi sottoporre al modello e in che ordine</strong> (15 casi &times; 3 ripetizioni = 45 chiamate), ma non ha nessun ruolo nella selezione degli esempi pooled &mdash; quelli derivano meccanicamente dall'unione dei pacchetti.</p>
   </div>
 
   <p>C classifica i <strong>15 casi del held-out di Experiment 1</strong> (12 fault + 3 Normal), ciascuno R=3: 45 provider records e 15 decisioni aggregate. C e B differiscono sia nella quantità sia nella forma dell'informazione; di conseguenza C&minus;B è un confronto <strong>descrittivo e non causale</strong>, entro lo stesso paradigma testuale.</p>
