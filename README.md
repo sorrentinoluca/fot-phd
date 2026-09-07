@@ -9,23 +9,28 @@ transfer.
 ```text
 FoT research hypothesis
 → controlled multivariate time-series PoC on TEP
-→ validation of textual federated knowledge transfer
-→ next empirical phase: photovoltaic systems
+→ validation and fresh-run replication of textual federated knowledge transfer
+→ planned cross-model consumer-portability study on the frozen TEP benchmark
+→ future empirical phase: photovoltaic systems
 ```
 
-The TEP proof of concept is complete and frozen. It supports feasibility in the
-controlled setting studied here; it does not establish performance or
-cross-domain generalization in PV systems. A subsequently executed
-**centralized full-information pooled ICL post-hoc exploratory reference**
-(Condition C) is also complete, frozen, and independently reviewed.
+The core TEP proof of concept and its fresh-run confirmatory replication are
+complete and frozen. They support feasibility and reproducibility across new
+physical realizations of the same four TEP fault classes; they do not establish
+performance or cross-domain generalization in PV systems. A subsequently
+executed **centralized full-information pooled ICL post-hoc exploratory
+reference** (Condition C) is also complete, frozen, and independently reviewed.
+A consumer-only cross-model extension (Experiment 2) is currently preliminary:
+its protocol and results are not yet frozen.
 
 ## Reading path
 
 1. **Understand the project and experiment** →
    [`docs/fot_walkthrough_conversazione.html`](docs/fot_walkthrough_conversazione.html)
-   ([view in browser](https://htmlpreview.github.io/?https://github.com/sorrentinoluca/fot-phd/blob/main/docs/fot_walkthrough_conversazione.html))
+   ([view in browser](https://htmlpreview.github.io/?https://github.com/sorrentinoluca/fot-phd/blob/main/docs/fot_walkthrough_conversazione.html),
+   [Markdown source](docs/fot_walkthrough_conversazione.md))
 2. **Understand repository scope and project status** → this `README.md`
-3. **Independently verify the frozen results** →
+3. **Independently verify the Experiment 1 and Condition C frozen results** →
    [`AUDIT_GUIDE.md`](AUDIT_GUIDE.md)
 
 > All other documents and artifacts are protocol, implementation, provenance,
@@ -81,7 +86,9 @@ Local examples and insight-generation inputs come only from permitted
 development data. Federation is peer-only: an agent receives six insights from
 the other three agents, never its own. The frozen experiment compares:
 
-- **A — isolated:** local knowledge only, without peer insights;
+- **A — isolated:** four labeled local few-shot examples, with neither peer nor
+  self-generated insights; this is an information floor for locally unseen
+  classes;
 - **B — FoT:** genuine peer-derived insights with correct pseudolabel
   associations;
 - **E — corrupted control:** the same six peer insights and the same order as
@@ -91,7 +98,7 @@ Each agent-case-condition was executed three times (`R=3`) and aggregated by
 the frozen two-of-three valid-label majority rule. Predictions were frozen
 before ground truth was joined offline.
 
-## Main frozen result
+## Experiment 1 — initial frozen result
 
 The primary subset is composed of fault classes locally unseen by the receiving
 agent.
@@ -124,6 +131,44 @@ Interpret these numbers with the frozen design:
 
 Exact results and uncertainty estimates are in
 [`phase_b/final_evaluation/EVALUATION_REPORT.md`](phase_b/final_evaluation/EVALUATION_REPORT.md).
+
+## Experiment 3 V2 — fresh-run confirmatory replication
+
+EXP3_V2 is the corrective and substitutive prospective replica of the closed,
+incomplete Experiment 3. It kept the frozen representation, agents, insights,
+conditions, prompts, aggregation rule, evaluator, and four fault classes fixed,
+while testing 24 new physical fault runs (six per class) and six new Normal
+runs. Its primary locally unseen population contains 72 agent-case observations
+per condition, clustered in 24 independent physical fault runs.
+
+| Condition | Correct / agent-case observations | Accuracy |
+|---|---:|---:|
+| A — isolated | 0/72 | 0.0000 |
+| B — FoT | 68/72 | 0.9444 |
+| E — corrupted | 4/72 | 0.0556 |
+
+- **B−A = +0.9444**, bootstrap 95% interval **[0.8611, 1.0000]**. The
+  pre-specified replication criterion was satisfied.
+- **B−E = +0.8889**, bootstrap 95% interval **[0.7778, 0.9861]**. This is
+  supporting evidence for semantic specificity, not a second primary endpoint.
+
+The replication strengthens the Experiment 1 feasibility result on new
+realizations of the same studied classes, but it is not evidence of new-class,
+cross-process, or PV generalization. A relevant secondary result is that B
+preserved all Normal observations (24/24) but reduced local-seen fault accuracy
+from A's 24/24 to 19/24. Peer insights can therefore interfere with already
+known faults in some run-agent combinations, even though they substantially
+improve the primary locally unseen population. Condition C was not run on the
+EXP3_V2 cases.
+
+The EXP3_V2 artifacts are preserved by tag-only freeze chains and are not
+materialized on `main`. The numerical sources of truth are the
+[`exp3v2_confirmatory_results.json`](https://github.com/sorrentinoluca/fot-phd/blob/exp3-v2-results-frozen-001/evaluation_outputs/exp3v2_confirmatory_results.json)
+and
+[`exp3v2_confirmatory_bootstrap.json`](https://github.com/sorrentinoluca/fot-phd/blob/exp3-v2-results-frozen-001/evaluation_outputs/exp3v2_confirmatory_bootstrap.json)
+artifacts under `exp3-v2-results-frozen-001`; see
+[`phase_b/README.md`](phase_b/README.md) for the experiment map and storage
+boundary.
 
 ## Centralized pooled reference (Condition C)
 
@@ -159,15 +204,20 @@ The independent review records **GO WITH LIMITATIONS** in
 | Component | Status |
 |---|---|
 | Phase A — neutral TEP representation | Completed and frozen |
-| Phase B — TEP Federation over Text | Completed and frozen |
-| Frozen held-out inference | 540/540 repetitions; 180 aggregate outcomes |
-| Offline evaluation | Completed and frozen |
+| Experiment 1 — initial TEP held-out | Completed and frozen; 540/540 repetitions and 180 aggregate outcomes |
+| Experiment 3 | Closed incomplete after technical attempt exhaustion; no scientific data produced |
+| Experiment 3 V2 — fresh-run confirmatory replica | Completed and frozen (tag-only); 1,080/1,080 repetitions and 360 aggregate outcomes |
 | Condition C — centralized pooled reference | Completed, frozen, independently reviewed; post-hoc exploratory |
+| Experiment 2 — cross-model consumer portability | Preliminary design; no protocol or inference frozen |
 | Empirical PV phase | Not yet executed; no protocol frozen |
 
-The next research phase must redesign and revalidate features, baselines,
-windows, event taxonomy, physical units, and ground truth for PV. The TEP
-percentages must not be transferred to PV.
+The next planned TEP extension is Experiment 2: it keeps the original frozen
+insights and held-out benchmark fixed while varying only the consumer reasoning
+model. It can support a claim of cross-model portability of frozen textual
+knowledge, not end-to-end model generality, because the producer is unchanged.
+Before the later empirical PV phase, features, baselines, windows, event
+taxonomy, physical units, and ground truth must be redesigned and revalidated.
+The TEP percentages must not be transferred to PV.
 
 ## Source-of-truth hierarchy
 
@@ -198,6 +248,7 @@ fot-phd/
 ├── requirements.txt                    # reference Python dependencies
 ├── docs/                              # documentation, walkthrough, literature, audits, prompts
 │   ├── fot_walkthrough_conversazione.html  # primary scientific/didactic guide
+│   ├── fot_walkthrough_conversazione.md    # Markdown source of the guide
 │   ├── lit_review/                     # experiment plan, literature review, related work
 │   │   ├── FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md
 │   │   └── FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md
@@ -208,7 +259,7 @@ fot-phd/
 ├── phase_b/                           # frozen Phase B protocol, execution, and results
 │   ├── final_evaluation/              #   Experiment 1 — frozen results and evaluation report
 │   ├── exp3/                          #   Experiment 3 — closed incomplete
-│   └── exp3_v2/                       #   Experiment 3 V2 — confirmatory revision
+│   └── exp3_v2/                       #   Experiment 3 V2 — confirmatory revision (tag-only results)
 ├── icl/                               # Condition C centralized pooled protocol, predictions, and results
 ├── supporting_records/                # provenance, narratives, and historical records
 ├── papers/                            # reference papers
@@ -235,6 +286,11 @@ For a full inventory of all documentation files with descriptions, see
 | Execution schedule freeze | `phase-b-execution-schedule-frozen` | `eef0bc58e5ab14fb0cd2aece180fb5b1b5a7962b` |
 | Inference freeze | `phase-b-inference-frozen` | `11c34358e28e875cd5c7249061ac2b89ffcd42f4` |
 | Results freeze | `phase-b-results-frozen` | `45ec4eed65b263a5803ced7d01064c4672e81e86` |
+| EXP3_V2 final held-out boundary | `exp3-v2-heldout-frozen-002` | `6f88abdecc25e015064e5fc2c59000f8a1a0bc7e` |
+| EXP3_V2 held-out data | `exp3-v2-heldout-data-frozen-001` | `7bcf309910920b52c485125312599d1ded9c4c74` |
+| EXP3_V2 verbalizations | `exp3-v2-verbalizations-frozen-001` | `4159fba5e4d23cbc9af62c2aad72f11eda1491db` |
+| EXP3_V2 inference | `exp3-v2-inference-frozen-001` | `9a7ccaa95bae8c0d2d00dc0959e177eb90a5cd61` |
+| EXP3_V2 results | `exp3-v2-results-frozen-001` | `3781d6801191757a47bd919f0e4e9705b5895769` |
 | Condition C R10 code freeze | `condition-c-freeze-r10` | `60ccc7539714e909aae7318cc72031d7acdd4e78` |
 | Condition C R10 predictions freeze | `condition-c-predictions-frozen-r10` | `8d6b7a0636e9a15f0ebbd32ed0f9e2ce4faea30a` |
 | Condition C R10 results freeze | `condition-c-results-frozen-r10` | `89e4caebe635973ef438d4b601bb4f761417193a` |
@@ -244,18 +300,29 @@ The external TEP source dataset is pinned separately at commit
 
 ## Reproducibility boundary
 
-The committed repository preserves the protocol, schedules, local knowledge,
-insights, 540 individual LLM records, 180 aggregate predictions, evaluator,
-bootstrap, metrics, reports, and cryptographic manifests required to recompute
-the reported Phase B results from frozen predictions. It also preserves the
-Condition C R10 schedule, 45 repetition records, 15 aggregate predictions,
-post-inference manifests, frozen evaluation result, and independent review.
+For Experiment 1, the `main` tree preserves the protocol, schedules, local
+knowledge, insights, 540 individual LLM records, 180 aggregate predictions,
+evaluator, bootstrap, metrics, reports, and cryptographic manifests required to
+recompute the reported results from frozen predictions.
 
-The 15 raw Phase B held-out `.xlsx` workbooks are intentionally excluded from
-Git. Their filenames, sizes, and SHA-256 hashes are committed. If supplied
+EXP3_V2 is preserved separately through ordinary-Git annotated tags rather than
+being materialized on `main`. Its tag-only chain contains the 30 frozen held-out
+workbooks, frozen verbalizations, 1,080 individual LLM records, 360 aggregate
+predictions, evaluation artifacts, and integrity manifests. The results are
+governed by `exp3-v2-results-frozen-001`.
+
+The repository also preserves the Condition C R10 schedule, 45 repetition
+records, 15 aggregate predictions, post-inference manifests, frozen evaluation
+result, and independent review.
+
+The 15 raw Experiment 1 held-out `.xlsx` workbooks are intentionally excluded
+from Git. Their filenames, sizes, and SHA-256 hashes are committed. If supplied
 separately, their byte identity and structure can be verified with the frozen
 verifier. Their original random simulation realizations cannot be regenerated
 bit-for-bit from scripts alone because the initial MATLAB RNG state was not
-recorded.
+recorded. This limitation is specific to Experiment 1; the 30 EXP3_V2
+workbooks are preserved in its tag-only data freeze.
 
-See [`AUDIT_GUIDE.md`](AUDIT_GUIDE.md) for exact commands and boundaries.
+See [`AUDIT_GUIDE.md`](AUDIT_GUIDE.md) for the exact Experiment 1 and Condition
+C commands and boundaries, and [`phase_b/README.md`](phase_b/README.md) for the
+EXP3_V2 tag-only chain.
