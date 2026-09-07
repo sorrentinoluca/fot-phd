@@ -1,6 +1,4 @@
-# FoT su TEP — Un unico percorso, dal dato alla valutazione
-
-# FoT (Federation over Text) — Un ponte verso i dati PV attraverso TEP
+# Federation over Text for Locally Unseen Fault Diagnosis in Multivariate Time Series
 
 **Step 1 / 27**
 
