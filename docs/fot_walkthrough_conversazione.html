@@ -137,8 +137,8 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
       <li><a href="#step-23">23. Risultati secondari descrittivi</a></li>
       <li><a href="#step-24">24. Interpretazione e limiti</a></li>
     </ol></details></li>
-    <li><details class="nav-phase"><summary><a href="#step-25">Confronto intra-paradigma</a></summary><ol>
-      <li><a href="#step-25">25. Confronto intra-paradigma</a></li>
+    <li><details class="nav-phase"><summary><a href="#step-25">Federazione VS centralizzazione</a></summary><ol>
+      <li><a href="#step-25">25. Federazione VS centralizzazione</a></li>
       <li><a href="#step-26">26. Risultati e confronto C&minus;B</a></li>
     </ol></details></li>
     <li><details class="nav-phase"><summary><a href="#step-27">Fase 3</a></summary><ol>
@@ -882,14 +882,14 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 
 <section id="step-25" data-step="25">
   <div class="step-kicker">Step 25 / 27</div>
-  <h2>Confronto intra-paradigma</h2>
+  <h2>Federazione VS centralizzazione</h2>
 
-  <p>La central-ICL baseline risponde a una domanda descrittiva: <em>dove si colloca la federazione peer-only rispetto a un singolo agente che riceve l'intera esperienza testuale prompt-facing congelata?</em> Opera nello stesso spazio di pseudolabel e nello stesso paradigma testuale, ma non a condizioni informative equivalenti rispetto alla federazione.</p>
+  <p>Abbiamo chiesto: quanto perde il sistema a quattro agenti rispetto a uno solo che sa tutto? Per rispondere abbiamo costruito un agente unico a cui abbiamo dato tutte le conoscenze degli altri quattro — gli stessi esempi, le stesse descrizioni testuali dei guasti. Non dati grezzi o informazioni riservate, solo ciò che nella federazione verrebbe scambiato tra i nodi. Il confronto è diretto perché entrambi lavorano con lo stesso tipo di materiale, ma non alla pari: l'agente centralizzato vede tutto insieme, quelli federati vedono solo pezzi.</p>
 
   <p><strong>Full-information</strong> è qui circoscritto all'unione degli artefatti prompt-facing frozen — esempi etichettati e insight testuali — e non implica accesso ai dati grezzi, ai testi sorgente, alla ground truth o a informazione evaluator-side.</p>
 
   <div class="example">
-    <div class="panel-label">C e B: contesti diversi entro lo stesso paradigma</div>
+    <div class="panel-label">C &amp; B: contesti diversi entro lo stesso paradigma</div>
     <h3>Che cosa vede ciascun ricevente</h3>
     <div class="scroll"><table><thead><tr><th>Condizione</th><th>Esempi etichettati</th><th>Insight</th><th>Forma del contesto</th></tr></thead><tbody>
       <tr><td><strong>C</strong></td><td>10 pooled: 2 per ciascuna delle 4 classi fault + 2 Normal</td><td>8, inclusi quelli che in B sarebbero propri</td><td>Unico contesto centralizzato, receiver-independent</td></tr>
@@ -908,7 +908,6 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
     <li>Nessun accesso alla ground truth prima del freeze delle predizioni; join soltanto evaluator-side.</li>
   </ul>
 
-  <div class="callout full-width"><strong>Natura post-hoc.</strong> Condition C non era nel protocollo originale A/B/E ed è stata progettata dopo aver osservato quei risultati sul medesimo held-out. Un amendment e un freeze dedicati sono stati completati prima delle chiamate LLM di C: il carattere post-hoc riguarda la decisione di introdurre il confronto, non un adattamento delle predizioni dopo averne visto gli esiti.</div>
 </section>
 
 <section id="step-26" data-step="26">
