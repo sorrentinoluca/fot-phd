@@ -135,8 +135,8 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
       <li><a href="#step-23">23. Risultati secondari descrittivi</a></li>
       <li><a href="#step-24">24. Interpretazione e limiti</a></li>
     </ol></details></li>
-    <li><details class="nav-phase"><summary><a href="#step-25">Condizione C</a></summary><ol>
-      <li><a href="#step-25">25. Design e razionale</a></li>
+    <li><details class="nav-phase"><summary><a href="#step-25">Confronto intra-paradigma</a></summary><ol>
+      <li><a href="#step-25">25. Confronto intra-paradigma</a></li>
       <li><a href="#step-26">26. Risultati e confronto C&minus;B</a></li>
     </ol></details></li>
     <li><details class="nav-phase"><summary><a href="#step-27">Fase 3</a></summary><ol>
@@ -858,17 +858,13 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <div style="flex:1;height:2px;background:linear-gradient(to left,var(--teal),transparent)"></div>
 </div>
 
-<div class="orientation">
-  <p><strong>Dalla Fase 2 al riferimento centralizzato.</strong> Questa collocazione segue la cronologia del progetto, ma Condition C riapre il confronto di Experiment 1. È una <strong>centralized full-information pooled ICL post-hoc exploratory reference</strong> applicata esclusivamente ai 15 casi del suo held-out; non è una baseline di EXP3_V2.</p>
-</div>
-
 <section id="step-25" data-step="25">
-  <div class="step-kicker">Step 25 / 27 <span class="phase-badge offline">Riferimento centralizzato post-hoc</span></div>
-  <h2>Condizione C: design e razionale entro il paradigma testuale</h2>
+  <div class="step-kicker">Step 25 / 27</div>
+  <h2>Confronto intra-paradigma</h2>
 
-  <p>Condition C risponde a una domanda descrittiva: <em>dove si colloca la federazione peer-only B rispetto a un singolo agente che riceve tutta l'esperienza testuale prompt-facing congelata?</em> C è receiver-independent e usa lo stesso spazio di pseudolabel e lo stesso paradigma testuale, ma non è un confronto a condizioni informative equivalenti.</p>
+  <p>La central-ICL baseline risponde a una domanda descrittiva: <em>dove si colloca la federazione peer-only rispetto a un singolo agente che riceve l'intera esperienza testuale prompt-facing congelata?</em> Opera nello stesso spazio di pseudolabel e nello stesso paradigma testuale, ma non a condizioni informative equivalenti rispetto alla federazione.</p>
 
-  <p><strong>Full-information</strong> è qui un termine strettamente circoscritto all'unione degli artefatti prompt-facing frozen: esempi etichettati e insight testuali. Non implica accesso a tutti i dati grezzi, a tutti i testi sorgente, alla ground truth o a informazione evaluator-side.</p>
+  <p><strong>Full-information</strong> è qui circoscritto all'unione degli artefatti prompt-facing frozen — esempi etichettati e insight testuali — e non implica accesso ai dati grezzi, ai testi sorgente, alla ground truth o a informazione evaluator-side.</p>
 
   <div class="example">
     <div class="panel-label">C e B: contesti diversi entro lo stesso paradigma</div>
@@ -930,10 +926,6 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 
   <h3>2 &middot; Interpretazione e provenienza</h3>
   <p>C è una <strong>centralized full-information pooled ICL post-hoc exploratory reference</strong>: colloca B entro lo stesso paradigma testuale, ma quantità, forma e struttura del contesto cambiano simultaneamente. Il risultato è descrittivo, temporalmente confondibile e non autorizza una lettura causale o una superiorità generale.</p>
-
-  <div class="source"><strong>Provenienza compatta.</strong> <a href="../icl/full_evaluation/evaluation_results_c.json">Risultato frozen</a> · <a href="audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md">review indipendente</a> · <a href="../icl/PLAN_CENTRAL_POOLED_ICL.md">piano</a>.<br>Code freeze <code>condition-c-freeze-r10</code> → <code>60ccc7539714e909aae7318cc72031d7acdd4e78</code>; predictions freeze <code>condition-c-predictions-frozen-r10</code> → <code>8d6b7a0</code>; results freeze <code>condition-c-results-frozen-r10</code> → <code>89e4caebe635973ef438d4b601bb4f761417193a</code>; independent review commit <code>da64287a</code>; SHA-256 di <code>evaluation_results_c.json</code>: <code>1ea60e12ded77e5d7758d71d3d2e863d5f741c91d41a03511c81935061435cd5</code>.</div>
-
-  <div class="callout full-width"><strong>Verdetto della review indipendente: GO WITH LIMITATIONS.</strong> Le metriche e il CI sono corretti; la concentrazione su un solo strato e la risoluzione minima del bootstrap devono accompagnare ogni sintesi del risultato.</div>
 </section>
 
 
