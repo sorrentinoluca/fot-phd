@@ -1,0 +1,1698 @@
+<meta charset="UTF-8">
+<title>FoT-TEP Walkthrough</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #F7F5F0;
+  --bg-card: #FFFFFF;
+  --bg-code: #EDEAE4;
+  --text: #1B2838;
+  --text-muted: #6B6152;
+  --text-caption: #8B7355;
+  --accent-a: #2E86AB;
+  --accent-a-light: #E3F1F7;
+  --accent-b: #7B4FA0;
+  --accent-b-light: #F0E8F7;
+  --threshold: #E8572A;
+  --threshold-light: #FDF0EC;
+  --green: #3EA66F;
+  --green-light: #E8F5EE;
+  --border: #D8D2C8;
+  --border-light: #EBE7E0;
+  --nav-bg: #1B2838;
+  --nav-text: #C8C2B8;
+  --nav-active: #F7F5F0;
+  --shadow: 0 1px 3px rgba(27,40,56,0.08);
+  --shadow-lg: 0 4px 16px rgba(27,40,56,0.1);
+  --font-display: 'Source Serif 4', 'Georgia', serif;
+  --font-body: 'DM Sans', 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141C26;
+    --bg-card: #1C2733;
+    --bg-code: #1A2430;
+    --text: #E4E0DA;
+    --text-muted: #9A9284;
+    --text-caption: #7A7060;
+    --accent-a: #4BA3C7;
+    --accent-a-light: #1A2D38;
+    --accent-b: #9B6FC0;
+    --accent-b-light: #2A1F38;
+    --threshold: #F07050;
+    --threshold-light: #2D1C18;
+    --green: #5CC88A;
+    --green-light: #1A2D22;
+    --border: #2E3A48;
+    --border-light: #232F3C;
+    --nav-bg: #0E1520;
+    --nav-text: #7A7060;
+    --nav-active: #E4E0DA;
+    --shadow: 0 1px 3px rgba(0,0,0,0.25);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,0.35);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141C26;
+  --bg-card: #1C2733;
+  --bg-code: #1A2430;
+  --text: #E4E0DA;
+  --text-muted: #9A9284;
+  --text-caption: #7A7060;
+  --accent-a: #4BA3C7;
+  --accent-a-light: #1A2D38;
+  --accent-b: #9B6FC0;
+  --accent-b-light: #2A1F38;
+  --threshold: #F07050;
+  --threshold-light: #2D1C18;
+  --green: #5CC88A;
+  --green-light: #1A2D22;
+  --border: #2E3A48;
+  --border-light: #232F3C;
+  --nav-bg: #0E1520;
+  --nav-text: #7A7060;
+  --nav-active: #E4E0DA;
+  --shadow: 0 1px 3px rgba(0,0,0,0.25);
+  --shadow-lg: 0 4px 16px rgba(0,0,0,0.35);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.65;
+  margin: 0;
+  min-height: 100vh;
+}
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; line-height: 1.25; text-wrap: balance; margin: 0; }
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.35rem; }
+h3 { font-size: 1.1rem; }
+code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+/* NAV BAR */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--nav-bg);
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; align-items: stretch;
+  gap: 0;
+}
+.nav-phase {
+  display: flex; flex-direction: column;
+  padding: 10px 0 6px;
+}
+.nav-phase:first-child { padding-left: 20px; }
+.nav-phase-label {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0 8px 4px;
+}
+.nav-phase-label.phase-a { color: var(--accent-a); }
+.nav-phase-label.phase-b { color: var(--accent-b); }
+.nav-steps {
+  display: flex; gap: 2px;
+}
+.nav-step {
+  background: none; border: none; cursor: pointer;
+  color: var(--nav-text);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 4px 9px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  position: relative;
+  white-space: nowrap;
+}
+.nav-step:hover { background: rgba(255,255,255,0.08); color: var(--nav-active); }
+.nav-step.active { background: rgba(255,255,255,0.14); color: var(--nav-active); font-weight: 600; }
+.nav-step.visited::after {
+  content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
+  width: 4px; height: 4px; border-radius: 50%; background: var(--accent-a);
+}
+.nav-step.visited.phase-b-step::after { background: var(--accent-b); }
+.nav-divider {
+  width: 1px; background: rgba(255,255,255,0.1);
+  margin: 8px 12px;
+  align-self: stretch;
+}
+
+/* MAIN */
+.main {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 32px 24px 100px;
+}
+.step-container { display: none; }
+.step-container.active { display: block; }
+
+/* Phase badge */
+.phase-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+.phase-badge.a { background: var(--accent-a-light); color: var(--accent-a); }
+.phase-badge.b { background: var(--accent-b-light); color: var(--accent-b); }
+
+.step-title { margin-bottom: 16px; }
+.step-intro { color: var(--text-muted); margin-bottom: 28px; font-size: 0.95rem; }
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+}
+.card-label {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-caption);
+  margin-bottom: 10px;
+}
+
+/* Data table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+.data-table th {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-caption);
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 2px solid var(--border);
+}
+.data-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border-light);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table .num { text-align: right; font-family: var(--font-mono); font-size: 0.82rem; }
+.data-table .highlight { background: var(--threshold-light); font-weight: 600; }
+.data-table .active-cell { background: var(--green-light); color: var(--green); font-weight: 600; }
+.data-table .inactive-cell { color: var(--text-caption); }
+
+/* Flag grid */
+.flag-grid {
+  display: grid;
+  gap: 3px;
+  margin: 16px 0;
+}
+.flag-cell {
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 6px 4px;
+  min-height: 34px;
+}
+.flag-cell.on { background: var(--accent-a); color: #fff; }
+.flag-cell.off { background: var(--bg-code); color: var(--text-caption); }
+.flag-cell.header { background: none; color: var(--text-caption); font-weight: 500; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.flag-cell.var-label { background: none; color: var(--text-muted); font-weight: 500; font-size: 0.75rem; justify-content: flex-end; padding-right: 8px; }
+
+/* Formula */
+.formula-block {
+  background: var(--bg-code);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+.formula-block .var { color: var(--accent-a); font-weight: 500; }
+.formula-block .val { color: var(--threshold); }
+.formula-block .result { color: var(--green); font-weight: 600; }
+
+/* Chart area (SVG) */
+.chart-wrap {
+  margin: 16px 0;
+  overflow-x: auto;
+}
+.chart-wrap svg {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+/* JSON block */
+.json-block {
+  background: var(--bg-code);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  padding: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  white-space: pre;
+  margin: 12px 0;
+  color: var(--text-muted);
+}
+.json-block .key { color: var(--accent-a); }
+.json-block .str { color: var(--green); }
+.json-block .num-val { color: var(--threshold); }
+.json-block .bool { color: var(--accent-b); }
+
+/* Text output block */
+.neutral-text {
+  background: var(--bg-card);
+  border-left: 3px solid var(--accent-a);
+  padding: 16px 20px;
+  margin: 16px 0;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-size: 0.92rem;
+  border-radius: 0 6px 6px 0;
+}
+
+/* Agent cards */
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.agent-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.agent-card .agent-id {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-b);
+  margin-bottom: 6px;
+}
+.agent-card .agent-knows {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.agent-card .agent-knows strong { color: var(--text); }
+.agent-card.highlighted {
+  border-color: var(--accent-b);
+  box-shadow: 0 0 0 2px var(--accent-b-light), var(--shadow);
+}
+
+/* Condition comparison */
+.condition-row {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 12px;
+  align-items: start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.condition-row:last-child { border-bottom: none; }
+.cond-label {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-align: center;
+}
+.cond-label.cond-a { background: var(--bg-code); color: var(--text-muted); }
+.cond-label.cond-b { background: var(--green-light); color: var(--green); }
+.cond-label.cond-e { background: var(--threshold-light); color: var(--threshold); }
+.cond-label.cond-c { background: #EDE8F5; color: #5B3E8A; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .cond-label.cond-c { background: #2A1F38; color: #B89ADB; } }
+:root[data-theme="dark"] .cond-label.cond-c { background: #2A1F38; color: #B89ADB; }
+
+/* Result bars */
+.result-bar-wrap { margin: 8px 0; }
+.result-bar-label {
+  font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500;
+  margin-bottom: 4px; color: var(--text-muted);
+}
+.result-bar-track {
+  height: 28px; background: var(--bg-code);
+  border-radius: 4px; overflow: hidden; display: flex;
+  position: relative;
+}
+.result-bar-fill {
+  height: 100%; display: flex; align-items: center; justify-content: flex-end;
+  padding: 0 8px;
+  font-family: var(--font-mono); font-size: 0.72rem; font-weight: 600; color: #fff;
+  transition: width 0.8s ease;
+}
+.result-bar-fill.correct { background: var(--green); }
+.result-bar-fill.wrong { background: var(--threshold); }
+.result-bar-fill.abstain { background: var(--text-caption); }
+
+/* Navigation buttons */
+.step-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-light);
+}
+.btn {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn:focus-visible { outline: 2px solid var(--accent-a); outline-offset: 2px; }
+.btn-primary { background: var(--accent-a); color: #fff; }
+.btn-primary:hover { filter: brightness(1.1); }
+.btn-primary.phase-b { background: var(--accent-b); }
+.btn-secondary { background: var(--bg-code); color: var(--text-muted); }
+.btn-secondary:hover { background: var(--border); }
+.btn[disabled] { opacity: 0.35; cursor: not-allowed; }
+.step-counter {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-caption);
+}
+
+/* Insight block */
+.insight-block {
+  background: var(--accent-b-light);
+  border-left: 3px solid var(--accent-b);
+  padding: 14px 18px;
+  margin: 10px 0;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.88rem;
+}
+.insight-id {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-b);
+  margin-bottom: 4px;
+}
+
+/* Callout */
+.callout {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 16px;
+  background: var(--accent-a-light);
+  border-radius: 6px;
+  margin: 16px 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+.callout.warn { background: var(--threshold-light); }
+.callout-icon {
+  flex-shrink: 0;
+  width: 20px; height: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+}
+
+/* Arrow flow */
+.flow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+  font-size: 0.82rem;
+}
+.flow-node {
+  background: var(--bg-code);
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-weight: 500;
+}
+.flow-node.em { background: var(--accent-a-light); color: var(--accent-a); font-weight: 600; }
+.flow-node.em-b { background: var(--accent-b-light); color: var(--accent-b); font-weight: 600; }
+.flow-arrow { color: var(--text-caption); font-size: 1rem; }
+
+/* Pseudolabel mapping */
+.pseudo-map {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 6px 20px;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  margin: 12px 0;
+}
+.pseudo-map .real { color: var(--text-muted); }
+.pseudo-map .arrow-sm { color: var(--text-caption); }
+.pseudo-map .opaque { color: var(--accent-b); font-weight: 600; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .nav-inner { overflow-x: auto; }
+  .agents-grid { grid-template-columns: 1fr 1fr; }
+  .main { padding: 20px 16px 80px; }
+  h1 { font-size: 1.4rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .result-bar-fill { transition: none; }
+}
+</style>
+
+<!-- NAVIGATION -->
+<nav class="nav" role="navigation" aria-label="Step navigation">
+  <div class="nav-inner">
+    <div class="nav-phase">
+      <div class="nav-phase-label phase-a">Phase A</div>
+      <div class="nav-steps" id="navA"></div>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-phase">
+      <div class="nav-phase-label phase-b">Phase B</div>
+      <div class="nav-steps" id="navB"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<div class="main" id="mainContent">
+
+<!-- ==================== STEP 0: INTRO ==================== -->
+<div class="step-container" data-step="0">
+  <div class="phase-badge a">Panoramica</div>
+  <h1 class="step-title">Federation over Text — Il tuo esperimento, passo dopo passo</h1>
+  <p class="step-intro">Questa interfaccia spiega visivamente come funziona l'esperimento FoT applicato al Tennessee Eastman Process. Segui ogni step: i dati sono inventati ma coerenti con il meccanismo reale. Ci concentreremo su una feature (<strong>shift_sigma</strong> — lo spostamento di livello) e su poche variabili XMEAS chiave.</p>
+
+  <div class="card">
+    <div class="card-label">L'idea in breve</div>
+    <p style="margin:0 0 16px">Quattro agenti distribuiti osservano serie temporali industriali. Ognuno conosce un solo tipo di guasto. Possono riconoscere un guasto che non hanno mai visto, se un altro agente glielo descrive a parole?</p>
+    <div class="flow">
+      <span class="flow-node">Serie temporali</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-node em">Testo neutrale</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-node em-b">Insight testuali</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-node em-b">Diagnosi via LLM</span>
+    </div>
+    <p style="font-size:0.85rem;color:var(--text-caption);margin:12px 0 0">Modello LLM utilizzato: <strong style="color:var(--accent-b)">gpt-5.6-terra</strong> (OpenAI, via Responses API). Ogni chiamata LLM avviene esclusivamente in Phase B — Phase A è completamente deterministica.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Cosa vedrai</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <h3 style="color:var(--accent-a);margin-bottom:6px">Phase A — Dal segnale al testo</h3>
+        <p style="font-size:0.88rem;color:var(--text-muted);margin:0">Come si calcola una feature, come si fissa una soglia, come si produce la descrizione neutra di un caso.</p>
+      </div>
+      <div>
+        <h3 style="color:var(--accent-b);margin-bottom:6px">Phase B — Dalla federazione alla diagnosi</h3>
+        <p style="font-size:0.88rem;color:var(--text-muted);margin:0">Come gli agenti condividono conoscenza via testo e come la diagnosi cambia con e senza insight. Include i risultati dell'esperimento iniziale (Exp 1) e della replica confermativa con campione raddoppiato (EXP3_V2).</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span>Feature scelta per questa demo: <strong>shift_sigma</strong> (spostamento di livello in unità di deviazione standard). Variabili XMEAS mostrate: <strong>XMEAS-1</strong> (A Feed), <strong>XMEAS-7</strong> (Reactor Pressure), <strong>XMEAS-9</strong> (Reactor Temperature). Fault di esempio: <strong>F1</strong>.</span>
+  </div>
+</div>
+
+<!-- ==================== STEP 1: DATASET & SPLITS ==================== -->
+<div class="step-container" data-step="1">
+  <div class="phase-badge a">Phase A · Step 1</div>
+  <h1 class="step-title">Il dataset: sorgente, fault e split</h1>
+  <p class="step-intro">Prima di calcolare qualsiasi feature, serve sapere <strong>da dove vengono i dati</strong>, quali fault sono stati scelti, e come vengono suddivisi per evitare il leakage.</p>
+
+  <div class="card">
+    <div class="card-label">Sorgente: Tennessee Eastman Process — mode_1</div>
+    <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">I dati provengono dallo snapshot upstream <span class="mono">tennessee-eastman-dataset</span> (commit pinnato <span class="mono">309b944f</span>). Si usa esclusivamente <strong>mode_1</strong> (condizioni operative nominali). Il simulatore fornisce segnali multivariati, fault noti, run replicabili e un istante di attivazione verificato a 10 h.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="padding:14px;border-radius:6px;background:var(--bg-code)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Dataset Normal</div>
+        <p style="margin:0;font-size:0.85rem;color:var(--text)"><strong>1 file</strong> — <span class="mono">mode1_normal_500h</span></p>
+        <p style="margin:4px 0 0;font-size:0.82rem;color:var(--text-muted)">500 h di processo senza fault. 30 001 righe (500 h &times; 60 + endpoint). Campionamento 1 min. 41 XMEAS per riga. Diviso in <strong>10 blocchi da 50 h</strong> (N1 &hellip; N10).</p>
+      </div>
+      <div style="padding:14px;border-radius:6px;background:var(--bg-code)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Dataset di Fault</div>
+        <p style="margin:0;font-size:0.85rem;color:var(--text)"><strong>4 classi: F1, F8, F10, F13</strong></p>
+        <p style="margin:4px 0 0;font-size:0.82rem;color:var(--text-muted)">Per ciascuna classe, <em>K</em> batch (realizzazioni indipendenti). Ogni batch: 50 h, 3 001 righe, 41 XMEAS. Fault iniettato a 10 h: prime 10 h normali, ultime 40 h con firma del guasto.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Perch&eacute; proprio F1, F8, F10, F13?</div>
+    <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
+      Il TEP prevede 20+ tipi di fault. Ne vengono scelti <strong>quattro</strong> perch&eacute; servono esattamente quattro agenti, ciascuno con un solo fault locale. I quattro coprono firme diverse: <strong>F1</strong> (step sul feed A, impatto forte su XMEAS-1), <strong>F8</strong> (composizione del feed B), <strong>F10</strong> (temperatura dello stripper) e <strong>F13</strong> (cinetica di reazione). Ogni agente conosce solo uno di questi; gli altri tre sono <em>locally unseen</em>.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Split dei dati e ruoli</div>
+    <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">
+      I dati vengono partizionati <strong>prima</strong> di qualsiasi calibrazione. Lo split &egrave; rigido: i dati di validation e test non influenzano mai le scelte di design.
+    </p>
+    <table class="data-table">
+      <thead><tr><th>Split</th><th>Fault (F1, F8, F10, F13)</th><th>Normal</th><th>Ruolo</th></tr></thead>
+      <tbody>
+        <tr class="highlight">
+          <td style="font-weight:600">Development / calibration</td>
+          <td style="font-family:var(--font-mono);font-size:0.82rem">batch 1 &ndash; 5</td>
+          <td style="font-family:var(--font-mono);font-size:0.82rem">N1 &ndash; N5</td>
+          <td style="font-size:0.82rem;color:var(--text-muted)">Scelta feature, calibrazione soglie, baseline</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">Validation</td>
+          <td style="font-family:var(--font-mono);font-size:0.82rem">batch 6 &ndash; 7</td>
+          <td style="font-family:var(--font-mono);font-size:0.82rem">N6 &ndash; N7</td>
+          <td style="font-size:0.82rem;color:var(--text-muted)">Controllo fuori sviluppo, nessun tuning</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600">Test split</td>
+          <td style="font-family:var(--font-mono);font-size:0.82rem">batch 8 &ndash; 10</td>
+          <td style="font-family:var(--font-mono);font-size:0.82rem">N8 &ndash; N10</td>
+          <td style="font-size:0.82rem;color:var(--text-muted)">Verifica finale, aperto solo dopo il freeze</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Held-out per Phase B &mdash; 15 nuove realizzazioni</div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
+      Il test split (batch 8&ndash;10) &egrave; gi&agrave; stato osservato in Phase A. Un test visto non &egrave; pi&ugrave; vergine. Per Phase B servono <strong>15 nuovi run congelati</strong>, mai toccati prima dell'inferenza:
+    </p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--accent-a-light);font-size:0.82rem;color:var(--accent-a);font-weight:500">3 &times; Normal</span>
+      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 &times; F1</span>
+      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 &times; F8</span>
+      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 &times; F10</span>
+      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 &times; F13</span>
+    </div>
+    <p style="margin:10px 0 0;font-size:0.82rem;color:var(--text-caption)">
+      Questi 15 run vengono congelati (hash, manifest) <em>prima</em> della verbalizzazione e dell'inferenza. Ogni run va a tutti e 4 gli agenti: 1 lo vede come local-seen, 3 come local-unseen &rarr; 12 fault &times; 3 = <strong>36 agent-case unseen</strong> per condizione.
+    </p>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span><strong>Principio chiave:</strong> i fault batch 1&ndash;5 servono solo per <em>scegliere quali feature usare</em> (design). Le soglie si calibrano <em>solo</em> su N1&ndash;N5 (Normal). I fault non influenzano mai il valore delle soglie. Dopo il freeze, nessun dato di valutazione pu&ograve; modificare le regole.</span>
+  </div>
+</div>
+
+<!-- ==================== STEP 2: RAW DATA ==================== -->
+<div class="step-container" data-step="2">
+  <div class="phase-badge a">Phase A · Step 2</div>
+  <h1 class="step-title">I dati grezzi: cosa riceve un agente</h1>
+  <p class="step-intro">Il Tennessee Eastman Process produce 41 variabili misurate (XMEAS) campionate ogni minuto. Un run di fault dura 50 h: le prime 10 h sono normali, poi si attiva il guasto. Ecco cosa vede il sensore XMEAS-1 (A Feed flow) in un run di F1.</p>
+
+  <div class="card">
+    <div class="card-label">XMEAS-1 · A Feed — Run F1 batch 1 (50 h, campionamento 1 min)</div>
+    <div class="chart-wrap" id="chart-raw"></div>
+    <div style="display:flex;gap:16px;margin-top:8px;font-size:0.78rem;color:var(--text-caption)">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:3px;background:var(--text-caption);display:inline-block;border-radius:1px"></span> Pre-fault (0–10 h)</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:3px;background:var(--threshold);display:inline-block;border-radius:1px"></span> Post-fault (10–50 h)</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:2px;border-top:2px dashed var(--accent-a);display:inline-block"></span> Iniezione fault a 10 h</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span>Il salto è evidente su XMEAS-1, ma l'agente non sa quale sia il fault. Ha solo 41 colonne di numeri. La pipeline Phase A trasformerà questi numeri in un testo neutrale.</span>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Finestratura — Come si divide il segnale post-fault</div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">Dopo l'iniezione a 10 h, le rimanenti 40 h vengono suddivise in <strong>8 finestre da 5 h</strong> ciascuna. Ogni finestra diventa l'unità di analisi.</p>
+    <div style="display:flex;gap:3px;margin-top:8px">
+      <div style="flex:1;text-align:center;padding:8px 4px;background:var(--bg-code);border-radius:4px;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-caption)">W1<br><span style="font-size:0.65rem">10–15h</span></div>
+      <div style="flex:1;text-align:center;padding:8px 4px;background:var(--bg-code);border-radius:4px;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-caption)">W2<br><span style="font-size:0.65rem">15–20h</span></div>
+      <div style="flex:1;text-align:center;padding:8px 4px;background:var(--bg-code);border-radius:4px;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-caption)">W3<br><span style="font-size:0.65rem">20–25h</span></div>
+      <div style="flex:1;text-align:center;padding:8px 4px;background:var(--bg-code);border-radius:4px;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-caption)">W4<br><span style="font-size:0.65rem">25–30h</span></div>
+      <div style="flex:1;text-align:center;padding:8px 4px;background:var(--bg-code);border-radius:4px;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-caption)">W5<br><span style="font-size:0.65rem">30–35h</span></div>
+      <div style="flex:1;text-align:center;padding:8px 4px;background:var(--bg-code);border-radius:4px;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-caption)">W6<br><span style="font-size:0.65rem">35–40h</span></div>
+      <div style="flex:1;text-align:center;padding:8px 4px;background:var(--bg-code);border-radius:4px;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-caption)">W7<br><span style="font-size:0.65rem">40–45h</span></div>
+      <div style="flex:1;text-align:center;padding:8px 4px;background:var(--bg-code);border-radius:4px;font-family:var(--font-mono);font-size:0.72rem;color:var(--text-caption)">W8<br><span style="font-size:0.65rem">45–50h</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== STEP 3: BASELINE ==================== -->
+<div class="step-container" data-step="3">
+  <div class="phase-badge a">Phase A · Step 3</div>
+  <h1 class="step-title">Costruire il riferimento: la baseline Normal</h1>
+  <p class="step-intro">Prima di giudicare un segnale, serve sapere cosa è "normale". La baseline viene costruita <strong>solo</strong> dai dati Normal N1–N5 (250 h di processo senza guasti) e mai modificata dopo.</p>
+
+  <div class="card">
+    <div class="card-label">Baseline Normal N1–N5 · XMEAS-1 (A Feed)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:12px 0">
+      <div>
+        <div style="font-size:0.78rem;color:var(--text-caption);margin-bottom:4px">Media di riferimento (μ₀)</div>
+        <div style="font-family:var(--font-mono);font-size:1.3rem;font-weight:600;color:var(--accent-a)">0.2668</div>
+        <div style="font-size:0.75rem;color:var(--text-caption)">kscmh (portata A Feed)</div>
+      </div>
+      <div>
+        <div style="font-size:0.78rem;color:var(--text-caption);margin-bottom:4px">Deviazione standard (σ₀)</div>
+        <div style="font-family:var(--font-mono);font-size:1.3rem;font-weight:600;color:var(--accent-a)">0.00594</div>
+        <div style="font-size:0.75rem;color:var(--text-caption)">ddof=1, 15 000 campioni</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Cosa significano μ₀ e σ₀</div>
+    <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
+      <strong>μ₀</strong> è il valore medio che XMEAS-1 assume quando il processo funziona normalmente. <strong>σ₀</strong> misura quanto normalmente fluttua attorno a quel valore. Insieme definiscono la "zona normale": ogni deviazione viene misurata in multipli di σ₀, così che variabili con scale fisiche diverse (pressioni, temperature, portate) diventano confrontabili.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Riferimento per le 3 variabili della demo</div>
+    <table class="data-table">
+      <thead><tr><th>Variabile</th><th>Descrizione</th><th class="num">μ₀</th><th class="num">σ₀</th></tr></thead>
+      <tbody>
+        <tr><td><code>XMEAS-1</code></td><td>A Feed (stream 1)</td><td class="num">0.2668</td><td class="num">0.00594</td></tr>
+        <tr><td><code>XMEAS-7</code></td><td>Reactor Pressure</td><td class="num">2705.0</td><td class="num">14.82</td></tr>
+        <tr><td><code>XMEAS-9</code></td><td>Reactor Temperature</td><td class="num">120.4</td><td class="num">0.153</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== STEP 4: FEATURE CALCULATION ==================== -->
+<div class="step-container" data-step="4">
+  <div class="phase-badge a">Phase A · Step 4</div>
+  <h1 class="step-title">Calcolo della feature: shift_sigma</h1>
+  <p class="step-intro">Nella procedura completa, lo stesso calcolo viene applicato a <strong>tutte le 8 finestre</strong> e a <strong>tutte le 41 variabili XMEAS</strong>, producendo 8 &times; 41 = 328 valori di shift_sigma per ciascun run. Qui sotto vediamo un <strong>singolo esempio concreto</strong>: XMEAS-1, finestra W1 (10&ndash;15 h), F1 batch 1.</p>
+
+  <div class="card">
+    <div class="card-label">Formula</div>
+    <div class="formula-block">
+<span class="var">shift_sigma</span> = (<span class="var">x̄<sub>w</sub></span> − <span class="var">μ₀</span>) / <span class="var">σ₀</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Esempio concreto — XMEAS-1, W1 [10–15 h], F1 batch 1</div>
+    <div class="formula-block">
+1. <span style="color:var(--text-caption)">Media della finestra W1 (300 campioni):</span>
+   <span class="var">x̄<sub>w</sub></span> = <span class="val">0.7224</span>
+
+2. <span style="color:var(--text-caption)">Riferimento Normal N1–N5:</span>
+   <span class="var">μ₀</span> = <span class="val">0.2668</span>    <span class="var">σ₀</span> = <span class="val">0.00594</span>
+
+3. <span style="color:var(--text-caption)">Sostituzione:</span>
+   shift_sigma = (<span class="val">0.7224</span> − <span class="val">0.2668</span>) / <span class="val">0.00594</span>
+              = <span class="val">0.4556</span> / <span class="val">0.00594</span>
+              = <span class="result">+76.7</span> σ
+    </div>
+    <div class="callout">
+      <span class="callout-icon">&#9432;</span>
+      <span>In questo esempio, XMEAS-1 nella finestra W1 &egrave; spostata di <strong>76.7 deviazioni standard</strong> sopra il normale &mdash; un salto enorme. Lo stesso identico calcolo viene ripetuto per ciascuna delle 8 finestre e per ciascuna delle 41 XMEAS. Ma ogni singolo valore non significa ancora nulla finch&eacute; non lo confrontiamo con una soglia.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Esempio: 3 variabili nella stessa finestra W1 &mdash; il calcolo si ripete su tutte le 41</div>
+    <table class="data-table">
+      <thead><tr><th>Variabile</th><th class="num">x̄<sub>w</sub></th><th class="num">μ₀</th><th class="num">σ₀</th><th class="num">shift_sigma</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td><code>XMEAS-1</code></td><td class="num">0.7224</td><td class="num">0.2668</td><td class="num">0.00594</td><td class="num" style="color:var(--threshold);font-weight:700">+76.7 σ</td></tr>
+        <tr><td><code>XMEAS-7</code></td><td class="num">2713.5</td><td class="num">2705.0</td><td class="num">14.82</td><td class="num">+0.57 σ</td></tr>
+        <tr><td><code>XMEAS-9</code></td><td class="num">120.8</td><td class="num">120.4</td><td class="num">0.153</td><td class="num">+2.61 σ</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.82rem;color:var(--text-caption);margin:10px 0 0">XMEAS-1 domina completamente; XMEAS-7 quasi invariata; XMEAS-9 mostra un lieve spostamento.</p>
+  </div>
+
+  <div class="callout" style="border-left-color:var(--accent-a)">
+    <span class="callout-icon">&#9432;</span>
+    <span><strong>Ricapitolando:</strong> W1 e XMEAS-1 sono solo l'esempio mostrato qui. Nella procedura reale, questo calcolo viene eseguito per ciascuna delle <strong>8 finestre</strong> (W1&ndash;W8) e per ciascuna delle <strong>41 XMEAS</strong>, producendo una matrice 8&times;41 di valori shift_sigma per ogni singolo run. Lo stesso vale per le altre feature (slope_sigma_h, residual_std_ratio, ecc.).</span>
+  </div>
+</div>
+
+<!-- ==================== STEP 5: THRESHOLD ==================== -->
+<div class="step-container" data-step="5">
+  <div class="phase-badge a">Phase A · Step 5</div>
+  <h1 class="step-title">Calibrazione della soglia</h1>
+  <p class="step-intro">La soglia serve a distinguere le fluttuazioni normali dagli spostamenti significativi. Viene calcolata <strong>solo sui dati Normal N1–N5</strong>, senza mai guardare i fault. 50 finestre normali, per ognuna si prende il massimo |shift_sigma| fra le 41 XMEAS, poi si ordina: la soglia è il valore al rango 49.</p>
+
+  <div class="card">
+    <div class="card-label">I 50 massimi ordinati (coda)</div>
+    <table class="data-table">
+      <thead><tr><th>Rango</th><th>Finestra</th><th class="num">max |shift_sigma|</th><th>Esito</th></tr></thead>
+      <tbody>
+        <tr><td class="num">46</td><td>N1 [20, 25)</td><td class="num">1.08</td><td class="inactive-cell">sotto soglia</td></tr>
+        <tr><td class="num">47</td><td>N3 [135, 140)</td><td class="num">1.27</td><td class="inactive-cell">sotto soglia</td></tr>
+        <tr><td class="num">48</td><td>N2 [85, 90)</td><td class="num">1.60</td><td class="inactive-cell">sotto soglia</td></tr>
+        <tr class="highlight"><td class="num" style="font-weight:700">49</td><td><strong>N4 [190, 195)</strong></td><td class="num" style="color:var(--threshold);font-weight:700">1.970</td><td style="color:var(--threshold);font-weight:600">← SOGLIA</td></tr>
+        <tr><td class="num">50</td><td>N2 [95, 100)</td><td class="num">2.005</td><td style="color:var(--text-caption)">unico > soglia</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Perché rango 49 su 50?</div>
+    <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
+      Con α = 0.05, si ammette che <strong>1 finestra su 50</strong> (il 2%) possa superare la soglia anche nel Normal. Questo equivale a un controllo conformal: il rango 49 è il quantile al 98° percentile dei massimi-di-sistema. La regola di attivazione è <strong>strettamente maggiore</strong>: <code>|shift_sigma| > 1.970</code>.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Le 4 soglie congelate</div>
+    <table class="data-table">
+      <thead><tr><th>Feature</th><th>Quantifica</th><th class="num">Soglia</th></tr></thead>
+      <tbody>
+        <tr class="highlight"><td><code>abs_shift_sigma</code></td><td>Spostamento di livello</td><td class="num" style="color:var(--threshold);font-weight:700">1.970</td></tr>
+        <tr><td><code>abs_slope_sigma_h</code></td><td>Pendenza (trend)</td><td class="num">0.747</td></tr>
+        <tr><td><code>residual_std_ratio</code></td><td>Variabilità residua</td><td class="num">1.368</td></tr>
+        <tr><td><code>diff_std_ratio</code></td><td>Variazioni campione-campione</td><td class="num">1.405</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.82rem;color:var(--text-caption);margin:10px 0 0">Dopo questo momento le soglie sono congelate. Non verranno mai più ricalcolate.</p>
+  </div>
+</div>
+
+<!-- ==================== STEP 6: FLAGS ==================== -->
+<div class="step-container" data-step="6">
+  <div class="phase-badge a">Phase A · Step 6</div>
+  <h1 class="step-title">Dai numeri ai flag: soglia applicata</h1>
+  <p class="step-intro">Ora applichiamo la soglia congelata (<code>1.970</code>) a tutte le 8 finestre post-fault del run F1 batch 1. Per la feature <strong>shift_sigma</strong>: se <code>|shift_sigma| > 1.970</code>, il flag è <strong>ON</strong>. Il segno (+ o −) viene conservato.</p>
+
+  <div class="card">
+    <div class="card-label">Griglia dei flag — shift_sigma su 3 XMEAS × 8 finestre</div>
+    <div class="flag-grid" style="grid-template-columns: 100px repeat(8, 1fr)">
+      <div class="flag-cell header"></div>
+      <div class="flag-cell header">W1</div><div class="flag-cell header">W2</div><div class="flag-cell header">W3</div><div class="flag-cell header">W4</div><div class="flag-cell header">W5</div><div class="flag-cell header">W6</div><div class="flag-cell header">W7</div><div class="flag-cell header">W8</div>
+
+      <div class="flag-cell var-label">XMEAS-1</div>
+      <div class="flag-cell on">+76.7</div><div class="flag-cell on">+74.2</div><div class="flag-cell on">+75.8</div><div class="flag-cell on">+76.1</div><div class="flag-cell on">+74.9</div><div class="flag-cell on">+75.3</div><div class="flag-cell on">+76.0</div><div class="flag-cell on">+75.5</div>
+
+      <div class="flag-cell var-label">XMEAS-7</div>
+      <div class="flag-cell off">+0.57</div><div class="flag-cell off">+0.42</div><div class="flag-cell off">+0.83</div><div class="flag-cell off">+0.31</div><div class="flag-cell off">+0.66</div><div class="flag-cell off">+0.19</div><div class="flag-cell off">+0.48</div><div class="flag-cell off">+0.55</div>
+
+      <div class="flag-cell var-label">XMEAS-9</div>
+      <div class="flag-cell on">+2.61</div><div class="flag-cell on">+2.45</div><div class="flag-cell on">+2.38</div><div class="flag-cell on">+2.52</div><div class="flag-cell on">+2.29</div><div class="flag-cell on">+2.41</div><div class="flag-cell on">+2.33</div><div class="flag-cell on">+2.47</div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:8px;font-size:0.75rem;color:var(--text-caption)">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;background:var(--accent-a);border-radius:3px;display:inline-block"></span> Flag ON (> soglia)</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:14px;height:14px;background:var(--bg-code);border:1px solid var(--border);border-radius:3px;display:inline-block"></span> Flag OFF (≤ soglia)</span>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span><strong>XMEAS-1</strong>: flag ON in 8/8 finestre, sempre positivo — spostamento persistente. <strong>XMEAS-7</strong>: mai sopra soglia — la pressione del reattore non cambia significativamente per F1. <strong>XMEAS-9</strong>: flag ON in 8/8, positivo — la temperatura sale leggermente.</span>
+  </div>
+</div>
+
+<!-- ==================== STEP 7: JSON ==================== -->
+<div class="step-container" data-step="7">
+  <div class="phase-badge a">Phase A · Step 7</div>
+  <h1 class="step-title">Dai flag al JSON strutturato</h1>
+  <p class="step-intro">I flag di tutte le finestre vengono aggregati in un'evidenza strutturata: quante finestre attive, coerenza di segno, persistenza nella fase iniziale e tardiva, episodi consecutivi. Ecco l'estratto per <strong>XMEAS-1, feature level (shift)</strong>.</p>
+
+  <div class="card">
+    <div class="card-label">Evidenza strutturata — XMEAS-1, level</div>
+    <div class="json-block">{
+  <span class="key">"variable"</span>: <span class="str">"XMEAS-1"</span>,
+  <span class="key">"window_size_h"</span>: <span class="num-val">5</span>,
+  <span class="key">"level"</span>: {
+    <span class="key">"n_active_windows"</span>: <span class="num-val">8</span>,
+    <span class="key">"active_fraction"</span>: <span class="num-val">1.0</span>,
+    <span class="key">"positive_count"</span>: <span class="num-val">8</span>,
+    <span class="key">"negative_count"</span>: <span class="num-val">0</span>,
+    <span class="key">"sign_consistency"</span>: <span class="num-val">1.0</span>,
+    <span class="key">"dominant_sign"</span>: <span class="str">"+"</span>,
+    <span class="key">"longest_same_sign_run"</span>: <span class="num-val">8</span>,
+    <span class="key">"first_active_window"</span>: <span class="num-val">10.0</span>,
+    <span class="key">"last_active_window"</span>: <span class="num-val">45.0</span>,
+    <span class="key">"early_active"</span>: <span class="bool">true</span>,
+    <span class="key">"late_active"</span>: <span class="bool">true</span>,
+    <span class="key">"strict_global_persistence"</span>: <span class="bool">true</span>
+  }
+}</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Cosa significano i campi chiave</div>
+    <table class="data-table">
+      <thead><tr><th>Campo</th><th>Significato</th><th>Valore qui</th></tr></thead>
+      <tbody>
+        <tr><td><code>n_active_windows</code></td><td>Quante finestre hanno superato la soglia</td><td class="num" style="color:var(--green)">8 su 8</td></tr>
+        <tr><td><code>sign_consistency</code></td><td>Quanto è coerente il segno (1.0 = sempre lo stesso)</td><td class="num" style="color:var(--green)">1.0</td></tr>
+        <tr><td><code>late_active</code></td><td>Lo spostamento persiste anche nelle ultime finestre?</td><td style="color:var(--green);font-weight:600">Sì</td></tr>
+        <tr><td><code>strict_global_persistence</code></td><td>Attivo in tutte le finestre, un solo segno, attivo nel tardo</td><td style="color:var(--green);font-weight:600">Sì</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ==================== STEP 8: NEUTRAL TEXT ==================== -->
+<div class="step-container" data-step="8">
+  <div class="phase-badge a">Phase A · Step 8</div>
+  <h1 class="step-title">Dal JSON al testo neutrale</h1>
+  <p class="step-intro">Il JSON viene trasformato in una descrizione in linguaggio naturale. Il testo è <strong>neutrale</strong>: descrive fatti quantitativi osservati, senza mai nominare il fault, assegnare un'etichetta diagnostica, o interpretare le cause.</p>
+
+  <div class="flow">
+    <span class="flow-node">Segnale raw</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-node">Feature per finestra</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-node">Soglie congelate</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-node">Flag 0/1</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-node">JSON strutturato</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-node em">Testo neutrale</span>
+  </div>
+
+  <div class="neutral-text">
+    Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 8/8 finestre, sempre con segno positivo; il run più lungo con segno coerente comprende 8 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-9 supera la soglia di spostamento in 8/8 finestre, sempre positivo, con run coerente di 8 finestre. XMEAS-7 non supera la soglia di spostamento in nessuna finestra. La massima dispersione complessiva osservata è su XMEAS-1 (rapporto tra deviazioni standard 46.30).
+  </div>
+
+  <div class="callout warn">
+    <span class="callout-icon">&#9888;</span>
+    <span>Nessun "F1", nessun "fault", nessuna diagnosi. Solo fatti osservabili: quali variabili, quante finestre, che segno. Questo è ciò che riceverà il reasoner LLM in Phase B.</span>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Fine Phase A — Riepilogo della pipeline</div>
+    <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">Phase A è <strong>completamente deterministica</strong>: nessun LLM, nessuna scelta stocastica. Dati gli stessi segnali e la stessa baseline congelata, produce sempre lo stesso testo neutrale. Questo testo è il <strong>ponte</strong> verso Phase B: sarà l'unico input numerico che gli agenti condivideranno.</p>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--accent-b)">
+    <div class="card-label">Passo finale — Generazione dei run indipendenti per Phase B</div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
+      I batch di test (8–10) sono già stati osservati dalla pipeline Phase A durante lo sviluppo. Per la valutazione in Phase B servono dati <strong>completamente vergini</strong>. Si generano quindi <strong>15 nuove realizzazioni indipendenti</strong> dal simulatore TEP:
+    </p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+      <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--accent-a-light);font-size:0.82rem;color:var(--accent-a);font-weight:500">3 × Normal</span>
+      <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 × F1</span>
+      <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 × F8</span>
+      <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 × F10</span>
+      <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 × F13</span>
+    </div>
+    <p style="margin:0;font-size:0.82rem;color:var(--text-caption)">
+      Ogni run viene congelato (hash SHA-256, manifest) <em>prima</em> della verbalizzazione e dell'inferenza. La pipeline Phase A (soglie, feature, testo neutrale) viene applicata a questi run esattamente come ai precedenti, senza alcuna modifica. In EXP3_V2 il protocollo è stato replicato con il doppio dei run: 6 per classe fault + 6 Normal = <strong>30 run</strong>.
+    </p>
+  </div>
+</div>
+
+<!-- ==================== STEP 9: AGENTS ==================== -->
+<div class="step-container" data-step="9">
+  <div class="phase-badge b">Phase B · Step 1</div>
+  <h1 class="step-title">Gli agenti e la conoscenza locale non-IID</h1>
+  <p class="step-intro">Quattro agenti osservano lo stesso processo ma conoscono ciascuno un solo tipo di guasto. Tutti conoscono il Normal. I nomi reali dei fault (F1, F8, F10, F13) sono nascosti dietro <strong>pseudolabel opache</strong>.</p>
+
+  <div class="agents-grid">
+    <div class="agent-card">
+      <div class="agent-id">Agent 1</div>
+      <div class="agent-knows">Normal +<br><strong>F1</strong></div>
+      <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-b);margin-top:6px">CLS-ZOGAA</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-id">Agent 2</div>
+      <div class="agent-knows">Normal +<br><strong>F8</strong></div>
+      <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-b);margin-top:6px">CLS-OJNSG</div>
+    </div>
+    <div class="agent-card highlighted">
+      <div class="agent-id">Agent 3</div>
+      <div class="agent-knows">Normal +<br><strong>F10</strong></div>
+      <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-b);margin-top:6px">CLS-R463B</div>
+    </div>
+    <div class="agent-card">
+      <div class="agent-id">Agent 4</div>
+      <div class="agent-knows">Normal +<br><strong>F13</strong></div>
+      <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--accent-b);margin-top:6px">CLS-Z3ISU</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Le pseudolabel</div>
+    <div class="pseudo-map">
+      <span class="real">F1</span><span class="arrow-sm">→</span><span class="opaque">CLS-ZOGAA</span>
+      <span class="real">F8</span><span class="arrow-sm">→</span><span class="opaque">CLS-OJNSG</span>
+      <span class="real">F10</span><span class="arrow-sm">→</span><span class="opaque">CLS-R463B</span>
+      <span class="real">F13</span><span class="arrow-sm">→</span><span class="opaque">CLS-Z3ISU</span>
+    </div>
+    <p style="font-size:0.82rem;color:var(--text-caption);margin:10px 0 0">L'LLM non vede mai F1/F8/F10/F13. Vede solo token opachi. Il mapping reale è noto solo all'evaluator offline.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Modello LLM — gpt-5.6-terra</div>
+    <p style="margin:0 0 8px;font-size:0.88rem;color:var(--text-muted)">Tutte le chiamate LLM in Phase B usano <strong style="color:var(--accent-b)">gpt-5.6-terra</strong> (OpenAI) tramite la <em>Responses API</em>. Le operazioni coinvolte sono:</p>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:0.85rem">
+      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">1.</span><span style="color:var(--text-muted)">Generazione degli insight testuali a partire dai few-shot locali</span>
+      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">2.</span><span style="color:var(--text-muted)">Inference diagnostica (R=3 ripetizioni, aggregazione a maggioranza)</span>
+    </div>
+    <p style="margin:8px 0 0;font-size:0.82rem;color:var(--text-caption)">Stesso modello, stessa versione per tutti gli agenti e tutte le condizioni (A, B, E). Il modello è un parametro fisso dell'esperimento — non viene fine-tunato.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Few-shot locale — Cosa possiede ogni agente</div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">Ogni agente ha 4 esempi etichettati: 2 Normal + 2 del proprio fault locale. Ciascun esempio è una coppia <code>(testo neutrale, pseudolabel)</code> prodotta dalla pipeline Phase A congelata.</p>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:0.85rem">
+      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">Esempio 1</span><span style="color:var(--text-muted)">Testo neutrale Normal N1 → etichetta "Normal"</span>
+      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">Esempio 2</span><span style="color:var(--text-muted)">Testo neutrale Normal N2 → etichetta "Normal"</span>
+      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">Esempio 3</span><span style="color:var(--text-muted)">Testo neutrale fault locale batch 1 → pseudolabel del proprio fault</span>
+      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">Esempio 4</span><span style="color:var(--text-muted)">Testo neutrale fault locale batch 2 → pseudolabel del proprio fault</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== STEP 10: INSIGHTS ==================== -->
+<div class="step-container" data-step="10">
+  <div class="phase-badge b">Phase B · Step 2</div>
+  <h1 class="step-title">Generazione degli insight e federazione peer-only</h1>
+  <p class="step-intro">Ogni agente condensa ciò che sa del proprio fault in <strong>2 insight testuali</strong>, distillati da 5 casi development/calibration via LLM. Poi la <strong>federazione</strong> distribuisce gli insight: ogni agente riceve i 6 insight degli altri tre peer, mai i propri.</p>
+
+  <div class="card">
+    <div class="card-label">Distillazione — Agent 1 (conosce F1)</div>
+    <div class="flow">
+      <span class="flow-node">5 testi neutrali di F1 (batch 1–5)</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-node em-b">LLM distilla regolarità</span>
+      <span class="flow-arrow">→</span>
+      <span class="flow-node em-b">2 insight</span>
+    </div>
+    <div class="insight-block">
+      <div class="insight-id">INS-001 · Agent 1 · CLS-ZOGAA</div>
+      "XMEAS-1 supera la soglia di spostamento positivamente in tutte le 8/8 finestre, con un run coerente di 8 finestre da 10.0 a 45.0 h; presenta anche la massima dispersione complessiva (rapporto tra dev. std 46.06–46.50)."
+    </div>
+    <div class="insight-block">
+      <div class="insight-id">INS-002 · Agent 1 · CLS-ZOGAA</div>
+      "XMEAS-9 mostra spostamento positivo persistente in 8/8 finestre. XMEAS-7 (pressione reattore) rimane sempre sotto soglia."
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Federazione peer-only</div>
+    <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">Ogni agente riceve <strong>6 insight dagli altri 3 peer</strong> (2 per ciascuno). Non riceve mai i propri insight.</p>
+    <table class="data-table">
+      <thead><tr><th>Agente</th><th>Riceve insight da</th><th>Non riceve da</th><th class="num">Totale</th></tr></thead>
+      <tbody>
+        <tr><td>Agent 1</td><td>Agent 2, 3, 4</td><td>sé stesso</td><td class="num">6</td></tr>
+        <tr><td>Agent 2</td><td>Agent 1, 3, 4</td><td>sé stesso</td><td class="num">6</td></tr>
+        <tr class="highlight"><td><strong>Agent 3</strong></td><td><strong>Agent 1, 2, 4</strong></td><td>sé stesso</td><td class="num">6</td></tr>
+        <tr><td>Agent 4</td><td>Agent 1, 2, 3</td><td>sé stesso</td><td class="num">6</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span>La federazione avviene <strong>solo come testo</strong>. Nessun dato grezzo, nessun parametro, nessun gradiente viene condiviso. Ogni insight è un breve paragrafo descrittivo associato a una pseudolabel opaca.</span>
+  </div>
+</div>
+
+<!-- ==================== STEP 11: CONDITIONS ==================== -->
+<div class="step-container" data-step="11">
+  <div class="phase-badge b">Phase B · Step 3</div>
+  <h1 class="step-title">Le tre configurazioni informative: A, B, E</h1>
+  <p class="step-intro">Per isolare l'effetto degli insight, lo stesso agente diagnostica lo stesso caso sotto tre condizioni controllate. L'unica cosa che cambia è il <strong>blocco degli insight peer</strong>.</p>
+
+  <div class="card">
+    <div class="condition-row">
+      <div class="cond-label cond-a">A</div>
+      <div>
+        <strong>Isolato — nessun insight</strong>
+        <p style="margin:4px 0 0;font-size:0.85rem;color:var(--text-muted)">L'agente ha solo i 4 few-shot locali. Nessuna conoscenza peer. Questo è l'<em>information floor</em> per i fault unseen.</p>
+      </div>
+    </div>
+    <div class="condition-row">
+      <div class="cond-label cond-b">B</div>
+      <div>
+        <strong>FoT — insight peer genuini</strong>
+        <p style="margin:4px 0 0;font-size:0.85rem;color:var(--text-muted)">L'agente riceve 6 insight peer con pseudolabel <strong>corrette</strong>. INS-001 (F1) è associato a CLS-ZOGAA.</p>
+      </div>
+    </div>
+    <div class="condition-row">
+      <div class="cond-label cond-e">E</div>
+      <div>
+        <strong>Controllo corrotto — stessi testi, label permutate</strong>
+        <p style="margin:4px 0 0;font-size:0.85rem;color:var(--text-muted)">Stessi 6 insight, stesso ordine, stessi ID. Ma le pseudolabel sono <strong>ruotate</strong>: INS-001 (F1) è associato a CLS-OJNSG (F8). Nessuna label resta corretta.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Perché E è cruciale</div>
+    <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
+      Se B funziona meglio di A, potrebbe essere perché il testo in più aiuta genericamente (effetto "più contesto"). E controlla questa ipotesi: ha <strong>esattamente lo stesso volume e formato di testo</strong> di B, ma con le associazioni sbagliate. Se B > E, il beneficio dipende dalla <strong>correttezza</strong> dell'informazione, non dalla sua quantità.
+    </p>
+  </div>
+</div>
+
+<!-- ==================== STEP 12: INFERENCE ==================== -->
+<div class="step-container" data-step="12">
+  <div class="phase-badge b">Phase B · Step 4</div>
+  <h1 class="step-title">Inference: Agent 3 diagnostica un caso F1 unseen</h1>
+  <p class="step-intro">Vediamo cosa succede quando <strong>Agent 3</strong> (che conosce solo F10) deve diagnosticare <strong>PBH-004</strong>, un nuovo run di F1 mai visto. Agent 3 riceve lo stesso testo neutrale in tutte e tre le condizioni.</p>
+
+  <div class="card">
+    <div class="card-label">Input comune — Testo neutrale di PBH-004</div>
+    <div class="neutral-text" style="border-left-color:var(--accent-b)">
+      Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 8/8 finestre, sempre con segno positivo; il run più lungo con segno coerente comprende 8 finestre. XMEAS-9 supera la soglia di spostamento in 8/8 finestre, positivo. La massima dispersione complessiva è su XMEAS-1 (rapporto 47.00).
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Risultato sotto le 3 condizioni (R=3 ripetizioni, maggioranza)</div>
+    <table class="data-table">
+      <thead><tr><th>Condizione</th><th>Insight peer</th><th>R₁</th><th>R₂</th><th>R₃</th><th>Aggregato</th><th>Esito</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="cond-label cond-a" style="font-size:0.75rem;padding:2px 8px">A</span></td>
+          <td style="color:var(--text-caption)">Nessuno</td>
+          <td style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-caption)">null</td>
+          <td style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-caption)">null</td>
+          <td style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-caption)">null</td>
+          <td style="font-weight:600;color:var(--text-caption)">Astensione</td>
+          <td style="color:var(--threshold);font-weight:600">Incorrect</td>
+        </tr>
+        <tr class="highlight">
+          <td><span class="cond-label cond-b" style="font-size:0.75rem;padding:2px 8px">B</span></td>
+          <td style="color:var(--green)">6 genuini</td>
+          <td style="font-family:var(--font-mono);font-size:0.78rem;color:var(--green)">CLS-ZOGAA</td>
+          <td style="font-family:var(--font-mono);font-size:0.78rem;color:var(--green)">CLS-ZOGAA</td>
+          <td style="font-family:var(--font-mono);font-size:0.78rem;color:var(--green)">CLS-ZOGAA</td>
+          <td style="font-weight:600;color:var(--green)">CLS-ZOGAA</td>
+          <td style="color:var(--green);font-weight:600">Correct</td>
+        </tr>
+        <tr>
+          <td><span class="cond-label cond-e" style="font-size:0.75rem;padding:2px 8px">E</span></td>
+          <td style="color:var(--threshold)">6 corrotti</td>
+          <td style="font-family:var(--font-mono);font-size:0.78rem;color:var(--threshold)">CLS-OJNSG</td>
+          <td style="font-family:var(--font-mono);font-size:0.78rem;color:var(--threshold)">CLS-OJNSG</td>
+          <td style="font-family:var(--font-mono);font-size:0.78rem;color:var(--threshold)">CLS-OJNSG</td>
+          <td style="font-weight:600;color:var(--threshold)">CLS-OJNSG</td>
+          <td style="color:var(--threshold);font-weight:600">Incorrect</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span>Stesso caso, stesso agente, stessi few-shot. La <strong>sola differenza</strong> è il blocco insight. In <strong>A</strong> (senza insight) l'agente non sa cosa sia — si astiene. In <strong>B</strong> (insight genuini) riconosce la firma di CLS-ZOGAA grazie alla descrizione dell'Agent 1. In <strong>E</strong> (label permutate) associa la firma alla label sbagliata.</span>
+  </div>
+</div>
+
+<!-- ==================== STEP 13: RESULTS ==================== -->
+<div class="step-container" data-step="13">
+  <div class="phase-badge b">Phase B · Step 5</div>
+  <h1 class="step-title">Risultati: il trasferimento di conoscenza funziona</h1>
+  <p class="step-intro">12 run fisici indipendenti × 3 agenti unseen ciascuno = <strong>36 agent-case per condizione</strong>. Tutte le predizioni congelate prima di unirle alla ground truth.</p>
+
+  <div class="card">
+    <div class="card-label">Composizione degli esiti — 36 agent-case unseen</div>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label">A — Isolato</div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill wrong" style="width:61.1%">22</div>
+        <div class="result-bar-fill abstain" style="width:38.9%">14</div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--text-caption);margin-top:2px;font-family:var(--font-mono)">0/36 corretti — 22 errati, 14 astensioni</div>
+    </div>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label">B — FoT (insight genuini)</div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill correct" id="barB" style="width:0%">31</div>
+        <div class="result-bar-fill wrong" id="barBwrong" style="width:0%">5</div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--text-caption);margin-top:2px;font-family:var(--font-mono)">31/36 corretti — 5 errati, 0 astensioni</div>
+    </div>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label">E — Controllo corrotto</div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill correct" style="width:8.3%">3</div>
+        <div class="result-bar-fill wrong" style="width:91.7%">33</div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--text-caption);margin-top:2px;font-family:var(--font-mono)">3/36 corretti — 33 errati, 0 astensioni</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Contrasti principali</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div style="text-align:center">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">B − A (primario)</div>
+        <div style="font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--green)">+0.861</div>
+        <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-caption)">CI 95%: [0.833, 0.917]</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">B − E (pertinenza)</div>
+        <div style="font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--green)">+0.778</div>
+        <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-caption)">CI 95%: [0.722, 0.833]</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Heatmap — Esiti B per run fisico × agente</div>
+    <div class="flag-grid" style="grid-template-columns: 80px 56px repeat(4, 1fr)">
+      <div class="flag-cell header"></div>
+      <div class="flag-cell header">Fault</div>
+      <div class="flag-cell header">Ag. 1</div>
+      <div class="flag-cell header">Ag. 2</div>
+      <div class="flag-cell header">Ag. 3</div>
+      <div class="flag-cell header">Ag. 4</div>
+
+      <div class="flag-cell var-label" style="font-size:0.7rem">PBH-004</div><div class="flag-cell header">F1</div>
+      <div class="flag-cell" style="background:var(--border-light);color:var(--text-caption);font-size:0.65rem">local</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+
+      <div class="flag-cell var-label" style="font-size:0.7rem">PBH-005</div><div class="flag-cell header">F1</div>
+      <div class="flag-cell" style="background:var(--border-light);color:var(--text-caption);font-size:0.65rem">local</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+
+      <div class="flag-cell var-label" style="font-size:0.7rem">PBH-006</div><div class="flag-cell header">F1</div>
+      <div class="flag-cell" style="background:var(--border-light);color:var(--text-caption);font-size:0.65rem">local</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+
+      <div class="flag-cell var-label" style="font-size:0.7rem">PBH-007</div><div class="flag-cell header">F8</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell" style="background:var(--border-light);color:var(--text-caption);font-size:0.65rem">local</div>
+      <div class="flag-cell on" style="background:var(--threshold)">&#10007;</div>
+      <div class="flag-cell on" style="background:var(--threshold)">&#10007;</div>
+
+      <div class="flag-cell var-label" style="font-size:0.7rem">PBH-008</div><div class="flag-cell header">F8</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell" style="background:var(--border-light);color:var(--text-caption);font-size:0.65rem">local</div>
+      <div class="flag-cell on" style="background:var(--threshold)">&#10007;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+
+      <div class="flag-cell var-label" style="font-size:0.7rem">PBH-009</div><div class="flag-cell header">F8</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell" style="background:var(--border-light);color:var(--text-caption);font-size:0.65rem">local</div>
+      <div class="flag-cell on" style="background:var(--threshold)">&#10007;</div>
+      <div class="flag-cell on" style="background:var(--threshold)">&#10007;</div>
+
+      <div class="flag-cell var-label" style="font-size:0.7rem">PBH-010</div><div class="flag-cell header">F10</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell" style="background:var(--border-light);color:var(--text-caption);font-size:0.65rem">local</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+
+      <div class="flag-cell var-label" style="font-size:0.7rem">PBH-011</div><div class="flag-cell header">F10</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell" style="background:var(--border-light);color:var(--text-caption);font-size:0.65rem">local</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+
+      <div class="flag-cell var-label" style="font-size:0.7rem">PBH-012</div><div class="flag-cell header">F10</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell" style="background:var(--border-light);color:var(--text-caption);font-size:0.65rem">local</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+
+      <div class="flag-cell var-label" style="font-size:0.7rem">PBH-013</div><div class="flag-cell header">F13</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell" style="background:var(--border-light);color:var(--text-caption);font-size:0.65rem">local</div>
+
+      <div class="flag-cell var-label" style="font-size:0.7rem">PBH-014</div><div class="flag-cell header">F13</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell" style="background:var(--border-light);color:var(--text-caption);font-size:0.65rem">local</div>
+
+      <div class="flag-cell var-label" style="font-size:0.7rem">PBH-015</div><div class="flag-cell header">F13</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell on" style="background:var(--green)">&#10003;</div>
+      <div class="flag-cell" style="background:var(--border-light);color:var(--text-caption);font-size:0.65rem">local</div>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:8px;font-size:0.72rem;color:var(--text-caption)">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;background:var(--green);border-radius:2px;display:inline-block"></span> Corretta unseen</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;background:var(--threshold);border-radius:2px;display:inline-block"></span> Errata unseen</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:12px;height:12px;background:var(--border-light);border-radius:2px;display:inline-block"></span> Local-seen (escluso)</span>
+    </div>
+    <p style="font-size:0.82rem;color:var(--text-caption);margin:10px 0 0">5 errori su 36, tutti concentrati su F8. F1, F10 e F13: 9/9 ciascuno.</p>
+  </div>
+
+  <div class="card" style="border-top:3px solid var(--accent-b)">
+    <div class="card-label">Replica confermativa — EXP3_V2 (campione raddoppiato)</div>
+    <p style="margin:0 0 14px;font-size:0.88rem;color:var(--text-muted)">
+      Per verificare la robustezza, l'esperimento è stato rieseguito con il <strong>doppio dei dati</strong>: 24 run di fault (6 per classe) + 6 Normal = <strong>30 run fisici</strong>. Stesse soglie congelate, stessa pipeline, stesso modello. Nessun parametro modificato.
+    </p>
+    <p style="margin:0 0 10px;font-size:0.85rem;color:var(--text-muted)">24 fault × 3 agenti unseen = <strong>72 agent-case per condizione</strong>.</p>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label" style="font-size:0.82rem">A — Isolato <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-caption)">(EXP3_V2)</span></div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill wrong" style="width:100%">0</div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--text-caption);margin-top:2px;font-family:var(--font-mono)">0/72 corretti</div>
+    </div>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label" style="font-size:0.82rem">B — FoT <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-caption)">(EXP3_V2)</span></div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill correct" style="width:94.4%">68</div>
+        <div class="result-bar-fill wrong" style="width:5.6%">4</div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--text-caption);margin-top:2px;font-family:var(--font-mono)">68/72 corretti (0.9444) — 4 errati</div>
+    </div>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-label" style="font-size:0.82rem">E — Corrotto <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--text-caption)">(EXP3_V2)</span></div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill correct" style="width:5.6%">4</div>
+        <div class="result-bar-fill wrong" style="width:94.4%">68</div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--text-caption);margin-top:2px;font-family:var(--font-mono)">4/72 corretti (0.056)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Contrasto primario — EXP3_V2</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+      <div style="text-align:center">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">B − A (EXP3_V2)</div>
+        <div style="font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--green)">+0.944</div>
+        <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-caption)">CI 95%: [0.861, 1.000]</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">B − E (EXP3_V2)</div>
+        <div style="font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--green)">+0.889</div>
+        <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-caption)">72 agent-case</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Osservazione: degradazione local-seen in B</div>
+    <p style="margin:0 0 8px;font-size:0.88rem;color:var(--text-muted)">
+      In EXP3_V2 un effetto secondario diventa più visibile: sui <strong>24 casi local-seen</strong> (dove l'agente conosce il proprio fault), la condizione B (con insight peer) degrada leggermente rispetto alla condizione A isolata.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="padding:12px;border-radius:6px;background:var(--bg-code);text-align:center">
+        <div style="font-size:0.72rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">A local-seen</div>
+        <div style="font-family:var(--font-mono);font-size:1.5rem;font-weight:700;color:var(--text)">24/24</div>
+        <div style="font-size:0.78rem;color:var(--text-caption)">100% — perfetto</div>
+      </div>
+      <div style="padding:12px;border-radius:6px;background:var(--accent-b-light);text-align:center">
+        <div style="font-size:0.72rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">B local-seen</div>
+        <div style="font-family:var(--font-mono);font-size:1.5rem;font-weight:700;color:var(--accent-b)">19/24</div>
+        <div style="font-size:0.78rem;color:var(--text-caption)">79.2% — 5 errori</div>
+      </div>
+    </div>
+    <p style="margin:8px 0 0;font-size:0.82rem;color:var(--text-caption)">
+      L'aggiunta di insight eterogenei introduce rumore che può confondere l'agente su un fault che già conosceva. Il beneficio netto sui fault unseen supera ampiamente questa perdita, ma il fenomeno indica un trade-off da approfondire.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Conclusione</div>
+    <p style="margin:0;font-size:0.92rem;color:var(--text)">
+      La federazione testuale <strong>funziona</strong> e <strong>si conferma a campione raddoppiato</strong>. In Exp 1 gli agenti riconoscono l'86.1% dei fault unseen; in EXP3_V2 il 94.4% (68/72). Il controllo corrotto (E) dimostra che il beneficio dipende dalla <strong>correttezza</strong> dell'associazione insight–label, non dalla semplice presenza di testo aggiuntivo.
+    </p>
+  </div>
+</div>
+
+<!-- ==================== STEP 14: CONDITION C — CENTRALIZED ==================== -->
+<div class="step-container" data-step="14">
+  <div class="phase-badge b">Phase B · Step 6</div>
+  <h1 class="step-title">Confronto centralizzato: Condition C</h1>
+  <p class="step-intro">Quanto migliorerebbe la diagnosi se un <strong>singolo agente centrale</strong> avesse accesso a <strong>tutta</strong> l'esperienza testuale del sistema? Condition C risponde a questa domanda come riferimento esplorativo post-hoc.</p>
+
+  <div class="card">
+    <div class="card-label">Cosa cambia in C rispetto a B</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="padding:14px;border-radius:6px;border:1px solid var(--border-light)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">B — FoT (peer-only)</div>
+        <p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Ogni agente ha <strong>4 esempi locali</strong> (2 fault + 2 Normal) e riceve <strong>6 insight peer</strong> (2 da ciascuno degli altri 3 agenti). L'agente non vede mai i propri insight e non ha accesso agli esempi altrui.</p>
+      </div>
+      <div style="padding:14px;border-radius:6px;border:1px solid var(--accent-b);background:var(--accent-b-light)">
+        <div style="font-size:0.75rem;color:var(--accent-b);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">C — Centralizzato (pooled)</div>
+        <p style="margin:0;font-size:0.85rem;color:var(--text-muted)">Un unico contesto LLM ha <strong>tutti gli 8 esempi etichettati</strong> (2 per classe fault + 2 Normal) <strong>e tutti gli 8 insight</strong> (2 per agente). Ha la <em>full information</em> prompt-facing dell'intero sistema.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9888;</span>
+    <span>Condition C è <strong>post-hoc ed esplorativa</strong>: è stata progettata <em>dopo</em> aver osservato i risultati A/B/E sullo stesso held-out. Il confronto B vs C è puramente descrittivo e non è un'attribuzione causale, perché i due contesti differiscono per quantità, forma e struttura dell'informazione.</span>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Risultati C — 15 casi fisici (12 fault + 3 Normal)</div>
+    <div class="result-bar-wrap">
+      <div class="result-bar-label"><span class="cond-label cond-c" style="font-size:0.7rem;padding:2px 8px">C</span> Centralizzato</div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill correct" style="width:100%">15</div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--text-caption);margin-top:2px;font-family:var(--font-mono)">15/15 corretti (12/12 fault + 3/3 Normal) — 0 astensioni</div>
+    </div>
+    <div class="result-bar-wrap" style="margin-top:12px">
+      <div class="result-bar-label"><span class="cond-label cond-b" style="font-size:0.7rem;padding:2px 8px">B</span> FoT peer-only</div>
+      <div class="result-bar-track">
+        <div class="result-bar-fill correct" style="width:86.1%">31</div>
+        <div class="result-bar-fill wrong" style="width:13.9%">5</div>
+      </div>
+      <div style="font-size:0.72rem;color:var(--text-caption);margin-top:2px;font-family:var(--font-mono)">31/36 unseen corretti — 5 errati (tutti su CLS-OJNSG / F8)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Contrasto descrittivo C − B</div>
+    <div style="text-align:center;padding:12px 0">
+      <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">C − B (descrittivo, non causale)</div>
+      <div style="font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--accent-b)">+0.139</div>
+      <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-caption)">CI 95% bootstrap: [0.083, 0.167]</div>
+    </div>
+    <p style="margin:12px 0 0;font-size:0.85rem;color:var(--text-muted)">
+      Il vantaggio di C su B è concentrato <strong>interamente</strong> su CLS-OJNSG (F8): le altre 9 coppie fisiche hanno C = B. In altre parole, la federazione peer-only (B) raggiunge la performance centralizzata su 3 classi su 4.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Tabella riepilogativa — tutte le condizioni</div>
+    <table class="data-table">
+      <thead><tr><th>Condizione</th><th>Informazione</th><th>Accuracy</th><th style="text-align:right">Nota</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="cond-label cond-a" style="font-size:0.72rem;padding:2px 6px">A</span></td>
+          <td style="font-size:0.82rem">Solo locale (4 es.)</td>
+          <td style="font-family:var(--font-mono)">0/36 = 0.000</td>
+          <td style="font-size:0.78rem;color:var(--text-caption);text-align:right">Information floor</td>
+        </tr>
+        <tr>
+          <td><span class="cond-label cond-e" style="font-size:0.72rem;padding:2px 6px">E</span></td>
+          <td style="font-size:0.82rem">Stessi insight, label corrotte</td>
+          <td style="font-family:var(--font-mono)">3/36 = 0.083</td>
+          <td style="font-size:0.78rem;color:var(--text-caption);text-align:right">Controllo corrotto</td>
+        </tr>
+        <tr class="highlight">
+          <td><span class="cond-label cond-b" style="font-size:0.72rem;padding:2px 6px">B</span></td>
+          <td style="font-size:0.82rem">Locale + 6 peer insight</td>
+          <td style="font-family:var(--font-mono);color:var(--green)">31/36 = 0.861</td>
+          <td style="font-size:0.78rem;color:var(--text-caption);text-align:right">FoT peer-only</td>
+        </tr>
+        <tr>
+          <td><span class="cond-label cond-c" style="font-size:0.72rem;padding:2px 6px">C</span></td>
+          <td style="font-size:0.82rem">Tutto pooled (8 es. + 8 insight)</td>
+          <td style="font-family:var(--font-mono);color:var(--accent-b)">15/15 = 1.000</td>
+          <td style="font-size:0.78rem;color:var(--text-caption);text-align:right">Riferimento centralizzato</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Conclusione</div>
+    <p style="margin:0;font-size:0.92rem;color:var(--text)">
+      Con <strong>sola federazione testuale</strong> (B), gli agenti distribuiti raggiungono l'86.1% su fault mai visti. Un riferimento centralizzato con full information (C) raggiunge il 100%, ma con un gap concentrato su una sola classe. La federazione peer-only cattura la quasi totalità del beneficio della centralizzazione, <strong>senza mai condividere dati grezzi, parametri o gradienti</strong>.
+    </p>
+  </div>
+</div>
+
+<!-- ==================== STEP 15: EXPERIMENT 2 — OPEN-WEIGHT LLM ==================== -->
+<div class="step-container" data-step="15">
+  <div class="phase-badge b">Prossimi passi</div>
+  <h1 class="step-title">Experiment 2: portabilità cross-model con LLM open-weight</h1>
+  <p class="step-intro">Fino ad ora ogni chiamata LLM ha usato un unico modello proprietario (<strong>gpt-5.6-terra</strong>, OpenAI). Questo pone una <strong>critica fondamentale</strong>: l'intero risultato dipende da un modello chiuso, non deterministico e non riproducibile. Experiment 2 affronta il problema.</p>
+
+  <div class="card" style="border-left:3px solid var(--threshold)">
+    <div class="card-label">La critica: un singolo LLM proprietario</div>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:0.85rem">
+      <span style="color:var(--threshold);font-weight:600">&#9888;</span><span style="color:var(--text-muted)"><strong>Non riproducibile</strong> — il modello proprietario può cambiare versione, pesi o comportamento senza preavviso</span>
+      <span style="color:var(--threshold);font-weight:600">&#9888;</span><span style="color:var(--text-muted)"><strong>Non deterministico</strong> — la stessa chiamata API può dare risposte diverse (temperature, seed interni)</span>
+      <span style="color:var(--threshold);font-weight:600">&#9888;</span><span style="color:var(--text-muted)"><strong>Dipendenza singola</strong> — se il risultato crolla con un altro modello, la scoperta è fragile</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Il design di Experiment 2 — Consumer portability</div>
+    <p style="margin:0 0 14px;font-size:0.88rem;color:var(--text-muted)">
+      La chiave è la separazione tra <strong>producer</strong> (chi genera gli insight) e <strong>consumer</strong> (chi li usa per diagnosticare). In Experiment 2 si cambia <em>solo il consumer</em>:
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="padding:14px;border-radius:6px;border:1px solid var(--border-light)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Cosa resta identico</div>
+        <div style="font-size:0.85rem;color:var(--text-muted)">
+          <div style="margin-bottom:4px">&#10003; Pipeline Phase A (soglie, feature, testo neutrale)</div>
+          <div style="margin-bottom:4px">&#10003; Insight testuali già generati e congelati</div>
+          <div style="margin-bottom:4px">&#10003; Gli stessi held-out run (hash verificati)</div>
+          <div>&#10003; Il protocollo di valutazione (R=3, maggioranza)</div>
+        </div>
+      </div>
+      <div style="padding:14px;border-radius:6px;border:1px solid var(--accent-b);background:var(--accent-b-light)">
+        <div style="font-size:0.75rem;color:var(--accent-b);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Cosa cambia</div>
+        <div style="font-size:0.85rem;color:var(--text-muted)">
+          <div style="margin-bottom:4px">&#8635; Il modello LLM usato nell'inferenza (consumer)</div>
+          <div style="margin-bottom:4px">&#8635; Da <span class="mono">gpt-5.6-terra</span> a &ge;1 modello <strong>open-weight</strong></div>
+          <div>&#8635; Pesi pubblici, deterministico, riproducibile</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Perché un modello open-weight</div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
+      Un modello con pesi pubblici (Llama, Mistral, Qwen, ecc.) è <strong>versionabile, ispezionabile e riproducibile</strong>. Chiunque può scaricare lo stesso checkpoint, eseguire la stessa inferenza e ottenere risultati confrontabili. Questo elimina le tre critiche al modello proprietario.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px">
+      <div style="padding:12px;border-radius:6px;background:var(--green-light);text-align:center">
+        <div style="font-size:0.72rem;color:var(--green);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">Riproducibile</div>
+        <div style="font-size:0.82rem;color:var(--text-muted)">Stesso checkpoint = stessa inferenza</div>
+      </div>
+      <div style="padding:12px;border-radius:6px;background:var(--green-light);text-align:center">
+        <div style="font-size:0.72rem;color:var(--green);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">Ispezionabile</div>
+        <div style="font-size:0.82rem;color:var(--text-muted)">Pesi e architettura pubblici</div>
+      </div>
+      <div style="padding:12px;border-radius:6px;background:var(--green-light);text-align:center">
+        <div style="font-size:0.72rem;color:var(--green);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px">Indipendente</div>
+        <div style="font-size:0.82rem;color:var(--text-muted)">Nessuna dipendenza da API esterne</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Risultato atteso</div>
+    <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
+      Se la condizione B funziona anche con un consumer open-weight, il valore informativo degli insight testuali è una proprietà <strong>del protocollo FoT</strong>, non un artefatto del modello specifico. Il trasferimento di conoscenza via testo diventa <strong>model-agnostic</strong>.
+    </p>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span>Experiment 2 è attualmente in fase di pianificazione. La struttura sperimentale (held-out, insight congelati, protocollo di valutazione) è già pronta. Resta da selezionare il modello open-weight e validare che il prompt template funzioni con la sua architettura.</span>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- BOTTOM NAV -->
+<div style="position:fixed;bottom:0;left:0;right:0;background:var(--bg);border-top:1px solid var(--border-light);padding:12px 24px;z-index:90">
+  <div style="max-width:780px;margin:0 auto;display:flex;justify-content:space-between;align-items:center">
+    <button class="btn btn-secondary" id="btnPrev" onclick="go(-1)">&#8592; Precedente</button>
+    <span class="step-counter" id="stepCounter"></span>
+    <button class="btn btn-primary" id="btnNext" onclick="go(1)">Successivo &#8594;</button>
+  </div>
+</div>
+
+<script>
+const STEPS = [
+  {phase:'intro',label:'Intro'},
+  {phase:'a',label:'1. Dataset'},
+  {phase:'a',label:'2. Dati grezzi'},
+  {phase:'a',label:'3. Baseline'},
+  {phase:'a',label:'4. Feature'},
+  {phase:'a',label:'5. Soglia'},
+  {phase:'a',label:'6. Flag'},
+  {phase:'a',label:'7. JSON'},
+  {phase:'a',label:'8. Testo'},
+  {phase:'b',label:'1. Agenti'},
+  {phase:'b',label:'2. Insight'},
+  {phase:'b',label:'3. A/B/E'},
+  {phase:'b',label:'4. Inference'},
+  {phase:'b',label:'5. Risultati'},
+  {phase:'b',label:'6. C vs B'},
+  {phase:'b',label:'7. Exp 2'}
+];
+
+let current = 0;
+const visited = new Set([0]);
+
+function buildNav() {
+  const navA = document.getElementById('navA');
+  const navB = document.getElementById('navB');
+  STEPS.forEach((s, i) => {
+    if (s.phase === 'intro') {
+      const btn = document.createElement('button');
+      btn.className = 'nav-step';
+      btn.textContent = 'Intro';
+      btn.onclick = () => goTo(i);
+      btn.dataset.idx = i;
+      navA.prepend(btn);
+      return;
+    }
+    const btn = document.createElement('button');
+    btn.className = 'nav-step' + (s.phase === 'b' ? ' phase-b-step' : '');
+    btn.textContent = s.label.split('. ')[0];
+    btn.title = s.label;
+    btn.onclick = () => goTo(i);
+    btn.dataset.idx = i;
+    (s.phase === 'a' ? navA : navB).appendChild(btn);
+  });
+}
+
+function render() {
+  document.querySelectorAll('.step-container').forEach((el, i) => {
+    el.classList.toggle('active', i === current);
+  });
+  document.querySelectorAll('.nav-step').forEach(btn => {
+    const i = parseInt(btn.dataset.idx);
+    btn.classList.toggle('active', i === current);
+    btn.classList.toggle('visited', visited.has(i) && i !== current);
+  });
+  document.getElementById('btnPrev').disabled = current === 0;
+  document.getElementById('btnNext').disabled = current === STEPS.length - 1;
+  const phase = STEPS[current].phase;
+  const btnNext = document.getElementById('btnNext');
+  btnNext.classList.toggle('phase-b', phase === 'b');
+  document.getElementById('stepCounter').textContent = `${current + 1} / ${STEPS.length}`;
+
+  // Animate result bars on step 12
+  if (current === 13) {
+    setTimeout(() => {
+      const b = document.getElementById('barB');
+      const bw = document.getElementById('barBwrong');
+      if (b) b.style.width = '86.1%';
+      if (bw) bw.style.width = '13.9%';
+    }, 200);
+  }
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function go(dir) { goTo(current + dir); }
+function goTo(i) {
+  if (i < 0 || i >= STEPS.length) return;
+  current = i;
+  visited.add(i);
+  render();
+}
+
+// Draw raw chart
+function drawRawChart() {
+  const wrap = document.getElementById('chart-raw');
+  if (!wrap) return;
+  const W = 720, H = 200, pad = {t:16,r:20,b:32,l:56};
+  const pw = W - pad.l - pad.r, ph = H - pad.t - pad.b;
+
+  // Generate fake XMEAS-1 data
+  const pts = [];
+  for (let t = 0; t <= 50; t += 0.5) {
+    let v;
+    if (t < 10) {
+      v = 0.2668 + (Math.random() - 0.5) * 0.012;
+    } else {
+      v = 0.72 + (Math.random() - 0.5) * 0.04 + Math.sin(t * 0.3) * 0.01;
+    }
+    pts.push({t, v});
+  }
+
+  const minV = 0.20, maxV = 0.80;
+  const sx = t => pad.l + (t / 50) * pw;
+  const sy = v => pad.t + (1 - (v - minV) / (maxV - minV)) * ph;
+
+  let pathPre = '', pathPost = '';
+  pts.forEach((p, i) => {
+    const cmd = i === 0 || (p.t === 10 && pts[i-1].t < 10) ? 'M' : 'L';
+    const x = sx(p.t).toFixed(1), y = sy(p.v).toFixed(1);
+    if (p.t < 10) pathPre += `${cmd}${x},${y}`;
+    else pathPost += `${cmd}${x},${y}`;
+  });
+
+  const ticks = [0,10,20,30,40,50];
+  const vTicks = [0.2,0.3,0.4,0.5,0.6,0.7,0.8];
+
+  let svg = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" style="font-family:var(--font-mono);font-size:10px">`;
+  // Grid
+  vTicks.forEach(v => {
+    const y = sy(v);
+    svg += `<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="var(--border-light)" stroke-width="0.5"/>`;
+    svg += `<text x="${pad.l-6}" y="${y+3}" text-anchor="end" fill="var(--text-caption)" font-size="9">${v.toFixed(1)}</text>`;
+  });
+  ticks.forEach(t => {
+    const x = sx(t);
+    svg += `<text x="${x}" y="${H-pad.b+18}" text-anchor="middle" fill="var(--text-caption)" font-size="9">${t}h</text>`;
+  });
+  // Injection line
+  const ix = sx(10);
+  svg += `<line x1="${ix}" y1="${pad.t}" x2="${ix}" y2="${H-pad.b}" stroke="var(--accent-a)" stroke-width="1.5" stroke-dasharray="5,3"/>`;
+  svg += `<text x="${ix+4}" y="${pad.t+10}" fill="var(--accent-a)" font-size="9" font-weight="600">Fault ON</text>`;
+  // Lines
+  svg += `<path d="${pathPre}" fill="none" stroke="var(--text-caption)" stroke-width="1.5"/>`;
+  svg += `<path d="${pathPost}" fill="none" stroke="var(--threshold)" stroke-width="1.5"/>`;
+  // Baseline ref
+  const by = sy(0.2668);
+  svg += `<line x1="${pad.l}" y1="${by}" x2="${W-pad.r}" y2="${by}" stroke="var(--accent-a)" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.5"/>`;
+  svg += `<text x="${W-pad.r+2}" y="${by+3}" fill="var(--accent-a)" font-size="8" opacity="0.7">μ₀</text>`;
+
+  svg += '</svg>';
+  wrap.innerHTML = svg;
+}
+
+buildNav();
+render();
+drawRawChart();
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+});
+</script>
