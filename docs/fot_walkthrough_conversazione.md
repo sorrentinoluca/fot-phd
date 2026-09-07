@@ -994,11 +994,11 @@ La tabella confronta i risultati dei due esperimenti sullo stesso disegno sperim
 
 > **Transizione cronologica.** Il blocco seguente è collocato dopo la Fase 2 perché Condition C è stata introdotta successivamente nella cronologia del progetto. Gli Step 25–26 riaprono però il confronto di **Experiment 1**: usano il suo medesimo held-out e non i run EXP3_V2.
 
-Riferimento centralizzato post-hoc · Condizione C
+Federazione VS centralizzazione
 
 **Dalla Fase 2 al riferimento centralizzato.** Questa collocazione segue la cronologia del progetto, ma Condition C riapre il confronto di Experiment 1. È una **centralized full-information pooled ICL post-hoc exploratory reference** applicata esclusivamente ai 15 casi del suo held-out; non è una baseline di EXP3_V2.
 
-**Step 25 / 27Riferimento centralizzato post-hoc**
+**Step 25 / 27Federazione VS centralizzazione**
 
 ## Condizione C: design e razionale entro il paradigma testuale
 
