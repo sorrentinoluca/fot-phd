@@ -15,7 +15,9 @@ FoT research hypothesis
 
 The TEP proof of concept is complete and frozen. It supports feasibility in the
 controlled setting studied here; it does not establish performance or
-cross-domain generalization in PV systems.
+cross-domain generalization in PV systems. A subsequently executed
+**centralized full-information pooled ICL post-hoc exploratory reference**
+(Condition C) is also complete, frozen, and independently reviewed.
 
 ## Reading path
 
@@ -123,6 +125,35 @@ Interpret these numbers with the frozen design:
 Exact results and uncertainty estimates are in
 [`phase_b/final_evaluation/EVALUATION_REPORT.md`](phase_b/final_evaluation/EVALUATION_REPORT.md).
 
+## Centralized pooled reference (Condition C)
+
+Condition C is a **centralized full-information pooled ICL post-hoc exploratory
+reference**. Here, “full-information” is limited to the union of the frozen
+prompt-facing artifacts (the pooled labeled examples and textual insights), not
+to all source data or source texts. Its 45 provider records cover 15 physical
+cases with three repetitions each and produce the following frozen results:
+
+| Scope | Correct / cases | Accuracy |
+|---|---:|---:|
+| Overall | 15/15 | 1.0000 |
+| Fault | 12/12 | 1.0000 |
+| Normal | 3/3 | 1.0000 |
+
+There were no abstentions. Against B's 31/36 locally-unseen fault agent-case
+outcomes, the descriptive contrast is C−B = 5/36 = 0.138889, with a stratified
+cluster-bootstrap 95% interval of [0.083333, 0.166667]. This is not a causal or
+equal-unit comparison: C contributes one aggregate prediction for each of 12
+physical fault cases, whereas B contributes 36 correlated unseen agent-case
+outcomes, and the two conditions differ in both quantity and form of
+information. The entire 5/36 advantage is concentrated in `CLS-OJNSG`; the
+other nine fault cases have zero C−B difference. It therefore does not
+establish a general superiority of centralization or federation.
+
+The numerical source of truth is
+[`icl/full_evaluation/evaluation_results_c.json`](icl/full_evaluation/evaluation_results_c.json).
+The independent review records **GO WITH LIMITATIONS** in
+[`docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md`](docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md).
+
 ## Project status
 
 | Component | Status |
@@ -131,6 +162,7 @@ Exact results and uncertainty estimates are in
 | Phase B — TEP Federation over Text | Completed and frozen |
 | Frozen held-out inference | 540/540 repetitions; 180 aggregate outcomes |
 | Offline evaluation | Completed and frozen |
+| Condition C — centralized pooled reference | Completed, frozen, independently reviewed; post-hoc exploratory |
 | Empirical PV phase | Not yet executed; no protocol frozen |
 
 The next research phase must redesign and revalidate features, baselines,
@@ -151,7 +183,10 @@ percentages must not be transferred to PV.
 `README.md` and the walkthrough are navigation and explanation layers. If they
 conflict with a frozen artifact, the frozen artifact is authoritative. Use
 [`AUDIT_GUIDE.md`](AUDIT_GUIDE.md) to follow the numerical source-of-truth
-chain directly.
+chain directly. For Condition C, the canonical result is
+[`evaluation_results_c.json`](icl/full_evaluation/evaluation_results_c.json)
+and its interpretive audit is the
+[`independent R10 review`](docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md).
 
 ## Repository map
 
@@ -173,6 +208,7 @@ fot-phd/
 │   ├── final_evaluation/              #   Experiment 1 — frozen results and evaluation report
 │   ├── exp3/                          #   Experiment 3 — closed incomplete
 │   └── exp3_v2/                       #   Experiment 3 V2 — confirmatory revision
+├── icl/                               # Condition C centralized pooled protocol, predictions, and results
 ├── supporting_records/                # provenance, narratives, and historical records
 ├── papers/                            # reference papers
 ├── reproducibility/                   # Phase A verification artifacts
@@ -198,6 +234,9 @@ For a full inventory of all documentation files with descriptions, see
 | Execution schedule freeze | `phase-b-execution-schedule-frozen` | `eef0bc58e5ab14fb0cd2aece180fb5b1b5a7962b` |
 | Inference freeze | `phase-b-inference-frozen` | `11c34358e28e875cd5c7249061ac2b89ffcd42f4` |
 | Results freeze | `phase-b-results-frozen` | `45ec4eed65b263a5803ced7d01064c4672e81e86` |
+| Condition C R10 code freeze | `condition-c-freeze-r10` | `60ccc7539714e909aae7318cc72031d7acdd4e78` |
+| Condition C R10 predictions freeze | `condition-c-predictions-frozen-r10` | `8d6b7a0636e9a15f0ebbd32ed0f9e2ce4faea30a` |
+| Condition C R10 results freeze | `condition-c-results-frozen-r10` | `89e4caebe635973ef438d4b601bb4f761417193a` |
 
 The external TEP source dataset is pinned separately at commit
 `309b944f35ac440ff0c70616947ffe723c766e14`.
@@ -207,7 +246,9 @@ The external TEP source dataset is pinned separately at commit
 The committed repository preserves the protocol, schedules, local knowledge,
 insights, 540 individual LLM records, 180 aggregate predictions, evaluator,
 bootstrap, metrics, reports, and cryptographic manifests required to recompute
-the reported Phase B results from frozen predictions.
+the reported Phase B results from frozen predictions. It also preserves the
+Condition C R10 schedule, 45 repetition records, 15 aggregate predictions,
+post-inference manifests, frozen evaluation result, and independent review.
 
 The 15 raw Phase B held-out `.xlsx` workbooks are intentionally excluded from
 Git. Their filenames, sizes, and SHA-256 hashes are committed. If supplied

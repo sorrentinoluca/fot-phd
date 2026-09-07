@@ -14,8 +14,8 @@ For the scientific reading path, start from [`README.md`](README.md).
 
 | Document | Description |
 |---|---|
-| [`docs/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md`](docs/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md) | Pre-submission experiment plan for IEEE BigData 2026 (Rev. 2) |
-| [`docs/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`](docs/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md) | Targeted literature review for BigData 2026 positioning |
+| [`docs/lit_review/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md`](docs/lit_review/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md) | Pre-submission experiment plan for IEEE BigData 2026 (Rev. 2) |
+| [`docs/lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`](docs/lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md) | Targeted literature review for BigData 2026 positioning |
 | [`docs/related_work_scan.md`](docs/related_work_scan.md) | Broader related-work scan beyond the targeted review |
 
 ## Walkthrough and explanatory material
@@ -23,9 +23,7 @@ For the scientific reading path, start from [`README.md`](README.md).
 | Document | Description |
 |---|---|
 | [`docs/fot_walkthrough_conversazione.html`](docs/fot_walkthrough_conversazione.html) | Primary scientific/didactic walkthrough (Italian, self-contained HTML) |
-| [`docs/fot_walkthrough_part1.html`](docs/fot_walkthrough_part1.html) | Walkthrough Part 1 |
-| [`docs/FoT_TEP_paper_blueprint.html`](docs/FoT_TEP_paper_blueprint.html) | Paper blueprint: planned structure for the BigData 2026 submission |
-| [`docs/PROJECT_UNDERSTANDING.md`](docs/PROJECT_UNDERSTANDING.md) | Structured project-understanding summary for onboarding |
+| [`docs/paper/FoT_TEP_paper_blueprint.html`](docs/paper/FoT_TEP_paper_blueprint.html) | Paper blueprint: planned structure for the BigData 2026 submission |
 
 ## Phase A — Methodology
 
@@ -64,11 +62,29 @@ For the scientific reading path, start from [`README.md`](README.md).
 
 ## Phase B — Experiment 3 V2 (confirmatory revision)
 
-| Document | Description |
-|---|---|
-| [`phase_b/exp3_v2/EXP3_V2_EVALUATION_PROTOCOL_001.md`](phase_b/exp3_v2/EXP3_V2_EVALUATION_PROTOCOL_001.md) | Exp3 V2 evaluation protocol |
-| [`phase_b/exp3_v2/EXP3_V2_INFERENCE_DATA_FREEZE_PROTOCOL_001.md`](phase_b/exp3_v2/EXP3_V2_INFERENCE_DATA_FREEZE_PROTOCOL_001.md) | Inference data freeze protocol |
-| [`phase_b/exp3_v2/EXP3_V2_EVALUATION_RESULTS_FREEZE_PROTOCOL_001.md`](phase_b/exp3_v2/EXP3_V2_EVALUATION_RESULTS_FREEZE_PROTOCOL_001.md) | Results freeze protocol (PRE_FREEZE_DRAFT) |
+No canonical tracked documentation for this revision is present in the current
+checkout.
+
+## Condition C R10 — centralized pooled reference
+
+Condition C is the **centralized full-information pooled ICL post-hoc
+exploratory reference**. “Full-information” is limited to frozen prompt-facing
+artifacts. Its source-of-truth chain is separate from the primary A/B/E result
+and is frozen by the three Condition C R10 tags.
+
+| Document or artifact | Role | Status and milestone | Source-of-truth tier |
+|---|---|---|---|
+| [`icl/PLAN_CENTRAL_POOLED_ICL.md`](icl/PLAN_CENTRAL_POOLED_ICL.md) | Design rationale, implementation plan, guardrails, and completion checklist | Completed under `condition-c-freeze-r10`; execution closure recorded after results review | Canonical scientific documentation |
+| [`icl/full_evaluation/c_predictions_manifest.json`](icl/full_evaluation/c_predictions_manifest.json) | SHA-256, count, and schedule binding for 45 raw prediction records | Frozen by `condition-c-predictions-frozen-r10` | Frozen scientific artifact |
+| [`icl/full_evaluation/c_aggregate_manifest.json`](icl/full_evaluation/c_aggregate_manifest.json) | Integral binding of 15 aggregates to raw records and schedule | Frozen by `condition-c-predictions-frozen-r10` | Frozen scientific artifact |
+| [`icl/full_evaluation/evaluation_results_c.json`](icl/full_evaluation/evaluation_results_c.json) | Canonical metrics, descriptive C−B delta, bootstrap, and integrity record | Frozen by `condition-c-results-frozen-r10` | Frozen scientific artifact |
+| [`docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md`](docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md) | Independent scientific and implementation review; verdict `GO WITH LIMITATIONS` | Commit `da64287a5c0d4f70a4fd8ae9abce3d313cd88fd0` | Canonical scientific documentation |
+
+Tag targets:
+
+- `condition-c-freeze-r10` → `60ccc7539714e909aae7318cc72031d7acdd4e78`;
+- `condition-c-predictions-frozen-r10` → `8d6b7a0636e9a15f0ebbd32ed0f9e2ce4faea30a`;
+- `condition-c-results-frozen-r10` → `89e4caebe635973ef438d4b601bb4f761417193a`.
 
 ## Audits
 
@@ -84,6 +100,7 @@ For the scientific reading path, start from [`README.md`](README.md).
 | [`docs/audits/EXP3V2_FIRST_RUN_PREFLIGHT.md`](docs/audits/EXP3V2_FIRST_RUN_PREFLIGHT.md) | Exp3 V2 first-run preflight check |
 | [`docs/audits/EXP3V2_FINAL_FREEZE_AUDIT.md`](docs/audits/EXP3V2_FINAL_FREEZE_AUDIT.md) | Exp3 V2 final freeze audit |
 | [`docs/audits/EXP3V2_DOCUMENTATION_INVENTORY_2026-09-03.md`](docs/audits/EXP3V2_DOCUMENTATION_INVENTORY_2026-09-03.md) | Full documentation inventory (2026-09-03) |
+| [`docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md`](docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md) | Independent review of the frozen Condition C R10 evaluation; `GO WITH LIMITATIONS` |
 
 ## Operational prompts
 

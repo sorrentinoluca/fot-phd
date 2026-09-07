@@ -926,41 +926,61 @@ condizioni A, B ed E sullo stesso held-out set. Questo implica:
 
 ### Preparazione (pre-inferenza)
 
-- [ ] Creare la struttura directory `icl/`
-- [ ] Copiare e verificare il template `pooled_C.txt`
-- [ ] Generare `pooled_examples.json` (10 record)
-- [ ] Generare `pooled_insights.json` (8 insight)
-- [ ] Scrivere `condition_c_config.json`
-- [ ] Implementare `builder_c.py`
-- [ ] Scrivere e passare `test_builder_c.py`
-- [ ] Implementare `records_c.py` (con `parsed_output` completo e provenienza per-attempt) + `c_run_record.schema.json`
-- [ ] Scrivere e passare `test_records_c.py`
-- [ ] Implementare `build_c_schedule.py` (45 entry, ordinamento `pilot DESC, physical_case_id ASC, repetition ASC`)
-- [ ] Scrivere e passare `test_build_c_schedule.py` (verifica 45 entry, 15 pilot in 0..14, ordinamento corretto)
-- [ ] Implementare `run_c_inference.py` (con freeze guard inference-side e resume/idempotenza)
-- [ ] Scrivere e passare `test_run_c_inference.py` (resume, idempotenza, freeze guard inference-side, no accesso evaluator-side)
-- [ ] Implementare `aggregation_c.py` (output compatibile con `aggregate_records.jsonl` di Exp 1)
-- [ ] Scrivere e passare `test_aggregation_c.py`
-- [ ] Implementare `evaluate_c_predictions.py` (carica B da `aggregate_records.jsonl`, freeze guard evaluator-side)
-- [ ] Scrivere e passare `test_evaluate_c.py`
-- [ ] Generare `c_schedule.json` (45 entry con subset pilot marcato `pilot=true`)
-- [ ] Redigere `protocol_amendment_c.md/.json`
-- [ ] Calcolare SHA-256 in `freeze_manifest_inference.json` e `freeze_manifest_evaluator.json`
-- [ ] Commit e tag di freeze
+- [x] Creare la struttura directory `icl/`
+- [x] Copiare e verificare il template `pooled_C.txt`
+- [x] Generare `pooled_examples.json` (10 record)
+- [x] Generare `pooled_insights.json` (8 insight)
+- [x] Scrivere `condition_c_config.json`
+- [x] Implementare `builder_c.py`
+- [x] Scrivere e passare `test_builder_c.py`
+- [x] Implementare `records_c.py` (con `parsed_output` completo e provenienza per-attempt) + `c_run_record.schema.json`
+- [x] Scrivere e passare `test_records_c.py`
+- [x] Implementare `build_c_schedule.py` (45 entry, ordinamento `pilot DESC, physical_case_id ASC, repetition ASC`)
+- [x] Scrivere e passare `test_build_c_schedule.py` (verifica 45 entry, 15 pilot in 0..14, ordinamento corretto)
+- [x] Implementare `run_c_inference.py` (con freeze guard inference-side e resume/idempotenza)
+- [x] Scrivere e passare `test_run_c_inference.py` (resume, idempotenza, freeze guard inference-side, no accesso evaluator-side)
+- [x] Implementare `aggregation_c.py` (output compatibile con `aggregate_records.jsonl` di Exp 1)
+- [x] Scrivere e passare `test_aggregation_c.py`
+- [x] Implementare `evaluate_c_predictions.py` (carica B da `aggregate_records.jsonl`, freeze guard evaluator-side)
+- [x] Scrivere e passare `test_evaluate_c_predictions.py`
+- [x] Generare `c_schedule.json` (45 entry con subset pilot marcato `pilot=true`)
+- [x] Redigere `protocol_amendment_c.md/.json`
+- [x] Calcolare SHA-256 in `freeze_manifest_inference.json` e `freeze_manifest_evaluator.json`
+- [x] Commit e tag di freeze
 
 ### C-Pilot (prima tranche blind)
 
-- [ ] Eseguire `run_c_inference.py --pilot-only` (15 entry → `c_records.jsonl`)
-- [ ] Verificare i 5 gate tecnici (NO metriche, NO ground truth)
-- [ ] Decisione go/no-go puramente tecnica
+- [x] Eseguire `run_c_inference.py --pilot-only` (15 entry → `c_records.jsonl`)
+- [x] Verificare i 5 gate tecnici (NO metriche, NO ground truth)
+- [x] Decisione go/no-go puramente tecnica
 
 ### Completamento C-Full
 
-- [ ] Eseguire `run_c_inference.py` (30 entry rimanenti → stesso `c_records.jsonl`)
-- [ ] Verificare che `c_records.jsonl` contenga esattamente 45 record
-- [ ] Aggregare tutte le predizioni con `aggregation_c.py`
-- [ ] Congelare `c_records.jsonl` + predizioni aggregate in `predictions_manifest.json`
-- [ ] Join evaluator-side con ground truth via `evaluate_c_predictions.py`
-- [ ] Calcolare accuracy C e delta C−B con cluster bootstrap
-- [ ] Salvare `evaluation_results_c.json`
+- [x] Eseguire `run_c_inference.py` (30 entry rimanenti → stesso `c_records.jsonl`)
+- [x] Verificare che `c_records.jsonl` contenga esattamente 45 record
+- [x] Aggregare tutte le predizioni con `aggregation_c.py`
+- [x] Congelare `c_records.jsonl` + predizioni aggregate in `c_predictions_manifest.json` e `c_aggregate_manifest.json`
+- [x] Join evaluator-side con ground truth via `evaluate_c_predictions.py`
+- [x] Calcolare accuracy C e delta C−B con cluster bootstrap
+- [x] Salvare `evaluation_results_c.json`
 - [ ] Aggiornare la sezione Results del paper
+
+### Chiusura esecutiva R10
+
+L'esecuzione e la valutazione sono concluse e congelate attraverso la seguente
+catena Git:
+
+| Milestone | Tag | Commit |
+|---|---|---|
+| Code freeze | `condition-c-freeze-r10` | `60ccc7539714e909aae7318cc72031d7acdd4e78` |
+| Predictions freeze | `condition-c-predictions-frozen-r10` | `8d6b7a0636e9a15f0ebbd32ed0f9e2ce4faea30a` |
+| Results freeze | `condition-c-results-frozen-r10` | `89e4caebe635973ef438d4b601bb4f761417193a` |
+
+Il risultato canonico è
+[`full_evaluation/evaluation_results_c.json`](full_evaluation/evaluation_results_c.json).
+La
+[`review indipendente`](../docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md)
+ha espresso il verdetto **GO WITH LIMITATIONS**. Restano aperte esclusivamente
+l'integrazione interpretativa nella sezione Results del paper e il successivo
+aggiornamento del walkthrough; nessuna ulteriore inferenza o valutazione è
+richiesta per Condition C R10.
