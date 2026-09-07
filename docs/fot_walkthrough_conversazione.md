@@ -2,7 +2,7 @@
 
 # FoT (Federation over Text) — Un ponte verso i dati PV attraverso TEP
 
-**Step 1 / 17**
+**Step 1 / 27**
 
 ## Introduzione
 
@@ -87,12 +87,14 @@ Le configurazioni informative A, B ed E permettono di verificare internamente se
 
 Un confronto più completo dovrebbe comprendere almeno due piani di baseline:
 
-1. **Baseline interna al paradigma testuale — centralized pooled.** Un singolo agente dispone dell'esperienza testuale aggregata di tutti i nodi: tutti gli esempi etichettati e tutti gli insight, senza la separazione imposta dalla federazione. Questa baseline verifica se la federazione testuale raggiunga una performance comparabile a quella di un contesto centralizzato con informazione completa, entro lo stesso paradigma (cfr. FedMD [Li & Wang, 2019] e FedCKD [Le et al., 2026] per i comparatori centralizzati nel FL parametrico; FoT [Yao et al., 2026] per il paradigma testuale originale, il cui ablation study rimuove la libreria degli insight senza un comparatore centralizzato esplicito). Una variante *local-only* — in cui ciascun agente usi i propri insight generati localmente senza federazione — non è inclusa come condizione separata: gli insight propri descrivono soltanto la classe di guasto già nota all'agente e non forniscono informazione sulle classi mancanti, cosicché sulle valutazioni *locally-unseen* il risultato atteso è D ≈ A ≈ 0; sulle valutazioni *local-seen* la configurazione A raggiunge già il ceiling osservato. Il valore sperimentale aggiunto di una condizione D sarebbe pertanto trascurabile.
+1. **Baseline interne al paradigma testuale.** Una vera *local-only* farebbe usare a ciascun agente anche gli insight generati localmente, senza federazione. A non coincide con questa configurazione: è una baseline senza insight e costituisce un *information floor* per le classi locally-unseen. La local-only non è stata implementata come condizione separata; il valore aggiunto atteso era limitato perché gli insight propri riguardano soltanto il fault già noto localmente, ma questa resta un'aspettativa metodologica e non un risultato empiricamente misurato. Il riferimento *centralized pooled* usa invece un singolo agente con l'esperienza testuale prompt-facing aggregata di tutti i nodi.
 2. **Baseline esterne al paradigma** — metodi diagnostici convenzionali come PCA/DPCA, SVM o Random Forest, e tecniche propriamente federate come FedAvg o FedProx (cfr. la tassonomia non-IID di Li et al., ICDE 2022; il survey FL-FDD di Berghout et al., 2022; FedMeta-FFD di Chen et al., IEEE TNSE 2023 per il meta-learning federato su fault diagnosis). Queste baseline verificherebbero se il paradigma testuale sia competitivo rispetto a quello numerico.
 
 L'assenza di queste baseline non invalida l'esperimento: il progetto conserva valore come prova controllata del meccanismo, mostrando che insight testuali pertinenti possono aiutare gli agenti sui tipi di guasto assenti dalla loro esperienza locale. L'assenza limita però qualsiasi affermazione secondo cui FoT sia complessivamente migliore degli approcci diagnostici tradizionali o delle tecniche federate esistenti. I confronti primari A–B–E restano validi entro il loro perimetro: misurano l'effetto incrementale della federazione testuale, non la posizione assoluta di FoT nel panorama diagnostico. Una gap analysis sistematica della letteratura 2021–2026, documentata in [FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md](lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md) e nella [literature review estesa](lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md), conferma che nessun lavoro identificato combina simultaneamente trasferimento di conoscenza testuale, setting federato su serie temporali/FDD e classi localmente non viste sotto non-IID class-disjoint, e identifica il comparatore centralizzato come l'unica baseline interna con alto ritorno sperimentale.
 
-**Step 2 / 17(Ph.A)**
+Il riferimento *centralized pooled* è stato successivamente realizzato come Condition C, una **centralized full-information pooled ICL post-hoc exploratory reference** entro lo stesso paradigma testuale. Il design e i risultati sul held-out di Experiment 1 sono presentati negli Step 25–26. C non è stata eseguita sulle realizzazioni EXP3_V2.
+
+**Step 2 / 27(Ph.A)**
 
 ## Dataset
 
@@ -135,7 +137,7 @@ Nel dataset i canali sono identificati come `XMEAS-1 … XMEAS-41`. La loro deno
 
 Nomenclatura canonica del TEP (Downs & Vogel, 1993). Il repository tratta i canali come `XMEAS-1…41` senza etichette descrittive; questi nomi sono forniti solo come riferimento fisico.
 
-**Step 3 / 17(Ph.A)**
+**Step 3 / 27(Ph.A)**
 
 ## Analisi e split dei dataset
 
@@ -178,7 +180,7 @@ Il dataset Normal è un file da 500 h, diviso in **10 blocchi da 50 h** (N1…N1
 >
 > **8 finestre da 5 h** per il caso con fault; **10 finestre da 5 h** per il blocco Normal completo.
 
-**Step 4 / 17(Ph.A)Design / development-time**
+**Step 4 / 27(Ph.A)Design / development-time**
 
 ## La pipeline di Phase A: le sei operazioni
 
@@ -193,7 +195,7 @@ Di seguito le fasi svolte dalla pipeline della fase A del progetto.
 | 5 | **Dalle finestre al JSON** | Aggrega flag e struttura temporale in evidenza numerica auditabile. |
 | 6 | **Dal JSON al testo neutrale** | Renderizza fatti quantitativi senza fault ID o diagnosi automatica. |
 
-**Step 5 / 17(Ph.A)Design / development-time**
+**Step 5 / 27(Ph.A)Design / development-time**
 
 ## Scelta delle feature
 
@@ -209,7 +211,7 @@ La **scelta** delle feature è una decisione di design sul development/calibrati
 > | `diff_std_ratio` | Variazioni campione-campione | Oscillazioni lente |
 > | `raw_std_ratio` | Dispersione descrittiva | Instabilità oscillatoria |
 
-**Step 6 / 17(Ph.A)Design / development-time**
+**Step 6 / 27(Ph.A)Design / development-time**
 
 ## Calibrazione delle soglie
 
@@ -246,7 +248,7 @@ Il **leave-one-block-out** nasce qui: quando si misura N1, il riferimento usa N2
 >
 > Mostriamo solo la coda, ma ogni score è davvero il massimo sui 41 canali.
 
-**Step 7 / 17(Ph.A)Design / development-time**
+**Step 7 / 27(Ph.A)Design / development-time**
 
 ## Il freeze: congelare feature, soglie e renderer
 
@@ -254,7 +256,7 @@ Prima di aprire validation, test e held-out vengono congelati feature, soglie, r
 
 > **Che cosa è stato usato fino a qui.** Fino al freeze sono entrati in gioco soltanto i blocchi **Normal N1–N5** (per calibrare le soglie) e i **fault batch 1–5**. Questi ultimi sono stati usati **solo in fase di design/development, per scegliere *quali* feature usare** — non per calcolare le soglie e non a runtime. La scelta delle feature è una decisione fatta una volta, a monte, non un'operazione ripetuta su ogni caso. I restanti dati — **N6–N10** e i **fault batch 6–10** — **non sono ancora stati toccati**: entreranno solo dopo il freeze, in validation e test. (N1–N5 servono in due momenti: a design-time per calibrare le soglie e poi come baseline di riferimento anche a runtime.)
 
-**Step 8 / 17(Ph.A)Runtime / finestra × XMEAS**
+**Step 8 / 27(Ph.A)Runtime / finestra × XMEAS**
 
 ## Dalle feature ai flag: soglie e segni
 
@@ -291,7 +293,7 @@ Per ogni finestra (le **8** del caso con fault) e per ogni variabile **XMEAS** (
 >
 > W1: `mode1_1_1.xlsx`, righe Excel 602–901, XMEAS-1. Baseline: `mode1_normal_500.xlsx`, righe 2–15001 della colonna ricondotta a XMEAS-1. Il ricalcolo read-only coincide con il CSV entro l'ultima unità floating-point; qui è riportata la precisione frozen del CSV.
 
-**Step 9 / 17(Ph.A)Runtime / caso completo**
+**Step 9 / 27(Ph.A)Runtime / caso completo**
 
 ## Dai flag al JSON, fino al testo neutrale
 
@@ -335,7 +337,7 @@ La griglia di flag (8 finestre × 41 XMEAS) viene utilizzata per generare un **J
 >
 > L'estratto JSON mostra la parte `level` di XMEAS-1. Il testo completo nasce dal JSON completo a 41 canali, quindi cita altri canali quando dominano altre sezioni (qui XMEAS-20 e XMEAS-10). Non contiene F1, batch, pseudolabel o soglie: nessuna diagnosi, solo fatti.
 
-**Step 10 / 17(Ph.A)Controllo offline**
+**Step 10 / 27(Ph.A)Controllo offline**
 
 ## Evaluator · signature vector
 
@@ -361,13 +363,13 @@ Solo ora entra l'evaluator, con uno scopo preciso: verificare offline se la rapp
 >
 > > **A cosa serve.** Alta similarità intra-classe + bassa similarità inter-classe = il testo neutrale di Phase A conserva abbastanza struttura da distinguere le condizioni *senza mai nominarle*. È il pre-requisito descrittivo che rende sensato, nello step successivo, dare quei testi in pasto a un reasoner in Phase B — ma resta separabilità, non ancora accuracy diagnostica.
 
-**Step 11 / 17(Ph.A)Valutazione out-of-development/calibration**
+**Step 11 / 27(Ph.A)Valutazione out-of-development/calibration**
 
 ## Validation e test split: applicare dopo il freeze
 
 La progettazione si è terminata con il freeze; adesso si esegue la stessa pipeline runtime prima sulla validation (fault batch 6–7 e Normal N6–N7) e poi sul test split (batch 8–10 e N8–N10). In entrambi i casi il percorso è sempre `finestre → feature → soglie congelate → JSON → testo neutrale → evaluator`. È importante notare come lo split «development/calibration» sia utilizzato per progettare e calibrare, in seguito al freeze la validation è utilizzata per effettuare controlli intermedi e alla fine il test split resta chiuso fino alla verifica finale di Phase A.
 
-**Step 12 / 17(Ph.A)Confine sperimentale**
+**Step 12 / 27(Ph.A)Confine sperimentale**
 
 ## Nuove simulazioni indipendenti
 
@@ -379,7 +381,7 @@ I batch 8–10 del test split erano test di Phase A, ma sono stati aperti. Un te
 | --- | --- | --- | --- | --- |
 | 3 run | 3 run | 3 run | 3 run | 3 run |
 
-**Step 13 / 17(Ph.B)Phase B / conoscenza locale**
+**Step 13 / 27(Ph.B)Phase B / conoscenza locale**
 
 ## Agenti non-IID, pseudolabel ed esempi locali
 
@@ -426,7 +428,7 @@ Distribuzione non-IID: ogni agente conosce solo il proprio fault
 > >
 > > **Etichetta mostrata all'LLM:** `CLS-ZOGAA`. La coppia è testo + etichetta; F1 e batch 1 restano provenance evaluator-side.
 
-**Step 14 / 17(Ph.B)Phase B / federazione**
+**Step 14 / 27(Ph.B)Phase B / federazione**
 
 ## Gli insight distillano più casi; la federazione li distribuisce peer-only
 
@@ -463,7 +465,7 @@ Dopo il few-shot, ogni agente compie una seconda operazione: condensa ciò che s
 >
 > > **8 generati, 6 ricevuti.** La libreria globale ha otto insight; ciascuna peer library ne ha sei.
 
-**Step 15 / 17(Ph.B)Phase B / protocollo frozen**
+**Step 15 / 27(Ph.B)Phase B / protocollo frozen**
 
 ## Configurazioni informative controllate e struttura completa dell'inference
 
@@ -475,7 +477,7 @@ Una **configurazione informativa** è una versione controllata dello stesso agen
 >
 > | Configurazione informativa | Input oltre ai few-shot locali | Domanda controllata |
 > | --- | --- | --- |
-> | **A — isolated** | Nessun insight — né peer né propri: solo few-shot etichettati della propria esperienza locale, senza includere i propri insight generati localmente. | Che cosa fa l'agente senza federazione e senza insight? |
+> | **A — isolated** | Nessun insight — né peer né propri: soltanto i 4 few-shot locali. | Qual è l'information floor senza insight per le classi locally-unseen? |
 > | **B — FoT** | 6 insight peer genuini, con pseudolabel corrette. | Che cosa aggiunge la conoscenza peer corretta? |
 > | **E — corrupted** | Gli stessi 6 insight di B: stessi ID, fonti, testi, ordine e volume; cambiano soltanto le pseudolabel, permutate. | Il beneficio dipende dall'associazione corretta o dalla sola presenza di più testo? |
 >
@@ -489,7 +491,9 @@ Una **configurazione informativa** è una versione controllata dello stesso agen
 >
 > Le 540 risposte diventano 180 esiti aggregati; tutte le predizioni vengono congelate **prima** di unirle alla ground truth. L'analisi del trasferimento (Step 17) si concentrerà poi soltanto sui casi in cui il fault è *unseen* per l'agente — 36 agent-case per configurazione informativa.
 
-**Step 16 / 17(Ph.B)Phase B / inference frozen**
+> **Cronologia del protocollo.** Condition C non faceva parte del protocollo originale A/B/E: è stata progettata post-hoc dopo l'osservazione dei risultati A/B/E. Ha però avuto un proprio amendment e un proprio freeze, entrambi completati prima delle sue chiamate LLM. Il carattere post-hoc riguarda quindi la scelta di introdurre il confronto, non una modifica delle predizioni dopo averne osservato gli esiti.
+
+**Step 16 / 27(Ph.B)Phase B / inference frozen**
 
 ## Dal testo neutrale alla decisione: PBH-004 visto da Agent 3
 
@@ -511,7 +515,7 @@ PBH-004 → → → pipeline Phase A congelata → → → testo neutrale → �
 >
 > I record hanno `used_insight_ids=[]`: non attribuiamo la singola risposta a INS-001. Confrontiamo correttamente le configurazioni informative frozen nel loro insieme.
 
-**Step 17 / 17(Ph.B)Ground-truth evaluation**
+**Step 17 / 27(Ph.B)Ground-truth evaluation**
 
 ## Risultati Phase B: trasferimento di conoscenza sui fault localmente unseen
 
@@ -679,24 +683,26 @@ Questa decomposizione unanimous/split è una derivazione descrittiva post-hoc de
 
 Il fatto che 33/36 decisioni unseen di B siano unanimi indica che, nel setup frozen osservato, la maggior parte delle decisioni aggregate deriva da tre chiamate concordi. È un descrittore della **stabilità delle decisioni tra le tre chiamate R=3**, non una misura generale di robustezza. Le chiamate usano lo stesso input e la stessa configurazione: il risultato non dimostra stabilità rispetto a perturbazioni dei dati, prompt diversi, altri modelli, altre configurazioni di reasoning o distribuzioni differenti.
 
+**Riferimento aggiunto successivamente.** Condition C è stata applicata post-hoc esclusivamente al medesimo held-out di Experiment 1, con una predizione centralizzata per ciascuno dei 15 casi. Non è parte dei contrasti originali A/B/E e non è stata applicata a EXP3_V2; design e risultati sono documentati negli Step 25–26.
+
 > **Come leggere questi controlli.** Il primary result mostra il trasferimento sui fault localmente unseen. I secondary outcome mostrano che, nel campione osservato, questo beneficio non è accompagnato da una degradazione visibile sui casi local-seen o Normal. La verifica R=3 aggiunge un'informazione diversa: descrive quanto le tre chiamate concordano tra loro. Nessuno di questi controlli amplia il risultato oltre il setup TEP studiato.
 
 ### 6 · Scope and limitations
 
 - TEP è una POC metodologica controllata; il fotovoltaico è il dominio-obiettivo finale.
-- A è una baseline information-floor per la semantica delle classi localmente unseen: non include nemmeno i propri insight generati localmente, che descrivono soltanto la classe già nota e non fornirebbero informazione sulle classi mancanti (D ≈ A sugli unseen).
+- A è una baseline senza insight e un information floor per la semantica delle classi locally-unseen; una vera local-only includerebbe gli insight propri e non è stata implementata come condizione separata.
 - Riconoscimento in spazio di pseudolabel chiuso, non diagnosi open-world.
 - Solo 12 cluster indipendenti.
 - Un solo simulatore/processo.
 - Una sola configurazione LLM/reasoning.
 - Nessuna garanzia formale di privacy.
-- Nessuna baseline ICL centralizzata a pari informazione.
+- Il riferimento centralizzato C, aggiunto post-hoc, differisce da B per quantità e forma dell'informazione; C−B è descrittivo e non causale.
 - Nessuna claim di generalizzazione al PV o cross-domain.
 - harmed=0 non è evidenza di assenza generale di negative transfer.
 
 ### 7 · Claim finale
 
-> Nel protocollo frozen e sui 12 run fisici di fault del nuovo held-out TEP, gli insight peer autentici hanno aumentato l'accuratezza sui fault localmente unseen da **0/36 (A) a 31/36 (B)**; il contrasto primario **B−A è +0.8611 [0.8333, 0.9167]**. A parità di testi, ID, ordine e volume del peer block, la corruzione delle associazioni ha ridotto l'accuratezza a **3/36**: *il contrasto B−E supporta l'interpretazione che il beneficio osservato dipenda dalla corretta associazione dell'informazione trasferita, anziché dalla mera presenza o dal volume del testo aggiuntivo* (B−E +0.7778 [0.7222, 0.8333]). *La configurazione informativa A rappresenta uno scenario di limite informativo per la semantica delle classi localmente unseen, perché l'agente ricevente non dispone di alcun esempio locale della pseudoclasse corrispondente*; la magnitudine di B−A va quindi letta rispetto a questo floor. Questi risultati supportano la **feasibility** del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico, non forniscono garanzie di privacy, né stabiliscono superiorità rispetto a una baseline centralizzata ICL a pari informazione. La validazione empirica sul fotovoltaico è la fase successiva.
+> Nel protocollo frozen e sui 12 run fisici di fault del nuovo held-out TEP, gli insight peer autentici hanno aumentato l'accuratezza sui fault localmente unseen da **0/36 (A) a 31/36 (B)**; il contrasto primario **B−A è +0.8611 [0.8333, 0.9167]**. A parità di testi, ID, ordine e volume del peer block, la corruzione delle associazioni ha ridotto l'accuratezza a **3/36**: *il contrasto B−E supporta l'interpretazione che il beneficio osservato dipenda dalla corretta associazione dell'informazione trasferita, anziché dalla mera presenza o dal volume del testo aggiuntivo* (B−E +0.7778 [0.7222, 0.8333]). *La configurazione informativa A rappresenta uno scenario di limite informativo per la semantica delle classi localmente unseen, perché l'agente ricevente non dispone di alcun esempio locale della pseudoclasse corrispondente*; la magnitudine di B−A va quindi letta rispetto a questo floor. Questi risultati supportano la **feasibility** del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico e non forniscono garanzie di privacy. Condition C, documentata negli Step 25–26, è un riferimento centralizzato post-hoc sullo stesso held-out, entro lo stesso paradigma testuale e con un contesto informativo diverso da B.
 
 Fase 2 — Replica confirmatory · EXP3_V2
 
@@ -704,7 +710,7 @@ Fase 2 — Replica confirmatory · EXP3_V2
 
 Tutto il metodo — feature, soglie, agenti, insight, configurazioni informative, protocollo frozen — rimane identico. Cambiano solo i dati fisici sottostanti: 24 nuovi run di fault (6 per classe) e 6 nuovi run Normal, il doppio della Fase 1. L'architettura sperimentale e le decisioni di analisi sono state congelate *prima* di generare questi dati.
 
-**Step 18 / 25Fase 2Esperimento confermativo su nuove realizzazioni simulate**
+**Step 18 / 27Fase 2Esperimento confermativo su nuove realizzazioni simulate**
 
 ## Esperimento confermativo su nuove realizzazioni simulate
 
@@ -714,7 +720,7 @@ Il rischio specifico da escludere non è il data leakage classico — il protoco
 
 Le nuove realizzazioni fisiche sono run TEP indipendenti delle stesse quattro classi — non reruns dei file già usati, non nuove classi, non un dominio diverso. Il perimetro sperimentale rimane deliberatamente invariato: il metodo, gli agenti, le soglie e il protocollo frozen di Experiment 1 vengono riapplicati as-is alle nuove realizzazioni. L'obiettivo non è la generalizzazione, ma verificare se l'effetto osservato sia riproducibile quando i dati fisici cambiano pur restando fisso tutto il resto.
 
-**Step 19 / 25Fase 2Nuovo held-out**
+**Step 19 / 27Fase 2Nuovo held-out**
 
 ## Le nuove realizzazioni fisiche di EXP3_V2
 
@@ -728,7 +734,7 @@ Per costruire il nuovo held-out sono stati generati run TEP indipendenti degli s
 
 Il raddoppio rispetto ai 15 run di Experiment 1 (3 per classe) porta a 72 agent-case unseen, aumentando la potenza statistica del contrasto primario B−A senza modificare il disegno sperimentale.
 
-**Step 20 / 25Fase 2Disegno confirmatory frozen**
+**Step 20 / 27Fase 2Disegno confirmatory frozen**
 
 ## Il disegno confirmatory di EXP3_V2
 
@@ -760,7 +766,7 @@ Un disegno **confirmatory frozen** significa che ipotesi primaria, popolazione d
 >
 > 72 agent-case unseen → × → configurazioni informative A / B / E → → → aggregati frozen → → → bootstrap cluster-paired → → → contrasti B−A · B−E
 
-**Step 21 / 25Fase 2**
+**Step 21 / 27Fase 2**
 
 ## Diagnosi di guasti non osservati localmente
 
@@ -845,7 +851,7 @@ Tutti e quattro gli errori unseen di B sono concentrati su due run specifici —
 
 **Figura 5 — Distribuzione degli outcome della configurazione informativa B nei 24 run fisici di fault di EXP3_V2.** Ogni riga rappresenta un singolo run fisico; le quattro colonne rappresentano i quattro agenti. Per ogni run, la cella dell'agente che possiede localmente quel fault è indicata come local-seen. Le altre tre celle costituiscono i tre agent-case locally-unseen. I 24 run producono 72 agent-case unseen, non 72 osservazioni fisiche indipendenti. La figura è un'analisi descrittiva post-hoc dei record frozen.
 
-**Step 22 / 25Fase 2**
+**Step 22 / 27Fase 2**
 
 ## B−A primario e B−E di supporto: differenze di accuratezza e intervalli di confidenza
 
@@ -891,7 +897,7 @@ B−E
 
 > **Nota sull'incertezza.** Gli intervalli sono ottenuti mediante cluster bootstrap paired sui 24 run fisici indipendenti, mantenendo insieme le tre osservazioni dei receiving agents associate allo stesso run. Con 24 cluster indipendenti (il doppio di Experiment 1), gli intervalli sono più stretti ma vanno comunque interpretati nel contesto di questo PoC controllato.
 
-**Step 23 / 25Fase 2**
+**Step 23 / 27Fase 2**
 
 ## Risultati secondari descrittivi
 
@@ -960,20 +966,20 @@ A:0/72 ·B:68/72 ·E:4/72
 
 La tabella confronta i risultati dei due esperimenti sullo stesso disegno sperimentale. L'incremento della dimensione campionaria da 12 a 24 run fisici restringe gli intervalli di confidenza. La degradazione local-seen osservata in EXP3_V2 non era visibile in Experiment 1.
 
-**Step 24 / 25Fase 2Interpretazione, limiti e provenienza frozen**
+**Step 24 / 27Fase 2Interpretazione, limiti e provenienza frozen**
 
 ## Che cosa supporta la replica, e che cosa non dimostra
 
 ### 1 · Scope and limitations
 
 - TEP è una POC metodologica controllata; il fotovoltaico è il dominio-obiettivo finale.
-- A è una baseline information-floor per la semantica delle classi localmente unseen: non include nemmeno i propri insight generati localmente, che descrivono soltanto la classe già nota e non fornirebbero informazione sulle classi mancanti (D ≈ A sugli unseen).
+- A è una baseline senza insight e un information floor per la semantica delle classi locally-unseen; una vera local-only includerebbe gli insight propri e non è stata implementata come condizione separata.
 - Riconoscimento in spazio di pseudolabel chiuso, non diagnosi open-world.
 - 24 cluster indipendenti (il doppio di Experiment 1, ma pur sempre un campione limitato).
 - Un solo simulatore/processo (TEP).
 - Una sola configurazione LLM/reasoning (`gpt-5.6-terra`, reasoning `medium`).
 - Nessuna garanzia formale di privacy.
-- Nessuna baseline ICL centralizzata a pari informazione.
+- EXP3_V2 non comprende una propria baseline centralized pooled. Condition C degli Step 25–26 non è stata eseguita sulle realizzazioni EXP3_V2 e non colma quindi questo gap della Fase 2.
 - Nessuna claim di generalizzazione al PV o cross-domain.
 - La degradazione local-seen osservata in B (19/24 vs 24/24 di A) è un segnale descrittivo che merita approfondimento nel disegno futuro, ma non invalida il primary result unseen.
 - Il disegno riproduce *le stesse classi di fault* su nuove realizzazioni, non generalizza a fault non studiati.
@@ -986,13 +992,94 @@ La tabella confronta i risultati dei due esperimenti sullo stesso disegno sperim
 >
 > EXP3_V2 rafforza il risultato di Experiment 1 raddoppiando la dimensione campionaria e riproducendo l’effetto su realizzazioni fisiche indipendenti. Tuttavia, la degradazione local-seen (B: 19/24 vs A: 24/24) indica che gli insight peer possono interferire con il riconoscimento dei fault già noti in alcune combinazioni run–agente — un aspetto non emerso con il campione più piccolo di Experiment 1.
 >
-> Questi risultati supportano la **feasibility** e la **riproducibilità** del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico, non forniscono garanzie di privacy, né stabiliscono superiorità rispetto a una baseline centralizzata ICL a pari informazione. La validazione empirica sul fotovoltaico è la fase successiva.
+> Questi risultati supportano la **feasibility** e la **riproducibilità** del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico e non forniscono garanzie di privacy. EXP3_V2 resta privo di un proprio comparatore centralized pooled: Condition C non è stata eseguita su queste realizzazioni.
+
+> **Transizione cronologica.** Il blocco seguente è collocato dopo la Fase 2 perché Condition C è stata introdotta successivamente nella cronologia del progetto. Gli Step 25–26 riaprono però il confronto di **Experiment 1**: usano il suo medesimo held-out e non i run EXP3_V2.
+
+Riferimento centralizzato post-hoc · Condizione C
+
+**Dalla Fase 2 al riferimento centralizzato.** Questa collocazione segue la cronologia del progetto, ma Condition C riapre il confronto di Experiment 1. È una **centralized full-information pooled ICL post-hoc exploratory reference** applicata esclusivamente ai 15 casi del suo held-out; non è una baseline di EXP3_V2.
+
+**Step 25 / 27Riferimento centralizzato post-hoc**
+
+## Condizione C: design e razionale entro il paradigma testuale
+
+Condition C risponde a una domanda descrittiva: *dove si colloca la federazione peer-only B rispetto a un singolo agente che riceve tutta l'esperienza testuale prompt-facing congelata?* C è receiver-independent e usa lo stesso spazio di pseudolabel e lo stesso paradigma testuale, ma non è un confronto a condizioni informative equivalenti.
+
+**Full-information** è qui un termine strettamente circoscritto all'unione degli artefatti prompt-facing frozen: esempi etichettati e insight testuali. Non implica accesso a tutti i dati grezzi, a tutti i testi sorgente, alla ground truth o a informazione evaluator-side.
+
+> C e B: contesti diversi entro lo stesso paradigma
+>
+> ### Che cosa vede ciascun ricevente
+>
+> | Condizione | Esempi etichettati | Insight | Forma del contesto |
+> | --- | --- | --- | --- |
+> | **C** | 10 pooled: 2 per ciascuna delle 4 classi fault + 2 Normal | 8, inclusi quelli che in B sarebbero propri | Unico contesto centralizzato, receiver-independent |
+> | **B** | 4 locali per receiving agent: 2 del fault noto + 2 Normal | 6 peer | Contesto diverso per ciascun receiving agent |
+>
+> I 10 esempi di C provengono dall'**unione frozen dei pack LKP-001…LKP-004**, deduplicata per gli esempi Normal e ordinata per `example_id`. Lo schedule frozen disciplina invece le **45 richieste di inferenza**; non seleziona gli esempi pooled.
+
+C classifica i **15 casi del held-out di Experiment 1** (12 fault + 3 Normal), ciascuno R=3: 45 provider records e 15 decisioni aggregate. C e B differiscono sia nella quantità sia nella forma dell'informazione; di conseguenza C−B è un confronto **descrittivo e non causale**, entro lo stesso paradigma testuale.
+
+### Configurazione frozen e guardrail
+
+- Modello `gpt-5.6-terra` e reasoning effort `medium`, frozen e coerenti nei 45 record.
+- `temperature=null` e `seed=null`.
+- R=3, structured output strict e inferenza stateless.
+- Nessun accesso alla ground truth prima del freeze delle predizioni; join soltanto evaluator-side.
+
+> **Natura post-hoc.** Condition C non era nel protocollo originale A/B/E ed è stata progettata dopo aver osservato quei risultati sul medesimo held-out. Un amendment e un freeze dedicati sono stati completati prima delle chiamate LLM di C: il carattere post-hoc riguarda la decisione di introdurre il confronto, non un adattamento delle predizioni dopo averne visto gli esiti.
+
+**Step 26 / 27Risultati C e confronto descrittivo C−B**
+
+## Risultati del riferimento centralizzato e distanza descrittiva da B
+
+Condition C ha classificato correttamente tutte le 15 decisioni aggregate, senza astensioni. **Per ciascuno dei 15 casi, le tre ripetizioni hanno prodotto la stessa decisione aggregabile.**
+
+| Scope | Corretti / casi | Accuratezza | Astensioni |
+| --- | --- | --- | --- |
+| **Overall** | 15 / 15 | 100.0% | 0 |
+| **Fault** | 12 / 12 | 100.0% | 0 |
+| **Normal** | 3 / 3 | 100.0% | 0 |
+
+### 1 · Delta paired C−B sui 12 casi fault
+
+Per ciascun caso *i*, C contribuisce una decisione e B la media delle decisioni dei tre receiving agents per cui quel fault è unseen:
+
+`Δ_(C−B) = (1/12) Σ_i=1^12 [1(C_i=y_i) − (1/|U_i|) Σ_(a∈U_i) 1(B_ia=y_i)]`, con `|U_i|=3`.
+
+| Caso | Fault reale | Pseudolabel | C | B (3 unseen) | δ_i |
+| --- | --- | --- | --- | --- | --- |
+| PBH-004 | F1 | CLS-ZOGAA | ✓ | 3/3 | 0.000 |
+| PBH-005 | F1 | CLS-ZOGAA | ✓ | 3/3 | 0.000 |
+| PBH-006 | F1 | CLS-ZOGAA | ✓ | 3/3 | 0.000 |
+| PBH-007 | F8 | CLS-OJNSG | ✓ | 1/3 | **0.667** |
+| PBH-008 | F8 | CLS-OJNSG | ✓ | 2/3 | **0.333** |
+| PBH-009 | F8 | CLS-OJNSG | ✓ | 1/3 | **0.667** |
+| PBH-010 | F10 | CLS-R463B | ✓ | 3/3 | 0.000 |
+| PBH-011 | F10 | CLS-R463B | ✓ | 3/3 | 0.000 |
+| PBH-012 | F10 | CLS-R463B | ✓ | 3/3 | 0.000 |
+| PBH-013 | F13 | CLS-Z3ISU | ✓ | 3/3 | 0.000 |
+| PBH-014 | F13 | CLS-Z3ISU | ✓ | 3/3 | 0.000 |
+| PBH-015 | F13 | CLS-Z3ISU | ✓ | 3/3 | 0.000 |
+
+**Delta C−B:** 5/36 = **0.138889**. **Bootstrap percentile 95%:** [0.083333, 0.166667], 10.000 draw, seed 20260906.
+
+> **Limitazione principale.** L'intero vantaggio C−B è concentrato nei tre casi CLS-OJNSG/F8; per gli altri nove casi fault il delta è zero. Il bootstrap è stratificato su 4 classi × 3 cluster e la sua distribuzione occupa una griglia discreta di soli cinque valori. Con tre cluster per strato ha risoluzione effettiva minima: il CI è corretto, ma non supporta una conclusione generale sulla centralizzazione.
+
+### 2 · Interpretazione e provenienza
+
+C è una **centralized full-information pooled ICL post-hoc exploratory reference**: colloca B entro lo stesso paradigma testuale, ma quantità, forma e struttura del contesto cambiano simultaneamente. Il risultato è descrittivo, temporalmente confondibile e non autorizza una lettura causale o una superiorità generale.
+
+**Provenienza compatta.** [Risultato frozen](../icl/full_evaluation/evaluation_results_c.json) · [review indipendente](audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md) · [piano](../icl/PLAN_CENTRAL_POOLED_ICL.md). Code freeze `condition-c-freeze-r10` → `60ccc7539714e909aae7318cc72031d7acdd4e78`; predictions freeze `condition-c-predictions-frozen-r10` → `8d6b7a0`; results freeze `condition-c-results-frozen-r10` → `89e4caebe635973ef438d4b601bb4f761417193a`; independent review commit `da64287a`; SHA-256 di `evaluation_results_c.json`: `1ea60e12ded77e5d7758d71d3d2e863d5f741c91d41a03511c81935061435cd5`.
+
+> **Verdetto della review indipendente: GO WITH LIMITATIONS.** Le metriche e il CI sono corretti; la concentrazione su un solo strato e la risoluzione minima del bootstrap devono accompagnare ogni sintesi del risultato.
 
 Fase 3 — Portabilità cross-model · EXP2
 
-**Dalla Fase 2 alla Fase 3.** Experiment 1 ha stabilito l’effetto di trasferimento e la sua specificità semantica; Experiment 3 (Fase 2) lo ha replicato su realizzazioni fisiche indipendenti. Entrambi, però, hanno utilizzato un unico reasoning model (`gpt-5.6-terra`) sia per produrre gli insight sia per consumarli in fase di classificazione. Resta aperta una domanda: *la conoscenza testuale congelata è accoppiata al reasoner che l’ha generata, oppure può essere consumata utilmente da modelli diversi?*
+**Dal riferimento centralizzato alla Fase 3.** Experiment 1 ha stabilito l’effetto di trasferimento e la sua specificità semantica; Experiment 3 (Fase 2) lo ha replicato su realizzazioni fisiche indipendenti; Condition C ha poi fornito un riferimento post-hoc sul solo held-out di Experiment 1. Tutti hanno utilizzato un unico reasoning model (`gpt-5.6-terra`) sia per produrre gli insight sia per consumarli in fase di classificazione. Resta aperta una domanda: *la conoscenza testuale congelata è accoppiata al reasoner che l’ha generata, oppure può essere consumata utilmente da modelli diversi?*
 
-**Step 25 / 25Fase 3Portabilità cross-model**
+**Step 27 / 27Fase 3Portabilità cross-model**
 
 ## Intro preliminare
 

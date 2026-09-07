@@ -100,8 +100,8 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 #step-21 .s17tag.pre,#step-22 .s17tag.pre,#step-23 .s17tag.pre{background:var(--teal-soft);color:#075f57}
 #step-21 .s17tag.post,#step-22 .s17tag.post,#step-23 .s17tag.post{background:#eef0f2;color:#5a6b76}
 .comparison-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:18px 0}.comparison-grid .cg-header{background:var(--navy);color:#fff;padding:12px 16px;font-weight:850;text-align:center;font-size:15px}.comparison-grid .cg-cell{padding:10px 14px;border-bottom:1px solid var(--line);font-size:14px;line-height:1.55}.comparison-grid .cg-cell:nth-child(4n+3),.comparison-grid .cg-cell:nth-child(4n+4){background:#f8fafb}.comparison-grid .cg-label{font-weight:800;color:var(--navy);padding:10px 14px;border-bottom:1px solid var(--line);background:#edf3f6;grid-column:1/-1;font-size:13px;letter-spacing:.04em;text-transform:uppercase}
-#step-1 h3[id^="sub-1-"]{scroll-margin-top:84px}@media(max-width:900px){html{scroll-padding-top:76px}.topbar{padding:9px 14px}.layout{display:block;padding:14px 14px 44px}.js .guide-nav{position:fixed;z-index:70;left:0;top:0;width:min(86vw,340px);height:100vh;border-radius:0;transform:translateX(-105%);opacity:1;pointer-events:none;padding:72px 18px 25px;transition:transform .22s ease;overflow:auto}.js body.nav-open .guide-nav{transform:translateX(0);pointer-events:auto}.js body.nav-collapsed .guide-nav{opacity:1;border-width:1px;padding:72px 18px 25px}.js body.nav-open .nav-backdrop{display:block;position:fixed;z-index:60;inset:0;background:rgba(8,27,38,.48);border:0}main{max-width:100%}section{margin:16px 0}}
-@media(max-width:560px){body{font-size:16px}.progress-label{font-size:12px}.nav-toggle{padding:7px 9px}header{border-radius:13px}section{padding:22px 16px}.example{padding:18px 15px}.decision{grid-template-columns:1fr;gap:2px}.decision dd{margin-bottom:8px}.chain{align-items:stretch;flex-direction:column}.chain b{text-align:center}}
+#step-1 h3[id^="sub-1-"]{scroll-margin-top:84px}@media(max-width:900px){html{scroll-padding-top:76px}.topbar{padding:9px 14px}.layout{display:block;padding:14px 14px 44px}.js .guide-nav{position:fixed;z-index:70;left:0;top:0;width:min(86vw,340px);height:100vh;border-radius:0;transform:translateX(-105%);opacity:1;pointer-events:none;padding:72px 18px 25px;transition:transform .22s ease;overflow:auto}.js body.nav-open .guide-nav{transform:translateX(0);pointer-events:auto}.js body.nav-collapsed .guide-nav{transform:translateX(-105%);opacity:1;border-width:1px;padding:72px 18px 25px}.js body.nav-open .nav-backdrop{display:block;position:fixed;z-index:60;inset:0;background:rgba(8,27,38,.48);border:0}main{max-width:100%}section{margin:16px 0}}
+@media(max-width:560px){body{font-size:16px}.progress-label{font-size:12px}.nav-toggle{padding:7px 9px}header{border-radius:13px}section{padding:22px 16px}.example{padding:18px 15px}.decision{grid-template-columns:1fr;gap:2px}.decision dd{margin-bottom:8px}.chain{align-items:stretch;flex-direction:column}.chain b{text-align:center}main>div[style*="display:flex"][style*="align-items:center"]>div:nth-child(2){white-space:normal!important;text-align:center;max-width:100%}}
 @media print{.topbar,.guide-nav,.nav-backdrop,.skip{display:none!important}.layout{display:block;padding:0}.layout main{max-width:none}body{background:white;font-size:11pt}header,section{box-shadow:none}section{break-inside:auto}details>div{display:block!important}pre{white-space:pre-wrap}}
 </style>
 </head>
@@ -109,7 +109,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 <a class="skip" href="#main">Vai al contenuto</a>
 <div class="topbar">
   <button id="nav-toggle" class="nav-toggle" type="button" aria-controls="guide-nav" aria-expanded="true"><span class="icon" aria-hidden="true">☰</span><span id="nav-label">Nascondi indice</span></button>
-  <span class="progress-label" aria-live="polite">Step <span id="current-step">1</span> / 25</span>
+  <span class="progress-label" aria-live="polite">Step <span id="current-step">1</span> / 27</span>
 </div>
 <button id="nav-backdrop" class="nav-backdrop" type="button" aria-label="Chiudi indice"></button>
 <div class="layout">
@@ -135,8 +135,12 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
       <li><a href="#step-23">23. Risultati secondari descrittivi</a></li>
       <li><a href="#step-24">24. Interpretazione e limiti</a></li>
     </ol></details></li>
-    <li><details class="nav-phase"><summary><a href="#step-25">Fase 3</a></summary><ol>
-      <li><a href="#step-25">25. Intro preliminare</a></li>
+    <li><details class="nav-phase"><summary><a href="#step-25">Condizione C</a></summary><ol>
+      <li><a href="#step-25">25. Design e razionale</a></li>
+      <li><a href="#step-26">26. Risultati e confronto C&minus;B</a></li>
+    </ol></details></li>
+    <li><details class="nav-phase"><summary><a href="#step-27">Fase 3</a></summary><ol>
+      <li><a href="#step-27">27. Intro preliminare</a></li>
     </ol></details></li>
   </ol>
 </nav>
@@ -145,7 +149,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <h1>FoT (Federation over Text) — Un ponte verso i dati PV attraverso TEP</h1>
 </header>
 <section id="step-1" data-step="1">
-  <div class="step-kicker">Step 1 / 17</div><h2>Introduzione</h2>
+  <div class="step-kicker">Step 1 / 27</div><h2>Introduzione</h2>
   <p>Il dominio di base è quello degli impianti <strong>fotovoltaici (PV) distribuiti</strong>. Ogni sito osserva proprie serie temporali e propri eventi; clima, impianto, guasti, inverter e regime operativo rendono plausibile una conoscenza locale eterogenea, cioè <strong>non-IID</strong>.</p>
   <p>L'obiettivo è esplorare una federazione in cui i siti non debbano centralizzare dati grezzi né scambiarsi necessariamente pesi o gradienti di un modello: ciascun nodo sintetizza conoscenza locale in <strong>testo strutturato</strong> e gli altri nodi la usano per ragionare. La ground truth entra soltanto nella valutazione offline; osservazione numerica, comunicazione testuale, insight e decisione restano separati, così che un buon testo non venga confuso con una diagnosi corretta.</p>
   <p>L'idea parte dal paradigma del lavoro <em>Federation over Text: Insight Sharing for Multi-Agent Reasoning</em> (Yao, Rabbani, Zaheer, Li — <a href="https://arxiv.org/abs/2604.16778">arXiv:2604.16778</a>, repo <a href="https://github.com/dixiyao/FoT">github.com/dixiyao/FoT</a>): agenti con LLM frozen distillano <em>reasoning trace</em> in insight, che vengono aggregati e ridistribuiti come testo, senza gradienti né fine-tuning. In quel lavoro originale il paradigma è applicato a task di reasoning testuale (matematica, QA, coding); qui viene portato su un dominio nuovo, la <strong>diagnosi di guasti su serie temporali</strong>.</p>
@@ -204,15 +208,17 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <p>Un confronto più completo dovrebbe comprendere almeno due piani di baseline:</p>
 
   <ol>
-    <li><strong>Baseline interne al paradigma testuale</strong> — un modello <em>local-only</em>, in cui ciascun agente usa l'LLM con la sola esperienza locale senza federazione, e un modello <em>centralized pooled</em>, in cui un singolo agente dispone dell'esperienza aggregata di tutti i nodi. Queste baseline verificherebbero se la federazione testuale superi sia l'isolamento sia la centralizzazione dei dati entro lo stesso paradigma.</li>
+    <li><strong>Baseline interne al paradigma testuale</strong> — una vera <em>local-only</em>, in cui ciascun agente userebbe anche gli insight generati localmente senza federazione, e un riferimento <em>centralized pooled</em>, in cui un singolo agente dispone dell'esperienza testuale aggregata di tutti i nodi. A non coincide con la local-only: è una baseline senza insight e costituisce un <em>information floor</em> per le classi locally-unseen. La local-only non è stata implementata come condizione separata; il valore aggiunto atteso era limitato perché gli insight propri riguardano soltanto il fault già noto localmente, ma questa resta un'aspettativa metodologica, non un risultato empiricamente misurato.</li>
     <li><strong>Baseline esterne al paradigma</strong> — metodi diagnostici convenzionali come PCA/DPCA, SVM o Random Forest, e tecniche propriamente federate come FedAvg o FedProx. Queste baseline verificherebbero se il paradigma testuale sia competitivo rispetto a quello numerico.</li>
   </ol>
+
+  <p>Il riferimento <em>centralized pooled</em> è stato successivamente realizzato come Condizione C, una <strong>centralized full-information pooled ICL post-hoc exploratory reference</strong> entro lo stesso paradigma testuale. Il suo design e i risultati sul held-out di Experiment 1 sono presentati negli Step&nbsp;25&ndash;26. C non è stata eseguita sulle realizzazioni EXP3_V2.</p>
 
   <p>L'assenza di queste baseline non invalida l'esperimento: il progetto conserva valore come prova controllata del meccanismo, mostrando che insight testuali pertinenti possono aiutare gli agenti sui tipi di guasto assenti dalla loro esperienza locale. L'assenza limita però qualsiasi affermazione secondo cui FoT sia complessivamente migliore degli approcci diagnostici tradizionali o delle tecniche federate esistenti. I confronti primari A–B–E restano validi entro il loro perimetro: misurano l'effetto incrementale della federazione testuale, non la posizione assoluta di FoT nel panorama diagnostico.</p>
 </section>
 
 <section id="step-2" data-step="2">
-  <div class="step-kicker">Step 2 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span></div><h2>Dataset</h2>
+  <div class="step-kicker">Step 2 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span></div><h2>Dataset</h2>
   <p>Il <strong>Tennessee Eastman Process</strong> è un impianto chimico simulato. Il suo simulatore fornisce segnali multivariati, fault noti, run replicabili e un istante di attivazione del guasto verificato a <strong>10 h</strong>: è quindi un ottimo banco di prova, con una <strong>ground truth controllabile</strong> che il dominio fotovoltaico reale non offre. La pipeline legge da ogni file <code>Time</code> più <strong>41 variabili misurate XMEAS</strong>.</p>
   <p>Nel progetto si usano due tipi di dato:</p>
   <ul>
@@ -250,7 +256,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-3" data-step="3">
-  <div class="step-kicker">Step 3 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span></div><h2>Analisi e split dei dataset</h2>
+  <div class="step-kicker">Step 3 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span></div><h2>Analisi e split dei dataset</h2>
   <p>Il dataset Normal è un file da 500 h, diviso in <strong>10 blocchi da 50 h</strong> (N1…N10); ogni blocco N<sub>i</sub> viene ulteriormente suddiviso in <strong>10 finestre da 5 h</strong> (N1-f1, N1-f2, …). Il campionamento è un minuto, cioè <code>1/60 h</code>. I file di fault sono quattro: <strong>F1, F8, F10, F13</strong>; ogni run dura 50 h: le prime 10 h precedono l'attivazione e le 40 h successive producono <strong>8 finestre da 5 h</strong>. Una finestra è una porzione descrittiva dello stesso run, non una replica fisica: questa distinzione tornerà cruciale allo Step finale, quando conteremo i casi statisticamente indipendenti.</p>
   <h3>Split dei dati e ruoli distinti</h3>
   <div class="scroll"><table><thead><tr><th>Split</th><th>Fault (F1, F8, F10, F13)</th><th>Normal</th><th>Ruolo</th></tr></thead><tbody><tr><th scope="row">Development/calibration</th><td>batch 1–5</td><td>N1–N5</td><td>costruisce e calibra il metodo</td></tr><tr><th scope="row">Validation</th><td>batch 6–7</td><td>N6–N7</td><td>controllo fuori sviluppo, nessun tuning</td></tr><tr><th scope="row">Test split</th><td>batch 8–10</td><td>N8–N10</td><td>verifica finale, aperto dopo il freeze</td></tr></tbody></table></div>
@@ -269,13 +275,13 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-4" data-step="4">
-  <div class="step-kicker">Step 4 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge design">Design / development-time</span></div><h2>La pipeline di Phase A: le sei operazioni</h2>
+  <div class="step-kicker">Step 4 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge design">Design / development-time</span></div><h2>La pipeline di Phase A: le sei operazioni</h2>
   <p>Di seguito le fasi svolte dalla pipeline della fase A del progetto.</p>
   <div class="scroll"><table><thead><tr><th>Ordine</th><th>Fase</th><th>Quando e che cosa produce</th></tr></thead><tbody><tr><td>1</td><td><strong>Scelta delle feature</strong></td><td>Decisione di design, eseguita una volta. Si caratterizzano i <strong>fault batch 1–5</strong> per decidere <em>quali</em> feature usare (shift, slope, residual, diff); qui <strong>non</strong> si calcolano soglie.</td></tr><tr><td>2</td><td><strong>Calibrazione delle soglie</strong></td><td>Eseguita <strong>soltanto sui blocchi Normal N1–N5</strong>, senza mai guardare i fault; produce baseline e soglie. I fault influenzano <em>quali</em> feature, non il <em>valore</em> delle soglie.</td></tr><tr><td>3</td><td><strong>Freeze</strong></td><td>Congela feature, baseline, soglie, struttura e renderer. Avviene dopo la calibrazione; da qui in avanti le regole si applicano soltanto, non si ridefiniscono.</td></tr><tr><td>4</td><td><strong>Calcolo delle feature e applicazione delle soglie</strong></td><td>A runtime, per ogni finestra × XMEAS, calcola i <strong>valori delle feature</strong> e li confronta con le soglie già congelate (flag 0/1).</td></tr><tr><td>5</td><td><strong>Dalle finestre al JSON</strong></td><td>Aggrega flag e struttura temporale in evidenza numerica auditabile.</td></tr><tr><td>6</td><td><strong>Dal JSON al testo neutrale</strong></td><td>Renderizza fatti quantitativi senza fault ID o diagnosi automatica.</td></tr></tbody></table></div>
 </section>
 
 <section id="step-5" data-step="5">
-  <div class="step-kicker">Step 5 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge design">Design / development-time</span></div><h2>Scelta delle feature</h2>
+  <div class="step-kicker">Step 5 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge design">Design / development-time</span></div><h2>Scelta delle feature</h2>
   <p>La <strong>scelta</strong> delle feature è una decisione di design sul development/calibration. Il <strong>calcolo</strong> delle feature è invece l'operazione ripetuta su ogni finestra. Confondere i due momenti farebbe sembrare che il metodo venga reinventato per ciascun fault.</p>
   <div class="example"><div class="panel-label">Elenco delle feature</div>
     <div class="scroll"><table><thead><tr><th>Feature</th><th>Quantifica</th><th>Non prova da sola</th></tr></thead><tbody><tr><td><code>shift_sigma</code></td><td>Spostamento della media in σ Normal</td><td>La causa</td></tr><tr><td><code>slope_sigma_h</code></td><td>Pendenza normalizzata per ora</td><td>Drift persistente</td></tr><tr><td><code>residual_std_ratio</code></td><td>Variabilità dopo detrend</td><td>Periodicità</td></tr><tr><td><code>diff_std_ratio</code></td><td>Variazioni campione-campione</td><td>Oscillazioni lente</td></tr><tr><td><code>raw_std_ratio</code></td><td>Dispersione descrittiva</td><td>Instabilità oscillatoria</td></tr></tbody></table></div>
@@ -284,7 +290,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-6" data-step="6">
-  <div class="step-kicker">Step 6 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge design">Design / development-time</span></div><h2>Calibrazione delle soglie</h2>
+  <div class="step-kicker">Step 6 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge design">Design / development-time</span></div><h2>Calibrazione delle soglie</h2>
   <p>In questa fase di <strong>calibrazione</strong> vengono calcolate le soglie che saranno utilizzate nelle fasi successive per valutare le evidenze dei casi di fault. È importante sottolineare che la calibrazione usa esclusivamente i blocchi <strong>N1–N5 Normal</strong> della fase development/calibration e non utilizza i fault. N1–N5 forniscono 5 blocchi × 10 finestre = 50 finestre. Per ciascuna finestra e feature si calcolano le 41 XMEAS e si prende il massimo di sistema; i 50 massimi vengono ordinati e la soglia è il valore al <strong>rango 49</strong>, cioè il 49º elemento ordinato, con attivazione stretta <code>&gt;</code>. Come esempio, <code>shift_sigma</code> viene calcolata così:</p>
   <pre><code>shift_sigma = (x̄_w − μ₀) / σ₀</code></pre>
   <ul><li><code>x̄_w</code>: media della stessa XMEAS nella finestra corrente;</li><li><code>μ₀</code>: media della baseline Normal N1–N5 per quella XMEAS;</li><li><code>σ₀</code>: deviazione standard campionaria della baseline Normal N1–N5 per quella XMEAS.</li></ul>
@@ -298,14 +304,14 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-7" data-step="7">
-  <div class="step-kicker">Step 7 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge design">Design / development-time</span></div><h2>Il freeze: congelare feature, soglie e renderer</h2>
+  <div class="step-kicker">Step 7 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge design">Design / development-time</span></div><h2>Il freeze: congelare feature, soglie e renderer</h2>
   <p>Prima di aprire validation, test e held-out vengono congelati feature, soglie, rappresentazione temporale, renderer ed evaluator. È il principio <em>freeze-before-test</em>: nessun dato di valutazione può più influenzare le regole con cui verrà giudicato. In questo modo si evita il <strong>leakage</strong> — cioè che osservare i risultati porti, anche inconsapevolmente, a riscrivere feature o soglie per farle combaciare con i casi da valutare. Da qui in avanti quelle regole si possono soltanto applicare, non ridefinire.</p>
   <div class="callout full-width"><strong>Che cosa è stato usato fino a qui.</strong> Fino al freeze sono entrati in gioco soltanto i blocchi <strong>Normal N1–N5</strong> (per calibrare le soglie) e i <strong>fault batch 1–5</strong>. Questi ultimi sono stati usati <strong>solo in fase di design/development, per scegliere <em>quali</em> feature usare</strong> — non per calcolare le soglie e non a runtime. La scelta delle feature è una decisione fatta una volta, a monte, non un'operazione ripetuta su ogni caso. I restanti dati — <strong>N6–N10</strong> e i <strong>fault batch 6–10</strong> — <strong>non sono ancora stati toccati</strong>: entreranno solo dopo il freeze, in validation e test. <span class="small">(N1–N5 servono in due momenti: a design-time per calibrare le soglie e poi come baseline di riferimento anche a runtime.)</span></div>
 
 </section>
 
 <section id="step-8" data-step="8">
-  <div class="step-kicker">Step 8 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge runtime">Runtime / finestra × XMEAS</span></div><h2>Dalle feature ai flag: soglie e segni</h2>
+  <div class="step-kicker">Step 8 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge runtime">Runtime / finestra × XMEAS</span></div><h2>Dalle feature ai flag: soglie e segni</h2>
   <p>Per ogni finestra (le <strong>8</strong> del caso con fault) e per ogni variabile <strong>XMEAS</strong> (le <strong>41</strong>) vengono applicate le soglie: se il valore della feature è maggiore della soglia — ricordiamo che la soglia è stata calibrata sui <strong>Normal</strong> — viene generato un <strong>flag</strong> (attivo/non attivo) e, per le feature con segno (shift, slope), il relativo <strong>segno</strong>. Vediamo il calcolo reale su una singola finestra: F1 batch 1, XMEAS-1, W1. <span class="small">(Caso development/calibration, non test indipendente; non usa LOBO. W1 è <code>[10,15)</code> h: 5 h × 60 = 300 misure.)</span></p>
   <div class="example" id="raw-to-shift"><div class="panel-label">Worked example reale · raw → feature → flag</div><h3>Il calcolo completo</h3>
     <p class="small">Ricordiamo la feature che stiamo calcolando (la stessa dello Step 6):</p>
@@ -322,7 +328,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-9" data-step="9">
-  <div class="step-kicker">Step 9 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge runtime">Runtime / caso completo</span></div><h2>Dai flag al JSON, fino al testo neutrale</h2>
+  <div class="step-kicker">Step 9 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge runtime">Runtime / caso completo</span></div><h2>Dai flag al JSON, fino al testo neutrale</h2>
   <p>La griglia di flag (8 finestre × 41 XMEAS) viene utilizzata per generare un <strong>JSON strutturato</strong>, che il renderer trasforma in una <strong>descrizione neutrale</strong>. Si sottolinea che nel testo prodotto non sono presenti ID di fault, nessuna etichetta di classe, nessuna diagnosi: è presente solo un testo descrittivo dei fatti osservati, mai un'interpretazione o una diagnosi.</p>
   <div class="example"><div class="panel-label">Esempio reale · F1 batch 1, XMEAS-1</div>
     <h3>1 · I flag per finestra (feature <code>level</code>, 1 = attivo)</h3>
@@ -353,7 +359,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-10" data-step="10">
-  <div class="step-kicker">Step 10 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge offline">Controllo offline</span></div><h2>Evaluator · signature vector</h2>
+  <div class="step-kicker">Step 10 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge offline">Controllo offline</span></div><h2>Evaluator · signature vector</h2>
   <p>Solo ora entra l'evaluator, con uno scopo preciso: verificare offline se la rappresentazione neutrale conserva una struttura sufficientemente stabile e separabile prima che i testi vengano affidati a un reasoner. Lavora sul JSON e misura stabilità intra-classe e separabilità inter-classe. Una firma contiene 17 componenti normalizzate per XMEAS: 41 × 17 = 697 valori; la similarità è <code>1 − mean(abs(a−b))</code>. L'evaluator può quindi chiedere se due run F1 presentano pattern temporali simili o se un run F1 è più vicino agli altri F1 che ai Normal. Non produce una predicted label e non misura accuracy: valuta la qualità descrittiva della rappresentazione. <strong>La separabilità descrittiva non equivale all'accuratezza diagnostica</strong>, perché una firma separabile non garantisce che un reasoner la utilizzi correttamente.</p>
 
   <div class="example" id="signature-mini"><div class="panel-label">Mini-esempio · a cosa serve la firma</div><h3>Confrontare due firme</h3>
@@ -371,20 +377,20 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-11" data-step="11">
-  <div class="step-kicker">Step 11 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge offline">Valutazione out-of-development/calibration</span></div><h2>Validation e test split: applicare dopo il freeze</h2>
+  <div class="step-kicker">Step 11 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge offline">Valutazione out-of-development/calibration</span></div><h2>Validation e test split: applicare dopo il freeze</h2>
   <p>La progettazione si è terminata con il freeze; adesso si esegue la stessa pipeline runtime prima sulla validation (fault batch 6–7 e Normal N6–N7) e poi sul test split (batch 8–10 e N8–N10). In entrambi i casi il percorso è sempre <code>finestre → feature → soglie congelate → JSON → testo neutrale → evaluator</code>. È importante notare come lo split «development/calibration» sia utilizzato per progettare e calibrare, in seguito al freeze la validation è utilizzata per effettuare controlli intermedi e alla fine il test split resta chiuso fino alla verifica finale di Phase A.</p>
 
 </section>
 
 <section id="step-12" data-step="12">
-  <div class="step-kicker">Step 12 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge offline">Confine sperimentale</span></div><h2>Nuove simulazioni indipendenti</h2>
+  <div class="step-kicker">Step 12 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.A)</span> <span class="phase-badge offline">Confine sperimentale</span></div><h2>Nuove simulazioni indipendenti</h2>
   <p>I batch 8–10 del test split erano test di Phase A, ma sono stati aperti. Un test osservato non è più vergine per Phase B. La catena è: test split visto → non può essere nuovo test indipendente → servono run nuovi → vanno congelati prima di verbalizzazione e inference. Un test indipendente e congelato prima dell'inferenza serve proprio a questo: impedisce il leakage da riuso di uno split già osservato e offre una misura non distorta della generalizzazione, senza che il test possa ricalibrare soglie o insight (nessun overfitting al set di valutazione). Questi 15 run congelati sono il materiale su cui si aprirà <strong>Phase B</strong> (dal prossimo step): fin qui — Step 4–12 — siamo rimasti dentro Phase A.</p>
   <div class="scroll"><table><caption class="panel-label">15 nuove realizzazioni simulate = 3 Normali + 3 run per ciascun fault</caption><thead><tr><th scope="col">Normal</th><th scope="col">F1</th><th scope="col">F8</th><th scope="col">F10</th><th scope="col">F13</th></tr></thead><tbody><tr><td>3 run</td><td>3 run</td><td>3 run</td><td>3 run</td><td>3 run</td></tr></tbody></table></div>
 
 </section>
 
 <section id="step-13" data-step="13">
-  <div class="step-kicker">Step 13 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge design">Phase B / conoscenza locale</span></div><h2>Agenti non-IID, pseudolabel ed esempi locali</h2>
+  <div class="step-kicker">Step 13 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge design">Phase B / conoscenza locale</span></div><h2>Agenti non-IID, pseudolabel ed esempi locali</h2>
   <div class="callout full-width"><strong>Inizia Phase B.</strong> Finora (Step 4–12) siamo rimasti in Phase A: pipeline deterministica, soglie calibrate e congelate, nessun LLM. Da qui entrano in gioco gli agenti, il reasoner e la federazione. La pipeline Phase A non viene ri-progettata: gli agenti la <em>riusano</em> così com'è, applicando baseline e soglie congelate senza mai ricalibrarle.</div>
   <p>Quattro agenti conoscono tutti il Normal ma ciascuno un solo fault. Ogni agente riceve due esempi del proprio fault (batch 1–2) e gli stessi due Normal (N1–N2).</p>
   <div class="scroll"><table><caption class="panel-label">Distribuzione non-IID: ogni agente conosce solo il proprio fault</caption><thead><tr><th scope="col">Agente A</th><th scope="col">Agente B</th><th scope="col">Agente C</th><th scope="col">Agente D</th></tr></thead><tbody><tr><td>2 Normali<br>+ 2 esempi da F1</td><td>2 Normali<br>+ 2 esempi da F8</td><td>2 Normali<br>+ 2 esempi da F10</td><td>2 Normali<br>+ 2 esempi da F13</td></tr></tbody></table></div>
@@ -404,7 +410,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-14" data-step="14">
-  <div class="step-kicker">Step 14 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge design">Phase B / federazione</span></div><h2>Gli insight distillano più casi; la federazione li distribuisce peer-only</h2>
+  <div class="step-kicker">Step 14 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge design">Phase B / federazione</span></div><h2>Gli insight distillano più casi; la federazione li distribuisce peer-only</h2>
   <p>Dopo il few-shot, ogni agente compie una seconda operazione: condensa ciò che sa del proprio fault in due brevi osservazioni testuali, gli <strong>insight</strong>. Per farlo riparte dai cinque casi development/calibration del fault locale (batch 1–5, dati TEP originali già usati in Phase A), li fa passare per la stessa pipeline congelata ottenendone i testi neutrali e chiede all'LLM di distillarne le regolarità ricorrenti: <strong>2 insight per agente, 8 in totale</strong>. Questo è un ramo distinto dal few-shot dello Step 13: non usa come input il file degli esempi locali. Tutto avviene <strong>prima di aprire diagnosticamente</strong> i 15 run indipendenti dello Step 12, già generati e congelati: gli insight nascono soltanto da ciò che l'agente conosceva già. Infine avviene la <strong>federazione</strong>: ogni agente riceve i sei insight degli altri tre peer — mai i propri — così la conoscenza circola come testo, senza scambiare dati grezzi né parametri del modello.</p>
   <div class="example"><div class="panel-label">Ramo insight separato · input → operazione → output</div><h3>Cinque run vengono riverbalizzati prima della distillazione LLM</h3><div class="scroll"><table><thead><tr><th>Passaggio</th><th>Che cosa accade realmente</th></tr></thead><tbody><tr><td><strong>Input</strong></td><td>Un bundle distinto per agente, <code>phase_b/insights/input_bundles/agent_N.json</code>, con 5 testi neutrali del fault locale. I testi sono ricostruiti direttamente dai workbook development/calibration batch 1–5 tramite <code>verbalize_case</code> e la pipeline frozen; non provengono dal file few-shot.</td></tr><tr><td><strong>Operazione</strong></td><td>Dopo la ri-esecuzione deterministica <code>finestre → feature → soglie congelate → flag → JSON → testo neutrale</code>, il bundle viene passato a <code>gpt-5.6-terra</code>, reasoning <code>medium</code>. Vale <em>first structurally valid output wins</em>; nell'esecuzione frozen ogni agente ha richiesto 1 attempt e 0 retry. Nessuna soglia viene ricalibrata.</td></tr><tr><td><strong>Output</strong></td><td>2 insight strutturati per agente, quindi 8 totali in <code>final_local_insights.json</code>.</td></tr></tbody></table></div></div>
   <dl class="decision"><dt>Modello</dt><dd><code>gpt-5.6-terra</code>, reasoning effort <code>medium</code>, Structured Outputs strict.</dd><dt>Regola</dt><dd><em>First structurally valid output wins</em>: viene accettata la prima risposta che passa lo schema, senza selezione o rigenerazione basata sul contenuto.</dd><dt>Esito reale</dt><dd>Per tutti e quattro gli agenti: 1 attempt, 0 retry, 2 insight accettati.</dd></dl>
@@ -416,18 +422,20 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-15" data-step="15">
-  <div class="step-kicker">Step 15 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge design">Phase B / protocollo frozen</span></div><h2>Configurazioni informative controllate e struttura completa dell'inference</h2>
+  <div class="step-kicker">Step 15 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge design">Phase B / protocollo frozen</span></div><h2>Configurazioni informative controllate e struttura completa dell'inference</h2>
   <p>Una <strong>configurazione informativa</strong> è una versione controllata dello stesso agent-case: neutral text held-out e few-shot locali restano identici, mentre cambia una sola variabile sperimentale, il blocco degli insight peer. In questo modo la differenza tra configurazioni informative non può essere attribuita a un workbook diverso o a esempi locali diversi.</p>
-  <div class="example"><div class="panel-label">Disegno A/B/E frozen</div><h3>Che cosa cambia davvero</h3><div class="scroll"><table><thead><tr><th>Configurazione informativa</th><th>Input oltre ai few-shot locali</th><th>Domanda controllata</th></tr></thead><tbody><tr><td><strong>A — isolated</strong></td><td>Nessun insight peer: solo conoscenza locale.</td><td>Che cosa fa l'agente senza federazione?</td></tr><tr><td><strong>B — FoT</strong></td><td>6 insight peer genuini, con pseudolabel corrette.</td><td>Che cosa aggiunge la conoscenza peer corretta?</td></tr><tr><td><strong>E — corrupted</strong></td><td>Gli stessi 6 insight di B: stessi ID, fonti, testi, ordine e volume; cambiano soltanto le pseudolabel, permutate.</td><td>Il beneficio dipende dall'associazione corretta o dalla sola presenza di più testo?</td></tr></tbody></table></div>
+  <div class="example"><div class="panel-label">Disegno A/B/E frozen</div><h3>Che cosa cambia davvero</h3><div class="scroll"><table><thead><tr><th>Configurazione informativa</th><th>Input oltre ai few-shot locali</th><th>Domanda controllata</th></tr></thead><tbody><tr><td><strong>A — isolated</strong></td><td>Nessun insight, né peer né proprio: soltanto i 4 few-shot locali.</td><td>Qual è l'information floor senza insight per le classi locally-unseen?</td></tr><tr><td><strong>B — FoT</strong></td><td>6 insight peer genuini, con pseudolabel corrette.</td><td>Che cosa aggiunge la conoscenza peer corretta?</td></tr><tr><td><strong>E — corrupted</strong></td><td>Gli stessi 6 insight di B: stessi ID, fonti, testi, ordine e volume; cambiano soltanto le pseudolabel, permutate.</td><td>Il beneficio dipende dall'associazione corretta o dalla sola presenza di più testo?</td></tr></tbody></table></div>
     <div class="callout"><strong>Perché E è cruciale.</strong> La permutazione è un <em>derangement</em> specifico per agente con zero punti fissi: nessuna pseudolabel resta associata alla classe originale. Per Agent 3, per esempio, <code>CLS-ZOGAA → CLS-OJNSG</code>. E isola quindi la correttezza dell'informazione dal volume e dalla forma del peer block.</div>
     <h3>Dal disegno alle richieste</h3><div class="chain"><span>15 casi held-out</span><b>×</b><span>4 agenti</span><b>×</b><span>3 configurazioni informative</span><b>×</b><span>R=3</span><b>=</b><span>540 richieste</span></div>
     <p>Per ogni agent-case–configurazione informativa, <strong>R=3</strong> significa tre chiamate con input identico. Una pseudolabel con almeno 2 voti diventa la prediction aggregata; senza maggioranza valida l'agente astiene, e l'astensione conta come errore nel protocollo. Le ripetizioni stabilizzano il non-determinismo dell'LLM: <strong>non sono tre esperimenti fisici</strong>.</p><p>Le 540 risposte diventano 180 esiti aggregati; tutte le predizioni vengono congelate <strong>prima</strong> di unirle alla ground truth. L'analisi del trasferimento (Step 17) si concentrerà poi soltanto sui casi in cui il fault è <em>unseen</em> per l'agente — 36 agent-case per configurazione informativa.</p>
   </div>
 
+  <div class="callout full-width"><strong>Cronologia del protocollo.</strong> Condition C non faceva parte del protocollo originale A/B/E: è stata progettata post-hoc dopo l'osservazione dei risultati A/B/E. Ha però avuto un proprio amendment e un proprio freeze, entrambi completati prima delle sue chiamate LLM. Il carattere post-hoc riguarda quindi la scelta di introdurre il confronto, non una modifica delle predizioni dopo averne osservato gli esiti.</div>
+
 </section>
 
 <section id="step-16" data-step="16">
-  <div class="step-kicker">Step 16 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge runtime">Phase B / inference frozen</span></div><h2>Dal testo neutrale alla decisione: PBH-004 visto da Agent 3</h2>
+  <div class="step-kicker">Step 16 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge runtime">Phase B / inference frozen</span></div><h2>Dal testo neutrale alla decisione: PBH-004 visto da Agent 3</h2>
   <p>Finora abbiamo definito le tre configurazioni informative. Vediamo ora che cosa accade realmente allo stesso caso quando attraversa A, B ed E. PBH-004 è un nuovo run held-out di F1 (<code>mode1_1_11.xlsx</code>), ma questa identità è conosciuta soltanto dall'evaluator. La pipeline congelata trasforma il workbook nel suo testo neutrale; quel testo viene poi presentato ad Agent 3, che possiede esempi locali di F10 e per il quale F1 è quindi una classe <em>unseen</em>. Il caso, i few-shot, il modello e il prompt restano gli stessi: cambia soltanto il blocco degli insight peer.</p>
   <p>Il testo neutrale di PBH-004 segnala XMEAS-1 sopra la soglia di spostamento in 8/8 finestre, sempre positivo, con dispersione massima 47.00: la firma di F1, osservata però su un run mai visto.</p>
   <div class="chain"><span>PBH-004</span><b>→</b><span>pipeline Phase A congelata</span><b>→</b><span>testo neutrale</span><b>→</b><span>Agent 3</span><b>→</b><span>A / B / E</span><b>→</b><span>tre esiti aggregati</span><b>→</b><span>ground truth ancora chiusa</span></div>
@@ -438,7 +446,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-17" data-step="17">
-  <div class="step-kicker">Step 17 / 17 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge offline">Ground-truth evaluation</span></div><h2>Risultati Phase B: trasferimento di conoscenza sui fault localmente unseen</h2>
+  <div class="step-kicker">Step 17 / 27 <span style="font-weight:600;color:var(--muted);font-size:12px;letter-spacing:.04em">(Ph.B)</span> <span class="phase-badge offline">Ground-truth evaluation</span></div><h2>Risultati Phase B: trasferimento di conoscenza sui fault localmente unseen</h2>
 
   <p>Lo step conclusivo &egrave; la valutazione dell'intero esperimento. Ricordiamoci che TEP non &egrave; il dominio target, ma possiamo definirlo come il banco di prova controllato. La domanda scientifica di questa POC &egrave; in realt&agrave; &mdash; <em>&laquo;FoT pu&ograve; trasferire conoscenza discriminante tra agenti che operano su serie temporali multivariate eterogenee, permettendo il riconoscimento di una condizione temporale localmente unseen?&raquo;</em> &mdash; e <strong>non</strong> &laquo;FoT risolve la diagnosi dei fault?&raquo;, tantomeno &laquo;FoT funziona sul fotovoltaico?&raquo;.</p>
 
@@ -548,6 +556,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <p>In ciascuno dei due scope ci sono <strong>12 agent-case</strong> osservati. Per i fault local-seen, ciascuno dei 12 run fisici di fault viene valutato dall'unico agente che possiede localmente quel fault. Per Normal, i tre run Normal del nuovo held-out vengono valutati dai quattro agenti, producendo <strong>3 &times; 4 = 12 agent-case</strong>.</p>
   <p>Nel campione held-out osservato, tutti i casi local-seen e Normal risultano corretti in tutte e tre le configurazioni informative: A, B ed E ottengono 12/12 in entrambi gli scope. <strong>Nel campione held-out osservato non &egrave; stata rilevata degradazione</strong> delle prestazioni su condizioni gi&agrave; conosciute quando vengono aggiunti gli insight peer.</p>
   <p>Questo risultato &egrave; un controllo di preservation nel campione studiato. Non dimostra che FoT sia generalmente immune da negative transfer e non autorizza una claim universale di assenza di degradazione.</p>
+  <p><strong>Riferimento aggiunto successivamente.</strong> Condition C è stata applicata post-hoc esclusivamente al medesimo held-out di Experiment 1, con una predizione centralizzata per ciascuno dei 15 casi. Non è parte dei contrasti originali A/B/E e non è stata applicata a EXP3_V2; design e risultati sono documentati negli Step&nbsp;25&ndash;26.</p>
 
   <h4>5.2 &middot; Stabilit&agrave; delle decisioni nelle tre chiamate R=3</h4>
   <p>Ogni agent-case-condition &egrave; stato eseguito tre volte. Le tre chiamate condividono lo stesso input hash e la stessa configurazione frozen, ma le risposte del modello non sono necessariamente identiche. Il protocollo aggrega le tre chiamate con la regola frozen: una pseudolabel valida con almeno due voti diventa la predizione aggregata; in assenza di una maggioranza valida di due voti, l'aggregato astiene.</p>
@@ -565,19 +574,19 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <h3>6 &middot; Scope and limitations</h3>
   <ul>
    <li>TEP &egrave; una POC metodologica controllata; il fotovoltaico &egrave; il dominio-obiettivo finale.</li>
-   <li>A &egrave; una baseline information-floor per la semantica delle classi localmente unseen.</li>
+   <li>A &egrave; una baseline senza insight e un information floor per la semantica delle classi locally-unseen; una vera local-only includerebbe gli insight propri e non è stata implementata come condizione separata.</li>
    <li>Riconoscimento in spazio di pseudolabel chiuso, non diagnosi open-world.</li>
    <li>Solo 12 cluster indipendenti.</li>
    <li>Un solo simulatore/processo.</li>
    <li>Una sola configurazione LLM/reasoning.</li>
    <li>Nessuna garanzia formale di privacy.</li>
-   <li>Nessuna baseline ICL centralizzata a pari informazione.</li>
+   <li>Il riferimento centralizzato C, aggiunto post-hoc, differisce da B per quantità e forma dell'informazione; C&minus;B è descrittivo e non causale.</li>
    <li>Nessuna claim di generalizzazione al PV o cross-domain.</li>
    <li>harmed=0 non &egrave; evidenza di assenza generale di negative transfer.</li>
   </ul>
 
   <h3>7 &middot; Claim finale</h3>
-  <div class="callout full-width"><p>Nel protocollo frozen e sui 12 run fisici di fault del nuovo held-out TEP, gli insight peer autentici hanno aumentato l'accuratezza sui fault localmente unseen da <strong>0/36 (A) a 31/36 (B)</strong>; il contrasto primario <strong>B&minus;A &egrave; +0.8611 [0.8333, 0.9167]</strong>. A parit&agrave; di testi, ID, ordine e volume del peer block, la corruzione delle associazioni ha ridotto l'accuratezza a <strong>3/36</strong>: <em>il contrasto B&minus;E supporta l'interpretazione che il beneficio osservato dipenda dalla corretta associazione dell'informazione trasferita, anzich&eacute; dalla mera presenza o dal volume del testo aggiuntivo</em> (B&minus;E +0.7778 [0.7222, 0.8333]). <em>La configurazione informativa A rappresenta uno scenario di limite informativo per la semantica delle classi localmente unseen, perch&eacute; l'agente ricevente non dispone di alcun esempio locale della pseudoclasse corrispondente</em>; la magnitudine di B&minus;A va quindi letta rispetto a questo floor. Questi risultati supportano la <strong>feasibility</strong> del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico, non forniscono garanzie di privacy, n&eacute; stabiliscono superiorit&agrave; rispetto a una baseline centralizzata ICL a pari informazione. La validazione empirica sul fotovoltaico &egrave; la fase successiva.</p></div>
+  <div class="callout full-width"><p>Nel protocollo frozen e sui 12 run fisici di fault del nuovo held-out TEP, gli insight peer autentici hanno aumentato l'accuratezza sui fault localmente unseen da <strong>0/36 (A) a 31/36 (B)</strong>; il contrasto primario <strong>B&minus;A &egrave; +0.8611 [0.8333, 0.9167]</strong>. A parit&agrave; di testi, ID, ordine e volume del peer block, la corruzione delle associazioni ha ridotto l'accuratezza a <strong>3/36</strong>: <em>il contrasto B&minus;E supporta l'interpretazione che il beneficio osservato dipenda dalla corretta associazione dell'informazione trasferita, anzich&eacute; dalla mera presenza o dal volume del testo aggiuntivo</em> (B&minus;E +0.7778 [0.7222, 0.8333]). <em>La configurazione informativa A rappresenta uno scenario di limite informativo per la semantica delle classi localmente unseen, perch&eacute; l'agente ricevente non dispone di alcun esempio locale della pseudoclasse corrispondente</em>; la magnitudine di B&minus;A va quindi letta rispetto a questo floor. Questi risultati supportano la <strong>feasibility</strong> del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico e non forniscono garanzie di privacy. Condition C, documentata negli Step&nbsp;25&ndash;26, è un riferimento centralizzato post-hoc sullo stesso held-out, entro lo stesso paradigma testuale e con un contesto informativo diverso da B.</p></div>
 
 </section>
 
@@ -593,7 +602,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </div>
 
 <section id="step-18" data-step="18">
-  <div class="step-kicker">Step 18 / 25 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge design">Esperimento confermativo su nuove realizzazioni simulate</span></div>
+  <div class="step-kicker">Step 18 / 27 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge design">Esperimento confermativo su nuove realizzazioni simulate</span></div>
   <h2>Esperimento confermativo su nuove realizzazioni simulate</h2>
   <p>Un held-out, per definizione, può essere aperto una sola volta: dopo che i risultati di Experiment 1 sono stati osservati, quei dati non sono più vergini rispetto all'ipotesi. Non è quindi possibile riusarli per rispondere alla domanda <em>«il risultato regge su realizzazioni fisiche diverse?»</em> senza introdurre un rischio di conferma post-hoc.</p>
   <p>Il rischio specifico da escludere non è il data leakage classico — il protocollo frozen lo controlla già — ma che le dodici realizzazioni fisiche del held-out di Experiment 1 abbiano caratteristiche idiosincratiche (pattern di rumore, transitori, derive di sensore) che hanno favorito il trasferimento in quel campione particolare, senza che il fenomeno sia riproducibile su run indipendenti delle stesse classi.</p>
@@ -601,14 +610,14 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-19" data-step="19">
-  <div class="step-kicker">Step 19 / 25 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge offline">Nuovo held-out</span></div>
+  <div class="step-kicker">Step 19 / 27 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge offline">Nuovo held-out</span></div>
   <h2>Le nuove realizzazioni fisiche di EXP3_V2</h2>
   <p>Per costruire il nuovo held-out sono stati generati run TEP indipendenti degli stessi quattro tipi di guasto studiati in Experiment 1, più i casi Normal. I run sono stati congelati prima di qualsiasi inferenza, applicando la stessa logica freeze-before-test che ha governato la Fase 1: nessun dato del nuovo held-out ha influenzato feature, soglie, agenti o insight, che restano quelli di Experiment 1 senza ricalibrazione.</p>
   <div class="scroll"><table><caption class="panel-label">30 nuove realizzazioni simulate = 6 Normali + 6 run per ciascun fault</caption><thead><tr><th scope="col">Normal</th><th scope="col">F1</th><th scope="col">F8</th><th scope="col">F10</th><th scope="col">F13</th></tr></thead><tbody><tr><td>6 run</td><td>6 run</td><td>6 run</td><td>6 run</td><td>6 run</td></tr></tbody></table></div>
   <p>Il raddoppio rispetto ai 15 run di Experiment 1 (3 per classe) porta a 72 agent-case unseen, aumentando la potenza statistica del contrasto primario B−A senza modificare il disegno sperimentale.</p></section>
 
 <section id="step-20" data-step="20">
-  <div class="step-kicker">Step 20 / 25 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge design">Disegno confirmatory frozen</span></div>
+  <div class="step-kicker">Step 20 / 27 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge design">Disegno confirmatory frozen</span></div>
   <h2>Il disegno confirmatory di EXP3_V2</h2>
   <p>Un disegno <strong>confirmatory frozen</strong> significa che ipotesi primaria, popolazione di analisi, contrasti e criteri di successo sono stati scritti prima di aprire i dati — e non possono essere modificati dopo aver visto i risultati. L'analisi è quindi eseguita una volta sola, sui record già congelati, senza margine di aggiustamento retroattivo.</p>
 
@@ -634,7 +643,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   </div></section>
 
 <section id="step-21" data-step="21">
-  <div class="step-kicker">Step 21 / 25 <span class="phase-badge runtime">Fase 2</span></div>
+  <div class="step-kicker">Step 21 / 27 <span class="phase-badge runtime">Fase 2</span></div>
   <h2>Diagnosi di guasti non osservati localmente</h2>
 
   <p>L'endpoint primario riguarda esclusivamente i fault <strong>localmente unseen</strong>: <strong>24 run fisici indipendenti</strong> (sei per ciascuno dei quattro fault), ciascuno giudicato dai <strong>tre agenti</strong> che non conoscono localmente quel fault &rarr; <strong>72 agent-case per configurazione informativa</strong>. Le tre osservazioni sullo stesso run sono correlate: l'unit&agrave; indipendente &egrave; il <strong>run fisico (24)</strong>, non l'agent-case (72). Le predizioni sono gli aggregati frozen di R=3 chiamate; l'<strong>astensione conta come incorrect</strong>; gli intervalli derivano da un <strong>cluster bootstrap paired</strong> sui 24 run, stratificato per pseudolabel (10.000 draws, seed frozen 320031).</p>
@@ -711,7 +720,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-22" data-step="22">
-  <div class="step-kicker">Step 22 / 25 <span class="phase-badge runtime">Fase 2</span></div>
+  <div class="step-kicker">Step 22 / 27 <span class="phase-badge runtime">Fase 2</span></div>
   <h2>B&minus;A primario e B&minus;E di supporto: differenze di accuratezza e intervalli di confidenza</h2>
 
   <h3>1 &middot; Tabella dei contrasti</h3>
@@ -763,7 +772,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-23" data-step="23">
-  <div class="step-kicker">Step 23 / 25 <span class="phase-badge runtime">Fase 2</span></div>
+  <div class="step-kicker">Step 23 / 27 <span class="phase-badge runtime">Fase 2</span></div>
   <h2>Risultati secondari descrittivi</h2>
   <p>Le popolazioni local-seen, Normal e overall sono risultati secondari esclusivamente descrittivi e non aggiungono criteri inferenziali.</p>
   <div class="scroll">
@@ -815,19 +824,19 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </section>
 
 <section id="step-24" data-step="24">
-  <div class="step-kicker">Step 24 / 25 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge offline">Interpretazione, limiti e provenienza frozen</span></div>
+  <div class="step-kicker">Step 24 / 27 <span class="phase-badge runtime">Fase 2</span> <span class="phase-badge offline">Interpretazione, limiti e provenienza frozen</span></div>
   <h2>Che cosa supporta la replica, e che cosa non dimostra</h2>
 
   <h3>1 &middot; Scope and limitations</h3>
   <ul>
    <li>TEP &egrave; una POC metodologica controllata; il fotovoltaico &egrave; il dominio-obiettivo finale.</li>
-   <li>A &egrave; una baseline information-floor per la semantica delle classi localmente unseen.</li>
+   <li>A &egrave; una baseline senza insight e un information floor per la semantica delle classi locally-unseen; una vera local-only includerebbe gli insight propri e non è stata implementata come condizione separata.</li>
    <li>Riconoscimento in spazio di pseudolabel chiuso, non diagnosi open-world.</li>
    <li>24 cluster indipendenti (il doppio di Experiment 1, ma pur sempre un campione limitato).</li>
    <li>Un solo simulatore/processo (TEP).</li>
    <li>Una sola configurazione LLM/reasoning (<code>gpt-5.6-terra</code>, reasoning <code>medium</code>).</li>
    <li>Nessuna garanzia formale di privacy.</li>
-   <li>Nessuna baseline ICL centralizzata a pari informazione.</li>
+   <li>EXP3_V2 non comprende una propria baseline centralized pooled. Condition C degli Step&nbsp;25&ndash;26 non è stata eseguita sulle realizzazioni EXP3_V2 e non colma quindi questo gap della Fase 2.</li>
    <li>Nessuna claim di generalizzazione al PV o cross-domain.</li>
    <li>La degradazione local-seen osservata in B (19/24 vs 24/24 di A) &egrave; un segnale descrittivo che merita approfondimento nel disegno futuro, ma non invalida il primary result unseen.</li>
    <li>Il disegno riproduce <em>le stesse classi di fault</em> su nuove realizzazioni, non generalizza a fault non studiati.</li>
@@ -837,8 +846,94 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <div class="callout full-width"><p>Nel protocollo frozen e sulle 24 nuove realizzazioni fisiche di fault del held-out EXP3_V2, gli insight peer autentici hanno aumentato l’accuratezza sui fault localmente unseen da <strong>0/72 (A) a 68/72 (B)</strong>; il contrasto primario <strong>B&minus;A &egrave; +0.9444 [0.8611, 1.0]</strong>. Il criterio pre-specificato di replica &mdash; B&minus;A &gt; 0 con limite inferiore del CI &gt; 0 &mdash; &egrave; soddisfatto.</p>
   <p>A parit&agrave; di testi, ID, ordine e volume del peer block, la corruzione delle associazioni ha ridotto l’accuratezza a <strong>4/72</strong>: il contrasto B&minus;E +0.8889 [0.7778, 0.9861] supporta l’interpretazione che il beneficio osservato dipenda dalla corretta associazione dell’informazione trasferita. <em>La configurazione informativa A rappresenta uno scenario di limite informativo per la semantica delle classi localmente unseen</em>; la magnitudine di B&minus;A va letta rispetto a questo floor.</p>
   <p>EXP3_V2 rafforza il risultato di Experiment 1 raddoppiando la dimensione campionaria e riproducendo l’effetto su realizzazioni fisiche indipendenti. Tuttavia, la degradazione local-seen (B: 19/24 vs A: 24/24) indica che gli insight peer possono interferire con il riconoscimento dei fault gi&agrave; noti in alcune combinazioni run&ndash;agente &mdash; un aspetto non emerso con il campione pi&ugrave; piccolo di Experiment 1.</p>
-  <p>Questi risultati supportano la <strong>feasibility</strong> e la <strong>riproducibilit&agrave;</strong> del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico, non forniscono garanzie di privacy, n&eacute; stabiliscono superiorit&agrave; rispetto a una baseline centralizzata ICL a pari informazione. La validazione empirica sul fotovoltaico &egrave; la fase successiva.</p></div>
+  <p>Questi risultati supportano la <strong>feasibility</strong> e la <strong>riproducibilit&agrave;</strong> del trasferimento testuale federato di conoscenza discriminante tra agenti su serie temporali multivariate eterogenee nel setup TEP studiato; non dimostrano generalizzazione cross-domain o al fotovoltaico e non forniscono garanzie di privacy. EXP3_V2 resta privo di un proprio comparatore centralized pooled: Condition C non è stata eseguita su queste realizzazioni.</p></div>
 
+  <div class="callout full-width"><strong>Transizione cronologica.</strong> Il blocco seguente è collocato dopo la Fase 2 perché Condition C è stata introdotta successivamente nella cronologia del progetto. Gli Step&nbsp;25&ndash;26 riaprono però il confronto di <strong>Experiment 1</strong>: usano il suo medesimo held-out e non i run EXP3_V2.</div>
+
+</section>
+
+<div style="margin:40px 0;display:flex;align-items:center;gap:18px">
+  <div style="flex:1;height:2px;background:linear-gradient(to right,var(--teal),transparent)"></div>
+  <div style="padding:10px 22px;border-radius:999px;background:linear-gradient(125deg,#123b56,#086e65);color:#fff;font-size:13px;font-weight:850;letter-spacing:.09em;text-transform:uppercase;white-space:nowrap;box-shadow:0 4px 14px rgba(8,110,101,.25)">Riferimento centralizzato post-hoc &middot; Condizione C</div>
+  <div style="flex:1;height:2px;background:linear-gradient(to left,var(--teal),transparent)"></div>
+</div>
+
+<div class="orientation">
+  <p><strong>Dalla Fase 2 al riferimento centralizzato.</strong> Questa collocazione segue la cronologia del progetto, ma Condition C riapre il confronto di Experiment 1. È una <strong>centralized full-information pooled ICL post-hoc exploratory reference</strong> applicata esclusivamente ai 15 casi del suo held-out; non è una baseline di EXP3_V2.</p>
+</div>
+
+<section id="step-25" data-step="25">
+  <div class="step-kicker">Step 25 / 27 <span class="phase-badge offline">Riferimento centralizzato post-hoc</span></div>
+  <h2>Condizione C: design e razionale entro il paradigma testuale</h2>
+
+  <p>Condition C risponde a una domanda descrittiva: <em>dove si colloca la federazione peer-only B rispetto a un singolo agente che riceve tutta l'esperienza testuale prompt-facing congelata?</em> C è receiver-independent e usa lo stesso spazio di pseudolabel e lo stesso paradigma testuale, ma non è un confronto a condizioni informative equivalenti.</p>
+
+  <p><strong>Full-information</strong> è qui un termine strettamente circoscritto all'unione degli artefatti prompt-facing frozen: esempi etichettati e insight testuali. Non implica accesso a tutti i dati grezzi, a tutti i testi sorgente, alla ground truth o a informazione evaluator-side.</p>
+
+  <div class="example">
+    <div class="panel-label">C e B: contesti diversi entro lo stesso paradigma</div>
+    <h3>Che cosa vede ciascun ricevente</h3>
+    <div class="scroll"><table><thead><tr><th>Condizione</th><th>Esempi etichettati</th><th>Insight</th><th>Forma del contesto</th></tr></thead><tbody>
+      <tr><td><strong>C</strong></td><td>10 pooled: 2 per ciascuna delle 4 classi fault + 2 Normal</td><td>8, inclusi quelli che in B sarebbero propri</td><td>Unico contesto centralizzato, receiver-independent</td></tr>
+      <tr><td><strong>B</strong></td><td>4 locali per receiving agent: 2 del fault noto + 2 Normal</td><td>6 peer</td><td>Contesto diverso per ciascun receiving agent</td></tr>
+    </tbody></table></div>
+    <p>I 10 esempi di C provengono dall'<strong>unione frozen dei pack LKP-001&hellip;LKP-004</strong>, deduplicata per gli esempi Normal e ordinata per <code>example_id</code>. Lo schedule frozen disciplina invece le <strong>45 richieste di inferenza</strong>; non seleziona gli esempi pooled.</p>
+  </div>
+
+  <p>C classifica i <strong>15 casi del held-out di Experiment 1</strong> (12 fault + 3 Normal), ciascuno R=3: 45 provider records e 15 decisioni aggregate. C e B differiscono sia nella quantità sia nella forma dell'informazione; di conseguenza C&minus;B è un confronto <strong>descrittivo e non causale</strong>, entro lo stesso paradigma testuale.</p>
+
+  <h3>Configurazione frozen e guardrail</h3>
+  <ul>
+    <li>Modello <code>gpt-5.6-terra</code> e reasoning effort <code>medium</code>, frozen e coerenti nei 45 record.</li>
+    <li><code>temperature=null</code> e <code>seed=null</code>.</li>
+    <li>R=3, structured output strict e inferenza stateless.</li>
+    <li>Nessun accesso alla ground truth prima del freeze delle predizioni; join soltanto evaluator-side.</li>
+  </ul>
+
+  <div class="callout full-width"><strong>Natura post-hoc.</strong> Condition C non era nel protocollo originale A/B/E ed è stata progettata dopo aver osservato quei risultati sul medesimo held-out. Un amendment e un freeze dedicati sono stati completati prima delle chiamate LLM di C: il carattere post-hoc riguarda la decisione di introdurre il confronto, non un adattamento delle predizioni dopo averne visto gli esiti.</div>
+</section>
+
+<section id="step-26" data-step="26">
+  <div class="step-kicker">Step 26 / 27 <span class="phase-badge offline">Risultati C e confronto descrittivo C&minus;B</span></div>
+  <h2>Risultati del riferimento centralizzato e distanza descrittiva da B</h2>
+
+  <p>Condition C ha classificato correttamente tutte le 15 decisioni aggregate, senza astensioni. <strong>Per ciascuno dei 15 casi, le tre ripetizioni hanno prodotto la stessa decisione aggregabile.</strong></p>
+
+  <div class="scroll"><table><caption class="panel-label">Condition C &mdash; frozen results</caption><thead><tr><th>Scope</th><th>Corretti / casi</th><th>Accuratezza</th><th>Astensioni</th></tr></thead><tbody>
+    <tr><td><strong>Overall</strong></td><td class="num">15 / 15</td><td class="num">100.0%</td><td class="num">0</td></tr>
+    <tr><td><strong>Fault</strong></td><td class="num">12 / 12</td><td class="num">100.0%</td><td class="num">0</td></tr>
+    <tr><td><strong>Normal</strong></td><td class="num">3 / 3</td><td class="num">100.0%</td><td class="num">0</td></tr>
+  </tbody></table></div>
+
+  <h3>1 &middot; Delta paired C&minus;B sui 12 casi fault</h3>
+  <p>Per ciascun caso <em>i</em>, C contribuisce una decisione e B la media delle decisioni dei tre receiving agents per cui quel fault è unseen:</p>
+  <p style="text-align:center;font-size:15px"><code>&Delta;<sub>C-B</sub> = (1/12) &Sigma;<sub>i=1</sub><sup>12</sup> [1(C<sub>i</sub>=y<sub>i</sub>) &minus; (1/|U<sub>i</sub>|) &Sigma;<sub>a&isin;U<sub>i</sub></sub> 1(B<sub>ia</sub>=y<sub>i</sub>)]</code>, con <code>|U<sub>i</sub>|=3</code>.</p>
+
+  <div class="scroll"><table><caption class="panel-label">Delta C&minus;B per caso fault &mdash; held-out di Experiment 1</caption><thead><tr><th>Caso</th><th>Fault reale</th><th>Pseudolabel</th><th>C</th><th>B (3 unseen)</th><th>&delta;<sub>i</sub></th></tr></thead><tbody>
+    <tr><td>PBH-004</td><td>F1</td><td>CLS-ZOGAA</td><td class="num">&check;</td><td class="num">3/3</td><td class="num">0.000</td></tr>
+    <tr><td>PBH-005</td><td>F1</td><td>CLS-ZOGAA</td><td class="num">&check;</td><td class="num">3/3</td><td class="num">0.000</td></tr>
+    <tr><td>PBH-006</td><td>F1</td><td>CLS-ZOGAA</td><td class="num">&check;</td><td class="num">3/3</td><td class="num">0.000</td></tr>
+    <tr style="background:var(--amber-soft)"><td>PBH-007</td><td>F8</td><td>CLS-OJNSG</td><td class="num">&check;</td><td class="num">1/3</td><td class="num"><strong>0.667</strong></td></tr>
+    <tr style="background:var(--amber-soft)"><td>PBH-008</td><td>F8</td><td>CLS-OJNSG</td><td class="num">&check;</td><td class="num">2/3</td><td class="num"><strong>0.333</strong></td></tr>
+    <tr style="background:var(--amber-soft)"><td>PBH-009</td><td>F8</td><td>CLS-OJNSG</td><td class="num">&check;</td><td class="num">1/3</td><td class="num"><strong>0.667</strong></td></tr>
+    <tr><td>PBH-010</td><td>F10</td><td>CLS-R463B</td><td class="num">&check;</td><td class="num">3/3</td><td class="num">0.000</td></tr>
+    <tr><td>PBH-011</td><td>F10</td><td>CLS-R463B</td><td class="num">&check;</td><td class="num">3/3</td><td class="num">0.000</td></tr>
+    <tr><td>PBH-012</td><td>F10</td><td>CLS-R463B</td><td class="num">&check;</td><td class="num">3/3</td><td class="num">0.000</td></tr>
+    <tr><td>PBH-013</td><td>F13</td><td>CLS-Z3ISU</td><td class="num">&check;</td><td class="num">3/3</td><td class="num">0.000</td></tr>
+    <tr><td>PBH-014</td><td>F13</td><td>CLS-Z3ISU</td><td class="num">&check;</td><td class="num">3/3</td><td class="num">0.000</td></tr>
+    <tr><td>PBH-015</td><td>F13</td><td>CLS-Z3ISU</td><td class="num">&check;</td><td class="num">3/3</td><td class="num">0.000</td></tr>
+  </tbody></table></div>
+
+  <p><strong>Delta C&minus;B:</strong> 5/36 = <strong>0.138889</strong>. <strong>Bootstrap percentile 95%:</strong> [0.083333, 0.166667], 10.000 draw, seed 20260906.</p>
+
+  <div class="callout full-width"><strong>Limitazione principale.</strong> L'intero vantaggio C&minus;B è concentrato nei tre casi CLS-OJNSG/F8; per gli altri nove casi fault il delta è zero. Il bootstrap è stratificato su 4 classi &times; 3 cluster e la sua distribuzione occupa una griglia discreta di soli cinque valori. Con tre cluster per strato ha risoluzione effettiva minima: il CI è corretto, ma non supporta una conclusione generale sulla centralizzazione.</div>
+
+  <h3>2 &middot; Interpretazione e provenienza</h3>
+  <p>C è una <strong>centralized full-information pooled ICL post-hoc exploratory reference</strong>: colloca B entro lo stesso paradigma testuale, ma quantità, forma e struttura del contesto cambiano simultaneamente. Il risultato è descrittivo, temporalmente confondibile e non autorizza una lettura causale o una superiorità generale.</p>
+
+  <div class="source"><strong>Provenienza compatta.</strong> <a href="../icl/full_evaluation/evaluation_results_c.json">Risultato frozen</a> · <a href="audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md">review indipendente</a> · <a href="../icl/PLAN_CENTRAL_POOLED_ICL.md">piano</a>.<br>Code freeze <code>condition-c-freeze-r10</code> → <code>60ccc7539714e909aae7318cc72031d7acdd4e78</code>; predictions freeze <code>condition-c-predictions-frozen-r10</code> → <code>8d6b7a0</code>; results freeze <code>condition-c-results-frozen-r10</code> → <code>89e4caebe635973ef438d4b601bb4f761417193a</code>; independent review commit <code>da64287a</code>; SHA-256 di <code>evaluation_results_c.json</code>: <code>1ea60e12ded77e5d7758d71d3d2e863d5f741c91d41a03511c81935061435cd5</code>.</div>
+
+  <div class="callout full-width"><strong>Verdetto della review indipendente: GO WITH LIMITATIONS.</strong> Le metriche e il CI sono corretti; la concentrazione su un solo strato e la risoluzione minima del bootstrap devono accompagnare ogni sintesi del risultato.</div>
 </section>
 
 
@@ -849,11 +944,11 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 </div>
 
 <div class="orientation">
-  <p><strong>Dalla Fase 2 alla Fase 3.</strong> Experiment 1 ha stabilito l&rsquo;effetto di trasferimento e la sua specificit&agrave; semantica; Experiment 3 (Fase 2) lo ha replicato su realizzazioni fisiche indipendenti. Entrambi, per&ograve;, hanno utilizzato un unico reasoning model (<code>gpt-5.6-terra</code>) sia per produrre gli insight sia per consumarli in fase di classificazione. Resta aperta una domanda: <em>la conoscenza testuale congelata &egrave; accoppiata al reasoner che l&rsquo;ha generata, oppure pu&ograve; essere consumata utilmente da modelli diversi?</em></p>
+  <p><strong>Dal riferimento centralizzato alla Fase 3.</strong> Experiment 1 ha stabilito l&rsquo;effetto di trasferimento e la sua specificit&agrave; semantica; Experiment 3 (Fase 2) lo ha replicato su realizzazioni fisiche indipendenti; Condition C ha poi fornito un riferimento post-hoc sul solo held-out di Experiment 1. Tutti hanno utilizzato un unico reasoning model (<code>gpt-5.6-terra</code>) sia per produrre gli insight sia per consumarli in fase di classificazione. Resta aperta una domanda: <em>la conoscenza testuale congelata &egrave; accoppiata al reasoner che l&rsquo;ha generata, oppure pu&ograve; essere consumata utilmente da modelli diversi?</em></p>
 </div>
 
-<section id="step-25" data-step="25">
-  <div class="step-kicker">Step 25 / 25 <span class="phase-badge runtime">Fase 3</span> <span class="phase-badge design">Portabilit&agrave; cross-model</span></div>
+<section id="step-27" data-step="27">
+  <div class="step-kicker">Step 27 / 27 <span class="phase-badge runtime">Fase 3</span> <span class="phase-badge design">Portabilit&agrave; cross-model</span></div>
   <h2>Intro preliminare</h2>
 
   <p>La distinzione chiave &egrave; tra <strong>producer</strong> e <strong>consumer</strong>. Il producer &mdash; il modello che ha generato gli insight a partire dai casi development/calibration &mdash; rimane <code>gpt-5.6-terra</code> e non viene variato: gli insight peer restano quelli frozen di Experiment 1, byte per byte. Ci&ograve; che varia &egrave; esclusivamente il consumer, cio&egrave; il reasoning model che riceve il caso da classificare, gli esempi locali few-shot e gli insight federati e deve produrre la pseudolabel finale. Experiment 2 testa quindi la <strong>portabilit&agrave; cross-model della conoscenza testuale congelata</strong>: la stessa evidenza, la stessa conoscenza, gli stessi casi &mdash; un reasoner diverso.</p>
@@ -881,7 +976,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   toggle.addEventListener('click',()=>{if(mobile.matches){const opening=!body.classList.contains('nav-open');body.classList.toggle('nav-open',opening);body.classList.toggle('nav-collapsed',!opening);render();if(opening)links[0].focus()}else{body.classList.toggle('nav-collapsed');render()}});
   backdrop.addEventListener('click',()=>closeMobile(true));
   links.forEach(link=>{
-    if(link.closest('.nav-phase')) return;
+    if(link.closest('summary')) return;
     link.addEventListener('click',()=>{if(mobile.matches)closeMobile()});
   });
   [...nav.querySelectorAll('.nav-phase summary')].forEach(summary=>{

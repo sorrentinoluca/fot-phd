@@ -18,6 +18,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 PAGE = HERE / "fot_walkthrough_part1.html"
 CONVERSATION = HERE / "fot_walkthrough_conversazione.html"
+CONVERSATION_MD = HERE / "fot_walkthrough_conversazione.md"
 ARCHIVE = HERE / "archive"
 FIGURES = HERE / "figures"
 
@@ -81,6 +82,8 @@ def longest(values):
 class TutorialChecks(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        if not PAGE.is_file():
+            raise unittest.SkipTest("legacy part-1 walkthrough is not present in this checkout")
         cls.html = PAGE.read_text()
         cls.page = Page(cls.html)
         cls.data = json.loads(cls.page.text("example-data"))
@@ -288,6 +291,7 @@ class UnifiedConversationChecks(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.html = CONVERSATION.read_text()
+        cls.markdown = CONVERSATION_MD.read_text()
         cls.page = Page(cls.html)
         cls.text = normalized(unescape(re.sub(r"<[^>]+>", " ", cls.html)))
 
@@ -305,15 +309,83 @@ class UnifiedConversationChecks(unittest.TestCase):
                 ids = self.page.ids if path == CONVERSATION else Page(path.read_text()).ids
                 self.assertIn(unquote(url.fragment), ids)
 
+        for link in re.findall(r"\]\(([^)]+)\)", self.markdown):
+            url = urlsplit(link)
+            if url.scheme:
+                self.assertIn(url.scheme, {"http", "https"})
+                continue
+            path = ((CONVERSATION_MD.parent / unquote(url.path)).resolve()
+                    if url.path else CONVERSATION_MD)
+            self.assertTrue(path.is_file(), path)
+            if url.fragment and path.suffix.lower() in {".html", ".htm"}:
+                self.assertIn(unquote(url.fragment), Page(path.read_text()).ids)
+
     def test_one_flow_and_ordered_step_headings(self):
         sections = re.findall(r'<section id="step-(\d+)"[^>]*>(.*?)</section>', self.html, re.S)
-        self.assertEqual([int(number) for number, _ in sections], list(range(1, 18)))
+        self.assertEqual([int(number) for number, _ in sections], list(range(1, 28)))
         self.assertNotIn("Parte 1 —", self.html)
         self.assertNotIn("Parte 2 —", self.html)
+        self.assertIn('<span id="current-step">1</span> / 27', self.html)
+        self.assertNotRegex(self.html, r"Step \d+ / (?:17|25)")
+        self.assertNotRegex(self.markdown, r"Step \d+ / (?:17|25)")
         for number, fragment in sections:
             with self.subTest(step=number):
                 self.assertEqual(fragment.count("<h2>"), 1)
-                self.assertIn(f"Step {number} / 17", fragment)
+                self.assertIn(f"Step {number} / 27", fragment)
+
+        markers = list(re.finditer(r"^\*\*Step (\d+) / 27.*?\*\*$",
+                                   self.markdown, re.M))
+        self.assertEqual([int(marker.group(1)) for marker in markers], list(range(1, 28)))
+        for index, marker in enumerate(markers):
+            end = markers[index + 1].start() if index + 1 < len(markers) else len(self.markdown)
+            fragment = self.markdown[marker.end():end]
+            with self.subTest(markdown_step=marker.group(1)):
+                self.assertEqual(len(re.findall(r"^## ", fragment, re.M)), 1)
+
+    def test_condition_c_contract_and_caveats(self):
+        html_links = {
+            "../icl/full_evaluation/evaluation_results_c.json",
+            "audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md",
+            "../icl/PLAN_CENTRAL_POOLED_ICL.md",
+        }
+        markdown_links = set(re.findall(r"\]\(([^)]+)\)", self.markdown))
+        for link in html_links:
+            with self.subTest(link=link):
+                self.assertIn(f'href="{link}"', self.html)
+                self.assertIn(link, markdown_links)
+
+        required = (
+            "15 / 15", "12 / 12", "3 / 3", "5/36", "0.138889",
+            "0.083333", "0.166667", "10.000", "20260906",
+            "GO WITH LIMITATIONS", "CLS-OJNSG", "soli cinque valori",
+            "temperature=null", "seed=null", "inferenza stateless",
+            "senza astensioni", "non un risultato empiricamente misurato",
+            "centralized full-information pooled ICL post-hoc exploratory reference",
+        )
+        for phrase in required:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, self.html)
+                self.assertIn(phrase, self.markdown)
+
+        for document in (self.html, self.markdown):
+            self.assertIn("Per ciascuno dei 15 casi, le tre ripetizioni hanno prodotto la stessa decisione aggregabile.", document)
+            self.assertIn("gli altri nove casi fault", document)
+            self.assertIn("EXP3_V2 non comprende una propria baseline centralized pooled", document)
+
+    def test_forbidden_condition_c_formulations_absent(self):
+        forbidden = (
+            "A rappresenta esattamente il modello local-only",
+            "a pari informazione",
+            "equal-information",
+            "stesso seed di ragionamento",
+            "stessa temperatura",
+            "selezionati dallo schedule",
+            "45 ripetizioni unanimi",
+        )
+        for phrase in forbidden:
+            with self.subTest(phrase=phrase):
+                self.assertNotIn(phrase, self.html)
+                self.assertNotIn(phrase, self.markdown)
 
     def test_real_reduced_example_and_calibration(self):
         config = json.loads((ROOT / "code/verbalizer_config_v2.json").read_text())
@@ -358,7 +430,7 @@ class UnifiedConversationChecks(unittest.TestCase):
             self.assertEqual(len(record["repetition_outcomes"]), 3)
         for phrase in ("PBH-004", "Agent 3", "mode1_1_11.xlsx", "used_insight_ids=[]",
                        "B−A", "endpoint primario", "B−E",
-                       "contrasto di specificità pre-specificato"):
+                       "contrasto sulla pertinenza dell'informazione pre-specificato"):
             self.assertIn(phrase, self.text)
 
     def test_collapsible_navigation_and_progressive_layout(self):
@@ -373,8 +445,8 @@ class UnifiedConversationChecks(unittest.TestCase):
     def test_active_readme_publishes_main_guide_and_artifacts_exist(self):
         readme = (ROOT / "README.md").read_text()
         self.assertIn("docs/fot_walkthrough_conversazione.html", readme)
-        self.assertTrue(PAGE.is_file())
         self.assertTrue(CONVERSATION.is_file())
+        self.assertTrue(CONVERSATION_MD.is_file())
 
 
 if __name__ == "__main__":
