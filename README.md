@@ -198,8 +198,9 @@ fot-phd/
 ├── requirements.txt                    # reference Python dependencies
 ├── docs/                              # documentation, walkthrough, literature, audits, prompts
 │   ├── fot_walkthrough_conversazione.html  # primary scientific/didactic guide
-│   ├── FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md
-│   ├── FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md
+│   ├── lit_review/                     # experiment plan, literature review, related work
+│   │   ├── FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md
+│   │   └── FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md
 │   ├── audits/                        # pre-freeze and post-freeze audit reports
 │   ├── prompts/                       # operational AI prompts
 │   └── figures/                       # walkthrough and paper figures

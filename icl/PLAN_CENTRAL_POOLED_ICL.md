@@ -71,7 +71,7 @@ informazione completa rispetto agli artefatti prompt-facing.
 | 3 | Ordinamento schedule contraddittorio: `physical_case_id` ascending vs pilot in 0..14 | Medio | **Accolto.** Ordinamento esplicito: `(pilot DESC, physical_case_id ASC, repetition ASC)`. I pilot case (PBH-001, PBH-004, PBH-007, PBH-010, PBH-013) occupano sequence_index 0..14; i non-pilot 15..44 (§3.5). |
 | 4 | Runner non dovrebbe verificare artefatti evaluator-side (viola firewall) | Medio | **Accolto.** Freeze manifest separato in due sezioni: inference-side (verificato dal runner) ed evaluator-side (verificato solo da `evaluate_c_predictions.py`) (§3.3, §7.11). |
 | 5 | CRunRecord deve conservare `parsed_output` completo e provenienza per attempt | Basso | **Accolto.** `parsed_output` con tutti i campi (`predicted_label`, `abstain`, `used_insight_ids`, `reasoning_summary`). `request_id`, `response_id`, `token_usage` per ciascun attempt in `raw_attempts` (§3.4-bis). |
-| 6 | Congelare JSONL grezzo nel manifest post-inferenza | Basso | **Accolto.** `predictions_manifest.json` include hash di `c_records.jsonl`, predizioni aggregate e execution metadata (§3.7). |
+| 6 | Congelare JSONL grezzo nel manifest post-inferenza | Basso | **Accolto.** `c_predictions_manifest.json` include l'hash di `c_records.jsonl`; `c_aggregate_manifest.json` lega gli aggregati ai record grezzi e alla schedule (§3.7). |
 
 ---
 
@@ -230,24 +230,24 @@ icl/
 ├── schemas/
 │   └── c_run_record.schema.json         ← JSON Schema per i record C
 ├── inference/                           ← ARCHIVIO CANONICO UNICO (append-only)
-│   └── c_records.jsonl                  ← tutti i CRunRecord (pilot + full)
+│   ├── c_records.jsonl                  ← tutti i CRunRecord (pilot + full)
+│   └── c_aggregate_records.jsonl        ← 15 aggregati canonici R=3
 ├── full_evaluation/
 │   ├── protocol_amendment_c.md          ← amendment formale
 │   ├── protocol_amendment_c.json        ← machine-readable
 │   ├── freeze_manifest_inference.json   ← hash artefatti inference-side
 │   ├── freeze_manifest_evaluator.json   ← hash artefatti evaluator-side
 │   ├── c_schedule.json                  ← schedule completa request-level (45 entry)
-│   ├── predictions/                     ← parsed aggregate predictions
-│   ├── predictions_manifest.json        ← hash pre-join (JSONL grezzo + aggregati)
+│   ├── c_predictions_manifest.json      ← hash pre-join del JSONL grezzo
+│   ├── c_aggregate_manifest.json        ← hash aggregati + binding a raw e schedule
 │   └── evaluation_results_c.json        ← metriche finali
 ├── tests/
 │   ├── test_builder_c.py
 │   ├── test_records_c.py
 │   ├── test_aggregation_c.py
 │   ├── test_build_c_schedule.py
-│   ├── test_evaluate_c.py
+│   ├── test_evaluate_c_predictions.py
 │   └── test_run_c_inference.py          ← resume, idempotenza, freeze guards
-└── README.md
 ```
 
 **Nota architetturale:** non esiste una directory `pilot/inference/` separata.
@@ -408,7 +408,7 @@ preserva il firewall tra predizioni e ground truth.
 | Artefatto | Percorso |
 |---|---|
 | Test aggregation | `icl/tests/test_aggregation_c.py` |
-| Test evaluator | `icl/tests/test_evaluate_c.py` |
+| Test evaluator | `icl/tests/test_evaluate_c_predictions.py` |
 
 #### Artefatti dell'amendment
 
@@ -598,7 +598,7 @@ Servono file nuovi, non patch ai file frozen di Exp 1.
 | `build_c_schedule.py` | `test_build_c_schedule.py` | **45 entry totali**, 15 con `pilot=true` (5 case × 3 rep, sequence_index 0..14), 30 con `pilot=false` (15..44); ordinamento `(pilot DESC, physical_case_id ASC, repetition ASC)`; pseudolabel non esposta |
 | `run_c_inference.py` | `test_run_c_inference.py` | **Resume:** dopo interruzione a metà, la riesecuzione salta i record già presenti; **idempotenza:** due esecuzioni consecutive producono lo stesso JSONL; **freeze guard:** fallisce se un hash nel manifest inference-side non corrisponde; **non accede al manifest evaluator-side** |
 | `aggregation_c.py` | `test_aggregation_c.py` | Majority corretto, raggruppa per `physical_case_id` solo, rifiuta JSONL incompleto, output compatibile con `aggregate_records.jsonl` di Exp 1 |
-| `evaluate_c_predictions.py` | `test_evaluate_c.py` | Formula delta C−B corretta, carica B da `aggregate_records.jsonl` filtrato, verifica hash via `inference_output_hash_manifest.json`, bootstrap seed riproducibile |
+| `evaluate_c_predictions.py` | `test_evaluate_c_predictions.py` | Formula delta C−B corretta, carica B da `aggregate_records.jsonl` filtrato, verifica hash via `inference_output_hash_manifest.json`, bootstrap seed riproducibile |
 
 **Criterio di completamento:** tutti i test passano; `CRunRecord` rifiuta
 `agent_id ≠ "central"` e `condition ≠ "C"`; lo schedule builder produce 45
@@ -729,12 +729,15 @@ Al termine, `c_records.jsonl` contiene esattamente 45 record.
 
 1. Aggregare tutte le 45 risposte con la stessa regola di maggioranza R=3
    (≥ 2 label uguali) tramite `aggregation_c.py`.
-2. Salvare le predizioni aggregate in `full_evaluation/predictions/`.
-3. Congelare in `predictions_manifest.json`:
-   - Hash SHA-256 di `icl/inference/c_records.jsonl` (JSONL grezzo completo).
-   - Hash SHA-256 delle predizioni aggregate.
-   - Conteggi: 45 record di ripetizione, 15 predizioni aggregate.
-   - `status: "IMMUTABLE_BEFORE_EVALUATION"`.
+2. Salvare le predizioni aggregate in
+   `icl/inference/c_aggregate_records.jsonl`.
+3. Congelare gli output nei due manifest complementari:
+   - `c_predictions_manifest.json`: hash SHA-256 di
+     `icl/inference/c_records.jsonl`, conteggio di 45 record e binding alla
+     schedule;
+   - `c_aggregate_manifest.json`: hash SHA-256 dei 15 aggregati, hash dei
+     record grezzi, binding alla schedule e
+     `status: "IMMUTABLE_BEFORE_EVALUATION"`.
 4. **Solo dopo il freeze delle predizioni:** eseguire il join evaluator-side
    con la ground truth tramite `evaluate_c_predictions.py` (che verifica
    il freeze manifest evaluator-side) e calcolare le metriche.
@@ -916,9 +919,10 @@ condizioni A, B ed E sullo stesso held-out set. Questo implica:
     una riesecuzione salta i `sequence_index` già presenti nel JSONL.
 
 13. **Freeze post-inferenza.** Dopo il completamento di C-Full,
-    `predictions_manifest.json` congela con hash sia il JSONL grezzo
-    (`c_records.jsonl`) sia le predizioni aggregate, rendendo immutabile
-    l'intera provenance prima dell'evaluation.
+    `c_predictions_manifest.json` congela il JSONL grezzo (`c_records.jsonl`)
+    e `c_aggregate_manifest.json` congela le predizioni aggregate collegandole
+    ai record grezzi e alla schedule, rendendo immutabile l'intera provenance
+    prima dell'evaluation.
 
 ---
 
