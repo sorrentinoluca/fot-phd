@@ -1460,7 +1460,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 <div class="step-container" data-step="15">
   <div class="phase-badge b">Prossimi passi</div>
   <h1 class="step-title">Experiment 2: portabilità cross-model con LLM open-weight</h1>
-  <p class="step-intro">Fino ad ora ogni chiamata LLM ha usato un unico modello proprietario (<strong>gpt-5.6-terra</strong>, OpenAI). Questo pone una <strong>critica fondamentale</strong>: l'intero risultato dipende da un modello chiuso, non deterministico e non riproducibile. Experiment 2 affronta il problema.</p>
+  <p class="step-intro">Fino ad ora ogni chiamata LLM ha usato un unico modello proprietario (<strong>gpt-5.6-terra</strong>, OpenAI). Questo pone una <strong>critica fondamentale</strong>: l'intero risultato dipende da un modello chiuso, non deterministico e non riproducibile. Experiment 2 affronta il problema usando <strong>Qwen</strong> sul server locale.</p>
 
   <div class="card" style="border-left:3px solid var(--threshold)">
     <div class="card-label">La critica: un singolo LLM proprietario</div>
@@ -1518,6 +1518,22 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     </div>
   </div>
 
+  <div class="card" style="border-left:3px solid var(--accent-b)">
+    <div class="card-label">Configurazione scelta: Qwen sul server locale</div>
+    <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">
+      L'LLM selezionato per l'esperimento è <strong>Qwen</strong>. L'hardware disponibile consente di eseguire un modello reasoning/instruct open-weight da circa <strong>30–32B</strong>, quantizzato a <strong>4 bit o 8 bit</strong>.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-size:0.84rem;color:var(--text-muted)">
+      <div><strong>GPU</strong><br>2 × NVIDIA RTX 5000 Ada, circa 32 GB VRAM ciascuna</div>
+      <div><strong>VRAM</strong><br>Circa 64 GB complessivi, utilizzabili con tensor parallelism</div>
+      <div><strong>Memoria e CPU</strong><br>125 GiB RAM; Xeon 16 core / 32 thread con AVX-512 e AMX</div>
+      <div><strong>Storage e sistema</strong><br>808 GB liberi su NVMe; Ubuntu 24.04; driver NVIDIA funzionante e CUDA supportata</div>
+    </div>
+    <div style="margin-top:12px;padding:10px 12px;border-radius:6px;background:var(--accent-b-light);font-size:0.84rem;color:var(--text-muted)">
+      GPU quasi completamente libere: la configurazione è pronta per l'inferenza locale e il parallelismo tra le due GPU.
+    </div>
+  </div>
+
   <div class="card">
     <div class="card-label">Risultato atteso</div>
     <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
@@ -1527,7 +1543,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
   <div class="callout">
     <span class="callout-icon">&#9432;</span>
-    <span>Experiment 2 è attualmente in fase di pianificazione. La struttura sperimentale (held-out, insight congelati, protocollo di valutazione) è già pronta. Resta da selezionare il modello open-weight e validare che il prompt template funzioni con la sua architettura.</span>
+    <span>Experiment 2 è in fase di preparazione dell'inferenza locale con Qwen. La struttura sperimentale (held-out, insight congelati, protocollo di valutazione) è già pronta; resta da validare il prompt template con l'architettura Qwen e misurare la portabilità.</span>
   </div>
 </div>
 
