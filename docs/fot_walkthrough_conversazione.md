@@ -159,6 +159,8 @@ Nomenclatura canonica del TEP (Downs & Vogel, 1993). Il repository tratta i cana
 
 Il dataset Normal è un file da 500 h, diviso in **10 blocchi da 50 h** (N1…N10); ogni blocco Ni viene ulteriormente suddiviso in **10 finestre da 5 h** (N1-f1, N1-f2, …). Il campionamento è un minuto, cioè `1/60 h`. I file di fault sono quattro: **F1, F8, F10, F13**; ogni run dura 50 h: le prime 10 h precedono l'attivazione e le 40 h successive producono **8 finestre da 5 h**. Una finestra è una porzione descrittiva dello stesso run, non una replica fisica: questa distinzione tornerà cruciale allo Step finale, quando conteremo i casi statisticamente indipendenti.
 
+Nel caso con fault, le otto finestre post-fault sono indicate come **W1–W8**, rispettivamente da `[10,15)` a `[45,50)` h. Il calcolo delle feature viene eseguito separatamente su ciascuna finestra e su ciascuna delle 41 XMEAS, usando ogni volta i dati grezzi della finestra corrente. Le finestre dei blocchi Normal mantengono invece la propria numerazione (per esempio N1-f1, N1-f2, …) e seguono la stessa logica di calcolo sulle rispettive porzioni da 5 h.
+
 ### Split dei dati e ruoli distinti
 
 | Split | Fault (F1, F8, F10, F13) | Normal | Ruolo |
@@ -277,6 +279,8 @@ Prima di aprire validation, test e held-out vengono congelati feature, soglie, r
 ## Dalle feature ai flag: soglie e segni
 
 Per ogni finestra (le **8** del caso con fault) e per ogni variabile **XMEAS** (le **41**) vengono applicate le soglie: se il valore della feature è maggiore della soglia — ricordiamo che la soglia è stata calibrata sui **Normal** — viene generato un **flag** (attivo/non attivo) e, per le feature con segno (shift, slope), il relativo **segno**. Vediamo il calcolo reale su una singola finestra: F1 batch 1, XMEAS-1, W1. (Caso development/calibration, non test indipendente; non usa LOBO. W1 è `[10,15)` h: 5 h × 60 = 300 misure.)
+
+W1 è mostrata esclusivamente come esempio di calcolo. Nella pipeline completa, lo stesso procedimento viene ripetuto per ciascuna finestra del run — W1–W8 nei casi con fault — e per ciascuna delle 41 XMEAS, utilizzando ogni volta i dati della finestra corrente; la baseline Normal e le soglie congelate restano riferimenti distinti.
 
 > Worked example reale · raw → feature → flag
 >
