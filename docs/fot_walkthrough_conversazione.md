@@ -1015,7 +1015,7 @@ Condition C risponde a una domanda descrittiva: *dove si colloca la federazione 
 > | **C** | 10 pooled: 2 per ciascuna delle 4 classi fault + 2 Normal | 8, inclusi quelli che in B sarebbero propri | Unico contesto centralizzato, receiver-independent |
 > | **B** | 4 locali per receiving agent: 2 del fault noto + 2 Normal | 6 peer | Contesto diverso per ciascun receiving agent |
 >
-> I 10 esempi di C provengono dall'**unione frozen dei pack LKP-001…LKP-004**, deduplicata per gli esempi Normal e ordinata per `example_id`. Lo schedule frozen disciplina invece le **45 richieste di inferenza**; non seleziona gli esempi pooled.
+> Da dove vengono i 10 esempi di C? Ogni agente ha il suo pacchetto di esempi etichettati (LKP-001…LKP-004). Per C si prendono tutti e quattro i pacchetti e si fondono in un unico mazzo. Siccome gli esempi Normal sono gli stessi in ogni pacchetto, dopo la deduplicazione restano **10 esempi**: 2 per ognuno dei 4 guasti + 2 Normal, ordinati per `example_id`. Lo **schedule frozen** è una cosa separata: governa **quali casi sottoporre al modello e in che ordine** (15 casi × 3 ripetizioni = 45 chiamate), ma non ha nessun ruolo nella selezione degli esempi pooled — quelli derivano meccanicamente dall'unione dei pacchetti.
 
 C classifica i **15 casi del held-out di Experiment 1** (12 fault + 3 Normal), ciascuno R=3: 45 provider records e 15 decisioni aggregate. C e B differiscono sia nella quantità sia nella forma dell'informazione; di conseguenza C−B è un confronto **descrittivo e non causale**, entro lo stesso paradigma testuale.
 
@@ -1036,9 +1036,9 @@ Condition C ha classificato correttamente tutte le 15 decisioni aggregate, senza
 
 | Scope | Corretti / casi | Accuratezza | Astensioni |
 | --- | --- | --- | --- |
-| **Overall** | 15 / 15 | 100.0% | 0 |
 | **Fault** | 12 / 12 | 100.0% | 0 |
 | **Normal** | 3 / 3 | 100.0% | 0 |
+| **Overall** | 15 / 15 | 100.0% | 0 |
 
 ### 1 · Delta paired C−B sui 12 casi fault
 
