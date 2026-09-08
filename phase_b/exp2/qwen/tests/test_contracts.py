@@ -27,9 +27,11 @@ class FrozenContractTests(unittest.TestCase):
         self.assertEqual(self.config["requested_model"], "fot-exp2-consumer")
         self.assertEqual(self.config["temperature"], 0.0)
         self.assertEqual(self.config["seed"], 20260829)
-        self.assertEqual(self.config["max_tokens"], 512)
+        self.assertEqual(self.config["max_tokens"], 1536)
+        self.assertEqual(self.config["expected_max_model_len"], 4096)
         self.assertEqual(self.config["repetitions"], 3)
         self.assertIsNone(self.config["reasoning_effort"])
+        self.assertEqual(self.config["thinking_token_budget"], 1024)
 
     def test_frozen_hashes_are_unchanged(self):
         verify_frozen_hashes(self.config)

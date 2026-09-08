@@ -125,8 +125,55 @@ def prompt_budget_audit(
         "maximum_raw_prompt_tokens": maximum,
         "maximum_prompt_characters": max(item["characters"] for item in rows),
         "maximum_plus_output_budget": maximum + config["max_tokens"],
-        "note": "Raw /tokenize count; live Chat Completions usage is recorded separately.",
+        "context_margin_tokens": (
+            config["expected_max_model_len"] - maximum - config["max_tokens"]
+        ),
+        "note": (
+            "Raw Qwen /tokenize count used only to verify context compatibility; "
+            "the output budget was selected from the synthetic capability finding. "
+            "Live Chat Completions usage is recorded separately."
+        ),
     }, max(len(text) for text in frozen.case_text.values())
+
+
+def response_invariants(response: Any) -> dict[str, bool]:
+    choices = response.response_raw.get("choices")
+    message = (
+        choices[0].get("message")
+        if isinstance(choices, list)
+        and len(choices) == 1
+        and isinstance(choices[0], dict)
+        else None
+    )
+    if not isinstance(message, dict):
+        return {
+            "finish_reason_stop": False,
+            "content_non_null": False,
+            "parser_input_is_content": False,
+            "reasoning_preserved": False,
+            "no_length_truncation": False,
+        }
+    extra = message.get("model_extra")
+    raw_reasoning_candidates = [
+        message.get("reasoning_content"),
+        message.get("reasoning"),
+        extra.get("reasoning_content") if isinstance(extra, dict) else None,
+        extra.get("reasoning") if isinstance(extra, dict) else None,
+    ]
+    raw_reasoning = next(
+        (value for value in raw_reasoning_candidates if isinstance(value, str)),
+        None,
+    )
+    content = message.get("content")
+    return {
+        "finish_reason_stop": response.finish_reason == "stop",
+        "content_non_null": isinstance(content, str),
+        "parser_input_is_content": isinstance(content, str)
+        and response.raw_output == content,
+        "reasoning_preserved": isinstance(raw_reasoning, str)
+        and response.reasoning_content == raw_reasoning,
+        "no_length_truncation": response.finish_reason != "length",
+    }
 
 
 def execution_summary(execution: Any) -> dict[str, Any]:
@@ -138,6 +185,9 @@ def execution_summary(execution: Any) -> dict[str, Any]:
         "parsed_output": execution.result.parsed_output,
         "raw_attempts": list(execution.result.raw_attempts),
         "provider_attempts": [item.to_dict() for item in execution.provider_attempts],
+        "provider_invariants": [
+            response_invariants(item) for item in execution.provider_attempts
+        ],
     }
 
 
@@ -149,10 +199,27 @@ def run_probe() -> dict[str, Any]:
     origin = config["base_url"].removesuffix("/v1")
     openapi = http_json(f"{origin}/openapi.json")
     paths = openapi.get("paths", {})
+    chat_schema = (
+        openapi.get("components", {})
+        .get("schemas", {})
+        .get("ChatCompletionRequest", {})
+    )
+    chat_properties = chat_schema.get("properties", {})
     advertised = {
         "chat_completions": "/v1/chat/completions" in paths,
         "responses": "/v1/responses" in paths,
         "tokenize": "/tokenize" in paths,
+    }
+    reasoning_controls = {
+        "source": "local vLLM 0.28.0 OpenAPI ChatCompletionRequest",
+        "reasoning_effort_advertised": "reasoning_effort" in chat_properties,
+        "thinking_token_budget_advertised": (
+            "thinking_token_budget" in chat_properties
+        ),
+        "reasoning_effort_configured": config["reasoning_effort"] is not None,
+        "thinking_token_budget_configured": (
+            config["thinking_token_budget"] is not None
+        ),
     }
     frozen = FrozenPromptInputs()
     budget, max_case_characters = prompt_budget_audit(config, frozen)
@@ -192,6 +259,7 @@ def run_probe() -> dict[str, Any]:
             temperature=config["temperature"],
             seed=config["seed"],
             max_tokens=config["max_tokens"],
+            thinking_token_budget=config["thinking_token_budget"],
             max_structural_retries=config["max_structural_retries"],
         )
         executions[condition] = execution
@@ -205,6 +273,7 @@ def run_probe() -> dict[str, Any]:
         temperature=config["temperature"],
         seed=config["seed"],
         max_tokens=config["max_tokens"],
+        thinking_token_budget=config["thinking_token_budget"],
         max_structural_retries=config["max_structural_retries"],
     )
     replay_summary = execution_summary(replay)
@@ -221,20 +290,84 @@ def run_probe() -> dict[str, Any]:
     live_max_input = max(
         response.prompt_tokens or 0 for response in provider_responses
     )
+    provider_invariants = [
+        response_invariants(response) for response in provider_responses
+    ]
+    condition_checks = {
+        condition: {
+            "finish_reason_stop": all(
+                item["finish_reason_stop"]
+                for item in dry_run[condition]["provider_invariants"]
+            ),
+            "content_non_null": all(
+                item["content_non_null"]
+                for item in dry_run[condition]["provider_invariants"]
+            ),
+            "schema_valid": dry_run[condition]["schema_valid"],
+            "reasoning_preserved": all(
+                item["reasoning_preserved"]
+                for item in dry_run[condition]["provider_invariants"]
+            ),
+            "no_length_truncation": all(
+                item["no_length_truncation"]
+                for item in dry_run[condition]["provider_invariants"]
+            ),
+        }
+        for condition in ("A", "B", "E")
+    }
+    request_accounting = {
+        "by_condition": {
+            condition: {
+                "requests": len(executions[condition].provider_attempts),
+                "structural_retries": executions[condition].result.attempts - 1,
+            }
+            for condition in ("A", "B", "E")
+        },
+        "deterministic_replay": {
+            "condition": "B",
+            "requests": len(replay.provider_attempts),
+            "structural_retries": replay.result.attempts - 1,
+        },
+        "total_requests": len(provider_responses),
+        "total_structural_retries": sum(
+            max(0, execution.result.attempts - 1)
+            for execution in [*executions.values(), replay]
+        ),
+    }
     max_model_len = server["max_model_len"]
     checks = {
         "vllm_version_matches": server["vllm_version"] == config["expected_vllm_version"],
         "model_alias_matches": server["model_id"] == config["requested_model"],
         "model_root_matches": server["model_root"] == config["expected_model_root"],
         "model_revision_matches_process": process["expected_revision_present"],
+        "max_model_len_matches": max_model_len == config["expected_max_model_len"],
         "required_paths_advertised": all(advertised.values()),
+        "reasoning_controls_inspected": all(
+            reasoning_controls[name]
+            for name in (
+                "reasoning_effort_advertised",
+                "thinking_token_budget_advertised",
+            )
+        ),
         "frozen_prompt_hashes_match": budget["all_prompt_hashes_match_original"],
         "raw_prompt_budget_fits": budget["maximum_plus_output_budget"] <= max_model_len,
         "live_fixture_budget_fits": live_max_input + config["max_tokens"] <= max_model_len,
         "all_outputs_schema_valid": all(item["schema_valid"] for item in dry_run.values())
         and replay_summary["schema_valid"],
+        "all_finish_reasons_stop": all(
+            item["finish_reason_stop"] for item in provider_invariants
+        ),
+        "all_outputs_content_non_null": all(
+            item["content_non_null"] for item in provider_invariants
+        ),
+        "parser_input_is_content": all(
+            item["parser_input_is_content"] for item in provider_invariants
+        ),
+        "all_reasoning_preserved": all(
+            item["reasoning_preserved"] for item in provider_invariants
+        ),
         "no_length_truncation": all(
-            response.finish_reason != "length" for response in provider_responses
+            item["no_length_truncation"] for item in provider_invariants
         ),
         "returned_model_matches": all(
             response.returned_model == config["requested_model"]
@@ -258,6 +391,7 @@ def run_probe() -> dict[str, Any]:
         "server": server,
         "server_process": process,
         "advertised_paths": advertised,
+        "reasoning_controls": reasoning_controls,
         "prompt_budget": budget,
         "fixture": {
             "agent_id": fixture_agent,
@@ -269,6 +403,8 @@ def run_probe() -> dict[str, Any]:
             },
         },
         "dry_run": dry_run,
+        "condition_checks": condition_checks,
+        "request_accounting": request_accounting,
         "deterministic_replay": {
             "condition": "B",
             "identical_raw_output": deterministic,
@@ -288,6 +424,16 @@ def render_report(result: dict[str, Any]) -> str:
         for name, passed in result["checks"].items()
     )
     dry = result["dry_run"]
+    accounting = result["request_accounting"]
+    by_condition = accounting["by_condition"]
+    condition_lines = "\n".join(
+        f"- {condition}: "
+        + ", ".join(
+            f"{name}={'PASS' if passed else 'FAIL'}"
+            for name, passed in result["condition_checks"][condition].items()
+        )
+        for condition in ("A", "B", "E")
+    )
     return f"""# EXP2 Qwen capability probe
 
 Status: **{result['status']}**
@@ -297,11 +443,28 @@ Status: **{result['status']}**
 - Model root: `{result['server']['model_root']}`
 - vLLM: `{result['server']['vllm_version']}`
 - Context: `{result['server']['max_model_len']}` tokens
-- Temperature / seed / max tokens: `0` / `20260829` / `512`
+- Temperature / seed / max tokens: `{result['config']['temperature']}` / `{result['config']['seed']}` / `{result['config']['max_tokens']}`
 - Unique frozen prompt hashes checked: `{result['prompt_budget']['unique_prompts']}`
 - Maximum raw prompt tokens: `{result['prompt_budget']['maximum_raw_prompt_tokens']}`
+- Maximum input plus output budget: `{result['prompt_budget']['maximum_plus_output_budget']}`
+- Minimum context margin: `{result['prompt_budget']['context_margin_tokens']}` tokens
 - Live fixture A/B/E attempts: `{dry['A']['structural_attempts']}` / `{dry['B']['structural_attempts']}` / `{dry['E']['structural_attempts']}`
 - Deterministic B replay: `{result['deterministic_replay']['identical_raw_output']}`
+- Exact provider requests / structural retries: `{accounting['total_requests']}` / `{accounting['total_structural_retries']}`
+- A requests/retries: `{by_condition['A']['requests']}` / `{by_condition['A']['structural_retries']}`
+- B requests/retries: `{by_condition['B']['requests']}` / `{by_condition['B']['structural_retries']}`
+- E requests/retries: `{by_condition['E']['requests']}` / `{by_condition['E']['structural_retries']}`
+- Deterministic B replay requests/retries: `{accounting['deterministic_replay']['requests']}` / `{accounting['deterministic_replay']['structural_retries']}`
+
+## A/B/E synthetic fixture checks
+
+{condition_lines}
+
+## Local reasoning controls
+
+- `reasoning_effort` advertised by local OpenAPI: `{result['reasoning_controls']['reasoning_effort_advertised']}`
+- `thinking_token_budget` advertised by local OpenAPI: `{result['reasoning_controls']['thinking_token_budget_advertised']}`
+- Configured uniform `thinking_token_budget`: `{result['config']['thinking_token_budget']}`
 
 ## Gates
 

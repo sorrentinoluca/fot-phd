@@ -23,6 +23,18 @@ def _as_dict(value: Any) -> dict[str, Any] | None:
     return None
 
 
+def _extract_reasoning(message: Any) -> str | None:
+    """Extract reasoning across OpenAI-compatible response representations."""
+    extra = getattr(message, "model_extra", None)
+    candidates = [
+        getattr(message, "reasoning_content", None),
+        getattr(message, "reasoning", None),
+        extra.get("reasoning_content") if isinstance(extra, dict) else None,
+        extra.get("reasoning") if isinstance(extra, dict) else None,
+    ]
+    return next((value for value in candidates if isinstance(value, str)), None)
+
+
 @dataclass(frozen=True)
 class ChatProviderResponse:
     raw_output: str
@@ -87,6 +99,7 @@ class QwenOpenAICompatibleAdapter:
         temperature: float,
         seed: int,
         max_tokens: int,
+        thinking_token_budget: int | None,
     ) -> ChatProviderResponse:
         if not isinstance(prompt, str) or not prompt.strip():
             raise ValueError("prompt must be non-empty text")
@@ -96,6 +109,11 @@ class QwenOpenAICompatibleAdapter:
             temperature=temperature,
             seed=seed,
             max_tokens=max_tokens,
+            extra_body=(
+                {"thinking_token_budget": thinking_token_budget}
+                if thinking_token_budget is not None
+                else None
+            ),
             response_format={
                 "type": "json_schema",
                 "json_schema": {
@@ -115,15 +133,11 @@ class QwenOpenAICompatibleAdapter:
         message = choice.message
         content = getattr(message, "content", None)
         raw_output = content if isinstance(content, str) else ""
-        reasoning = getattr(message, "reasoning_content", None)
-        if reasoning is None:
-            extra = getattr(message, "model_extra", None)
-            if isinstance(extra, dict):
-                reasoning = extra.get("reasoning_content")
+        reasoning = _extract_reasoning(message)
         usage = getattr(response, "usage", None)
         return ChatProviderResponse(
             raw_output=raw_output,
-            reasoning_content=reasoning if isinstance(reasoning, str) else None,
+            reasoning_content=reasoning,
             requested_model=self.requested_model,
             returned_model=str(getattr(response, "model", "")),
             response_id=getattr(response, "id", None),
@@ -146,6 +160,7 @@ class QwenOpenAICompatibleAdapter:
         temperature: float,
         seed: int,
         max_tokens: int,
+        thinking_token_budget: int | None,
         max_structural_retries: int = 2,
     ) -> DiagnosticExecution:
         attempts: list[ChatProviderResponse] = []
@@ -158,6 +173,7 @@ class QwenOpenAICompatibleAdapter:
                 temperature=temperature,
                 seed=seed,
                 max_tokens=max_tokens,
+                thinking_token_budget=thinking_token_budget,
             )
             attempts.append(response)
             return response.raw_output

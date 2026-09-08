@@ -13,7 +13,8 @@
   "expected_vllm_version": "0.28.0",
   "temperature": 0.0,
   "seed": 20260829,
-  "max_tokens": 512,
+  "max_tokens": 1536,
+  "expected_max_model_len": 4096,
   "repetitions": 3,
   "max_structural_retries": 2,
   "structured_output": {
@@ -22,6 +23,7 @@
     "schema_path": "phase_b/conditions/diagnostic_output.openai.schema.json"
   },
   "reasoning_effort": null,
+  "thinking_token_budget": 1024,
   "reasoning_mode": "server_default_qwen3",
   "stateless": true,
   "schedule_path": "phase_b/final_evaluation/inference_schedule.json",

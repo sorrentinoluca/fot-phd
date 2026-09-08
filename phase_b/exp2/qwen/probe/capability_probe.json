@@ -1,8 +1,8 @@
 {
   "artifact_version": "1",
-  "status": "FAIL",
+  "status": "PASS",
   "scope": "CAPABILITY_AND_PLUMBING_ONLY",
-  "executed_at": "2026-09-08T11:25:46.798198+00:00",
+  "executed_at": "2026-09-08T13:26:29.231095+00:00",
   "config": {
     "artifact_version": "1",
     "experiment": "EXP2",
@@ -18,7 +18,8 @@
     "expected_vllm_version": "0.28.0",
     "temperature": 0.0,
     "seed": 20260829,
-    "max_tokens": 512,
+    "max_tokens": 1536,
+    "expected_max_model_len": 4096,
     "repetitions": 3,
     "max_structural_retries": 2,
     "structured_output": {
@@ -27,6 +28,7 @@
       "schema_path": "phase_b/conditions/diagnostic_output.openai.schema.json"
     },
     "reasoning_effort": null,
+    "thinking_token_budget": 1024,
     "reasoning_mode": "server_default_qwen3",
     "stateless": true,
     "schedule_path": "phase_b/final_evaluation/inference_schedule.json",
@@ -64,14 +66,22 @@
     "responses": true,
     "tokenize": true
   },
+  "reasoning_controls": {
+    "source": "local vLLM 0.28.0 OpenAPI ChatCompletionRequest",
+    "reasoning_effort_advertised": true,
+    "thinking_token_budget_advertised": true,
+    "reasoning_effort_configured": false,
+    "thinking_token_budget_configured": true
+  },
   "prompt_budget": {
     "unique_prompts": 180,
     "all_prompt_hashes_match_original": true,
     "minimum_raw_prompt_tokens": 1386,
     "maximum_raw_prompt_tokens": 2340,
     "maximum_prompt_characters": 7400,
-    "maximum_plus_output_budget": 2852,
-    "note": "Raw /tokenize count; live Chat Completions usage is recorded separately."
+    "maximum_plus_output_budget": 3876,
+    "context_margin_tokens": 220,
+    "note": "Raw Qwen /tokenize count used only to verify context compatibility; the output budget was selected from the synthetic capability finding. Live Chat Completions usage is recorded separately."
   },
   "fixture": {
     "agent_id": "agent_3",
@@ -102,10 +112,10 @@
       "provider_attempts": [
         {
           "raw_output": "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity and isolated transients, without the sustained multi-window shift, slope, residual, or dispersion pattern seen in the R463B examples. This is closer to the normal examples with minimal or absent persistent abnormalities.\"\n}",
-          "reasoning_content": null,
+          "reasoning_content": "We need answer user's request. Need produce strict JSON only. Need analyze case. We have label space: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal. Local examples: R463B have XMEAS-18 exceeding shift/slope/residual/diff many windows, high dispersion. Normal have no shift/slope, maybe minor residual/diff, low dispersion. Case: Synthetic capability-only observation over eight five-hour windows. XMEAS-4 exceeds generic threshold in three windows, with two early activations and none in final two windows. No true class assigned. XMEAS-17 remains within reference range while XMEAS-22 shows one isolated transient that does not persist. Repeated many times. Need choose label. It seems no strong persistent pattern, only XMEAS-4 generic threshold 3 windows, early, none final; XMEAS-22 isolated transient. Likely Normal. Need output JSON with predicted_label Normal, abstain false, used_insight_ids empty, reasoning_summary concise. Ensure no markdown. Need maybe mention no persistent shift/slope/residual/diff, isolated transient. Strict JSON only.\n",
           "requested_model": "fot-exp2-consumer",
           "returned_model": "fot-exp2-consumer",
-          "response_id": "chatcmpl-9b4a738da1cad64a",
+          "response_id": "chatcmpl-9cb424419e5bcea2",
           "finish_reason": "stop",
           "prompt_tokens": 1553,
           "completion_tokens": 349,
@@ -124,7 +134,7 @@
             "prompt_tokens_details": null
           },
           "response_raw": {
-            "id": "chatcmpl-9b4a738da1cad64a",
+            "id": "chatcmpl-9cb424419e5bcea2",
             "choices": [
               {
                 "finish_reason": "stop",
@@ -145,7 +155,7 @@
                 "routed_experts": null
               }
             ],
-            "created": 1788866486,
+            "created": 1788873741,
             "model": "fot-exp2-consumer",
             "object": "chat.completion",
             "metadata": null,
@@ -176,148 +186,78 @@
           "api_family": "Chat Completions",
           "endpoint": "/v1/chat/completions"
         }
+      ],
+      "provider_invariants": [
+        {
+          "finish_reason_stop": true,
+          "content_non_null": true,
+          "parser_input_is_content": true,
+          "reasoning_preserved": true,
+          "no_length_truncation": true
+        }
       ]
     },
     "B": {
       "schema_valid": true,
       "parse_failure": false,
-      "structural_attempts": 2,
-      "validation_errors": [
-        "output is empty or not text"
-      ],
+      "structural_attempts": 1,
+      "validation_errors": [],
       "parsed_output": {
         "predicted_label": "Normal",
         "abstain": false,
         "used_insight_ids": [],
-        "reasoning_summary": "The case shows only brief, non-persistent threshold activity in XMEAS-4 and an isolated transient in XMEAS-22, with no sustained displacement, slope, residual, or dispersion pattern matching the abnormal class examples. This is closest to the normal local examples with minimal isolated exceedances."
+        "reasoning_summary": "The case shows only brief, non-persistent threshold activity and no sustained displacement, slope, residual, or sample-to-sample exceedance pattern. It lacks the high-frequency, high-dispersion signatures associated with the abnormal peer patterns. The closest local examples are Normal cases with isolated, non-persistent deviations."
       },
       "raw_attempts": [
-        "",
-        "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity in XMEAS-4 and an isolated transient in XMEAS-22, with no sustained displacement, slope, residual, or dispersion pattern matching the abnormal class examples. This is closest to the normal local examples with minimal isolated exceedances.\"\n}"
+        "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity and no sustained displacement, slope, residual, or sample-to-sample exceedance pattern. It lacks the high-frequency, high-dispersion signatures associated with the abnormal peer patterns. The closest local examples are Normal cases with isolated, non-persistent deviations.\"\n}"
       ],
       "provider_attempts": [
         {
-          "raw_output": "",
-          "reasoning_content": null,
+          "raw_output": "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity and no sustained displacement, slope, residual, or sample-to-sample exceedance pattern. It lacks the high-frequency, high-dispersion signatures associated with the abnormal peer patterns. The closest local examples are Normal cases with isolated, non-persistent deviations.\"\n}",
+          "reasoning_content": "We need answer user's request: diagnostic reasoning agent, output strict JSON only. Need analyze case and choose label from label space. Need use only supplied local labeled examples, optional peer observations, neutral case. Need return JSON with predicted_label, abstain, used_insight_ids, reasoning_summary. Need likely choose Normal? Let's inspect.\n\nLabel space: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal.\n\nLocal examples:\n- EXM-005 R463B: XMEAS-18 displacement 8/8, slope 6/8, residual 8/8, diff 5/8, joint 5/8, max dispersion XMEAS-18 ratio 16.27.\n- EXM-006 R463B: XMEAS-18 displacement 7/8, slope 8/8, residual 8/8, diff 7/8, joint 7/8, max dispersion XMEAS-18 16.56.\n- EXM-009 Normal: no displacement, no slope, XMEAS-10 residual 1/8 (0/2 initial, 1/2 final), XMEAS-39 diff 1/8 (0/2 initial, 1/2 final), max dispersion XMEAS-10 1.48.\n- EXM-010 Normal: no thresholds, max dispersion 1.36.\n\nPeer insights:\n- ZOGAA: XMEAS-1 displacement positive 8/8, coherent 8-window run, largest dispersion 46.06-46.50. Also XMEAS-20 residual 4/8 incl 2/2 initial 0/2 final; XMEAS-10 diff/joint 1/8 none final.\n- OJNSG: displacement and slope exceedance 7-8/8, activations 10-45, short coherent runs 2-5. Residual 8/8, diff 5-6/8, joint 5-6/8.\n- Z3ISU: displacement and slope 8/8 from 10-45, variables/sign vary. XMEAS-7 residual 8/8 incl 2/2 initial/final in 4/5, max dispersion variable every example.\n\nCase: \"Synthetic capability-only observation over eight five-hour windows. XMEAS-4 exceeds a generic threshold in three windows, with two early activations and none in the final two windows. No true class is assigned. XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist. [repeated many times] XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient\"\n\nThis is very different from examples: only XMEAS-4 exceeds generic threshold in 3 windows, two early, none final. XMEAS-17 within range, XMEAS-22 one isolated transient not persist. No displacement/slope/residual/diff details? It says generic threshold. No max dispersion. It seems mostly normal / no persistent class pattern. Need choose from labels. Could be Normal because no sustained threshold exceedances, no coherent runs, no max dispersion, isolated transient. But there is XMEAS-4 exceeds generic threshold in three windows, two early and none final. Normal examples have no displacement/slope but can have one residual/diff exceedance. Here 3 windows generic threshold maybe not enough. Peer insights for abnormal classes require 7-8/8 displacement/slope, residual 8/8, etc. ZOGAA requires XMEAS-1 8/8 and high dispersion. Not present. OJNSG requires 7-8/8 displacement and slope, residual 8/8. Not present. Z3ISU requires 8/8 displacement/slope and XMEAS-7 residual 8/8 max dispersion. Not present. R463B local examples require XMEAS-18 high exceedances. Not present. So Normal likely.\n\nNeed used_insight_ids: can use peer insights? We can cite maybe INS-003, INS-004, INS-007, INS-008 to show abnormal patterns absent? But instruction: Use only supplied peer insight IDs; when none are supplied, used_insight_ids must be empty. We can include IDs we used. We can use local examples too but only insight IDs in field. Should we include none? If reasoning based on local examples and case, no peer insights necessary. But optional peer observations can be used. To",
           "requested_model": "fot-exp2-consumer",
           "returned_model": "fot-exp2-consumer",
-          "response_id": "chatcmpl-bbf735c05964ad95",
-          "finish_reason": "length",
-          "prompt_tokens": 2300,
-          "completion_tokens": 512,
-          "total_tokens": 2812,
-          "usage_raw": {
-            "completion_tokens": 512,
-            "prompt_tokens": 2300,
-            "total_tokens": 2812,
-            "completion_tokens_details": {
-              "accepted_prediction_tokens": null,
-              "audio_tokens": null,
-              "reasoning_tokens": 512,
-              "rejected_prediction_tokens": null,
-              "text_tokens": null
-            },
-            "prompt_tokens_details": null
-          },
-          "response_raw": {
-            "id": "chatcmpl-bbf735c05964ad95",
-            "choices": [
-              {
-                "finish_reason": "length",
-                "index": 0,
-                "logprobs": null,
-                "message": {
-                  "content": null,
-                  "refusal": null,
-                  "role": "assistant",
-                  "annotations": null,
-                  "audio": null,
-                  "function_call": null,
-                  "tool_calls": null,
-                  "reasoning": "We need answer user's request: diagnostic reasoning agent, output strict JSON only. Need analyze case and choose label from label space. Need use only supplied local labeled examples, optional peer observations, neutral case. Need return JSON with predicted_label, abstain, used_insight_ids, reasoning_summary. Need likely choose Normal? Let's inspect.\n\nLabel space: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal.\n\nLocal examples:\n- EXM-005 R463B: XMEAS-18 displacement 8/8, slope 6/8, residual 8/8, diff 5/8, joint 5/8, max dispersion XMEAS-18 ratio 16.27.\n- EXM-006 R463B: XMEAS-18 displacement 7/8, slope 8/8, residual 8/8, diff 7/8, joint 7/8, max dispersion XMEAS-18 16.56.\n- EXM-009 Normal: no displacement, no slope, XMEAS-10 residual 1/8 (0/2 initial, 1/2 final), XMEAS-39 diff 1/8 (0/2 initial, 1/2 final), max dispersion XMEAS-10 1.48.\n- EXM-010 Normal: no thresholds, max dispersion 1.36.\n\nPeer insights:\n- ZOGAA: XMEAS-1 displacement positive 8/8, coherent 8-window run, largest dispersion 46.06-46.50. Also XMEAS-20 residual 4/8 incl 2/2 initial 0/2 final; XMEAS-10 diff/joint 1/8 none final.\n- OJNSG: displacement and slope exceedance 7-8/8, activations 10-45, short coherent runs 2-5. Residual 8/8, diff 5-6/8, joint 5-6/8.\n- Z3ISU: displacement and slope 8/8 from 10-45, variables/sign vary. XMEAS-7 residual 8/8 incl"
-                },
-                "stop_reason": null,
-                "token_ids": null,
-                "routed_experts": null
-              }
-            ],
-            "created": 1788866510,
-            "model": "fot-exp2-consumer",
-            "object": "chat.completion",
-            "metadata": null,
-            "moderation": null,
-            "service_tier": null,
-            "system_fingerprint": "vllm-0.28.0-abc0cde2",
-            "usage": {
-              "completion_tokens": 512,
-              "prompt_tokens": 2300,
-              "total_tokens": 2812,
-              "completion_tokens_details": {
-                "accepted_prediction_tokens": null,
-                "audio_tokens": null,
-                "reasoning_tokens": 512,
-                "rejected_prediction_tokens": null,
-                "text_tokens": null
-              },
-              "prompt_tokens_details": null
-            },
-            "prompt_logprobs": null,
-            "prompt_token_ids": null,
-            "prompt_text": null,
-            "kv_transfer_params": null,
-            "ec_transfer_params": null,
-            "metrics": null
-          },
-          "sdk_version": "3.8.0",
-          "api_family": "Chat Completions",
-          "endpoint": "/v1/chat/completions"
-        },
-        {
-          "raw_output": "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity in XMEAS-4 and an isolated transient in XMEAS-22, with no sustained displacement, slope, residual, or dispersion pattern matching the abnormal class examples. This is closest to the normal local examples with minimal isolated exceedances.\"\n}",
-          "reasoning_content": null,
-          "requested_model": "fot-exp2-consumer",
-          "returned_model": "fot-exp2-consumer",
-          "response_id": "chatcmpl-bcce07b00f92fb6b",
+          "response_id": "chatcmpl-a2459d531a256a1f",
           "finish_reason": "stop",
-          "prompt_tokens": 2349,
-          "completion_tokens": 496,
-          "total_tokens": 2845,
+          "prompt_tokens": 2300,
+          "completion_tokens": 1124,
+          "total_tokens": 3424,
           "usage_raw": {
-            "completion_tokens": 496,
-            "prompt_tokens": 2349,
-            "total_tokens": 2845,
+            "completion_tokens": 1124,
+            "prompt_tokens": 2300,
+            "total_tokens": 3424,
             "completion_tokens_details": {
               "accepted_prediction_tokens": null,
               "audio_tokens": null,
-              "reasoning_tokens": 395,
+              "reasoning_tokens": 1023,
               "rejected_prediction_tokens": null,
               "text_tokens": null
             },
             "prompt_tokens_details": null
           },
           "response_raw": {
-            "id": "chatcmpl-bcce07b00f92fb6b",
+            "id": "chatcmpl-a2459d531a256a1f",
             "choices": [
               {
                 "finish_reason": "stop",
                 "index": 0,
                 "logprobs": null,
                 "message": {
-                  "content": "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity in XMEAS-4 and an isolated transient in XMEAS-22, with no sustained displacement, slope, residual, or dispersion pattern matching the abnormal class examples. This is closest to the normal local examples with minimal isolated exceedances.\"\n}",
+                  "content": "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity and no sustained displacement, slope, residual, or sample-to-sample exceedance pattern. It lacks the high-frequency, high-dispersion signatures associated with the abnormal peer patterns. The closest local examples are Normal cases with isolated, non-persistent deviations.\"\n}",
                   "refusal": null,
                   "role": "assistant",
                   "annotations": null,
                   "audio": null,
                   "function_call": null,
                   "tool_calls": null,
-                  "reasoning": "We need answer user's request. Need produce strict JSON only. Need analyze case. We have label space: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal. Local examples: R463B have XMEAS-18 many threshold exceedances displacement/slope/residual/diff, high dispersion. Normal have no displacement/slope, maybe minor residual/diff, low dispersion. Peer insights: ZOGAA XMEAS-1 positive all 8, high dispersion; OJNSG displacement/slope 7-8/8, residual 8/8, diff 5-6/8; Z3ISU displacement/slope 8/8, XMEAS-7 residual 8/8 max dispersion. Case: \"Synthetic capability-only observation over eight five-hour windows. XMEAS-4 exceeds a generic threshold in three windows, with two early activations and none in the final two windows. No true class is assigned. XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist. [repeated many times] XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient\" It seems mostly normal: only XMEAS-4 exceeds generic threshold in 3 windows, early, none final; XMEAS-22 one isolated transient not persist. No displacement/slope threshold? It says generic threshold, not specific. No high dispersion. Likely Normal. Need output JSON with predicted_label Normal, abstain false, used_insight_ids maybe empty? Could use peer insights? None directly match. Maybe use none. Reasoning concise. Must exact keys. Ensure no markdown. Need maybe if abstain false predicted label exactly one. Use used_insight_ids empty. Need strict JSON.\n"
+                  "reasoning": "We need answer user's request: diagnostic reasoning agent, output strict JSON only. Need analyze case and choose label from label space. Need use only supplied local labeled examples, optional peer observations, neutral case. Need return JSON with predicted_label, abstain, used_insight_ids, reasoning_summary. Need likely choose Normal? Let's inspect.\n\nLabel space: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal.\n\nLocal examples:\n- EXM-005 R463B: XMEAS-18 displacement 8/8, slope 6/8, residual 8/8, diff 5/8, joint 5/8, max dispersion XMEAS-18 ratio 16.27.\n- EXM-006 R463B: XMEAS-18 displacement 7/8, slope 8/8, residual 8/8, diff 7/8, joint 7/8, max dispersion XMEAS-18 16.56.\n- EXM-009 Normal: no displacement, no slope, XMEAS-10 residual 1/8 (0/2 initial, 1/2 final), XMEAS-39 diff 1/8 (0/2 initial, 1/2 final), max dispersion XMEAS-10 1.48.\n- EXM-010 Normal: no thresholds, max dispersion 1.36.\n\nPeer insights:\n- ZOGAA: XMEAS-1 displacement positive 8/8, coherent 8-window run, largest dispersion 46.06-46.50. Also XMEAS-20 residual 4/8 incl 2/2 initial 0/2 final; XMEAS-10 diff/joint 1/8 none final.\n- OJNSG: displacement and slope exceedance 7-8/8, activations 10-45, short coherent runs 2-5. Residual 8/8, diff 5-6/8, joint 5-6/8.\n- Z3ISU: displacement and slope 8/8 from 10-45, variables/sign vary. XMEAS-7 residual 8/8 incl 2/2 initial/final in 4/5, max dispersion variable every example.\n\nCase: \"Synthetic capability-only observation over eight five-hour windows. XMEAS-4 exceeds a generic threshold in three windows, with two early activations and none in the final two windows. No true class is assigned. XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist. [repeated many times] XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient\"\n\nThis is very different from examples: only XMEAS-4 exceeds generic threshold in 3 windows, two early, none final. XMEAS-17 within range, XMEAS-22 one isolated transient not persist. No displacement/slope/residual/diff details? It says generic threshold. No max dispersion. It seems mostly normal / no persistent class pattern. Need choose from labels. Could be Normal because no sustained threshold exceedances, no coherent runs, no max dispersion, isolated transient. But there is XMEAS-4 exceeds generic threshold in three windows, two early and none final. Normal examples have no displacement/slope but can have one residual/diff exceedance. Here 3 windows generic threshold maybe not enough. Peer insights for abnormal classes require 7-8/8 displacement/slope, residual 8/8, etc. ZOGAA requires XMEAS-1 8/8 and high dispersion. Not present. OJNSG requires 7-8/8 displacement and slope, residual 8/8. Not present. Z3ISU requires 8/8 displacement/slope and XMEAS-7 residual 8/8 max dispersion. Not present. R463B local examples require XMEAS-18 high exceedances. Not present. So Normal likely.\n\nNeed used_insight_ids: can use peer insights? We can cite maybe INS-003, INS-004, INS-007, INS-008 to show abnormal patterns absent? But instruction: Use only supplied peer insight IDs; when none are supplied, used_insight_ids must be empty. We can include IDs we used. We can use local examples too but only insight IDs in field. Should we include none? If reasoning based on local examples and case, no peer insights necessary. But optional peer observations can be used. To"
                 },
                 "stop_reason": null,
                 "token_ids": null,
                 "routed_experts": null
               }
             ],
-            "created": 1788866544,
+            "created": 1788873764,
             "model": "fot-exp2-consumer",
             "object": "chat.completion",
             "metadata": null,
@@ -325,13 +265,13 @@
             "service_tier": null,
             "system_fingerprint": "vllm-0.28.0-abc0cde2",
             "usage": {
-              "completion_tokens": 496,
-              "prompt_tokens": 2349,
-              "total_tokens": 2845,
+              "completion_tokens": 1124,
+              "prompt_tokens": 2300,
+              "total_tokens": 3424,
               "completion_tokens_details": {
                 "accepted_prediction_tokens": null,
                 "audio_tokens": null,
-                "reasoning_tokens": 395,
+                "reasoning_tokens": 1023,
                 "rejected_prediction_tokens": null,
                 "text_tokens": null
               },
@@ -347,76 +287,79 @@
           "sdk_version": "3.8.0",
           "api_family": "Chat Completions",
           "endpoint": "/v1/chat/completions"
+        }
+      ],
+      "provider_invariants": [
+        {
+          "finish_reason_stop": true,
+          "content_non_null": true,
+          "parser_input_is_content": true,
+          "reasoning_preserved": true,
+          "no_length_truncation": true
         }
       ]
     },
     "E": {
-      "schema_valid": false,
-      "parse_failure": true,
-      "structural_attempts": 3,
-      "validation_errors": [
-        "output is empty or not text",
-        "output is empty or not text",
-        "output is empty or not text"
-      ],
+      "schema_valid": true,
+      "parse_failure": false,
+      "structural_attempts": 1,
+      "validation_errors": [],
       "parsed_output": {
-        "predicted_label": null,
-        "abstain": true,
+        "predicted_label": "Normal",
+        "abstain": false,
         "used_insight_ids": [],
-        "reasoning_summary": "parse_failure"
+        "reasoning_summary": "The case shows only a limited early generic threshold exceedance and an isolated non-persistent transient, without the sustained displacement/slope, residual, or dispersion patterns seen in the abnormal examples. This is closest to the normal local examples, which contain only isolated minor exceedances."
       },
       "raw_attempts": [
-        "",
-        "",
-        ""
+        "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only a limited early generic threshold exceedance and an isolated non-persistent transient, without the sustained displacement/slope, residual, or dispersion patterns seen in the abnormal examples. This is closest to the normal local examples, which contain only isolated minor exceedances.\"\n}"
       ],
       "provider_attempts": [
         {
-          "raw_output": "",
-          "reasoning_content": null,
+          "raw_output": "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only a limited early generic threshold exceedance and an isolated non-persistent transient, without the sustained displacement/slope, residual, or dispersion patterns seen in the abnormal examples. This is closest to the normal local examples, which contain only isolated minor exceedances.\"\n}",
+          "reasoning_content": "We need answer strict JSON only. Need analyze case. Need choose label from label space or null if abstain. Need use only supplied local labeled examples, optional peer observations, neutral case. Need output JSON with predicted_label, abstain, used_insight_ids, reasoning_summary.\n\nWe need infer from case: \"Synthetic capability-only observation over eight five-hour windows. XMEAS-4 exceeds a generic threshold in three windows, with two early activations and none in the final two windows. No true class is assigned. XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist. [repeated many times] XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient\"\n\nThis seems mostly normal? Local examples: Normal have no displacement/slope threshold exceedance, maybe residual/diff isolated 1/8. Case: XMEAS-4 exceeds generic threshold in 3 windows, two early, none final. XMEAS-17 within range, XMEAS-22 one isolated transient not persist. Repeated. No true class assigned. Need choose from labels. Peer insights: OJNSG: XMEAS-1 positive 8/8, largest dispersion; residual XMEAS-20 4/8 initial etc. Z3ISU: displacement and slope 7-8/8, residual 8/8, sample 5-6/8, simultaneous 5-6/8. ZOGAA: displacement and slope 8/8, XMEAS-7 residual 8/8 max dispersion. R463B local examples: XMEAS-18 displacement 7-8/8, slope 6-8/8, residual 8/8, diff 5-7/8, simultaneous 5-7/8, max dispersion XMEAS-18 ratio 16.27/16.56.\n\nCase lacks many features: only XMEAS-4 generic threshold 3/8, early, none final; XMEAS-22 isolated transient. No displacement/slope? \"exceeds a generic threshold\" not specific. No max dispersion. This resembles Normal? Normal examples: no threshold exceedance, but one isolated residual/diff 1/8. Here XMEAS-4 exceeds generic threshold in 3 windows, two early none final. That's more than normal but not matching any abnormal pattern (which require 7-8/8 displacement/slope, residual 8/8, etc). Could be Normal? But \"No true class is assigned\" maybe capability-only observation, not diagnostic. Need choose label. If insufficient, abstain? The prompt says choose from supplied label space. If abstain false predicted label. Could abstain true if uncertain? Need likely output Normal because no strong abnormal pattern. But need consider \"XMEAS-4 exceeds a generic threshold in three windows\" maybe not enough. Local Normal examples have no XMEAS exceeds displacement/slope, but can have residual/diff 1/8. Here generic threshold 3/8, not displacement/slope. Could be Normal? The repeated sentence \"XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist\" suggests benign isolated transient. \"No true class is assigned\" maybe indicates no class? But label space includes Normal. Need not abstain? The instruction: \"If abstain is false, predicted_label must be exactly one supplied label. If abstain is true, predicted_label must be null.\" We can abstain if not enough. But likely expected to classify. Need use peer insights? used_insight_ids can be empty if none. We can use none.\n\nNeed strict JSON only. Need decide. Let's deeply reason.\n\nThe task: diagnostic reasoning agent. Use only supplied local labeled examples, optional peer observations, neutral case. Choose from supplied label space. Neutral description contains observations, not diagnosis. Return strict JSON.\n\nLabels: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal.\n\nLocal examples:\n- R463B: XMEAS-18 displacement 8/8 or 7/8, slope 6/8 or 8/8, residual 8/8, diff 5/8 or 7/8, simultaneous 5/8 or 7/8, max dispersion XMEAS-18 ratio ~16.\n- Normal: no displacement/slope; residual/diff at most 1/8; max dispersion ratio ~1.4.\n\nPeer insights:\n- OJNSG: XMEAS-1 displacement positive 8/8, largest dispersion 46; XMEAS-2",
           "requested_model": "fot-exp2-consumer",
           "returned_model": "fot-exp2-consumer",
-          "response_id": "chatcmpl-8ef5440fd152e8e2",
-          "finish_reason": "length",
+          "response_id": "chatcmpl-8514e93a8c0d558d",
+          "finish_reason": "stop",
           "prompt_tokens": 2300,
-          "completion_tokens": 512,
-          "total_tokens": 2812,
+          "completion_tokens": 1117,
+          "total_tokens": 3417,
           "usage_raw": {
-            "completion_tokens": 512,
+            "completion_tokens": 1117,
             "prompt_tokens": 2300,
-            "total_tokens": 2812,
+            "total_tokens": 3417,
             "completion_tokens_details": {
               "accepted_prediction_tokens": null,
               "audio_tokens": null,
-              "reasoning_tokens": 512,
+              "reasoning_tokens": 1023,
               "rejected_prediction_tokens": null,
               "text_tokens": null
             },
             "prompt_tokens_details": null
           },
           "response_raw": {
-            "id": "chatcmpl-8ef5440fd152e8e2",
+            "id": "chatcmpl-8514e93a8c0d558d",
             "choices": [
               {
-                "finish_reason": "length",
+                "finish_reason": "stop",
                 "index": 0,
                 "logprobs": null,
                 "message": {
-                  "content": null,
+                  "content": "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only a limited early generic threshold exceedance and an isolated non-persistent transient, without the sustained displacement/slope, residual, or dispersion patterns seen in the abnormal examples. This is closest to the normal local examples, which contain only isolated minor exceedances.\"\n}",
                   "refusal": null,
                   "role": "assistant",
                   "annotations": null,
                   "audio": null,
                   "function_call": null,
                   "tool_calls": null,
-                  "reasoning": "We need answer strict JSON only. Need analyze case. Need choose label from label space or null if abstain. Need use only supplied local labeled examples, optional peer observations, neutral case. Need output JSON with predicted_label, abstain, used_insight_ids, reasoning_summary.\n\nWe need infer from case: \"Synthetic capability-only observation over eight five-hour windows. XMEAS-4 exceeds a generic threshold in three windows, with two early activations and none in the final two windows. No true class is assigned. XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist. [repeated many times] XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient\"\n\nThis seems mostly normal? Local examples: Normal have no displacement/slope threshold exceedance, maybe residual/diff isolated 1/8. Case: XMEAS-4 exceeds generic threshold in 3 windows, two early, none final. XMEAS-17 within range, XMEAS-22 one isolated transient not persist. Repeated. No true class assigned. Need choose from labels. Peer insights: OJNSG: XMEAS-1 positive 8/8, largest dispersion; residual XMEAS-20 4/8 initial etc. Z3ISU: displacement and slope 7-8/8, residual 8/8, sample 5-6/8, simultaneous 5-6/8. ZOGAA: displacement and slope 8/8, XMEAS-7 residual 8/8 max dispersion. R463B local examples: XMEAS-18 displacement 7-8/8, slope 6-8/8, residual 8/8, diff 5-7/8, simultaneous 5-7/8, max dispersion XMEAS-18 ratio 16.27/16.56.\n\nCase lacks many features: only XMEAS-4 generic threshold 3/8, early, none final; XMEAS-22 isolated transient. No displacement/slope? \"exceeds a generic threshold\" not specific. No max dispersion. This resembles Normal? Normal examples: no threshold exceedance, but one isolated residual/diff 1/8. Here XMEAS-4 exceeds generic threshold in 3 windows, two early none final"
+                  "reasoning": "We need answer strict JSON only. Need analyze case. Need choose label from label space or null if abstain. Need use only supplied local labeled examples, optional peer observations, neutral case. Need output JSON with predicted_label, abstain, used_insight_ids, reasoning_summary.\n\nWe need infer from case: \"Synthetic capability-only observation over eight five-hour windows. XMEAS-4 exceeds a generic threshold in three windows, with two early activations and none in the final two windows. No true class is assigned. XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist. [repeated many times] XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient\"\n\nThis seems mostly normal? Local examples: Normal have no displacement/slope threshold exceedance, maybe residual/diff isolated 1/8. Case: XMEAS-4 exceeds generic threshold in 3 windows, two early, none final. XMEAS-17 within range, XMEAS-22 one isolated transient not persist. Repeated. No true class assigned. Need choose from labels. Peer insights: OJNSG: XMEAS-1 positive 8/8, largest dispersion; residual XMEAS-20 4/8 initial etc. Z3ISU: displacement and slope 7-8/8, residual 8/8, sample 5-6/8, simultaneous 5-6/8. ZOGAA: displacement and slope 8/8, XMEAS-7 residual 8/8 max dispersion. R463B local examples: XMEAS-18 displacement 7-8/8, slope 6-8/8, residual 8/8, diff 5-7/8, simultaneous 5-7/8, max dispersion XMEAS-18 ratio 16.27/16.56.\n\nCase lacks many features: only XMEAS-4 generic threshold 3/8, early, none final; XMEAS-22 isolated transient. No displacement/slope? \"exceeds a generic threshold\" not specific. No max dispersion. This resembles Normal? Normal examples: no threshold exceedance, but one isolated residual/diff 1/8. Here XMEAS-4 exceeds generic threshold in 3 windows, two early none final. That's more than normal but not matching any abnormal pattern (which require 7-8/8 displacement/slope, residual 8/8, etc). Could be Normal? But \"No true class is assigned\" maybe capability-only observation, not diagnostic. Need choose label. If insufficient, abstain? The prompt says choose from supplied label space. If abstain false predicted label. Could abstain true if uncertain? Need likely output Normal because no strong abnormal pattern. But need consider \"XMEAS-4 exceeds a generic threshold in three windows\" maybe not enough. Local Normal examples have no XMEAS exceeds displacement/slope, but can have residual/diff 1/8. Here generic threshold 3/8, not displacement/slope. Could be Normal? The repeated sentence \"XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist\" suggests benign isolated transient. \"No true class is assigned\" maybe indicates no class? But label space includes Normal. Need not abstain? The instruction: \"If abstain is false, predicted_label must be exactly one supplied label. If abstain is true, predicted_label must be null.\" We can abstain if not enough. But likely expected to classify. Need use peer insights? used_insight_ids can be empty if none. We can use none.\n\nNeed strict JSON only. Need decide. Let's deeply reason.\n\nThe task: diagnostic reasoning agent. Use only supplied local labeled examples, optional peer observations, neutral case. Choose from supplied label space. Neutral description contains observations, not diagnosis. Return strict JSON.\n\nLabels: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal.\n\nLocal examples:\n- R463B: XMEAS-18 displacement 8/8 or 7/8, slope 6/8 or 8/8, residual 8/8, diff 5/8 or 7/8, simultaneous 5/8 or 7/8, max dispersion XMEAS-18 ratio ~16.\n- Normal: no displacement/slope; residual/diff at most 1/8; max dispersion ratio ~1.4.\n\nPeer insights:\n- OJNSG: XMEAS-1 displacement positive 8/8, largest dispersion 46; XMEAS-2"
                 },
                 "stop_reason": null,
                 "token_ids": null,
                 "routed_experts": null
               }
             ],
-            "created": 1788866576,
+            "created": 1788873837,
             "model": "fot-exp2-consumer",
             "object": "chat.completion",
             "metadata": null,
@@ -424,165 +367,13 @@
             "service_tier": null,
             "system_fingerprint": "vllm-0.28.0-abc0cde2",
             "usage": {
-              "completion_tokens": 512,
+              "completion_tokens": 1117,
               "prompt_tokens": 2300,
-              "total_tokens": 2812,
+              "total_tokens": 3417,
               "completion_tokens_details": {
                 "accepted_prediction_tokens": null,
                 "audio_tokens": null,
-                "reasoning_tokens": 512,
-                "rejected_prediction_tokens": null,
-                "text_tokens": null
-              },
-              "prompt_tokens_details": null
-            },
-            "prompt_logprobs": null,
-            "prompt_token_ids": null,
-            "prompt_text": null,
-            "kv_transfer_params": null,
-            "ec_transfer_params": null,
-            "metrics": null
-          },
-          "sdk_version": "3.8.0",
-          "api_family": "Chat Completions",
-          "endpoint": "/v1/chat/completions"
-        },
-        {
-          "raw_output": "",
-          "reasoning_content": null,
-          "requested_model": "fot-exp2-consumer",
-          "returned_model": "fot-exp2-consumer",
-          "response_id": "chatcmpl-a22c5f6f5bbd2b24",
-          "finish_reason": "length",
-          "prompt_tokens": 2349,
-          "completion_tokens": 512,
-          "total_tokens": 2861,
-          "usage_raw": {
-            "completion_tokens": 512,
-            "prompt_tokens": 2349,
-            "total_tokens": 2861,
-            "completion_tokens_details": {
-              "accepted_prediction_tokens": null,
-              "audio_tokens": null,
-              "reasoning_tokens": 512,
-              "rejected_prediction_tokens": null,
-              "text_tokens": null
-            },
-            "prompt_tokens_details": null
-          },
-          "response_raw": {
-            "id": "chatcmpl-a22c5f6f5bbd2b24",
-            "choices": [
-              {
-                "finish_reason": "length",
-                "index": 0,
-                "logprobs": null,
-                "message": {
-                  "content": null,
-                  "refusal": null,
-                  "role": "assistant",
-                  "annotations": null,
-                  "audio": null,
-                  "function_call": null,
-                  "tool_calls": null,
-                  "reasoning": "We need answer user's request. Need produce strict JSON only. Need analyze case. We have label space: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal. Local examples: R463B have XMEAS-18 many threshold exceedances displacement/slope/residual/diff, high dispersion. Normal have no displacement/slope, maybe minor residual/diff, low dispersion. Peer insights: OJNSG: XMEAS-1 positive displacement 8/8, high dispersion; also XMEAS-20 residual 4/8 initial, XMEAS-10 diff 1/8. Z3ISU: displacement and slope 7-8/8, residual 8/8, diff 5-6/8. ZOGAA: displacement and slope 8/8, XMEAS-7 residual 8/8 max dispersion.\n\nCase: \"Synthetic capability-only observation over eight five-hour windows. XMEAS-4 exceeds a generic threshold in three windows, with two early activations and none in the final two windows. No true class is assigned. XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist. [repeated many times] XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient\"\n\nThis seems mostly normal: only XMEAS-4 exceeds generic threshold in 3 windows, early, none final; XMEAS-22 one isolated transient not persist; XMEAS-17 within range. No displacement/slope threshold? It says generic threshold, not specific. No high dispersion. Likely Normal. Need output JSON with predicted_label Normal, abstain false, used_insight_ids maybe empty? Could use peer insights? The case doesn't match peer patterns. Use none. Reasoning concise. Ensure exact keys. No markdown.\n\nNeed consider if \"No true class is assigned\" maybe indicates abstain? But label space includes Normal. The description is neutral observations, not diagnosis. It says synthetic capability-only observation, no true class assigned. But we must choose from supplied label space or null only when abstaining. Is abstain appropriate? The instruction: If abstain false, predicted_label must be exactly one supplied label. If abstain true, predicted_label null. We need decide. The case has"
-                },
-                "stop_reason": null,
-                "token_ids": null,
-                "routed_experts": null
-              }
-            ],
-            "created": 1788866609,
-            "model": "fot-exp2-consumer",
-            "object": "chat.completion",
-            "metadata": null,
-            "moderation": null,
-            "service_tier": null,
-            "system_fingerprint": "vllm-0.28.0-abc0cde2",
-            "usage": {
-              "completion_tokens": 512,
-              "prompt_tokens": 2349,
-              "total_tokens": 2861,
-              "completion_tokens_details": {
-                "accepted_prediction_tokens": null,
-                "audio_tokens": null,
-                "reasoning_tokens": 512,
-                "rejected_prediction_tokens": null,
-                "text_tokens": null
-              },
-              "prompt_tokens_details": null
-            },
-            "prompt_logprobs": null,
-            "prompt_token_ids": null,
-            "prompt_text": null,
-            "kv_transfer_params": null,
-            "ec_transfer_params": null,
-            "metrics": null
-          },
-          "sdk_version": "3.8.0",
-          "api_family": "Chat Completions",
-          "endpoint": "/v1/chat/completions"
-        },
-        {
-          "raw_output": "",
-          "reasoning_content": null,
-          "requested_model": "fot-exp2-consumer",
-          "returned_model": "fot-exp2-consumer",
-          "response_id": "chatcmpl-986bde92061b7f98",
-          "finish_reason": "length",
-          "prompt_tokens": 2349,
-          "completion_tokens": 512,
-          "total_tokens": 2861,
-          "usage_raw": {
-            "completion_tokens": 512,
-            "prompt_tokens": 2349,
-            "total_tokens": 2861,
-            "completion_tokens_details": {
-              "accepted_prediction_tokens": null,
-              "audio_tokens": null,
-              "reasoning_tokens": 512,
-              "rejected_prediction_tokens": null,
-              "text_tokens": null
-            },
-            "prompt_tokens_details": null
-          },
-          "response_raw": {
-            "id": "chatcmpl-986bde92061b7f98",
-            "choices": [
-              {
-                "finish_reason": "length",
-                "index": 0,
-                "logprobs": null,
-                "message": {
-                  "content": null,
-                  "refusal": null,
-                  "role": "assistant",
-                  "annotations": null,
-                  "audio": null,
-                  "function_call": null,
-                  "tool_calls": null,
-                  "reasoning": "We need answer user's request. Need produce strict JSON only. Need analyze case. We have label space: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal. Local examples: R463B have XMEAS-18 many threshold exceedances displacement/slope/residual/diff, high dispersion. Normal have no displacement/slope, maybe minor residual/diff, low dispersion. Peer insights: OJNSG: XMEAS-1 positive displacement 8/8, high dispersion; also XMEAS-20 residual 4/8 initial, XMEAS-10 diff 1/8. Z3ISU: displacement and slope 7-8/8, residual 8/8, diff 5-6/8. ZOGAA: displacement and slope 8/8, XMEAS-7 residual 8/8 max dispersion.\n\nCase: \"Synthetic capability-only observation over eight five-hour windows. XMEAS-4 exceeds a generic threshold in three windows, with two early activations and none in the final two windows. No true class is assigned. XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist. [repeated many times] XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient\"\n\nThis seems mostly normal: only XMEAS-4 exceeds generic threshold in 3 windows, early, none final; XMEAS-22 one isolated transient not persist; XMEAS-17 within range. No displacement/slope threshold? It says generic threshold, not specific. No high dispersion. Likely Normal. Need output JSON with predicted_label Normal, abstain false, used_insight_ids maybe empty? Could use peer insights? The case doesn't match peer patterns. Use none. Reasoning concise. Ensure exact keys. No markdown.\n\nNeed consider if \"No true class is assigned\" maybe indicates abstain? But label space includes Normal. The description is neutral observations, not diagnosis. It says synthetic capability-only observation, no true class assigned. But we must choose from supplied label space or null only when abstaining. Is abstain appropriate? The instruction: If abstain false, predicted_label must be exactly one supplied label. If abstain true, predicted_label null. We need decide. The case has"
-                },
-                "stop_reason": null,
-                "token_ids": null,
-                "routed_experts": null
-              }
-            ],
-            "created": 1788866644,
-            "model": "fot-exp2-consumer",
-            "object": "chat.completion",
-            "metadata": null,
-            "moderation": null,
-            "service_tier": null,
-            "system_fingerprint": "vllm-0.28.0-abc0cde2",
-            "usage": {
-              "completion_tokens": 512,
-              "prompt_tokens": 2349,
-              "total_tokens": 2861,
-              "completion_tokens_details": {
-                "accepted_prediction_tokens": null,
-                "audio_tokens": null,
-                "reasoning_tokens": 512,
+                "reasoning_tokens": 1023,
                 "rejected_prediction_tokens": null,
                 "text_tokens": null
               },
@@ -599,8 +390,63 @@
           "api_family": "Chat Completions",
           "endpoint": "/v1/chat/completions"
         }
+      ],
+      "provider_invariants": [
+        {
+          "finish_reason_stop": true,
+          "content_non_null": true,
+          "parser_input_is_content": true,
+          "reasoning_preserved": true,
+          "no_length_truncation": true
+        }
       ]
     }
+  },
+  "condition_checks": {
+    "A": {
+      "finish_reason_stop": true,
+      "content_non_null": true,
+      "schema_valid": true,
+      "reasoning_preserved": true,
+      "no_length_truncation": true
+    },
+    "B": {
+      "finish_reason_stop": true,
+      "content_non_null": true,
+      "schema_valid": true,
+      "reasoning_preserved": true,
+      "no_length_truncation": true
+    },
+    "E": {
+      "finish_reason_stop": true,
+      "content_non_null": true,
+      "schema_valid": true,
+      "reasoning_preserved": true,
+      "no_length_truncation": true
+    }
+  },
+  "request_accounting": {
+    "by_condition": {
+      "A": {
+        "requests": 1,
+        "structural_retries": 0
+      },
+      "B": {
+        "requests": 1,
+        "structural_retries": 0
+      },
+      "E": {
+        "requests": 1,
+        "structural_retries": 0
+      }
+    },
+    "deterministic_replay": {
+      "condition": "B",
+      "requests": 1,
+      "structural_retries": 0
+    },
+    "total_requests": 4,
+    "total_structural_retries": 0
   },
   "deterministic_replay": {
     "condition": "B",
@@ -608,143 +454,64 @@
     "replay": {
       "schema_valid": true,
       "parse_failure": false,
-      "structural_attempts": 2,
-      "validation_errors": [
-        "output is empty or not text"
-      ],
+      "structural_attempts": 1,
+      "validation_errors": [],
       "parsed_output": {
         "predicted_label": "Normal",
         "abstain": false,
         "used_insight_ids": [],
-        "reasoning_summary": "The case shows only brief, non-persistent threshold activity in XMEAS-4 and an isolated transient in XMEAS-22, with no sustained displacement, slope, residual, or dispersion pattern matching the abnormal class examples. This is closest to the normal local examples with minimal isolated exceedances."
+        "reasoning_summary": "The case shows only brief, non-persistent threshold activity and no sustained displacement, slope, residual, or sample-to-sample exceedance pattern. It lacks the high-frequency, high-dispersion signatures associated with the abnormal peer patterns. The closest local examples are Normal cases with isolated, non-persistent deviations."
       },
       "raw_attempts": [
-        "",
-        "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity in XMEAS-4 and an isolated transient in XMEAS-22, with no sustained displacement, slope, residual, or dispersion pattern matching the abnormal class examples. This is closest to the normal local examples with minimal isolated exceedances.\"\n}"
+        "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity and no sustained displacement, slope, residual, or sample-to-sample exceedance pattern. It lacks the high-frequency, high-dispersion signatures associated with the abnormal peer patterns. The closest local examples are Normal cases with isolated, non-persistent deviations.\"\n}"
       ],
       "provider_attempts": [
         {
-          "raw_output": "",
-          "reasoning_content": null,
+          "raw_output": "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity and no sustained displacement, slope, residual, or sample-to-sample exceedance pattern. It lacks the high-frequency, high-dispersion signatures associated with the abnormal peer patterns. The closest local examples are Normal cases with isolated, non-persistent deviations.\"\n}",
+          "reasoning_content": "We need answer user's request: diagnostic reasoning agent, output strict JSON only. Need analyze case and choose label from label space. Need use only supplied local labeled examples, optional peer observations, neutral case. Need return JSON with predicted_label, abstain, used_insight_ids, reasoning_summary. Need likely choose Normal? Let's inspect.\n\nLabel space: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal.\n\nLocal examples:\n- EXM-005 R463B: XMEAS-18 displacement 8/8, slope 6/8, residual 8/8, diff 5/8, joint 5/8, max dispersion XMEAS-18 ratio 16.27.\n- EXM-006 R463B: XMEAS-18 displacement 7/8, slope 8/8, residual 8/8, diff 7/8, joint 7/8, max dispersion XMEAS-18 16.56.\n- EXM-009 Normal: no displacement, no slope, XMEAS-10 residual 1/8 (0/2 initial, 1/2 final), XMEAS-39 diff 1/8 (0/2 initial, 1/2 final), max dispersion XMEAS-10 1.48.\n- EXM-010 Normal: no thresholds, max dispersion 1.36.\n\nPeer insights:\n- ZOGAA: XMEAS-1 displacement positive 8/8, coherent 8-window run, largest dispersion 46.06-46.50. Also XMEAS-20 residual 4/8 incl 2/2 initial 0/2 final; XMEAS-10 diff/joint 1/8 none final.\n- OJNSG: displacement and slope exceedance 7-8/8, activations 10-45, short coherent runs 2-5. Residual 8/8, diff 5-6/8, joint 5-6/8.\n- Z3ISU: displacement and slope 8/8 from 10-45, variables/sign vary. XMEAS-7 residual 8/8 incl 2/2 initial/final in 4/5, max dispersion variable every example.\n\nCase: \"Synthetic capability-only observation over eight five-hour windows. XMEAS-4 exceeds a generic threshold in three windows, with two early activations and none in the final two windows. No true class is assigned. XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist. [repeated many times] XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient\"\n\nThis is very different from examples: only XMEAS-4 exceeds generic threshold in 3 windows, two early, none final. XMEAS-17 within range, XMEAS-22 one isolated transient not persist. No displacement/slope/residual/diff details? It says generic threshold. No max dispersion. It seems mostly normal / no persistent class pattern. Need choose from labels. Could be Normal because no sustained threshold exceedances, no coherent runs, no max dispersion, isolated transient. But there is XMEAS-4 exceeds generic threshold in three windows, two early and none final. Normal examples have no displacement/slope but can have one residual/diff exceedance. Here 3 windows generic threshold maybe not enough. Peer insights for abnormal classes require 7-8/8 displacement/slope, residual 8/8, etc. ZOGAA requires XMEAS-1 8/8 and high dispersion. Not present. OJNSG requires 7-8/8 displacement and slope, residual 8/8. Not present. Z3ISU requires 8/8 displacement/slope and XMEAS-7 residual 8/8 max dispersion. Not present. R463B local examples require XMEAS-18 high exceedances. Not present. So Normal likely.\n\nNeed used_insight_ids: can use peer insights? We can cite maybe INS-003, INS-004, INS-007, INS-008 to show abnormal patterns absent? But instruction: Use only supplied peer insight IDs; when none are supplied, used_insight_ids must be empty. We can include IDs we used. We can use local examples too but only insight IDs in field. Should we include none? If reasoning based on local examples and case, no peer insights necessary. But optional peer observations can be used. To",
           "requested_model": "fot-exp2-consumer",
           "returned_model": "fot-exp2-consumer",
-          "response_id": "chatcmpl-beb4d51890290b37",
-          "finish_reason": "length",
-          "prompt_tokens": 2300,
-          "completion_tokens": 512,
-          "total_tokens": 2812,
-          "usage_raw": {
-            "completion_tokens": 512,
-            "prompt_tokens": 2300,
-            "total_tokens": 2812,
-            "completion_tokens_details": {
-              "accepted_prediction_tokens": null,
-              "audio_tokens": null,
-              "reasoning_tokens": 512,
-              "rejected_prediction_tokens": null,
-              "text_tokens": null
-            },
-            "prompt_tokens_details": null
-          },
-          "response_raw": {
-            "id": "chatcmpl-beb4d51890290b37",
-            "choices": [
-              {
-                "finish_reason": "length",
-                "index": 0,
-                "logprobs": null,
-                "message": {
-                  "content": null,
-                  "refusal": null,
-                  "role": "assistant",
-                  "annotations": null,
-                  "audio": null,
-                  "function_call": null,
-                  "tool_calls": null,
-                  "reasoning": "We need answer user's request: diagnostic reasoning agent, output strict JSON only. Need analyze case and choose label from label space. Need use only supplied local labeled examples, optional peer observations, neutral case. Need return JSON with predicted_label, abstain, used_insight_ids, reasoning_summary. Need likely choose Normal? Let's inspect.\n\nLabel space: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal.\n\nLocal examples:\n- EXM-005 R463B: XMEAS-18 displacement 8/8, slope 6/8, residual 8/8, diff 5/8, joint 5/8, max dispersion XMEAS-18 ratio 16.27.\n- EXM-006 R463B: XMEAS-18 displacement 7/8, slope 8/8, residual 8/8, diff 7/8, joint 7/8, max dispersion XMEAS-18 16.56.\n- EXM-009 Normal: no displacement, no slope, XMEAS-10 residual 1/8 (0/2 initial, 1/2 final), XMEAS-39 diff 1/8 (0/2 initial, 1/2 final), max dispersion XMEAS-10 1.48.\n- EXM-010 Normal: no thresholds, max dispersion 1.36.\n\nPeer insights:\n- ZOGAA: XMEAS-1 displacement positive 8/8, coherent 8-window run, largest dispersion 46.06-46.50. Also XMEAS-20 residual 4/8 incl 2/2 initial 0/2 final; XMEAS-10 diff/joint 1/8 none final.\n- OJNSG: displacement and slope exceedance 7-8/8, activations 10-45, short coherent runs 2-5. Residual 8/8, diff 5-6/8, joint 5-6/8.\n- Z3ISU: displacement and slope 8/8 from 10-45, variables/sign vary. XMEAS-7 residual 8/8 incl"
-                },
-                "stop_reason": null,
-                "token_ids": null,
-                "routed_experts": null
-              }
-            ],
-            "created": 1788866679,
-            "model": "fot-exp2-consumer",
-            "object": "chat.completion",
-            "metadata": null,
-            "moderation": null,
-            "service_tier": null,
-            "system_fingerprint": "vllm-0.28.0-abc0cde2",
-            "usage": {
-              "completion_tokens": 512,
-              "prompt_tokens": 2300,
-              "total_tokens": 2812,
-              "completion_tokens_details": {
-                "accepted_prediction_tokens": null,
-                "audio_tokens": null,
-                "reasoning_tokens": 512,
-                "rejected_prediction_tokens": null,
-                "text_tokens": null
-              },
-              "prompt_tokens_details": null
-            },
-            "prompt_logprobs": null,
-            "prompt_token_ids": null,
-            "prompt_text": null,
-            "kv_transfer_params": null,
-            "ec_transfer_params": null,
-            "metrics": null
-          },
-          "sdk_version": "3.8.0",
-          "api_family": "Chat Completions",
-          "endpoint": "/v1/chat/completions"
-        },
-        {
-          "raw_output": "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity in XMEAS-4 and an isolated transient in XMEAS-22, with no sustained displacement, slope, residual, or dispersion pattern matching the abnormal class examples. This is closest to the normal local examples with minimal isolated exceedances.\"\n}",
-          "reasoning_content": null,
-          "requested_model": "fot-exp2-consumer",
-          "returned_model": "fot-exp2-consumer",
-          "response_id": "chatcmpl-b638205af3acc545",
+          "response_id": "chatcmpl-b30588d522494e91",
           "finish_reason": "stop",
-          "prompt_tokens": 2349,
-          "completion_tokens": 496,
-          "total_tokens": 2845,
+          "prompt_tokens": 2300,
+          "completion_tokens": 1124,
+          "total_tokens": 3424,
           "usage_raw": {
-            "completion_tokens": 496,
-            "prompt_tokens": 2349,
-            "total_tokens": 2845,
+            "completion_tokens": 1124,
+            "prompt_tokens": 2300,
+            "total_tokens": 3424,
             "completion_tokens_details": {
               "accepted_prediction_tokens": null,
               "audio_tokens": null,
-              "reasoning_tokens": 395,
+              "reasoning_tokens": 1023,
               "rejected_prediction_tokens": null,
               "text_tokens": null
             },
             "prompt_tokens_details": null
           },
           "response_raw": {
-            "id": "chatcmpl-b638205af3acc545",
+            "id": "chatcmpl-b30588d522494e91",
             "choices": [
               {
                 "finish_reason": "stop",
                 "index": 0,
                 "logprobs": null,
                 "message": {
-                  "content": "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity in XMEAS-4 and an isolated transient in XMEAS-22, with no sustained displacement, slope, residual, or dispersion pattern matching the abnormal class examples. This is closest to the normal local examples with minimal isolated exceedances.\"\n}",
+                  "content": "{\n  \"predicted_label\": \"Normal\",\n  \"abstain\": false,\n  \"used_insight_ids\": [],\n  \"reasoning_summary\": \"The case shows only brief, non-persistent threshold activity and no sustained displacement, slope, residual, or sample-to-sample exceedance pattern. It lacks the high-frequency, high-dispersion signatures associated with the abnormal peer patterns. The closest local examples are Normal cases with isolated, non-persistent deviations.\"\n}",
                   "refusal": null,
                   "role": "assistant",
                   "annotations": null,
                   "audio": null,
                   "function_call": null,
                   "tool_calls": null,
-                  "reasoning": "We need answer user's request. Need produce strict JSON only. Need analyze case. We have label space: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal. Local examples: R463B have XMEAS-18 many threshold exceedances displacement/slope/residual/diff, high dispersion. Normal have no displacement/slope, maybe minor residual/diff, low dispersion. Peer insights: ZOGAA XMEAS-1 positive all 8, high dispersion; OJNSG displacement/slope 7-8/8, residual 8/8, diff 5-6/8; Z3ISU displacement/slope 8/8, XMEAS-7 residual 8/8 max dispersion. Case: \"Synthetic capability-only observation over eight five-hour windows. XMEAS-4 exceeds a generic threshold in three windows, with two early activations and none in the final two windows. No true class is assigned. XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist. [repeated many times] XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient\" It seems mostly normal: only XMEAS-4 exceeds generic threshold in 3 windows, early, none final; XMEAS-22 one isolated transient not persist. No displacement/slope threshold? It says generic threshold, not specific. No high dispersion. Likely Normal. Need output JSON with predicted_label Normal, abstain false, used_insight_ids maybe empty? Could use peer insights? None directly match. Maybe use none. Reasoning concise. Must exact keys. Ensure no markdown. Need maybe if abstain false predicted label exactly one. Use used_insight_ids empty. Need strict JSON.\n"
+                  "reasoning": "We need answer user's request: diagnostic reasoning agent, output strict JSON only. Need analyze case and choose label from label space. Need use only supplied local labeled examples, optional peer observations, neutral case. Need return JSON with predicted_label, abstain, used_insight_ids, reasoning_summary. Need likely choose Normal? Let's inspect.\n\nLabel space: CLS-ZOGAA, CLS-OJNSG, CLS-R463B, CLS-Z3ISU, Normal.\n\nLocal examples:\n- EXM-005 R463B: XMEAS-18 displacement 8/8, slope 6/8, residual 8/8, diff 5/8, joint 5/8, max dispersion XMEAS-18 ratio 16.27.\n- EXM-006 R463B: XMEAS-18 displacement 7/8, slope 8/8, residual 8/8, diff 7/8, joint 7/8, max dispersion XMEAS-18 16.56.\n- EXM-009 Normal: no displacement, no slope, XMEAS-10 residual 1/8 (0/2 initial, 1/2 final), XMEAS-39 diff 1/8 (0/2 initial, 1/2 final), max dispersion XMEAS-10 1.48.\n- EXM-010 Normal: no thresholds, max dispersion 1.36.\n\nPeer insights:\n- ZOGAA: XMEAS-1 displacement positive 8/8, coherent 8-window run, largest dispersion 46.06-46.50. Also XMEAS-20 residual 4/8 incl 2/2 initial 0/2 final; XMEAS-10 diff/joint 1/8 none final.\n- OJNSG: displacement and slope exceedance 7-8/8, activations 10-45, short coherent runs 2-5. Residual 8/8, diff 5-6/8, joint 5-6/8.\n- Z3ISU: displacement and slope 8/8 from 10-45, variables/sign vary. XMEAS-7 residual 8/8 incl 2/2 initial/final in 4/5, max dispersion variable every example.\n\nCase: \"Synthetic capability-only observation over eight five-hour windows. XMEAS-4 exceeds a generic threshold in three windows, with two early activations and none in the final two windows. No true class is assigned. XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient that does not persist. [repeated many times] XMEAS-17 remains within its reference range while XMEAS-22 shows one isolated transient\"\n\nThis is very different from examples: only XMEAS-4 exceeds generic threshold in 3 windows, two early, none final. XMEAS-17 within range, XMEAS-22 one isolated transient not persist. No displacement/slope/residual/diff details? It says generic threshold. No max dispersion. It seems mostly normal / no persistent class pattern. Need choose from labels. Could be Normal because no sustained threshold exceedances, no coherent runs, no max dispersion, isolated transient. But there is XMEAS-4 exceeds generic threshold in three windows, two early and none final. Normal examples have no displacement/slope but can have one residual/diff exceedance. Here 3 windows generic threshold maybe not enough. Peer insights for abnormal classes require 7-8/8 displacement/slope, residual 8/8, etc. ZOGAA requires XMEAS-1 8/8 and high dispersion. Not present. OJNSG requires 7-8/8 displacement and slope, residual 8/8. Not present. Z3ISU requires 8/8 displacement/slope and XMEAS-7 residual 8/8 max dispersion. Not present. R463B local examples require XMEAS-18 high exceedances. Not present. So Normal likely.\n\nNeed used_insight_ids: can use peer insights? We can cite maybe INS-003, INS-004, INS-007, INS-008 to show abnormal patterns absent? But instruction: Use only supplied peer insight IDs; when none are supplied, used_insight_ids must be empty. We can include IDs we used. We can use local examples too but only insight IDs in field. Should we include none? If reasoning based on local examples and case, no peer insights necessary. But optional peer observations can be used. To"
                 },
                 "stop_reason": null,
                 "token_ids": null,
                 "routed_experts": null
               }
             ],
-            "created": 1788866712,
+            "created": 1788873912,
             "model": "fot-exp2-consumer",
             "object": "chat.completion",
             "metadata": null,
@@ -752,13 +519,13 @@
             "service_tier": null,
             "system_fingerprint": "vllm-0.28.0-abc0cde2",
             "usage": {
-              "completion_tokens": 496,
-              "prompt_tokens": 2349,
-              "total_tokens": 2845,
+              "completion_tokens": 1124,
+              "prompt_tokens": 2300,
+              "total_tokens": 3424,
               "completion_tokens_details": {
                 "accepted_prediction_tokens": null,
                 "audio_tokens": null,
-                "reasoning_tokens": 395,
+                "reasoning_tokens": 1023,
                 "rejected_prediction_tokens": null,
                 "text_tokens": null
               },
@@ -774,6 +541,15 @@
           "sdk_version": "3.8.0",
           "api_family": "Chat Completions",
           "endpoint": "/v1/chat/completions"
+        }
+      ],
+      "provider_invariants": [
+        {
+          "finish_reason_stop": true,
+          "content_non_null": true,
+          "parser_input_is_content": true,
+          "reasoning_preserved": true,
+          "no_length_truncation": true
         }
       ]
     }
@@ -783,12 +559,18 @@
     "model_alias_matches": true,
     "model_root_matches": true,
     "model_revision_matches_process": true,
+    "max_model_len_matches": true,
     "required_paths_advertised": true,
+    "reasoning_controls_inspected": true,
     "frozen_prompt_hashes_match": true,
     "raw_prompt_budget_fits": true,
     "live_fixture_budget_fits": true,
-    "all_outputs_schema_valid": false,
-    "no_length_truncation": false,
+    "all_outputs_schema_valid": true,
+    "all_finish_reasons_stop": true,
+    "all_outputs_content_non_null": true,
+    "parser_input_is_content": true,
+    "all_reasoning_preserved": true,
+    "no_length_truncation": true,
     "returned_model_matches": true,
     "token_accounting_complete": true,
     "deterministic_replay": true

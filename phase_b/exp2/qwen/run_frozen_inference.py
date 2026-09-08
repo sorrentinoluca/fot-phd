@@ -153,6 +153,7 @@ def validate_record(
         "temperature": config["temperature"],
         "seed": config["seed"],
         "max_tokens": config["max_tokens"],
+        "thinking_token_budget": config["thinking_token_budget"],
         "prompt_hash": rendered.prompt_hash,
         "input_hash": rendered.input_hash,
     }
@@ -197,6 +198,7 @@ def execute_one(
         temperature=config["temperature"],
         seed=config["seed"],
         max_tokens=config["max_tokens"],
+        thinking_token_budget=config["thinking_token_budget"],
         max_structural_retries=config["max_structural_retries"],
     )
     attempts = [item.to_dict() for item in execution.provider_attempts]
@@ -209,11 +211,12 @@ def execute_one(
         "model_revision": config["expected_model_revision"],
         "api_family": config["api_family"],
         "endpoint": config["endpoint"],
-        "reasoning_effort": None,
+        "reasoning_effort": config["reasoning_effort"],
         "reasoning_mode": config["reasoning_mode"],
         "temperature": config["temperature"],
         "seed": config["seed"],
         "max_tokens": config["max_tokens"],
+        "thinking_token_budget": config["thinking_token_budget"],
         "structured_outputs_strict": True,
         "max_structural_retries": config["max_structural_retries"],
         "prompt_hash": rendered.prompt_hash,
@@ -296,6 +299,7 @@ def finalize(
         "temperature": config["temperature"],
         "seed": config["seed"],
         "max_tokens": config["max_tokens"],
+        "thinking_token_budget": config["thinking_token_budget"],
         "repetitions": config["repetitions"],
         "schedule_sha256": config["schedule_sha256"],
         "capability_probe_sha256": sha256_file(PROBE_PATH),
