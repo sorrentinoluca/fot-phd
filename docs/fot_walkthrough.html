@@ -488,6 +488,144 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 @media (prefers-reduced-motion: reduce) {
   .result-bar-fill { transition: none; }
 }
+
+/* CRITICHE E REVIEW */
+.critiche-index {
+  margin: 20px 0 32px;
+}
+.critiche-item {
+  display: block;
+  text-decoration: none;
+  color: var(--text);
+  padding: 14px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.critiche-item:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow);
+}
+.critiche-item-even {
+  background: var(--bg-card);
+}
+.critiche-item-odd {
+  background: var(--bg-code);
+}
+.critiche-item-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.critiche-item-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.critica-section {
+  margin-bottom: 24px;
+}
+.critica-toggle {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 16px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: all 0.15s;
+}
+.critica-toggle:hover {
+  border-color: var(--accent-a);
+  box-shadow: var(--shadow-lg);
+}
+.critica-toggle .chevron {
+  font-size: 0.85rem;
+  color: var(--text-caption);
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+.critica-toggle[aria-expanded="true"] .chevron {
+  transform: rotate(90deg);
+}
+.critica-body {
+  display: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 24px;
+  margin-top: -8px;
+  line-height: 1.7;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+.critica-body.open {
+  display: block;
+}
+.critica-body h3 {
+  color: var(--text);
+  margin: 20px 0 10px;
+  font-size: 1rem;
+}
+.critica-body h3:first-child {
+  margin-top: 0;
+}
+.critica-body p {
+  margin: 8px 0;
+}
+.critica-body ul, .critica-body ol {
+  margin: 8px 0;
+  padding-left: 24px;
+}
+.critica-body li {
+  margin: 4px 0;
+}
+.critica-body strong {
+  color: var(--text);
+}
+.critica-body .verdict-box {
+  background: var(--accent-a-light);
+  border-left: 3px solid var(--accent-a);
+  padding: 12px 16px;
+  border-radius: 0 6px 6px 0;
+  margin: 12px 0;
+  font-style: italic;
+}
+.critica-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin: 12px 0;
+}
+.critica-body table th {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-caption);
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 2px solid var(--border);
+}
+.critica-body table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border-light);
+}
+.critica-body table tr:last-child td {
+  border-bottom: none;
+}
 </style>
 
 <!-- NAVIGATION -->
@@ -501,6 +639,11 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     <div class="nav-phase">
       <div class="nav-phase-label phase-b">Phase B</div>
       <div class="nav-steps" id="navB"></div>
+    </div>
+    <div class="nav-divider"></div>
+    <div class="nav-phase">
+      <div class="nav-phase-label" style="color:var(--threshold)">Critiche</div>
+      <div class="nav-steps" id="navCritiche"></div>
     </div>
   </div>
 </nav>
@@ -1603,6 +1746,189 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   </div>
 </div>
 
+
+<!-- ==================== STEP 17: CRITICHE E REVIEW ==================== -->
+<div class="step-container" data-step="17">
+  <div class="phase-badge" style="background:var(--threshold-light);color:var(--threshold)">Critiche e review</div>
+  <h1 class="step-title">Analisi critica e posizionamento</h1>
+  <p class="step-intro">Raccolta delle analisi critiche che esaminano le potenziali obiezioni dei reviewer e il posizionamento del progetto FoT-TEP rispetto alla letteratura. Ogni sezione &egrave; espandibile: clicca sul titolo per leggere l'analisi completa.</p>
+
+  <!-- INDEX -->
+  <div class="critiche-index">
+    <a class="critiche-item critiche-item-even" href="#critica-ts-text" onclick="openCritica('critica-ts-text');return false;">
+      <div class="critiche-item-title">La trasformazione TS&rarr;Testo &egrave; un punto critico?</div>
+      <div class="critiche-item-desc">Analisi del verbalizzatore che converte i segnali numerici delle serie temporali in testo leggibile: quanto &egrave; solido rispetto alle alternative recenti in letteratura e quali obiezioni potrebbe sollevare un revisore scientifico.</div>
+    </a>
+    <a class="critiche-item critiche-item-odd" href="#critica-baseline" onclick="openCritica('critica-baseline');return false;">
+      <div class="critiche-item-title">Servono baseline esterne al paradigma testuale?</div>
+      <div class="critiche-item-desc">Verifica se sia necessario confrontare l'approccio FoT (che scambia testo tra agenti) con metodi tradizionali come SVM, reti neurali o federated learning classico &mdash; e cosa fanno i paper simili in letteratura.</div>
+    </a>
+    <a class="critiche-item critiche-item-even" href="#critica-lit-review" onclick="openCritica('critica-lit-review');return false;">
+      <div class="critiche-item-title">Literature review: posizionamento scientifico per BigData 2026</div>
+      <div class="critiche-item-desc">Revisione sistematica della letteratura che mappa il panorama completo di federated learning, fault diagnosis e LLM su serie temporali, identificando la nicchia esatta che FoT-TEP occupa e i rischi di framing.</div>
+    </a>
+    <a class="critiche-item critiche-item-odd" href="#critica-exp-plan" onclick="openCritica('critica-exp-plan');return false;">
+      <div class="critiche-item-title">Piano sperimentale pre-submission</div>
+      <div class="critiche-item-desc">Pacchetto di esperimenti aggiuntivi progettati per rispondere alle critiche prevedibili dei revisori: replicabilit&agrave; cross-model, estensione prospettica con nuovi dati, e caratterizzazione del payload comunicativo.</div>
+    </a>
+  </div>
+
+  <!-- CRITICA 1: TS-Text -->
+  <div class="critica-section" id="critica-ts-text">
+    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
+      <span class="chevron">&#9654;</span>
+      La trasformazione TS&rarr;Testo &egrave; un punto critico per la pubblicazione?
+    </button>
+    <div class="critica-body">
+      <div class="verdict-box">
+        <strong>Verdetto sintetico:</strong> La trasformazione TS&rarr;testo non &egrave; un punto critico bloccante, ma richiede un posizionamento attento. L'approccio occupa una nicchia difendibile &mdash; verbalizzazione deterministica, fedele per costruzione, senza modelli appresi, con calibrazione statistica formale &mdash; che nessun lavoro in letteratura replica esattamente. Tuttavia, due paper recenti (CGTime e T2SP, giugno 2026) restringono lo spazio argomentativo.
+      </div>
+
+      <h3>Il campo si &egrave; mosso: 7 categorie di approcci</h3>
+      <table>
+        <tr><th>Cat.</th><th>Strategia</th><th>Esempi</th><th>Appreso?</th></tr>
+        <tr><td>A</td><td>Codifica numerica diretta</td><td>LLMTime, PromptCast</td><td>No</td></tr>
+        <tr><td>B</td><td>Allineamento latente</td><td>Time-LLM, TEST, S&sup2;IP-LLM</td><td>S&igrave;</td></tr>
+        <tr><td>C</td><td>Captioning generativo</td><td>TSLM, Chronicle, BEDTime, TRUCE</td><td>S&igrave;</td></tr>
+        <tr><td>D</td><td>Data-to-Text deterministico</td><td>Fuzzy D2T, ICA2TEXT</td><td>No</td></tr>
+        <tr><td>E</td><td>Rappresentazione simbolica</td><td>ESAX+BoW, SAX_HAR-LLM</td><td>Parziale</td></tr>
+        <tr><td>F</td><td>Decomposizione strutturata</td><td>T2SP (Kim et al. 2026)</td><td>No</td></tr>
+        <tr><td style="font-weight:700;color:var(--accent-a)">G</td><td style="font-weight:700">Verbalizzazione domain-driven</td><td style="font-weight:700">FoT-TEP V2</td><td style="font-weight:700">No</td></tr>
+      </table>
+
+      <h3>I due competitor pi&ugrave; critici</h3>
+      <p><strong>CGTime</strong> (Feng et al., giugno 2026): codice deterministico calcola 169 statistiche, poi un LLM (Qwen3-4B) le verbalizza. Filosofia quasi identica al FoT-TEP, ma CGTime &egrave; un modello addestrato (4B parametri), non un renderer a template.</p>
+      <p><strong>T2SP</strong> (Kim et al., giugno 2026): decomposizione deterministica in trend, periodicit&agrave;, eventi, residui. Training-free e invertibile, ma <strong>solo univariato</strong> &mdash; non gestisce 41 variabili simultanee.</p>
+
+      <h3>Le 4 risposte chiave</h3>
+      <p><strong>1. &Egrave; un punto critico?</strong> Rischio moderato. Non bloccante, ma un reviewer informato pu&ograve; contestare l'assenza di confronto con alternative. Raccomandato almeno un esperimento ablativo minimale (stesso LLM, tre rappresentazioni: testo V2, numerico, SAX).</p>
+      <p><strong>2. Alternative in letteratura?</strong> Rischio basso. Esistono ma nessuna &egrave; un sostituto diretto. FoT-TEP &egrave; l'unico nell'intersezione di: determinismo completo, calibrazione conformal, neutralit&agrave; diagnostica, semantica temporale formale, scala multivariata.</p>
+      <p><strong>3. Comparazioni esistenti?</strong> Rischio moderato. Tre benchmark recenti (BEDTime, CGTime, T2SP) ma nessuno include approcci deterministici. L'assenza di confronto &egrave; sia un vantaggio sia una vulnerabilit&agrave;.</p>
+      <p><strong>4. Il problema &egrave; abbastanza discusso?</strong> Rischio basso. Campo maturo ma non saturo. La nicchia FoT-TEP ha zero occupanti diretti.</p>
+
+      <h3>CGTime vs FoT-TEP: confronto diretto</h3>
+      <table>
+        <tr><th>Dimensione</th><th>CGTime</th><th>FoT-TEP V2</th></tr>
+        <tr><td>Percezione</td><td>169 statistiche</td><td>5 feature &times; 41 var &times; 8 finestre</td></tr>
+        <tr><td>Descrizione</td><td>LLM Qwen3-4B fine-tuned</td><td>Renderer deterministico a template</td></tr>
+        <tr><td>Parametri appresi</td><td>4 miliardi</td><td>Zero</td></tr>
+        <tr><td>Fedelt&agrave;</td><td>Metrica Gaussian kernel</td><td>Garantita by-construction</td></tr>
+        <tr><td>Neutralit&agrave;</td><td>Genera interpretazioni</td><td>Solo osservazioni</td></tr>
+        <tr><td>Multi-agente</td><td>Non previsto</td><td>Progettato per FoT</td></tr>
+      </table>
+
+      <h3>Raccomandazioni operative</h3>
+      <p>Nella <strong>Related Work</strong>: posizionare attorno a tre filoni (TS&rarr;testo generativo, TS&rarr;testo deterministico, TS&rarr;LLM via rappresentazione intermedia). Come <strong>esperimento aggiuntivo</strong>: ablation a tre bracci sullo stesso LLM (testo V2, serializzazione numerica, SAX). Come <strong>framing</strong>: &ldquo;primo approccio deterministico con calibrazione statistica formale per la verbalizzazione fedele di serie temporali multivariate industriali, progettato per architetture multi-agente.&rdquo;</p>
+
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Fonti: CGTime (arXiv:2608.05238), T2SP (arXiv:2606.12481), BEDTime (arXiv:2509.05215), TRUCE (EMNLP 2021), Fuzzy D2T (2017), SAX_HAR-LLM (2026), survey Chen et al. TMLR 2026.</em></p>
+    </div>
+  </div>
+
+  <!-- CRITICA 2: Baseline esterne -->
+  <div class="critica-section" id="critica-baseline">
+    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
+      <span class="chevron">&#9654;</span>
+      Baseline esterne al paradigma: servono confronti con metodi numerici classici?
+    </button>
+    <div class="critica-body">
+      <div class="verdict-box">
+        <strong>Verdetto sintetico:</strong> Rischio moderato-basso, gestibile con il framing corretto. Non esistono precedenti di confronto cross-paradigma (testuale vs parametrico) in FL-FDD. Il pattern di non includere baseline numeriche classiche quando il task &egrave; qualitativamente diverso &egrave; consolidato nella letteratura LLM-FDD recente.
+      </div>
+
+      <h3>Confronti diretti LLM vs classici: cosa esiste</h3>
+      <p>Dall'analisi di oltre 8 paper recenti (2024&ndash;2026), un solo lavoro (<strong>FD-LLM</strong>, Qaid et al. 2024) confronta direttamente LLM vs SVM/CNN per fault diagnosis, e lo fa su un task diverso dal nostro (classificazione supervisionata su classi note, non diagnosi di classi unseen).</p>
+      <p>La stragrande maggioranza dei paper LLM-FDD <strong>non</strong> include baseline numeriche classiche come competitor diretti. FaultExplainer (Khan 2024/2025) usa PCA <em>dentro</em> il sistema; Lee et al. (2025) confronta solo configurazioni LLM; S2S-FDD (2026) non confronta con classificatori.</p>
+
+      <h3>FL + LLM-FDD: due filoni separati</h3>
+      <p>Non esiste <strong>nessun</strong> paper all'intersezione di &ldquo;federated learning&rdquo; e &ldquo;LLM fault diagnosis&rdquo;. Tutti i paper FL-FDD scambiano parametri o gradienti; FoT &egrave; il primo a proporre la federazione over text. Il confronto diretto con FedAvg/FedProx non &egrave; solo senza precedenti, &egrave; anche metodologicamente problematico: task diversi (unseen-class transfer vs classificazione completa).</p>
+
+      <h3>4 strategie di framing dalla letteratura</h3>
+      <p><strong>A) &ldquo;Complementare, non sostitutivo&rdquo;</strong> &mdash; il paradigma testuale aggiunge valore dove il numerico non arriva (interpretabilit&agrave;, operabilit&agrave;), senza pretendere di sostituirlo.</p>
+      <p><strong>B) &ldquo;Task diverso, confronto non applicabile&rdquo;</strong> &mdash; quando il task &egrave; qualitativamente diverso, la metrica di confronto non esiste. FoT risolve diagnosi di classi mai viste localmente.</p>
+      <p><strong>C) &ldquo;Limitazioni note del numerico come motivazione&rdquo;</strong> &mdash; Zhou &amp; Yu (ICLR 2025): &ldquo;LLMs' abilities to understand numerical time series are considerably limited&rdquo; &mdash; questo supporta l'approccio di verbalizzazione.</p>
+      <p><strong>D) &ldquo;Confronto diretto ma su task specifico&rdquo;</strong> &mdash; quando il confronto &egrave; fattibile (stesso task, stesse classi), viene fatto. Ma nel nostro caso non lo &egrave;.</p>
+
+      <h3>Fattori che mitigano il rischio</h3>
+      <ul>
+        <li><strong>Nessun precedente da imitare:</strong> i reviewer non possono citare un paper che fa confronto cross-paradigma perch&eacute; non ce n'&egrave; nessuno.</li>
+        <li><strong>Pattern consolidato:</strong> i paper LLM-FDD pi&ugrave; prestigiosi (ICLR 2025, Computers &amp; Chemical Engineering 2025) non includono baseline classiche.</li>
+        <li><strong>Task incommensurabile:</strong> confrontare accuracy su task diversi &egrave; metodologicamente scorretto.</li>
+        <li><strong>Baseline intra-paradigma presente:</strong> il confronto Central-ICL (Condition C) &egrave; gi&agrave; implementato.</li>
+      </ul>
+
+      <h3>Strategia raccomandata per il paper</h3>
+      <p><strong>Related Work:</strong> tracciare la catena FedAvg &rarr; FedMD &rarr; FedProto &rarr; FoT e spiegare perch&eacute; il confronto &egrave; intra-catena. <strong>Limitations:</strong> paragrafo esplicito che dichiara perch&eacute; non si confronta con SVM/CNN/FedAvg. <strong>Discussion:</strong> posizionare FoT come complementare ai metodi numerici.</p>
+
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Fonti: FD-LLM (arXiv:2412.01218), FaultExplainer (Comp. &amp; Chem. Eng. 2025), Lee et al. (arXiv:2509.23113), Zhou &amp; Yu (ICLR 2025), S2S-FDD (arXiv:2603.08048).</em></p>
+    </div>
+  </div>
+
+  <!-- CRITICA 3: Literature Review -->
+  <div class="critica-section" id="critica-lit-review">
+    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
+      <span class="chevron">&#9654;</span>
+      Literature review: posizionamento scientifico per IEEE BigData 2026
+    </button>
+    <div class="critica-body">
+      <div class="verdict-box">
+        <strong>In sintesi:</strong> Review sistematica che stabilisce come posizionare FoT-TEP rispetto allo stato dell'arte per la Special Session &ldquo;Federated Learning on Big Data&rdquo;. Il paper &egrave; in-scope se inquadrato come collaborative/federated knowledge transfer, non come FL parametrico classico.
+      </div>
+
+      <h3>Scope per la Special Session</h3>
+      <p>Il lavoro tocca genuinamente <em>collaborative learning</em>, <em>non-IID</em>, <em>novel architecture</em> e <em>benchmarking</em>. Tuttavia la sessione ha impostazione FL classica. Il sistema FoT <strong>non aggrega n&eacute; gradienti n&eacute; pesi</strong>: scambia insight testuali. &Egrave; in-scope come collaborative/federated knowledge transfer.</p>
+
+      <h3>Novit&agrave; verificate</h3>
+      <p><strong>Federation over Text su TS industriali:</strong> nessun precedente trovato. La catena evolutiva FL va da FedAvg (2017) &rarr; FedMD (2019) &rarr; FedProto (2022) &rarr; FedGen (2022) &rarr; FoT (2026). Ogni passo riduce ci&ograve; che viene scambiato; FoT &egrave; il primo a scambiare testo.</p>
+      <p><strong>Diagnosi di classi unseen via testo:</strong> task non presente in nessun paper FL-FDD. I paper FL-FDD esistenti lavorano su classi note distribuite in modo non-IID, non su classi assenti localmente.</p>
+
+      <h3>Vulnerabilit&agrave; principali da gestire</h3>
+      <ul>
+        <li><strong>&ldquo;Un solo LLM proprietario&rdquo;</strong> &mdash; critica quasi-fatale. Mitigazione: Experiment 2 (cross-model replication con reasoner open-weight).</li>
+        <li><strong>&ldquo;Solo 3 run per guasto&rdquo;</strong> &mdash; obiezione statistica. Mitigazione: Experiment 3 (fresh prospective physical-run extension).</li>
+        <li><strong>&ldquo;Nessuna privacy formale&rdquo;</strong> &mdash; non dichiarare privacy; dichiarare data-free communication.</li>
+        <li><strong>&ldquo;Metrica non standard&rdquo;</strong> &mdash; il protocollo usa bootstrap CI + held-out + criteri pre-specificati. Solido ma non standard ML benchmarking.</li>
+      </ul>
+
+      <h3>Claim difendibili vs non difendibili</h3>
+      <p><strong>Difendibile:</strong> FoT-TEP &egrave; il primo esperimento di textual knowledge federation su TS multivariate industriali; la pipeline Phase A &egrave; deterministica e frozen; il protocollo di valutazione &egrave; pre-specificato con criteri blinded.</p>
+      <p><strong>Non difendibile:</strong> &ldquo;FoT &egrave; migliore di FL classico&rdquo; (non confrontabile); &ldquo;il metodo generalizza oltre TEP&rdquo; (non testato); &ldquo;il protocollo garantisce privacy&rdquo; (non &egrave; l'obiettivo).</p>
+
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Documento completo: FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md (~91KB, ~2000 righe). Analisi basata su oltre 100 paper (2017&ndash;2026) da OpenAlex, Scopus, ArXiv, Crossref, Google Scholar.</em></p>
+    </div>
+  </div>
+
+  <!-- CRITICA 4: Experiment Plan -->
+  <div class="critica-section" id="critica-exp-plan">
+    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
+      <span class="chevron">&#9654;</span>
+      Piano sperimentale pre-submission: esperimenti aggiuntivi
+    </button>
+    <div class="critica-body">
+      <div class="verdict-box">
+        <strong>In sintesi:</strong> Pacchetto di 4 esperimenti pre-specificati che racconta una storia ordinata: mechanism &rarr; semantic specificity &rarr; cross-model portability &rarr; fresh-run replication &rarr; communication payload characterization.
+      </div>
+
+      <h3>Experiment 1 (frozen &mdash; gi&agrave; completato)</h3>
+      <p>Condizioni A/B/E con pseudolabel, held-out, bootstrap, criteri pre-specificati, verbalizer V2. <strong>&Egrave; frozen e immutabile.</strong> Ogni aggiunta &egrave; un nuovo esperimento separato, congelato prima di vederne gli esiti.</p>
+
+      <h3>Experiment 2 &mdash; Cross-model replication</h3>
+      <p>Consuma gli insight testuali frozen di Experiment 1 con <strong>reasoner diversi</strong> (open-weight). Risolve la critica &ldquo;un solo LLM proprietario, non deterministico, non riproducibile&rdquo;. L'open-weight &egrave; anche l'&agrave;ncora di riproducibilit&agrave;. Distinzione esplicita tra <em>producer</em> (chi genera gli insight) e <em>consumer</em> (chi li usa per diagnosticare).</p>
+
+      <h3>Experiment 3 &mdash; Fresh prospective extension</h3>
+      <p>Nuovi run indipendenti degli <strong>stessi 4 guasti</strong>, generati dopo il freeze del protocollo. Attacca la vulnerabilit&agrave; &ldquo;solo 3 run per guasto&rdquo; (n=12). &Egrave; precisione e replica, non generalizzazione di classe. I risultati vengono poi poolati con Experiment 1.</p>
+
+      <h3>Experiment 4 &mdash; Focused insight ablation</h3>
+      <p><strong>Solo se resta tempo.</strong> Condizioni ridisegnate: full vs core-semantic vs reduced-library vs no-provenance. Eliminati pattern-only e label-only (quasi tautologici col label space opaco). Declassata a bassa priorit&agrave;, si sovrappone alle ablation di FoT originale.</p>
+
+      <h3>Comunicazione e payload</h3>
+      <p>Caratterizzazione del <strong>payload comunicativo</strong>: tre quantit&agrave; separate (dimensione insight, numero scambi, rapporto vs raw data). Mai chiamata &ldquo;efficiency&rdquo; &mdash; il termine ha implicazioni diverse. Costo ~0, calcolabile dagli artefatti frozen.</p>
+
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Documento completo: FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md (~32KB). Companion della Literature Review. Deadline: 30 settembre 2026.</em></p>
+    </div>
+  </div>
+
+</div>
+
 </div><!-- /main -->
 
 <!-- BOTTOM NAV -->
@@ -1632,7 +1958,8 @@ const STEPS = [
   {phase:'b',label:'4. Inference'},
   {phase:'b',label:'5. Risultati'},
   {phase:'b',label:'6. C vs B'},
-  {phase:'b',label:'7. Exp 2'}
+  {phase:'b',label:'7. Exp 2'},
+  {phase:'critiche',label:'Critiche'}
 ];
 
 let current = 0;
@@ -1657,7 +1984,11 @@ function buildNav() {
     btn.title = s.label;
     btn.onclick = () => goTo(i);
     btn.dataset.idx = i;
-    (s.phase === 'a' ? navA : navB).appendChild(btn);
+    if (s.phase === 'critiche') {
+      document.getElementById('navCritiche').appendChild(btn);
+    } else {
+      (s.phase === 'a' ? navA : navB).appendChild(btn);
+    }
   });
 }
 
@@ -1674,7 +2005,7 @@ function render() {
   document.getElementById('btnNext').disabled = current === STEPS.length - 1;
   const phase = STEPS[current].phase;
   const btnNext = document.getElementById('btnNext');
-  btnNext.classList.toggle('phase-b', phase === 'b');
+  btnNext.classList.toggle('phase-b', phase === 'b' || phase === 'critiche');
   document.getElementById('stepCounter').textContent = `${current + 1} / ${STEPS.length}`;
 
   // Animate result bars on step 12
@@ -1768,4 +2099,25 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
   if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
 });
+
+function toggleCritica(btn) {
+  var body = btn.nextElementSibling;
+  var isOpen = body.classList.contains('open');
+  body.classList.toggle('open');
+  btn.setAttribute('aria-expanded', !isOpen);
+}
+
+function openCritica(id) {
+  var section = document.getElementById(id);
+  if (!section) return;
+  var btn = section.querySelector('.critica-toggle');
+  var body = section.querySelector('.critica-body');
+  if (btn && body && !body.classList.contains('open')) {
+    body.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+  setTimeout(function() {
+    section.scrollIntoView({behavior: 'smooth', block: 'start'});
+  }, 50);
+}
 </script>
