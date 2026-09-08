@@ -8,7 +8,9 @@ Il dominio di base è quello degli impianti **fotovoltaici (PV) distribuiti**. O
 
 L'obiettivo è esplorare una federazione in cui i siti non debbano centralizzare dati grezzi né scambiarsi necessariamente pesi o gradienti di un modello: ciascun nodo sintetizza conoscenza locale in **testo strutturato** e gli altri nodi la usano per ragionare. La ground truth entra soltanto nella valutazione offline; osservazione numerica, comunicazione testuale, insight e decisione restano separati, così che un buon testo non venga confuso con una diagnosi corretta.
 
-L'idea parte dal paradigma del lavoro *Federation over Text: Insight Sharing for Multi-Agent Reasoning* (Yao, Rabbani, Zaheer, Li — [arXiv:2604.16778](https://arxiv.org/abs/2604.16778), repo [github.com/dixiyao/FoT](https://github.com/dixiyao/FoT)): agenti con LLM frozen distillano *reasoning trace* in insight, che vengono aggregati e ridistribuiti come testo, senza gradienti né fine-tuning. In quel lavoro originale il paradigma è applicato a task di reasoning testuale (matematica, QA, coding); qui viene portato su un dominio nuovo, la **diagnosi di guasti su serie temporali**.
+L'idea parte dal paradigma del lavoro *Federation over Text: Insight Sharing for Multi-Agent Reasoning* (Yao, Rabbani, Zaheer, Li — [arXiv:2604.16778](https://arxiv.org/abs/2604.16778), repo [github.com/dixiyao/FoT](https://github.com/dixiyao/FoT)): agenti con LLM frozen distillano *reasoning trace* in insight, che vengono aggregati e ridistribuiti come testo, senza gradienti né fine-tuning. In quel lavoro originale il paradigma è applicato a task di reasoning testuale (matematica, QA, coding), il reasoning trace nasce naturalmente dal ragionamento dell’LLM su quei problemi; qui viene portato su un dominio nuovo, la **diagnosi di guasti su serie temporali**.
+
+In questo lavoro ciò che viene preso da FoT è l’architettura di federazione a livello più alto: insight locali → aggregazione → ridistribuzione ai peer ma il come si produce il testo da dare all’LLM è completamente diverso e originale.
 
 Come banco di prova controllato si usa il **Tennessee Eastman Process (TEP)**, un processo chimico simulato con fault noti e ground truth verificabile. I dati provengono dallo snapshot upstream [github.com/mv-per/tennessee-eastman-dataset](https://github.com/mv-per/tennessee-eastman-dataset) (commit pinnato `309b944f`). TEP è un **gate di fattibilità metodologica**: permette di verificare il meccanismo FoT in condizioni note, non è la destinazione applicativa finale, che resta il fotovoltaico.
 
@@ -32,7 +34,7 @@ Nel seguito, un **insight** è una breve unità di conoscenza testuale che sinte
 
 Le configurazioni informative **A**, **B** ed **E**, indicate formalmente nei protocolli come *conditions*, stabiliscono se gli insight vengono forniti e in quale relazione si trovano con il tipo di guasto da riconoscere:
 
-- **A** costituisce il riferimento senza insight — né peer né propri: l'agente usa soltanto i few-shot etichettati della propria esperienza locale, senza includere i propri insight generati localmente;
+- **A** costituisce il riferimento senza insight — né peer né propri: l'agente usa soltanto i few-shot — la coppia (testo neutrale, pseudolabel) prodotta facendo passare i batch 1–2 (fault) e N1–N2 (Normal) attraverso la pipeline Fase 1 — etichettati della propria esperienza locale, senza includere i propri insight generati localmente;
 - **B** mette a disposizione insight pertinenti al tipo di guasto da riconoscere;
 - **E** funge da controllo della pertinenza dell’informazione: gli insight sono presenti, ma la loro associazione con i tipi di guasto viene deliberatamente alterata secondo la mappatura di controllo stabilita dal protocollo.
 
@@ -59,15 +61,13 @@ La ricerca ha compreso:
 5. **Scopus**: non interrogato direttamente;
 6. **Citation chaining**: esame delle relazioni bibliografiche individuate dalla review preesistente, documentato negli Output 8–9.
 
-Nei limiti delle fonti, delle query e delle procedure consultate, non è stato individuato un lavoro precedente che combini simultaneamente tutti gli elementi centrali di questo progetto: insight testuali derivati dall’esperienza locale, condivisione fra agenti distribuiti con esperienza disgiunta per tipo di guasto e diagnosi di fault su serie temporali multivariate.
+Al momento non è stato individuato un lavoro precedente che combini simultaneamente tutti gli elementi centrali di questo progetto: insight testuali derivati dall’esperienza locale, condivisione fra agenti distribuiti con esperienza disgiunta per tipo di guasto e diagnosi di fault su serie temporali multivariate.
 
 La conseguente affermazione di novità viene pertanto formulata in modo qualificato:
 
 > *“To the best of our knowledge, no prior work federates locally-derived textual insights across distributed agents with class-disjoint experience to diagnose faults in multivariate time series.”*
 
 Questa conclusione non implica l’assenza assoluta di lavori non recuperati dalla ricerca. Definisce invece il gap emerso entro il perimetro documentato della review e motiva la domanda sperimentale affrontata dal progetto.
-
-**Aggiornamento dopo la review.** La review aveva identificato il comparatore centralizzato/pooled come la baseline interna con il maggiore ritorno informativo. Questo comparatore è stato successivamente realizzato come **Condition C**: un singolo agente riceve l’unione frozen degli esempi etichettati e degli insight testuali prompt-facing dei quattro nodi. C è quindi oggi disponibile come riferimento descrittivo post-hoc per il held-out di **Experiment 1**; non è una baseline pre-specificata, non stabilisce superiorità causale e non è stata eseguita sulle nuove realizzazioni di **EXP3_V2**. La realizzazione di C completa il confronto interno federazione–centralizzazione, senza modificare il gap di novità della federazione testuale su serie temporali con classi localmente non viste.
 
 ### 1.5 Critiche costruttive e limiti noti
 
@@ -87,7 +87,7 @@ Le configurazioni informative A, B ed E permettono di verificare internamente se
 
 Un confronto più completo dovrebbe comprendere almeno due piani di baseline:
 
-1. **Baseline interne al paradigma testuale.** Una vera *local-only* farebbe usare a ciascun agente anche gli insight generati localmente, senza federazione. A non coincide con questa configurazione: è una baseline senza insight e costituisce un *information floor* per le classi locally-unseen. La local-only non è stata implementata come condizione separata; il valore aggiunto atteso era limitato perché gli insight propri riguardano soltanto il fault già noto localmente, ma questa resta un'aspettativa metodologica e non un risultato empiricamente misurato. Il riferimento *centralized pooled* è stato invece realizzato come Condition C e usa un singolo agente con l'esperienza testuale prompt-facing aggregata di tutti i nodi.
+1. **Baseline interne al paradigma testuale.** Una vera *local-only* farebbe usare a ciascun agente anche gli insight generati localmente, senza federazione. A non coincide con questa configurazione: è una baseline senza insight e costituisce un *information floor* per le classi locally-unseen. La local-only non è stata implementata come condizione separata; il valore aggiunto atteso era limitato perché gli insight propri riguardano soltanto il fault già noto localmente, ma questa resta un'aspettativa metodologica e non un risultato empiricamente misurato. Il riferimento *centralized pooled* è stato invece realizzato come Fase 2.1 e usa un singolo agente con l'esperienza testuale prompt-facing aggregata di tutti i nodi.
 2. **Baseline esterne al paradigma** — metodi diagnostici convenzionali come PCA/DPCA, SVM o Random Forest, e tecniche propriamente federate come FedAvg o FedProx (cfr. la tassonomia non-IID di Li et al., ICDE 2022; il survey FL-FDD di Berghout et al., 2022; FedMeta-FFD di Chen et al., IEEE TNSE 2023 per il meta-learning federato su fault diagnosis). Queste baseline verificherebbero se il paradigma testuale sia competitivo rispetto a quello numerico.
 
 La mancata disponibilità delle baseline esterne e della local-only separata non invalida l'esperimento: il progetto conserva valore come prova controllata del meccanismo, mostrando che insight testuali pertinenti possono aiutare gli agenti sui tipi di guasto assenti dalla loro esperienza locale. Limita però qualsiasi affermazione secondo cui FoT sia complessivamente migliore degli approcci diagnostici tradizionali o delle tecniche federate esistenti. I confronti A–B–E e il confronto descrittivo con C restano validi entro il loro perimetro: misurano rispettivamente l'effetto incrementale della federazione testuale e la collocazione di B rispetto a un contesto centralizzato più ricco, non la posizione assoluta di FoT nel panorama diagnostico. Una gap analysis sistematica della letteratura 2021–2026, documentata in [FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md](lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md) e nella [literature review estesa](lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md), conferma che nessun lavoro identificato combina simultaneamente trasferimento di conoscenza testuale, setting federato su serie temporali/FDD e classi localmente non viste sotto non-IID class-disjoint.
@@ -99,7 +99,7 @@ Le novità che il progetto introduce o esplora, incrociate con la gap analysis e
 1. **Novità di combinazione (confermata come gap nella letteratura).** Nessun lavoro identificato tra i 20+ paper verificati combina simultaneamente: trasferimento di conoscenza testuale + setting federato su serie temporali/FDD + classi localmente non viste sotto non-IID class-disjoint. Ogni singolo asse ha lavori vicini (FoT per il testo, FedMeta-FFD per il FL su FDD, FedCKD per il class-disjoint), ma l'intersezione dei tre è vuota.
 2. **Controllo di specificità semantica pre-registrato (B vs E).** Il derangement delle associazioni pseudolabel↔insight a parità di testo, volume e ordine è un disegno di valutazione non riscontrato altrove in questo contesto. Isola se il beneficio dipende dalla correttezza dell'informazione o dalla sola presenza di testo aggiuntivo — e i risultati confermano la prima ipotesi (B−E = +0.78 nell'Exp1, +0.89 nell'Exp3_V2).
 3. **Pipeline di verbalizzazione "structured domain-driven" (V2).** L'analisi comparativa con la letteratura (20+ approcci in 7 categorie) posiziona il verbalizzatore come una settima strategia: completamente deterministico, con soglie calibrate statisticamente (conformal, α=0.05), semantica temporale strutturata (run, fasi, persistenza), vocabolario controllato e neutralità diagnostica garantita per costruzione. Nessun altro approccio TS→testo combina tutte queste proprietà.
-4. **Replica confermativa su nuove realizzazioni fisiche (Exp3_V2).** Il raddoppio del campione (da 12 a 24 run) conferma l'effetto (B−A = +0.94) e fa emergere un fenomeno non visibile nel campione più piccolo: una degradazione local-seen (19/24 in B vs 24/24 in A), segnale di possibile negative transfer che rimane aperto per indagine futura.
+4. **Replica confermativa su nuove realizzazioni fisiche Fase 2.** Il raddoppio del campione (da 12 a 24 run) conferma l'effetto (B−A = +0.94) e fa emergere un fenomeno non visibile nel campione più piccolo: una degradazione local-seen (19/24 in B vs 24/24 in A), segnale di possibile negative transfer che rimane aperto per indagine futura.
 
 ### 1.7 Lazy points
 
@@ -1089,16 +1089,204 @@ Fase 3 — Portabilità cross-model · EXP2
 
 **Step 27 / 27Fase 3Portabilità cross-model**
 
-## Intro preliminare
+## Consumer open-weight: protocollo Qwen e avvio di Experiment 2
 
-La distinzione chiave è tra **producer** e **consumer**. Il producer — il modello che ha generato gli insight a partire dai casi development/calibration — rimane `gpt-5.6-terra` e non viene variato: gli insight peer restano quelli frozen di Experiment 1, byte per byte. Ciò che varia è esclusivamente il consumer, cioè il reasoning model che riceve il caso da classificare, gli esempi locali few-shot e gli insight federati e deve produrre la pseudolabel finale. Experiment 2 testa quindi la **portabilità cross-model della conoscenza testuale congelata**: la stessa evidenza, la stessa conoscenza, gli stessi casi — un reasoner diverso.
+### 1 · Domanda scientifica
 
-Tutti gli altri elementi sperimentali sono mantenuti identici: held-out frozen di Experiment 1, verbalizer V2, pseudolabel opache, configurazioni informative A/B/E, prompt, regola di aggregazione, evaluator e bootstrap. In questo modo, qualsiasi variazione osservata può essere attribuita al cambio del consumer e non a differenze nei dati o nella conoscenza trasferita.
+Experiment 2 verifica se gli stessi insight testuali frozen, prodotti da `gpt-5.6-terra`, possono essere consumati utilmente da un reasoner diverso. La distinzione chiave è tra **producer** e **consumer**:
 
-La scelta dei reasoner include almeno un modello **open-weight**, che serve anche da ancora di riproducibilità: un risultato replicabile con pesi pubblici e inferenza deterministica (temperature 0, seed fisso) è più difficile da contestare di uno ottenuto esclusivamente con API proprietarie. L’aggiunta di un secondo modello di famiglia diversa dall’originale rafforza ulteriormente la claim.
+- il **producer** — il modello che ha generato gli insight a partire dai casi development/calibration — rimane `gpt-5.6-terra` e non viene variato: gli insight peer restano quelli frozen di Experiment 1, byte per byte;
+- il **consumer** — il reasoning model che riceve il caso da classificare, gli esempi locali few-shot e gli insight federati e deve produrre la pseudolabel finale — cambia: al posto di `gpt-5.6-terra` viene utilizzato un modello open-weight locale.
+
+La stessa evidenza, la stessa conoscenza e gli stessi casi; cambia esclusivamente il modello che esegue la diagnosi finale. La claim riguarda la **portabilità del consumo**, non la generalità end-to-end: il producer degli insight non è stato cambiato. Parlare di «model-generality end-to-end» richiederebbe variare anche la produzione. Experiment 2 è quindi complementare a Experiment 3 (Fase 2): là cambiavano i dati fisici a parità di reasoner, qui cambia il reasoner a parità di dati e conoscenza.
+
+La scelta di un modello **open-weight** — un modello i cui pesi sono pubblicamente disponibili e scaricabili — serve anche da ancora di riproducibilità: un risultato replicabile con pesi pubblici e inferenza deterministica (temperature 0, seed fisso) è più difficile da contestare di uno ottenuto esclusivamente con API proprietarie.
 
 La research question di Experiment 2 è:
 
 > *Does the transfer effect and its semantic specificity persist when the same frozen peer textual knowledge is consumed by different reasoning models?*
 
-Un risultato positivo fornirebbe evidenza che la conoscenza testuale prodotta nel setting FoT non è accoppiata al reasoner originale — proprietà rilevante per la praticabilità del meccanismo, che si aggancia al risultato *weak-to-strong in text space* della letteratura. Tuttavia, poiché il producer degli insight non viene variato e l’held-out è lo stesso di Experiment 1, la claim resta circoscritta alla portabilità del consumo: parlare di «model-generality end-to-end» richiederebbe variare anche la produzione. Experiment 2 è quindi complementare a Experiment 3 (Fase 2): là cambiavano i dati fisici a parità di reasoner, qui cambia il reasoner a parità di dati e conoscenza.
+Un risultato positivo fornirebbe evidenza che la conoscenza testuale prodotta nel setting FoT non è accoppiata al reasoner originale — proprietà rilevante per la praticabilità del meccanismo, che si aggancia al risultato *weak-to-strong in text space* della letteratura. Tuttavia, poiché il producer degli insight non viene variato e l'held-out è lo stesso di Experiment 1, la claim resta circoscritta alla portabilità del consumo.
+
+### 2 · Elementi sperimentali rimasti frozen
+
+Tutti gli elementi sperimentali di Experiment 1 sono mantenuti identici. In questo modo, qualsiasi variazione osservata può essere attribuita al cambio del consumer e non a differenze nei dati o nella conoscenza trasferita.
+
+| Elemento | Stato |
+| --- | --- |
+| Held-out di Experiment 1 (15 run indipendenti) | Frozen, riutilizzato |
+| Verbalizer V2 | Invariato |
+| Pseudolabel opache | Invariate |
+| Esempi locali few-shot | Invariati |
+| Insight peer (prodotti da `gpt-5.6-terra`) | Invariati |
+| Configurazione informativa A | Nessun insight peer |
+| Configurazione informativa B | Insight peer corretti |
+| Configurazione informativa E | Insight peer semanticamente corrotti (derangement) |
+| Derangement della condizione E | Invariato |
+| Prompt template | Invariato |
+| Schedule dell'inferenza | Invariato |
+| Parser della risposta JSON | Invariato |
+| Aggregazione 2-su-3 | Invariata |
+| Evaluator offline | Invariato |
+| Bootstrap | Invariato |
+
+Lo schedule produce: 15 casi × 4 agenti × 3 condizioni × 3 ripetizioni = **540 inferenze** e **180 decisioni aggregate**.
+
+### 3 · Ambiente open-weight
+
+La prima lane open-weight utilizza **Qwen3.8-27B-FP8** (abbreviato: Qwen 27B), un modello open-weight da 27 miliardi di parametri della famiglia Qwen, servito localmente tramite **vLLM** — un motore di inferenza open-source ottimizzato per modelli linguistici di grandi dimensioni. L'inferenza avviene su hardware locale, senza chiamate a servizi cloud.
+
+| Componente | Dettaglio |
+| --- | --- |
+| Sistema operativo | Ubuntu 24.04.3 LTS |
+| GPU | 2 × NVIDIA RTX 5000 Ada Generation (~32 GB ciascuna) |
+| Python | 3.12.14 |
+| PyTorch | 2.13.0 con CUDA 13.2 |
+| vLLM | 0.28.0 |
+| Modello | `Qwen/Qwen3.8-27B-FP8` |
+| Revisione esatta | `017b9c7af6b5689d5dd426a76e0bc077eb5ca20a` |
+| Alias servito | `fot-exp2-consumer` |
+| Endpoint locale | `http://127.0.0.1:8000/v1` (OpenAI-compatible) |
+
+L'intero setup è stato realizzato nello spazio utente, senza aggiornamenti del sistema operativo o modifiche amministrative. Dopo problemi di inizializzazione con tensor parallel su due GPU, la configurazione validata utilizza una sola GPU con `--tensor-parallel-size=1`: si tratta di una decisione operativa di riproducibilità documentata nel probe, non di una limitazione del modello.
+
+### 4 · Lane isolata e guardrail
+
+Tutto il nuovo codice è confinato sotto `phase_b/exp2/qwen/`. Nessun file esterno a questa directory è stato creato o modificato. Il branch dedicato è `origin/codex/exp2-qwen`; il protocollo è congelato nel commit `d9bb95c` con tag `phase-b-exp2-qwen-protocol-frozen-001`.
+
+La lane opera con i seguenti guardrail:
+
+- **Verifica degli hash** — prima di operare, controlla gli hash SHA-256 di tutti i 10 artefatti frozen (template di prompt, insight, esempi locali, derangement, schema JSON, aggregation, bootstrap, manifest delle verbalizzazioni). Se un hash non corrisponde, il processo si arresta.
+- **Ricostruzione e confronto dei prompt** — ricostruisce tutti i 180 prompt unici e li confronta con gli hash originali di Experiment 1.
+- **Schedule rigido** — impone lo schedule di esattamente 540 record: 180 A, 180 B, 180 E, indici sequenziali 0–539.
+- **Richieste stateless** — ogni chiamata al modello è una richiesta indipendente con un singolo messaggio utente. Non esiste stato conversazionale tra una chiamata e l'altra.
+- **Separazione reasoning/content** — il modello restituisce sia il reasoning interno sia la risposta JSON (`content`). L'adapter conserva entrambi, ma passa solo il `content` al parser frozen. Il reasoning è salvato per analisi post-hoc ma non influenza la decisione.
+- **Salvataggio immediato** — ogni record viene scritto su disco immediatamente dopo l'inferenza, con `fsync`. Un'interruzione non perde i record già completati.
+- **Resume con validazione** — in caso di ripresa, i record esistenti vengono validati prima di continuare.
+- **Flag di sicurezza** — il full run richiede il flag esplicito `--execute-full-run`. Senza di esso, il processo si arresta prima di eseguire inferenze.
+- **Valutazione bloccata** — `evaluate_qwen.py` rifiuta di operare finché i 540 record e i 180 aggregati non sono completi e congelati tramite manifest SHA-256.
+
+### 5 · Primo capability probe e audit NO-GO
+
+Prima di eseguire il full run, un **capability probe** — un test automatico che verifica se l'infrastruttura è in grado di eseguire correttamente l'esperimento — viene sottoposto a un **audit indipendente**: una revisione read-only del codice, del probe e dei suoi risultati, che emette un verdetto GO o NO-GO per il freeze del protocollo.
+
+Il primo probe ha rivelato un problema critico. Il parametro `max_tokens=512` — il limite massimo di token che il modello può generare in una singola risposta — limitava *congiuntamente* il ragionamento interno del modello e la risposta JSON finale. Nella condizione E (insight corrotti), Qwen consumava l'intero budget di 512 token nel ragionamento senza mai emettere il JSON di risposta:
+
+- condizione E: tutte e tre le fixture terminavano con `finish_reason=length` e `content` nullo;
+- condizione B: marginale, con il primo tentativo troncato e recupero al retry;
+- condizione A: funzionante (ragionamento più breve perché privo di insight peer).
+
+Il rischio: nella condizione E tutte le 180 chiamate avrebbero prodotto astensioni forzate, gonfiando artificialmente il delta B−E. Il confronto di specificità semantica — che misura se il vantaggio di B dipende dalla corretta associazione degli insight — sarebbe stato invalidato: avrebbe misurato un artefatto tecnico (troncamento), non una confusione genuina del modello causata dagli insight corrotti.
+
+L'audit indipendente ha inoltre rilevato un mismatch nell'estrazione del reasoning: vLLM esponeva il campo `message.reasoning`, mentre l'adapter cercava prioritariamente `reasoning_content`. Il reasoning completo era preservato nel `response_raw`, ma il campo dedicato risultava nullo.
+
+L'audit ha emesso **NO-GO** prima del freeze. Questo esito dimostra il funzionamento dei guardrail: il full run è stato bloccato prima di contaminare l'esperimento.
+
+### 6 · Correzioni pre-freeze
+
+Le correzioni apportate prima del freeze del protocollo:
+
+- **`max_tokens` portato a 1536** — copre uniformemente reasoning più risposta JSON per tutte le condizioni (A, B, E), inclusi retry e replay. Il valore precedente di 512 era insufficiente; i passaggi intermedi a 1024 e 1280 producevano ancora troncamento nelle fixture B ed E.
+- **`thinking_token_budget` impostato a 1024** — un parametro che limita la sola parte di ragionamento interno del modello, separatamente dalla risposta finale. Restano fino a circa 512 token per il JSON di output.
+- **`reasoning_effort` lasciato non impostato** — il parametro è disponibile nella OpenAPI di vLLM 0.28.0 ma non viene utilizzato. Il controllo del ragionamento è affidato esclusivamente al `thinking_token_budget`.
+- **Adapter aggiornato** — la funzione `_extract_reasoning()` cerca ora il campo in quattro varianti, in ordine di priorità: `reasoning_content`, `reasoning` e gli equivalenti in `model_extra`. Il `response_raw` continua a essere preservato integralmente.
+- **Test rafforzati** — aggiunti 5 test per la catena di estrazione del reasoning e asserzioni aggiuntive per `max_tokens`, `thinking_token_budget` e i controlli del probe. Nessun test preesistente è stato rimosso o indebolito.
+
+Per chiarezza: `max_tokens=1536` limita il totale (reasoning + risposta finale); `thinking_token_budget=1024` limita la sola parte di ragionamento. Lo stesso vincolo è applicato identicamente ad A, B, E, retry e replay.
+
+### 7 · Budget del contesto
+
+Il conteggio dei token è stato effettuato con il tokenizer e il chat template effettivi di Qwen, tramite l'endpoint `/tokenize` di vLLM, su tutti i 180 prompt unici.
+
+| Misura | Valore |
+| --- | --- |
+| Massimo input frozen | 2340 token |
+| Minimo input frozen | 1386 token |
+| Budget massimo di output (`max_tokens`) | 1536 token |
+| Totale massimo pianificato (input + output) | 3876 token |
+| Contesto del server (`max_model_len`) | 4096 token |
+| Margine | 220 token |
+
+Il margine di 220 token garantisce che nessuna combinazione di prompt e risposta possa eccedere il contesto del server.
+
+### 8 · Probe finale e re-audit GO
+
+Il probe finale eseguito sul protocollo corretto:
+
+- usa solo fixture sintetiche: non contiene ground truth, non genera predizioni held-out;
+- effettua 4 richieste: una per A, una per B, una per E e un replay deterministico di B;
+- non richiede alcun retry strutturale;
+- **passa 19/19 controlli**;
+- ottiene `finish_reason=stop` e JSON valido per tutte e tre le condizioni;
+- conserva correttamente il reasoning in tutte le risposte;
+- conferma il replay deterministico (risposta bit-per-bit identica con `temperature=0`, `seed=20260829`).
+
+Token osservati nel probe:
+
+| Condizione | Prompt token | Completion token | Reasoning token |
+| --- | --- | --- | --- |
+| A | 1553 | 349 | 255 |
+| B | 2300 | 1124 | 1023 |
+| E | 2300 | 1117 | 1023 |
+
+B ed E utilizzano 1023 reasoning token, entro il cap di 1024. Il cap è un vincolo uniforme applicato identicamente a entrambe le condizioni: se il reasoning tronco penalizza la qualità della risposta, lo fa in modo simmetrico. Il confronto B vs E — che misura la specificità semantica — rimane equo.
+
+Il massimo osservato live è 2300 prompt + 1124 completion = **3424 token totali**, ben entro il contesto di 4096.
+
+Il re-audit indipendente ha verificato la risoluzione dei tre finding del primo audit e l'assenza di nuovi finding, ed ha emesso **GO per il freeze del protocollo**. Il protocollo è stato congelato nel commit [`d9bb95c`](https://github.com/sorrentinoluca/fot-phd/commit/d9bb95c31bdeb2f1608aaedc52f25b98de9bbf96) con tag `phase-b-exp2-qwen-protocol-frozen-001`.
+
+> **Il GO del probe non è un risultato scientifico.** Il capability probe certifica soltanto che l'infrastruttura può eseguire correttamente l'esperimento: il modello produce risposte JSON valide, non troncate, per tutte le condizioni. Non certifica l'accuratezza diagnostica, che sarà misurata dal full run.
+
+### 9 · Full run attualmente in esecuzione
+
+Il full run delle 540 inferenze è stato avviato sul protocollo congelato con il seguente comando riproducibile:
+
+```bash
+nohup env PYTHONUNBUFFERED=1 \
+  /home/luca/fot-exp2/env-vllm/bin/python -u \
+  -m phase_b.exp2.qwen.run_frozen_inference \
+  --execute-full-run \
+  > /home/luca/fot-exp2/logs/exp2-qwen-full-run.log \
+  2>&1 < /dev/null &
+```
+
+- `nohup` mantiene il processo attivo dopo la disconnessione SSH;
+- il log è esterno agli artefatti scientifici;
+- `repetition_records.jsonl` viene aggiornato dopo ogni singola inferenza: il numero di righe consente di monitorare il progresso verso 540;
+- lo stesso comando può riprendere un run interrotto, validando prima i record già presenti.
+
+**Il full run open-weight è stato avviato sul protocollo congelato. Al momento della redazione, l'inferenza è ancora in corso e non sono state calcolate metriche scientifiche.**
+
+### 10 · Passaggi successivi
+
+Al completamento del full run, prima di poter dichiarare qualsiasi risultato:
+
+1. devono esistere esattamente **540 repetition record**;
+2. devono essere prodotte **180 decisioni aggregate** (regola 2-su-3);
+3. gli output devono essere **congelati tramite manifest SHA-256** (`inference_output_hash_manifest.json` con status `IMMUTABLE_BEFORE_OFFLINE_EVALUATION`);
+4. solo dopo il freeze è consentito il join evaluator-side con la ground truth;
+5. verrà eseguito `evaluate_qwen.py`, che riusa l'evaluator frozen di Experiment 1;
+6. questo Step 27 verrà aggiornato con risultati, intervalli bootstrap e interpretazione;
+7. la portabilità cross-model non deve essere dichiarata prima di tali risultati.
+
+### Dove verificare
+
+| Risorsa | Descrizione |
+| --- | --- |
+| `phase_b/exp2/qwen/README.md` | Contratto di esecuzione e comandi della lane Qwen |
+| `phase_b/exp2/qwen/config.json` | Configurazione completa: modello, parametri, hash frozen |
+| `phase_b/exp2/qwen/probe/CAPABILITY_PROBE.md` | Risultato leggibile del probe (19/19 PASS) |
+| `phase_b/exp2/qwen/probe/capability_probe.json` | Artefatto completo del probe con token e risposte |
+| `phase_b/exp2/qwen/run_frozen_inference.py` | Script di inferenza con guardrail e resume |
+| `phase_b/exp2/qwen/evaluate_qwen.py` | Evaluator Qwen, binding verso il core frozen di Experiment 1 |
+
+I due audit (`audit_exp2_qwen.md` e `re_audit_exp2_qwen.md`) sono attualmente documenti locali sotto `phase_b/exp2/qwen/` e non sono inclusi tra i file versionati nel commit congelato.
+
+### Limitazioni
+
+- È stata avviata una sola lane open-weight (Qwen 27B). Un singolo consumer non dimostra generalità.
+- Il producer resta `gpt-5.6-terra`, proprietario e invariato. La claim è circoscritta alla portabilità del consumo.
+- L'held-out è riutilizzato da Experiment 1. Non ci sono nuove realizzazioni fisiche.
+- Il probe sintetico dimostra capacità tecnica dell'infrastruttura, non accuratezza diagnostica.
+- Non esistono ancora risultati del full run: nessuna metrica, nessun intervallo, nessuna conclusione.
+- I test specifici della lane Qwen (`phase_b/exp2/qwen/tests/`) sono passati e sono stati rafforzati dopo le correzioni pre-freeze. Tre errori della suite `phase_b` generale erano ambientali e preesistenti (dipendenza `openpyxl` assente nell'environment di test, workbook esterni mancanti e un path macOS frozen nell'environment Linux); non riguardano la lane Qwen.

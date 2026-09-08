@@ -137,11 +137,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 }
 .nav-step:hover { background: rgba(255,255,255,0.08); color: var(--nav-active); }
 .nav-step.active { background: rgba(255,255,255,0.14); color: var(--nav-active); font-weight: 600; }
-.nav-step.visited::after {
-  content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
-  width: 4px; height: 4px; border-radius: 50%; background: var(--accent-a);
-}
-.nav-step.visited.phase-b-step::after { background: var(--accent-b); }
+/* visited dot removed — only active step is highlighted */
 .nav-divider {
   width: 1px; background: rgba(255,255,255,0.1);
   margin: 8px 12px;
@@ -526,7 +522,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <span class="flow-arrow">→</span>
       <span class="flow-node em">Testo neutrale</span>
       <span class="flow-arrow">→</span>
-      <span class="flow-node em-b">Insight testuali</span>
+      <span class="flow-node em-b">Insight testuali (via LLM)</span>
       <span class="flow-arrow">→</span>
       <span class="flow-node em-b">Diagnosi via LLM</span>
     </div>
@@ -719,6 +715,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 <div class="step-container" data-step="4">
   <div class="phase-badge a">Phase A · Step 4</div>
   <h1 class="step-title">Calcolo della feature: shift_sigma</h1>
+  <p class="step-intro">La scelta delle feature è una decisione di design sul development/calibration. Il calcolo delle feature è invece l'operazione ripetuta su ogni finestra.</p>
   <p class="step-intro">Nella procedura completa, lo stesso calcolo viene applicato a <strong>tutte le 8 finestre</strong> e a <strong>tutte le 41 variabili XMEAS</strong>, producendo 8 &times; 41 = 328 valori di shift_sigma per ciascun run. Qui sotto vediamo un <strong>singolo esempio concreto</strong>: XMEAS-1, finestra W1 (10&ndash;15 h), F1 batch 1.</p>
 
   <div class="card">
@@ -788,6 +785,13 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   </div>
 
   <div class="card">
+    <div class="card-label">Perché prendiamo il massimo?</div>
+    <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
+      Lo score di ogni XMEAS è espresso rispetto al comportamento Normal di quella stessa variabile: per <code>shift_sigma</code>, lo spostamento è misurato in deviazioni standard Normal. Gli score sono quindi <strong>adimensionali e confrontabili</strong>: non stiamo mettendo a confronto pressioni, temperature o portate nelle loro unità fisiche. Il massimo identifica, dentro quella finestra, la deviazione standardizzata più estrema tra i 41 canali e risponde alla domanda di sistema: «almeno una variabile si è allontanata dal proprio normale più del previsto?». Non identifica la causa del cambiamento; comprime la finestra in un solo score conservando il canale più distante dal suo riferimento. Calibrare la soglia sui massimi Normal incorpora nel riferimento il fatto che in ogni finestra cerchiamo l'estremo fra 41 opportunità.
+    </p>
+  </div>
+
+  <div class="card">
     <div class="card-label">Perché rango 49 su 50?</div>
     <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
       Con α = 0.05, si ammette che <strong>1 finestra su 50</strong> (il 2%) possa superare la soglia anche nel Normal. Questo equivale a un controllo conformal: il rango 49 è il quantile al 98° percentile dei massimi-di-sistema. La regola di attivazione è <strong>strettamente maggiore</strong>: <code>|shift_sigma| > 1.970</code>.
@@ -812,7 +816,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 <!-- ==================== STEP 6: FLAGS ==================== -->
 <div class="step-container" data-step="6">
   <div class="phase-badge a">Phase A · Step 6</div>
-  <h1 class="step-title">Dai numeri ai flag: soglia applicata</h1>
+  <h1 class="step-title">Dai numeri ai flag: applicazione soglia e generazione flag e segni</h1>
   <p class="step-intro">Ora applichiamo la soglia congelata (<code>1.970</code>) a tutte le 8 finestre post-fault del run F1 batch 1. Per la feature <strong>shift_sigma</strong>: se <code>|shift_sigma| > 1.970</code>, il flag è <strong>ON</strong>. Il segno (+ o −) viene conservato.</p>
 
   <div class="card">
@@ -931,13 +935,63 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 × F13</span>
     </div>
     <p style="margin:0;font-size:0.82rem;color:var(--text-caption)">
-      Ogni run viene congelato (hash SHA-256, manifest) <em>prima</em> della verbalizzazione e dell'inferenza. La pipeline Phase A (soglie, feature, testo neutrale) viene applicata a questi run esattamente come ai precedenti, senza alcuna modifica. In EXP3_V2 il protocollo è stato replicato con il doppio dei run: 6 per classe fault + 6 Normal = <strong>30 run</strong>.
+      Ogni run viene congelato (hash SHA-256, manifest) <em>prima</em> della verbalizzazione e dell'inferenza. La pipeline Phase A (soglie, feature, testo neutrale) viene applicata a questi run esattamente come ai precedenti, senza alcuna modifica. Nella Fase 2 il protocollo è stato replicato con il doppio dei run: 6 per classe fault + 6 Normal = <strong>30 run</strong>.
     </p>
   </div>
 </div>
 
-<!-- ==================== STEP 9: AGENTS ==================== -->
-<div class="step-container" data-step="9">
+
+<!-- ==================== STEP 9: EVALUATOR ==================== -->
+<div class="step-container" data-step="10">
+  <div class="phase-badge a">Phase A · Step 9</div>
+  <h1 class="step-title">Evaluator: il signature vector</h1>
+  <p class="step-intro">Prima di affidare i testi a un reasoner LLM, l'evaluator verifica offline se la rappresentazione neutrale conserva una struttura sufficientemente <strong>stabile</strong> (intra-classe) e <strong>separabile</strong> (inter-classe). Non produce predizioni: valuta la qualità descrittiva della pipeline.</p>
+
+  <div class="card">
+    <div class="card-label">Come funziona la firma</div>
+    <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">L'evaluator lavora sul JSON strutturato e costruisce un <strong>signature vector</strong> per ogni run: 17 componenti normalizzate per ciascuna delle 41 XMEAS, per un totale di <strong>697 valori</strong>. La similarità tra due firme è <code>1 − mean(|a−b|)</code>.</p>
+    <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">L'evaluator può così chiedere: due run F1 presentano pattern temporali simili? Un run F1 è più vicino agli altri F1 che ai Normal? <strong>La separabilità descrittiva non equivale all'accuratezza diagnostica</strong>: una firma separabile non garantisce che un reasoner la utilizzi correttamente.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Mini-esempio — Confrontare due firme</div>
+    <p style="margin:0 0 12px;font-size:0.82rem;color:var(--text-caption)">Le firme reali hanno 697 componenti. Qui riduciamo a 4 componenti schematiche per illustrare la meccanica.</p>
+    <table class="data-table">
+      <thead><tr><th>Firma</th><th class="num">c₁</th><th class="num">c₂</th><th class="num">c₃</th><th class="num">c₄</th></tr></thead>
+      <tbody>
+        <tr><td>F1 · run A</td><td class="num">1.00</td><td class="num">1.00</td><td class="num">0.90</td><td class="num">0.20</td></tr>
+        <tr><td>F1 · run B</td><td class="num">1.00</td><td class="num">0.95</td><td class="num">0.85</td><td class="num">0.25</td></tr>
+        <tr><td>Normal · run C</td><td class="num">0.10</td><td class="num">0.00</td><td class="num">0.05</td><td class="num">0.90</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Similarità = 1 − mean(|a−b|)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="padding:14px;border-radius:6px;background:var(--green-light)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Intra-classe (F1·A vs F1·B)</div>
+        <p style="margin:0;font-size:0.85rem;color:var(--text)">Differenze: |0.00|, |0.05|, |0.05|, |0.05|</p>
+        <p style="margin:4px 0 0;font-size:0.85rem;color:var(--text-muted)">Media 0.0375 → similarità <strong style="color:var(--green)">0.9625</strong></p>
+        <p style="margin:4px 0 0;font-size:0.82rem;color:var(--text-caption)">La rappresentazione è <strong>stabile</strong>.</p>
+      </div>
+      <div style="padding:14px;border-radius:6px;background:var(--threshold-light)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Inter-classe (F1·A vs Normal·C)</div>
+        <p style="margin:0;font-size:0.85rem;color:var(--text)">Differenze: |0.90|, |1.00|, |0.85|, |0.70|</p>
+        <p style="margin:4px 0 0;font-size:0.85rem;color:var(--text-muted)">Media 0.8625 → similarità <strong style="color:var(--threshold)">0.1375</strong></p>
+        <p style="margin:4px 0 0;font-size:0.82rem;color:var(--text-caption)">La rappresentazione è <strong>separabile</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span>Alta similarità intra-classe + bassa similarità inter-classe = il testo neutrale di Phase A conserva abbastanza struttura da distinguere le condizioni <em>senza mai nominarle</em>. È il pre-requisito descrittivo che rende sensato dare quei testi in pasto a un reasoner in Phase B — ma resta separabilità, non ancora accuracy diagnostica.</span>
+  </div>
+</div>
+
+<!-- ==================== STEP 10: AGENTS ==================== -->
+<div class="step-container" data-step="11">
   <div class="phase-badge b">Phase B · Step 1</div>
   <h1 class="step-title">Gli agenti e la conoscenza locale non-IID</h1>
   <p class="step-intro">Quattro agenti osservano lo stesso processo ma conoscono ciascuno un solo tipo di guasto. Tutti conoscono il Normal. I nomi reali dei fault (F1, F8, F10, F13) sono nascosti dietro <strong>pseudolabel opache</strong>.</p>
@@ -988,21 +1042,23 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
   <div class="card">
     <div class="card-label">Few-shot locale — Cosa possiede ogni agente</div>
-    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">Ogni agente ha 4 esempi etichettati: 2 Normal + 2 del proprio fault locale. Ciascun esempio è una coppia <code>(testo neutrale, pseudolabel)</code> prodotta dalla pipeline Phase A congelata.</p>
-    <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:0.85rem">
-      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">Esempio 1</span><span style="color:var(--text-muted)">Testo neutrale Normal N1 → etichetta "Normal"</span>
-      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">Esempio 2</span><span style="color:var(--text-muted)">Testo neutrale Normal N2 → etichetta "Normal"</span>
-      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">Esempio 3</span><span style="color:var(--text-muted)">Testo neutrale fault locale batch 1 → pseudolabel del proprio fault</span>
-      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">Esempio 4</span><span style="color:var(--text-muted)">Testo neutrale fault locale batch 2 → pseudolabel del proprio fault</span>
-    </div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">La prima cosa che fa ogni agente è preparare il proprio <strong>few-shot locale</strong>: prende i casi che conosce (i suoi batch 1–2 di fault e i Normal N1–N2), li fa passare per la pipeline Phase A già congelata e ne ricava esempi pronti da mostrare al reasoner.</p>
+    <table class="data-table">
+      <thead><tr><th>Passaggio</th><th>Che cosa accade realmente</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:600;white-space:nowrap">Input dei casi</td><td style="font-size:0.85rem;color:var(--text-muted)">Per ciascun agente: i workbook fissi batch 1–2 del proprio fault locale e i blocchi Normal N1–N2. La baseline development/calibration N1–N5 resta il riferimento frozen.</td></tr>
+        <tr><td style="font-weight:600;white-space:nowrap">Operazione</td><td style="font-size:0.85rem;color:var(--text-muted)">L'agente riesegue la pipeline Phase A congelata (<em>finestre → feature → soglie già congelate → flag → JSON → testo neutrale</em>) e associa a ogni caso la sua <strong>pseudolabel</strong>. Nessun LLM, nessuna ricalibrazione delle soglie.</td></tr>
+        <tr><td style="font-weight:600;white-space:nowrap">Output</td><td style="font-size:0.85rem;color:var(--text-muted)">4 pack × 4 esempi, ciascuno ridotto alla coppia <code>(testo neutrale, pseudolabel)</code>.</td></tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
 <!-- ==================== STEP 10: INSIGHTS ==================== -->
-<div class="step-container" data-step="10">
+<div class="step-container" data-step="11">
   <div class="phase-badge b">Phase B · Step 2</div>
   <h1 class="step-title">Generazione degli insight e federazione peer-only</h1>
-  <p class="step-intro">Ogni agente condensa ciò che sa del proprio fault in <strong>2 insight testuali</strong>, distillati da 5 casi development/calibration via LLM. Poi la <strong>federazione</strong> distribuisce gli insight: ogni agente riceve i 6 insight degli altri tre peer, mai i propri.</p>
+  <p class="step-intro">Ogni agente usa l’LLM per condensare in <strong>2 insight testuali</strong> le regolarità ricorrenti nei testi neutrali frozen di 5 casi development/calibration del proprio fault. Gli insight vengono generati prima dell’accesso diagnostico all’held-out; poi la <strong>federazione</strong> distribuisce a ogni agente i 6 insight degli altri tre peer, mai i propri.</p>
 
   <div class="card">
     <div class="card-label">Distillazione — Agent 1 (conosce F1)</div>
@@ -1044,7 +1100,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 <!-- ==================== STEP 11: CONDITIONS ==================== -->
-<div class="step-container" data-step="11">
+<div class="step-container" data-step="12">
   <div class="phase-badge b">Phase B · Step 3</div>
   <h1 class="step-title">Le tre configurazioni informative: A, B, E</h1>
   <p class="step-intro">Per isolare l'effetto degli insight, lo stesso agente diagnostica lo stesso caso sotto tre condizioni controllate. L'unica cosa che cambia è il <strong>blocco degli insight peer</strong>.</p>
@@ -1082,7 +1138,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 <!-- ==================== STEP 12: INFERENCE ==================== -->
-<div class="step-container" data-step="12">
+<div class="step-container" data-step="13">
   <div class="phase-badge b">Phase B · Step 4</div>
   <h1 class="step-title">Inference: Agent 3 diagnostica un caso F1 unseen</h1>
   <p class="step-intro">Vediamo cosa succede quando <strong>Agent 3</strong> (che conosce solo F10) deve diagnosticare <strong>PBH-004</strong>, un nuovo run di F1 mai visto. Agent 3 riceve lo stesso testo neutrale in tutte e tre le condizioni.</p>
@@ -1137,7 +1193,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 <!-- ==================== STEP 13: RESULTS ==================== -->
-<div class="step-container" data-step="13">
+<div class="step-container" data-step="14">
   <div class="phase-badge b">Phase B · Step 5</div>
   <h1 class="step-title">Risultati: il trasferimento di conoscenza funziona</h1>
   <p class="step-intro">12 run fisici indipendenti × 3 agenti unseen ciascuno = <strong>36 agent-case per condizione</strong>. Tutte le predizioni congelate prima di unirle alla ground truth.</p>
@@ -1360,7 +1416,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 <!-- ==================== STEP 14: CONDITION C — CENTRALIZED ==================== -->
-<div class="step-container" data-step="14">
+<div class="step-container" data-step="15">
   <div class="phase-badge b">Phase B · Step 6</div>
   <h1 class="step-title">Confronto centralizzato: Condition C</h1>
   <p class="step-intro">Quanto migliorerebbe la diagnosi se un <strong>singolo agente centrale</strong> avesse accesso a <strong>tutta</strong> l'esperienza testuale del sistema? Condition C risponde a questa domanda come riferimento esplorativo post-hoc.</p>
@@ -1457,7 +1513,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 <!-- ==================== STEP 15: EXPERIMENT 2 — OPEN-WEIGHT LLM ==================== -->
-<div class="step-container" data-step="15">
+<div class="step-container" data-step="16">
   <div class="phase-badge b">Prossimi passi</div>
   <h1 class="step-title">Experiment 2: portabilità cross-model con LLM open-weight</h1>
   <p class="step-intro">Fino ad ora ogni chiamata LLM ha usato un unico modello proprietario (<strong>gpt-5.6-terra</strong>, OpenAI). Questo pone una <strong>critica fondamentale</strong>: l'intero risultato dipende da un modello chiuso, non deterministico e non riproducibile. Experiment 2 affronta il problema usando <strong>Qwen</strong> sul server locale.</p>
@@ -1569,6 +1625,7 @@ const STEPS = [
   {phase:'a',label:'6. Flag'},
   {phase:'a',label:'7. JSON'},
   {phase:'a',label:'8. Testo'},
+  {phase:'a',label:'9. Evaluator'},
   {phase:'b',label:'1. Agenti'},
   {phase:'b',label:'2. Insight'},
   {phase:'b',label:'3. A/B/E'},
@@ -1611,7 +1668,7 @@ function render() {
   document.querySelectorAll('.nav-step').forEach(btn => {
     const i = parseInt(btn.dataset.idx);
     btn.classList.toggle('active', i === current);
-    btn.classList.toggle('visited', visited.has(i) && i !== current);
+    btn.classList.remove('visited');
   });
   document.getElementById('btnPrev').disabled = current === 0;
   document.getElementById('btnNext').disabled = current === STEPS.length - 1;
@@ -1621,7 +1678,7 @@ function render() {
   document.getElementById('stepCounter').textContent = `${current + 1} / ${STEPS.length}`;
 
   // Animate result bars on step 12
-  if (current === 13) {
+  if (current === 14) {
     setTimeout(() => {
       const b = document.getElementById('barB');
       const bw = document.getElementById('barBwrong');
