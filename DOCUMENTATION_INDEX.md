@@ -65,6 +65,30 @@ For the scientific reading path, start from [`README.md`](README.md).
 No canonical tracked documentation for this revision is present in the current
 checkout.
 
+## Phase B — Experiment 2 Qwen (cross-model consumer)
+
+The Qwen lane is complete and frozen. Its bounded conclusion is consumer-side:
+B's advantage persists with one open-weight consumer in the examined
+configuration; the experiment does not establish universal portability or an
+end-to-end open-weight replica.
+
+| Document or artifact | Role | Frozen milestone |
+|---|---|---|
+| [`phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md`](phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md) | Human-readable canonical evaluation | `phase-b-exp2-qwen-results-frozen-001` |
+| [`phase_b/exp2/qwen/evaluation/evaluation_results.json`](phase_b/exp2/qwen/evaluation/evaluation_results.json) | Canonical machine-readable metrics | `phase-b-exp2-qwen-results-frozen-001` |
+| [`phase_b/exp2/qwen/evaluation/bootstrap_results.json`](phase_b/exp2/qwen/evaluation/bootstrap_results.json) | Frozen paired bootstrap intervals | `phase-b-exp2-qwen-results-frozen-001` |
+| [`phase_b/exp2/qwen/evaluation/primary_metrics.csv`](phase_b/exp2/qwen/evaluation/primary_metrics.csv) | Primary locally-unseen metrics | `phase-b-exp2-qwen-results-frozen-001` |
+| [`phase_b/exp2/qwen/evaluation/secondary_metrics.csv`](phase_b/exp2/qwen/evaluation/secondary_metrics.csv) | Secondary local-seen, Normal, and overall metrics | `phase-b-exp2-qwen-results-frozen-001` |
+| [`docs/audits/EXP2_QWEN_EVALUATOR_REVIEW.md`](docs/audits/EXP2_QWEN_EVALUATOR_REVIEW.md) | Independent pre-evaluation review | Canonical audit |
+| [`docs/audits/EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md`](docs/audits/EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md) | Independent scientific results review; `GO WITH LIMITATIONS` | Canonical audit |
+
+Tag targets:
+
+- `phase-b-exp2-qwen-protocol-frozen-001` → `d9bb95c31bdeb2f1608aaedc52f25b98de9bbf96`;
+- `phase-b-exp2-qwen-predictions-frozen-001` → `a4f264c210873536c989ebd99aa2c6cf9857c85c`;
+- `phase-b-exp2-qwen-evaluator-frozen-001` → `a8f9884dfe2150a89131ba604b34ff1f6914f6e9`;
+- `phase-b-exp2-qwen-results-frozen-001` → `37195cf2c5076b5da724b857f10e157177654cac`.
+
 ## Condition C R10 — centralized pooled reference
 
 Condition C is the **centralized full-information pooled ICL post-hoc
@@ -101,6 +125,8 @@ Tag targets:
 | [`docs/audits/EXP3V2_FINAL_FREEZE_AUDIT.md`](docs/audits/EXP3V2_FINAL_FREEZE_AUDIT.md) | Exp3 V2 final freeze audit |
 | [`docs/audits/EXP3V2_DOCUMENTATION_INVENTORY_2026-09-03.md`](docs/audits/EXP3V2_DOCUMENTATION_INVENTORY_2026-09-03.md) | Full documentation inventory (2026-09-03) |
 | [`docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md`](docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md) | Independent review of the frozen Condition C R10 evaluation; `GO WITH LIMITATIONS` |
+| [`docs/audits/EXP2_QWEN_EVALUATOR_REVIEW.md`](docs/audits/EXP2_QWEN_EVALUATOR_REVIEW.md) | Independent review of the corrected Qwen evaluator before offline evaluation |
+| [`docs/audits/EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md`](docs/audits/EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md) | Canonical independent review of the frozen Qwen results; `GO WITH LIMITATIONS` |
 
 ## Operational prompts
 

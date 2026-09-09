@@ -2,6 +2,8 @@
 
 | Nome file | Descrizione |
 | --- | --- |
+| `EXP2_QWEN_EVALUATOR_REVIEW.md` | Review indipendente pre-valutazione dell'evaluator Qwen corretto e della separazione tra predizioni frozen e ground truth. |
+| `EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md` | Review scientifica indipendente canonica dei risultati frozen EXP2 Qwen; verdetto `GO WITH LIMITATIONS`. |
 | `EXP3V2_DOCUMENTATION_INVENTORY_2026-09-03.md` | Inventario read-only (2026-09-03) di tutti i file `.md`, `.pdf` e `.html` del repository, con posizione attuale e suggerimento di mantenimento, spostamento o cancellazione. |
 | `EXP3V2_FINAL_FREEZE_AUDIT.md` | Audit indipendente di final-freeze e prontezza al primo run reale di EXP3_V2 (harness revisione 004): 12 controlli, tutti superati, nessun rilievo bloccante. |
 | `EXP3V2_FIRST_RUN_PREFLIGHT.md` | Piano operativo di preflight per il primo run scientifico EXP3V2-N-001 attempt 0: stato di freeze confermato, comando MATLAB esatto e parametri, senza alcuna esecuzione. |

@@ -137,11 +137,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 }
 .nav-step:hover { background: rgba(255,255,255,0.08); color: var(--nav-active); }
 .nav-step.active { background: rgba(255,255,255,0.14); color: var(--nav-active); font-weight: 600; }
-.nav-step.visited::after {
-  content: ''; position: absolute; bottom: 2px; left: 50%; transform: translateX(-50%);
-  width: 4px; height: 4px; border-radius: 50%; background: var(--accent-a);
-}
-.nav-step.visited.phase-b-step::after { background: var(--accent-b); }
+/* visited dot removed — only active step is highlighted */
 .nav-divider {
   width: 1px; background: rgba(255,255,255,0.1);
   margin: 8px 12px;
@@ -492,6 +488,144 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 @media (prefers-reduced-motion: reduce) {
   .result-bar-fill { transition: none; }
 }
+
+/* CRITICHE E REVIEW */
+.critiche-index {
+  margin: 20px 0 32px;
+}
+.critiche-item {
+  display: block;
+  text-decoration: none;
+  color: var(--text);
+  padding: 14px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.critiche-item:hover {
+  transform: translateX(4px);
+  box-shadow: var(--shadow);
+}
+.critiche-item-even {
+  background: var(--bg-card);
+}
+.critiche-item-odd {
+  background: var(--bg-code);
+}
+.critiche-item-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+  color: var(--text);
+}
+.critiche-item-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.critica-section {
+  margin-bottom: 24px;
+}
+.critica-toggle {
+  width: 100%;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  padding: 16px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  box-shadow: var(--shadow);
+  transition: all 0.15s;
+}
+.critica-toggle:hover {
+  border-color: var(--accent-a);
+  box-shadow: var(--shadow-lg);
+}
+.critica-toggle .chevron {
+  font-size: 0.85rem;
+  color: var(--text-caption);
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+.critica-toggle[aria-expanded="true"] .chevron {
+  transform: rotate(90deg);
+}
+.critica-body {
+  display: none;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 24px;
+  margin-top: -8px;
+  line-height: 1.7;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+.critica-body.open {
+  display: block;
+}
+.critica-body h3 {
+  color: var(--text);
+  margin: 20px 0 10px;
+  font-size: 1rem;
+}
+.critica-body h3:first-child {
+  margin-top: 0;
+}
+.critica-body p {
+  margin: 8px 0;
+}
+.critica-body ul, .critica-body ol {
+  margin: 8px 0;
+  padding-left: 24px;
+}
+.critica-body li {
+  margin: 4px 0;
+}
+.critica-body strong {
+  color: var(--text);
+}
+.critica-body .verdict-box {
+  background: var(--accent-a-light);
+  border-left: 3px solid var(--accent-a);
+  padding: 12px 16px;
+  border-radius: 0 6px 6px 0;
+  margin: 12px 0;
+  font-style: italic;
+}
+.critica-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  margin: 12px 0;
+}
+.critica-body table th {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-caption);
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 2px solid var(--border);
+}
+.critica-body table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border-light);
+}
+.critica-body table tr:last-child td {
+  border-bottom: none;
+}
 </style>
 
 <!-- NAVIGATION -->
@@ -506,6 +640,11 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <div class="nav-phase-label phase-b">Phase B</div>
       <div class="nav-steps" id="navB"></div>
     </div>
+    <div class="nav-divider"></div>
+    <div class="nav-phase">
+      <div class="nav-phase-label" style="color:var(--threshold)">Critiche</div>
+      <div class="nav-steps" id="navCritiche"></div>
+    </div>
   </div>
 </nav>
 
@@ -515,7 +654,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 <!-- ==================== STEP 0: INTRO ==================== -->
 <div class="step-container" data-step="0">
   <div class="phase-badge a">Panoramica</div>
-  <h1 class="step-title">Federation over Text — Il tuo esperimento, passo dopo passo</h1>
+  <h1 class="step-title">Federation over Text for Locally Unseen Fault Diagnosis in Multivariate Time Series</h1>
   <p class="step-intro">Questa interfaccia spiega visivamente come funziona l'esperimento FoT applicato al Tennessee Eastman Process. Segui ogni step: i dati sono inventati ma coerenti con il meccanismo reale. Ci concentreremo su una feature (<strong>shift_sigma</strong> — lo spostamento di livello) e su poche variabili XMEAS chiave.</p>
 
   <div class="card">
@@ -526,7 +665,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <span class="flow-arrow">→</span>
       <span class="flow-node em">Testo neutrale</span>
       <span class="flow-arrow">→</span>
-      <span class="flow-node em-b">Insight testuali</span>
+      <span class="flow-node em-b">Insight testuali (via LLM)</span>
       <span class="flow-arrow">→</span>
       <span class="flow-node em-b">Diagnosi via LLM</span>
     </div>
@@ -719,6 +858,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 <div class="step-container" data-step="4">
   <div class="phase-badge a">Phase A · Step 4</div>
   <h1 class="step-title">Calcolo della feature: shift_sigma</h1>
+  <p class="step-intro">La scelta delle feature è una decisione di design sul development/calibration. Il calcolo delle feature è invece l'operazione ripetuta su ogni finestra.</p>
   <p class="step-intro">Nella procedura completa, lo stesso calcolo viene applicato a <strong>tutte le 8 finestre</strong> e a <strong>tutte le 41 variabili XMEAS</strong>, producendo 8 &times; 41 = 328 valori di shift_sigma per ciascun run. Qui sotto vediamo un <strong>singolo esempio concreto</strong>: XMEAS-1, finestra W1 (10&ndash;15 h), F1 batch 1.</p>
 
   <div class="card">
@@ -788,6 +928,13 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   </div>
 
   <div class="card">
+    <div class="card-label">Perché prendiamo il massimo?</div>
+    <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
+      Lo score di ogni XMEAS è espresso rispetto al comportamento Normal di quella stessa variabile: per <code>shift_sigma</code>, lo spostamento è misurato in deviazioni standard Normal. Gli score sono quindi <strong>adimensionali e confrontabili</strong>: non stiamo mettendo a confronto pressioni, temperature o portate nelle loro unità fisiche. Il massimo identifica, dentro quella finestra, la deviazione standardizzata più estrema tra i 41 canali e risponde alla domanda di sistema: «almeno una variabile si è allontanata dal proprio normale più del previsto?». Non identifica la causa del cambiamento; comprime la finestra in un solo score conservando il canale più distante dal suo riferimento. Calibrare la soglia sui massimi Normal incorpora nel riferimento il fatto che in ogni finestra cerchiamo l'estremo fra 41 opportunità.
+    </p>
+  </div>
+
+  <div class="card">
     <div class="card-label">Perché rango 49 su 50?</div>
     <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
       Con α = 0.05, si ammette che <strong>1 finestra su 50</strong> (il 2%) possa superare la soglia anche nel Normal. Questo equivale a un controllo conformal: il rango 49 è il quantile al 98° percentile dei massimi-di-sistema. La regola di attivazione è <strong>strettamente maggiore</strong>: <code>|shift_sigma| > 1.970</code>.
@@ -812,7 +959,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 <!-- ==================== STEP 6: FLAGS ==================== -->
 <div class="step-container" data-step="6">
   <div class="phase-badge a">Phase A · Step 6</div>
-  <h1 class="step-title">Dai numeri ai flag: soglia applicata</h1>
+  <h1 class="step-title">Dai numeri ai flag: applicazione soglia e generazione flag e segni</h1>
   <p class="step-intro">Ora applichiamo la soglia congelata (<code>1.970</code>) a tutte le 8 finestre post-fault del run F1 batch 1. Per la feature <strong>shift_sigma</strong>: se <code>|shift_sigma| > 1.970</code>, il flag è <strong>ON</strong>. Il segno (+ o −) viene conservato.</p>
 
   <div class="card">
@@ -931,13 +1078,63 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 × F13</span>
     </div>
     <p style="margin:0;font-size:0.82rem;color:var(--text-caption)">
-      Ogni run viene congelato (hash SHA-256, manifest) <em>prima</em> della verbalizzazione e dell'inferenza. La pipeline Phase A (soglie, feature, testo neutrale) viene applicata a questi run esattamente come ai precedenti, senza alcuna modifica. In EXP3_V2 il protocollo è stato replicato con il doppio dei run: 6 per classe fault + 6 Normal = <strong>30 run</strong>.
+      Ogni run viene congelato (hash SHA-256, manifest) <em>prima</em> della verbalizzazione e dell'inferenza. La pipeline Phase A (soglie, feature, testo neutrale) viene applicata a questi run esattamente come ai precedenti, senza alcuna modifica. Nella Fase 2 il protocollo è stato replicato con il doppio dei run: 6 per classe fault + 6 Normal = <strong>30 run</strong>.
     </p>
   </div>
 </div>
 
-<!-- ==================== STEP 9: AGENTS ==================== -->
-<div class="step-container" data-step="9">
+
+<!-- ==================== STEP 9: EVALUATOR ==================== -->
+<div class="step-container" data-step="10">
+  <div class="phase-badge a">Phase A · Step 9</div>
+  <h1 class="step-title">Evaluator: il signature vector</h1>
+  <p class="step-intro">Prima di affidare i testi a un reasoner LLM, l'evaluator verifica offline se la rappresentazione neutrale conserva una struttura sufficientemente <strong>stabile</strong> (intra-classe) e <strong>separabile</strong> (inter-classe). Non produce predizioni: valuta la qualità descrittiva della pipeline.</p>
+
+  <div class="card">
+    <div class="card-label">Come funziona la firma</div>
+    <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">L'evaluator lavora sul JSON strutturato e costruisce un <strong>signature vector</strong> per ogni run: 17 componenti normalizzate per ciascuna delle 41 XMEAS, per un totale di <strong>697 valori</strong>. La similarità tra due firme è <code>1 − mean(|a−b|)</code>.</p>
+    <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">L'evaluator può così chiedere: due run F1 presentano pattern temporali simili? Un run F1 è più vicino agli altri F1 che ai Normal? <strong>La separabilità descrittiva non equivale all'accuratezza diagnostica</strong>: una firma separabile non garantisce che un reasoner la utilizzi correttamente.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Mini-esempio — Confrontare due firme</div>
+    <p style="margin:0 0 12px;font-size:0.82rem;color:var(--text-caption)">Le firme reali hanno 697 componenti. Qui riduciamo a 4 componenti schematiche per illustrare la meccanica.</p>
+    <table class="data-table">
+      <thead><tr><th>Firma</th><th class="num">c₁</th><th class="num">c₂</th><th class="num">c₃</th><th class="num">c₄</th></tr></thead>
+      <tbody>
+        <tr><td>F1 · run A</td><td class="num">1.00</td><td class="num">1.00</td><td class="num">0.90</td><td class="num">0.20</td></tr>
+        <tr><td>F1 · run B</td><td class="num">1.00</td><td class="num">0.95</td><td class="num">0.85</td><td class="num">0.25</td></tr>
+        <tr><td>Normal · run C</td><td class="num">0.10</td><td class="num">0.00</td><td class="num">0.05</td><td class="num">0.90</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Similarità = 1 − mean(|a−b|)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div style="padding:14px;border-radius:6px;background:var(--green-light)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Intra-classe (F1·A vs F1·B)</div>
+        <p style="margin:0;font-size:0.85rem;color:var(--text)">Differenze: |0.00|, |0.05|, |0.05|, |0.05|</p>
+        <p style="margin:4px 0 0;font-size:0.85rem;color:var(--text-muted)">Media 0.0375 → similarità <strong style="color:var(--green)">0.9625</strong></p>
+        <p style="margin:4px 0 0;font-size:0.82rem;color:var(--text-caption)">La rappresentazione è <strong>stabile</strong>.</p>
+      </div>
+      <div style="padding:14px;border-radius:6px;background:var(--threshold-light)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Inter-classe (F1·A vs Normal·C)</div>
+        <p style="margin:0;font-size:0.85rem;color:var(--text)">Differenze: |0.90|, |1.00|, |0.85|, |0.70|</p>
+        <p style="margin:4px 0 0;font-size:0.85rem;color:var(--text-muted)">Media 0.8625 → similarità <strong style="color:var(--threshold)">0.1375</strong></p>
+        <p style="margin:4px 0 0;font-size:0.82rem;color:var(--text-caption)">La rappresentazione è <strong>separabile</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span>Alta similarità intra-classe + bassa similarità inter-classe = il testo neutrale di Phase A conserva abbastanza struttura da distinguere le condizioni <em>senza mai nominarle</em>. È il pre-requisito descrittivo che rende sensato dare quei testi in pasto a un reasoner in Phase B — ma resta separabilità, non ancora accuracy diagnostica.</span>
+  </div>
+</div>
+
+<!-- ==================== STEP 10: AGENTS ==================== -->
+<div class="step-container" data-step="11">
   <div class="phase-badge b">Phase B · Step 1</div>
   <h1 class="step-title">Gli agenti e la conoscenza locale non-IID</h1>
   <p class="step-intro">Quattro agenti osservano lo stesso processo ma conoscono ciascuno un solo tipo di guasto. Tutti conoscono il Normal. I nomi reali dei fault (F1, F8, F10, F13) sono nascosti dietro <strong>pseudolabel opache</strong>.</p>
@@ -988,21 +1185,23 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
   <div class="card">
     <div class="card-label">Few-shot locale — Cosa possiede ogni agente</div>
-    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">Ogni agente ha 4 esempi etichettati: 2 Normal + 2 del proprio fault locale. Ciascun esempio è una coppia <code>(testo neutrale, pseudolabel)</code> prodotta dalla pipeline Phase A congelata.</p>
-    <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:0.85rem">
-      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">Esempio 1</span><span style="color:var(--text-muted)">Testo neutrale Normal N1 → etichetta "Normal"</span>
-      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">Esempio 2</span><span style="color:var(--text-muted)">Testo neutrale Normal N2 → etichetta "Normal"</span>
-      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">Esempio 3</span><span style="color:var(--text-muted)">Testo neutrale fault locale batch 1 → pseudolabel del proprio fault</span>
-      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">Esempio 4</span><span style="color:var(--text-muted)">Testo neutrale fault locale batch 2 → pseudolabel del proprio fault</span>
-    </div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">La prima cosa che fa ogni agente è preparare il proprio <strong>few-shot locale</strong>: prende i casi che conosce (i suoi batch 1–2 di fault e i Normal N1–N2), li fa passare per la pipeline Phase A già congelata e ne ricava esempi pronti da mostrare al reasoner.</p>
+    <table class="data-table">
+      <thead><tr><th>Passaggio</th><th>Che cosa accade realmente</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:600;white-space:nowrap">Input dei casi</td><td style="font-size:0.85rem;color:var(--text-muted)">Per ciascun agente: i workbook fissi batch 1–2 del proprio fault locale e i blocchi Normal N1–N2. La baseline development/calibration N1–N5 resta il riferimento frozen.</td></tr>
+        <tr><td style="font-weight:600;white-space:nowrap">Operazione</td><td style="font-size:0.85rem;color:var(--text-muted)">L'agente riesegue la pipeline Phase A congelata (<em>finestre → feature → soglie già congelate → flag → JSON → testo neutrale</em>) e associa a ogni caso la sua <strong>pseudolabel</strong>. Nessun LLM, nessuna ricalibrazione delle soglie.</td></tr>
+        <tr><td style="font-weight:600;white-space:nowrap">Output</td><td style="font-size:0.85rem;color:var(--text-muted)">4 pack × 4 esempi, ciascuno ridotto alla coppia <code>(testo neutrale, pseudolabel)</code>.</td></tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
 <!-- ==================== STEP 10: INSIGHTS ==================== -->
-<div class="step-container" data-step="10">
+<div class="step-container" data-step="11">
   <div class="phase-badge b">Phase B · Step 2</div>
   <h1 class="step-title">Generazione degli insight e federazione peer-only</h1>
-  <p class="step-intro">Ogni agente condensa ciò che sa del proprio fault in <strong>2 insight testuali</strong>, distillati da 5 casi development/calibration via LLM. Poi la <strong>federazione</strong> distribuisce gli insight: ogni agente riceve i 6 insight degli altri tre peer, mai i propri.</p>
+  <p class="step-intro">Ogni agente usa l’LLM per condensare in <strong>2 insight testuali</strong> le regolarità ricorrenti nei testi neutrali frozen di 5 casi development/calibration del proprio fault. Gli insight vengono generati prima dell’accesso diagnostico all’held-out; poi la <strong>federazione</strong> distribuisce a ogni agente i 6 insight degli altri tre peer, mai i propri.</p>
 
   <div class="card">
     <div class="card-label">Distillazione — Agent 1 (conosce F1)</div>
@@ -1044,7 +1243,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 <!-- ==================== STEP 11: CONDITIONS ==================== -->
-<div class="step-container" data-step="11">
+<div class="step-container" data-step="12">
   <div class="phase-badge b">Phase B · Step 3</div>
   <h1 class="step-title">Le tre configurazioni informative: A, B, E</h1>
   <p class="step-intro">Per isolare l'effetto degli insight, lo stesso agente diagnostica lo stesso caso sotto tre condizioni controllate. L'unica cosa che cambia è il <strong>blocco degli insight peer</strong>.</p>
@@ -1082,7 +1281,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 <!-- ==================== STEP 12: INFERENCE ==================== -->
-<div class="step-container" data-step="12">
+<div class="step-container" data-step="13">
   <div class="phase-badge b">Phase B · Step 4</div>
   <h1 class="step-title">Inference: Agent 3 diagnostica un caso F1 unseen</h1>
   <p class="step-intro">Vediamo cosa succede quando <strong>Agent 3</strong> (che conosce solo F10) deve diagnosticare <strong>PBH-004</strong>, un nuovo run di F1 mai visto. Agent 3 riceve lo stesso testo neutrale in tutte e tre le condizioni.</p>
@@ -1137,7 +1336,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 <!-- ==================== STEP 13: RESULTS ==================== -->
-<div class="step-container" data-step="13">
+<div class="step-container" data-step="14">
   <div class="phase-badge b">Phase B · Step 5</div>
   <h1 class="step-title">Risultati: il trasferimento di conoscenza funziona</h1>
   <p class="step-intro">12 run fisici indipendenti × 3 agenti unseen ciascuno = <strong>36 agent-case per condizione</strong>. Tutte le predizioni congelate prima di unirle alla ground truth.</p>
@@ -1360,7 +1559,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 <!-- ==================== STEP 14: CONDITION C — CENTRALIZED ==================== -->
-<div class="step-container" data-step="14">
+<div class="step-container" data-step="15">
   <div class="phase-badge b">Phase B · Step 6</div>
   <h1 class="step-title">Confronto centralizzato: Condition C</h1>
   <p class="step-intro">Quanto migliorerebbe la diagnosi se un <strong>singolo agente centrale</strong> avesse accesso a <strong>tutta</strong> l'esperienza testuale del sistema? Condition C risponde a questa domanda come riferimento esplorativo post-hoc.</p>
@@ -1457,10 +1656,10 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 <!-- ==================== STEP 15: EXPERIMENT 2 — OPEN-WEIGHT LLM ==================== -->
-<div class="step-container" data-step="15">
-  <div class="phase-badge b">Prossimi passi</div>
+<div class="step-container" data-step="16">
+  <div class="phase-badge b">Completato e frozen</div>
   <h1 class="step-title">Experiment 2: portabilità cross-model con LLM open-weight</h1>
-  <p class="step-intro">Fino ad ora ogni chiamata LLM ha usato un unico modello proprietario (<strong>gpt-5.6-terra</strong>, OpenAI). Questo pone una <strong>critica fondamentale</strong>: l'intero risultato dipende da un modello chiuso, non deterministico e non riproducibile. Experiment 2 affronta il problema usando <strong>Qwen</strong> sul server locale.</p>
+  <p class="step-intro">Experiment 1 usava <strong>gpt-5.6-terra</strong> sia come producer sia come consumer. Experiment 2 ha ora verificato il consumo degli stessi insight frozen con <strong>Qwen3.8-27B-FP8</strong> sul server locale. Il risultato mitiga la dipendenza da un unico consumer proprietario, mentre il producer resta proprietario.</p>
 
   <div class="card" style="border-left:3px solid var(--threshold)">
     <div class="card-label">La critica: un singolo LLM proprietario</div>
@@ -1500,7 +1699,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   <div class="card">
     <div class="card-label">Perché un modello open-weight</div>
     <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
-      Un modello con pesi pubblici (Llama, Mistral, Qwen, ecc.) è <strong>versionabile, ispezionabile e riproducibile</strong>. Chiunque può scaricare lo stesso checkpoint, eseguire la stessa inferenza e ottenere risultati confrontabili. Questo elimina le tre critiche al modello proprietario.
+      Un modello con pesi pubblici è <strong>versionabile e ispezionabile</strong>. La lane frozen rende ripetibile il consumo nella configurazione esaminata; non elimina la dipendenza dal modello proprietario che ha prodotto gli insight.
     </p>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px">
       <div style="padding:12px;border-radius:6px;background:var(--green-light);text-align:center">
@@ -1521,7 +1720,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   <div class="card" style="border-left:3px solid var(--accent-b)">
     <div class="card-label">Configurazione scelta: Qwen sul server locale</div>
     <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">
-      L'LLM selezionato per l'esperimento è <strong>Qwen</strong>. L'hardware disponibile consente di eseguire un modello reasoning/instruct open-weight da circa <strong>30–32B</strong>, quantizzato a <strong>4 bit o 8 bit</strong>.
+      Il consumer selezionato è <strong>Qwen3.8-27B-FP8</strong>, eseguito localmente tramite vLLM. Protocollo, predizioni, evaluator e risultati sono congelati in una catena di quattro tag.
     </p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-size:0.84rem;color:var(--text-muted)">
       <div><strong>GPU</strong><br>2 × NVIDIA RTX 5000 Ada, circa 32 GB VRAM ciascuna</div>
@@ -1530,21 +1729,372 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <div><strong>Storage e sistema</strong><br>808 GB liberi su NVMe; Ubuntu 24.04; driver NVIDIA funzionante e CUDA supportata</div>
     </div>
     <div style="margin-top:12px;padding:10px 12px;border-radius:6px;background:var(--accent-b-light);font-size:0.84rem;color:var(--text-muted)">
-      GPU quasi completamente libere: la configurazione è pronta per l'inferenza locale e il parallelismo tra le due GPU.
+      Il full run di 540 inferenze e 180 aggregati è completato; gli artefatti frozen non vengono rigenerati.
     </div>
   </div>
 
   <div class="card">
-    <div class="card-label">Risultato atteso</div>
+    <div class="card-label">Risultato frozen</div>
     <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
-      Se la condizione B funziona anche con un consumer open-weight, il valore informativo degli insight testuali è una proprietà <strong>del protocollo FoT</strong>, non un artefatto del modello specifico. Il trasferimento di conoscenza via testo diventa <strong>model-agnostic</strong>.
+      Sull'unseen: A=0/36, B=34/36, E=1/36; B&minus;A=0.944444 e B&minus;E=0.916667, con C1&ndash;C4 4/4 PASS e zero astensioni. H2 è un controllo secondario distinto e fallisce. Il vantaggio di B persiste per questo secondo consumer open-weight, ma non dimostra portabilità universale o generalità end-to-end.
     </p>
   </div>
 
   <div class="callout">
     <span class="callout-icon">&#9432;</span>
-    <span>Experiment 2 è in fase di preparazione dell'inferenza locale con Qwen. La struttura sperimentale (held-out, insight congelati, protocollo di valutazione) è già pronta; resta da validare il prompt template con l'architettura Qwen e misurare la portabilità.</span>
+    <span>Experiment 2 è completato, frozen, riprodotto e sottoposto a review indipendente: <strong>GO WITH LIMITATIONS</strong>. Un solo consumer open-weight, stessi held-out case e insight prodotti con <code>gpt-5.6-terra</code> delimitano la conclusione.</span>
   </div>
+</div>
+
+
+
+<!-- ==================== STEP 17: ABLATION — TS→TEXT REPRESENTATION COMPARISON ==================== -->
+<div class="step-container" data-step="17">
+  <div class="phase-badge b">Ablation</div>
+  <h1 class="step-title">Ablation: confronto sistematico delle rappresentazioni TS&rarr;Testo</h1>
+  <p class="step-intro">Il verbalizzatore V2 &egrave; una scelta di design. Un reviewer pu&ograve; chiedere: &laquo;perch&eacute; non dare i numeri grezzi all&rsquo;LLM, o usare statistiche, o una codifica simbolica?&raquo; Questa ablation risponde con un <strong>confronto head-to-head controllato</strong> su 15 casi TEP indipendenti, stesso LLM, stesse condizioni &mdash; cambia solo la rappresentazione.</p>
+
+  <div class="card">
+    <div class="card-label">I quattro bracci sperimentali</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="padding:14px;border-radius:6px;border:2px solid var(--accent-a);background:var(--accent-a-light)">
+        <div style="font-size:0.75rem;color:var(--accent-a);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:700">V2_TEXT (il nostro)</div>
+        <div style="font-size:0.85rem;color:var(--text-muted)">Verbalizzatore conformal: 8 finestre &times; 5 feature per XMEAS, linguaggio naturale con soglie e trend. <strong>~550 token</strong> per prompt.</div>
+      </div>
+      <div style="padding:14px;border-radius:6px;border:1px solid var(--border-light)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:700">RAW_FEATURES</div>
+        <div style="font-size:0.85rem;color:var(--text-muted)">Serializzazione numerica diretta delle feature V2 (stile LLMTime). <strong>~21 000 token</strong>.</div>
+      </div>
+      <div style="padding:14px;border-radius:6px;border:1px solid var(--border-light)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:700">CGTIME_STATS</div>
+        <div style="font-size:0.85rem;color:var(--text-muted)">Baseline ispirata a CGTime (Feng et al. 2026): 169 statistiche per sensore, 3 famiglie. <strong>~99 000 token</strong>.</div>
+      </div>
+      <div style="padding:14px;border-radius:6px;border:1px solid var(--border-light)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:700">SAX_SYMBOLIC</div>
+        <div style="font-size:0.85rem;color:var(--text-muted)">Symbolic Aggregate approXimation: codifica la forma del segnale in lettere (alphabet=5, word=10). <strong>~21 000 token</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Protocollo</div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">Classificazione centralizzata a 5 classi (F1, F8, F10, F13, Normal) su 15 casi held-out indipendenti (PBH-001&hellip;PBH-015), 3 ripetizioni per caso, GPT-5.6-terra con output strutturato. <strong>180 inferenze totali</strong> (4 bracci &times; 45).</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;font-size:0.84rem">
+      <div style="padding:10px;border-radius:6px;background:#f3f6f8;text-align:center">
+        <div style="font-size:0.72rem;color:var(--text-caption);text-transform:uppercase;margin-bottom:3px">Unit&agrave; indip.</div>
+        <div style="font-weight:700;color:var(--text)">15 case_id</div>
+      </div>
+      <div style="padding:10px;border-radius:6px;background:#f3f6f8;text-align:center">
+        <div style="font-size:0.72rem;color:var(--text-caption);text-transform:uppercase;margin-bottom:3px">Test statistici</div>
+        <div style="font-weight:700;color:var(--text)">Cluster-aware</div>
+      </div>
+      <div style="padding:10px;border-radius:6px;background:#f3f6f8;text-align:center">
+        <div style="font-size:0.72rem;color:var(--text-caption);text-transform:uppercase;margin-bottom:3px">Correzione</div>
+        <div style="font-weight:700;color:var(--text)">Holm&ndash;Bonferroni</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--accent-a)">
+    <div class="card-label">Risultati principali</div>
+    <table style="width:100%;font-size:0.84rem;border-collapse:collapse">
+      <thead>
+        <tr style="border-bottom:2px solid var(--border-light)">
+          <th style="text-align:left;padding:6px">Braccio</th>
+          <th style="text-align:center;padding:6px">Accuracy</th>
+          <th style="text-align:center;padding:6px">95% CI</th>
+          <th style="text-align:center;padding:6px">Macro-F1</th>
+          <th style="text-align:center;padding:6px">Sel. Acc</th>
+          <th style="text-align:center;padding:6px">Token/prompt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:var(--accent-a-light);font-weight:600">
+          <td style="padding:6px">V2_TEXT</td>
+          <td style="text-align:center;padding:6px">88.9%</td>
+          <td style="text-align:center;padding:6px">[73.3, 100]</td>
+          <td style="text-align:center;padding:6px">0.907</td>
+          <td style="text-align:center;padding:6px">0.930</td>
+          <td style="text-align:center;padding:6px">~550</td>
+        </tr>
+        <tr>
+          <td style="padding:6px">RAW_FEATURES</td>
+          <td style="text-align:center;padding:6px">93.3%</td>
+          <td style="text-align:center;padding:6px">[80.0, 100]</td>
+          <td style="text-align:center;padding:6px">0.960</td>
+          <td style="text-align:center;padding:6px">1.000</td>
+          <td style="text-align:center;padding:6px">~21k</td>
+        </tr>
+        <tr>
+          <td style="padding:6px">CGTIME_STATS</td>
+          <td style="text-align:center;padding:6px">91.1%</td>
+          <td style="text-align:center;padding:6px">[75.6, 100]</td>
+          <td style="text-align:center;padding:6px">0.943</td>
+          <td style="text-align:center;padding:6px">1.000</td>
+          <td style="text-align:center;padding:6px">~99k</td>
+        </tr>
+        <tr style="color:var(--text-muted)">
+          <td style="padding:6px">SAX_SYMBOLIC</td>
+          <td style="text-align:center;padding:6px">73.3%</td>
+          <td style="text-align:center;padding:6px">[53.3, 93.3]</td>
+          <td style="text-align:center;padding:6px">0.721</td>
+          <td style="text-align:center;padding:6px">0.786</td>
+          <td style="text-align:center;padding:6px">~21k</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Significativit&agrave; statistica</div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
+      <strong>Nessun confronto &egrave; statisticamente significativo</strong> con i test cluster-aware (permutation test esatto, bootstrap clusterizzato, McNemar a livello di caso) dopo correzione Holm&ndash;Bonferroni. Con N=15 unit&agrave; indipendenti, il minimo effetto rilevabile (MDE) &egrave; &asymp;25 punti percentuali.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px">
+      <div style="padding:12px;border-radius:6px;border:1px solid var(--green);background:var(--green-light)">
+        <div style="font-size:0.75rem;color:var(--green);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;font-weight:700">Cosa possiamo dire</div>
+        <div style="font-size:0.84rem;color:var(--text-muted)">V2_TEXT non &egrave; dimostrabilmente inferiore ai metodi pi&ugrave; verbosi, con un vantaggio di 39&ndash;180&times; in efficienza di token.</div>
+      </div>
+      <div style="padding:12px;border-radius:6px;border:1px solid var(--threshold);background:var(--threshold-light)">
+        <div style="font-size:0.75rem;color:var(--threshold);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;font-weight:700">Cosa non possiamo dire</div>
+        <div style="font-size:0.84rem;color:var(--text-muted)">Non possiamo dichiarare equivalenza (campione troppo piccolo). Differenze moderate non sono escludibili.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">F13: il caso pi&ugrave; difficile</div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
+      Il guasto F13 (drift lento) mostra recall basso in tutti i bracci (0.333&ndash;0.778), ma con pattern diversi per braccio:
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.84rem">
+      <div style="padding:10px;border-radius:6px;background:#f3f6f8">
+        <strong>V2_TEXT:</strong> recall F13 = 0.778 (errori &rarr; misclassificazione come F8)
+      </div>
+      <div style="padding:10px;border-radius:6px;background:#f3f6f8">
+        <strong>RAW / CGTIME:</strong> recall F13 = 0.667 / 0.556 (errori &rarr; astensioni)
+      </div>
+    </div>
+    <p style="margin:10px 0 0;font-size:0.84rem;color:var(--text-muted)">
+      RAW_FEATURES e CGTIME_STATS raggiungono selective accuracy = 1.000 (quando rispondono, non sbagliano mai), ma con copertura inferiore. Il pattern &egrave; arm-dependent, non universale.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Caveat metodologici</div>
+    <ul style="margin:0;padding-left:18px;font-size:0.84rem;color:var(--text-muted);list-style:disc">
+      <li style="margin-bottom:6px"><strong>Confound informazione&ndash;rappresentazione:</strong> V2_TEXT include conoscenza di dominio (soglie, trend); gli altri bracci no. L&rsquo;esperimento testa formato + informazione insieme.</li>
+      <li style="margin-bottom:6px"><strong>4 guasti su 28:</strong> coperti F1 (step), F8 (stocastico), F10 (step), F13 (drift). Non generalizzabile a tutti i fault TEP.</li>
+      <li style="margin-bottom:6px"><strong>Un solo LLM:</strong> GPT-5.6-terra. Un altro modello potrebbe cambiare il ranking.</li>
+      <li><strong>Costo preprocessing V2:</strong> il risparmio di token &egrave; reale, ma il preprocessing conformal ha un costo computazionale esterno al budget del prompt.</li>
+    </ul>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span>Primo confronto sistematico head-to-head di strategie di rappresentazione TS&rarr;testo per fault diagnosis con LLM. Verdetto della review esterna: <strong>GO-with-reservations</strong> (pubblicabile con qualificazioni, non come risultato conclusivo).</span>
+  </div>
+</div>
+
+
+<!-- ==================== STEP 18: CRITICHE E REVIEW ==================== -->
+<div class="step-container" data-step="18">
+  <div class="phase-badge" style="background:var(--threshold-light);color:var(--threshold)">Critiche e review</div>
+  <h1 class="step-title">Analisi critica e posizionamento</h1>
+  <p class="step-intro">Raccolta delle analisi critiche che esaminano le potenziali obiezioni dei reviewer e il posizionamento del progetto FoT-TEP rispetto alla letteratura. Ogni sezione &egrave; espandibile: clicca sul titolo per leggere l'analisi completa.</p>
+
+  <!-- INDEX -->
+  <div class="critiche-index">
+    <a class="critiche-item critiche-item-even" href="#critica-ts-text" onclick="openCritica('critica-ts-text');return false;">
+      <div class="critiche-item-title">La trasformazione TS&rarr;Testo &egrave; un punto critico?</div>
+      <div class="critiche-item-desc">Analisi del verbalizzatore che converte i segnali numerici delle serie temporali in testo leggibile: quanto &egrave; solido rispetto alle alternative recenti in letteratura e quali obiezioni potrebbe sollevare un revisore scientifico.</div>
+    </a>
+    <a class="critiche-item critiche-item-odd" href="#critica-baseline" onclick="openCritica('critica-baseline');return false;">
+      <div class="critiche-item-title">Servono baseline esterne al paradigma testuale?</div>
+      <div class="critiche-item-desc">Verifica se sia necessario confrontare l'approccio FoT (che scambia testo tra agenti) con metodi tradizionali come SVM, reti neurali o federated learning classico &mdash; e cosa fanno i paper simili in letteratura.</div>
+    </a>
+    <a class="critiche-item critiche-item-even" href="#critica-lit-review" onclick="openCritica('critica-lit-review');return false;">
+      <div class="critiche-item-title">Literature review: posizionamento scientifico per BigData 2026</div>
+      <div class="critiche-item-desc">Revisione sistematica della letteratura che mappa il panorama completo di federated learning, fault diagnosis e LLM su serie temporali, identificando la nicchia esatta che FoT-TEP occupa e i rischi di framing.</div>
+    </a>
+    <a class="critiche-item critiche-item-odd" href="#critica-exp-plan" onclick="openCritica('critica-exp-plan');return false;">
+      <div class="critiche-item-title">Piano sperimentale pre-submission</div>
+      <div class="critiche-item-desc">Pacchetto di esperimenti aggiuntivi progettati per rispondere alle critiche prevedibili dei revisori: replicabilit&agrave; cross-model, estensione prospettica con nuovi dati, e caratterizzazione del payload comunicativo.</div>
+    </a>
+  </div>
+
+  <!-- CRITICA 1: TS-Text -->
+  <div class="critica-section" id="critica-ts-text">
+    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
+      <span class="chevron">&#9654;</span>
+      La trasformazione TS&rarr;Testo &egrave; un punto critico per la pubblicazione?
+    </button>
+    <div class="critica-body">
+      <div class="verdict-box">
+        <strong>Verdetto sintetico:</strong> La trasformazione TS&rarr;testo non &egrave; un punto critico bloccante, ma richiede un posizionamento attento. L'approccio occupa una nicchia difendibile &mdash; verbalizzazione deterministica, fedele per costruzione, senza modelli appresi, con calibrazione statistica formale &mdash; che nessun lavoro in letteratura replica esattamente. Tuttavia, due paper recenti (CGTime e T2SP, giugno 2026) restringono lo spazio argomentativo.
+      </div>
+
+      <h3>Il campo si &egrave; mosso: 7 categorie di approcci</h3>
+      <table>
+        <tr><th>Cat.</th><th>Strategia</th><th>Esempi</th><th>Appreso?</th></tr>
+        <tr><td>A</td><td>Codifica numerica diretta</td><td>LLMTime, PromptCast</td><td>No</td></tr>
+        <tr><td>B</td><td>Allineamento latente</td><td>Time-LLM, TEST, S&sup2;IP-LLM</td><td>S&igrave;</td></tr>
+        <tr><td>C</td><td>Captioning generativo</td><td>TSLM, Chronicle, BEDTime, TRUCE</td><td>S&igrave;</td></tr>
+        <tr><td>D</td><td>Data-to-Text deterministico</td><td>Fuzzy D2T, ICA2TEXT</td><td>No</td></tr>
+        <tr><td>E</td><td>Rappresentazione simbolica</td><td>ESAX+BoW, SAX_HAR-LLM</td><td>Parziale</td></tr>
+        <tr><td>F</td><td>Decomposizione strutturata</td><td>T2SP (Kim et al. 2026)</td><td>No</td></tr>
+        <tr><td style="font-weight:700;color:var(--accent-a)">G</td><td style="font-weight:700">Verbalizzazione domain-driven</td><td style="font-weight:700">FoT-TEP V2</td><td style="font-weight:700">No</td></tr>
+      </table>
+
+      <h3>I due competitor pi&ugrave; critici</h3>
+      <p><strong>CGTime</strong> (Feng et al., giugno 2026): codice deterministico calcola 169 statistiche, poi un LLM (Qwen3-4B) le verbalizza. Filosofia quasi identica al FoT-TEP, ma CGTime &egrave; un modello addestrato (4B parametri), non un renderer a template.</p>
+      <p><strong>T2SP</strong> (Kim et al., giugno 2026): decomposizione deterministica in trend, periodicit&agrave;, eventi, residui. Training-free e invertibile, ma <strong>solo univariato</strong> &mdash; non gestisce 41 variabili simultanee.</p>
+
+      <h3>Le 4 risposte chiave</h3>
+      <p><strong>1. &Egrave; un punto critico?</strong> Rischio mitigato. L&rsquo;ablation a 4 bracci (V2_TEXT, RAW_FEATURES, CGTIME_STATS, SAX_SYMBOLIC) &egrave; stata completata su 15 casi TEP: nessuna differenza statisticamente significativa tra i primi tre bracci, con V2 che usa 39&ndash;180&times; meno token. Vedi <a href="javascript:goTo(17)" style="color:var(--accent-a);font-weight:600">Step 8 &middot; Ablation</a>.</p>
+      <p><strong>2. Alternative in letteratura?</strong> Rischio basso. Esistono ma nessuna &egrave; un sostituto diretto. FoT-TEP &egrave; l'unico nell'intersezione di: determinismo completo, calibrazione conformal, neutralit&agrave; diagnostica, semantica temporale formale, scala multivariata.</p>
+      <p><strong>3. Comparazioni esistenti?</strong> Rischio moderato. Tre benchmark recenti (BEDTime, CGTime, T2SP) ma nessuno include approcci deterministici. L'assenza di confronto &egrave; sia un vantaggio sia una vulnerabilit&agrave;.</p>
+      <p><strong>4. Il problema &egrave; abbastanza discusso?</strong> Rischio basso. Campo maturo ma non saturo. La nicchia FoT-TEP ha zero occupanti diretti.</p>
+
+      <h3>CGTime vs FoT-TEP: confronto diretto</h3>
+      <table>
+        <tr><th>Dimensione</th><th>CGTime</th><th>FoT-TEP V2</th></tr>
+        <tr><td>Percezione</td><td>169 statistiche</td><td>5 feature &times; 41 var &times; 8 finestre</td></tr>
+        <tr><td>Descrizione</td><td>LLM Qwen3-4B fine-tuned</td><td>Renderer deterministico a template</td></tr>
+        <tr><td>Parametri appresi</td><td>4 miliardi</td><td>Zero</td></tr>
+        <tr><td>Fedelt&agrave;</td><td>Metrica Gaussian kernel</td><td>Garantita by-construction</td></tr>
+        <tr><td>Neutralit&agrave;</td><td>Genera interpretazioni</td><td>Solo osservazioni</td></tr>
+        <tr><td>Multi-agente</td><td>Non previsto</td><td>Progettato per FoT</td></tr>
+      </table>
+
+      <h3>Raccomandazioni operative</h3>
+      <p>Nella <strong>Related Work</strong>: posizionare attorno a tre filoni (TS&rarr;testo generativo, TS&rarr;testo deterministico, TS&rarr;LLM via rappresentazione intermedia). <strong>Esperimento completato</strong>: ablation a quattro bracci sullo stesso LLM (V2, numerico, CGTime-stats, SAX) &mdash; risultati nel passo precedente. Come <strong>framing</strong>: &ldquo;primo approccio deterministico con calibrazione statistica formale per la verbalizzazione fedele di serie temporali multivariate industriali, progettato per architetture multi-agente.&rdquo;</p>
+
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Fonti: CGTime (arXiv:2608.05238), T2SP (arXiv:2606.12481), BEDTime (arXiv:2509.05215), TRUCE (EMNLP 2021), Fuzzy D2T (2017), SAX_HAR-LLM (2026), survey Chen et al. TMLR 2026.</em></p>
+    </div>
+  </div>
+
+  <!-- CRITICA 2: Baseline esterne -->
+  <div class="critica-section" id="critica-baseline">
+    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
+      <span class="chevron">&#9654;</span>
+      Baseline esterne al paradigma: servono confronti con metodi numerici classici?
+    </button>
+    <div class="critica-body">
+      <div class="verdict-box">
+        <strong>Verdetto sintetico:</strong> Rischio moderato-basso, gestibile con il framing corretto. Non esistono precedenti di confronto cross-paradigma (testuale vs parametrico) in FL-FDD. Il pattern di non includere baseline numeriche classiche quando il task &egrave; qualitativamente diverso &egrave; consolidato nella letteratura LLM-FDD recente.
+      </div>
+
+      <h3>Confronti diretti LLM vs classici: cosa esiste</h3>
+      <p>Dall'analisi di oltre 8 paper recenti (2024&ndash;2026), un solo lavoro (<strong>FD-LLM</strong>, Qaid et al. 2024) confronta direttamente LLM vs SVM/CNN per fault diagnosis, e lo fa su un task diverso dal nostro (classificazione supervisionata su classi note, non diagnosi di classi unseen).</p>
+      <p>La stragrande maggioranza dei paper LLM-FDD <strong>non</strong> include baseline numeriche classiche come competitor diretti. FaultExplainer (Khan 2024/2025) usa PCA <em>dentro</em> il sistema; Lee et al. (2025) confronta solo configurazioni LLM; S2S-FDD (2026) non confronta con classificatori.</p>
+
+      <h3>FL + LLM-FDD: due filoni separati</h3>
+      <p>Non esiste <strong>nessun</strong> paper all'intersezione di &ldquo;federated learning&rdquo; e &ldquo;LLM fault diagnosis&rdquo;. Tutti i paper FL-FDD scambiano parametri o gradienti; FoT &egrave; il primo a proporre la federazione over text. Il confronto diretto con FedAvg/FedProx non &egrave; solo senza precedenti, &egrave; anche metodologicamente problematico: task diversi (unseen-class transfer vs classificazione completa).</p>
+
+      <h3>4 strategie di framing dalla letteratura</h3>
+      <p><strong>A) &ldquo;Complementare, non sostitutivo&rdquo;</strong> &mdash; il paradigma testuale aggiunge valore dove il numerico non arriva (interpretabilit&agrave;, operabilit&agrave;), senza pretendere di sostituirlo.</p>
+      <p><strong>B) &ldquo;Task diverso, confronto non applicabile&rdquo;</strong> &mdash; quando il task &egrave; qualitativamente diverso, la metrica di confronto non esiste. FoT risolve diagnosi di classi mai viste localmente.</p>
+      <p><strong>C) &ldquo;Limitazioni note del numerico come motivazione&rdquo;</strong> &mdash; Zhou &amp; Yu (ICLR 2025): &ldquo;LLMs' abilities to understand numerical time series are considerably limited&rdquo; &mdash; questo supporta l'approccio di verbalizzazione.</p>
+      <p><strong>D) &ldquo;Confronto diretto ma su task specifico&rdquo;</strong> &mdash; quando il confronto &egrave; fattibile (stesso task, stesse classi), viene fatto. Ma nel nostro caso non lo &egrave;.</p>
+
+      <h3>Fattori che mitigano il rischio</h3>
+      <ul>
+        <li><strong>Nessun precedente da imitare:</strong> i reviewer non possono citare un paper che fa confronto cross-paradigma perch&eacute; non ce n'&egrave; nessuno.</li>
+        <li><strong>Pattern consolidato:</strong> i paper LLM-FDD pi&ugrave; prestigiosi (ICLR 2025, Computers &amp; Chemical Engineering 2025) non includono baseline classiche.</li>
+        <li><strong>Task incommensurabile:</strong> confrontare accuracy su task diversi &egrave; metodologicamente scorretto.</li>
+        <li><strong>Baseline intra-paradigma presente:</strong> il confronto Central-ICL (Condition C) &egrave; gi&agrave; implementato.</li>
+      </ul>
+
+      <h3>Strategia raccomandata per il paper</h3>
+      <p><strong>Related Work:</strong> tracciare la catena FedAvg &rarr; FedMD &rarr; FedProto &rarr; FoT e spiegare perch&eacute; il confronto &egrave; intra-catena. <strong>Limitations:</strong> paragrafo esplicito che dichiara perch&eacute; non si confronta con SVM/CNN/FedAvg. <strong>Discussion:</strong> posizionare FoT come complementare ai metodi numerici.</p>
+
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Fonti: FD-LLM (arXiv:2412.01218), FaultExplainer (Comp. &amp; Chem. Eng. 2025), Lee et al. (arXiv:2509.23113), Zhou &amp; Yu (ICLR 2025), S2S-FDD (arXiv:2603.08048).</em></p>
+    </div>
+  </div>
+
+  <!-- CRITICA 3: Literature Review -->
+  <div class="critica-section" id="critica-lit-review">
+    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
+      <span class="chevron">&#9654;</span>
+      Literature review: posizionamento scientifico per IEEE BigData 2026
+    </button>
+    <div class="critica-body">
+      <div class="verdict-box">
+        <strong>In sintesi (Rev. 2, 2026-09-09):</strong> Review sistematica che stabilisce come posizionare FoT-TEP rispetto allo stato dell'arte per la Special Session &ldquo;Federated Learning on Big Data&rdquo;. Il paper &egrave; in-scope se inquadrato come collaborative/federated knowledge transfer, non come FL parametrico classico. <strong>Submission readiness: PLAUSIBLE (limite alto di plausible)</strong>, con EXP3_V2 (replica), Condition C (riferimento centralizzato) ed EXP2 Qwen ora completato e frozen.
+      </div>
+
+      <h3>Scope per la Special Session</h3>
+      <p>Il lavoro tocca genuinamente <em>collaborative learning</em>, <em>non-IID</em>, <em>novel architecture</em> e <em>benchmarking</em>. Tuttavia la sessione ha impostazione FL classica. Il sistema FoT <strong>non aggrega n&eacute; gradienti n&eacute; pesi</strong>: scambia insight testuali. &Egrave; in-scope come collaborative/federated knowledge transfer. Usare &ldquo;federated knowledge transfer&rdquo; o &ldquo;federated (textual) knowledge sharing&rdquo;, mai &ldquo;Federated Learning&rdquo; nudo.</p>
+
+      <h3>Novit&agrave; verificate</h3>
+      <p><strong>Federation over Text su TS industriali:</strong> nessun precedente trovato. La catena evolutiva FL va da FedAvg (2017) &rarr; FedMD (2019) &rarr; FedProto (2022) &rarr; FedGen (2022) &rarr; FoT (2026). Ogni passo riduce ci&ograve; che viene scambiato; FoT &egrave; il primo a scambiare testo.</p>
+      <p><strong>Diagnosi di classi unseen via testo:</strong> task non presente in nessun paper FL-FDD. I paper FL-FDD esistenti lavorano su classi note distribuite in modo non-IID, non su classi assenti localmente.</p>
+      <p><strong>Novelty difendibile:</strong> non il metodo FoT (che &egrave; di Yao et al.), ma la combinazione: prima applicazione documentata di FoT a TS multivariate / diagnosi guasti, sotto non-IID class-disjoint (missing-class), con controllo di specificit&agrave; pre-registrato (B vs E, derangement delle pseudolabel).</p>
+
+      <h3>Vulnerabilit&agrave; principali e stato</h3>
+      <ul>
+        <li><strong>&ldquo;Un solo consumer LLM proprietario&rdquo;</strong> &mdash; <span style="color:var(--green)">&#x2705; Critica mitigata</span> da EXP2 Qwen 27B frozen: il vantaggio di B persiste per un consumer open-weight. Il producer resta <code>gpt-5.6-terra</code>, quindi non &egrave; una replica end-to-end open-weight.</li>
+        <li><strong>&ldquo;Solo 3 run per guasto&rdquo;</strong> &mdash; <span style="color:var(--green)">&#x2705; Risolto</span> con EXP3_V2: 24 nuovi run (6/classe), criterio di replica soddisfatto.</li>
+        <li><strong>&ldquo;Manca un comparatore centralizzato&rdquo;</strong> &mdash; <span style="color:var(--green)">&#x2705; Risolto</span> con Condition C: 15/15, C&minus;B=+0.139 concentrato su F8. Riferimento esplorativo post-hoc, non benchmark.</li>
+        <li><strong>&ldquo;Nessuna privacy formale&rdquo;</strong> &mdash; non dichiarare privacy; dichiarare data-free communication.</li>
+        <li><strong>Degradazione local-seen in B (EXP3_V2)</strong> &mdash; nuovo segnale: B=19/24 vs A=24/24. Gli insight peer possono interferire col riconoscimento di fault gi&agrave; noti. Da riportare trasparentemente.</li>
+      </ul>
+
+      <h3>Claim difendibili vs non difendibili</h3>
+      <p><strong>Difendibile:</strong> FoT-TEP &egrave; il primo esperimento di textual knowledge federation su TS multivariate industriali; la pipeline Phase A &egrave; deterministica e frozen; il protocollo di valutazione &egrave; pre-specificato con criteri blinded; l'effetto si riproduce su nuove realizzazioni fisiche (EXP3_V2).</p>
+      <p><strong>Non difendibile:</strong> &ldquo;FoT &egrave; migliore di FL classico&rdquo; (non confrontabile); &ldquo;il metodo generalizza oltre TEP&rdquo; (non testato); &ldquo;il protocollo garantisce privacy&rdquo; (non &egrave; l'obiettivo); &ldquo;we propose FoT&rdquo; (FoT &egrave; di Yao et al.).</p>
+
+      <h3>Verdetto finale</h3>
+      <p><strong>Submission difendibile = S&Igrave;</strong>, con condizioni residue attenuate, nella versione Balanced, se: (a) framing e attribuzione corretti; (b) Condition C presente e inquadrata come riferimento esplorativo; (c) floor/scala/limiti/degradazione local-seen esposti onestamente; (d) EXP2 Qwen riportato con il suo verdetto <strong>GO WITH LIMITATIONS</strong> e senza claim universali.</p>
+
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Documento completo: FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md (~102KB). Rev. 2 (2026-09-09). Analisi basata su oltre 100 paper (2017&ndash;2026) da OpenAlex, Scopus, ArXiv, Crossref, Google Scholar.</em></p>
+    </div>
+  </div>
+
+  <!-- CRITICA 4: Experiment Plan -->
+  <div class="critica-section" id="critica-exp-plan">
+    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
+      <span class="chevron">&#9654;</span>
+      Piano sperimentale pre-submission: esperimenti aggiuntivi
+    </button>
+    <div class="critica-body">
+      <div class="verdict-box">
+        <strong>In sintesi (Rev. 3, 2026-09-09):</strong> La storia raccomandata &egrave; ora <strong>in gran parte realizzata</strong>: mechanism &rarr; semantic specificity &rarr; fresh-run replication &rarr; cross-model portability &rarr; centralized reference &rarr; communication payload characterization. Package B (recommended for acceptance) in gran parte completato.
+      </div>
+
+      <h3>Stato di avanzamento</h3>
+      <table>
+        <tr><th>Componente</th><th>Stato</th><th>Risultato chiave</th></tr>
+        <tr><td>Exp 1 &mdash; Mechanism isolation</td><td style="color:var(--green)">&#x2705; Frozen</td><td>A=0/36, B=31/36, E=3/36. B&minus;A=+0.861</td></tr>
+        <tr><td>EXP3_V2 &mdash; Fresh-run replication</td><td style="color:var(--green)">&#x2705; Completato</td><td>A=0/72, B=68/72, E=4/72. B&minus;A=+0.944. Criterio replica soddisfatto</td></tr>
+        <tr><td>Condition C &mdash; Centralized pooled ICL</td><td style="color:var(--green)">&#x2705; Completato</td><td>15/15 correct. C&minus;B=+0.139 (concentrato su F8). Esplorativo</td></tr>
+        <tr><td>Exp 2 &mdash; Cross-model (Qwen 27B)</td><td style="color:var(--green)">&#x2705; Completato e frozen</td><td>Unseen: A=0/36, B=34/36, E=1/36; C1&ndash;C4 4/4 PASS; review GO WITH LIMITATIONS</td></tr>
+        <tr><td>Payload characterization</td><td style="color:var(--text-caption)">&#x2B1C; Da fare</td><td>Costo ~0 dagli artefatti frozen</td></tr>
+        <tr><td>Exp 4 &mdash; Insight ablation</td><td style="color:var(--text-caption)">&#x2B1C; Solo se tempo</td><td>&mdash;</td></tr>
+      </table>
+
+      <h3>Experiment 2 &mdash; Cross-model consumer result (frozen)</h3>
+      <p>Consumer open-weight: <strong>Qwen3.8-27B-FP8</strong> via vLLM 0.28.0, 1 GPU (NVIDIA RTX 5000 Ada). Producer invariato (<code>gpt-5.6-terra</code>). La catena protocollo &rarr; predizioni &rarr; evaluator &rarr; risultati &egrave; frozen; sull'unseen B raggiunge 34/36 contro A 0/36 ed E 1/36. Il risultato mitiga la critica del singolo consumer proprietario, ma non dimostra portabilit&agrave; universale n&eacute; indipendenza end-to-end dal producer proprietario.</p>
+
+      <h3>Degradazione local-seen (nuovo segnale)</h3>
+      <p>In EXP3_V2, B scende a <strong>19/24 sui fault gi&agrave; noti</strong> (vs A=24/24). Cinque errori concentrati: Agent 4 su F13-002/003/004/005, Agent 2 su F8-003. In Exp 1 era 12/12 in tutte le condizioni. <strong>Non invalida</strong> il primary result unseen, ma va riportato trasparentemente come osservazione per il disegno futuro.</p>
+
+      <h3>Red team finale (Rev. 3)</h3>
+      <p><strong>Nessuna critica fatale.</strong> Reviewer A (FL): termine corretto + catena FedMD&rarr;FoT (moderate). Reviewer B (LLM/FoT): delta vs FoT pi&ugrave; forte dopo EXP3_V2 e Condition C (moderate-minor se Exp 2 conferma). Reviewer C (TS/FDD): solo 4 guasti (moderate). Reviewer D (stat): criterio di replica soddisfatto, degradazione local-seen da riportare (minor).</p>
+
+      <h3>Cosa resta da fare (~3 settimane alla deadline)</h3>
+      <ul>
+        <li>&#x2705; EXP2 Qwen 27B completato, frozen e sottoposto a review indipendente</li>
+        <li>&#x2B1C; Communication payload characterization (~0 costo)</li>
+        <li>&#x2B1C; Framing + terminologia + PV-motivation + delta vs FoT</li>
+        <li>&#x2B1C; Scrittura del paper (10 pagine IEEE 2-col)</li>
+      </ul>
+
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Documento completo: FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md (~38KB). Rev. 3 (2026-09-09). Companion della Literature Review. Deadline: 30 settembre 2026.</em></p>
+    </div>
+  </div>
+
 </div>
 
 </div><!-- /main -->
@@ -1569,13 +2119,16 @@ const STEPS = [
   {phase:'a',label:'6. Flag'},
   {phase:'a',label:'7. JSON'},
   {phase:'a',label:'8. Testo'},
+  {phase:'a',label:'9. Evaluator'},
   {phase:'b',label:'1. Agenti'},
   {phase:'b',label:'2. Insight'},
   {phase:'b',label:'3. A/B/E'},
   {phase:'b',label:'4. Inference'},
   {phase:'b',label:'5. Risultati'},
   {phase:'b',label:'6. C vs B'},
-  {phase:'b',label:'7. Exp 2'}
+  {phase:'b',label:'7. Exp 2'},
+  {phase:'b',label:'8. Ablation'},
+  {phase:'critiche',label:'Critiche'}
 ];
 
 let current = 0;
@@ -1600,7 +2153,11 @@ function buildNav() {
     btn.title = s.label;
     btn.onclick = () => goTo(i);
     btn.dataset.idx = i;
-    (s.phase === 'a' ? navA : navB).appendChild(btn);
+    if (s.phase === 'critiche') {
+      document.getElementById('navCritiche').appendChild(btn);
+    } else {
+      (s.phase === 'a' ? navA : navB).appendChild(btn);
+    }
   });
 }
 
@@ -1611,17 +2168,17 @@ function render() {
   document.querySelectorAll('.nav-step').forEach(btn => {
     const i = parseInt(btn.dataset.idx);
     btn.classList.toggle('active', i === current);
-    btn.classList.toggle('visited', visited.has(i) && i !== current);
+    btn.classList.remove('visited');
   });
   document.getElementById('btnPrev').disabled = current === 0;
   document.getElementById('btnNext').disabled = current === STEPS.length - 1;
   const phase = STEPS[current].phase;
   const btnNext = document.getElementById('btnNext');
-  btnNext.classList.toggle('phase-b', phase === 'b');
+  btnNext.classList.toggle('phase-b', phase === 'b' || phase === 'critiche');
   document.getElementById('stepCounter').textContent = `${current + 1} / ${STEPS.length}`;
 
   // Animate result bars on step 12
-  if (current === 13) {
+  if (current === 14) {
     setTimeout(() => {
       const b = document.getElementById('barB');
       const bw = document.getElementById('barBwrong');
@@ -1711,4 +2268,25 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
   if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
 });
+
+function toggleCritica(btn) {
+  var body = btn.nextElementSibling;
+  var isOpen = body.classList.contains('open');
+  body.classList.toggle('open');
+  btn.setAttribute('aria-expanded', !isOpen);
+}
+
+function openCritica(id) {
+  var section = document.getElementById(id);
+  if (!section) return;
+  var btn = section.querySelector('.critica-toggle');
+  var body = section.querySelector('.critica-body');
+  if (btn && body && !body.classList.contains('open')) {
+    body.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
+  }
+  setTimeout(function() {
+    section.scrollIntoView({behavior: 'smooth', block: 'start'});
+  }, 50);
+}
 </script>

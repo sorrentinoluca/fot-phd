@@ -1,6 +1,6 @@
 # Federation over Text for Locally Unseen Fault Diagnosis in Multivariate Time Series
 
-**Step 1 / 27**
+**Step 1 / 28**
 
 ## Introduzione
 
@@ -8,7 +8,9 @@ Il dominio di base è quello degli impianti **fotovoltaici (PV) distribuiti**. O
 
 L'obiettivo è esplorare una federazione in cui i siti non debbano centralizzare dati grezzi né scambiarsi necessariamente pesi o gradienti di un modello: ciascun nodo sintetizza conoscenza locale in **testo strutturato** e gli altri nodi la usano per ragionare. La ground truth entra soltanto nella valutazione offline; osservazione numerica, comunicazione testuale, insight e decisione restano separati, così che un buon testo non venga confuso con una diagnosi corretta.
 
-L'idea parte dal paradigma del lavoro *Federation over Text: Insight Sharing for Multi-Agent Reasoning* (Yao, Rabbani, Zaheer, Li — [arXiv:2604.16778](https://arxiv.org/abs/2604.16778), repo [github.com/dixiyao/FoT](https://github.com/dixiyao/FoT)): agenti con LLM frozen distillano *reasoning trace* in insight, che vengono aggregati e ridistribuiti come testo, senza gradienti né fine-tuning. In quel lavoro originale il paradigma è applicato a task di reasoning testuale (matematica, QA, coding); qui viene portato su un dominio nuovo, la **diagnosi di guasti su serie temporali**.
+L'idea parte dal paradigma del lavoro *Federation over Text: Insight Sharing for Multi-Agent Reasoning* (Yao, Rabbani, Zaheer, Li — [arXiv:2604.16778](https://arxiv.org/abs/2604.16778), repo [github.com/dixiyao/FoT](https://github.com/dixiyao/FoT)): agenti con LLM frozen distillano *reasoning trace* in insight, che vengono aggregati e ridistribuiti come testo, senza gradienti né fine-tuning. In quel lavoro originale il paradigma è applicato a task di reasoning testuale (matematica, QA, coding), il reasoning trace nasce naturalmente dal ragionamento dell’LLM su quei problemi; qui viene portato su un dominio nuovo, la **diagnosi di guasti su serie temporali**.
+
+In questo lavoro ciò che viene preso da FoT è l’architettura di federazione a livello più alto: insight locali → aggregazione → ridistribuzione ai peer ma il come si produce il testo da dare all’LLM è completamente diverso e originale.
 
 Come banco di prova controllato si usa il **Tennessee Eastman Process (TEP)**, un processo chimico simulato con fault noti e ground truth verificabile. I dati provengono dallo snapshot upstream [github.com/mv-per/tennessee-eastman-dataset](https://github.com/mv-per/tennessee-eastman-dataset) (commit pinnato `309b944f`). TEP è un **gate di fattibilità metodologica**: permette di verificare il meccanismo FoT in condizioni note, non è la destinazione applicativa finale, che resta il fotovoltaico.
 
@@ -32,7 +34,7 @@ Nel seguito, un **insight** è una breve unità di conoscenza testuale che sinte
 
 Le configurazioni informative **A**, **B** ed **E**, indicate formalmente nei protocolli come *conditions*, stabiliscono se gli insight vengono forniti e in quale relazione si trovano con il tipo di guasto da riconoscere:
 
-- **A** costituisce il riferimento senza insight — né peer né propri: l'agente usa soltanto i few-shot etichettati della propria esperienza locale, senza includere i propri insight generati localmente;
+- **A** costituisce il riferimento senza insight — né peer né propri: l'agente usa soltanto i few-shot — la coppia (testo neutrale, pseudolabel) prodotta facendo passare i batch 1–2 (fault) e N1–N2 (Normal) attraverso la pipeline Fase 1 — etichettati della propria esperienza locale, senza includere i propri insight generati localmente;
 - **B** mette a disposizione insight pertinenti al tipo di guasto da riconoscere;
 - **E** funge da controllo della pertinenza dell’informazione: gli insight sono presenti, ma la loro associazione con i tipi di guasto viene deliberatamente alterata secondo la mappatura di controllo stabilita dal protocollo.
 
@@ -59,15 +61,13 @@ La ricerca ha compreso:
 5. **Scopus**: non interrogato direttamente;
 6. **Citation chaining**: esame delle relazioni bibliografiche individuate dalla review preesistente, documentato negli Output 8–9.
 
-Nei limiti delle fonti, delle query e delle procedure consultate, non è stato individuato un lavoro precedente che combini simultaneamente tutti gli elementi centrali di questo progetto: insight testuali derivati dall’esperienza locale, condivisione fra agenti distribuiti con esperienza disgiunta per tipo di guasto e diagnosi di fault su serie temporali multivariate.
+Al momento non è stato individuato un lavoro precedente che combini simultaneamente tutti gli elementi centrali di questo progetto: insight testuali derivati dall’esperienza locale, condivisione fra agenti distribuiti con esperienza disgiunta per tipo di guasto e diagnosi di fault su serie temporali multivariate.
 
 La conseguente affermazione di novità viene pertanto formulata in modo qualificato:
 
 > *“To the best of our knowledge, no prior work federates locally-derived textual insights across distributed agents with class-disjoint experience to diagnose faults in multivariate time series.”*
 
 Questa conclusione non implica l’assenza assoluta di lavori non recuperati dalla ricerca. Definisce invece il gap emerso entro il perimetro documentato della review e motiva la domanda sperimentale affrontata dal progetto.
-
-**Aggiornamento dopo la review.** La review aveva identificato il comparatore centralizzato/pooled come la baseline interna con il maggiore ritorno informativo. Questo comparatore è stato successivamente realizzato come **Condition C**: un singolo agente riceve l’unione frozen degli esempi etichettati e degli insight testuali prompt-facing dei quattro nodi. C è quindi oggi disponibile come riferimento descrittivo post-hoc per il held-out di **Experiment 1**; non è una baseline pre-specificata, non stabilisce superiorità causale e non è stata eseguita sulle nuove realizzazioni di **EXP3_V2**. La realizzazione di C completa il confronto interno federazione–centralizzazione, senza modificare il gap di novità della federazione testuale su serie temporali con classi localmente non viste.
 
 ### 1.5 Critiche costruttive e limiti noti
 
@@ -87,7 +87,7 @@ Le configurazioni informative A, B ed E permettono di verificare internamente se
 
 Un confronto più completo dovrebbe comprendere almeno due piani di baseline:
 
-1. **Baseline interne al paradigma testuale.** Una vera *local-only* farebbe usare a ciascun agente anche gli insight generati localmente, senza federazione. A non coincide con questa configurazione: è una baseline senza insight e costituisce un *information floor* per le classi locally-unseen. La local-only non è stata implementata come condizione separata; il valore aggiunto atteso era limitato perché gli insight propri riguardano soltanto il fault già noto localmente, ma questa resta un'aspettativa metodologica e non un risultato empiricamente misurato. Il riferimento *centralized pooled* è stato invece realizzato come Condition C e usa un singolo agente con l'esperienza testuale prompt-facing aggregata di tutti i nodi.
+1. **Baseline interne al paradigma testuale.** Una vera *local-only* farebbe usare a ciascun agente anche gli insight generati localmente, senza federazione. A non coincide con questa configurazione: è una baseline senza insight e costituisce un *information floor* per le classi locally-unseen. La local-only non è stata implementata come condizione separata; il valore aggiunto atteso era limitato perché gli insight propri riguardano soltanto il fault già noto localmente, ma questa resta un'aspettativa metodologica e non un risultato empiricamente misurato. Il riferimento *centralized pooled* è stato invece realizzato come Fase 2.1 e usa un singolo agente con l'esperienza testuale prompt-facing aggregata di tutti i nodi.
 2. **Baseline esterne al paradigma** — metodi diagnostici convenzionali come PCA/DPCA, SVM o Random Forest, e tecniche propriamente federate come FedAvg o FedProx (cfr. la tassonomia non-IID di Li et al., ICDE 2022; il survey FL-FDD di Berghout et al., 2022; FedMeta-FFD di Chen et al., IEEE TNSE 2023 per il meta-learning federato su fault diagnosis). Queste baseline verificherebbero se il paradigma testuale sia competitivo rispetto a quello numerico.
 
 La mancata disponibilità delle baseline esterne e della local-only separata non invalida l'esperimento: il progetto conserva valore come prova controllata del meccanismo, mostrando che insight testuali pertinenti possono aiutare gli agenti sui tipi di guasto assenti dalla loro esperienza locale. Limita però qualsiasi affermazione secondo cui FoT sia complessivamente migliore degli approcci diagnostici tradizionali o delle tecniche federate esistenti. I confronti A–B–E e il confronto descrittivo con C restano validi entro il loro perimetro: misurano rispettivamente l'effetto incrementale della federazione testuale e la collocazione di B rispetto a un contesto centralizzato più ricco, non la posizione assoluta di FoT nel panorama diagnostico. Una gap analysis sistematica della letteratura 2021–2026, documentata in [FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md](lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md) e nella [literature review estesa](lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md), conferma che nessun lavoro identificato combina simultaneamente trasferimento di conoscenza testuale, setting federato su serie temporali/FDD e classi localmente non viste sotto non-IID class-disjoint.
@@ -99,7 +99,7 @@ Le novità che il progetto introduce o esplora, incrociate con la gap analysis e
 1. **Novità di combinazione (confermata come gap nella letteratura).** Nessun lavoro identificato tra i 20+ paper verificati combina simultaneamente: trasferimento di conoscenza testuale + setting federato su serie temporali/FDD + classi localmente non viste sotto non-IID class-disjoint. Ogni singolo asse ha lavori vicini (FoT per il testo, FedMeta-FFD per il FL su FDD, FedCKD per il class-disjoint), ma l'intersezione dei tre è vuota.
 2. **Controllo di specificità semantica pre-registrato (B vs E).** Il derangement delle associazioni pseudolabel↔insight a parità di testo, volume e ordine è un disegno di valutazione non riscontrato altrove in questo contesto. Isola se il beneficio dipende dalla correttezza dell'informazione o dalla sola presenza di testo aggiuntivo — e i risultati confermano la prima ipotesi (B−E = +0.78 nell'Exp1, +0.89 nell'Exp3_V2).
 3. **Pipeline di verbalizzazione "structured domain-driven" (V2).** L'analisi comparativa con la letteratura (20+ approcci in 7 categorie) posiziona il verbalizzatore come una settima strategia: completamente deterministico, con soglie calibrate statisticamente (conformal, α=0.05), semantica temporale strutturata (run, fasi, persistenza), vocabolario controllato e neutralità diagnostica garantita per costruzione. Nessun altro approccio TS→testo combina tutte queste proprietà.
-4. **Replica confermativa su nuove realizzazioni fisiche (Exp3_V2).** Il raddoppio del campione (da 12 a 24 run) conferma l'effetto (B−A = +0.94) e fa emergere un fenomeno non visibile nel campione più piccolo: una degradazione local-seen (19/24 in B vs 24/24 in A), segnale di possibile negative transfer che rimane aperto per indagine futura.
+4. **Replica confermativa su nuove realizzazioni fisiche Fase 2.** Il raddoppio del campione (da 12 a 24 run) conferma l'effetto (B−A = +0.94) e fa emergere un fenomeno non visibile nel campione più piccolo: una degradazione local-seen (19/24 in B vs 24/24 in A), segnale di possibile negative transfer che rimane aperto per indagine futura.
 
 ### 1.7 Lazy points
 
@@ -110,7 +110,7 @@ Mi restano queste cose da fare o valutare; in ordine di priorità:
 - La degradazione local-seen in B emerge nell'Exp3_V2 ma non è ancora stata diagnosticata.
 - La federazione è simulata su un singolo processo (TEP); la validazione su impianti PV reali multi-sito è il passo successivo dichiarato.
 
-**Step 2 / 27(Ph.A)**
+**Step 2 / 28(Ph.A)**
 
 ## Dataset
 
@@ -153,7 +153,7 @@ Nel dataset i canali sono identificati come `XMEAS-1 … XMEAS-41`. La loro deno
 
 Nomenclatura canonica del TEP (Downs & Vogel, 1993). Il repository tratta i canali come `XMEAS-1…41` senza etichette descrittive; questi nomi sono forniti solo come riferimento fisico.
 
-**Step 3 / 27(Ph.A)**
+**Step 3 / 28(Ph.A)**
 
 ## Analisi e split dei dataset
 
@@ -198,7 +198,7 @@ Nel caso con fault, le otto finestre post-fault sono indicate come **W1–W8**, 
 >
 > **8 finestre da 5 h** per il caso con fault; **10 finestre da 5 h** per il blocco Normal completo.
 
-**Step 4 / 27(Ph.A)Design / development-time**
+**Step 4 / 28(Ph.A)Design / development-time**
 
 ## La pipeline di Phase A: le sei operazioni
 
@@ -213,7 +213,7 @@ Di seguito le fasi svolte dalla pipeline della fase A del progetto.
 | 5 | **Dalle finestre al JSON** | Aggrega flag e struttura temporale in evidenza numerica auditabile. |
 | 6 | **Dal JSON al testo neutrale** | Renderizza fatti quantitativi senza fault ID o diagnosi automatica. |
 
-**Step 5 / 27(Ph.A)Design / development-time**
+**Step 5 / 28(Ph.A)Design / development-time**
 
 ## Scelta delle feature
 
@@ -229,7 +229,7 @@ La **scelta** delle feature è una decisione di design sul development/calibrati
 > | `diff_std_ratio` | Variazioni campione-campione | Oscillazioni lente |
 > | `raw_std_ratio` | Dispersione descrittiva | Instabilità oscillatoria |
 
-**Step 6 / 27(Ph.A)Design / development-time**
+**Step 6 / 28(Ph.A)Design / development-time**
 
 ## Calibrazione delle soglie
 
@@ -266,7 +266,7 @@ Il **leave-one-block-out** nasce qui: quando si misura N1, il riferimento usa N2
 >
 > Mostriamo solo la coda, ma ogni score è davvero il massimo sui 41 canali.
 
-**Step 7 / 27(Ph.A)Design / development-time**
+**Step 7 / 28(Ph.A)Design / development-time**
 
 ## Il freeze: congelare feature, soglie e renderer
 
@@ -274,7 +274,7 @@ Prima di aprire validation, test e held-out vengono congelati feature, soglie, r
 
 > **Che cosa è stato usato fino a qui.** Fino al freeze sono entrati in gioco soltanto i blocchi **Normal N1–N5** (per calibrare le soglie) e i **fault batch 1–5**. Questi ultimi sono stati usati **solo in fase di design/development, per scegliere *quali* feature usare** — non per calcolare le soglie e non a runtime. La scelta delle feature è una decisione fatta una volta, a monte, non un'operazione ripetuta su ogni caso. I restanti dati — **N6–N10** e i **fault batch 6–10** — **non sono ancora stati toccati**: entreranno solo dopo il freeze, in validation e test. (N1–N5 servono in due momenti: a design-time per calibrare le soglie e poi come baseline di riferimento anche a runtime.)
 
-**Step 8 / 27(Ph.A)Runtime / finestra × XMEAS**
+**Step 8 / 28(Ph.A)Runtime / finestra × XMEAS**
 
 ## Dalle feature ai flag: soglie e segni
 
@@ -313,7 +313,7 @@ W1 è mostrata esclusivamente come esempio di calcolo. Nella pipeline completa, 
 >
 > W1: `mode1_1_1.xlsx`, righe Excel 602–901, XMEAS-1. Baseline: `mode1_normal_500.xlsx`, righe 2–15001 della colonna ricondotta a XMEAS-1. Il ricalcolo read-only coincide con il CSV entro l'ultima unità floating-point; qui è riportata la precisione frozen del CSV.
 
-**Step 9 / 27(Ph.A)Runtime / caso completo**
+**Step 9 / 28(Ph.A)Runtime / caso completo**
 
 ## Dai flag al JSON, fino al testo neutrale
 
@@ -357,7 +357,7 @@ La griglia di flag (8 finestre × 41 XMEAS) viene utilizzata per generare un **J
 >
 > L'estratto JSON mostra la parte `level` di XMEAS-1. Il testo completo nasce dal JSON completo a 41 canali, quindi cita altri canali quando dominano altre sezioni (qui XMEAS-20 e XMEAS-10). Non contiene F1, batch, pseudolabel o soglie: nessuna diagnosi, solo fatti.
 
-**Step 10 / 27(Ph.A)Controllo offline**
+**Step 10 / 28(Ph.A)Controllo offline**
 
 ## Evaluator · signature vector
 
@@ -383,13 +383,13 @@ Solo ora entra l'evaluator, con uno scopo preciso: verificare offline se la rapp
 >
 > > **A cosa serve.** Alta similarità intra-classe + bassa similarità inter-classe = il testo neutrale di Phase A conserva abbastanza struttura da distinguere le condizioni *senza mai nominarle*. È il pre-requisito descrittivo che rende sensato, nello step successivo, dare quei testi in pasto a un reasoner in Phase B — ma resta separabilità, non ancora accuracy diagnostica.
 
-**Step 11 / 27(Ph.A)Valutazione out-of-development/calibration**
+**Step 11 / 28(Ph.A)Valutazione out-of-development/calibration**
 
 ## Validation e test split: applicare dopo il freeze
 
 La progettazione si è terminata con il freeze; adesso si esegue la stessa pipeline runtime prima sulla validation (fault batch 6–7 e Normal N6–N7) e poi sul test split (batch 8–10 e N8–N10). In entrambi i casi il percorso è sempre `finestre → feature → soglie congelate → JSON → testo neutrale → evaluator`. È importante notare come lo split «development/calibration» sia utilizzato per progettare e calibrare, in seguito al freeze la validation è utilizzata per effettuare controlli intermedi e alla fine il test split resta chiuso fino alla verifica finale di Phase A.
 
-**Step 12 / 27(Ph.A)Confine sperimentale**
+**Step 12 / 28(Ph.A)Confine sperimentale**
 
 ## Nuove simulazioni indipendenti
 
@@ -401,7 +401,7 @@ I batch 8–10 del test split erano test di Phase A, ma sono stati aperti. Un te
 | --- | --- | --- | --- | --- |
 | 3 run | 3 run | 3 run | 3 run | 3 run |
 
-**Step 13 / 27(Ph.B)Phase B / conoscenza locale**
+**Step 13 / 28(Ph.B)Phase B / conoscenza locale**
 
 ## Agenti non-IID, pseudolabel ed esempi locali
 
@@ -448,7 +448,7 @@ Distribuzione non-IID: ogni agente conosce solo il proprio fault
 > >
 > > **Etichetta mostrata all'LLM:** `CLS-ZOGAA`. La coppia è testo + etichetta; F1 e batch 1 restano provenance evaluator-side.
 
-**Step 14 / 27(Ph.B)Phase B / federazione**
+**Step 14 / 28(Ph.B)Phase B / federazione**
 
 ## Gli insight distillano più casi; la federazione li distribuisce peer-only
 
@@ -485,7 +485,7 @@ Dopo il few-shot, ogni agente compie una seconda operazione: condensa ciò che s
 >
 > > **8 generati, 6 ricevuti.** La libreria globale ha otto insight; ciascuna peer library ne ha sei.
 
-**Step 15 / 27(Ph.B)Phase B / protocollo frozen**
+**Step 15 / 28(Ph.B)Phase B / protocollo frozen**
 
 ## Configurazioni informative controllate e struttura completa dell'inference
 
@@ -513,7 +513,7 @@ Una **configurazione informativa** è una versione controllata dello stesso agen
 
 > **Cronologia del protocollo.** Condition C non faceva parte del protocollo originale A/B/E: è stata progettata post-hoc dopo l'osservazione dei risultati A/B/E. Ha però avuto un proprio amendment e un proprio freeze, entrambi completati prima delle sue chiamate LLM. Il carattere post-hoc riguarda quindi la scelta di introdurre il confronto, non una modifica delle predizioni dopo averne osservato gli esiti.
 
-**Step 16 / 27(Ph.B)Phase B / inference frozen**
+**Step 16 / 28(Ph.B)Phase B / inference frozen**
 
 ## Dal testo neutrale alla decisione: PBH-004 visto da Agent 3
 
@@ -535,7 +535,7 @@ PBH-004 → → → pipeline Phase A congelata → → → testo neutrale → �
 >
 > I record hanno `used_insight_ids=[]`: non attribuiamo la singola risposta a INS-001. Confrontiamo correttamente le configurazioni informative frozen nel loro insieme.
 
-**Step 17 / 27(Ph.B)Ground-truth evaluation**
+**Step 17 / 28(Ph.B)Ground-truth evaluation**
 
 ## Risultati Phase B: trasferimento di conoscenza sui fault localmente unseen
 
@@ -730,7 +730,7 @@ Fase 2 — Replica confirmatory · EXP3_V2
 
 Tutto il metodo — feature, soglie, agenti, insight, configurazioni informative, protocollo frozen — rimane identico. Cambiano solo i dati fisici sottostanti: 24 nuovi run di fault (6 per classe) e 6 nuovi run Normal, il doppio della Fase 1. L'architettura sperimentale e le decisioni di analisi sono state congelate *prima* di generare questi dati.
 
-**Step 18 / 27Fase 2Esperimento confermativo su nuove realizzazioni simulate**
+**Step 18 / 28Fase 2Esperimento confermativo su nuove realizzazioni simulate**
 
 ## Esperimento confermativo su nuove realizzazioni simulate
 
@@ -740,7 +740,7 @@ Il rischio specifico da escludere non è il data leakage classico — il protoco
 
 Le nuove realizzazioni fisiche sono run TEP indipendenti delle stesse quattro classi — non reruns dei file già usati, non nuove classi, non un dominio diverso. Il perimetro sperimentale rimane deliberatamente invariato: il metodo, gli agenti, le soglie e il protocollo frozen di Experiment 1 vengono riapplicati as-is alle nuove realizzazioni. L'obiettivo non è la generalizzazione, ma verificare se l'effetto osservato sia riproducibile quando i dati fisici cambiano pur restando fisso tutto il resto.
 
-**Step 19 / 27Fase 2Nuovo held-out**
+**Step 19 / 28Fase 2Nuovo held-out**
 
 ## Le nuove realizzazioni fisiche di EXP3_V2
 
@@ -754,7 +754,7 @@ Per costruire il nuovo held-out sono stati generati run TEP indipendenti degli s
 
 Il raddoppio rispetto ai 15 run di Experiment 1 (3 per classe) porta a 72 agent-case unseen, aumentando la potenza statistica del contrasto primario B−A senza modificare il disegno sperimentale.
 
-**Step 20 / 27Fase 2Disegno confirmatory frozen**
+**Step 20 / 28Fase 2Disegno confirmatory frozen**
 
 ## Il disegno confirmatory di EXP3_V2
 
@@ -786,7 +786,7 @@ Un disegno **confirmatory frozen** significa che ipotesi primaria, popolazione d
 >
 > 72 agent-case unseen → × → configurazioni informative A / B / E → → → aggregati frozen → → → bootstrap cluster-paired → → → contrasti B−A · B−E
 
-**Step 21 / 27Fase 2**
+**Step 21 / 28Fase 2**
 
 ## Diagnosi di guasti non osservati localmente
 
@@ -871,7 +871,7 @@ Tutti e quattro gli errori unseen di B sono concentrati su due run specifici —
 
 **Figura 5 — Distribuzione degli outcome della configurazione informativa B nei 24 run fisici di fault di EXP3_V2.** Ogni riga rappresenta un singolo run fisico; le quattro colonne rappresentano i quattro agenti. Per ogni run, la cella dell'agente che possiede localmente quel fault è indicata come local-seen. Le altre tre celle costituiscono i tre agent-case locally-unseen. I 24 run producono 72 agent-case unseen, non 72 osservazioni fisiche indipendenti. La figura è un'analisi descrittiva post-hoc dei record frozen.
 
-**Step 22 / 27Fase 2**
+**Step 22 / 28Fase 2**
 
 ## B−A primario e B−E di supporto: differenze di accuratezza e intervalli di confidenza
 
@@ -917,7 +917,7 @@ B−E
 
 > **Nota sull'incertezza.** Gli intervalli sono ottenuti mediante cluster bootstrap paired sui 24 run fisici indipendenti, mantenendo insieme le tre osservazioni dei receiving agents associate allo stesso run. Con 24 cluster indipendenti (il doppio di Experiment 1), gli intervalli sono più stretti ma vanno comunque interpretati nel contesto di questo PoC controllato.
 
-**Step 23 / 27Fase 2**
+**Step 23 / 28Fase 2**
 
 ## Risultati secondari descrittivi
 
@@ -986,7 +986,7 @@ A:0/72 ·B:68/72 ·E:4/72
 
 La tabella confronta i risultati dei due esperimenti sullo stesso disegno sperimentale. L'incremento della dimensione campionaria da 12 a 24 run fisici restringe gli intervalli di confidenza. La degradazione local-seen osservata in EXP3_V2 non era visibile in Experiment 1.
 
-**Step 24 / 27Fase 2Interpretazione, limiti e provenienza frozen**
+**Step 24 / 28Fase 2Interpretazione, limiti e provenienza frozen**
 
 ## Che cosa supporta la replica, e che cosa non dimostra
 
@@ -1016,7 +1016,9 @@ La tabella confronta i risultati dei due esperimenti sullo stesso disegno sperim
 
 > **Transizione cronologica.** Il blocco seguente è collocato dopo la Fase 2 perché Condition C è stata introdotta successivamente nella cronologia del progetto. Gli Step 25–26 riaprono però il confronto di **Experiment 1**: usano il suo medesimo held-out e non i run EXP3_V2.
 
-**Step 25 / 27Federazione VS centralizzazione**
+**Step 25 / 28Federazione VS centralizzazione**
+
+## Federazione e riferimento centralizzato
 
 Abbiamo chiesto: quanto perde il sistema a quattro agenti rispetto a uno solo che sa tutto? Per rispondere abbiamo costruito un agente unico a cui abbiamo dato tutte le conoscenze degli altri quattro — gli stessi esempi, le stesse descrizioni testuali dei guasti. Non dati grezzi o informazioni riservate, solo ciò che nella federazione verrebbe scambiato tra i nodi. Il confronto è diretto perché entrambi lavorano con lo stesso tipo di materiale, ma non alla pari: l'agente centralizzato vede tutto insieme, quelli federati vedono solo pezzi.
 
@@ -1042,7 +1044,7 @@ C classifica i **15 casi del held-out di Experiment 1** (12 fault + 3 Normal), c
 - R=3, structured output strict e inferenza stateless.
 - Nessun accesso alla ground truth prima del freeze delle predizioni; join soltanto evaluator-side.
 
-**Step 26 / 27Risultati C e confronto descrittivo C−B**
+**Step 26 / 28Risultati C e confronto descrittivo C−B**
 
 ## Risultati del riferimento centralizzato e distanza descrittiva da B
 
@@ -1083,22 +1085,345 @@ Per ciascun caso *i*, C contribuisce una decisione e B la media delle decisioni 
 
 C è una **centralized full-information pooled ICL post-hoc exploratory reference**: colloca B entro lo stesso paradigma testuale, ma quantità, forma e struttura del contesto cambiano simultaneamente. Il risultato è descrittivo, temporalmente confondibile e non autorizza una lettura causale o una superiorità generale.
 
+Fonti canoniche: [`evaluation_results_c.json`](../icl/full_evaluation/evaluation_results_c.json), [`PLAN_CENTRAL_POOLED_ICL.md`](../icl/PLAN_CENTRAL_POOLED_ICL.md) e [`CONDITION_C_R10_INDEPENDENT_REVIEW.md`](audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md).
+
 Fase 3 — Portabilità cross-model · EXP2
 
-**Dal riferimento centralizzato alla Fase 3.** Experiment 1 ha stabilito l’effetto di trasferimento e la sua specificità semantica; Experiment 3 (Fase 2) lo ha replicato su realizzazioni fisiche indipendenti; Condition C ha poi fornito un riferimento post-hoc sul solo held-out di Experiment 1. Tutti hanno utilizzato un unico reasoning model (`gpt-5.6-terra`) sia per produrre gli insight sia per consumarli in fase di classificazione. Resta aperta una domanda: *la conoscenza testuale congelata è accoppiata al reasoner che l’ha generata, oppure può essere consumata utilmente da modelli diversi?*
+**Dal riferimento centralizzato alla Fase 3.** Experiment 1 ha stabilito l’effetto di trasferimento e la sua specificità semantica; Experiment 3 (Fase 2) lo ha replicato su realizzazioni fisiche indipendenti; Condition C ha poi fornito un riferimento post-hoc sul solo held-out di Experiment 1. EXP2 ha ora esaminato la portabilità lato consumer: gli insight prodotti da `gpt-5.6-terra` sono stati consumati da Qwen nella configurazione frozen, con risultati congelati e sottoposti a review indipendente.
 
-**Step 27 / 27Fase 3Portabilità cross-model**
+**Step 27 / 28Fase 3Portabilità cross-model**
 
-## Intro preliminare
+## Consumer open-weight: protocollo e risultati frozen di Experiment 2
 
-La distinzione chiave è tra **producer** e **consumer**. Il producer — il modello che ha generato gli insight a partire dai casi development/calibration — rimane `gpt-5.6-terra` e non viene variato: gli insight peer restano quelli frozen di Experiment 1, byte per byte. Ciò che varia è esclusivamente il consumer, cioè il reasoning model che riceve il caso da classificare, gli esempi locali few-shot e gli insight federati e deve produrre la pseudolabel finale. Experiment 2 testa quindi la **portabilità cross-model della conoscenza testuale congelata**: la stessa evidenza, la stessa conoscenza, gli stessi casi — un reasoner diverso.
+### 1 · Domanda scientifica
 
-Tutti gli altri elementi sperimentali sono mantenuti identici: held-out frozen di Experiment 1, verbalizer V2, pseudolabel opache, configurazioni informative A/B/E, prompt, regola di aggregazione, evaluator e bootstrap. In questo modo, qualsiasi variazione osservata può essere attribuita al cambio del consumer e non a differenze nei dati o nella conoscenza trasferita.
+Experiment 2 verifica se gli stessi insight testuali frozen, prodotti da `gpt-5.6-terra`, possono essere consumati utilmente da un reasoner diverso. La distinzione chiave è tra **producer** e **consumer**:
 
-La scelta dei reasoner include almeno un modello **open-weight**, che serve anche da ancora di riproducibilità: un risultato replicabile con pesi pubblici e inferenza deterministica (temperature 0, seed fisso) è più difficile da contestare di uno ottenuto esclusivamente con API proprietarie. L’aggiunta di un secondo modello di famiglia diversa dall’originale rafforza ulteriormente la claim.
+- il **producer** — il modello che ha generato gli insight a partire dai casi development/calibration — rimane `gpt-5.6-terra` e non viene variato: gli insight peer restano quelli frozen di Experiment 1, byte per byte;
+- il **consumer** — il reasoning model che riceve il caso da classificare, gli esempi locali few-shot e gli insight federati e deve produrre la pseudolabel finale — cambia: al posto di `gpt-5.6-terra` viene utilizzato un modello open-weight locale.
+
+La stessa evidenza, la stessa conoscenza e gli stessi casi; cambia esclusivamente il modello che esegue la diagnosi finale. La claim riguarda la **portabilità del consumo**, non la generalità end-to-end: il producer degli insight non è stato cambiato. Parlare di «model-generality end-to-end» richiederebbe variare anche la produzione. Experiment 2 è quindi complementare a Experiment 3 (Fase 2): là cambiavano i dati fisici a parità di reasoner, qui cambia il reasoner a parità di dati e conoscenza.
+
+La scelta di un modello **open-weight** — un modello i cui pesi sono pubblicamente disponibili e scaricabili — serve anche da ancora di riproducibilità: un risultato replicabile con pesi pubblici e inferenza deterministica (temperature 0, seed fisso) è più difficile da contestare di uno ottenuto esclusivamente con API proprietarie.
 
 La research question di Experiment 2 è:
 
 > *Does the transfer effect and its semantic specificity persist when the same frozen peer textual knowledge is consumed by different reasoning models?*
 
-Un risultato positivo fornirebbe evidenza che la conoscenza testuale prodotta nel setting FoT non è accoppiata al reasoner originale — proprietà rilevante per la praticabilità del meccanismo, che si aggancia al risultato *weak-to-strong in text space* della letteratura. Tuttavia, poiché il producer degli insight non viene variato e l’held-out è lo stesso di Experiment 1, la claim resta circoscritta alla portabilità del consumo: parlare di «model-generality end-to-end» richiederebbe variare anche la produzione. Experiment 2 è quindi complementare a Experiment 3 (Fase 2): là cambiavano i dati fisici a parità di reasoner, qui cambia il reasoner a parità di dati e conoscenza.
+Il risultato osservato fornisce evidenza circoscritta che il vantaggio degli insight federati non è esclusivo del consumer originale. Poiché il producer degli insight non viene variato e l'held-out è lo stesso di Experiment 1, la claim resta limitata alla configurazione di consumo esaminata.
+
+### 2 · Elementi sperimentali rimasti frozen
+
+Tutti gli elementi sperimentali di Experiment 1 sono mantenuti identici. Questo rende il cambio di consumer il principale contrasto di disegno, ma il confronto cross-model resta descrittivo e non autorizza da solo un'attribuzione causale generale.
+
+| Elemento | Stato |
+| --- | --- |
+| Held-out di Experiment 1 (15 run indipendenti) | Frozen, riutilizzato |
+| Verbalizer V2 | Invariato |
+| Pseudolabel opache | Invariate |
+| Esempi locali few-shot | Invariati |
+| Insight peer (prodotti da `gpt-5.6-terra`) | Invariati |
+| Configurazione informativa A | Nessun insight peer |
+| Configurazione informativa B | Insight peer corretti |
+| Configurazione informativa E | Insight peer semanticamente corrotti (derangement) |
+| Derangement della condizione E | Invariato |
+| Prompt template | Invariato |
+| Schedule dell'inferenza | Invariato |
+| Parser della risposta JSON | Invariato |
+| Aggregazione 2-su-3 | Invariata |
+| Evaluator offline | Invariato |
+| Bootstrap | Invariato |
+
+Lo schedule produce: 15 casi × 4 agenti × 3 condizioni × 3 ripetizioni = **540 inferenze** e **180 decisioni aggregate**.
+
+### 3 · Ambiente open-weight
+
+La prima lane open-weight utilizza **Qwen3.8-27B-FP8** (abbreviato: Qwen 27B), un modello open-weight da 27 miliardi di parametri della famiglia Qwen, servito localmente tramite **vLLM** — un motore di inferenza open-source ottimizzato per modelli linguistici di grandi dimensioni. L'inferenza avviene su hardware locale, senza chiamate a servizi cloud.
+
+| Componente | Dettaglio |
+| --- | --- |
+| Sistema operativo | Ubuntu 24.04.3 LTS |
+| GPU | 2 × NVIDIA RTX 5000 Ada Generation (~32 GB ciascuna) |
+| Python | 3.12.14 |
+| PyTorch | 2.13.0 con CUDA 13.2 |
+| vLLM | 0.28.0 |
+| Modello | `Qwen/Qwen3.8-27B-FP8` |
+| Revisione esatta | `017b9c7af6b5689d5dd426a76e0bc077eb5ca20a` |
+| Alias servito | `fot-exp2-consumer` |
+| Endpoint locale | `http://127.0.0.1:8000/v1` (OpenAI-compatible) |
+
+L'intero setup è stato realizzato nello spazio utente, senza aggiornamenti del sistema operativo o modifiche amministrative. Dopo problemi di inizializzazione con tensor parallel su due GPU, la configurazione validata utilizza una sola GPU con `--tensor-parallel-size=1`: si tratta di una decisione operativa di riproducibilità documentata nel probe, non di una limitazione del modello.
+
+### 4 · Lane isolata e guardrail
+
+Tutto il codice e ogni artefatto sperimentale della lane sono confinati sotto `phase_b/exp2/qwen/`; soltanto la documentazione di integrazione e le review archiviate risiedono fuori da questa directory. Il branch dedicato è `origin/codex/exp2-qwen`; il protocollo è congelato nel commit `d9bb95c` con tag `phase-b-exp2-qwen-protocol-frozen-001`.
+
+La lane opera con i seguenti guardrail:
+
+- **Verifica degli hash** — prima di operare, controlla gli hash SHA-256 di tutti i 10 artefatti frozen (template di prompt, insight, esempi locali, derangement, schema JSON, aggregation, bootstrap, manifest delle verbalizzazioni). Se un hash non corrisponde, il processo si arresta.
+- **Ricostruzione e confronto dei prompt** — ricostruisce tutti i 180 prompt unici e li confronta con gli hash originali di Experiment 1.
+- **Schedule rigido** — impone lo schedule di esattamente 540 record: 180 A, 180 B, 180 E, indici sequenziali 0–539.
+- **Richieste stateless** — ogni chiamata al modello è una richiesta indipendente con un singolo messaggio utente. Non esiste stato conversazionale tra una chiamata e l'altra.
+- **Separazione reasoning/content** — il modello restituisce sia il reasoning interno sia la risposta JSON (`content`). L'adapter conserva entrambi, ma passa solo il `content` al parser frozen. Il reasoning è salvato per analisi post-hoc ma non influenza la decisione.
+- **Salvataggio immediato** — ogni record viene scritto su disco immediatamente dopo l'inferenza, con `fsync`. Un'interruzione non perde i record già completati.
+- **Resume con validazione** — in caso di ripresa, i record esistenti vengono validati prima di continuare.
+- **Flag di sicurezza** — il full run richiede il flag esplicito `--execute-full-run`. Senza di esso, il processo si arresta prima di eseguire inferenze.
+- **Valutazione bloccata** — `evaluate_qwen.py` rifiuta di operare finché i 540 record e i 180 aggregati non sono completi e congelati tramite manifest SHA-256.
+
+### 5 · Primo capability probe e audit NO-GO
+
+Prima di eseguire il full run, un **capability probe** — un test automatico che verifica se l'infrastruttura è in grado di eseguire correttamente l'esperimento — viene sottoposto a un **audit indipendente**: una revisione read-only del codice, del probe e dei suoi risultati, che emette un verdetto GO o NO-GO per il freeze del protocollo.
+
+Il primo probe ha rivelato un problema critico. Il parametro `max_tokens=512` — il limite massimo di token che il modello può generare in una singola risposta — limitava *congiuntamente* il ragionamento interno del modello e la risposta JSON finale. Nella condizione E (insight corrotti), Qwen consumava l'intero budget di 512 token nel ragionamento senza mai emettere il JSON di risposta:
+
+- condizione E: tutte e tre le fixture terminavano con `finish_reason=length` e `content` nullo;
+- condizione B: marginale, con il primo tentativo troncato e recupero al retry;
+- condizione A: funzionante (ragionamento più breve perché privo di insight peer).
+
+Il rischio: nella condizione E tutte le 180 chiamate avrebbero prodotto astensioni forzate, gonfiando artificialmente il delta B−E. Il confronto di specificità semantica — che misura se il vantaggio di B dipende dalla corretta associazione degli insight — sarebbe stato invalidato: avrebbe misurato un artefatto tecnico (troncamento), non una confusione genuina del modello causata dagli insight corrotti.
+
+L'audit indipendente ha inoltre rilevato un mismatch nell'estrazione del reasoning: vLLM esponeva il campo `message.reasoning`, mentre l'adapter cercava prioritariamente `reasoning_content`. Il reasoning completo era preservato nel `response_raw`, ma il campo dedicato risultava nullo.
+
+L'audit ha emesso **NO-GO** prima del freeze. Questo esito dimostra il funzionamento dei guardrail: il full run è stato bloccato prima di contaminare l'esperimento.
+
+### 6 · Correzioni pre-freeze
+
+Le correzioni apportate prima del freeze del protocollo:
+
+- **`max_tokens` portato a 1536** — copre uniformemente reasoning più risposta JSON per tutte le condizioni (A, B, E), inclusi retry e replay. Il valore precedente di 512 era insufficiente; i passaggi intermedi a 1024 e 1280 producevano ancora troncamento nelle fixture B ed E.
+- **`thinking_token_budget` impostato a 1024** — un parametro che limita la sola parte di ragionamento interno del modello, separatamente dalla risposta finale. Restano fino a circa 512 token per il JSON di output.
+- **`reasoning_effort` lasciato non impostato** — il parametro è disponibile nella OpenAPI di vLLM 0.28.0 ma non viene utilizzato. Il controllo del ragionamento è affidato esclusivamente al `thinking_token_budget`.
+- **Adapter aggiornato** — la funzione `_extract_reasoning()` cerca ora il campo in quattro varianti, in ordine di priorità: `reasoning_content`, `reasoning` e gli equivalenti in `model_extra`. Il `response_raw` continua a essere preservato integralmente.
+- **Test rafforzati** — aggiunti 5 test per la catena di estrazione del reasoning e asserzioni aggiuntive per `max_tokens`, `thinking_token_budget` e i controlli del probe. Nessun test preesistente è stato rimosso o indebolito.
+
+Per chiarezza: `max_tokens=1536` limita il totale (reasoning + risposta finale); `thinking_token_budget=1024` limita la sola parte di ragionamento. Lo stesso vincolo è applicato identicamente ad A, B, E, retry e replay.
+
+### 7 · Budget del contesto
+
+Il conteggio dei token è stato effettuato con il tokenizer e il chat template effettivi di Qwen, tramite l'endpoint `/tokenize` di vLLM, su tutti i 180 prompt unici.
+
+| Misura | Valore |
+| --- | --- |
+| Massimo input frozen | 2340 token |
+| Minimo input frozen | 1386 token |
+| Budget massimo di output (`max_tokens`) | 1536 token |
+| Totale massimo pianificato (input + output) | 3876 token |
+| Contesto del server (`max_model_len`) | 4096 token |
+| Margine | 220 token |
+
+Il margine di 220 token garantisce che nessuna combinazione di prompt e risposta possa eccedere il contesto del server.
+
+### 8 · Probe finale e re-audit GO
+
+Il probe finale eseguito sul protocollo corretto:
+
+- usa solo fixture sintetiche: non contiene ground truth, non genera predizioni held-out;
+- effettua 4 richieste: una per A, una per B, una per E e un replay deterministico di B;
+- non richiede alcun retry strutturale;
+- **passa 19/19 controlli**;
+- ottiene `finish_reason=stop` e JSON valido per tutte e tre le condizioni;
+- conserva correttamente il reasoning in tutte le risposte;
+- conferma il replay deterministico (risposta bit-per-bit identica con `temperature=0`, `seed=20260829`).
+
+Token osservati nel probe:
+
+| Condizione | Prompt token | Completion token | Reasoning token |
+| --- | --- | --- | --- |
+| A | 1553 | 349 | 255 |
+| B | 2300 | 1124 | 1023 |
+| E | 2300 | 1117 | 1023 |
+
+B ed E utilizzano 1023 reasoning token: questo è il limite effettivo osservato a fronte del budget nominale di 1024. Il vincolo è applicato a entrambe le condizioni, ma la sua simmetria formale non esclude un effetto differenziale sul contenuto; i risultati frozen richiedono quindi la cautela discussa più avanti.
+
+Il massimo osservato live è 2300 prompt + 1124 completion = **3424 token totali**, ben entro il contesto di 4096.
+
+Il re-audit indipendente ha verificato la risoluzione dei tre finding del primo audit e l'assenza di nuovi finding, ed ha emesso **GO per il freeze del protocollo**. Il protocollo è stato congelato nel commit [`d9bb95c`](https://github.com/sorrentinoluca/fot-phd/commit/d9bb95c31bdeb2f1608aaedc52f25b98de9bbf96) con tag `phase-b-exp2-qwen-protocol-frozen-001`.
+
+> **Il GO del probe non è un risultato scientifico.** Il capability probe certifica soltanto che l'infrastruttura può eseguire correttamente l'esperimento: il modello produce risposte JSON valide, non troncate, per tutte le condizioni. L'accuratezza diagnostica è stata misurata separatamente soltanto dopo il freeze del full run.
+
+### 9 · Esecuzione, freeze e catena Git
+
+L'esperimento è **completato, frozen, riprodotto e sottoposto a review indipendente**: **540 repetition record** producono **180 decisioni aggregate**. Con `temperature=0` e seed fisso, per tutti i 180 aggregati le tre ripetizioni sono byte-identiche. Il risultato è riproducibile nella configurazione osservata, ma `R=3` è degenere e il majority vote non misura variabilità stocastica.
+
+La catena frozen lineare è:
+
+| Milestone | Tag | Commit |
+| --- | --- | --- |
+| Protocollo | `phase-b-exp2-qwen-protocol-frozen-001` | `d9bb95c31bdeb2f1608aaedc52f25b98de9bbf96` |
+| Predizioni | `phase-b-exp2-qwen-predictions-frozen-001` | `a4f264c210873536c989ebd99aa2c6cf9857c85c` |
+| Evaluator | `phase-b-exp2-qwen-evaluator-frozen-001` | `a8f9884dfe2150a89131ba604b34ff1f6914f6e9` |
+| Risultati | `phase-b-exp2-qwen-results-frozen-001` | `37195cf2c5076b5da724b857f10e157177654cac` |
+
+### 10 · Risultati primari locally-unseen
+
+L'endpoint primario contiene 36 osservazioni agent-case su fault localmente unseen per ciascuna configurazione:
+
+| Configurazione | Corrette | Accuracy |
+| --- | ---: | ---: |
+| A — isolated | 0/36 | 0% |
+| B — FoT | 34/36 | 94.44% |
+| E — corrupted | 1/36 | 2.78% |
+
+- **B−A = 0.944444**, CI bootstrap 95% **[0.916667, 1.0]**;
+- **B−E = 0.916667**, CI bootstrap 95% **[0.833333, 1.0]**;
+- **34 helped, 0 harmed, 2 unchanged-incorrect**;
+- **zero astensioni**;
+- criteri primari **C1–C4: 4/4 PASS**.
+
+Questi quattro criteri primari non includono H2. H2 è un controllo secondario distinto e fallisce.
+
+### 11 · Risultati secondari
+
+| Popolazione | A | B | E |
+| --- | ---: | ---: | ---: |
+| local-seen | 100% | 75% | 100% |
+| Normal | 100% | 100% | 100% |
+| overall | 40% | 91.67% | 41.67% |
+
+La configurazione A, sui fault, restituisce sempre l'etichetta locale dell'agente: è quindi un classificatore costante rispetto a quella label e costituisce un floor strutturale per l'unseen. Tra gli errori emerge inoltre una confusione sistematica `CLS-OJNSG` ↔ `CLS-Z3ISU`.
+
+### 12 · Reasoning budget e lettura di H2
+
+Il limite effettivo del reasoning è **1023 token**, pur derivando da un budget nominale di 1024. Tutti e cinque gli errori aggregati di B hanno tutte e tre le ripetizioni al cap; al contrario, tutti i **36 aggregati B non cappati sono corretti**. Il fallimento di H2 è quindi confuso con l'esaurimento del reasoning budget: senza una sensitivity analysis separata non può essere attribuito causalmente all'interferenza degli insight.
+
+B ed E hanno lunghezza del prompt, consumo di reasoning e tasso di citazione degli insight comparabili. Il forte B−E costituisce perciò evidenza di specificità rispetto al contenuto degli insight, ma non una prova causale definitiva.
+
+### 13 · Dove verificare e review indipendente
+
+| Risorsa | Descrizione |
+| --- | --- |
+| [`phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md`](../phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md) | Report canonico leggibile |
+| [`phase_b/exp2/qwen/evaluation/evaluation_results.json`](../phase_b/exp2/qwen/evaluation/evaluation_results.json) | Risultati machine-readable |
+| [`phase_b/exp2/qwen/evaluation/bootstrap_results.json`](../phase_b/exp2/qwen/evaluation/bootstrap_results.json) | Intervalli bootstrap frozen |
+| [`phase_b/exp2/qwen/evaluation/confusion_matrices.json`](../phase_b/exp2/qwen/evaluation/confusion_matrices.json) | Matrici di confusione |
+| [`phase_b/exp2/qwen/evaluation/primary_metrics.csv`](../phase_b/exp2/qwen/evaluation/primary_metrics.csv) | Metriche primarie |
+| [`phase_b/exp2/qwen/evaluation/secondary_metrics.csv`](../phase_b/exp2/qwen/evaluation/secondary_metrics.csv) | Metriche secondarie |
+| [`EXP2_QWEN_EVALUATOR_REVIEW.md`](audits/EXP2_QWEN_EVALUATOR_REVIEW.md) | Review indipendente pre-valutazione |
+| [`EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md`](audits/EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md) | Review indipendente canonica dei risultati |
+
+Il verdetto della review scientifica R2 è **GO WITH LIMITATIONS**.
+
+### 14 · Limitazioni e conclusione consentita
+
+- È stato esaminato un solo consumer open-weight; un singolo consumer non dimostra generalità.
+- Gli insight sono stati prodotti con `gpt-5.6-terra`: non è una replica end-to-end interamente open-weight.
+- Sono stati riutilizzati gli stessi held-out case di Experiment 1; il confronto cross-model è descrittivo.
+- Le ripetizioni deterministiche byte-identiche rendono `R=3` inidoneo a misurare variabilità.
+- Il floor strutturale di A, la confusione `CLS-OJNSG` ↔ `CLS-Z3ISU` e il confondimento del reasoning cap delimitano l'interpretazione.
+
+La conclusione prudente è che il vantaggio della configurazione federata B persiste su un secondo consumer LLM open-weight nella configurazione frozen esaminata. Il risultato mitiga la critica di dipendenza da un unico consumer proprietario, ma non dimostra portabilità universale, generalità cross-model o indipendenza end-to-end da un modello proprietario.
+
+
+---
+
+**Step 28 / 28**
+
+## Ablation: confronto sistematico delle strategie di rappresentazione TS→Testo
+
+### 1 · Domanda scientifica
+
+Il verbalizzatore V2 è una scelta di design. Un reviewer può obiettare: «avete inventato il vostro formato, ma come fate a sapere che non funzionerebbe meglio dare i numeri grezzi all'LLM, o usare statistiche à la CGTime, o una codifica simbolica?». Questa è la Critica A — la critica alla quale l'ablation risponde direttamente.
+
+La domanda sperimentale è:
+
+> *La rappresentazione V2 offre un compromesso favorevole tra accuratezza diagnostica e costo computazionale rispetto ad approcci alternativi dalla letteratura?*
+
+L'ablation non risponde alla Critica B («perché usare un LLM e non un metodo tradizionale di fault diagnosis?»), che si difende con argomenti qualitativi (zero-shot, interpretabilità, generalizzabilità) già parte della motivazione del lavoro FoT-TEP.
+
+### 2 · Disegno sperimentale
+
+L'esperimento confronta quattro strategie di rappresentazione sugli stessi 15 casi held-out TEP (PBH-001…PBH-015), con lo stesso LLM (GPT-5.6-terra), output strutturato, 3 ripetizioni per caso. Il task è una classificazione centralizzata a 5 classi (F1, F8, F10, F13, Normal) — un task più difficile della classificazione federata 2-classi della pipeline di produzione. La centralizzazione isola la variabile «rappresentazione» evitando il confounding con l'architettura federata.
+
+Totale: 4 bracci × 15 casi × 3 ripetizioni = **180 inferenze**.
+
+| Braccio | Descrizione | Ispirazione | Token/prompt |
+| --- | --- | --- | --- |
+| **V2_TEXT** | Verbalizzatore conformal: 8 finestre × 5 feature per XMEAS, linguaggio naturale con soglie e trend | Il nostro metodo | ~550 |
+| **RAW_FEATURES** | Serializzazione numerica diretta delle feature V2 in tabella, senza interpretazione | LLMTime (Gruver et al., 2023) | ~21 000 |
+| **CGTIME_STATS** | 169 statistiche per sensore (media, varianza, correlazioni…), 3 famiglie, window-aligned | CGTime (Feng et al., 2026) | ~99 000 |
+| **SAX_SYMBOLIC** | Codifica simbolica SAX: lettere che codificano la forma del segnale (alphabet=5, word=10) | SAX/HAR-LLM (Pappa et al., 2026) | ~21 000 |
+
+L'unità indipendente è il `case_id` (15 casi), non la riga (45 righe). Le 3 ripetizioni per caso misurano la stabilità within-case ma non aggiungono unità statistiche indipendenti.
+
+### 3 · Test statistici e correzioni
+
+L'analisi statistica usa esclusivamente test cluster-aware che rispettano la struttura di raggruppamento dei dati:
+
+- **Clustered bootstrap** (10 000 resamples di 15 case_id, RNG indipendente per confronto)
+- **Permutation test esatto** (sign-flip su 15 casi, tutte le 2^15 = 32 768 permutazioni)
+- **McNemar a livello di caso** (majority-vote aggregato, N = 15, binomiale esatto)
+- **Holm–Bonferroni** step-down across 6 confronti pairwise
+
+Un test McNemar row-level (N = 45) è stato calcolato ma **declassato a NON-INFERENTIAL**: tratta le 3 ripetizioni per caso come indipendenti, il che non è vero (stesso input), producendo p-value anti-conservativi. La discrepanza tra i due approcci — il row-level trovava due confronti significativi, il cluster-aware nessuno — è un caso da manuale di come ignorare il clustering gonfia artificialmente la significatività.
+
+Questa correzione è stata introdotta dopo una review indipendente che ha restituito un verdetto **GO-with-reservations** con 22 finding (1 critico, 10 major, 7 minor, 2 informativi). Il finding critico riguardava esattamente l'uso improprio del McNemar row-level come test inferenziale.
+
+### 4 · Risultati
+
+| Braccio | Accuracy | 95% CI (boot) | Bal. Acc | Macro-F1 | MCC | Sel. Acc | Coverage |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **V2_TEXT** | 0.889 | [0.733, 1.000] | 0.889 | 0.907 | 0.866 | 0.930 | 0.956 |
+| **RAW_FEATURES** | 0.933 | [0.800, 1.000] | 0.933 | 0.960 | 0.923 | 1.000 | 0.933 |
+| **CGTIME_STATS** | 0.911 | [0.756, 1.000] | 0.911 | 0.943 | 0.900 | 1.000 | 0.911 |
+| **SAX_SYMBOLIC** | 0.733 | [0.533, 0.933] | 0.733 | 0.721 | 0.699 | 0.786 | 0.933 |
+
+#### Recall per classe
+
+| Braccio | F1 | F8 | F10 | F13 | Normal |
+| --- | --- | --- | --- | --- | --- |
+| V2_TEXT | 1.000 | 0.667 | 1.000 | 0.778 | 1.000 |
+| RAW_FEATURES | 1.000 | 1.000 | 1.000 | 0.667 | 1.000 |
+| CGTIME_STATS | 1.000 | 1.000 | 1.000 | 0.556 | 1.000 |
+| SAX_SYMBOLIC | 1.000 | 1.000 | 1.000 | 0.333 | 0.333 |
+
+#### Confronti pairwise (cluster-aware, Holm–Bonferroni)
+
+Nessun confronto raggiunge la significatività statistica con nessuno dei tre test cluster-aware dopo correzione:
+
+| Confronto | Δ Accuracy | p (boot) | p (perm) | p (McN-case) | Significativo? |
+| --- | --- | --- | --- | --- | --- |
+| V2 vs RAW | −0.044 | 0.769 | 1.000 | 1.000 | No |
+| V2 vs CGTIME | −0.022 | 0.967 | 1.000 | 1.000 | No |
+| V2 vs SAX | +0.156 | 0.270 | 0.375 | 0.625 | No |
+| RAW vs CGTIME | +0.022 | 0.710 | 1.000 | 1.000 | No |
+| RAW vs SAX | +0.200 | 0.072 | 0.250 | 0.250 | No |
+| CGTIME vs SAX | +0.178 | 0.071 | 0.250 | 0.250 | No |
+
+### 5 · Interpretazione
+
+I tre metodi migliori (V2_TEXT, RAW_FEATURES, CGTIME_STATS) hanno accuratezze osservate vicine (88.9%, 93.3%, 91.1%) e nessuna differenza è statisticamente significativa. SAX va peggio (73.3%) ma nemmeno quel divario è confermato statisticamente con test corretti. Con il campione disponibile, **non possiamo dire chi vince** — ma possiamo dire che V2 non è chiaramente peggiore nonostante usi 39–180× meno token.
+
+La formulazione corretta è «not demonstrably different», non «indistinguishable»: la prima riconosce che il campione è troppo piccolo per distinguere, la seconda implicherebbe equivalenza dimostrata. Il minimum detectable effect (MDE) con N = 15 è ≈ 25 punti percentuali — lo riportiamo esplicitamente.
+
+Un dato interessante emerge dalla selective accuracy: RAW_FEATURES e CGTIME_STATS hanno selective accuracy = 1.000, cioè quando rispondono non sbagliano mai. La differenza rispetto al V2 dipende interamente dal fatto che si astengono di più sul guasto F13. Il pattern di F13 è arm-dependent: V2 tende a misclassificarlo come F8, mentre RAW e CGTIME tendono ad astenersi.
+
+### 6 · Posizionamento nella letteratura
+
+Per quanto ci risulta, questa è la **prima comparazione controllata head-to-head** di strategie di rappresentazione TS→text per fault diagnosis con LLM. In letteratura:
+
+- **LLMTime** (Gruver et al., 2023) ha mostrato che gli LLM possono gestire serie temporali serializzate come numeri — noi testiamo qualcosa di simile con RAW_FEATURES
+- **CGTime** (Feng et al., 2026) propone un approccio «percezione statistica» — noi ne testiamo una versione adattata
+- **SAX/HAR-LLM** (Pappa et al., 2026) usa codifiche simboliche per sensori — noi testiamo SAX
+
+Nessuno ha fatto un confronto sistematico di queste strategie sullo stesso dataset, stesso LLM, stesse condizioni. In un paper si può scrivere:
+
+> *«Per valutare la scelta della strategia di rappresentazione, abbiamo condotto un'ablation su 15 casi TEP indipendenti confrontando V2 con tre approcci dalla letteratura. Nessuna differenza statisticamente significativa è emersa tra i primi tre approcci (permutation test, p > 0.25), mentre V2 richiede ~1/39–1/180 dei token in input. Questi risultati preliminari suggeriscono che la rappresentazione V2 offre un compromesso favorevole tra accuratezza diagnostica e costo computazionale.»*
+
+### 7 · Caveat
+
+- **Confound informazione–rappresentazione:** V2_TEXT include conoscenza di dominio (soglie, trend); gli altri bracci no. L'esperimento testa formato + informazione insieme, non formato solo. Il costo del preprocessing conformal è esterno al budget di token del prompt e va contabilizzato separatamente.
+- **Campione piccolo:** 15 casi indipendenti. Per rilevare una differenza del 10% servirebbe un campione molto più grande. È un pilot study esplorativo, non un trial confermativo.
+- **4 guasti su 28:** coperti F1 (step), F8 (stocastico), F10 (step), F13 (drift). Le categorie principali sono rappresentate, ma non si può generalizzare a tutti i 28 fault TEP.
+- **Un solo LLM:** GPT-5.6-terra. Un altro modello potrebbe ribaltare il ranking. Il contributo metodologico (il framework di confronto) resta valido indipendentemente dal modello specifico.
+- **Task centralizzato vs federato:** la pipeline di produzione FoT usa 4 agenti specialisti (ciascuno guasto vs normale), non un singolo LLM a 5 classi. La centralizzazione è una scelta di design sperimentale per isolare la variabile «rappresentazione»; validare nel setting federato è un follow-up.
+
+### Dove verificare
+
+| Risorsa | Descrizione |
+| --- | --- |
+| `ablation/ABLATION_OVERVIEW.md` | Companion discorsivo all'ablation report |
+| `ablation/ablation_results/ablation_report.md` | Report statistico completo con tutte le tabelle e i p-value |
+| `ablation/ablation_evaluation.json` | Risultati grezzi in formato machine-readable |
+| `ablation/ablation_evaluate.py` | Script di valutazione con tutti i test statistici |
+| `ablation/EXPERIMENT_DESIGN.md` | Protocollo sperimentale pre-registrato |
+| `ablation/inference_results.jsonl` | Le 180 predizioni grezze del modello |

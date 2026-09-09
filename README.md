@@ -10,7 +10,7 @@ transfer.
 FoT research hypothesis
 → controlled multivariate time-series PoC on TEP
 → validation and fresh-run replication of textual federated knowledge transfer
-→ planned cross-model consumer-portability study on the frozen TEP benchmark
+→ frozen cross-model consumer-portability study on the TEP benchmark
 → future empirical phase: photovoltaic systems
 ```
 
@@ -20,8 +20,10 @@ physical realizations of the same four TEP fault classes; they do not establish
 performance or cross-domain generalization in PV systems. A subsequently
 executed **centralized full-information pooled ICL post-hoc exploratory
 reference** (Condition C) is also complete, frozen, and independently reviewed.
-A consumer-only cross-model extension (Experiment 2) is currently preliminary:
-its protocol and results are not yet frozen.
+The consumer-only cross-model extension (Experiment 2) is complete and frozen:
+the advantage of B persists with one Qwen open-weight consumer in the examined
+configuration. This mitigates dependence on a single proprietary consumer, but
+does not establish universal portability or an end-to-end open-weight replica.
 
 ## Reading path
 
@@ -30,7 +32,7 @@ its protocol and results are not yet frozen.
    ([view in browser](https://htmlpreview.github.io/?https://github.com/sorrentinoluca/fot-phd/blob/main/docs/fot_walkthrough_conversazione.html),
    [Markdown source](docs/fot_walkthrough_conversazione.md))
 2. **Understand repository scope and project status** → this `README.md`
-3. **Independently verify the Experiment 1 and Condition C frozen results** →
+3. **Independently verify the Experiment 1, Condition C, and EXP2 Qwen frozen results** →
    [`AUDIT_GUIDE.md`](AUDIT_GUIDE.md)
 
 > All other documents and artifacts are protocol, implementation, provenance,
@@ -199,6 +201,66 @@ The numerical source of truth is
 The independent review records **GO WITH LIMITATIONS** in
 [`docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md`](docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md).
 
+## Experiment 2 — frozen Qwen consumer result
+
+Experiment 2 keeps the frozen Experiment 1 held-out cases, local examples,
+insights, A/B/E conditions, and evaluation logic fixed while replacing only the
+consumer with `Qwen/Qwen3.8-27B-FP8`. The 540 repetitions and 180 aggregates
+were frozen before the offline evaluation. On the primary locally-unseen
+population, the result is:
+
+| Condition | Correct / agent-case observations | Accuracy |
+|---|---:|---:|
+| A — isolated | 0/36 | 0% |
+| B — FoT | 34/36 | 94.44% |
+| E — corrupted | 1/36 | 2.78% |
+
+- **B−A = 0.944444**, bootstrap 95% CI **[0.916667, 1.0]**;
+- **B−E = 0.916667**, bootstrap 95% CI **[0.833333, 1.0]**;
+- 34 observations were helped, 0 harmed, and 2 remained incorrect; there were
+  zero abstentions and the four primary criteria C1–C4 passed (**4/4 PASS**).
+
+The secondary results are local-seen A 100%, B 75%, E 100%; Normal 100% for
+A, B, and E; and overall A 40%, B 91.67%, E 41.67%. H2 is a distinct secondary
+control, not one of C1–C4, and it fails.
+
+The canonical outputs are the
+[`evaluation report`](phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md),
+[`evaluation results`](phase_b/exp2/qwen/evaluation/evaluation_results.json),
+[`bootstrap results`](phase_b/exp2/qwen/evaluation/bootstrap_results.json), and
+[`primary`](phase_b/exp2/qwen/evaluation/primary_metrics.csv) and
+[`secondary`](phase_b/exp2/qwen/evaluation/secondary_metrics.csv) metrics. The
+frozen Git chain is:
+
+- `phase-b-exp2-qwen-protocol-frozen-001` → `d9bb95c31bdeb2f1608aaedc52f25b98de9bbf96`;
+- `phase-b-exp2-qwen-predictions-frozen-001` → `a4f264c210873536c989ebd99aa2c6cf9857c85c`;
+- `phase-b-exp2-qwen-evaluator-frozen-001` → `a8f9884dfe2150a89131ba604b34ff1f6914f6e9`;
+- `phase-b-exp2-qwen-results-frozen-001` → `37195cf2c5076b5da724b857f10e157177654cac`.
+
+The archived
+[`evaluator review`](docs/audits/EXP2_QWEN_EVALUATOR_REVIEW.md) and
+[`independent results review R2`](docs/audits/EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md)
+record the final verdict **GO WITH LIMITATIONS**. Only one open-weight consumer
+was tested, while the insights were still produced with `gpt-5.6-terra` and the
+same held-out cases were reused. The cross-model comparison is therefore
+descriptive. With temperature zero and a fixed seed, all three repetitions are
+byte-identical for every aggregate, so `R=3` does not measure variability. A is
+a constant local-label classifier on fault cases and is a structural unseen
+floor. Errors also show systematic `CLS-OJNSG` ↔ `CLS-Z3ISU` confusion.
+
+The effective reasoning cap is 1023 tokens despite a nominal budget of 1024.
+All five aggregate B errors have all three repetitions at that cap, whereas all
+36 uncapped B aggregates are correct. H2 is consequently confounded with
+reasoning-budget exhaustion and cannot be causally attributed to insight
+interference without a separate sensitivity analysis. B and E have comparable
+prompt length, reasoning use, and insight-citation rates; the strong B−E result
+supports specificity to insight content, but is not definitive causal proof.
+
+Accordingly, B's advantage persists for a second, open-weight consumer in this
+frozen configuration. This mitigates the single proprietary-consumer concern;
+it does not demonstrate universal portability, cross-model generality, or
+end-to-end independence from a proprietary model.
+
 ## Project status
 
 | Component | Status |
@@ -208,13 +270,9 @@ The independent review records **GO WITH LIMITATIONS** in
 | Experiment 3 | Closed incomplete after technical attempt exhaustion; no scientific data produced |
 | Experiment 3 V2 — fresh-run confirmatory replica | Completed and frozen (tag-only); 1,080/1,080 repetitions and 360 aggregate outcomes |
 | Condition C — centralized pooled reference | Completed, frozen, independently reviewed; post-hoc exploratory |
-| Experiment 2 — cross-model consumer portability | Preliminary design; no protocol or inference frozen |
+| Experiment 2 — cross-model consumer portability | Completed, frozen, reproduced, and independently reviewed; `GO WITH LIMITATIONS` |
 | Empirical PV phase | Not yet executed; no protocol frozen |
 
-The next planned TEP extension is Experiment 2: it keeps the original frozen
-insights and held-out benchmark fixed while varying only the consumer reasoning
-model. It can support a claim of cross-model portability of frozen textual
-knowledge, not end-to-end model generality, because the producer is unchanged.
 Before the later empirical PV phase, features, baselines, windows, event
 taxonomy, physical units, and ground truth must be redesigned and revalidated.
 The TEP percentages must not be transferred to PV.
@@ -237,6 +295,9 @@ chain directly. For Condition C, the canonical result is
 [`evaluation_results_c.json`](icl/full_evaluation/evaluation_results_c.json)
 and its interpretive audit is the
 [`independent R10 review`](docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md).
+For EXP2 Qwen, use the
+[`evaluation report`](phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md) and the
+[`independent results review R2`](docs/audits/EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md).
 
 ## Repository map
 
@@ -315,6 +376,11 @@ The repository also preserves the Condition C R10 schedule, 45 repetition
 records, 15 aggregate predictions, post-inference manifests, frozen evaluation
 result, and independent review.
 
+The EXP2 Qwen lane preserves 540 deterministic repetition records, 180
+aggregate predictions, their hash manifests, the frozen offline evaluation,
+and the two canonical reviews. All files under `phase_b/exp2/qwen/` remain
+bound to `phase-b-exp2-qwen-results-frozen-001`.
+
 The 15 raw Experiment 1 held-out `.xlsx` workbooks are intentionally excluded
 from Git. Their filenames, sizes, and SHA-256 hashes are committed. If supplied
 separately, their byte identity and structure can be verified with the frozen
@@ -323,6 +389,6 @@ bit-for-bit from scripts alone because the initial MATLAB RNG state was not
 recorded. This limitation is specific to Experiment 1; the 30 EXP3_V2
 workbooks are preserved in its tag-only data freeze.
 
-See [`AUDIT_GUIDE.md`](AUDIT_GUIDE.md) for the exact Experiment 1 and Condition
-C commands and boundaries, and [`phase_b/README.md`](phase_b/README.md) for the
-EXP3_V2 tag-only chain.
+See [`AUDIT_GUIDE.md`](AUDIT_GUIDE.md) for the exact Experiment 1, Condition C,
+and EXP2 Qwen commands and boundaries, and [`phase_b/README.md`](phase_b/README.md)
+for the EXP3_V2 tag-only chain.

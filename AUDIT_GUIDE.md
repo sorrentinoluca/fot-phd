@@ -43,6 +43,8 @@ The repository preserves and exposes:
 - the annotated scientific freeze tags.
 - the Condition C R10 code, prediction, aggregate, result, and independent
   review chain.
+- the EXP2 Qwen protocol, predictions, evaluator, results, and independent
+  review chain.
 
 ## 3. Canonical source-of-truth chain
 
@@ -438,7 +440,112 @@ not establish a general superiority of centralization or federation. See the
 [`independent R10 review`](docs/audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md)
 for the full limitation analysis.
 
-## 10. Frozen milestones
+## 10. EXP2 Qwen — frozen consumer-portability result
+
+EXP2 changes only the consumer to `Qwen/Qwen3.8-27B-FP8`; the insight producer
+remains `gpt-5.6-terra`. The experiment reuses the same held-out cases, so this
+is a bounded, descriptive cross-model comparison rather than an end-to-end
+open-weight replica.
+
+### 10.1 Frozen chain and canonical artifacts
+
+```text
+phase-b-exp2-qwen-protocol-frozen-001
+d9bb95c31bdeb2f1608aaedc52f25b98de9bbf96
+        ↓
+phase-b-exp2-qwen-predictions-frozen-001
+a4f264c210873536c989ebd99aa2c6cf9857c85c
+        ↓
+phase-b-exp2-qwen-evaluator-frozen-001
+a8f9884dfe2150a89131ba604b34ff1f6914f6e9
+        ↓
+phase-b-exp2-qwen-results-frozen-001
+37195cf2c5076b5da724b857f10e157177654cac
+```
+
+Canonical evaluation artifacts:
+
+- [`EVALUATION_REPORT.md`](phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md);
+- [`evaluation_results.json`](phase_b/exp2/qwen/evaluation/evaluation_results.json);
+- [`bootstrap_results.json`](phase_b/exp2/qwen/evaluation/bootstrap_results.json);
+- [`confusion_matrices.json`](phase_b/exp2/qwen/evaluation/confusion_matrices.json);
+- [`per_agent_metrics.csv`](phase_b/exp2/qwen/evaluation/per_agent_metrics.csv);
+- [`primary_metrics.csv`](phase_b/exp2/qwen/evaluation/primary_metrics.csv);
+- [`secondary_metrics.csv`](phase_b/exp2/qwen/evaluation/secondary_metrics.csv);
+- [`transfer_counts.csv`](phase_b/exp2/qwen/evaluation/transfer_counts.csv);
+- [`evaluation_hash_manifest.json`](phase_b/exp2/qwen/evaluation/evaluation_hash_manifest.json).
+
+The canonical reviews are the
+[`evaluator review`](docs/audits/EXP2_QWEN_EVALUATOR_REVIEW.md) and the
+[`independent results review R2`](docs/audits/EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md).
+The results review verdict is **GO WITH LIMITATIONS**.
+
+### 10.2 Verify frozen bytes
+
+The following read-only check covers the four inference outputs and nine
+evaluation outputs:
+
+```bash
+python - <<'PY'
+import hashlib
+from pathlib import Path
+
+expected = {
+    "phase_b/exp2/qwen/inference/repetition_records.jsonl": "20fdc8e3fac4ac37f2d993bdcacd526bd5927d5c599cb1fcbeef6a08e7372198",
+    "phase_b/exp2/qwen/inference/aggregate_records.jsonl": "73ace46655ef1e3bce2b6491e489fd303780341eeadf7be2e972ce121c9f9e0a",
+    "phase_b/exp2/qwen/inference/execution_metadata.json": "7ec4719d6a7294440568273b6a2afd4abadf96f9283950857079db6fd082468e",
+    "phase_b/exp2/qwen/inference/inference_output_hash_manifest.json": "da0eb0085ed42342b9d8fbabfbb9f50e3231e5311015fbbdfe6961c1aa4fd88b",
+    "phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md": "0c6f2b3d795961a660ff659ce5cb31620209d126d92bed11aea265587a436ba9",
+    "phase_b/exp2/qwen/evaluation/bootstrap_results.json": "d421a30aea4a29aee9b30ec99d31dc97ea637322a7c16cc29ba4981ac0d3a9c2",
+    "phase_b/exp2/qwen/evaluation/confusion_matrices.json": "c3b0beaf56ca2f455e0ed80e56dcaba5bad67e95ac74cfb2322679f0ef936061",
+    "phase_b/exp2/qwen/evaluation/evaluation_hash_manifest.json": "d9f18d8804b8528c58029736b276356f0a34c59af69f27034eeab2f971472732",
+    "phase_b/exp2/qwen/evaluation/evaluation_results.json": "5d499d63ff771343c402fc3ecc03b93862ae2cfb9719b231b985077c1e2257d3",
+    "phase_b/exp2/qwen/evaluation/per_agent_metrics.csv": "842afff50b87d571ab6698e81b2791fbd30e4e4e775ef1c8dfb43f6ee9b993a8",
+    "phase_b/exp2/qwen/evaluation/primary_metrics.csv": "89d1e52ec146d98d6bf45ab9b692a272e091cf08200fbd0966ed379d841b1d8e",
+    "phase_b/exp2/qwen/evaluation/secondary_metrics.csv": "32d395f379c3c5d86a295705037aab53049e45c4887277cf35105f74d6462ca1",
+    "phase_b/exp2/qwen/evaluation/transfer_counts.csv": "8c95d3141acdd99317f36c2c3d650cecf2ac9c8992f893325d4ce73b571eb4a2",
+}
+for relative, digest in expected.items():
+    actual = hashlib.sha256(Path(relative).read_bytes()).hexdigest()
+    if actual != digest:
+        raise SystemExit(f"FAIL {relative}: {actual} != {digest}")
+    print(f"PASS {relative}")
+PY
+```
+
+### 10.3 Frozen result and interpretation boundary
+
+For locally-unseen fault observations, A is 0/36 (0%), B is 34/36 (94.44%),
+and E is 1/36 (2.78%). B−A is 0.944444 with bootstrap 95% CI
+[0.916667, 1.0]; B−E is 0.916667 with CI [0.833333, 1.0]. There are 34
+helped, 0 harmed, 2 unchanged-incorrect observations, zero abstentions, and
+C1–C4 are 4/4 PASS. H2 is a separate secondary control and fails. Other
+secondary results are local-seen A 100%, B 75%, E 100%; Normal 100% for all
+three configurations; and overall A 40%, B 91.67%, E 41.67%.
+
+Interpretation must retain the independent review's limitations: only one
+open-weight consumer was tested; the producer remained proprietary; the same
+held-out cases were reused; and the cross-model comparison is descriptive.
+Deterministic decoding made the three repetitions byte-identical for every one
+of the 180 aggregates, so majority vote does not measure variability. A is a
+constant local-label classifier on faults and thus a structural unseen floor,
+while errors show systematic `CLS-OJNSG` ↔ `CLS-Z3ISU` confusion.
+
+The effective reasoning cap is 1023 tokens although the nominal budget is
+1024. Every one of B's five aggregate errors has all three repetitions at the
+cap, while all 36 uncapped B aggregates are correct. H2 is therefore confounded
+with budget exhaustion and does not causally establish negative insight
+interference. B and E have comparable prompt length, reasoning use, and
+insight-citation rates: the large B−E supports content specificity but is not
+definitive causal proof. No sensitivity analysis has been run.
+
+The permissible conclusion is that B's advantage persists for a second,
+open-weight consumer in this frozen configuration and mitigates the concern of
+dependence on one proprietary consumer. It does not prove universal
+portability, cross-model generality, or end-to-end proprietary-model
+independence.
+
+## 11. Frozen milestones
 
 | Milestone | Annotated tag | Peeled target commit |
 |---|---|---|
@@ -451,18 +558,25 @@ for the full limitation analysis.
 | Condition C R10 code and protocol | `condition-c-freeze-r10` | `60ccc7539714e909aae7318cc72031d7acdd4e78` |
 | Condition C R10 predictions | `condition-c-predictions-frozen-r10` | `8d6b7a0636e9a15f0ebbd32ed0f9e2ce4faea30a` |
 | Condition C R10 results | `condition-c-results-frozen-r10` | `89e4caebe635973ef438d4b601bb4f761417193a` |
+| EXP2 Qwen protocol | `phase-b-exp2-qwen-protocol-frozen-001` | `d9bb95c31bdeb2f1608aaedc52f25b98de9bbf96` |
+| EXP2 Qwen predictions | `phase-b-exp2-qwen-predictions-frozen-001` | `a4f264c210873536c989ebd99aa2c6cf9857c85c` |
+| EXP2 Qwen evaluator | `phase-b-exp2-qwen-evaluator-frozen-001` | `a8f9884dfe2150a89131ba604b34ff1f6914f6e9` |
+| EXP2 Qwen results | `phase-b-exp2-qwen-results-frozen-001` | `37195cf2c5076b5da724b857f10e157177654cac` |
 
 The Phase A verbalizer also has dedicated pre-validation and completion tags;
 the table above lists the shortest cross-phase audit chain.
 
-## 11. Expected audit conclusion
+## 12. Expected audit conclusion
 
 > The repository preserves the frozen experimental record needed to
 > independently recompute the reported Phase B metrics from the original frozen
 > predictions. Raw Phase B held-out workbooks are identified by cryptographic
 > hashes and must be supplied separately for verification starting from the
 > numerical simulator outputs. Condition C R10 is independently auditable as a
-> post-hoc exploratory reference through its separate frozen tag chain.
+> post-hoc exploratory reference through its separate frozen tag chain. EXP2
+> Qwen is auditable through its four-tag chain, frozen inference and evaluation
+> artifacts, and independent R2 review, within the stated consumer-portability
+> limitations.
 
 An audit should separately report whether it verified:
 
