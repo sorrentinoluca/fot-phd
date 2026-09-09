@@ -1096,22 +1096,6 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">Stadio 1 è <strong>completamente deterministico</strong>: nessun LLM, nessuna scelta stocastica. Dati gli stessi segnali e la stessa baseline congelata, produce sempre lo stesso testo neutrale. Questo componente &mdash; la pipeline completa da segnali grezzi a testo neutrale &mdash; è il <strong>verbalizzatore V2</strong>: un renderer a template, senza parametri appresi, con calibrazione statistica conformal. Il testo che produce è il <strong>ponte</strong> verso Stadio 2: sarà l'unico input numerico che gli agenti condivideranno.</p>
   </div>
 
-  <div class="card" style="border-left:3px solid var(--accent-b)">
-    <div class="card-label">Passo finale — Generazione dei run indipendenti per Stadio 2</div>
-    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
-      I batch di test (8–10) sono già stati osservati dalla pipeline Stadio 1 durante lo sviluppo. Per la valutazione in Stadio 2 servono dati <strong>completamente vergini</strong>. Si generano quindi <strong>15 nuove realizzazioni indipendenti</strong> dal simulatore TEP:
-    </p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
-      <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--accent-a-light);font-size:0.82rem;color:var(--accent-a);font-weight:500">3 × Normal</span>
-      <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 × F1</span>
-      <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 × F8</span>
-      <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 × F10</span>
-      <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 × F13</span>
-    </div>
-    <p style="margin:0;font-size:0.82rem;color:var(--text-caption)">
-      Ogni run viene congelato (hash SHA-256, manifest) <em>prima</em> della verbalizzazione e dell'inferenza. La pipeline Stadio 1 (soglie, feature, testo neutrale) viene applicata a questi run esattamente come ai precedenti, senza alcuna modifica. Nella Fase 2 il protocollo è stato replicato con il doppio dei run: 6 per classe fault + 6 Normal = <strong>30 run</strong>.
-    </p>
-  </div>
 </div>
 
 
