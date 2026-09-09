@@ -1093,170 +1093,30 @@ Fase 3 — Portabilità cross-model · EXP2
 
 **Step 27 / 28Fase 3Portabilità cross-model**
 
-## Consumer open-weight: protocollo e risultati frozen di Experiment 2
+## Consumer open-weight: risultati di Experiment 2
 
 ### 1 · Domanda scientifica
 
 Experiment 2 verifica se gli stessi insight testuali frozen, prodotti da `gpt-5.6-terra`, possono essere consumati utilmente da un reasoner diverso. La distinzione chiave è tra **producer** e **consumer**:
 
-- il **producer** — il modello che ha generato gli insight a partire dai casi development/calibration — rimane `gpt-5.6-terra` e non viene variato: gli insight peer restano quelli frozen di Experiment 1, byte per byte;
-- il **consumer** — il reasoning model che riceve il caso da classificare, gli esempi locali few-shot e gli insight federati e deve produrre la pseudolabel finale — cambia: al posto di `gpt-5.6-terra` viene utilizzato un modello open-weight locale.
+- il **producer** — il modello che ha generato gli insight — rimane `gpt-5.6-terra` e non viene variato: gli insight peer restano quelli frozen di Experiment 1, byte per byte;
+- il **consumer** — il modello che riceve il caso da classificare e gli insight federati e deve produrre la diagnosi — cambia: al posto di `gpt-5.6-terra` viene utilizzato un modello open-weight locale.
 
-La stessa evidenza, la stessa conoscenza e gli stessi casi; cambia esclusivamente il modello che esegue la diagnosi finale. La claim riguarda la **portabilità del consumo**, non la generalità end-to-end: il producer degli insight non è stato cambiato. Parlare di «model-generality end-to-end» richiederebbe variare anche la produzione. Experiment 2 è quindi complementare a Experiment 3 (Fase 2): là cambiavano i dati fisici a parità di reasoner, qui cambia il reasoner a parità di dati e conoscenza.
+La claim riguarda la **portabilità del consumo**, non la generalità end-to-end: il producer degli insight non è stato cambiato. Experiment 2 è complementare a Experiment 3 (Fase 2): là cambiavano i dati fisici a parità di reasoner, qui cambia il reasoner a parità di dati e conoscenza. La scelta di un modello open-weight serve anche da ancora di riproducibilità: un risultato replicabile con pesi pubblici e inferenza deterministica è più difficile da contestare di uno ottenuto esclusivamente con API proprietarie.
 
-La scelta di un modello **open-weight** — un modello i cui pesi sono pubblicamente disponibili e scaricabili — serve anche da ancora di riproducibilità: un risultato replicabile con pesi pubblici e inferenza deterministica (temperature 0, seed fisso) è più difficile da contestare di uno ottenuto esclusivamente con API proprietarie.
+### 2 · Setup sperimentale
 
-La research question di Experiment 2 è:
+Tutti gli elementi sperimentali di Experiment 1 sono mantenuti identici: held-out (15 run), insight peer, prompt template, schedule, derangement della condizione E, aggregazione 2-su-3, evaluator. Questo rende il cambio di consumer l'unica variabile, ma il confronto cross-model resta descrittivo.
 
-> *Does the transfer effect and its semantic specificity persist when the same frozen peer textual knowledge is consumed by different reasoning models?*
+Il consumer è **Qwen3.8-27B-FP8** (Qwen 27B), un modello open-weight da 27 miliardi di parametri, servito localmente tramite **vLLM** su GPU NVIDIA RTX 5000 Ada. L'inferenza avviene interamente su hardware locale, senza chiamate a servizi cloud.
 
-Il risultato osservato fornisce evidenza circoscritta che il vantaggio degli insight federati non è esclusivo del consumer originale. Poiché il producer degli insight non viene variato e l'held-out è lo stesso di Experiment 1, la claim resta limitata alla configurazione di consumo esaminata.
+Lo schedule produce: 15 casi × 4 agenti × 3 condizioni × 3 ripetizioni = **540 inferenze** e **180 decisioni aggregate**. Con `temperature=0` e seed fisso, le tre ripetizioni risultano byte-identiche per tutti i 180 aggregati: `R=3` è degenere e il majority vote non misura variabilità stocastica.
 
-### 2 · Elementi sperimentali rimasti frozen
+Il protocollo è stato sottoposto a capability probe e audit indipendente prima del freeze. Il probe iniziale ha rivelato un problema di troncamento del reasoning nella condizione E (budget di 512 token insufficiente), corretto portando `max_tokens` a 1536 e introducendo un `thinking_token_budget` di 1024. Il re-audit ha emesso **GO per il freeze**.
 
-Tutti gli elementi sperimentali di Experiment 1 sono mantenuti identici. Questo rende il cambio di consumer il principale contrasto di disegno, ma il confronto cross-model resta descrittivo e non autorizza da solo un'attribuzione causale generale.
+### 3 · Risultati
 
-| Elemento | Stato |
-| --- | --- |
-| Held-out di Experiment 1 (15 run indipendenti) | Frozen, riutilizzato |
-| Verbalizer V2 | Invariato |
-| Pseudolabel opache | Invariate |
-| Esempi locali few-shot | Invariati |
-| Insight peer (prodotti da `gpt-5.6-terra`) | Invariati |
-| Configurazione informativa A | Nessun insight peer |
-| Configurazione informativa B | Insight peer corretti |
-| Configurazione informativa E | Insight peer semanticamente corrotti (derangement) |
-| Derangement della condizione E | Invariato |
-| Prompt template | Invariato |
-| Schedule dell'inferenza | Invariato |
-| Parser della risposta JSON | Invariato |
-| Aggregazione 2-su-3 | Invariata |
-| Evaluator offline | Invariato |
-| Bootstrap | Invariato |
-
-Lo schedule produce: 15 casi × 4 agenti × 3 condizioni × 3 ripetizioni = **540 inferenze** e **180 decisioni aggregate**.
-
-### 3 · Ambiente open-weight
-
-La prima lane open-weight utilizza **Qwen3.8-27B-FP8** (abbreviato: Qwen 27B), un modello open-weight da 27 miliardi di parametri della famiglia Qwen, servito localmente tramite **vLLM** — un motore di inferenza open-source ottimizzato per modelli linguistici di grandi dimensioni. L'inferenza avviene su hardware locale, senza chiamate a servizi cloud.
-
-| Componente | Dettaglio |
-| --- | --- |
-| Sistema operativo | Ubuntu 24.04.3 LTS |
-| GPU | 2 × NVIDIA RTX 5000 Ada Generation (~32 GB ciascuna) |
-| Python | 3.12.14 |
-| PyTorch | 2.13.0 con CUDA 13.2 |
-| vLLM | 0.28.0 |
-| Modello | `Qwen/Qwen3.8-27B-FP8` |
-| Revisione esatta | `017b9c7af6b5689d5dd426a76e0bc077eb5ca20a` |
-| Alias servito | `fot-exp2-consumer` |
-| Endpoint locale | `http://127.0.0.1:8000/v1` (OpenAI-compatible) |
-
-L'intero setup è stato realizzato nello spazio utente, senza aggiornamenti del sistema operativo o modifiche amministrative. Dopo problemi di inizializzazione con tensor parallel su due GPU, la configurazione validata utilizza una sola GPU con `--tensor-parallel-size=1`: si tratta di una decisione operativa di riproducibilità documentata nel probe, non di una limitazione del modello.
-
-### 4 · Lane isolata e guardrail
-
-Tutto il codice e ogni artefatto sperimentale della lane sono confinati sotto `phase_b/exp2/qwen/`; soltanto la documentazione di integrazione e le review archiviate risiedono fuori da questa directory. Il branch dedicato è `origin/codex/exp2-qwen`; il protocollo è congelato nel commit `d9bb95c` con tag `phase-b-exp2-qwen-protocol-frozen-001`.
-
-La lane opera con i seguenti guardrail:
-
-- **Verifica degli hash** — prima di operare, controlla gli hash SHA-256 di tutti i 10 artefatti frozen (template di prompt, insight, esempi locali, derangement, schema JSON, aggregation, bootstrap, manifest delle verbalizzazioni). Se un hash non corrisponde, il processo si arresta.
-- **Ricostruzione e confronto dei prompt** — ricostruisce tutti i 180 prompt unici e li confronta con gli hash originali di Experiment 1.
-- **Schedule rigido** — impone lo schedule di esattamente 540 record: 180 A, 180 B, 180 E, indici sequenziali 0–539.
-- **Richieste stateless** — ogni chiamata al modello è una richiesta indipendente con un singolo messaggio utente. Non esiste stato conversazionale tra una chiamata e l'altra.
-- **Separazione reasoning/content** — il modello restituisce sia il reasoning interno sia la risposta JSON (`content`). L'adapter conserva entrambi, ma passa solo il `content` al parser frozen. Il reasoning è salvato per analisi post-hoc ma non influenza la decisione.
-- **Salvataggio immediato** — ogni record viene scritto su disco immediatamente dopo l'inferenza, con `fsync`. Un'interruzione non perde i record già completati.
-- **Resume con validazione** — in caso di ripresa, i record esistenti vengono validati prima di continuare.
-- **Flag di sicurezza** — il full run richiede il flag esplicito `--execute-full-run`. Senza di esso, il processo si arresta prima di eseguire inferenze.
-- **Valutazione bloccata** — `evaluate_qwen.py` rifiuta di operare finché i 540 record e i 180 aggregati non sono completi e congelati tramite manifest SHA-256.
-
-### 5 · Primo capability probe e audit NO-GO
-
-Prima di eseguire il full run, un **capability probe** — un test automatico che verifica se l'infrastruttura è in grado di eseguire correttamente l'esperimento — viene sottoposto a un **audit indipendente**: una revisione read-only del codice, del probe e dei suoi risultati, che emette un verdetto GO o NO-GO per il freeze del protocollo.
-
-Il primo probe ha rivelato un problema critico. Il parametro `max_tokens=512` — il limite massimo di token che il modello può generare in una singola risposta — limitava *congiuntamente* il ragionamento interno del modello e la risposta JSON finale. Nella condizione E (insight corrotti), Qwen consumava l'intero budget di 512 token nel ragionamento senza mai emettere il JSON di risposta:
-
-- condizione E: tutte e tre le fixture terminavano con `finish_reason=length` e `content` nullo;
-- condizione B: marginale, con il primo tentativo troncato e recupero al retry;
-- condizione A: funzionante (ragionamento più breve perché privo di insight peer).
-
-Il rischio: nella condizione E tutte le 180 chiamate avrebbero prodotto astensioni forzate, gonfiando artificialmente il delta B−E. Il confronto di specificità semantica — che misura se il vantaggio di B dipende dalla corretta associazione degli insight — sarebbe stato invalidato: avrebbe misurato un artefatto tecnico (troncamento), non una confusione genuina del modello causata dagli insight corrotti.
-
-L'audit indipendente ha inoltre rilevato un mismatch nell'estrazione del reasoning: vLLM esponeva il campo `message.reasoning`, mentre l'adapter cercava prioritariamente `reasoning_content`. Il reasoning completo era preservato nel `response_raw`, ma il campo dedicato risultava nullo.
-
-L'audit ha emesso **NO-GO** prima del freeze. Questo esito dimostra il funzionamento dei guardrail: il full run è stato bloccato prima di contaminare l'esperimento.
-
-### 6 · Correzioni pre-freeze
-
-Le correzioni apportate prima del freeze del protocollo:
-
-- **`max_tokens` portato a 1536** — copre uniformemente reasoning più risposta JSON per tutte le condizioni (A, B, E), inclusi retry e replay. Il valore precedente di 512 era insufficiente; i passaggi intermedi a 1024 e 1280 producevano ancora troncamento nelle fixture B ed E.
-- **`thinking_token_budget` impostato a 1024** — un parametro che limita la sola parte di ragionamento interno del modello, separatamente dalla risposta finale. Restano fino a circa 512 token per il JSON di output.
-- **`reasoning_effort` lasciato non impostato** — il parametro è disponibile nella OpenAPI di vLLM 0.28.0 ma non viene utilizzato. Il controllo del ragionamento è affidato esclusivamente al `thinking_token_budget`.
-- **Adapter aggiornato** — la funzione `_extract_reasoning()` cerca ora il campo in quattro varianti, in ordine di priorità: `reasoning_content`, `reasoning` e gli equivalenti in `model_extra`. Il `response_raw` continua a essere preservato integralmente.
-- **Test rafforzati** — aggiunti 5 test per la catena di estrazione del reasoning e asserzioni aggiuntive per `max_tokens`, `thinking_token_budget` e i controlli del probe. Nessun test preesistente è stato rimosso o indebolito.
-
-Per chiarezza: `max_tokens=1536` limita il totale (reasoning + risposta finale); `thinking_token_budget=1024` limita la sola parte di ragionamento. Lo stesso vincolo è applicato identicamente ad A, B, E, retry e replay.
-
-### 7 · Budget del contesto
-
-Il conteggio dei token è stato effettuato con il tokenizer e il chat template effettivi di Qwen, tramite l'endpoint `/tokenize` di vLLM, su tutti i 180 prompt unici.
-
-| Misura | Valore |
-| --- | --- |
-| Massimo input frozen | 2340 token |
-| Minimo input frozen | 1386 token |
-| Budget massimo di output (`max_tokens`) | 1536 token |
-| Totale massimo pianificato (input + output) | 3876 token |
-| Contesto del server (`max_model_len`) | 4096 token |
-| Margine | 220 token |
-
-Il margine di 220 token garantisce che nessuna combinazione di prompt e risposta possa eccedere il contesto del server.
-
-### 8 · Probe finale e re-audit GO
-
-Il probe finale eseguito sul protocollo corretto:
-
-- usa solo fixture sintetiche: non contiene ground truth, non genera predizioni held-out;
-- effettua 4 richieste: una per A, una per B, una per E e un replay deterministico di B;
-- non richiede alcun retry strutturale;
-- **passa 19/19 controlli**;
-- ottiene `finish_reason=stop` e JSON valido per tutte e tre le condizioni;
-- conserva correttamente il reasoning in tutte le risposte;
-- conferma il replay deterministico (risposta bit-per-bit identica con `temperature=0`, `seed=20260829`).
-
-Token osservati nel probe:
-
-| Condizione | Prompt token | Completion token | Reasoning token |
-| --- | --- | --- | --- |
-| A | 1553 | 349 | 255 |
-| B | 2300 | 1124 | 1023 |
-| E | 2300 | 1117 | 1023 |
-
-B ed E utilizzano 1023 reasoning token: questo è il limite effettivo osservato a fronte del budget nominale di 1024. Il vincolo è applicato a entrambe le condizioni, ma la sua simmetria formale non esclude un effetto differenziale sul contenuto; i risultati frozen richiedono quindi la cautela discussa più avanti.
-
-Il massimo osservato live è 2300 prompt + 1124 completion = **3424 token totali**, ben entro il contesto di 4096.
-
-Il re-audit indipendente ha verificato la risoluzione dei tre finding del primo audit e l'assenza di nuovi finding, ed ha emesso **GO per il freeze del protocollo**. Il protocollo è stato congelato nel commit [`d9bb95c`](https://github.com/sorrentinoluca/fot-phd/commit/d9bb95c31bdeb2f1608aaedc52f25b98de9bbf96) con tag `phase-b-exp2-qwen-protocol-frozen-001`.
-
-> **Il GO del probe non è un risultato scientifico.** Il capability probe certifica soltanto che l'infrastruttura può eseguire correttamente l'esperimento: il modello produce risposte JSON valide, non troncate, per tutte le condizioni. L'accuratezza diagnostica è stata misurata separatamente soltanto dopo il freeze del full run.
-
-### 9 · Esecuzione, freeze e catena Git
-
-L'esperimento è **completato, frozen, riprodotto e sottoposto a review indipendente**: **540 repetition record** producono **180 decisioni aggregate**. Con `temperature=0` e seed fisso, per tutti i 180 aggregati le tre ripetizioni sono byte-identiche. Il risultato è riproducibile nella configurazione osservata, ma `R=3` è degenere e il majority vote non misura variabilità stocastica.
-
-La catena frozen lineare è:
-
-| Milestone | Tag | Commit |
-| --- | --- | --- |
-| Protocollo | `phase-b-exp2-qwen-protocol-frozen-001` | `d9bb95c31bdeb2f1608aaedc52f25b98de9bbf96` |
-| Predizioni | `phase-b-exp2-qwen-predictions-frozen-001` | `a4f264c210873536c989ebd99aa2c6cf9857c85c` |
-| Evaluator | `phase-b-exp2-qwen-evaluator-frozen-001` | `a8f9884dfe2150a89131ba604b34ff1f6914f6e9` |
-| Risultati | `phase-b-exp2-qwen-results-frozen-001` | `37195cf2c5076b5da724b857f10e157177654cac` |
-
-### 10 · Risultati primari locally-unseen
-
-L'endpoint primario contiene 36 osservazioni agent-case su fault localmente unseen per ciascuna configurazione:
+**Risultati primari locally-unseen** (36 agent-case per configurazione):
 
 | Configurazione | Corrette | Accuracy |
 | --- | ---: | ---: |
@@ -1264,15 +1124,12 @@ L'endpoint primario contiene 36 osservazioni agent-case su fault localmente unse
 | B — FoT | 34/36 | 94.44% |
 | E — corrupted | 1/36 | 2.78% |
 
-- **B−A = 0.944444**, CI bootstrap 95% **[0.916667, 1.0]**;
-- **B−E = 0.916667**, CI bootstrap 95% **[0.833333, 1.0]**;
-- **34 helped, 0 harmed, 2 unchanged-incorrect**;
-- **zero astensioni**;
-- criteri primari **C1–C4: 4/4 PASS**.
+- **B−A = +0.944**, CI bootstrap 95% [0.917, 1.0]
+- **B−E = +0.917**, CI bootstrap 95% [0.833, 1.0]
+- 34 helped, 0 harmed, 2 unchanged-incorrect
+- Zero astensioni; criteri primari C1–C4: **4/4 PASS**
 
-Questi quattro criteri primari non includono H2. H2 è un controllo secondario distinto e fallisce.
-
-### 11 · Risultati secondari
+**Risultati secondari:**
 
 | Popolazione | A | B | E |
 | --- | ---: | ---: | ---: |
@@ -1280,30 +1137,15 @@ Questi quattro criteri primari non includono H2. H2 è un controllo secondario d
 | Normal | 100% | 100% | 100% |
 | overall | 40% | 91.67% | 41.67% |
 
-La configurazione A, sui fault, restituisce sempre l'etichetta locale dell'agente: è quindi un classificatore costante rispetto a quella label e costituisce un floor strutturale per l'unseen. Tra gli errori emerge inoltre una confusione sistematica `CLS-OJNSG` ↔ `CLS-Z3ISU`.
+Il verdetto della review scientifica indipendente è **GO WITH LIMITATIONS**.
 
-### 12 · Reasoning budget e lettura di H2
+### 4 · Reasoning cap e cautela su H2
 
-Il limite effettivo del reasoning è **1023 token**, pur derivando da un budget nominale di 1024. Tutti e cinque gli errori aggregati di B hanno tutte e tre le ripetizioni al cap; al contrario, tutti i **36 aggregati B non cappati sono corretti**. Il fallimento di H2 è quindi confuso con l'esaurimento del reasoning budget: senza una sensitivity analysis separata non può essere attribuito causalmente all'interferenza degli insight.
+Il limite effettivo del reasoning è **1023 token** (budget nominale 1024). Tutti e cinque gli errori aggregati di B hanno le tre ripetizioni al cap; al contrario, tutti i 36 aggregati B non cappati sono corretti. Il fallimento di H2 è quindi confuso con l'esaurimento del reasoning budget: senza una sensitivity analysis separata non può essere attribuito causalmente all'interferenza degli insight.
 
-B ed E hanno lunghezza del prompt, consumo di reasoning e tasso di citazione degli insight comparabili. Il forte B−E costituisce perciò evidenza di specificità rispetto al contenuto degli insight, ma non una prova causale definitiva.
+B ed E hanno lunghezza del prompt, consumo di reasoning e tasso di citazione degli insight comparabili. Il forte B−E costituisce evidenza di specificità rispetto al contenuto degli insight, ma non una prova causale definitiva.
 
-### 13 · Dove verificare e review indipendente
-
-| Risorsa | Descrizione |
-| --- | --- |
-| [`phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md`](../phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md) | Report canonico leggibile |
-| [`phase_b/exp2/qwen/evaluation/evaluation_results.json`](../phase_b/exp2/qwen/evaluation/evaluation_results.json) | Risultati machine-readable |
-| [`phase_b/exp2/qwen/evaluation/bootstrap_results.json`](../phase_b/exp2/qwen/evaluation/bootstrap_results.json) | Intervalli bootstrap frozen |
-| [`phase_b/exp2/qwen/evaluation/confusion_matrices.json`](../phase_b/exp2/qwen/evaluation/confusion_matrices.json) | Matrici di confusione |
-| [`phase_b/exp2/qwen/evaluation/primary_metrics.csv`](../phase_b/exp2/qwen/evaluation/primary_metrics.csv) | Metriche primarie |
-| [`phase_b/exp2/qwen/evaluation/secondary_metrics.csv`](../phase_b/exp2/qwen/evaluation/secondary_metrics.csv) | Metriche secondarie |
-| [`EXP2_QWEN_EVALUATOR_REVIEW.md`](audits/EXP2_QWEN_EVALUATOR_REVIEW.md) | Review indipendente pre-valutazione |
-| [`EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md`](audits/EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md) | Review indipendente canonica dei risultati |
-
-Il verdetto della review scientifica R2 è **GO WITH LIMITATIONS**.
-
-### 14 · Limitazioni e conclusione consentita
+### 5 · Limitazioni e conclusione
 
 - È stato esaminato un solo consumer open-weight; un singolo consumer non dimostra generalità.
 - Gli insight sono stati prodotti con `gpt-5.6-terra`: non è una replica end-to-end interamente open-weight.
@@ -1312,7 +1154,6 @@ Il verdetto della review scientifica R2 è **GO WITH LIMITATIONS**.
 - Il floor strutturale di A, la confusione `CLS-OJNSG` ↔ `CLS-Z3ISU` e il confondimento del reasoning cap delimitano l'interpretazione.
 
 La conclusione prudente è che il vantaggio della configurazione federata B persiste su un secondo consumer LLM open-weight nella configurazione frozen esaminata. Il risultato mitiga la critica di dipendenza da un unico consumer proprietario, ma non dimostra portabilità universale, generalità cross-model o indipendenza end-to-end da un modello proprietario.
-
 
 ---
 
@@ -1410,29 +1251,9 @@ I confronti pairwise con test cluster-aware e correzione Holm–Bonferroni confe
 
 **Critica 6: "Il test era centralizzato, ma il sistema reale è federato"** — La pipeline di produzione FoT usa 4 agenti specialisti, non un singolo LLM a 5 classi. *Difesa:* l'ablation isola la variabile "rappresentazione" in condizioni controllate. Centralizzare il task è una scelta di design sperimentale per evitare confounding con l'architettura federata. Validare nel setting federato è un follow-up necessario, ma l'ablation fa il suo lavoro: confrontare le rappresentazioni a parità di tutto il resto.
 
-### 5 · Critica A vs Critica B: una distinzione importante
+Una distinzione utile: l'ablation risponde bene alla critica "perché V2 e non un'altra rappresentazione?" (Critica A), mostrando che V2 ottiene accuratezza comparabile con 39–180× meno token. Non copre la critica "perché un LLM e non ML tradizionale?" (Critica B), che si difende con argomenti qualitativi: zero-shot senza dati etichettati, ragionamento interpretabile, generalizzabilità senza ri-training.
 
-Non tutte le critiche sono uguali. Vale la pena distinguere due famiglie:
-
-**Critica A: "Perché il vostro verbalizer e non un altro metodo di rappresentazione TS→text per LLM?"** — Questa è la critica a cui l'ablation **risponde bene**. Un reviewer che conosce LLMTime, CGTime o SAX potrebbe chiedere: "avete inventato il vostro verbalizer V2, ma come fate a sapere che non funzionerebbe meglio dare i numeri grezzi all'LLM, o usare statistiche à la CGTime, o una codifica simbolica?"
-
-L'ablation mostra che V2_TEXT ottiene accuratezza osservata comparabile ai tre approcci alternativi, usando 39–180× meno token. Questo è un argomento forte, anche se non conclusivo: non abbiamo dimostrato equivalenza (il campione è troppo piccolo per quello), ma abbiamo dimostrato che **non c'è evidenza di inferiorità**, e c'è un vantaggio pratico enorme in efficienza.
-
-In un paper si può scrivere qualcosa come:
-
-> *"Per valutare la scelta della strategia di rappresentazione, abbiamo condotto un'ablation su 15 casi TEP indipendenti confrontando V2 con tre approcci dalla letteratura (serializzazione numerica diretta, percezione statistica CGTime-inspired, codifica simbolica SAX). Nessuna differenza statisticamente significativa è emersa tra i primi tre approcci (permutation test, p > 0.25 per tutti i confronti), mentre V2 richiede ~1/39–1/180 dei token in input. Questi risultati preliminari suggeriscono che la rappresentazione V2 offre un compromesso favorevole tra accuratezza diagnostica e costo computazionale."*
-
-Questo è sufficiente per un paper che si presenta come contributo metodologico. Nessun reviewer ragionevole pretenderà una dimostrazione su scala industriale per un'ablation.
-
-**Critica B: "Perché usare un LLM e non un metodo tradizionale di fault diagnosis (Random Forest, CNN, LSTM)?"** — Questa è una critica diversa e più fondamentale, e l'ablation **non la copre**. Tutti e quattro gli arm usano un LLM — stiamo confrontando quattro modi di parlare allo stesso LLM, non stiamo confrontando l'LLM contro un classificatore tradizionale.
-
-Un reviewer potrebbe dire: "Bella l'ablation, ma un Random Forest addestrato sulle stesse 5 feature V2 probabilmente avrebbe il 98% di accuratezza senza bisogno di un LLM."
-
-Per questa critica, la difesa è diversa e non richiede necessariamente un esperimento aggiuntivo. Si può argomentare su tre fronti: (1) **zero-shot** — l'LLM non richiede addestramento su dati etichettati del processo specifico; (2) **interpretabilità** — produce un ragionamento leggibile e verificabile, non solo un'etichetta; (3) **generalizzabilità** — il framework FoT è generalizzabile a nuovi impianti senza ri-training. Sono vantaggi architetturali, non di accuratezza pura.
-
-In pratica: l'ablation protegge dalla Critica A ("perché V2 e non un'altra rappresentazione?") — che è la critica più probabile nel contesto del contributo specifico. Non protegge dalla Critica B ("perché un LLM?") — ma quella si difende con argomenti qualitativi già parte della motivazione del lavoro FoT-TEP, non del risultato dell'ablation. Se si volesse blindarsi anche dalla Critica B con un dato numerico, la cosa più economica sarebbe aggiungere un singolo baseline ML tradizionale (un Random Forest o XGBoost sulle stesse 5 feature V2) come riga di riferimento nella tabella.
-
-### 6 · In sintesi: dove siamo
+### 5 · Sintesi
 
 Siamo in una posizione da **buon pilot study esplorativo**. Abbiamo:
 
@@ -1444,31 +1265,330 @@ Le limitazioni (campione piccolo, un solo LLM, 4 fault su 28) sono tutte dichiar
 
 Il verdetto **GO-with-reservations** della review esterna riflette proprio questo: pubblicabile con le dovute qualificazioni, non come risultato conclusivo.
 
-### 7 · Percorso metodologico: dalla review alle correzioni
+---
 
-Vale la pena raccontare anche cosa è successo dopo i primi risultati. Il report originale è stato sottoposto a una review indipendente che ha restituito un verdetto GO-with-reservations con 22 finding (1 critico, 10 major, 7 minor, 2 informativi).
+## Conferenza
 
-Il **finding critico** riguardava il test di McNemar: l'analisi originale usava N = 45 righe come se fossero indipendenti, ma le 3 ripetizioni per caso sono generate dallo stesso input — non sono indipendenti. Corretto: l'unità indipendente è il `case_id`, e ne abbiamo 15, non 45.
+### 2023 IEEE International Conference on Big Data · `Work in progress`
 
-Le correzioni implementate:
+**Raccomandazione:** Borderline / Weak Accept · **Confidenza:** 4/5 · **Stato dell'evidenza:** pilot promettente.
 
-1. **Test cluster-aware aggiunti:** permutation test esatto (sign-flip su 15 casi, tutte le 2^15 = 32 768 permutazioni) e McNemar aggregato per caso con majority vote
-2. **McNemar row-level declassato** a NON-INFERENTIAL e mantenuto solo come riferimento con warning esplicito
-3. **Conclusioni riformulate:** da "indistinguishable" a "not demonstrably different" — una differenza sottile ma importante (il primo implica equivalenza, il secondo riconosce che il campione è troppo piccolo per distinguere)
-4. **F13 qualificato per arm:** non più "universalmente il più difficile" ma "il più difficile nella maggior parte degli arm, con pattern arm-dependent"
-5. **Analisi aggiuntive:** selective accuracy, coverage, leave-one-class-out
-6. **Caveat sull'efficienza V2:** il risparmio di token è reale, ma include preprocessing esterno il cui costo va contabilizzato separatamente
+**Valutazione sintetica.** Il manoscritto presenta un adattamento di Federation over Text alla diagnosi di guasti localmente non visti su Tennessee Eastman Process. Quattro agenti possiedono soltanto esempi *Normal + un guasto*; la conoscenza trasferita consiste in insight testuali associati a pseudolabel opache. Il disegno A/B/E è il contributo sperimentale più convincente: B riceve insight corretti, E lo stesso payload con associazioni semantiche derangiate e A nessun insight. La replica su run fisici freschi porta l'accuratezza unseen da 0/72 in A a 68/72 in B, contro 4/72 in E. Questo sostiene la specificità semantica del trasferimento, ma non dimostra ancora una superiorità generale del paradigma.
 
-Il risultato delle correzioni ha confermato la previsione della review: con test corretti, **nessun confronto è statisticamente significativo**. La discrepanza tra McNemar row-level (che trovava due confronti significativi) e i test cluster-aware è un caso da manuale di come ignorare la struttura di clustering gonfia artificialmente la significatività.
+#### Punti di forza
 
-### Dove verificare
+- **Controllo negativo informativo forte:** E conserva forma, ordine, fonte ed evidenza del payload e altera le sole pseudolabel.
+- **Separazione tra design e test:** soglie, verbalizzatore, insight e mapping sono congelati prima dei run held-out.
+- **Replica fisica coerente:** il risultato principale passa da 31/36 unseen corretti in Experiment 1 a 68/72 nella replica, con intervalli cluster-aware.
+- **Auditabilità ed efficienza:** la catena serie→feature→flag→testo→decisione è ispezionabile; V2 usa 39–180× meno token dei bracci più verbosi.
 
-| Risorsa | Descrizione |
-| --- | --- |
-| `ablation/ABLATION_OVERVIEW.md` | Companion discorsivo all'ablation report |
-| `ablation/ablation_results/ablation_report.md` | Report statistico completo con tutte le tabelle, i p-value e le note metodologiche |
-| `ablation/ablation_evaluation.json` | Risultati grezzi in formato machine-readable |
-| `ablation/ablation_evaluate.py` | Script di valutazione con tutti i test statistici (bootstrap, permutation, McNemar) |
-| `ablation/EXPERIMENT_DESIGN.md` | Protocollo sperimentale pre-registrato |
-| `ablation/RESULTS_REVIEW_PROMPT.md` | Prompt usato per la review indipendente |
-| `ablation/inference_results.jsonl` | Le 180 predizioni grezze del modello |
+#### Debolezze che impediscono uno Strong Accept
+
+1. **Contributo metodologico incrementale.** FoT è preesistente; sono nuovi l'adattamento TS class-disjoint, il verbalizzatore congelato e il disegno A/B/E.
+2. **Federazione in senso non standard.** Non sono aggregati parametri: usare *federated knowledge transfer* o *FL-like collaboration* e collegare FedMD→FedProto→FoT.
+3. **Baseline A al floor.** Lo 0% unseen è in parte strutturale e non equivale a superare un forte classificatore centralizzato o FL parametrico.
+4. **Scala limitata.** Quattro fault su 28, un simulatore, quattro agenti e pochi run fisici non consentono claim di robustezza o generalità industriale.
+5. **Negative transfer locale.** In Experiment 3V2 B preserva 68/72 unseen ma degrada local-seen da 24/24 a 19/24.
+6. **Portabilità parziale.** Il consumer open-weight raggiunge 34/36 in B, ma gli insight restano prodotti da GPT-5.6-terra; le ripetizioni sono byte-identiche e gli errori coincidono col reasoning cap.
+7. **Centralizzazione non comparabile causalmente.** C è post-hoc, solo su Experiment 1 e con contesto differente; 15/15 è un comparator descrittivo.
+
+#### Richieste prima dell'accettazione
+
+- Ridurre i claim a *evidenza preliminare di trasferimento semantico specifico*; non rivendicare privacy, robustezza o generalizzazione dimostrate.
+- Esplicitare unità indipendente, denominatori, test cluster-aware, coverage e selective risk.
+- Caratterizzare il payload in byte/token, costo producer/consumer e confronto con logit, prototipi e adapter.
+- Aggiungere almeno un baseline diagnostico classico e uno knowledge-transfer adiacente.
+- Analizzare i cinque errori local-seen e svolgere una sensitivity analysis oltre il reasoning cap.
+- Presentare l'ablation come pilot di efficienza: nessuna coppia differisce significativamente e V2 confonde formato con informazione precomputata.
+
+> **Verdetto da reviewer.** Il lavoro è pertinente a Big Data per collaborative learning, non-IID industrial time series ed evaluation design. Sarei favorevole a un **Weak Accept** solo con claim conservativi e con negative transfer, costo comunicativo e limiti di scala resi centrali; altrimenti il giudizio è **Weak Reject**.
+
+*La valutazione usa i materiali locali del progetto e non implica una review ufficiale IEEE. Il titolo segue la voce di conferenza richiesta.*
+
+---
+
+## Lit review
+
+### Introduzione
+
+Questa mappa unifica i Markdown di `docs/lit_review`, il workbook `docs/lit_review/FoT_literature_review.xlsx` e i paper convertiti in `papers`. Sono inclusi i lavori che incidono su almeno uno degli assi dell'esperimento: oggetto federato, classi localmente non viste, trasformazione TS→testo e diagnosi mediante LLM. Il README del convertitore PDF è documentazione tecnica, non un paper scientifico, e non compare nella tabella.
+
+| Titolo | Query | Categoria |
+| --- | --- | --- |
+| Federation over Text: Insight Sharing for Multi-Agent Reasoning | `federated learning LLM sharing natural language insights reasoning agents non-IID 2026` | Federazione testuale |
+| Federated In-Context LLM Agent Learning (FICAL) | `federated in-context learning prompt sharing LLM clients privacy` | Federazione testuale |
+| Social Learning: Towards Collaborative Learning with LLMs | `federated learning LLM sharing natural language insights reasoning agents non-IID 2026` | Federazione testuale |
+| FedCoT: Communication-Efficient Federated Reasoning Enhancement for LLMs | `FedCoT communication-efficient federated reasoning enhancement large language models` | Federazione testuale |
+| Time-FFM: LM-Empowered Federated Foundation Model for Time Series Forecasting | `Time-FFM LM-Empowered Federated Foundation Model Time Series Forecasting` | Federazione testuale |
+| FedMD: Heterogeneous Federated Learning via Model Distillation | `federated learning clients disjoint classes transfer locally unseen classes zero-shot` | FL class-disjoint |
+| FedProto: Federated Prototype Learning across Heterogeneous Clients | `federated learning clients disjoint classes transfer locally unseen classes zero-shot` | FL class-disjoint |
+| FedCKD: Knowledge Distillation with Label-Exclusive Clients | `federated learning clients disjoint classes transfer locally unseen classes zero-shot` | FL class-disjoint |
+| FedMeta-FFD: Federated Meta-Learning for Fault Diagnosis | `federated fault diagnosis Tennessee Eastman Process non-IID clients unseen fault classes` | FL class-disjoint |
+| Federated Zero-Shot Learning with Mid-Level Semantic Knowledge Transfer | `federated learning clients disjoint classes transfer locally unseen classes zero-shot` | FL class-disjoint |
+| Truth-Conditional Captions for Time Series Data | `"time series" AND "faithfulness" AND ("captioning" OR "description")` | TS→text fedele |
+| A Fuzzy Approach to Data-to-Text for Time Series | `"time series" AND "data-to-text" AND ("deterministic" OR "rule-based")` | TS→text fedele |
+| ICA2TEXT: Data-to-Text for Air-Quality Time Series | `"time series" AND "data-to-text" AND ("deterministic" OR "rule-based")` | TS→text fedele |
+| Representing Time Series as Structured Programs for LLM Reasoning (T2SP) | `T2SP "Time-Series-to-Structured-Programs" deterministic 2026` | TS→text fedele |
+| CGTime: Decoupling Perception from Description in Time-Series Reasoning | `CGTime "Decoupling Perception from Description" time series 2026` | TS→text fedele |
+| A Novel Feature Extraction Approach for Mechanical Fault Diagnosis Based on ESAX and BoW | `TITLE-ABS-KEY("time series" AND "text" AND ("faithful" OR "deterministic" OR "symbolic"))` | Simbolico |
+| Bridging Time Series and Large Language Models via Symbolic Representation for HAR | stessa query simbolica | Simbolico |
+| HSQP: Hierarchical Symbolic Quantization Prompting for Time-Series Forecasting | stessa query simbolica | Simbolico |
+| T3: Domain-Agnostic Neural Time-Series Narration | `"time series" AND ("verbalization" OR "text generation" OR "natural language description")` | Allineamento TS–linguaggio |
+| Repr2Seq: Time Series Representation to Sequence | stessa query narration | Allineamento TS–linguaggio |
+| TADACap: Time-Series Image Retrieval for Domain-Aware Captioning | `TITLE-ABS-KEY("time series" AND "natural language" AND ("generation" OR "verbalization"))` | Allineamento TS–linguaggio |
+| CLaSP: Contrastive Language–Signal Pretraining | stessa query natural language | Allineamento TS–linguaggio |
+| TSLM: Time-Series Language Model for Captioning | stessa query narration | Allineamento TS–linguaggio |
+| FD-LLM: Large Language Model for Fault Diagnosis of Machines | `time series captioning description multivariate 2025-2026` | LLM fault diagnosis |
+| FD-LLM: Large Language Model for Fault Diagnosis of Complex Equipment | `"time series" "text generation" "fault diagnosis"` | LLM fault diagnosis |
+| LLM-TSFD: Industrial Time-Series Human-in-the-Loop Fault Diagnosis | stessa query fault diagnosis | LLM fault diagnosis |
+| BEDTime: A Unified Benchmark for Automatically Describing Time Series | `BEDTime benchmark time series description evaluation 2025` | Survey / benchmark |
+| Empowering Time Series Analysis with Large Language Models: A Survey | query natural language sopra | Survey / benchmark |
+| Time-Series Large Language Models: A Systematic Review | `time series text representation benchmark evaluation` | Survey / benchmark |
+| Large Language Models for Time-Series Reasoning: A TMLR Survey | `survey time series LLM reasoning agentic TMLR 2026` | Survey / benchmark |
+
+### Federazione di conoscenza testuale
+
+<details><summary>Federation over Text: Insight Sharing for Multi-Agent Reasoning</summary>
+
+Agenti locali trasformano traiettorie in insight; un server li raggruppa, distilla e redistribuisce senza condividere esempi o gradienti.
+
+**Confronto con FoT–TEP** — **Somiglianza:** insight naturali come oggetto federato. **Differenza:** FoT originale è multi-round, server-based e cross-task; FoT–TEP è single-shot, peer-only e class-disjoint. **Implicazione:** prior obbligatorio; la novità è l'adattamento e la valutazione.
+</details>
+
+<details><summary>Federated In-Context LLM Agent Learning (FICAL)</summary>
+
+I client costruiscono compendi di conoscenza naturale da esempi locali e li riusano in-context con costo comunicativo ridotto.
+
+**Confronto con FoT–TEP** — **Somiglianza:** memoria testuale condivisa. **Differenza:** task nativamente testuali, senza sensori, unseen class o renderer verificabile. **Implicazione:** rafforza il framing *federated knowledge transfer*.
+</details>
+
+<details><summary>Social Learning: Towards Collaborative Learning with LLMs</summary>
+
+Teacher LLM producono esempi sintetici e prompt astratti per un learner, collegando distillazione e trasferimento linguistico.
+
+**Confronto con FoT–TEP** — **Somiglianza:** conoscenza condivisa come artefatto testuale. **Differenza:** esempi sintetici invece di firme neutrali di guasto. **Implicazione:** precedente concettuale, con controllo semantico meno forte di A/B/E.
+</details>
+
+<details><summary>FedCoT: Communication-Efficient Federated Reasoning Enhancement for LLMs</summary>
+
+Seleziona chain-of-thought e scambia parametri LoRA per federare il reasoning medico.
+
+**Confronto con FoT–TEP** — **Somiglianza:** reasoning collaborativo LLM. **Differenza:** adapter parametrici contro solo testo leggibile. **Implicazione:** motiva la misura byte/token del payload.
+</details>
+
+<details><summary>Time-FFM: LM-Empowered Federated Foundation Model for Time Series Forecasting</summary>
+
+Adatta un backbone linguistico al forecasting TS federato mediante moduli condivisi e teste personalizzate.
+
+**Confronto con FoT–TEP** — **Somiglianza:** FL, foundation model e TS. **Differenza:** forecasting parametrico contro diagnosi con insight. **Implicazione:** vieta claim generici di “primo FL+LLM per TS”.
+</details>
+
+### FL non parametrico e class-disjoint
+
+<details><summary>FedMD: Heterogeneous Federated Learning via Model Distillation</summary>
+
+Scambia predizioni su dati pubblici per distillare modelli eterogenei.
+
+**Confronto con FoT–TEP** — **Somiglianza:** l'oggetto federato non sono i pesi. **Differenza:** logit e dati pubblici contro insight naturali. **Implicazione:** precedente della catena FedMD→FedProto→FoT.
+</details>
+
+<details><summary>FedProto: Federated Prototype Learning across Heterogeneous Clients</summary>
+
+Condivide prototipi di classe nello spazio di embedding per dati non-IID.
+
+**Confronto con FoT–TEP** — **Somiglianza:** conoscenza class-specific compatta. **Differenza:** vettori appresi contro testo citabile. **Implicazione:** baseline concettuale per costo e astrazione.
+</details>
+
+<details><summary>FedCKD: Knowledge Distillation with Label-Exclusive Clients</summary>
+
+Studia distillazione cross-client con insiemi di etichette esclusivi.
+
+**Confronto con FoT–TEP** — **Somiglianza:** classi non locali. **Differenza:** logit/parametri e immagini contro evidenza testuale da TS. **Implicazione:** il regime class-disjoint non è nuovo.
+</details>
+
+<details><summary>FedMeta-FFD: Federated Meta-Learning for Fault Diagnosis</summary>
+
+Meta-apprendimento federato per adattare la diagnosi a nuove categorie di guasto con pochi esempi.
+
+**Confronto con FoT–TEP** — **Somiglianza:** federated FDD con categorie nuove. **Differenza:** few-shot parametrico contro knowledge transfer testuale. **Implicazione:** vicino più forte sull'asse FDD.
+</details>
+
+<details><summary>Federated Zero-Shot Learning with Mid-Level Semantic Knowledge Transfer</summary>
+
+Trasferisce attributi semantici intermedi per riconoscere classi visive non viste.
+
+**Confronto con FoT–TEP** — **Somiglianza:** semantica condivisa per unseen class. **Differenza:** attributi e immagini contro insight liberi e TS. **Implicazione:** rende distintivo il controllo A/B/E, non lo zero-shot in sé.
+</details>
+
+### TS→text fedele e deterministico
+
+<details><summary>Truth-Conditional Captions for Time Series Data</summary>
+
+TRUCE compone programmi di pattern e genera una caption solo quando il programma ne rende vere le condizioni; i moduli restano appresi.
+
+**Confronto con FoT–TEP** — **Somiglianza:** enfasi sulla fedeltà. **Differenza:** caption neurale monovariata contro renderer deterministico multivariato. **Implicazione:** definire con precisione “fedele per costruzione”.
+</details>
+
+<details><summary>A Fuzzy Approach to Data-to-Text for Time Series</summary>
+
+Pipeline deterministica a variabili fuzzy, regole e template.
+
+**Confronto con FoT–TEP** — **Somiglianza:** testo auditabile. **Differenza:** soglie di dominio contro calibrazione statistica e separazione evidence/inference. **Implicazione:** predecessore metodologico del verbalizzatore.
+</details>
+
+<details><summary>ICA2TEXT: Data-to-Text for Air-Quality Time Series</summary>
+
+Seleziona e realizza linguisticamente fatti temporali sulla qualità dell'aria con una pipeline deterministica.
+
+**Confronto con FoT–TEP** — **Somiglianza:** fatti separati dalla realizzazione testuale. **Differenza:** reporting ambientale, non diagnosi distribuita. **Implicazione:** supporta l'architettura a strati.
+</details>
+
+<details><summary>Representing Time Series as Structured Programs for LLM Reasoning (T2SP)</summary>
+
+Decompone serie univariate in trend, periodicità, eventi e residuo come programma training-free e invertibile.
+
+**Confronto con FoT–TEP** — **Somiglianza:** rappresentazione compatta e verificabile. **Differenza:** ricostruibilità numerica contro giudizi calibrati multivariati. **Implicazione:** competitor metodologico più forte; misurare perdita informativa.
+</details>
+
+<details><summary>CGTime: Decoupling Perception from Description in Time-Series Reasoning</summary>
+
+Calcola 169 statistiche, usa un encoder temporale e addestra un LLM a verbalizzare fatti computati.
+
+**Confronto con FoT–TEP** — **Somiglianza:** percezione separata dalla descrizione. **Differenza:** training e testo generativo contro template congelati e neutrali. **Implicazione:** la tesi difendibile è efficienza/auditabilità, non superiorità di accuracy.
+</details>
+
+### Rappresentazioni simboliche
+
+<details><summary>A Novel Feature Extraction Approach for Mechanical Fault Diagnosis Based on ESAX and BoW</summary>
+
+ESAX produce stringhe simboliche trasformate in conteggi Bag-of-Words per classificatori classici.
+
+**Confronto con FoT–TEP** — **Somiglianza:** compressione deterministica. **Differenza:** feature numeriche, non testo o federazione. **Implicazione:** baseline di rappresentazione, non del reasoning linguistico.
+</details>
+
+<details><summary>Bridging Time Series and Large Language Models via Symbolic Representation for HAR</summary>
+
+Combina SAX e descrittori cinematici e fine-tuna un LLM per activity recognition, con notevole costo d'inferenza.
+
+**Confronto con FoT–TEP** — **Somiglianza:** ponte simbolico segnale–LLM. **Differenza:** fine-tuning centralizzato contro in-context e testo leggibile. **Implicazione:** giustifica SAX nell'ablation e il reporting del costo.
+</details>
+
+<details><summary>HSQP: Hierarchical Symbolic Quantization Prompting for Time-Series Forecasting</summary>
+
+Quantizza la serie su più risoluzioni e fornisce token simbolici a un LLM congelato.
+
+**Confronto con FoT–TEP** — **Somiglianza:** encoder deterministico e consumer frozen. **Differenza:** forecasting e token contro diagnosi e testo tecnico. **Implicazione:** la leggibilità è una scelta da valutare.
+</details>
+
+### Allineamento e captioning TS–linguaggio
+
+<details><summary>T3: Domain-Agnostic Neural Time-Series Narration</summary>
+
+Genera narrazioni domain-agnostic tramite una rappresentazione intermedia e un modello neurale.
+
+**Confronto con FoT–TEP** — **Somiglianza:** TS consumabile come linguaggio. **Differenza:** generazione libera contro renderer vincolato. **Implicazione:** più ricco, meno auditabile.
+</details>
+
+<details><summary>Repr2Seq: Time Series Representation to Sequence</summary>
+
+Apprende end-to-end la mappatura da serie, soprattutto finanziarie, a testo.
+
+**Confronto con FoT–TEP** — **Somiglianza:** output naturale. **Differenza:** richiede coppie TS-testo e non garantisce fedeltà. **Implicazione:** rappresenta il trade-off adattività/controllo.
+</details>
+
+<details><summary>TADACap: Time-Series Image Retrieval for Domain-Aware Captioning</summary>
+
+Usa immagini di serie e retrieval contestuale per caption domain-aware.
+
+**Confronto con FoT–TEP** — **Somiglianza:** testo contestuale. **Differenza:** rendering visivo/retrieval contro fatti tabulari calcolati. **Implicazione:** futuro braccio multimodale.
+</details>
+
+<details><summary>CLaSP: Contrastive Language–Signal Pretraining</summary>
+
+Allinea embedding di segnali e descrizioni per retrieval cross-modale.
+
+**Confronto con FoT–TEP** — **Somiglianza:** collega struttura temporale e semantica. **Differenza:** spazio latente contro testo esplicito. **Implicazione:** possibile matching migliore al costo di trasparenza.
+</details>
+
+<details><summary>TSLM: Time-Series Language Model for Captioning</summary>
+
+Encoder temporale e decoder linguistico apprendono da coppie serie-caption a descrivere pattern salienti.
+
+**Confronto con FoT–TEP** — **Somiglianza:** descrizioni leggibili. **Differenza:** caption data-hungry contro template calibrato. **Implicazione:** utile come descrizione secondaria con fact checking.
+</details>
+
+### LLM per fault diagnosis
+
+<details><summary>FD-LLM: Large Language Model for Fault Diagnosis of Machines</summary>
+
+Serializza FFT o statistiche e fine-tuna LLM open-weight con LoRA per diagnosi multiclass su CWRU.
+
+**Confronto con FoT–TEP** — **Somiglianza:** segnali resi sequenze per LLM. **Differenza:** classi note e training centralizzato contro consumer frozen e insight remoti. **Implicazione:** forte baseline supervisionato, ma problema differente.
+</details>
+
+<details><summary>FD-LLM: Large Language Model for Fault Diagnosis of Complex Equipment</summary>
+
+Allinea encoder dati a embedding testuali, aggiunge semantica fuzzy e adatta Vicuna con LoRA.
+
+**Confronto con FoT–TEP** — **Somiglianza:** diagnosi mediata dal linguaggio. **Differenza:** pipeline addestrata end-to-end con label note. **Implicazione:** alza l'asticella centralizzata senza coprire il trasferimento federato.
+</details>
+
+<details><summary>LLM-TSFD: Industrial Time-Series Human-in-the-Loop Fault Diagnosis</summary>
+
+Estrae feature, usa template testuali diagnostici e guida l'LLM con tassonomie e alberi decisionali.
+
+**Confronto con FoT–TEP** — **Somiglianza:** pipeline estrai→verbalizza→ragiona. **Differenza:** soglie manuali e template diagnostici contro calibrazione e neutralità. **Implicazione:** riferimento diretto per freeze e separazione evidence/inference.
+</details>
+
+### Survey e benchmark
+
+<details><summary>BEDTime: A Unified Benchmark for Automatically Describing Time Series</summary>
+
+Circa 46.800 coppie serie-descrizione su tre task; mostra vantaggio dei VLM e fragilità alle perturbazioni, ma non valuta renderer deterministici.
+
+**Confronto con FoT–TEP** — **Somiglianza:** qualità semantica delle descrizioni. **Differenza:** captioning generale, non diagnosi federata. **Implicazione:** adattare metriche e stress test a V2.
+</details>
+
+<details><summary>Empowering Time Series Analysis with Large Language Models: A Survey</summary>
+
+Organizza forecasting, classificazione, anomaly detection e generazione con prompting, alignment e reprogramming.
+
+**Confronto con FoT–TEP** — **Somiglianza:** quadro TS–LLM. **Differenza:** non copre in profondità testo federato class-disjoint. **Implicazione:** delimita il contributo.
+</details>
+
+<details><summary>Time-Series Large Language Models: A Systematic Review</summary>
+
+Rassegna architetture, task, dataset e modalità di integrazione, evidenziando frammentazione valutativa e generalizzazione debole.
+
+**Confronto con FoT–TEP** — **Somiglianza:** contesto per representation choice ed evaluation. **Differenza:** panoramica, non comparator. **Implicazione:** sostiene protocolli riproducibili e claim prudenti.
+</details>
+
+<details><summary>Large Language Models for Time-Series Reasoning: A TMLR Survey</summary>
+
+Estende la tassonomia verso reasoning, tool use e agenti, distinguendo percezione numerica, rappresentazione e decisione.
+
+**Confronto con FoT–TEP** — **Somiglianza:** reasoning agentico con percezione esternalizzata. **Differenza:** nessun protocollo FoT o controllo derangiato. **Implicazione:** V2 è perception layer; gli insight sono knowledge/memory layer.
+</details>
+
+### To do
+
+- `("federated knowledge transfer" OR "collaborative agents") AND ("natural language" OR "textual memory") AND "time series"`
+- `("class-disjoint" OR "label-exclusive" OR "locally unseen classes") AND federated AND (diagnosis OR classification)`
+- `("federated fault diagnosis" OR "distributed fault diagnosis") AND ("Tennessee Eastman" OR process industry) AND non-IID`
+- `("semantic specificity" OR "label permutation" OR derangement) AND ("in-context learning" OR knowledge transfer)`
+- `("time series to text" OR verbalization) AND (faithfulness OR factuality OR hallucination) AND benchmark`
+- `("deterministic verbalization" OR "structured program") AND multivariate AND "time series" AND LLM`
+- `(SAX OR symbolic OR quantization) AND LLM AND "fault diagnosis" AND multivariate`
+- `("negative transfer" OR interference) AND federated AND (prompt OR insight OR in-context)`
+- `("communication cost" OR payload OR token) AND (federated LLM OR federated reasoning)`
+- `("selective prediction" OR abstention OR calibration) AND LLM AND industrial diagnosis`
+- `("frozen LLM" OR "training-free") AND "time series" AND (diagnosis OR classification) AND cross-model`
+- `("causal evaluation" OR placebo OR negative control) AND "knowledge sharing" AND multi-agent LLM`
+
+Priorità: ampliare prima l'intersezione testo federato × TS × classi unseen, poi controlli negativi semantici e misure di payload. Le query generiche “LLM + time series” sono già coperte e produrranno soprattutto rumore.
+
+---
+
+## Paper
+
+*In arrivo*

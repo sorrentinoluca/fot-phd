@@ -144,6 +144,18 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   align-self: stretch;
 }
 
+
+.nav-step-divider {
+  width: 1px; background: rgba(255,255,255,0.1);
+  margin: 4px 2px;
+  align-self: center;
+  height: 14px;
+}
+.nav-step-extra {
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+.nav-step:disabled { opacity: .48; cursor: not-allowed; }
 /* MAIN */
 .main {
   max-width: 780px;
@@ -661,6 +673,13 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   transition:background .15s;
 }
 .img-modal-close:hover{background:rgba(255,255,255,.3)}
+
+/* Conference review and literature corpus */
+.status-badge{display:inline-flex;align-items:center;margin-left:8px;padding:4px 9px;border-radius:999px;background:var(--threshold-light);border:1px solid var(--threshold);color:var(--threshold);font-family:var(--font-body);font-size:.64rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;vertical-align:middle;white-space:nowrap}
+.review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0 22px}.review-stat{background:var(--bg-card);border:1px solid var(--border-light);border-radius:8px;padding:14px;box-shadow:var(--shadow)}.review-stat b{display:block;color:var(--text-caption);font-family:var(--font-mono);font-size:.66rem;text-transform:uppercase;letter-spacing:.05em}.review-stat span{display:block;margin-top:4px;font-family:var(--font-display);font-size:1.05rem;font-weight:700}
+.lit-table-wrap{overflow-x:auto;margin:14px 0 24px;border:1px solid var(--border-light);border-radius:8px;background:var(--bg-card)}.lit-table{min-width:860px;margin:0}.lit-table td:nth-child(2){font-family:var(--font-mono);font-size:.7rem;color:var(--text-muted)}.lit-chip{display:inline-block;padding:2px 7px;border-radius:999px;background:var(--accent-a-light);color:var(--accent-a);font-size:.65rem;font-weight:700;white-space:nowrap}
+.lit-category{margin:30px 0 10px;padding-bottom:7px;border-bottom:2px solid var(--border-light)}.lit-paper{margin:9px 0;border:1px solid var(--border-light);border-radius:8px;background:var(--bg-card);box-shadow:var(--shadow)}.lit-paper summary{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 15px;cursor:pointer;color:var(--text);font-weight:600}.lit-paper summary::marker{color:var(--accent-a)}.lit-paper-body{padding:0 15px 15px;color:var(--text-muted)}.lit-paper-body p{margin:4px 0 12px}.lit-comparison{padding:12px 13px;border-top:1px solid var(--border-light);border-radius:6px;background:var(--green-light);font-size:.82rem}.lit-comparison b{color:var(--green)}.lit-comparison dl{display:grid;grid-template-columns:92px minmax(0,1fr);gap:3px 8px;margin:8px 0 0}.lit-comparison dt{font-weight:700;color:var(--text)}.lit-comparison dd{margin:0}.todo-query{display:block;margin:7px 0;padding:9px 11px;background:var(--bg-code);border-radius:5px;font-family:var(--font-mono);font-size:.74rem;overflow-wrap:anywhere}
+@media(max-width:640px){.nav{overflow-x:auto}.nav-inner{width:max-content;max-width:none;min-width:100%}.nav-phase{flex:0 0 auto}.review-grid{grid-template-columns:1fr}.lit-paper summary{align-items:flex-start;flex-direction:column}.lit-comparison dl{grid-template-columns:1fr}.status-badge{margin:8px 0 0}}
 </style>
 
 <!-- NAVIGATION -->
@@ -678,22 +697,14 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     <div class="nav-divider"></div>
     <div class="nav-phase">
       <div class="nav-phase-label" style="color:var(--threshold)">Extra</div>
-      <div class="nav-steps" id="navCritiche"></div>
-    </div>
-    <div class="nav-divider"></div>
-    <div class="nav-phase">
-      <div class="nav-phase-label" style="color:var(--threshold)">Conferenza</div>
-      <div class="nav-steps" id="navConferenza"></div>
-    </div>
-    <div class="nav-divider"></div>
-    <div class="nav-phase">
-      <div class="nav-phase-label" style="color:var(--threshold)">Lit review</div>
-      <div class="nav-steps" id="navLitReview"></div>
-    </div>
-    <div class="nav-divider"></div>
-    <div class="nav-phase">
-      <div class="nav-phase-label" style="color:var(--threshold)">Paper</div>
-      <div class="nav-steps" id="navPaper"></div>
+      <div class="nav-steps" id="navCritiche">
+        <span class="nav-step-divider"></span>
+        <button class="nav-step nav-step-extra" data-idx="19" onclick="goTo(19)" title="Review per conferenza">Conf</button>
+        <span class="nav-step-divider"></span>
+        <button class="nav-step nav-step-extra" data-idx="20" onclick="goTo(20)" title="Literature review">Lit</button>
+        <span class="nav-step-divider"></span>
+        <button class="nav-step nav-step-extra" disabled title="Paper — in arrivo" aria-label="Paper — in arrivo">Paper</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -743,6 +754,18 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
            alt="Project overview — struttura del progetto FoT-TEP"
            width="1774" height="887"
            id="overview-thumb"
+           title="Clicca per ingrandire">
+      <div class="img-caption">Clicca sull'immagine per visualizzarla a dimensione originale</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Panoramica e risultati</div>
+    <div class="overview-img-wrap">
+      <img src="figures/panoramica_esperimenti.png"
+           alt="Panoramica esperimenti — risultati principali FoT-TEP"
+           width="1586" height="992"
+           id="panoramica-thumb"
            title="Clicca per ingrandire">
       <div class="img-caption">Clicca sull'immagine per visualizzarla a dimensione originale</div>
     </div>
@@ -2190,6 +2213,94 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 </div>
 
+<!-- ==================== STEP 19: CONFERENZA ==================== -->
+<div class="step-container" data-step="19">
+  <div class="phase-badge" style="background:var(--threshold-light);color:var(--threshold)">Review critica</div>
+  <h1 class="step-title">2023 IEEE International Conference on Big Data <span class="status-badge">Work in progress</span></h1>
+  <p class="step-intro">Valutazione critica del manoscritto nella forma attuale, formulata dal punto di vista di un reviewer chiamato a raccomandarne o meno l'accettazione.</p>
+
+  <div class="review-grid">
+    <div class="review-stat"><b>Raccomandazione</b><span>Borderline / Weak Accept</span></div>
+    <div class="review-stat"><b>Confidenza reviewer</b><span>4 / 5</span></div>
+    <div class="review-stat"><b>Stato evidenza</b><span>Pilot promettente</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Valutazione sintetica</div>
+    <p>Il manoscritto adatta Federation over Text alla diagnosi di guasti localmente non visti sul Tennessee Eastman Process. Quattro agenti possiedono soltanto esempi <em>Normal + un guasto</em>; la conoscenza trasferita consiste in insight testuali associati a pseudolabel opache. Il disegno A/B/E è il contributo sperimentale più convincente: B riceve insight corretti, E lo stesso payload con associazioni semantiche derangiate e A nessun insight.</p>
+    <p>La replica su run fisici freschi porta l'accuratezza unseen da <strong>0/72</strong> in A a <strong>68/72</strong> in B, contro <strong>4/72</strong> in E. Questo sostiene la specificità semantica del trasferimento, ma non dimostra una superiorità generale del paradigma.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Punti di forza</div>
+    <ul>
+      <li><strong>Controllo negativo forte:</strong> E conserva forma, ordine, fonte ed evidenza del payload e altera solo le pseudolabel; B&minus;E isola meglio il contenuto semantico.</li>
+      <li><strong>Design congelato:</strong> soglie, verbalizzatore, insight e mapping sono fissati prima dei run held-out; le pseudolabel opache riducono scorciatoie.</li>
+      <li><strong>Replica coerente:</strong> il risultato principale passa da 31/36 unseen corretti in Experiment 1 a 68/72 nella replica, con inferenza cluster-aware.</li>
+      <li><strong>Auditabilità:</strong> la catena serie&rarr;feature&rarr;flag&rarr;testo&rarr;decisione è ispezionabile; V2 comprime di 39&ndash;180&times; rispetto ai bracci più verbosi.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Debolezze che impediscono uno Strong Accept</div>
+    <ol>
+      <li><strong>Novità incrementale:</strong> FoT è preesistente. Il contributo è l'adattamento TS class-disjoint, il renderer congelato e la valutazione A/B/E.</li>
+      <li><strong>Federazione non standard:</strong> non vengono ottimizzati o aggregati parametri. Usare <em>federated knowledge transfer</em> o <em>FL-like collaboration</em>, collegando FedMD&rarr;FedProto&rarr;FoT.</li>
+      <li><strong>Baseline A al floor:</strong> l'agente non possiede il mapping delle classi remote. Il guadagno non equivale a superare un forte classificatore centralizzato o FL parametrico.</li>
+      <li><strong>Scala limitata:</strong> quattro fault su 28, un simulatore, quattro agenti e pochi run fisici non supportano claim di robustezza o generalità industriale.</li>
+      <li><strong>Negative transfer:</strong> nella replica B conserva 68/72 unseen ma degrada local-seen da 24/24 a 19/24. Servono gating degli insight o astensione.</li>
+      <li><strong>Portabilità parziale:</strong> Qwen raggiunge 34/36 in B, ma gli insight sono ancora prodotti da GPT-5.6-terra; R=3 è byte-identico e gli errori coincidono con il reasoning cap.</li>
+      <li><strong>Condition C descrittiva:</strong> è post-hoc, disponibile solo su Experiment 1 e ha contesto diverso. Il 15/15 non dimostra causalmente C&gt;B.</li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Richieste obbligatorie prima dell'accettazione</div>
+    <ul>
+      <li>Ridurre i claim a <em>evidenza preliminare di trasferimento semantico specifico</em>; non rivendicare privacy, robustezza o generalizzazione dimostrate.</li>
+      <li>Esplicitare unità indipendente, denominatori, test cluster-aware, coverage e selective risk.</li>
+      <li>Caratterizzare il payload in byte/token e costo producer/consumer; confrontarlo concettualmente con logit, prototipi e adapter.</li>
+      <li>Aggiungere almeno un baseline diagnostico classico e uno knowledge-transfer adiacente.</li>
+      <li>Analizzare i cinque errori local-seen e svolgere una sensitivity analysis oltre il reasoning cap.</li>
+      <li>Presentare l'ablation come pilot di efficienza: nessuna coppia differisce significativamente e V2 confonde formato con informazione precomputata.</li>
+    </ul>
+  </div>
+
+  <div class="verdict-box"><strong>Verdetto da reviewer:</strong> il lavoro è pertinente a Big Data per collaborative learning, non-IID industrial time series ed evaluation design. Raccomanderei <strong>Weak Accept</strong> soltanto con claim conservativi e con negative transfer, costo comunicativo e limiti di scala resi centrali. Nella forma corrente, senza queste revisioni, il giudizio scende a <strong>Weak Reject</strong>.</div>
+  <p style="font-size:.78rem;color:var(--text-caption);margin-top:18px"><em>Base: walkthrough principale e secondario; experiment plan, gap analysis, literature review BigData2026 e risultati frozen locali. Il titolo segue la voce richiesta e non implica una review ufficiale IEEE.</em></p>
+</div>
+
+<!-- ==================== STEP 20: LITERATURE REVIEW ==================== -->
+<div class="step-container" data-step="20">
+  <div class="phase-badge a">Corpus locale consolidato</div>
+  <h1 class="step-title">Literature review</h1>
+  <p class="step-intro">Mappa dei lavori rilevanti per oggetto federato, classi localmente non viste, trasformazione TS&rarr;testo e diagnosi mediante LLM.</p>
+
+  <div class="callout"><span class="callout-icon">&#9432;</span><span>Il corpus unifica tutti i Markdown di <code>docs/lit_review</code>, il workbook <code>FoT_literature_review.xlsx</code> e i paper convertiti in <code>papers</code>. Il README del convertitore PDF è documentazione tecnica e non è incluso come paper.</span></div>
+
+  <h2 style="margin-top:26px">Introduzione: paper, query e categorie</h2>
+  <div class="lit-table-wrap"><table class="data-table lit-table"><thead><tr><th>Titolo</th><th>Query</th><th>Categoria</th></tr></thead><tbody id="litTableBody"></tbody></table></div>
+
+  <div id="litCorpus"></div>
+
+  <h2 class="lit-category">To do</h2>
+  <p>Query consigliate per ampliare la bibliografia e chiudere i gap:</p>
+  <code class="todo-query">("federated knowledge transfer" OR "collaborative agents") AND ("natural language" OR "textual memory") AND "time series"</code>
+  <code class="todo-query">("class-disjoint" OR "label-exclusive" OR "locally unseen classes") AND federated AND (diagnosis OR classification)</code>
+  <code class="todo-query">("federated fault diagnosis" OR "distributed fault diagnosis") AND ("Tennessee Eastman" OR process industry) AND non-IID</code>
+  <code class="todo-query">("semantic specificity" OR "label permutation" OR derangement) AND ("in-context learning" OR knowledge transfer)</code>
+  <code class="todo-query">("time series to text" OR verbalization) AND (faithfulness OR factuality OR hallucination) AND benchmark</code>
+  <code class="todo-query">("deterministic verbalization" OR "structured program") AND multivariate AND "time series" AND LLM</code>
+  <code class="todo-query">(SAX OR symbolic OR quantization) AND LLM AND "fault diagnosis" AND multivariate</code>
+  <code class="todo-query">("negative transfer" OR interference) AND federated AND (prompt OR insight OR in-context)</code>
+  <code class="todo-query">("communication cost" OR payload OR token) AND (federated LLM OR federated reasoning)</code>
+  <code class="todo-query">("selective prediction" OR abstention OR calibration) AND LLM AND industrial diagnosis</code>
+  <code class="todo-query">("frozen LLM" OR "training-free") AND "time series" AND (diagnosis OR classification) AND cross-model</code>
+  <code class="todo-query">("causal evaluation" OR placebo OR negative control) AND "knowledge sharing" AND multi-agent LLM</code>
+  <div class="callout" style="margin-top:18px"><span class="callout-icon">&#8594;</span><span><strong>Priorità:</strong> prima l'intersezione testo federato × TS × classi unseen; poi controlli negativi semantici e misure di payload. Le query generiche “LLM + time series” hanno già copertura sufficiente.</span></div>
+  <p style="font-size:.78rem;color:var(--text-caption);margin-top:18px"><em>Sintesi costruita esclusivamente dai materiali locali richiesti. Titoli, venue e DOI marcati come non pienamente verificati nelle fonti vanno ricontrollati sul full text prima della bibliografia finale.</em></p>
+</div>
+
 </div><!-- /main -->
 
 <!-- BOTTOM NAV -->
@@ -2221,8 +2332,76 @@ const STEPS = [
   {phase:'b',label:'6. C vs B'},
   {phase:'b',label:'7. Exp 2'},
   {phase:'b',label:'8. Ablation'},
-  {phase:'critiche',label:'Critiche'}
+  {phase:'critiche',label:'Critiche'},
+  {phase:'extra',label:'Conferenza'},
+  {phase:'extra',label:'Lit review'}
 ];
+
+const LIT_PAPERS = [
+  {cat:'Federazione di conoscenza testuale',title:'Federation over Text: Insight Sharing for Multi-Agent Reasoning',q:'federated learning LLM sharing natural language insights reasoning agents non-IID 2026',summary:'Agenti locali trasformano traiettorie di ragionamento in insight; un server li raggruppa, distilla e redistribuisce senza condividere esempi grezzi o gradienti.',sim:'Insight naturali come oggetto federato.',diff:'FoT originale è multi-round, server-based e cross-task; FoT–TEP è single-shot, peer-only e class-disjoint.',impact:'Prior obbligatorio: la novità è nell’adattamento e nella valutazione, non nel concetto FoT.'},
+  {cat:'Federazione di conoscenza testuale',title:'Federated In-Context LLM Agent Learning (FICAL)',q:'federated in-context learning prompt sharing LLM clients privacy',summary:'I client costruiscono compendi di conoscenza in linguaggio naturale da esempi locali e li riusano in-context con comunicazione ridotta.',sim:'Memoria testuale condivisa e consumo in-context.',diff:'Task nativamente testuali, senza sensori, unseen class o renderer verificabile.',impact:'Rafforza il framing “federated knowledge transfer”, ma non anticipa il setting TEP.'},
+  {cat:'Federazione di conoscenza testuale',title:'Social Learning: Towards Collaborative Learning with LLMs',q:'federated learning LLM sharing natural language insights reasoning agents non-IID 2026',summary:'Teacher LLM producono esempi sintetici e prompt astratti per un learner, collegando distillazione e trasferimento linguistico.',sim:'Conoscenza condivisa come artefatto testuale.',diff:'Esempi sintetici invece di firme neutrali di guasto.',impact:'Precedente concettuale, con controllo semantico meno forte di A/B/E.'},
+  {cat:'Federazione di conoscenza testuale',title:'FedCoT: Communication-Efficient Federated Reasoning Enhancement for LLMs',q:'FedCoT communication-efficient federated reasoning enhancement large language models',summary:'Seleziona chain-of-thought e scambia parametri LoRA per federare il reasoning in ambito medico.',sim:'LLM client-aware e reasoning collaborativo.',diff:'Adapter parametrici contro solo testo leggibile.',impact:'Motiva una misura esplicita in byte/token del payload FoT.'},
+  {cat:'Federazione di conoscenza testuale',title:'Time-FFM: LM-Empowered Federated Foundation Model for Time Series Forecasting',q:'Time-FFM LM-Empowered Federated Foundation Model Time Series Forecasting',summary:'Adatta un backbone linguistico al forecasting federato di serie temporali con moduli condivisi e teste personalizzate.',sim:'Intersezione fra federazione, foundation model e serie temporali.',diff:'Forecasting parametrico contro diagnosi via insight testuali.',impact:'Impedisce claim generici di “primo FL+LLM per TS”.'},
+  {cat:'FL non parametrico e class-disjoint',title:'FedMD: Heterogeneous Federated Learning via Model Distillation',q:'federated learning clients disjoint classes transfer locally unseen classes zero-shot',summary:'Client con modelli eterogenei scambiano predizioni su dati pubblici e apprendono per distillazione.',sim:'L’oggetto federato non è vincolato ai pesi.',diff:'Logit e dati pubblici contro insight naturali.',impact:'È il precedente terminologico della catena FedMD→FedProto→FoT.'},
+  {cat:'FL non parametrico e class-disjoint',title:'FedProto: Federated Prototype Learning across Heterogeneous Clients',q:'federated learning clients disjoint classes transfer locally unseen classes zero-shot',summary:'Condivide prototipi di classe nello spazio di embedding per tollerare eterogeneità di modelli e dati non-IID.',sim:'Conoscenza class-specific compatta.',diff:'Vettori appresi contro testo leggibile e citabile.',impact:'Baseline concettuale forte per costo e astrazione del payload.'},
+  {cat:'FL non parametrico e class-disjoint',title:'FedCKD: Knowledge Distillation with Label-Exclusive Clients',q:'federated learning clients disjoint classes transfer locally unseen classes zero-shot',summary:'Studia distillazione cross-client quando gli insiemi di etichette dei client sono esclusivi.',sim:'Affronta conoscenza mancante per classi non locali.',diff:'Logit/parametri e immagini contro evidenza testuale da serie.',impact:'Il regime class-disjoint non è nuovo; lo è la combinazione con FoT e controllo semantico.'},
+  {cat:'FL non parametrico e class-disjoint',title:'FedMeta-FFD: Federated Meta-Learning for Fault Diagnosis',q:'federated fault diagnosis Tennessee Eastman Process non-IID clients unseen fault classes',summary:'Meta-apprendimento federato per adattare la diagnosi a nuove categorie di guasto su macchine rotanti con pochi esempi.',sim:'Federated fault diagnosis con categorie nuove.',diff:'Few-shot e parametrico contro knowledge transfer testuale senza esempi locali della classe remota.',impact:'È il vicino più forte sull’asse FDD e richiede un confronto esplicito di assunzioni.'},
+  {cat:'FL non parametrico e class-disjoint',title:'Federated Zero-Shot Learning with Mid-Level Semantic Knowledge Transfer',q:'federated learning clients disjoint classes transfer locally unseen classes zero-shot',summary:'Trasferisce attributi semantici intermedi arricchiti da modelli vision-language per riconoscere classi non viste.',sim:'Semantica condivisa per unseen class.',diff:'Attributi e immagini contro insight liberi e serie temporali.',impact:'Ridimensiona il claim zero-shot, ma rende distintivo il controllo A/B/E.'},
+  {cat:'TS→text fedele e deterministico',title:'Truth-Conditional Captions for Time Series Data',q:'"time series" AND "faithfulness" AND ("captioning" OR "description")',summary:'TRUCE compone programmi di pattern e genera una caption solo quando il programma ne rende vere le condizioni; i moduli restano appresi.',sim:'Fedeltà fra proprietà misurate e testo.',diff:'Caption neurale monovariata contro renderer deterministico multivariato.',impact:'FoT–TEP deve definire con precisione “fedele per costruzione”.'},
+  {cat:'TS→text fedele e deterministico',title:'A Fuzzy Approach to Data-to-Text for Time Series',q:'"time series" AND "data-to-text" AND ("deterministic" OR "rule-based")',summary:'Pipeline linguistica deterministica che usa variabili fuzzy, regole e template per descrivere serie temporali.',sim:'Testo ottenuto da regole esplicite e auditabili.',diff:'Soglie di dominio contro calibrazione statistica e separazione evidence/inference.',impact:'È il predecessore metodologico corretto del verbalizzatore.'},
+  {cat:'TS→text fedele e deterministico',title:'ICA2TEXT: Data-to-Text for Air-Quality Time Series',q:'"time series" AND "data-to-text" AND ("deterministic" OR "rule-based")',summary:'Sistema data-to-text per qualità dell’aria che seleziona e realizza linguisticamente fatti temporali in modo deterministico.',sim:'Separazione fra calcolo dei fatti e realizzazione testuale.',diff:'Reporting ambientale, non inferenza diagnostica distribuita.',impact:'Supporta la scelta architetturale a strati, non il claim di trasferimento.'},
+  {cat:'TS→text fedele e deterministico',title:'Representing Time Series as Structured Programs for LLM Reasoning (T2SP)',q:'T2SP "Time-Series-to-Structured-Programs" deterministic 2026',summary:'Decompone serie univariate in trend, periodicità, eventi e residuo come programma training-free e invertibile.',sim:'Rappresentazione compatta, verificabile e orientata al reasoning.',diff:'Ricostruibilità numerica contro giudizi calibrati multivariati.',impact:'Competitor metodologico più forte; suggerisce di misurare perdita informativa e invertibilità.'},
+  {cat:'TS→text fedele e deterministico',title:'CGTime: Decoupling Perception from Description in Time-Series Reasoning',q:'CGTime "Decoupling Perception from Description" time series 2026',summary:'Calcola 169 statistiche, usa un encoder temporale e addestra un LLM a verbalizzare fatti computati; il testo resta generativo.',sim:'Decoupling fra percezione numerica e descrizione.',diff:'Training e 169 statistiche contro template congelati, poche feature e neutralità.',impact:'La tesi competitiva è efficienza e auditabilità, non superiorità di accuracy.'},
+  {cat:'Rappresentazioni simboliche',title:'A Novel Feature Extraction Approach for Mechanical Fault Diagnosis Based on ESAX and BoW',q:'TITLE-ABS-KEY("time series" AND "text" AND ("faithful" OR "deterministic" OR "symbolic"))',summary:'ESAX mitiga aliasing e perdita di estremi di SAX; le stringhe diventano conteggi Bag-of-Words per classificatori numerici.',sim:'Compressione deterministica della dinamica.',diff:'Feature per classificatore classico, non testo naturale né federazione.',impact:'Baseline di rappresentazione utile, non prova sul reasoning linguistico.'},
+  {cat:'Rappresentazioni simboliche',title:'Bridging Time Series and Large Language Models via Symbolic Representation for HAR',q:'TITLE-ABS-KEY("time series" AND "text" AND ("faithful" OR "deterministic" OR "symbolic"))',summary:'Combina token SAX e descrittori cinematici e fine-tuna un LLM per activity recognition, con costo d’inferenza elevato.',sim:'Ponte simbolico fra segnali e LLM.',diff:'Fine-tuning supervisionato centralizzato contro in-context e testo leggibile.',impact:'Giustifica SAX nell’ablation e il reporting congiunto di qualità e costo.'},
+  {cat:'Rappresentazioni simboliche',title:'HSQP: Hierarchical Symbolic Quantization Prompting for Time-Series Forecasting',q:'TITLE-ABS-KEY("time series" AND "text" AND ("faithful" OR "deterministic" OR "symbolic"))',summary:'Quantizza la serie su più risoluzioni e fornisce token simbolici a un LLM congelato per forecasting.',sim:'Encoder deterministico e consumer LLM frozen.',diff:'Forecasting/token simbolici contro diagnosi/testo tecnico.',impact:'Mostra che la leggibilità è una scelta di design da valutare.'},
+  {cat:'Allineamento e captioning TS–linguaggio',title:'T3: Domain-Agnostic Neural Time-Series Narration',q:'"time series" AND ("verbalization" OR "text generation" OR "natural language description")',summary:'Genera narrazioni domain-agnostic tramite una rappresentazione intermedia e un modello neurale.',sim:'Rende una serie consumabile come linguaggio.',diff:'Generazione appresa e libera contro renderer vincolato e riproducibile.',impact:'Più ricco linguisticamente, meno adatto come evidenza primaria auditabile.'},
+  {cat:'Allineamento e captioning TS–linguaggio',title:'Repr2Seq: Time Series Representation to Sequence',q:'"time series" AND ("verbalization" OR "text generation" OR "natural language description")',summary:'Apprende end-to-end la mappatura da rappresentazioni di serie, soprattutto finanziarie, a sequenze descrittive.',sim:'Output naturale derivato da una serie.',diff:'Richiede coppie TS-testo e non garantisce fedeltà per costruzione.',impact:'Rappresenta il trade-off opposto a V2: adattività contro controllo.'},
+  {cat:'Allineamento e captioning TS–linguaggio',title:'TADACap: Time-Series Image Retrieval for Domain-Aware Captioning',q:'TITLE-ABS-KEY("time series" AND "natural language" AND ("generation" OR "verbalization"))',summary:'Usa immagini di serie e retrieval di esempi contestuali per produrre caption sensibili al dominio.',sim:'Testo contestuale come interfaccia verso un modello generativo.',diff:'Rendering visivo e retrieval contro fatti tabulari calcolati.',impact:'Candidato futuro per un braccio multimodale, non sostituto controllato del renderer.'},
+  {cat:'Allineamento e captioning TS–linguaggio',title:'CLaSP: Contrastive Language–Signal Pretraining',q:'TITLE-ABS-KEY("time series" AND "natural language" AND ("generation" OR "verbalization"))',summary:'Allinea embedding di segnali e descrizioni con apprendimento contrastivo per retrieval cross-modale.',sim:'Collega struttura temporale e semantica linguistica.',diff:'Spazio latente appreso invece di testo esplicito.',impact:'Potrebbe migliorare il matching degli insight al costo di trasparenza.'},
+  {cat:'Allineamento e captioning TS–linguaggio',title:'TSLM: Time-Series Language Model for Captioning',q:'"time series" AND ("verbalization" OR "text generation" OR "natural language description")',summary:'Encoder temporale e decoder linguistico apprendono da coppie serie-caption a descrivere pattern salienti.',sim:'Descrizioni leggibili di pattern temporali.',diff:'Caption libera e data-hungry contro testo templato calibrato.',impact:'Complementare come descrizione secondaria, con fact checking.'},
+  {cat:'LLM per fault diagnosis',title:'FD-LLM: Large Language Model for Fault Diagnosis of Machines',q:'time series captioning description multivariate 2025-2026',summary:'Serializza spettri FFT o statistiche e fine-tuna LLM open-weight con LoRA per diagnosi multiclass su CWRU.',sim:'Segnali industriali resi sequenze consumabili da LLM.',diff:'Classi note e training centralizzato contro consumer frozen e insight remoti.',impact:'Baseline supervisionato forte, ma risponde a un problema differente.'},
+  {cat:'LLM per fault diagnosis',title:'FD-LLM: Large Language Model for Fault Diagnosis of Complex Equipment',q:'"time series" "text generation" "fault diagnosis"',summary:'Allinea un encoder dati a embedding testuali, introduce semantica fuzzy e prompt apprendibili e adatta Vicuna con LoRA.',sim:'Diagnosi mediata dal linguaggio e conoscenza semantica.',diff:'Pipeline addestrata end-to-end con label note, non federata né neutrale.',impact:'Alza l’asticella centralizzata senza coprire il trasferimento federato.'},
+  {cat:'LLM per fault diagnosis',title:'LLM-TSFD: Industrial Time-Series Human-in-the-Loop Fault Diagnosis',q:'"time series" "text generation" "fault diagnosis"',summary:'Estrae feature statistiche e frequenziali, le inserisce in template diagnostici e guida l’LLM con tassonomie e alberi decisionali.',sim:'Pipeline estrai→verbalizza→ragiona quasi isomorfa.',diff:'Soglie manuali e template diagnostici contro calibrazione e neutralità.',impact:'Riferimento diretto per motivare freeze e separazione evidence/inference.'},
+  {cat:'Survey e benchmark',title:'BEDTime: A Unified Benchmark for Automatically Describing Time Series',q:'BEDTime benchmark time series description evaluation 2025',summary:'Benchmark con circa 46.800 coppie serie-descrizione e tre task; mostra vantaggio dei VLM e fragilità alle perturbazioni, ma non valuta renderer deterministici.',sim:'Valuta la qualità semantica delle descrizioni temporali.',diff:'Captioning generale, non diagnosi federata.',impact:'Fornisce metriche e stress test da adattare al verbalizzatore V2.'},
+  {cat:'Survey e benchmark',title:'Empowering Time Series Analysis with Large Language Models: A Survey',q:'TITLE-ABS-KEY("time series" AND "natural language" AND ("generation" OR "verbalization"))',summary:'Organizza forecasting, classification, anomaly detection e generazione con prompting, alignment e reprogramming.',sim:'Quadro generale dei ponti TS–LLM.',diff:'Non tratta in profondità il trasferimento testuale federato class-disjoint.',impact:'Delimita il contributo senza dichiarare nuovo l’uso di LLM su serie.'},
+  {cat:'Survey e benchmark',title:'Time-Series Large Language Models: A Systematic Review',q:'time series text representation benchmark evaluation',summary:'Rassegna architetture, task, dataset e integrazioni TS–LLM, evidenziando frammentazione valutativa e problemi di generalizzazione.',sim:'Contesto per representation choice ed evaluation.',diff:'Vista panoramica, non metodo o comparator diretto.',impact:'Supporta protocolli riproducibili e claim prudenti.'},
+  {cat:'Survey e benchmark',title:'Large Language Models for Time-Series Reasoning: A TMLR Survey',q:'survey time series LLM reasoning agentic TMLR 2026',summary:'Estende la tassonomia verso reasoning, tool use e agenti, distinguendo percezione numerica, rappresentazione e decisione.',sim:'FoT–TEP è reasoning agentico con percezione esternalizzata.',diff:'Non studia il protocollo FoT o il controllo derangiato.',impact:'Posiziona V2 come perception layer e gli insight come knowledge/memory layer.'}
+];
+
+function renderLiterature() {
+  const tbody = document.getElementById('litTableBody');
+  const corpus = document.getElementById('litCorpus');
+  if (!tbody || !corpus) return;
+  const grouped = new Map();
+  LIT_PAPERS.forEach(paper => {
+    const row = document.createElement('tr');
+    [paper.title, paper.q].forEach(value => { const cell = document.createElement('td'); cell.textContent = value; row.appendChild(cell); });
+    const categoryCell = document.createElement('td');
+    const chip = document.createElement('span'); chip.className = 'lit-chip'; chip.textContent = paper.cat; categoryCell.appendChild(chip); row.appendChild(categoryCell);
+    tbody.appendChild(row);
+    if (!grouped.has(paper.cat)) grouped.set(paper.cat, []);
+    grouped.get(paper.cat).push(paper);
+  });
+  grouped.forEach((papers, category) => {
+    const heading = document.createElement('h2'); heading.className = 'lit-category'; heading.textContent = category; corpus.appendChild(heading);
+    papers.forEach(paper => {
+      const details = document.createElement('details'); details.className = 'lit-paper';
+      const summary = document.createElement('summary');
+      const title = document.createElement('span'); title.textContent = paper.title;
+      const chip = document.createElement('span'); chip.className = 'lit-chip'; chip.textContent = category;
+      summary.append(title, chip);
+      const body = document.createElement('div'); body.className = 'lit-paper-body';
+      const abstract = document.createElement('p'); abstract.textContent = paper.summary;
+      const comparison = document.createElement('div'); comparison.className = 'lit-comparison';
+      const label = document.createElement('b'); label.textContent = 'Confronto con FoT–TEP';
+      const dl = document.createElement('dl');
+      [['Somiglianza',paper.sim],['Differenza',paper.diff],['Implicazione',paper.impact]].forEach(([term,value]) => { const dt=document.createElement('dt'); dt.textContent=term; const dd=document.createElement('dd'); dd.textContent=value; dl.append(dt,dd); });
+      comparison.append(label, dl); body.append(abstract, comparison); details.append(summary, body); corpus.appendChild(details);
+    });
+  });
+}
 
 let current = 0;
 const visited = new Set([0]);
@@ -2231,6 +2410,7 @@ function buildNav() {
   const navA = document.getElementById('navA');
   const navB = document.getElementById('navB');
   STEPS.forEach((s, i) => {
+    if (s.phase === 'extra') return;
     if (s.phase === 'intro') {
       const btn = document.createElement('button');
       btn.className = 'nav-step';
@@ -2247,7 +2427,8 @@ function buildNav() {
     btn.onclick = () => goTo(i);
     btn.dataset.idx = i;
     if (s.phase === 'critiche') {
-      document.getElementById('navCritiche').appendChild(btn);
+      const nc = document.getElementById('navCritiche');
+      nc.insertBefore(btn, nc.firstChild);
     } else {
       (s.phase === 'a' ? navA : navB).appendChild(btn);
     }
@@ -2353,6 +2534,7 @@ function drawRawChart() {
 }
 
 buildNav();
+renderLiterature();
 render();
 drawRawChart();
 
@@ -2391,6 +2573,14 @@ function openCritica(id) {
        alt="Project overview — dimensione originale"
        width="1774" height="887">
 </div>
+
+<!-- Panoramica esperimenti modal -->
+<div class="img-modal-overlay" id="panoramicaModal">
+  <button class="img-modal-close" id="panoramicaModalClose" aria-label="Chiudi">&times;</button>
+  <img src="figures/panoramica_esperimenti.png"
+       alt="Panoramica esperimenti — dimensione originale"
+       width="1586" height="992">
+</div>
 <script>
 (function(){
   var thumb = document.getElementById('overview-thumb');
@@ -2404,6 +2594,22 @@ function openCritica(id) {
   });
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape') modal.classList.remove('active');
+  });
+})();
+</script>
+<script>
+(function(){
+  var thumb2 = document.getElementById('panoramica-thumb');
+  var modal2 = document.getElementById('panoramicaModal');
+  var closeBtn2 = document.getElementById('panoramicaModalClose');
+  if(!thumb2||!modal2||!closeBtn2) return;
+  thumb2.addEventListener('click', function(){ modal2.classList.add('active'); });
+  closeBtn2.addEventListener('click', function(){ modal2.classList.remove('active'); });
+  modal2.addEventListener('click', function(e){
+    if(e.target === modal2) modal2.classList.remove('active');
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') modal2.classList.remove('active');
   });
 })();
 </script>
