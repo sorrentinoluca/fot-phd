@@ -442,6 +442,62 @@ class UnifiedConversationChecks(unittest.TestCase):
         self.assertIn("@media(max-width:900px)", self.html)
         self.assertNotIn("grid-template-columns:repeat(2", self.html)
 
+    def test_step27_qwen_protocol_stable_facts(self):
+        """Stable facts from the frozen Qwen protocol (commit d9bb95c).
+
+        These values come from the capability probe and config.json
+        and will not change after the full run completes.
+        Do NOT add transient state (e.g. "run in corso") here.
+        """
+        # ---- present in both HTML and Markdown ----
+        for document_label, document in (("html", self.html), ("md", self.markdown)):
+            with self.subTest(doc=document_label):
+                # frozen commit
+                self.assertIn("d9bb95c", document)
+                # model identity
+                self.assertIn("Qwen3.8-27B-FP8", document)
+                # vLLM version
+                self.assertIn("0.28.0", document)
+                # experiment structure
+                self.assertIn("540", document)       # 540 inferences
+                self.assertIn("180", document)        # 180 aggregate decisions
+                # token budget from config.json
+                self.assertIn("1536", document)       # max_tokens
+                self.assertIn("1024", document)       # thinking_token_budget
+                # context window
+                self.assertIn("4096", document)       # max_model_len
+                # correct prompt token count from probe
+                self.assertIn("2340", document)       # max raw prompt tokens
+                # probe result
+                self.assertIn("19/19", document)      # all 19 checks pass
+                # conditions
+                self.assertIn("A/B/E", document)
+                # determinism
+                self.assertIn("temperature", document)
+                self.assertIn("seed", document)
+
+        # ---- forbidden invented metrics ----
+        for document_label, document in (("html", self.html), ("md", self.markdown)):
+            with self.subTest(doc=document_label, check="no invented metrics"):
+                # The re-audit originally had an erroneous prompt token count;
+                # ensure it never leaks into the walkthrough
+                self.assertNotIn("max_prompt_tokens: 3876", document)
+                self.assertNotIn("totale di ~5000", document)
+
+        # ---- HTML-specific structure ----
+        import re
+        step27 = re.search(r'<section id="step-27"[^>]*>(.*?)</section>', self.html, re.S)
+        self.assertIsNotNone(step27, "step-27 section must exist")
+        s27 = step27.group(1)
+        # exactly one H2
+        self.assertEqual(s27.count("<h2>"), 1)
+        # step kicker present
+        self.assertIn("Step 27 / 27", s27)
+        # phase badge
+        self.assertIn("phase-badge", s27)
+        # no dangling relative links to branch-only files
+        self.assertNotRegex(s27, r'href="\.\./(phase_b|icl)/')
+
     def test_active_readme_publishes_main_guide_and_artifacts_exist(self):
         readme = (ROOT / "README.md").read_text()
         self.assertIn("docs/fot_walkthrough_conversazione.html", readme)

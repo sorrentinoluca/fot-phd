@@ -1,0 +1,11 @@
+{
+  "version": 3,
+  "routing": {
+    "24cd743799c5e726ab5f739031e482c60e9b7244309c8e3ecaf08eb4e054be90": {
+      "route": "chart",
+      "chart_probability": 0.95823734998703
+    }
+  },
+  "chart_tables": {},
+  "openai_analyses": {}
+}

@@ -1,0 +1,26 @@
+{
+  "V2_TEXT": {
+    "mean_chars": 863,
+    "max_chars": 965,
+    "mean_words": 137,
+    "est_prompt_tokens": 2541
+  },
+  "RAW_FEATURES": {
+    "mean_chars": 18265,
+    "max_chars": 18399,
+    "mean_words": 370,
+    "est_prompt_tokens": 50798
+  },
+  "CGTIME_STATS": {
+    "mean_chars": 124286,
+    "max_chars": 124436,
+    "mean_words": 10958,
+    "est_prompt_tokens": 342136
+  },
+  "SAX_SYMBOLIC": {
+    "mean_chars": 4788,
+    "max_chars": 4788,
+    "mean_words": 687,
+    "est_prompt_tokens": 13443
+  }
+}

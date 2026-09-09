@@ -1,0 +1,4 @@
+# Install after the normal requirements when running backend comparisons.
+pymupdf4llm
+marker-pdf
+docling

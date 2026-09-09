@@ -1,0 +1,6 @@
+pymupdf4llm
+openai
+torch
+Pillow
+transformers
+sentencepiece

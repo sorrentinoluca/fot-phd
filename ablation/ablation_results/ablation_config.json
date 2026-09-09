@@ -1,0 +1,10 @@
+{
+  "model": "gpt-5.6-terra",
+  "repetitions": 3,
+  "max_attempts": 3,
+  "reasoning_effort": "medium",
+  "output_dir": "ablation_results",
+  "dry_run": false,
+  "resume": false,
+  "max_prompt_tokens": 900000
+}

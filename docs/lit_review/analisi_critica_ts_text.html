@@ -1,0 +1,760 @@
+<title>Analisi Critica TS→Testo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #FAFAF7;
+    --surface: #F0EFEA;
+    --surface-alt: #E6E4DD;
+    --text: #1C1B18;
+    --text-secondary: #5C5A52;
+    --text-tertiary: #8A877D;
+    --accent: #8B5E3C;
+    --accent-light: #C49A6C;
+    --accent-bg: #F5EDE4;
+    --risk-high: #B44D3A;
+    --risk-med: #C4883A;
+    --risk-low: #5A8A5C;
+    --border: #D8D6CE;
+    --border-light: #E8E6DE;
+    --code-bg: #EDECEA;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #1A1917;
+      --surface: #242320;
+      --surface-alt: #2E2D28;
+      --text: #E8E6DE;
+      --text-secondary: #A8A59C;
+      --text-tertiary: #7A776E;
+      --accent: #C49A6C;
+      --accent-light: #D4B48C;
+      --accent-bg: #2C2418;
+      --risk-high: #D4735E;
+      --risk-med: #D4A85E;
+      --risk-low: #7AB47C;
+      --border: #3A3830;
+      --border-light: #2E2D28;
+      --code-bg: #2A2920;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #1A1917;
+    --surface: #242320;
+    --surface-alt: #2E2D28;
+    --text: #E8E6DE;
+    --text-secondary: #A8A59C;
+    --text-tertiary: #7A776E;
+    --accent: #C49A6C;
+    --accent-light: #D4B48C;
+    --accent-bg: #2C2418;
+    --risk-high: #D4735E;
+    --risk-med: #D4A85E;
+    --risk-low: #7AB47C;
+    --border: #3A3830;
+    --border-light: #2E2D28;
+    --code-bg: #2A2920;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.65;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    text-wrap: balance;
+    color: var(--text);
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 0.25rem;
+  }
+
+  .subtitle {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-secondary);
+    margin: 0 0 2rem;
+    line-height: 1.4;
+  }
+
+  .meta {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin: 3rem 0 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1.5px solid var(--border);
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 2rem 0 0.75rem;
+  }
+
+  p { margin: 0 0 1rem; }
+
+  a {
+    color: var(--accent);
+    text-decoration-color: var(--accent-light);
+    text-underline-offset: 2px;
+  }
+  a:hover { text-decoration-color: var(--accent); }
+
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.88em;
+    background: var(--code-bg);
+    padding: 0.15em 0.35em;
+    border-radius: 3px;
+  }
+
+  .verdict-box {
+    background: var(--accent-bg);
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .verdict-box p { margin: 0; }
+  .verdict-box p + p { margin-top: 0.75rem; }
+  .verdict-label {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+
+  .risk-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.2rem 0.65rem;
+    border-radius: 3px;
+  }
+  .risk-low { background: color-mix(in srgb, var(--risk-low) 14%, transparent); color: var(--risk-low); }
+  .risk-med { background: color-mix(in srgb, var(--risk-med) 14%, transparent); color: var(--risk-med); }
+  .risk-high { background: color-mix(in srgb, var(--risk-high) 14%, transparent); color: var(--risk-high); }
+
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0 1.5rem;
+    font-size: 0.88rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .comparison-table th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.76rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1.5px solid var(--border);
+    background: var(--surface);
+  }
+  .comparison-table td {
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: top;
+  }
+  .comparison-table tr:last-child td { border-bottom: none; }
+  .comparison-table .highlight-row {
+    background: var(--accent-bg);
+    font-weight: 500;
+  }
+  .table-wrap { overflow-x: auto; margin: 1rem 0 1.5rem; }
+
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    align-items: start;
+  }
+  .timeline-year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--accent);
+    padding-top: 0.15rem;
+  }
+  .timeline-content {
+    border-left: 1px solid var(--border);
+    padding-left: 1rem;
+  }
+  .timeline-title {
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+  .timeline-detail {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+  }
+
+  .section-summary {
+    background: var(--surface);
+    padding: 1rem 1.25rem;
+    border-radius: 5px;
+    margin: 1.5rem 0;
+    font-size: 0.92rem;
+  }
+  .section-summary strong { color: var(--text); }
+
+  .gap-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin: 1.25rem 0 1.5rem;
+  }
+  @media (max-width: 600px) { .gap-grid { grid-template-columns: 1fr; } }
+  .gap-card {
+    background: var(--surface);
+    padding: 1rem 1.15rem;
+    border-radius: 5px;
+    border-top: 2px solid var(--border);
+  }
+  .gap-card-title {
+    font-weight: 600;
+    font-size: 0.88rem;
+    margin-bottom: 0.35rem;
+  }
+  .gap-card p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .footnote {
+    font-size: 0.8rem;
+    color: var(--text-tertiary);
+    border-top: 1px solid var(--border-light);
+    padding-top: 1.5rem;
+    margin-top: 3rem;
+  }
+  .footnote p { margin: 0 0 0.5rem; }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--border-light);
+    margin: 2.5rem 0;
+  }
+</style>
+
+<div class="meta">FoT-TEP · Analisi di Pubblicabilità · Settembre 2026</div>
+<h1>La trasformazione TS→Testo è un punto critico per la pubblicazione?</h1>
+<p class="subtitle">Analisi critica del verbalizzatore V2 rispetto alla letteratura recente (2021–2026), con valutazione dei rischi e raccomandazioni per il posizionamento scientifico.</p>
+
+<div class="verdict-box">
+  <div class="verdict-label">Verdetto sintetico</div>
+  <p><strong>La trasformazione TS→testo non è un punto critico bloccante, ma è un punto che richiede un posizionamento attento.</strong> L'approccio del progetto occupa una nicchia difendibile — verbalizzazione deterministica, fedele per costruzione, senza modelli appresi, con calibrazione statistica formale — che nessun lavoro in letteratura replica esattamente. Tuttavia, due paper recenti (CGTime, giugno 2026; T2SP, giugno 2026) restringono lo spazio argomentativo e rendono necessario un confronto esplicito nella sezione Related Work.</p>
+</div>
+
+<h2>1. Panorama della letteratura: il campo si è mosso</h2>
+
+<p>La trasformazione di serie temporali in testo per il consumo di LLM è un problema attivamente studiato. Dall'analisi di oltre 25 paper (2017–2026), integrata con ricerche su OpenAlex, Scopus, ArXiv, e Crossref, emergono <strong>sette categorie di approcci</strong>, cui il progetto FoT-TEP aggiunge una settima propria:</p>
+
+<div class="table-wrap">
+<table class="comparison-table">
+  <thead>
+    <tr>
+      <th>Cat.</th>
+      <th>Strategia</th>
+      <th>Esempi chiave</th>
+      <th>Appreso?</th>
+      <th>Fedeltà</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A</td>
+      <td>Codifica numerica diretta</td>
+      <td>LLMTime, PromptCast</td>
+      <td>No</td>
+      <td>Triviale</td>
+    </tr>
+    <tr>
+      <td>B</td>
+      <td>Allineamento latente</td>
+      <td>Time-LLM, TEST, S²IP-LLM</td>
+      <td>Sì</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>C</td>
+      <td>Captioning generativo</td>
+      <td>TSLM, Chronicle, BEDTime, TRUCE</td>
+      <td>Sì</td>
+      <td>Variabile</td>
+    </tr>
+    <tr>
+      <td>D</td>
+      <td>Data-to-Text deterministico</td>
+      <td>Fuzzy D2T, ICA2TEXT</td>
+      <td>No</td>
+      <td>Sì (regole)</td>
+    </tr>
+    <tr>
+      <td>E</td>
+      <td>Rappresentazione simbolica</td>
+      <td>ESAX+BoW, SAX_HAR-LLM, HSQP</td>
+      <td>Parziale</td>
+      <td>Sì (token)</td>
+    </tr>
+    <tr>
+      <td>F</td>
+      <td>Decomposizione strutturata</td>
+      <td>T2SP (Kim et al. 2026)</td>
+      <td>No</td>
+      <td>Invertibile</td>
+    </tr>
+    <tr class="highlight-row">
+      <td>G</td>
+      <td>Verbalizzazione domain-driven</td>
+      <td><strong>FoT-TEP V2</strong></td>
+      <td>No</td>
+      <td>By construction</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>I due paper più critici da affrontare</h3>
+
+<div class="timeline-item">
+  <div class="timeline-year">Giu 2026</div>
+  <div class="timeline-content">
+    <div class="timeline-title">CGTime — Feng et al. (arXiv:2608.05238)</div>
+    <div class="timeline-detail"><strong>"Decoupling Perception from Description"</strong>: codice deterministico calcola 169 statistiche (medie, PCA, correlazioni, Mahalanobis), poi un LLM (Qwen3-4B) le verbalizza. Multivariate fact score: <strong>0.283</strong> vs GPT-4o-mini 0.173 (+64%). Filosofia quasi identica al FoT-TEP: la percezione è deterministica, la descrizione è linguistica. Ma CGTime è un modello addestrato (4B parametri), non un renderer a template.</div>
+  </div>
+</div>
+
+<div class="timeline-item">
+  <div class="timeline-year">Giu 2026</div>
+  <div class="timeline-content">
+    <div class="timeline-title">T2SP — Kim et al. (arXiv:2606.12481)</div>
+    <div class="timeline-detail"><strong>"Time-Series-to-Structured-Programs"</strong>: decomposizione deterministica in trend (B-spline), periodicità (Fourier), eventi (spike/Gauss), residui. Training-free, invertibile (<code>φ⁻¹(φ(x))=x</code>). GPT-5.4 + T2SP raggiunge 0.907 fidelity su TSEdit. Ma è <strong>solo univariato</strong> — non gestisce 41 variabili simultanee.</div>
+  </div>
+</div>
+
+<div class="timeline-item">
+  <div class="timeline-year">Set 2025</div>
+  <div class="timeline-content">
+    <div class="timeline-title">BEDTime — Sen et al. (arXiv:2509.05215)</div>
+    <div class="timeline-detail">Primo benchmark per la descrizione automatica di serie temporali. ~46.800 coppie TS-descrizione su 5 dataset. Scoperta chiave: i <strong>VLM superano nettamente LLM e TSLM</strong> specializzati. I modelli sono fragili a perturbazioni realistiche. Nessun approccio deterministico è valutato — il benchmark esclude la categoria D/G.</div>
+  </div>
+</div>
+
+<h2>2. Risposta alle quattro domande</h2>
+
+<h3>Domanda 1: La trasformazione TS→testo è un punto critico per la pubblicazione?</h3>
+
+<span class="risk-indicator risk-med">Rischio moderato</span>
+
+<p>La trasformazione <em>di per sé</em> non è un punto critico bloccante — il campo è sufficientemente nuovo da non avere un gold standard che il progetto dovrebbe adottare. Tuttavia è un punto che <strong>un reviewer informato può contestare</strong> sotto due profili:</p>
+
+<p><strong>Profilo 1 — "Perché non usare un approccio della letteratura?"</strong> La risposta è forte: nessun approccio della letteratura soddisfa simultaneamente i vincoli del progetto (determinismo completo, fedeltà by-construction, neutralità diagnostica, calibrazione statistica, semantica temporale formale, multi-agente ready). La tabella comparativa nella sezione 3 dimostra questa unicità su ogni dimensione.</p>
+
+<p><strong>Profilo 2 — "Perché non confrontare con alternative?"</strong> Questa è la vulnerabilità principale. Un reviewer può chiedere: "avete confrontato il vostro verbalizzatore con SAX, con serializzazione numerica diretta, o con CGTime?". Al momento il progetto non include un'ablation empirica sulla fase di verbalizzazione. La raccomandazione è di includere almeno un confronto qualitativo sistematico (già presente nella <code>verbalization_comparative_analysis.md</code>) e idealmente un esperimento ablativo minimale: stesso LLM diagnosticatore, stesso dataset TEP, tre rappresentazioni diverse in input (testo V2, serializzazione numerica, SAX).</p>
+
+<div class="verdict-box">
+  <div class="verdict-label">Raccomandazione</div>
+  <p>Il verbalizzatore V2 è pubblicabile come contributo, ma richiede una sezione Related Work che lo posizioni esplicitamente rispetto a CGTime e T2SP, e almeno un confronto ablativo minimale per prevenire l'obiezione "perché non avete confrontato?".</p>
+</div>
+
+<h3>Domanda 2: Cosa esiste in letteratura come alternativa?</h3>
+
+<span class="risk-indicator risk-low">Rischio basso</span>
+
+<p>Le alternative esistono ma nessuna è un sostituto diretto. Il landscape completo comprende i seguenti comparatori rilevanti, ordinati per prossimità filosofica:</p>
+
+<div class="table-wrap">
+<table class="comparison-table">
+  <thead>
+    <tr>
+      <th>Approccio</th>
+      <th>Cosa condivide col FoT-TEP</th>
+      <th>Cosa manca</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>CGTime</strong></td>
+      <td>Separazione percezione/descrizione; statistiche deterministiche; multivariate</td>
+      <td>Modello appreso (4B params); non neutrale (genera interpretazioni); non frozen; non domain-specific</td>
+    </tr>
+    <tr>
+      <td><strong>T2SP</strong></td>
+      <td>Deterministico; training-free; invertibile</td>
+      <td>Solo univariato; nessuna semantica di dominio; nessuna calibrazione statistica</td>
+    </tr>
+    <tr>
+      <td><strong>LLM-TSFD</strong></td>
+      <td>Feature statistiche → template → LLM</td>
+      <td>Soglie manuali; template diagnostici (non neutrali); no logica temporale</td>
+    </tr>
+    <tr>
+      <td><strong>Fuzzy D2T</strong></td>
+      <td>Deterministico; regole; fedeltà by-construction</td>
+      <td>Soglie fuzzy manuali; non calibrato; non multi-agente ready</td>
+    </tr>
+    <tr>
+      <td><strong>TRUCE</strong></td>
+      <td>Obiettivo: fedeltà fattuale</td>
+      <td>Modello neurale appreso; non deterministico; solo univariato</td>
+    </tr>
+    <tr>
+      <td><strong>SAX_HAR-LLM</strong></td>
+      <td>Interfaccia simbolica interpretabile TS→LLM; auditabilità</td>
+      <td>Fine-tuning LLM; dominio HAR; SAX perde informazione continua</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="section-summary">
+  <strong>Sintesi:</strong> Il progetto FoT-TEP è l'unico ad operare nella intersezione di: (1) determinismo completo senza modelli appresi, (2) calibrazione statistica formale (conformal α=0.05), (3) neutralità diagnostica, (4) semantica temporale strutturata (fasi, run, persistenza), (5) scala multivariata (41 variabili × 8 finestre × 5 feature). Nessun singolo approccio della letteratura copre più di due di questi cinque assi.
+</div>
+
+<h3>Domanda 3: Sono state fatte comparazioni in letteratura per stabilire quale approccio è migliore?</h3>
+
+<span class="risk-indicator risk-med">Rischio moderato</span>
+
+<p>La risposta è <strong>sì, ma con importanti caveat</strong>. Tre lavori recenti contribuiscono comparazioni sistematiche:</p>
+
+<p><strong>BEDTime</strong> (Sen et al. 2025) è il primo benchmark dedicato, con ~46.800 coppie TS-descrizione e tre task (recognition, differentiation, generation). Risultato principale: i VLM (GPT-4o-Vision) dominano nettamente su LLM e TSLM specializzati. Tuttavia il benchmark <strong>non valuta approcci deterministici</strong> (categoria D/G): tutti i baseline sono modelli neurali. Questo è sia una limitazione del benchmark sia un'opportunità per il progetto.</p>
+
+<p><strong>CGTime</strong> (Feng et al. 2026) include un confronto su "multivariate fact score" che è il più vicino a una valutazione della fedeltà fattuale per serie multivariate. CGTime (4B) supera GPT-4o-mini e GPT-5.4-nano, ma il confronto è tra modelli generativi — nessun approccio deterministico è nella baseline.</p>
+
+<p><strong>T2SP</strong> (Kim et al. 2026) confronta rappresentazione strutturata vs serializzazione numerica vs input visivo su task di editing, mostrando che la rappresentazione strutturata domina (+15% fidelity su raw, +41% su vision). Ma è solo univariato.</p>
+
+<p>Il survey TMLR 2026 di Chen et al. ("Reasoning and Agentic Systems in Time Series with LLMs") cataloga oltre 100 paper in una tassonomia basata su topologia di ragionamento, ma non include una comparazione empirica diretta tra strategie di rappresentazione.</p>
+
+<div class="verdict-box">
+  <div class="verdict-label">Implicazione per la pubblicazione</div>
+  <p>Non esiste una comparazione diretta che includa approcci deterministici come il FoT-TEP. Questo è un <strong>vantaggio</strong>: non c'è un benchmark che dimostra che un'alternativa è superiore al vostro approccio. Ma è anche una <strong>vulnerabilità</strong>: un reviewer può obiettare che l'assenza di confronto non è prova di superiorità. L'esperimento ablativo raccomandato sopra colmerebbe questa lacuna.</p>
+</div>
+
+<h3>Domanda 4: Il problema TS→testo è stato discusso abbastanza in letteratura?</h3>
+
+<span class="risk-indicator risk-low">Rischio basso</span>
+
+<p>Il problema è stato discusso <strong>ampiamente ma in modo frammentato</strong>, e questo gioca a favore del progetto per tre ragioni:</p>
+
+<p><strong>Il campo è maturo abbastanza da essere legittimo.</strong> I survey (Jiang et al. IJCAI 2024; Abdullahi et al. IEEE Access 2025; Chen et al. TMLR 2026) riconoscono la trasformazione TS→testo come un sotto-problema distinto e attivo. Esistono benchmark dedicati (BEDTime), workshop tematici, e una tassonomia emergente. Un paper che contribuisce a questo campo è posizionabile.</p>
+
+<p><strong>Ma non è così saturo da non avere spazio.</strong> La maggior parte della letteratura si concentra sulle categorie A-C (serializzazione, allineamento latente, captioning generativo). Le categorie D-G (deterministico, simbolico, strutturato, domain-driven) sono sottorappresentate. La nicchia specifica del FoT-TEP — verbalizzazione deterministica fedele per sistemi multi-agente industriali — ha zero occupanti diretti.</p>
+
+<p><strong>Le lacune della letteratura coincidono con i punti di forza del progetto.</strong> I problemi aperti identificati dalla letteratura includono: fedeltà fattuale delle descrizioni (BEDTime mostra fragilità dei modelli neurali), scalabilità multivariata (CGTime inizia ad affrontarla, T2SP è solo univariato), e riproducibilità (nessun paper nella letteratura TS→testo propone un protocollo di freeze).</p>
+
+<h2>3. Mappa di posizionamento: cinque assi di differenziazione</h2>
+
+<div class="gap-grid">
+  <div class="gap-card" style="border-top-color: var(--risk-low);">
+    <div class="gap-card-title">Fedeltà by-construction</div>
+    <p>Solo Fuzzy D2T e ICA2TEXT condividono questa proprietà, ma con soglie manuali. Il FoT-TEP aggiunge calibrazione conformal (α=0.05). CGTime e TRUCE mirano alla fedeltà ma con modelli appresi — residuo di errore non eliminabile.</p>
+  </div>
+  <div class="gap-card" style="border-top-color: var(--risk-low);">
+    <div class="gap-card-title">Neutralità diagnostica</div>
+    <p>Proprietà unica. Nessun altro approccio separa esplicitamente verbalizzazione e diagnosi. LLM-TSFD include indicatori diagnostici nei template; CGTime genera interpretazioni; T3 produce narrazioni ricche. Per la Federation over Text, la neutralità è un requisito architetturale.</p>
+  </div>
+  <div class="gap-card" style="border-top-color: var(--accent);">
+    <div class="gap-card-title">Semantica temporale formale</div>
+    <p>Run consecutivi, episodi sostenuti, persistenza globale, drift coerente, partizione in tre fasi. Nessun altro approccio formalizza la struttura temporale a questo livello. T2SP ha trend/period/events ma senza persistenza o fasi; BEDTime valuta "temporal localization" ma nessun baseline la gestisce bene.</p>
+  </div>
+  <div class="gap-card" style="border-top-color: var(--accent);">
+    <div class="gap-card-title">Scala multivariata</div>
+    <p>41 variabili × 8 finestre × 5 feature = 1.640 valori. T2SP è solo univariato. CGTime gestisce multivariato (PCA a O(rK)) ma con modello appreso. LLMTime, TRUCE, BEDTime baseline sono monovariati. Solo LLM-TSFD e Fuzzy D2T lavorano su multivariato, ma senza la granularità temporale del FoT-TEP.</p>
+  </div>
+</div>
+
+<h2>4. Rischi specifici e mitigazioni</h2>
+
+<div class="table-wrap">
+<table class="comparison-table">
+  <thead>
+    <tr>
+      <th>Rischio reviewer</th>
+      <th>Gravità</th>
+      <th>Mitigazione</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>"Perché non avete confrontato con CGTime?"</td>
+      <td><span class="risk-indicator risk-high">Alta</span></td>
+      <td>Confronto qualitativo nella Related Work (deterministico+template vs appreso+generativo). Idealmente, un'ablation: stesso LLM, testo V2 vs statistiche grezze vs SAX. CGTime non è replicabile in tempo utile (4B-param training), ma le differenze architetturali (appreso vs frozen, interpretativo vs neutrale) sono argomentabili.</td>
+    </tr>
+    <tr>
+      <td>"L'approccio è troppo domain-specific, non generalizza"</td>
+      <td><span class="risk-indicator risk-med">Media</span></td>
+      <td>È un punto di forza, non di debolezza: la calibrazione su Normal N1-N5 e il vocabolario controllato sono <em>features</em> del design per fault diagnosis industriale. Citare che il progetto prevede estensione a PV (fotovoltaico) con la stessa architettura.</td>
+    </tr>
+    <tr>
+      <td>"Nessuna feature frequenziale è una limitazione seria"</td>
+      <td><span class="risk-indicator risk-med">Media</span></td>
+      <td>Dichiarata esplicitamente nel freeze document come trade-off consapevole. Le feature tempo-dominio catturano shift e drift (i pattern dominanti nel TEP); l'analisi spettrale è delegabile a un secondo verbalizzatore specializzato in un'architettura modulare.</td>
+    </tr>
+    <tr>
+      <td>"Il benchmark BEDTime esiste — perché non lo usate?"</td>
+      <td><span class="risk-indicator risk-low">Bassa</span></td>
+      <td>BEDTime valuta captioning generico (stock, sintetico); il FoT-TEP opera su process data industriale con vincoli di fedeltà diversi. I dataset BEDTime non hanno ground truth per fault diagnosis. Citare BEDTime nel panorama ma argomentare che il benchmark appropriato è task-specific.</td>
+    </tr>
+    <tr>
+      <td>"Il testo è in italiano — limita la generalizzabilità"</td>
+      <td><span class="risk-indicator risk-low">Bassa</span></td>
+      <td>Il renderer è un modulo sostituibile; il vocabolario controllato (14 termini) è traducibile in modo deterministico. Il contributo è l'architettura (pipeline deterministica), non la lingua specifica.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>5. CGTime: il competitor da indirizzare</h2>
+
+<p>CGTime (Feng et al., HKUST/TUM/CAS, giugno 2026) merita una trattazione dedicata perché propone la <strong>stessa filosofia fondamentale</strong> del FoT-TEP: separare la percezione deterministica dalla descrizione linguistica. Le differenze sono tuttavia sostanziali:</p>
+
+<div class="table-wrap">
+<table class="comparison-table">
+  <thead>
+    <tr>
+      <th>Dimensione</th>
+      <th>CGTime</th>
+      <th>FoT-TEP V2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Percezione</td>
+      <td>169 statistiche (univariate + PCA + correlazioni + Mahalanobis)</td>
+      <td>5 feature × 41 var × 8 finestre (1.640 valori); soglie conformal</td>
+    </tr>
+    <tr>
+      <td>Descrizione</td>
+      <td>LLM Qwen3-4B fine-tuned (SFT + GRPO)</td>
+      <td>Renderer deterministico a template; vocabolario controllato</td>
+    </tr>
+    <tr>
+      <td>Parametri appresi</td>
+      <td>4 miliardi</td>
+      <td>Zero</td>
+    </tr>
+    <tr>
+      <td>Fedeltà</td>
+      <td>Metrica Gaussian kernel per verificare fatti; non garantita</td>
+      <td>Garantita by-construction (template + vocabolario controllato)</td>
+    </tr>
+    <tr>
+      <td>Neutralità</td>
+      <td>Genera descrizioni interpretative ("risk indicators suggest…")</td>
+      <td>Solo osservazioni ("XMEAS_12 supera soglia in 6/8 finestre")</td>
+    </tr>
+    <tr>
+      <td>Dominio</td>
+      <td>General-purpose (multiple dataset)</td>
+      <td>TEP industriale con calibrazione domain-specific</td>
+    </tr>
+    <tr>
+      <td>Riproducibilità</td>
+      <td>Codice rilasciato; training richiede GPU</td>
+      <td>SHA-256 freeze; eseguibile su CPU in &lt;1s per caso</td>
+    </tr>
+    <tr>
+      <td>Multi-agente</td>
+      <td>Non previsto</td>
+      <td>Progettato per Federation over Text</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="verdict-box">
+  <div class="verdict-label">Argomento difensivo</div>
+  <p>CGTime e FoT-TEP condividono il principio "percezione deterministica + descrizione linguistica" ma fanno scelte opposte nella fase di descrizione: CGTime massimizza la ricchezza espressiva (LLM generativo), FoT-TEP massimizza la fedeltà e la controllabilità (template deterministico). In un contesto di fault diagnosis industriale multi-agente dove la verifica umana, la riproducibilità e l'assenza di allucinazioni sono prioritarie, la scelta del FoT-TEP è giustificata. CGTime è il complemento ideale per contesti dove la ricchezza della descrizione è più importante della garanzia di fedeltà.</p>
+</div>
+
+<h2>6. Raccomandazioni operative per la pubblicazione</h2>
+
+<h3>Nella sezione Related Work</h3>
+
+<p>Strutturare il posizionamento attorno a tre filoni: (1) <strong>TS→testo generativo</strong> — TSLM, Chronicle, BEDTime, CGTime — riconoscendo la ricchezza espressiva ma evidenziando il rischio di allucinazione documentato da BEDTime; (2) <strong>TS→testo deterministico</strong> — Fuzzy D2T, ICA2TEXT, T2SP, LLM-TSFD — il filone metodologico a cui il progetto appartiene, distinguendosi per calibrazione statistica e neutralità; (3) <strong>TS→LLM via rappresentazione intermedia</strong> — SAX_HAR-LLM, HSQP, ESAX+BoW — approcci simbolici che condividono la filosofia ma producono token, non testo leggibile.</p>
+
+<h3>Come esperimento aggiuntivo (fortemente raccomandato)</h3>
+
+<p>Un'ablation minimale a tre bracci sullo stesso LLM diagnosticatore e lo stesso dataset TEP: (a) testo V2 del verbalizzatore, (b) serializzazione numerica diretta (stile LLMTime), (c) rappresentazione SAX dei segnali. Metriche: accuratezza diagnostica, fedeltà fattuale del ragionamento, lunghezza/costo del prompt. Questo singolo esperimento smonterebbe l'obiezione "perché non avete confrontato?" e potrebbe diventare un contributo secondario del paper.</p>
+
+<h3>Come framing del contributo</h3>
+
+<p>Non presentare il verbalizzatore come "il modo migliore" di trasformare TS in testo — la letteratura è troppo frammentata per sostenerlo. Presentarlo come <strong>"il primo approccio deterministico con calibrazione statistica formale per la verbalizzazione fedele di serie temporali multivariate industriali, progettato per architetture multi-agente"</strong>. Ogni parola di questa frase è difendibile con evidenza dal codice e dalla letteratura.</p>
+
+<hr>
+
+<div class="footnote">
+  <p><strong>Fonti principali.</strong> CGTime: Feng et al. 2026, arXiv:2608.05238. T2SP: Kim et al. 2026, arXiv:2606.12481. BEDTime: Sen et al. 2025, arXiv:2509.05215. TRUCE: Jhamtani & Berg-Kirkpatrick, EMNLP 2021. Fuzzy D2T: Ramos-Soto et al. 2017. SAX_HAR-LLM: Pappa et al. 2026, ESWA. HSQP: Abdullahi et al. 2026, IEEE Access. LLM-TSFD: vari. Survey: Chen et al. TMLR 2026; Jiang et al. IJCAI 2024; Abdullahi et al. IEEE Access 2025.</p>
+  <p><strong>Documenti del progetto analizzati.</strong> <code>tep_verbalize_v2.py</code>, <code>tep_verbalize.py</code>, <code>verbalizer_config_v2.json</code>, <code>verbalization_comparative_analysis.md</code>, <code>FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md</code>, <code>related_work_scan.md</code>, <code>literature_review_pv_text_federated.md</code>.</p>
+  <p><strong>Ricerche condotte.</strong> OpenAlex (3 query), Scopus (2 query), ArXiv (2 query), Crossref (1 query), Google Scholar (4 query). Periodo: 2021–2026. Paper nuovi identificati non presenti nelle review esistenti: CGTime, BEDTime, T2SP, survey TMLR 2026. Dettaglio query nella sezione dedicata sotto.</p>
+</div>
+
+<h2>Appendice — Query di ricerca effettuate</h2>
+
+<p>Periodo coperto: 2021–2026. Strategia a imbuto: discovery ampio (OpenAlex, Scopus) → query mirate per paper specifici (WebSearch) → verifica incrociata (ArXiv, Crossref).</p>
+
+<h3>OpenAlex (3 query)</h3>
+<div class="table-wrap">
+<table class="comparison-table">
+  <thead>
+    <tr><th>#</th><th>Query</th><th>Risultati rilevanti</th><th>Copertura</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>O1</td>
+      <td><code>"time series" AND ("verbalization" OR "text generation" OR "natural language description")</code></td>
+      <td>TRUCE, T3, Repr2Seq, TSLM, Chronicle</td>
+      <td>Filone captioning/narration generativo (Cat.&nbsp;C) e data-to-text (Cat.&nbsp;D)</td>
+    </tr>
+    <tr>
+      <td>O2</td>
+      <td><code>"time series" AND "faithfulness" AND ("captioning" OR "description")</code></td>
+      <td>Truth-Conditional Captions (Jhamtani 2021), BEDTime (Sen 2025)</td>
+      <td>Fedeltà fattuale — nucleo del posizionamento FoT-TEP</td>
+    </tr>
+    <tr>
+      <td>O3</td>
+      <td><code>"time series" AND "data-to-text" AND ("deterministic" OR "rule-based")</code></td>
+      <td>Fuzzy D2T (Ramos-Soto 2017), ICA2TEXT (Cascallar-Fuentes 2022)</td>
+      <td>Filone deterministico/linguistico (Cat.&nbsp;D)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Scopus (2 query)</h3>
+<div class="table-wrap">
+<table class="comparison-table">
+  <thead>
+    <tr><th>#</th><th>Query</th><th>Risultati rilevanti</th><th>Copertura</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>S1</td>
+      <td><code>TITLE-ABS-KEY("time series" AND "natural language" AND ("generation" OR "verbalization"))</code></td>
+      <td>TADACap, CLaSP, survey Jiang 2024</td>
+      <td>Panorama ampio TS→testo; retrieval-based e contrastive</td>
+    </tr>
+    <tr>
+      <td>S2</td>
+      <td><code>TITLE-ABS-KEY("time series" AND "text" AND ("faithful" OR "deterministic" OR "symbolic"))</code></td>
+      <td>ESAX+BoW (Zhao 2022), SAX_HAR-LLM (Pappa 2026), HSQP (Abdullahi 2026)</td>
+      <td>Filone simbolico (Cat.&nbsp;E) e interfacce TS→LLM</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>WebSearch / Google Scholar (4 query)</h3>
+<div class="table-wrap">
+<table class="comparison-table">
+  <thead>
+    <tr><th>#</th><th>Query</th><th>Paper trovato</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>W1</td>
+      <td><code>CGTime "Decoupling Perception from Description" time series 2026</code></td>
+      <td>CGTime (Feng et al., arXiv:2608.05238)</td>
+      <td>Competitor principale — non presente in nessuna review precedente</td>
+    </tr>
+    <tr>
+      <td>W2</td>
+      <td><code>BEDTime benchmark time series description evaluation 2025</code></td>
+      <td>BEDTime (Sen et al., arXiv:2509.05215)</td>
+      <td>Primo benchmark TS→descrizione; ~46.800 coppie</td>
+    </tr>
+    <tr>
+      <td>W3</td>
+      <td><code>T2SP "Time-Series-to-Structured-Programs" deterministic 2026</code></td>
+      <td>T2SP (Kim et al., arXiv:2606.12481)</td>
+      <td>Decomposizione deterministica invertibile; solo univariato</td>
+    </tr>
+    <tr>
+      <td>W4</td>
+      <td><code>survey time series LLM reasoning agentic TMLR 2026</code></td>
+      <td>Chen et al. TMLR 2026</td>
+      <td>Survey 100+ paper; tassonomia per topologia di ragionamento</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>ArXiv (2 query)</h3>
+<div class="table-wrap">
+<table class="comparison-table">
+  <thead>
+    <tr><th>#</th><th>Query</th><th>Risultati rilevanti</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A1</td>
+      <td><code>time series captioning description multivariate 2025-2026</code></td>
+      <td>CGTime (conferma), FD-LLM (Qaid 2024, Lin 2025)</td>
+      <td>Verifica incrociata con WebSearch</td>
+    </tr>
+    <tr>
+      <td>A2</td>
+      <td><code>time series text representation benchmark evaluation</code></td>
+      <td>BEDTime (conferma), survey Abdullahi IEEE Access 2025</td>
+      <td>Copertura benchmark e survey</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Crossref (1 query)</h3>
+<div class="table-wrap">
+<table class="comparison-table">
+  <thead>
+    <tr><th>#</th><th>Query</th><th>Risultati rilevanti</th><th>Copertura</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C1</td>
+      <td><code>"time series" "text generation" "fault diagnosis"</code></td>
+      <td>FD-LLM (Lin 2025, AEI), LLM-TSFD</td>
+      <td>Intersezione TS→testo + diagnostica industriale</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="section-summary">
+  <strong>Nota metodologica.</strong> Le query sono state progettate con strategia a imbuto: (1)&nbsp;discovery ampio su OpenAlex e Scopus per il panorama completo, (2)&nbsp;query mirate su WebSearch per paper specifici emersi da citazioni incrociate, (3)&nbsp;verifica su ArXiv e Crossref per conferma e completamento. La copertura complessiva abbraccia tutte e sette le categorie della tassonomia (A–G), con enfasi sulle categorie C (captioning generativo), D (D2T deterministico) e E (simbolico) più rilevanti per il posizionamento del FoT-TEP.
+</div>
