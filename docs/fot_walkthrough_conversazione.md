@@ -110,7 +110,7 @@ Mi restano queste cose da fare o valutare; in ordine di priorità:
 - La degradazione local-seen in B emerge nell'Exp3_V2 ma non è ancora stata diagnosticata.
 - La federazione è simulata su un singolo processo (TEP); la validazione su impianti PV reali multi-sito è il passo successivo dichiarato.
 
-**Step 2 / 28(Ph.A)**
+**Step 2 / 28(St.1)**
 
 ## Dataset
 
@@ -121,7 +121,7 @@ Nel progetto si usano due tipi di dato:
 - **Dataset Normal** — un solo file di processo *senza fault*, lungo **500 h**, con **30001 righe** (500 h × 60 = 30000 campioni, più la riga di endpoint a 500 h). Campionamento **1 minuto** (`1/60 h`). L'ultima riga (l'endpoint) viene **esclusa** dai blocchi: 30000 righe si dividono esattamente in 10 blocchi da 50 h, mentre la 30001ª cadrebbe fuori dalla suddivisione uniforme. 41 XMEAS per riga.
 - **Dataset di fault** — i quattro fault studiati sono **F1, F8, F10, F13**. Ogni file è un run (batch) da **50 h**, **3001 righe** (50 h × 60 + endpoint), campionamento 1 minuto, 41 XMEAS. Il fault è iniettato a 10 h, quindi le prime 10 h sono processo nominale e le 40 h successive contengono la firma del guasto.
 
-I file di fault contengono anche **12 variabili manipolate XMV** (le grandezze che l'operatore può controllare). Vengono **escluse** dalla rappresentazione: il layer Phase A è stato definito sulle sole XMEAS e congelato così; aggiungere le XMV dopo aver osservato i dati cambierebbe la rappresentazione a valle del freeze. La pipeline conserva quindi soltanto `Time` + 41 XMEAS.
+I file di fault contengono anche **12 variabili manipolate XMV** (le grandezze che l'operatore può controllare). Vengono **escluse** dalla rappresentazione: il layer Stadio 1 è stato definito sulle sole XMEAS e congelato così; aggiungere le XMV dopo aver osservato i dati cambierebbe la rappresentazione a valle del freeze. La pipeline conserva quindi soltanto `Time` + 41 XMEAS.
 
 Le 41 variabili misurate XMEAS (nomenclatura standard del processo)
 
@@ -153,7 +153,7 @@ Nel dataset i canali sono identificati come `XMEAS-1 … XMEAS-41`. La loro deno
 
 Nomenclatura canonica del TEP (Downs & Vogel, 1993). Il repository tratta i canali come `XMEAS-1…41` senza etichette descrittive; questi nomi sono forniti solo come riferimento fisico.
 
-**Step 3 / 28(Ph.A)**
+**Step 3 / 28(St.1)**
 
 ## Analisi e split dei dataset
 
@@ -198,9 +198,9 @@ Nel caso con fault, le otto finestre post-fault sono indicate come **W1–W8**, 
 >
 > **8 finestre da 5 h** per il caso con fault; **10 finestre da 5 h** per il blocco Normal completo.
 
-**Step 4 / 28(Ph.A)Design / development-time**
+**Step 4 / 28(St.1)Design / development-time**
 
-## La pipeline di Phase A: le sei operazioni
+## La pipeline di Stadio 1: le sei operazioni
 
 Di seguito le fasi svolte dalla pipeline della fase A del progetto.
 
@@ -213,7 +213,7 @@ Di seguito le fasi svolte dalla pipeline della fase A del progetto.
 | 5 | **Dalle finestre al JSON** | Aggrega flag e struttura temporale in evidenza numerica auditabile. |
 | 6 | **Dal JSON al testo neutrale** | Renderizza fatti quantitativi senza fault ID o diagnosi automatica. |
 
-**Step 5 / 28(Ph.A)Design / development-time**
+**Step 5 / 28(St.1)Design / development-time**
 
 ## Scelta delle feature
 
@@ -229,7 +229,7 @@ La **scelta** delle feature è una decisione di design sul development/calibrati
 > | `diff_std_ratio` | Variazioni campione-campione | Oscillazioni lente |
 > | `raw_std_ratio` | Dispersione descrittiva | Instabilità oscillatoria |
 
-**Step 6 / 28(Ph.A)Design / development-time**
+**Step 6 / 28(St.1)Design / development-time**
 
 ## Calibrazione delle soglie
 
@@ -266,7 +266,7 @@ Il **leave-one-block-out** nasce qui: quando si misura N1, il riferimento usa N2
 >
 > Mostriamo solo la coda, ma ogni score è davvero il massimo sui 41 canali.
 
-**Step 7 / 28(Ph.A)Design / development-time**
+**Step 7 / 28(St.1)Design / development-time**
 
 ## Il freeze: congelare feature, soglie e renderer
 
@@ -274,7 +274,7 @@ Prima di aprire validation, test e held-out vengono congelati feature, soglie, r
 
 > **Che cosa è stato usato fino a qui.** Fino al freeze sono entrati in gioco soltanto i blocchi **Normal N1–N5** (per calibrare le soglie) e i **fault batch 1–5**. Questi ultimi sono stati usati **solo in fase di design/development, per scegliere *quali* feature usare** — non per calcolare le soglie e non a runtime. La scelta delle feature è una decisione fatta una volta, a monte, non un'operazione ripetuta su ogni caso. I restanti dati — **N6–N10** e i **fault batch 6–10** — **non sono ancora stati toccati**: entreranno solo dopo il freeze, in validation e test. (N1–N5 servono in due momenti: a design-time per calibrare le soglie e poi come baseline di riferimento anche a runtime.)
 
-**Step 8 / 28(Ph.A)Runtime / finestra × XMEAS**
+**Step 8 / 28(St.1)Runtime / finestra × XMEAS**
 
 ## Dalle feature ai flag: soglie e segni
 
@@ -313,7 +313,7 @@ W1 è mostrata esclusivamente come esempio di calcolo. Nella pipeline completa, 
 >
 > W1: `mode1_1_1.xlsx`, righe Excel 602–901, XMEAS-1. Baseline: `mode1_normal_500.xlsx`, righe 2–15001 della colonna ricondotta a XMEAS-1. Il ricalcolo read-only coincide con il CSV entro l'ultima unità floating-point; qui è riportata la precisione frozen del CSV.
 
-**Step 9 / 28(Ph.A)Runtime / caso completo**
+**Step 9 / 28(St.1)Runtime / caso completo**
 
 ## Dai flag al JSON, fino al testo neutrale
 
@@ -357,7 +357,7 @@ La griglia di flag (8 finestre × 41 XMEAS) viene utilizzata per generare un **J
 >
 > L'estratto JSON mostra la parte `level` di XMEAS-1. Il testo completo nasce dal JSON completo a 41 canali, quindi cita altri canali quando dominano altre sezioni (qui XMEAS-20 e XMEAS-10). Non contiene F1, batch, pseudolabel o soglie: nessuna diagnosi, solo fatti.
 
-**Step 10 / 28(Ph.A)Controllo offline**
+**Step 10 / 28(St.1)Controllo offline**
 
 ## Evaluator · signature vector
 
@@ -381,19 +381,19 @@ Solo ora entra l'evaluator, con uno scopo preciso: verificare offline se la rapp
 >
 > **Inter-classe** (F1·A vs Normal·C): differenze `|0.90|, |1.00|, |0.85|, |0.70|` → media `0.8625` → similarità **0.1375**. Fault e Normal sono lontani: la rappresentazione è **separabile**.
 >
-> > **A cosa serve.** Alta similarità intra-classe + bassa similarità inter-classe = il testo neutrale di Phase A conserva abbastanza struttura da distinguere le condizioni *senza mai nominarle*. È il pre-requisito descrittivo che rende sensato, nello step successivo, dare quei testi in pasto a un reasoner in Phase B — ma resta separabilità, non ancora accuracy diagnostica.
+> > **A cosa serve.** Alta similarità intra-classe + bassa similarità inter-classe = il testo neutrale di Stadio 1 conserva abbastanza struttura da distinguere le condizioni *senza mai nominarle*. È il pre-requisito descrittivo che rende sensato, nello step successivo, dare quei testi in pasto a un reasoner in Stadio 2 — ma resta separabilità, non ancora accuracy diagnostica.
 
-**Step 11 / 28(Ph.A)Valutazione out-of-development/calibration**
+**Step 11 / 28(St.1)Valutazione out-of-development/calibration**
 
 ## Validation e test split: applicare dopo il freeze
 
-La progettazione si è terminata con il freeze; adesso si esegue la stessa pipeline runtime prima sulla validation (fault batch 6–7 e Normal N6–N7) e poi sul test split (batch 8–10 e N8–N10). In entrambi i casi il percorso è sempre `finestre → feature → soglie congelate → JSON → testo neutrale → evaluator`. È importante notare come lo split «development/calibration» sia utilizzato per progettare e calibrare, in seguito al freeze la validation è utilizzata per effettuare controlli intermedi e alla fine il test split resta chiuso fino alla verifica finale di Phase A.
+La progettazione si è terminata con il freeze; adesso si esegue la stessa pipeline runtime prima sulla validation (fault batch 6–7 e Normal N6–N7) e poi sul test split (batch 8–10 e N8–N10). In entrambi i casi il percorso è sempre `finestre → feature → soglie congelate → JSON → testo neutrale → evaluator`. È importante notare come lo split «development/calibration» sia utilizzato per progettare e calibrare, in seguito al freeze la validation è utilizzata per effettuare controlli intermedi e alla fine il test split resta chiuso fino alla verifica finale di Stadio 1.
 
-**Step 12 / 28(Ph.A)Confine sperimentale**
+**Step 12 / 28(St.1)Confine sperimentale**
 
 ## Nuove simulazioni indipendenti
 
-I batch 8–10 del test split erano test di Phase A, ma sono stati aperti. Un test osservato non è più vergine per Phase B. La catena è: test split visto → non può essere nuovo test indipendente → servono run nuovi → vanno congelati prima di verbalizzazione e inference. Un test indipendente e congelato prima dell'inferenza serve proprio a questo: impedisce il leakage da riuso di uno split già osservato e offre una misura non distorta della generalizzazione, senza che il test possa ricalibrare soglie o insight (nessun overfitting al set di valutazione). Questi 15 run congelati sono il materiale su cui si aprirà **Phase B** (dal prossimo step): fin qui — Step 4–12 — siamo rimasti dentro Phase A.
+I batch 8–10 del test split erano test di Stadio 1, ma sono stati aperti. Un test osservato non è più vergine per Stadio 2. La catena è: test split visto → non può essere nuovo test indipendente → servono run nuovi → vanno congelati prima di verbalizzazione e inference. Un test indipendente e congelato prima dell'inferenza serve proprio a questo: impedisce il leakage da riuso di uno split già osservato e offre una misura non distorta della generalizzazione, senza che il test possa ricalibrare soglie o insight (nessun overfitting al set di valutazione). Questi 15 run congelati sono il materiale su cui si aprirà **Stadio 2** (dal prossimo step): fin qui — Step 4–12 — siamo rimasti dentro Stadio 1.
 
 15 nuove realizzazioni simulate = 3 Normali + 3 run per ciascun fault
 
@@ -401,11 +401,11 @@ I batch 8–10 del test split erano test di Phase A, ma sono stati aperti. Un te
 | --- | --- | --- | --- | --- |
 | 3 run | 3 run | 3 run | 3 run | 3 run |
 
-**Step 13 / 28(Ph.B)Phase B / conoscenza locale**
+**Step 13 / 28(St.2)Stadio 2 / conoscenza locale**
 
 ## Agenti non-IID, pseudolabel ed esempi locali
 
-> **Inizia Phase B.** Finora (Step 4–12) siamo rimasti in Phase A: pipeline deterministica, soglie calibrate e congelate, nessun LLM. Da qui entrano in gioco gli agenti, il reasoner e la federazione. La pipeline Phase A non viene ri-progettata: gli agenti la *riusano* così com'è, applicando baseline e soglie congelate senza mai ricalibrarle.
+> **Inizia Stadio 2.** Finora (Step 4–12) siamo rimasti in Stadio 1: pipeline deterministica, soglie calibrate e congelate, nessun LLM. Da qui entrano in gioco gli agenti, il reasoner e la federazione. La pipeline Stadio 1 non viene ri-progettata: gli agenti la *riusano* così com'è, applicando baseline e soglie congelate senza mai ricalibrarle.
 
 Quattro agenti conoscono tutti il Normal ma ciascuno un solo fault. Ogni agente riceve due esempi del proprio fault (batch 1–2) e gli stessi due Normal (N1–N2).
 
@@ -415,18 +415,18 @@ Distribuzione non-IID: ogni agente conosce solo il proprio fault
 | --- | --- | --- | --- |
 | 2 Normali + 2 esempi da F1 | 2 Normali + 2 esempi da F8 | 2 Normali + 2 esempi da F10 | 2 Normali + 2 esempi da F13 |
 
-> **Da dove vengono i dati.** Attenzione a non confondere tre cose distinte: gli **esempi** del few-shot sono batch 1–2 di fault e Normal N1–N2 dal **TEP originale** (gli stessi workbook di Phase A), non i run indipendenti; il **caso da diagnosticare** sarà invece un run del **held-out indipendente** — i 15 PBH dello Step 12 — e comparirà solo all'inferenza (Step 16); le **soglie** restano quelle calibrate in Phase A sul TEP originale (Normal N1–N5), congelate e mai ricalcolate.
+> **Da dove vengono i dati.** Attenzione a non confondere tre cose distinte: gli **esempi** del few-shot sono batch 1–2 di fault e Normal N1–N2 dal **TEP originale** (gli stessi workbook di Stadio 1), non i run indipendenti; il **caso da diagnosticare** sarà invece un run del **held-out indipendente** — i 15 PBH dello Step 12 — e comparirà solo all'inferenza (Step 16); le **soglie** restano quelle calibrate in Stadio 1 sul TEP originale (Normal N1–N5), congelate e mai ricalcolate.
 
-> Prima operazione di Phase B · il few-shot locale
+> Prima operazione di Stadio 2 · il few-shot locale
 >
 > ### Ogni agente costruisce i propri esempi few-shot
 >
-> La prima cosa che fa ogni agente è preparare il proprio **few-shot locale**: prende i casi che conosce (i suoi batch 1–2 di fault e i Normal N1–N2), li fa passare per la pipeline Phase A già congelata e ne ricava esempi pronti da mostrare al reasoner. Non è materiale che «compare» già pronto: viene ricostruito dai workbook, senza LLM e senza ricalibrare nulla. Il ramo few-shot usa batch 1–2; il ramo insight dello step successivo riparte separatamente dai batch 1–5.
+> La prima cosa che fa ogni agente è preparare il proprio **few-shot locale**: prende i casi che conosce (i suoi batch 1–2 di fault e i Normal N1–N2), li fa passare per la pipeline Stadio 1 già congelata e ne ricava esempi pronti da mostrare al reasoner. Non è materiale che «compare» già pronto: viene ricostruito dai workbook, senza LLM e senza ricalibrare nulla. Il ramo few-shot usa batch 1–2; il ramo insight dello step successivo riparte separatamente dai batch 1–5.
 >
 > | Passaggio | Che cosa accade realmente |
 > | --- | --- |
 > | **Input dei casi** | Per ciascun agente: i workbook fissi batch 1–2 del proprio fault locale e i blocchi Normal N1–N2. La baseline development/calibration N1–N5 resta il riferimento frozen. |
-> | **Operazione** | Con questi input, l'agente riesegue la pipeline Phase A congelata (`finestre → feature → soglie già congelate → flag → JSON → testo neutrale`) e associa a ogni caso la sua **pseudolabel** — un'etichetta opaca che nasconde il nome reale del fault (spiegata in dettaglio qui sotto). Nessun LLM, nessuna ricalibrazione delle soglie. |
+> | **Operazione** | Con questi input, l'agente riesegue la pipeline Stadio 1 congelata (`finestre → feature → soglie già congelate → flag → JSON → testo neutrale`) e associa a ogni caso la sua **pseudolabel** — un'etichetta opaca che nasconde il nome reale del fault (spiegata in dettaglio qui sotto). Nessun LLM, nessuna ricalibrazione delle soglie. |
 > | **Output** | 4 pack × 4 esempi, ciascuno ridotto alla coppia `(testo neutrale, pseudolabel)`. |
 
 > ### Che cosa significa pseudolabel e che cosa vede l'LLM
@@ -448,11 +448,11 @@ Distribuzione non-IID: ogni agente conosce solo il proprio fault
 > >
 > > **Etichetta mostrata all'LLM:** `CLS-ZOGAA`. La coppia è testo + etichetta; F1 e batch 1 restano provenance evaluator-side.
 
-**Step 14 / 28(Ph.B)Phase B / federazione**
+**Step 14 / 28(St.2)Stadio 2 / federazione**
 
 ## Gli insight distillano più casi; la federazione li distribuisce peer-only
 
-Dopo il few-shot, ogni agente compie una seconda operazione: condensa ciò che sa del proprio fault in due brevi osservazioni testuali, gli **insight**. Per farlo riparte dai cinque casi development/calibration del fault locale (batch 1–5, dati TEP originali già usati in Phase A), li fa passare per la stessa pipeline congelata ottenendone i testi neutrali e chiede all'LLM di distillarne le regolarità ricorrenti: **2 insight per agente, 8 in totale**. Questo è un ramo distinto dal few-shot dello Step 13: non usa come input il file degli esempi locali. Tutto avviene **prima di aprire diagnosticamente** i 15 run indipendenti dello Step 12, già generati e congelati: gli insight nascono soltanto da ciò che l'agente conosceva già. Infine avviene la **federazione**: ogni agente riceve i sei insight degli altri tre peer — mai i propri — così la conoscenza circola come testo, senza scambiare dati grezzi né parametri del modello.
+Dopo il few-shot, ogni agente compie una seconda operazione: condensa ciò che sa del proprio fault in due brevi osservazioni testuali, gli **insight**. Per farlo riparte dai cinque casi development/calibration del fault locale (batch 1–5, dati TEP originali già usati in Stadio 1), li fa passare per la stessa pipeline congelata ottenendone i testi neutrali e chiede all'LLM di distillarne le regolarità ricorrenti: **2 insight per agente, 8 in totale**. Questo è un ramo distinto dal few-shot dello Step 13: non usa come input il file degli esempi locali. Tutto avviene **prima di aprire diagnosticamente** i 15 run indipendenti dello Step 12, già generati e congelati: gli insight nascono soltanto da ciò che l'agente conosceva già. Infine avviene la **federazione**: ogni agente riceve i sei insight degli altri tre peer — mai i propri — così la conoscenza circola come testo, senza scambiare dati grezzi né parametri del modello.
 
 > Ramo insight separato · input → operazione → output
 >
@@ -485,7 +485,7 @@ Dopo il few-shot, ogni agente compie una seconda operazione: condensa ciò che s
 >
 > > **8 generati, 6 ricevuti.** La libreria globale ha otto insight; ciascuna peer library ne ha sei.
 
-**Step 15 / 28(Ph.B)Phase B / protocollo frozen**
+**Step 15 / 28(St.2)Stadio 2 / protocollo frozen**
 
 ## Configurazioni informative controllate e struttura completa dell'inference
 
@@ -513,7 +513,7 @@ Una **configurazione informativa** è una versione controllata dello stesso agen
 
 > **Cronologia del protocollo.** Condition C non faceva parte del protocollo originale A/B/E: è stata progettata post-hoc dopo l'osservazione dei risultati A/B/E. Ha però avuto un proprio amendment e un proprio freeze, entrambi completati prima delle sue chiamate LLM. Il carattere post-hoc riguarda quindi la scelta di introdurre il confronto, non una modifica delle predizioni dopo averne osservato gli esiti.
 
-**Step 16 / 28(Ph.B)Phase B / inference frozen**
+**Step 16 / 28(St.2)Stadio 2 / inference frozen**
 
 ## Dal testo neutrale alla decisione: PBH-004 visto da Agent 3
 
@@ -521,7 +521,7 @@ Finora abbiamo definito le tre configurazioni informative. Vediamo ora che cosa 
 
 Il testo neutrale di PBH-004 segnala XMEAS-1 sopra la soglia di spostamento in 8/8 finestre, sempre positivo, con dispersione massima 47.00: la firma di F1, osservata però su un run mai visto.
 
-PBH-004 → → → pipeline Phase A congelata → → → testo neutrale → → → Agent 3 → → → A / B / E → → → tre esiti aggregati → → → ground truth ancora chiusa
+PBH-004 → → → pipeline Stadio 1 congelata → → → testo neutrale → → → Agent 3 → → → A / B / E → → → tre esiti aggregati → → → ground truth ancora chiusa
 
 > Agent 3 × PBH-004 · record frozen
 >
@@ -535,9 +535,9 @@ PBH-004 → → → pipeline Phase A congelata → → → testo neutrale → �
 >
 > I record hanno `used_insight_ids=[]`: non attribuiamo la singola risposta a INS-001. Confrontiamo correttamente le configurazioni informative frozen nel loro insieme.
 
-**Step 17 / 28(Ph.B)Ground-truth evaluation**
+**Step 17 / 28(St.2)Ground-truth evaluation**
 
-## Risultati Phase B: trasferimento di conoscenza sui fault localmente unseen
+## Risultati Stadio 2: trasferimento di conoscenza sui fault localmente unseen
 
 Lo step conclusivo è la valutazione dell'intero esperimento. Ricordiamoci che TEP non è il dominio target, ma possiamo definirlo come il banco di prova controllato. La domanda scientifica di questa POC è in realtà — *«FoT può trasferire conoscenza discriminante tra agenti che operano su serie temporali multivariate eterogenee, permettendo il riconoscimento di una condizione temporale localmente unseen?»* — e **non** «FoT risolve la diagnosi dei fault?», tantomeno «FoT funziona sul fotovoltaico?».
 
@@ -667,7 +667,7 @@ Per confronto, A contiene 0/36 risposte corrette, 22 errori committed e 14 asten
 
 ### 5 · Cosa succede ai casi già conosciuti e quanto sono stabili le decisioni?
 
-Il risultato principale della Phase B riguarda i fault localmente unseen: vogliamo sapere se gli insight peer permettono al receiving agent di riconoscere condizioni che non possiede nella propria conoscenza locale. Un trasferimento utile, però, non dovrebbe essere valutato soltanto su ciò che l'agente non conosce: è importante controllare anche che cosa accade ai casi che sa già riconoscere.
+Il risultato principale dello Stadio 2 riguarda i fault localmente unseen: vogliamo sapere se gli insight peer permettono al receiving agent di riconoscere condizioni che non possiede nella propria conoscenza locale. Un trasferimento utile, però, non dovrebbe essere valutato soltanto su ciò che l'agente non conosce: è importante controllare anche che cosa accade ai casi che sa già riconoscere.
 
 Per questo il protocollo frozen mantiene separati due outcome secondari: i fault **local-seen**, per i quali l'agente possiede esempi locali, e la condizione **Normal**. Non sono l'endpoint primario, che resta locally-unseen; sono outcome distinti usati per verificare se, nel campione held-out osservato, l'aggiunta degli insight peer sia accompagnata da una degradazione evidente delle prestazioni già acquisite.
 
@@ -699,7 +699,7 @@ Per descrivere la consistenza delle decisioni distinguiamo:
 
 Fault: Unanimous· 33/36 · 91.67%, Split· 3/36 · 8.33%
 
-Questa decomposizione unanimous/split è una derivazione descrittiva post-hoc dei repetition records frozen. Non era uno degli endpoint utilizzati per giudicare il successo primario della Phase B.
+Questa decomposizione unanimous/split è una derivazione descrittiva post-hoc dei repetition records frozen. Non era uno degli endpoint utilizzati per giudicare il successo primario dello Stadio 2.
 
 Il fatto che 33/36 decisioni unseen di B siano unanimi indica che, nel setup frozen osservato, la maggior parte delle decisioni aggregate deriva da tre chiamate concordi. È un descrittore della **stabilità delle decisioni tra le tre chiamate R=3**, non una misura generale di robustezza. Le chiamate usano lo stesso input e la stessa configurazione: il risultato non dimostra stabilità rispetto a perturbazioni dei dati, prompt diversi, altri modelli, altre configurazioni di reasoning o distribuzioni differenti.
 

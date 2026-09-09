@@ -626,18 +626,53 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 .critica-body table tr:last-child td {
   border-bottom: none;
 }
+
+/* --- Project overview image modal --- */
+.overview-img-wrap{text-align:center;margin:0}
+.overview-img-wrap img{
+  max-width:100%;height:auto;border-radius:10px;
+  cursor:pointer;transition:opacity .15s;
+  box-shadow:0 2px 12px rgba(0,0,0,.08);
+}
+.overview-img-wrap img:hover{opacity:.88}
+.overview-img-wrap .img-caption{
+  margin-top:6px;font-size:0.78rem;color:var(--text-caption);
+  font-style:italic;
+}
+.img-modal-overlay{
+  display:none;position:fixed;inset:0;z-index:10000;
+  background:rgba(0,0,0,.82);
+  justify-content:center;align-items:center;
+  padding:20px;
+}
+.img-modal-overlay.active{display:flex}
+.img-modal-overlay img{
+  max-width:95vw;max-height:92vh;
+  border-radius:6px;box-shadow:0 4px 40px rgba(0,0,0,.5);
+  object-fit:contain;
+}
+.img-modal-close{
+  position:fixed;top:16px;right:22px;z-index:10001;
+  width:40px;height:40px;border-radius:50%;border:none;
+  background:rgba(255,255,255,.15);color:#fff;
+  font-size:24px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  transition:background .15s;
+}
+.img-modal-close:hover{background:rgba(255,255,255,.3)}
 </style>
 
 <!-- NAVIGATION -->
 <nav class="nav" role="navigation" aria-label="Step navigation">
   <div class="nav-inner">
     <div class="nav-phase">
-      <div class="nav-phase-label phase-a">Phase A</div>
+      <div class="nav-phase-label phase-a">Stadio 1</div>
       <div class="nav-steps" id="navA"></div>
     </div>
     <div class="nav-divider"></div>
     <div class="nav-phase">
-      <div class="nav-phase-label phase-b">Phase B</div>
+      <div class="nav-phase-label phase-b">Stadio 2</div>
       <div class="nav-steps" id="navB"></div>
     </div>
     <div class="nav-divider"></div>
@@ -669,20 +704,32 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <span class="flow-arrow">→</span>
       <span class="flow-node em-b">Diagnosi via LLM</span>
     </div>
-    <p style="font-size:0.85rem;color:var(--text-caption);margin:12px 0 0">Modello LLM utilizzato: <strong style="color:var(--accent-b)">gpt-5.6-terra</strong> (OpenAI, via Responses API). Ogni chiamata LLM avviene esclusivamente in Phase B — Phase A è completamente deterministica.</p>
+    <p style="font-size:0.85rem;color:var(--text-caption);margin:12px 0 0">Modello LLM utilizzato: <strong style="color:var(--accent-b)">gpt-5.6-terra</strong> (OpenAI, via Responses API). Ogni chiamata LLM avviene esclusivamente in Stadio 2 — Stadio 1 è completamente deterministico.</p>
   </div>
 
   <div class="card">
     <div class="card-label">Cosa vedrai</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
       <div>
-        <h3 style="color:var(--accent-a);margin-bottom:6px">Phase A — Dal segnale al testo</h3>
+        <h3 style="color:var(--accent-a);margin-bottom:6px">Stadio 1 — Dal segnale al testo</h3>
         <p style="font-size:0.88rem;color:var(--text-muted);margin:0">Come si calcola una feature, come si fissa una soglia, come si produce la descrizione neutra di un caso.</p>
       </div>
       <div>
-        <h3 style="color:var(--accent-b);margin-bottom:6px">Phase B — Dalla federazione alla diagnosi</h3>
+        <h3 style="color:var(--accent-b);margin-bottom:6px">Stadio 2 — Dalla federazione alla diagnosi</h3>
         <p style="font-size:0.88rem;color:var(--text-muted);margin:0">Come gli agenti condividono conoscenza via testo e come la diagnosi cambia con e senza insight. Include i risultati dell'esperimento iniziale (Exp 1) e della replica confermativa con campione raddoppiato (EXP3_V2).</p>
       </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Panoramica del progetto</div>
+    <div class="overview-img-wrap">
+      <img src="figures/project_overview.png"
+           alt="Project overview — struttura del progetto FoT-TEP"
+           width="1774" height="887"
+           id="overview-thumb"
+           title="Clicca per ingrandire">
+      <div class="img-caption">Clicca sull'immagine per visualizzarla a dimensione originale</div>
     </div>
   </div>
 
@@ -694,7 +741,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 1: DATASET & SPLITS ==================== -->
 <div class="step-container" data-step="1">
-  <div class="phase-badge a">Phase A · Step 1</div>
+  <div class="phase-badge a">Stadio 1 · Step 1</div>
   <h1 class="step-title">Il dataset: sorgente, fault e split</h1>
   <p class="step-intro">Prima di calcolare qualsiasi feature, serve sapere <strong>da dove vengono i dati</strong>, quali fault sono stati scelti, e come vengono suddivisi per evitare il leakage.</p>
 
@@ -752,22 +799,6 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     </table>
   </div>
 
-  <div class="card">
-    <div class="card-label">Held-out per Phase B &mdash; 15 nuove realizzazioni</div>
-    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
-      Il test split (batch 8&ndash;10) &egrave; gi&agrave; stato osservato in Phase A. Un test visto non &egrave; pi&ugrave; vergine. Per Phase B servono <strong>15 nuovi run congelati</strong>, mai toccati prima dell'inferenza:
-    </p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--accent-a-light);font-size:0.82rem;color:var(--accent-a);font-weight:500">3 &times; Normal</span>
-      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 &times; F1</span>
-      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 &times; F8</span>
-      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 &times; F10</span>
-      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 &times; F13</span>
-    </div>
-    <p style="margin:10px 0 0;font-size:0.82rem;color:var(--text-caption)">
-      Questi 15 run vengono congelati (hash, manifest) <em>prima</em> della verbalizzazione e dell'inferenza. Ogni run va a tutti e 4 gli agenti: 1 lo vede come local-seen, 3 come local-unseen &rarr; 12 fault &times; 3 = <strong>36 agent-case unseen</strong> per condizione.
-    </p>
-  </div>
 
   <div class="callout">
     <span class="callout-icon">&#9432;</span>
@@ -777,7 +808,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 2: RAW DATA ==================== -->
 <div class="step-container" data-step="2">
-  <div class="phase-badge a">Phase A · Step 2</div>
+  <div class="phase-badge a">Stadio 1 · Step 2</div>
   <h1 class="step-title">I dati grezzi: cosa riceve un agente</h1>
   <p class="step-intro">Il Tennessee Eastman Process produce 41 variabili misurate (XMEAS) campionate ogni minuto. Un run di fault dura 50 h: le prime 10 h sono normali, poi si attiva il guasto. Ecco cosa vede il sensore XMEAS-1 (A Feed flow) in un run di F1.</p>
 
@@ -793,7 +824,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
   <div class="callout">
     <span class="callout-icon">&#9432;</span>
-    <span>Il salto è evidente su XMEAS-1, ma l'agente non sa quale sia il fault. Ha solo 41 colonne di numeri. La pipeline Phase A trasformerà questi numeri in un testo neutrale.</span>
+    <span>Il salto è evidente su XMEAS-1, ma l'agente non sa quale sia il fault. Ha solo 41 colonne di numeri. La pipeline Stadio 1 trasformerà questi numeri in un testo neutrale.</span>
   </div>
 
   <div class="card">
@@ -814,7 +845,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 3: BASELINE ==================== -->
 <div class="step-container" data-step="3">
-  <div class="phase-badge a">Phase A · Step 3</div>
+  <div class="phase-badge a">Stadio 1 · Step 3</div>
   <h1 class="step-title">Costruire il riferimento: la baseline Normal</h1>
   <p class="step-intro">Prima di giudicare un segnale, serve sapere cosa è "normale". La baseline viene costruita <strong>solo</strong> dai dati Normal N1–N5 (250 h di processo senza guasti) e mai modificata dopo.</p>
 
@@ -856,7 +887,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 4: FEATURE CALCULATION ==================== -->
 <div class="step-container" data-step="4">
-  <div class="phase-badge a">Phase A · Step 4</div>
+  <div class="phase-badge a">Stadio 1 · Step 4</div>
   <h1 class="step-title">Calcolo della feature: shift_sigma</h1>
   <p class="step-intro">La scelta delle feature è una decisione di design sul development/calibration. Il calcolo delle feature è invece l'operazione ripetuta su ogni finestra.</p>
   <p class="step-intro">Nella procedura completa, lo stesso calcolo viene applicato a <strong>tutte le 8 finestre</strong> e a <strong>tutte le 41 variabili XMEAS</strong>, producendo 8 &times; 41 = 328 valori di shift_sigma per ciascun run. Qui sotto vediamo un <strong>singolo esempio concreto</strong>: XMEAS-1, finestra W1 (10&ndash;15 h), F1 batch 1.</p>
@@ -909,7 +940,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 5: THRESHOLD ==================== -->
 <div class="step-container" data-step="5">
-  <div class="phase-badge a">Phase A · Step 5</div>
+  <div class="phase-badge a">Stadio 1 · Step 5</div>
   <h1 class="step-title">Calibrazione della soglia</h1>
   <p class="step-intro">La soglia serve a distinguere le fluttuazioni normali dagli spostamenti significativi. Viene calcolata <strong>solo sui dati Normal N1–N5</strong>, senza mai guardare i fault. 50 finestre normali, per ognuna si prende il massimo |shift_sigma| fra le 41 XMEAS, poi si ordina: la soglia è il valore al rango 49.</p>
 
@@ -958,7 +989,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 6: FLAGS ==================== -->
 <div class="step-container" data-step="6">
-  <div class="phase-badge a">Phase A · Step 6</div>
+  <div class="phase-badge a">Stadio 1 · Step 6</div>
   <h1 class="step-title">Dai numeri ai flag: applicazione soglia e generazione flag e segni</h1>
   <p class="step-intro">Ora applichiamo la soglia congelata (<code>1.970</code>) a tutte le 8 finestre post-fault del run F1 batch 1. Per la feature <strong>shift_sigma</strong>: se <code>|shift_sigma| > 1.970</code>, il flag è <strong>ON</strong>. Il segno (+ o −) viene conservato.</p>
 
@@ -991,7 +1022,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 7: JSON ==================== -->
 <div class="step-container" data-step="7">
-  <div class="phase-badge a">Phase A · Step 7</div>
+  <div class="phase-badge a">Stadio 1 · Step 7</div>
   <h1 class="step-title">Dai flag al JSON strutturato</h1>
   <p class="step-intro">I flag di tutte le finestre vengono aggregati in un'evidenza strutturata: quante finestre attive, coerenza di segno, persistenza nella fase iniziale e tardiva, episodi consecutivi. Ecco l'estratto per <strong>XMEAS-1, feature level (shift)</strong>.</p>
 
@@ -1033,7 +1064,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 8: NEUTRAL TEXT ==================== -->
 <div class="step-container" data-step="8">
-  <div class="phase-badge a">Phase A · Step 8</div>
+  <div class="phase-badge a">Stadio 1 · Step 8</div>
   <h1 class="step-title">Dal JSON al testo neutrale</h1>
   <p class="step-intro">Il JSON viene trasformato in una descrizione in linguaggio naturale. Il testo è <strong>neutrale</strong>: descrive fatti quantitativi osservati, senza mai nominare il fault, assegnare un'etichetta diagnostica, o interpretare le cause.</p>
 
@@ -1057,18 +1088,18 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
   <div class="callout warn">
     <span class="callout-icon">&#9888;</span>
-    <span>Nessun "F1", nessun "fault", nessuna diagnosi. Solo fatti osservabili: quali variabili, quante finestre, che segno. Questo è ciò che riceverà il reasoner LLM in Phase B.</span>
+    <span>Nessun "F1", nessun "fault", nessuna diagnosi. Solo fatti osservabili: quali variabili, quante finestre, che segno. Questo è ciò che riceverà il reasoner LLM in Stadio 2.</span>
   </div>
 
   <div class="card">
-    <div class="card-label">Fine Phase A — Riepilogo della pipeline</div>
-    <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">Phase A è <strong>completamente deterministica</strong>: nessun LLM, nessuna scelta stocastica. Dati gli stessi segnali e la stessa baseline congelata, produce sempre lo stesso testo neutrale. Questo componente &mdash; la pipeline completa da segnali grezzi a testo neutrale &mdash; è il <strong>verbalizzatore V2</strong>: un renderer a template, senza parametri appresi, con calibrazione statistica conformal. Il testo che produce è il <strong>ponte</strong> verso Phase B: sarà l'unico input numerico che gli agenti condivideranno.</p>
+    <div class="card-label">Fine Stadio 1 — Riepilogo della pipeline</div>
+    <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">Stadio 1 è <strong>completamente deterministico</strong>: nessun LLM, nessuna scelta stocastica. Dati gli stessi segnali e la stessa baseline congelata, produce sempre lo stesso testo neutrale. Questo componente &mdash; la pipeline completa da segnali grezzi a testo neutrale &mdash; è il <strong>verbalizzatore V2</strong>: un renderer a template, senza parametri appresi, con calibrazione statistica conformal. Il testo che produce è il <strong>ponte</strong> verso Stadio 2: sarà l'unico input numerico che gli agenti condivideranno.</p>
   </div>
 
   <div class="card" style="border-left:3px solid var(--accent-b)">
-    <div class="card-label">Passo finale — Generazione dei run indipendenti per Phase B</div>
+    <div class="card-label">Passo finale — Generazione dei run indipendenti per Stadio 2</div>
     <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
-      I batch di test (8–10) sono già stati osservati dalla pipeline Phase A durante lo sviluppo. Per la valutazione in Phase B servono dati <strong>completamente vergini</strong>. Si generano quindi <strong>15 nuove realizzazioni indipendenti</strong> dal simulatore TEP:
+      I batch di test (8–10) sono già stati osservati dalla pipeline Stadio 1 durante lo sviluppo. Per la valutazione in Stadio 2 servono dati <strong>completamente vergini</strong>. Si generano quindi <strong>15 nuove realizzazioni indipendenti</strong> dal simulatore TEP:
     </p>
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
       <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--accent-a-light);font-size:0.82rem;color:var(--accent-a);font-weight:500">3 × Normal</span>
@@ -1078,7 +1109,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <span style="display:inline-block;padding:5px 10px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 × F13</span>
     </div>
     <p style="margin:0;font-size:0.82rem;color:var(--text-caption)">
-      Ogni run viene congelato (hash SHA-256, manifest) <em>prima</em> della verbalizzazione e dell'inferenza. La pipeline Phase A (soglie, feature, testo neutrale) viene applicata a questi run esattamente come ai precedenti, senza alcuna modifica. Nella Fase 2 il protocollo è stato replicato con il doppio dei run: 6 per classe fault + 6 Normal = <strong>30 run</strong>.
+      Ogni run viene congelato (hash SHA-256, manifest) <em>prima</em> della verbalizzazione e dell'inferenza. La pipeline Stadio 1 (soglie, feature, testo neutrale) viene applicata a questi run esattamente come ai precedenti, senza alcuna modifica. Nella Fase 2 il protocollo è stato replicato con il doppio dei run: 6 per classe fault + 6 Normal = <strong>30 run</strong>.
     </p>
   </div>
 </div>
@@ -1086,7 +1117,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 9: EVALUATOR ==================== -->
 <div class="step-container" data-step="10">
-  <div class="phase-badge a">Phase A · Step 9</div>
+  <div class="phase-badge a">Stadio 1 · Step 9</div>
   <h1 class="step-title">Evaluator: il signature vector</h1>
   <p class="step-intro">Prima di affidare i testi a un reasoner LLM, l'evaluator verifica offline se la rappresentazione neutrale conserva una struttura sufficientemente <strong>stabile</strong> (intra-classe) e <strong>separabile</strong> (inter-classe). Non produce predizioni: valuta la qualità descrittiva della pipeline.</p>
 
@@ -1129,15 +1160,33 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
   <div class="callout">
     <span class="callout-icon">&#9432;</span>
-    <span>Alta similarità intra-classe + bassa similarità inter-classe = il testo neutrale di Phase A conserva abbastanza struttura da distinguere le condizioni <em>senza mai nominarle</em>. È il pre-requisito descrittivo che rende sensato dare quei testi in pasto a un reasoner in Phase B — ma resta separabilità, non ancora accuracy diagnostica.</span>
+    <span>Alta similarità intra-classe + bassa similarità inter-classe = il testo neutrale di Stadio 1 conserva abbastanza struttura da distinguere le condizioni <em>senza mai nominarle</em>. È il pre-requisito descrittivo che rende sensato dare quei testi in pasto a un reasoner in Stadio 2 — ma resta separabilità, non ancora accuracy diagnostica.</span>
   </div>
 </div>
 
 <!-- ==================== STEP 10: AGENTS ==================== -->
 <div class="step-container" data-step="11">
-  <div class="phase-badge b">Phase B · Step 1</div>
+  <div class="phase-badge b">Stadio 2 · Step 1</div>
   <h1 class="step-title">Gli agenti e la conoscenza locale non-IID</h1>
   <p class="step-intro">Quattro agenti osservano lo stesso processo ma conoscono ciascuno un solo tipo di guasto. Tutti conoscono il Normal. I nomi reali dei fault (F1, F8, F10, F13) sono nascosti dietro <strong>pseudolabel opache</strong>.</p>
+
+  <div class="card">
+    <div class="card-label">Held-out per Stadio 2 &mdash; 15 nuove realizzazioni</div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
+      Il test split (batch 8&ndash;10) &egrave; gi&agrave; stato osservato in Stadio 1. Un test visto non &egrave; pi&ugrave; vergine. Per Stadio 2 servono <strong>15 nuovi run congelati</strong>, mai toccati prima dell'inferenza:
+    </p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--accent-a-light);font-size:0.82rem;color:var(--accent-a);font-weight:500">3 &times; Normal</span>
+      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 &times; F1</span>
+      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 &times; F8</span>
+      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 &times; F10</span>
+      <span style="display:inline-block;padding:6px 12px;border-radius:4px;background:var(--threshold-light);font-size:0.82rem;color:var(--threshold);font-weight:500">3 &times; F13</span>
+    </div>
+    <p style="margin:10px 0 0;font-size:0.82rem;color:var(--text-caption)">
+      Questi 15 run vengono congelati (hash, manifest) <em>prima</em> della verbalizzazione e dell'inferenza. Ogni run va a tutti e 4 gli agenti: 1 lo vede come local-seen, 3 come local-unseen &rarr; 12 fault &times; 3 = <strong>36 agent-case unseen</strong> per condizione.
+    </p>
+  </div>
+
 
   <div class="agents-grid">
     <div class="agent-card">
@@ -1175,7 +1224,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
   <div class="card">
     <div class="card-label">Modello LLM — gpt-5.6-terra</div>
-    <p style="margin:0 0 8px;font-size:0.88rem;color:var(--text-muted)">Tutte le chiamate LLM in Phase B usano <strong style="color:var(--accent-b)">gpt-5.6-terra</strong> (OpenAI) tramite la <em>Responses API</em>. Le operazioni coinvolte sono:</p>
+    <p style="margin:0 0 8px;font-size:0.88rem;color:var(--text-muted)">Tutte le chiamate LLM in Stadio 2 usano <strong style="color:var(--accent-b)">gpt-5.6-terra</strong> (OpenAI) tramite la <em>Responses API</em>. Le operazioni coinvolte sono:</p>
     <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:0.85rem">
       <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">1.</span><span style="color:var(--text-muted)">Generazione degli insight testuali a partire dai few-shot locali</span>
       <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--accent-b)">2.</span><span style="color:var(--text-muted)">Inference diagnostica (R=3 ripetizioni, aggregazione a maggioranza)</span>
@@ -1185,12 +1234,12 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
   <div class="card">
     <div class="card-label">Few-shot locale — Cosa possiede ogni agente</div>
-    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">La prima cosa che fa ogni agente è preparare il proprio <strong>few-shot locale</strong>: prende i casi che conosce (i suoi batch 1–2 di fault e i Normal N1–N2), li fa passare per la pipeline Phase A già congelata e ne ricava esempi pronti da mostrare al reasoner.</p>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">La prima cosa che fa ogni agente è preparare il proprio <strong>few-shot locale</strong>: prende i casi che conosce (i suoi batch 1–2 di fault e i Normal N1–N2), li fa passare per la pipeline Stadio 1 già congelata e ne ricava esempi pronti da mostrare al reasoner.</p>
     <table class="data-table">
       <thead><tr><th>Passaggio</th><th>Che cosa accade realmente</th></tr></thead>
       <tbody>
         <tr><td style="font-weight:600;white-space:nowrap">Input dei casi</td><td style="font-size:0.85rem;color:var(--text-muted)">Per ciascun agente: i workbook fissi batch 1–2 del proprio fault locale e i blocchi Normal N1–N2. La baseline development/calibration N1–N5 resta il riferimento frozen.</td></tr>
-        <tr><td style="font-weight:600;white-space:nowrap">Operazione</td><td style="font-size:0.85rem;color:var(--text-muted)">L'agente riesegue la pipeline Phase A congelata (<em>finestre → feature → soglie già congelate → flag → JSON → testo neutrale</em>) e associa a ogni caso la sua <strong>pseudolabel</strong>. Nessun LLM, nessuna ricalibrazione delle soglie.</td></tr>
+        <tr><td style="font-weight:600;white-space:nowrap">Operazione</td><td style="font-size:0.85rem;color:var(--text-muted)">L'agente riesegue la pipeline Stadio 1 congelata (<em>finestre → feature → soglie già congelate → flag → JSON → testo neutrale</em>) e associa a ogni caso la sua <strong>pseudolabel</strong>. Nessun LLM, nessuna ricalibrazione delle soglie.</td></tr>
         <tr><td style="font-weight:600;white-space:nowrap">Output</td><td style="font-size:0.85rem;color:var(--text-muted)">4 pack × 4 esempi, ciascuno ridotto alla coppia <code>(testo neutrale, pseudolabel)</code>.</td></tr>
       </tbody>
     </table>
@@ -1199,7 +1248,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 10: INSIGHTS ==================== -->
 <div class="step-container" data-step="11">
-  <div class="phase-badge b">Phase B · Step 2</div>
+  <div class="phase-badge b">Stadio 2 · Step 2</div>
   <h1 class="step-title">Generazione degli insight e federazione peer-only</h1>
   <p class="step-intro">Ogni agente usa l’LLM per condensare in <strong>2 insight testuali</strong> le regolarità ricorrenti nei testi neutrali frozen di 5 casi development/calibration del proprio fault. Gli insight vengono generati prima dell’accesso diagnostico all’held-out; poi la <strong>federazione</strong> distribuisce a ogni agente i 6 insight degli altri tre peer, mai i propri.</p>
 
@@ -1244,7 +1293,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 11: CONDITIONS ==================== -->
 <div class="step-container" data-step="12">
-  <div class="phase-badge b">Phase B · Step 3</div>
+  <div class="phase-badge b">Stadio 2 · Step 3</div>
   <h1 class="step-title">Le tre configurazioni informative: A, B, E</h1>
   <p class="step-intro">Per isolare l'effetto degli insight, lo stesso agente diagnostica lo stesso caso sotto tre condizioni controllate. L'unica cosa che cambia è il <strong>blocco degli insight peer</strong>.</p>
 
@@ -1282,7 +1331,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 12: INFERENCE ==================== -->
 <div class="step-container" data-step="13">
-  <div class="phase-badge b">Phase B · Step 4</div>
+  <div class="phase-badge b">Stadio 2 · Step 4</div>
   <h1 class="step-title">Inference: Agent 3 diagnostica un caso F1 unseen</h1>
   <p class="step-intro">Vediamo cosa succede quando <strong>Agent 3</strong> (che conosce solo F10) deve diagnosticare <strong>PBH-004</strong>, un nuovo run di F1 mai visto. Agent 3 riceve lo stesso testo neutrale in tutte e tre le condizioni.</p>
 
@@ -1337,7 +1386,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 13: RESULTS ==================== -->
 <div class="step-container" data-step="14">
-  <div class="phase-badge b">Phase B · Step 5</div>
+  <div class="phase-badge b">Stadio 2 · Step 5</div>
   <h1 class="step-title">Risultati: il trasferimento di conoscenza funziona</h1>
   <p class="step-intro">12 run fisici indipendenti × 3 agenti unseen ciascuno = <strong>36 agent-case per condizione</strong>. Tutte le predizioni congelate prima di unirle alla ground truth.</p>
 
@@ -1560,7 +1609,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 14: CONDITION C — CENTRALIZED ==================== -->
 <div class="step-container" data-step="15">
-  <div class="phase-badge b">Phase B · Step 6</div>
+  <div class="phase-badge b">Stadio 2 · Step 6</div>
   <h1 class="step-title">Confronto centralizzato: Condition C</h1>
   <p class="step-intro">Quanto migliorerebbe la diagnosi se un <strong>singolo agente centrale</strong> avesse accesso a <strong>tutta</strong> l'esperienza testuale del sistema? Condition C risponde a questa domanda come riferimento esplorativo post-hoc.</p>
 
@@ -1679,7 +1728,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <div style="padding:14px;border-radius:6px;border:1px solid var(--border-light)">
         <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px">Cosa resta identico</div>
         <div style="font-size:0.85rem;color:var(--text-muted)">
-          <div style="margin-bottom:4px">&#10003; Pipeline Phase A (soglie, feature, testo neutrale)</div>
+          <div style="margin-bottom:4px">&#10003; Pipeline Stadio 1 (soglie, feature, testo neutrale)</div>
           <div style="margin-bottom:4px">&#10003; Insight testuali già generati e congelati</div>
           <div style="margin-bottom:4px">&#10003; Gli stessi held-out run (hash verificati)</div>
           <div>&#10003; Il protocollo di valutazione (R=3, maggioranza)</div>
@@ -2087,7 +2136,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       </ul>
 
       <h3>Claim difendibili vs non difendibili</h3>
-      <p><strong>Difendibile:</strong> FoT-TEP &egrave; il primo esperimento di textual knowledge federation su TS multivariate industriali; la pipeline Phase A &egrave; deterministica e frozen; il protocollo di valutazione &egrave; pre-specificato con criteri blinded; l'effetto si riproduce su nuove realizzazioni fisiche (EXP3_V2).</p>
+      <p><strong>Difendibile:</strong> FoT-TEP &egrave; il primo esperimento di textual knowledge federation su TS multivariate industriali; la pipeline Stadio 1 &egrave; deterministica e frozen; il protocollo di valutazione &egrave; pre-specificato con criteri blinded; l'effetto si riproduce su nuove realizzazioni fisiche (EXP3_V2).</p>
       <p><strong>Non difendibile:</strong> &ldquo;FoT &egrave; migliore di FL classico&rdquo; (non confrontabile); &ldquo;il metodo generalizza oltre TEP&rdquo; (non testato); &ldquo;il protocollo garantisce privacy&rdquo; (non &egrave; l'obiettivo); &ldquo;we propose FoT&rdquo; (FoT &egrave; di Yao et al.).</p>
 
       <h3>Verdetto finale</h3>
@@ -2334,4 +2383,28 @@ function openCritica(id) {
     section.scrollIntoView({behavior: 'smooth', block: 'start'});
   }, 50);
 }
+</script>
+
+<!-- Project overview modal -->
+<div class="img-modal-overlay" id="imgModal">
+  <button class="img-modal-close" id="imgModalClose" aria-label="Chiudi">&times;</button>
+  <img src="figures/project_overview.png"
+       alt="Project overview — dimensione originale"
+       width="1774" height="887">
+</div>
+<script>
+(function(){
+  var thumb = document.getElementById('overview-thumb');
+  var modal = document.getElementById('imgModal');
+  var closeBtn = document.getElementById('imgModalClose');
+  if(!thumb||!modal||!closeBtn) return;
+  thumb.addEventListener('click', function(){ modal.classList.add('active'); });
+  closeBtn.addEventListener('click', function(){ modal.classList.remove('active'); });
+  modal.addEventListener('click', function(e){
+    if(e.target === modal) modal.classList.remove('active');
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') modal.classList.remove('active');
+  });
+})();
 </script>
