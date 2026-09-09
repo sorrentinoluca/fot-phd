@@ -1657,9 +1657,9 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 <!-- ==================== STEP 15: EXPERIMENT 2 — OPEN-WEIGHT LLM ==================== -->
 <div class="step-container" data-step="16">
-  <div class="phase-badge b">Prossimi passi</div>
+  <div class="phase-badge b">Completato e frozen</div>
   <h1 class="step-title">Experiment 2: portabilità cross-model con LLM open-weight</h1>
-  <p class="step-intro">Fino ad ora ogni chiamata LLM ha usato un unico modello proprietario (<strong>gpt-5.6-terra</strong>, OpenAI). Questo pone una <strong>critica fondamentale</strong>: l'intero risultato dipende da un modello chiuso, non deterministico e non riproducibile. Experiment 2 affronta il problema usando <strong>Qwen</strong> sul server locale.</p>
+  <p class="step-intro">Experiment 1 usava <strong>gpt-5.6-terra</strong> sia come producer sia come consumer. Experiment 2 ha ora verificato il consumo degli stessi insight frozen con <strong>Qwen3.8-27B-FP8</strong> sul server locale. Il risultato mitiga la dipendenza da un unico consumer proprietario, mentre il producer resta proprietario.</p>
 
   <div class="card" style="border-left:3px solid var(--threshold)">
     <div class="card-label">La critica: un singolo LLM proprietario</div>
@@ -1699,7 +1699,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   <div class="card">
     <div class="card-label">Perché un modello open-weight</div>
     <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
-      Un modello con pesi pubblici (Llama, Mistral, Qwen, ecc.) è <strong>versionabile, ispezionabile e riproducibile</strong>. Chiunque può scaricare lo stesso checkpoint, eseguire la stessa inferenza e ottenere risultati confrontabili. Questo elimina le tre critiche al modello proprietario.
+      Un modello con pesi pubblici è <strong>versionabile e ispezionabile</strong>. La lane frozen rende ripetibile il consumo nella configurazione esaminata; non elimina la dipendenza dal modello proprietario che ha prodotto gli insight.
     </p>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px">
       <div style="padding:12px;border-radius:6px;background:var(--green-light);text-align:center">
@@ -1720,7 +1720,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   <div class="card" style="border-left:3px solid var(--accent-b)">
     <div class="card-label">Configurazione scelta: Qwen sul server locale</div>
     <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">
-      L'LLM selezionato per l'esperimento è <strong>Qwen</strong>. L'hardware disponibile consente di eseguire un modello reasoning/instruct open-weight da circa <strong>30–32B</strong>, quantizzato a <strong>4 bit o 8 bit</strong>.
+      Il consumer selezionato è <strong>Qwen3.8-27B-FP8</strong>, eseguito localmente tramite vLLM. Protocollo, predizioni, evaluator e risultati sono congelati in una catena di quattro tag.
     </p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;font-size:0.84rem;color:var(--text-muted)">
       <div><strong>GPU</strong><br>2 × NVIDIA RTX 5000 Ada, circa 32 GB VRAM ciascuna</div>
@@ -1729,20 +1729,20 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <div><strong>Storage e sistema</strong><br>808 GB liberi su NVMe; Ubuntu 24.04; driver NVIDIA funzionante e CUDA supportata</div>
     </div>
     <div style="margin-top:12px;padding:10px 12px;border-radius:6px;background:var(--accent-b-light);font-size:0.84rem;color:var(--text-muted)">
-      GPU quasi completamente libere: la configurazione è pronta per l'inferenza locale e il parallelismo tra le due GPU.
+      Il full run di 540 inferenze e 180 aggregati è completato; gli artefatti frozen non vengono rigenerati.
     </div>
   </div>
 
   <div class="card">
-    <div class="card-label">Risultato atteso</div>
+    <div class="card-label">Risultato frozen</div>
     <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
-      Se la condizione B funziona anche con un consumer open-weight, il valore informativo degli insight testuali è una proprietà <strong>del protocollo FoT</strong>, non un artefatto del modello specifico. Il trasferimento di conoscenza via testo diventa <strong>model-agnostic</strong>.
+      Sull'unseen: A=0/36, B=34/36, E=1/36; B&minus;A=0.944444 e B&minus;E=0.916667, con C1&ndash;C4 4/4 PASS e zero astensioni. H2 è un controllo secondario distinto e fallisce. Il vantaggio di B persiste per questo secondo consumer open-weight, ma non dimostra portabilità universale o generalità end-to-end.
     </p>
   </div>
 
   <div class="callout">
     <span class="callout-icon">&#9432;</span>
-    <span>Experiment 2 è in fase di preparazione dell'inferenza locale con Qwen. La struttura sperimentale (held-out, insight congelati, protocollo di valutazione) è già pronta; resta da validare il prompt template con l'architettura Qwen e misurare la portabilità.</span>
+    <span>Experiment 2 è completato, frozen, riprodotto e sottoposto a review indipendente: <strong>GO WITH LIMITATIONS</strong>. Un solo consumer open-weight, stessi held-out case e insight prodotti con <code>gpt-5.6-terra</code> delimitano la conclusione.</span>
   </div>
 </div>
 
@@ -2021,7 +2021,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     </button>
     <div class="critica-body">
       <div class="verdict-box">
-        <strong>In sintesi (Rev. 2, 2026-09-09):</strong> Review sistematica che stabilisce come posizionare FoT-TEP rispetto allo stato dell'arte per la Special Session &ldquo;Federated Learning on Big Data&rdquo;. Il paper &egrave; in-scope se inquadrato come collaborative/federated knowledge transfer, non come FL parametrico classico. <strong>Submission readiness: PLAUSIBLE (limite alto di plausible)</strong>, con l'aggiunta di EXP3_V2 (replica), Condition C (riferimento centralizzato) e Exp 2 Qwen in corso.
+        <strong>In sintesi (Rev. 2, 2026-09-09):</strong> Review sistematica che stabilisce come posizionare FoT-TEP rispetto allo stato dell'arte per la Special Session &ldquo;Federated Learning on Big Data&rdquo;. Il paper &egrave; in-scope se inquadrato come collaborative/federated knowledge transfer, non come FL parametrico classico. <strong>Submission readiness: PLAUSIBLE (limite alto di plausible)</strong>, con EXP3_V2 (replica), Condition C (riferimento centralizzato) ed EXP2 Qwen ora completato e frozen.
       </div>
 
       <h3>Scope per la Special Session</h3>
@@ -2034,7 +2034,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
       <h3>Vulnerabilit&agrave; principali e stato</h3>
       <ul>
-        <li><strong>&ldquo;Un solo LLM proprietario&rdquo;</strong> &mdash; critica quasi-fatale. <span style="color:var(--accent-a)">&#x1F504; Exp 2 Qwen 27B in corso</span> (protocollo frozen, probe 19/19 PASS, full run 540 inferenze avviato).</li>
+        <li><strong>&ldquo;Un solo consumer LLM proprietario&rdquo;</strong> &mdash; <span style="color:var(--green)">&#x2705; Critica mitigata</span> da EXP2 Qwen 27B frozen: il vantaggio di B persiste per un consumer open-weight. Il producer resta <code>gpt-5.6-terra</code>, quindi non &egrave; una replica end-to-end open-weight.</li>
         <li><strong>&ldquo;Solo 3 run per guasto&rdquo;</strong> &mdash; <span style="color:var(--green)">&#x2705; Risolto</span> con EXP3_V2: 24 nuovi run (6/classe), criterio di replica soddisfatto.</li>
         <li><strong>&ldquo;Manca un comparatore centralizzato&rdquo;</strong> &mdash; <span style="color:var(--green)">&#x2705; Risolto</span> con Condition C: 15/15, C&minus;B=+0.139 concentrato su F8. Riferimento esplorativo post-hoc, non benchmark.</li>
         <li><strong>&ldquo;Nessuna privacy formale&rdquo;</strong> &mdash; non dichiarare privacy; dichiarare data-free communication.</li>
@@ -2046,7 +2046,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <p><strong>Non difendibile:</strong> &ldquo;FoT &egrave; migliore di FL classico&rdquo; (non confrontabile); &ldquo;il metodo generalizza oltre TEP&rdquo; (non testato); &ldquo;il protocollo garantisce privacy&rdquo; (non &egrave; l'obiettivo); &ldquo;we propose FoT&rdquo; (FoT &egrave; di Yao et al.).</p>
 
       <h3>Verdetto finale</h3>
-      <p><strong>Submission difendibile = S&Igrave;</strong>, con condizioni residue attenuate, nella versione Balanced, se: (a) framing e attribuzione corretti; (b) Condition C presente e inquadrata come riferimento esplorativo; (c) floor/scala/limiti/degradazione local-seen esposti onestamente; (d) Exp 2 Qwen completato o dichiarato in Limitations.</p>
+      <p><strong>Submission difendibile = S&Igrave;</strong>, con condizioni residue attenuate, nella versione Balanced, se: (a) framing e attribuzione corretti; (b) Condition C presente e inquadrata come riferimento esplorativo; (c) floor/scala/limiti/degradazione local-seen esposti onestamente; (d) EXP2 Qwen riportato con il suo verdetto <strong>GO WITH LIMITATIONS</strong> e senza claim universali.</p>
 
       <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Documento completo: FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md (~102KB). Rev. 2 (2026-09-09). Analisi basata su oltre 100 paper (2017&ndash;2026) da OpenAlex, Scopus, ArXiv, Crossref, Google Scholar.</em></p>
     </div>
@@ -2069,13 +2069,13 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
         <tr><td>Exp 1 &mdash; Mechanism isolation</td><td style="color:var(--green)">&#x2705; Frozen</td><td>A=0/36, B=31/36, E=3/36. B&minus;A=+0.861</td></tr>
         <tr><td>EXP3_V2 &mdash; Fresh-run replication</td><td style="color:var(--green)">&#x2705; Completato</td><td>A=0/72, B=68/72, E=4/72. B&minus;A=+0.944. Criterio replica soddisfatto</td></tr>
         <tr><td>Condition C &mdash; Centralized pooled ICL</td><td style="color:var(--green)">&#x2705; Completato</td><td>15/15 correct. C&minus;B=+0.139 (concentrato su F8). Esplorativo</td></tr>
-        <tr><td>Exp 2 &mdash; Cross-model (Qwen 27B)</td><td style="color:var(--accent-a)">&#x1F504; In corso</td><td>Protocollo frozen, probe 19/19 PASS, full run 540 inf. avviato</td></tr>
+        <tr><td>Exp 2 &mdash; Cross-model (Qwen 27B)</td><td style="color:var(--green)">&#x2705; Completato e frozen</td><td>Unseen: A=0/36, B=34/36, E=1/36; C1&ndash;C4 4/4 PASS; review GO WITH LIMITATIONS</td></tr>
         <tr><td>Payload characterization</td><td style="color:var(--text-caption)">&#x2B1C; Da fare</td><td>Costo ~0 dagli artefatti frozen</td></tr>
         <tr><td>Exp 4 &mdash; Insight ablation</td><td style="color:var(--text-caption)">&#x2B1C; Solo se tempo</td><td>&mdash;</td></tr>
       </table>
 
-      <h3>Experiment 2 &mdash; Cross-model replication (in corso)</h3>
-      <p>Consumer open-weight: <strong>Qwen3.8-27B-FP8</strong> via vLLM 0.28.0, 1 GPU (NVIDIA RTX 5000 Ada). Producer invariato (gpt-5.6-terra). Protocollo frozen: tag <code>phase-b-exp2-qwen-protocol-frozen-001</code>. Probe: <strong>19/19 PASS</strong>, verdetto GO. Full run 540 inferenze avviato, nessun risultato scientifico ancora disponibile. Risolve la critica &ldquo;un solo LLM proprietario&rdquo;.</p>
+      <h3>Experiment 2 &mdash; Cross-model consumer result (frozen)</h3>
+      <p>Consumer open-weight: <strong>Qwen3.8-27B-FP8</strong> via vLLM 0.28.0, 1 GPU (NVIDIA RTX 5000 Ada). Producer invariato (<code>gpt-5.6-terra</code>). La catena protocollo &rarr; predizioni &rarr; evaluator &rarr; risultati &egrave; frozen; sull'unseen B raggiunge 34/36 contro A 0/36 ed E 1/36. Il risultato mitiga la critica del singolo consumer proprietario, ma non dimostra portabilit&agrave; universale n&eacute; indipendenza end-to-end dal producer proprietario.</p>
 
       <h3>Degradazione local-seen (nuovo segnale)</h3>
       <p>In EXP3_V2, B scende a <strong>19/24 sui fault gi&agrave; noti</strong> (vs A=24/24). Cinque errori concentrati: Agent 4 su F13-002/003/004/005, Agent 2 su F8-003. In Exp 1 era 12/12 in tutte le condizioni. <strong>Non invalida</strong> il primary result unseen, ma va riportato trasparentemente come osservazione per il disegno futuro.</p>
@@ -2085,7 +2085,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
       <h3>Cosa resta da fare (~3 settimane alla deadline)</h3>
       <ul>
-        <li>&#x1F504; Completare Exp 2 Qwen 27B (priorit&agrave; corrente)</li>
+        <li>&#x2705; EXP2 Qwen 27B completato, frozen e sottoposto a review indipendente</li>
         <li>&#x2B1C; Communication payload characterization (~0 costo)</li>
         <li>&#x2B1C; Framing + terminologia + PV-motivation + delta vs FoT</li>
         <li>&#x2B1C; Scrittura del paper (10 pagine IEEE 2-col)</li>

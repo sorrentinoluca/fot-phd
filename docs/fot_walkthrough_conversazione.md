@@ -1018,6 +1018,8 @@ La tabella confronta i risultati dei due esperimenti sullo stesso disegno sperim
 
 **Step 25 / 28Federazione VS centralizzazione**
 
+## Federazione e riferimento centralizzato
+
 Abbiamo chiesto: quanto perde il sistema a quattro agenti rispetto a uno solo che sa tutto? Per rispondere abbiamo costruito un agente unico a cui abbiamo dato tutte le conoscenze degli altri quattro — gli stessi esempi, le stesse descrizioni testuali dei guasti. Non dati grezzi o informazioni riservate, solo ciò che nella federazione verrebbe scambiato tra i nodi. Il confronto è diretto perché entrambi lavorano con lo stesso tipo di materiale, ma non alla pari: l'agente centralizzato vede tutto insieme, quelli federati vedono solo pezzi.
 
 **Full-information** è qui circoscritto all'unione degli artefatti prompt-facing frozen — esempi etichettati e insight testuali — e non implica accesso ai dati grezzi, ai testi sorgente, alla ground truth o a informazione evaluator-side.
@@ -1083,13 +1085,15 @@ Per ciascun caso *i*, C contribuisce una decisione e B la media delle decisioni 
 
 C è una **centralized full-information pooled ICL post-hoc exploratory reference**: colloca B entro lo stesso paradigma testuale, ma quantità, forma e struttura del contesto cambiano simultaneamente. Il risultato è descrittivo, temporalmente confondibile e non autorizza una lettura causale o una superiorità generale.
 
+Fonti canoniche: [`evaluation_results_c.json`](../icl/full_evaluation/evaluation_results_c.json), [`PLAN_CENTRAL_POOLED_ICL.md`](../icl/PLAN_CENTRAL_POOLED_ICL.md) e [`CONDITION_C_R10_INDEPENDENT_REVIEW.md`](audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md).
+
 Fase 3 — Portabilità cross-model · EXP2
 
-**Dal riferimento centralizzato alla Fase 3.** Experiment 1 ha stabilito l’effetto di trasferimento e la sua specificità semantica; Experiment 3 (Fase 2) lo ha replicato su realizzazioni fisiche indipendenti; Condition C ha poi fornito un riferimento post-hoc sul solo held-out di Experiment 1. Tutti hanno utilizzato un unico reasoning model (`gpt-5.6-terra`) sia per produrre gli insight sia per consumarli in fase di classificazione. Resta aperta una domanda: *la conoscenza testuale congelata è accoppiata al reasoner che l’ha generata, oppure può essere consumata utilmente da modelli diversi?*
+**Dal riferimento centralizzato alla Fase 3.** Experiment 1 ha stabilito l’effetto di trasferimento e la sua specificità semantica; Experiment 3 (Fase 2) lo ha replicato su realizzazioni fisiche indipendenti; Condition C ha poi fornito un riferimento post-hoc sul solo held-out di Experiment 1. EXP2 ha ora esaminato la portabilità lato consumer: gli insight prodotti da `gpt-5.6-terra` sono stati consumati da Qwen nella configurazione frozen, con risultati congelati e sottoposti a review indipendente.
 
 **Step 27 / 28Fase 3Portabilità cross-model**
 
-## Consumer open-weight: protocollo Qwen e avvio di Experiment 2
+## Consumer open-weight: protocollo e risultati frozen di Experiment 2
 
 ### 1 · Domanda scientifica
 
@@ -1106,11 +1110,11 @@ La research question di Experiment 2 è:
 
 > *Does the transfer effect and its semantic specificity persist when the same frozen peer textual knowledge is consumed by different reasoning models?*
 
-Un risultato positivo fornirebbe evidenza che la conoscenza testuale prodotta nel setting FoT non è accoppiata al reasoner originale — proprietà rilevante per la praticabilità del meccanismo, che si aggancia al risultato *weak-to-strong in text space* della letteratura. Tuttavia, poiché il producer degli insight non viene variato e l'held-out è lo stesso di Experiment 1, la claim resta circoscritta alla portabilità del consumo.
+Il risultato osservato fornisce evidenza circoscritta che il vantaggio degli insight federati non è esclusivo del consumer originale. Poiché il producer degli insight non viene variato e l'held-out è lo stesso di Experiment 1, la claim resta limitata alla configurazione di consumo esaminata.
 
 ### 2 · Elementi sperimentali rimasti frozen
 
-Tutti gli elementi sperimentali di Experiment 1 sono mantenuti identici. In questo modo, qualsiasi variazione osservata può essere attribuita al cambio del consumer e non a differenze nei dati o nella conoscenza trasferita.
+Tutti gli elementi sperimentali di Experiment 1 sono mantenuti identici. Questo rende il cambio di consumer il principale contrasto di disegno, ma il confronto cross-model resta descrittivo e non autorizza da solo un'attribuzione causale generale.
 
 | Elemento | Stato |
 | --- | --- |
@@ -1152,7 +1156,7 @@ L'intero setup è stato realizzato nello spazio utente, senza aggiornamenti del 
 
 ### 4 · Lane isolata e guardrail
 
-Tutto il nuovo codice è confinato sotto `phase_b/exp2/qwen/`. Nessun file esterno a questa directory è stato creato o modificato. Il branch dedicato è `origin/codex/exp2-qwen`; il protocollo è congelato nel commit `d9bb95c` con tag `phase-b-exp2-qwen-protocol-frozen-001`.
+Tutto il codice e ogni artefatto sperimentale della lane sono confinati sotto `phase_b/exp2/qwen/`; soltanto la documentazione di integrazione e le review archiviate risiedono fuori da questa directory. Il branch dedicato è `origin/codex/exp2-qwen`; il protocollo è congelato nel commit `d9bb95c` con tag `phase-b-exp2-qwen-protocol-frozen-001`.
 
 La lane opera con i seguenti guardrail:
 
@@ -1229,67 +1233,85 @@ Token osservati nel probe:
 | B | 2300 | 1124 | 1023 |
 | E | 2300 | 1117 | 1023 |
 
-B ed E utilizzano 1023 reasoning token, entro il cap di 1024. Il cap è un vincolo uniforme applicato identicamente a entrambe le condizioni: se il reasoning tronco penalizza la qualità della risposta, lo fa in modo simmetrico. Il confronto B vs E — che misura la specificità semantica — rimane equo.
+B ed E utilizzano 1023 reasoning token: questo è il limite effettivo osservato a fronte del budget nominale di 1024. Il vincolo è applicato a entrambe le condizioni, ma la sua simmetria formale non esclude un effetto differenziale sul contenuto; i risultati frozen richiedono quindi la cautela discussa più avanti.
 
 Il massimo osservato live è 2300 prompt + 1124 completion = **3424 token totali**, ben entro il contesto di 4096.
 
 Il re-audit indipendente ha verificato la risoluzione dei tre finding del primo audit e l'assenza di nuovi finding, ed ha emesso **GO per il freeze del protocollo**. Il protocollo è stato congelato nel commit [`d9bb95c`](https://github.com/sorrentinoluca/fot-phd/commit/d9bb95c31bdeb2f1608aaedc52f25b98de9bbf96) con tag `phase-b-exp2-qwen-protocol-frozen-001`.
 
-> **Il GO del probe non è un risultato scientifico.** Il capability probe certifica soltanto che l'infrastruttura può eseguire correttamente l'esperimento: il modello produce risposte JSON valide, non troncate, per tutte le condizioni. Non certifica l'accuratezza diagnostica, che sarà misurata dal full run.
+> **Il GO del probe non è un risultato scientifico.** Il capability probe certifica soltanto che l'infrastruttura può eseguire correttamente l'esperimento: il modello produce risposte JSON valide, non troncate, per tutte le condizioni. L'accuratezza diagnostica è stata misurata separatamente soltanto dopo il freeze del full run.
 
-### 9 · Full run attualmente in esecuzione
+### 9 · Esecuzione, freeze e catena Git
 
-Il full run delle 540 inferenze è stato avviato sul protocollo congelato con il seguente comando riproducibile:
+L'esperimento è **completato, frozen, riprodotto e sottoposto a review indipendente**: **540 repetition record** producono **180 decisioni aggregate**. Con `temperature=0` e seed fisso, per tutti i 180 aggregati le tre ripetizioni sono byte-identiche. Il risultato è riproducibile nella configurazione osservata, ma `R=3` è degenere e il majority vote non misura variabilità stocastica.
 
-```bash
-nohup env PYTHONUNBUFFERED=1 \
-  /home/luca/fot-exp2/env-vllm/bin/python -u \
-  -m phase_b.exp2.qwen.run_frozen_inference \
-  --execute-full-run \
-  > /home/luca/fot-exp2/logs/exp2-qwen-full-run.log \
-  2>&1 < /dev/null &
-```
+La catena frozen lineare è:
 
-- `nohup` mantiene il processo attivo dopo la disconnessione SSH;
-- il log è esterno agli artefatti scientifici;
-- `repetition_records.jsonl` viene aggiornato dopo ogni singola inferenza: il numero di righe consente di monitorare il progresso verso 540;
-- lo stesso comando può riprendere un run interrotto, validando prima i record già presenti.
+| Milestone | Tag | Commit |
+| --- | --- | --- |
+| Protocollo | `phase-b-exp2-qwen-protocol-frozen-001` | `d9bb95c31bdeb2f1608aaedc52f25b98de9bbf96` |
+| Predizioni | `phase-b-exp2-qwen-predictions-frozen-001` | `a4f264c210873536c989ebd99aa2c6cf9857c85c` |
+| Evaluator | `phase-b-exp2-qwen-evaluator-frozen-001` | `a8f9884dfe2150a89131ba604b34ff1f6914f6e9` |
+| Risultati | `phase-b-exp2-qwen-results-frozen-001` | `37195cf2c5076b5da724b857f10e157177654cac` |
 
-**Il full run open-weight è stato avviato sul protocollo congelato. Al momento della redazione, l'inferenza è ancora in corso e non sono state calcolate metriche scientifiche.**
+### 10 · Risultati primari locally-unseen
 
-### 10 · Passaggi successivi
+L'endpoint primario contiene 36 osservazioni agent-case su fault localmente unseen per ciascuna configurazione:
 
-Al completamento del full run, prima di poter dichiarare qualsiasi risultato:
+| Configurazione | Corrette | Accuracy |
+| --- | ---: | ---: |
+| A — isolated | 0/36 | 0% |
+| B — FoT | 34/36 | 94.44% |
+| E — corrupted | 1/36 | 2.78% |
 
-1. devono esistere esattamente **540 repetition record**;
-2. devono essere prodotte **180 decisioni aggregate** (regola 2-su-3);
-3. gli output devono essere **congelati tramite manifest SHA-256** (`inference_output_hash_manifest.json` con status `IMMUTABLE_BEFORE_OFFLINE_EVALUATION`);
-4. solo dopo il freeze è consentito il join evaluator-side con la ground truth;
-5. verrà eseguito `evaluate_qwen.py`, che riusa l'evaluator frozen di Experiment 1;
-6. questo Step 27 verrà aggiornato con risultati, intervalli bootstrap e interpretazione;
-7. la portabilità cross-model non deve essere dichiarata prima di tali risultati.
+- **B−A = 0.944444**, CI bootstrap 95% **[0.916667, 1.0]**;
+- **B−E = 0.916667**, CI bootstrap 95% **[0.833333, 1.0]**;
+- **34 helped, 0 harmed, 2 unchanged-incorrect**;
+- **zero astensioni**;
+- criteri primari **C1–C4: 4/4 PASS**.
 
-### Dove verificare
+Questi quattro criteri primari non includono H2. H2 è un controllo secondario distinto e fallisce.
+
+### 11 · Risultati secondari
+
+| Popolazione | A | B | E |
+| --- | ---: | ---: | ---: |
+| local-seen | 100% | 75% | 100% |
+| Normal | 100% | 100% | 100% |
+| overall | 40% | 91.67% | 41.67% |
+
+La configurazione A, sui fault, restituisce sempre l'etichetta locale dell'agente: è quindi un classificatore costante rispetto a quella label e costituisce un floor strutturale per l'unseen. Tra gli errori emerge inoltre una confusione sistematica `CLS-OJNSG` ↔ `CLS-Z3ISU`.
+
+### 12 · Reasoning budget e lettura di H2
+
+Il limite effettivo del reasoning è **1023 token**, pur derivando da un budget nominale di 1024. Tutti e cinque gli errori aggregati di B hanno tutte e tre le ripetizioni al cap; al contrario, tutti i **36 aggregati B non cappati sono corretti**. Il fallimento di H2 è quindi confuso con l'esaurimento del reasoning budget: senza una sensitivity analysis separata non può essere attribuito causalmente all'interferenza degli insight.
+
+B ed E hanno lunghezza del prompt, consumo di reasoning e tasso di citazione degli insight comparabili. Il forte B−E costituisce perciò evidenza di specificità rispetto al contenuto degli insight, ma non una prova causale definitiva.
+
+### 13 · Dove verificare e review indipendente
 
 | Risorsa | Descrizione |
 | --- | --- |
-| `phase_b/exp2/qwen/README.md` | Contratto di esecuzione e comandi della lane Qwen |
-| `phase_b/exp2/qwen/config.json` | Configurazione completa: modello, parametri, hash frozen |
-| `phase_b/exp2/qwen/probe/CAPABILITY_PROBE.md` | Risultato leggibile del probe (19/19 PASS) |
-| `phase_b/exp2/qwen/probe/capability_probe.json` | Artefatto completo del probe con token e risposte |
-| `phase_b/exp2/qwen/run_frozen_inference.py` | Script di inferenza con guardrail e resume |
-| `phase_b/exp2/qwen/evaluate_qwen.py` | Evaluator Qwen, binding verso il core frozen di Experiment 1 |
+| [`phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md`](../phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md) | Report canonico leggibile |
+| [`phase_b/exp2/qwen/evaluation/evaluation_results.json`](../phase_b/exp2/qwen/evaluation/evaluation_results.json) | Risultati machine-readable |
+| [`phase_b/exp2/qwen/evaluation/bootstrap_results.json`](../phase_b/exp2/qwen/evaluation/bootstrap_results.json) | Intervalli bootstrap frozen |
+| [`phase_b/exp2/qwen/evaluation/confusion_matrices.json`](../phase_b/exp2/qwen/evaluation/confusion_matrices.json) | Matrici di confusione |
+| [`phase_b/exp2/qwen/evaluation/primary_metrics.csv`](../phase_b/exp2/qwen/evaluation/primary_metrics.csv) | Metriche primarie |
+| [`phase_b/exp2/qwen/evaluation/secondary_metrics.csv`](../phase_b/exp2/qwen/evaluation/secondary_metrics.csv) | Metriche secondarie |
+| [`EXP2_QWEN_EVALUATOR_REVIEW.md`](audits/EXP2_QWEN_EVALUATOR_REVIEW.md) | Review indipendente pre-valutazione |
+| [`EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md`](audits/EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md) | Review indipendente canonica dei risultati |
 
-I due audit (`audit_exp2_qwen.md` e `re_audit_exp2_qwen.md`) sono attualmente documenti locali sotto `phase_b/exp2/qwen/` e non sono inclusi tra i file versionati nel commit congelato.
+Il verdetto della review scientifica R2 è **GO WITH LIMITATIONS**.
 
-### Limitazioni
+### 14 · Limitazioni e conclusione consentita
 
-- È stata avviata una sola lane open-weight (Qwen 27B). Un singolo consumer non dimostra generalità.
-- Il producer resta `gpt-5.6-terra`, proprietario e invariato. La claim è circoscritta alla portabilità del consumo.
-- L'held-out è riutilizzato da Experiment 1. Non ci sono nuove realizzazioni fisiche.
-- Il probe sintetico dimostra capacità tecnica dell'infrastruttura, non accuratezza diagnostica.
-- Non esistono ancora risultati del full run: nessuna metrica, nessun intervallo, nessuna conclusione.
-- I test specifici della lane Qwen (`phase_b/exp2/qwen/tests/`) sono passati e sono stati rafforzati dopo le correzioni pre-freeze. Tre errori della suite `phase_b` generale erano ambientali e preesistenti (dipendenza `openpyxl` assente nell'environment di test, workbook esterni mancanti e un path macOS frozen nell'environment Linux); non riguardano la lane Qwen.
+- È stato esaminato un solo consumer open-weight; un singolo consumer non dimostra generalità.
+- Gli insight sono stati prodotti con `gpt-5.6-terra`: non è una replica end-to-end interamente open-weight.
+- Sono stati riutilizzati gli stessi held-out case di Experiment 1; il confronto cross-model è descrittivo.
+- Le ripetizioni deterministiche byte-identiche rendono `R=3` inidoneo a misurare variabilità.
+- Il floor strutturale di A, la confusione `CLS-OJNSG` ↔ `CLS-Z3ISU` e il confondimento del reasoning cap delimitano l'interpretazione.
+
+La conclusione prudente è che il vantaggio della configurazione federata B persiste su un secondo consumer LLM open-weight nella configurazione frozen esaminata. Il risultato mitiga la critica di dipendenza da un unico consumer proprietario, ma non dimostra portabilità universale, generalità cross-model o indipendenza end-to-end da un modello proprietario.
 
 
 ---

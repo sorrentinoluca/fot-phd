@@ -322,20 +322,20 @@ class UnifiedConversationChecks(unittest.TestCase):
 
     def test_one_flow_and_ordered_step_headings(self):
         sections = re.findall(r'<section id="step-(\d+)"[^>]*>(.*?)</section>', self.html, re.S)
-        self.assertEqual([int(number) for number, _ in sections], list(range(1, 28)))
+        self.assertEqual([int(number) for number, _ in sections], list(range(1, 29)))
         self.assertNotIn("Parte 1 —", self.html)
         self.assertNotIn("Parte 2 —", self.html)
-        self.assertIn('<span id="current-step">1</span> / 27', self.html)
-        self.assertNotRegex(self.html, r"Step \d+ / (?:17|25)")
-        self.assertNotRegex(self.markdown, r"Step \d+ / (?:17|25)")
+        self.assertIn('<span id="current-step">1</span> / 28', self.html)
+        self.assertNotRegex(self.html, r"Step \d+ / (?:17|25|27)")
+        self.assertNotRegex(self.markdown, r"Step \d+ / (?:17|25|27)")
         for number, fragment in sections:
             with self.subTest(step=number):
                 self.assertEqual(fragment.count("<h2>"), 1)
-                self.assertIn(f"Step {number} / 27", fragment)
+                self.assertIn(f"Step {number} / 28", fragment)
 
-        markers = list(re.finditer(r"^\*\*Step (\d+) / 27.*?\*\*$",
+        markers = list(re.finditer(r"^\*\*Step (\d+) / 28.*?\*\*$",
                                    self.markdown, re.M))
-        self.assertEqual([int(marker.group(1)) for marker in markers], list(range(1, 28)))
+        self.assertEqual([int(marker.group(1)) for marker in markers], list(range(1, 29)))
         for index, marker in enumerate(markers):
             end = markers[index + 1].start() if index + 1 < len(markers) else len(self.markdown)
             fragment = self.markdown[marker.end():end]
@@ -365,6 +365,7 @@ class UnifiedConversationChecks(unittest.TestCase):
         for phrase in required:
             with self.subTest(phrase=phrase):
                 self.assertIn(phrase, self.html)
+                self.assertIn(phrase, self.text)
                 self.assertIn(phrase, self.markdown)
 
         for document in (self.html, self.markdown):
@@ -492,11 +493,64 @@ class UnifiedConversationChecks(unittest.TestCase):
         # exactly one H2
         self.assertEqual(s27.count("<h2>"), 1)
         # step kicker present
-        self.assertIn("Step 27 / 27", s27)
+        self.assertIn("Step 27 / 28", s27)
         # phase badge
         self.assertIn("phase-badge", s27)
-        # no dangling relative links to branch-only files
-        self.assertNotRegex(s27, r'href="\.\./(phase_b|icl)/')
+        # Frozen lane links are now canonical and checked by test_links_and_assets.
+        self.assertIn("../phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md", s27)
+
+    def test_step27_qwen_frozen_results_and_limitations(self):
+        required = (
+            "0/36", "34/36", "1/36", "94.44%", "2.78%",
+            "0.944444", "0.916667", "0.833333", "34 helped",
+            "0 harmed", "2 unchanged-incorrect", "zero astensioni",
+            "C1–C4: 4/4 PASS", "H2", "controllo secondario distinto",
+            "local-seen", "75%", "91.67%", "41.67%",
+            "GO WITH LIMITATIONS", "1023 token", "budget nominale di 1024",
+            "36 aggregati B non cappati sono corretti", "CLS-OJNSG",
+            "CLS-Z3ISU", "un solo consumer open-weight",
+            "non è una replica end-to-end interamente open-weight",
+            "confronto cross-model è descrittivo", "non dimostra portabilità universale",
+        )
+        for phrase in required:
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, self.text)
+                self.assertIn(phrase, self.markdown)
+
+        tags_and_commits = {
+            "phase-b-exp2-qwen-protocol-frozen-001": "d9bb95c31bdeb2f1608aaedc52f25b98de9bbf96",
+            "phase-b-exp2-qwen-predictions-frozen-001": "a4f264c210873536c989ebd99aa2c6cf9857c85c",
+            "phase-b-exp2-qwen-evaluator-frozen-001": "a8f9884dfe2150a89131ba604b34ff1f6914f6e9",
+            "phase-b-exp2-qwen-results-frozen-001": "37195cf2c5076b5da724b857f10e157177654cac",
+        }
+        for tag, commit in tags_and_commits.items():
+            self.assertIn(tag, self.html)
+            self.assertIn(tag, self.markdown)
+            self.assertIn(commit, self.html)
+            self.assertIn(commit, self.markdown)
+
+        links = (
+            "../phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md",
+            "../phase_b/exp2/qwen/evaluation/evaluation_results.json",
+            "audits/EXP2_QWEN_EVALUATOR_REVIEW.md",
+            "audits/EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md",
+        )
+        markdown_links = set(re.findall(r"\]\(([^)]+)\)", self.markdown))
+        for link in links:
+            self.assertIn(f'href="{link}"', self.html)
+            self.assertIn(link, markdown_links)
+
+        obsolete = (
+            "full run attualmente in esecuzione",
+            "inferenza è ancora in corso",
+            "non esistono ancora risultati del full run",
+            "nessun risultato scientifico ancora disponibile",
+            "EXP2 Qwen da completare",
+            "EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW" + ".md",
+        )
+        for phrase in obsolete:
+            self.assertNotIn(phrase.lower(), self.text.lower())
+            self.assertNotIn(phrase.lower(), self.markdown.lower())
 
     def test_active_readme_publishes_main_guide_and_artifacts_exist(self):
         readme = (ROOT / "README.md").read_text()
