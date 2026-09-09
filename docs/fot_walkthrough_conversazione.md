@@ -1345,6 +1345,21 @@ Questa mappa unifica i Markdown di `docs/lit_review`, il workbook `docs/lit_revi
 | Empowering Time Series Analysis with Large Language Models: A Survey | query natural language sopra | Survey / benchmark |
 | Time-Series Large Language Models: A Systematic Review | `time series text representation benchmark evaluation` | Survey / benchmark |
 | Large Language Models for Time-Series Reasoning: A TMLR Survey | `survey time series LLM reasoning agentic TMLR 2026` | Survey / benchmark |
+| Federated Reasoning LLMs: A Survey | `("communication cost" OR payload OR token) AND (federated LLM OR federated reasoning)` | Survey / benchmark |
+| FedSRD: Communication-Efficient Federated LLM Fine-Tuning via Sparsify-Reconstruct-Decompose | `("communication cost" OR payload OR token) AND (federated LLM OR federated reasoning)` | Federazione testuale |
+| FedMAPS: Federated Meta-Learning with Adaptive Cross-Domain Contrastive Learning for Few-Shot Fault Diagnosis | `("class-disjoint" OR "label-exclusive" OR "locally unseen classes") AND federated AND (diagnosis OR classification)` | FL class-disjoint |
+| FedAPA-FD: Class-Sensitive Personalized Federated Learning for Non-IID Bearing Fault Diagnosis | `("class-disjoint" OR "label-exclusive" OR "locally unseen classes") AND federated AND (diagnosis OR classification)` | FL class-disjoint |
+| Federated Meta-Learning with Transformer Fusion for Few-Shot Multi-Condition Fault Diagnosis | `("federated fault diagnosis" OR "distributed fault diagnosis") AND ("Tennessee Eastman" OR process industry) AND non-IID` | FL class-disjoint |
+| Federated Learning Based on Fuzzy Fusion Rules for Chemical Production Process Fault Diagnosis | `("federated fault diagnosis" OR "distributed fault diagnosis") AND ("Tennessee Eastman" OR process industry) AND non-IID` | FL class-disjoint |
+| On-the-Fly Signals-to-Semantics Storytelling for Explainable Industrial Maintenance Decisions | `("deterministic verbalization" OR "structured program") AND multivariate AND "time series" AND LLM` | TS→text fedele |
+| LLM-ABBA: Understanding Time Series via Symbolic Approximation | `(SAX OR symbolic OR quantization) AND LLM AND "fault diagnosis" AND multivariate` | Simbolico |
+| TableTime: Training-Free Table Understanding for Time Series Classification with LLMs | `("frozen LLM" OR "training-free") AND "time series" AND (diagnosis OR classification) AND cross-model` | Allineamento TS–linguaggio |
+| Towards Semantically Faithful Text-to-Time Series Generation via Agents and Spectral Conditioning | `("time series to text" OR verbalization) AND (faithfulness OR factuality OR hallucination) AND benchmark` | Allineamento TS–linguaggio |
+| EviFDD-Agent: Evidence-Traceable LLM Reporting for Industrial Process Fault Detection and Diagnosis | `("federated fault diagnosis" OR "distributed fault diagnosis") AND ("Tennessee Eastman" OR process industry) AND non-IID` | LLM fault diagnosis |
+| CL-LLMOps: Fuzzy-Gated Verification of LLM Agents for Industrial Fault Diagnosis | `("selective prediction" OR abstention OR calibration) AND LLM AND industrial diagnosis` | LLM fault diagnosis |
+| DML–LLM Hybrid Architecture for Fault Detection and Diagnosis in Sensor-Rich Industrial Systems | `("selective prediction" OR abstention OR calibration) AND LLM AND industrial diagnosis` | LLM fault diagnosis |
+| Uncertainty-Aware Fault Diagnosis with Conformal Prediction | `("selective prediction" OR abstention OR calibration) AND LLM AND industrial diagnosis` | Calibrazione |
+| Class-Conditional Conformal Prediction for Reliable Open-Set Fault Diagnosis in Safety-Critical Industrial Systems | `("selective prediction" OR abstention OR calibration) AND LLM AND industrial diagnosis` | Calibrazione |
 
 ### Federazione di conoscenza testuale
 
@@ -1381,6 +1396,15 @@ Seleziona chain-of-thought e scambia parametri LoRA per federare il reasoning me
 Adatta un backbone linguistico al forecasting TS federato mediante moduli condivisi e teste personalizzate.
 
 **Confronto con FoT–TEP** — **Somiglianza:** FL, foundation model e TS. **Differenza:** forecasting parametrico contro diagnosi con insight. **Implicazione:** vieta claim generici di “primo FL+LLM per TS”.
+</details>
+
+<details><summary>FedSRD: Communication-Efficient Federated LLM Fine-Tuning via Sparsify-Reconstruct-Decompose</summary>
+
+Yan et al. (WWW 2026). Propone una pipeline SRD che sparsifica gli aggiornamenti LoRA, ricostruisce una matrice densa e la decompone per ridurre il payload di comunicazione nel fine-tuning federato di LLM. Riduce fino al 90 % la banda senza degradare la qualità.
+
+DOI: `10.1145/3774904.3792144`
+
+**Confronto con FoT–TEP** — **Somiglianza:** affronta il costo comunicativo della federazione LLM. **Differenza:** scambia gradienti compressi, non insight testuali; FoT–TEP azzera il problema perché il payload è testo leggibile (~kB). **Implicazione:** baseline per la metrica byte/token del payload; il vantaggio FoT è ordini di grandezza inferiore.
 </details>
 
 ### FL non parametrico e class-disjoint
@@ -1420,6 +1444,42 @@ Trasferisce attributi semantici intermedi per riconoscere classi visive non vist
 **Confronto con FoT–TEP** — **Somiglianza:** semantica condivisa per unseen class. **Differenza:** attributi e immagini contro insight liberi e TS. **Implicazione:** rende distintivo il controllo A/B/E, non lo zero-shot in sé.
 </details>
 
+<details><summary>FedMAPS: Federated Meta-Learning with Adaptive Cross-Domain Contrastive Learning for Few-Shot Fault Diagnosis</summary>
+
+Sun et al. (Mechanical Systems and Signal Processing, 2026). Framework federato meta-learning con apprendimento contrastivo cross-dominio adattivo per diagnosi di guasti few-shot in scenari con distribuzione non omogenea e domini operativi diversi tra i client.
+
+DOI: `10.1016/j.ymssp.2026.114273`
+
+**Confronto con FoT–TEP** — **Somiglianza:** federazione + classi di guasto scarse/assenti localmente. **Differenza:** scambio di prototipi e gradienti, non insight testuali; richiede training. **Implicazione:** comparator parametrico per il setting few-shot class-disjoint; FoT–TEP è training-free.
+</details>
+
+<details><summary>FedAPA-FD: Class-Sensitive Personalized Federated Learning for Non-IID Bearing Fault Diagnosis</summary>
+
+Yu et al. (ICMTIM 2026). Personalizza l'aggregazione federata con pesi class-sensitive per gestire label-skew tra client nel bearing fault diagnosis.
+
+DOI: `10.1109/icmtim69588.2026.11525891`
+
+**Confronto con FoT–TEP** — **Somiglianza:** non-IID label-exclusive, personalizzazione per client. **Differenza:** aggregazione parametrica su modelli specializzati, non testo. **Implicazione:** rafforza l'evidenza che il class-disjoint FD è un problema attivo; FoT–TEP offre un'alternativa senza parametri condivisi.
+</details>
+
+<details><summary>Federated Meta-Learning with Transformer Fusion for Few-Shot Multi-Condition Fault Diagnosis</summary>
+
+Zhang et al. (Knowledge-Based Systems, 2026). Combina meta-learning federato con fusione di feature via transformer e training avversariale per diagnosi few-shot sotto condizioni operative multiple, testato anche su TEP.
+
+DOI: `10.1016/j.knosys.2026.116739`
+
+**Confronto con FoT–TEP** — **Somiglianza:** TEP come benchmark, classi di guasto distribuite. **Differenza:** scambio di rappresentazioni intermedie, non insight linguistici. **Implicazione:** benchmark numerico diretto; FoT–TEP potrebbe raggiungere accuratezze simili senza scambio di feature.
+</details>
+
+<details><summary>Federated Learning Based on Fuzzy Fusion Rules for Chemical Production Process Fault Diagnosis</summary>
+
+Xu et al. (Sensors, 2026). Applica regole di fusione fuzzy all'aggregazione federata per la diagnosi di guasti in processi chimici, incluso il Tennessee Eastman Process.
+
+DOI: `10.3390/s26113545`
+
+**Confronto con FoT–TEP** — **Somiglianza:** FL + TEP, stessa piattaforma sperimentale. **Differenza:** aggregazione parametrica con logica fuzzy, nessun layer testuale. **Implicazione:** comparator diretto per accuracy su TEP in setting FL; condivide la motivazione industriale.
+</details>
+
 ### TS→text fedele e deterministico
 
 <details><summary>Truth-Conditional Captions for Time Series Data</summary>
@@ -1457,6 +1517,15 @@ Calcola 169 statistiche, usa un encoder temporale e addestra un LLM a verbalizza
 **Confronto con FoT–TEP** — **Somiglianza:** percezione separata dalla descrizione. **Differenza:** training e testo generativo contro template congelati e neutrali. **Implicazione:** la tesi difendibile è efficienza/auditabilità, non superiorità di accuracy.
 </details>
 
+<details><summary>On-the-Fly Signals-to-Semantics Storytelling for Explainable Industrial Maintenance Decisions</summary>
+
+Yue et al. (IEEE Transactions on Automation Science and Engineering, 2026). Framework che trasforma segnali di sensori industriali in narrazioni semantiche in tempo reale per decisioni di manutenzione spiegabili, separando la percezione numerica dalla generazione linguistica.
+
+DOI: `10.1109/TASE.2026.3706386`
+
+**Confronto con FoT–TEP** — **Somiglianza:** pipeline signals→semantics per contesto industriale, separazione percezione/narrazione. **Differenza:** narrazione monolitica, non federata; generazione on-the-fly vs batch. **Implicazione:** validazione indipendente che la conversione TS→testo è praticabile nell'industria; il verbalizzatore V2 potrebbe adottare pattern analoghi.
+</details>
+
 ### Rappresentazioni simboliche
 
 <details><summary>A Novel Feature Extraction Approach for Mechanical Fault Diagnosis Based on ESAX and BoW</summary>
@@ -1478,6 +1547,15 @@ Combina SAX e descrittori cinematici e fine-tuna un LLM per activity recognition
 Quantizza la serie su più risoluzioni e fornisce token simbolici a un LLM congelato.
 
 **Confronto con FoT–TEP** — **Somiglianza:** encoder deterministico e consumer frozen. **Differenza:** forecasting e token contro diagnosi e testo tecnico. **Implicazione:** la leggibilità è una scelta da valutare.
+</details>
+
+<details><summary>LLM-ABBA: Understanding Time Series via Symbolic Approximation</summary>
+
+Carson, Chen & Kang (Qeios, 2025; rev. 2026). Integra la discretizzazione simbolica ABBA (Adaptive Brownian Bridge-based Aggregation) nei LLM per classificazione, regressione e previsione di serie temporali. ABBA preserva ampiezza e periodo con token esistenti del vocabolario LLM, raggiungendo SOTA su UCR e TSER benchmark.
+
+DOI: `10.32388/wd5bow.2`
+
+**Confronto con FoT–TEP** — **Somiglianza:** ponte simbolico TS→LLM, preservazione di feature salienti. **Differenza:** ABBA è adattivo e appreso, V2 è deterministico e rule-based; nessun contesto federato. **Implicazione:** alternativa alla pipeline SAX/eSAX per il verbalizzatore; la confrontabilità ABBA vs eSAX misura il trade-off flessibilità/determinismo.
 </details>
 
 ### Allineamento e captioning TS–linguaggio
@@ -1517,6 +1595,24 @@ Encoder temporale e decoder linguistico apprendono da coppie serie-caption a des
 **Confronto con FoT–TEP** — **Somiglianza:** descrizioni leggibili. **Differenza:** caption data-hungry contro template calibrato. **Implicazione:** utile come descrizione secondaria con fact checking.
 </details>
 
+<details><summary>TableTime: Training-Free Table Understanding for Time Series Classification with LLMs</summary>
+
+Wang et al. (CIKM 2025, 6 citazioni). Riformula la classificazione di serie temporali come comprensione tabulare, permettendo a LLM frozen di classificare senza fine-tuning. I dati numerici vengono presentati come tabelle strutturate nel prompt.
+
+DOI: `10.1145/3746252.3761056`
+
+**Confronto con FoT–TEP** — **Somiglianza:** LLM frozen, TS presentata come testo strutturato, training-free. **Differenza:** rappresentazione tabulare diretta vs verbalizzazione con template; nessuna componente federata. **Implicazione:** conferma la fattibilità di classificazione TS con LLM frozen; benchmark per V2 in assenza di training.
+</details>
+
+<details><summary>Towards Semantically Faithful Text-to-Time Series Generation via Agents and Spectral Conditioning</summary>
+
+Wu et al. (ICASSP 2026). Affronta la generazione text→TS con condizionamento spettrale e orchestrazione agentica per preservare la fedeltà semantica tra descrizione testuale e serie temporale generata.
+
+DOI: `10.1109/icassp55912.2026.11463399`
+
+**Confronto con FoT–TEP** — **Somiglianza:** fedeltà semantica nella traduzione testo↔TS. **Differenza:** direzione inversa (text→TS), non TS→text; focus su generazione, non diagnosi. **Implicazione:** le metriche di fedeltà spettrale possono validare indirettamente il verbalizzatore V2: se la TS ricostruita dal testo V2 preserva lo spettro, la verbalizzazione è fedele.
+</details>
+
 ### LLM per fault diagnosis
 
 <details><summary>FD-LLM: Large Language Model for Fault Diagnosis of Machines</summary>
@@ -1538,6 +1634,33 @@ Allinea encoder dati a embedding testuali, aggiunge semantica fuzzy e adatta Vic
 Estrae feature, usa template testuali diagnostici e guida l'LLM con tassonomie e alberi decisionali.
 
 **Confronto con FoT–TEP** — **Somiglianza:** pipeline estrai→verbalizza→ragiona. **Differenza:** soglie manuali e template diagnostici contro calibrazione e neutralità. **Implicazione:** riferimento diretto per freeze e separazione evidence/inference.
+</details>
+
+<details><summary>EviFDD-Agent: Evidence-Traceable LLM Reporting for Industrial Process Fault Detection and Diagnosis</summary>
+
+Chen et al. (SSRN preprint, 2026). Framework ReAct per diagnosi di guasti su TEP con tracciabilità dell'evidenza: i campi critici del report sono prodotti da tool deterministici, il LLM è confinato alla narrazione vincolata. EviFDD-Agent con DeepSeek-V4-Flash raggiunge EFT = 0.997 e URR = 1.4 % su 210 casi TEP.
+
+DOI: `10.2139/ssrn.6778889`
+
+**Confronto con FoT–TEP** — **Somiglianza:** TEP benchmark, LLM per diagnosi, separazione evidence/inference, tracciabilità. **Differenza:** centralizzato, non federato; il LLM genera report post-hoc, non riceve insight da peer. **Implicazione:** comparator diretto per accuracy su TEP; il pattern evidence-traceable è compatibile con la pipeline FoT.
+</details>
+
+<details><summary>CL-LLMOps: Fuzzy-Gated Verification of LLM Agents for Industrial Fault Diagnosis</summary>
+
+Xiao et al. (SSRN preprint, 2026). Closed-loop framework che orchestra agenti LLM attraverso cinque fasi, con verifica semantica tramite fuzzy inference per rilevare hallucination ed evidenze contraddittorie prima delle decisioni di manutenzione. Riduce l'inconsistency-type hallucination dal 12 % al 2 %.
+
+DOI: `10.2139/ssrn.6778404`
+
+**Confronto con FoT–TEP** — **Somiglianza:** agenti LLM per fault diagnosis, rilevamento hallucination. **Differenza:** verifica fuzzy centralizzata, non calibrazione conforme distribuita. **Implicazione:** rafforza la necessità del controllo di qualità sugli output LLM; il gating fuzzy è complementare alla calibrazione conforme di V2.
+</details>
+
+<details><summary>DML–LLM Hybrid Architecture for Fault Detection and Diagnosis in Sensor-Rich Industrial Systems</summary>
+
+Hu et al. (Sensors, 2026). Architettura ibrida che combina Dynamic Master Logic (ragionamento causale deterministico con regole fuzzy) e LLM per FDD. Il routing deterministico preserva tracciabilità; il LLM interpreta log e documenti sotto prompt controllati. Su semiconduttori: TTD da 7.4 h a 1.2 h, F1 da 0.59 a 0.83.
+
+DOI: `10.3390/s26062008`
+
+**Confronto con FoT–TEP** — **Somiglianza:** pipeline deterministica + LLM, tracciabilità, routing causale. **Differenza:** monolitico, non federato; ragionamento Bayesiano vs in-context. **Implicazione:** il pattern "regole deterministiche → LLM confinato" è convergente con V2; valida la separazione evidence layer / reasoning layer.
 </details>
 
 ### Survey e benchmark
@@ -1570,22 +1693,55 @@ Estende la tassonomia verso reasoning, tool use e agenti, distinguendo percezion
 **Confronto con FoT–TEP** — **Somiglianza:** reasoning agentico con percezione esternalizzata. **Differenza:** nessun protocollo FoT o controllo derangiato. **Implicazione:** V2 è perception layer; gli insight sono knowledge/memory layer.
 </details>
 
+<details><summary>Federated Reasoning LLMs: A Survey</summary>
+
+Wei et al. (Frontiers of Computer Science, 2025, 19 citazioni). Survey sistematica su LLM di ragionamento federato. Propone tassonomia basata sui segnali di training (dati raw, rappresentazioni apprese, feedback di preferenza) e analizza efficacia, costo comunicativo e preservazione della privacy per ciascuna categoria.
+
+DOI: `10.1007/s11704-025-50480-3`
+
+**Confronto con FoT–TEP** — **Somiglianza:** quadro generale FL + LLM reasoning, include comunicazione e privacy. **Differenza:** focus su fine-tuning distribuito di rLLM, non su insight testuali come oggetto federato. **Implicazione:** mappa lo spazio dei metodi; FoT–TEP si colloca nell'estremo "zero-parameter, text-only" non coperto dalla survey.
+</details>
+
+### Calibrazione e predizione conforme
+
+<details><summary>Uncertainty-Aware Fault Diagnosis with Conformal Prediction</summary>
+
+Heddoub et al. (IFAC-PapersOnLine, 2025, 7 citazioni). Introduce la conformal prediction nella diagnosi di guasti industriali per produrre set di predizione con garanzie di copertura statistiche, quantificando l'incertezza del classificatore senza ipotesi distributive.
+
+DOI: `10.1016/j.ifacol.2025.09.092`
+
+**Confronto con FoT–TEP** — **Somiglianza:** calibrazione per fault diagnosis industriale, garanzie di copertura. **Differenza:** applicata a classificatori tradizionali, non a LLM; centralizzata. **Implicazione:** fondamento teorico per la calibrazione conforme del verbalizzatore V2; le soglie A/B/E di FoT–TEP perseguono lo stesso obiettivo con metodo diverso.
+</details>
+
+<details><summary>Class-Conditional Conformal Prediction for Reliable Open-Set Fault Diagnosis in Safety-Critical Industrial Systems</summary>
+
+Heddoub et al. (Journal of Process Control, 2026, 2 citazioni). Estende la conformal prediction al setting open-set: il modello deve diagnosticare guasti noti e rifiutare (astenersi su) classi mai viste, con garanzie per-classe.
+
+DOI: `10.1016/j.jprocont.2026.103701`
+
+**Confronto con FoT–TEP** — **Somiglianza:** open-set ≈ class-disjoint visto dal singolo client; astensione su classi non viste. **Differenza:** approccio statistico su feature, non linguistico. **Implicazione:** il meccanismo di astensione è il ponte con la selective prediction di FoT–TEP: quando V2 non riconosce un pattern, la conformal prediction offre un framework rigoroso per il rifiuto.
+</details>
+
 ### To do
 
-- `("federated knowledge transfer" OR "collaborative agents") AND ("natural language" OR "textual memory") AND "time series"`
-- `("class-disjoint" OR "label-exclusive" OR "locally unseen classes") AND federated AND (diagnosis OR classification)`
-- `("federated fault diagnosis" OR "distributed fault diagnosis") AND ("Tennessee Eastman" OR process industry) AND non-IID`
-- `("semantic specificity" OR "label permutation" OR derangement) AND ("in-context learning" OR knowledge transfer)`
-- `("time series to text" OR verbalization) AND (faithfulness OR factuality OR hallucination) AND benchmark`
-- `("deterministic verbalization" OR "structured program") AND multivariate AND "time series" AND LLM`
-- `(SAX OR symbolic OR quantization) AND LLM AND "fault diagnosis" AND multivariate`
-- `("negative transfer" OR interference) AND federated AND (prompt OR insight OR in-context)`
-- `("communication cost" OR payload OR token) AND (federated LLM OR federated reasoning)`
-- `("selective prediction" OR abstention OR calibration) AND LLM AND industrial diagnosis`
-- `("frozen LLM" OR "training-free") AND "time series" AND (diagnosis OR classification) AND cross-model`
-- `("causal evaluation" OR placebo OR negative control) AND "knowledge sharing" AND multi-agent LLM`
+Tutte le 12 query sono state eseguite su OpenAlex, arXiv, Scopus e Crossref tramite il connector uniarticles. Sono stati aggiunti 15 paper. Riepilogo per query:
 
-Priorità: ampliare prima l'intersezione testo federato × TS × classi unseen, poi controlli negativi semantici e misure di payload. Le query generiche “LLM + time series” sono già coperte e produrranno soprattutto rumore.
+- ✅ `("federated knowledge transfer" OR …) AND "time series"` — nessun paper specifico (intersezione troppo stretta); coperta indirettamente da Federated Reasoning LLMs Survey e FedSRD
+- ✅ `("class-disjoint" OR …) AND federated AND diagnosis` — FedMAPS, FedAPA-FD
+- ✅ `("federated fault diagnosis" OR …) AND "Tennessee Eastman" AND non-IID` — Zhang et al. KBS 2026, Xu et al. Sensors 2026, EviFDD-Agent
+- ✅ `("semantic specificity" OR …) AND "in-context learning"` — nessun risultato rilevante (query molto di nicchia; il concetto è originale di FoT–TEP)
+- ✅ `("time series to text" OR verbalization) AND faithfulness` — Faithful Text-to-TS (Wu ICASSP 2026)
+- ✅ `("deterministic verbalization" OR …) AND "time series" AND LLM` — Signals-to-Semantics (Yue IEEE TASE 2026)
+- ✅ `(SAX OR symbolic) AND LLM AND "fault diagnosis"` — LLM-ABBA (Carson et al. 2025/2026)
+- ✅ `("negative transfer" OR interference) AND federated AND prompt` — nessun paper specifico all’intersezione FoT; concetto originale
+- ✅ `("communication cost" OR payload) AND federated LLM` — Federated Reasoning LLMs Survey (Wei et al. 2025), FedSRD (Yan et al. 2026)
+- ✅ `("selective prediction" OR abstention OR calibration) AND LLM AND industrial` — CL-LLMOps, DML–LLM Hybrid, Conformal FD (Heddoub 2025, 2026)
+- ✅ `("frozen LLM" OR "training-free") AND "time series"` — TableTime (Wang et al. CIKM 2025)
+- ✅ `("causal evaluation" OR placebo) AND "knowledge sharing" AND multi-agent` — nessun risultato (concetto originale di FoT–TEP)
+
+**Query senza risultati rilevanti** (4, 8, 12): confermano l’originalità degli assi *semantic specificity / label permutation*, *negative transfer in text-only FL* e *causal placebo for multi-agent LLM knowledge sharing* — punti di contributo esclusivo di FoT–TEP.
+
+**Possibili estensioni future:** monitorare preprint su arXiv per le query 4, 8, 12; cercare su Google Scholar con citazione diretta di “Federation over Text” per lavori derivati.
 
 ---
 
