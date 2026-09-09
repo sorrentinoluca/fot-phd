@@ -1209,23 +1209,24 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 
 <section id="step-28" data-step="28">
   <div class="step-kicker">Step 28 / 28 <span class="phase-badge offline">Ablation TS&rarr;Testo</span></div>
-  <h2>Ablation: confronto sistematico delle strategie di rappresentazione TS&rarr;Testo</h2>
+  <h2>Ablation: confronto sistematico delle rappresentazioni TS&rarr;Testo</h2>
 
-  <h3>1 &middot; Domanda scientifica</h3>
+  <h3>1 &middot; Cosa fa l&rsquo;esperimento, in parole semplici</h3>
 
-  <p>Il verbalizzatore V2 &egrave; una scelta di design. Un reviewer pu&ograve; obiettare: &laquo;avete inventato il vostro formato, ma come fate a sapere che non funzionerebbe meglio dare i numeri grezzi all&rsquo;LLM, o usare statistiche &agrave; la CGTime, o una codifica simbolica?&raquo;. Questa &egrave; la <strong>Critica A</strong> &mdash; la critica alla quale l&rsquo;ablation risponde direttamente.</p>
+  <p>Immagina un impianto chimico con 41 sensori che misurano temperature, pressioni, flussi. Quando qualcosa va storto (un guasto), i sensori cambiano comportamento. Il problema &egrave;: <strong>come fai a dire a un modello linguistico cosa dicono quei sensori?</strong> Il modello capisce il testo, non numeri grezzi di un impianto chimico.</p>
 
-  <p>La domanda sperimentale &egrave;:</p>
+  <p>Noi abbiamo testato 4 modi diversi di &ldquo;tradurre&rdquo; i dati dei sensori in testo:</p>
 
-  <div class="callout"><em>La rappresentazione V2 offre un compromesso favorevole tra accuratezza diagnostica e costo computazionale rispetto ad approcci alternativi dalla letteratura?</em></div>
+  <ul>
+    <li><strong>V2_TEXT:</strong> traduzione in italiano tecnico con giudizi (&ldquo;il valore &egrave; sopra soglia, trend in crescita&rdquo;) &mdash; il nostro metodo</li>
+    <li><strong>RAW_FEATURES:</strong> numeri puri in tabella, senza interpretazione</li>
+    <li><strong>CGTIME_STATS:</strong> centinaia di statistiche calcolate per ogni sensore (media, varianza, correlazioni&hellip;)</li>
+    <li><strong>SAX_SYMBOLIC:</strong> lettere (tipo &ldquo;aabccddee&rdquo;) che codificano la forma del segnale</li>
+  </ul>
 
-  <p>L&rsquo;ablation non risponde alla Critica B (&laquo;perch&eacute; usare un LLM e non un metodo tradizionale di fault diagnosis?&raquo;), che si difende con argomenti qualitativi (zero-shot, interpretabilit&agrave;, generalizzabilit&agrave;) gi&agrave; parte della motivazione del lavoro FoT-TEP.</p>
+  <p>L&rsquo;idea &egrave; semplice: stesse condizioni, stesso modello, stessi casi di test &mdash; cambia solo come &ldquo;parli&rdquo; all&rsquo;LLM. Chi funziona meglio?</p>
 
-  <h3>2 &middot; Disegno sperimentale</h3>
-
-  <p>L&rsquo;esperimento confronta quattro strategie di rappresentazione sugli stessi 15 casi held-out TEP (PBH-001&hellip;PBH-015), con lo stesso LLM (GPT-5.6-terra), output strutturato, 3 ripetizioni per caso. Il task &egrave; una classificazione centralizzata a 5 classi (F1, F8, F10, F13, Normal) &mdash; un task pi&ugrave; difficile della classificazione federata 2-classi della pipeline di produzione. La centralizzazione isola la variabile &laquo;rappresentazione&raquo; evitando il confounding con l&rsquo;architettura federata.</p>
-
-  <p>Totale: 4 bracci &times; 15 casi &times; 3 ripetizioni = <strong>180 inferenze</strong>.</p>
+  <p>Il protocollo &egrave; una classificazione centralizzata a 5 classi (F1, F8, F10, F13, Normal) su 15 casi held-out indipendenti (PBH-001&hellip;PBH-015), 3 ripetizioni per caso, GPT-5.6-terra con output strutturato. 4 bracci &times; 15 casi &times; 3 ripetizioni = <strong>180 inferenze totali</strong>.</p>
 
   <div class="scroll">
   <table>
@@ -1239,23 +1240,30 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   </table>
   </div>
 
-  <p>L&rsquo;unit&agrave; indipendente &egrave; il <code>case_id</code> (15 casi), non la riga (45 righe). Le 3 ripetizioni per caso misurano la stabilit&agrave; within-case ma non aggiungono unit&agrave; statistiche indipendenti.</p>
+  <p>La centralizzazione del task &egrave; una scelta di design sperimentale: la pipeline di produzione FoT usa 4 agenti specialisti (ciascuno guasto vs normale), non un singolo LLM a 5 classi. Centralizzare isola la variabile &laquo;rappresentazione&raquo; evitando confounding con l&rsquo;architettura federata.</p>
 
-  <h3>3 &middot; Test statistici e correzioni</h3>
+  <h3>2 &middot; Dove ci collochiamo nella letteratura</h3>
 
-  <p>L&rsquo;analisi statistica usa esclusivamente test cluster-aware che rispettano la struttura di raggruppamento dei dati:</p>
+  <p>Il campo dell&rsquo;uso di LLM per diagnosticare guasti industriali &egrave; molto giovane &mdash; le prime pubblicazioni serie risalgono al 2024-2025. La maggior parte dei lavori precedenti usa reti neurali tradizionali (CNN, LSTM, trasformatori) addestrate direttamente sui numeri dei sensori, senza passare per il linguaggio naturale. Quei metodi raggiungono accuratezze altissime (95%+) ma richiedono tanti dati di addestramento e non spiegano il ragionamento.</p>
+
+  <p>Il nostro contributo si inserisce in un filone che si chiede: <strong>possiamo usare l&rsquo;intelligenza &ldquo;generica&rdquo; di un LLM per diagnosticare guasti senza doverlo addestrare?</strong> La risposta sembra s&igrave;, ma la domanda successiva &egrave;: quale formato di rappresentazione funziona meglio?</p>
+
+  <p>Ed &egrave; esattamente la domanda a cui rispondiamo. In letteratura:</p>
+
   <ul>
-    <li><strong>Clustered bootstrap</strong> (10 000 resamples di 15 case_id, RNG indipendente per confronto)</li>
-    <li><strong>Permutation test esatto</strong> (sign-flip su 15 casi, tutte le 2<sup>15</sup> = 32 768 permutazioni)</li>
-    <li><strong>McNemar a livello di caso</strong> (majority-vote aggregato, N = 15, binomiale esatto)</li>
-    <li><strong>Holm&ndash;Bonferroni</strong> step-down across 6 confronti pairwise</li>
+    <li><strong>LLMTime</strong> (Gruver et al., 2023) ha mostrato che gli LLM possono gestire serie temporali serializzate come numeri &rarr; noi testiamo qualcosa di simile con RAW_FEATURES</li>
+    <li><strong>CGTime</strong> (Feng et al., 2026) propone un approccio &ldquo;percezione statistica&rdquo; &rarr; noi ne testiamo una versione adattata</li>
+    <li><strong>SAX/HAR-LLM</strong> (Pappa et al., 2026) usa codifiche simboliche per sensori &rarr; noi testiamo SAX</li>
+    <li>Nessuno, per quanto ci risulta, <strong>ha fatto un confronto sistematico di queste strategie sullo stesso dataset, stesso LLM, stesse condizioni</strong></li>
   </ul>
 
-  <p>Un test McNemar row-level (N = 45) &egrave; stato calcolato ma <strong>declassato a NON-INFERENTIAL</strong>: tratta le 3 ripetizioni per caso come indipendenti (non lo sono: stesso input), producendo p-value anti-conservativi. La discrepanza tra i due approcci &mdash; il row-level trovava due confronti significativi, il cluster-aware nessuno &mdash; &egrave; un caso da manuale di come ignorare il clustering gonfia artificialmente la significativit&agrave;.</p>
+  <p>Questo &egrave; il nostro punto di forza: siamo probabilmente il <strong>primo confronto controllato head-to-head</strong> di strategie di rappresentazione TS&rarr;text per fault diagnosis con LLM.</p>
 
-  <p>Questa correzione &egrave; stata introdotta dopo una review indipendente che ha restituito un verdetto <strong>GO-with-reservations</strong> con 22 finding (1 critico, 10 major, 7 minor, 2 informativi). Il finding critico riguardava esattamente l&rsquo;uso improprio del McNemar row-level come test inferenziale.</p>
+  <h3>3 &middot; Cosa dicono i risultati, e quanto sono forti</h3>
 
-  <h3>4 &middot; Risultati</h3>
+  <p>Il risultato principale &egrave; che i tre metodi migliori (V2_TEXT, RAW_FEATURES, CGTIME_STATS) hanno accuratezze osservate vicine (88.9%, 93.3%, 91.1%), e <strong>nessuna differenza &egrave; statisticamente significativa con nessun test</strong>. SAX va peggio (73.3%) ma nemmeno quel divario &egrave; confermato statisticamente con test corretti.</p>
+
+  <p>Tradotto: con il campione che abbiamo, <strong>non possiamo dire chi vince</strong>. Possiamo dire che il V2 non &egrave; chiaramente peggiore nonostante usi 180 volte meno token.</p>
 
   <div class="scroll">
   <table>
@@ -1269,7 +1277,9 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   </table>
   </div>
 
-  <h4>Recall per classe</h4>
+  <p>Un dato interessante emerge dalla selective accuracy: RAW_FEATURES e CGTIME_STATS hanno selective accuracy = 1.000 &mdash; cio&egrave; quando rispondono, non sbagliano mai. La differenza rispetto al V2 dipende interamente dal fatto che si astengono di pi&ugrave; sul guasto F13 (il drift lento, il caso pi&ugrave; difficile). Attenzione per&ograve;: selective accuracy = 1.000 &egrave; condizionata alla non-astensione &mdash; non sostituisce l&rsquo;accuratezza complessiva, la copertura o il selective risk.</p>
+
+  <p>Il recall per classe conferma il pattern:</p>
 
   <div class="scroll">
   <table>
@@ -1283,9 +1293,9 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   </table>
   </div>
 
-  <h4>Confronti pairwise (cluster-aware, Holm&ndash;Bonferroni)</h4>
+  <p>F13 &egrave; il guasto pi&ugrave; difficile nella maggior parte dei bracci, ma con pattern arm-dependent: V2 tende a misclassificarlo come F8, mentre RAW e CGTIME tendono ad astenersi. SAX_SYMBOLIC mostra problemi sia su F13 sia su Normal. Non &egrave; &ldquo;universalmente il pi&ugrave; difficile&rdquo; &mdash; la difficolt&agrave; varia per braccio.</p>
 
-  <p><strong>Nessun confronto raggiunge la significativit&agrave; statistica</strong> con nessuno dei tre test cluster-aware dopo correzione:</p>
+  <p>I confronti pairwise con test cluster-aware e correzione Holm&ndash;Bonferroni confermano l&rsquo;assenza di significativit&agrave;:</p>
 
   <div class="scroll">
   <table>
@@ -1301,30 +1311,74 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   </table>
   </div>
 
-  <h3>5 &middot; Interpretazione</h3>
+  <h3>4 &middot; Le critiche principali che ci possono fare (e le nostre difese)</h3>
 
-  <p>I tre metodi migliori (V2_TEXT, RAW_FEATURES, CGTIME_STATS) hanno accuratezze osservate vicine (88.9%, 93.3%, 91.1%) e nessuna differenza &egrave; statisticamente significativa. SAX va peggio (73.3%) ma nemmeno quel divario &egrave; confermato statisticamente con test corretti. Con il campione disponibile, <strong>non possiamo dire chi vince</strong> &mdash; ma possiamo dire che V2 non &egrave; chiaramente peggiore nonostante usi 39&ndash;180&times; meno token.</p>
+  <p><strong>Critica 1: &ldquo;Il campione &egrave; troppo piccolo&rdquo;</strong> &mdash; Abbiamo 15 casi indipendenti (3 per classe). Per rilevare una differenza del 10% servirebbe un campione molto pi&ugrave; grande. &Egrave; la critica pi&ugrave; forte e pi&ugrave; legittima. <em>Difesa:</em> lo dichiariamo esplicitamente. &Egrave; un pilot study esplorativo, non un trial confermativo. L&rsquo;MDE (minimum detectable effect) &egrave; ~25 punti percentuali &mdash; lo riportiamo. Nessuno dovrebbe aspettarsi conclusioni definitive da 15 casi, e noi non le pretendiamo.</p>
 
-  <p>La formulazione corretta &egrave; &laquo;not demonstrably different&raquo;, non &laquo;indistinguishable&raquo;: la prima riconosce che il campione &egrave; troppo piccolo per distinguere, la seconda implicherebbe equivalenza dimostrata. Il minimum detectable effect (MDE) con N = 15 &egrave; &asymp; 25 punti percentuali.</p>
+  <p><strong>Critica 2: &ldquo;Avete testato solo 4 guasti su 28&rdquo;</strong> &mdash; Il TEP ha 28 tipi di guasto. Ne abbiamo usati 4 (uno facile, due medi, uno difficile). <em>Difesa:</em> copriamo le categorie principali (step, stocastico, drift), ma non possiamo generalizzare a tutti i 28. Lo diciamo chiaramente. L&rsquo;obiettivo era dimostrare il framework di confronto, non esaurire lo spazio dei guasti.</p>
 
-  <p>Un dato interessante emerge dalla selective accuracy: RAW_FEATURES e CGTIME_STATS hanno selective accuracy = 1.000, cio&egrave; quando rispondono non sbagliano mai. La differenza rispetto al V2 dipende interamente dal fatto che si astengono di pi&ugrave; sul guasto F13. Il pattern di F13 &egrave; arm-dependent: V2 tende a misclassificarlo come F8, mentre RAW e CGTIME tendono ad astenersi.</p>
+  <p><strong>Critica 3: &ldquo;V2_TEXT bara perch&eacute; inietta conoscenza di dominio&rdquo;</strong> &mdash; V2_TEXT non &egrave; solo un formato diverso: include soglie calcolate statisticamente e descrizioni dei trend. Gli altri arm non hanno questa informazione. <em>Difesa:</em> &egrave; vero, ed &egrave; un caveat che riportiamo. Il confronto misura &ldquo;formato + informazione&rdquo; insieme, non solo il formato. Ma nella pratica, il fatto che V2 raggiunga risultati simili con 180&times; meno token <em>includendo</em> il preprocessing &egrave; comunque rilevante operativamente. E il costo del preprocessing &egrave; esterno al budget di token del prompt &mdash; lo segnaliamo esplicitamente.</p>
 
-  <h3>6 &middot; Posizionamento nella letteratura</h3>
+  <p><strong>Critica 4: &ldquo;Un solo LLM&rdquo;</strong> &mdash; Tutto &egrave; testato con GPT-5.6-terra. Un altro modello potrebbe ribaltare il ranking. <em>Difesa:</em> corretto. &Egrave; un limite dichiarato. Ma il contributo metodologico (il framework di confronto) resta valido indipendentemente dal modello specifico.</p>
 
-  <p>Per quanto ci risulta, questa &egrave; la <strong>prima comparazione controllata head-to-head</strong> di strategie di rappresentazione TS&rarr;text per fault diagnosis con LLM. Nessuno in letteratura ha fatto un confronto sistematico di queste strategie sullo stesso dataset, stesso LLM, stesse condizioni.</p>
+  <p><strong>Critica 5: &ldquo;I metodi classici (deep learning) funzionano meglio&rdquo;</strong> &mdash; Non abbiamo un baseline di ML tradizionale per confronto. <em>Difesa:</em> lo scope dell&rsquo;esperimento &egrave; <em>tra</em> rappresentazioni per LLM, non LLM vs ML tradizionale. Ma un reviewer potrebbe chiedere un confronto. Se servisse, si potrebbe aggiungere un classificatore Random Forest o LSTM come riferimento.</p>
 
-  <p>In un paper si pu&ograve; scrivere:</p>
-  <div class="callout"><em>&laquo;Per valutare la scelta della strategia di rappresentazione, abbiamo condotto un&rsquo;ablation su 15 casi TEP indipendenti confrontando V2 con tre approcci dalla letteratura. Nessuna differenza statisticamente significativa &egrave; emersa tra i primi tre approcci (permutation test, p &gt; 0.25), mentre V2 richiede ~1/39&ndash;1/180 dei token in input. Questi risultati preliminari suggeriscono che la rappresentazione V2 offre un compromesso favorevole tra accuratezza diagnostica e costo computazionale.&raquo;</em></div>
+  <p><strong>Critica 6: &ldquo;Il test era centralizzato, ma il sistema reale &egrave; federato&rdquo;</strong> &mdash; La pipeline di produzione FoT usa 4 agenti specialisti, non un singolo LLM a 5 classi. <em>Difesa:</em> l&rsquo;ablation isola la variabile &ldquo;rappresentazione&rdquo; in condizioni controllate. Centralizzare il task &egrave; una scelta di design sperimentale per evitare confounding con l&rsquo;architettura federata. Validare nel setting federato &egrave; un follow-up necessario, ma l&rsquo;ablation fa il suo lavoro: confrontare le rappresentazioni a parit&agrave; di tutto il resto.</p>
 
-  <h3>7 &middot; Caveat</h3>
+  <h3>5 &middot; Critica A vs Critica B: una distinzione importante</h3>
+
+  <p>Non tutte le critiche sono uguali. Vale la pena distinguere due famiglie:</p>
+
+  <p><strong>Critica A: &ldquo;Perch&eacute; il vostro verbalizer e non un altro metodo di rappresentazione TS&rarr;text per LLM?&rdquo;</strong> &mdash; Questa &egrave; la critica a cui l&rsquo;ablation <strong>risponde bene</strong>. Un reviewer che conosce LLMTime, CGTime o SAX potrebbe chiedere: &ldquo;avete inventato il vostro verbalizer V2, ma come fate a sapere che non funzionerebbe meglio dare i numeri grezzi all&rsquo;LLM, o usare statistiche &agrave; la CGTime, o una codifica simbolica?&rdquo;</p>
+
+  <p>L&rsquo;ablation mostra che V2_TEXT ottiene accuratezza osservata comparabile ai tre approcci alternativi, usando 39&ndash;180&times; meno token. Questo &egrave; un argomento forte, anche se non conclusivo: non abbiamo dimostrato equivalenza (il campione &egrave; troppo piccolo per quello), ma abbiamo dimostrato che <strong>non c&rsquo;&egrave; evidenza di inferiorit&agrave;</strong>, e c&rsquo;&egrave; un vantaggio pratico enorme in efficienza.</p>
+
+  <p>In un paper si pu&ograve; scrivere qualcosa come:</p>
+
+  <div class="callout"><em>&laquo;Per valutare la scelta della strategia di rappresentazione, abbiamo condotto un&rsquo;ablation su 15 casi TEP indipendenti confrontando V2 con tre approcci dalla letteratura (serializzazione numerica diretta, percezione statistica CGTime-inspired, codifica simbolica SAX). Nessuna differenza statisticamente significativa &egrave; emersa tra i primi tre approcci (permutation test, p &gt; 0.25 per tutti i confronti), mentre V2 richiede ~1/39&ndash;1/180 dei token in input. Questi risultati preliminari suggeriscono che la rappresentazione V2 offre un compromesso favorevole tra accuratezza diagnostica e costo computazionale.&raquo;</em></div>
+
+  <p>Questo &egrave; sufficiente per un paper che si presenta come contributo metodologico. Nessun reviewer ragionevole pretender&agrave; una dimostrazione su scala industriale per un&rsquo;ablation.</p>
+
+  <p><strong>Critica B: &ldquo;Perch&eacute; usare un LLM e non un metodo tradizionale di fault diagnosis (Random Forest, CNN, LSTM)?&rdquo;</strong> &mdash; Questa &egrave; una critica diversa e pi&ugrave; fondamentale, e l&rsquo;ablation <strong>non la copre</strong>. Tutti e quattro gli arm usano un LLM &mdash; stiamo confrontando quattro modi di parlare allo stesso LLM, non stiamo confrontando l&rsquo;LLM contro un classificatore tradizionale.</p>
+
+  <p>Un reviewer potrebbe dire: &ldquo;Bella l&rsquo;ablation, ma un Random Forest addestrato sulle stesse 5 feature V2 probabilmente avrebbe il 98% di accuratezza senza bisogno di un LLM.&rdquo;</p>
+
+  <p>Per questa critica, la difesa &egrave; diversa e non richiede necessariamente un esperimento aggiuntivo. Si pu&ograve; argomentare su tre fronti: (1)&nbsp;<strong>zero-shot</strong> &mdash; l&rsquo;LLM non richiede addestramento su dati etichettati del processo specifico; (2)&nbsp;<strong>interpretabilit&agrave;</strong> &mdash; produce un ragionamento leggibile e verificabile, non solo un&rsquo;etichetta; (3)&nbsp;<strong>generalizzabilit&agrave;</strong> &mdash; il framework FoT &egrave; generalizzabile a nuovi impianti senza ri-training. Sono vantaggi architetturali, non di accuratezza pura.</p>
+
+  <p>In pratica: l&rsquo;ablation protegge dalla Critica A (&ldquo;perch&eacute; V2 e non un&rsquo;altra rappresentazione?&rdquo;) &mdash; che &egrave; la critica pi&ugrave; probabile nel contesto del contributo specifico. Non protegge dalla Critica B (&ldquo;perch&eacute; un LLM?&rdquo;) &mdash; ma quella si difende con argomenti qualitativi gi&agrave; parte della motivazione del lavoro FoT-TEP, non del risultato dell&rsquo;ablation. Se si volesse blindarsi anche dalla Critica B con un dato numerico, la cosa pi&ugrave; economica sarebbe aggiungere un singolo baseline ML tradizionale (un Random Forest o XGBoost sulle stesse 5 feature V2) come riga di riferimento nella tabella.</p>
+
+  <h3>6 &middot; In sintesi: dove siamo</h3>
+
+  <p>Siamo in una posizione da <strong>buon pilot study esplorativo</strong>. Abbiamo:</p>
 
   <ul>
-    <li><strong>Confound informazione&ndash;rappresentazione:</strong> V2_TEXT include conoscenza di dominio (soglie, trend); gli altri bracci no. L&rsquo;esperimento testa formato + informazione insieme, non formato solo. Il costo del preprocessing conformal &egrave; esterno al budget di token del prompt e va contabilizzato separatamente.</li>
-    <li><strong>Campione piccolo:</strong> 15 casi indipendenti. Per rilevare una differenza del 10% servirebbe un campione molto pi&ugrave; grande. &Egrave; un pilot study esplorativo, non un trial confermativo.</li>
-    <li><strong>4 guasti su 28:</strong> coperti F1 (step), F8 (stocastico), F10 (step), F13 (drift). Le categorie principali sono rappresentate, ma non si pu&ograve; generalizzare a tutti i 28 fault TEP.</li>
-    <li><strong>Un solo LLM:</strong> GPT-5.6-terra. Un altro modello potrebbe ribaltare il ranking. Il contributo metodologico (il framework di confronto) resta valido indipendentemente dal modello specifico.</li>
-    <li><strong>Task centralizzato vs federato:</strong> la pipeline di produzione FoT usa 4 agenti specialisti, non un singolo LLM a 5 classi. La centralizzazione &egrave; una scelta di design sperimentale per isolare la variabile &laquo;rappresentazione&raquo;; validare nel setting federato &egrave; un follow-up.</li>
+    <li>Il <strong>primo confronto sistematico</strong> di rappresentazioni TS&rarr;text per fault diagnosis con LLM</li>
+    <li>Una <strong>metodologia statistica corretta e robusta</strong> (test cluster-aware, MDE dichiarato, conclusioni calibrate)</li>
+    <li><strong>Risultati interessanti</strong>: il metodo pi&ugrave; compatto (V2) funziona altrettanto bene dei metodi pi&ugrave; verbosi, con un vantaggio pratico enorme in termini di costi</li>
   </ul>
+
+  <p>Le limitazioni (campione piccolo, un solo LLM, 4 fault su 28) sono tutte dichiarate e nessuna &egrave; fatale per un paper che si presenti come studio esplorativo piuttosto che come evidenza definitiva.</p>
+
+  <p>Il verdetto <strong>GO-with-reservations</strong> della review esterna riflette proprio questo: pubblicabile con le dovute qualificazioni, non come risultato conclusivo.</p>
+
+  <h3>7 &middot; Percorso metodologico: dalla review alle correzioni</h3>
+
+  <p>Vale la pena raccontare anche cosa &egrave; successo dopo i primi risultati. Il report originale &egrave; stato sottoposto a una review indipendente che ha restituito un verdetto GO-with-reservations con 22 finding (1 critico, 10 major, 7 minor, 2 informativi).</p>
+
+  <p>Il <strong>finding critico</strong> riguardava il test di McNemar: l&rsquo;analisi originale usava N = 45 righe come se fossero indipendenti, ma le 3 ripetizioni per caso sono generate dallo stesso input &mdash; non sono indipendenti. Corretto: l&rsquo;unit&agrave; indipendente &egrave; il <code>case_id</code>, e ne abbiamo 15, non 45.</p>
+
+  <p>Le correzioni implementate:</p>
+
+  <ol>
+    <li><strong>Test cluster-aware aggiunti:</strong> permutation test esatto (sign-flip su 15 casi, tutte le 2<sup>15</sup> = 32&nbsp;768 permutazioni) e McNemar aggregato per caso con majority vote</li>
+    <li><strong>McNemar row-level declassato</strong> a NON-INFERENTIAL e mantenuto solo come riferimento con warning esplicito</li>
+    <li><strong>Conclusioni riformulate:</strong> da &ldquo;indistinguishable&rdquo; a &ldquo;not demonstrably different&rdquo; &mdash; una differenza sottile ma importante (il primo implica equivalenza, il secondo riconosce che il campione &egrave; troppo piccolo per distinguere)</li>
+    <li><strong>F13 qualificato per arm:</strong> non pi&ugrave; &ldquo;universalmente il pi&ugrave; difficile&rdquo; ma &ldquo;il pi&ugrave; difficile nella maggior parte degli arm, con pattern arm-dependent&rdquo;</li>
+    <li><strong>Analisi aggiuntive:</strong> selective accuracy, coverage, leave-one-class-out</li>
+    <li><strong>Caveat sull&rsquo;efficienza V2:</strong> il risparmio di token &egrave; reale, ma include preprocessing esterno il cui costo va contabilizzato separatamente</li>
+  </ol>
+
+  <p>Il risultato delle correzioni ha confermato la previsione della review: con test corretti, <strong>nessun confronto &egrave; statisticamente significativo</strong>. La discrepanza tra McNemar row-level (che trovava due confronti significativi) e i test cluster-aware &egrave; un caso da manuale di come ignorare la struttura di clustering gonfia artificialmente la significativit&agrave;.</p>
 
   <h3>Dove verificare</h3>
 
@@ -1333,10 +1387,11 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
     <thead><tr><th>Risorsa</th><th>Descrizione</th></tr></thead>
     <tbody>
       <tr><td><code>ablation/ABLATION_OVERVIEW.md</code></td><td>Companion discorsivo all&rsquo;ablation report</td></tr>
-      <tr><td><code>ablation/ablation_results/ablation_report.md</code></td><td>Report statistico completo con tabelle e p-value</td></tr>
+      <tr><td><code>ablation/ablation_results/ablation_report.md</code></td><td>Report statistico completo con tutte le tabelle, i p-value e le note metodologiche</td></tr>
       <tr><td><code>ablation/ablation_evaluation.json</code></td><td>Risultati grezzi in formato machine-readable</td></tr>
-      <tr><td><code>ablation/ablation_evaluate.py</code></td><td>Script di valutazione con tutti i test statistici</td></tr>
+      <tr><td><code>ablation/ablation_evaluate.py</code></td><td>Script di valutazione con tutti i test statistici (bootstrap, permutation, McNemar)</td></tr>
       <tr><td><code>ablation/EXPERIMENT_DESIGN.md</code></td><td>Protocollo sperimentale pre-registrato</td></tr>
+      <tr><td><code>ablation/RESULTS_REVIEW_PROMPT.md</code></td><td>Prompt usato per la review indipendente</td></tr>
       <tr><td><code>ablation/inference_results.jsonl</code></td><td>Le 180 predizioni grezze del modello</td></tr>
     </tbody>
   </table>

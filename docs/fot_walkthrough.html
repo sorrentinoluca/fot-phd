@@ -1062,7 +1062,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
   <div class="card">
     <div class="card-label">Fine Phase A — Riepilogo della pipeline</div>
-    <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">Phase A è <strong>completamente deterministica</strong>: nessun LLM, nessuna scelta stocastica. Dati gli stessi segnali e la stessa baseline congelata, produce sempre lo stesso testo neutrale. Questo testo è il <strong>ponte</strong> verso Phase B: sarà l'unico input numerico che gli agenti condivideranno.</p>
+    <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">Phase A è <strong>completamente deterministica</strong>: nessun LLM, nessuna scelta stocastica. Dati gli stessi segnali e la stessa baseline congelata, produce sempre lo stesso testo neutrale. Questo componente &mdash; la pipeline completa da segnali grezzi a testo neutrale &mdash; è il <strong>verbalizzatore V2</strong>: un renderer a template, senza parametri appresi, con calibrazione statistica conformal. Il testo che produce è il <strong>ponte</strong> verso Phase B: sarà l'unico input numerico che gli agenti condivideranno.</p>
   </div>
 
   <div class="card" style="border-left:3px solid var(--accent-b)">
@@ -1780,15 +1780,15 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     <div class="card-label">Protocollo</div>
     <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">Classificazione centralizzata a 5 classi (F1, F8, F10, F13, Normal) su 15 casi held-out indipendenti (PBH-001&hellip;PBH-015), 3 ripetizioni per caso, GPT-5.6-terra con output strutturato. <strong>180 inferenze totali</strong> (4 bracci &times; 45).</p>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;font-size:0.84rem">
-      <div style="padding:10px;border-radius:6px;background:#f3f6f8;text-align:center">
+      <div style="padding:10px;border-radius:6px;background:#dce3e9;text-align:center">
         <div style="font-size:0.72rem;color:var(--text-caption);text-transform:uppercase;margin-bottom:3px">Unit&agrave; indip.</div>
         <div style="font-weight:700;color:var(--text)">15 case_id</div>
       </div>
-      <div style="padding:10px;border-radius:6px;background:#f3f6f8;text-align:center">
+      <div style="padding:10px;border-radius:6px;background:#dce3e9;text-align:center">
         <div style="font-size:0.72rem;color:var(--text-caption);text-transform:uppercase;margin-bottom:3px">Test statistici</div>
         <div style="font-weight:700;color:var(--text)">Cluster-aware</div>
       </div>
-      <div style="padding:10px;border-radius:6px;background:#f3f6f8;text-align:center">
+      <div style="padding:10px;border-radius:6px;background:#dce3e9;text-align:center">
         <div style="font-size:0.72rem;color:var(--text-caption);text-transform:uppercase;margin-bottom:3px">Correzione</div>
         <div style="font-weight:700;color:var(--text)">Holm&ndash;Bonferroni</div>
       </div>
@@ -1860,6 +1860,29 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
         <div style="font-size:0.84rem;color:var(--text-muted)">Non possiamo dichiarare equivalenza (campione troppo piccolo). Differenze moderate non sono escludibili.</div>
       </div>
     </div>
+    <div style="margin-top:14px">
+      <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:700">Confronti pairwise (Holm&ndash;Bonferroni)</div>
+      <table style="width:100%;font-size:0.84rem;border-collapse:collapse">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border-light)">
+            <th style="text-align:left;padding:6px">Confronto</th>
+            <th style="text-align:center;padding:6px">&Delta; Acc</th>
+            <th style="text-align:center;padding:6px">p (boot)</th>
+            <th style="text-align:center;padding:6px">p (perm)</th>
+            <th style="text-align:center;padding:6px">p (McN)</th>
+            <th style="text-align:center;padding:6px">Sign.?</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:6px">V2 vs RAW</td><td style="text-align:center;padding:6px">&minus;0.044</td><td style="text-align:center;padding:6px">0.769</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">No</td></tr>
+          <tr><td style="padding:6px">V2 vs CGTIME</td><td style="text-align:center;padding:6px">&minus;0.022</td><td style="text-align:center;padding:6px">0.967</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">No</td></tr>
+          <tr><td style="padding:6px">V2 vs SAX</td><td style="text-align:center;padding:6px">+0.156</td><td style="text-align:center;padding:6px">0.270</td><td style="text-align:center;padding:6px">0.375</td><td style="text-align:center;padding:6px">0.625</td><td style="text-align:center;padding:6px">No</td></tr>
+          <tr><td style="padding:6px">RAW vs CGTIME</td><td style="text-align:center;padding:6px">+0.022</td><td style="text-align:center;padding:6px">0.710</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">No</td></tr>
+          <tr><td style="padding:6px">RAW vs SAX</td><td style="text-align:center;padding:6px">+0.200</td><td style="text-align:center;padding:6px">0.072</td><td style="text-align:center;padding:6px">0.250</td><td style="text-align:center;padding:6px">0.250</td><td style="text-align:center;padding:6px">No</td></tr>
+          <tr><td style="padding:6px">CGTIME vs SAX</td><td style="text-align:center;padding:6px">+0.178</td><td style="text-align:center;padding:6px">0.071</td><td style="text-align:center;padding:6px">0.250</td><td style="text-align:center;padding:6px">0.250</td><td style="text-align:center;padding:6px">No</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="card">
@@ -1868,21 +1891,43 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       Il guasto F13 (drift lento) mostra recall basso in tutti i bracci (0.333&ndash;0.778), ma con pattern diversi per braccio:
     </p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.84rem">
-      <div style="padding:10px;border-radius:6px;background:#f3f6f8">
+      <div style="padding:10px;border-radius:6px;background:#dce3e9">
         <strong>V2_TEXT:</strong> recall F13 = 0.778 (errori &rarr; misclassificazione come F8)
       </div>
-      <div style="padding:10px;border-radius:6px;background:#f3f6f8">
+      <div style="padding:10px;border-radius:6px;background:#dce3e9">
         <strong>RAW / CGTIME:</strong> recall F13 = 0.667 / 0.556 (errori &rarr; astensioni)
       </div>
     </div>
     <p style="margin:10px 0 0;font-size:0.84rem;color:var(--text-muted)">
       RAW_FEATURES e CGTIME_STATS raggiungono selective accuracy = 1.000 (quando rispondono, non sbagliano mai), ma con copertura inferiore. Il pattern &egrave; arm-dependent, non universale.
     </p>
+    <div style="margin-top:14px">
+      <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:700">Recall per classe</div>
+      <table style="width:100%;font-size:0.84rem;border-collapse:collapse">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border-light)">
+            <th style="text-align:left;padding:6px">Braccio</th>
+            <th style="text-align:center;padding:6px">F1</th>
+            <th style="text-align:center;padding:6px">F8</th>
+            <th style="text-align:center;padding:6px">F10</th>
+            <th style="text-align:center;padding:6px">F13</th>
+            <th style="text-align:center;padding:6px">Normal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="font-weight:600"><td style="padding:6px">V2_TEXT</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">0.667</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">0.778</td><td style="text-align:center;padding:6px">1.000</td></tr>
+          <tr><td style="padding:6px">RAW_FEATURES</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">0.667</td><td style="text-align:center;padding:6px">1.000</td></tr>
+          <tr><td style="padding:6px">CGTIME_STATS</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">0.556</td><td style="text-align:center;padding:6px">1.000</td></tr>
+          <tr style="color:var(--text-muted)"><td style="padding:6px">SAX_SYMBOLIC</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">1.000</td><td style="text-align:center;padding:6px">0.333</td><td style="text-align:center;padding:6px">0.333</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="card">
     <div class="card-label">Caveat metodologici</div>
     <ul style="margin:0;padding-left:18px;font-size:0.84rem;color:var(--text-muted);list-style:disc">
+      <li style="margin-bottom:6px"><strong>Campione piccolo:</strong> 15 casi indipendenti (3 per classe). Il minimum detectable effect (MDE) con questo campione &egrave; ~25 punti percentuali &mdash; differenze inferiori non sono rilevabili. &Egrave; un pilot study esplorativo, non un trial confermativo.</li>
       <li style="margin-bottom:6px"><strong>Confound informazione&ndash;rappresentazione:</strong> V2_TEXT include conoscenza di dominio (soglie, trend); gli altri bracci no. L&rsquo;esperimento testa formato + informazione insieme.</li>
       <li style="margin-bottom:6px"><strong>4 guasti su 28:</strong> coperti F1 (step), F8 (stocastico), F10 (step), F13 (drift). Non generalizzabile a tutti i fault TEP.</li>
       <li style="margin-bottom:6px"><strong>Un solo LLM:</strong> GPT-5.6-terra. Un altro modello potrebbe cambiare il ranking.</li>
