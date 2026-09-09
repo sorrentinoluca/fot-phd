@@ -1,7 +1,22 @@
-# Piano sperimentale pre-submission — FoT–TEP per IEEE BigData 2026 (Rev. 3)
+# Piano sperimentale pre-submission — FoT–TEP per IEEE BigData 2026 (Rev. 4)
 ## Supervisor / Area-Chair review: pacchetto di esperimenti pre-specificati per massimizzare l'accettazione
 
 **Companion di** `FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`.
+
+### Changelog — Rev. 4 (registrazione completamento Exp 2 Qwen, 2026-09-09)
+
+Rispetto alla Rev. 3, registrazione del completamento dell'Experiment 2 (Qwen 27B):
+
+1. **Experiment 2 lane 1 (Qwen3.8-27B-FP8) COMPLETATO.** Catena frozen completa:
+   protocol→predictions→evaluator→results (4 tag). Risultati primari unseen: A=0/36, B=34/36,
+   E=1/36; B−A=+0.944444 [0.917, 1.0], B−E=+0.916667 [0.833, 1.0]. C1–C4: 4/4 PASS.
+   **GO WITH LIMITATIONS** (review indipendente R2).
+2. **Limitazioni obbligatorie:** R=3 degenerato (decoding deterministico: temp=0, seed=20260829 →
+   triplicati byte-identici, 180/180 unanimi); reasoning token cap a 1023 effettivi (nominale 1024);
+   H2 FAIL (regressione local-seen B=9/12 vs A=12/12); consumer-side only (producer gpt-5.6-terra
+   invariato); singolo consumer → non stabilisce portabilità universale.
+3. **Tutti i §§ downstream aggiornati** (verdetto, pacchetti, red team, raccomandazione, stato,
+   tabella decisioni) per riflettere il completamento.
 
 ### Changelog — Rev. 3 (aggiornamento allo stato corrente, 2026-09-09)
 
@@ -15,9 +30,9 @@ Rispetto alla Rev. 2, aggiornamento completo dello stato sperimentale:
    held-out di Experiment 1. Risultato: 15/15 correct, 0 astensioni. C−B=+0.139 [0.083, 0.167].
    Intero vantaggio concentrato sui 3 casi F8. Natura: **centralized full-information pooled ICL
    post-hoc exploratory reference**, non benchmark.
-3. **Experiment 2 (cross-model, Qwen 27B) AVVIATO.** Protocollo frozen: commit `d9bb95c`, tag
-   `phase-b-exp2-qwen-protocol-frozen-001`. Probe: 19/19 PASS, verdetto GO. Full run 540 inferenze
-   in corso. Nessun risultato scientifico ancora disponibile.
+3. **Experiment 2 (cross-model, Qwen 27B) COMPLETATO (Rev. 4).** Catena frozen completa:
+   protocol `d9bb95c` → predictions `a4f264c` → evaluator `a8f9884` → results `37195cf`.
+   Risultati: A=0/36, B=34/36, E=1/36; B−A=+0.944444 [0.917, 1.0]. GO WITH LIMITATIONS.
 4. **§2 CENTRAL/POOLED ICL aggiornato** per riflettere che Condition C è stata eseguita come
    riferimento esplorativo, non come benchmark — coerente con la raccomandazione "DO NOT" come
    benchmark ma compatibile con l'esplorazione post-hoc.
@@ -51,8 +66,8 @@ Rispetto alla Rev. 1, quattro correzioni sostanziali + due affinamenti:
   → `45ec4eed…`. **Resta immutato.**
 - **EXP3_V2 (Fase 2):** 24 nuovi run fisici, risultati frozen. **COMPLETATO.**
 - **Condition C:** riferimento centralized pooled ICL post-hoc su Exp1 held-out. **COMPLETATO.**
-- **Experiment 2 (Qwen 27B):** protocollo frozen `d9bb95c`, tag
-  `phase-b-exp2-qwen-protocol-frozen-001`. Full run **IN CORSO**, nessun risultato.
+- **Experiment 2 (Qwen 27B):** catena frozen completa (protocol→predictions→evaluator→results).
+  A=0/36, B=34/36, E=1/36; B−A=+0.944444 [0.917, 1.0]. **COMPLETATO — GO WITH LIMITATIONS.**
 - **Deadline:** 30 settembre 2026 (~3 settimane). **Limite:** 10 pagine IEEE 2-col, ref incluse,
   **niente appendice**.
 - **Convenzione:** [FATTO — REPO] · [EVIDENZA — LETTERATURA] · [INTERPRETAZIONE] · [RACCOMANDAZIONE].
@@ -65,9 +80,9 @@ aggiunta è un **nuovo esperimento pre-specificato**, separato, congelato **prim
 
 ---
 
-## 0. VERDETTO ESECUTIVO (Rev. 3)
+## 0. VERDETTO ESECUTIVO (Rev. 4)
 
-La storia raccomandata nella Rev. 2 è ora **in gran parte realizzata**:
+La storia raccomandata nella Rev. 2 è ora **sostanzialmente realizzata**:
 
 > **mechanism → semantic specificity → cross-model portability → fresh-run replication →
 > communication payload characterization.**
@@ -83,9 +98,10 @@ Stato di avanzamento:
 3. ✅ **Condition C — Centralized pooled ICL post-hoc reference** (solo Exp1 held-out). 15/15 correct.
    C−B=+0.139 [0.083, 0.167]. Vantaggio interamente su 3 casi F8. Riferimento **esplorativo
    descrittivo**, non benchmark — coerente con §2.
-4. 🔄 **Experiment 2 — Cross-model replication (Qwen 27B).** Protocollo frozen, probe GO, full run
-   540 inferenze **in corso**. Nessun risultato ancora disponibile. Una seconda lane open-weight è
-   desiderabile ma non ancora avviata.
+4. ✅ **Experiment 2 — Cross-model replication (Qwen 27B).** Lane 1 **COMPLETATA — GO WITH
+   LIMITATIONS.** A=0/36, B=34/36, E=1/36; B−A=+0.944444 [0.917, 1.0]; C1–C4 4/4 PASS; H2 FAIL
+   (regressione local-seen B=9/12 vs A=12/12). R=3 degenerato (triplicati byte-identici). Catena
+   frozen completa (4 tag). Una seconda lane open-weight è desiderabile ma non ancora avviata.
 5. ⬜ **Communication payload characterization** — da completare (costo ~0).
 6. ⬜ **Experiment 4 — Focused insight/library ablation** — **solo se resta tempo**.
 
@@ -98,7 +114,7 @@ Il resto giustifica il verdetto.
 
 ---
 
-## 1. STATO ATTUALE (delta — Rev. 3)
+## 1. STATO ATTUALE (delta — Rev. 4)
 
 ### 1.1 Experiment 1 (frozen, immutato)
 
@@ -144,13 +160,53 @@ C−B = +0.138889 [0.083333, 0.166667] (bootstrap 10.000 draw, seed 20260906). L
 concentrato sui 3 casi F8; per gli altri 9 casi fault il delta è zero. Condition C **non** è stata
 applicata a EXP3_V2.
 
-### 1.4 Experiment 2 — Cross-model replication (IN CORSO)
+### 1.4 Experiment 2 — Cross-model replication (Lane 1 COMPLETATA — GO WITH LIMITATIONS)
 
 [FATTO — REPO] Consumer open-weight: **Qwen3.8-27B-FP8** via vLLM 0.28.0, 1 GPU (NVIDIA RTX 5000
-Ada). Producer invariato (`gpt-5.6-terra`). Protocollo frozen: commit `d9bb95c`, tag
-`phase-b-exp2-qwen-protocol-frozen-001`. Capability probe: **19/19 PASS**, verdetto **GO**.
-`max_tokens=1536`, `thinking_token_budget=1024`. Full run 540 inferenze **avviato**, nessun
-risultato scientifico ancora disponibile.
+Ada). Producer invariato (`gpt-5.6-terra`). Catena frozen completa:
+- Protocol: commit `d9bb95c`, tag `phase-b-exp2-qwen-protocol-frozen-001`.
+- Predictions: commit `a4f264c`, tag `phase-b-exp2-qwen-predictions-frozen-001`.
+- Evaluator: commit `a8f9884`, tag `phase-b-exp2-qwen-evaluator-frozen-001`.
+- Results: commit `37195cf`, tag `phase-b-exp2-qwen-results-frozen-001`.
+
+Capability probe: **19/19 PASS**, verdetto **GO**. `max_tokens=1536`, `thinking_token_budget=1024`
+(cap effettivo: **1023 token di reasoning**). Decoding deterministico: temp=0, seed=20260829.
+
+**Risultati primari (unseen):**
+
+| Condizione | Corretti / 36 | Accuratezza | Astensioni |
+|---|---|---|---|
+| **A** | 0 / 36 | 0.0% | 0 |
+| **B** | 34 / 36 | 94.4% | 0 |
+| **E** | 1 / 36 | 2.8% | 0 |
+
+| Contrasto | Stima | CI percentile 95% | Note |
+|---|---|---|---|
+| **B−A** | +0.944444 | [0.917, 1.0] | C1 PASS. 34 helped, 0 harmed, 2 unchanged (entrambi incorretti). |
+| **B−E** | +0.916667 | [0.833, 1.0] | C4 PASS (B−A > E−A). |
+
+Bootstrap cluster-pairato su **12 cluster**, seed 20260829, 10.000 draw.
+
+**Criteri di supporto:** C1–C4: **4/4 PASS.** H2 (local-seen preservation): **FAIL** —
+B=9/12 (75%) vs A=12/12 (100%). Regressione confusa col cap a 1023 token di reasoning.
+
+**R=3 degenerato:** decoding deterministico (temp=0, seed=20260829) produce triplicati byte-identici;
+180/180 agent-case unanimi. L'N effettivo resta al livello di physical-run.
+
+**Limitazioni (dalla review indipendente R2 — GO WITH LIMITATIONS):**
+1. R=3 degenerato → nessuna variabilità intra-run.
+2. Cap effettivo a 1023 token di reasoning (nominale 1024) → confonde l'interpretazione della
+   regressione local-seen.
+3. H2 FAIL: regressione local-seen in B (9/12 vs A 12/12). 5 errori B totali
+   (2 OJNSG→Z3ISU, 2 Z3ISU→OJNSG, 1 OJNSG→ZOGAA); tutti e 5 nei 24 aggregati al cap
+   di 1023 token di reasoning, tutti i 36 aggregati B sotto il cap sono corretti.
+   H2 FAIL confuso col cap: non attribuibile a interferenza peer-insight senza re-run a budget
+   alzato. Contrasto B/E matched su prompt length, reasoning budget e citation rate (100% entrambi).
+4. Consumer-side only: il producer (gpt-5.6-terra) è invariato → non stabilisce un pipeline
+   end-to-end open-weight.
+5. Singolo consumer → non stabilisce portabilità universale.
+6. Conclusione bounded: il vantaggio di B persiste con un consumer open-weight nella configurazione
+   esaminata.
 
 ### 1.5 Cosa è ora dimostrato e cosa resta aperto
 
@@ -160,7 +216,7 @@ campioni); (3) l'effetto **si riproduce su nuove realizzazioni fisiche** degli s
 (4) un riferimento centralizzato post-hoc raggiunge 15/15 ma con delta C−B concentrato su F8
 (Condition C).
 
-Resta aperto: (5) **consumo della conoscenza da parte di altri reasoner** — Exp 2 in corso;
+Resta aperto: (5) **consumo della conoscenza da parte di altri reasoner** — Exp 2 lane 1 completata (GO WITH LIMITATIONS, bounded: singolo consumer), lane 2 non avviata;
 (6) generalità su più guasti/simulatori; (7) diagnosi della degradazione local-seen in B;
 (8) Condition C non applicata a EXP3_V2.
 
@@ -222,11 +278,13 @@ raccomandazione.*
 **A. Central/pooled equal-information comparator.** → **COMPLETATO come riferimento esplorativo**
 (Condition C su Exp1 held-out: 15/15 correct, C−B=+0.139). Vedi §2. **NON** come benchmark.
 
-**B. Cross-model replication (Exp 2).** 🔄 **IN CORSO.** Riduce: la critica quasi-fatale "un solo LLM
-proprietario, non deterministico, non riproducibile" (Reviewer B/D). RQ: la conoscenza frozen è
-**consumabile** da reasoner diversi? Contr.: **alto**. Prima lane (Qwen 27B): protocollo frozen,
-probe GO, full run in corso. Una seconda lane è desiderabile. Claim: portabilità cross-model della
-conoscenza testuale (§3), non model-generality.
+**B. Cross-model replication (Exp 2).** ✅ **Lane 1 COMPLETATA — GO WITH LIMITATIONS.** Riduce: la
+critica quasi-fatale "un solo LLM proprietario, non deterministico, non riproducibile" (Reviewer B/D).
+RQ: la conoscenza frozen è **consumabile** da reasoner diversi? Contr.: **alto**. Lane 1 (Qwen 27B):
+catena frozen completa (4 tag), A=0/36, B=34/36, E=1/36; B−A=+0.944444 [0.917, 1.0]. C1–C4 4/4 PASS;
+H2 FAIL (local-seen regression). R=3 degenerato. Conclusione bounded: consumer-side only, singolo
+consumer. Una seconda lane è desiderabile. Claim: portabilità cross-model della conoscenza testuale
+(§3), non model-generality.
 
 **C. Fresh prospective physical-run extension (Exp 3).** ✅ **COMPLETATO (EXP3_V2).** 24 nuovi run
 fisici (6/classe), 72 agent-case unseen. A=0/72, B=68/72, E=4/72; B−A=+0.9444 [0.8611, 1.0];
@@ -275,14 +333,14 @@ multi-round = future work).
 
 ---
 
-## 5. REVIEWER-RISK REDUCTION MATRIX (Rev. 3) — aggiornata con stato corrente
+## 5. REVIEWER-RISK REDUCTION MATRIX (Rev. 4) — aggiornata con stato corrente
 
 | Esperimento/azione | Critica neutralizzata | Stato | Riduzione rischio | Priorità |
 |---|---|---|---|---|
 | **Communication payload characterization (J)** | A: "perché federare / Big Data?" | ⬜ Da fare (~0 costo) | Media | **1 (MUST)** |
 | **Framing + terminologia + PV-motivation + delta vs FoT** | A (è FL?), B (novelty) | ⬜ Da fare (~0 costo) | **Alta** | **1 (MUST)** |
 | **Fresh physical-run extension (Exp 3, C)** | D: "3 run/guasto, 12 totali"; benchmark noto | ✅ **COMPLETATO** (EXP3_V2) | **Alta → Neutralizzata** | — |
-| **Cross-model replication (Exp 2, B)** | B/D: "un solo LLM proprietario, irreproducibile" | 🔄 **IN CORSO** (Qwen 27B) | **Alta** | **2 (MUST)** |
+| **Cross-model replication (Exp 2, B)** | B/D: "un solo LLM proprietario, irreproducibile" | ✅ **Lane 1 COMPLETATA** (Qwen 27B, GO WITH LIMITATIONS) | **Alta → Parzialm. neutralizzata** | — |
 | **Central/pooled ICL (A)** | A: "perché federare?" | ✅ **COMPLETATO** (Condition C, esplorativo) | Media → Parzialm. neutralizzata | — |
 | **Insight/library ablation ridisegnata (Exp 4, I)** | B/C: "cosa nel bundle conta?" | ⬜ Solo se resta tempo | Media-Bassa | 4 (HIGH, se tempo) |
 | More fault classes (+agenti) (D) | C/D: "solo 4 guasti" | ⬜ Pkg C | Media | 5 (Pkg C) |
@@ -290,27 +348,29 @@ multi-round = future work).
 | Classical FDD (F) | C: "manca baseline FDD" | ⬜ Opzionale | Bassa | Opzionale |
 | Parameter-FL (G) / Multi-round (K) | A / B | ❌ DO NOT | Negativa (scope) | **DO NOT** |
 
-[INTERPRETAZIONE — Rev. 3] Due dei tre esperimenti MUST della Rev. 2 sono ora completati o in corso.
-La fresh-run extension ha **soddisfatto il criterio di replica**. La critica residua più alta è
-"un solo LLM" — il full run Qwen è in corso. Communication payload characterization e framing
-restano i MUST a costo zero ancora da completare.
+[INTERPRETAZIONE — Rev. 4] I tre esperimenti MUST della Rev. 2 sono ora tutti completati (Exp 1
+frozen, EXP3_V2 criterio di replica soddisfatto, Exp 2 lane 1 GO WITH LIMITATIONS). La critica
+"un solo LLM" è parzialmente neutralizzata: il vantaggio di B persiste con un consumer open-weight,
+ma con limitazioni (R=3 degenerato, cap 1023 token, H2 FAIL, consumer-side only, singolo consumer).
+Communication payload characterization e framing restano i MUST a costo zero ancora da completare.
 
 ---
 
-## 6. COSA AUMENTARE (Rev. 3) — stato aggiornato
+## 6. COSA AUMENTARE (Rev. 4) — stato aggiornato
 
 Le due dimensioni principali raccomandate nella Rev. 2 sono state affrontate:
 
 1. ✅ **Più run fisici indipendenti (stessi 4 guasti).** EXP3_V2 completato: da 12 a 36 run fisici
    totali (Exp1 12 + EXP3_V2 24), criterio di replica soddisfatto.
-2. 🔄 **Più reasoner (consumer).** Exp 2 in corso con Qwen 27B. Una seconda lane (famiglia diversa)
-   è desiderabile se il tempo lo consente.
+2. ✅ **Più reasoner (consumer).** Exp 2 lane 1 completata (Qwen 27B, GO WITH LIMITATIONS:
+   B−A=+0.944444 [0.917, 1.0], bounded consumer-side only). Una seconda lane (famiglia diversa) è
+   desiderabile se il tempo lo consente.
 3. ⬜ **Più classi di guasto.** Allarga la claim ma costoso → Pkg C, non prioritario.
 4. ❌ **Più agenti (da soli).** Cosmetico → no.
 
-**Budget residuo (Rev. 3):**
-- **Exp 2 Qwen (~540 inf):** in esecuzione.
-- **Se resta tempo dopo Exp 2:** una **seconda lane open-weight** (~540 inf) o **Exp 4 ablation
+**Budget residuo (Rev. 4):**
+- **Exp 2 Qwen lane 1:** ✅ completata (540 inferenze, risultati frozen).
+- **Se resta tempo:** una **seconda lane open-weight** (~540 inf) o **Exp 4 ablation
   ridisegnata** su unseen (~108 inf).
 - **Communication payload characterization:** ~0 costo, da completare.
 
@@ -320,7 +380,7 @@ Le due dimensioni principali raccomandate nella Rev. 2 sono state affrontate:
 
 Congelare ogni protocollo (git tag) **prima** dell'esecuzione e **prima** di osservarne gli esiti.
 
-### Experiment 2 — Cross-model replication of frozen textual knowledge (MUST) — 🔄 IN CORSO
+### Experiment 2 — Cross-model replication of frozen textual knowledge (MUST) — ✅ Lane 1 COMPLETATA
 
 - **RQ:** la conoscenza testuale peer frozen, prodotta dal modello originale, resta utile (B≫A) e
   semanticamente specifica (B≫E) quando **consumata da reasoner diversi**?
@@ -328,11 +388,13 @@ Congelare ogni protocollo (git tag) **prima** dell'esecuzione e **prima** di oss
 - **Cosa varia:** **solo il consumer LLM.** Restano byte-identici: held-out frozen, esempi locali,
   6 insight peer (B), libreria E (derangement), prompt, pseudolabel, R=3, aggregazione, evaluator.
 
-**Stato corrente (Rev. 3):**
-- **Lane 1 — Qwen3.8-27B-FP8** (open-weight, 27B parametri): protocollo frozen nel commit `d9bb95c`,
-  tag `phase-b-exp2-qwen-protocol-frozen-001`. Capability probe: **19/19 PASS**, verdetto **GO**.
-  `max_tokens=1536`, `thinking_token_budget=1024`. Servito via vLLM 0.28.0, 1× NVIDIA RTX 5000 Ada.
-  Full run **540 inferenze avviato**, nessun risultato scientifico ancora disponibile.
+**Stato corrente (Rev. 4):**
+- **Lane 1 — Qwen3.8-27B-FP8** (open-weight, 27B parametri): **COMPLETATA — GO WITH LIMITATIONS.**
+  Catena frozen: protocol `d9bb95c` → predictions `a4f264c` → evaluator `a8f9884` → results `37195cf`
+  (4 tag). Servito via vLLM 0.28.0, 1× NVIDIA RTX 5000 Ada. Risultati: A=0/36, B=34/36, E=1/36;
+  B−A=+0.944444 [0.917, 1.0]; B−E=+0.916667 [0.833, 1.0]. C1–C4 4/4 PASS; H2 FAIL (local-seen
+  B=9/12 vs A=12/12). R=3 degenerato (temp=0, seed=20260829, triplicati byte-identici). Cap effettivo
+  1023 token di reasoning. Conclusione bounded: consumer-side only, singolo consumer.
 - **Lane 2:** desiderabile (famiglia diversa dall'originale), non ancora avviata.
 
 - **Endpoint (per modello, non poolato):** unseen A/B/E, B−A, B−E; per-agente; preservazione.
@@ -466,13 +528,13 @@ impianti già usati; dataset PV validato; label PV affidabili.
 
 ---
 
-## 13. TRE PACCHETTI (Rev. 3 — stato aggiornato)
+## 13. TRE PACCHETTI (Rev. 4 — stato aggiornato)
 
 ### PACKAGE A — Minimum defensible — ⬜ Non ancora completato
 Communication payload characterization + framing/terminologia/PV-motivation + delta vs FoT/Federated
 In-Context LLM Agent Learning. **0 nuove inferenze.** I componenti a costo zero restano da completare.
 
-### PACKAGE B — Recommended for acceptance — 🔄 In gran parte realizzato
+### PACKAGE B — Recommended for acceptance — ✅ Sostanzialmente realizzato
 Package A **+ Exp 2 (cross-model) + Exp 3 (fresh-run extension) + Condition C (esplorativo)**.
 
 | Componente | Stato |
@@ -480,15 +542,15 @@ Package A **+ Exp 2 (cross-model) + Exp 3 (fresh-run extension) + Condition C (e
 | Exp 1 (mechanism isolation) | ✅ Frozen |
 | Exp 3 / EXP3_V2 (fresh-run replication) | ✅ Completato — criterio di replica soddisfatto |
 | Condition C (centralized pooled ICL) | ✅ Completato — riferimento esplorativo post-hoc |
-| Exp 2 lane 1 (Qwen 27B, cross-model) | 🔄 In corso — full run avviato |
+| Exp 2 lane 1 (Qwen 27B, cross-model) | ✅ Completato — GO WITH LIMITATIONS (B−A=+0.944444) |
 | Exp 2 lane 2 (seconda famiglia) | ⬜ Desiderabile, non avviata |
 | Communication payload characterization | ⬜ Da completare (~0 costo) |
 | Framing + terminologia + PV-motivation | ⬜ Da completare (~0 costo) |
 
-Story: mechanism→specificity→**replication→portability**→centralized-reference→payload. Più forte
-del Package B della Rev. 2 perché include anche il riferimento centralizzato. La story dipende
-dall'esito di Exp 2: un risultato positivo completa la catena; un risultato negativo richiederebbe
-un framing "model-dependent".
+Story: mechanism→specificity→**replication→portability**→centralized-reference→payload. La catena
+è ora **sostanzialmente completa**: Exp 2 lane 1 conferma che il vantaggio di B persiste con un
+consumer open-weight (GO WITH LIMITATIONS), con le limitazioni obbligatorie da dichiarare (R=3
+degenerato, cap 1023 token, H2 FAIL, consumer-side only, singolo consumer).
 
 ### PACKAGE C — Ambitious
 Package B **+ Exp 4 (insight/library ablation ridisegnata)** e/o **più classi di guasto** (criterio di
@@ -496,20 +558,22 @@ selezione pre-specificato) + eventuale seconda lane Exp 2. Rischio deadline/scop
 
 ---
 
-## 14. RACCOMANDAZIONE UNIVOCA (Rev. 3 — aggiornata)
+## 14. RACCOMANDAZIONE UNIVOCA (Rev. 4 — aggiornata)
 
-[RACCOMANDAZIONE — "se fossi il supervisor"] **Package B resta la raccomandazione**, ed è ora in
-gran parte realizzato. Azioni rimanenti, in ordine di priorità:
+[RACCOMANDAZIONE — "se fossi il supervisor"] **Package B resta la raccomandazione**, ed è ora
+**sostanzialmente realizzato**. Azioni rimanenti, in ordine di priorità:
 
-1. 🔄 **Completare Exp 2 — full run Qwen 27B** (in corso). Attendere risultati, valutare, congelare.
+1. ✅ **Exp 2 — Qwen 27B lane 1 completata** (GO WITH LIMITATIONS). Risultati frozen, review
+   indipendente R2 completata. Limitazioni obbligatorie da integrare nel paper.
 2. ⬜ **Communication payload characterization** (~0 costo, dagli artefatti frozen).
 3. ⬜ **Framing + terminologia + PV-motivation + delta vs FoT** per il paper.
 4. *(Solo se resta tempo)* **Seconda lane Exp 2** (famiglia diversa) o **Exp 4 — insight/library
    ablation ridisegnata**.
 
-**Risultati che imporrebbero un cambio di framing (invariati):**
-- **Exp 2:** se Qwen dà B−A≤0 o B−E≤0 → la conoscenza non è portabile a quella classe di modelli
-  → da *"portabile tra reasoner"* a *"consumabile da questa classe di reasoner"*; riportare apertamente.
+**Risultati che confermano / vincolano il framing (Rev. 4):**
+- **Exp 2 lane 1 (Qwen 27B):** B−A=+0.944444 >0, B−E=+0.916667 >0 → la conoscenza **è consumabile**
+  da questo consumer open-weight. Portabilità confermata nella configurazione esaminata, con
+  limitazioni obbligatorie (consumer-side only, singolo consumer, R=3 degenerato, cap 1023 token).
 - **Communication:** se il payload testuale non è più piccolo dei valori grezzi trattenuti → eliminare
   ogni accenno a compattezza.
 
@@ -547,15 +611,16 @@ model-general end-to-end · cross-domain (PV)*.
 
 ---
 
-## 17. RED TEAM FINALE (Rev. 3 — rivalutata con evidenza corrente)
+## 17. RED TEAM FINALE (Rev. 4 — rivalutata con evidenza corrente)
 
 - **Reviewer A (FL).** Residuo: *"è ICL transfer, non FL; 4 client."* → non risolvibile con esperimenti
   senza snaturare il lavoro; terminologia + linea FedMD→FedProto→FoT + fit collaborative/non-IID.
   **Moderate** (invariato).
 - **Reviewer B (LLM/FoT).** Residuo: *"delta vs FoT ancora di grado."* → dopo EXP3_V2 (replica su
-  nuove realizzazioni) e Condition C (riferimento centralizzato), il delta è più forte; se Exp 2
-  conferma la portabilità cross-model, il lavoro si aggancia a weak-to-strong. Resta giudizio di grado.
-  **Moderate → moderate-minor** (condizionato a Exp 2).
+  nuove realizzazioni), Condition C (riferimento centralizzato) e Exp 2 lane 1 (portabilità cross-model
+  confermata con limitazioni), il delta è sostanzialmente più forte. R=3 degenerato e cap 1023 token
+  sono limitazioni da dichiarare, ma il segnale primario è robusto. **Moderate → minor** (con
+  limitazioni dichiarate).
 - **Reviewer C (TS/FDD).** Residuo: *"solo 4 guasti, un simulatore; niente baseline FDD."* →
   parzialmente aperto. EXP3_V2 attenua "un solo held-out" (36 run totali tra Exp1+EXP3_V2).
   Condition C fornisce un riferimento centralizzato. **Moderate** (invariato).
@@ -569,20 +634,23 @@ model-general end-to-end · cross-domain (PV)*.
   unseen non è invalidato; (c) va riportato trasparentemente come osservazione per il disegno futuro.
   **Minor** (se riportato onestamente; **moderate** se omesso e scoperto dal reviewer).
 
-**Conclusione (Rev. 3):** con EXP3_V2 completato e Condition C eseguita, **nessuna critica fatale**.
-La critica residua più alta — "un solo LLM" — dipende dall'esito di Exp 2 (in corso). La
-degradazione local-seen è un segnale da riportare apertamente, non da nascondere. La scala statistica
-è ora affrontata (36 run totali, criterio di replica soddisfatto).
+**Conclusione (Rev. 4):** con EXP3_V2 completato, Condition C eseguita e Exp 2 lane 1 completata
+(GO WITH LIMITATIONS), **nessuna critica fatale**. La critica "un solo LLM" è parzialmente
+neutralizzata: il vantaggio di B persiste con un consumer open-weight, ma le limitazioni (R=3
+degenerato, cap 1023 token, H2 FAIL, consumer-side only) devono essere dichiarate. La degradazione
+local-seen (in Exp 2: B=9/12 vs A=12/12; in EXP3_V2: B=19/24 vs A=24/24) è un pattern ricorrente
+da riportare apertamente. La scala statistica è ora affrontata (36 run totali, criterio di replica
+soddisfatto).
 
 ---
 
-## 18. TABELLA DELLE DECISIONI (Rev. 3)
+## 18. TABELLA DELLE DECISIONI (Rev. 4)
 
 | Decision | Recommendation | Stato | Motivazione |
 |---|---|---|---|
 | Keep frozen Experiment 1? | **YES** | ✅ | Mechanism-isolation; cuore del paper. |
 | Add central/pooled ICL? | **Fatto** (esplorativo) | ✅ | Condition C come riferimento post-hoc, non benchmark. |
-| Add second/third LLM (cross-model)? | **YES** | 🔄 | Qwen 27B in corso; seconda lane desiderabile. |
+| Add second/third LLM (cross-model)? | **YES** | ✅ (lane 1) | Qwen 27B completato (GO WITH LIMITATIONS); seconda lane desiderabile. |
 | Add fresh physical-run extension? | **YES** | ✅ | EXP3_V2: criterio di replica soddisfatto. |
 | Add more TEP runs (within Exp 3)? | **YES** | ✅ | k=6 run/guasto, 24 nuovi run completati. |
 | Add more fault classes? | **CONDITIONAL** | ⬜ | Alta generalità ma alto costo/scope → solo Pkg C. |
@@ -601,7 +669,7 @@ degradazione local-seen è un segnale da riportare apertamente, non da nasconder
 
 ---
 
-## 19. COSA RESTA DA FARE (Rev. 3 — aggiornamento 2026-09-09)
+## 19. COSA RESTA DA FARE (Rev. 4 — aggiornamento 2026-09-09)
 
 ### Completato
 
@@ -610,10 +678,10 @@ degradazione local-seen è un segnale da riportare apertamente, non da nasconder
    soddisfatto. B−A=+0.9444 [0.8611, 1.0].
 3. ✅ **Condition C** — riferimento centralizzato post-hoc su Exp1 held-out. 15/15 correct.
 
-### In corso
+### Completato (Rev. 4)
 
-4. 🔄 **Experiment 2 — Qwen 27B full run** (540 inferenze). Attendere completamento → freeze →
-   evaluation offline → risultati. **Questa è la priorità corrente.**
+4. ✅ **Experiment 2 — Qwen 27B lane 1** completata. Catena frozen (4 tag), review indipendente R2:
+   **GO WITH LIMITATIONS.** A=0/36, B=34/36, E=1/36; B−A=+0.944444 [0.917, 1.0].
 
 ### Da fare (~3 settimane alla deadline)
 
@@ -622,10 +690,11 @@ degradazione local-seen è un segnale da riportare apertamente, non da nasconder
 7. ⬜ **Scrittura del paper** (10 pagine IEEE 2-col).
 8. *(Solo se resta tempo dopo 4–7)* **Seconda lane Exp 2** (famiglia diversa) o **Exp 4 — ablation**.
 
-### Risultati che imporrebbero un cambio di framing
+### Risultati che hanno confermato / vincolano il framing (Rev. 4)
 
-- **Exp 2:** se Qwen dà B−A≤0 o B−E≤0 → la conoscenza non è portabile a quella classe di modelli
-  → da *"portabile tra reasoner"* a *"consumabile da questa classe di reasoner"*; riportare apertamente.
+- **Exp 2 lane 1 (Qwen 27B):** B−A=+0.944444 >0, B−E=+0.916667 >0 → conoscenza consumabile da
+  questo consumer open-weight. Portabilità confermata nella configurazione esaminata, con limitazioni
+  obbligatorie (§1.4).
 - **Communication:** se il payload testuale non è più piccolo dei valori grezzi trattenuti → eliminare
   ogni accenno a compattezza.
 
@@ -633,12 +702,20 @@ degradazione local-seen è un segnale da riportare apertamente, non da nasconder
 
 - **Degradazione local-seen in B (EXP3_V2):** 19/24 vs A=24/24. Da riportare trasparentemente come
   segnale descrittivo; non invalida il primary result unseen; merita approfondimento nel disegno futuro.
+- **Degradazione local-seen in B (Exp 2 Qwen):** 9/12 (75%) vs A=12/12. H2 FAIL. Pattern di
+  confusione CLS-OJNSG / CLS-Z3ISU. Confusa col cap a 1023 token di reasoning. Coerente col
+  pattern osservato in EXP3_V2.
+- **R=3 degenerato (Exp 2 Qwen):** decoding deterministico (temp=0, seed=20260829) → triplicati
+  byte-identici, 180/180 unanimi. L'N effettivo resta al livello di physical-run.
 - **Condition C solo su Exp1:** gap della Fase 2 (non applicata a EXP3_V2), da dichiarare.
+- **Exp 2 consumer-side only:** il producer (gpt-5.6-terra) è invariato; l'esperimento non stabilisce
+  un pipeline end-to-end open-weight né portabilità universale.
 
 **Principio guida (invariato):** ogni aggiunta ha una funzione precisa. Experiment 1 resta **frozen**.
 
 ---
 
-*Rev. 3 — aggiornamento allo stato corrente (2026-09-09). Experiment 1 immutato (`45ec4ee`).
+*Rev. 4 — registrazione completamento Exp 2 Qwen (2026-09-09). Experiment 1 immutato (`45ec4ee`).
 EXP3_V2 completato (criterio di replica soddisfatto). Condition C completata (riferimento post-hoc
-esplorativo). Exp 2 Qwen in corso (protocollo frozen `d9bb95c`). ~3 settimane alla deadline.*
+esplorativo). Exp 2 Qwen lane 1 completata (GO WITH LIMITATIONS: B−A=+0.944444 [0.917, 1.0];
+catena frozen completa, 4 tag; review indipendente R2). ~3 settimane alla deadline.*

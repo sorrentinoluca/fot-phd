@@ -22,7 +22,7 @@ Superseded design documents preserved for decision provenance.
 
 | File | Description |
 |---|---|
-| `PHASE_B_EXPERIMENT_DESIGN.md` | Phase B experiment design spec V1 (pre-implementation, superseded by V2) |
+| `PHASE_B_EXPERIMENT_DESIGN.md` *(local only, not git-tracked)* | Phase B experiment design spec V1 (pre-implementation, superseded by V2) |
 | `PHASE_B_EXPERIMENT_DESIGN_V2.md` | Phase B experiment design spec V2 (superseded by frozen protocol) |
 | `README_CODE_V2.md` | Historical code README draft |
 | `docs/README.md` | Historical docs README draft |

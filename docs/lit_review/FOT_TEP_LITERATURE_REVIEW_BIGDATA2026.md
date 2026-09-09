@@ -99,7 +99,7 @@ La scala e il *floor* del baseline. A = **0/36** (Exp 1) e **0/72** (EXP3_V2) su
 [FATTO — REPO] genera contrasti B−A enormi (+0.861 e +0.944) ma **strutturali**: A è privo di
 evidenza class-semantica per le classi unseen. Inoltre: 12+24=36 fault-run fisici indipendenti
 totali (due esperimenti), un solo LLM producer (`gpt-5.6-terra`, temperature/seed non esposti; Exp 2
-con consumer Qwen **in corso**), un solo simulatore/mode, 4 guasti. La degradazione local-seen
+con consumer Qwen **completato**, GO WITH LIMITATIONS: B−A = +0.944444 su unseen), un solo simulatore/mode, 4 guasti. La degradazione local-seen
 emersa in EXP3_V2 (B=19/24 vs A=24/24) aggiunge un segnale da discutere. Rischio "evidenza di
 feasibility, non di generalizzazione" — attenuato dalla replica su nuovi run ma non eliminato.
 
@@ -123,16 +123,19 @@ Preferire **"federated (textual) knowledge transfer"** o **"federated knowledge 
 FoT nominato come metodo di riferimento; evitare "Federated Learning" nudo, "privacy-preserving",
 "robust", "generalizable", "secure". Vedi OUTPUT 5.
 
-**10. Submission readiness: PLAUSIBLE (al limite alto di *plausible*) ← aggiornato.**
+**10. Submission readiness: PLAUSIBLE (limite alto di plausible, aggiornato con Exp 2 completato).**
 [INTERPRETAZIONE] L'aggiunta di EXP3_V2 (replica su 24 nuovi run), Condition C (riferimento
-centralizzato) e l'avvio di Exp 2 Qwen (portabilità cross-model) ha spostato il giudizio verso
-l'alto. La combinazione dominio + controllo di specificità + rigore di freeze + **replica
-confirmatory + riferimento centralizzato** è un contributo onesto e pubblicabile in una sessione
-speciale, a condizione di (a) framing terminologico corretto, (b) esposizione esplicita del floor
-di A, della scala e della degradazione local-seen, (c) inquadramento corretto di Condition C come
-riferimento post-hoc esplorativo. Con il **completamento di Exp 2** (Qwen, attualmente in corso)
-e la discussione onesta dei limiti, la submission può avvicinarsi a *solid*. Non è *strong* perché
-la novelty di metodo appartiene a Yao et al. e la scala resta contenuta.
+centralizzato) e il completamento di Exp 2 Qwen (portabilità cross-model consumer open-weight,
+GO WITH LIMITATIONS) consolida il giudizio al limite alto di *plausible*. La combinazione dominio + controllo di
+specificità + rigore di freeze + **replica confirmatory + riferimento centralizzato + portabilità
+cross-model** è un contributo onesto e pubblicabile in una sessione speciale, a condizione di
+(a) framing terminologico corretto, (b) esposizione esplicita del floor di A, della scala e della
+degradazione local-seen, (c) inquadramento corretto di Condition C come riferimento post-hoc
+esplorativo, (d) registrazione delle limitazioni di Exp 2 (R=3 degenerato, H2 FAIL, 1023-token
+cap). Exp 2 Qwen è **completato**: B−A = +0.944444 [0.917, 1.0] su unseen, C1–C4 4/4 PASS, H2
+FAIL (local-seen regression 75%), catena frozen `d9bb95c`→`a4f264c`→`a8f9884`→`37195cf`, verdict
+GO WITH LIMITATIONS con 6 limitazioni specifiche. Non è *strong* perché la novelty di metodo
+appartiene a Yao et al. e la scala resta contenuta.
 
 ---
 
@@ -789,8 +792,8 @@ di questi termini. **Esito:** *I did not identify an equivalent method in the li
 
 **Verdetto novelty — aggiornato.** [INTERPRETAZIONE] La novelty **non è component-level**. È una
 **novelty di combinazione + dominio + evaluation design**, ora **rafforzata** dalla replica
-confirmatory (EXP3_V2), dal riferimento centralizzato (Condition C) e dall'avvio della portabilità
-cross-model (Exp 2 Qwen). Resta **stretta ma più solida**: difendibile se il paper (a) attribuisce
+confirmatory (EXP3_V2), dal riferimento centralizzato (Condition C) e dal completamento della
+portabilità cross-model (Exp 2 Qwen: B−A = +0.944444, GO WITH LIMITATIONS). Resta **stretta ma più solida**: difendibile se il paper (a) attribuisce
 FoT a Yao et al., (b) posiziona la combinazione, il controllo B−E e la replica come contributo,
 (c) non rivendica primati sui singoli assi, (d) discute la degradazione local-seen.
 Formula sicura da usare nel paper:
@@ -812,7 +815,7 @@ Mai *"no such method exists"*.
   pre-registrato** e la disciplina di freeze/held-out/pseudolabel sono un contributo metodologico
   concreto e trasferibile. Il controllo **B−E** (specificità semantica a parità di testo) è raro in
   questo filone. Rafforzato da: **replica confirmatory** (EXP3_V2, +0.944/+0.889); **riferimento
-  centralizzato** esplorativo (Condition C, 15/15); **portabilità cross-model** in corso (Exp 2 Qwen).
+  centralizzato** esplorativo (Condition C, 15/15); **portabilità cross-model** completata (Exp 2 Qwen: B−A = +0.944444, GO WITH LIMITATIONS).
   La rilevazione della **degradazione local-seen** aggiunge un segnale onesto e non ovvio.
 - **Domain novelty — moderata.** Prima applicazione documentata di FoT-like a **diagnosi TS
   multivariata / TEP**. Reale ma "applicativa".
@@ -907,10 +910,12 @@ appendice**.
 
 **NICE TO HAVE:**
 - **Oracle textual description** della classe (upper bound del transfer testuale).
-- **Un secondo LLM** (per attenuare "un solo modello"). **IN CORSO:** Exp 2 con consumer Qwen3.8-27B-FP8
-  (open-weight, vLLM 0.28.0) avviato; protocollo congelato (commit d9bb95c, tag
-  `phase-b-exp2-qwen-protocol-frozen-001`); probe 19/19 PASS, GO; full run 540 inferenze in
-  esecuzione. Alto valore per Reviewer D.
+- **Un secondo LLM** (per attenuare "un solo modello"). **COMPLETATO:** Exp 2 con consumer Qwen3.8-27B-FP8
+  (open-weight, vLLM 0.28.0, temp=0, seed=20260829, decoding deterministico); catena frozen completa:
+  protocollo `d9bb95c` → predictions `a4f264c` → evaluator `a8f9884` → results `37195cf`.
+  Risultati unseen: A=0/36, B=34/36, E=1/36; B−A = +0.944444 [0.917, 1.0]; C1–C4 4/4 PASS; H2
+  FAIL (local-seen regression B 75% vs A 100%); R=3 degenerato (triplicati byte-identici). Verdict:
+  GO WITH LIMITATIONS. Alto valore per Reviewer D — **risposta ora disponibile**.
 - **Random-insight control** (oltre a E): insight testuale casuale/irrilevante, per distinguere
   "informazione sbagliata" (E) da "nessuna informazione utile".
 
@@ -921,7 +926,7 @@ appendice**.
 - Confronto diretto di accuracy con classificatori FDD centralizzati su tutte le classi.
 
 [RACCOMANDAZIONE] **Stato entro il 30/09:** il central/pooled ICL è **completato** (Condition C);
-il secondo LLM è **in corso** (Exp 2 Qwen). L'eventuale no-verbalizer resta nice-to-have e va
+il secondo LLM è **completato** (Exp 2 Qwen: GO WITH LIMITATIONS). L'eventuale no-verbalizer resta nice-to-have e va
 discusso a parole in Limitations se non implementato. Non serve una V3 del verbalizer né
 validazione PV.
 
@@ -1026,7 +1031,7 @@ Supported / Partially / Unsupported. "Evidence" = fonte. "Safer wording" = formu
 | Semantic specificity | **Supported (rafforzato)** | Exp 1: B−E=+0.778 [.722,.833]; EXP3_V2: B−E=+0.889 [.778,.986] — replicato | Basso | "supports the interpretation of semantic specificity of the transferred associations" |
 | Enables locally-unseen recognition | **Supported (rafforzato)** | Exp 1: A=0/36→B=31/36; EXP3_V2: A=0/72→B=68/72 — replicato | Basso (se floor esplicitato) | "enables recognition of **locally unseen** fault conditions in this controlled setting" |
 | Robust | **Partially (migliorato)** | 36 run totali su 2 esperimenti, 4 agenti consistenti; MA degradazione local-seen in EXP3_V2 | Medio | evitare il termine nudo; "consistent across 36 independent fault runs and four agents; local-seen degradation observed in replication" |
-| Generalizable | **Unsupported** | Nessun cross-domain; PV non fatto; Exp 2 cross-model in corso | **Fatale** | evitare; "cross-domain generalization is not yet tested; cross-model portability under evaluation" |
+| Generalizable | **Partially (solo consumer)** | Nessun cross-domain; PV non fatto; Exp 2 cross-model **completato** (GO WITH LIMITATIONS) | **Fatale** per generalizzazione piena; **attenuato** per portabilità consumer | evitare "generalizable"; ammesso: "consumer-side cross-model portability demonstrated for one open-weight model (Qwen 27B); cross-domain generalization not yet tested" |
 | Communication efficient | **Partially** | Insight compatti, ma non misurato vs baseline | Medio | "communication is limited to compact textual insights" (senza numeri non misurati) |
 | Multivariate | **Supported** | 41 XMEAS | Basso | "multivariate (41-variable) time series" |
 | Interpretable/auditable | **Supported** | Insight NL + freeze/hash chain | Basso | "human-readable insights and a fully frozen, auditable protocol" |
@@ -1094,10 +1099,13 @@ esperimento** o solo **framing**.
 3. *"B−E potrebbe riflettere che l'LLM ignora etichette sbagliate, non 'specificità semantica'."* —
    **moderate** → *framing*: linguaggio "supports the interpretation"; E=3/36≠0 mostra che non è un
    effetto banale.
-4. *"Un solo LLM, proprietario, non riproducibile (no seed/temp)."* — **major → moderate (se Exp 2
-   completa)** → Exp 2 con consumer open-weight Qwen3.8-27B-FP8 (pesi pubblici, inferenza
-   deterministica temp=0, seed fisso) **in corso**. Se completato con risultati positivi, attenua
-   significativamente; il producer resta gpt-5.6-terra (portabilità del consumo, non end-to-end).
+4. *"Un solo LLM, proprietario, non riproducibile (no seed/temp)."* — **major → moderate (Exp 2
+   completato)** → Exp 2 con consumer open-weight Qwen3.8-27B-FP8 (pesi pubblici, inferenza
+   deterministica temp=0, seed=20260829) **completato**: B−A = +0.944444, C1–C4 4/4 PASS, GO WITH
+   LIMITATIONS. Attenua significativamente; il producer resta gpt-5.6-terra (portabilità del consumo,
+   non end-to-end). Limitazioni: R=3 degenerato, H2 FAIL (local-seen 75%), 1023-token reasoning cap.
+   Tutti i 5 errori B al cap, 36/36 aggregati B sotto il cap corretti; H2 confuso col cap.
+   B/E matched su prompt length, reasoning budget e citation rate.
 
 **Reviewer C — esperto time-series/fault diagnosis (scettico su verbalizer e baseline A).**
 1. *"Il verbalizer è il vero contributo? È validato come classificatore?"* — **moderate** →
@@ -1126,11 +1134,12 @@ esperimento** o solo **framing**.
    riferimento esplorativo.
 5. *"Generalizzazione?"* — **moderate** → *framing*: feasibility, non generalization; PV future.
 
-[INTERPRETAZIONE — aggiornata] Gli esperimenti richiesti sono stati in gran parte **eseguiti o
-avviati**: il central/pooled ICL è **completato** come Condition C (risponde a C2, D4); il secondo
-LLM è **in corso** come Exp 2 Qwen (risponde a B4/D). La replica EXP3_V2 risponde a D2. Le
-critiche residue richiedono **solo framing + Limitations**. Il principale rischio residuo è che
-Condition C è stata eseguita solo sul held-out Exp 1 e il suo delta ha risoluzione minima.
+[INTERPRETAZIONE — aggiornata] Gli esperimenti richiesti sono stati **tutti eseguiti**: il
+central/pooled ICL è **completato** come Condition C (risponde a C2, D4); il secondo LLM è
+**completato** come Exp 2 Qwen (risponde a B4/D: B−A = +0.944444, GO WITH LIMITATIONS). La
+replica EXP3_V2 risponde a D2. Le critiche residue richiedono **solo framing + Limitations**. I
+rischi residui sono che Condition C è stata eseguita solo sul held-out Exp 1, Exp 2 ha R=3
+degenerato e H2 FAIL, e il producer resta gpt-5.6-terra.
 
 ---
 
@@ -1159,10 +1168,11 @@ statistica (12 cluster fisici / 36 osservazioni); bootstrap clusterizzato; freez
 B−A (primario) + B−E (specificità) con CI per entrambi; tabella comparativa Exp 1 vs EXP3_V2;
 Condition C con delta C−B (esplorativo); per-agente; helped/harmed/unchanged; preservazione
 Normal/seen con **segnalazione della degradazione local-seen** in EXP3_V2; decomposizione del floor
-di A; **se Exp 2 Qwen completato**: risultati cross-model.
+di A; risultati cross-model Exp 2 Qwen (B−A = +0.944444, GO WITH LIMITATIONS, limitazioni).
 
 **Limitations (indispensabile, non opzionale):** scala (36 run totali su 2 esperimenti); floor di A
-e lettura di B−A; un solo LLM producer (consumer cross-model in corso/completato); TEP proxy
+e lettura di B−A; un solo LLM producer (consumer cross-model Exp 2 Qwen **completato**, GO WITH
+LIMITATIONS; R=3 degenerato; H2 FAIL; 1023-token cap); TEP proxy
 (no PV); nessuna privacy formale; harmed=0 aritmetico su unseen; **degradazione local-seen** di B
 in EXP3_V2 (19/24 vs 24/24 di A); Condition C limitata al held-out Exp 1 con risoluzione minima;
 Condition C non replicata su EXP3_V2.
@@ -1348,8 +1358,9 @@ independent physical realizations."*
   corrotte (B−E=+0.778 e +0.889) — feasibility con replica, non generalizzazione. Un segnale di
   degradazione local-seen (B: 19/24 vs A: 24/24 in EXP3_V2) indica possibile interferenza degli
   insight peer su classi già note.
-- **Cross-model portability** (se Exp 2 completato): consumer open-weight (Qwen 27B) sugli stessi
-  insight frozen, evidenza di portabilità del consumo.
+- **Cross-model portability** (Exp 2 **completato**): consumer open-weight Qwen3.8-27B-FP8 sugli
+  stessi insight frozen gpt-5.6-terra; B−A = +0.944444 [0.917, 1.0], C1–C4 4/4 PASS, H2 FAIL
+  (local-seen 75%), R=3 degenerato, GO WITH LIMITATIONS. Evidenza di portabilità consumer-side.
 
 ## Aggressive (claim più forte ancora plausibile — con rischio attenuato)
 
@@ -1422,15 +1433,22 @@ gap critici da colmare sperimentalmente prima della submission?*
 - Floor di A (decomposizione 14+30 astensioni / 22+42 committed / 0 corrette + lettura "presenza vs
   assenza"); B−E centrale.
 - Scala (36 run totali su 2 esperimenti) e CI clusterizzati.
-- Un solo LLM producer (secondo LLM consumer **in corso**: Exp 2 Qwen; R=3 + freeze).
+- Un solo LLM producer (secondo LLM consumer **completato**: Exp 2 Qwen, GO WITH LIMITATIONS;
+  R=3 degenerato, H2 FAIL, 1023-token cap).
 - harmed=0 aritmetico su unseen; assenza di privacy formale; TEP proxy.
 - Non-apples-to-apples con FL parametrico / FDD classico (Related Work + Limitations).
 - Condition C non replicata su EXP3_V2; delta C−B con risoluzione minima.
 
-### In corso (completamento atteso entro deadline ~30/09)
-- **Exp 2 Qwen** (portabilità cross-model consumer open-weight): protocollo congelato, probe 19/19
-  PASS, GO emesso; full run 540 inferenze avviato. Se completato, risponde a B4/D; attenua "un solo
-  LLM" e aggiunge portabilità del consumo.
+### Completato
+- **Exp 2 Qwen** (portabilità cross-model consumer open-weight): **completato**. Catena frozen:
+  protocollo `d9bb95c` → predictions `a4f264c` → evaluator `a8f9884` → results `37195cf`. Unseen:
+  B−A = +0.944444 [0.917, 1.0], C1–C4 4/4 PASS, H2 FAIL, R=3 degenerato. Verdict: GO WITH
+  LIMITATIONS. Risponde a B4/D; attenua "un solo LLM" e aggiunge portabilità del consumo.
+  **Analisi errori B:** 5 errori totali (2 OJNSG→Z3ISU, 2 Z3ISU→OJNSG, 1 OJNSG→ZOGAA); tutti
+  e 5 nei 24 aggregati al cap di 1023 token di reasoning; tutti i 36 aggregati B sotto il cap
+  sono corretti. H2 FAIL è quindi confuso col reasoning cap e non attribuibile causalmente
+  all'interferenza degli insight. B ed E sono matched per prompt length, reasoning budget e
+  citation rate (100% entrambi): l'effetto traccia la *correttezza* del contenuto, non la presenza.
 
 ### Post-submission / future PV work (NON richiesti per questo paper)
 - Validazione fotovoltaica (PV): esplicitamente fuori scope; **non** è condizione di questa review.
@@ -1446,9 +1464,10 @@ rende necessarie per rendere difendibile *questa* submission. Il verbalizer rest
 [INTERPRETAZIONE] **Submission difendibile = SÌ, con condizioni residue attenuate**, nella versione
 **Balanced**, se: (a) framing e attribuzione corretti; (b) Condition C **presente e inquadrata
 correttamente** come riferimento esplorativo (il "must-have" critico è ora soddisfatto); (c) floor/
-scala/limiti/degradazione local-seen esposti onestamente; (d) Exp 2 Qwen completato o dichiarato in
-Limitations se ancora in corso. In questa forma il contributo è **onesto, rafforzato dalla replica
-EXP3_V2, dal riferimento centralizzato C e (potenzialmente) dalla portabilità cross-model, in-scope
+scala/limiti/degradazione local-seen esposti onestamente; (d) limitazioni di Exp 2 (R=3 degenerato, H2 FAIL, 1023-token cap) registrate onestamente. Exp 2
+Qwen è **completato** (GO WITH LIMITATIONS). In questa forma il contributo è **onesto, rafforzato
+dalla replica EXP3_V2, dal riferimento centralizzato C e dalla portabilità cross-model completata,
+in-scope
 come collaborative/knowledge-transfer learning sotto non-IID, e nuovo a livello di combinazione +
 evaluation design** — non a livello di metodo. Il rischio principale che restava ("cosa aggiunge la
 federazione oltre l'avere il testo?") è ora parzialmente indirizzato da Condition C, sebbene il
@@ -1456,8 +1475,10 @@ confronto C−B sia limitato a 15 casi del solo Exp 1.
 
 ---
 
-*Fine del report — Rev. 2 (aggiornamento 2026-09-09). Numeri sperimentali: Exp 1 dal commit
+*Fine del report — Rev. 3 (aggiornamento 2026-09-09). Numeri sperimentali: Exp 1 dal commit
 `45ec4eed…` (tag `phase-b-results-frozen`); EXP3_V2 e Condition C dal walkthrough frozen; Exp 2
-Qwen dal protocollo congelato commit `d9bb95c` (tag `phase-b-exp2-qwen-protocol-frozen-001`).
-Le affermazioni di letteratura sono ancorate alle fonti elencate in OUTPUT 8–9; le voci marcate
-"verificare venue/DOI" vanno confermate prima del camera-ready.*
+Qwen dalla catena frozen completa: protocollo `d9bb95c` → predictions `a4f264c` → evaluator
+`a8f9884` → results `37195cf` (tag `phase-b-exp2-qwen-results-frozen-001`), review R2 verdict
+GO WITH LIMITATIONS (SHA-256: `9a7d3f8d…`). Le affermazioni di letteratura sono ancorate alle
+fonti elencate in OUTPUT 8–9; le voci marcate "verificare venue/DOI" vanno confermate prima del
+camera-ready.*

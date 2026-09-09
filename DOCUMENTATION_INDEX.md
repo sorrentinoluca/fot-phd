@@ -150,7 +150,7 @@ Tag targets:
 
 | Document | Description |
 |---|---|
-| [`supporting_records/historical/PHASE_B_EXPERIMENT_DESIGN.md`](supporting_records/historical/PHASE_B_EXPERIMENT_DESIGN.md) | Phase B design spec V1 (superseded by V2) |
+| `supporting_records/historical/PHASE_B_EXPERIMENT_DESIGN.md` | Phase B design spec V1 (superseded by V2; local only, not git-tracked) |
 | [`supporting_records/historical/PHASE_B_EXPERIMENT_DESIGN_V2.md`](supporting_records/historical/PHASE_B_EXPERIMENT_DESIGN_V2.md) | Phase B design spec V2 (superseded by frozen protocol) |
 
 ## Papers

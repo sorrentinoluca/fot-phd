@@ -559,5 +559,212 @@ class UnifiedConversationChecks(unittest.TestCase):
         self.assertTrue(CONVERSATION_MD.is_file())
 
 
+class Exp2QwenDocumentStatusChecks(unittest.TestCase):
+    """Regression: Exp 2 Qwen must be registered as completed in canonical
+    planning and literature review documents (P2 fix).
+
+    Tests are multiline-safe: context windows operate on the full text,
+    not individual lines, so a keyword split across lines is still caught.
+    """
+
+    LIT_REVIEW = ROOT / 'docs' / 'lit_review' / 'FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md'
+    EXP_PLAN = ROOT / 'docs' / 'lit_review' / 'FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md'
+
+    @classmethod
+    def setUpClass(cls):
+        cls.lit_review = cls.LIT_REVIEW.read_text()
+        cls.exp_plan = cls.EXP_PLAN.read_text()
+
+    # ---- No remaining in-progress references to Exp 2 (multiline-safe) ----
+
+    def _assert_no_exp2_in_corso(self, text, filename):
+        """Sliding window on full text: catches keywords even across lines."""
+        low = text.lower()
+        start = 0
+        while True:
+            idx = low.find('in corso', start)
+            if idx == -1:
+                break
+            ctx = low[max(0, idx - 400):min(len(low), idx + 400)]
+            for kw in ('exp 2', 'qwen', 'secondo llm', '540 inferenz'):
+                self.assertNotIn(kw, ctx,
+                    f'{filename} offset {idx}: Exp 2 still referenced as in corso')
+            start = idx + 1
+
+    def test_lit_review_no_exp2_in_corso(self):
+        self._assert_no_exp2_in_corso(self.lit_review, 'LITERATURE_REVIEW')
+
+    def test_exp_plan_no_exp2_in_corso(self):
+        self._assert_no_exp2_in_corso(self.exp_plan, 'EXPERIMENT_PLAN')
+
+    def _assert_no_exp2_avviato(self, text, filename):
+        low = text.lower()
+        start = 0
+        while True:
+            idx = low.find('avviato', start)
+            if idx == -1:
+                break
+            ctx = low[max(0, idx - 400):min(len(low), idx + 400)]
+            for kw in ('exp 2', 'qwen', '540 inferenz'):
+                self.assertNotIn(kw, ctx,
+                    f'{filename} offset {idx}: Exp 2 still referenced as avviato')
+            start = idx + 1
+
+    def test_lit_review_no_exp2_avviato(self):
+        self._assert_no_exp2_avviato(self.lit_review, 'LITERATURE_REVIEW')
+
+    def test_exp_plan_no_exp2_avviato(self):
+        self._assert_no_exp2_avviato(self.exp_plan, 'EXPERIMENT_PLAN')
+
+    # ---- Key completed-status markers present ----
+
+    def test_lit_review_completed_markers(self):
+        for marker in (
+            'COMPLETATO',
+            'GO WITH LIMITATIONS',
+            '0.944444',
+            'Rev. 3',
+            'phase-b-exp2-qwen-results-frozen-001',
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, self.lit_review)
+
+    def test_exp_plan_completed_markers(self):
+        for marker in (
+            'COMPLETATO',
+            'GO WITH LIMITATIONS',
+            '0.944444',
+            'Rev. 4',
+            'phase-b-exp2-qwen-results-frozen-001',
+        ):
+            with self.subTest(marker=marker):
+                self.assertIn(marker, self.exp_plan)
+
+    # ---- Frozen chain tags present ----
+
+    def _check_frozen_chain(self, text, filename):
+        tags = {
+            'phase-b-exp2-qwen-protocol-frozen-001': 'd9bb95c',
+            'phase-b-exp2-qwen-predictions-frozen-001': 'a4f264c',
+            'phase-b-exp2-qwen-evaluator-frozen-001': 'a8f9884',
+            'phase-b-exp2-qwen-results-frozen-001': '37195cf',
+        }
+        for tag, commit_prefix in tags.items():
+            with self.subTest(tag=tag, file=filename):
+                self.assertIn(commit_prefix, text,
+                    f'{filename}: frozen chain commit prefix {commit_prefix} missing')
+
+    def test_lit_review_frozen_chain(self):
+        self._check_frozen_chain(self.lit_review, 'LITERATURE_REVIEW')
+
+    def test_exp_plan_frozen_chain(self):
+        self._check_frozen_chain(self.exp_plan, 'EXPERIMENT_PLAN')
+
+    # ---- P1: correct seed value (20260829, not 42) ----
+
+    def test_no_seed_42_in_exp_plan(self):
+        self.assertNotIn('seed=42', self.exp_plan,
+            'EXPERIMENT_PLAN still contains erroneous seed=42')
+
+    def test_no_seed_42_in_lit_review(self):
+        self.assertNotIn('seed=42', self.lit_review,
+            'LITERATURE_REVIEW still contains erroneous seed=42')
+
+    def test_correct_seed_present_exp_plan(self):
+        self.assertIn('seed=20260829', self.exp_plan,
+            'EXPERIMENT_PLAN missing correct seed=20260829')
+
+    # ---- P1: C2/C4 criteria mapping ----
+
+    def test_exp_plan_b_minus_e_not_mapped_to_c2(self):
+        """B−E supports C4 (delta_unseen > delta_E), not C2
+        (positive delta in ≥3/4 agents)."""
+        import re
+        # Find any table row where B−E and C2 appear together
+        for line in self.exp_plan.split('\n'):
+            if 'B−E' in line and '|' in line:
+                self.assertNotIn('C2 PASS', line,
+                    'B−E is mapped to C2 but should be C4')
+
+    # ---- P2: B error count and description ----
+
+    def test_exp_plan_b_errors_count_accurate(self):
+        """Must mention 5 B errors, not 2."""
+        self.assertIn('5 errori B', self.exp_plan,
+            'EXPERIMENT_PLAN must state 5 total B errors')
+
+    def test_exp_plan_b_error_pattern_complete(self):
+        """All three error types must be listed."""
+        low = self.exp_plan.lower()
+        for pattern in ('ojnsg', 'z3isu', 'zogaa'):
+            with self.subTest(pattern=pattern):
+                self.assertIn(pattern, low,
+                    f'EXPERIMENT_PLAN missing error class {pattern}')
+
+    def test_exp_plan_capped_errors_noted(self):
+        """The relationship between B errors and the 1023-token cap
+        must be documented."""
+        low = self.exp_plan.lower()
+        # Check that the cap-error relationship is mentioned
+        self.assertIn('cap', low)
+        self.assertIn('36', self.exp_plan)  # 36 uncapped aggregates
+
+    # ---- P2: B error analysis present in literature review too ----
+
+    def test_lit_review_b_errors_and_cap(self):
+        """Literature review must document: all 5 B errors at cap,
+        36 uncapped correct, H2 confounded, B/E matched."""
+        low = self.lit_review.lower()
+        self.assertIn('5 errori', low,
+            'LITERATURE_REVIEW must state 5 B errors')
+        self.assertIn('36', self.lit_review,
+            'LITERATURE_REVIEW must mention 36 uncapped aggregates')
+        for kw in ('cap', 'matched', 'citation rate'):
+            with self.subTest(kw=kw):
+                self.assertIn(kw, low,
+                    f'LITERATURE_REVIEW missing B error analysis keyword: {kw}')
+
+    # ---- P2: submission readiness is PLAUSIBLE, not SOLID ----
+
+    def test_lit_review_not_solid(self):
+        """Walkthrough says PLAUSIBLE (limite alto). SOLID is unjustified."""
+        import re
+        # Must not contain "readiness: SOLID" or "readiness:SOLID"
+        matches = re.findall(r'readiness[:\s]+SOLID', self.lit_review,
+                             re.IGNORECASE)
+        self.assertEqual(matches, [],
+            f'LITERATURE_REVIEW contains unjustified SOLID: {matches}')
+
+    def test_lit_review_plausible(self):
+        self.assertIn('PLAUSIBLE', self.lit_review,
+            'LITERATURE_REVIEW must preserve PLAUSIBLE readiness')
+
+    # ---- P3: unversioned references annotated AND non-clickable ----
+
+    def test_p3_phase_b_design_v1_annotated_and_not_linked(self):
+        doc_index = (ROOT / 'DOCUMENTATION_INDEX.md').read_text()
+        sr_readme = (ROOT / 'supporting_records' / 'README.md').read_text()
+        # Annotation present
+        self.assertIn('not git-tracked', doc_index)
+        self.assertIn('not git-tracked', sr_readme)
+        # Link syntax removed: no [...](...PHASE_B_EXPERIMENT_DESIGN.md)
+        import re
+        for name, text in [('DOCUMENTATION_INDEX', doc_index),
+                           ('supporting_records/README', sr_readme)]:
+            clickable = re.findall(
+                r'\[.*?PHASE_B_EXPERIMENT_DESIGN\.md.*?\]\(', text)
+            self.assertEqual(clickable, [],
+                f'{name} still has clickable link to non-tracked file: {clickable}')
+
+    def test_p3_xlsx_annotated_and_not_linked(self):
+        lr_readme = (ROOT / 'docs' / 'lit_review' / 'README.md').read_text()
+        self.assertIn('not git-tracked', lr_readme)
+        import re
+        clickable = re.findall(
+            r'\[.*?FoT_literature_review\.xlsx.*?\]\(', lr_readme)
+        self.assertEqual(clickable, [],
+            f'docs/lit_review/README still has clickable link to non-tracked xlsx: {clickable}')
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
