@@ -1,6 +1,6 @@
 # Federation over Text for Locally Unseen Fault Diagnosis in Multivariate Time Series
 
-**Step 1 / 27**
+**Step 1 / 28**
 
 ## Introduzione
 
@@ -110,7 +110,7 @@ Mi restano queste cose da fare o valutare; in ordine di priorità:
 - La degradazione local-seen in B emerge nell'Exp3_V2 ma non è ancora stata diagnosticata.
 - La federazione è simulata su un singolo processo (TEP); la validazione su impianti PV reali multi-sito è il passo successivo dichiarato.
 
-**Step 2 / 27(Ph.A)**
+**Step 2 / 28(Ph.A)**
 
 ## Dataset
 
@@ -153,7 +153,7 @@ Nel dataset i canali sono identificati come `XMEAS-1 … XMEAS-41`. La loro deno
 
 Nomenclatura canonica del TEP (Downs & Vogel, 1993). Il repository tratta i canali come `XMEAS-1…41` senza etichette descrittive; questi nomi sono forniti solo come riferimento fisico.
 
-**Step 3 / 27(Ph.A)**
+**Step 3 / 28(Ph.A)**
 
 ## Analisi e split dei dataset
 
@@ -198,7 +198,7 @@ Nel caso con fault, le otto finestre post-fault sono indicate come **W1–W8**, 
 >
 > **8 finestre da 5 h** per il caso con fault; **10 finestre da 5 h** per il blocco Normal completo.
 
-**Step 4 / 27(Ph.A)Design / development-time**
+**Step 4 / 28(Ph.A)Design / development-time**
 
 ## La pipeline di Phase A: le sei operazioni
 
@@ -213,7 +213,7 @@ Di seguito le fasi svolte dalla pipeline della fase A del progetto.
 | 5 | **Dalle finestre al JSON** | Aggrega flag e struttura temporale in evidenza numerica auditabile. |
 | 6 | **Dal JSON al testo neutrale** | Renderizza fatti quantitativi senza fault ID o diagnosi automatica. |
 
-**Step 5 / 27(Ph.A)Design / development-time**
+**Step 5 / 28(Ph.A)Design / development-time**
 
 ## Scelta delle feature
 
@@ -229,7 +229,7 @@ La **scelta** delle feature è una decisione di design sul development/calibrati
 > | `diff_std_ratio` | Variazioni campione-campione | Oscillazioni lente |
 > | `raw_std_ratio` | Dispersione descrittiva | Instabilità oscillatoria |
 
-**Step 6 / 27(Ph.A)Design / development-time**
+**Step 6 / 28(Ph.A)Design / development-time**
 
 ## Calibrazione delle soglie
 
@@ -266,7 +266,7 @@ Il **leave-one-block-out** nasce qui: quando si misura N1, il riferimento usa N2
 >
 > Mostriamo solo la coda, ma ogni score è davvero il massimo sui 41 canali.
 
-**Step 7 / 27(Ph.A)Design / development-time**
+**Step 7 / 28(Ph.A)Design / development-time**
 
 ## Il freeze: congelare feature, soglie e renderer
 
@@ -274,7 +274,7 @@ Prima di aprire validation, test e held-out vengono congelati feature, soglie, r
 
 > **Che cosa è stato usato fino a qui.** Fino al freeze sono entrati in gioco soltanto i blocchi **Normal N1–N5** (per calibrare le soglie) e i **fault batch 1–5**. Questi ultimi sono stati usati **solo in fase di design/development, per scegliere *quali* feature usare** — non per calcolare le soglie e non a runtime. La scelta delle feature è una decisione fatta una volta, a monte, non un'operazione ripetuta su ogni caso. I restanti dati — **N6–N10** e i **fault batch 6–10** — **non sono ancora stati toccati**: entreranno solo dopo il freeze, in validation e test. (N1–N5 servono in due momenti: a design-time per calibrare le soglie e poi come baseline di riferimento anche a runtime.)
 
-**Step 8 / 27(Ph.A)Runtime / finestra × XMEAS**
+**Step 8 / 28(Ph.A)Runtime / finestra × XMEAS**
 
 ## Dalle feature ai flag: soglie e segni
 
@@ -313,7 +313,7 @@ W1 è mostrata esclusivamente come esempio di calcolo. Nella pipeline completa, 
 >
 > W1: `mode1_1_1.xlsx`, righe Excel 602–901, XMEAS-1. Baseline: `mode1_normal_500.xlsx`, righe 2–15001 della colonna ricondotta a XMEAS-1. Il ricalcolo read-only coincide con il CSV entro l'ultima unità floating-point; qui è riportata la precisione frozen del CSV.
 
-**Step 9 / 27(Ph.A)Runtime / caso completo**
+**Step 9 / 28(Ph.A)Runtime / caso completo**
 
 ## Dai flag al JSON, fino al testo neutrale
 
@@ -357,7 +357,7 @@ La griglia di flag (8 finestre × 41 XMEAS) viene utilizzata per generare un **J
 >
 > L'estratto JSON mostra la parte `level` di XMEAS-1. Il testo completo nasce dal JSON completo a 41 canali, quindi cita altri canali quando dominano altre sezioni (qui XMEAS-20 e XMEAS-10). Non contiene F1, batch, pseudolabel o soglie: nessuna diagnosi, solo fatti.
 
-**Step 10 / 27(Ph.A)Controllo offline**
+**Step 10 / 28(Ph.A)Controllo offline**
 
 ## Evaluator · signature vector
 
@@ -383,13 +383,13 @@ Solo ora entra l'evaluator, con uno scopo preciso: verificare offline se la rapp
 >
 > > **A cosa serve.** Alta similarità intra-classe + bassa similarità inter-classe = il testo neutrale di Phase A conserva abbastanza struttura da distinguere le condizioni *senza mai nominarle*. È il pre-requisito descrittivo che rende sensato, nello step successivo, dare quei testi in pasto a un reasoner in Phase B — ma resta separabilità, non ancora accuracy diagnostica.
 
-**Step 11 / 27(Ph.A)Valutazione out-of-development/calibration**
+**Step 11 / 28(Ph.A)Valutazione out-of-development/calibration**
 
 ## Validation e test split: applicare dopo il freeze
 
 La progettazione si è terminata con il freeze; adesso si esegue la stessa pipeline runtime prima sulla validation (fault batch 6–7 e Normal N6–N7) e poi sul test split (batch 8–10 e N8–N10). In entrambi i casi il percorso è sempre `finestre → feature → soglie congelate → JSON → testo neutrale → evaluator`. È importante notare come lo split «development/calibration» sia utilizzato per progettare e calibrare, in seguito al freeze la validation è utilizzata per effettuare controlli intermedi e alla fine il test split resta chiuso fino alla verifica finale di Phase A.
 
-**Step 12 / 27(Ph.A)Confine sperimentale**
+**Step 12 / 28(Ph.A)Confine sperimentale**
 
 ## Nuove simulazioni indipendenti
 
@@ -401,7 +401,7 @@ I batch 8–10 del test split erano test di Phase A, ma sono stati aperti. Un te
 | --- | --- | --- | --- | --- |
 | 3 run | 3 run | 3 run | 3 run | 3 run |
 
-**Step 13 / 27(Ph.B)Phase B / conoscenza locale**
+**Step 13 / 28(Ph.B)Phase B / conoscenza locale**
 
 ## Agenti non-IID, pseudolabel ed esempi locali
 
@@ -448,7 +448,7 @@ Distribuzione non-IID: ogni agente conosce solo il proprio fault
 > >
 > > **Etichetta mostrata all'LLM:** `CLS-ZOGAA`. La coppia è testo + etichetta; F1 e batch 1 restano provenance evaluator-side.
 
-**Step 14 / 27(Ph.B)Phase B / federazione**
+**Step 14 / 28(Ph.B)Phase B / federazione**
 
 ## Gli insight distillano più casi; la federazione li distribuisce peer-only
 
@@ -485,7 +485,7 @@ Dopo il few-shot, ogni agente compie una seconda operazione: condensa ciò che s
 >
 > > **8 generati, 6 ricevuti.** La libreria globale ha otto insight; ciascuna peer library ne ha sei.
 
-**Step 15 / 27(Ph.B)Phase B / protocollo frozen**
+**Step 15 / 28(Ph.B)Phase B / protocollo frozen**
 
 ## Configurazioni informative controllate e struttura completa dell'inference
 
@@ -513,7 +513,7 @@ Una **configurazione informativa** è una versione controllata dello stesso agen
 
 > **Cronologia del protocollo.** Condition C non faceva parte del protocollo originale A/B/E: è stata progettata post-hoc dopo l'osservazione dei risultati A/B/E. Ha però avuto un proprio amendment e un proprio freeze, entrambi completati prima delle sue chiamate LLM. Il carattere post-hoc riguarda quindi la scelta di introdurre il confronto, non una modifica delle predizioni dopo averne osservato gli esiti.
 
-**Step 16 / 27(Ph.B)Phase B / inference frozen**
+**Step 16 / 28(Ph.B)Phase B / inference frozen**
 
 ## Dal testo neutrale alla decisione: PBH-004 visto da Agent 3
 
@@ -535,7 +535,7 @@ PBH-004 → → → pipeline Phase A congelata → → → testo neutrale → �
 >
 > I record hanno `used_insight_ids=[]`: non attribuiamo la singola risposta a INS-001. Confrontiamo correttamente le configurazioni informative frozen nel loro insieme.
 
-**Step 17 / 27(Ph.B)Ground-truth evaluation**
+**Step 17 / 28(Ph.B)Ground-truth evaluation**
 
 ## Risultati Phase B: trasferimento di conoscenza sui fault localmente unseen
 
@@ -730,7 +730,7 @@ Fase 2 — Replica confirmatory · EXP3_V2
 
 Tutto il metodo — feature, soglie, agenti, insight, configurazioni informative, protocollo frozen — rimane identico. Cambiano solo i dati fisici sottostanti: 24 nuovi run di fault (6 per classe) e 6 nuovi run Normal, il doppio della Fase 1. L'architettura sperimentale e le decisioni di analisi sono state congelate *prima* di generare questi dati.
 
-**Step 18 / 27Fase 2Esperimento confermativo su nuove realizzazioni simulate**
+**Step 18 / 28Fase 2Esperimento confermativo su nuove realizzazioni simulate**
 
 ## Esperimento confermativo su nuove realizzazioni simulate
 
@@ -740,7 +740,7 @@ Il rischio specifico da escludere non è il data leakage classico — il protoco
 
 Le nuove realizzazioni fisiche sono run TEP indipendenti delle stesse quattro classi — non reruns dei file già usati, non nuove classi, non un dominio diverso. Il perimetro sperimentale rimane deliberatamente invariato: il metodo, gli agenti, le soglie e il protocollo frozen di Experiment 1 vengono riapplicati as-is alle nuove realizzazioni. L'obiettivo non è la generalizzazione, ma verificare se l'effetto osservato sia riproducibile quando i dati fisici cambiano pur restando fisso tutto il resto.
 
-**Step 19 / 27Fase 2Nuovo held-out**
+**Step 19 / 28Fase 2Nuovo held-out**
 
 ## Le nuove realizzazioni fisiche di EXP3_V2
 
@@ -754,7 +754,7 @@ Per costruire il nuovo held-out sono stati generati run TEP indipendenti degli s
 
 Il raddoppio rispetto ai 15 run di Experiment 1 (3 per classe) porta a 72 agent-case unseen, aumentando la potenza statistica del contrasto primario B−A senza modificare il disegno sperimentale.
 
-**Step 20 / 27Fase 2Disegno confirmatory frozen**
+**Step 20 / 28Fase 2Disegno confirmatory frozen**
 
 ## Il disegno confirmatory di EXP3_V2
 
@@ -786,7 +786,7 @@ Un disegno **confirmatory frozen** significa che ipotesi primaria, popolazione d
 >
 > 72 agent-case unseen → × → configurazioni informative A / B / E → → → aggregati frozen → → → bootstrap cluster-paired → → → contrasti B−A · B−E
 
-**Step 21 / 27Fase 2**
+**Step 21 / 28Fase 2**
 
 ## Diagnosi di guasti non osservati localmente
 
@@ -871,7 +871,7 @@ Tutti e quattro gli errori unseen di B sono concentrati su due run specifici —
 
 **Figura 5 — Distribuzione degli outcome della configurazione informativa B nei 24 run fisici di fault di EXP3_V2.** Ogni riga rappresenta un singolo run fisico; le quattro colonne rappresentano i quattro agenti. Per ogni run, la cella dell'agente che possiede localmente quel fault è indicata come local-seen. Le altre tre celle costituiscono i tre agent-case locally-unseen. I 24 run producono 72 agent-case unseen, non 72 osservazioni fisiche indipendenti. La figura è un'analisi descrittiva post-hoc dei record frozen.
 
-**Step 22 / 27Fase 2**
+**Step 22 / 28Fase 2**
 
 ## B−A primario e B−E di supporto: differenze di accuratezza e intervalli di confidenza
 
@@ -917,7 +917,7 @@ B−E
 
 > **Nota sull'incertezza.** Gli intervalli sono ottenuti mediante cluster bootstrap paired sui 24 run fisici indipendenti, mantenendo insieme le tre osservazioni dei receiving agents associate allo stesso run. Con 24 cluster indipendenti (il doppio di Experiment 1), gli intervalli sono più stretti ma vanno comunque interpretati nel contesto di questo PoC controllato.
 
-**Step 23 / 27Fase 2**
+**Step 23 / 28Fase 2**
 
 ## Risultati secondari descrittivi
 
@@ -986,7 +986,7 @@ A:0/72 ·B:68/72 ·E:4/72
 
 La tabella confronta i risultati dei due esperimenti sullo stesso disegno sperimentale. L'incremento della dimensione campionaria da 12 a 24 run fisici restringe gli intervalli di confidenza. La degradazione local-seen osservata in EXP3_V2 non era visibile in Experiment 1.
 
-**Step 24 / 27Fase 2Interpretazione, limiti e provenienza frozen**
+**Step 24 / 28Fase 2Interpretazione, limiti e provenienza frozen**
 
 ## Che cosa supporta la replica, e che cosa non dimostra
 
@@ -1016,7 +1016,7 @@ La tabella confronta i risultati dei due esperimenti sullo stesso disegno sperim
 
 > **Transizione cronologica.** Il blocco seguente è collocato dopo la Fase 2 perché Condition C è stata introdotta successivamente nella cronologia del progetto. Gli Step 25–26 riaprono però il confronto di **Experiment 1**: usano il suo medesimo held-out e non i run EXP3_V2.
 
-**Step 25 / 27Federazione VS centralizzazione**
+**Step 25 / 28Federazione VS centralizzazione**
 
 Abbiamo chiesto: quanto perde il sistema a quattro agenti rispetto a uno solo che sa tutto? Per rispondere abbiamo costruito un agente unico a cui abbiamo dato tutte le conoscenze degli altri quattro — gli stessi esempi, le stesse descrizioni testuali dei guasti. Non dati grezzi o informazioni riservate, solo ciò che nella federazione verrebbe scambiato tra i nodi. Il confronto è diretto perché entrambi lavorano con lo stesso tipo di materiale, ma non alla pari: l'agente centralizzato vede tutto insieme, quelli federati vedono solo pezzi.
 
@@ -1042,7 +1042,7 @@ C classifica i **15 casi del held-out di Experiment 1** (12 fault + 3 Normal), c
 - R=3, structured output strict e inferenza stateless.
 - Nessun accesso alla ground truth prima del freeze delle predizioni; join soltanto evaluator-side.
 
-**Step 26 / 27Risultati C e confronto descrittivo C−B**
+**Step 26 / 28Risultati C e confronto descrittivo C−B**
 
 ## Risultati del riferimento centralizzato e distanza descrittiva da B
 
@@ -1087,7 +1087,7 @@ Fase 3 — Portabilità cross-model · EXP2
 
 **Dal riferimento centralizzato alla Fase 3.** Experiment 1 ha stabilito l’effetto di trasferimento e la sua specificità semantica; Experiment 3 (Fase 2) lo ha replicato su realizzazioni fisiche indipendenti; Condition C ha poi fornito un riferimento post-hoc sul solo held-out di Experiment 1. Tutti hanno utilizzato un unico reasoning model (`gpt-5.6-terra`) sia per produrre gli insight sia per consumarli in fase di classificazione. Resta aperta una domanda: *la conoscenza testuale congelata è accoppiata al reasoner che l’ha generata, oppure può essere consumata utilmente da modelli diversi?*
 
-**Step 27 / 27Fase 3Portabilità cross-model**
+**Step 27 / 28Fase 3Portabilità cross-model**
 
 ## Consumer open-weight: protocollo Qwen e avvio di Experiment 2
 
@@ -1290,3 +1290,118 @@ I due audit (`audit_exp2_qwen.md` e `re_audit_exp2_qwen.md`) sono attualmente do
 - Il probe sintetico dimostra capacità tecnica dell'infrastruttura, non accuratezza diagnostica.
 - Non esistono ancora risultati del full run: nessuna metrica, nessun intervallo, nessuna conclusione.
 - I test specifici della lane Qwen (`phase_b/exp2/qwen/tests/`) sono passati e sono stati rafforzati dopo le correzioni pre-freeze. Tre errori della suite `phase_b` generale erano ambientali e preesistenti (dipendenza `openpyxl` assente nell'environment di test, workbook esterni mancanti e un path macOS frozen nell'environment Linux); non riguardano la lane Qwen.
+
+
+---
+
+**Step 28 / 28**
+
+## Ablation: confronto sistematico delle strategie di rappresentazione TS→Testo
+
+### 1 · Domanda scientifica
+
+Il verbalizzatore V2 è una scelta di design. Un reviewer può obiettare: «avete inventato il vostro formato, ma come fate a sapere che non funzionerebbe meglio dare i numeri grezzi all'LLM, o usare statistiche à la CGTime, o una codifica simbolica?». Questa è la Critica A — la critica alla quale l'ablation risponde direttamente.
+
+La domanda sperimentale è:
+
+> *La rappresentazione V2 offre un compromesso favorevole tra accuratezza diagnostica e costo computazionale rispetto ad approcci alternativi dalla letteratura?*
+
+L'ablation non risponde alla Critica B («perché usare un LLM e non un metodo tradizionale di fault diagnosis?»), che si difende con argomenti qualitativi (zero-shot, interpretabilità, generalizzabilità) già parte della motivazione del lavoro FoT-TEP.
+
+### 2 · Disegno sperimentale
+
+L'esperimento confronta quattro strategie di rappresentazione sugli stessi 15 casi held-out TEP (PBH-001…PBH-015), con lo stesso LLM (GPT-5.6-terra), output strutturato, 3 ripetizioni per caso. Il task è una classificazione centralizzata a 5 classi (F1, F8, F10, F13, Normal) — un task più difficile della classificazione federata 2-classi della pipeline di produzione. La centralizzazione isola la variabile «rappresentazione» evitando il confounding con l'architettura federata.
+
+Totale: 4 bracci × 15 casi × 3 ripetizioni = **180 inferenze**.
+
+| Braccio | Descrizione | Ispirazione | Token/prompt |
+| --- | --- | --- | --- |
+| **V2_TEXT** | Verbalizzatore conformal: 8 finestre × 5 feature per XMEAS, linguaggio naturale con soglie e trend | Il nostro metodo | ~550 |
+| **RAW_FEATURES** | Serializzazione numerica diretta delle feature V2 in tabella, senza interpretazione | LLMTime (Gruver et al., 2023) | ~21 000 |
+| **CGTIME_STATS** | 169 statistiche per sensore (media, varianza, correlazioni…), 3 famiglie, window-aligned | CGTime (Feng et al., 2026) | ~99 000 |
+| **SAX_SYMBOLIC** | Codifica simbolica SAX: lettere che codificano la forma del segnale (alphabet=5, word=10) | SAX/HAR-LLM (Pappa et al., 2026) | ~21 000 |
+
+L'unità indipendente è il `case_id` (15 casi), non la riga (45 righe). Le 3 ripetizioni per caso misurano la stabilità within-case ma non aggiungono unità statistiche indipendenti.
+
+### 3 · Test statistici e correzioni
+
+L'analisi statistica usa esclusivamente test cluster-aware che rispettano la struttura di raggruppamento dei dati:
+
+- **Clustered bootstrap** (10 000 resamples di 15 case_id, RNG indipendente per confronto)
+- **Permutation test esatto** (sign-flip su 15 casi, tutte le 2^15 = 32 768 permutazioni)
+- **McNemar a livello di caso** (majority-vote aggregato, N = 15, binomiale esatto)
+- **Holm–Bonferroni** step-down across 6 confronti pairwise
+
+Un test McNemar row-level (N = 45) è stato calcolato ma **declassato a NON-INFERENTIAL**: tratta le 3 ripetizioni per caso come indipendenti, il che non è vero (stesso input), producendo p-value anti-conservativi. La discrepanza tra i due approcci — il row-level trovava due confronti significativi, il cluster-aware nessuno — è un caso da manuale di come ignorare il clustering gonfia artificialmente la significatività.
+
+Questa correzione è stata introdotta dopo una review indipendente che ha restituito un verdetto **GO-with-reservations** con 22 finding (1 critico, 10 major, 7 minor, 2 informativi). Il finding critico riguardava esattamente l'uso improprio del McNemar row-level come test inferenziale.
+
+### 4 · Risultati
+
+| Braccio | Accuracy | 95% CI (boot) | Bal. Acc | Macro-F1 | MCC | Sel. Acc | Coverage |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **V2_TEXT** | 0.889 | [0.733, 1.000] | 0.889 | 0.907 | 0.866 | 0.930 | 0.956 |
+| **RAW_FEATURES** | 0.933 | [0.800, 1.000] | 0.933 | 0.960 | 0.923 | 1.000 | 0.933 |
+| **CGTIME_STATS** | 0.911 | [0.756, 1.000] | 0.911 | 0.943 | 0.900 | 1.000 | 0.911 |
+| **SAX_SYMBOLIC** | 0.733 | [0.533, 0.933] | 0.733 | 0.721 | 0.699 | 0.786 | 0.933 |
+
+#### Recall per classe
+
+| Braccio | F1 | F8 | F10 | F13 | Normal |
+| --- | --- | --- | --- | --- | --- |
+| V2_TEXT | 1.000 | 0.667 | 1.000 | 0.778 | 1.000 |
+| RAW_FEATURES | 1.000 | 1.000 | 1.000 | 0.667 | 1.000 |
+| CGTIME_STATS | 1.000 | 1.000 | 1.000 | 0.556 | 1.000 |
+| SAX_SYMBOLIC | 1.000 | 1.000 | 1.000 | 0.333 | 0.333 |
+
+#### Confronti pairwise (cluster-aware, Holm–Bonferroni)
+
+Nessun confronto raggiunge la significatività statistica con nessuno dei tre test cluster-aware dopo correzione:
+
+| Confronto | Δ Accuracy | p (boot) | p (perm) | p (McN-case) | Significativo? |
+| --- | --- | --- | --- | --- | --- |
+| V2 vs RAW | −0.044 | 0.769 | 1.000 | 1.000 | No |
+| V2 vs CGTIME | −0.022 | 0.967 | 1.000 | 1.000 | No |
+| V2 vs SAX | +0.156 | 0.270 | 0.375 | 0.625 | No |
+| RAW vs CGTIME | +0.022 | 0.710 | 1.000 | 1.000 | No |
+| RAW vs SAX | +0.200 | 0.072 | 0.250 | 0.250 | No |
+| CGTIME vs SAX | +0.178 | 0.071 | 0.250 | 0.250 | No |
+
+### 5 · Interpretazione
+
+I tre metodi migliori (V2_TEXT, RAW_FEATURES, CGTIME_STATS) hanno accuratezze osservate vicine (88.9%, 93.3%, 91.1%) e nessuna differenza è statisticamente significativa. SAX va peggio (73.3%) ma nemmeno quel divario è confermato statisticamente con test corretti. Con il campione disponibile, **non possiamo dire chi vince** — ma possiamo dire che V2 non è chiaramente peggiore nonostante usi 39–180× meno token.
+
+La formulazione corretta è «not demonstrably different», non «indistinguishable»: la prima riconosce che il campione è troppo piccolo per distinguere, la seconda implicherebbe equivalenza dimostrata. Il minimum detectable effect (MDE) con N = 15 è ≈ 25 punti percentuali — lo riportiamo esplicitamente.
+
+Un dato interessante emerge dalla selective accuracy: RAW_FEATURES e CGTIME_STATS hanno selective accuracy = 1.000, cioè quando rispondono non sbagliano mai. La differenza rispetto al V2 dipende interamente dal fatto che si astengono di più sul guasto F13. Il pattern di F13 è arm-dependent: V2 tende a misclassificarlo come F8, mentre RAW e CGTIME tendono ad astenersi.
+
+### 6 · Posizionamento nella letteratura
+
+Per quanto ci risulta, questa è la **prima comparazione controllata head-to-head** di strategie di rappresentazione TS→text per fault diagnosis con LLM. In letteratura:
+
+- **LLMTime** (Gruver et al., 2023) ha mostrato che gli LLM possono gestire serie temporali serializzate come numeri — noi testiamo qualcosa di simile con RAW_FEATURES
+- **CGTime** (Feng et al., 2026) propone un approccio «percezione statistica» — noi ne testiamo una versione adattata
+- **SAX/HAR-LLM** (Pappa et al., 2026) usa codifiche simboliche per sensori — noi testiamo SAX
+
+Nessuno ha fatto un confronto sistematico di queste strategie sullo stesso dataset, stesso LLM, stesse condizioni. In un paper si può scrivere:
+
+> *«Per valutare la scelta della strategia di rappresentazione, abbiamo condotto un'ablation su 15 casi TEP indipendenti confrontando V2 con tre approcci dalla letteratura. Nessuna differenza statisticamente significativa è emersa tra i primi tre approcci (permutation test, p > 0.25), mentre V2 richiede ~1/39–1/180 dei token in input. Questi risultati preliminari suggeriscono che la rappresentazione V2 offre un compromesso favorevole tra accuratezza diagnostica e costo computazionale.»*
+
+### 7 · Caveat
+
+- **Confound informazione–rappresentazione:** V2_TEXT include conoscenza di dominio (soglie, trend); gli altri bracci no. L'esperimento testa formato + informazione insieme, non formato solo. Il costo del preprocessing conformal è esterno al budget di token del prompt e va contabilizzato separatamente.
+- **Campione piccolo:** 15 casi indipendenti. Per rilevare una differenza del 10% servirebbe un campione molto più grande. È un pilot study esplorativo, non un trial confermativo.
+- **4 guasti su 28:** coperti F1 (step), F8 (stocastico), F10 (step), F13 (drift). Le categorie principali sono rappresentate, ma non si può generalizzare a tutti i 28 fault TEP.
+- **Un solo LLM:** GPT-5.6-terra. Un altro modello potrebbe ribaltare il ranking. Il contributo metodologico (il framework di confronto) resta valido indipendentemente dal modello specifico.
+- **Task centralizzato vs federato:** la pipeline di produzione FoT usa 4 agenti specialisti (ciascuno guasto vs normale), non un singolo LLM a 5 classi. La centralizzazione è una scelta di design sperimentale per isolare la variabile «rappresentazione»; validare nel setting federato è un follow-up.
+
+### Dove verificare
+
+| Risorsa | Descrizione |
+| --- | --- |
+| `ablation/ABLATION_OVERVIEW.md` | Companion discorsivo all'ablation report |
+| `ablation/ablation_results/ablation_report.md` | Report statistico completo con tutte le tabelle e i p-value |
+| `ablation/ablation_evaluation.json` | Risultati grezzi in formato machine-readable |
+| `ablation/ablation_evaluate.py` | Script di valutazione con tutti i test statistici |
+| `ablation/EXPERIMENT_DESIGN.md` | Protocollo sperimentale pre-registrato |
+| `ablation/inference_results.jsonl` | Le 180 predizioni grezze del modello |

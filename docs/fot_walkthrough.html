@@ -1747,8 +1747,158 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 
-<!-- ==================== STEP 17: CRITICHE E REVIEW ==================== -->
+
+<!-- ==================== STEP 17: ABLATION — TS→TEXT REPRESENTATION COMPARISON ==================== -->
 <div class="step-container" data-step="17">
+  <div class="phase-badge b">Ablation</div>
+  <h1 class="step-title">Ablation: confronto sistematico delle rappresentazioni TS&rarr;Testo</h1>
+  <p class="step-intro">Il verbalizzatore V2 &egrave; una scelta di design. Un reviewer pu&ograve; chiedere: &laquo;perch&eacute; non dare i numeri grezzi all&rsquo;LLM, o usare statistiche, o una codifica simbolica?&raquo; Questa ablation risponde con un <strong>confronto head-to-head controllato</strong> su 15 casi TEP indipendenti, stesso LLM, stesse condizioni &mdash; cambia solo la rappresentazione.</p>
+
+  <div class="card">
+    <div class="card-label">I quattro bracci sperimentali</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="padding:14px;border-radius:6px;border:2px solid var(--accent-a);background:var(--accent-a-light)">
+        <div style="font-size:0.75rem;color:var(--accent-a);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:700">V2_TEXT (il nostro)</div>
+        <div style="font-size:0.85rem;color:var(--text-muted)">Verbalizzatore conformal: 8 finestre &times; 5 feature per XMEAS, linguaggio naturale con soglie e trend. <strong>~550 token</strong> per prompt.</div>
+      </div>
+      <div style="padding:14px;border-radius:6px;border:1px solid var(--border-light)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:700">RAW_FEATURES</div>
+        <div style="font-size:0.85rem;color:var(--text-muted)">Serializzazione numerica diretta delle feature V2 (stile LLMTime). <strong>~21 000 token</strong>.</div>
+      </div>
+      <div style="padding:14px;border-radius:6px;border:1px solid var(--border-light)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:700">CGTIME_STATS</div>
+        <div style="font-size:0.85rem;color:var(--text-muted)">Baseline ispirata a CGTime (Feng et al. 2026): 169 statistiche per sensore, 3 famiglie. <strong>~99 000 token</strong>.</div>
+      </div>
+      <div style="padding:14px;border-radius:6px;border:1px solid var(--border-light)">
+        <div style="font-size:0.75rem;color:var(--text-caption);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-weight:700">SAX_SYMBOLIC</div>
+        <div style="font-size:0.85rem;color:var(--text-muted)">Symbolic Aggregate approXimation: codifica la forma del segnale in lettere (alphabet=5, word=10). <strong>~21 000 token</strong>.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Protocollo</div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">Classificazione centralizzata a 5 classi (F1, F8, F10, F13, Normal) su 15 casi held-out indipendenti (PBH-001&hellip;PBH-015), 3 ripetizioni per caso, GPT-5.6-terra con output strutturato. <strong>180 inferenze totali</strong> (4 bracci &times; 45).</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;font-size:0.84rem">
+      <div style="padding:10px;border-radius:6px;background:#f3f6f8;text-align:center">
+        <div style="font-size:0.72rem;color:var(--text-caption);text-transform:uppercase;margin-bottom:3px">Unit&agrave; indip.</div>
+        <div style="font-weight:700;color:var(--text)">15 case_id</div>
+      </div>
+      <div style="padding:10px;border-radius:6px;background:#f3f6f8;text-align:center">
+        <div style="font-size:0.72rem;color:var(--text-caption);text-transform:uppercase;margin-bottom:3px">Test statistici</div>
+        <div style="font-weight:700;color:var(--text)">Cluster-aware</div>
+      </div>
+      <div style="padding:10px;border-radius:6px;background:#f3f6f8;text-align:center">
+        <div style="font-size:0.72rem;color:var(--text-caption);text-transform:uppercase;margin-bottom:3px">Correzione</div>
+        <div style="font-weight:700;color:var(--text)">Holm&ndash;Bonferroni</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--accent-a)">
+    <div class="card-label">Risultati principali</div>
+    <table style="width:100%;font-size:0.84rem;border-collapse:collapse">
+      <thead>
+        <tr style="border-bottom:2px solid var(--border-light)">
+          <th style="text-align:left;padding:6px">Braccio</th>
+          <th style="text-align:center;padding:6px">Accuracy</th>
+          <th style="text-align:center;padding:6px">95% CI</th>
+          <th style="text-align:center;padding:6px">Macro-F1</th>
+          <th style="text-align:center;padding:6px">Sel. Acc</th>
+          <th style="text-align:center;padding:6px">Token/prompt</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:var(--accent-a-light);font-weight:600">
+          <td style="padding:6px">V2_TEXT</td>
+          <td style="text-align:center;padding:6px">88.9%</td>
+          <td style="text-align:center;padding:6px">[73.3, 100]</td>
+          <td style="text-align:center;padding:6px">0.907</td>
+          <td style="text-align:center;padding:6px">0.930</td>
+          <td style="text-align:center;padding:6px">~550</td>
+        </tr>
+        <tr>
+          <td style="padding:6px">RAW_FEATURES</td>
+          <td style="text-align:center;padding:6px">93.3%</td>
+          <td style="text-align:center;padding:6px">[80.0, 100]</td>
+          <td style="text-align:center;padding:6px">0.960</td>
+          <td style="text-align:center;padding:6px">1.000</td>
+          <td style="text-align:center;padding:6px">~21k</td>
+        </tr>
+        <tr>
+          <td style="padding:6px">CGTIME_STATS</td>
+          <td style="text-align:center;padding:6px">91.1%</td>
+          <td style="text-align:center;padding:6px">[75.6, 100]</td>
+          <td style="text-align:center;padding:6px">0.943</td>
+          <td style="text-align:center;padding:6px">1.000</td>
+          <td style="text-align:center;padding:6px">~99k</td>
+        </tr>
+        <tr style="color:var(--text-muted)">
+          <td style="padding:6px">SAX_SYMBOLIC</td>
+          <td style="text-align:center;padding:6px">73.3%</td>
+          <td style="text-align:center;padding:6px">[53.3, 93.3]</td>
+          <td style="text-align:center;padding:6px">0.721</td>
+          <td style="text-align:center;padding:6px">0.786</td>
+          <td style="text-align:center;padding:6px">~21k</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Significativit&agrave; statistica</div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
+      <strong>Nessun confronto &egrave; statisticamente significativo</strong> con i test cluster-aware (permutation test esatto, bootstrap clusterizzato, McNemar a livello di caso) dopo correzione Holm&ndash;Bonferroni. Con N=15 unit&agrave; indipendenti, il minimo effetto rilevabile (MDE) &egrave; &asymp;25 punti percentuali.
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px">
+      <div style="padding:12px;border-radius:6px;border:1px solid var(--green);background:var(--green-light)">
+        <div style="font-size:0.75rem;color:var(--green);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;font-weight:700">Cosa possiamo dire</div>
+        <div style="font-size:0.84rem;color:var(--text-muted)">V2_TEXT non &egrave; dimostrabilmente inferiore ai metodi pi&ugrave; verbosi, con un vantaggio di 39&ndash;180&times; in efficienza di token.</div>
+      </div>
+      <div style="padding:12px;border-radius:6px;border:1px solid var(--threshold);background:var(--threshold-light)">
+        <div style="font-size:0.75rem;color:var(--threshold);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;font-weight:700">Cosa non possiamo dire</div>
+        <div style="font-size:0.84rem;color:var(--text-muted)">Non possiamo dichiarare equivalenza (campione troppo piccolo). Differenze moderate non sono escludibili.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">F13: il caso pi&ugrave; difficile</div>
+    <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">
+      Il guasto F13 (drift lento) mostra recall basso in tutti i bracci (0.333&ndash;0.778), ma con pattern diversi per braccio:
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.84rem">
+      <div style="padding:10px;border-radius:6px;background:#f3f6f8">
+        <strong>V2_TEXT:</strong> recall F13 = 0.778 (errori &rarr; misclassificazione come F8)
+      </div>
+      <div style="padding:10px;border-radius:6px;background:#f3f6f8">
+        <strong>RAW / CGTIME:</strong> recall F13 = 0.667 / 0.556 (errori &rarr; astensioni)
+      </div>
+    </div>
+    <p style="margin:10px 0 0;font-size:0.84rem;color:var(--text-muted)">
+      RAW_FEATURES e CGTIME_STATS raggiungono selective accuracy = 1.000 (quando rispondono, non sbagliano mai), ma con copertura inferiore. Il pattern &egrave; arm-dependent, non universale.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Caveat metodologici</div>
+    <ul style="margin:0;padding-left:18px;font-size:0.84rem;color:var(--text-muted);list-style:disc">
+      <li style="margin-bottom:6px"><strong>Confound informazione&ndash;rappresentazione:</strong> V2_TEXT include conoscenza di dominio (soglie, trend); gli altri bracci no. L&rsquo;esperimento testa formato + informazione insieme.</li>
+      <li style="margin-bottom:6px"><strong>4 guasti su 28:</strong> coperti F1 (step), F8 (stocastico), F10 (step), F13 (drift). Non generalizzabile a tutti i fault TEP.</li>
+      <li style="margin-bottom:6px"><strong>Un solo LLM:</strong> GPT-5.6-terra. Un altro modello potrebbe cambiare il ranking.</li>
+      <li><strong>Costo preprocessing V2:</strong> il risparmio di token &egrave; reale, ma il preprocessing conformal ha un costo computazionale esterno al budget del prompt.</li>
+    </ul>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span>Primo confronto sistematico head-to-head di strategie di rappresentazione TS&rarr;testo per fault diagnosis con LLM. Verdetto della review esterna: <strong>GO-with-reservations</strong> (pubblicabile con qualificazioni, non come risultato conclusivo).</span>
+  </div>
+</div>
+
+
+<!-- ==================== STEP 18: CRITICHE E REVIEW ==================== -->
+<div class="step-container" data-step="18">
   <div class="phase-badge" style="background:var(--threshold-light);color:var(--threshold)">Critiche e review</div>
   <h1 class="step-title">Analisi critica e posizionamento</h1>
   <p class="step-intro">Raccolta delle analisi critiche che esaminano le potenziali obiezioni dei reviewer e il posizionamento del progetto FoT-TEP rispetto alla letteratura. Ogni sezione &egrave; espandibile: clicca sul titolo per leggere l'analisi completa.</p>
@@ -1801,7 +1951,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <p><strong>T2SP</strong> (Kim et al., giugno 2026): decomposizione deterministica in trend, periodicit&agrave;, eventi, residui. Training-free e invertibile, ma <strong>solo univariato</strong> &mdash; non gestisce 41 variabili simultanee.</p>
 
       <h3>Le 4 risposte chiave</h3>
-      <p><strong>1. &Egrave; un punto critico?</strong> Rischio moderato. Non bloccante, ma un reviewer informato pu&ograve; contestare l'assenza di confronto con alternative. Raccomandato almeno un esperimento ablativo minimale (stesso LLM, tre rappresentazioni: testo V2, numerico, SAX).</p>
+      <p><strong>1. &Egrave; un punto critico?</strong> Rischio mitigato. L&rsquo;ablation a 4 bracci (V2_TEXT, RAW_FEATURES, CGTIME_STATS, SAX_SYMBOLIC) &egrave; stata completata su 15 casi TEP: nessuna differenza statisticamente significativa tra i primi tre bracci, con V2 che usa 39&ndash;180&times; meno token. Vedi <a href="javascript:goTo(17)" style="color:var(--accent-a);font-weight:600">Step 8 &middot; Ablation</a>.</p>
       <p><strong>2. Alternative in letteratura?</strong> Rischio basso. Esistono ma nessuna &egrave; un sostituto diretto. FoT-TEP &egrave; l'unico nell'intersezione di: determinismo completo, calibrazione conformal, neutralit&agrave; diagnostica, semantica temporale formale, scala multivariata.</p>
       <p><strong>3. Comparazioni esistenti?</strong> Rischio moderato. Tre benchmark recenti (BEDTime, CGTime, T2SP) ma nessuno include approcci deterministici. L'assenza di confronto &egrave; sia un vantaggio sia una vulnerabilit&agrave;.</p>
       <p><strong>4. Il problema &egrave; abbastanza discusso?</strong> Rischio basso. Campo maturo ma non saturo. La nicchia FoT-TEP ha zero occupanti diretti.</p>
@@ -1818,7 +1968,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       </table>
 
       <h3>Raccomandazioni operative</h3>
-      <p>Nella <strong>Related Work</strong>: posizionare attorno a tre filoni (TS&rarr;testo generativo, TS&rarr;testo deterministico, TS&rarr;LLM via rappresentazione intermedia). Come <strong>esperimento aggiuntivo</strong>: ablation a tre bracci sullo stesso LLM (testo V2, serializzazione numerica, SAX). Come <strong>framing</strong>: &ldquo;primo approccio deterministico con calibrazione statistica formale per la verbalizzazione fedele di serie temporali multivariate industriali, progettato per architetture multi-agente.&rdquo;</p>
+      <p>Nella <strong>Related Work</strong>: posizionare attorno a tre filoni (TS&rarr;testo generativo, TS&rarr;testo deterministico, TS&rarr;LLM via rappresentazione intermedia). <strong>Esperimento completato</strong>: ablation a quattro bracci sullo stesso LLM (V2, numerico, CGTime-stats, SAX) &mdash; risultati nel passo precedente. Come <strong>framing</strong>: &ldquo;primo approccio deterministico con calibrazione statistica formale per la verbalizzazione fedele di serie temporali multivariate industriali, progettato per architetture multi-agente.&rdquo;</p>
 
       <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Fonti: CGTime (arXiv:2608.05238), T2SP (arXiv:2606.12481), BEDTime (arXiv:2509.05215), TRUCE (EMNLP 2021), Fuzzy D2T (2017), SAX_HAR-LLM (2026), survey Chen et al. TMLR 2026.</em></p>
     </div>
@@ -1977,6 +2127,7 @@ const STEPS = [
   {phase:'b',label:'5. Risultati'},
   {phase:'b',label:'6. C vs B'},
   {phase:'b',label:'7. Exp 2'},
+  {phase:'b',label:'8. Ablation'},
   {phase:'critiche',label:'Critiche'}
 ];
 
