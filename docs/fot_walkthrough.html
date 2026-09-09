@@ -1871,29 +1871,34 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     </button>
     <div class="critica-body">
       <div class="verdict-box">
-        <strong>In sintesi:</strong> Review sistematica che stabilisce come posizionare FoT-TEP rispetto allo stato dell'arte per la Special Session &ldquo;Federated Learning on Big Data&rdquo;. Il paper &egrave; in-scope se inquadrato come collaborative/federated knowledge transfer, non come FL parametrico classico.
+        <strong>In sintesi (Rev. 2, 2026-09-09):</strong> Review sistematica che stabilisce come posizionare FoT-TEP rispetto allo stato dell'arte per la Special Session &ldquo;Federated Learning on Big Data&rdquo;. Il paper &egrave; in-scope se inquadrato come collaborative/federated knowledge transfer, non come FL parametrico classico. <strong>Submission readiness: PLAUSIBLE (limite alto di plausible)</strong>, con l'aggiunta di EXP3_V2 (replica), Condition C (riferimento centralizzato) e Exp 2 Qwen in corso.
       </div>
 
       <h3>Scope per la Special Session</h3>
-      <p>Il lavoro tocca genuinamente <em>collaborative learning</em>, <em>non-IID</em>, <em>novel architecture</em> e <em>benchmarking</em>. Tuttavia la sessione ha impostazione FL classica. Il sistema FoT <strong>non aggrega n&eacute; gradienti n&eacute; pesi</strong>: scambia insight testuali. &Egrave; in-scope come collaborative/federated knowledge transfer.</p>
+      <p>Il lavoro tocca genuinamente <em>collaborative learning</em>, <em>non-IID</em>, <em>novel architecture</em> e <em>benchmarking</em>. Tuttavia la sessione ha impostazione FL classica. Il sistema FoT <strong>non aggrega n&eacute; gradienti n&eacute; pesi</strong>: scambia insight testuali. &Egrave; in-scope come collaborative/federated knowledge transfer. Usare &ldquo;federated knowledge transfer&rdquo; o &ldquo;federated (textual) knowledge sharing&rdquo;, mai &ldquo;Federated Learning&rdquo; nudo.</p>
 
       <h3>Novit&agrave; verificate</h3>
       <p><strong>Federation over Text su TS industriali:</strong> nessun precedente trovato. La catena evolutiva FL va da FedAvg (2017) &rarr; FedMD (2019) &rarr; FedProto (2022) &rarr; FedGen (2022) &rarr; FoT (2026). Ogni passo riduce ci&ograve; che viene scambiato; FoT &egrave; il primo a scambiare testo.</p>
       <p><strong>Diagnosi di classi unseen via testo:</strong> task non presente in nessun paper FL-FDD. I paper FL-FDD esistenti lavorano su classi note distribuite in modo non-IID, non su classi assenti localmente.</p>
+      <p><strong>Novelty difendibile:</strong> non il metodo FoT (che &egrave; di Yao et al.), ma la combinazione: prima applicazione documentata di FoT a TS multivariate / diagnosi guasti, sotto non-IID class-disjoint (missing-class), con controllo di specificit&agrave; pre-registrato (B vs E, derangement delle pseudolabel).</p>
 
-      <h3>Vulnerabilit&agrave; principali da gestire</h3>
+      <h3>Vulnerabilit&agrave; principali e stato</h3>
       <ul>
-        <li><strong>&ldquo;Un solo LLM proprietario&rdquo;</strong> &mdash; critica quasi-fatale. Mitigazione: Experiment 2 (cross-model replication con reasoner open-weight).</li>
-        <li><strong>&ldquo;Solo 3 run per guasto&rdquo;</strong> &mdash; obiezione statistica. Mitigazione: Experiment 3 (fresh prospective physical-run extension).</li>
+        <li><strong>&ldquo;Un solo LLM proprietario&rdquo;</strong> &mdash; critica quasi-fatale. <span style="color:var(--accent-a)">&#x1F504; Exp 2 Qwen 27B in corso</span> (protocollo frozen, probe 19/19 PASS, full run 540 inferenze avviato).</li>
+        <li><strong>&ldquo;Solo 3 run per guasto&rdquo;</strong> &mdash; <span style="color:var(--green)">&#x2705; Risolto</span> con EXP3_V2: 24 nuovi run (6/classe), criterio di replica soddisfatto.</li>
+        <li><strong>&ldquo;Manca un comparatore centralizzato&rdquo;</strong> &mdash; <span style="color:var(--green)">&#x2705; Risolto</span> con Condition C: 15/15, C&minus;B=+0.139 concentrato su F8. Riferimento esplorativo post-hoc, non benchmark.</li>
         <li><strong>&ldquo;Nessuna privacy formale&rdquo;</strong> &mdash; non dichiarare privacy; dichiarare data-free communication.</li>
-        <li><strong>&ldquo;Metrica non standard&rdquo;</strong> &mdash; il protocollo usa bootstrap CI + held-out + criteri pre-specificati. Solido ma non standard ML benchmarking.</li>
+        <li><strong>Degradazione local-seen in B (EXP3_V2)</strong> &mdash; nuovo segnale: B=19/24 vs A=24/24. Gli insight peer possono interferire col riconoscimento di fault gi&agrave; noti. Da riportare trasparentemente.</li>
       </ul>
 
       <h3>Claim difendibili vs non difendibili</h3>
-      <p><strong>Difendibile:</strong> FoT-TEP &egrave; il primo esperimento di textual knowledge federation su TS multivariate industriali; la pipeline Phase A &egrave; deterministica e frozen; il protocollo di valutazione &egrave; pre-specificato con criteri blinded.</p>
-      <p><strong>Non difendibile:</strong> &ldquo;FoT &egrave; migliore di FL classico&rdquo; (non confrontabile); &ldquo;il metodo generalizza oltre TEP&rdquo; (non testato); &ldquo;il protocollo garantisce privacy&rdquo; (non &egrave; l'obiettivo).</p>
+      <p><strong>Difendibile:</strong> FoT-TEP &egrave; il primo esperimento di textual knowledge federation su TS multivariate industriali; la pipeline Phase A &egrave; deterministica e frozen; il protocollo di valutazione &egrave; pre-specificato con criteri blinded; l'effetto si riproduce su nuove realizzazioni fisiche (EXP3_V2).</p>
+      <p><strong>Non difendibile:</strong> &ldquo;FoT &egrave; migliore di FL classico&rdquo; (non confrontabile); &ldquo;il metodo generalizza oltre TEP&rdquo; (non testato); &ldquo;il protocollo garantisce privacy&rdquo; (non &egrave; l'obiettivo); &ldquo;we propose FoT&rdquo; (FoT &egrave; di Yao et al.).</p>
 
-      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Documento completo: FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md (~91KB, ~2000 righe). Analisi basata su oltre 100 paper (2017&ndash;2026) da OpenAlex, Scopus, ArXiv, Crossref, Google Scholar.</em></p>
+      <h3>Verdetto finale</h3>
+      <p><strong>Submission difendibile = S&Igrave;</strong>, con condizioni residue attenuate, nella versione Balanced, se: (a) framing e attribuzione corretti; (b) Condition C presente e inquadrata come riferimento esplorativo; (c) floor/scala/limiti/degradazione local-seen esposti onestamente; (d) Exp 2 Qwen completato o dichiarato in Limitations.</p>
+
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Documento completo: FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md (~102KB). Rev. 2 (2026-09-09). Analisi basata su oltre 100 paper (2017&ndash;2026) da OpenAlex, Scopus, ArXiv, Crossref, Google Scholar.</em></p>
     </div>
   </div>
 
@@ -1905,25 +1910,38 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     </button>
     <div class="critica-body">
       <div class="verdict-box">
-        <strong>In sintesi:</strong> Pacchetto di 4 esperimenti pre-specificati che racconta una storia ordinata: mechanism &rarr; semantic specificity &rarr; cross-model portability &rarr; fresh-run replication &rarr; communication payload characterization.
+        <strong>In sintesi (Rev. 3, 2026-09-09):</strong> La storia raccomandata &egrave; ora <strong>in gran parte realizzata</strong>: mechanism &rarr; semantic specificity &rarr; fresh-run replication &rarr; cross-model portability &rarr; centralized reference &rarr; communication payload characterization. Package B (recommended for acceptance) in gran parte completato.
       </div>
 
-      <h3>Experiment 1 (frozen &mdash; gi&agrave; completato)</h3>
-      <p>Condizioni A/B/E con pseudolabel, held-out, bootstrap, criteri pre-specificati, verbalizer V2. <strong>&Egrave; frozen e immutabile.</strong> Ogni aggiunta &egrave; un nuovo esperimento separato, congelato prima di vederne gli esiti.</p>
+      <h3>Stato di avanzamento</h3>
+      <table>
+        <tr><th>Componente</th><th>Stato</th><th>Risultato chiave</th></tr>
+        <tr><td>Exp 1 &mdash; Mechanism isolation</td><td style="color:var(--green)">&#x2705; Frozen</td><td>A=0/36, B=31/36, E=3/36. B&minus;A=+0.861</td></tr>
+        <tr><td>EXP3_V2 &mdash; Fresh-run replication</td><td style="color:var(--green)">&#x2705; Completato</td><td>A=0/72, B=68/72, E=4/72. B&minus;A=+0.944. Criterio replica soddisfatto</td></tr>
+        <tr><td>Condition C &mdash; Centralized pooled ICL</td><td style="color:var(--green)">&#x2705; Completato</td><td>15/15 correct. C&minus;B=+0.139 (concentrato su F8). Esplorativo</td></tr>
+        <tr><td>Exp 2 &mdash; Cross-model (Qwen 27B)</td><td style="color:var(--accent-a)">&#x1F504; In corso</td><td>Protocollo frozen, probe 19/19 PASS, full run 540 inf. avviato</td></tr>
+        <tr><td>Payload characterization</td><td style="color:var(--text-caption)">&#x2B1C; Da fare</td><td>Costo ~0 dagli artefatti frozen</td></tr>
+        <tr><td>Exp 4 &mdash; Insight ablation</td><td style="color:var(--text-caption)">&#x2B1C; Solo se tempo</td><td>&mdash;</td></tr>
+      </table>
 
-      <h3>Experiment 2 &mdash; Cross-model replication</h3>
-      <p>Consuma gli insight testuali frozen di Experiment 1 con <strong>reasoner diversi</strong> (open-weight). Risolve la critica &ldquo;un solo LLM proprietario, non deterministico, non riproducibile&rdquo;. L'open-weight &egrave; anche l'&agrave;ncora di riproducibilit&agrave;. Distinzione esplicita tra <em>producer</em> (chi genera gli insight) e <em>consumer</em> (chi li usa per diagnosticare).</p>
+      <h3>Experiment 2 &mdash; Cross-model replication (in corso)</h3>
+      <p>Consumer open-weight: <strong>Qwen3.8-27B-FP8</strong> via vLLM 0.28.0, 1 GPU (NVIDIA RTX 5000 Ada). Producer invariato (gpt-5.6-terra). Protocollo frozen: tag <code>phase-b-exp2-qwen-protocol-frozen-001</code>. Probe: <strong>19/19 PASS</strong>, verdetto GO. Full run 540 inferenze avviato, nessun risultato scientifico ancora disponibile. Risolve la critica &ldquo;un solo LLM proprietario&rdquo;.</p>
 
-      <h3>Experiment 3 &mdash; Fresh prospective extension</h3>
-      <p>Nuovi run indipendenti degli <strong>stessi 4 guasti</strong>, generati dopo il freeze del protocollo. Attacca la vulnerabilit&agrave; &ldquo;solo 3 run per guasto&rdquo; (n=12). &Egrave; precisione e replica, non generalizzazione di classe. I risultati vengono poi poolati con Experiment 1.</p>
+      <h3>Degradazione local-seen (nuovo segnale)</h3>
+      <p>In EXP3_V2, B scende a <strong>19/24 sui fault gi&agrave; noti</strong> (vs A=24/24). Cinque errori concentrati: Agent 4 su F13-002/003/004/005, Agent 2 su F8-003. In Exp 1 era 12/12 in tutte le condizioni. <strong>Non invalida</strong> il primary result unseen, ma va riportato trasparentemente come osservazione per il disegno futuro.</p>
 
-      <h3>Experiment 4 &mdash; Focused insight ablation</h3>
-      <p><strong>Solo se resta tempo.</strong> Condizioni ridisegnate: full vs core-semantic vs reduced-library vs no-provenance. Eliminati pattern-only e label-only (quasi tautologici col label space opaco). Declassata a bassa priorit&agrave;, si sovrappone alle ablation di FoT originale.</p>
+      <h3>Red team finale (Rev. 3)</h3>
+      <p><strong>Nessuna critica fatale.</strong> Reviewer A (FL): termine corretto + catena FedMD&rarr;FoT (moderate). Reviewer B (LLM/FoT): delta vs FoT pi&ugrave; forte dopo EXP3_V2 e Condition C (moderate-minor se Exp 2 conferma). Reviewer C (TS/FDD): solo 4 guasti (moderate). Reviewer D (stat): criterio di replica soddisfatto, degradazione local-seen da riportare (minor).</p>
 
-      <h3>Comunicazione e payload</h3>
-      <p>Caratterizzazione del <strong>payload comunicativo</strong>: tre quantit&agrave; separate (dimensione insight, numero scambi, rapporto vs raw data). Mai chiamata &ldquo;efficiency&rdquo; &mdash; il termine ha implicazioni diverse. Costo ~0, calcolabile dagli artefatti frozen.</p>
+      <h3>Cosa resta da fare (~3 settimane alla deadline)</h3>
+      <ul>
+        <li>&#x1F504; Completare Exp 2 Qwen 27B (priorit&agrave; corrente)</li>
+        <li>&#x2B1C; Communication payload characterization (~0 costo)</li>
+        <li>&#x2B1C; Framing + terminologia + PV-motivation + delta vs FoT</li>
+        <li>&#x2B1C; Scrittura del paper (10 pagine IEEE 2-col)</li>
+      </ul>
 
-      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Documento completo: FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md (~32KB). Companion della Literature Review. Deadline: 30 settembre 2026.</em></p>
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Documento completo: FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md (~38KB). Rev. 3 (2026-09-09). Companion della Literature Review. Deadline: 30 settembre 2026.</em></p>
     </div>
   </div>
 

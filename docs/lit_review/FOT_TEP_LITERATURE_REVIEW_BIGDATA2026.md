@@ -95,18 +95,22 @@ non-IID + LLM" è **già occupata** a livello concettuale. La nostra difesa resi
 tipo di non-IID missing-class + controllo di specificità*, non il paradigma in sé.
 
 **6. Principale minaccia metodologica.**
-La scala e il *floor* del baseline. A = **0/36** sulle classi non viste [FATTO — REPO] genera un
-B−A enorme (+0.861) ma **strutturale**: A è privo di evidenza class-semantica per le classi unseen.
-Inoltre: 12 fault-run fisici indipendenti (non 36), un solo LLM (`gpt-5.6-terra`, temperature/seed
-non esposti), un solo simulatore/mode, 4 guasti. Rischio "evidenza di feasibility, non di
-generalizzazione".
+La scala e il *floor* del baseline. A = **0/36** (Exp 1) e **0/72** (EXP3_V2) sulle classi non viste
+[FATTO — REPO] genera contrasti B−A enormi (+0.861 e +0.944) ma **strutturali**: A è privo di
+evidenza class-semantica per le classi unseen. Inoltre: 12+24=36 fault-run fisici indipendenti
+totali (due esperimenti), un solo LLM producer (`gpt-5.6-terra`, temperature/seed non esposti; Exp 2
+con consumer Qwen **in corso**), un solo simulatore/mode, 4 guasti. La degradazione local-seen
+emersa in EXP3_V2 (B=19/24 vs A=24/24) aggiunge un segnale da discutere. Rischio "evidenza di
+feasibility, non di generalizzazione" — attenuato dalla replica su nuovi run ma non eliminato.
 
-**7. Baseline aggiuntiva più probabilmente richiesta.**
-Un **comparatore a informazione equivalente ma centralizzato/pooled** (central-ICL o pooled
-textual knowledge): stessi 6 insight forniti a un singolo agente centrale, per isolare il valore
-della *provenance distribuita* rispetto al semplice avere l'informazione. Il team lo dichiara già
-come questione aperta [FATTO — REPO, `FoT versus central ICL`]. È il buco più citabile da un
-reviewer FL.
+**7. Baseline aggiuntiva più probabilmente richiesta — ORA COMPLETATA come Condition C.**
+Il comparatore a informazione equivalente ma centralizzato/pooled (central-ICL) **è stato
+implementato** come **Condition C** — *centralized full-information pooled ICL post-hoc exploratory
+reference* — sul held-out di Experiment 1 (15 casi). Risultato: **C = 15/15 (100%)**, 0 astensioni.
+Delta paired C−B = **+0.1389** [0.0833, 0.1667] (bootstrap 10k, seed 20260906); l'intero vantaggio
+è concentrato sui 3 casi F8 (CLS-OJNSG). C non è stato eseguito sui run EXP3_V2. Il "buco più
+citabile" è ora **parzialmente colmato**: esiste un riferimento centralizzato, anche se limitato
+a un held-out e con differenze strutturali nel contesto (10 esempi pooled vs 4 locali).
 
 **8. Possiamo presentare FoT come Federated Learning senza qualificazioni?**
 **No.** Gli stessi autori originali lo definiscono *"federated learning-like"* / *"analogous to
@@ -119,13 +123,16 @@ Preferire **"federated (textual) knowledge transfer"** o **"federated knowledge 
 FoT nominato come metodo di riferimento; evitare "Federated Learning" nudo, "privacy-preserving",
 "robust", "generalizable", "secure". Vedi OUTPUT 5.
 
-**10. Submission readiness: PLAUSIBLE (al limite basso di *plausible*).**
-[INTERPRETAZIONE] La combinazione dominio + controllo di specificità + rigore di freeze è un
-contributo onesto e pubblicabile in una sessione speciale, *a condizione* di (a) framing
-terminologico corretto, (b) aggiunta o discussione seria del comparatore a informazione
-equivalente, (c) esposizione esplicita del floor di A e della scala. Senza almeno la discussione
-rigorosa di (b), scivola verso *risky* di fronte a un reviewer FL. Non è *strong* perché la
-novelty di metodo appartiene a Yao et al. e la scala è piccola.
+**10. Submission readiness: PLAUSIBLE (al limite alto di *plausible*) ← aggiornato.**
+[INTERPRETAZIONE] L'aggiunta di EXP3_V2 (replica su 24 nuovi run), Condition C (riferimento
+centralizzato) e l'avvio di Exp 2 Qwen (portabilità cross-model) ha spostato il giudizio verso
+l'alto. La combinazione dominio + controllo di specificità + rigore di freeze + **replica
+confirmatory + riferimento centralizzato** è un contributo onesto e pubblicabile in una sessione
+speciale, a condizione di (a) framing terminologico corretto, (b) esposizione esplicita del floor
+di A, della scala e della degradazione local-seen, (c) inquadramento corretto di Condition C come
+riferimento post-hoc esplorativo. Con il **completamento di Exp 2** (Qwen, attualmente in corso)
+e la discussione onesta dei limiti, la submission può avvicinarsi a *solid*. Non è *strong* perché
+la novelty di metodo appartiene a Yao et al. e la scala resta contenuta.
 
 ---
 
@@ -184,14 +191,20 @@ Tutto in questa sezione è **[FATTO — REPO]** salvo dove indicato.
   valida, altrimenti **abstention** (contata come *incorrect* nella primaria). 540 record
   individuali → 180 aggregati. Token totali 1,207,146. [INTERPRETAZIONE] un solo modello,
   proprietario, non deterministico e con nome inusuale: punto di attacco per il Reviewer D.
-- **Unità statistica:** **12 fault-run fisici indipendenti** (4 pseudoclassi × 3 run); ogni run è
-  unseen per 3 agenti ⇒ **36 osservazioni agent-case correlate** per condizione. Held-out totale =
-  15 casi (12 guasti + 3 Normal); overall = 60 = 15×4 agenti. Bootstrap **cluster-pairato**, 10.000
-  draws, seed `20260829`, ricampionando `physical_case_id` entro 4 strati.
+- **Unità statistica (Exp 1):** **12 fault-run fisici indipendenti** (4 pseudoclassi × 3 run); ogni
+  run è unseen per 3 agenti ⇒ **36 osservazioni agent-case correlate** per condizione. Held-out
+  totale = 15 casi (12 guasti + 3 Normal); overall = 60 = 15×4 agenti. Bootstrap **cluster-pairato**,
+  10.000 draws, seed `20260829`, ricampionando `physical_case_id` entro 4 strati.
+- **Unità statistica (EXP3_V2):** **24 fault-run fisici indipendenti** (4 pseudoclassi × 6 run) +
+  6 Normal ⇒ **72 osservazioni agent-case unseen** per condizione. Overall = 120 = 30×4 agenti.
+  Bootstrap cluster-pairato, 10.000 draws, seed `320031`, ricampionando `physical_case_id` entro 4
+  strati.
 
-## A.4 Risultati frozen (verificati in `EVALUATION_REPORT.md`)
+## A.4 Risultati frozen
 
-**Primaria — classi localmente non viste:**
+### A.4.1 Experiment 1 (Fase 1) — verificati in `EVALUATION_REPORT.md`
+
+**Primaria — classi localmente non viste (12 run fisici, 36 agent-case):**
 
 | Condizione | Corretti / n | Accuracy | Abstention |
 |---|---:|---:|---:|
@@ -220,14 +233,91 @@ Tutto in questa sezione è **[FATTO — REPO]** salvo dove indicato.
 tentativi) 78 riconoscono l'anomalia ma dichiarano di non poterla mappare; **zero** falsi "Normal".
 [INTERPRETAZIONE] A è *information-deprived*, non malfunzionante (seen-fault 12/12, Normal 12/12).
 
-## A.5 Cosa il repository dichiara di NON dimostrare (vincolante)
+### A.4.2 EXP3_V2 (Fase 2) — Replica confirmatory su nuove realizzazioni
 
-[FATTO — REPO, `FOT_TEP_POC_FINAL_SYNTHESIS §5`, `LLM_REFERENCE "Do not claim"`]: **non** "+86 punti
-in generale" (baseline a floor); **non** assenza di negative transfer (harmed=0 è aritmetico, A non
-ha casi unseen corretti da peggiorare); **non** generalizzazione (12 run, un simulatore, un mode, 4
-guasti, un LLM); **non** "il verbalizer classifica"; **non** privacy formale; **non** superiorità
-dimostrata su central-ICL (questione aperta). Questa disciplina di claim è già scritta nel repo:
-il paper deve ereditarla.
+24 nuovi run di fault (6 per classe) + 6 Normal; protocollo identico a Exp 1, congelato
+*prima* della generazione dei dati. 72 agent-case unseen per configurazione informativa.
+
+**Primaria — classi localmente non viste (24 run fisici, 72 agent-case):**
+
+| Condizione | Corretti / n | Accuracy | Astensioni | Errori committed |
+|---|---:|---:|---:|---:|
+| A — isolated | 0 / 72 | 0.0% | 30 | 42 |
+| B — FoT | 68 / 72 | 94.4% | 0 | 4 |
+| E — corrupted | 4 / 72 | 5.6% | 0 | 68 |
+
+- **B−A = +0.9444** [0.8611, 1.0] — contrasto primario; entrambi i criteri pre-specificati di
+  replica soddisfatti (Δ > 0 *e* CI-inf > 0). Bootstrap 10k, 24 cluster, seed 320031.
+- **B−E = +0.8889** [0.7778, 0.9861] — evidenza supporting per specificità semantica.
+- Per-fault accuracy B: F1 18/18, F8 16/18, F10 18/18, F13 16/18.
+- Per-agent unseen accuracy B: Agent 1 16/18, Agent 2 18/18, Agent 3 16/18, Agent 4 18/18.
+- I 4 errori unseen concentrati su EXP3V2-F8-003 (Agent 1 + Agent 3) e EXP3V2-F13-002
+  (Agent 1 + Agent 3).
+
+**Secondarie (preservazione) — SEGNALE DI DEGRADAZIONE LOCAL-SEEN:**
+
+| Sottoinsieme | A | B | E |
+|---|---:|---:|---:|
+| Local-seen fault (24) | **24/24 (100%)** | **19/24 (79.2%)** | 22/24 (91.7%) |
+| Normal (24) | 24/24 (100%) | 24/24 (100%) | 24/24 (100%) |
+| Overall (120) | 48/120 (40.0%) | 111/120 (92.5%) | 50/120 (41.7%) |
+
+**⚠ Degradazione local-seen di B.** In Exp 1 i local-seen erano 12/12 in tutte le condizioni.
+In EXP3_V2, B scende a 19/24: **5 errori local-seen** quando si aggiungono insight peer (Agent 4
+su F13-002,-003,-004,-005; Agent 2 su F8-003). Anche E mostra leggera degradazione (22/24).
+Segnale descrittivo: gli insight peer possono interferire con il riconoscimento di fault già noti.
+Il fenomeno non era osservabile col campione più piccolo di Exp 1. Non altera il primary result
+unseen, ma va registrato e discusso.
+
+### A.4.3 Tabella comparativa Exp 1 vs EXP3_V2
+
+| Dimensione | Exp 1 (Fase 1) | EXP3_V2 (Fase 2) |
+|---|---|---|
+| Run di fault | 12 (3/classe) | 24 (6/classe) |
+| Agent-case unseen | 36 | 72 |
+| A unseen | 0/36 | 0/72 |
+| B unseen | 31/36 (86.1%) | 68/72 (94.4%) |
+| E unseen | 3/36 (8.3%) | 4/72 (5.6%) |
+| B−A [CI 95%] | +0.861 [0.833, 0.917] | +0.944 [0.861, 1.0] |
+| B−E [CI 95%] | +0.778 [0.722, 0.833] | +0.889 [0.778, 0.986] |
+| Local-seen B | 12/12 (100%) | 19/24 (79.2%) — degradaz. |
+| Normal B | 12/12 (100%) | 24/24 (100%) |
+
+### A.4.4 Condition C — Centralized full-information pooled ICL (post-hoc, solo Exp 1 held-out)
+
+Un singolo agente con **10 esempi pooled** (2 per ciascuna delle 4 classi fault + 2 Normal) e
+**tutti gli 8 insight** (inclusi quelli che in B sarebbero propri) classifica i 15 casi del held-out
+di Exp 1. C e B differiscono in quantità e forma del contesto: il confronto è **descrittivo e non
+causale**.
+
+| Scope | Corretti / casi | Accuratezza | Astensioni |
+|---|---:|---:|---:|
+| Fault | 12 / 12 | 100.0% | 0 |
+| Normal | 3 / 3 | 100.0% | 0 |
+| Overall | 15 / 15 | 100.0% | 0 |
+
+**Delta paired C−B (12 casi fault):** C−B = **+0.1389** [0.0833, 0.1667] (bootstrap 10k, seed
+20260906). L'intero vantaggio di C è concentrato sui **3 casi F8** (CLS-OJNSG). Per gli altri 9
+casi fault il delta è zero. C è una **centralized full-information pooled ICL post-hoc exploratory
+reference**: colloca B entro lo stesso paradigma testuale, con risoluzione effettiva limitata (3
+cluster per strato, griglia discreta di 5 valori).
+
+[INTERPRETAZIONE] C fornisce un primo riferimento centralizzato ma **non autorizza** una lettura
+causale di superiorità. C non è stato eseguito sui run EXP3_V2.
+
+## A.5 Cosa il repository dichiara di NON dimostrare (vincolante) — aggiornato
+
+[FATTO — REPO, `FOT_TEP_POC_FINAL_SYNTHESIS §5`, `LLM_REFERENCE "Do not claim"`]: **non** "+86/94
+punti in generale" (baseline a floor); **non** assenza di negative transfer (harmed=0 su unseen è
+aritmetico, A non ha casi unseen corretti da peggiorare; **nota**: la degradazione local-seen di B
+in EXP3_V2 — 19/24 vs A 24/24 — è un segnale da discutere); **non** generalizzazione (36 run
+totali su due esperimenti, un simulatore, un mode, 4 guasti, un LLM producer); **non** "il verbalizer
+classifica"; **non** privacy formale; ~~**non** superiorità dimostrata su central-ICL (questione
+aperta)~~ → **parzialmente affrontata**: Condition C (15/15, post-hoc esplorativo) fornisce un primo
+riferimento centralizzato sul held-out Exp 1, con delta C−B = +0.1389 concentrato su F8; il
+confronto resta **descrittivo e non causale**, non è stato replicato su EXP3_V2, e non dimostra
+superiorità *né* inferiorità della federazione rispetto al pooling. Questa disciplina di claim è
+già scritta nel repo: il paper deve ereditarla.
 
 ---
 
@@ -697,10 +787,13 @@ di questi termini. **Esito:** *I did not identify an equivalent method in the li
 - Tengo *time-series + FDD + LLM*, tolgo *federazione* → **FD-LLM (2024/2025)** (LLM per FDD,
   centralizzati).
 
-**Verdetto novelty.** [INTERPRETAZIONE] La novelty **non è component-level**. È una **novelty di
-combinazione + dominio + evaluation design**. È reale ma **stretta**: difendibile solo se il paper
-(a) attribuisce FoT a Yao et al., (b) posiziona la combinazione e il controllo B−E come contributo,
-(c) non rivendica primati sui singoli assi. Formula sicura da usare nel paper:
+**Verdetto novelty — aggiornato.** [INTERPRETAZIONE] La novelty **non è component-level**. È una
+**novelty di combinazione + dominio + evaluation design**, ora **rafforzata** dalla replica
+confirmatory (EXP3_V2), dal riferimento centralizzato (Condition C) e dall'avvio della portabilità
+cross-model (Exp 2 Qwen). Resta **stretta ma più solida**: difendibile se il paper (a) attribuisce
+FoT a Yao et al., (b) posiziona la combinazione, il controllo B−E e la replica come contributo,
+(c) non rivendica primati sui singoli assi, (d) discute la degradazione local-seen.
+Formula sicura da usare nel paper:
 > *"To the best of our knowledge, we did not identify a prior method that federates locally-derived
 > textual knowledge across agents with class-disjoint temporal experience to recognize locally
 > unseen fault conditions, under a preregistered semantic-specificity control."*
@@ -718,7 +811,9 @@ Mai *"no such method exists"*.
 - **Evaluation novelty — moderata/alta (il pezzo migliore).** Il disegno **A/B/E con derangement
   pre-registrato** e la disciplina di freeze/held-out/pseudolabel sono un contributo metodologico
   concreto e trasferibile. Il controllo **B−E** (specificità semantica a parità di testo) è raro in
-  questo filone.
+  questo filone. Rafforzato da: **replica confirmatory** (EXP3_V2, +0.944/+0.889); **riferimento
+  centralizzato** esplorativo (Condition C, 15/15); **portabilità cross-model** in corso (Exp 2 Qwen).
+  La rilevazione della **degradazione local-seen** aggiunge un segnale onesto e non ovvio.
 - **Domain novelty — moderata.** Prima applicazione documentata di FoT-like a **diagnosi TS
   multivariata / TEP**. Reale ma "applicativa".
 - **Methodological novelty — bassa/moderata.** La separazione `deterministic evidence → local
@@ -748,8 +843,9 @@ inconsistente). Nella federated-KD, ablazioni tipiche variano *quantità* o *fon
 l'associazione semantica a parità di volume è meno comune** ed è il punto di forza.
 
 **Può B−E essere presentato come evidenza di specificità semantica?** [INTERPRETAZIONE] **Sì, con
-linguaggio calibrato.** B−E = +0.778 (CI [0.722, 0.833]) isola la variabile "correttezza
-dell'associazione" tenendo fisso il "volume di testo". Linguaggio corretto:
+linguaggio calibrato.** B−E = +0.778 (CI [0.722, 0.833]) in Exp 1 e **+0.889 (CI [0.778, 0.986])**
+in EXP3_V2 isolano la variabile "correttezza dell'associazione" tenendo fisso il "volume di testo",
+con replica su campione indipendente raddoppiato. Linguaggio corretto:
 > *"supports the interpretation that the benefit depends on the correctness of the transferred
 > associations rather than on text volume"*.
 **Vietato:** chiamarlo prova causale di un meccanismo più ampio di quello isolato dal controllo;
@@ -762,10 +858,11 @@ contrast**, non come "endpoint primario" (coerente con la gerarchia del repo).
 
 # PARTE J — IL PROBLEMA DI A COME INFORMATION FLOOR
 
-**Fatto** [REPO]: A unseen = 0/36; 14 astensioni; 22 committed; 0/22 corrette. A è competente quando
-informato (seen-fault 12/12, Normal 12/12). Il floor **non** è impossibilità matematica (l'agente
-*ha* il token di classe nello label space, potrebbe indovinare) né dominato dall'astensione (la
-maggioranza sono committed sbagliate).
+**Fatto** [REPO]: A unseen = 0/36 (Exp 1: 14 astensioni, 22 committed, 0/22 corrette) e **0/72**
+(EXP3_V2: 30 astensioni, 42 committed, 0/42 corrette). A è competente quando informato
+(seen-fault 12/12 e 24/24, Normal 12/12 e 24/24). Il floor **non** è impossibilità matematica
+(l'agente *ha* il token di classe nello label space, potrebbe indovinare) né dominato
+dall'astensione (la maggioranza sono committed sbagliate, in entrambi gli esperimenti).
 
 **Come la letteratura tratta i baseline "senza informazione"** [EVIDENZA]: nei setting *missing-class
 / zero-shot client* è **atteso** che un client senza esempi/semantica della classe non la riconosca;
@@ -791,13 +888,14 @@ componenti (Parte K).
 Classificazione pragmatica, **tenendo conto della deadline 30/09/2026 e del limite 10 pagine senza
 appendice**.
 
-**MUST HAVE prima della submission (rischio reviewer alto se assenti):**
-- **Central/pooled equal-information ICL.** Un singolo agente riceve gli stessi 6 insight (o tutti gli
-  8) e diagnostica. Isola *provenance distribuita vs semplice disponibilità dell'informazione*. Il
-  repo lo dichiara mancante ("FoT vs central ICL = open question"). [INTERPRETAZIONE] **È l'unico
-  vero must-have**: senza, il Reviewer A/B dirà che non avete mostrato che la *federazione* aggiunge
-  qualcosa oltre "avere il testo". *Feasibility:* **alta** — riusa insight e prompt esistenti, poche
-  chiamate LLM aggiuntive, nessun nuovo dato. Fortemente consigliato entro la deadline.
+**COMPLETATO — Central/pooled equal-information ICL (Condition C):**
+- **Condition C** è stata implementata come *centralized full-information pooled ICL post-hoc
+  exploratory reference* sul held-out di Exp 1. Risultato: 15/15 (100%), C−B = +0.1389 concentrato
+  su F8. [INTERPRETAZIONE] Il "must-have" è ora **parzialmente soddisfatto**: esiste un primo
+  riferimento centralizzato. Limitazioni residue: (i) C non è stato replicato su EXP3_V2; (ii) il
+  confronto è descrittivo/non-causale (differenze strutturali nel contesto); (iii) la risoluzione
+  statistica è minima (3 cluster per strato). Il paper può presentarlo, ma va inquadrato come
+  esplorativo.
 
 **HIGH-VALUE se fattibile:**
 - **No-verbalizer / raw-numeric prompting.** Stessa pipeline ma con serie grezza serializzata invece
@@ -809,7 +907,10 @@ appendice**.
 
 **NICE TO HAVE:**
 - **Oracle textual description** della classe (upper bound del transfer testuale).
-- **Un secondo LLM** (per attenuare "un solo modello"). Fattibilità media; alto valore per Reviewer D.
+- **Un secondo LLM** (per attenuare "un solo modello"). **IN CORSO:** Exp 2 con consumer Qwen3.8-27B-FP8
+  (open-weight, vLLM 0.28.0) avviato; protocollo congelato (commit d9bb95c, tag
+  `phase-b-exp2-qwen-protocol-frozen-001`); probe 19/19 PASS, GO; full run 540 inferenze in
+  esecuzione. Alto valore per Reviewer D.
 - **Random-insight control** (oltre a E): insight testuale casuale/irrilevante, per distinguere
   "informazione sbagliata" (E) da "nessuna informazione utile".
 
@@ -819,9 +920,10 @@ appendice**.
   implementati come baseline diretta.
 - Confronto diretto di accuracy con classificatori FDD centralizzati su tutte le classi.
 
-[RACCOMANDAZIONE] **Priorità realistica entro il 30/09:** aggiungere il **central/pooled
-equal-information ICL** (must) e, se il tempo lo consente, il **secondo LLM** o il **no-verbalizer**.
-Il resto va discusso a parole in Limitations. Non serve una V3 del verbalizer né validazione PV.
+[RACCOMANDAZIONE] **Stato entro il 30/09:** il central/pooled ICL è **completato** (Condition C);
+il secondo LLM è **in corso** (Exp 2 Qwen). L'eventuale no-verbalizer resta nice-to-have e va
+discusso a parole in Limitations se non implementato. Non serve una V3 del verbalizer né
+validazione PV.
 
 ---
 
@@ -918,20 +1020,22 @@ Supported / Partially / Unsupported. "Evidence" = fonte. "Safer wording" = formu
 | First FoT application to time-series | **Partially (difendibile)** | Nessun FoT su TS identificato | Medio (preprint recente) | "to our knowledge, the first controlled application of FoT-style textual federation to multivariate time-series diagnosis" |
 | First textual federation for fault diagnosis | **Partially** | FD-LLM centralizzati; FoT non-TS | Medio | "we did not identify prior textual **federated** knowledge transfer for fault diagnosis" |
 | Handles non-IID data | **Supported** | 4 agenti class-disjoint; B−A 4/4 | Basso | "under class-disjoint (missing-class) non-IID experience" |
-| Transfers knowledge across clients | **Supported** | B−A=+0.861; B−E=+0.778 | Basso | "transfers **discriminative** textual information across agents" |
+| Transfers knowledge across clients | **Supported (rafforzato)** | Exp 1: B−A=+0.861, B−E=+0.778; EXP3_V2: B−A=+0.944, B−E=+0.889 — replica su campione 2× | Basso | "transfers **discriminative** textual information across agents" |
 | Does not exchange raw data | **Supported** | Protocollo: solo insight testuali | Basso | "raw time-series observations are not exchanged between agents" |
 | Privacy-preserving | **Unsupported** | Nessuna DP/secure agg.; leakage non testato | **Fatale** | evitare; "data locality (no raw-series exchange); we make no formal privacy claim" |
-| Semantic specificity | **Supported (as interpretation)** | B−E=+0.778, CI [.722,.833] | Basso-medio | "supports the interpretation of semantic specificity of the transferred associations" |
-| Enables locally-unseen recognition | **Supported** | A=0/36 → B=31/36 | Basso (se floor esplicitato) | "enables recognition of **locally unseen** fault conditions in this controlled setting" |
-| Robust | **Unsupported** | Un modello, 12 run, no perturbazioni | Alto | evitare; "consistent across the four agents in this PoC" |
-| Generalizable | **Unsupported** | Nessun cross-domain; PV non fatto | **Fatale** | evitare; "cross-domain generalization is not yet tested" |
+| Semantic specificity | **Supported (rafforzato)** | Exp 1: B−E=+0.778 [.722,.833]; EXP3_V2: B−E=+0.889 [.778,.986] — replicato | Basso | "supports the interpretation of semantic specificity of the transferred associations" |
+| Enables locally-unseen recognition | **Supported (rafforzato)** | Exp 1: A=0/36→B=31/36; EXP3_V2: A=0/72→B=68/72 — replicato | Basso (se floor esplicitato) | "enables recognition of **locally unseen** fault conditions in this controlled setting" |
+| Robust | **Partially (migliorato)** | 36 run totali su 2 esperimenti, 4 agenti consistenti; MA degradazione local-seen in EXP3_V2 | Medio | evitare il termine nudo; "consistent across 36 independent fault runs and four agents; local-seen degradation observed in replication" |
+| Generalizable | **Unsupported** | Nessun cross-domain; PV non fatto; Exp 2 cross-model in corso | **Fatale** | evitare; "cross-domain generalization is not yet tested; cross-model portability under evaluation" |
 | Communication efficient | **Partially** | Insight compatti, ma non misurato vs baseline | Medio | "communication is limited to compact textual insights" (senza numeri non misurati) |
 | Multivariate | **Supported** | 41 XMEAS | Basso | "multivariate (41-variable) time series" |
 | Interpretable/auditable | **Supported** | Insight NL + freeze/hash chain | Basso | "human-readable insights and a fully frozen, auditable protocol" |
 
 [INTERPRETAZIONE] Le due claim **fatali** da non fare mai: *privacy-preserving* e *generalizable*.
-Le due più forti e sicure: *no raw-data exchange* + *semantic specificity (B−E)* + *interpretable/
-auditable evaluation*.
+Le tre più forti e sicure: *no raw-data exchange* + *semantic specificity (B−E, replicata su 2
+esperimenti)* + *interpretable/auditable evaluation*. La replica EXP3_V2 e Condition C rafforzano
+complessivamente il profilo claim, ma aggiungono la necessità di discutere la degradazione
+local-seen e i limiti del confronto C−B.
 
 ---
 
@@ -990,15 +1094,19 @@ esperimento** o solo **framing**.
 3. *"B−E potrebbe riflettere che l'LLM ignora etichette sbagliate, non 'specificità semantica'."* —
    **moderate** → *framing*: linguaggio "supports the interpretation"; E=3/36≠0 mostra che non è un
    effetto banale.
-4. *"Un solo LLM, proprietario, non riproducibile (no seed/temp)."* — **major** → *nuovo esperimento
-   leggero* (secondo LLM) **o** framing forte (R=3 + aggregazione + freeze) + Limitations.
+4. *"Un solo LLM, proprietario, non riproducibile (no seed/temp)."* — **major → moderate (se Exp 2
+   completa)** → Exp 2 con consumer open-weight Qwen3.8-27B-FP8 (pesi pubblici, inferenza
+   deterministica temp=0, seed fisso) **in corso**. Se completato con risultati positivi, attenua
+   significativamente; il producer resta gpt-5.6-terra (portabilità del consumo, non end-to-end).
 
 **Reviewer C — esperto time-series/fault diagnosis (scettico su verbalizer e baseline A).**
 1. *"Il verbalizer è il vero contributo? È validato come classificatore?"* — **moderate** →
    *framing*: dichiarare verbalizer come *enabling interface* (non classificatore), citare T2SP/TRUCE;
    Phase A misura separabilità, non accuracy.
-2. *"A=0/36 è un uomo di paglia."* — **major** → *framing (floor esplicito) + baseline central-ICL*
-   (Parte K). Questo è il punto in cui un *esperimento* (central-ICL) aiuta di più.
+2. *"A=0/36 è un uomo di paglia."* — **major → moderate (con Condition C presente)** → Condition C
+   (15/15, centralizzato) fornisce un riferimento a informazione equivalente; A=0/72 confermato in
+   EXP3_V2 con decomposizione 30 astensioni + 42 committed errate. Il framing "information floor" +
+   C come benchmark attenuano significativamente.
 3. *"Perché non un classificatore FDD standard (CNN/SVM) come riferimento?"* — **moderate** →
    *baseline nice-to-have* (nearest-prototype) + spiegare non-apples-to-apples con unseen transfer.
 4. *"TEP simulato, un solo mode/4 guasti: rilevanza industriale?"* — **moderate** → *framing*: PoC
@@ -1007,17 +1115,22 @@ esperimento** o solo **framing**.
 **Reviewer D — esperto metodologia/statistica (scettico su n, floor, CI, generalizzazione).**
 1. *"n=36 non indipendenti; realmente 12 run."* — **moderate** (già gestito) → *framing*: enfatizzare
    che usate bootstrap clusterizzato su 12 cluster; non dire mai "36 casi indipendenti".
-2. *"12 run fisici sono pochi per CI stretti."* — **major** → *framing*: CI riportati come clusterati;
-   dichiarare la scala come limite; eventualmente più run (costoso; non necessario se onesti).
+2. *"12 run fisici sono pochi per CI stretti."* — **major → moderate (con EXP3_V2)** → ora 36 run
+   totali (12+24) su due esperimenti indipendenti; EXP3_V2 usa 24 cluster con CI più stretti.
+   Dichiarare la scala come limite ma la replica raddoppiata attenua.
 3. *"harmed=0 = nessun negative transfer?"* — **moderate** → *framing*: harmed=0 è aritmetico (floor
    di A); dirlo esplicitamente.
-4. *"B−A confonde 'presenza di informazione' con 'valore della federazione'."* — **major** →
-   *framing (B−E centrale) + central-ICL baseline*.
+4. *"B−A confonde 'presenza di informazione' con 'valore della federazione'."* — **major →
+   moderate (con Condition C)** → Condition C (centralized pooled, 15/15) fornisce il comparatore
+   a informazione equivalente; C−B = +0.1389 concentrato su F8. Framing: B−E centrale + C come
+   riferimento esplorativo.
 5. *"Generalizzazione?"* — **moderate** → *framing*: feasibility, non generalization; PV future.
 
-[INTERPRETAZIONE] Le critiche che richiedono davvero un **esperimento** (non solo framing) sono
-**una sola con alto ritorno**: il **central/pooled equal-information ICL** (risponde a A3, B1-parziale,
-C2, D4). Un **secondo LLM** attenua B4/D. Tutto il resto è **framing + Limitations**.
+[INTERPRETAZIONE — aggiornata] Gli esperimenti richiesti sono stati in gran parte **eseguiti o
+avviati**: il central/pooled ICL è **completato** come Condition C (risponde a C2, D4); il secondo
+LLM è **in corso** come Exp 2 Qwen (risponde a B4/D). La replica EXP3_V2 risponde a D2. Le
+critiche residue richiedono **solo framing + Limitations**. Il principale rischio residuo è che
+Condition C è stata eseguita solo sul held-out Exp 1 e il suo delta ha risoluzione minima.
 
 ---
 
@@ -1042,15 +1155,21 @@ derangement pre-registrato delle associazioni a parità di testo**; R=3 + aggreg
 statistica (12 cluster fisici / 36 osservazioni); bootstrap clusterizzato; freeze/held-out guard;
 **baseline central-ICL** (se aggiunta).
 
-**Results (indispensabile):** tabella primaria A/B/E; B−A (primario) + B−E (specificità) con CI;
-per-agente; helped/harmed/unchanged; preservazione Normal/seen; **decomposizione del floor di A**.
+**Results (indispensabile):** tabella primaria A/B/E per entrambi gli esperimenti (Exp 1 + EXP3_V2);
+B−A (primario) + B−E (specificità) con CI per entrambi; tabella comparativa Exp 1 vs EXP3_V2;
+Condition C con delta C−B (esplorativo); per-agente; helped/harmed/unchanged; preservazione
+Normal/seen con **segnalazione della degradazione local-seen** in EXP3_V2; decomposizione del floor
+di A; **se Exp 2 Qwen completato**: risultati cross-model.
 
-**Limitations (indispensabile, non opzionale):** scala (12 run); floor di A e lettura di B−A; un
-solo LLM non deterministico; TEP proxy (no PV); nessuna privacy formale; harmed=0 aritmetico;
-central-ICL come comparatore (se non aggiunto, dichiararlo come limite).
+**Limitations (indispensabile, non opzionale):** scala (36 run totali su 2 esperimenti); floor di A
+e lettura di B−A; un solo LLM producer (consumer cross-model in corso/completato); TEP proxy
+(no PV); nessuna privacy formale; harmed=0 aritmetico su unseen; **degradazione local-seen** di B
+in EXP3_V2 (19/24 vs 24/24 di A); Condition C limitata al held-out Exp 1 con risoluzione minima;
+Condition C non replicata su EXP3_V2.
 
 [INTERPRETAZIONE] Con 10 pagine senza appendice, il **budget di spazio** è il vero vincolo: tagliare
 il dettaglio del verbalizer (rimando a lavoro/tag), tenere il disegno A/B/E e B−E come cuore.
+La replica EXP3_V2 merita una tabella dedicata; Condition C può essere una tabella compatta.
 
 ---
 
@@ -1198,41 +1317,54 @@ venue consolidate note; non ogni PDF è stato riaperto singolarmente in questa p
 **Contribution statement.** *"We present a controlled feasibility study showing that, in a frozen
 Tennessee Eastman testbed, sharing locally-derived textual insights across agents with class-disjoint
 temporal experience can transfer discriminative information about locally unseen fault conditions,
-without exchanging raw time-series data."*
+without exchanging raw time-series data — replicated on independent physical realizations."*
 
 - Applichiamo un meccanismo FoT-style (Yao et al., 2026) a serie temporali multivariate via
   un'interfaccia di verbalizzazione deterministica e diagnosis-neutral.
 - Introduciamo un protocollo di valutazione **leakage-resistant e pre-registrato** (pseudolabel
   opache, freeze/held-out, A/B/E) con un **controllo di specificità (B−E)**.
-- Riportiamo evidenza *di feasibility* (B−A primario; B−E specificità) con incertezza clusterizzata,
-  delimitando esplicitamente scala e floor del baseline.
+- Riportiamo evidenza *di feasibility* (Exp 1: B−A=+0.861; EXP3_V2: B−A=+0.944) e *di specificità
+  semantica* (B−E replicato) con incertezza clusterizzata, delimitando esplicitamente scala, floor
+  del baseline e degradazione local-seen.
+- Forniamo un **riferimento centralizzato esplorativo** (Condition C: 15/15) che colloca i risultati
+  federati entro lo stesso paradigma testuale.
 
 ## Balanced (raccomandata)
 
 **Contribution statement.** *"We adapt Federation over Text (Yao et al., 2026) to multivariate
 time-series fault diagnosis and provide the first controlled evaluation of textual knowledge
 federation under class-disjoint (missing-class) non-IID experience, isolating the role of semantic
-correctness via a preregistered label-association control."*
+correctness via a preregistered label-association control and replicating the transfer effect on
+independent physical realizations."*
 
 - **Domain + setting:** prima applicazione controllata di federazione testuale a diagnosi TS
   multivariata sotto esperienza non-IID class-disjoint, con classi localmente non viste.
 - **Evaluation contribution:** disegno A/B/E con controllo di specificità B−E (a parità di testo,
-  conta la correttezza dell'associazione) e protocollo interamente frozen/auditable.
+  conta la correttezza dell'associazione) e protocollo interamente frozen/auditable; **replica
+  confirmatory** su campione raddoppiato (EXP3_V2); **riferimento centralizzato** esplorativo
+  (Condition C).
 - **Findings:** gli agenti riconoscono guasti mai visti localmente grazie agli insight peer corretti
-  (B−A=+0.861; 4/4 agenti); il beneficio crolla con associazioni corrotte (B−E=+0.778) — feasibility,
-  non generalizzazione.
+  (B−A=+0.861 e +0.944 su due esperimenti; 4/4 agenti); il beneficio crolla con associazioni
+  corrotte (B−E=+0.778 e +0.889) — feasibility con replica, non generalizzazione. Un segnale di
+  degradazione local-seen (B: 19/24 vs A: 24/24 in EXP3_V2) indica possibile interferenza degli
+  insight peer su classi già note.
+- **Cross-model portability** (se Exp 2 completato): consumer open-weight (Qwen 27B) sugli stessi
+  insight frozen, evidenza di portabilità del consumo.
 
-## Aggressive (claim più forte ancora plausibile — con rischio)
+## Aggressive (claim più forte ancora plausibile — con rischio attenuato)
 
 **Contribution statement.** *"We show that agents with disjoint, single-fault local experience can
 collectively diagnose faults none of them has seen locally by exchanging only natural-language
 insights, and that this collective capability is driven by the semantic correctness of the shared
-knowledge rather than its volume."*
+knowledge rather than its volume — replicated across independent realizations and a centralized
+reference."*
 
 - Rischio: enfatizza "collective capability" e "driven by" (quasi-causale) → esposto a Reviewer B/D.
-- **Mitigazione obbligatoria se scelta:** central-ICL baseline presente; linguaggio "supports the
-  interpretation"; floor di A e scala dichiarati; nessun accenno a privacy/generalizzazione.
-- [INTERPRETAZIONE] Sconsigliata senza il comparatore a informazione equivalente.
+- **Mitigazione:** Condition C ora **presente** come riferimento centralizzato; EXP3_V2 come replica;
+  linguaggio "supports the interpretation"; floor di A e scala dichiarati; degradazione local-seen
+  riportata; nessun accenno a privacy/generalizzazione.
+- [INTERPRETAZIONE] Meno rischiosa che nella versione precedente della review grazie a Condition C e
+  EXP3_V2, ma la degradazione local-seen e la risoluzione limitata di C richiedono cautela.
 
 **In nessuna versione** attribuirci l'invenzione di FoT.
 
@@ -1275,44 +1407,57 @@ gap critici da colmare sperimentalmente prima della submission?*
 
 [INTERPRETAZIONE — risposta separata per priorità]
 
-### Critical before submission (necessari per difendibilità)
+### Critical before submission (necessari per difendibilità) — stato aggiornato
 1. **Framing terminologico** (federated knowledge transfer / FL-like; MAI "we propose FoT"; MAI
-   privacy-preserving/generalizable). *Solo framing — costo zero.*
+   privacy-preserving/generalizable). *Solo framing — costo zero.* **Da fare.**
 2. **Delta esplicito vs FoT e vs Federated In-Context LLM Agent Learning** (una frase di
-   posizionamento + citazioni). *Solo framing.*
-3. **Comparatore a informazione equivalente (central/pooled ICL).** *Unico esperimento realmente
-   critico*; risponde alla critica più forte (B−A confonde presenza-di-informazione con valore-della-
-   federazione). **Fattibile entro il 30/09** (riusa insight/prompt). Se impossibile, va **dichiarato
-   come limite esplicito** e la claim ridotta alla versione Conservative.
+   posizionamento + citazioni). *Solo framing.* **Da fare.**
+3. ~~**Comparatore a informazione equivalente (central/pooled ICL).**~~ → **✅ COMPLETATO come
+   Condition C** (15/15, post-hoc esplorativo, C−B=+0.1389 concentrato su F8). Limiti: solo Exp 1
+   held-out, risoluzione minima, non replicato su EXP3_V2. Va inquadrato come esplorativo.
+4. **Discussione della degradazione local-seen** (B: 19/24 vs A: 24/24 in EXP3_V2). *Solo framing/
+   Limitations.* **Da fare.** Nuovo punto emerso dalla Fase 2.
 
 ### Can be handled by framing / limitations
-- Floor di A (decomposizione 14/22/0 + lettura "presenza vs assenza"); B−E centrale.
-- Scala (12 run) e CI clusterizzati.
-- Un solo LLM non deterministico (R=3 + freeze; secondo LLM = nice-to-have).
-- harmed=0 aritmetico; assenza di privacy formale; TEP proxy.
+- Floor di A (decomposizione 14+30 astensioni / 22+42 committed / 0 corrette + lettura "presenza vs
+  assenza"); B−E centrale.
+- Scala (36 run totali su 2 esperimenti) e CI clusterizzati.
+- Un solo LLM producer (secondo LLM consumer **in corso**: Exp 2 Qwen; R=3 + freeze).
+- harmed=0 aritmetico su unseen; assenza di privacy formale; TEP proxy.
 - Non-apples-to-apples con FL parametrico / FDD classico (Related Work + Limitations).
+- Condition C non replicata su EXP3_V2; delta C−B con risoluzione minima.
+
+### In corso (completamento atteso entro deadline ~30/09)
+- **Exp 2 Qwen** (portabilità cross-model consumer open-weight): protocollo congelato, probe 19/19
+  PASS, GO emesso; full run 540 inferenze avviato. Se completato, risponde a B4/D; attenua "un solo
+  LLM" e aggiunge portabilità del consumo.
 
 ### Post-submission / future PV work (NON richiesti per questo paper)
 - Validazione fotovoltaica (PV): esplicitamente fuori scope; **non** è condizione di questa review.
 - Multi-round / libreria evolutiva FoT; più guasti/mode; più modelli su larga scala; analisi di
   leakage quantitativa; DP/secure aggregation.
+- Condition C su EXP3_V2; producer open-weight; indagine sulla degradazione local-seen.
 
 **Non si raccomanda** né una V3 del verbalizer né una validazione PV: la letteratura **non** le
 rende necessarie per rendere difendibile *questa* submission. Il verbalizer resta enabling layer
 (coperto da T2SP/TRUCE come precedenti); il PV è la fase empirica successiva del PhD.
 
-### Verdetto finale
-[INTERPRETAZIONE] **Submission difendibile = SÌ, condizionata**, nella versione **Balanced**, se:
-(a) framing e attribuzione corretti; (b) presente il comparatore central-ICL **oppure** claim
-ridotta alla Conservative con il comparatore dichiarato come limite; (c) floor/scala/limiti esposti
-onestamente. In questa forma il contributo è **onesto, in-scope come collaborative/knowledge-transfer
-learning sotto non-IID, e nuovo a livello di combinazione + evaluation design** — non a livello di
-metodo. Senza (b), il paper è a rischio di rifiuto da un reviewer FL o LLM che chiede "cosa aggiunge
-la *federazione* oltre l'avere il testo".
+### Verdetto finale — aggiornato
+[INTERPRETAZIONE] **Submission difendibile = SÌ, con condizioni residue attenuate**, nella versione
+**Balanced**, se: (a) framing e attribuzione corretti; (b) Condition C **presente e inquadrata
+correttamente** come riferimento esplorativo (il "must-have" critico è ora soddisfatto); (c) floor/
+scala/limiti/degradazione local-seen esposti onestamente; (d) Exp 2 Qwen completato o dichiarato in
+Limitations se ancora in corso. In questa forma il contributo è **onesto, rafforzato dalla replica
+EXP3_V2, dal riferimento centralizzato C e (potenzialmente) dalla portabilità cross-model, in-scope
+come collaborative/knowledge-transfer learning sotto non-IID, e nuovo a livello di combinazione +
+evaluation design** — non a livello di metodo. Il rischio principale che restava ("cosa aggiunge la
+federazione oltre l'avere il testo?") è ora parzialmente indirizzato da Condition C, sebbene il
+confronto C−B sia limitato a 15 casi del solo Exp 1.
 
 ---
 
-*Fine del report. Tutti i numeri sperimentali provengono dagli artefatti frozen al commit
-`45ec4eed…` (tag `phase-b-results-frozen`). Le affermazioni di letteratura sono ancorate alle fonti
-elencate in OUTPUT 8–9; le voci marcate "verificare venue/DOI" vanno confermate prima del
-camera-ready.*
+*Fine del report — Rev. 2 (aggiornamento 2026-09-09). Numeri sperimentali: Exp 1 dal commit
+`45ec4eed…` (tag `phase-b-results-frozen`); EXP3_V2 e Condition C dal walkthrough frozen; Exp 2
+Qwen dal protocollo congelato commit `d9bb95c` (tag `phase-b-exp2-qwen-protocol-frozen-001`).
+Le affermazioni di letteratura sono ancorate alle fonti elencate in OUTPUT 8–9; le voci marcate
+"verificare venue/DOI" vanno confermate prima del camera-ready.*
