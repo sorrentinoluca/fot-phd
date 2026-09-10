@@ -2129,7 +2129,8 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     <thead><tr><th>ID</th><th>Categoria</th><th>Critica</th><th>Stato</th><th>Perch&eacute; conta</th></tr></thead>
     <tbody>
       <tr><td>C01</td><td>Valutazione</td><td>Baseline A troppo debole</td><td><strong>Aperta</strong></td><td>A non conosce le classi remote. Lo 0% &egrave; in parte previsto: B prova che l'informazione aiuta, non che FoT batte un metodo forte.</td></tr>
-      <tr><td>C02</td><td>Baseline</td><td>Mancano confronti numerici o FL</td><td><strong>In corso</strong></td><td>PCA, SVM, FedAvg o FedProto non sono testati sullo stesso compito. C e l'ablation testuale non chiudono il confronto.</td></tr>
+      <tr><td>C02a</td><td>Baseline interne</td><td>Confronti interni incompleti</td><td><strong>Mitigata</strong></td><td>A/B/E, Condition C e l'ablation confrontano varianti del sistema. Manca per&ograve; una vera local-only con gli insight propri.</td></tr>
+      <tr><td>C02b</td><td>Baseline esterne</td><td>Mancano baseline numeriche e FL</td><td><strong>Aperta</strong></td><td>PCA, SVM, FedAvg o FedProto non sono stati eseguiti sullo stesso compito. Non risulta avviato un test comparabile.</td></tr>
       <tr><td>C03</td><td>Rappresentazione</td><td>Trasformazione TS&rarr;testo</td><td><strong>Mitigata</strong></td><td>L'ablation confronta quattro formati e V2 usa meno token. Il campione &egrave; piccolo e cambia anche l'informazione preparata.</td></tr>
       <tr><td>C04</td><td>Modelli</td><td>Dipendenza da un solo LLM</td><td><strong>Mitigata</strong></td><td>Qwen conferma il risultato lato consumer. Gli insight vengono ancora prodotti da un solo modello proprietario.</td></tr>
       <tr><td>C05</td><td>Comunicazione</td><td>Payload non caratterizzato</td><td><strong>Risolta</strong></td><td>Messaggi, byte e token sono misurati. Senza confronto diretto non si pu&ograve; dire che FoT sia pi&ugrave; efficiente.</td></tr>
@@ -2149,7 +2150,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     </tbody>
   </table></div>
 
-  <div class="verdict-box"><strong>Priorit&agrave; sperimentali prima dell'invio:</strong> C01, C06 e C07. C15 e C18 sono chiuse sul piano editoriale; C02 &egrave; utile solo se confronta lo stesso compito.</div>
+  <div class="verdict-box"><strong>Priorit&agrave; sperimentali prima dell'invio:</strong> C01, C06 e C07. C15 e C18 sono chiuse sul piano editoriale. C02a &egrave; mitigata; C02b resta aperta ed &egrave; utile solo se confronta lo stesso compito.</div>
 </div>
 <!-- ==================== STEP 20: CONFERENZA ==================== -->
 <div class="step-container" data-step="20">

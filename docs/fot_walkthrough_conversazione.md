@@ -1354,7 +1354,8 @@ L'esperimento è una buona prova controllata: mostra che una descrizione testual
 | ID | Categoria | Critica | Stato | Spiegazione semplice |
 | --- | --- | --- | --- | --- |
 | C01 | Valutazione | Baseline A troppo debole | **Aperta** | A non conosce le classi degli altri agenti. Lo 0% è quindi in parte previsto. B mostra che l'informazione aiuta, non che FoT batte un metodo forte. |
-| C02 | Baseline | Mancano confronti numerici o FL | **In corso** | PCA, SVM, FedAvg o FedProto non sono stati eseguiti sullo stesso compito. Il riferimento C e l'ablation testuale aiutano, ma non chiudono questo confronto. |
+| C02a | Baseline interne | Confronti interni incompleti | **Mitigata** | A/B/E, Condition C e l'ablation confrontano varianti del sistema. Manca però una vera local-only con gli insight propri. |
+| C02b | Baseline esterne | Mancano baseline numeriche e FL | **Aperta** | PCA, SVM, FedAvg o FedProto non sono stati eseguiti sullo stesso compito. Non risulta avviato un test comparabile. |
 | C03 | Rappresentazione | Trasformazione TS→testo | **Mitigata** | L'ablation confronta quattro formati. V2 usa molti meno token, ma il campione è piccolo e cambia anche quanta informazione viene preparata prima del prompt. |
 | C04 | Modelli | Dipendenza da un solo LLM | **Mitigata** | Qwen conferma il risultato lato consumer. Gli insight sono però ancora prodotti da un solo modello proprietario. |
 | C05 | Comunicazione | Payload non caratterizzato | **Risolta** | Ora sappiamo quanti messaggi, byte e token vengono scambiati. Resta vietato dire che FoT è più efficiente senza un confronto diretto. |
@@ -1372,7 +1373,7 @@ L'esperimento è una buona prova controllata: mostra che una descrizione testual
 | C17 | Applicazione | Nessuna validazione PV reale | **Aperta** | Il fotovoltaico motiva il progetto, ma gli esperimenti usano solo TEP. Il paper non può dire che il metodo funziona già sul PV. |
 | C18 | Conferenza | Debole evidenza di “Big Data” | **Risolta editorialmente** | L'aderenza è limitata a dati distribuiti, non-IID class-disjoint, collaborazione, Variety, Veracity, Value, evaluation/benchmarking e contesto industriale/IoT. Non c'è evidenza su Volume, Velocity, edge o scalabilità. |
 
-Le priorità sperimentali prima dell'invio restano C01, C06 e C07. C15 e C18 sono chiuse sul piano editoriale; C02 è utile, ma deve confrontare lo **stesso compito**, altrimenti genera un numero poco interpretabile.
+Le priorità sperimentali prima dell'invio restano C01, C06 e C07. C15 e C18 sono chiuse sul piano editoriale. C02a è mitigata; C02b resta aperta ed è utile solo con lo **stesso compito**, altrimenti genera un numero poco interpretabile.
 
 ---
 
