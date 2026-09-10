@@ -1093,7 +1093,22 @@ Il verdetto della review scientifica indipendente è **GO WITH LIMITATIONS**.
 
 ### 4 · Reasoning cap e cautela su H2
 
-Il limite effettivo del reasoning è **1023 token** (budget nominale 1024). Tutti e cinque gli errori aggregati di B hanno le tre ripetizioni al cap; al contrario, tutti i 36 aggregati B non cappati sono corretti. Il fallimento di H2 è quindi confuso con l'esaurimento del reasoning budget: senza una sensitivity analysis separata non può essere attribuito causalmente all'interferenza degli insight.
+Il limite effettivo del reasoning nella configurazione frozen è **1023 token** (budget nominale 1024). Tutti e cinque gli errori aggregati di B avevano le tre ripetizioni al cap; al contrario, tutti i 36 aggregati B non cappati erano corretti. Questa coincidenza rendeva ambiguo il fallimento di H2: un errore poteva dipendere dagli insight peer, ma anche da un ragionamento interrotto troppo presto.
+
+Per separare le due spiegazioni è stata eseguita una **sensitivity analysis deterministica e appaiata** sulle 60 osservazioni agent-case uniche della condizione B. Si usa `R=1`, perché le triplette frozen erano byte-identiche con temperatura 0 e seed fisso: il test misura l'effetto del budget, non la variabilità stocastica. L'anchor a 1024 riproduce 60/60 predizioni frozen e i controlli d'integrità sono `PASS`.
+
+| Budget reasoning | Accuracy B | Local-seen | Unseen | Al cap | Nuove regressioni |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 1024 | 91,67% | 75,00% | 94,44% | 24/60 | 0 |
+| 1536 | 93,33% | 75,00% | 97,22% | 15/60 | 0 |
+| 2048 | 95,00% | 83,33% | 97,22% | 10/60 | 0 |
+| 3072 | 95,00% | 83,33% | 97,22% | 5/60 | 0 |
+
+L'aumento del budget porta quindi B da 55/60 a 57/60 risposte corrette e riduce i casi al cap dal 40,0% all'8,3%, senza regressioni fra i 55 casi originariamente corretti. Il guadagno si arresta però dopo 2048: più spazio di ragionamento corregge alcuni errori, ma non tutti.
+
+I cinque casi ancora capped a 3072 sono stati poi rieseguiti a 4096 in un **follow-up diagnostico post-hoc**. Due terminano sotto il limite; tre raggiungono ancora il cap, ma risultano tutti corretti. Fra i due errori presenti a 3072, `agent_3/PBH-009` viene corretto ma resta capped, mentre `agent_4/PBH-014` resta errato pur terminando sotto il limite. Non si osservano regressioni né parse failure. Questo sottoinsieme selezionato non permette di stimare l'accuracy globale a 4096.
+
+La lettura causale deve rimanere prudente. `agent_3/PBH-008`, corretto e sotto il limite a 3072, è compatibile con troncatura del reasoning. `agent_4/PBH-014` e `agent_4/PBH-015`, ancora errati ma sotto il limite, rendono più plausibile interferenza o negative transfer, senza dimostrarla. Le correzioni di `agent_2/PBH-007` e `agent_3/PBH-009`, entrambe ancora capped a 4096, mostrano che il budget influenza la decisione, ma lasciano inconclusivo il meccanismo. In altre parole: **raggiungere il cap non implica essere errati**, e terminare sotto il cap non identifica da solo la causa dell'errore.
 
 B ed E hanno lunghezza del prompt, consumo di reasoning e tasso di citazione degli insight comparabili. Il forte B−E costituisce evidenza di specificità rispetto al contenuto degli insight, ma non una prova causale definitiva.
 
@@ -1103,7 +1118,7 @@ B ed E hanno lunghezza del prompt, consumo di reasoning e tasso di citazione deg
 - Gli insight sono stati prodotti con `gpt-5.6-terra`: non è una replica end-to-end interamente open-weight.
 - Sono stati riutilizzati gli stessi held-out case di Experiment 1; il confronto cross-model è descrittivo.
 - Le ripetizioni deterministiche byte-identiche rendono `R=3` inidoneo a misurare variabilità.
-- Il floor strutturale di A, la confusione `CLS-OJNSG` ↔ `CLS-Z3ISU` e il confondimento del reasoning cap delimitano l'interpretazione.
+- Il floor strutturale di A e la confusione `CLS-OJNSG` ↔ `CLS-Z3ISU` delimitano l'interpretazione; la sensitivity analysis riduce il confondimento del reasoning cap, ma non identifica causalmente ogni errore.
 
 La conclusione prudente è che il vantaggio della configurazione federata B persiste su un secondo consumer LLM open-weight nella configurazione frozen esaminata. Il risultato mitiga la critica di dipendenza da un unico consumer proprietario, ma non dimostra portabilità universale, generalità cross-model o indipendenza end-to-end da un modello proprietario.
 
@@ -1360,7 +1375,7 @@ L'esperimento è una buona prova controllata: mostra che una descrizione testual
 | C04 | Modelli | Dipendenza da un solo LLM | **Mitigata** | Qwen conferma il risultato lato consumer. Gli insight sono però ancora prodotti da un solo modello proprietario. |
 | C05 | Comunicazione | Payload non caratterizzato | **Risolta** | Ora sappiamo quanti messaggi, byte e token vengono scambiati. Resta vietato dire che FoT è più efficiente senza un confronto diretto. |
 | C06 | Affidabilità | Peggioramento sui guasti già noti | **Aperta** | In EXP3_V2 B scende da 24/24 a 19/24 sui casi local-seen. Gli insight utili sui guasti nuovi possono confondere quelli già conosciuti. |
-| C07 | Inferenza | Reasoning cap e repliche identiche | **Aperta** | Gli errori Qwen coincidono con il limite di ragionamento e le tre ripetizioni sono uguali. Serve ripetere con budget più alto o vera variabilità. |
+| C07 | Inferenza | Reasoning cap e repliche identiche | **Risolta** | La sensitivity appaiata 1024–3072 e il follow-up capped a 4096 separano gli errori compatibili con troncatura da quelli per cui l'interferenza è più plausibile. Nessuna regressione; `R=1` resta però un test deterministico, non una misura di variabilità stocastica. |
 | C08 | Scala | Pochi guasti, agenti e simulatori | **Mitigata** | La replica aggiunge 24 run, ma restano quattro guasti su 28, quattro agenti e un solo simulatore. Non prova generalità industriale. |
 | C09 | Federazione | Federazione solo logica | **Aperta** | I nodi sono simulati sullo stesso processo. Non ci sono siti reali, proprietari diversi, nodi offline o reti instabili. |
 | C10 | Sistema | Un solo round statico | **Aperta** | Gli insight vengono creati una volta e copiati nei prompt. Non sappiamo cosa succede con aggiornamenti, drift, ritardi o molti agenti. |
@@ -1373,7 +1388,7 @@ L'esperimento è una buona prova controllata: mostra che una descrizione testual
 | C17 | Applicazione | Nessuna validazione PV reale | **Aperta** | Il fotovoltaico motiva il progetto, ma gli esperimenti usano solo TEP. Il paper non può dire che il metodo funziona già sul PV. |
 | C18 | Conferenza | Debole evidenza di “Big Data” | **Risolta editorialmente** | L'aderenza è limitata a dati distribuiti, non-IID class-disjoint, collaborazione, Variety, Veracity, Value, evaluation/benchmarking e contesto industriale/IoT. Non c'è evidenza su Volume, Velocity, edge o scalabilità. |
 
-Le priorità sperimentali prima dell'invio restano C01, C06 e C07. C15 e C18 sono chiuse sul piano editoriale. C02a è mitigata; C02b resta aperta ed è utile solo con lo **stesso compito**, altrimenti genera un numero poco interpretabile.
+Le priorità sperimentali prima dell'invio restano C01 e C06; C07 è chiusa dalla sensitivity analysis, mentre C15 e C18 sono chiuse sul piano editoriale. C02a è mitigata; C02b resta aperta ed è utile solo con lo **stesso compito**, altrimenti genera un numero poco interpretabile.
 
 ---
 
@@ -1388,7 +1403,7 @@ La [call ufficiale della Special Session](https://bigdataieee.org/BigData2026/ca
 - **Variety:** il testbed contiene serie industriali multivariate e firme di guasto eterogenee;
 - **Veracity:** ground truth, verbalizzazione deterministica, artefatti frozen e controllo B/E rendono verificabili dati e associazioni semantiche;
 - **Value:** si valuta se la conoscenza peer consenta la diagnosi di guasti localmente non osservati;
-- **evaluation e benchmarking:** protocollo A/B/E, replica su nuovi run e confronti controllati forniscono una valutazione riproducibile;
+- **evaluation e benchmarking:** protocollo A/B/E, replica su nuovi run, sensitivity analysis del reasoning cap e confronti controllati forniscono una valutazione riproducibile;
 - **contesto industriale e IoT:** TEP è un banco di prova industriale simulato pertinente al tema IoT della call.
 
 Il framing corretto è **federated textual knowledge transfer**, cioè collaborative learning di tipo FL-like, non Federated Learning parametrico classico. Volume, Velocity, deployment edge, scalabilità a molti nodi, privacy, sicurezza e applicazioni fotovoltaiche validate non sono risultati di questo studio. Per i limiti di novità e di aderenza si vedano **C15** e **C18** nella sezione Critiche.
