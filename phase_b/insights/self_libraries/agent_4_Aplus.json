@@ -1,0 +1,16 @@
+[
+  {
+    "insight_id": "INS-007",
+    "source_agent": "agent_4",
+    "pseudolabel": "CLS-Z3ISU",
+    "evidence_scope": "five local development neutral-text examples",
+    "observed_pattern": "In all five examples, a displacement and a slope threshold are exceeded in 8/8 windows from 10.0 to 45.0 h, although the involved XMEAS variables and sign sequences vary."
+  },
+  {
+    "insight_id": "INS-008",
+    "source_agent": "agent_4",
+    "pseudolabel": "CLS-Z3ISU",
+    "evidence_scope": "five local development neutral-text examples",
+    "observed_pattern": "XMEAS-7 has above-threshold residual variability in 8/8 windows, including 2/2 initial and 2/2 final windows, in four of five examples; it is also the maximum-dispersion variable in every example."
+  }
+]

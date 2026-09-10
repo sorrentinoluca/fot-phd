@@ -1,0 +1,73 @@
+{
+  "condition": "A+",
+  "condition_name": "local_only_self_insights",
+  "description": "Each agent receives its own two locally-generated insights about its own fault class. No peer insights. This is the local-knowledge information floor.",
+  "parent_protocol": "phase-b-fot-1.0.0",
+  "status": "FROZEN_BEFORE_APLUS_INFERENCE",
+  "created_at": "2026-09-10T14:03:04.625133+00:00",
+  "difference_from_A": "condition A has empty PEER_INSIGHTS_BLOCK; A+ injects the agents own two insights into PEER_INSIGHTS_BLOCK",
+  "difference_from_B": "condition B injects six peer insights from other agents; A+ injects only two self-insights",
+  "self_insight_libraries": {
+    "phase_b/insights/self_libraries/agent_1_Aplus.json": "f5e3e0b525db7661127b37ca649a7e76af2897d5dfbd4413377c0f294cda0f26",
+    "phase_b/insights/self_libraries/agent_2_Aplus.json": "12520f26496ef6453cdd5172810f956daf9a814a02c79a134d829ea3441ac718",
+    "phase_b/insights/self_libraries/agent_3_Aplus.json": "7303fc16ca80f13de89eb9c35c2fd0cacb8a651e8499f6dae390dcb8cc273237",
+    "phase_b/insights/self_libraries/agent_4_Aplus.json": "52ca7b5e8052e518565ccc2a085162c65fb8429e784a0b827d9adf1a8c9e72bf"
+  },
+  "source_insight_library": {
+    "path": "phase_b/insights/final_local_insights.json",
+    "sha256": "b7ea847ccaf72b04c407ae4878924719c5363d4ccc6851d3d5fef79386e4bcfd"
+  },
+  "prompt_template": {
+    "path": "phase_b/prompts/isolated_A.txt",
+    "sha256": "cecc664e5d9b9558ca7f8675bee37ae59a5d97a5ff0518175a8a8855a5328289",
+    "note": "Same template as A/B/E; only PEER_INSIGHTS_BLOCK content differs"
+  },
+  "local_examples": {
+    "path": "phase_b/local_knowledge/local_examples.json",
+    "sha256": "468d51b7987b8655fc80638d99366dbe3632af0606c9034ca6db7fd1fdcd0a5c"
+  },
+  "schedule": {
+    "path": "phase_b/final_evaluation_aplus/inference_schedule.json",
+    "sha256": "f32f100f5551070c16fb449e1db3239d04467d3b77d6b941af7d52f4db074784",
+    "entries": 180,
+    "agents": 4,
+    "cases": 15,
+    "repetitions": 3
+  },
+  "heldout_cases": {
+    "manifest_path": "phase_b/heldout/phase_b_heldout_manifest.csv",
+    "manifest_sha256": "610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3"
+  },
+  "verbalization_manifest": {
+    "path": "phase_b/final_evaluation/heldout_verbalizations_manifest.json",
+    "sha256": "a5a00e6f3724ba5af50f8c4b09e82a6e61676b0a1019276733925c6d3fc7ef68"
+  },
+  "execution": {
+    "provider": "openai",
+    "requested_model": "gpt-5.6-terra",
+    "reasoning_effort": "medium",
+    "temperature": null,
+    "seed": null,
+    "structured_outputs_strict": true,
+    "max_structural_retries": 2,
+    "repetitions": 3
+  },
+  "aggregation_rule": {
+    "method": "frozen_valid_label_majority_2_of_3_else_abstain",
+    "abstain_is_incorrect": true
+  },
+  "metrics": {
+    "primary_comparisons": [
+      "A+ vs A (self-insight effect)",
+      "B vs A+ (peer benefit over local)",
+      "E vs A+ (corrupted vs local)"
+    ],
+    "bootstrap_draws": 10000,
+    "bootstrap_seed": 20260829
+  },
+  "parser": {
+    "path": "phase_b/conditions/parser.py",
+    "sha256": "bdddfe99ba6e4328a071ea94c221a91cc5942252865691a280bcd6687301eb99"
+  },
+  "immutability": "Do not modify frozen A/B/E results or protocol. A+ is a new condition with its own separate output directory."
+}

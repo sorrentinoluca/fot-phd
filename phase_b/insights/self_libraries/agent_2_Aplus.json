@@ -1,0 +1,16 @@
+[
+  {
+    "insight_id": "INS-003",
+    "source_agent": "agent_2",
+    "pseudolabel": "CLS-OJNSG",
+    "evidence_scope": "five local development neutral-text examples",
+    "observed_pattern": "In all five examples, a displacement and a slope threshold exceedance occurs in 7–8 of 8 windows, with activations generally spanning from 10.0 h to 45.0 h and short coherent-sign runs of 2–5 windows."
+  },
+  {
+    "insight_id": "INS-004",
+    "source_agent": "agent_2",
+    "pseudolabel": "CLS-OJNSG",
+    "evidence_scope": "five local development neutral-text examples",
+    "observed_pattern": "Residual variability is above threshold in 8/8 windows in every example; sample-to-sample changes occur in 5–6/8 windows, while simultaneous residual and difference exceedances occur in 5–6/8 windows."
+  }
+]

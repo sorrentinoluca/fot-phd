@@ -1,0 +1,16 @@
+[
+  {
+    "insight_id": "INS-001",
+    "source_agent": "agent_1",
+    "pseudolabel": "CLS-ZOGAA",
+    "evidence_scope": "five local development neutral-text examples",
+    "observed_pattern": "XMEAS-1 exceeds the displacement threshold positively in all 8/8 windows, with one coherent 8-window run from 10.0 to 45.0 h; it also has the largest overall dispersion (standard-deviation ratio 46.06–46.50)."
+  },
+  {
+    "insight_id": "INS-002",
+    "source_agent": "agent_1",
+    "pseudolabel": "CLS-ZOGAA",
+    "evidence_scope": "five local development neutral-text examples",
+    "observed_pattern": "XMEAS-20 residual variability is above threshold in 4/8 windows, including 2/2 initial and 0/2 final windows; XMEAS-10 sample-to-sample variation and joint residual/diff exceedance occur in 1/8 windows, with none in the final two."
+  }
+]

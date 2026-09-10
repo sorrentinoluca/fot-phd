@@ -804,9 +804,27 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
   <div class="card">
     <div class="card-label">Perch&eacute; proprio F1, F8, F10, F13?</div>
-    <p style="margin:0;font-size:0.88rem;color:var(--text-muted)">
-      Il TEP prevede 20+ tipi di fault. Ne vengono scelti <strong>quattro</strong> perch&eacute; servono esattamente quattro agenti, ciascuno con un solo fault locale. I quattro coprono firme diverse: <strong>F1</strong> (step sul feed A, impatto forte su XMEAS-1), <strong>F8</strong> (composizione del feed B), <strong>F10</strong> (temperatura dello stripper) e <strong>F13</strong> (cinetica di reazione). Ogni agente conosce solo uno di questi; gli altri tre sono <em>locally unseen</em>.
+    <p style="margin:0 0 8px;font-size:0.88rem;color:var(--text-muted)">
+      Il TEP definisce 21 fault in cinque famiglie (Downs &amp; Vogel 1993): <strong>Step</strong> (F1&ndash;F7), <strong>Random variation</strong> (F8&ndash;F12), <strong>Slow drift</strong> (solo F13), <strong>Sticking</strong> (F14&ndash;F15), <strong>Unknown</strong> (F16&ndash;F20), pi&ugrave; F21. La selezione segue un <strong>criterio di copertura dei meccanismi</strong>:
     </p>
+    <ul style="margin:0 0 8px;font-size:0.85rem;color:var(--text-muted);padding-left:20px;">
+      <li><strong>F1</strong> &rarr; famiglia <em>Step</em> (perturbazione istantanea persistente)</li>
+      <li><strong>F8</strong> &rarr; famiglia <em>Random variation</em> (disturbo stocastico continuo)</li>
+      <li><strong>F10</strong> &rarr; secondo <em>Random var.</em>, coppia intra-famiglia con F8 (stesso meccanismo, variabile diversa)</li>
+      <li><strong>F13</strong> &rarr; <strong>unico</strong> <em>Slow drift</em> del TEP &mdash; inclusione obbligata; caso pi&ugrave; difficile</li>
+    </ul>
+    <p style="margin:0 0 8px;font-size:0.85rem;color:var(--text-muted)">
+      Esclusi: F16&ndash;F20 (meccanismo ignoto, no ground truth interpretabile), F14&ndash;F15 (ridondanti con Step), F21 (fuori tassonomia). Tre assi di contrasto: <em>step vs random</em>, <em>intra-famiglia random</em>, <em>drift lento vs rapido</em>.
+    </p>
+    <table class="data-table" style="font-size:0.82rem;margin:0;">
+      <thead><tr><th>Fault</th><th>Meccanismo</th><th>Sim. intra</th><th>Margine</th><th>Nota</th></tr></thead>
+      <tbody>
+        <tr><td>F1</td><td>Step</td><td>0.991</td><td>0.077</td><td>Stabile, ben separata</td></tr>
+        <tr><td>F10</td><td>Random var.</td><td>0.991</td><td>0.011</td><td>Quasi sovrapposta a F1</td></tr>
+        <tr><td>F8</td><td>Random var.</td><td>0.860</td><td>0.014</td><td>Massima variabilit&agrave; intra</td></tr>
+        <tr><td>F13</td><td>Slow drift</td><td>0.889</td><td>0.044</td><td>Min. sim. col Normal (0.718)</td></tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="card">

@@ -122,10 +122,10 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <h2>Indice</h2>
   <ol class="nav-root">
     <li><details class="nav-phase" open><summary><a href="#step-1">Fase 0</a></summary><ol>
-      <li><a href="#step-1">1. Introduzione</a></li>
+      <li><a href="#step-1">1.1 Introduzione</a></li>
       <li><a href="#sub-1-2">1.2 Lessico operativo e unità di analisi</a></li>
       <li><a href="#sub-1-3">1.3 Obiettivi sperimentali</a></li>
-      <li><a href="#sub-1-6">1.6 Novit&agrave; dell'esperimento</a></li>
+      <li><a href="#sub-1-4">1.4 Novit&agrave; dell'esperimento</a></li>
       </ol></details></li>
     <li><details class="nav-phase"><summary><a href="#step-2">Fase 1</a></summary><ol>
       <li><a href="#step-2">2. Dataset</a></li><li><a href="#step-3">3. Analisi e split dei dataset</a></li><li><a href="#step-4">4. Pipeline di Stadio 1: le 6 operazioni</a></li><li><a href="#step-5">5. Scelta delle feature</a></li><li><a href="#step-6">6. Calibrazione delle soglie</a></li><li><a href="#step-7">7. Il freeze del metodo</a></li><li><a href="#step-8">8. Dalle feature ai flag</a></li><li><a href="#step-9">9. Dai flag al JSON e al testo</a></li><li><a href="#step-10">10. Evaluator Stadio 1</a></li><li><a href="#step-11">11. Validation e test split</a></li><li><a href="#step-12">12. Perché un nuovo held-out</a></li><li><a href="#step-13">13. Agenti e conoscenza locale</a></li><li><a href="#step-14">14. Insight e federazione</a></li><li><a href="#step-15">15. Configurazioni informative e piano di inference</a></li><li><a href="#step-16">16. Un caso reale A/B/E</a></li><li><a href="#step-17">17. Valutazione, risultati e limiti</a></li>
@@ -215,7 +215,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <p>L’obiettivo principale è verificare se la configurazione informativa <strong>B</strong> migliori, rispetto alla configurazione informativa <strong>A</strong>, la diagnosi delle realizzazioni <strong>local-unseen</strong>. Il confronto primario <strong>B−A</strong> valuta quindi se un agente possa utilizzare conoscenza condivisa per riconoscere un tipo di guasto che non ha incontrato nella propria esperienza locale.</p>
   <p>Il confronto <strong>B−E</strong> ha invece funzione di supporto e valuta la pertinenza dell’informazione, indicata formalmente come <em>specificità semantica</em>. Esso permette di verificare se l’eventuale beneficio dipenda dalla corretta relazione tra l’<strong>insight</strong> e il tipo di guasto, anziché dalla sola presenza di informazioni testuali. <strong>B−E</strong> non costituisce un secondo confronto primario.</p>
   <p>I meccanismi concreti con cui vengono costruite le configurazioni informative <strong>A</strong>, <strong>B</strong> ed <strong>E</strong> sono descritti negli Step 15 e 16. Le popolazioni <strong>local-seen</strong>, <strong>Normal</strong> e overall restano descrittive. Replica, test Qwen, riferimento C, ablation e payload rafforzano o delimitano il risultato principale; non cambiano l'obiettivo primario.</p>
-  <h3 id="sub-1-6">1.6 Novit&agrave; dell'esperimento</h3>
+  <h3 id="sub-1-4">1.4 Novit&agrave; dell'esperimento</h3>
   <p>FoT &egrave; stato introdotto da Yao et al.; questo lavoro non propone FoT n&eacute; la federazione testuale. Il contributo va descritto prudentemente come la seguente combinazione:</p>
   <ol>
     <li><strong>Applicazione industriale.</strong> Federation over Text di Yao et al. viene applicato a serie temporali industriali multivariate.</li>
@@ -235,6 +235,27 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
     <li><strong>Dataset Normal</strong> — un solo file di processo <em>senza fault</em>, lungo <strong>500 h</strong>, con <strong>30001 righe</strong> (500 h × 60 = 30000 campioni, più la riga di endpoint a 500 h). Campionamento <strong>1 minuto</strong> (<code>1/60 h</code>). L'ultima riga (l'endpoint) viene <strong>esclusa</strong> dai blocchi: 30000 righe si dividono esattamente in 10 blocchi da 50 h, mentre la 30001ª cadrebbe fuori dalla suddivisione uniforme. 41 XMEAS per riga.</li>
     <li><strong>Dataset di fault</strong> — i quattro fault studiati sono <strong>F1, F8, F10, F13</strong>. Ogni file è un run (batch) da <strong>50 h</strong>, <strong>3001 righe</strong> (50 h × 60 + endpoint), campionamento 1 minuto, 41 XMEAS. Il fault è iniettato a 10 h, quindi le prime 10 h sono processo nominale e le 40 h successive contengono la firma del guasto.</li>
   </ul>
+
+  <div style="margin:18px 0 18px 0;padding:14px 18px;border-left:4px solid var(--accent,#4a90d9);background:var(--bg-inset,#f7f8fa);border-radius:6px;">
+    <p style="margin:0 0 8px;font-weight:700;font-size:1.02em;">Perch&eacute; proprio F1, F8, F10, F13?</p>
+    <p style="margin:0 0 8px;font-size:0.92em;">Il TEP definisce 21 tipi di fault raggruppati per meccanismo fisico nella tassonomia originale di Downs &amp; Vogel (1993): <strong>Step</strong> (F1&ndash;F7), <strong>Random variation</strong> (F8&ndash;F12), <strong>Slow drift</strong> (F13 unico), <strong>Sticking</strong> (F14&ndash;F15) e <strong>Unknown</strong> (F16&ndash;F20), pi&ugrave; il guasto a valvola fissa F21.</p>
+    <p style="margin:0 0 8px;font-size:0.92em;">La scelta dei quattro fault segue un <strong>criterio di copertura dei meccanismi</strong>. All&rsquo;interno di ciascuna categoria il meccanismo generativo &egrave; lo stesso e cambiano solo la variabile colpita e l&rsquo;ampiezza; selezionare pi&ugrave; fault dalla stessa famiglia avrebbe introdotto ridondanza senza aggiungere diversit&agrave; strutturale. Servono invece rappresentanti di famiglie distinte:</p>
+    <ul style="margin:0 0 8px;font-size:0.92em;">
+      <li><strong>F1</strong> &mdash; rappresentante della famiglia <em>Step</em>: perturbazione istantanea e persistente.</li>
+      <li><strong>F8</strong> &mdash; rappresentante della famiglia <em>Random variation</em>: disturbo stocastico continuo.</li>
+      <li><strong>F10</strong> &mdash; secondo <em>Random variation</em>, scelto per creare una coppia intra-famiglia (F8 vs F10) che testa la capacit&agrave; del metodo di distinguere fault con lo stesso meccanismo ma variabile-target diversa.</li>
+      <li><strong>F13</strong> &mdash; <strong>unico</strong> fault di tipo <em>Slow drift</em> nel TEP: la sua inclusione &egrave; obbligata se si vuole coprire la deriva lenta, e rappresenta il caso diagnosticamente pi&ugrave; difficile.</li>
+    </ul>
+    <p style="margin:0 0 8px;font-size:0.92em;">Restano esclusi: F16&ndash;F20 (<em>Unknown</em>), privi di meccanismo documentato; F14&ndash;F15 (<em>Sticking</em>), ridondanti rispetto allo <em>Step</em>; F21 (<em>Fixed valve</em>), caso a s&eacute; fuori dalla tassonomia a cinque famiglie.</p>
+    <p style="margin:0 0 8px;font-size:0.92em;">La combinazione {F1, F8, F10, F13} copre tre dei cinque meccanismi documentati e crea tre assi di contrasto: <em>step vs random</em> (F1 vs F8), <em>intra-famiglia random</em> (F8 vs F10) e <em>drift lento vs perturbazioni rapide</em> (F13 vs tutti). L&rsquo;analisi quantitativa delle firme a 697 dimensioni conferma a posteriori che i quattro fault campionano lo spettro di difficolt&agrave; diagnostica:</p>
+    <div class="scroll"><table><thead><tr><th>Fault</th><th>Meccanismo</th><th>Sim. intra-classe</th><th>Margine dal Normal</th><th>Nota</th></tr></thead><tbody>
+      <tr><td>F1</td><td>Step</td><td>0.991</td><td>0.077</td><td>Firma stabile, ben separata</td></tr>
+      <tr><td>F10</td><td>Random var.</td><td>0.991</td><td>0.011</td><td>Stabile ma quasi sovrapposta a F1 (inter 0.905)</td></tr>
+      <tr><td>F8</td><td>Random var.</td><td>0.860</td><td>0.014</td><td>La meno stabile: massima variabilit&agrave; intra-classe</td></tr>
+      <tr><td>F13</td><td>Slow drift</td><td>0.889</td><td>0.044</td><td>Minima sim. col Normal (0.718), drift graduale</td></tr>
+    </tbody></table></div>
+  </div>
+
   <p>I file di fault contengono anche <strong>12 variabili manipolate XMV</strong> (le grandezze che l'operatore può controllare). Vengono <strong>escluse</strong> dalla rappresentazione: il layer Stadio 1 è stato definito sulle sole XMEAS e congelato così; aggiungere le XMV dopo aver osservato i dati cambierebbe la rappresentazione a valle del freeze. La pipeline conserva quindi soltanto <code>Time</code> + 41 XMEAS.</p>
   <details><summary>Le 41 variabili misurate XMEAS (nomenclatura standard del processo)</summary><div>
     <p>Nel dataset i canali sono identificati come <code>XMEAS-1 … XMEAS-41</code>. La loro denominazione fisica standard nel Tennessee Eastman Process è la seguente (misure continue 1–22; composizioni da analizzatore 23–41):</p>

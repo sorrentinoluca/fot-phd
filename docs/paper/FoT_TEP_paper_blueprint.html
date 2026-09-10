@@ -238,6 +238,31 @@
   <h4>4.1 Testbed: Tennessee Eastman Process</h4>
   <div class="draft"><span class="lbl">Drafting note</span> Descrivi TEP come controlled proving ground con ground truth verificabile; 4 fault F1/F8/F10/F13; 4 agenti; ciascuno Normal + un fault locale. Chiarisci che TEP è testbed, non il dominio finale (PV). Non affermare che TEP simuli il PV.</div>
 
+  <div class="draft"><span class="lbl">Drafting note — Fault selection rationale (§4.1)</span>
+  <strong>Inserire nel testo della sezione un paragrafo che giustifichi la scelta dei 4 fault.</strong> Linea argomentativa:
+  <ol style="margin:6px 0;font-size:0.92em;">
+    <li><strong>Mechanism-coverage criterion (a priori).</strong> I 21 fault TEP (Downs &amp; Vogel 1993) si raggruppano in cinque famiglie per meccanismo: Step (F1–F7), Random variation (F8–F12), Slow drift (solo F13), Sticking (F14–F15), Unknown (F16–F20), più F21. La selezione sceglie <em>rappresentanti di famiglie distinte</em>:
+      <ul>
+        <li>F1 — Step (instantaneous persistent perturbation).</li>
+        <li>F8 — Random variation (continuous stochastic disturbance).</li>
+        <li>F10 — secondo Random variation, per creare una coppia intra-famiglia (F8 vs F10): stesso meccanismo, diversa process variable → testa la discriminabilità semantica intra-mechanism.</li>
+        <li>F13 — <strong>unico</strong> Slow drift nel TEP: inclusione obbligata per coprire il gradual-onset mechanism; caso diagnosticamente più difficile.</li>
+      </ul>
+    </li>
+    <li><strong>Esclusioni motivate.</strong> F16–F20 (Unknown): nessun meccanismo documentato → ground truth non interpretabile, inadatti a uno studio che richiede spiegabilità. F14–F15 (Sticking): firma statica ridondante con Step. F21 (fixed valve): fuori dalla tassonomia a cinque famiglie.</li>
+    <li><strong>Post-hoc quantitative confirmation.</strong> L'analisi delle firme a 697 dimensioni (41 XMEAS × 17 componenti normalizzate) conferma che i quattro fault campionano lo spettro completo di difficoltà diagnostica:
+      <table style="margin:6px 0;font-size:0.88em;border-collapse:collapse;">
+        <tr style="border-bottom:1px solid #ccc;"><th style="text-align:left;padding:2px 8px;">Fault</th><th>Mechanism</th><th>Intra-class sim.</th><th>Margin</th><th>Challenge</th></tr>
+        <tr><td style="padding:2px 8px;">F1</td><td>Step</td><td>0.991</td><td>0.077</td><td>easy — stable, well-separated</td></tr>
+        <tr><td style="padding:2px 8px;">F10</td><td>Random var.</td><td>0.991</td><td>0.011</td><td>hard to discriminate from F1 (inter 0.905)</td></tr>
+        <tr><td style="padding:2px 8px;">F8</td><td>Random var.</td><td>0.860</td><td>0.014</td><td>highest intra-class variability</td></tr>
+        <tr><td style="padding:2px 8px;">F13</td><td>Slow drift</td><td>0.889</td><td>0.044</td><td>lowest sim. to Normal (0.718), gradual onset</td></tr>
+      </table>
+    </li>
+    <li><strong>Frase per il paper (inglese).</strong> "We select four faults — F1 (Step), F8 and F10 (Random variation), F13 (Slow drift) — to cover three of the five mechanism families defined by Downs and Vogel (1993). F13 is the sole slow-drift fault in the TEP catalogue, making its inclusion obligatory for mechanism completeness. Including two random-variation faults (F8, F10) lets us test whether the method can discriminate same-mechanism faults that differ only in the target variable. Faults F16–F20 are excluded because their undocumented mechanism precludes interpretable ground truth; F14–F15 (Sticking) are structurally redundant with Step faults."</li>
+  </ol>
+  </div>
+
   <h4>4.2 Conditions A / A+ / B / E</h4>
   <div class="draft"><span class="lbl">Drafting note</span> A = isolated (nessun insight peer). A+ = local-only self-insight: each agent receives its own 2 locally-generated insights in the peer block; no peer knowledge, no real class names, no test labels. B = correct peer textual knowledge: 6 insight peer per receiver (2 per ciascuna delle 3 pseudoclassi peer; niente self-insight; niente Normal-insight). E = semantic corruption control: stesso bundle di B per quantità, ID, ordine, source, evidence scope, observed text, ma associazioni pseudolabel corrotte via <em>zero-fixed-point derangement</em>. Enfatizza che E isola se il beneficio dipende dalla correttezza semantica dell'associazione e non dalla presenza/quantità di testo. Figure 2 deve rendere questo visivamente.</div>
 
