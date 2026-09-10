@@ -699,9 +699,9 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <div class="nav-phase-label" style="color:var(--threshold)">Extra</div>
       <div class="nav-steps" id="navCritiche">
         <span class="nav-step-divider"></span>
-        <button class="nav-step nav-step-extra" data-idx="19" onclick="goTo(19)" title="Review per conferenza">Conf</button>
+        <button class="nav-step nav-step-extra" data-idx="20" onclick="goTo(20)" title="Review per conferenza">Conf</button>
         <span class="nav-step-divider"></span>
-        <button class="nav-step nav-step-extra" data-idx="20" onclick="goTo(20)" title="Literature review">Lit</button>
+        <button class="nav-step nav-step-extra" data-idx="21" onclick="goTo(21)" title="Literature review">Lit</button>
         <span class="nav-step-divider"></span>
         <button class="nav-step nav-step-extra" disabled title="Paper — in arrivo" aria-label="Paper — in arrivo">Paper</button>
       </div>
@@ -716,7 +716,9 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 <div class="step-container" data-step="0">
   <div class="phase-badge a">Panoramica</div>
   <h1 class="step-title">Federation over Text for Locally Unseen Fault Diagnosis in Multivariate Time Series</h1>
-  <p class="step-intro">Questa interfaccia spiega visivamente come funziona l'esperimento FoT applicato al Tennessee Eastman Process. Segui ogni step: i dati sono inventati ma coerenti con il meccanismo reale. Ci concentreremo su una feature (<strong>shift_sigma</strong> — lo spostamento di livello) e su poche variabili XMEAS chiave.</p>
+  <p class="step-intro">Questa interfaccia spiega visivamente come l'esperimento applica Federation over Text (FoT), introdotto da Yao et al., al Tennessee Eastman Process. Segui ogni step: i dati sono inventati ma coerenti con il meccanismo reale. Ci concentreremo su una feature (<strong>shift_sigma</strong> — lo spostamento di livello) e su poche variabili XMEAS chiave.</p>
+
+  <div class="callout"><span class="callout-icon">&#9432;</span><span><strong>Posizionamento della novit&agrave;.</strong> Il lavoro non propone FoT n&eacute; la federazione testuale. Il contributo &egrave; la combinazione tra applicazione di FoT di Yao et al. a serie industriali multivariate, esperienza class-disjoint e diagnosi local-unseen, verbalizzazione deterministica e verificabile, controllo B/E, protocollo frozen e replica su nuovi run. Claim prudente: <em>&ldquo;To the best of our knowledge, this is the first controlled study of federated textual knowledge transfer for locally unseen fault diagnosis in multivariate industrial time series.&rdquo;</em></span></div>
 
   <div class="card">
     <div class="card-label">L'idea in breve</div>
@@ -1138,7 +1140,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 
 <!-- ==================== STEP 9: EVALUATOR ==================== -->
-<div class="step-container" data-step="10">
+<div class="step-container" data-step="9">
   <div class="phase-badge a">Stadio 1 · Step 9</div>
   <h1 class="step-title">Evaluator: il signature vector</h1>
   <p class="step-intro">Prima di affidare i testi a un reasoner LLM, l'evaluator verifica offline se la rappresentazione neutrale conserva una struttura sufficientemente <strong>stabile</strong> (intra-classe) e <strong>separabile</strong> (inter-classe). Non produce predizioni: valuta la qualità descrittiva della pipeline.</p>
@@ -1187,7 +1189,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 <!-- ==================== STEP 10: AGENTS ==================== -->
-<div class="step-container" data-step="11">
+<div class="step-container" data-step="10">
   <div class="phase-badge b">Stadio 2 · Step 1</div>
   <h1 class="step-title">Gli agenti e la conoscenza locale non-IID</h1>
   <p class="step-intro">Quattro agenti osservano lo stesso processo ma conoscono ciascuno un solo tipo di guasto. Tutti conoscono il Normal. I nomi reali dei fault (F1, F8, F10, F13) sono nascosti dietro <strong>pseudolabel opache</strong>.</p>
@@ -2115,319 +2117,65 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 
-<!-- ==================== STEP 19: CRITICHE E REVIEW ==================== -->
+<!-- ==================== STEP 19: CRITICHE ==================== -->
 <div class="step-container" data-step="19">
-  <div class="phase-badge" style="background:var(--threshold-light);color:var(--threshold)">Critiche e review</div>
-  <h1 class="step-title">Analisi critica e posizionamento</h1>
-  <p class="step-intro">Raccolta delle analisi critiche che esaminano le potenziali obiezioni dei reviewer e il posizionamento del progetto FoT-TEP rispetto alla letteratura. Ogni sezione &egrave; espandibile: clicca sul titolo per leggere l'analisi completa.</p>
+  <div class="phase-badge" style="background:var(--threshold-light);color:var(--threshold)">Critiche aggiornate</div>
+  <h1 class="step-title">Critiche e stato attuale</h1>
+  <p class="step-intro">L'esperimento mostra che un testo corretto porta a un agente conoscenza che gli manca. Ma B riceve questa conoscenza per costruzione, mentre A non conosce le classi remote. Il risultato prova il meccanismo; non prova ancora superiorit&agrave;, privacy, scalabilit&agrave; o uso reale.</p>
 
-  <!-- INDEX -->
-  <div class="critiche-index">
-    <a class="critiche-item critiche-item-even" href="#critica-ts-text" onclick="openCritica('critica-ts-text');return false;">
-      <div class="critiche-item-title">La trasformazione TS&rarr;Testo &egrave; un punto critico?</div>
-      <div class="critiche-item-desc">Analisi del verbalizzatore che converte i segnali numerici delle serie temporali in testo leggibile: quanto &egrave; solido rispetto alle alternative recenti in letteratura e quali obiezioni potrebbe sollevare un revisore scientifico.</div>
-    </a>
-    <a class="critiche-item critiche-item-odd" href="#critica-baseline" onclick="openCritica('critica-baseline');return false;">
-      <div class="critiche-item-title">Servono baseline esterne al paradigma testuale?</div>
-      <div class="critiche-item-desc">Verifica se sia necessario confrontare l'approccio FoT (che scambia testo tra agenti) con metodi tradizionali come SVM, reti neurali o federated learning classico &mdash; e cosa fanno i paper simili in letteratura.</div>
-    </a>
-    <a class="critiche-item critiche-item-even" href="#critica-lit-review" onclick="openCritica('critica-lit-review');return false;">
-      <div class="critiche-item-title">Literature review: posizionamento scientifico per BigData 2026</div>
-      <div class="critiche-item-desc">Revisione sistematica della letteratura che mappa il panorama completo di federated learning, fault diagnosis e LLM su serie temporali, identificando la nicchia esatta che FoT-TEP occupa e i rischi di framing.</div>
-    </a>
-    <a class="critiche-item critiche-item-odd" href="#critica-payload" onclick="openCritica('critica-payload');return false;">
-      <div class="critiche-item-title">Quanto costa la comunicazione tra gli agenti?</div>
-      <div class="critiche-item-desc">Il metodo migliora la diagnosi, ma quanta informazione deve scambiare per ottenere il risultato? La caratterizzazione del payload misura messaggi, byte, token, trasferimenti e costo producer/consumer.</div>
-    </a>
-    <a class="critiche-item critiche-item-even" href="#critica-exp-plan" onclick="openCritica('critica-exp-plan');return false;">
-      <div class="critiche-item-title">Piano sperimentale pre-submission</div>
-      <div class="critiche-item-desc">Pacchetto di esperimenti aggiuntivi progettati per rispondere alle critiche prevedibili dei revisori: replicabilit&agrave; cross-model, estensione prospettica con nuovi dati, e caratterizzazione del payload comunicativo.</div>
-    </a>
-  </div>
+  <div class="callout"><span class="callout-icon">&#9432;</span><span><strong>Stati:</strong> Risolta = la misura esiste; Risolta editorialmente = i testi sono stati corretti, senza nuova evidenza sperimentale; Mitigata = c'&egrave; nuova evidenza ma resta un limite; In corso = il controllo &egrave; previsto; Aperta = manca una risposta.</span></div>
 
-  <!-- CRITICA 1: TS-Text -->
-  <div class="critica-section" id="critica-ts-text">
-    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
-      <span class="chevron">&#9654;</span>
-      La trasformazione TS&rarr;Testo &egrave; un punto critico per la pubblicazione?
-    </button>
-    <div class="critica-body">
-      <div class="verdict-box">
-        <strong>Verdetto sintetico:</strong> La trasformazione TS&rarr;testo non &egrave; un punto critico bloccante, ma richiede un posizionamento attento. L'approccio occupa una nicchia difendibile &mdash; verbalizzazione deterministica, fedele per costruzione, senza modelli appresi, con calibrazione statistica formale &mdash; che nessun lavoro in letteratura replica esattamente. Tuttavia, due paper recenti (CGTime e T2SP, giugno 2026) restringono lo spazio argomentativo.
-      </div>
+  <div class="lit-table-wrap"><table class="data-table lit-table">
+    <thead><tr><th>ID</th><th>Categoria</th><th>Critica</th><th>Stato</th><th>Perch&eacute; conta</th></tr></thead>
+    <tbody>
+      <tr><td>C01</td><td>Valutazione</td><td>Baseline A troppo debole</td><td><strong>Aperta</strong></td><td>A non conosce le classi remote. Lo 0% &egrave; in parte previsto: B prova che l'informazione aiuta, non che FoT batte un metodo forte.</td></tr>
+      <tr><td>C02</td><td>Baseline</td><td>Mancano confronti numerici o FL</td><td><strong>In corso</strong></td><td>PCA, SVM, FedAvg o FedProto non sono testati sullo stesso compito. C e l'ablation testuale non chiudono il confronto.</td></tr>
+      <tr><td>C03</td><td>Rappresentazione</td><td>Trasformazione TS&rarr;testo</td><td><strong>Mitigata</strong></td><td>L'ablation confronta quattro formati e V2 usa meno token. Il campione &egrave; piccolo e cambia anche l'informazione preparata.</td></tr>
+      <tr><td>C04</td><td>Modelli</td><td>Dipendenza da un solo LLM</td><td><strong>Mitigata</strong></td><td>Qwen conferma il risultato lato consumer. Gli insight vengono ancora prodotti da un solo modello proprietario.</td></tr>
+      <tr><td>C05</td><td>Comunicazione</td><td>Payload non caratterizzato</td><td><strong>Risolta</strong></td><td>Messaggi, byte e token sono misurati. Senza confronto diretto non si pu&ograve; dire che FoT sia pi&ugrave; efficiente.</td></tr>
+      <tr><td>C06</td><td>Affidabilit&agrave;</td><td>Peggioramento sui guasti noti</td><td><strong>Aperta</strong></td><td>In EXP3_V2 B scende da 24/24 a 19/24 sui local-seen. Gli insight nuovi possono confondere conoscenze gi&agrave; presenti.</td></tr>
+      <tr><td>C07</td><td>Inferenza</td><td>Reasoning cap e repliche identiche</td><td><strong>Aperta</strong></td><td>Gli errori Qwen coincidono con il limite di ragionamento e R=3 produce copie uguali. Serve un test con budget pi&ugrave; alto.</td></tr>
+      <tr><td>C08</td><td>Scala</td><td>Pochi guasti, agenti e simulatori</td><td><strong>Mitigata</strong></td><td>La replica aggiunge run, ma restano quattro guasti su 28, quattro agenti e un simulatore.</td></tr>
+      <tr><td>C09</td><td>Federazione</td><td>Federazione solo logica</td><td><strong>Aperta</strong></td><td>I nodi sono simulati sullo stesso processo. Non ci sono siti reali, proprietari diversi o nodi offline.</td></tr>
+      <tr><td>C10</td><td>Sistema</td><td>Un solo round statico</td><td><strong>Aperta</strong></td><td>Gli insight vengono creati una volta. Non sono testati aggiornamenti, drift, ritardi o molti agenti.</td></tr>
+      <tr><td>C11</td><td>Privacy</td><td>Nessuna garanzia formale</td><td><strong>Aperta</strong></td><td>Non si inviano dati grezzi, ma il testo pu&ograve; rivelare dati. Mancano attacchi e misure di privacy.</td></tr>
+      <tr><td>C12</td><td>Open world</td><td>Etichette chiuse</td><td><strong>Aperta</strong></td><td>Il modello sceglie tra etichette note. Non &egrave; testato un guasto davvero nuovo o fuori catalogo.</td></tr>
+      <tr><td>C13</td><td>Centralizzazione</td><td>Condition C non equivalente</td><td><strong>Mitigata</strong></td><td>C usa pi&ugrave; contesto, &egrave; post-hoc ed esiste solo per Experiment 1. &Egrave; un riferimento, non una prova causale.</td></tr>
+      <tr><td>C14</td><td>Statistica</td><td>Evidenza ancora piccola</td><td><strong>Mitigata</strong></td><td>Replica e test per run sono corretti, ma i run indipendenti restano pochi per conclusioni ampie.</td></tr>
+      <tr><td>C15</td><td>Novit&agrave;</td><td>FoT &egrave; preesistente</td><td><strong>Risolta editorialmente</strong></td><td>FoT &egrave; attribuito a Yao et al.; il contributo &egrave; circoscritto alla combinazione tra TS industriali multivariate, esperienza class-disjoint/local-unseen, verbalizzazione verificabile, controllo B/E, protocollo frozen e replica.</td></tr>
+      <tr><td>C16</td><td>Verbalizzatore</td><td>Feature e soglie rigide</td><td><strong>Aperta</strong></td><td>Mancano feature frequenziali e adattamento al drift. Le soglie TEP possono non funzionare altrove.</td></tr>
+      <tr><td>C17</td><td>Applicazione</td><td>Nessuna validazione PV</td><td><strong>Aperta</strong></td><td>Il fotovoltaico motiva il lavoro, ma gli esperimenti usano solo TEP.</td></tr>
+      <tr><td>C18</td><td>Conferenza</td><td>Debole evidenza Big Data</td><td><strong>Risolta editorialmente</strong></td><td>L'aderenza &egrave; limitata a dati distribuiti, non-IID class-disjoint, collaborazione, Variety, Veracity, Value, evaluation/benchmarking e contesto industriale/IoT. Non c'&egrave; evidenza su Volume, Velocity, edge o scalabilit&agrave;.</td></tr>
+    </tbody>
+  </table></div>
 
-      <h3>Il campo si &egrave; mosso: 7 categorie di approcci</h3>
-      <table>
-        <tr><th>Cat.</th><th>Strategia</th><th>Esempi</th><th>Appreso?</th></tr>
-        <tr><td>A</td><td>Codifica numerica diretta</td><td>LLMTime, PromptCast</td><td>No</td></tr>
-        <tr><td>B</td><td>Allineamento latente</td><td>Time-LLM, TEST, S&sup2;IP-LLM</td><td>S&igrave;</td></tr>
-        <tr><td>C</td><td>Captioning generativo</td><td>TSLM, Chronicle, BEDTime, TRUCE</td><td>S&igrave;</td></tr>
-        <tr><td>D</td><td>Data-to-Text deterministico</td><td>Fuzzy D2T, ICA2TEXT</td><td>No</td></tr>
-        <tr><td>E</td><td>Rappresentazione simbolica</td><td>ESAX+BoW, SAX_HAR-LLM</td><td>Parziale</td></tr>
-        <tr><td>F</td><td>Decomposizione strutturata</td><td>T2SP (Kim et al. 2026)</td><td>No</td></tr>
-        <tr><td style="font-weight:700;color:var(--accent-a)">G</td><td style="font-weight:700">Verbalizzazione domain-driven</td><td style="font-weight:700">FoT-TEP V2</td><td style="font-weight:700">No</td></tr>
-      </table>
-
-      <h3>I due competitor pi&ugrave; critici</h3>
-      <p><strong>CGTime</strong> (Feng et al., giugno 2026): codice deterministico calcola 169 statistiche, poi un LLM (Qwen3-4B) le verbalizza. Filosofia quasi identica al FoT-TEP, ma CGTime &egrave; un modello addestrato (4B parametri), non un renderer a template.</p>
-      <p><strong>T2SP</strong> (Kim et al., giugno 2026): decomposizione deterministica in trend, periodicit&agrave;, eventi, residui. Training-free e invertibile, ma <strong>solo univariato</strong> &mdash; non gestisce 41 variabili simultanee.</p>
-
-      <h3>Le 4 risposte chiave</h3>
-      <p><strong>1. &Egrave; un punto critico?</strong> Rischio mitigato. L&rsquo;ablation a 4 bracci (V2_TEXT, RAW_FEATURES, CGTIME_STATS, SAX_SYMBOLIC) &egrave; stata completata su 15 casi TEP: nessuna differenza statisticamente significativa tra i primi tre bracci, con V2 che usa 39&ndash;180&times; meno token. Vedi <a href="javascript:goTo(17)" style="color:var(--accent-a);font-weight:600">Step 8 &middot; Ablation</a>.</p>
-      <p><strong>2. Alternative in letteratura?</strong> Rischio basso. Esistono ma nessuna &egrave; un sostituto diretto. FoT-TEP &egrave; l'unico nell'intersezione di: determinismo completo, calibrazione conformal, neutralit&agrave; diagnostica, semantica temporale formale, scala multivariata.</p>
-      <p><strong>3. Comparazioni esistenti?</strong> Rischio moderato. Tre benchmark recenti (BEDTime, CGTime, T2SP) ma nessuno include approcci deterministici. L'assenza di confronto &egrave; sia un vantaggio sia una vulnerabilit&agrave;.</p>
-      <p><strong>4. Il problema &egrave; abbastanza discusso?</strong> Rischio basso. Campo maturo ma non saturo. La nicchia FoT-TEP ha zero occupanti diretti.</p>
-
-      <h3>CGTime vs FoT-TEP: confronto diretto</h3>
-      <table>
-        <tr><th>Dimensione</th><th>CGTime</th><th>FoT-TEP V2</th></tr>
-        <tr><td>Percezione</td><td>169 statistiche</td><td>5 feature &times; 41 var &times; 8 finestre</td></tr>
-        <tr><td>Descrizione</td><td>LLM Qwen3-4B fine-tuned</td><td>Renderer deterministico a template</td></tr>
-        <tr><td>Parametri appresi</td><td>4 miliardi</td><td>Zero</td></tr>
-        <tr><td>Fedelt&agrave;</td><td>Metrica Gaussian kernel</td><td>Garantita by-construction</td></tr>
-        <tr><td>Neutralit&agrave;</td><td>Genera interpretazioni</td><td>Solo osservazioni</td></tr>
-        <tr><td>Multi-agente</td><td>Non previsto</td><td>Progettato per FoT</td></tr>
-      </table>
-
-      <h3>Raccomandazioni operative</h3>
-      <p>Nella <strong>Related Work</strong>: posizionare attorno a tre filoni (TS&rarr;testo generativo, TS&rarr;testo deterministico, TS&rarr;LLM via rappresentazione intermedia). <strong>Esperimento completato</strong>: ablation a quattro bracci sullo stesso LLM (V2, numerico, CGTime-stats, SAX) &mdash; risultati nel passo precedente. Come <strong>framing</strong>: &ldquo;primo approccio deterministico con calibrazione statistica formale per la verbalizzazione fedele di serie temporali multivariate industriali, progettato per architetture multi-agente.&rdquo;</p>
-
-      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Fonti: CGTime (arXiv:2608.05238), T2SP (arXiv:2606.12481), BEDTime (arXiv:2509.05215), TRUCE (EMNLP 2021), Fuzzy D2T (2017), SAX_HAR-LLM (2026), survey Chen et al. TMLR 2026.</em></p>
-    </div>
-  </div>
-
-  <!-- CRITICA 2: Baseline esterne -->
-  <div class="critica-section" id="critica-baseline">
-    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
-      <span class="chevron">&#9654;</span>
-      Baseline esterne al paradigma: servono confronti con metodi numerici classici?
-    </button>
-    <div class="critica-body">
-      <div class="verdict-box">
-        <strong>Verdetto sintetico:</strong> Rischio moderato-basso, gestibile con il framing corretto. Non esistono precedenti di confronto cross-paradigma (testuale vs parametrico) in FL-FDD. Il pattern di non includere baseline numeriche classiche quando il task &egrave; qualitativamente diverso &egrave; consolidato nella letteratura LLM-FDD recente.
-      </div>
-
-      <h3>Confronti diretti LLM vs classici: cosa esiste</h3>
-      <p>Dall'analisi di oltre 8 paper recenti (2024&ndash;2026), un solo lavoro (<strong>FD-LLM</strong>, Qaid et al. 2024) confronta direttamente LLM vs SVM/CNN per fault diagnosis, e lo fa su un task diverso dal nostro (classificazione supervisionata su classi note, non diagnosi di classi unseen).</p>
-      <p>La stragrande maggioranza dei paper LLM-FDD <strong>non</strong> include baseline numeriche classiche come competitor diretti. FaultExplainer (Khan 2024/2025) usa PCA <em>dentro</em> il sistema; Lee et al. (2025) confronta solo configurazioni LLM; S2S-FDD (2026) non confronta con classificatori.</p>
-
-      <h3>FL + LLM-FDD: due filoni separati</h3>
-      <p>Non esiste <strong>nessun</strong> paper all'intersezione di &ldquo;federated learning&rdquo; e &ldquo;LLM fault diagnosis&rdquo;. Tutti i paper FL-FDD scambiano parametri o gradienti; FoT &egrave; il primo a proporre la federazione over text. Il confronto diretto con FedAvg/FedProx non &egrave; solo senza precedenti, &egrave; anche metodologicamente problematico: task diversi (unseen-class transfer vs classificazione completa).</p>
-
-      <h3>4 strategie di framing dalla letteratura</h3>
-      <p><strong>A) &ldquo;Complementare, non sostitutivo&rdquo;</strong> &mdash; il paradigma testuale aggiunge valore dove il numerico non arriva (interpretabilit&agrave;, operabilit&agrave;), senza pretendere di sostituirlo.</p>
-      <p><strong>B) &ldquo;Task diverso, confronto non applicabile&rdquo;</strong> &mdash; quando il task &egrave; qualitativamente diverso, la metrica di confronto non esiste. FoT risolve diagnosi di classi mai viste localmente.</p>
-      <p><strong>C) &ldquo;Limitazioni note del numerico come motivazione&rdquo;</strong> &mdash; Zhou &amp; Yu (ICLR 2025): &ldquo;LLMs' abilities to understand numerical time series are considerably limited&rdquo; &mdash; questo supporta l'approccio di verbalizzazione.</p>
-      <p><strong>D) &ldquo;Confronto diretto ma su task specifico&rdquo;</strong> &mdash; quando il confronto &egrave; fattibile (stesso task, stesse classi), viene fatto. Ma nel nostro caso non lo &egrave;.</p>
-
-      <h3>Fattori che mitigano il rischio</h3>
-      <ul>
-        <li><strong>Nessun precedente da imitare:</strong> i reviewer non possono citare un paper che fa confronto cross-paradigma perch&eacute; non ce n'&egrave; nessuno.</li>
-        <li><strong>Pattern consolidato:</strong> i paper LLM-FDD pi&ugrave; prestigiosi (ICLR 2025, Computers &amp; Chemical Engineering 2025) non includono baseline classiche.</li>
-        <li><strong>Task incommensurabile:</strong> confrontare accuracy su task diversi &egrave; metodologicamente scorretto.</li>
-        <li><strong>Baseline intra-paradigma presente:</strong> il confronto Central-ICL (Condition C) &egrave; gi&agrave; implementato.</li>
-      </ul>
-
-      <h3>Strategia raccomandata per il paper</h3>
-      <p><strong>Related Work:</strong> tracciare la catena FedAvg &rarr; FedMD &rarr; FedProto &rarr; FoT e spiegare perch&eacute; il confronto &egrave; intra-catena. <strong>Limitations:</strong> paragrafo esplicito che dichiara perch&eacute; non si confronta con SVM/CNN/FedAvg. <strong>Discussion:</strong> posizionare FoT come complementare ai metodi numerici.</p>
-
-      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Fonti: FD-LLM (arXiv:2412.01218), FaultExplainer (Comp. &amp; Chem. Eng. 2025), Lee et al. (arXiv:2509.23113), Zhou &amp; Yu (ICLR 2025), S2S-FDD (arXiv:2603.08048).</em></p>
-    </div>
-  </div>
-
-  <!-- CRITICA 3: Literature Review -->
-  <div class="critica-section" id="critica-lit-review">
-    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
-      <span class="chevron">&#9654;</span>
-      Literature review: posizionamento scientifico per IEEE BigData 2026
-    </button>
-    <div class="critica-body">
-      <div class="verdict-box">
-        <strong>In sintesi (Rev. 2, 2026-09-09):</strong> Review sistematica che stabilisce come posizionare FoT-TEP rispetto allo stato dell'arte per la Special Session &ldquo;Federated Learning on Big Data&rdquo;. Il paper &egrave; in-scope se inquadrato come collaborative/federated knowledge transfer, non come FL parametrico classico. <strong>Submission readiness: PLAUSIBLE (limite alto di plausible)</strong>, con EXP3_V2 (replica), Condition C (riferimento centralizzato) ed EXP2 Qwen ora completato e frozen.
-      </div>
-
-      <h3>Scope per la Special Session</h3>
-      <p>Il lavoro tocca genuinamente <em>collaborative learning</em>, <em>non-IID</em>, <em>novel architecture</em> e <em>benchmarking</em>. Tuttavia la sessione ha impostazione FL classica. Il sistema FoT <strong>non aggrega n&eacute; gradienti n&eacute; pesi</strong>: scambia insight testuali. &Egrave; in-scope come collaborative/federated knowledge transfer. Usare &ldquo;federated knowledge transfer&rdquo; o &ldquo;federated (textual) knowledge sharing&rdquo;, mai &ldquo;Federated Learning&rdquo; nudo.</p>
-
-      <h3>Novit&agrave; verificate</h3>
-      <p><strong>Federation over Text su TS industriali:</strong> nessun precedente trovato. La catena evolutiva FL va da FedAvg (2017) &rarr; FedMD (2019) &rarr; FedProto (2022) &rarr; FedGen (2022) &rarr; FoT (2026). Ogni passo riduce ci&ograve; che viene scambiato; FoT &egrave; il primo a scambiare testo.</p>
-      <p><strong>Diagnosi di classi unseen via testo:</strong> task non presente in nessun paper FL-FDD. I paper FL-FDD esistenti lavorano su classi note distribuite in modo non-IID, non su classi assenti localmente.</p>
-      <p><strong>Novelty difendibile:</strong> non il metodo FoT (che &egrave; di Yao et al.), ma la combinazione: prima applicazione documentata di FoT a TS multivariate / diagnosi guasti, sotto non-IID class-disjoint (missing-class), con controllo di specificit&agrave; pre-registrato (B vs E, derangement delle pseudolabel).</p>
-
-      <h3>Vulnerabilit&agrave; principali e stato</h3>
-      <ul>
-        <li><strong>&ldquo;Un solo consumer LLM proprietario&rdquo;</strong> &mdash; <span style="color:var(--green)">&#x2705; Critica mitigata</span> da EXP2 Qwen 27B frozen: il vantaggio di B persiste per un consumer open-weight. Il producer resta <code>gpt-5.6-terra</code>, quindi non &egrave; una replica end-to-end open-weight.</li>
-        <li><strong>&ldquo;Solo 3 run per guasto&rdquo;</strong> &mdash; <span style="color:var(--green)">&#x2705; Risolto</span> con EXP3_V2: 24 nuovi run (6/classe), criterio di replica soddisfatto.</li>
-        <li><strong>&ldquo;Manca un comparatore centralizzato&rdquo;</strong> &mdash; <span style="color:var(--green)">&#x2705; Risolto</span> con Condition C: 15/15, C&minus;B=+0.139 concentrato su F8. Riferimento esplorativo post-hoc, non benchmark.</li>
-        <li><strong>&ldquo;Nessuna privacy formale&rdquo;</strong> &mdash; non dichiarare privacy; dichiarare data-free communication.</li>
-        <li><strong>Degradazione local-seen in B (EXP3_V2)</strong> &mdash; nuovo segnale: B=19/24 vs A=24/24. Gli insight peer possono interferire col riconoscimento di fault gi&agrave; noti. Da riportare trasparentemente.</li>
-      </ul>
-
-      <h3>Claim difendibili vs non difendibili</h3>
-      <p><strong>Difendibile:</strong> FoT-TEP &egrave; il primo esperimento di textual knowledge federation su TS multivariate industriali; la pipeline Stadio 1 &egrave; deterministica e frozen; il protocollo di valutazione &egrave; pre-specificato con criteri blinded; l'effetto si riproduce su nuove realizzazioni fisiche (EXP3_V2).</p>
-      <p><strong>Non difendibile:</strong> &ldquo;FoT &egrave; migliore di FL classico&rdquo; (non confrontabile); &ldquo;il metodo generalizza oltre TEP&rdquo; (non testato); &ldquo;il protocollo garantisce privacy&rdquo; (non &egrave; l'obiettivo); &ldquo;we propose FoT&rdquo; (FoT &egrave; di Yao et al.).</p>
-
-      <h3>Verdetto finale</h3>
-      <p><strong>Submission difendibile = S&Igrave;</strong>, con condizioni residue attenuate, nella versione Balanced, se: (a) framing e attribuzione corretti; (b) Condition C presente e inquadrata come riferimento esplorativo; (c) floor/scala/limiti/degradazione local-seen esposti onestamente; (d) EXP2 Qwen riportato con il suo verdetto <strong>GO WITH LIMITATIONS</strong> e senza claim universali.</p>
-
-      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Documento completo: FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md (~102KB). Rev. 2 (2026-09-09). Analisi basata su oltre 100 paper (2017&ndash;2026) da OpenAlex, Scopus, ArXiv, Crossref, Google Scholar.</em></p>
-    </div>
-  </div>
-
-  <!-- CRITICA 4: Communication payload -->
-  <div class="critica-section" id="critica-payload">
-    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
-      <span class="chevron">&#9654;</span>
-      Il metodo funziona, ma quanto costa far comunicare gli agenti?
-    </button>
-    <div class="critica-body">
-      <div class="verdict-box">
-        <strong>Verdetto sintetico: critica risolta sul piano descrittivo.</strong> Il payload &egrave; stato misurato direttamente dagli artefatti frozen. Ora sappiamo quanta informazione viene trasferita, ma questi numeri non dimostrano automaticamente che FoT sia pi&ugrave; efficiente o pi&ugrave; privato di altri metodi.
-      </div>
-
-      <h3>Perch&eacute; era una critica</h3>
-      <p>L&rsquo;esperimento mostrava soprattutto che gli insight miglioravano la diagnosi. Inizialmente, per&ograve;, non quantificava il <strong>prezzo della comunicazione</strong> necessaria per ottenere quel risultato. Un reviewer poteva quindi porre una domanda molto semplice:</p>
-      <p style="padding:12px 14px;border-radius:6px;background:var(--threshold-light);font-family:var(--font-display);font-size:1.05rem;text-align:center"><em>&laquo;Il metodo funziona, ma quanta informazione devono scambiarsi gli agenti?&raquo;</em></p>
-      <p>Senza questa misura non &egrave; possibile affermare che il metodo sia leggero, economico o pi&ugrave; efficiente di sistemi che scambiano logit, prototipi numerici o parametri di un modello.</p>
-
-      <h3>Che cosa &egrave; stato misurato</h3>
-      <ul>
-        <li>quanti insight vengono prodotti e ricevuti;</li>
-        <li>quanto pesano in caratteri e byte;</li>
-        <li>quanti token aggiungono ai prompt di GPT e Qwen;</li>
-        <li>quante volte i messaggi vengono trasferiti;</li>
-        <li>input token, output token, reasoning token e latenza registrata di producer e consumer.</li>
-      </ul>
-      <p>In un giro completo i quattro consumer ricevono 24 consegne di insight, pari a <strong>9.438 byte</strong>: 2.719 token in contesto per GPT e 2.974 per Qwen. La produzione una tantum degli otto insight ha richiesto 4 chiamate, 7.954 input token, 820 output token e 9 secondi di latenza registrata.</p>
-
-      <h3>Che cosa risolve, e che cosa non risolve</h3>
-      <p><strong>Risolve la lacuna di reporting:</strong> ogni numero &egrave; ricavato dagli artefatti frozen e il controllo B/E conferma che le due condizioni hanno lo stesso volume e differiscono soltanto nel mapping semantico delle pseudolabel.</p>
-      <p><strong>Non prova una superiorit&agrave; generale:</strong> byte di testo, logit, prototipi e parametri non sono oggetti direttamente equivalenti. Senza configurazioni concrete comparabili non possiamo dire che FoT comunichi meno degli altri paradigmi. I conteggi non costituiscono neppure una garanzia di privacy.</p>
-
-      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Approfondimento: Step 9 &middot; Payload e <a href="fot_walkthrough_conversazione.html#communication-payload">walkthrough conversazionale dettagliato</a>.</em></p>
-    </div>
-  </div>
-
-  <!-- CRITICA 5: Experiment Plan -->
-  <div class="critica-section" id="critica-exp-plan">
-    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
-      <span class="chevron">&#9654;</span>
-      Piano sperimentale pre-submission: esperimenti aggiuntivi
-    </button>
-    <div class="critica-body">
-      <div class="verdict-box">
-        <strong>In sintesi (Rev. 3, 2026-09-09):</strong> La storia raccomandata &egrave; ora <strong>in gran parte realizzata</strong>: mechanism &rarr; semantic specificity &rarr; fresh-run replication &rarr; cross-model portability &rarr; centralized reference &rarr; communication payload characterization. Package B (recommended for acceptance) in gran parte completato.
-      </div>
-
-      <h3>Stato di avanzamento</h3>
-      <table>
-        <tr><th>Componente</th><th>Stato</th><th>Risultato chiave</th></tr>
-        <tr><td>Exp 1 &mdash; Mechanism isolation</td><td style="color:var(--green)">&#x2705; Frozen</td><td>A=0/36, B=31/36, E=3/36. B&minus;A=+0.861</td></tr>
-        <tr><td>EXP3_V2 &mdash; Fresh-run replication</td><td style="color:var(--green)">&#x2705; Completato</td><td>A=0/72, B=68/72, E=4/72. B&minus;A=+0.944. Criterio replica soddisfatto</td></tr>
-        <tr><td>Condition C &mdash; Centralized pooled ICL</td><td style="color:var(--green)">&#x2705; Completato</td><td>15/15 correct. C&minus;B=+0.139 (concentrato su F8). Esplorativo</td></tr>
-        <tr><td>Exp 2 &mdash; Cross-model (Qwen 27B)</td><td style="color:var(--green)">&#x2705; Completato e frozen</td><td>Unseen: A=0/36, B=34/36, E=1/36; C1&ndash;C4 4/4 PASS; review GO WITH LIMITATIONS</td></tr>
-        <tr><td>Payload characterization</td><td style="color:var(--green)">&#x2705; Completata</td><td>9.438 byte per unit&agrave; a 4 receiver; B/E strutturalmente controllati</td></tr>
-        <tr><td>Exp 4 &mdash; Insight ablation</td><td style="color:var(--text-caption)">&#x2B1C; Solo se tempo</td><td>&mdash;</td></tr>
-      </table>
-
-      <h3>Experiment 2 &mdash; Cross-model consumer result (frozen)</h3>
-      <p>Consumer open-weight: <strong>Qwen3.8-27B-FP8</strong> via vLLM 0.28.0, 1 GPU (NVIDIA RTX 5000 Ada). Producer invariato (<code>gpt-5.6-terra</code>). La catena protocollo &rarr; predizioni &rarr; evaluator &rarr; risultati &egrave; frozen; sull'unseen B raggiunge 34/36 contro A 0/36 ed E 1/36. Il risultato mitiga la critica del singolo consumer proprietario, ma non dimostra portabilit&agrave; universale n&eacute; indipendenza end-to-end dal producer proprietario.</p>
-
-      <h3>Degradazione local-seen (nuovo segnale)</h3>
-      <p>In EXP3_V2, B scende a <strong>19/24 sui fault gi&agrave; noti</strong> (vs A=24/24). Cinque errori concentrati: Agent 4 su F13-002/003/004/005, Agent 2 su F8-003. In Exp 1 era 12/12 in tutte le condizioni. <strong>Non invalida</strong> il primary result unseen, ma va riportato trasparentemente come osservazione per il disegno futuro.</p>
-
-      <h3>Red team finale (Rev. 3)</h3>
-      <p><strong>Nessuna critica fatale.</strong> Reviewer A (FL): termine corretto + catena FedMD&rarr;FoT (moderate). Reviewer B (LLM/FoT): delta vs FoT pi&ugrave; forte dopo EXP3_V2 e Condition C (moderate-minor se Exp 2 conferma). Reviewer C (TS/FDD): solo 4 guasti (moderate). Reviewer D (stat): criterio di replica soddisfatto, degradazione local-seen da riportare (minor).</p>
-
-      <h3>Cosa resta da fare (~3 settimane alla deadline)</h3>
-      <ul>
-        <li>&#x2705; EXP2 Qwen 27B completato, frozen e sottoposto a review indipendente</li>
-        <li>&#x2705; Communication payload characterization completata dagli artefatti frozen</li>
-        <li>&#x2B1C; Framing + terminologia + PV-motivation + delta vs FoT</li>
-        <li>&#x2B1C; Scrittura del paper (10 pagine IEEE 2-col)</li>
-      </ul>
-
-      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Documento completo: FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md (~38KB). Rev. 3 (2026-09-09). Companion della Literature Review. Deadline: 30 settembre 2026.</em></p>
-    </div>
-  </div>
-
+  <div class="verdict-box"><strong>Priorit&agrave; sperimentali prima dell'invio:</strong> C01, C06 e C07. C15 e C18 sono chiuse sul piano editoriale; C02 &egrave; utile solo se confronta lo stesso compito.</div>
 </div>
-
 <!-- ==================== STEP 20: CONFERENZA ==================== -->
 <div class="step-container" data-step="20">
-  <div class="phase-badge" style="background:var(--threshold-light);color:var(--threshold)">Review critica</div>
-  <h1 class="step-title">2023 IEEE International Conference on Big Data <span class="status-badge">Work in progress</span></h1>
-  <p class="step-intro">Valutazione critica del manoscritto nella forma attuale, formulata dal punto di vista di un reviewer chiamato a raccomandarne o meno l'accettazione.</p>
-
-  <div class="review-grid">
-    <div class="review-stat"><b>Raccomandazione</b><span>Borderline / Weak Accept</span></div>
-    <div class="review-stat"><b>Confidenza reviewer</b><span>4 / 5</span></div>
-    <div class="review-stat"><b>Stato evidenza</b><span>Pilot promettente</span></div>
-  </div>
+  <div class="phase-badge" style="background:var(--threshold-light);color:var(--threshold)">Review mirata</div>
+  <h1 class="step-title">IEEE BigData 2026 &middot; Special Session on Federated Learning on Big Data</h1>
+  <p class="step-intro">Valutazione del solo fit con la call. I limiti editoriali sono sintetizzati in C15 e C18 nella sezione Critiche.</p>
 
   <div class="card">
-    <div class="card-label">Valutazione sintetica</div>
-    <p>Il manoscritto adatta Federation over Text alla diagnosi di guasti localmente non visti sul Tennessee Eastman Process. Quattro agenti possiedono soltanto esempi <em>Normal + un guasto</em>; la conoscenza trasferita consiste in insight testuali associati a pseudolabel opache. Il disegno A/B/E è il contributo sperimentale più convincente: B riceve insight corretti, E lo stesso payload con associazioni semantiche derangiate e A nessun insight.</p>
-    <p>La replica su run fisici freschi porta l'accuratezza unseen da <strong>0/72</strong> in A a <strong>68/72</strong> in B, contro <strong>4/72</strong> in E. Questo sostiene la specificità semantica del trasferimento, ma non dimostra una superiorità generale del paradigma.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Punti di forza</div>
+    <div class="card-label">Aderenza alla call</div>
+    <p>La <a href="https://bigdataieee.org/BigData2026/calls/special-federated-learning/">call ufficiale</a> include dati distribuiti, distribuzioni non-IID, collaborative learning, evaluation e benchmarking, 5V e applicazioni IoT. Il lavoro vi aderisce per aspetti realmente valutati:</p>
     <ul>
-      <li><strong>Controllo negativo forte:</strong> E conserva forma, ordine, fonte ed evidenza del payload e altera solo le pseudolabel; B&minus;E isola meglio il contenuto semantico.</li>
-      <li><strong>Design congelato:</strong> soglie, verbalizzatore, insight e mapping sono fissati prima dei run held-out; le pseudolabel opache riducono scorciatoie.</li>
-      <li><strong>Replica coerente:</strong> il risultato principale passa da 31/36 unseen corretti in Experiment 1 a 68/72 nella replica, con inferenza cluster-aware.</li>
-      <li><strong>Auditabilità:</strong> la catena serie&rarr;feature&rarr;flag&rarr;testo&rarr;decisione è ispezionabile; V2 comprime di 39&ndash;180&times; rispetto ai bracci più verbosi.</li>
+      <li><strong>Dati distribuiti e non-IID class-disjoint:</strong> i quattro agenti hanno esperienze locali diverse.</li>
+      <li><strong>Collaborative knowledge transfer:</strong> gli agenti condividono insight testuali, non aggiornamenti di modello.</li>
+      <li><strong>Variety:</strong> il testbed contiene serie industriali multivariate e firme di guasto eterogenee.</li>
+      <li><strong>Veracity:</strong> ground truth, verbalizzazione deterministica, artefatti frozen e controllo B/E rendono verificabili dati e associazioni semantiche.</li>
+      <li><strong>Value:</strong> si valuta se la conoscenza peer consenta la diagnosi di guasti localmente non osservati.</li>
+      <li><strong>Evaluation e benchmarking:</strong> protocollo A/B/E, replica su nuovi run e confronti controllati forniscono una valutazione riproducibile.</li>
+      <li><strong>Contesto industriale e IoT:</strong> TEP &egrave; un banco di prova industriale simulato pertinente al tema IoT della call.</li>
     </ul>
   </div>
 
-  <div class="card">
-    <div class="card-label">Debolezze che impediscono uno Strong Accept</div>
-    <ol>
-      <li><strong>Novità incrementale:</strong> FoT è preesistente. Il contributo è l'adattamento TS class-disjoint, il renderer congelato e la valutazione A/B/E.</li>
-      <li><strong>Federazione non standard:</strong> non vengono ottimizzati o aggregati parametri. Usare <em>federated knowledge transfer</em> o <em>FL-like collaboration</em>, collegando FedMD&rarr;FedProto&rarr;FoT.</li>
-      <li><strong>Baseline A al floor:</strong> l'agente non possiede il mapping delle classi remote. Il guadagno non equivale a superare un forte classificatore centralizzato o FL parametrico.</li>
-      <li><strong>Scala limitata:</strong> quattro fault su 28, un simulatore, quattro agenti e pochi run fisici non supportano claim di robustezza o generalità industriale.</li>
-      <li><strong>Negative transfer:</strong> nella replica B conserva 68/72 unseen ma degrada local-seen da 24/24 a 19/24. Servono gating degli insight o astensione.</li>
-      <li><strong>Portabilità parziale:</strong> Qwen raggiunge 34/36 in B, ma gli insight sono ancora prodotti da GPT-5.6-terra; R=3 è byte-identico e gli errori coincidono con il reasoning cap.</li>
-      <li><strong>Condition C descrittiva:</strong> è post-hoc, disponibile solo su Experiment 1 e ha contesto diverso. Il 15/15 non dimostra causalmente C&gt;B.</li>
-    </ol>
-  </div>
+  <div class="callout"><span class="callout-icon">&#8594;</span><span><strong>Framing consigliato:</strong> <em>federated textual knowledge transfer</em>, cio&egrave; collaborative learning di tipo FL-like, non Federated Learning parametrico classico.</span></div>
 
-  <div class="card">
-    <div class="card-label">Richieste obbligatorie prima dell'accettazione</div>
-    <ul>
-      <li>Ridurre i claim a <em>evidenza preliminare di trasferimento semantico specifico</em>; non rivendicare privacy, robustezza o generalizzazione dimostrate.</li>
-      <li>Esplicitare unità indipendente, denominatori, test cluster-aware, coverage e selective risk.</li>
-      <li><strong>Completato:</strong> payload misurato in byte/token, costo producer/consumer separato e confronto concettuale con logit, prototipi e adapter.</li>
-      <li>Aggiungere almeno un baseline diagnostico classico e uno knowledge-transfer adiacente.</li>
-      <li>Svolgere due verifiche distinte: analizzare per caso i cinque errori local-seen di EXP3_V2 e condurre, sull'esperimento Qwen, una sensitivity analysis oltre il reasoning cap.</li>
-      <li>Presentare l'ablation come pilot di efficienza: nessuna coppia differisce significativamente e V2 confonde formato con informazione precomputata.</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Perché local-seen e reasoning cap costituiscono una critica</div>
-    <p><strong>In termini semplici,</strong> un caso <em>local-seen</em> riguarda un guasto che l'agente aveva già imparato a riconoscere dai propri dati. In EXP3_V2 la configurazione isolata A riconosce correttamente tutti questi casi (24/24), mentre con gli insight degli altri agenti, configurazione B, cinque diventano errati (19/24). È quindi possibile che informazioni aggiuntive, pur essendo utili per riconoscere guasti mai visti localmente, confondano l'agente su qualcosa che già conosceva. Questo possibile peggioramento è chiamato <strong>negative transfer</strong>.</p>
-    <p>Il <strong>reasoning cap</strong> è invece il numero massimo di token che Qwen può usare per ragionare prima di dover terminare la risposta. Se il modello raggiunge quel limite, può interrompere il ragionamento prima di arrivare alla decisione corretta. Nell'esperimento Qwen tutti e cinque gli errori aggregati di B raggiungono il cap, mentre tutti i 36 casi B che non lo raggiungono sono corretti. Questa coincidenza non dimostra da sola che il cap sia la causa, ma impedisce di attribuire con sicurezza gli errori agli insight.</p>
-    <p><strong>Le due verifiche sono collegate, ma non riguardano lo stesso gruppo di cinque errori:</strong></p>
-    <ol>
-      <li>i cinque errori local-seen appartengono a <strong>EXP3_V2</strong> e devono essere esaminati usando prompt, output e log frozen già disponibili;</li>
-      <li>i cinque errori aggregati associati al cap appartengono all'esperimento <strong>Qwen</strong>: due sono unseen e tre local-seen. Per questi servono nuove inferenze con prompt e insight identici e budget di reasoning progressivamente più alti.</li>
-    </ol>
-    <p>La sensitivity analysis serve a distinguere spiegazioni diverse:</p>
-    <ul>
-      <li>se B diventa corretto aumentando il budget, l'errore è compatibile con un <strong>ragionamento troncato</strong>;</li>
-      <li>se B resta errato senza raggiungere il nuovo cap, aumenta l'evidenza di <strong>interferenza o negative transfer causato dagli insight</strong>;</li>
-      <li>se cambia anche A, il problema è più generale e non specifico della federazione.</li>
-    </ul>
-    <p>Senza questa verifica si può soltanto dire che le prestazioni sono associate al limite di reasoning osservato; non si può ancora dire con sicurezza se gli errori siano causati dal cap o dagli insight.</p>
-  </div>
-
-  <div class="verdict-box"><strong>Verdetto da reviewer:</strong> il lavoro è pertinente a Big Data per collaborative learning, non-IID industrial time series ed evaluation design. Raccomanderei <strong>Weak Accept</strong> soltanto con claim conservativi e con negative transfer, costo comunicativo e limiti di scala resi centrali. Nella forma corrente, senza queste revisioni, il giudizio scende a <strong>Weak Reject</strong>.</div>
-  <p style="font-size:.78rem;color:var(--text-caption);margin-top:18px"><em>Base: walkthrough principale e secondario; experiment plan, gap analysis, literature review BigData2026 e risultati frozen locali. Il titolo segue la voce richiesta e non implica una review ufficiale IEEE.</em></p>
+  <div class="verdict-box">Volume, Velocity, deployment edge, scalabilit&agrave; a molti nodi, privacy, sicurezza e applicazioni fotovoltaiche validate non sono risultati di questo studio. Per i limiti di novit&agrave; e di aderenza si vedano <strong>C15</strong> e <strong>C18</strong> nella sezione Critiche.</div>
+  <p style="font-size:.78rem;color:var(--text-caption);margin-top:18px"><em>Valutazione editoriale basata sui materiali del progetto e sulla call consultata il 10 settembre 2026.</em></p>
 </div>
-
 <!-- ==================== STEP 21: LITERATURE REVIEW ==================== -->
 <div class="step-container" data-step="21">
   <div class="phase-badge a">Corpus locale consolidato</div>
@@ -2497,14 +2245,14 @@ const STEPS = [
 ];
 
 const LIT_PAPERS = [
-  {cat:'Federazione di conoscenza testuale',title:'Federation over Text: Insight Sharing for Multi-Agent Reasoning',q:'federated learning LLM sharing natural language insights reasoning agents non-IID 2026',summary:'Agenti locali trasformano traiettorie di ragionamento in insight; un server li raggruppa, distilla e redistribuisce senza condividere esempi grezzi o gradienti.',sim:'Insight naturali come oggetto federato.',diff:'FoT originale è multi-round, server-based e cross-task; FoT–TEP è single-shot, peer-only e class-disjoint.',impact:'Prior obbligatorio: la novità è nell’adattamento e nella valutazione, non nel concetto FoT.'},
+  {cat:'Federazione di conoscenza testuale',title:'Federation over Text: Insight Sharing for Multi-Agent Reasoning',q:'federated learning LLM sharing natural language insights reasoning agents non-IID 2026',summary:'Yao et al. introducono FoT: agenti locali trasformano traiettorie di ragionamento in insight; un server li raggruppa, distilla e redistribuisce senza condividere esempi grezzi o gradienti.',sim:'Insight naturali come oggetto federato.',diff:'FoT di Yao et al. è multi-round, server-based e cross-task; FoT–TEP è single-shot, peer-only e class-disjoint.',impact:'Prior obbligatorio: il contributo è nell’adattamento e nella valutazione controllata, non nel concetto FoT.'},
   {cat:'Federazione di conoscenza testuale',title:'Federated In-Context LLM Agent Learning (FICAL)',q:'federated in-context learning prompt sharing LLM clients privacy',summary:'I client costruiscono compendi di conoscenza in linguaggio naturale da esempi locali e li riusano in-context con comunicazione ridotta.',sim:'Memoria testuale condivisa e consumo in-context.',diff:'Task nativamente testuali, senza sensori, unseen class o renderer verificabile.',impact:'Rafforza il framing “federated knowledge transfer”, ma non anticipa il setting TEP.'},
   {cat:'Federazione di conoscenza testuale',title:'Social Learning: Towards Collaborative Learning with LLMs',q:'federated learning LLM sharing natural language insights reasoning agents non-IID 2026',summary:'Teacher LLM producono esempi sintetici e prompt astratti per un learner, collegando distillazione e trasferimento linguistico.',sim:'Conoscenza condivisa come artefatto testuale.',diff:'Esempi sintetici invece di firme neutrali di guasto.',impact:'Precedente concettuale, con controllo semantico meno forte di A/B/E.'},
   {cat:'Federazione di conoscenza testuale',title:'FedCoT: Communication-Efficient Federated Reasoning Enhancement for LLMs',q:'FedCoT communication-efficient federated reasoning enhancement large language models',summary:'Seleziona chain-of-thought e scambia parametri LoRA per federare il reasoning in ambito medico.',sim:'LLM client-aware e reasoning collaborativo.',diff:'Adapter parametrici contro solo testo leggibile.',impact:'Motiva una misura esplicita in byte/token del payload FoT.'},
   {cat:'Federazione di conoscenza testuale',title:'Time-FFM: LM-Empowered Federated Foundation Model for Time Series Forecasting',q:'Time-FFM LM-Empowered Federated Foundation Model Time Series Forecasting',summary:'Adatta un backbone linguistico al forecasting federato di serie temporali con moduli condivisi e teste personalizzate.',sim:'Intersezione fra federazione, foundation model e serie temporali.',diff:'Forecasting parametrico contro diagnosi via insight testuali.',impact:'Impedisce claim generici di “primo FL+LLM per TS”.'},
   {cat:'FL non parametrico e class-disjoint',title:'FedMD: Heterogeneous Federated Learning via Model Distillation',q:'federated learning clients disjoint classes transfer locally unseen classes zero-shot',summary:'Client con modelli eterogenei scambiano predizioni su dati pubblici e apprendono per distillazione.',sim:'L’oggetto federato non è vincolato ai pesi.',diff:'Logit e dati pubblici contro insight naturali.',impact:'È il precedente terminologico della catena FedMD→FedProto→FoT.'},
   {cat:'FL non parametrico e class-disjoint',title:'FedProto: Federated Prototype Learning across Heterogeneous Clients',q:'federated learning clients disjoint classes transfer locally unseen classes zero-shot',summary:'Condivide prototipi di classe nello spazio di embedding per tollerare eterogeneità di modelli e dati non-IID.',sim:'Conoscenza class-specific compatta.',diff:'Vettori appresi contro testo leggibile e citabile.',impact:'Baseline concettuale forte per costo e astrazione del payload.'},
-  {cat:'FL non parametrico e class-disjoint',title:'FedCKD: Knowledge Distillation with Label-Exclusive Clients',q:'federated learning clients disjoint classes transfer locally unseen classes zero-shot',summary:'Studia distillazione cross-client quando gli insiemi di etichette dei client sono esclusivi.',sim:'Affronta conoscenza mancante per classi non locali.',diff:'Logit/parametri e immagini contro evidenza testuale da serie.',impact:'Il regime class-disjoint non è nuovo; lo è la combinazione con FoT e controllo semantico.'},
+  {cat:'FL non parametrico e class-disjoint',title:'FedCKD: Knowledge Distillation with Label-Exclusive Clients',q:'federated learning clients disjoint classes transfer locally unseen classes zero-shot',summary:'Studia distillazione cross-client quando gli insiemi di etichette dei client sono esclusivi.',sim:'Affronta conoscenza mancante per classi non locali.',diff:'Logit/parametri e immagini contro evidenza testuale da serie.',impact:'Il regime class-disjoint non è nuovo; il contributo qui è la combinazione prudente con FoT di Yao et al. e il controllo semantico.'},
   {cat:'FL non parametrico e class-disjoint',title:'FedMeta-FFD: Federated Meta-Learning for Fault Diagnosis',q:'federated fault diagnosis Tennessee Eastman Process non-IID clients unseen fault classes',summary:'Meta-apprendimento federato per adattare la diagnosi a nuove categorie di guasto su macchine rotanti con pochi esempi.',sim:'Federated fault diagnosis con categorie nuove.',diff:'Few-shot e parametrico contro knowledge transfer testuale senza esempi locali della classe remota.',impact:'È il vicino più forte sull’asse FDD e richiede un confronto esplicito di assunzioni.'},
   {cat:'FL non parametrico e class-disjoint',title:'Federated Zero-Shot Learning with Mid-Level Semantic Knowledge Transfer',q:'federated learning clients disjoint classes transfer locally unseen classes zero-shot',summary:'Trasferisce attributi semantici intermedi arricchiti da modelli vision-language per riconoscere classi non viste.',sim:'Semantica condivisa per unseen class.',diff:'Attributi e immagini contro insight liberi e serie temporali.',impact:'Ridimensiona il claim zero-shot, ma rende distintivo il controllo A/B/E.'},
   {cat:'TS→text fedele e deterministico',title:'Truth-Conditional Captions for Time Series Data',q:'"time series" AND "faithfulness" AND ("captioning" OR "description")',summary:'TRUCE compone programmi di pattern e genera una caption solo quando il programma ne rende vere le condizioni; i moduli restano appresi.',sim:'Fedeltà fra proprietà misurate e testo.',diff:'Caption neurale monovariata contro renderer deterministico multivariato.',impact:'FoT–TEP deve definire con precisione “fedele per costruzione”.'},

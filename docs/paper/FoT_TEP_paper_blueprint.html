@@ -109,7 +109,7 @@
   <div class="meta-row">
     <span class="chip">Target: IEEE BigData 2026 — FL on Big Data</span>
     <span class="chip">Full paper · ≤10 pp · two-column</span>
-    <span class="chip">Tesi: controlled evaluation, non "new FL algorithm"</span>
+    <span class="chip">Tesi: federated textual knowledge transfer / FL-like collaboration</span>
     <span class="chip">Testbed: Tennessee Eastman Process</span>
   </div>
 </header>
@@ -163,6 +163,9 @@
   In a controlled, auditable Tennessee Eastman setting, semantically correct textual insights federated among agents with class-disjoint multivariate time-series experience transfer discriminative knowledge sufficient to recognize locally unseen fault conditions — while raw observations remain local — and this benefit is shown to depend on the <em>semantic correctness</em> of the transferred pseudolabel–pattern associations, not on the mere presence or volume of text.
 </div>
 <p class="pill">Nota: la frase contiene già il claim positivo (transfer works), il controllo (E: dipende dalla correttezza semantica) e il confine (raw non scambiato; setting controllato). È la "spine sentence" da ripetere quasi-verbatim in Abstract, fine Introduction e prima frase di Conclusion.</p>
+<div class="panel">
+  <strong>BigData call fit, senza overclaim.</strong> Presentare il lavoro come <em>federated textual knowledge transfer</em> o collaborazione FL-like. L'aderenza sostenuta riguarda dati distribuiti, non-IID class-disjoint, collaborative knowledge transfer, Variety, Veracity, Value, evaluation/benchmarking e il contesto industriale/IoT. Volume, Velocity, deployment edge, scalabilità a molti nodi, privacy, sicurezza e applicazioni PV validate non sono risultati del paper. Per i limiti editoriali fare riferimento a C15 e C18.
+</div>
 
 <!-- ============ C ============ -->
 <h2 id="C"><span class="sec">C</span> Recommended full paper structure</h2>
@@ -185,7 +188,7 @@
 <div class="panel">
   <div class="field"><span class="k">Purpose</span> Portare il reviewer dal problema generale (distributed industrial monitoring, heterogeneous/non-IID local experience) alla domanda precisa (può la conoscenza testuale peer trasferire informazione discriminativa tra agenti class-disjoint?) e ai key results, stabilendo subito il tono conservativo.</div>
   <div class="field"><span class="k">Content to write</span> Progressione a 7 paragrafi (dettaglio in §D). Chiudere con thesis sentence + contributions.</div>
-  <div class="field"><span class="k">Reviewer takeaway</span> "Gli autori non inventano FoT né il verbalizer; propongono una valutazione controllata e verificabile di un meccanismo di trasferimento testuale in un setting non-IID estremo, motivato dal PV ma isolato nel TEP."</div>
+  <div class="field"><span class="k">Reviewer takeaway</span> "Gli autori applicano FoT, introdotto da Yao et al., e presentano una valutazione controllata e verificabile del trasferimento testuale in un setting non-IID estremo, motivato dal PV ma isolato nel TEP."</div>
   <div class="field"><span class="k">Evidence / references</span> Yao et al. 2026 (FoT); McMahan 2017 (FedAvg, per contrasto); Time-FFM (adjacent FL-TS); PV come motivazione (nessun dato PV). Headline numbers: A=0%, B=86.1%, E=8.3%.</div>
   <div class="field"><span class="k">Figures / tables</span> Figure 1 (pipeline overview) ancorata qui o a inizio §3.</div>
   <div class="draft"><span class="lbl">Drafting note</span> Apri con l'osservazione che il monitoraggio industriale distribuito produce esperienza locale eterogenea e spesso class-disjoint, e che le label di guasto sul campo sono difficili da ottenere. Osserva che la collaborazione federata non deve necessariamente scambiare parametri: esiste una traiettoria dell'oggetto federato (parameters → logits → prototypes → synthetic → foundation-model adaptation → explicit textual knowledge). Introduci FoT (Yao et al.) come estremo semantico di questa traiettoria, nato per reasoning/text tasks. Enuncia il gap: non è noto se insight testuali trasferiscano conoscenza <em>discriminativa</em> tra agenti che osservano distribuzioni temporali class-disjoint. Spiega perché serve un testbed controllato con ground truth verificabile prima del PV, e qui inserisci il paragrafo di motivazione PV in forma prudente. Chiudi con approccio (adattamento controllato di FoT al TEP, A/B/E), key results a una cifra, e i tre contribution bullets.</div>
@@ -199,7 +202,7 @@
   <div class="field"><span class="k">Reviewer takeaway</span> "La letteratura è coperta con precisione; il gap (multivariate temporal, missing-class non-IID, semantic-specificity control) è reale e non colmato dai lavori citati."</div>
   <div class="field"><span class="k">Evidence / references</span> FedAvg; FedMD/FedProto/FedGen (traiettoria oggetto scambiato); Time-FFM (FL-TS foundation); T2SP/TRUCE/ESAX/(SAX_HAR-LLM) (deterministic TS→text); FedMeta-FFD/FedCKD (federated fault diagnosis, class-exclusive); Federated In-Context LLM Agent Learning (NL knowledge federation); Yao et al. (FoT).</div>
   <div class="field"><span class="k">Figures / tables</span> Table 1 (relation to prior work) vive qui.</div>
-  <div class="draft"><span class="lbl">Drafting note</span> Non elencare paper uno per uno: costruisci cinque correnti (A parameter FL; B distillation/prototype/synthetic → "l'oggetto scambiato può non essere i parametri"; C FL su time-series/foundation, con Time-FFM come contrasto architetturale; D deterministic TS→structured/text come <em>enabling interface</em>, non nostra novelty; E NL/LLM-agent knowledge federation, incl. FoT originale). Ogni corrente termina con una frase-ponte ("…tuttavia nessuno di questi valuta il trasferimento testuale sotto esperienza temporale class-disjoint con controllo di specificità semantica"). Chiudi il §2 con una frase-gap unica che Table 1 poi visualizza. Usa formulazioni "to the best of our review" — mai "first ever".</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Non elencare paper uno per uno: costruisci cinque correnti (A parameter FL; B distillation/prototype/synthetic → "l'oggetto scambiato può non essere i parametri"; C FL su time-series/foundation, con Time-FFM come contrasto architetturale; D deterministic TS→structured/text come <em>enabling interface</em>, non nostra novelty; E NL/LLM-agent knowledge federation, incluso FoT di Yao et al.). Ogni corrente termina con una frase-ponte prudente: "to the best of our review, we did not identify a study of textual transfer under class-disjoint temporal experience with a semantic-specificity control". Chiudi il §2 con questa unica frase-gap, senza affermare un'assenza assoluta di precedenti.</div>
 </div>
 
 <!-- 3 Method -->
@@ -215,7 +218,7 @@
 
   <h4>3.2 Federation-over-Text adaptation</h4>
   <div class="field"><span class="k">Content</span> Local reasoning → textual insight distillation → semantic sharing library → receiver reasoning con insight peer. Il nostro delta rispetto a Yao et al.: multivariate temporal evidence; class-disjoint/missing-class heterogeneity; pseudolabel opache; valutazione A/B/E di specificità semantica; proving ground industriale.</div>
-  <div class="draft"><span class="lbl">Drafting note</span> Descrivi il ciclo FoT adattato in 4–6 frasi: come un agente produce un insight testuale dalla propria esperienza, come gli insight peer entrano nel contesto del receiver, e cosa il receiver deve fare (riconoscere una condizione locally unseen). Rendi esplicito "we adapt/evaluate FoT", mai "we propose FoT". Elenca il delta come adattamento, non come nuovo metodo.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Descrivi il ciclo FoT adattato in 4–6 frasi: come un agente produce un insight testuale dalla propria esperienza, come gli insight peer entrano nel contesto del receiver, e cosa il receiver deve fare (riconoscere una condizione locally unseen). Attribuisci FoT a Yao et al. e usa soltanto verbi di adattamento e valutazione. Elenca il delta come adattamento, non come nuovo metodo.</div>
 
   <h4>3.3 Diagnosis-neutral temporal evidence interface (verbalizer V2)</h4>
   <div class="field"><span class="k">Content</span> Descrizione ad alto livello di V2: deterministico, training-free, diagnosis-neutral. Elementi: baseline-relative shift; signed trend/slope; variability changes; residual behavior; active temporal windows; sign consistency; persistence; temporal phases; multivariate evidence. Solo quanto basta per riproducibilità.</div>
@@ -292,7 +295,7 @@
 <div class="panel">
   <div class="field"><span class="k">Purpose</span> Interpretare in modo sobrio; separare ciò che gli esperimenti stabiliscono da ciò che NON stabiliscono; elencare limitazioni; transizione disciplinata al PV.</div>
   <div class="field"><span class="k">Reviewer takeaway</span> "Gli autori conoscono i confini del proprio claim; le limitazioni non invalidano la RQ controllata."</div>
-  <div class="field"><span class="k">References</span> richiama contrasto con Time-FFM (parameter federation) e con FoT originale (text tasks vs temporal discriminative transfer).</div>
+  <div class="field"><span class="k">References</span> richiama contrasto con Time-FFM (parameter federation) e con FoT di Yao et al. (text tasks vs temporal discriminative transfer).</div>
   <div class="draft"><span class="lbl">Drafting note</span> Struttura §I qui sotto in dettaglio. Apri con "what the experiments establish" (transfer, semantic specificity, preservation, no raw exchange; +portability/replication se confermate). Poi "what they do not establish" (no privacy formale, no robustness, no generalization a nuovi fault/domini, no confronto parameter-FL, no superiorità su centralization, no PV). Chiudi con la transizione PV in 2–3 frasi.</div>
 </div>
 
@@ -340,7 +343,7 @@
 </div>
 <div class="panel">
   <h4>Corrente E — Federated NL / LLM-agent knowledge sharing (incl. FoT)</h4>
-  <p><strong>Citazioni:</strong> Yao et al. 2026 (FoT), Federated In-Context LLM Agent Learning (arXiv:2412.08054), FedMeta-FFD <span class="tag toverify">TO VERIFY</span> e FedCKD (class/label-exclusive federated KD) per il fault diagnosis federato class-disjoint. <strong>Ruolo:</strong> mostrare che la federazione di conoscenza in linguaggio naturale non nasce con noi. <strong>Contrasto (gap finale):</strong> "…ma nessuno, per quanto rivisto, valuta il trasferimento testuale su evidenza temporale multivariata con esperienza missing-class non-IID e un controllo di specificità semantica." Questa frase è ciò che Table 1 visualizza.</p>
+  <p><strong>Citazioni:</strong> Yao et al. 2026 (FoT), Federated In-Context LLM Agent Learning (arXiv:2412.08054), FedMeta-FFD <span class="tag toverify">TO VERIFY</span> e FedCKD (class/label-exclusive federated KD) per il fault diagnosis federato class-disjoint. <strong>Ruolo:</strong> mostrare che la federazione di conoscenza in linguaggio naturale non nasce con noi. <strong>Contrasto (gap finale):</strong> "To the best of our review, we did not identify a study of textual transfer over multivariate temporal evidence with missing-class non-IID experience and a semantic-specificity control." Questa frase delimita il corpus consultato, senza provare l'assenza assoluta di precedenti.</p>
 </div>
 <p class="pill">Ordine consigliato di lettura per il reviewer: A → B → C → D → E, così il gap si stringe progressivamente da "parametri" a "testo su TS class-disjoint". Chiudi §2 con l'unica frase-gap, non con un elenco.</p>
 
@@ -348,11 +351,11 @@
 <h2 id="F"><span class="sec">F</span> Three final contribution statements</h2>
 <p>Massimo tre, forti ma sostenibili. Testo quasi paper-ready:</p>
 <div class="panel">
-  <p><strong>C1.</strong> We present a <em>controlled adaptation and evaluation</em> of Federation over Text to heterogeneous multivariate time-series experience, in which agents hold class-disjoint local fault knowledge expressed through opaque pseudolabels and must recognize locally unseen fault conditions by consuming only peer-derived textual insights — without exchanging raw time-series observations.</p>
-  <p><strong>C2.</strong> We introduce a <em>semantic-specificity evaluation</em> that isolates whether the transfer benefit stems from the correctness of the pseudolabel–pattern associations rather than from the presence or volume of text, via a matched corruption control (identical bundle, zero-fixed-point derangement of associations); in the frozen Tennessee Eastman study this benefit is large (locally-unseen recognition 0% → 86.1%) and collapses under corruption (→ 8.3%).</p>
+  <p><strong>C1.</strong> We present a <em>controlled adaptation and evaluation</em> of Federation over Text, introduced by Yao et al., to heterogeneous multivariate time-series experience, in which agents hold class-disjoint local fault knowledge expressed through opaque pseudolabels and must recognize locally unseen fault conditions by consuming only peer-derived textual insights — without exchanging raw time-series observations.</p>
+  <p><strong>C2.</strong> We evaluate <em>semantic specificity</em> with a matched B/E corruption control that isolates whether the transfer benefit stems from the correctness of the pseudolabel–pattern associations rather than from the presence or volume of text (identical bundle, zero-fixed-point derangement of associations); in the frozen Tennessee Eastman study this benefit is large (locally-unseen recognition 0% → 86.1%) and collapses under corruption (→ 8.3%).</p>
   <p><strong>C3.</strong> We provide an <em>auditable, pre-specified evaluation protocol</em> — physical-run clustered bootstrap, matched conditions, and frozen artifacts — extended along a cross-model portability dimension (consumer-only) and a fresh-run prospective replication, together with a communication <em>payload characterization</em> of the exchanged textual knowledge under a stated serialization convention.</p>
 </div>
-<p class="pill">Nota novelty: la novelty è la <em>combinazione + evaluation design</em>, non i singoli componenti. Usare "to the best of our review, we did not identify…" invece di "first ever".</p>
+<p class="pill">Nota novelty: FoT è di Yao et al. e la novelty rivendicabile è solo la combinazione tra applicazione a TS industriali multivariate, esperienza class-disjoint/local-unseen, verbalizzazione deterministica e verificabile, controllo B/E, protocollo frozen e replica su nuovi run. Formula consigliata: "To the best of our knowledge, this is the first controlled study of federated textual knowledge transfer for locally unseen fault diagnosis in multivariate industrial time series."</p>
 
 <!-- ============ G ============ -->
 <h2 id="G"><span class="sec">G</span> Figure / Table plan</h2>
@@ -434,7 +437,7 @@
   </div>
   <div class="panel">
     <h4>Relation to previous work</h4>
-    <p>Contrasto con Time-FFM (parameter federation su rappresentazioni apprese) e con FoT originale (task testuali/reasoning): estendiamo la valutazione a evidenza temporale multivariata class-disjoint con controllo di specificità. Il verbalizer poggia su T2SP/TRUCE/ESAX (non è la novelty).</p>
+    <p>Contrasto con Time-FFM (parameter federation su rappresentazioni apprese) e con FoT di Yao et al. (task testuali/reasoning): estendiamo la valutazione a evidenza temporale multivariata class-disjoint con controllo di specificità. Il verbalizer poggia su T2SP/TRUCE/ESAX (non è la novelty).</p>
   </div>
   <div class="panel">
     <h4>Limitations (esplicite)</h4>
@@ -512,14 +515,14 @@
 
 <!-- ============ REFS ============ -->
 <h2 id="refs">Bibliography backbone — stato di verifica</h2>
-<div class="warn">Regola: nessun riferimento inventato. Le voci <span class="tag toverify">TO VERIFY</span> vanno confermate (titolo, autori, anno, venue, DOI/arXiv) prima della submission; finché non confermate, non usarle come fatto consolidato. Le voci ✅ sono state verificate via web in questa sessione (settembre 2026).</p>
+<div class="warn">Regola: nessun riferimento inventato. Le voci <span class="tag toverify">TO VERIFY</span> vanno confermate (titolo, autori, anno, venue, DOI/arXiv) prima della submission; finché non confermate, non usarle come fatto consolidato. Le voci ✅ sono state verificate via web in questa sessione (settembre 2026).
 </div>
 <div class="scroll">
 <table>
   <tr><th>Key</th><th>Riferimento</th><th>Ruolo nel paper</th><th>Stato</th></tr>
   <tr><td class="n">Yao 2026 (FoT)</td><td>D. Yao, T. Rabbani, M. Zaheer, T. Li. "Federation over Text: Insight Sharing for Multi-Agent Reasoning." 2026. arXiv:2604.16778.</td><td>Metodo di riferimento (adattato, non proposto).</td><td><span class="tag ver">VERIFIED</span></td></tr>
   <tr><td class="n">McMahan 2017</td><td>McMahan et al. "Communication-Efficient Learning of Deep Networks from Decentralized Data." AISTATS 2017. (FedAvg)</td><td>Definisce cosa NON facciamo (parameter aggregation).</td><td><span class="tag ver">VERIFIED</span> (classic)</td></tr>
-  <tr><td class="n">FedMD</td><td>Li & Wang. "FedMD: Heterogenous Federated Learning via Model Distillation." NeurIPS 2019 workshop.</td><td>Traiettoria oggetto federato (distillation).</td><td><span class="tag toverify">VERIFY</span> venue/anno</td></tr>
+  <tr><td class="n">FedMD</td><td>Li &amp; Wang. "FedMD: Heterogenous Federated Learning via Model Distillation." NeurIPS 2019 workshop.</td><td>Traiettoria oggetto federato (distillation).</td><td><span class="tag toverify">VERIFY</span> venue/anno</td></tr>
   <tr><td class="n">FedProto</td><td>Tan et al. "FedProto: Federated Prototype Learning across Heterogeneous Clients." AAAI 2022.</td><td>Traiettoria (prototipi).</td><td><span class="tag toverify">VERIFY</span> dettagli</td></tr>
   <tr><td class="n">FedGen</td><td>Zhu et al. "Data-Free Knowledge Distillation for Heterogeneous Federated Learning." ICML 2021.</td><td>Traiettoria (synthetic knowledge).</td><td><span class="tag toverify">VERIFY</span> dettagli</td></tr>
   <tr><td class="n">Time-FFM</td><td>Liu et al. "Time-FFM: Towards LM-Empowered Federated Foundation Model for Time Series Forecasting." NeurIPS 2024. arXiv:2405.14252.</td><td>Adjacent FL-TS; contrasto architetturale.</td><td><span class="tag ver">VERIFIED</span></td></tr>
@@ -530,7 +533,7 @@
   <tr><td class="n">FedMeta-FFD</td><td>Chen et al., IEEE TNSE 2023. Candidato: "Industrial Edge Intelligence: Federated-Meta Learning Framework for Few-Shot Fault Diagnosis," IEEE.</td><td>Vicino parametrico in federated fault diagnosis / new-category.</td><td><span class="tag toverify">TO VERIFY</span> acronimo/venue/autori</td></tr>
   <tr><td class="n">FedCKD</td><td>"FedCKD: A Knowledge Distillation Approach to Cross-client Learning in Federated Learning with Label-exclusive Datasets."</td><td>Cross-client / class-exclusive KD (analogo class-disjoint).</td><td><span class="tag ver">VERIFIED</span> titolo · <span class="tag toverify">VERIFY</span> venue/anno</td></tr>
   <tr><td class="n">FedICL-Agent</td><td>"Federated In-Context LLM Agent Learning." 2024. arXiv:2412.08054.</td><td>NL knowledge federation tra agenti (precedente al nostro).</td><td><span class="tag ver">VERIFIED</span></td></tr>
-  <tr><td class="n">TEP</td><td>Downs & Vogel. "A plant-wide industrial process control problem." Computers & Chemical Engineering, 1993.</td><td>Testbed (controlled proving ground).</td><td><span class="tag ver">VERIFIED</span> (classic)</td></tr>
+  <tr><td class="n">TEP</td><td>Downs &amp; Vogel. "A plant-wide industrial process control problem." Computers &amp; Chemical Engineering, 1993.</td><td>Testbed (controlled proving ground).</td><td><span class="tag ver">VERIFIED</span> (classic)</td></tr>
 </table>
 </div>
 

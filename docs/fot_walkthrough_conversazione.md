@@ -8,11 +8,13 @@ Il dominio di base è quello degli impianti **fotovoltaici (PV) distribuiti**. O
 
 L'obiettivo è esplorare una federazione in cui i siti non debbano centralizzare dati grezzi né scambiarsi necessariamente pesi o gradienti di un modello: ciascun nodo sintetizza conoscenza locale in **testo strutturato** e gli altri nodi la usano per ragionare. La ground truth entra soltanto nella valutazione offline; osservazione numerica, comunicazione testuale, insight e decisione restano separati, così che un buon testo non venga confuso con una diagnosi corretta.
 
-L'idea parte dal paradigma del lavoro *Federation over Text: Insight Sharing for Multi-Agent Reasoning* (Yao, Rabbani, Zaheer, Li — [arXiv:2604.16778](https://arxiv.org/abs/2604.16778), repo [github.com/dixiyao/FoT](https://github.com/dixiyao/FoT)): agenti con LLM frozen distillano *reasoning trace* in insight, che vengono aggregati e ridistribuiti come testo, senza gradienti né fine-tuning. In quel lavoro originale il paradigma è applicato a task di reasoning testuale (matematica, QA, coding), il reasoning trace nasce naturalmente dal ragionamento dell’LLM su quei problemi; qui viene portato su un dominio nuovo, la **diagnosi di guasti su serie temporali**.
+Il lavoro adotta **Federation over Text (FoT), introdotto da Yao et al.** in *Federation over Text: Insight Sharing for Multi-Agent Reasoning* (Yao, Rabbani, Zaheer, Li — [arXiv:2604.16778](https://arxiv.org/abs/2604.16778), repo [github.com/dixiyao/FoT](https://github.com/dixiyao/FoT)). In FoT, agenti con LLM frozen distillano *reasoning trace* in insight, poi aggregati e ridistribuiti come testo, senza gradienti né fine-tuning. Yao et al. valutano il paradigma su task testuali di matematica, QA e coding; qui lo si applica e valuta nella diagnosi di guasti da serie temporali industriali multivariate.
 
-In questo lavoro ciò che viene preso da FoT è l’architettura di federazione a livello più alto: insight locali → aggregazione → ridistribuzione ai peer ma il come si produce il testo da dare all’LLM è completamente diverso e originale.
+Da FoT di Yao et al. si riprende l’architettura ad alto livello: insight locali → aggregazione → ridistribuzione ai peer. L'adattamento usa una verbalizzazione deterministica e verificabile delle serie temporali, separata dalla successiva inferenza dell'LLM.
 
 Come banco di prova controllato si usa il **Tennessee Eastman Process (TEP)**, un processo chimico simulato con fault noti e ground truth verificabile. I dati provengono dallo snapshot upstream [github.com/mv-per/tennessee-eastman-dataset](https://github.com/mv-per/tennessee-eastman-dataset) (commit pinnato `309b944f`). TEP è un **gate di fattibilità metodologica**: permette di verificare il meccanismo FoT in condizioni note, non è la destinazione applicativa finale, che resta il fotovoltaico.
+
+Lo stato attuale comprende un primo esperimento, una replica su nuovi run simulati, un consumer open-weight, un riferimento centralizzato, un confronto tra quattro rappresentazioni TS→testo e la misura del payload comunicativo. I limiti e il loro stato sono raccolti nella sezione **Critiche**.
 
 ### 1.2 Lessico operativo e unità di analisi
 
@@ -35,8 +37,8 @@ Nel seguito, un **insight** è una breve unità di conoscenza testuale che sinte
 Le configurazioni informative **A**, **B** ed **E**, indicate formalmente nei protocolli come *conditions*, stabiliscono se gli insight vengono forniti e in quale relazione si trovano con il tipo di guasto da riconoscere:
 
 - **A** costituisce il riferimento senza insight — né peer né propri: l'agente usa soltanto i few-shot — la coppia (testo neutrale, pseudolabel) prodotta facendo passare i batch 1–2 (fault) e N1–N2 (Normal) attraverso la pipeline Fase 1 — etichettati della propria esperienza locale, senza includere i propri insight generati localmente;
-- **B** mette a disposizione insight pertinenti al tipo di guasto da riconoscere;
-- **E** funge da controllo della pertinenza dell’informazione: gli insight sono presenti, ma la loro associazione con i tipi di guasto viene deliberatamente alterata secondo la mappatura di controllo stabilita dal protocollo.
+- **B** fornisce i sei insight dei tre peer. Due descrivono il guasto da riconoscere e quattro agiscono da distrattori;
+- **E** contiene gli stessi sei insight, nello stesso ordine e con la stessa lunghezza, ma associa ogni descrizione alla pseudolabel sbagliata.
 
 Il confronto tra queste configurazioni informative permette di distinguere l’effetto della semplice presenza di testo dall’effetto prodotto da conoscenza pertinente al tipo di guasto.
 
@@ -46,69 +48,19 @@ L’obiettivo principale è verificare se la configurazione informativa **B** mi
 
 Il confronto **B−E** ha invece funzione di supporto e valuta la pertinenza dell’informazione, indicata formalmente come *specificità semantica*. Esso permette di verificare se l’eventuale beneficio dipenda dalla corretta relazione tra l’**insight** e il tipo di guasto, anziché dalla sola presenza di informazioni testuali. **B−E** non costituisce un secondo confronto primario.
 
-I meccanismi concreti con cui vengono costruite le configurazioni informative **A**, **B** ed **E** — la struttura del prompt, la federazione degli insight e la permutazione di controllo — sono descritti negli Step 15 e 16. Le popolazioni **local-seen**, **Normal** e overall rimangono descrittive e non introducono ulteriori obiettivi confermativi.
+I meccanismi concreti con cui vengono costruite le configurazioni informative **A**, **B** ed **E** — la struttura del prompt, la federazione degli insight e la permutazione di controllo — sono descritti negli Step 15 e 16. Le popolazioni **local-seen**, **Normal** e overall rimangono descrittive e non introducono ulteriori obiettivi confermativi. La replica sui nuovi run, il test con Qwen, il riferimento C, l'ablation e la misura del payload rafforzano o delimitano il risultato principale; non cambiano l'obiettivo primario.
 
-### 1.4 Review in sintesi
+### 1.6 Novità dell'esperimento
 
-Una review mirata della letteratura, documentata nella [gap analysis e related work](lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md), ha esaminato l’intersezione tra federazione della conoscenza testuale, sistemi multi-agente, esperienze locali disgiunte per tipo di guasto e diagnosi di serie temporali multivariate.
+FoT è stato introdotto da Yao et al.; questo lavoro non propone FoT né la federazione testuale. Il contributo va descritto prudentemente come la seguente combinazione:
 
-La ricerca ha compreso:
+1. **Applicazione industriale.** Federation over Text di Yao et al. viene applicato a serie temporali industriali multivariate.
+2. **Esperienza class-disjoint.** Ogni agente conosce localmente un solo guasto e viene valutato anche su diagnosi *local-unseen*.
+3. **Verbalizzazione verificabile.** La serie numerica diventa testo con regole fisse, soglie calibrate e parole neutrali; ogni frase può essere ricondotta ai numeri di partenza.
+4. **Controllo B/E.** B ed E hanno lo stesso payload, ma E collega il testo alle etichette sbagliate; il contrasto verifica la specificità semantica dell'informazione.
+5. **Protocollo frozen e replica.** Configurazione e artefatti vengono congelati prima della valutazione; il meccanismo viene poi replicato su nuovi run dello stesso simulatore e degli stessi quattro guasti.
 
-1. **OpenAlex**: otto query eseguite in parallelo e circa 40 risultati ispezionati;
-2. **ArXiv**: due articoli recuperati direttamente tramite identificativo durante una precedente fase della review;
-3. **Crossref**: una query e cinque risultati, prevalentemente tangenziali rispetto al tema FedMeta-FFD;
-4. **DBLP**: interrogazione non completata a causa di un errore HTTP 500 intermittente, documentato nella review;
-5. **Scopus**: non interrogato direttamente;
-6. **Citation chaining**: esame delle relazioni bibliografiche individuate dalla review preesistente, documentato negli Output 8–9.
-
-Al momento non è stato individuato un lavoro precedente che combini simultaneamente tutti gli elementi centrali di questo progetto: insight testuali derivati dall’esperienza locale, condivisione fra agenti distribuiti con esperienza disgiunta per tipo di guasto e diagnosi di fault su serie temporali multivariate.
-
-La conseguente affermazione di novità viene pertanto formulata in modo qualificato:
-
-> *“To the best of our knowledge, no prior work federates locally-derived textual insights across distributed agents with class-disjoint experience to diagnose faults in multivariate time series.”*
-
-Questa conclusione non implica l’assenza assoluta di lavori non recuperati dalla ricerca. Definisce invece il gap emerso entro il perimetro documentato della review e motiva la domanda sperimentale affrontata dal progetto.
-
-### 1.5 Critiche costruttive e limiti noti
-
-Le critiche che seguono sono dichiarate in anticipo perché derivano direttamente dalle scelte di design del progetto. Riconoscerle non riduce il valore della prova di fattibilità; lo circoscrive.
-
-#### Federazione simulata su un singolo processo
-
-Nel progetto attuale la federazione esiste a livello logico: quattro agenti possiedono esperienze locali diverse e condividono esclusivamente insight testuali. Tuttavia i dati provengono dallo stesso processo simulato TEP; non viene pertanto dimostrata una reale eterogeneità tra impianti fisicamente distinti.
-
-Mancano alcuni aspetti caratteristici di una federazione reale: differenze tra siti, inverter o condizioni ambientali; proprietari e confini dei dati distinti; problemi di comunicazione e disponibilità dei nodi; generalizzazione verso impianti mai osservati.
-
-Questa scelta è deliberata. Il TEP offre una ground truth controllabile — fault noti, istante di iniezione verificato, run replicabili — che il dominio fotovoltaico reale non fornisce nella fase attuale. Il progetto usa dunque il TEP come *gate di fattibilità metodologica* della federazione testuale, non come validazione completa di un sistema federato industriale. In una futura applicazione fotovoltaica, gli agenti dovranno corrispondere a impianti, inverter o stringhe differenti, ciascuno caratterizzato da dati, condizioni operative ed esperienze di guasto proprie. Una validazione multi-sito su dati PV reali costituisce il passaggio necessario per rispondere pienamente a questa critica.
-
-#### Perimetro delle baseline classiche ed esterne
-
-Le configurazioni informative A, B ed E permettono di verificare internamente se la condivisione di insight pertinenti produca un beneficio e se tale beneficio dipenda dalla pertinenza dell'informazione. Condition C aggiunge il riferimento centralizzato/pooled, ma non consente da sola di stabilire se FoT sia migliore dei metodi diagnostici esistenti.
-
-Un confronto più completo dovrebbe comprendere almeno due piani di baseline:
-
-1. **Baseline interne al paradigma testuale.** Una vera *local-only* farebbe usare a ciascun agente anche gli insight generati localmente, senza federazione. A non coincide con questa configurazione: è una baseline senza insight e costituisce un *information floor* per le classi locally-unseen. La local-only non è stata implementata come condizione separata; il valore aggiunto atteso era limitato perché gli insight propri riguardano soltanto il fault già noto localmente, ma questa resta un'aspettativa metodologica e non un risultato empiricamente misurato. Il riferimento *centralized pooled* è stato invece realizzato come Fase 2.1 e usa un singolo agente con l'esperienza testuale prompt-facing aggregata di tutti i nodi. **Aggiornamento:** l'ablation documentata nello Step 28 ha successivamente confrontato V2 con tre strategie TS→testo dalla letteratura (serializzazione numerica diretta, profilo statistico CGTime-inspired, codifica simbolica SAX) sullo stesso held-out a 15 casi indipendenti: nessuna differenza statisticamente significativa tra i primi tre approcci, con V2 che richiede 39–180× meno token. Questo confronto copre parzialmente il piano delle baseline interne, pur restando entro il paradigma LLM.
-2. **Baseline esterne al paradigma** — metodi diagnostici convenzionali come PCA/DPCA, SVM o Random Forest, e tecniche propriamente federate come FedAvg o FedProx (cfr. la tassonomia non-IID di Li et al., ICDE 2022; il survey FL-FDD di Berghout et al., 2022; FedMeta-FFD di Chen et al., IEEE TNSE 2023 per il meta-learning federato su fault diagnosis). Queste baseline verificherebbero se il paradigma testuale sia competitivo rispetto a quello numerico.
-
-La mancata disponibilità delle baseline esterne e della local-only separata non invalida l'esperimento: il progetto conserva valore come prova controllata del meccanismo, mostrando che insight testuali pertinenti possono aiutare gli agenti sui tipi di guasto assenti dalla loro esperienza locale. Limita però qualsiasi affermazione secondo cui FoT sia complessivamente migliore degli approcci diagnostici tradizionali o delle tecniche federate esistenti. I confronti A–B–E e il confronto descrittivo con C restano validi entro il loro perimetro: misurano rispettivamente l'effetto incrementale della federazione testuale e la collocazione di B rispetto a un contesto centralizzato più ricco, non la posizione assoluta di FoT nel panorama diagnostico. Una gap analysis sistematica della letteratura 2021–2026, documentata in [FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md](lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md) e nella [literature review estesa](lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md), conferma che nessun lavoro identificato combina simultaneamente trasferimento di conoscenza testuale, setting federato su serie temporali/FDD e classi localmente non viste sotto non-IID class-disjoint.
-
-### 1.6 Quick results overview
-
-Le novità che il progetto introduce o esplora, incrociate con la gap analysis e la literature review:
-
-1. **Novità di combinazione (confermata come gap nella letteratura).** Nessun lavoro identificato tra i 20+ paper verificati combina simultaneamente: trasferimento di conoscenza testuale + setting federato su serie temporali/FDD + classi localmente non viste sotto non-IID class-disjoint. Ogni singolo asse ha lavori vicini (FoT per il testo, FedMeta-FFD per il FL su FDD, FedCKD per il class-disjoint), ma l'intersezione dei tre è vuota.
-2. **Controllo di specificità semantica pre-registrato (B vs E).** Il derangement delle associazioni pseudolabel↔insight a parità di testo, volume e ordine è un disegno di valutazione non riscontrato altrove in questo contesto. Isola se il beneficio dipende dalla correttezza dell'informazione o dalla sola presenza di testo aggiuntivo — e i risultati confermano la prima ipotesi (B−E = +0.78 nell'Exp1, +0.89 nell'Exp3_V2).
-3. **Pipeline di verbalizzazione "structured domain-driven" (V2).** L'analisi comparativa con la letteratura (20+ approcci in 7 categorie) posiziona il verbalizzatore come una settima strategia: completamente deterministico, con soglie calibrate statisticamente (conformal, α=0.05), semantica temporale strutturata (run, fasi, persistenza), vocabolario controllato e neutralità diagnostica garantita per costruzione. Nessun altro approccio TS→testo combina tutte queste proprietà.
-4. **Replica confermativa su nuove realizzazioni fisiche Fase 2.** Il raddoppio del campione (da 12 a 24 run) conferma l'effetto (B−A = +0.94) e fa emergere un fenomeno non visibile nel campione più piccolo: una degradazione local-seen (19/24 in B vs 24/24 in A), segnale di possibile negative transfer che rimane aperto per indagine futura.
-
-### 1.7 Lazy points
-
-Mi restano queste cose da fare o valutare; in ordine di priorità:
-
-- Un solo LLM producer, un solo simulatore, spazio di pseudolabel chiuso (non open-world), nessuna garanzia formale di privacy. *Nota:* Experiment 2 (Fase 3) ha testato un consumer open-weight (Qwen 27B), mitigando parzialmente la dipendenza da un unico LLM lato consumer; il producer resta GPT-5.6-terra.
-- Il riferimento centralizzato (condition C) è stata applicata solo all'Exp1 e non all'Exp3_V2
-- La degradazione local-seen in B emerge nell'Exp3_V2 ma non è ancora stata diagnosticata.
-- La federazione è simulata su un singolo processo (TEP); la validazione su impianti PV reali multi-sito è il passo successivo dichiarato.
+La frase di novità più prudente resta: *“To the best of our knowledge, this is the first controlled study of federated textual knowledge transfer for locally unseen fault diagnosis in multivariate industrial time series.”*
 
 **Step 2 / 28(St.1)**
 
@@ -1196,7 +1148,7 @@ Ed è esattamente la domanda a cui rispondiamo. In letteratura:
 - **LLMTime** (Gruver et al., 2023) ha mostrato che gli LLM possono gestire serie temporali serializzate come numeri → noi testiamo qualcosa di simile con RAW_FEATURES
 - **CGTime** (Feng et al., 2026) propone un approccio "percezione statistica" → noi ne testiamo una versione adattata
 - **SAX/HAR-LLM** (Pappa et al., 2026) usa codifiche simboliche per sensori → noi testiamo SAX
-- Nessuno, per quanto ci risulta, **ha fatto un confronto sistematico di queste strategie sullo stesso dataset, stesso LLM, stesse condizioni**
+- Nel corpus consultato **non abbiamo identificato un confronto sistematico di queste strategie sullo stesso dataset, stesso LLM e stesse condizioni**; ciò non dimostra l'assenza assoluta di precedenti
 
 Questo è il nostro punto di forza: siamo probabilmente il **primo confronto controllato head-to-head** di strategie di rappresentazione TS→text per fault diagnosis con LLM.
 
@@ -1391,62 +1343,56 @@ Le fonti primarie sono `phase_b/insights`, `phase_b/final_evaluation`, `phase_b/
 
 ---
 
+## Critiche
+
+### Giudizio generale aggiornato
+
+L'esperimento è una buona prova controllata: mostra che una descrizione testuale corretta può portare a un agente la conoscenza che gli manca. Il punto debole è che questa conoscenza viene data a B per costruzione, mentre A non possiede il collegamento alle classi remote. Il grande vantaggio di B dimostra quindi il **meccanismo**, non ancora la superiorità di un sistema federato completo.
+
+**Legenda:** **Risolta** = la misura richiesta esiste; **Risolta editorialmente** = i testi sono stati corretti, senza nuova evidenza sperimentale; **Mitigata** = è stata aggiunta evidenza, ma resta un limite; **In corso** = il controllo è previsto o in completamento; **Aperta** = manca ancora una risposta sperimentale.
+
+| ID | Categoria | Critica | Stato | Spiegazione semplice |
+| --- | --- | --- | --- | --- |
+| C01 | Valutazione | Baseline A troppo debole | **Aperta** | A non conosce le classi degli altri agenti. Lo 0% è quindi in parte previsto. B mostra che l'informazione aiuta, non che FoT batte un metodo forte. |
+| C02 | Baseline | Mancano confronti numerici o FL | **In corso** | PCA, SVM, FedAvg o FedProto non sono stati eseguiti sullo stesso compito. Il riferimento C e l'ablation testuale aiutano, ma non chiudono questo confronto. |
+| C03 | Rappresentazione | Trasformazione TS→testo | **Mitigata** | L'ablation confronta quattro formati. V2 usa molti meno token, ma il campione è piccolo e cambia anche quanta informazione viene preparata prima del prompt. |
+| C04 | Modelli | Dipendenza da un solo LLM | **Mitigata** | Qwen conferma il risultato lato consumer. Gli insight sono però ancora prodotti da un solo modello proprietario. |
+| C05 | Comunicazione | Payload non caratterizzato | **Risolta** | Ora sappiamo quanti messaggi, byte e token vengono scambiati. Resta vietato dire che FoT è più efficiente senza un confronto diretto. |
+| C06 | Affidabilità | Peggioramento sui guasti già noti | **Aperta** | In EXP3_V2 B scende da 24/24 a 19/24 sui casi local-seen. Gli insight utili sui guasti nuovi possono confondere quelli già conosciuti. |
+| C07 | Inferenza | Reasoning cap e repliche identiche | **Aperta** | Gli errori Qwen coincidono con il limite di ragionamento e le tre ripetizioni sono uguali. Serve ripetere con budget più alto o vera variabilità. |
+| C08 | Scala | Pochi guasti, agenti e simulatori | **Mitigata** | La replica aggiunge 24 run, ma restano quattro guasti su 28, quattro agenti e un solo simulatore. Non prova generalità industriale. |
+| C09 | Federazione | Federazione solo logica | **Aperta** | I nodi sono simulati sullo stesso processo. Non ci sono siti reali, proprietari diversi, nodi offline o reti instabili. |
+| C10 | Sistema | Un solo round statico | **Aperta** | Gli insight vengono creati una volta e copiati nei prompt. Non sappiamo cosa succede con aggiornamenti, drift, ritardi o molti agenti. |
+| C11 | Privacy | Nessuna garanzia formale | **Aperta** | Non si inviano dati grezzi, ma il testo può comunque rivelare informazioni. Non sono stati fatti attacchi di ricostruzione o misure di privacy. |
+| C12 | Open world | Spazio di etichette chiuso | **Aperta** | Il modello sceglie tra pseudolabel note. Non è testato un guasto davvero nuovo, ambiguo o fuori catalogo. |
+| C13 | Centralizzazione | Condition C non equivalente | **Mitigata** | C ottiene 15/15, ma è post-hoc, usa più contesto ed esiste solo per Experiment 1. È un riferimento, non una prova causale. |
+| C14 | Statistica | Evidenza ancora piccola | **Mitigata** | La replica e i test per run sono corretti. Tuttavia il numero di run indipendenti resta basso per conclusioni ampie. |
+| C15 | Novità | FoT non nasce in questo lavoro | **Risolta editorialmente** | FoT è attribuito a Yao et al.; il contributo è circoscritto alla combinazione tra TS industriali multivariate, esperienza class-disjoint/local-unseen, verbalizzazione verificabile, controllo B/E, protocollo frozen e replica. |
+| C16 | Verbalizzatore | Feature e soglie rigide | **Aperta** | Mancano feature frequenziali e adattamento al drift. Soglie valide su TEP potrebbero non funzionare su un altro impianto. |
+| C17 | Applicazione | Nessuna validazione PV reale | **Aperta** | Il fotovoltaico motiva il progetto, ma gli esperimenti usano solo TEP. Il paper non può dire che il metodo funziona già sul PV. |
+| C18 | Conferenza | Debole evidenza di “Big Data” | **Risolta editorialmente** | L'aderenza è limitata a dati distribuiti, non-IID class-disjoint, collaborazione, Variety, Veracity, Value, evaluation/benchmarking e contesto industriale/IoT. Non c'è evidenza su Volume, Velocity, edge o scalabilità. |
+
+Le priorità sperimentali prima dell'invio restano C01, C06 e C07. C15 e C18 sono chiuse sul piano editoriale; C02 è utile, ma deve confrontare lo **stesso compito**, altrimenti genera un numero poco interpretabile.
+
+---
+
 ## Conferenza
 
-### 2023 IEEE International Conference on Big Data · `Work in progress`
+### IEEE BigData 2026 · Special Session on Federated Learning on Big Data
 
-**Raccomandazione:** Borderline / Weak Accept · **Confidenza:** 4/5 · **Stato dell'evidenza:** pilot promettente.
+La [call ufficiale della Special Session](https://bigdataieee.org/BigData2026/calls/special-federated-learning/) include dati distribuiti, distribuzioni non-IID, collaborative learning, evaluation e benchmarking, 5V e applicazioni IoT. Il lavoro vi aderisce per aspetti realmente valutati:
 
-**Valutazione sintetica.** Il manoscritto presenta un adattamento di Federation over Text alla diagnosi di guasti localmente non visti su Tennessee Eastman Process. Quattro agenti possiedono soltanto esempi *Normal + un guasto*; la conoscenza trasferita consiste in insight testuali associati a pseudolabel opache. Il disegno A/B/E è il contributo sperimentale più convincente: B riceve insight corretti, E lo stesso payload con associazioni semantiche derangiate e A nessun insight. La replica su run fisici freschi porta l'accuratezza unseen da 0/72 in A a 68/72 in B, contro 4/72 in E. Questo sostiene la specificità semantica del trasferimento, ma non dimostra ancora una superiorità generale del paradigma.
+- **dati distribuiti e non-IID class-disjoint:** i quattro agenti hanno esperienze locali diverse;
+- **collaborative knowledge transfer:** gli agenti condividono insight testuali, non aggiornamenti di modello;
+- **Variety:** il testbed contiene serie industriali multivariate e firme di guasto eterogenee;
+- **Veracity:** ground truth, verbalizzazione deterministica, artefatti frozen e controllo B/E rendono verificabili dati e associazioni semantiche;
+- **Value:** si valuta se la conoscenza peer consenta la diagnosi di guasti localmente non osservati;
+- **evaluation e benchmarking:** protocollo A/B/E, replica su nuovi run e confronti controllati forniscono una valutazione riproducibile;
+- **contesto industriale e IoT:** TEP è un banco di prova industriale simulato pertinente al tema IoT della call.
 
-#### Punti di forza
+Il framing corretto è **federated textual knowledge transfer**, cioè collaborative learning di tipo FL-like, non Federated Learning parametrico classico. Volume, Velocity, deployment edge, scalabilità a molti nodi, privacy, sicurezza e applicazioni fotovoltaiche validate non sono risultati di questo studio. Per i limiti di novità e di aderenza si vedano **C15** e **C18** nella sezione Critiche.
 
-- **Controllo negativo informativo forte:** E conserva forma, ordine, fonte ed evidenza del payload e altera le sole pseudolabel.
-- **Separazione tra design e test:** soglie, verbalizzatore, insight e mapping sono congelati prima dei run held-out.
-- **Replica fisica coerente:** il risultato principale passa da 31/36 unseen corretti in Experiment 1 a 68/72 nella replica, con intervalli cluster-aware.
-- **Auditabilità ed efficienza:** la catena serie→feature→flag→testo→decisione è ispezionabile; V2 usa 39–180× meno token dei bracci più verbosi.
-
-#### Debolezze che impediscono uno Strong Accept
-
-1. **Contributo metodologico incrementale.** FoT è preesistente; sono nuovi l'adattamento TS class-disjoint, il verbalizzatore congelato e il disegno A/B/E.
-2. **Federazione in senso non standard.** Non sono aggregati parametri: usare *federated knowledge transfer* o *FL-like collaboration* e collegare FedMD→FedProto→FoT.
-3. **Baseline A al floor.** Lo 0% unseen è in parte strutturale e non equivale a superare un forte classificatore centralizzato o FL parametrico.
-4. **Scala limitata.** Quattro fault su 28, un simulatore, quattro agenti e pochi run fisici non consentono claim di robustezza o generalità industriale.
-5. **Negative transfer locale.** In Experiment 3V2 B preserva 68/72 unseen ma degrada local-seen da 24/24 a 19/24.
-6. **Portabilità parziale.** Il consumer open-weight raggiunge 34/36 in B, ma gli insight restano prodotti da GPT-5.6-terra; le ripetizioni sono byte-identiche e gli errori coincidono col reasoning cap.
-7. **Centralizzazione non comparabile causalmente.** C è post-hoc, solo su Experiment 1 e con contesto differente; 15/15 è un comparator descrittivo.
-
-#### Richieste prima dell'accettazione
-
-- Ridurre i claim a *evidenza preliminare di trasferimento semantico specifico*; non rivendicare privacy, robustezza o generalizzazione dimostrate.
-- Esplicitare unità indipendente, denominatori, test cluster-aware, coverage e selective risk.
-- **Completato:** caratterizzazione riproducibile del payload in byte/token, costo producer/consumer, round effettivi, controllo strutturale B/E e confronto concettuale con logit, prototipi e adapter (sezione precedente).
-- Aggiungere almeno un baseline diagnostico classico e uno knowledge-transfer adiacente.
-- Svolgere due verifiche distinte: analizzare per caso i cinque errori local-seen di EXP3_V2 e condurre, sull'esperimento Qwen, una sensitivity analysis oltre il reasoning cap.
-- Presentare l'ablation come pilot di efficienza: nessuna coppia differisce significativamente e V2 confonde formato con informazione precomputata.
-
-#### Perché local-seen e reasoning cap costituiscono una critica
-
-In termini semplici, un caso **local-seen** riguarda un guasto che l'agente aveva già imparato a riconoscere dai propri dati. In EXP3_V2 la configurazione isolata A riconosce correttamente tutti questi casi (24/24), mentre con gli insight degli altri agenti, configurazione B, cinque diventano errati (19/24). È quindi possibile che informazioni aggiuntive, pur essendo utili per riconoscere guasti mai visti localmente, confondano l'agente su qualcosa che già conosceva. Questo possibile peggioramento è chiamato **negative transfer**.
-
-Il **reasoning cap** è invece il numero massimo di token che Qwen può usare per ragionare prima di dover terminare la risposta. Se il modello raggiunge quel limite, può interrompere il ragionamento prima di arrivare alla decisione corretta. Nell'esperimento Qwen tutti e cinque gli errori aggregati di B raggiungono il cap, mentre tutti i 36 casi B che non lo raggiungono sono corretti. Questa coincidenza non dimostra da sola che il cap sia la causa, ma impedisce di attribuire con sicurezza gli errori agli insight.
-
-Le due verifiche sono collegate, ma **non riguardano lo stesso gruppo di cinque errori**:
-
-1. i cinque errori local-seen appartengono a **EXP3_V2** e devono essere esaminati usando prompt, output e log frozen già disponibili;
-2. i cinque errori aggregati associati al cap appartengono all'esperimento **Qwen**: due sono unseen e tre local-seen. Per questi servono nuove inferenze con prompt e insight identici e budget di reasoning progressivamente più alti.
-
-La sensitivity analysis serve a distinguere spiegazioni diverse:
-
-- se B diventa corretto aumentando il budget, l'errore è compatibile con un **ragionamento troncato**;
-- se B resta errato senza raggiungere il nuovo cap, aumenta l'evidenza di **interferenza o negative transfer causato dagli insight**;
-- se cambia anche A, il problema è più generale e non specifico della federazione.
-
-Senza questa verifica si può soltanto dire che le prestazioni sono associate al limite di reasoning osservato; non si può ancora dire con sicurezza se gli errori siano causati dal cap o dagli insight.
-
-> **Verdetto da reviewer.** Il lavoro è pertinente a Big Data per collaborative learning, non-IID industrial time series ed evaluation design. Sarei favorevole a un **Weak Accept** solo con claim conservativi e con negative transfer, costo comunicativo e limiti di scala resi centrali; altrimenti il giudizio è **Weak Reject**.
-
-*La valutazione usa i materiali locali del progetto e non implica una review ufficiale IEEE. Il titolo segue la voce di conferenza richiesta.*
+*Valutazione editoriale basata sui materiali del progetto e sulla call consultata il 10 settembre 2026.*
 
 ---
 
@@ -1510,7 +1456,7 @@ Questa mappa unifica i Markdown di `docs/lit_review`, il workbook `docs/lit_revi
 
 Agenti locali trasformano traiettorie in insight; un server li raggruppa, distilla e redistribuisce senza condividere esempi o gradienti.
 
-**Confronto con FoT–TEP** — **Somiglianza:** insight naturali come oggetto federato. **Differenza:** FoT originale è multi-round, server-based e cross-task; FoT–TEP è single-shot, peer-only e class-disjoint. **Implicazione:** prior obbligatorio; la novità è l'adattamento e la valutazione.
+**Confronto con FoT–TEP** — **Somiglianza:** insight naturali come oggetto federato. **Differenza:** FoT di Yao et al. è multi-round, server-based e cross-task; FoT–TEP è single-shot, peer-only e class-disjoint. **Implicazione:** prior obbligatorio; il contributo è l'adattamento e la valutazione controllata.
 </details>
 
 <details><summary>Federated In-Context LLM Agent Learning (FICAL)</summary>
@@ -1547,7 +1493,7 @@ Yan et al. (WWW 2026). Propone una pipeline SRD che sparsifica gli aggiornamenti
 
 DOI: `10.1145/3774904.3792144`
 
-**Confronto con FoT–TEP** — **Somiglianza:** affronta il costo comunicativo della federazione LLM. **Differenza:** scambia gradienti compressi, non insight testuali; FoT–TEP azzera il problema perché il payload è testo leggibile (~kB). **Implicazione:** baseline per la metrica byte/token del payload; il vantaggio FoT è ordini di grandezza inferiore.
+**Confronto con FoT–TEP** — **Somiglianza:** affronta il costo comunicativo della federazione LLM. **Differenza:** scambia gradienti compressi, non insight testuali; FoT–TEP scambia un payload testuale misurato in byte e token. **Implicazione:** baseline concettuale per la metrica del payload; senza confronto diretto non si sostiene un vantaggio di scala o efficienza.
 </details>
 
 ### FL non parametrico e class-disjoint
@@ -1872,17 +1818,17 @@ Tutte le 12 query sono state eseguite su OpenAlex, arXiv, Scopus e Crossref tram
 - ✅ `("federated knowledge transfer" OR …) AND "time series"` — nessun paper specifico (intersezione troppo stretta); coperta indirettamente da Federated Reasoning LLMs Survey e FedSRD
 - ✅ `("class-disjoint" OR …) AND federated AND diagnosis` — FedMAPS, FedAPA-FD
 - ✅ `("federated fault diagnosis" OR …) AND "Tennessee Eastman" AND non-IID` — Zhang et al. KBS 2026, Xu et al. Sensors 2026, EviFDD-Agent
-- ✅ `("semantic specificity" OR …) AND "in-context learning"` — nessun risultato rilevante (query molto di nicchia; il concetto è originale di FoT–TEP)
+- ✅ `("semantic specificity" OR …) AND "in-context learning"` — nessun risultato rilevante nella query eseguita; ciò non dimostra un'assenza assoluta di precedenti
 - ✅ `("time series to text" OR verbalization) AND faithfulness` — Faithful Text-to-TS (Wu ICASSP 2026)
 - ✅ `("deterministic verbalization" OR …) AND "time series" AND LLM` — Signals-to-Semantics (Yue IEEE TASE 2026)
 - ✅ `(SAX OR symbolic) AND LLM AND "fault diagnosis"` — LLM-ABBA (Carson et al. 2025/2026)
-- ✅ `("negative transfer" OR interference) AND federated AND prompt` — nessun paper specifico all’intersezione FoT; concetto originale
+- ✅ `("negative transfer" OR interference) AND federated AND prompt` — nessun paper specifico emerso dalla query all’intersezione FoT
 - ✅ `("communication cost" OR payload) AND federated LLM` — Federated Reasoning LLMs Survey (Wei et al. 2025), FedSRD (Yan et al. 2026)
 - ✅ `("selective prediction" OR abstention OR calibration) AND LLM AND industrial` — CL-LLMOps, DML–LLM Hybrid, Conformal FD (Heddoub 2025, 2026)
 - ✅ `("frozen LLM" OR "training-free") AND "time series"` — TableTime (Wang et al. CIKM 2025)
-- ✅ `("causal evaluation" OR placebo) AND "knowledge sharing" AND multi-agent` — nessun risultato (concetto originale di FoT–TEP)
+- ✅ `("causal evaluation" OR placebo) AND "knowledge sharing" AND multi-agent` — nessun risultato emerso dalla query eseguita
 
-**Query senza risultati rilevanti** (4, 8, 12): confermano l’originalità degli assi *semantic specificity / label permutation*, *negative transfer in text-only FL* e *causal placebo for multi-agent LLM knowledge sharing* — punti di contributo esclusivo di FoT–TEP.
+**Query senza risultati rilevanti** (4, 8, 12): delimitano il corpus consultato, ma non provano l'assenza assoluta di precedenti. Sostengono soltanto un claim prudente sulla combinazione studiata, formulato come *to the best of our knowledge*.
 
 **Possibili estensioni future:** monitorare preprint su arXiv per le query 4, 8, 12; cercare su Google Scholar con citazione diretta di “Federation over Text” per lavori derivati.
 
