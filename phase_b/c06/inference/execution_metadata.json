@@ -1,0 +1,1 @@
+{"completed_at":"2026-09-10T14:07:35.554300+00:00","completed_repetition_records":72,"input_tokens":173130,"model":"gpt-5.6-terra","output_tokens":14217,"parse_failures":0,"planned_repetition_records":72,"provider_attempts":72,"reasoning_effort":"medium","status":"SCREENING_INFERENCE_COMPLETE","total_tokens":187347,"variant":"B_LOCAL_FIRST_V1"}

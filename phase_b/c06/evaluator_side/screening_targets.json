@@ -1,0 +1,17 @@
+{
+  "scope": "EVALUATOR_SIDE_ONLY",
+  "original_errors": [
+    {"agent_id": "agent_2", "physical_case_id": "EXP3V2-F8-003"},
+    {"agent_id": "agent_4", "physical_case_id": "EXP3V2-F13-002"},
+    {"agent_id": "agent_4", "physical_case_id": "EXP3V2-F13-003"},
+    {"agent_id": "agent_4", "physical_case_id": "EXP3V2-F13-004"},
+    {"agent_id": "agent_4", "physical_case_id": "EXP3V2-F13-005"}
+  ],
+  "expected_local_labels": {
+    "agent_1": "CLS-ZOGAA",
+    "agent_2": "CLS-OJNSG",
+    "agent_3": "CLS-R463B",
+    "agent_4": "CLS-Z3ISU"
+  }
+}
+

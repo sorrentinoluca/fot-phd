@@ -1,0 +1,18 @@
+{
+  "variant": "B_LOCAL_FIRST_V1",
+  "analysis_kind": "post-hoc diagnostic; not an independent replication",
+  "aggregate_accuracy": 0.9583333333333334,
+  "correct": 23,
+  "n": 24,
+  "original_errors_recovered": 4,
+  "original_errors_n": 5,
+  "new_errors_in_previously_correct": 0,
+  "previously_correct_n": 19,
+  "aggregate_abstentions": 0,
+  "parse_failures": 0,
+  "three_of_three_agreement": 23,
+  "forbidden_information_detected": false,
+  "new_error_cases": [],
+  "gate": "PASS",
+  "recommended_c06_status": "Mitigata — correzione preliminare promettente"
+}
