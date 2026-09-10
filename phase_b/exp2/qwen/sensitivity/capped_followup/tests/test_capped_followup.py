@@ -6,6 +6,10 @@ import tempfile
 import unittest
 
 from phase_b.exp2.qwen.common import FrozenPromptInputs, SCHEDULE_PATH, load_json
+from phase_b.exp2.qwen.sensitivity.capped_followup.evaluate import (
+    build_results,
+    render_report,
+)
 from phase_b.exp2.qwen.sensitivity.capped_followup.run import (
     CONFIG_PATH,
     FOLLOWUP_DIR,
@@ -172,6 +176,50 @@ class CompletedArtifactTests(unittest.TestCase):
 
         self.assertNotIn("accuracy", set(keys(self.results)))
         self.assertIn("not_global_accuracy_estimate", self.results["design"])
+
+    def test_zero_incorrect_capped_does_not_mean_zero_causal_inconclusive(self):
+        counts = self.results["diagnostic_counts"]
+        cases = self.results["case_lists"]
+        self.assertEqual(counts["incorrect_and_still_capped_at_4096"], 0)
+        self.assertEqual(counts["budget_effect_but_mechanism_causally_inconclusive"], 2)
+        self.assertEqual(
+            {tuple(value) for value in cases["budget_effect_but_mechanism_causally_inconclusive"]},
+            {("agent_2", "PBH-007"), ("agent_3", "PBH-009")},
+        )
+
+    def test_regenerated_summary_preserves_causal_distinction(self):
+        regenerated = build_results(
+            self.results["server"], self.results["context_check"]
+        )
+        counts = regenerated["diagnostic_counts"]
+        self.assertEqual(counts["incorrect_and_still_capped_at_4096"], 0)
+        self.assertEqual(
+            counts["budget_effect_but_mechanism_causally_inconclusive"], 2
+        )
+        report = render_report(regenerated)
+        self.assertIn(
+            "Zero incorrect capped predictions does not mean that every mechanism has been identified.",
+            report,
+        )
+
+    def test_final_classification_covers_all_five_original_errors(self):
+        rows = {
+            (item["agent_id"], item["physical_case_id"]): item
+            for item in self.results["original_error_final_classification"]
+        }
+        self.assertEqual(
+            {key: item["classification"] for key, item in rows.items()},
+            {
+                ("agent_3", "PBH-008"): "compatible_with_reasoning_truncation",
+                ("agent_2", "PBH-007"): "budget_effect_mechanism_causally_inconclusive",
+                ("agent_3", "PBH-009"): "budget_effect_mechanism_causally_inconclusive",
+                ("agent_4", "PBH-014"): "persistent_error_below_cap_interference_or_negative_transfer_more_plausible",
+                ("agent_4", "PBH-015"): "persistent_error_below_cap_interference_or_negative_transfer_more_plausible",
+            },
+        )
+        self.assertEqual(rows[("agent_3", "PBH-008")]["first_below_cap_budget"], 3072)
+        self.assertEqual(rows[("agent_4", "PBH-014")]["first_below_cap_budget"], 4096)
+        self.assertEqual(rows[("agent_4", "PBH-015")]["first_below_cap_budget"], 1536)
 
 
 if __name__ == "__main__":

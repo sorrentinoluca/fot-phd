@@ -16,22 +16,36 @@ Each cell is `prediction (reasoning tokens; cap status)`. Correct predictions ar
 
 | Agent | Case | Truth | 1024 | 1536 | 2048 | 3072 | 4096 | Diagnostic reading |
 |---|---|---|---|---|---|---|---|---|
-| agent_2 | PBH-007 | CLS-OJNSG | CLS-Z3ISU (1023; cap; ✗) | CLS-Z3ISU (1535; cap; ✗) | CLS-OJNSG (2047; cap; ✓) | CLS-OJNSG (3071; cap; ✓) | CLS-OJNSG (4095; cap; ✓) | correct while still capped; additional evidence that reaching the cap does not imply error |
+| agent_2 | PBH-007 | CLS-OJNSG | CLS-Z3ISU (1023; cap; ✗) | CLS-Z3ISU (1535; cap; ✗) | CLS-OJNSG (2047; cap; ✓) | CLS-OJNSG (3071; cap; ✓) | CLS-OJNSG (4095; cap; ✓) | correct after an earlier error but still capped; the budget affects the result, while the mechanism remains causally inconclusive |
 | agent_4 | PBH-007 | CLS-OJNSG | CLS-OJNSG (1023; cap; ✓) | CLS-OJNSG (1535; cap; ✓) | CLS-OJNSG (2047; cap; ✓) | CLS-OJNSG (3071; cap; ✓) | CLS-OJNSG (3196; below; ✓) | correct and terminated below the new cap |
-| agent_3 | PBH-009 | CLS-OJNSG | CLS-ZOGAA (1023; cap; ✗) | CLS-ZOGAA (1535; cap; ✗) | CLS-ZOGAA (2047; cap; ✗) | CLS-ZOGAA (3071; cap; ✗) | CLS-OJNSG (4095; cap; ✓) | correct while still capped; additional evidence that reaching the cap does not imply error |
+| agent_3 | PBH-009 | CLS-OJNSG | CLS-ZOGAA (1023; cap; ✗) | CLS-ZOGAA (1535; cap; ✗) | CLS-ZOGAA (2047; cap; ✗) | CLS-ZOGAA (3071; cap; ✗) | CLS-OJNSG (4095; cap; ✓) | correct after an earlier error but still capped; the budget affects the result, while the mechanism remains causally inconclusive |
 | agent_4 | PBH-014 | CLS-Z3ISU | CLS-OJNSG (1023; cap; ✗) | CLS-OJNSG (1535; cap; ✗) | CLS-OJNSG (2047; cap; ✗) | CLS-OJNSG (3071; cap; ✗) | CLS-OJNSG (3187; below; ✗) | 3072 error persists below the new cap; interference or negative transfer is more plausible, without causal attribution |
 | agent_1 | PBH-015 | CLS-Z3ISU | CLS-Z3ISU (1023; cap; ✓) | CLS-Z3ISU (1535; cap; ✓) | CLS-Z3ISU (2047; cap; ✓) | CLS-Z3ISU (3071; cap; ✓) | CLS-Z3ISU (4095; cap; ✓) | correct while still capped; additional evidence that reaching the cap does not imply error |
 
+## Final classification of the five original errors
+
+This broader diagnostic classification includes the three original errors in the capped-at-3072 subset and the two original errors that had already terminated below the cap by 3072.
+
+| Agent | Case | Final diagnostic observation | Methodological classification |
+|---|---|---|---|
+| agent_3 | PBH-008 | CLS-OJNSG at 3072 (2509; below; ✓) | correct and below the cap at 3072; compatible with reasoning truncation |
+| agent_2 | PBH-007 | CLS-OJNSG at 4096 (4095; cap; ✓) | correct at 4096 but still capped; the budget affects the result, while the mechanism remains causally inconclusive |
+| agent_3 | PBH-009 | CLS-OJNSG at 4096 (4095; cap; ✓) | correct at 4096 but still capped; the budget affects the result, while the mechanism remains causally inconclusive |
+| agent_4 | PBH-014 | CLS-OJNSG at 4096 (3187; below; ✗) | still incorrect and below the cap at 4096; interference or negative transfer is more plausible, without demonstrated causality |
+| agent_4 | PBH-015 | CLS-OJNSG at 3072 (1107; below; ✗) | still incorrect and below the cap from 1536 onward; interference or negative transfer is more plausible, without demonstrated causality |
+
 ## Diagnostic summary
 
-- Terminated below the 4096 reasoning cap: 2/5; still capped: 3/5.
-- Errors present at 3072 and corrected at 4096: 1.
-- Errors present at 3072 and still incorrect at 4096: 1.
-- Incorrect and still capped at 4096, hence mechanistically inconclusive: 0.
-- Correct while still capped at 4096: 3; such a case is further evidence that reaching a cap does not automatically imply error.
-- Regressions relative to 3072: 0; any regression shows that greater reasoning budget is not monotonically beneficial.
+- 2/5 selected cases terminate below the reasoning cap at 4096.
+- 3/5 remain capped, and all 3 are classified correctly.
+- Of the two errors present at 3072, one is corrected at 4096 (`agent_3/PBH-009`) and one persists below the cap (`agent_4/PBH-014`).
+- Regressions among the five selected cases: 0.
+- Incorrect predictions still capped at 4096: 0.
+- Budget-sensitive corrections that remain causally inconclusive because they are still capped: 2 (`agent_2/PBH-007`, `agent_3/PBH-009`).
 
-An error corrected and terminated below the new limit is compatible with reasoning truncation. An error that persists but terminates below the limit makes interference or negative transfer more plausible, without establishing causality. An error still at the new limit remains inconclusive.
+Zero incorrect capped predictions does not mean that every mechanism has been identified. In particular, the corrections of `agent_2/PBH-007` and `agent_3/PBH-009` show a budget effect but remain capped, so attributing those corrections specifically to reasoning truncation would be unwarranted.
+
+An error corrected and terminated below the new limit is compatible with reasoning truncation. An error that persists but terminates below the limit makes interference or negative transfer more plausible, without establishing causality. A budget-sensitive correction that still reaches the new limit remains causally inconclusive.
 
 ## Methodological limits
 

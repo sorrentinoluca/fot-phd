@@ -32,6 +32,13 @@ from phase_b.exp2.qwen.sensitivity.capped_followup.run import (  # noqa: E402
 
 REPORT_PATH = FOLLOWUP_DIR / "REPORT.md"
 SOURCE_BUDGETS = (1024, 1536, 2048, 3072)
+ORIGINAL_ERROR_KEYS = (
+    ("agent_3", "PBH-008"),
+    ("agent_2", "PBH-007"),
+    ("agent_3", "PBH-009"),
+    ("agent_4", "PBH-014"),
+    ("agent_4", "PBH-015"),
+)
 
 
 def prediction(parsed: dict[str, Any]) -> str | None:
@@ -109,7 +116,18 @@ def load_source_trajectories(
         item["error_at_3072_persistent"] = not prior["correct"] and not latest["correct"]
         item["regression_from_3072"] = prior["correct"] and not latest["correct"]
         item["terminated_below_4096_cap"] = not latest["cap_reached"]
-        if latest["cap_reached"] and latest["correct"]:
+        earlier_error = any(
+            not item["budgets"][str(budget)]["correct"] for budget in SOURCE_BUDGETS
+        )
+        item["budget_effect_but_mechanism_inconclusive"] = bool(
+            earlier_error and latest["correct"] and latest["cap_reached"]
+        )
+        if item["budget_effect_but_mechanism_inconclusive"]:
+            interpretation = (
+                "correct after an earlier error but still capped; the budget affects the result, "
+                "while the mechanism remains causally inconclusive"
+            )
+        elif latest["cap_reached"] and latest["correct"]:
             interpretation = (
                 "correct while still capped; additional evidence that reaching the cap does not imply error"
             )
@@ -130,6 +148,106 @@ def load_source_trajectories(
     return trajectories
 
 
+def original_error_final_classification(
+    selected_trajectories: list[dict[str, Any]], case_truth: dict[str, str]
+) -> list[dict[str, Any]]:
+    """Classify all five frozen 1024 errors without conflating cap and causality."""
+    source_rows = [
+        json.loads(line)
+        for line in SOURCE_RECORDS_PATH.read_text(encoding="utf-8").splitlines()
+        if line.strip()
+    ]
+    source_lookup: dict[tuple[int, str, str], dict[str, Any]] = {}
+    for row in source_rows:
+        pair = (row.get("agent_id"), row.get("physical_case_id"))
+        budget = row.get("thinking_token_budget")
+        if pair not in set(ORIGINAL_ERROR_KEYS) or budget not in SOURCE_BUDGETS:
+            continue
+        key = (budget, *pair)
+        if key in source_lookup:
+            raise RuntimeError(f"duplicate original-error source row: {key}")
+        source_lookup[key] = row
+    if len(source_lookup) != len(ORIGINAL_ERROR_KEYS) * len(SOURCE_BUDGETS):
+        raise RuntimeError("source trajectories for the five original errors are incomplete")
+
+    selected_lookup = {
+        (item["agent_id"], item["physical_case_id"]): item
+        for item in selected_trajectories
+    }
+    classifications: list[dict[str, Any]] = []
+    for agent_id, case_id in ORIGINAL_ERROR_KEYS:
+        truth = case_truth[case_id]
+        initial = source_lookup[(1024, agent_id, case_id)]
+        if prediction(initial["parsed_final_output"]) == truth:
+            raise RuntimeError(f"declared original error is correct at the reproduced 1024 anchor: {(agent_id, case_id)}")
+        pair = (agent_id, case_id)
+        if pair in selected_lookup:
+            terminal_budget = 4096
+            terminal = selected_lookup[pair]["budgets"]["4096"]
+        else:
+            terminal_budget = 3072
+            row = source_lookup[(3072, agent_id, case_id)]
+            value = prediction(row["parsed_final_output"])
+            terminal = {
+                "prediction": value,
+                "correct": value == truth,
+                "reasoning_tokens": row["reasoning_tokens"],
+                "cap_reached": row["cap_reached"],
+                "finish_reason": row["finish_reason"],
+            }
+        below_budgets = [
+            budget
+            for budget in SOURCE_BUDGETS
+            if not source_lookup[(budget, agent_id, case_id)]["cap_reached"]
+        ]
+        if terminal_budget == 4096 and not terminal["cap_reached"]:
+            below_budgets.append(4096)
+        if terminal["correct"] and not terminal["cap_reached"]:
+            classification = "compatible_with_reasoning_truncation"
+            interpretation = (
+                f"correct and below the cap at {terminal_budget}; compatible with reasoning truncation"
+            )
+        elif terminal["correct"] and terminal["cap_reached"]:
+            classification = "budget_effect_mechanism_causally_inconclusive"
+            interpretation = (
+                f"correct at {terminal_budget} but still capped; the budget affects the result, "
+                "while the mechanism remains causally inconclusive"
+            )
+        elif not terminal["correct"] and not terminal["cap_reached"]:
+            classification = "persistent_error_below_cap_interference_or_negative_transfer_more_plausible"
+            if pair == ("agent_4", "PBH-015"):
+                interpretation = (
+                    "still incorrect and below the cap from 1536 onward; interference or negative "
+                    "transfer is more plausible, without demonstrated causality"
+                )
+            else:
+                interpretation = (
+                    f"still incorrect and below the cap at {terminal_budget}; interference or negative "
+                    "transfer is more plausible, without demonstrated causality"
+                )
+        else:
+            classification = "persistent_error_still_capped_mechanism_causally_inconclusive"
+            interpretation = (
+                f"still incorrect and capped at {terminal_budget}; the mechanism remains causally inconclusive"
+            )
+        classifications.append(
+            {
+                "agent_id": agent_id,
+                "physical_case_id": case_id,
+                "truth": truth,
+                "terminal_budget": terminal_budget,
+                "prediction": terminal["prediction"],
+                "correct": terminal["correct"],
+                "reasoning_tokens": terminal["reasoning_tokens"],
+                "cap_reached": terminal["cap_reached"],
+                "first_below_cap_budget": min(below_budgets) if below_budgets else None,
+                "classification": classification,
+                "interpretation": interpretation,
+            }
+        )
+    return classifications
+
+
 def build_results(
     server: dict[str, Any], context_check: dict[str, Any] | None = None
 ) -> dict[str, Any]:
@@ -139,6 +257,7 @@ def build_results(
     protocol = load_json(frozen_evaluator.CONFIG_PATH)
     case_truth, truth_provenance = frozen_evaluator.load_case_truth(protocol)
     trajectories = load_source_trajectories(config, case_truth)
+    original_errors = original_error_final_classification(trajectories, case_truth)
     records = list(load_existing_records(RECORDS_PATH, config).values())
     if len(records) != 5:
         raise RuntimeError("follow-up evaluation requires exactly five records")
@@ -156,6 +275,9 @@ def build_results(
         item
         for item in trajectories
         if item["budgets"]["4096"]["cap_reached"] and item["budgets"]["4096"]["correct"]
+    ]
+    budget_effect_inconclusive = [
+        item for item in trajectories if item["budget_effect_but_mechanism_inconclusive"]
     ]
     regressions = [item for item in trajectories if item["regression_from_3072"]]
     result = {
@@ -185,14 +307,16 @@ def build_results(
             "source_sensitivity_records_sha256": sha256_file(SOURCE_RECORDS_PATH),
         },
         "trajectories": trajectories,
+        "original_error_final_classification": original_errors,
         "diagnostic_counts": {
             "selected_cases": 5,
             "terminated_below_4096_cap": len(below),
             "still_capped_at_4096": 5 - len(below),
             "errors_at_3072_corrected": len(corrected),
             "errors_at_3072_persistent": len(persistent),
-            "incorrect_and_still_capped_at_4096_inconclusive": len(capped_incorrect),
+            "incorrect_and_still_capped_at_4096": len(capped_incorrect),
             "correct_and_still_capped_at_4096": len(capped_correct),
+            "budget_effect_but_mechanism_causally_inconclusive": len(budget_effect_inconclusive),
             "regressions_from_3072": len(regressions),
             "parse_failures": sum(bool(row["parse_failure"]) for row in records),
         },
@@ -200,8 +324,9 @@ def build_results(
             "terminated_below_4096_cap": [[item["agent_id"], item["physical_case_id"]] for item in below],
             "errors_at_3072_corrected": [[item["agent_id"], item["physical_case_id"]] for item in corrected],
             "errors_at_3072_persistent": [[item["agent_id"], item["physical_case_id"]] for item in persistent],
-            "incorrect_and_still_capped_at_4096_inconclusive": [[item["agent_id"], item["physical_case_id"]] for item in capped_incorrect],
+            "incorrect_and_still_capped_at_4096": [[item["agent_id"], item["physical_case_id"]] for item in capped_incorrect],
             "correct_and_still_capped_at_4096": [[item["agent_id"], item["physical_case_id"]] for item in capped_correct],
+            "budget_effect_but_mechanism_causally_inconclusive": [[item["agent_id"], item["physical_case_id"]] for item in budget_effect_inconclusive],
             "regressions_from_3072": [[item["agent_id"], item["physical_case_id"]] for item in regressions],
         },
         "reasoning_tokens_4096": _stats([row["reasoning_tokens"] for row in records]),
@@ -261,16 +386,36 @@ def render_report(results: dict[str, Any]) -> str:
     lines.extend(
         [
             "",
+            "## Final classification of the five original errors",
+            "",
+            "This broader diagnostic classification includes the three original errors in the capped-at-3072 subset and the two original errors that had already terminated below the cap by 3072.",
+            "",
+            "| Agent | Case | Final diagnostic observation | Methodological classification |",
+            "|---|---|---|---|",
+        ]
+    )
+    for item in results["original_error_final_classification"]:
+        lines.append(
+            f"| {item['agent_id']} | {item['physical_case_id']} | "
+            f"{_display_prediction(item['prediction'])} at {item['terminal_budget']} "
+            f"({item['reasoning_tokens']}; {'cap' if item['cap_reached'] else 'below'}; "
+            f"{'✓' if item['correct'] else '✗'}) | {item['interpretation']} |"
+        )
+    lines.extend(
+        [
+            "",
             "## Diagnostic summary",
             "",
-            f"- Terminated below the 4096 reasoning cap: {counts['terminated_below_4096_cap']}/5; still capped: {counts['still_capped_at_4096']}/5.",
-            f"- Errors present at 3072 and corrected at 4096: {counts['errors_at_3072_corrected']}.",
-            f"- Errors present at 3072 and still incorrect at 4096: {counts['errors_at_3072_persistent']}.",
-            f"- Incorrect and still capped at 4096, hence mechanistically inconclusive: {counts['incorrect_and_still_capped_at_4096_inconclusive']}.",
-            f"- Correct while still capped at 4096: {counts['correct_and_still_capped_at_4096']}; such a case is further evidence that reaching a cap does not automatically imply error.",
-            f"- Regressions relative to 3072: {counts['regressions_from_3072']}; any regression shows that greater reasoning budget is not monotonically beneficial.",
+            f"- {counts['terminated_below_4096_cap']}/5 selected cases terminate below the reasoning cap at 4096.",
+            f"- {counts['still_capped_at_4096']}/5 remain capped, and all {counts['correct_and_still_capped_at_4096']} are classified correctly.",
+            f"- Of the two errors present at 3072, one is corrected at 4096 (`agent_3/PBH-009`) and one persists below the cap (`agent_4/PBH-014`).",
+            f"- Regressions among the five selected cases: {counts['regressions_from_3072']}.",
+            f"- Incorrect predictions still capped at 4096: {counts['incorrect_and_still_capped_at_4096']}.",
+            f"- Budget-sensitive corrections that remain causally inconclusive because they are still capped: {counts['budget_effect_but_mechanism_causally_inconclusive']} (`agent_2/PBH-007`, `agent_3/PBH-009`).",
             "",
-            "An error corrected and terminated below the new limit is compatible with reasoning truncation. An error that persists but terminates below the limit makes interference or negative transfer more plausible, without establishing causality. An error still at the new limit remains inconclusive.",
+            "Zero incorrect capped predictions does not mean that every mechanism has been identified. In particular, the corrections of `agent_2/PBH-007` and `agent_3/PBH-009` show a budget effect but remain capped, so attributing those corrections specifically to reasoning truncation would be unwarranted.",
+            "",
+            "An error corrected and terminated below the new limit is compatible with reasoning truncation. An error that persists but terminates below the limit makes interference or negative transfer more plausible, without establishing causality. A budget-sensitive correction that still reaches the new limit remains causally inconclusive.",
             "",
             "## Methodological limits",
             "",
