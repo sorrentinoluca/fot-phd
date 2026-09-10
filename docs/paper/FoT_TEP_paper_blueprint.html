@@ -116,7 +116,7 @@
 
 <div class="panel">
   <h3>Come leggere questo documento</h3>
-  <p>Segue esattamente l'ordine richiesto (A → K). Le sezioni A–B fissano identità e tesi; C è il cuore (struttura sezione-per-sezione con <em>drafting notes</em>); D–J sono viste operative sulla stessa struttura; K è un red-team ostile che rivede la struttura e produce la versione finale corretta. Convenzioni: <span class="tag ver">VERIFIED</span> reference confermata via web; <span class="tag toverify">TO VERIFY</span> da controllare prima della submission; <span class="tag must">MUST</span>/<span class="tag should">SHOULD</span>/<span class="tag opt">OPTIONAL</span> priorità di figure/tabelle. I placeholder risultati sono <code>[EXP2 RESULT TO INSERT]</code> / <code>[EXP3 RESULT TO INSERT]</code> — nessun numero inventato.</p>
+  <p>Segue esattamente l'ordine richiesto (A → K). Le sezioni A–B fissano identità e tesi; C è il cuore (struttura sezione-per-sezione con <em>drafting notes</em>); D–J sono viste operative sulla stessa struttura; K è un red-team ostile che rivede la struttura e produce la versione finale corretta. Convenzioni: <span class="tag ver">VERIFIED</span> reference confermata via web; <span class="tag toverify">TO VERIFY</span> da controllare prima della submission; <span class="tag must">MUST</span>/<span class="tag should">SHOULD</span>/<span class="tag opt">OPTIONAL</span> priorità di figure/tabelle. I risultati di Experiment 2, EXP3_V2 e del full test C06 sono ora disponibili; ogni claim mantiene il proprio perimetro frozen o post-hoc.</p>
 </div>
 
 <div class="panel">
@@ -231,7 +231,7 @@
 <!-- 4 Protocol -->
 <h3>§4 — Controlled Evaluation Protocol</h3>
 <div class="panel">
-  <div class="field"><span class="k">Purpose</span> Rendere l'intera valutazione <em>auditable</em>: dataset, condizioni A/B/E, baseline numerica same-task, suite centralizzata richiesta dal supervisor, unità statistica, bootstrap ed esperimenti Exp1/2/3 con endpoint pre-specificati.</div>
+  <div class="field"><span class="k">Purpose</span> Rendere l'intera valutazione <em>auditable</em>: dataset, condizioni A/B/E, baseline numerica same-task, suite centralizzata richiesta dal supervisor, unità statistica, bootstrap, esperimenti Exp1/2/3 e controllo post-hoc C06.</div>
   <div class="field"><span class="k">Reviewer takeaway</span> "Il disegno è rigoroso, frozen e verificabile; i contrasti misurano ciò che dicono di misurare."</div>
   <div class="field"><span class="k">Figures / tables</span> Figure 2 (A/B/E design).</div>
 
@@ -278,18 +278,21 @@
     <tr><td class="n">Exp3</td><td>30 nuovi physical run (6 Normal + 6×F1/F8/F10/F13); 24 new fault runs</td><td>L'effetto si riproduce su nuove realizzazioni fisiche degli stessi 4 fault?</td><td>prospective fresh-run replication <em>(NON new-fault generalization, NON robustness, NON external validation)</em></td><td>Exp3 separato da Exp1; pooled Exp1+Exp3 solo secondary descriptive</td></tr>
   </table>
   </div>
-  <div class="warn"><strong>Producer vs Consumer:</strong> in Exp2 gli insight originali frozen restano quelli del producer model; cambia solo il modello che li consuma. Riportare per modello, senza pooling tra modelli. Usa <code>[EXP2 RESULT TO INSERT]</code> / <code>[EXP3 RESULT TO INSERT]</code> se i numeri non sono ancora disponibili alla prima stesura — la struttura deve funzionare comunque.</div>
+  <div class="warn"><strong>Producer vs Consumer:</strong> in Exp2 gli insight originali frozen restano quelli del producer model; cambia solo il modello che li consuma. Riportare il risultato Qwen separatamente, senza pooling con il consumer proprietario. EXP3_V2 resta separato da Exp1: pooled solo come secondary descriptive.</div>
 
   <h4>4.5 Same-task numerical shared-prototype baseline</h4>
   <div class="draft"><span class="lbl">Drafting note</span> Nome obbligatorio: <em>numerical shared-prototype baseline inspired by FedProto</em>, mai “FedProto”. Stessi 4 agenti, sviluppo batch 1–5/N1–N5, 15 PBH, pseudolabel opache e scope local-unseen. Vettore frozen 697-D prima del testo; prototipo = media di 5 run; distanza = mean L1; tie <code>1e-12</code> → abstain; nessun dato held-out nel fit. Distinguere main shared, local-only e centralized descriptive reference. Dichiarare il freeze SHA-256 e che la truth viene unita dopo le predizioni.</div>
+
+  <h4>4.6 C06 — post-hoc local-first decision policy</h4>
+  <div class="draft"><span class="lbl">Drafting note</span> Presentare C06 come controllo diagnostico post-hoc motivato dai 5 errori local-seen di B in EXP3_V2. <code>B_LOCAL_FIRST_V1</code> cambia un solo blocco del prompt: evidenza locale forte e coerente prima degli insight peer. Dopo lo screening, la variante congelata è valutata su tutti i 120 agent-case EXP3_V2 con R=3. Gate: local-seen ≥23/24; local-unseen ≥67/72; Normal =24/24; parse failures =0. Non chiamarlo confirmatory e non confonderlo con una replica indipendente.</div>
 </div>
 
 <!-- 5 Results -->
 <h3>§5 — Results</h3>
 <div class="panel">
-  <div class="field"><span class="k">Purpose</span> Presentare i risultati nell'ordine: meccanismo → specificità → preservazione → baseline numerica same-task → portabilità → replica → payload.</div>
-  <div class="field"><span class="k">Reviewer takeaway</span> "Il trasferimento testuale funziona ed è semanticamente specifico, ma il semplice confronto numerico condiviso è più accurato sullo stesso benchmark; FoT non è presentato come vincitore diagnostico."</div>
-  <div class="field"><span class="k">Figures / tables</span> Table 2 (Exp1 A/B/E); Table 3 (baseline numerica diretta + suite centralizzata); Table 4 (Exp2/Exp3); compact subsection per payload.</div>
+  <div class="field"><span class="k">Purpose</span> Presentare i risultati nell'ordine: meccanismo → specificità → preservazione → baseline numerica same-task → portabilità → replica → mitigazione C06 → payload.</div>
+  <div class="field"><span class="k">Reviewer takeaway</span> "Il trasferimento testuale funziona ed è semanticamente specifico; EXP3_V2 ne mostra anche il rischio local-seen, sostanzialmente mitigato dalla policy local-first. Il confronto numerico condiviso resta più accurato sullo stesso benchmark."</div>
+  <div class="field"><span class="k">Figures / tables</span> Table 2 (Exp1 A/B/E); Table 3 (baseline numerica diretta + suite centralizzata); Table 4 (Exp2/Exp3/C06); compact subsection per payload.</div>
 
   <h4>5.1 Exp1 — mechanism transfer (B vs A)</h4>
   <div class="ok">
@@ -305,7 +308,7 @@
   <div class="draft"><span class="lbl">Drafting note</span> Questo è il risultato che regge la tesi. Con testo identico per quantità/ID/ordine/source/scope/observed text ma associazioni pseudolabel corrotte, la performance crolla a 8.33% (vicino ad A). Quindi il beneficio dipende dalla <em>correttezza semantica dell'associazione pseudolabel–pattern</em>, non dalla mera presenza o volume di testo. Cita CI B−E.</div>
 
   <h4>5.3 Exp1 — preservation of known classes</h4>
-  <div class="draft"><span class="lbl">Drafting note</span> Local-seen = 12/12 in A/A+/B/E; Normal = 12/12 in A/A+/B/E. Messaggio: il trasferimento non compromette il riconoscimento delle classi già note localmente. Chiarisci che headline = unseen performance, NON overall accuracy.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Local-seen = 12/12 in A/A+/B/E e Normal = 12/12 in A/A+/B/E nel solo Exp1. Non generalizzare la preservazione: EXP3_V2 osserva B = 19/24 local-seen contro A = 24/24. Chiarisci che headline = unseen performance, NON overall accuracy, e rimanda al controllo C06.</div>
 
   <h4>5.4 Same-task numerical shared-prototype baseline</h4>
   <div class="ok"><p style="margin:.2em 0"><strong>Shared numerical prototypes:</strong> overall 60/60; local-seen 12/12; local-unseen 36/36; Normal 12/12. Local-only numerical: local-unseen 0/36. Centralized centroid reference: local-unseen 36/36.</p><p style="margin:.2em 0">Direct same-held-out comparison: shared numerical − FoT B = +0.139 (100% versus 86.1%). Payload: 3 peer prototypes / 2,091 scalar values / 16,755 bytes per receiver; 67,020 bytes across 12 deliveries.</p></div>
@@ -313,12 +316,19 @@
   <div class="panel"><p style="margin:.2em 0"><strong>Supervisor-requested centralized suite:</strong> AdaBoost, Random Forest, MLP, linear elastic-net, k-NN and causal LSTM+attention = 15/15; BiLSTM+attention and multimodal BiLSTM+attention = 14/15. Tutti usano solo development per fit/preprocessing e le stesse 15 unità fisiche held-out.</p><p style="margin:.2em 0"><strong>Guard-rail:</strong> i modelli vedono tutte le classi nel training e sono soltanto riferimenti descrittivi. Il valore local-unseen proiettato non li rende federati. La multimodale fonde sequenza e verbalizzazione degli stessi sensori, non due sorgenti fisiche indipendenti.</p></div>
 
   <h4>5.5 Exp2 — cross-model portability</h4>
-  <div class="draft"><span class="lbl">Drafting note</span> Presenta per-model, senza pooling. Se disponibile, riporta B/E per ciascun consumer model; altrimenti <code>[EXP2 RESULT TO INSERT]</code>. Claim massima: la conoscenza testuale frozen resta utilizzabile attraverso i modelli testati. Mai "FoT is model-general".</div>
+  <div class="ok"><p style="margin:.2em 0"><strong>Consumer Qwen3.8-27B-FP8:</strong> locally-unseen A = 0/36, B = 34/36 (94.44%), E = 1/36 (2.78%); B−A = +0.944 [0.917, 1.0], B−E = +0.917 [0.833, 1.0]. Quattro gate primari su quattro PASS.</p><p style="margin:.2em 0">Secondari: local-seen B = 9/12 (75%); Normal B = 12/12; overall B = 55/60 (91.67%). Le R=3 sono byte-identiche con temperatura 0 e seed fisso.</p></div>
+  <div class="draft"><span class="lbl">Drafting note</span> Presenta Qwen separatamente, senza pooling. Claim massima: gli insight frozen prodotti dal modello proprietario restano utilizzabili dal consumer open-weight testato. Mai "FoT is model-general" o replica end-to-end open-weight.</div>
 
   <h4>5.6 Exp3 — fresh-run prospective replication</h4>
-  <div class="draft"><span class="lbl">Drafting note</span> Riporta Exp3 separato da Exp1 (primary). Pooled Exp1+Exp3 solo come secondary descriptive. Se disponibile, riporta i contrasti sui 24 new fault runs; altrimenti <code>[EXP3 RESULT TO INSERT]</code>. Claim massima: l'effetto si riproduce su nuove realizzazioni fisiche degli stessi 4 fault. Mai "generalizes to new faults".</div>
+  <div class="ok"><p style="margin:.2em 0"><strong>EXP3_V2, 24 nuovi fault run / 72 agent-case unseen:</strong> A = 0/72, B = 68/72 (94.44%), E = 4/72 (5.56%). B−A = +0.9444 [0.8611, 1.0]; B−E = +0.8889 [0.7778, 0.9861]. Il criterio pre-specificato di replica è soddisfatto.</p><p style="margin:.2em 0"><strong>Segnale critico secondario:</strong> B local-seen = 19/24 contro A = 24/24; Normal B = 24/24; overall B = 111/120. Cinque errori local-seen motivano C06.</p></div>
+  <div class="draft"><span class="lbl">Drafting note</span> Riporta EXP3_V2 separato da Exp1; pooled solo secondary descriptive. Claim massima: l'effetto unseen si riproduce su nuove realizzazioni fisiche degli stessi quattro fault. Mai "generalizes to new faults". Non nascondere la degradazione local-seen.</div>
 
-  <h4>5.7 Communication payload characterization</h4>
+  <h4>5.7 C06 — full test della policy local-first</h4>
+  <div class="ok"><p style="margin:.2em 0"><strong>Tutti i quattro gate PASS:</strong> local-seen 23/24 (B originale 19/24); local-unseen 68/72 (invariato); Normal 24/24 (invariato); parse failures 0. Overall 115/120 contro 111/120.</p><p style="margin:.2em 0"><strong>Confronto appaiato:</strong> 5 miglioramenti, 1 regressione, saldo +4; 112/120 aggregati con accordo 3/3 e una sola astensione aggregata. I recuperi netti riguardano la confusione F8↔F13.</p></div>
+  <div class="warn"><strong>Claim consentita:</strong> nel perimetro post-hoc EXP3_V2, la policy local-first mitiga sostanzialmente il trasferimento negativo senza ridurre l'accuratezza aggregata local-unseen o Normal. Non dire "negative transfer eliminated": resta una regressione local-unseen e manca una replica indipendente della policy.</div>
+  <div class="draft"><span class="lbl">Provenienza</span> Collegare numeri, gate e transizioni al <a href="../../phase_b/c06/full_test/inference/FULL_TEST_REPORT.md">rapporto completo C06</a>; non ricostruire i conteggi dalle sole tabelle del manoscritto.</div>
+
+  <h4>5.8 Communication payload characterization</h4>
   <div class="warn"><strong>Titolo obbligatorio:</strong> "Communication Payload Characterization" — NON "communication efficiency". Il rapporto è <em>textual-to-raw payload ratio under the stated serialization convention</em>, NON un compression ratio lossless.</div>
   <div class="draft"><span class="lbl">Drafting note</span> Descrittivo, non un claim di efficienza. In B, per receiver: 6 peer insight ≈ 2.3–2.4 KB UTF-8. Unità con 4 receiver: 24 insight transmissions, 9,438 UTF-8 bytes. Unique insight library: 8 insight, 3,125 bytes. Reference peer raw evidence per receiver: 1,476,000 scalar raw values (dense float64 teorico). Rapporto osservato ≈ 0.000195–0.000205 sotto la convenzione dichiarata. Spiega esplicitamente che il denominatore è una <em>reference raw-experience serialization</em>, non necessariamente traffico che un altro metodo avrebbe obbligatoriamente trasmesso.</div>
 </div>
@@ -329,14 +339,14 @@
   <div class="field"><span class="k">Purpose</span> Interpretare in modo sobrio; separare ciò che gli esperimenti stabiliscono da ciò che NON stabiliscono; elencare limitazioni; transizione disciplinata al PV.</div>
   <div class="field"><span class="k">Reviewer takeaway</span> "Gli autori conoscono i confini del proprio claim; le limitazioni non invalidano la RQ controllata."</div>
   <div class="field"><span class="k">References</span> richiama contrasto con Time-FFM (parameter federation) e con FoT di Yao et al. (text tasks vs temporal discriminative transfer).</div>
-  <div class="draft"><span class="lbl">Drafting note</span> Struttura §I qui sotto in dettaglio. Apri con ciò che gli esperimenti stabiliscono (transfer, semantic specificity, preservation, raw non scambiati) e subito con ciò che il confronto stabilisce contro FoT: il prototipo numerico è più accurato. Poi i limiti: niente privacy formale, robustezza o generalizzazione; una sola baseline ispirata a FedProto, non una suite FedProto/FedAvg; niente superiorità sulla centralizzazione o PV. Chiudi con la transizione PV.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Struttura §I qui sotto in dettaglio. Apri con transfer, semantic specificity e raw non scambiati; tratta la preservazione come risultato dipendente dal campione, perché EXP3_V2 mostra 5 errori local-seen. Subito dopo riporta sia la mitigazione C06 sia il fatto che il prototipo numerico è più accurato. Poi i limiti: C06 post-hoc sullo stesso campione, niente privacy formale, robustezza o generalizzazione; una sola baseline ispirata a FedProto, non una suite FedProto/FedAvg; niente superiorità sulla centralizzazione o PV.</div>
 </div>
 
 <!-- 7 Conclusion -->
 <h3>§7 — Conclusion</h3>
 <div class="panel">
   <div class="field"><span class="k">Purpose</span> Ribadire la tesi in forma compatta e la transizione al lavoro futuro PV, senza trasformare future work in contributo corrente.</div>
-  <div class="draft"><span class="lbl">Drafting note</span> Riprendi la thesis sentence. Una frase per ciascun risultato-chiave (Exp1 mechanism, semantic specificity, preservation; Exp2/3 se confermati; payload come characterization). Chiudi con la transizione PV prudente ("Having established the feasibility of the knowledge-transfer mechanism under controlled temporal conditions, the subsequent phase evaluates whether this capability persists in the substantially more complex photovoltaic domain."). Nessun nuovo claim.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Riprendi la thesis sentence. Una frase per ciascun risultato-chiave: Exp1 mechanism e specificità, portabilità consumer Exp2, replica fresh-run Exp3, rischio local-seen e mitigazione post-hoc C06, payload come characterization. Chiudi con la transizione PV prudente ("Having established the feasibility of the knowledge-transfer mechanism under controlled temporal conditions, the subsequent phase evaluates whether this capability persists in the substantially more complex photovoltaic domain."). Nessun nuovo claim.</div>
 </div>
 
 <!-- ============ D ============ -->
@@ -427,13 +437,13 @@
     <td><span class="tag must">MUST</span></td>
   </tr>
   <tr>
-    <td class="n">Table 4</td><td>Exp2 / Exp3 replication</td>
-    <td>Exp2 per-model (no pooling) + Exp3 fresh-run (separato da Exp1).</td>
-    <td>Copre portabilità e replica.</td>
+    <td class="n">Table 4</td><td>Exp2 / Exp3 / C06</td>
+    <td>Exp2 consumer open-weight (no pooling) + Exp3 fresh-run separato da Exp1 + C06 local-first con B originale come riferimento appaiato.</td>
+    <td>Copre portabilità, replica e rischio/mitigazione del trasferimento negativo.</td>
     <td><span class="tag should">SHOULD</span></td>
   </tr>
   <tr>
-    <td class="n">§5.6</td><td>Communication payload (compact subsection o mini-table)</td>
+    <td class="n">§5.8</td><td>Communication payload (compact subsection o mini-table)</td>
     <td>bytes per receiver / per unità, unique library, reference raw values, ratio ≈ 1.95–2.05e-4 sotto convenzione dichiarata.</td>
     <td>Characterization descrittiva; non merita una figura piena.</td>
     <td><span class="tag opt">OPTIONAL</span></td>
@@ -450,13 +460,14 @@
     <li><strong>Exp1 self-insight control (A+ vs A).</strong> A+ = 0% = A; CI A+−A [0, 0]; self-insights alone cannot help on unseen faults (agent already knows its own class). Establishes that A is the correct information floor.</li>
     <li><strong>Exp1 mechanism transfer (B vs A/A+).</strong> 0% → 86.1%; CI B−A+ [0.833, 0.917]; per-agent; caveat floor su harmed=0. Peer insights are the sole driver of transfer.</li>
     <li><strong>Exp1 semantic specificity (B vs E).</strong> 86.1% → 8.3%; CI B−E [0.722, 0.833]; il beneficio dipende dalla correttezza semantica, non dal volume di testo.</li>
-    <li><strong>Preservation.</strong> local-seen 12/12 e Normal 12/12 in A/B/E; headline = unseen, non overall accuracy.</li>
+    <li><strong>Preservation in Exp1.</strong> local-seen 12/12 e Normal 12/12 in A/B/E; esplicitare che EXP3_V2 non replica la preservazione local-seen.</li>
     <li><strong>Numerical same-task comparator.</strong> shared prototypes 36/36 unseen, local-only 0/36, centralized centroid 36/36; dire esplicitamente che il numerico supera B di 13.9 punti. Nella stessa tabella o subito dopo, riportare la suite centralizzata richiesta (sei modelli 15/15, due BiLSTM 14/15) separandola graficamente dal confronto federato.</li>
-    <li><strong>Exp2 cross-model portability.</strong> per-model, consumer-only.</li>
-    <li><strong>Exp3 fresh-run replication.</strong> separato da Exp1 (primary); pooled solo secondary descriptive.</li>
+    <li><strong>Exp2 cross-model portability.</strong> Qwen B = 34/36 unseen; per-model, consumer-only, senza pooling.</li>
+    <li><strong>Exp3 fresh-run replication.</strong> A/B/E = 0/68/4 su 72 unseen; separato da Exp1; pooled solo secondary descriptive. Riportare anche B local-seen = 19/24.</li>
+    <li><strong>C06 local-first.</strong> 23/24 local-seen, 68/72 unseen, 24/24 Normal; 5 miglioramenti e 1 regressione. Post-hoc sullo stesso EXP3_V2, non replica indipendente.</li>
     <li><strong>Communication payload characterization.</strong> descrittivo; ratio sotto convenzione dichiarata; NON efficiency/compression.</li>
   </ol>
-  <p class="pill" style="margin-bottom:0">Nessun numero Exp2/Exp3 inventato: usare i placeholder marcati. L'argomento resta valido con i soli Exp1 results, che sono frozen.</p>
+  <p class="pill" style="margin-bottom:0">Separare sempre risultati frozen/pre-specificati (Exp1, Exp2, EXP3_V2) dal controllo C06 post-hoc. I numeri C06 rispondono alla critica nel campione studiato, non dimostrano robustezza generale.</p>
 </div>
 
 <!-- ============ I ============ -->
@@ -467,7 +478,8 @@
     <ul class="tight">
       <li>Il trasferimento testuale peer abilita il riconoscimento di condizioni locally unseen (B≫A).</li>
       <li>Il beneficio è semanticamente specifico (B≫E con bundle identico).</li>
-      <li>Le classi note sono preservate.</li>
+      <li>Le classi note sono preservate in Exp1, ma EXP3_V2 rivela 5 errori local-seen in B.</li>
+      <li>La policy local-first recupera 4 errori netti local-seen senza perdita aggregata unseen/Normal nel full test C06.</li>
       <li>Raw observations non scambiate.</li>
       <li>La baseline numerica same-task è più accurata di FoT B (100% vs 86.1%).</li>
       <li>La suite centralizzata richiesta dal supervisor copre otto modelli e ottiene 93.3&ndash;100%, ma non costituisce evidenza FL.</li>
@@ -487,6 +499,7 @@
     <ul class="tight">
       <li>single simulated industrial process; only four fault classes; limited client count.</li>
       <li>original insights da un solo producer model; Exp2 = consumer-only portability, non end-to-end model generality.</li>
+      <li>C06 è post-hoc e usa lo stesso campione EXP3_V2 che ha motivato la policy; resta una regressione individuale e manca una replica indipendente.</li>
       <li>no formal privacy guarantees; one prototype-inspired numerical comparator, but no original FedProto/FedAvg suite; no superiority-to-centralization claim.</li>
       <li>no PV evaluation; communication characterization ≠ communication efficiency.</li>
     </ul>
@@ -494,7 +507,7 @@
 </div>
 <div class="panel">
   <h4>Implications</h4>
-  <p>La federazione testuale è una modalità praticabile e auditabile quando i raw restano locali, ma la baseline mostra che non va presentata come sostituto più accurato della condivisione numerica. La RQ sostenuta è di <em>feasibility/mechanism and semantic specificity</em>, non di generalizzazione o superiorità.</p>
+  <p>La federazione testuale è una modalità praticabile e auditabile quando i raw restano locali, ma richiede una gerarchia decisionale che protegga l'evidenza locale dall'interferenza peer. C06 mostra una mitigazione promettente nel campione studiato; la baseline mostra inoltre che FoT non va presentato come sostituto più accurato della condivisione numerica. La RQ sostenuta è di <em>feasibility/mechanism and semantic specificity</em>, non di robustezza generale, generalizzazione o superiorità.</p>
   <h4>PV future transition (breve, disciplinata)</h4>
   <div class="quote">"Having established the feasibility of the knowledge-transfer mechanism under controlled temporal conditions, the subsequent phase evaluates whether this capability persists in the substantially more complex photovoltaic domain."</div>
   <p class="pill">Non trasformare il future work in contributo corrente.</p>
@@ -520,7 +533,7 @@
 
 <!-- ============ K ============ -->
 <h2 id="K"><span class="sec">K</span> Reviewer red-team + struttura finale corretta</h2>
-<p>Mi comporto ora da reviewer ostile di IEEE BigData. Sette attacchi plausibili e la correzione strutturale per ciascuno.</p>
+<p>Mi comporto ora da reviewer ostile di IEEE BigData. Otto attacchi plausibili e la correzione strutturale per ciascuno.</p>
 
 <div class="panel">
   <h4>R1 — "Contribution buried"</h4>
@@ -552,7 +565,7 @@
 </div>
 <div class="panel">
   <h4>R7 — "harmed=0 e n piccolo"</h4>
-  <p><strong>Attacco:</strong> "no negative transfer" non è dimostrabile con floor 0/36; N=4 client, 4 fault. <strong>Fix:</strong> dichiarare esplicitamente il limite del floor; riportare per-agent e CI cluster bootstrap; inquadrare come studio di feasibility/mechanism, non di scala. Limitazioni "limited client count / four fault classes" già elencate.</p>
+  <p><strong>Attacco:</strong> "no negative transfer" non è dimostrabile con floor 0/36; EXP3_V2 mostra infatti B = 19/24 local-seen contro A = 24/24. N=4 client e 4 fault. <strong>Fix:</strong> dichiarare esplicitamente il limite del floor e riportare il segnale negativo; presentare C06 integralmente: local-first = 23/24 seen, 68/72 unseen, 24/24 Normal, 5 miglioramenti e 1 regressione. La formulazione corretta è "substantially mitigated in post-hoc EXP3_V2", non "eliminated". Richiedere una replica indipendente della policy e mantenere il framing feasibility/mechanism.</p>
 </div>
 
 <div class="ok">

@@ -2261,6 +2261,17 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
   <div class="callout"><span class="callout-icon">&#9432;</span><span><strong>Stati:</strong> Risolta = la misura esiste; Risolta editorialmente = i testi sono stati corretti, senza nuova evidenza sperimentale; Mitigata = c'&egrave; nuova evidenza ma resta un limite; In corso = il controllo &egrave; previsto; Aperta = manca una risposta.</span></div>
 
+  <div class="card" style="border-left:3px solid var(--accent-b)">
+    <div class="card-label">C06 in 30 secondi &middot; full test completato</div>
+    <p style="margin:0 0 10px;font-size:0.9rem;color:var(--text-muted)">La regola <strong>&laquo;prima l'evidenza locale, poi gli insight peer&raquo;</strong> &egrave; stata provata su tutti i 120 agent-case di EXP3_V2. Rispetto a B originale, l'accuratezza totale sale da <strong>111/120 a 115/120</strong>.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;text-align:center;font-size:0.84rem">
+      <div style="padding:10px;border-radius:6px;background:var(--accent-a-light)"><strong>Local-seen</strong><br>19/24 &rarr; 23/24</div>
+      <div style="padding:10px;border-radius:6px;background:var(--accent-b-light)"><strong>Local-unseen</strong><br>68/72 &rarr; 68/72</div>
+      <div style="padding:10px;border-radius:6px;background:var(--green-light)"><strong>Normal</strong><br>24/24 &rarr; 24/24</div>
+    </div>
+    <p style="margin:10px 0 0;font-size:0.82rem;color:var(--text-caption)"><strong>Bilancio:</strong> 5 casi migliorano, 1 peggiora, zero errori di parsing. La correzione mitiga nettamente il problema, ma non garantisce che il trasferimento negativo sia impossibile. Il test &egrave; post-hoc sullo stesso campione; serve una replica indipendente per una conclusione generale. <a href="../phase_b/c06/full_test/inference/FULL_TEST_REPORT.md">Rapporto C06</a>.</p>
+  </div>
+
   <div class="lit-table-wrap"><table class="data-table lit-table">
     <thead><tr><th>ID</th><th>Categoria</th><th>Critica</th><th>Stato</th><th>Perch&eacute; conta</th></tr></thead>
     <tbody>
@@ -2270,7 +2281,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <tr><td>C03</td><td>Rappresentazione</td><td>Trasformazione TS&rarr;testo</td><td><strong>Mitigata</strong></td><td>L'ablation confronta quattro formati e V2 usa meno token. Il campione &egrave; piccolo e cambia anche l'informazione preparata.</td></tr>
       <tr><td>C04</td><td>Modelli</td><td>Dipendenza da un solo LLM</td><td><strong>Mitigata</strong></td><td>Qwen conferma il risultato lato consumer. Gli insight vengono ancora prodotti da un solo modello proprietario.</td></tr>
       <tr><td>C05</td><td>Comunicazione</td><td>Payload non caratterizzato</td><td><strong>Risolta</strong></td><td>Messaggi, byte e token sono misurati. Senza confronto diretto non si pu&ograve; dire che FoT sia pi&ugrave; efficiente.</td></tr>
-      <tr><td>C06</td><td>Affidabilit&agrave;</td><td>Peggioramento sui guasti noti</td><td><strong>Mitigata &mdash; correzione preliminare promettente</strong></td><td>Lo screening post-hoc B_LOCAL_FIRST_V1 recupera 4/5 errori, raggiunge 23/24 local-seen e non introduce errori nei 19 casi prima corretti. F13-002 resta errato 2/3; serve il full test prima di dichiarare la critica risolta.</td></tr>
+      <tr><td>C06</td><td>Affidabilit&agrave;</td><td>Peggioramento sui guasti noti</td><td><strong>Risolta nel perimetro EXP3_V2</strong></td><td>Il full test local-first supera i quattro gate: 23/24 local-seen, 68/72 local-unseen, 24/24 Normal e zero parse failure. Bilancio: 5 miglioramenti e 1 regressione.</td></tr>
       <tr><td>C07</td><td>Inferenza</td><td>Reasoning cap e repliche identiche</td><td><strong>Risolta</strong></td><td>La sensitivity appaiata 1024&ndash;3072 e il follow-up capped a 4096 separano gli errori compatibili con troncatura da quelli per cui l'interferenza &egrave; pi&ugrave; plausibile. Nessuna regressione; <code>R=1</code> resta un test deterministico, non una misura di variabilit&agrave; stocastica.</td></tr>
       <tr><td>C08</td><td>Scala</td><td>Pochi guasti, agenti e simulatori</td><td><strong>Mitigata</strong></td><td>La replica aggiunge run, ma restano quattro guasti su 28, quattro agenti e un simulatore.</td></tr>
       <tr><td>C09</td><td>Federazione</td><td>Federazione solo logica</td><td><strong>Aperta</strong></td><td>I nodi sono simulati sullo stesso processo. Non ci sono siti reali, proprietari diversi o nodi offline.</td></tr>
@@ -2286,7 +2297,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     </tbody>
   </table></div>
 
-  <div class="verdict-box"><strong>Priorit&agrave; sperimentale prima dell'invio:</strong> C06. C01 &egrave; risolta dalla condizione A+; C07 &egrave; chiusa dalla sensitivity analysis; C15 e C18 sono chiuse sul piano editoriale. C02a &egrave; ulteriormente rafforzata da A+, C02b &egrave; mitigata. La suite supervisor &egrave; completa come riferimento centralizzato; il confronto equo class-disjoint C02b favorisce i prototipi numerici.</div>
+  <div class="verdict-box"><strong>Stato prima dell'invio:</strong> C06 &egrave; chiusa nel perimetro EXP3_V2; una replica indipendente della policy resta future work. C01 e C07 sono risolte; C15 e C18 sono chiuse editorialmente. C02b resta mitigata: il confronto equo class-disjoint favorisce i prototipi numerici e manca ancora una suite FL originale sullo stesso compito.</div>
 </div>
 <!-- ==================== STEP 21: CONFERENZA ==================== -->
 <div class="step-container" data-step="21">

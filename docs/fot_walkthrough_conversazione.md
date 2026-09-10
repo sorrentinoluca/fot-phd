@@ -1526,6 +1526,28 @@ Protocollo, codice, predizioni, metriche e hash sono in [`phase_b/final_evaluati
 
 ---
 
+## C06 · Full test della policy «local evidence first»
+
+La replica EXP3_V2 aveva rivelato un problema importante: nella configurazione B, gli insight peer miglioravano molto i guasti localmente non visti, ma i casi **local-seen** scendevano da 24/24 in A a **19/24**. In cinque casi l'agente ignorava o sottopesava una firma che conosceva già localmente, soprattutto nella confusione F8↔F13.
+
+Il controllo C06 ha modificato una sola parte del prompt di B: un breve blocco di *decision policy* ordina all'agente di dare precedenza all'evidenza locale quando questa è forte e coerente, usando gli insight peer come supporto e non come sostituto. Dopo uno screening su 24 casi, la variante congelata `B_LOCAL_FIRST_V1` è stata eseguita sull'intero EXP3_V2: **120 agent-case aggregati**, ciascuno ottenuto da R=3 ripetizioni valide.
+
+| Gate del full test | B originale | B_LOCAL_FIRST_V1 | Soglia | Esito |
+| --- | ---: | ---: | ---: | --- |
+| Local-seen | 19/24 (79,2%) | **23/24 (95,8%)** | ≥ 23/24 | **PASS** |
+| Local-unseen | 68/72 (94,4%) | **68/72 (94,4%)** | ≥ 67/72 | **PASS** |
+| Normal | 24/24 (100%) | **24/24 (100%)** | = 24/24 | **PASS** |
+| Parse failures | 0 | **0** | = 0 | **PASS** |
+| Overall | 111/120 (92,5%) | **115/120 (95,8%)** | — | +4 netti |
+
+Il confronto appaiato contiene **5 miglioramenti e 1 regressione**, tutti nella confusione F8↔F13. I quattro recuperi local-seen sono Agent 4 su F13-003, F13-004 e F13-005 e Agent 2 su F8-003; si aggiunge il recupero local-unseen di Agent 1 su F8-003. L'unica regressione è Agent 2 su F13-002, local-unseen, stabile 3/3; il caso local-seen F13-002 di Agent 4 resta errato. La nuova policy mantiene quindi invariata l'accuratezza aggregata local-unseen, ma **non elimina ogni regressione a livello di singolo caso**. Si osservano inoltre 112/120 decisioni unanimi 3/3 e una sola astensione aggregata.
+
+La conclusione corretta è circoscritta: **nel perimetro post-hoc di EXP3_V2**, il trasferimento negativo local-seen è sostanzialmente mitigato da una singola policy che antepone l'evidenza locale agli insight peer, senza perdita aggregata sulle diagnosi remote o sui casi Normal. Non è una prova di immunità generale al trasferimento negativo: la variante è stata progettata dopo aver osservato gli errori ed è valutata sullo stesso campione EXP3_V2, non su una replica indipendente.
+
+Protocollo, predizioni, log e gate sono nel [rapporto completo C06](../phase_b/c06/full_test/inference/FULL_TEST_REPORT.md).
+
+---
+
 ## Critiche
 
 ### Giudizio generale aggiornato
@@ -1542,7 +1564,7 @@ L'esperimento è una buona prova controllata: mostra che una descrizione testual
 | C03 | Rappresentazione | Trasformazione TS→testo | **Mitigata** | L'ablation confronta quattro formati. V2 usa molti meno token, ma il campione è piccolo e cambia anche quanta informazione viene preparata prima del prompt. |
 | C04 | Modelli | Dipendenza da un solo LLM | **Mitigata** | Qwen conferma il risultato lato consumer. Gli insight sono però ancora prodotti da un solo modello proprietario. |
 | C05 | Comunicazione | Payload non caratterizzato | **Risolta** | Ora sappiamo quanti messaggi, byte e token vengono scambiati. Resta vietato dire che FoT è più efficiente senza un confronto diretto. |
-| C06 | Affidabilità | Peggioramento sui guasti già noti | **Mitigata — correzione preliminare promettente** | Lo screening post-hoc B_LOCAL_FIRST_V1 recupera 4/5 errori, raggiunge 23/24 local-seen e non introduce errori nei 19 casi prima corretti. F13-002 resta errato 2/3; serve il full test prima di dichiarare la critica risolta. |
+| C06 | Affidabilità | Peggioramento sui guasti già noti | **Risolta nel perimetro EXP3_V2** | Il full test B_LOCAL_FIRST_V1 supera tutti i gate: local-seen 23/24 contro 19/24 di B, local-unseen invariato a 68/72, Normal 24/24 e zero parse failure. Il saldo è +4 (5 miglioramenti, 1 regressione); resta quindi mitigazione sostanziale, non assenza universale di trasferimento negativo. |
 | C07 | Inferenza | Reasoning cap e repliche identiche | **Risolta** | La sensitivity appaiata 1024–3072 e il follow-up capped a 4096 separano gli errori compatibili con troncatura da quelli per cui l'interferenza è più plausibile. Nessuna regressione; `R=1` resta però un test deterministico, non una misura di variabilità stocastica. |
 | C08 | Scala | Pochi guasti, agenti e simulatori | **Mitigata** | La replica aggiunge 24 run, ma restano quattro guasti su 28, quattro agenti e un solo simulatore. Non prova generalità industriale. |
 | C09 | Federazione | Federazione solo logica | **Aperta** | I nodi sono simulati sullo stesso processo. Non ci sono siti reali, proprietari diversi, nodi offline o reti instabili. |
@@ -1556,7 +1578,7 @@ L'esperimento è una buona prova controllata: mostra che una descrizione testual
 | C17 | Applicazione | Nessuna validazione PV reale | **Aperta** | Il fotovoltaico motiva il progetto, ma gli esperimenti usano solo TEP. Il paper non può dire che il metodo funziona già sul PV. |
 | C18 | Conferenza | Debole evidenza di “Big Data” | **Risolta editorialmente** | L'aderenza è limitata a dati distribuiti, non-IID class-disjoint, collaborazione, Variety, Veracity, Value, evaluation/benchmarking e contesto industriale/IoT. Non c'è evidenza su Volume, Velocity, edge o scalabilità. |
 
-La priorità sperimentale prima dell'invio resta C06; C01 è risolta dalla condizione A+, C07 è chiusa dalla sensitivity analysis, mentre C15 e C18 sono chiuse sul piano editoriale. C02a è ulteriormente rafforzata da A+, C02b è mitigata. La lista di modelli richiesta dal supervisor è stata coperta come riferimento centralizzato; per avanzare ulteriormente C02b servono metodi FL che mantengano lo **stesso compito class-disjoint**.
+C06 è chiusa nel perimetro di EXP3_V2 dal full test local-first; una replica indipendente della policy resta future work. C01 è risolta dalla condizione A+, C07 dalla sensitivity analysis, mentre C15 e C18 sono chiuse sul piano editoriale. C02a è ulteriormente rafforzata da A+, C02b resta mitigata: per avanzare servono metodi FL che mantengano lo **stesso compito class-disjoint**.
 
 ---
 
