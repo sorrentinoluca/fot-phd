@@ -2135,7 +2135,11 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <div class="critiche-item-title">Literature review: posizionamento scientifico per BigData 2026</div>
       <div class="critiche-item-desc">Revisione sistematica della letteratura che mappa il panorama completo di federated learning, fault diagnosis e LLM su serie temporali, identificando la nicchia esatta che FoT-TEP occupa e i rischi di framing.</div>
     </a>
-    <a class="critiche-item critiche-item-odd" href="#critica-exp-plan" onclick="openCritica('critica-exp-plan');return false;">
+    <a class="critiche-item critiche-item-odd" href="#critica-payload" onclick="openCritica('critica-payload');return false;">
+      <div class="critiche-item-title">Quanto costa la comunicazione tra gli agenti?</div>
+      <div class="critiche-item-desc">Il metodo migliora la diagnosi, ma quanta informazione deve scambiare per ottenere il risultato? La caratterizzazione del payload misura messaggi, byte, token, trasferimenti e costo producer/consumer.</div>
+    </a>
+    <a class="critiche-item critiche-item-even" href="#critica-exp-plan" onclick="openCritica('critica-exp-plan');return false;">
       <div class="critiche-item-title">Piano sperimentale pre-submission</div>
       <div class="critiche-item-desc">Pacchetto di esperimenti aggiuntivi progettati per rispondere alle critiche prevedibili dei revisori: replicabilit&agrave; cross-model, estensione prospettica con nuovi dati, e caratterizzazione del payload comunicativo.</div>
     </a>
@@ -2270,7 +2274,41 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     </div>
   </div>
 
-  <!-- CRITICA 4: Experiment Plan -->
+  <!-- CRITICA 4: Communication payload -->
+  <div class="critica-section" id="critica-payload">
+    <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
+      <span class="chevron">&#9654;</span>
+      Il metodo funziona, ma quanto costa far comunicare gli agenti?
+    </button>
+    <div class="critica-body">
+      <div class="verdict-box">
+        <strong>Verdetto sintetico: critica risolta sul piano descrittivo.</strong> Il payload &egrave; stato misurato direttamente dagli artefatti frozen. Ora sappiamo quanta informazione viene trasferita, ma questi numeri non dimostrano automaticamente che FoT sia pi&ugrave; efficiente o pi&ugrave; privato di altri metodi.
+      </div>
+
+      <h3>Perch&eacute; era una critica</h3>
+      <p>L&rsquo;esperimento mostrava soprattutto che gli insight miglioravano la diagnosi. Inizialmente, per&ograve;, non quantificava il <strong>prezzo della comunicazione</strong> necessaria per ottenere quel risultato. Un reviewer poteva quindi porre una domanda molto semplice:</p>
+      <p style="padding:12px 14px;border-radius:6px;background:var(--threshold-light);font-family:var(--font-display);font-size:1.05rem;text-align:center"><em>&laquo;Il metodo funziona, ma quanta informazione devono scambiarsi gli agenti?&raquo;</em></p>
+      <p>Senza questa misura non &egrave; possibile affermare che il metodo sia leggero, economico o pi&ugrave; efficiente di sistemi che scambiano logit, prototipi numerici o parametri di un modello.</p>
+
+      <h3>Che cosa &egrave; stato misurato</h3>
+      <ul>
+        <li>quanti insight vengono prodotti e ricevuti;</li>
+        <li>quanto pesano in caratteri e byte;</li>
+        <li>quanti token aggiungono ai prompt di GPT e Qwen;</li>
+        <li>quante volte i messaggi vengono trasferiti;</li>
+        <li>input token, output token, reasoning token e latenza registrata di producer e consumer.</li>
+      </ul>
+      <p>In un giro completo i quattro consumer ricevono 24 consegne di insight, pari a <strong>9.438 byte</strong>: 2.719 token in contesto per GPT e 2.974 per Qwen. La produzione una tantum degli otto insight ha richiesto 4 chiamate, 7.954 input token, 820 output token e 9 secondi di latenza registrata.</p>
+
+      <h3>Che cosa risolve, e che cosa non risolve</h3>
+      <p><strong>Risolve la lacuna di reporting:</strong> ogni numero &egrave; ricavato dagli artefatti frozen e il controllo B/E conferma che le due condizioni hanno lo stesso volume e differiscono soltanto nel mapping semantico delle pseudolabel.</p>
+      <p><strong>Non prova una superiorit&agrave; generale:</strong> byte di testo, logit, prototipi e parametri non sono oggetti direttamente equivalenti. Senza configurazioni concrete comparabili non possiamo dire che FoT comunichi meno degli altri paradigmi. I conteggi non costituiscono neppure una garanzia di privacy.</p>
+
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--text-caption)"><em>Approfondimento: Step 9 &middot; Payload e <a href="fot_walkthrough_conversazione.html#communication-payload">walkthrough conversazionale dettagliato</a>.</em></p>
+    </div>
+  </div>
+
+  <!-- CRITICA 5: Experiment Plan -->
   <div class="critica-section" id="critica-exp-plan">
     <button class="critica-toggle" aria-expanded="false" onclick="toggleCritica(this)">
       <span class="chevron">&#9654;</span>
