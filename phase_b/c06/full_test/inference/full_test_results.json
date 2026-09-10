@@ -1,0 +1,131 @@
+{
+  "variant": "B_LOCAL_FIRST_V1",
+  "scope": "full_test",
+  "analysis_kind": "post-hoc diagnostic; not an independent replication",
+  "overall_accuracy": 0.9583333333333334,
+  "overall_correct": 115,
+  "overall_n": 120,
+  "strata": {
+    "local-seen": {
+      "n": 24,
+      "correct": 23,
+      "accuracy": 0.9583333333333334,
+      "frozen_B_correct": 19,
+      "frozen_B_accuracy": 0.7916666666666666,
+      "improved": 4,
+      "regressed": 0,
+      "net_change": 4,
+      "parse_failures": 0,
+      "abstentions": 0,
+      "three_of_three_agreement": 22
+    },
+    "local-unseen": {
+      "n": 72,
+      "correct": 68,
+      "accuracy": 0.9444444444444444,
+      "frozen_B_correct": 68,
+      "frozen_B_accuracy": 0.9444444444444444,
+      "improved": 1,
+      "regressed": 1,
+      "net_change": 0,
+      "parse_failures": 0,
+      "abstentions": 1,
+      "three_of_three_agreement": 66
+    },
+    "normal": {
+      "n": 24,
+      "correct": 24,
+      "accuracy": 1.0,
+      "frozen_B_correct": 24,
+      "frozen_B_accuracy": 1.0,
+      "improved": 0,
+      "regressed": 0,
+      "net_change": 0,
+      "parse_failures": 0,
+      "abstentions": 0,
+      "three_of_three_agreement": 24
+    }
+  },
+  "gate_details": {
+    "local_seen": {
+      "value": 23,
+      "threshold": 23,
+      "n": 24,
+      "pass": true
+    },
+    "local_unseen": {
+      "value": 68,
+      "threshold": 67,
+      "n": 72,
+      "pass": true
+    },
+    "normal": {
+      "value": 24,
+      "threshold": 24,
+      "n": 24,
+      "pass": true
+    },
+    "parse_failures": {
+      "value": 0,
+      "threshold": 0,
+      "pass": true
+    }
+  },
+  "gate": "PASS",
+  "total_parse_failures": 0,
+  "total_abstentions": 1,
+  "total_three_of_three_agreement": 112,
+  "regressions": [
+    {
+      "agent_id": "agent_2",
+      "physical_case_id": "EXP3V2-F13-002",
+      "stratum": "local-unseen",
+      "frozen_B_label": "CLS-Z3ISU",
+      "variant_label": "CLS-OJNSG",
+      "expected_label": "CLS-Z3ISU"
+    }
+  ],
+  "improvements": [
+    {
+      "agent_id": "agent_1",
+      "physical_case_id": "EXP3V2-F8-003",
+      "stratum": "local-unseen",
+      "frozen_B_label": "CLS-Z3ISU",
+      "variant_label": "CLS-OJNSG",
+      "expected_label": "CLS-OJNSG"
+    },
+    {
+      "agent_id": "agent_2",
+      "physical_case_id": "EXP3V2-F8-003",
+      "stratum": "local-seen",
+      "frozen_B_label": "CLS-Z3ISU",
+      "variant_label": "CLS-OJNSG",
+      "expected_label": "CLS-OJNSG"
+    },
+    {
+      "agent_id": "agent_4",
+      "physical_case_id": "EXP3V2-F13-003",
+      "stratum": "local-seen",
+      "frozen_B_label": "CLS-OJNSG",
+      "variant_label": "CLS-Z3ISU",
+      "expected_label": "CLS-Z3ISU"
+    },
+    {
+      "agent_id": "agent_4",
+      "physical_case_id": "EXP3V2-F13-004",
+      "stratum": "local-seen",
+      "frozen_B_label": "CLS-OJNSG",
+      "variant_label": "CLS-Z3ISU",
+      "expected_label": "CLS-Z3ISU"
+    },
+    {
+      "agent_id": "agent_4",
+      "physical_case_id": "EXP3V2-F13-005",
+      "stratum": "local-seen",
+      "frozen_B_label": "CLS-OJNSG",
+      "variant_label": "CLS-Z3ISU",
+      "expected_label": "CLS-Z3ISU"
+    }
+  ],
+  "recommended_c06_status": "Risolta — trasferimento negativo mitigato dal decision-policy block"
+}
