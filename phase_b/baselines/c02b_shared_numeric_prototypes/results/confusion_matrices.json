@@ -1,0 +1,128 @@
+{
+  "centralized_reference": {
+    "CLS-OJNSG": {
+      "CLS-OJNSG": 12,
+      "CLS-R463B": 0,
+      "CLS-Z3ISU": 0,
+      "CLS-ZOGAA": 0,
+      "Normal": 0,
+      "__ABSTAIN__": 0
+    },
+    "CLS-R463B": {
+      "CLS-OJNSG": 0,
+      "CLS-R463B": 12,
+      "CLS-Z3ISU": 0,
+      "CLS-ZOGAA": 0,
+      "Normal": 0,
+      "__ABSTAIN__": 0
+    },
+    "CLS-Z3ISU": {
+      "CLS-OJNSG": 0,
+      "CLS-R463B": 0,
+      "CLS-Z3ISU": 12,
+      "CLS-ZOGAA": 0,
+      "Normal": 0,
+      "__ABSTAIN__": 0
+    },
+    "CLS-ZOGAA": {
+      "CLS-OJNSG": 0,
+      "CLS-R463B": 0,
+      "CLS-Z3ISU": 0,
+      "CLS-ZOGAA": 12,
+      "Normal": 0,
+      "__ABSTAIN__": 0
+    },
+    "Normal": {
+      "CLS-OJNSG": 0,
+      "CLS-R463B": 0,
+      "CLS-Z3ISU": 0,
+      "CLS-ZOGAA": 0,
+      "Normal": 12,
+      "__ABSTAIN__": 0
+    }
+  },
+  "local_only": {
+    "CLS-OJNSG": {
+      "CLS-OJNSG": 3,
+      "CLS-R463B": 3,
+      "CLS-Z3ISU": 3,
+      "CLS-ZOGAA": 3,
+      "Normal": 0,
+      "__ABSTAIN__": 0
+    },
+    "CLS-R463B": {
+      "CLS-OJNSG": 0,
+      "CLS-R463B": 3,
+      "CLS-Z3ISU": 0,
+      "CLS-ZOGAA": 0,
+      "Normal": 9,
+      "__ABSTAIN__": 0
+    },
+    "CLS-Z3ISU": {
+      "CLS-OJNSG": 3,
+      "CLS-R463B": 3,
+      "CLS-Z3ISU": 3,
+      "CLS-ZOGAA": 3,
+      "Normal": 0,
+      "__ABSTAIN__": 0
+    },
+    "CLS-ZOGAA": {
+      "CLS-OJNSG": 0,
+      "CLS-R463B": 0,
+      "CLS-Z3ISU": 0,
+      "CLS-ZOGAA": 3,
+      "Normal": 9,
+      "__ABSTAIN__": 0
+    },
+    "Normal": {
+      "CLS-OJNSG": 0,
+      "CLS-R463B": 0,
+      "CLS-Z3ISU": 0,
+      "CLS-ZOGAA": 0,
+      "Normal": 12,
+      "__ABSTAIN__": 0
+    }
+  },
+  "shared_prototypes": {
+    "CLS-OJNSG": {
+      "CLS-OJNSG": 12,
+      "CLS-R463B": 0,
+      "CLS-Z3ISU": 0,
+      "CLS-ZOGAA": 0,
+      "Normal": 0,
+      "__ABSTAIN__": 0
+    },
+    "CLS-R463B": {
+      "CLS-OJNSG": 0,
+      "CLS-R463B": 12,
+      "CLS-Z3ISU": 0,
+      "CLS-ZOGAA": 0,
+      "Normal": 0,
+      "__ABSTAIN__": 0
+    },
+    "CLS-Z3ISU": {
+      "CLS-OJNSG": 0,
+      "CLS-R463B": 0,
+      "CLS-Z3ISU": 12,
+      "CLS-ZOGAA": 0,
+      "Normal": 0,
+      "__ABSTAIN__": 0
+    },
+    "CLS-ZOGAA": {
+      "CLS-OJNSG": 0,
+      "CLS-R463B": 0,
+      "CLS-Z3ISU": 0,
+      "CLS-ZOGAA": 12,
+      "Normal": 0,
+      "__ABSTAIN__": 0
+    },
+    "Normal": {
+      "CLS-OJNSG": 0,
+      "CLS-R463B": 0,
+      "CLS-Z3ISU": 0,
+      "CLS-ZOGAA": 0,
+      "Normal": 12,
+      "__ABSTAIN__": 0
+    }
+  }
+}

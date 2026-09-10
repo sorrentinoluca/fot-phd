@@ -14,7 +14,7 @@ Da FoT di Yao et al. si riprende l’architettura ad alto livello: insight local
 
 Come banco di prova controllato si usa il **Tennessee Eastman Process (TEP)**, un processo chimico simulato con fault noti e ground truth verificabile. I dati provengono dallo snapshot upstream [github.com/mv-per/tennessee-eastman-dataset](https://github.com/mv-per/tennessee-eastman-dataset) (commit pinnato `309b944f`). TEP è un **gate di fattibilità metodologica**: permette di verificare il meccanismo FoT in condizioni note, non è la destinazione applicativa finale, che resta il fotovoltaico.
 
-Lo stato attuale comprende un primo esperimento, una replica su nuovi run simulati, un consumer open-weight, un riferimento centralizzato, un confronto tra quattro rappresentazioni TS→testo e la misura del payload comunicativo. I limiti e il loro stato sono raccolti nella sezione **Critiche**.
+Lo stato attuale comprende un primo esperimento, una replica su nuovi run simulati, un consumer open-weight, un riferimento centralizzato, un confronto tra quattro rappresentazioni TS→testo, la misura del payload comunicativo e una baseline numerica a prototipi condivisi eseguita sullo stesso compito local-unseen. I limiti e il loro stato sono raccolti nella sezione **Critiche**.
 
 ### 1.2 Lessico operativo e unità di analisi
 
@@ -1214,11 +1214,11 @@ I confronti pairwise con test cluster-aware e correzione Holm–Bonferroni confe
 
 **Critica 4: "Un solo LLM"** — Tutto è testato con GPT-5.6-terra. Un altro modello potrebbe ribaltare il ranking. *Difesa:* corretto. È un limite dichiarato. Ma il contributo metodologico (il framework di confronto) resta valido indipendentemente dal modello specifico.
 
-**Critica 5: "I metodi classici (deep learning) funzionano meglio"** — Non abbiamo un baseline di ML tradizionale per confronto. *Difesa:* lo scope dell'esperimento è *tra* rappresentazioni per LLM, non LLM vs ML tradizionale. Ma un reviewer potrebbe chiedere un confronto. Se servisse, si potrebbe aggiungere un classificatore Random Forest o LSTM come riferimento.
+**Critica 5: "I metodi numerici funzionano meglio"** — Il confronto C02b sul medesimo compito ora mostra che la baseline numerica con prototipi condivisi ottiene 36/36 local-unseen, contro 31/36 di FoT B. *Risposta:* va riportato apertamente: sul benchmark studiato il numerico è migliore. L'ablation resta una domanda distinta, limitata ai formati forniti allo stesso LLM.
 
 **Critica 6: "Il test era centralizzato, ma il sistema reale è federato"** — La pipeline di produzione FoT usa 4 agenti specialisti, non un singolo LLM a 5 classi. *Difesa:* l'ablation isola la variabile "rappresentazione" in condizioni controllate. Centralizzare il task è una scelta di design sperimentale per evitare confounding con l'architettura federata. Validare nel setting federato è un follow-up necessario, ma l'ablation fa il suo lavoro: confrontare le rappresentazioni a parità di tutto il resto.
 
-Una distinzione utile: l'ablation risponde bene alla critica "perché V2 e non un'altra rappresentazione?" (Critica A), mostrando che V2 ottiene accuratezza comparabile con 39–180× meno token. Non copre la critica "perché un LLM e non ML tradizionale?" (Critica B), che si difende con argomenti qualitativi: zero-shot senza dati etichettati, ragionamento interpretabile, generalizzabilità senza ri-training.
+Una distinzione utile: l'ablation risponde alla critica "perché V2 e non un'altra rappresentazione per lo stesso LLM?" mostrando che V2 ottiene accuratezza comparabile con 39–180× meno token. La critica "perché un LLM e non un metodo numerico?" è invece affrontata dal confronto C02b; in questo benchmark il prototipo numerico vince. Interpretabilità testuale e assenza di training del consumer restano proprietà qualitative, non compensazioni quantitative dimostrate.
 
 ### 5 · Sintesi
 
@@ -1350,11 +1350,59 @@ Le normalizzazioni seguenti riguardano soltanto le predizioni aggregate locally-
 | Adapter/LoRA federati | Parametri trainabili | parametri/byte | bassa | alta: architettura, layer e rank | no in generale | `K × P_adapter × byte/parametro`, dati concreti n.d. | provenienza binaria, bassa leggibilità semantica |
 | FoT | Record JSON testuali | caratteri/byte/token | alta per ispezione umana | tokenizzazione e uso dipendono dal consumer | no nel setup TEP | somma misurata dei blocchi per receiver/chiamata | contenuto, ordine, mapping e hash verificabili |
 
-Il confronto è concettuale e non isomorfo: byte di testo, logit, prototipi e parametri non sono direttamente equivalenti. In assenza di configurazioni concrete comparabili non sono prodotti numeri per FedMD, FedProto o LoRA. Le misure FoT non dimostrano privacy, efficienza di banda o superiorità rispetto a FL parametrico.
+Il confronto è concettuale e non isomorfo: byte di testo, logit, prototipi e parametri non sono direttamente equivalenti. Non sono prodotti numeri attribuiti agli algoritmi originali FedMD, FedProto o LoRA; la sezione C02b seguente riporta invece una baseline same-task con prototipi condivisi, esplicitamente qualificata come ispirata a FedProto. Le misure FoT non dimostrano privacy, efficienza di banda o superiorità rispetto a FL parametrico.
 
 ### Provenienza e limiti della misura
 
 Le fonti primarie sono `phase_b/insights`, `phase_b/final_evaluation`, `phase_b/exp2/qwen`, `icl`, e gli oggetti Git dei tag frozen `exp3-v2-inference-frozen-001` e `exp3-v2-results-frozen-001`. Sono stati superati 10 controlli di coerenza, inclusa la verifica degli hash dei prompt ricostruiti e del controllo B/E. Restano non disponibili: tokenizer standalone GPT, file tokenizer Qwen nel repository, reasoning e latenza di C, latenza Qwen, prezzi/addebiti e una Condition C su EXP3_V2.
+
+---
+
+## Baseline numerica sullo stesso compito · C02b
+
+Il confronto esterno principale è la **baseline numerica con prototipi condivisi, ispirata a FedProto**. Non è chiamata “FedProto”: non addestra una rete di rappresentazione e non implementa l’ottimizzazione dell’algoritmo originale. Rispetta però lo stesso problema informativo di FoT: quattro agenti, Normal più un solo fault locale, pseudolabel opache, stessi dati development e stessi 15 PBH held-out. La ground truth PBH viene collegata alle predizioni soltanto nella valutazione offline.
+
+Il protocollo è stato congelato e hashato prima dell’esecuzione. Ogni caso diventa il vettore numerico frozen a **697 componenti** (`41 XMEAS × 17`) derivato dall’evidenza strutturata prima del testo. Per ogni classe si calcola la media dei cinque casi development; la classificazione sceglie il prototipo con minima distanza assoluta media. Non viene appresa alcuna normalizzazione sul test. Un pareggio entro `1e-12` produce astensione; input mancanti, non finiti o con hash errato fermano l’intera esecuzione.
+
+| Braccio | Libreria disponibile a ciascun agente | Complessiva | Local-seen | Local-unseen | Normal |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Prototipi condivisi | Normal + fault locale + 3 fault peer | **60/60 (100%)** | 12/12 | **36/36 (100%)** | 12/12 |
+| Local-only numerica | Normal + solo fault locale | 24/60 (40%) | 12/12 | 0/36 (0%) | 12/12 |
+| Centralizzata numerica | Tutti i 5 centroidi development | 60/60 (100%) | 12/12 | 36/36 (100%) | 12/12 |
+
+L’intervallo bootstrap al 95% della metrica primaria è `[100%, 100%]`, ma non indica certezza generale: ricampiona soltanto i 12 casi fisici disponibili, stratificati per fault, mantenendo unite le tre viste local-unseen di ciascun caso.
+
+### Confronto prudente con A, B ed E
+
+| Metodo | Local-unseen | Differenza prototipi condivisi − metodo |
+| --- | ---: | ---: |
+| Prototipi condivisi | **36/36 (100%)** | — |
+| FoT A | 0/36 (0%) | +100,0 punti |
+| FoT B | 31/36 (86,1%) | **+13,9 punti** |
+| FoT E | 3/36 (8,3%) | +91,7 punti |
+
+Sul benchmark studiato la baseline numerica è migliore di FoT B. Di conseguenza, questi dati **non supportano un claim di superiorità diagnostica di FoT**. Mostrano due cose più circoscritte: condividere conoscenza di classe è indispensabile nel setup local-unseen, e una media numerica compatta delle firme V2 è sufficiente a separare tutti i PBH osservati. A resta un information floor e E un controllo di associazione semantica, non competitor numerici.
+
+### Risultati per agente e fault
+
+Nel braccio condiviso ogni cella è `3/3`; la diagonale è local-seen e le altre celle sono local-unseen.
+
+| Agente | CLS-ZOGAA / F1 | CLS-OJNSG / F8 | CLS-R463B / F10 | CLS-Z3ISU / F13 |
+| --- | ---: | ---: | ---: | ---: |
+| agent_1 | **3/3 seen** | 3/3 | 3/3 | 3/3 |
+| agent_2 | 3/3 | **3/3 seen** | 3/3 | 3/3 |
+| agent_3 | 3/3 | 3/3 | **3/3 seen** | 3/3 |
+| agent_4 | 3/3 | 3/3 | 3/3 | **3/3 seen** |
+
+La matrice di confusione aggregata è interamente diagonale: 12/12 per ciascuna delle quattro pseudoclassi fault e 12/12 per Normal, zero astensioni. I 12 conteggi per fault derivano da 3 casi fisici × 4 agenti e non sono trattati come 12 run indipendenti.
+
+### Payload e limiti
+
+Ogni agente riceve **3 prototipi**, cioè **2.091 scalari**. I payload binari prodotti realmente occupano **16.755 byte per agente** e **67.020 byte complessivi** per le 12 consegne peer: per prototipo, 9 byte ASCII di pseudolabel più 697 float64 little-endian. Non è incluso il framing di rete. Il prototipo Normal non viene trasmesso perché ogni agente possiede già lo stesso riferimento N1–N5.
+
+Il riferimento centralizzato coincide matematicamente con il braccio condiviso perché usa gli stessi cinque centroidi; è un controllo descrittivo, non un upper bound garantito. PCA+SVM centralizzata non è stata eseguita perché esporre tutte le classi al training trasformerebbe il problema in classificazione supervisionata ordinaria. FedAvg non è stato eseguito perché richiederebbe un nuovo modello e un protocollo di output class-disjoint: la semplice media di modelli locali non rende disponibile una pseudoclasse mai presente nell’output locale. Produrre quei numeri avrebbe cambiato il compito.
+
+Protocollo, codice, predizioni, matrice completa, payload e hash sono in [`phase_b/baselines/c02b_shared_numeric_prototypes`](../phase_b/baselines/c02b_shared_numeric_prototypes/results/C02B_BASELINE_REPORT.md). Il protocollo machine-readable ha SHA-256 `229f901a037cb0eca7e623b0efc585201de21a7a16ac51c4d143ea7a49cab545`.
 
 ---
 
@@ -1370,11 +1418,11 @@ L'esperimento è una buona prova controllata: mostra che una descrizione testual
 | --- | --- | --- | --- | --- |
 | C01 | Valutazione | Baseline A troppo debole | **Aperta** | A non conosce le classi degli altri agenti. Lo 0% è quindi in parte previsto. B mostra che l'informazione aiuta, non che FoT batte un metodo forte. |
 | C02a | Baseline interne | Confronti interni incompleti | **Mitigata** | A/B/E, Condition C e l'ablation confrontano varianti del sistema. Manca però una vera local-only con gli insight propri. |
-| C02b | Baseline esterne | Mancano baseline numeriche e FL | **Aperta** | PCA, SVM, FedAvg o FedProto non sono stati eseguiti sullo stesso compito. Non risulta avviato un test comparabile. |
+| C02b | Baseline esterne | Mancano baseline numeriche e FL | **Mitigata** | Una baseline numerica con prototipi condivisi, ispirata a FedProto, è stata eseguita sullo stesso compito: 36/36 local-unseen contro 31/36 di FoT B. Non è FedProto originale e manca ancora una suite di metodi federati. |
 | C03 | Rappresentazione | Trasformazione TS→testo | **Mitigata** | L'ablation confronta quattro formati. V2 usa molti meno token, ma il campione è piccolo e cambia anche quanta informazione viene preparata prima del prompt. |
 | C04 | Modelli | Dipendenza da un solo LLM | **Mitigata** | Qwen conferma il risultato lato consumer. Gli insight sono però ancora prodotti da un solo modello proprietario. |
 | C05 | Comunicazione | Payload non caratterizzato | **Risolta** | Ora sappiamo quanti messaggi, byte e token vengono scambiati. Resta vietato dire che FoT è più efficiente senza un confronto diretto. |
-| C06 | Affidabilità | Peggioramento sui guasti già noti | **Aperta** | In EXP3_V2 B scende da 24/24 a 19/24 sui casi local-seen. Gli insight utili sui guasti nuovi possono confondere quelli già conosciuti. |
+| C06 | Affidabilità | Peggioramento sui guasti già noti | **Mitigata — correzione preliminare promettente** | Lo screening post-hoc B_LOCAL_FIRST_V1 recupera 4/5 errori, raggiunge 23/24 local-seen e non introduce errori nei 19 casi prima corretti. F13-002 resta errato 2/3; serve il full test prima di dichiarare la critica risolta. |
 | C07 | Inferenza | Reasoning cap e repliche identiche | **Risolta** | La sensitivity appaiata 1024–3072 e il follow-up capped a 4096 separano gli errori compatibili con troncatura da quelli per cui l'interferenza è più plausibile. Nessuna regressione; `R=1` resta però un test deterministico, non una misura di variabilità stocastica. |
 | C08 | Scala | Pochi guasti, agenti e simulatori | **Mitigata** | La replica aggiunge 24 run, ma restano quattro guasti su 28, quattro agenti e un solo simulatore. Non prova generalità industriale. |
 | C09 | Federazione | Federazione solo logica | **Aperta** | I nodi sono simulati sullo stesso processo. Non ci sono siti reali, proprietari diversi, nodi offline o reti instabili. |
@@ -1388,7 +1436,7 @@ L'esperimento è una buona prova controllata: mostra che una descrizione testual
 | C17 | Applicazione | Nessuna validazione PV reale | **Aperta** | Il fotovoltaico motiva il progetto, ma gli esperimenti usano solo TEP. Il paper non può dire che il metodo funziona già sul PV. |
 | C18 | Conferenza | Debole evidenza di “Big Data” | **Risolta editorialmente** | L'aderenza è limitata a dati distribuiti, non-IID class-disjoint, collaborazione, Variety, Veracity, Value, evaluation/benchmarking e contesto industriale/IoT. Non c'è evidenza su Volume, Velocity, edge o scalabilità. |
 
-Le priorità sperimentali prima dell'invio restano C01 e C06; C07 è chiusa dalla sensitivity analysis, mentre C15 e C18 sono chiuse sul piano editoriale. C02a è mitigata; C02b resta aperta ed è utile solo con lo **stesso compito**, altrimenti genera un numero poco interpretabile.
+Le priorità sperimentali prima dell'invio restano C01 e C06; C07 è chiusa dalla sensitivity analysis, mentre C15 e C18 sono chiuse sul piano editoriale. C02a e C02b sono mitigate. Per C02b il confronto equo eseguito favorisce la baseline numerica; ulteriori metodi sono utili solo se mantengono lo **stesso compito**.
 
 ---
 

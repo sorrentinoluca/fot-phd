@@ -1,0 +1,22 @@
+{
+  "artifacts": {
+    "phase_b/baselines/c02b_shared_numeric_prototypes/protocol_config.json": "229f901a037cb0eca7e623b0efc585201de21a7a16ac51c4d143ea7a49cab545",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/protocol_freeze_manifest.json": "09c507a42417adb5c3dd88509bf8723d12a0599d4511ab50ab7b27ed73d8ca6c",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/C02B_BASELINE_REPORT.md": "a634afcdabe08c2d09eadeade160b889afa9995f9fff20867938fd8a1a559563",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/bootstrap_results.json": "c62d8821cd7691d5a51179b0640099de9c9cc01ec9b17dd3f1796bf22b0d8277",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/confusion_matrices.json": "3036b5865b35207906350fc116d35a276c197a002e74a10b9af35b9a6f3023cf",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/metrics.json": "b4080b0c88af9ffea04d4cf959de574e597f031b9cf1df1b8594c7bcbcb5935e",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/payload_manifest.json": "da512e205304a41ba1b36d01073159b62d1b9fe4ea4cee678963ebc560a262e1",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/payloads/agent_1.bin": "417041d8f98669066ca77c77c7d5bd053c1647b8b644580c16563b9049938bf3",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/payloads/agent_2.bin": "681ca43dbd644765674912483973e0bbe3ba8e96a740af2c172734d47c5ba475",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/payloads/agent_3.bin": "3a96b8ea99e830210ea9a7a504e4de7b3887a92dff9ed396935a6b6fc920cc02",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/payloads/agent_4.bin": "9bc1850f0285faa4016bd63060fef641f829212a08720dda61e4743056b7265d",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/per_agent_fault_metrics.csv": "655b771456bdb94feedf89bbcb44873ad29c998a3038696b54c563e2ed5b6052",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/predictions.csv": "370e432881503b042a13f7e7b9a484e3bcf691ed9d2e1b90fe3b25a2a101c8ca",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/predictions_unscored.csv": "5bb28a948ef317134df0c104314d2d7231e46501c88a352f47af69aab3b720d5",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/prototypes.json": "20427ac84f4477f16513b2a36df982ccfbb690585d1a6f0849a2a9b1a5966bc2",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/run_baseline.py": "5a0d4572ba8f8ac462abba3da1f72af780751fc3652c934cf8096f3dbb452bfa"
+  },
+  "protocol_id": "c02b-shared-numeric-prototypes-1.0.0",
+  "status": "COMPLETE_DETERMINISTIC_OUTPUTS"
+}

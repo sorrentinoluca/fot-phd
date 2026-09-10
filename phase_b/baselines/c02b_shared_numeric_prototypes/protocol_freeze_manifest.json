@@ -1,0 +1,11 @@
+{
+  "protocol_id": "c02b-shared-numeric-prototypes-1.0.0",
+  "status": "FROZEN_BEFORE_BASELINE_EVALUATION",
+  "frozen_on": "2026-09-10",
+  "git_head_at_freeze": "88d28298906efa72cc416d076fbbecb9b2df1a3a",
+  "artifacts": {
+    "phase_b/baselines/c02b_shared_numeric_prototypes/protocol_config.json": "229f901a037cb0eca7e623b0efc585201de21a7a16ac51c4d143ea7a49cab545",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/C02B_PROTOCOL_FREEZE.md": "6270a7332d5949e0b6e69fc9ff626edde76899af84b1d0786130eb36c88fb02c"
+  },
+  "baseline_predictions_observed": false
+}

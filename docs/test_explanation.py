@@ -19,6 +19,7 @@ ROOT = HERE.parent
 PAGE = HERE / "fot_walkthrough_part1.html"
 CONVERSATION = HERE / "fot_walkthrough_conversazione.html"
 CONVERSATION_MD = HERE / "fot_walkthrough_conversazione.md"
+MAIN_WALKTHROUGH = HERE / "fot_walkthrough.html"
 ARCHIVE = HERE / "archive"
 FIGURES = HERE / "figures"
 
@@ -557,6 +558,55 @@ class UnifiedConversationChecks(unittest.TestCase):
         self.assertIn("docs/fot_walkthrough_conversazione.html", readme)
         self.assertTrue(CONVERSATION.is_file())
         self.assertTrue(CONVERSATION_MD.is_file())
+
+
+class C02bDocumentationChecks(unittest.TestCase):
+    """Keep the three walkthroughs aligned with the frozen C02b artifacts."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.conversation_html = CONVERSATION.read_text(encoding="utf-8")
+        cls.conversation_md = CONVERSATION_MD.read_text(encoding="utf-8")
+        cls.main_html = MAIN_WALKTHROUGH.read_text(encoding="utf-8")
+        cls.result_path = (
+            ROOT
+            / "phase_b/baselines/c02b_shared_numeric_prototypes/results/metrics.json"
+        )
+        cls.results = json.loads(cls.result_path.read_text(encoding="utf-8"))
+
+    def test_artifact_values_and_status(self):
+        shared = self.results["metrics"]["shared_prototypes"]
+        self.assertEqual(shared["overall"]["correct"], 60)
+        self.assertEqual(shared["local_unseen"]["correct"], 36)
+        self.assertEqual(self.results["c02b_status"], "MITIGATA")
+        self.assertEqual(self.results["communication"]["total_payload_bytes"], 67020)
+
+    def test_three_walkthroughs_report_same_c02b_outcome(self):
+        documents = (
+            self.conversation_html,
+            self.conversation_md,
+            self.main_html,
+        )
+        for document in documents:
+            with self.subTest(document=document[:40]):
+                self.assertIn("36/36", document)
+                self.assertIn("31/36", document)
+                self.assertIn("67.020", document)
+                self.assertIn("Mitigata", document)
+                self.assertIn("prototipi condivisi", document.lower())
+                self.assertNotIn("C02b resta aperta", document)
+
+    def test_html_is_balanced_and_main_step_contract_matches(self):
+        for path in (CONVERSATION, MAIN_WALKTHROUGH):
+            page = Page(path.read_text(encoding="utf-8"))
+            self.assertEqual(page.stack, [], str(path))
+            self.assertEqual(len(page.ids), len(set(page.ids)), str(path))
+        main = self.main_html
+        containers = re.findall(r'<div class="step-container" data-step="(\d+)">', main)
+        self.assertEqual([int(value) for value in containers], list(range(23)))
+        steps_literal = re.search(r"const STEPS = \[(.*?)\];", main, re.S).group(1)
+        self.assertEqual(steps_literal.count("{phase:"), len(containers))
+
 
 
 class Exp2QwenDocumentStatusChecks(unittest.TestCase):

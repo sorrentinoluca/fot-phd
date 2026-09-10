@@ -1,0 +1,59 @@
+{
+  "delivery": {
+    "agent_1": {
+      "payload_bytes": 16755,
+      "payload_path": "phase_b/baselines/c02b_shared_numeric_prototypes/results/payloads/agent_1.bin",
+      "payload_sha256": "417041d8f98669066ca77c77c7d5bd053c1647b8b644580c16563b9049938bf3",
+      "peer_pseudolabels": [
+        "CLS-OJNSG",
+        "CLS-R463B",
+        "CLS-Z3ISU"
+      ],
+      "prototype_transmissions": 3,
+      "scalar_values": 2091
+    },
+    "agent_2": {
+      "payload_bytes": 16755,
+      "payload_path": "phase_b/baselines/c02b_shared_numeric_prototypes/results/payloads/agent_2.bin",
+      "payload_sha256": "681ca43dbd644765674912483973e0bbe3ba8e96a740af2c172734d47c5ba475",
+      "peer_pseudolabels": [
+        "CLS-R463B",
+        "CLS-Z3ISU",
+        "CLS-ZOGAA"
+      ],
+      "prototype_transmissions": 3,
+      "scalar_values": 2091
+    },
+    "agent_3": {
+      "payload_bytes": 16755,
+      "payload_path": "phase_b/baselines/c02b_shared_numeric_prototypes/results/payloads/agent_3.bin",
+      "payload_sha256": "3a96b8ea99e830210ea9a7a504e4de7b3887a92dff9ed396935a6b6fc920cc02",
+      "peer_pseudolabels": [
+        "CLS-OJNSG",
+        "CLS-Z3ISU",
+        "CLS-ZOGAA"
+      ],
+      "prototype_transmissions": 3,
+      "scalar_values": 2091
+    },
+    "agent_4": {
+      "payload_bytes": 16755,
+      "payload_path": "phase_b/baselines/c02b_shared_numeric_prototypes/results/payloads/agent_4.bin",
+      "payload_sha256": "9bc1850f0285faa4016bd63060fef641f829212a08720dda61e4743056b7265d",
+      "peer_pseudolabels": [
+        "CLS-OJNSG",
+        "CLS-R463B",
+        "CLS-ZOGAA"
+      ],
+      "prototype_transmissions": 3,
+      "scalar_values": 2091
+    }
+  },
+  "prototype_dimensions": 697,
+  "total_payload_bytes": 67020,
+  "total_peer_fault_prototype_transmissions": 12,
+  "total_transmitted_scalar_values": 8364,
+  "transport_framing_included": false,
+  "unique_fault_prototypes": 4,
+  "unique_normal_prototypes": 1
+}
