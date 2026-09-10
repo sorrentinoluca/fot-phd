@@ -20,6 +20,7 @@ PAGE = HERE / "fot_walkthrough_part1.html"
 CONVERSATION = HERE / "fot_walkthrough_conversazione.html"
 CONVERSATION_MD = HERE / "fot_walkthrough_conversazione.md"
 MAIN_WALKTHROUGH = HERE / "fot_walkthrough.html"
+PAPER_BLUEPRINT = HERE / "paper/FoT_TEP_paper_blueprint.html"
 ARCHIVE = HERE / "archive"
 FIGURES = HERE / "figures"
 
@@ -573,6 +574,14 @@ class C02bDocumentationChecks(unittest.TestCase):
             / "phase_b/baselines/c02b_shared_numeric_prototypes/results/metrics.json"
         )
         cls.results = json.loads(cls.result_path.read_text(encoding="utf-8"))
+        cls.suite_result_path = (
+            ROOT
+            / "phase_b/baselines/c02b_supervisor_model_suite/results/metrics.json"
+        )
+        cls.suite_results = json.loads(
+            cls.suite_result_path.read_text(encoding="utf-8")
+        )
+        cls.paper_blueprint = PAPER_BLUEPRINT.read_text(encoding="utf-8")
 
     def test_artifact_values_and_status(self):
         shared = self.results["metrics"]["shared_prototypes"]
@@ -606,6 +615,46 @@ class C02bDocumentationChecks(unittest.TestCase):
         self.assertEqual([int(value) for value in containers], list(range(23)))
         steps_literal = re.search(r"const STEPS = \[(.*?)\];", main, re.S).group(1)
         self.assertEqual(steps_literal.count("{phase:"), len(containers))
+
+    def test_supervisor_model_suite_values_and_documentation(self):
+        expected = {
+            "adaboost": 15,
+            "random_forest": 15,
+            "mlp": 15,
+            "linear_elastic_net": 15,
+            "knn": 15,
+            "lstm_causal_attention": 15,
+            "bilstm_attention": 14,
+            "multimodal_bilstm_attention_tfidf": 14,
+        }
+        self.assertEqual(set(self.suite_results["metrics"]), set(expected))
+        for model, correct in expected.items():
+            self.assertEqual(
+                self.suite_results["metrics"][model]["physical_cases"]["correct"],
+                correct,
+            )
+        documents = (
+            self.conversation_html,
+            self.conversation_md,
+            self.main_html,
+            self.paper_blueprint,
+        )
+        for document in documents:
+            with self.subTest(document=document[:40]):
+                for term in (
+                    "AdaBoost",
+                    "Random Forest",
+                    "MLP",
+                    "elastic-net",
+                    "k-NN",
+                    "LSTM",
+                    "BiLSTM",
+                    "multimodale",
+                ):
+                    self.assertIn(term, document)
+                self.assertIn("15/15", document)
+                self.assertIn("14/15", document)
+                self.assertIn("centralizz", document.lower())
 
 
 

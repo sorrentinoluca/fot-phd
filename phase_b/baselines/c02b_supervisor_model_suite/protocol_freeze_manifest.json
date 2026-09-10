@@ -1,0 +1,11 @@
+{
+  "protocol_id": "c02b-supervisor-model-suite-1.0.0",
+  "status": "FROZEN_BEFORE_MODEL_EVALUATION",
+  "frozen_on": "2026-09-10",
+  "git_head_at_freeze": "72af2a7ffa97544ec10cc6d0e6c65253e21de22c",
+  "artifacts": {
+    "phase_b/baselines/c02b_supervisor_model_suite/protocol_config.json": "9b9a90c7878845f06d0be0e7e4c58b0f55b89035ef5b406c2a3e516a460527ed",
+    "phase_b/baselines/c02b_supervisor_model_suite/PROTOCOL_FREEZE.md": "d188ef9ecb492667f79941b88a0fa05be3658440cae4d95d401f9c407153a888"
+  },
+  "new_model_predictions_observed": false
+}

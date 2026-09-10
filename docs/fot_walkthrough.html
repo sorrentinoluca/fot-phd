@@ -2173,12 +2173,65 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   </div>
 
   <div class="card">
+    <div class="card-label">Suite richiesta dal supervisor · riferimenti centralizzati</div>
+    <table class="data-table">
+      <thead><tr><th>Modello</th><th>Held-out fisico</th><th>Fault</th></tr></thead>
+      <tbody>
+        <tr><td>AdaBoost</td><td><strong>15/15</strong></td><td>12/12</td></tr>
+        <tr><td>Random Forest</td><td><strong>15/15</strong></td><td>12/12</td></tr>
+        <tr><td>MLP</td><td><strong>15/15</strong></td><td>12/12</td></tr>
+        <tr><td>Lineare elastic-net</td><td><strong>15/15</strong></td><td>12/12</td></tr>
+        <tr><td>k-NN</td><td><strong>15/15</strong></td><td>12/12</td></tr>
+        <tr><td>LSTM causale + attention</td><td><strong>15/15</strong></td><td>12/12</td></tr>
+        <tr><td>BiLSTM + attention</td><td>14/15</td><td>11/12</td></tr>
+        <tr><td>BiLSTM multimodale + attention</td><td>14/15</td><td>11/12</td></tr>
+      </tbody>
+    </table>
+    <p style="margin:12px 0 0;font-size:0.82rem;color:var(--text-caption)">Tutti vedono le cinque pseudoclassi nel development: sono benchmark centralizzati, non metodi federati. La multimodale fonde sequenza numerica e testo neutro TF-IDF. XGBoost non era disponibile ed &egrave; stato sostituito dall'alternativa richiesta AdaBoost.</p>
+  </div>
+
+  <div class="card">
     <div class="card-label">Comunicazione e confini</div>
     <p style="margin:0 0 10px;font-size:0.88rem;color:var(--text-muted)">Ogni agente riceve <strong>3 prototipi = 2.091 scalari = 16.755 byte</strong>. I quattro payload reali totalizzano <strong>67.020 byte</strong>, incluse le pseudolabel e senza framing di rete.</p>
     <p style="margin:0;font-size:0.82rem;color:var(--text-caption)">PCA+SVM centralizzata e FedAvg non sono riportati: con tutte le classi al training cambierebbero il task, mentre la semplice media di modelli locali non crea un output per pseudoclassi mai viste localmente. Il riferimento centralizzato coincide con il condiviso perch&eacute; usa gli stessi cinque centroidi; &egrave; descrittivo.</p>
   </div>
 
-  <div class="callout"><span class="callout-icon">&#9432;</span><span>Dettagli verificabili: <a href="../phase_b/baselines/c02b_shared_numeric_prototypes/results/C02B_BASELINE_REPORT.md" style="color:var(--accent-a);font-weight:600">rapporto C02b</a> e <a href="fot_walkthrough_conversazione.html#c02b-baseline" style="color:var(--accent-a);font-weight:600">walkthrough esteso</a>. Stato C02b: <strong>Mitigata</strong>, non risolta sperimentalmente.</span></div>
+  <div class="callout"><span class="callout-icon">&#9432;</span><span>Dettagli verificabili: <a href="../phase_b/baselines/c02b_shared_numeric_prototypes/results/C02B_BASELINE_REPORT.md" style="color:var(--accent-a);font-weight:600">rapporto C02b</a>, <a href="../phase_b/baselines/c02b_supervisor_model_suite/results/SUPERVISOR_MODEL_SUITE_REPORT.md" style="color:var(--accent-a);font-weight:600">suite supervisor</a> e <a href="fot_walkthrough_conversazione.html#c02b-baseline" style="color:var(--accent-a);font-weight:600">walkthrough esteso</a>. Stato C02b: <strong>Mitigata</strong>, non risolta sperimentalmente.</span></div>
+</div>
+
+
+
+<!-- ==================== STEP A+: CONDIZIONE A+ ==================== -->
+<div class="step-container" data-step="aplus">
+  <div class="phase-badge" style="background:var(--threshold-light);color:var(--threshold)">Risposta a C01</div>
+  <h1 class="step-title">Condizione A+ (local-only self-insight)</h1>
+  <p class="step-intro">La condizione A+ verifica se il semplice possesso dei propri insight (gi&agrave; noti all'agente) possa migliorare la diagnosi sulle classi non viste, rispondendo alla critica C01.</p>
+
+  <div class="callout"><span class="callout-icon">&#9432;</span><span><strong>Disegno:</strong> ogni agente riceve i <strong>due insight che ha prodotto sulla propria classe locale</strong> nel blocco peer del prompt. Nessun insight peer, nessun nome di classe reale, nessuna etichetta di test entra nel prompt A+. Parametri identici al protocollo frozen: <code>gpt-5.6-terra</code>, reasoning <code>medium</code>, R=3, majority-vote 2/3.</span></div>
+
+  <div class="lit-table-wrap"><table class="data-table lit-table">
+    <thead><tr><th>Condizione</th><th>Corrette / n</th><th>Accuratezza</th><th>Astensioni</th></tr></thead>
+    <tbody>
+      <tr><td>A</td><td>0 / 36</td><td>0,00%</td><td>14</td></tr>
+      <tr style="background:var(--accent-a-light)"><td><strong>A+</strong></td><td><strong>0 / 36</strong></td><td><strong>0,00%</strong></td><td><strong>21</strong></td></tr>
+      <tr><td>B</td><td>31 / 36</td><td>86,11%</td><td>0</td></tr>
+      <tr><td>E</td><td>3 / 36</td><td>8,33%</td><td>0</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="lit-table-wrap"><table class="data-table lit-table">
+    <thead><tr><th>Confronto</th><th>Aiutati</th><th>Danneggiati</th><th>Invariati</th></tr></thead>
+    <tbody>
+      <tr><td>A+ vs A</td><td>0</td><td>0</td><td>36 (0/36)</td></tr>
+      <tr><td>B vs A+</td><td>31</td><td>0</td><td>5 (0/5)</td></tr>
+    </tbody>
+  </table></div>
+
+  <p><strong>Bootstrap stratificato:</strong> &Delta; A+&minus;A 95% CI [0, 0]; &Delta; B&minus;A+ 95% CI [0,833 ; 0,917]; &Delta; E&minus;A+ 95% CI [0,028 ; 0,139]. 10.000 draw, seed 20260829.</p>
+
+  <div class="verdict-box"><strong>Conclusione C01.</strong> A+ &asymp; A: i self-insight non sono sufficienti per diagnosticare classi non viste. B &gt;&gt; A+ &asymp; A: il beneficio di B &egrave; <strong>interamente attribuibile alla conoscenza peer</strong>. A non &egrave; una baseline artificialmente debole &mdash; &egrave; il corretto pavimento informativo.</div>
+
+  <div class="callout"><span class="callout-icon">&#9432;</span><span>Dettagli verificabili: <a href="../phase_b/final_evaluation_aplus/APLUS_EVALUATION_REPORT.md" style="color:var(--accent-a);font-weight:600">rapporto A+</a> e <a href="fot_walkthrough_conversazione.html#condizione-aplus" style="color:var(--accent-a);font-weight:600">walkthrough esteso</a>. Token: 362.887. Retries: 0. Parse failures: 0.</span></div>
 </div>
 
 
@@ -2193,9 +2246,9 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   <div class="lit-table-wrap"><table class="data-table lit-table">
     <thead><tr><th>ID</th><th>Categoria</th><th>Critica</th><th>Stato</th><th>Perch&eacute; conta</th></tr></thead>
     <tbody>
-      <tr><td>C01</td><td>Valutazione</td><td>Baseline A troppo debole</td><td><strong>Aperta</strong></td><td>A non conosce le classi remote. Lo 0% &egrave; in parte previsto: B prova che l'informazione aiuta, non che FoT batte un metodo forte.</td></tr>
-      <tr><td>C02a</td><td>Baseline interne</td><td>Confronti interni incompleti</td><td><strong>Mitigata</strong></td><td>A/B/E, Condition C e l'ablation confrontano varianti del sistema. Manca per&ograve; una vera local-only con gli insight propri.</td></tr>
-      <tr><td>C02b</td><td>Baseline esterne</td><td>Mancano baseline numeriche e FL</td><td><strong>Mitigata</strong></td><td>La baseline numerica con prototipi condivisi ottiene 36/36 local-unseen sullo stesso compito, contro 31/36 di FoT B. Non &egrave; FedProto originale e manca una suite federata.</td></tr>
+      <tr><td>C01</td><td>Valutazione</td><td>Baseline A troppo debole</td><td><strong>Risolta</strong></td><td>A+ (self-insight only) conferma che lo 0% di A non dipende dall'assenza di insight propri: A+ = 0% sulle classi non viste, identico ad A. Il vantaggio di B &egrave; interamente peer-driven. Vedi sezione &ldquo;Condizione A+&rdquo;.</td></tr>
+      <tr><td>C02a</td><td>Baseline interne</td><td>Confronti interni incompleti</td><td><strong>Mitigata</strong></td><td>A/B/E, A+ (local-only self-insight), Condition C e l'ablation confrontano varianti del sistema. A+ colma la lacuna del confronto local-only con gli insight propri.</td></tr>
+      <tr><td>C02b</td><td>Baseline esterne</td><td>Mancano baseline numeriche e FL</td><td><strong>Mitigata</strong></td><td>I prototipi condivisi ottengono 36/36 local-unseen contro 31/36 di FoT B; gli otto modelli richiesti dal supervisor ottengono 93,3&ndash;100% come riferimenti centralizzati. Manca ancora una suite FL originale sullo stesso task.</td></tr>
       <tr><td>C03</td><td>Rappresentazione</td><td>Trasformazione TS&rarr;testo</td><td><strong>Mitigata</strong></td><td>L'ablation confronta quattro formati e V2 usa meno token. Il campione &egrave; piccolo e cambia anche l'informazione preparata.</td></tr>
       <tr><td>C04</td><td>Modelli</td><td>Dipendenza da un solo LLM</td><td><strong>Mitigata</strong></td><td>Qwen conferma il risultato lato consumer. Gli insight vengono ancora prodotti da un solo modello proprietario.</td></tr>
       <tr><td>C05</td><td>Comunicazione</td><td>Payload non caratterizzato</td><td><strong>Risolta</strong></td><td>Messaggi, byte e token sono misurati. Senza confronto diretto non si pu&ograve; dire che FoT sia pi&ugrave; efficiente.</td></tr>
@@ -2215,7 +2268,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     </tbody>
   </table></div>
 
-  <div class="verdict-box"><strong>Priorit&agrave; sperimentali prima dell'invio:</strong> C01 e C06. C07 &egrave; chiusa dalla sensitivity analysis; C15 e C18 sono chiuse sul piano editoriale. C02a e C02b sono mitigate. Il confronto equo C02b favorisce la baseline numerica.</div>
+  <div class="verdict-box"><strong>Priorit&agrave; sperimentale prima dell'invio:</strong> C06. C01 &egrave; risolta dalla condizione A+; C07 &egrave; chiusa dalla sensitivity analysis; C15 e C18 sono chiuse sul piano editoriale. C02a &egrave; ulteriormente rafforzata da A+, C02b &egrave; mitigata. La suite supervisor &egrave; completa come riferimento centralizzato; il confronto equo class-disjoint C02b favorisce i prototipi numerici.</div>
 </div>
 <!-- ==================== STEP 21: CONFERENZA ==================== -->
 <div class="step-container" data-step="21">

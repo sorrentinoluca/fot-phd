@@ -14,7 +14,7 @@ Da FoT di Yao et al. si riprende l’architettura ad alto livello: insight local
 
 Come banco di prova controllato si usa il **Tennessee Eastman Process (TEP)**, un processo chimico simulato con fault noti e ground truth verificabile. I dati provengono dallo snapshot upstream [github.com/mv-per/tennessee-eastman-dataset](https://github.com/mv-per/tennessee-eastman-dataset) (commit pinnato `309b944f`). TEP è un **gate di fattibilità metodologica**: permette di verificare il meccanismo FoT in condizioni note, non è la destinazione applicativa finale, che resta il fotovoltaico.
 
-Lo stato attuale comprende un primo esperimento, una replica su nuovi run simulati, un consumer open-weight, un riferimento centralizzato, un confronto tra quattro rappresentazioni TS→testo, la misura del payload comunicativo e una baseline numerica a prototipi condivisi eseguita sullo stesso compito local-unseen. I limiti e il loro stato sono raccolti nella sezione **Critiche**.
+Lo stato attuale comprende un primo esperimento, una replica su nuovi run simulati, un consumer open-weight, un riferimento centralizzato, un confronto tra quattro rappresentazioni TS→testo, la misura del payload comunicativo, una baseline numerica a prototipi condivisi sul compito local-unseen e una suite centralizzata con gli otto modelli richiesti dal supervisor. I limiti e il loro stato sono raccolti nella sezione **Critiche**.
 
 ### 1.2 Lessico operativo e unità di analisi
 
@@ -72,6 +72,28 @@ Nel progetto si usano due tipi di dato:
 
 - **Dataset Normal** — un solo file di processo *senza fault*, lungo **500 h**, con **30001 righe** (500 h × 60 = 30000 campioni, più la riga di endpoint a 500 h). Campionamento **1 minuto** (`1/60 h`). L'ultima riga (l'endpoint) viene **esclusa** dai blocchi: 30000 righe si dividono esattamente in 10 blocchi da 50 h, mentre la 30001ª cadrebbe fuori dalla suddivisione uniforme. 41 XMEAS per riga.
 - **Dataset di fault** — i quattro fault studiati sono **F1, F8, F10, F13**. Ogni file è un run (batch) da **50 h**, **3001 righe** (50 h × 60 + endpoint), campionamento 1 minuto, 41 XMEAS. Il fault è iniettato a 10 h, quindi le prime 10 h sono processo nominale e le 40 h successive contengono la firma del guasto.
+
+> **Perché proprio F1, F8, F10, F13?**
+>
+> Il TEP definisce 21 tipi di fault raggruppati per meccanismo fisico nella tassonomia originale di Downs & Vogel (1993): **Step** (F1–F7), **Random variation** (F8–F12), **Slow drift** (F13 unico), **Sticking** (F14–F15) e **Unknown** (F16–F20), più il guasto a valvola fissa F21.
+>
+> La scelta dei quattro fault segue un **criterio di copertura dei meccanismi**. All'interno di ciascuna categoria il meccanismo generativo è lo stesso e cambiano solo la variabile colpita e l'ampiezza; selezionare più fault dalla stessa famiglia (ad esempio F1 e F4, entrambi step) avrebbe introdotto ridondanza senza aggiungere diversità strutturale. Servono invece rappresentanti di famiglie distinte:
+>
+> - **F1** — rappresentante della famiglia *Step*: perturbazione istantanea e persistente.
+> - **F8** — rappresentante della famiglia *Random variation*: disturbo stocastico continuo.
+> - **F10** — secondo *Random variation*, scelto per creare una coppia intra-famiglia (F8 vs F10) che testa la capacità del metodo di distinguere fault con lo stesso meccanismo ma variabile-target diversa.
+> - **F13** — **unico** fault di tipo *Slow drift* nel TEP: la sua inclusione è obbligata se si vuole coprire la deriva lenta, e rappresenta il caso diagnosticamente più difficile (la firma emerge gradualmente e si sovrappone a lungo al processo nominale).
+>
+> Restano esclusi: F16–F20 (*Unknown*), la cui mancanza di un meccanismo documentato li rende inadatti a uno studio che richiede ground truth interpretabile; F14–F15 (*Sticking*), meccanismo ridondante rispetto allo *Step* sul piano della firma statica; F21 (*Fixed valve*), caso a sé fuori dalla tassonomia a cinque famiglie.
+>
+> La combinazione risultante {F1, F8, F10, F13} copre tre dei cinque meccanismi documentati e crea tre assi di contrasto complementari: *step vs random* (F1 vs F8), *intra-famiglia random* (F8 vs F10) e *drift lento vs perturbazioni rapide* (F13 vs tutti gli altri). L'analisi quantitativa delle firme a 697 dimensioni conferma a posteriori che i quattro fault campionano lo spettro di difficoltà diagnostica:
+>
+> | Fault | Meccanismo | Similarità intra-classe | Margine dal Normal | Nota |
+> |-------|------------|------------------------|--------------------|------|
+> | F1 | Step | 0.991 | 0.077 | Firma stabile, ben separata |
+> | F10 | Random var. | 0.991 | 0.011 | Stabile ma quasi sovrapposta a F1 (inter-class 0.905) |
+> | F8 | Random var. | 0.860 | 0.014 | La meno stabile: massima variabilità intra-classe |
+> | F13 | Slow drift | 0.889 | 0.044 | Minima similarità col Normal (0.718), drift graduale |
 
 I file di fault contengono anche **12 variabili manipolate XMV** (le grandezze che l'operatore può controllare). Vengono **escluse** dalla rappresentazione: il layer Stadio 1 è stato definito sulle sole XMEAS e congelato così; aggiungere le XMV dopo aver osservato i dati cambierebbe la rappresentazione a valle del freeze. La pipeline conserva quindi soltanto `Time` + 41 XMEAS.
 
@@ -1404,6 +1426,104 @@ Il riferimento centralizzato coincide matematicamente con il braccio condiviso p
 
 Protocollo, codice, predizioni, matrice completa, payload e hash sono in [`phase_b/baselines/c02b_shared_numeric_prototypes`](../phase_b/baselines/c02b_shared_numeric_prototypes/results/C02B_BASELINE_REPORT.md). Il protocollo machine-readable ha SHA-256 `229f901a037cb0eca7e623b0efc585201de21a7a16ac51c4d143ea7a49cab545`.
 
+### Suite di modelli richiesta dal supervisor
+
+È stata inoltre eseguita una suite congelata prima del training con **AdaBoost, Random Forest, MLP, lineare elastic-net, k-NN, LSTM causale con attention, BiLSTM con attention e BiLSTM multimodale con attention**. La multimodale fonde la sequenza numerica con il testo neutro TF-IDF prodotto dal verbalizzatore frozen. XGBoost non era disponibile nell'ambiente, quindi è stata usata l'alternativa esplicitamente ammessa, AdaBoost.
+
+| Modello centralizzato | 15 casi fisici | 12 fault | Local-unseen proiettato |
+| --- | ---: | ---: | ---: |
+| AdaBoost | **15/15 (100%)** | 12/12 | 36/36 |
+| Random Forest | **15/15 (100%)** | 12/12 | 36/36 |
+| MLP | **15/15 (100%)** | 12/12 | 36/36 |
+| Lineare elastic-net | **15/15 (100%)** | 12/12 | 36/36 |
+| k-NN | **15/15 (100%)** | 12/12 | 36/36 |
+| LSTM causale + attention | **15/15 (100%)** | 12/12 | 36/36 |
+| BiLSTM + attention | 14/15 (93,3%) | 11/12 | 33/36 |
+| BiLSTM multimodale + attention | 14/15 (93,3%) | 11/12 | 33/36 |
+
+I primi sei modelli non commettono errori sul piccolo held-out. La BiLSTM scambia PBH-011/F10 con Normal; la multimodale scambia PBH-014/F13 con F8. Ogni modello raggiunge il 100% sui 25 casi di training. Questo, insieme ai soli cinque casi development e tre test per classe, impone prudenza: il risultato può riflettere un benchmark facilmente separabile e non prova generalizzazione ampia.
+
+Questi otto modelli vedono tutte le cinque pseudoclassi durante il training centralizzato. Il valore “local-unseen proiettato” replica la stessa predizione centrale sui tre agenti per cui il fault è localmente unseen; non trasforma il metodo in federato e non crea 36 osservazioni indipendenti. Il confronto diretto class-disjoint resta quindi quello con i prototipi condivisi. Inoltre, una BiLSTM non viene chiamata causale: usa anche i passi successivi nell'intervallo osservato. La variante multimodale usa due rappresentazioni degli stessi sensori, non una seconda sorgente fisica.
+
+Il [rapporto completo della suite](../phase_b/baselines/c02b_supervisor_model_suite/results/SUPERVISOR_MODEL_SUITE_REPORT.md) contiene matrici, predizioni, pesi, storie di training e hash. La configurazione frozen ha SHA-256 `9b9a90c7878845f06d0be0e7e4c58b0f55b89035ef5b406c2a3e516a460527ed`; una seconda esecuzione ha verificato gli artefatti byte-per-byte.
+
+---
+
+## Condizione A+ e risposta alla critica C01
+
+### Motivazione
+
+La critica C01 osserva che la baseline A è debole: lo 0% sulle classi non viste è in parte atteso, perché l'agente non possiede alcuna informazione sulle classi remote. Prima di attribuire il vantaggio di B all'effetto peer, occorre escludere che il semplice possesso dei propri insight (già noti all'agente) possa migliorare la diagnosi.
+
+### Disegno sperimentale
+
+La condizione **A+** (local-only self-insight) replica esattamente il protocollo frozen della Phase B, con un'unica differenza: nel blocco `<<PEER_INSIGHTS_BLOCK>>` del prompt, ogni agente riceve i **due insight che ha prodotto sulla propria classe locale**, anziché gli insight peer (B) o corrotti (E). Nessun insight peer, nessun nome di classe reale, nessuna etichetta di test e nessun risultato held-out entra nel prompt A+.
+
+Parametri identici al protocollo frozen: modello `gpt-5.6-terra`, reasoning `medium`, structured outputs strict, `temperature=null`, `seed=null`, R=3 ripetizioni, aggregazione majority-vote 2/3, astensioni contate come errore. Casi held-out identici (15 casi fisici × 4 agenti = 60 osservazioni aggregate). Configurazione congelata e verificata tramite `APLUS_FREEZE_MANIFEST.json` prima dell'inferenza.
+
+### Risultati primari: classi localmente non viste
+
+| Condizione | Corrette / n | Accuratezza | Astensioni |
+|---|---:|---:|---:|
+| A | 0 / 36 | 0,00% | 14 |
+| A+ | 0 / 36 | 0,00% | 21 |
+| B | 31 / 36 | 86,11% | 0 |
+| E | 3 / 36 | 8,33% | 0 |
+
+**Delta A+−A = 0 esattamente.** I self-insight non apportano alcun beneficio sulle classi non viste. L'agente conosce già la propria classe locale; reinserire quell'informazione nel prompt non gli consente di diagnosticare guasti mai osservati.
+
+### Trasferimenti appaiati (unseen, n=36)
+
+| Confronto | Aiutati | Danneggiati | Invariati (corretti/errati) |
+|---|---:|---:|---|
+| A+ vs A | 0 | 0 | 36 (0/36) |
+| B vs A+ | 31 | 0 | 5 (0/5) |
+| E vs A+ | 3 | 0 | 33 (0/33) |
+
+B aiuta 31 osservazioni rispetto ad A+ (e ad A: i numeri coincidono), senza mai danneggiare.
+
+### Bootstrap stratificato per cluster fisici
+
+- 10.000 draw, seed 20260829, stratificazione per pseudolabel vera (4 strati × 3 run fisici)
+- Delta A+−A 95% CI: [0, 0]
+- Delta B−A+ 95% CI: [0,833 ; 0,917]
+- Delta E−A+ 95% CI: [0,028 ; 0,139]
+
+### Per agente (classi non viste)
+
+| Agente | n | A | A+ | B | E | Δ(A+−A) | Δ(B−A+) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| agent_1 | 9 | 0,00% | 0,00% | 100,00% | 0,00% | 0 | 1 |
+| agent_2 | 9 | 0,00% | 0,00% | 100,00% | 0,00% | 0 | 1 |
+| agent_3 | 9 | 0,00% | 0,00% | 66,67% | 22,22% | 0 | 0,667 |
+| agent_4 | 9 | 0,00% | 0,00% | 77,78% | 11,11% | 0 | 0,778 |
+
+Tutti e quattro gli agenti: A+ = 0% sulle classi non viste, identico ad A.
+
+### Esiti secondari
+
+Le classi localmente viste (local-seen) e i casi Normal restano 100% in tutte e quattro le condizioni: la condizione A+ non introduce regressioni.
+
+### Accordo inter-ripetizione (A+)
+
+- Unanimità 3/3: 57 / 60 (95,0%)
+- Maggioranza 2/3: 3 / 60
+- Tutti diversi: 0 / 60
+
+### Token e costi
+
+- Input: 333.192 token
+- Output: 29.695 token
+- Totale: 362.887 token
+- Structural retries: 0; parse failures: 0
+
+### Interpretazione
+
+A+ ≈ A conferma che i **self-insight non sono sufficienti** per diagnosticare classi non viste: l'agente possiede già la conoscenza della propria classe locale, e reinserirla nel prompt non aggiunge informazione utile. Il fatto che B >> A+ ≈ A dimostra che il beneficio di B è **interamente attribuibile alla conoscenza peer**, cioè agli insight prodotti dagli altri agenti sulle loro rispettive classi. La critica C01 riceve così una risposta sperimentale: A non è una baseline artificialmente debole — è il corretto pavimento informativo. Rafforzarla con la conoscenza di sé non cambia l'esito.
+
+Protocollo, codice, predizioni, metriche e hash sono in [`phase_b/final_evaluation_aplus`](../phase_b/final_evaluation_aplus/APLUS_EVALUATION_REPORT.md). La configurazione frozen ha SHA-256 verificabile tramite `APLUS_FREEZE_MANIFEST.json`.
+
+
 ---
 
 ## Critiche
@@ -1416,9 +1536,9 @@ L'esperimento è una buona prova controllata: mostra che una descrizione testual
 
 | ID | Categoria | Critica | Stato | Spiegazione semplice |
 | --- | --- | --- | --- | --- |
-| C01 | Valutazione | Baseline A troppo debole | **Aperta** | A non conosce le classi degli altri agenti. Lo 0% è quindi in parte previsto. B mostra che l'informazione aiuta, non che FoT batte un metodo forte. |
-| C02a | Baseline interne | Confronti interni incompleti | **Mitigata** | A/B/E, Condition C e l'ablation confrontano varianti del sistema. Manca però una vera local-only con gli insight propri. |
-| C02b | Baseline esterne | Mancano baseline numeriche e FL | **Mitigata** | Una baseline numerica con prototipi condivisi, ispirata a FedProto, è stata eseguita sullo stesso compito: 36/36 local-unseen contro 31/36 di FoT B. Non è FedProto originale e manca ancora una suite di metodi federati. |
+| C01 | Valutazione | Baseline A troppo debole | **Risolta** | A+ (self-insight only) conferma che lo 0% di A non dipende dall'assenza di insight propri: A+ = 0% sulle classi non viste, identico ad A. Il vantaggio di B è interamente peer-driven. Vedi sezione "Condizione A+". |
+| C02a | Baseline interne | Confronti interni incompleti | **Mitigata** | A/B/E, A+ (local-only self-insight), Condition C e l'ablation confrontano varianti del sistema. A+ colma la lacuna del confronto local-only con gli insight propri. |
+| C02b | Baseline esterne | Mancano baseline numeriche e FL | **Mitigata** | Il confronto diretto a prototipi condivisi ottiene 36/36 local-unseen contro 31/36 di FoT B. Sono stati aggiunti anche otto riferimenti centralizzati richiesti dal supervisor (93,3–100%), ma non sono federati; manca ancora una suite FL originale sullo stesso compito. |
 | C03 | Rappresentazione | Trasformazione TS→testo | **Mitigata** | L'ablation confronta quattro formati. V2 usa molti meno token, ma il campione è piccolo e cambia anche quanta informazione viene preparata prima del prompt. |
 | C04 | Modelli | Dipendenza da un solo LLM | **Mitigata** | Qwen conferma il risultato lato consumer. Gli insight sono però ancora prodotti da un solo modello proprietario. |
 | C05 | Comunicazione | Payload non caratterizzato | **Risolta** | Ora sappiamo quanti messaggi, byte e token vengono scambiati. Resta vietato dire che FoT è più efficiente senza un confronto diretto. |
@@ -1436,7 +1556,7 @@ L'esperimento è una buona prova controllata: mostra che una descrizione testual
 | C17 | Applicazione | Nessuna validazione PV reale | **Aperta** | Il fotovoltaico motiva il progetto, ma gli esperimenti usano solo TEP. Il paper non può dire che il metodo funziona già sul PV. |
 | C18 | Conferenza | Debole evidenza di “Big Data” | **Risolta editorialmente** | L'aderenza è limitata a dati distribuiti, non-IID class-disjoint, collaborazione, Variety, Veracity, Value, evaluation/benchmarking e contesto industriale/IoT. Non c'è evidenza su Volume, Velocity, edge o scalabilità. |
 
-Le priorità sperimentali prima dell'invio restano C01 e C06; C07 è chiusa dalla sensitivity analysis, mentre C15 e C18 sono chiuse sul piano editoriale. C02a e C02b sono mitigate. Per C02b il confronto equo eseguito favorisce la baseline numerica; ulteriori metodi sono utili solo se mantengono lo **stesso compito**.
+La priorità sperimentale prima dell'invio resta C06; C01 è risolta dalla condizione A+, C07 è chiusa dalla sensitivity analysis, mentre C15 e C18 sono chiuse sul piano editoriale. C02a è ulteriormente rafforzata da A+, C02b è mitigata. La lista di modelli richiesta dal supervisor è stata coperta come riferimento centralizzato; per avanzare ulteriormente C02b servono metodi FL che mantengano lo **stesso compito class-disjoint**.
 
 ---
 

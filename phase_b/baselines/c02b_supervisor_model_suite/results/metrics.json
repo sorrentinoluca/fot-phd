@@ -1,0 +1,631 @@
+{
+  "c02b_status": "Mitigata",
+  "comparison_anchors": {
+    "fot_B_local_unseen": {
+      "accuracy": 0.8611111111111112,
+      "correct": 31,
+      "n": 36
+    },
+    "shared_prototypes_local_unseen": {
+      "accuracy": 1.0,
+      "correct": 36,
+      "n": 36
+    }
+  },
+  "interpretation": "centralized descriptive references",
+  "metrics": {
+    "adaboost": {
+      "bootstrap_95_physical_accuracy": {
+        "confidence_level": 0.95,
+        "draws": 10000,
+        "lower": 1.0,
+        "method": "stratified physical-case bootstrap",
+        "seed": 20260910,
+        "upper": 1.0
+      },
+      "fault_cases": {
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "normal_cases": {
+        "accuracy": 1.0,
+        "correct": 3,
+        "n": 3
+      },
+      "per_class": {
+        "CLS-OJNSG": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-R463B": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-Z3ISU": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-ZOGAA": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "Normal": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        }
+      },
+      "physical_cases": {
+        "accuracy": 1.0,
+        "correct": 15,
+        "n": 15
+      },
+      "projected_local_seen": {
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "projected_local_unseen": {
+        "accuracy": 1.0,
+        "correct": 36,
+        "n": 36
+      },
+      "serialized_model_bytes": 155892,
+      "training_accuracy": 1.0
+    },
+    "bilstm_attention": {
+      "bootstrap_95_physical_accuracy": {
+        "confidence_level": 0.95,
+        "draws": 10000,
+        "lower": 0.8,
+        "method": "stratified physical-case bootstrap",
+        "seed": 20260910,
+        "upper": 1.0
+      },
+      "fault_cases": {
+        "accuracy": 0.9166666666666666,
+        "correct": 11,
+        "n": 12
+      },
+      "normal_cases": {
+        "accuracy": 1.0,
+        "correct": 3,
+        "n": 3
+      },
+      "per_class": {
+        "CLS-OJNSG": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-R463B": {
+          "accuracy": 0.6666666666666666,
+          "correct": 2,
+          "n": 3
+        },
+        "CLS-Z3ISU": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-ZOGAA": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "Normal": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        }
+      },
+      "physical_cases": {
+        "accuracy": 0.9333333333333333,
+        "correct": 14,
+        "n": 15
+      },
+      "projected_local_seen": {
+        "accuracy": 0.9166666666666666,
+        "correct": 11,
+        "n": 12
+      },
+      "projected_local_unseen": {
+        "accuracy": 0.9166666666666666,
+        "correct": 33,
+        "n": 36
+      },
+      "serialized_model_bytes": 53857,
+      "training_accuracy": 1.0
+    },
+    "knn": {
+      "bootstrap_95_physical_accuracy": {
+        "confidence_level": 0.95,
+        "draws": 10000,
+        "lower": 1.0,
+        "method": "stratified physical-case bootstrap",
+        "seed": 20260910,
+        "upper": 1.0
+      },
+      "fault_cases": {
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "normal_cases": {
+        "accuracy": 1.0,
+        "correct": 3,
+        "n": 3
+      },
+      "per_class": {
+        "CLS-OJNSG": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-R463B": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-Z3ISU": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-ZOGAA": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "Normal": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        }
+      },
+      "physical_cases": {
+        "accuracy": 1.0,
+        "correct": 15,
+        "n": 15
+      },
+      "projected_local_seen": {
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "projected_local_unseen": {
+        "accuracy": 1.0,
+        "correct": 36,
+        "n": 36
+      },
+      "serialized_model_bytes": 157548,
+      "training_accuracy": 1.0
+    },
+    "linear_elastic_net": {
+      "bootstrap_95_physical_accuracy": {
+        "confidence_level": 0.95,
+        "draws": 10000,
+        "lower": 1.0,
+        "method": "stratified physical-case bootstrap",
+        "seed": 20260910,
+        "upper": 1.0
+      },
+      "fault_cases": {
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "normal_cases": {
+        "accuracy": 1.0,
+        "correct": 3,
+        "n": 3
+      },
+      "per_class": {
+        "CLS-OJNSG": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-R463B": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-Z3ISU": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-ZOGAA": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "Normal": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        }
+      },
+      "physical_cases": {
+        "accuracy": 1.0,
+        "correct": 15,
+        "n": 15
+      },
+      "projected_local_seen": {
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "projected_local_unseen": {
+        "accuracy": 1.0,
+        "correct": 36,
+        "n": 36
+      },
+      "serialized_model_bytes": 46146,
+      "training_accuracy": 1.0
+    },
+    "lstm_causal_attention": {
+      "bootstrap_95_physical_accuracy": {
+        "confidence_level": 0.95,
+        "draws": 10000,
+        "lower": 1.0,
+        "method": "stratified physical-case bootstrap",
+        "seed": 20260910,
+        "upper": 1.0
+      },
+      "fault_cases": {
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "normal_cases": {
+        "accuracy": 1.0,
+        "correct": 3,
+        "n": 3
+      },
+      "per_class": {
+        "CLS-OJNSG": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-R463B": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-Z3ISU": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-ZOGAA": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "Normal": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        }
+      },
+      "physical_cases": {
+        "accuracy": 1.0,
+        "correct": 15,
+        "n": 15
+      },
+      "projected_local_seen": {
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "projected_local_unseen": {
+        "accuracy": 1.0,
+        "correct": 36,
+        "n": 36
+      },
+      "serialized_model_bytes": 39999,
+      "training_accuracy": 1.0
+    },
+    "mlp": {
+      "bootstrap_95_physical_accuracy": {
+        "confidence_level": 0.95,
+        "draws": 10000,
+        "lower": 1.0,
+        "method": "stratified physical-case bootstrap",
+        "seed": 20260910,
+        "upper": 1.0
+      },
+      "fault_cases": {
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "normal_cases": {
+        "accuracy": 1.0,
+        "correct": 3,
+        "n": 3
+      },
+      "per_class": {
+        "CLS-OJNSG": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-R463B": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-Z3ISU": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-ZOGAA": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "Normal": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        }
+      },
+      "physical_cases": {
+        "accuracy": 1.0,
+        "correct": 15,
+        "n": 15
+      },
+      "projected_local_seen": {
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "projected_local_unseen": {
+        "accuracy": 1.0,
+        "correct": 36,
+        "n": 36
+      },
+      "serialized_model_bytes": 1591028,
+      "training_accuracy": 1.0
+    },
+    "multimodal_bilstm_attention_tfidf": {
+      "bootstrap_95_physical_accuracy": {
+        "confidence_level": 0.95,
+        "draws": 10000,
+        "lower": 0.8,
+        "method": "stratified physical-case bootstrap",
+        "seed": 20260910,
+        "upper": 1.0
+      },
+      "fault_cases": {
+        "accuracy": 0.9166666666666666,
+        "correct": 11,
+        "n": 12
+      },
+      "normal_cases": {
+        "accuracy": 1.0,
+        "correct": 3,
+        "n": 3
+      },
+      "per_class": {
+        "CLS-OJNSG": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-R463B": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-Z3ISU": {
+          "accuracy": 0.6666666666666666,
+          "correct": 2,
+          "n": 3
+        },
+        "CLS-ZOGAA": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "Normal": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        }
+      },
+      "physical_cases": {
+        "accuracy": 0.9333333333333333,
+        "correct": 14,
+        "n": 15
+      },
+      "projected_local_seen": {
+        "accuracy": 0.9166666666666666,
+        "correct": 11,
+        "n": 12
+      },
+      "projected_local_unseen": {
+        "accuracy": 0.9166666666666666,
+        "correct": 33,
+        "n": 36
+      },
+      "serialized_model_bytes": 108201,
+      "training_accuracy": 1.0
+    },
+    "random_forest": {
+      "bootstrap_95_physical_accuracy": {
+        "confidence_level": 0.95,
+        "draws": 10000,
+        "lower": 1.0,
+        "method": "stratified physical-case bootstrap",
+        "seed": 20260910,
+        "upper": 1.0
+      },
+      "fault_cases": {
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "normal_cases": {
+        "accuracy": 1.0,
+        "correct": 3,
+        "n": 3
+      },
+      "per_class": {
+        "CLS-OJNSG": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-R463B": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-Z3ISU": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "CLS-ZOGAA": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        },
+        "Normal": {
+          "accuracy": 1.0,
+          "correct": 3,
+          "n": 3
+        }
+      },
+      "physical_cases": {
+        "accuracy": 1.0,
+        "correct": 15,
+        "n": 15
+      },
+      "projected_local_seen": {
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "projected_local_unseen": {
+        "accuracy": 1.0,
+        "correct": 36,
+        "n": 36
+      },
+      "serialized_model_bytes": 678428,
+      "training_accuracy": 1.0
+    }
+  },
+  "model_order": [
+    "adaboost",
+    "random_forest",
+    "mlp",
+    "linear_elastic_net",
+    "knn",
+    "lstm_causal_attention",
+    "bilstm_attention",
+    "multimodal_bilstm_attention_tfidf"
+  ],
+  "protocol_id": "c02b-supervisor-model-suite-1.0.0",
+  "sequence_normalizer": {
+    "mean": [
+      0.26677262609355057,
+      3654.282666403082,
+      4442.58730812506,
+      9.234799343737707,
+      32.414754728352925,
+      47.58694105353044,
+      2799.9798585236517,
+      65.0195989171448,
+      122.89937554141044,
+      0.21192724339434213,
+      92.02310150844629,
+      49.976231607157835,
+      2704.5081898139497,
+      25.268273183755046,
+      50.03864447474854,
+      3332.0379010607644,
+      22.89239072253765,
+      66.64856062361945,
+      -0.04436259939273197,
+      273.05574015486127,
+      102.46856159630066,
+      92.36350174585301,
+      32.19299051091581,
+      14.89128503802894,
+      18.76132689370079,
+      5.998981369970894,
+      16.648085977998036,
+      4.0570701550812,
+      32.70850459102179,
+      21.715978804422818,
+      13.243428242287564,
+      0.8872234962312913,
+      16.09824755446949,
+      5.398518891101365,
+      6.679620865759693,
+      3.265970486672962,
+      0.010633215872769304,
+      0.572114863242595,
+      0.1856179070502114,
+      53.787531551100116,
+      43.943668844631574
+    ],
+    "std": [
+      0.006025528644787271,
+      18.453264636566686,
+      24.198250486690753,
+      0.052455803686398086,
+      0.21081085871422,
+      0.2133267774671069,
+      1.0146238992568193,
+      0.509980383605228,
+      0.010865432415261434,
+      0.01030973756649283,
+      0.07623958912851007,
+      0.9797684953663335,
+      0.9987519102761924,
+      0.12191589723662795,
+      1.0485013844124187,
+      1.174577322341937,
+      0.11241595415166379,
+      0.05484397071801075,
+      1.136965475727784,
+      0.4150628327187661,
+      0.019074498580248563,
+      0.16487183029515778,
+      0.264691133982949,
+      0.1022459041812707,
+      0.25587810856853693,
+      0.09386743685968547,
+      0.2465740983543186,
+      0.027441313296381675,
+      0.2609775215155574,
+      0.11160240346610673,
+      0.2693614323554144,
+      0.0998837726092536,
+      0.2521326211182929,
+      0.027841892068110732,
+      0.05599178865961162,
+      0.05146623942306995,
+      0.010308636874363505,
+      0.01097817837703632,
+      0.01002171503572706,
+      0.5154879639907527,
+      0.49624698244951876
+    ]
+  },
+  "status": "COMPLETE",
+  "tfidf_vocabulary_size": 256
+}

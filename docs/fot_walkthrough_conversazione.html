@@ -154,6 +154,10 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
     </ol></details></li>
     <li><details class="nav-phase"><summary><a href="#c02b-baseline">Baseline numerica</a></summary><ol>
       <li><a href="#c02b-baseline">C02b · prototipi condivisi sullo stesso compito</a></li>
+      <li><a href="#c02b-supervisor-suite">Suite richiesta dal supervisor</a></li>
+    </ol></details></li>
+    <li><details class="nav-phase"><summary><a href="#condizione-aplus">Condizione A+</a></summary><ol>
+      <li><a href="#condizione-aplus">A+ local-only &middot; risposta a C01</a></li>
     </ol></details></li>
     <li><details class="nav-phase"><summary><a href="#step-29">Critiche</a></summary><ol>
       <li><a href="#critiche-generali">Elenco, categorie e stato</a></li>
@@ -190,7 +194,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 
   <p>Da FoT di Yao et al. si riprende l’architettura ad alto livello: insight locali → aggregazione → ridistribuzione ai peer. L'adattamento usa una verbalizzazione deterministica e verificabile delle serie temporali, separata dalla successiva inferenza dell'LLM.</p>
   <p>Come banco di prova controllato si usa il <strong>Tennessee Eastman Process (TEP)</strong>, un processo chimico simulato con fault noti e ground truth verificabile. I dati provengono dallo snapshot upstream <a href="https://github.com/mv-per/tennessee-eastman-dataset">github.com/mv-per/tennessee-eastman-dataset</a> (commit pinnato <code>309b944f</code>). TEP è un <strong>gate di fattibilità metodologica</strong>: permette di verificare il meccanismo FoT in condizioni note, non è la destinazione applicativa finale, che resta il fotovoltaico.</p>
-  <p>Lo stato attuale comprende un primo esperimento, una replica su nuovi run simulati, un consumer open-weight, un riferimento centralizzato, un confronto tra quattro rappresentazioni TS&rarr;testo, la misura del payload comunicativo e una baseline numerica a prototipi condivisi eseguita sullo stesso compito local-unseen. I limiti e il loro stato sono raccolti nella sezione <strong>Critiche</strong>.</p>
+  <p>Lo stato attuale comprende un primo esperimento, una replica su nuovi run simulati, un consumer open-weight, un riferimento centralizzato, un confronto tra quattro rappresentazioni TS&rarr;testo, la misura del payload comunicativo, una baseline numerica a prototipi condivisi sul compito local-unseen e una suite centralizzata con gli otto modelli richiesti dal supervisor. I limiti e il loro stato sono raccolti nella sezione <strong>Critiche</strong>.</p>
   <h3 id="sub-1-2">1.2 Lessico operativo e unità di analisi</h3>
   <p>Nel paradigma FoT, la questione sperimentale non è soltanto se ciascun nodo sappia riconoscere ciò che ha già osservato, ma anche se possa utilizzare la conoscenza testuale prodotta da altri nodi per diagnosticare tipi di guasto assenti dalla propria esperienza locale.</p>
   <p>L’esperimento prevede quattro agenti, intesi come astrazioni di nodi diagnostici distribuiti. Ogni agente osserva l’andamento delle variabili misurate del processo, indicate come variabili XMEAS, e deve stabilire quale stato o tipo di guasto spieghi meglio il comportamento osservato. Gli agenti possiedono esperienze locali differenti: ciascuno dispone di conoscenze ricavate dai tipi di guasto osservati localmente.</p>
@@ -1344,6 +1348,88 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <p>Ogni agente riceve <strong>3 prototipi, 2.091 scalari e 16.755 byte</strong>. I quattro payload binari misurano <strong>67.020 byte complessivi</strong> per 12 consegne peer. Ogni record contiene 9 byte ASCII di pseudolabel e 697 float64 little-endian; il framing di rete &egrave; escluso. Normal non viene trasmesso perch&eacute; &egrave; gi&agrave; noto a tutti.</p>
   <p>Il centralizzato coincide matematicamente con il condiviso perch&eacute; usa gli stessi centroidi: &egrave; un controllo descrittivo, non un upper bound. PCA+SVM centralizzata e FedAvg non sono stati eseguiti: senza un nuovo protocollo class-disjoint cambierebbero il compito o non renderebbero disponibile una pseudoclasse unseen.</p>
   <p>Il <a href="../phase_b/baselines/c02b_shared_numeric_prototypes/results/C02B_BASELINE_REPORT.md">rapporto completo C02b</a> collega configurazione, freeze, predizioni, matrici, payload e hash. SHA-256 della configurazione: <code>229f901a037cb0eca7e623b0efc585201de21a7a16ac51c4d143ea7a49cab545</code>.</p>
+
+  <h3 id="c02b-supervisor-suite">Suite di modelli richiesta dal supervisor</h3>
+  <p>&Egrave; stata eseguita una suite congelata prima del training con <strong>AdaBoost, Random Forest, MLP, lineare elastic-net, k-NN, LSTM causale con attention, BiLSTM con attention e BiLSTM multimodale con attention</strong>. La multimodale fonde la sequenza numerica con il testo neutro TF-IDF prodotto dal verbalizzatore frozen. XGBoost non era disponibile, quindi &egrave; stata usata l'alternativa ammessa AdaBoost.</p>
+  <div class="scroll"><table>
+    <thead><tr><th>Modello centralizzato</th><th>15 casi fisici</th><th>12 fault</th><th>Local-unseen proiettato</th></tr></thead>
+    <tbody>
+      <tr><td>AdaBoost</td><td><strong>15/15 (100%)</strong></td><td>12/12</td><td>36/36</td></tr>
+      <tr><td>Random Forest</td><td><strong>15/15 (100%)</strong></td><td>12/12</td><td>36/36</td></tr>
+      <tr><td>MLP</td><td><strong>15/15 (100%)</strong></td><td>12/12</td><td>36/36</td></tr>
+      <tr><td>Lineare elastic-net</td><td><strong>15/15 (100%)</strong></td><td>12/12</td><td>36/36</td></tr>
+      <tr><td>k-NN</td><td><strong>15/15 (100%)</strong></td><td>12/12</td><td>36/36</td></tr>
+      <tr><td>LSTM causale + attention</td><td><strong>15/15 (100%)</strong></td><td>12/12</td><td>36/36</td></tr>
+      <tr><td>BiLSTM + attention</td><td>14/15 (93,3%)</td><td>11/12</td><td>33/36</td></tr>
+      <tr><td>BiLSTM multimodale + attention</td><td>14/15 (93,3%)</td><td>11/12</td><td>33/36</td></tr>
+    </tbody>
+  </table></div>
+  <p>I primi sei modelli non commettono errori sul piccolo held-out. La BiLSTM scambia PBH-011/F10 con Normal; la multimodale scambia PBH-014/F13 con F8. Tutti raggiungono il 100% sui 25 casi di training. Con appena cinque casi development e tre test per classe, il risultato pu&ograve; indicare un benchmark facilmente separabile e non prova generalizzazione ampia.</p>
+  <div class="callout full-width"><strong>Confine essenziale.</strong> Gli otto modelli vedono tutte le pseudoclassi nel training centralizzato. Il local-unseen proiettato replica la stessa predizione sui tre agenti remoti: non rende il metodo federato e non crea 36 osservazioni indipendenti. Una BiLSTM non &egrave; causale in senso stretto. La multimodale usa due rappresentazioni degli stessi sensori, non una seconda sorgente fisica.</div>
+  <p>Il <a href="../phase_b/baselines/c02b_supervisor_model_suite/results/SUPERVISOR_MODEL_SUITE_REPORT.md">rapporto completo della suite</a> contiene matrici, predizioni, pesi, storie di training e hash. SHA-256 della configurazione frozen: <code>9b9a90c7878845f06d0be0e7e4c58b0f55b89035ef5b406c2a3e516a460527ed</code>. Una seconda esecuzione ha verificato gli artefatti byte-per-byte.</p>
+</section>
+
+<section id="step-aplus" data-step="aplus">
+  <div class="step-kicker">Condizione A+ <span class="phase-badge design">Risposta a C01</span></div>
+  <h2 id="condizione-aplus">Condizione A+ e risposta alla critica C01</h2>
+
+  <h3>Motivazione</h3>
+  <p>La critica C01 osserva che la baseline A &egrave; debole: lo 0% sulle classi non viste &egrave; in parte atteso, perch&eacute; l'agente non possiede alcuna informazione sulle classi remote. Prima di attribuire il vantaggio di B all'effetto peer, occorre escludere che il semplice possesso dei propri insight (gi&agrave; noti all'agente) possa migliorare la diagnosi.</p>
+
+  <h3>Disegno sperimentale</h3>
+  <p>La condizione <strong>A+</strong> (local-only self-insight) replica esattamente il protocollo frozen della Phase B, con un'unica differenza: nel blocco <code>&lt;&lt;PEER_INSIGHTS_BLOCK&gt;&gt;</code> del prompt, ogni agente riceve i <strong>due insight che ha prodotto sulla propria classe locale</strong>, anzich&eacute; gli insight peer (B) o corrotti (E). Nessun insight peer, nessun nome di classe reale, nessuna etichetta di test e nessun risultato held-out entra nel prompt A+.</p>
+  <p>Parametri identici al protocollo frozen: modello <code>gpt-5.6-terra</code>, reasoning <code>medium</code>, structured outputs strict, <code>temperature=null</code>, <code>seed=null</code>, R=3 ripetizioni, aggregazione majority-vote 2/3, astensioni contate come errore. Casi held-out identici (15 casi fisici &times; 4 agenti = 60 osservazioni aggregate). Configurazione congelata e verificata tramite <code>APLUS_FREEZE_MANIFEST.json</code> prima dell'inferenza.</p>
+
+  <h3>Risultati primari: classi localmente non viste</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Condizione</th><th>Corrette / n</th><th>Accuratezza</th><th>Astensioni</th></tr></thead>
+    <tbody>
+      <tr><td>A</td><td>0 / 36</td><td>0,00%</td><td>14</td></tr>
+      <tr><td>A+</td><td>0 / 36</td><td>0,00%</td><td>21</td></tr>
+      <tr><td>B</td><td>31 / 36</td><td>86,11%</td><td>0</td></tr>
+      <tr><td>E</td><td>3 / 36</td><td>8,33%</td><td>0</td></tr>
+    </tbody>
+  </table></div>
+  <p><strong>Delta A+&minus;A = 0 esattamente.</strong> I self-insight non apportano alcun beneficio sulle classi non viste. L'agente conosce gi&agrave; la propria classe locale; reinserire quell'informazione nel prompt non gli consente di diagnosticare guasti mai osservati.</p>
+
+  <h3>Trasferimenti appaiati (unseen, n=36)</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Confronto</th><th>Aiutati</th><th>Danneggiati</th><th>Invariati (corretti/errati)</th></tr></thead>
+    <tbody>
+      <tr><td>A+ vs A</td><td>0</td><td>0</td><td>36 (0/36)</td></tr>
+      <tr><td>B vs A+</td><td>31</td><td>0</td><td>5 (0/5)</td></tr>
+      <tr><td>E vs A+</td><td>3</td><td>0</td><td>33 (0/33)</td></tr>
+    </tbody>
+  </table></div>
+  <p>B aiuta 31 osservazioni rispetto ad A+ (e ad A: i numeri coincidono), senza mai danneggiare.</p>
+
+  <h3>Bootstrap stratificato per cluster fisici</h3>
+  <ul>
+    <li>10.000 draw, seed 20260829, stratificazione per pseudolabel vera (4 strati &times; 3 run fisici)</li>
+    <li>Delta A+&minus;A 95% CI: [0, 0]</li>
+    <li>Delta B&minus;A+ 95% CI: [0,833 ; 0,917]</li>
+    <li>Delta E&minus;A+ 95% CI: [0,028 ; 0,139]</li>
+  </ul>
+
+  <h3>Per agente (classi non viste)</h3>
+  <div class="scroll"><table>
+    <thead><tr><th>Agente</th><th>n</th><th>A</th><th>A+</th><th>B</th><th>E</th><th>&Delta;(A+&minus;A)</th><th>&Delta;(B&minus;A+)</th></tr></thead>
+    <tbody>
+      <tr><td>agent_1</td><td>9</td><td>0,00%</td><td>0,00%</td><td>100,00%</td><td>0,00%</td><td>0</td><td>1</td></tr>
+      <tr><td>agent_2</td><td>9</td><td>0,00%</td><td>0,00%</td><td>100,00%</td><td>0,00%</td><td>0</td><td>1</td></tr>
+      <tr><td>agent_3</td><td>9</td><td>0,00%</td><td>0,00%</td><td>66,67%</td><td>22,22%</td><td>0</td><td>0,667</td></tr>
+      <tr><td>agent_4</td><td>9</td><td>0,00%</td><td>0,00%</td><td>77,78%</td><td>11,11%</td><td>0</td><td>0,778</td></tr>
+    </tbody>
+  </table></div>
+  <p>Tutti e quattro gli agenti: A+ = 0% sulle classi non viste, identico ad A.</p>
+
+  <h3>Esiti secondari e accordo inter-ripetizione</h3>
+  <p>Le classi localmente viste (local-seen) e i casi Normal restano 100% in tutte e quattro le condizioni: A+ non introduce regressioni. Accordo inter-ripetizione A+: unanimit&agrave; 3/3 in 57/60 casi (95,0%), maggioranza 2/3 in 3/60, tutti diversi 0/60.</p>
+
+  <h3>Interpretazione</h3>
+  <div class="callout full-width"><strong>Conclusione C01.</strong> A+ &asymp; A conferma che i self-insight non sono sufficienti per diagnosticare classi non viste: l'agente possiede gi&agrave; la conoscenza della propria classe locale, e reinserirla nel prompt non aggiunge informazione utile. B &gt;&gt; A+ &asymp; A dimostra che il beneficio di B &egrave; <strong>interamente attribuibile alla conoscenza peer</strong>. A non &egrave; una baseline artificialmente debole &mdash; &egrave; il corretto pavimento informativo. Rafforzarla con la conoscenza di s&eacute; non cambia l'esito.</div>
+
+  <p>Token A+: 333.192 input + 29.695 output = 362.887 totali. Structural retries: 0; parse failures: 0. Protocollo, codice, predizioni, metriche e hash sono in <a href="../phase_b/final_evaluation_aplus/APLUS_EVALUATION_REPORT.md">phase_b/final_evaluation_aplus</a>. La configurazione frozen ha SHA-256 verificabile tramite <code>APLUS_FREEZE_MANIFEST.json</code>.</p>
 </section>
 
 <section id="step-29" data-step="29">
@@ -1354,9 +1440,9 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
   <div class="scroll"><table>
     <thead><tr><th>ID</th><th>Categoria</th><th>Critica</th><th>Stato</th><th>Spiegazione semplice</th></tr></thead>
     <tbody>
-      <tr><td>C01</td><td>Valutazione</td><td>Baseline A troppo debole</td><td><strong>Aperta</strong></td><td>A non conosce le classi remote. Lo 0% &egrave; in parte previsto: B prova che l'informazione aiuta, non che FoT batte un metodo forte.</td></tr>
-      <tr><td>C02a</td><td>Baseline interne</td><td>Confronti interni incompleti</td><td><strong>Mitigata</strong></td><td>A/B/E, Condition C e l'ablation confrontano varianti del sistema. Manca per&ograve; una vera local-only con gli insight propri.</td></tr>
-      <tr><td>C02b</td><td>Baseline esterne</td><td>Mancano baseline numeriche e FL</td><td><strong>Mitigata</strong></td><td>Una baseline numerica con prototipi condivisi, ispirata a FedProto, &egrave; stata eseguita sullo stesso compito: 36/36 local-unseen contro 31/36 di FoT B. Non &egrave; FedProto originale e manca ancora una suite federata.</td></tr>
+      <tr><td>C01</td><td>Valutazione</td><td>Baseline A troppo debole</td><td><strong>Risolta</strong></td><td>A+ (self-insight only) conferma che lo 0% di A non dipende dall'assenza di insight propri: A+ = 0% sulle classi non viste, identico ad A. Il vantaggio di B &egrave; interamente peer-driven. Vedi sezione &ldquo;Condizione A+&rdquo;.</td></tr>
+      <tr><td>C02a</td><td>Baseline interne</td><td>Confronti interni incompleti</td><td><strong>Mitigata</strong></td><td>A/B/E, A+ (local-only self-insight), Condition C e l'ablation confrontano varianti del sistema. A+ colma la lacuna del confronto local-only con gli insight propri.</td></tr>
+      <tr><td>C02b</td><td>Baseline esterne</td><td>Mancano baseline numeriche e FL</td><td><strong>Mitigata</strong></td><td>Il confronto diretto a prototipi condivisi ottiene 36/36 local-unseen contro 31/36 di FoT B. Sono stati aggiunti otto riferimenti centralizzati richiesti dal supervisor (93,3&ndash;100%), ma non sono federati; manca ancora una suite FL originale sullo stesso compito.</td></tr>
       <tr><td>C03</td><td>Rappresentazione</td><td>Trasformazione TS&rarr;testo</td><td><strong>Mitigata</strong></td><td>L'ablation confronta quattro formati e V2 usa meno token. Il campione &egrave; per&ograve; piccolo e cambia anche l'informazione preparata.</td></tr>
       <tr><td>C04</td><td>Modelli</td><td>Dipendenza da un solo LLM</td><td><strong>Mitigata</strong></td><td>Qwen conferma il risultato lato consumer. Gli insight vengono ancora prodotti da un solo modello proprietario.</td></tr>
       <tr><td>C05</td><td>Comunicazione</td><td>Payload non caratterizzato</td><td><strong>Risolta</strong></td><td>Messaggi, byte e token sono misurati. Senza confronto diretto non si pu&ograve; dire che FoT sia pi&ugrave; efficiente.</td></tr>
@@ -1375,7 +1461,7 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
       <tr><td>C18</td><td>Conferenza</td><td>Debole evidenza Big Data</td><td><strong>Risolta editorialmente</strong></td><td>L'aderenza &egrave; limitata a dati distribuiti, non-IID class-disjoint, collaborazione, Variety, Veracity, Value, evaluation/benchmarking e contesto industriale/IoT. Non c'&egrave; evidenza su Volume, Velocity, edge o scalabilit&agrave;.</td></tr>
     </tbody>
   </table></div>
-  <p><strong>Priorit&agrave; sperimentali prima dell'invio:</strong> C01 e C06. C07 &egrave; chiusa dalla sensitivity analysis; C15 e C18 sono chiuse sul piano editoriale. C02a e C02b sono mitigate. Per C02b il confronto equo favorisce la baseline numerica; ulteriori metodi sono utili solo se mantengono lo stesso compito.</p>
+  <p><strong>Priorit&agrave; sperimentale prima dell'invio:</strong> C06. C01 &egrave; risolta dalla condizione A+; C07 &egrave; chiusa dalla sensitivity analysis; C15 e C18 sono chiuse sul piano editoriale. C02a &egrave; ulteriormente rafforzata da A+, C02b &egrave; mitigata. La lista di modelli richiesta dal supervisor &egrave; coperta come riferimento centralizzato; per avanzare C02b servono metodi FL sullo stesso compito class-disjoint.</p>
 </section>
 
 <section id="step-30" data-step="30">

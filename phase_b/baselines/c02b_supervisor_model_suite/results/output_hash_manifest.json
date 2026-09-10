@@ -1,0 +1,25 @@
+{
+  "artifacts": {
+    "phase_b/baselines/c02b_supervisor_model_suite/protocol_config.json": "9b9a90c7878845f06d0be0e7e4c58b0f55b89035ef5b406c2a3e516a460527ed",
+    "phase_b/baselines/c02b_supervisor_model_suite/protocol_freeze_manifest.json": "9f06b45f9a01b4f54904885261ab511fd8aaa7ca70e0a87c2af407a574f7f2d7",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/SUPERVISOR_MODEL_SUITE_REPORT.md": "419ef90ea5a5f2f587e91d6e650f3c81321db7484a65f82437e3c1d50071a63c",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/confusion_matrices.json": "17a6864a2cd5d966434d51e5b4819c9badb9e6732a9296538cfd1b92ca9ccaa2",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/metrics.json": "bb2a96bbb7d1ff84bc298a35ec36812f0ab18bd1c0093ab9af7844d26dd36bb9",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/models/adaboost.pkl": "ad505c659c94273f95872b3a6807609a2025e00f54271122b57a7cde2c3b99e1",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/models/bilstm_attention.bin": "d9c21bc3c1afb449ca1d0019be7433c2b7c7665949a8448735e1591e2280902f",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/models/knn.pkl": "f9138c1585722fc101304263d412eefc248c493764ae739f325f75d175fcb349",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/models/linear_elastic_net.pkl": "b7282f4e11aab6aa5f66284448522c6491c93889030365a51851ab1c56487bb5",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/models/lstm_causal_attention.bin": "84853741511b3a5072752e444baff6ad1ef077318d4502851e12de43b56fef1e",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/models/mlp.pkl": "61c1780a7952f6ed5a306a63544e5bdc1029d2f07631fa2cc2a1dc6110140276",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/models/multimodal_bilstm_attention_tfidf.bin": "4bac3b8909bf83398d48fbfb85b71389f8e5e147e4d40e2cabd10809544cbb7b",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/models/random_forest.pkl": "d4f28784e411013d2f1adc140759888ed36d57edf58c24784926cef7345aa5c9",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/predictions.csv": "94cbd3fc26f0d897e5b9c50c1c320f1eebb4916b464836394d92cd13f50af8da",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/predictions_unscored.csv": "e7222970bc0db8d1563e817dd55ef737fbd261c0e96d3b284d7d799123c0e789",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/tfidf_vocabulary.json": "d81bffc9021603c1b571e0e22404b6c834254f4911c31a77a4b103e4b6665e90",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/training_history.json": "8c3364fb9526aff08919a401c4ccc452206f00c2052e0ae0f2c49ba5d4c72e08",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/training_predictions.csv": "644873c0d60d73a680c89cc7c6daad443308989a9f8f894c2f39a05ade5b95d8",
+    "phase_b/baselines/c02b_supervisor_model_suite/run_suite.py": "157e2b8a1d8d5993a833ecacba08052ac2d2f5b81a068adbb89d85d50bf9c93c"
+  },
+  "protocol_id": "c02b-supervisor-model-suite-1.0.0",
+  "status": "COMPLETE"
+}

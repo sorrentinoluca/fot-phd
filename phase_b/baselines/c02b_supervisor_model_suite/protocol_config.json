@@ -1,0 +1,189 @@
+{
+  "protocol_id": "c02b-supervisor-model-suite-1.0.0",
+  "status": "FROZEN_BEFORE_MODEL_EVALUATION",
+  "frozen_on": "2026-09-10",
+  "purpose": "centralized descriptive references requested by the supervisor",
+  "results_accessed_before_freeze": false,
+  "random_seed": 20260910,
+  "task": {
+    "training_scope": "centralized development-only",
+    "interpretation": "descriptive reference, not a direct class-disjoint or federated comparison",
+    "labels": [
+      "CLS-ZOGAA",
+      "CLS-OJNSG",
+      "CLS-R463B",
+      "CLS-Z3ISU",
+      "Normal"
+    ],
+    "agents": {
+      "agent_1": "CLS-ZOGAA",
+      "agent_2": "CLS-OJNSG",
+      "agent_3": "CLS-R463B",
+      "agent_4": "CLS-Z3ISU"
+    },
+    "development_fault_batches": [1, 2, 3, 4, 5],
+    "development_normal_blocks": ["N1", "N2", "N3", "N4", "N5"],
+    "heldout_physical_case_ids": [
+      "PBH-001",
+      "PBH-002",
+      "PBH-003",
+      "PBH-004",
+      "PBH-005",
+      "PBH-006",
+      "PBH-007",
+      "PBH-008",
+      "PBH-009",
+      "PBH-010",
+      "PBH-011",
+      "PBH-012",
+      "PBH-013",
+      "PBH-014",
+      "PBH-015"
+    ]
+  },
+  "representations": {
+    "tabular": {
+      "name": "frozen V2 structured signature",
+      "dimensions": 697,
+      "construction": "41 XMEAS times 17 frozen components",
+      "scaling_for_distance_and_gradient_models": "StandardScaler fitted on 25 development cases only",
+      "tree_scaling": "none"
+    },
+    "sequence": {
+      "channels": 41,
+      "interval_h": [10.0, 50.0],
+      "right_endpoint_excluded": true,
+      "stride_minutes": 20,
+      "steps": 120,
+      "normalization": "development Normal N1-N5 channel z-score, clip [-10,10], divide by 10"
+    },
+    "text": {
+      "source": "frozen neutral V2 verbalization",
+      "vectorizer": "TfidfVectorizer",
+      "max_features": 256,
+      "ngram_range": [1, 2],
+      "sublinear_tf": true,
+      "norm": "l2",
+      "fit_scope": "25 development texts only"
+    }
+  },
+  "models": {
+    "adaboost": {
+      "class": "sklearn.ensemble.AdaBoostClassifier",
+      "n_estimators": 200,
+      "learning_rate": 0.5
+    },
+    "random_forest": {
+      "class": "sklearn.ensemble.RandomForestClassifier",
+      "n_estimators": 500,
+      "max_features": "sqrt",
+      "class_weight": "balanced",
+      "n_jobs": 1
+    },
+    "mlp": {
+      "class": "sklearn.neural_network.MLPClassifier",
+      "hidden_layer_sizes": [128, 64],
+      "activation": "relu",
+      "solver": "lbfgs",
+      "alpha": 0.001,
+      "max_iter": 2000
+    },
+    "linear_elastic_net": {
+      "class": "sklearn.linear_model.SGDClassifier",
+      "loss": "log_loss",
+      "penalty": "elasticnet",
+      "alpha": 0.001,
+      "l1_ratio": 0.5,
+      "max_iter": 5000,
+      "tol": 1e-05
+    },
+    "knn": {
+      "class": "sklearn.neighbors.KNeighborsClassifier",
+      "n_neighbors": 3,
+      "weights": "distance",
+      "p": 2
+    },
+    "lstm_causal_attention": {
+      "input_size": 41,
+      "hidden_size": 32,
+      "layers": 1,
+      "bidirectional": false,
+      "attention": "learned scalar score and softmax pooling"
+    },
+    "bilstm_attention": {
+      "input_size": 41,
+      "hidden_size_per_direction": 24,
+      "layers": 1,
+      "bidirectional": true,
+      "attention": "learned scalar score and softmax pooling"
+    },
+    "multimodal_bilstm_attention_tfidf": {
+      "sequence_branch": "BiLSTM attention with 24 hidden units per direction",
+      "text_branch_hidden": 32,
+      "fusion_hidden": 64,
+      "modalities": ["numeric time series", "neutral verbalization TF-IDF"]
+    }
+  },
+  "neural_training": {
+    "device": "cpu",
+    "epochs": 250,
+    "batching": "full batch of 25 physical development cases",
+    "optimizer": "AdamW",
+    "learning_rate": 0.01,
+    "weight_decay": 0.0001,
+    "gradient_clip_norm": 1.0,
+    "early_stopping": false,
+    "hyperparameter_search": false,
+    "deterministic_algorithms": true,
+    "torch_threads": 1
+  },
+  "metrics": {
+    "primary_for_each_centralized_model": "accuracy over 15 held-out physical cases",
+    "secondary": [
+      "per-class recall",
+      "confusion matrix",
+      "projected local-seen accuracy",
+      "projected local-unseen accuracy",
+      "training accuracy",
+      "serialized model bytes"
+    ],
+    "confidence_interval": {
+      "method": "stratified physical-case bootstrap",
+      "draws": 10000,
+      "confidence_level": 0.95,
+      "seed": 20260910
+    }
+  },
+  "prediction_policy": {
+    "decision": "maximum model class score/probability",
+    "tie_policy": "lexicographically first opaque label after sorting tied maxima within absolute tolerance 1e-12",
+    "missing_data_policy": "fail closed; no imputation or selective exclusion",
+    "truth_access": "write unscored held-out predictions before loading evaluator truth"
+  },
+  "software": {
+    "python": "3.13",
+    "numpy": "2.3.5",
+    "pandas": "2.3.3",
+    "scikit_learn": "1.7.2",
+    "torch": "2.13.0"
+  },
+  "frozen_parent_artifact_hashes": {
+    "phase_b/baselines/c02b_shared_numeric_prototypes/protocol_config.json": "229f901a037cb0eca7e623b0efc585201de21a7a16ac51c4d143ea7a49cab545",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/protocol_freeze_manifest.json": "09c507a42417adb5c3dd88509bf8723d12a0599d4511ab50ab7b27ed73d8ca6c",
+    "phase_b/baselines/c02b_shared_numeric_prototypes/run_baseline.py": "5a0d4572ba8f8ac462abba3da1f72af780751fc3652c934cf8096f3dbb452bfa",
+    "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519",
+    "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+    "code/tep_features.py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+    "code/evaluate_verbalizer_v2.py": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+    "phase_b/config/evaluator_side/pseudolabel_mapping.json": "f68a690df9c5d0d9505c8b388379c78ccdaa4143e9b4c4e4814ea6d7888b3035",
+    "phase_b/heldout/phase_b_heldout_manifest.csv": "610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3",
+    "phase_b/final_evaluation/evaluator_side/heldout_source_mapping.json": "980b3e682b398c9f2ff800980ecdb2d6859618512dad9c2beaf96d7cbc46de8b",
+    "code/tep_cache/mode1_normal_500.xlsx": "79883dd0aabbd034c15337b0be1ffca37e59ea7b32443a15d560b7feda2b2e6a"
+  },
+  "forbidden": [
+    "held-out labels during preprocessing, fitting, vocabulary construction, or prediction",
+    "fault batches 6-10 or Normal blocks N6-N10 as development data",
+    "post-hoc hyperparameter selection from held-out results",
+    "claiming the centralized models are federated or direct class-disjoint comparisons"
+  ]
+}

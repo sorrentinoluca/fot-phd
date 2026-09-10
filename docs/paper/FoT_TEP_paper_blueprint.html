@@ -189,7 +189,7 @@
   <div class="field"><span class="k">Purpose</span> Portare il reviewer dal problema generale (distributed industrial monitoring, heterogeneous/non-IID local experience) alla domanda precisa (può la conoscenza testuale peer trasferire informazione discriminativa tra agenti class-disjoint?) e ai key results, stabilendo subito il tono conservativo.</div>
   <div class="field"><span class="k">Content to write</span> Progressione a 7 paragrafi (dettaglio in §D). Chiudere con thesis sentence + contributions.</div>
   <div class="field"><span class="k">Reviewer takeaway</span> "Gli autori applicano FoT, introdotto da Yao et al., e presentano una valutazione controllata e verificabile del trasferimento testuale in un setting non-IID estremo, motivato dal PV ma isolato nel TEP."</div>
-  <div class="field"><span class="k">Evidence / references</span> Yao et al. 2026 (FoT); McMahan 2017 (FedAvg, per contrasto); FedProto come ispirazione dichiarata della baseline, non come nome dell'implementazione; Time-FFM; PV come motivazione. Headline numbers: A=0%, B=86.1%, E=8.3%, shared numerical prototypes=100%.</div>
+  <div class="field"><span class="k">Evidence / references</span> Yao et al. 2026 (FoT); McMahan 2017 (FedAvg, per contrasto); FedProto come ispirazione dichiarata della baseline, non come nome dell'implementazione; Time-FFM; PV come motivazione. Headline numbers: A=0%, B=86.1%, E=8.3%, shared numerical prototypes=100%. La suite richiesta dal supervisor copre AdaBoost, RF, MLP, lineare elastic-net, k-NN e tre LSTM/attention (93.3&ndash;100%), ma va etichettata come riferimento centralizzato.</div>
   <div class="field"><span class="k">Figures / tables</span> Figure 1 (pipeline overview) ancorata qui o a inizio §3.</div>
   <div class="draft"><span class="lbl">Drafting note</span> Apri con l'osservazione che il monitoraggio industriale distribuito produce esperienza locale eterogenea e spesso class-disjoint. Introduci la traiettoria parameters → logits → prototypes → text e FoT di Yao et al. Enuncia il gap e motiva il proving ground TEP prima del PV. Chiudi con A/B/E e con il confronto same-task: B trasferisce conoscenza (86.1%) e il controllo E mostra specificità (8.3%), ma i prototipi numerici condivisi raggiungono 100%. Questo risultato va nell'Abstract e nell'Introduction, non soltanto nelle Limitations.</div>
 </div>
@@ -231,15 +231,15 @@
 <!-- 4 Protocol -->
 <h3>§4 — Controlled Evaluation Protocol</h3>
 <div class="panel">
-  <div class="field"><span class="k">Purpose</span> Rendere l'intera valutazione <em>auditable</em>: dataset, condizioni A/B/E, baseline numerica same-task, unità statistica, bootstrap ed esperimenti Exp1/2/3 con endpoint pre-specificati.</div>
+  <div class="field"><span class="k">Purpose</span> Rendere l'intera valutazione <em>auditable</em>: dataset, condizioni A/B/E, baseline numerica same-task, suite centralizzata richiesta dal supervisor, unità statistica, bootstrap ed esperimenti Exp1/2/3 con endpoint pre-specificati.</div>
   <div class="field"><span class="k">Reviewer takeaway</span> "Il disegno è rigoroso, frozen e verificabile; i contrasti misurano ciò che dicono di misurare."</div>
   <div class="field"><span class="k">Figures / tables</span> Figure 2 (A/B/E design).</div>
 
   <h4>4.1 Testbed: Tennessee Eastman Process</h4>
   <div class="draft"><span class="lbl">Drafting note</span> Descrivi TEP come controlled proving ground con ground truth verificabile; 4 fault F1/F8/F10/F13; 4 agenti; ciascuno Normal + un fault locale. Chiarisci che TEP è testbed, non il dominio finale (PV). Non affermare che TEP simuli il PV.</div>
 
-  <h4>4.2 Conditions A / B / E</h4>
-  <div class="draft"><span class="lbl">Drafting note</span> A = isolated (nessun insight peer). B = correct peer textual knowledge: 6 insight peer per receiver (2 per ciascuna delle 3 pseudoclassi peer; niente self-insight; niente Normal-insight). E = semantic corruption control: stesso bundle di B per quantità, ID, ordine, source, evidence scope, observed text, ma associazioni pseudolabel corrotte via <em>zero-fixed-point derangement</em>. Enfatizza che E isola se il beneficio dipende dalla correttezza semantica dell'associazione e non dalla presenza/quantità di testo. Figure 2 deve rendere questo visivamente.</div>
+  <h4>4.2 Conditions A / A+ / B / E</h4>
+  <div class="draft"><span class="lbl">Drafting note</span> A = isolated (nessun insight peer). A+ = local-only self-insight: each agent receives its own 2 locally-generated insights in the peer block; no peer knowledge, no real class names, no test labels. B = correct peer textual knowledge: 6 insight peer per receiver (2 per ciascuna delle 3 pseudoclassi peer; niente self-insight; niente Normal-insight). E = semantic corruption control: stesso bundle di B per quantità, ID, ordine, source, evidence scope, observed text, ma associazioni pseudolabel corrotte via <em>zero-fixed-point derangement</em>. Enfatizza che E isola se il beneficio dipende dalla correttezza semantica dell'associazione e non dalla presenza/quantità di testo. Figure 2 deve rendere questo visivamente.</div>
 
   <h4>4.3 Statistical design</h4>
   <div class="draft"><span class="lbl">Drafting note</span> R=3 chiamate con "same input hash and same frozen configuration" — <strong>non</strong> "identical repetitions". Unità statistica = physical fault run (12 runs), NON le 36 agent-case observations; ogni run produce 3 unseen receiver observations. Bootstrap: paired, clusterizzato sul physical run, stratificato per pseudolabel/fault. Endpoint e criteri: "pre-specified", NON "preregistered". Definisci qui la primary locally-unseen population (n=36 agent-cases/condition) e il preservation set.</div>
@@ -264,27 +264,28 @@
 <div class="panel">
   <div class="field"><span class="k">Purpose</span> Presentare i risultati nell'ordine: meccanismo → specificità → preservazione → baseline numerica same-task → portabilità → replica → payload.</div>
   <div class="field"><span class="k">Reviewer takeaway</span> "Il trasferimento testuale funziona ed è semanticamente specifico, ma il semplice confronto numerico condiviso è più accurato sullo stesso benchmark; FoT non è presentato come vincitore diagnostico."</div>
-  <div class="field"><span class="k">Figures / tables</span> Table 2 (Exp1 A/B/E); Table 3 (baseline numerica); Table 4 (Exp2/Exp3); compact subsection per payload.</div>
+  <div class="field"><span class="k">Figures / tables</span> Table 2 (Exp1 A/B/E); Table 3 (baseline numerica diretta + suite centralizzata); Table 4 (Exp2/Exp3); compact subsection per payload.</div>
 
   <h4>5.1 Exp1 — mechanism transfer (B vs A)</h4>
   <div class="ok">
-    <p style="margin:.2em 0"><strong>Primary locally-unseen population, n=36 agent-cases/condition:</strong> A = 0/36 = 0% · B = 31/36 = 86.11% · E = 3/36 = 8.33%.</p>
-    <p style="margin:.2em 0">Contrasti: B−A = +0.861 · B−E = +0.778. Paired cluster bootstrap (12 physical runs): CI B−A [0.833, 0.917]; CI B−E [0.722, 0.833].</p>
+    <p style="margin:.2em 0"><strong>Primary locally-unseen population, n=36 agent-cases/condition:</strong> A = 0/36 = 0% · A+ = 0/36 = 0% · B = 31/36 = 86.11% · E = 3/36 = 8.33%.</p>
+    <p style="margin:.2em 0">Contrasti: A+−A = 0.000 · B−A+ = +0.861 · B−A = +0.861 · B−E = +0.778. Paired cluster bootstrap (12 physical runs): CI A+−A [0, 0]; CI B−A+ [0.833, 0.917]; CI B−A [0.833, 0.917]; CI B−E [0.722, 0.833].</p>
     <p style="margin:.2em 0">Per-agent B: agent1 = 1.00 · agent2 = 1.00 · agent3 = 0.667 · agent4 = 0.778.</p>
     <p style="margin:.2em 0">Transfer analysis: helped = 31 · harmed = 0 · unchanged-incorrect = 5.</p>
   </div>
-  <div class="warn"><strong>Non</strong> usare <code>harmed=0</code> come prova di assenza di negative transfer: A ha un floor di 0/36, quindi harmed non è misurabile per costruzione. Dichiaralo esplicitamente.</div>
+  <div class="warn"><strong>Non</strong> usare <code>harmed=0</code> come prova di assenza di negative transfer: A e A+ hanno un floor di 0/36, quindi harmed non è misurabile per costruzione. Dichiaralo esplicitamente.</div>
   <div class="draft"><span class="lbl">Drafting note</span> Apri con B vs A come effetto-meccanismo: da 0% a 86.1% sulle condizioni locally unseen. Riporta i CI del cluster bootstrap. Presenta il per-agent B per mostrare che l'effetto non è guidato da un solo agente (anche i due più bassi, 0.667/0.778, sono largamente sopra A). Riporta helped/harmed/unchanged ma con il caveat del floor.</div>
 
   <h4>5.2 Exp1 — semantic specificity (B vs E)</h4>
   <div class="draft"><span class="lbl">Drafting note</span> Questo è il risultato che regge la tesi. Con testo identico per quantità/ID/ordine/source/scope/observed text ma associazioni pseudolabel corrotte, la performance crolla a 8.33% (vicino ad A). Quindi il beneficio dipende dalla <em>correttezza semantica dell'associazione pseudolabel–pattern</em>, non dalla mera presenza o volume di testo. Cita CI B−E.</div>
 
   <h4>5.3 Exp1 — preservation of known classes</h4>
-  <div class="draft"><span class="lbl">Drafting note</span> Local-seen = 12/12 in A/B/E; Normal = 12/12 in A/B/E. Messaggio: il trasferimento non compromette il riconoscimento delle classi già note localmente. Chiarisci che headline = unseen performance, NON overall accuracy.</div>
+  <div class="draft"><span class="lbl">Drafting note</span> Local-seen = 12/12 in A/A+/B/E; Normal = 12/12 in A/A+/B/E. Messaggio: il trasferimento non compromette il riconoscimento delle classi già note localmente. Chiarisci che headline = unseen performance, NON overall accuracy.</div>
 
   <h4>5.4 Same-task numerical shared-prototype baseline</h4>
   <div class="ok"><p style="margin:.2em 0"><strong>Shared numerical prototypes:</strong> overall 60/60; local-seen 12/12; local-unseen 36/36; Normal 12/12. Local-only numerical: local-unseen 0/36. Centralized centroid reference: local-unseen 36/36.</p><p style="margin:.2em 0">Direct same-held-out comparison: shared numerical − FoT B = +0.139 (100% versus 86.1%). Payload: 3 peer prototypes / 2,091 scalar values / 16,755 bytes per receiver; 67,020 bytes across 12 deliveries.</p></div>
   <div class="warn"><strong>Interpretazione obbligatoria:</strong> la baseline numerica è migliore sul benchmark. Non dire che FoT è competitivo o superiore in accuracy. Il valore residuo di FoT riguarda testo leggibile/auditabile e trasferimento senza training del consumer; queste proprietà non compensano quantitativamente i 13.9 punti.</div>
+  <div class="panel"><p style="margin:.2em 0"><strong>Supervisor-requested centralized suite:</strong> AdaBoost, Random Forest, MLP, linear elastic-net, k-NN and causal LSTM+attention = 15/15; BiLSTM+attention and multimodal BiLSTM+attention = 14/15. Tutti usano solo development per fit/preprocessing e le stesse 15 unità fisiche held-out.</p><p style="margin:.2em 0"><strong>Guard-rail:</strong> i modelli vedono tutte le classi nel training e sono soltanto riferimenti descrittivi. Il valore local-unseen proiettato non li rende federati. La multimodale fonde sequenza e verbalizzazione degli stessi sensori, non due sorgenti fisiche indipendenti.</p></div>
 
   <h4>5.5 Exp2 — cross-model portability</h4>
   <div class="draft"><span class="lbl">Drafting note</span> Presenta per-model, senza pooling. Se disponibile, riporta B/E per ciascun consumer model; altrimenti <code>[EXP2 RESULT TO INSERT]</code>. Claim massima: la conoscenza testuale frozen resta utilizzabile attraverso i modelli testati. Mai "FoT is model-general".</div>
@@ -421,10 +422,11 @@
 <p>Ordine fisso, ciascun passo prepara il successivo:</p>
 <div class="panel">
   <ol class="tight">
-    <li><strong>Exp1 mechanism transfer (B vs A).</strong> 0% → 86.1%; CI [0.833, 0.917]; per-agent; caveat floor su harmed=0.</li>
+    <li><strong>Exp1 self-insight control (A+ vs A).</strong> A+ = 0% = A; CI A+−A [0, 0]; self-insights alone cannot help on unseen faults (agent already knows its own class). Establishes that A is the correct information floor.</li>
+    <li><strong>Exp1 mechanism transfer (B vs A/A+).</strong> 0% → 86.1%; CI B−A+ [0.833, 0.917]; per-agent; caveat floor su harmed=0. Peer insights are the sole driver of transfer.</li>
     <li><strong>Exp1 semantic specificity (B vs E).</strong> 86.1% → 8.3%; CI B−E [0.722, 0.833]; il beneficio dipende dalla correttezza semantica, non dal volume di testo.</li>
     <li><strong>Preservation.</strong> local-seen 12/12 e Normal 12/12 in A/B/E; headline = unseen, non overall accuracy.</li>
-    <li><strong>Numerical same-task comparator.</strong> shared prototypes 36/36 unseen, local-only 0/36, centralized centroid 36/36; dire esplicitamente che il numerico supera B di 13.9 punti.</li>
+    <li><strong>Numerical same-task comparator.</strong> shared prototypes 36/36 unseen, local-only 0/36, centralized centroid 36/36; dire esplicitamente che il numerico supera B di 13.9 punti. Nella stessa tabella o subito dopo, riportare la suite centralizzata richiesta (sei modelli 15/15, due BiLSTM 14/15) separandola graficamente dal confronto federato.</li>
     <li><strong>Exp2 cross-model portability.</strong> per-model, consumer-only.</li>
     <li><strong>Exp3 fresh-run replication.</strong> separato da Exp1 (primary); pooled solo secondary descriptive.</li>
     <li><strong>Communication payload characterization.</strong> descrittivo; ratio sotto convenzione dichiarata; NON efficiency/compression.</li>
@@ -443,6 +445,7 @@
       <li>Le classi note sono preservate.</li>
       <li>Raw observations non scambiate.</li>
       <li>La baseline numerica same-task è più accurata di FoT B (100% vs 86.1%).</li>
+      <li>La suite centralizzata richiesta dal supervisor copre otto modelli e ottiene 93.3&ndash;100%, ma non costituisce evidenza FL.</li>
       <li>Se confermato: portabilità cross-model (consumer) e replica fresh-run.</li>
     </ul>
   </div>
@@ -501,6 +504,10 @@
 <div class="panel">
   <h4>R2 — "Troppo spazio al verbalizer"</h4>
   <p><strong>Attacco:</strong> se §3.3 cresce, il paper sembra su representation learning. <strong>Fix:</strong> cap rigido ≤0.6 colonne; frase esplicita "the evidence interface is enabling, not the contribution"; ancorare a T2SP/TRUCE per dire che è un'interfaccia nota. Nessun V3.</p>
+</div>
+<div class="panel">
+  <h4>R2b — "A baseline is trivially zero"</h4>
+  <p><strong>Attacco:</strong> A = 0% &egrave; banale perch&eacute; l'agente non ha mai visto le classi remote; il vantaggio di B potrebbe semplicemente colmare un vuoto informativo, non provare un meccanismo. <strong>Fix:</strong> A+ (self-insight only) conferma A+ = 0% = A con CI [0, 0]; i self-insight non aiutano sulle classi non viste perch&eacute; l'agente possiede gi&agrave; la conoscenza della propria classe locale. B &gt;&gt; A+ &asymp; A dimostra che il beneficio &egrave; interamente peer-driven. Citare il rapporto A+ completo.</p>
 </div>
 <div class="panel">
   <h4>R3 — "Related Work debole / FL positioning ambiguo"</h4>
