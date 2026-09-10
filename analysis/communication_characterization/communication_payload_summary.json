@@ -2832,7 +2832,7 @@
       }
     }
   },
-  "git_head_observed": "9a44820e7672831fe7468965c9c9653237867306",
+  "git_head_observed": "a469f3c9cbb4c73397fd6532e4105e40602672ff",
   "historical_frozen_refs": {
     "exp3-v2-inference-frozen-001": "9a7ccaa95bae8c0d2d00dc0959e177eb90a5cd61",
     "exp3-v2-results-frozen-001": "3781d6801191757a47bd919f0e4e9705b5895769",

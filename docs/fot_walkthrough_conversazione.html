@@ -1218,6 +1218,10 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
 
   <p>Questa sezione quantifica la comunicazione usando <strong>soltanto gli artefatti frozen</strong>: non sono state eseguite nuove inferenze LLM e nessun risultato sperimentale &egrave; stato modificato. L&rsquo;unit&agrave; primaria &egrave; il blocco realmente inserito nel prompt del consumer: <code>PEER INSIGHTS\n</code> + array JSON UTF-8 indentato + due newline finali. I prompt A/B/E e C sono stati ricostruiti deterministicamente e tutti gli hash sono stati verificati contro i prediction log.</p>
 
+  <h3>Perch&eacute; la mancata caratterizzazione era una critica</h3>
+  <p>L&rsquo;esperimento mostrava soprattutto che gli insight miglioravano la diagnosi, ma inizialmente non quantificava il <strong>prezzo della comunicazione</strong> necessaria per ottenere quel risultato. La domanda naturale di un reviewer era quindi: <em>&laquo;Il metodo funziona, ma quanta informazione devono scambiarsi gli agenti?&raquo;</em></p>
+  <p>La caratterizzazione del payload risponde misurando quanti insight vengono inviati, quanto pesano in byte, quanti token aggiungono ai prompt, quante volte vengono trasferiti e quale costo registrato richiedono per essere prodotti e consumati. Senza queste misure non si pu&ograve; sostenere che FoT sia leggero, economico o pi&ugrave; efficiente di metodi che scambiano logit, prototipi o parametri. L&rsquo;analisi colma la lacuna descrivendo il costo osservato di FoT, ma <strong>non dimostra automaticamente n&eacute; maggiore efficienza n&eacute; privacy</strong>.</p>
+
   <p>Gli output completi e machine-readable sono il <a href="../analysis/communication_characterization/COMMUNICATION_PAYLOAD_CHARACTERIZATION.md">report di caratterizzazione</a>, il <a href="../analysis/communication_characterization/communication_payload_metrics.csv">CSV</a> e il <a href="../analysis/communication_characterization/communication_payload_summary.json">riepilogo JSON</a>. Si rigenerano con <code>python analysis/communication_characterization/characterize_payload.py</code>.</p>
 
   <h3>Payload prodotto e ricevuto</h3>
@@ -1371,9 +1375,27 @@ details{margin:15px 0;border:1px solid var(--line);border-radius:8px;background:
     <li>Descrivere unità indipendente, bootstrap/permutation cluster-aware, denominatori fisici e aggregati; separare sempre unseen, local-seen, normal, coverage e selective risk.</li>
     <li><strong>Completato:</strong> caratterizzazione riproducibile del payload in byte/token, costo producer/consumer, round effettivi, controllo strutturale B/E e confronto concettuale con logit, prototipi e adapter (sezione precedente).</li>
     <li>Aggiungere almeno un baseline diagnostico classico e uno knowledge-transfer adiacente, chiarendo che non sono necessariamente comparatori isomorfi.</li>
-    <li>Analizzare i cinque errori local-seen, ripetere la sensitivity analysis oltre il reasoning cap e dichiarare la deterministica degenerazione di R=3.</li>
+    <li>Svolgere due verifiche distinte: analizzare per caso i cinque errori local-seen di EXP3_V2 e condurre, sull'esperimento Qwen, una sensitivity analysis oltre il reasoning cap; dichiarare inoltre la degenerazione deterministica di R=3.</li>
     <li>Presentare l'ablation come pilot di efficienza rappresentazionale: nessuna coppia è statisticamente diversa e V2 confonde formato con informazione precomputata.</li>
   </ul>
+
+  <h3>Perché local-seen e reasoning cap costituiscono una critica</h3>
+  <div class="callout full-width">
+    <p><strong>In termini semplici,</strong> un caso <em>local-seen</em> riguarda un guasto che l'agente aveva già imparato a riconoscere dai propri dati. In EXP3_V2 la configurazione isolata A riconosce correttamente tutti questi casi (24/24), mentre con gli insight degli altri agenti, configurazione B, cinque diventano errati (19/24). È quindi possibile che informazioni aggiuntive, pur essendo utili per riconoscere guasti mai visti localmente, confondano l'agente su qualcosa che già conosceva. Questo possibile peggioramento è chiamato <strong>negative transfer</strong>.</p>
+    <p>Il <strong>reasoning cap</strong> è invece il numero massimo di token che Qwen può usare per ragionare prima di dover terminare la risposta. Se il modello raggiunge quel limite, può interrompere il ragionamento prima di arrivare alla decisione corretta. Nell'esperimento Qwen tutti e cinque gli errori aggregati di B raggiungono il cap, mentre tutti i 36 casi B che non lo raggiungono sono corretti. Questa coincidenza non dimostra da sola che il cap sia la causa, ma impedisce di attribuire con sicurezza gli errori agli insight.</p>
+  </div>
+  <p><strong>Le due verifiche sono collegate, ma non riguardano lo stesso gruppo di cinque errori:</strong></p>
+  <ol>
+    <li>i cinque errori local-seen appartengono a <strong>EXP3_V2</strong> e devono essere esaminati usando prompt, output e log frozen già disponibili;</li>
+    <li>i cinque errori aggregati associati al cap appartengono all'esperimento <strong>Qwen</strong>: due sono unseen e tre local-seen. Per questi servono nuove inferenze con prompt e insight identici e budget di reasoning progressivamente più alti.</li>
+  </ol>
+  <p>La sensitivity analysis serve a distinguere spiegazioni diverse:</p>
+  <ul>
+    <li>se B diventa corretto aumentando il budget, l'errore è compatibile con un <strong>ragionamento troncato</strong>;</li>
+    <li>se B resta errato senza raggiungere il nuovo cap, aumenta l'evidenza di <strong>interferenza o negative transfer causato dagli insight</strong>;</li>
+    <li>se cambia anche A, il problema è più generale e non specifico della federazione.</li>
+  </ul>
+  <p>Senza questa verifica si può soltanto dire che le prestazioni sono associate al limite di reasoning osservato; non si può ancora dire con sicurezza se gli errori siano causati dal cap o dagli insight.</p>
 
   <div class="callout full-width"><strong>Verdetto da reviewer.</strong> Il lavoro è pertinente a Big Data per collaborative learning, non-IID industrial time series ed evaluation design. Sarei favorevole a un <strong>Weak Accept</strong> soltanto se il manoscritto adotta claim conservativi e rende centrali negative transfer, costo comunicativo e limiti di scala. Nella forma corrente, senza queste revisioni, il giudizio scende a <strong>Weak Reject</strong>.</div>
   <p class="source"><strong>Base della review:</strong> walkthrough principale e secondario; experiment plan, gap analysis, literature review BigData2026 e risultati frozen presenti nel repository. Il titolo della sezione segue la voce di conferenza richiesta; la valutazione non implica una review ufficiale IEEE.</p>

@@ -2019,6 +2019,14 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   <h1 class="step-title">Quanto comunicano davvero gli agenti?</h1>
   <p class="step-intro">FoT non scambia pesi di una rete neurale: spedisce brevi <strong>insight testuali</strong>. Abbiamo misurato questi messaggi direttamente dagli artefatti frozen, senza eseguire nuove chiamate LLM e senza cambiare i risultati esistenti.</p>
 
+  <div class="card" style="border-left:3px solid var(--threshold)">
+    <div class="card-label">Perch&eacute; era una critica</div>
+    <p style="margin:0 0 10px;font-size:0.9rem;color:var(--text-muted)">L&rsquo;esperimento mostrava che gli insight aiutavano gli agenti a diagnosticare i guasti. Mancava per&ograve; una risposta a una domanda molto semplice:</p>
+    <div style="padding:12px 14px;border-radius:6px;background:var(--threshold-light);font-family:var(--font-display);font-size:1.05rem;color:var(--text);text-align:center"><em>&laquo;Il metodo funziona, ma quanta informazione deve scambiare per ottenere il risultato?&raquo;</em></div>
+    <p style="margin:12px 0 0;font-size:0.86rem;color:var(--text-muted)">Per rispondere bisogna contare messaggi, byte, token e trasferimenti. Un <strong>token</strong> &egrave;, in modo semplificato, un piccolo pezzo di testo letto dal modello. Senza questi numeri non possiamo dire che FoT sia leggero, economico o pi&ugrave; efficiente di altri sistemi.</p>
+    <p style="margin:8px 0 0;font-size:0.82rem;color:var(--text-caption)">La nuova analisi misura il costo osservato della comunicazione. Non dimostra automaticamente che FoT sia pi&ugrave; efficiente o pi&ugrave; privato.</p>
+  </div>
+
   <div class="card">
     <div class="card-label">Che cosa viene spedito</div>
     <p style="margin:0 0 14px;font-size:0.9rem;color:var(--text-muted)">Ogni agente produce due piccoli riassunti di ci&ograve; che ha imparato sul proprio guasto. In totale esistono <strong>8 insight</strong>. Quando un agente deve diagnosticare un caso, riceve i 6 insight prodotti dagli altri tre agenti.</p>
@@ -2355,9 +2363,27 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <li>Esplicitare unità indipendente, denominatori, test cluster-aware, coverage e selective risk.</li>
       <li><strong>Completato:</strong> payload misurato in byte/token, costo producer/consumer separato e confronto concettuale con logit, prototipi e adapter.</li>
       <li>Aggiungere almeno un baseline diagnostico classico e uno knowledge-transfer adiacente.</li>
-      <li>Analizzare i cinque errori local-seen e svolgere una sensitivity analysis oltre il reasoning cap.</li>
+      <li>Svolgere due verifiche distinte: analizzare per caso i cinque errori local-seen di EXP3_V2 e condurre, sull'esperimento Qwen, una sensitivity analysis oltre il reasoning cap.</li>
       <li>Presentare l'ablation come pilot di efficienza: nessuna coppia differisce significativamente e V2 confonde formato con informazione precomputata.</li>
     </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Perché local-seen e reasoning cap costituiscono una critica</div>
+    <p><strong>In termini semplici,</strong> un caso <em>local-seen</em> riguarda un guasto che l'agente aveva già imparato a riconoscere dai propri dati. In EXP3_V2 la configurazione isolata A riconosce correttamente tutti questi casi (24/24), mentre con gli insight degli altri agenti, configurazione B, cinque diventano errati (19/24). È quindi possibile che informazioni aggiuntive, pur essendo utili per riconoscere guasti mai visti localmente, confondano l'agente su qualcosa che già conosceva. Questo possibile peggioramento è chiamato <strong>negative transfer</strong>.</p>
+    <p>Il <strong>reasoning cap</strong> è invece il numero massimo di token che Qwen può usare per ragionare prima di dover terminare la risposta. Se il modello raggiunge quel limite, può interrompere il ragionamento prima di arrivare alla decisione corretta. Nell'esperimento Qwen tutti e cinque gli errori aggregati di B raggiungono il cap, mentre tutti i 36 casi B che non lo raggiungono sono corretti. Questa coincidenza non dimostra da sola che il cap sia la causa, ma impedisce di attribuire con sicurezza gli errori agli insight.</p>
+    <p><strong>Le due verifiche sono collegate, ma non riguardano lo stesso gruppo di cinque errori:</strong></p>
+    <ol>
+      <li>i cinque errori local-seen appartengono a <strong>EXP3_V2</strong> e devono essere esaminati usando prompt, output e log frozen già disponibili;</li>
+      <li>i cinque errori aggregati associati al cap appartengono all'esperimento <strong>Qwen</strong>: due sono unseen e tre local-seen. Per questi servono nuove inferenze con prompt e insight identici e budget di reasoning progressivamente più alti.</li>
+    </ol>
+    <p>La sensitivity analysis serve a distinguere spiegazioni diverse:</p>
+    <ul>
+      <li>se B diventa corretto aumentando il budget, l'errore è compatibile con un <strong>ragionamento troncato</strong>;</li>
+      <li>se B resta errato senza raggiungere il nuovo cap, aumenta l'evidenza di <strong>interferenza o negative transfer causato dagli insight</strong>;</li>
+      <li>se cambia anche A, il problema è più generale e non specifico della federazione.</li>
+    </ul>
+    <p>Senza questa verifica si può soltanto dire che le prestazioni sono associate al limite di reasoning osservato; non si può ancora dire con sicurezza se gli errori siano causati dal cap o dagli insight.</p>
   </div>
 
   <div class="verdict-box"><strong>Verdetto da reviewer:</strong> il lavoro è pertinente a Big Data per collaborative learning, non-IID industrial time series ed evaluation design. Raccomanderei <strong>Weak Accept</strong> soltanto con claim conservativi e con negative transfer, costo comunicativo e limiti di scala resi centrali. Nella forma corrente, senza queste revisioni, il giudizio scende a <strong>Weak Reject</strong>.</div>

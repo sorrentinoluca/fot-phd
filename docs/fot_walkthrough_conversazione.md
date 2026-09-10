@@ -1271,6 +1271,12 @@ Il verdetto **GO-with-reservations** della review esterna riflette proprio quest
 
 Questa sezione quantifica la comunicazione usando **soltanto gli artefatti frozen**: non sono state eseguite nuove inferenze LLM e nessun risultato sperimentale è stato modificato. L'unità primaria è il blocco realmente inserito nel prompt del consumer: `PEER INSIGHTS\n` + array JSON UTF-8 indentato + due newline finali. I prompt A/B/E e C sono stati ricostruiti deterministicamente e tutti gli hash sono stati verificati contro i prediction log.
 
+### Perché la mancata caratterizzazione era una critica
+
+L'esperimento mostrava soprattutto che gli insight miglioravano la diagnosi, ma inizialmente non quantificava il **prezzo della comunicazione** necessaria per ottenere quel risultato. La domanda naturale di un reviewer era quindi: *«Il metodo funziona, ma quanta informazione devono scambiarsi gli agenti?»*
+
+La caratterizzazione del payload risponde misurando quanti insight vengono inviati, quanto pesano in byte, quanti token aggiungono ai prompt, quante volte vengono trasferiti e quale costo registrato richiedono per essere prodotti e consumati. Senza queste misure non si può sostenere che FoT sia leggero, economico o più efficiente di metodi che scambiano logit, prototipi o parametri. L'analisi colma la lacuna descrivendo il costo osservato di FoT, ma **non dimostra automaticamente né maggiore efficienza né privacy**.
+
 Gli output completi e machine-readable sono il [report di caratterizzazione](../analysis/communication_characterization/COMMUNICATION_PAYLOAD_CHARACTERIZATION.md), il [CSV](../analysis/communication_characterization/communication_payload_metrics.csv) e il [riepilogo JSON](../analysis/communication_characterization/communication_payload_summary.json). Si rigenerano con un solo comando:
 
 ```bash
@@ -1416,8 +1422,27 @@ Le fonti primarie sono `phase_b/insights`, `phase_b/final_evaluation`, `phase_b/
 - Esplicitare unità indipendente, denominatori, test cluster-aware, coverage e selective risk.
 - **Completato:** caratterizzazione riproducibile del payload in byte/token, costo producer/consumer, round effettivi, controllo strutturale B/E e confronto concettuale con logit, prototipi e adapter (sezione precedente).
 - Aggiungere almeno un baseline diagnostico classico e uno knowledge-transfer adiacente.
-- Analizzare i cinque errori local-seen e svolgere una sensitivity analysis oltre il reasoning cap.
+- Svolgere due verifiche distinte: analizzare per caso i cinque errori local-seen di EXP3_V2 e condurre, sull'esperimento Qwen, una sensitivity analysis oltre il reasoning cap.
 - Presentare l'ablation come pilot di efficienza: nessuna coppia differisce significativamente e V2 confonde formato con informazione precomputata.
+
+#### Perché local-seen e reasoning cap costituiscono una critica
+
+In termini semplici, un caso **local-seen** riguarda un guasto che l'agente aveva già imparato a riconoscere dai propri dati. In EXP3_V2 la configurazione isolata A riconosce correttamente tutti questi casi (24/24), mentre con gli insight degli altri agenti, configurazione B, cinque diventano errati (19/24). È quindi possibile che informazioni aggiuntive, pur essendo utili per riconoscere guasti mai visti localmente, confondano l'agente su qualcosa che già conosceva. Questo possibile peggioramento è chiamato **negative transfer**.
+
+Il **reasoning cap** è invece il numero massimo di token che Qwen può usare per ragionare prima di dover terminare la risposta. Se il modello raggiunge quel limite, può interrompere il ragionamento prima di arrivare alla decisione corretta. Nell'esperimento Qwen tutti e cinque gli errori aggregati di B raggiungono il cap, mentre tutti i 36 casi B che non lo raggiungono sono corretti. Questa coincidenza non dimostra da sola che il cap sia la causa, ma impedisce di attribuire con sicurezza gli errori agli insight.
+
+Le due verifiche sono collegate, ma **non riguardano lo stesso gruppo di cinque errori**:
+
+1. i cinque errori local-seen appartengono a **EXP3_V2** e devono essere esaminati usando prompt, output e log frozen già disponibili;
+2. i cinque errori aggregati associati al cap appartengono all'esperimento **Qwen**: due sono unseen e tre local-seen. Per questi servono nuove inferenze con prompt e insight identici e budget di reasoning progressivamente più alti.
+
+La sensitivity analysis serve a distinguere spiegazioni diverse:
+
+- se B diventa corretto aumentando il budget, l'errore è compatibile con un **ragionamento troncato**;
+- se B resta errato senza raggiungere il nuovo cap, aumenta l'evidenza di **interferenza o negative transfer causato dagli insight**;
+- se cambia anche A, il problema è più generale e non specifico della federazione.
+
+Senza questa verifica si può soltanto dire che le prestazioni sono associate al limite di reasoning osservato; non si può ancora dire con sicurezza se gli errori siano causati dal cap o dagli insight.
 
 > **Verdetto da reviewer.** Il lavoro è pertinente a Big Data per collaborative learning, non-IID industrial time series ed evaluation design. Sarei favorevole a un **Weak Accept** solo con claim conservativi e con negative transfer, costo comunicativo e limiti di scala resi centrali; altrimenti il giudizio è **Weak Reject**.
 
