@@ -1710,7 +1710,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
         </tr>
         <tr>
           <td><span class="cond-label cond-c" style="font-size:0.72rem;padding:2px 6px">C</span></td>
-          <td style="font-size:0.82rem">Tutto pooled (8 es. + 8 insight)</td>
+          <td style="font-size:0.82rem">Tutto pooled (10 es. + 8 insight)</td>
           <td style="font-family:var(--font-mono);color:var(--accent-b)">15/15 = 1.000</td>
           <td style="font-size:0.78rem;color:var(--text-caption);text-align:right">Riferimento centralizzato</td>
         </tr>
@@ -2013,8 +2013,102 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 </div>
 
 
-<!-- ==================== STEP 18: CRITICHE E REVIEW ==================== -->
+<!-- ==================== STEP 18: COMMUNICATION PAYLOAD ==================== -->
 <div class="step-container" data-step="18">
+  <div class="phase-badge b">Misura della comunicazione</div>
+  <h1 class="step-title">Quanto comunicano davvero gli agenti?</h1>
+  <p class="step-intro">FoT non scambia pesi di una rete neurale: spedisce brevi <strong>insight testuali</strong>. Abbiamo misurato questi messaggi direttamente dagli artefatti frozen, senza eseguire nuove chiamate LLM e senza cambiare i risultati esistenti.</p>
+
+  <div class="card">
+    <div class="card-label">Che cosa viene spedito</div>
+    <p style="margin:0 0 14px;font-size:0.9rem;color:var(--text-muted)">Ogni agente produce due piccoli riassunti di ci&ograve; che ha imparato sul proprio guasto. In totale esistono <strong>8 insight</strong>. Quando un agente deve diagnosticare un caso, riceve i 6 insight prodotti dagli altri tre agenti.</p>
+    <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;text-align:center;font-size:0.86rem">
+      <div style="padding:14px;border-radius:6px;background:var(--accent-a-light)"><strong>4 producer</strong><br><span style="color:var(--text-muted)">2 insight ciascuno</span></div>
+      <div style="color:var(--accent-b);font-size:1.4rem">&rarr;</div>
+      <div style="padding:14px;border-radius:6px;background:var(--accent-b-light)"><strong>Ogni consumer</strong><br><span style="color:var(--text-muted)">riceve 6 insight peer</span></div>
+    </div>
+  </div>
+
+  <div class="card" style="border-left:3px solid var(--accent-b)">
+    <div class="card-label">Quanto pesa un giro completo</div>
+    <p style="margin:0 0 14px;font-size:0.9rem;color:var(--text-muted)">Se mandiamo il messaggio appropriato a tutti e quattro gli agenti, trasferiamo complessivamente <strong>9.438 byte</strong>, cio&egrave; circa 9,4 KB. Lo stesso testo occupa un numero diverso di token a seconda del modello che lo legge.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      <div style="padding:13px;border-radius:6px;background:var(--green-light);text-align:center">
+        <div style="font-family:var(--font-mono);font-size:1.25rem;font-weight:700;color:var(--green)">9.438</div>
+        <div style="font-size:0.75rem;color:var(--text-caption)">byte UTF-8</div>
+      </div>
+      <div style="padding:13px;border-radius:6px;background:var(--accent-a-light);text-align:center">
+        <div style="font-family:var(--font-mono);font-size:1.25rem;font-weight:700;color:var(--accent-a)">2.719</div>
+        <div style="font-size:0.75rem;color:var(--text-caption)">token GPT</div>
+      </div>
+      <div style="padding:13px;border-radius:6px;background:var(--accent-b-light);text-align:center">
+        <div style="font-family:var(--font-mono);font-size:1.25rem;font-weight:700;color:var(--accent-b)">2.974</div>
+        <div style="font-size:0.75rem;color:var(--text-caption)">token Qwen</div>
+      </div>
+    </div>
+    <p style="margin:14px 0 0;font-size:0.82rem;color:var(--text-caption)">I token sono incrementi esatti osservati nei prompt completi B rispetto ad A. Non sono una stima ottenuta contando il testo da solo. Ogni singolo consumer riceve fra 2.304 e 2.420 byte.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Perch&eacute; confrontiamo B ed E</div>
+    <p style="margin:0 0 12px;font-size:0.9rem;color:var(--text-muted)"><strong>B</strong> contiene gli insight con le etichette corrette. <strong>E</strong> contiene gli stessi insight nello stesso ordine, ma collega ogni descrizione all&rsquo;etichetta sbagliata. In questo modo controlliamo se aiuta davvero il significato del messaggio, e non soltanto la presenza di testo aggiuntivo.</p>
+    <table class="data-table">
+      <thead><tr><th>Controllo</th><th>Risultato</th></tr></thead>
+      <tbody>
+        <tr><td>Numero, struttura e ordine degli insight</td><td style="color:var(--green);font-weight:600">Uguali</td></tr>
+        <tr><td>Byte e token totali</td><td style="color:var(--green);font-weight:600">Uguali</td></tr>
+        <tr><td>Significato delle pseudolabel</td><td style="color:var(--threshold);font-weight:600">Derangiato in E</td></tr>
+        <tr><td>File byte-identici?</td><td><strong>No:</strong> 24 etichette sostituite, 112 posizioni byte diverse</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px;padding:11px 13px;border-radius:6px;background:var(--green-light);font-size:0.84rem;color:var(--text-muted)"><strong style="color:var(--green)">Controllo strutturale: PASS.</strong> Le etichette hanno tutte la stessa lunghezza, quindi E cambia la semantica senza cambiare il volume del messaggio.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Il costo per creare gli insight</div>
+    <p style="margin:0 0 12px;font-size:0.9rem;color:var(--text-muted)">Gli 8 insight sono stati prodotti una sola volta e poi riutilizzati in tutti gli esperimenti. La produzione frozen ha richiesto:</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;text-align:center">
+      <div style="padding:10px;border-radius:6px;background:#dce3e9"><strong>4</strong><br><span style="font-size:0.74rem;color:var(--text-caption)">chiamate</span></div>
+      <div style="padding:10px;border-radius:6px;background:#dce3e9"><strong>7.954</strong><br><span style="font-size:0.74rem;color:var(--text-caption)">input token</span></div>
+      <div style="padding:10px;border-radius:6px;background:#dce3e9"><strong>820</strong><br><span style="font-size:0.74rem;color:var(--text-caption)">output token</span></div>
+      <div style="padding:10px;border-radius:6px;background:#dce3e9"><strong>9 s</strong><br><span style="font-size:0.74rem;color:var(--text-caption)">latenza registrata</span></div>
+    </div>
+    <p style="margin:12px 0 0;font-size:0.82rem;color:var(--text-caption)">I log riportano 0 reasoning token per queste quattro chiamate. Non calcoliamo un costo in euro o dollari perch&eacute; negli artefatti non sono congelati prezzi o addebiti applicabili.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Quanto payload entra nelle inferenze B</div>
+    <p style="margin:0 0 12px;font-size:0.88rem;color:var(--text-muted)">Il blocco di insight viene reinserito in ogni chiamata al consumer. Per questo il volume totale cresce con il numero di casi e con le tre ripetizioni LLM.</p>
+    <table class="data-table">
+      <thead><tr><th>Esperimento</th><th>Prompt B</th><th>Byte</th><th>Token</th><th>Unseen corrette</th></tr></thead>
+      <tbody>
+        <tr><td>Experiment 1</td><td>180</td><td>424.710</td><td>122.355 GPT</td><td><strong>31/36</strong></td></tr>
+        <tr><td>EXP3_V2</td><td>360</td><td>849.420</td><td>244.710 GPT</td><td><strong>68/72</strong></td></tr>
+        <tr><td>Experiment 2</td><td>180</td><td>424.710</td><td>133.830 Qwen</td><td><strong>34/36</strong></td></tr>
+      </tbody>
+    </table>
+    <p style="margin:12px 0 0;font-size:0.82rem;color:var(--text-caption)">Nel prompt completo, gli insight rappresentano circa il 30% dei token. Sulle sole predizioni unseen corrette, il costo osservato &egrave; circa 2.159&ndash;2.368 token di payload per risultato corretto; &egrave; una normalizzazione descrittiva, non una prova che FoT sia pi&ugrave; efficiente di altri paradigmi.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Come leggere questi numeri</div>
+    <ul style="margin:0;padding-left:18px;font-size:0.86rem;color:var(--text-muted);list-style:disc">
+      <li style="margin-bottom:6px"><strong>Un round logico:</strong> B usa una libreria statica, distribuita una volta in senso concettuale; operativamente il testo &egrave; copiato in ogni prompt.</li>
+      <li style="margin-bottom:6px"><strong>GPT e Qwen contano diversamente:</strong> la stessa stringa pu&ograve; produrre numeri di token diversi.</li>
+      <li style="margin-bottom:6px"><strong>La condizione C non &egrave; equivalente:</strong> usa 10 esempi pooled e tutti gli 8 insight, quindi il suo contesto &egrave; molto pi&ugrave; ricco e non direttamente confrontabile con B.</li>
+      <li><strong>Nessun claim automatico:</strong> questi conteggi non dimostrano privacy, efficienza di banda o superiorit&agrave; rispetto a FedMD, FedProto o LoRA.</li>
+    </ul>
+  </div>
+
+  <div class="callout">
+    <span class="callout-icon">&#9432;</span>
+    <span>Analisi riproducibile dagli artefatti frozen: <a href="../analysis/communication_characterization/COMMUNICATION_PAYLOAD_CHARACTERIZATION.md" style="color:var(--accent-a);font-weight:600">report completo</a> e <a href="fot_walkthrough_conversazione.html#communication-payload" style="color:var(--accent-a);font-weight:600">walkthrough dettagliato</a>. Comando: <code>python analysis/communication_characterization/characterize_payload.py</code>.</span>
+  </div>
+</div>
+
+
+<!-- ==================== STEP 19: CRITICHE E REVIEW ==================== -->
+<div class="step-container" data-step="19">
   <div class="phase-badge" style="background:var(--threshold-light);color:var(--threshold)">Critiche e review</div>
   <h1 class="step-title">Analisi critica e posizionamento</h1>
   <p class="step-intro">Raccolta delle analisi critiche che esaminano le potenziali obiezioni dei reviewer e il posizionamento del progetto FoT-TEP rispetto alla letteratura. Ogni sezione &egrave; espandibile: clicca sul titolo per leggere l'analisi completa.</p>
@@ -2186,7 +2280,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
         <tr><td>EXP3_V2 &mdash; Fresh-run replication</td><td style="color:var(--green)">&#x2705; Completato</td><td>A=0/72, B=68/72, E=4/72. B&minus;A=+0.944. Criterio replica soddisfatto</td></tr>
         <tr><td>Condition C &mdash; Centralized pooled ICL</td><td style="color:var(--green)">&#x2705; Completato</td><td>15/15 correct. C&minus;B=+0.139 (concentrato su F8). Esplorativo</td></tr>
         <tr><td>Exp 2 &mdash; Cross-model (Qwen 27B)</td><td style="color:var(--green)">&#x2705; Completato e frozen</td><td>Unseen: A=0/36, B=34/36, E=1/36; C1&ndash;C4 4/4 PASS; review GO WITH LIMITATIONS</td></tr>
-        <tr><td>Payload characterization</td><td style="color:var(--text-caption)">&#x2B1C; Da fare</td><td>Costo ~0 dagli artefatti frozen</td></tr>
+        <tr><td>Payload characterization</td><td style="color:var(--green)">&#x2705; Completata</td><td>9.438 byte per unit&agrave; a 4 receiver; B/E strutturalmente controllati</td></tr>
         <tr><td>Exp 4 &mdash; Insight ablation</td><td style="color:var(--text-caption)">&#x2B1C; Solo se tempo</td><td>&mdash;</td></tr>
       </table>
 
@@ -2202,7 +2296,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
       <h3>Cosa resta da fare (~3 settimane alla deadline)</h3>
       <ul>
         <li>&#x2705; EXP2 Qwen 27B completato, frozen e sottoposto a review indipendente</li>
-        <li>&#x2B1C; Communication payload characterization (~0 costo)</li>
+        <li>&#x2705; Communication payload characterization completata dagli artefatti frozen</li>
         <li>&#x2B1C; Framing + terminologia + PV-motivation + delta vs FoT</li>
         <li>&#x2B1C; Scrittura del paper (10 pagine IEEE 2-col)</li>
       </ul>
@@ -2213,8 +2307,8 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
 
 </div>
 
-<!-- ==================== STEP 19: CONFERENZA ==================== -->
-<div class="step-container" data-step="19">
+<!-- ==================== STEP 20: CONFERENZA ==================== -->
+<div class="step-container" data-step="20">
   <div class="phase-badge" style="background:var(--threshold-light);color:var(--threshold)">Review critica</div>
   <h1 class="step-title">2023 IEEE International Conference on Big Data <span class="status-badge">Work in progress</span></h1>
   <p class="step-intro">Valutazione critica del manoscritto nella forma attuale, formulata dal punto di vista di un reviewer chiamato a raccomandarne o meno l'accettazione.</p>
@@ -2259,7 +2353,7 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
     <ul>
       <li>Ridurre i claim a <em>evidenza preliminare di trasferimento semantico specifico</em>; non rivendicare privacy, robustezza o generalizzazione dimostrate.</li>
       <li>Esplicitare unità indipendente, denominatori, test cluster-aware, coverage e selective risk.</li>
-      <li>Caratterizzare il payload in byte/token e costo producer/consumer; confrontarlo concettualmente con logit, prototipi e adapter.</li>
+      <li><strong>Completato:</strong> payload misurato in byte/token, costo producer/consumer separato e confronto concettuale con logit, prototipi e adapter.</li>
       <li>Aggiungere almeno un baseline diagnostico classico e uno knowledge-transfer adiacente.</li>
       <li>Analizzare i cinque errori local-seen e svolgere una sensitivity analysis oltre il reasoning cap.</li>
       <li>Presentare l'ablation come pilot di efficienza: nessuna coppia differisce significativamente e V2 confonde formato con informazione precomputata.</li>
@@ -2270,8 +2364,8 @@ code, .mono { font-family: var(--font-mono); font-size: 0.88em; }
   <p style="font-size:.78rem;color:var(--text-caption);margin-top:18px"><em>Base: walkthrough principale e secondario; experiment plan, gap analysis, literature review BigData2026 e risultati frozen locali. Il titolo segue la voce richiesta e non implica una review ufficiale IEEE.</em></p>
 </div>
 
-<!-- ==================== STEP 20: LITERATURE REVIEW ==================== -->
-<div class="step-container" data-step="20">
+<!-- ==================== STEP 21: LITERATURE REVIEW ==================== -->
+<div class="step-container" data-step="21">
   <div class="phase-badge a">Corpus locale consolidato</div>
   <h1 class="step-title">Literature review</h1>
   <p class="step-intro">Mappa dei lavori rilevanti per oggetto federato, classi localmente non viste, trasformazione TS&rarr;testo e diagnosi mediante LLM.</p>
@@ -2332,6 +2426,7 @@ const STEPS = [
   {phase:'b',label:'6. C vs B'},
   {phase:'b',label:'7. Exp 2'},
   {phase:'b',label:'8. Ablation'},
+  {phase:'b',label:'9. Payload'},
   {phase:'critiche',label:'Critiche'},
   {phase:'extra',label:'Conferenza'},
   {phase:'extra',label:'Lit review'}

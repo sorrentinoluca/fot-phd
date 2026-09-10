@@ -1,0 +1,3571 @@
+{
+  "accuracy": {
+    "condition_c": {
+      "comparability": "post-hoc descriptive; centralized context differs in amount and form",
+      "delta_c_minus_b": {
+        "accuracy_B_unseen_fault": 0.8611111111111112,
+        "accuracy_C_fault": 1.0,
+        "delta_C_minus_B": 0.13888888888888892,
+        "estimand": "paired_delta_C_minus_B_fault_only",
+        "formula": "R5_§5.2",
+        "n_fault_cases": 12,
+        "per_case": [
+          {
+            "b_unseen_mean": 1.0,
+            "c_correct": 1,
+            "paired_delta_i": 0.0,
+            "physical_case_id": "PBH-004",
+            "true_pseudolabel": "CLS-ZOGAA"
+          },
+          {
+            "b_unseen_mean": 1.0,
+            "c_correct": 1,
+            "paired_delta_i": 0.0,
+            "physical_case_id": "PBH-005",
+            "true_pseudolabel": "CLS-ZOGAA"
+          },
+          {
+            "b_unseen_mean": 1.0,
+            "c_correct": 1,
+            "paired_delta_i": 0.0,
+            "physical_case_id": "PBH-006",
+            "true_pseudolabel": "CLS-ZOGAA"
+          },
+          {
+            "b_unseen_mean": 0.3333333333333333,
+            "c_correct": 1,
+            "paired_delta_i": 0.6666666666666667,
+            "physical_case_id": "PBH-007",
+            "true_pseudolabel": "CLS-OJNSG"
+          },
+          {
+            "b_unseen_mean": 0.6666666666666666,
+            "c_correct": 1,
+            "paired_delta_i": 0.33333333333333337,
+            "physical_case_id": "PBH-008",
+            "true_pseudolabel": "CLS-OJNSG"
+          },
+          {
+            "b_unseen_mean": 0.3333333333333333,
+            "c_correct": 1,
+            "paired_delta_i": 0.6666666666666667,
+            "physical_case_id": "PBH-009",
+            "true_pseudolabel": "CLS-OJNSG"
+          },
+          {
+            "b_unseen_mean": 1.0,
+            "c_correct": 1,
+            "paired_delta_i": 0.0,
+            "physical_case_id": "PBH-010",
+            "true_pseudolabel": "CLS-R463B"
+          },
+          {
+            "b_unseen_mean": 1.0,
+            "c_correct": 1,
+            "paired_delta_i": 0.0,
+            "physical_case_id": "PBH-011",
+            "true_pseudolabel": "CLS-R463B"
+          },
+          {
+            "b_unseen_mean": 1.0,
+            "c_correct": 1,
+            "paired_delta_i": 0.0,
+            "physical_case_id": "PBH-012",
+            "true_pseudolabel": "CLS-R463B"
+          },
+          {
+            "b_unseen_mean": 1.0,
+            "c_correct": 1,
+            "paired_delta_i": 0.0,
+            "physical_case_id": "PBH-013",
+            "true_pseudolabel": "CLS-Z3ISU"
+          },
+          {
+            "b_unseen_mean": 1.0,
+            "c_correct": 1,
+            "paired_delta_i": 0.0,
+            "physical_case_id": "PBH-014",
+            "true_pseudolabel": "CLS-Z3ISU"
+          },
+          {
+            "b_unseen_mean": 1.0,
+            "c_correct": 1,
+            "paired_delta_i": 0.0,
+            "physical_case_id": "PBH-015",
+            "true_pseudolabel": "CLS-Z3ISU"
+          }
+        ]
+      },
+      "fault": {
+        "abstention_rate": 0.0,
+        "abstentions": 0,
+        "accuracy": 1.0,
+        "correct": 12,
+        "n": 12
+      },
+      "overall": {
+        "abstention_rate": 0.0,
+        "abstentions": 0,
+        "accuracy": 1.0,
+        "correct": 15,
+        "n": 15
+      }
+    },
+    "exp3_v2": {
+      "A": {
+        "abstentions": 30,
+        "accuracy": 0.0,
+        "correct": 0,
+        "incorrect": 72,
+        "n": 72
+      },
+      "B": {
+        "abstentions": 0,
+        "accuracy": 0.9444444444444444,
+        "correct": 68,
+        "incorrect": 4,
+        "n": 72
+      },
+      "E": {
+        "abstentions": 0,
+        "accuracy": 0.05555555555555555,
+        "correct": 4,
+        "incorrect": 68,
+        "n": 72
+      }
+    },
+    "experiment_1": {
+      "A": {
+        "abstention_rate": 0.3888888888888889,
+        "abstentions": 14,
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 36
+      },
+      "B": {
+        "abstention_rate": 0.0,
+        "abstentions": 0,
+        "accuracy": 0.8611111111111112,
+        "correct": 31,
+        "n": 36
+      },
+      "E": {
+        "abstention_rate": 0.0,
+        "abstentions": 0,
+        "accuracy": 0.08333333333333333,
+        "correct": 3,
+        "n": 36
+      }
+    },
+    "experiment_2_qwen": {
+      "A": {
+        "abstention_rate": 0.0,
+        "abstentions": 0,
+        "accuracy": 0.0,
+        "correct": 0,
+        "n": 36
+      },
+      "B": {
+        "abstention_rate": 0.0,
+        "abstentions": 0,
+        "accuracy": 0.9444444444444444,
+        "correct": 34,
+        "n": 36
+      },
+      "E": {
+        "abstention_rate": 0.0,
+        "abstentions": 0,
+        "accuracy": 0.027777777777777776,
+        "correct": 1,
+        "n": 36
+      }
+    }
+  },
+  "adjacent_paradigms": {
+    "formulas": {
+      "FedMD_uplink": "K * N_public * C * bytes_per_logit per round",
+      "FedProto_uplink": "sum_k(C_k * embedding_dimension * bytes_per_scalar) per round",
+      "FoT_realized": "sum over prompt calls of receiver-specific UTF-8 peer-block bytes/tokens",
+      "federated_LoRA_uplink": "K * P_adapter * bytes_per_parameter per round; P_LoRA=sum r(d_in+d_out)"
+    },
+    "numeric_comparability": "not available without concrete matched configurations",
+    "source_refs": [
+      "docs/lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md",
+      "docs/lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md"
+    ]
+  },
+  "analysis_status": "MEASURED_FROM_FROZEN_ARTIFACTS_NO_LLM_CALLS",
+  "b_e_structural_control": {
+    "all_receiver_unit": {
+      "B_utf8_bytes": 9438,
+      "E_utf8_bytes": 9438,
+      "differing_byte_positions": 112,
+      "pseudolabel_substitutions": 24
+    },
+    "by_receiver": {
+      "agent_1": {
+        "B_utf8_bytes": 2304,
+        "E_utf8_bytes": 2304,
+        "byte_identical": false,
+        "differing_byte_positions": 28,
+        "pseudolabel_substitutions": 6,
+        "same_byte_length": true,
+        "same_ids_sources_structure_order": true,
+        "same_insight_count": true,
+        "same_non_pseudolabel_content": true,
+        "substitutions": [
+          {
+            "from": "CLS-OJNSG",
+            "insight_id": "INS-003",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-R463B"
+          },
+          {
+            "from": "CLS-OJNSG",
+            "insight_id": "INS-004",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-R463B"
+          },
+          {
+            "from": "CLS-R463B",
+            "insight_id": "INS-005",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-Z3ISU"
+          },
+          {
+            "from": "CLS-R463B",
+            "insight_id": "INS-006",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-Z3ISU"
+          },
+          {
+            "from": "CLS-Z3ISU",
+            "insight_id": "INS-007",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-OJNSG"
+          },
+          {
+            "from": "CLS-Z3ISU",
+            "insight_id": "INS-008",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-OJNSG"
+          }
+        ]
+      },
+      "agent_2": {
+        "B_utf8_bytes": 2336,
+        "E_utf8_bytes": 2336,
+        "byte_identical": false,
+        "differing_byte_positions": 28,
+        "pseudolabel_substitutions": 6,
+        "same_byte_length": true,
+        "same_ids_sources_structure_order": true,
+        "same_insight_count": true,
+        "same_non_pseudolabel_content": true,
+        "substitutions": [
+          {
+            "from": "CLS-ZOGAA",
+            "insight_id": "INS-001",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-R463B"
+          },
+          {
+            "from": "CLS-ZOGAA",
+            "insight_id": "INS-002",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-R463B"
+          },
+          {
+            "from": "CLS-R463B",
+            "insight_id": "INS-005",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-Z3ISU"
+          },
+          {
+            "from": "CLS-R463B",
+            "insight_id": "INS-006",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-Z3ISU"
+          },
+          {
+            "from": "CLS-Z3ISU",
+            "insight_id": "INS-007",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-ZOGAA"
+          },
+          {
+            "from": "CLS-Z3ISU",
+            "insight_id": "INS-008",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-ZOGAA"
+          }
+        ]
+      },
+      "agent_3": {
+        "B_utf8_bytes": 2420,
+        "E_utf8_bytes": 2420,
+        "byte_identical": false,
+        "differing_byte_positions": 26,
+        "pseudolabel_substitutions": 6,
+        "same_byte_length": true,
+        "same_ids_sources_structure_order": true,
+        "same_insight_count": true,
+        "same_non_pseudolabel_content": true,
+        "substitutions": [
+          {
+            "from": "CLS-ZOGAA",
+            "insight_id": "INS-001",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-OJNSG"
+          },
+          {
+            "from": "CLS-ZOGAA",
+            "insight_id": "INS-002",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-OJNSG"
+          },
+          {
+            "from": "CLS-OJNSG",
+            "insight_id": "INS-003",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-Z3ISU"
+          },
+          {
+            "from": "CLS-OJNSG",
+            "insight_id": "INS-004",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-Z3ISU"
+          },
+          {
+            "from": "CLS-Z3ISU",
+            "insight_id": "INS-007",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-ZOGAA"
+          },
+          {
+            "from": "CLS-Z3ISU",
+            "insight_id": "INS-008",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-ZOGAA"
+          }
+        ]
+      },
+      "agent_4": {
+        "B_utf8_bytes": 2378,
+        "E_utf8_bytes": 2378,
+        "byte_identical": false,
+        "differing_byte_positions": 30,
+        "pseudolabel_substitutions": 6,
+        "same_byte_length": true,
+        "same_ids_sources_structure_order": true,
+        "same_insight_count": true,
+        "same_non_pseudolabel_content": true,
+        "substitutions": [
+          {
+            "from": "CLS-ZOGAA",
+            "insight_id": "INS-001",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-OJNSG"
+          },
+          {
+            "from": "CLS-ZOGAA",
+            "insight_id": "INS-002",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-OJNSG"
+          },
+          {
+            "from": "CLS-OJNSG",
+            "insight_id": "INS-003",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-R463B"
+          },
+          {
+            "from": "CLS-OJNSG",
+            "insight_id": "INS-004",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-R463B"
+          },
+          {
+            "from": "CLS-R463B",
+            "insight_id": "INS-005",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-ZOGAA"
+          },
+          {
+            "from": "CLS-R463B",
+            "insight_id": "INS-006",
+            "new_utf8_bytes": 9,
+            "old_utf8_bytes": 9,
+            "to": "CLS-ZOGAA"
+          }
+        ]
+      }
+    },
+    "cause": "only six equal-length ASCII pseudolabel values per receiver are substituted by the frozen derangement",
+    "source_refs": [
+      "phase_b/config/evaluator_side/condition_e_derangements.json",
+      "phase_b/insights/peer_libraries/agent_*_[BE].json"
+    ],
+    "status": "PASS"
+  },
+  "condition_c_payload": {
+    "definition": "sum of two non-contiguous inserted prompt regions: pooled examples JSON plus all-insight PEER INSIGHTS block",
+    "gpt_estimated_tokens": 3650,
+    "metrics": {
+      "characters": 12595,
+      "lines": 112,
+      "sha256": null,
+      "utf8_bytes": 12668,
+      "words_unicode_regex": 1882
+    },
+    "qwen_estimated_tokens": 3992,
+    "source_refs": [
+      "icl/pooled_libraries/pooled_examples.json",
+      "icl/pooled_libraries/pooled_insights.json",
+      "icl/conditions/builder_c.py"
+    ],
+    "token_status": "estimated by model-specific empirical peer-block token/byte rate; not exact"
+  },
+  "condition_e_derangements": {
+    "agent_1": {
+      "CLS-OJNSG": "CLS-R463B",
+      "CLS-R463B": "CLS-Z3ISU",
+      "CLS-Z3ISU": "CLS-OJNSG"
+    },
+    "agent_2": {
+      "CLS-R463B": "CLS-Z3ISU",
+      "CLS-Z3ISU": "CLS-ZOGAA",
+      "CLS-ZOGAA": "CLS-R463B"
+    },
+    "agent_3": {
+      "CLS-OJNSG": "CLS-Z3ISU",
+      "CLS-Z3ISU": "CLS-ZOGAA",
+      "CLS-ZOGAA": "CLS-OJNSG"
+    },
+    "agent_4": {
+      "CLS-OJNSG": "CLS-R463B",
+      "CLS-R463B": "CLS-ZOGAA",
+      "CLS-ZOGAA": "CLS-OJNSG"
+    }
+  },
+  "efficiency": {
+    "exp3_v2": {
+      "B_correct_unseen": 68,
+      "B_minus_A_accuracy": 0.9444444444444444,
+      "B_minus_A_percentage_points": 94.44444444444444,
+      "B_minus_E_accuracy": 0.8888888888888888,
+      "all_B_calls_payload_tokens_in_context": 244710,
+      "all_B_calls_payload_utf8_bytes": 849420,
+      "bytes_per_B_correct_unseen_prediction": 7494.882352941177,
+      "experiment": "exp3_v2",
+      "llm_repetitions_per_prediction": 3,
+      "mean_B_minus_A_tokens_per_aggregate_prediction_R_calls": 2039.25,
+      "mean_B_minus_A_tokens_per_llm_call": 679.75,
+      "physical_fault_cases": 24,
+      "scope": "locally-unseen aggregate agent-case predictions; R repeated LLM calls retained separately",
+      "tokens_per_B_correct_unseen_prediction": 2159.205882352941,
+      "tokens_per_additional_correct_unseen_vs_A": 2159.205882352941,
+      "tokens_per_percentage_point_accuracy": 21.592058823529413,
+      "tokens_per_percentage_point_formula": "mean paired B-A input-token delta per LLM call × R / (100 × unseen accuracy delta)",
+      "unseen_aggregate_predictions": 72,
+      "unseen_only_payload_tokens_in_context": 146826,
+      "unseen_only_payload_utf8_bytes": 509652
+    },
+    "experiment_1": {
+      "B_correct_unseen": 31,
+      "B_minus_A_accuracy": 0.8611111111111112,
+      "B_minus_A_percentage_points": 86.11111111111111,
+      "B_minus_E_accuracy": 0.7777777777777778,
+      "all_B_calls_payload_tokens_in_context": 122355,
+      "all_B_calls_payload_utf8_bytes": 424710,
+      "bytes_per_B_correct_unseen_prediction": 8220.193548387097,
+      "experiment": "experiment_1",
+      "llm_repetitions_per_prediction": 3,
+      "mean_B_minus_A_tokens_per_aggregate_prediction_R_calls": 2039.25,
+      "mean_B_minus_A_tokens_per_llm_call": 679.75,
+      "physical_fault_cases": 12,
+      "scope": "locally-unseen aggregate agent-case predictions; R repeated LLM calls retained separately",
+      "tokens_per_B_correct_unseen_prediction": 2368.1612903225805,
+      "tokens_per_additional_correct_unseen_vs_A": 2368.1612903225805,
+      "tokens_per_percentage_point_accuracy": 23.681612903225805,
+      "tokens_per_percentage_point_formula": "mean paired B-A input-token delta per LLM call × R / (100 × unseen accuracy delta)",
+      "unseen_aggregate_predictions": 36,
+      "unseen_only_payload_tokens_in_context": 73413,
+      "unseen_only_payload_utf8_bytes": 254826
+    },
+    "experiment_2_qwen": {
+      "B_correct_unseen": 34,
+      "B_minus_A_accuracy": 0.9444444444444444,
+      "B_minus_A_percentage_points": 94.44444444444444,
+      "B_minus_E_accuracy": 0.9166666666666666,
+      "all_B_calls_payload_tokens_in_context": 133830,
+      "all_B_calls_payload_utf8_bytes": 424710,
+      "bytes_per_B_correct_unseen_prediction": 7494.882352941177,
+      "experiment": "experiment_2_qwen",
+      "llm_repetitions_per_prediction": 3,
+      "mean_B_minus_A_tokens_per_aggregate_prediction_R_calls": 2230.5,
+      "mean_B_minus_A_tokens_per_llm_call": 743.5,
+      "physical_fault_cases": 12,
+      "scope": "locally-unseen aggregate agent-case predictions; R repeated LLM calls retained separately",
+      "tokens_per_B_correct_unseen_prediction": 2361.705882352941,
+      "tokens_per_additional_correct_unseen_vs_A": 2361.705882352941,
+      "tokens_per_percentage_point_accuracy": 23.617058823529412,
+      "tokens_per_percentage_point_formula": "mean paired B-A input-token delta per LLM call × R / (100 × unseen accuracy delta)",
+      "unseen_aggregate_predictions": 36,
+      "unseen_only_payload_tokens_in_context": 80298,
+      "unseen_only_payload_utf8_bytes": 254826
+    }
+  },
+  "experiments": {
+    "condition_c": {
+      "aggregate_predictions_per_condition": 15,
+      "consumer_model": "gpt-5.6-terra",
+      "physical_cases": 15,
+      "physical_fault_cases": 12,
+      "prompt_metrics": {
+        "C": {
+          "logical_calls": 45,
+          "mean_characters": 14301.0,
+          "mean_utf8_bytes": 14379.666666666666,
+          "source": "deterministic reconstruction verified against every frozen prompt hash",
+          "total_characters": 643545,
+          "total_utf8_bytes": 647085,
+          "unique_prompts": 15
+        }
+      },
+      "prompt_payload_ratio_C": {
+        "token_ratio": null,
+        "token_status": "not exactly isolable; C changes two context blocks and has no paired empty-context execution",
+        "utf8_byte_ratio": 0.880966179095482
+      },
+      "repetitions": 3,
+      "source_refs": [
+        "icl/inference/c_records.jsonl",
+        "icl/full_evaluation/evaluation_results_c.json"
+      ],
+      "usage": {
+        "input_tokens_all_attempts": 209118,
+        "input_tokens_first_attempts": 209118,
+        "latency_seconds": {
+          "max": null,
+          "mean": null,
+          "median": null,
+          "min": null,
+          "n": 0,
+          "status": "not_recorded",
+          "sum": null
+        },
+        "logical_calls": 45,
+        "output_tokens_all_attempts": 5869,
+        "provider_calls": 45,
+        "reasoning_token_observations": 0,
+        "reasoning_tokens_all_attempts": null,
+        "retry_input_token_surcharge": 0
+      }
+    },
+    "exp3_v2": {
+      "accuracy_key": "exp3_v2",
+      "aggregate_predictions_per_condition": 120,
+      "consumer_model": "gpt-5.6-terra",
+      "federated_payload_total_B_plus_E": {
+        "insight_record_deliveries": 4320,
+        "knowledge_rounds": 2,
+        "note": "two analytical conditions, each using the same static one-round payload volume; this is not two iterative training rounds",
+        "prompt_block_transfers": 720,
+        "repeated_source_consumer_transfers": 2160,
+        "total_payload_tokens_in_context": 489420,
+        "total_utf8_bytes": 1698840
+      },
+      "per_agent_unseen_accuracy": {
+        "A": {
+          "agent_1": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 18
+          },
+          "agent_2": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 18
+          },
+          "agent_3": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 18
+          },
+          "agent_4": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 18
+          }
+        },
+        "B": {
+          "agent_1": {
+            "accuracy": 0.8888888888888888,
+            "correct": 16,
+            "n": 18
+          },
+          "agent_2": {
+            "accuracy": 1.0,
+            "correct": 18,
+            "n": 18
+          },
+          "agent_3": {
+            "accuracy": 0.8888888888888888,
+            "correct": 16,
+            "n": 18
+          },
+          "agent_4": {
+            "accuracy": 1.0,
+            "correct": 18,
+            "n": 18
+          }
+        },
+        "E": {
+          "agent_1": {
+            "accuracy": 0.05555555555555555,
+            "correct": 1,
+            "n": 18
+          },
+          "agent_2": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 18
+          },
+          "agent_3": {
+            "accuracy": 0.16666666666666666,
+            "correct": 3,
+            "n": 18
+          },
+          "agent_4": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 18
+          }
+        }
+      },
+      "physical_cases": 30,
+      "physical_fault_cases": 24,
+      "prompt_metrics": {
+        "A": {
+          "logical_calls": 360,
+          "mean_characters": 4861.633333333333,
+          "mean_utf8_bytes": 4887.233333333334,
+          "source": "deterministic reconstruction verified against every frozen prompt hash",
+          "total_characters": 1750188,
+          "total_utf8_bytes": 1759404,
+          "unique_prompts": 120
+        },
+        "B": {
+          "logical_calls": 360,
+          "mean_characters": 7208.383333333333,
+          "mean_utf8_bytes": 7246.733333333334,
+          "source": "deterministic reconstruction verified against every frozen prompt hash",
+          "total_characters": 2595018,
+          "total_utf8_bytes": 2608824,
+          "unique_prompts": 120
+        },
+        "E": {
+          "logical_calls": 360,
+          "mean_characters": 7208.383333333333,
+          "mean_utf8_bytes": 7246.733333333334,
+          "source": "deterministic reconstruction verified against every frozen prompt hash",
+          "total_characters": 2595018,
+          "total_utf8_bytes": 2608824,
+          "unique_prompts": 120
+        }
+      },
+      "prompt_payload_ratio_B": {
+        "formula_bytes": "total repeated peer-block UTF-8 bytes / total reconstructed full-prompt UTF-8 bytes",
+        "formula_tokens": "total paired first-attempt B-A input-token delta / total B first-attempt input tokens",
+        "token_ratio": 0.29612284905249403,
+        "utf8_byte_ratio": 0.32559498072694826
+      },
+      "repetitions": 3,
+      "source_refs": [
+        "git:exp3-v2-inference-frozen-001:inference_outputs/records/*.json",
+        "git:exp3-v2-results-frozen-001:evaluation_outputs/exp3v2_confirmatory_results.json"
+      ],
+      "tokenizer_key": "gpt56_terra",
+      "transfers": {
+        "A": {
+          "insight_record_deliveries": 0,
+          "knowledge_rounds": 0,
+          "prompt_block_transfers": 0,
+          "repeated_source_consumer_transfers": 0,
+          "total_payload_tokens_in_context": 0,
+          "total_utf8_bytes": 0,
+          "unique_directed_source_consumer_edges": 0
+        },
+        "B": {
+          "insight_record_deliveries": 2160,
+          "knowledge_rounds": 1,
+          "prompt_block_transfers": 360,
+          "repeated_source_consumer_transfers": 1080,
+          "token_measurement_model": "gpt-5.6-terra",
+          "token_measurement_status": "exact provider-recorded paired first-attempt prompt delta",
+          "total_payload_tokens_in_context": 244710,
+          "total_utf8_bytes": 849420,
+          "unique_directed_source_consumer_edges": 12
+        },
+        "E": {
+          "insight_record_deliveries": 2160,
+          "knowledge_rounds": 1,
+          "prompt_block_transfers": 360,
+          "repeated_source_consumer_transfers": 1080,
+          "token_measurement_model": "gpt-5.6-terra",
+          "token_measurement_status": "exact provider-recorded paired first-attempt prompt delta",
+          "total_payload_tokens_in_context": 244710,
+          "total_utf8_bytes": 849420,
+          "unique_directed_source_consumer_edges": 12
+        }
+      },
+      "usage": {
+        "by_agent": {
+          "A": {
+            "agent_1": {
+              "input_tokens_all_attempts": 144540,
+              "input_tokens_first_attempts": 144540,
+              "latency_seconds": {
+                "max": 11.0,
+                "mean": 3.466666666666667,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 90,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 312.0
+              },
+              "logical_calls": 90,
+              "output_tokens_all_attempts": 14667,
+              "provider_calls": 90,
+              "reasoning_token_observations": 90,
+              "reasoning_tokens_all_attempts": 5570,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_2": {
+              "input_tokens_all_attempts": 145980,
+              "input_tokens_first_attempts": 145980,
+              "latency_seconds": {
+                "max": 7.0,
+                "mean": 2.7555555555555555,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 90,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 248.0
+              },
+              "logical_calls": 90,
+              "output_tokens_all_attempts": 12345,
+              "provider_calls": 90,
+              "reasoning_token_observations": 90,
+              "reasoning_tokens_all_attempts": 3241,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_3": {
+              "input_tokens_all_attempts": 145800,
+              "input_tokens_first_attempts": 145800,
+              "latency_seconds": {
+                "max": 11.0,
+                "mean": 3.7777777777777777,
+                "median": 4.0,
+                "min": 1.0,
+                "n": 90,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 340.0
+              },
+              "logical_calls": 90,
+              "output_tokens_all_attempts": 16695,
+              "provider_calls": 90,
+              "reasoning_token_observations": 90,
+              "reasoning_tokens_all_attempts": 7604,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_4": {
+              "input_tokens_all_attempts": 145350,
+              "input_tokens_first_attempts": 145350,
+              "latency_seconds": {
+                "max": 10.0,
+                "mean": 2.7555555555555555,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 90,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 248.0
+              },
+              "logical_calls": 90,
+              "output_tokens_all_attempts": 11719,
+              "provider_calls": 90,
+              "reasoning_token_observations": 90,
+              "reasoning_tokens_all_attempts": 2741,
+              "retry_input_token_surcharge": 0
+            }
+          },
+          "B": {
+            "agent_1": {
+              "input_tokens_all_attempts": 204348,
+              "input_tokens_first_attempts": 204300,
+              "latency_seconds": {
+                "max": 10.0,
+                "mean": 2.8666666666666667,
+                "median": 2.0,
+                "min": 2.0,
+                "n": 90,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 258.0
+              },
+              "logical_calls": 90,
+              "output_tokens_all_attempts": 13363,
+              "provider_calls": 91,
+              "reasoning_token_observations": 91,
+              "reasoning_tokens_all_attempts": 4122,
+              "retry_input_token_surcharge": 48
+            },
+            "agent_2": {
+              "input_tokens_all_attempts": 207540,
+              "input_tokens_first_attempts": 207540,
+              "latency_seconds": {
+                "max": 10.0,
+                "mean": 2.922222222222222,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 90,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 263.0
+              },
+              "logical_calls": 90,
+              "output_tokens_all_attempts": 13514,
+              "provider_calls": 90,
+              "reasoning_token_observations": 90,
+              "reasoning_tokens_all_attempts": 3671,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_3": {
+              "input_tokens_all_attempts": 207090,
+              "input_tokens_first_attempts": 207090,
+              "latency_seconds": {
+                "max": 33.0,
+                "mean": 3.3444444444444446,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 90,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 301.0
+              },
+              "logical_calls": 90,
+              "output_tokens_all_attempts": 14868,
+              "provider_calls": 90,
+              "reasoning_token_observations": 90,
+              "reasoning_tokens_all_attempts": 5385,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_4": {
+              "input_tokens_all_attempts": 207498,
+              "input_tokens_first_attempts": 207450,
+              "latency_seconds": {
+                "max": 9.0,
+                "mean": 3.3444444444444446,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 90,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 301.0
+              },
+              "logical_calls": 90,
+              "output_tokens_all_attempts": 15491,
+              "provider_calls": 91,
+              "reasoning_token_observations": 91,
+              "reasoning_tokens_all_attempts": 6200,
+              "retry_input_token_surcharge": 48
+            }
+          },
+          "E": {
+            "agent_1": {
+              "input_tokens_all_attempts": 204300,
+              "input_tokens_first_attempts": 204300,
+              "latency_seconds": {
+                "max": 6.0,
+                "mean": 2.8666666666666667,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 90,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 258.0
+              },
+              "logical_calls": 90,
+              "output_tokens_all_attempts": 13415,
+              "provider_calls": 90,
+              "reasoning_token_observations": 90,
+              "reasoning_tokens_all_attempts": 3436,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_2": {
+              "input_tokens_all_attempts": 207540,
+              "input_tokens_first_attempts": 207540,
+              "latency_seconds": {
+                "max": 8.0,
+                "mean": 3.033333333333333,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 90,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 273.0
+              },
+              "logical_calls": 90,
+              "output_tokens_all_attempts": 14627,
+              "provider_calls": 90,
+              "reasoning_token_observations": 90,
+              "reasoning_tokens_all_attempts": 4738,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_3": {
+              "input_tokens_all_attempts": 207090,
+              "input_tokens_first_attempts": 207090,
+              "latency_seconds": {
+                "max": 10.0,
+                "mean": 3.2444444444444445,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 90,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 292.0
+              },
+              "logical_calls": 90,
+              "output_tokens_all_attempts": 15285,
+              "provider_calls": 90,
+              "reasoning_token_observations": 90,
+              "reasoning_tokens_all_attempts": 5626,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_4": {
+              "input_tokens_all_attempts": 207450,
+              "input_tokens_first_attempts": 207450,
+              "latency_seconds": {
+                "max": 10.0,
+                "mean": 3.6666666666666665,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 90,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 330.0
+              },
+              "logical_calls": 90,
+              "output_tokens_all_attempts": 16287,
+              "provider_calls": 90,
+              "reasoning_token_observations": 90,
+              "reasoning_tokens_all_attempts": 6565,
+              "retry_input_token_surcharge": 0
+            }
+          }
+        },
+        "by_condition": {
+          "A": {
+            "input_tokens_all_attempts": 581670,
+            "input_tokens_first_attempts": 581670,
+            "latency_seconds": {
+              "max": 11.0,
+              "mean": 3.188888888888889,
+              "median": 3.0,
+              "min": 1.0,
+              "n": 360,
+              "status": "measured_from_provider_created_at_and_completed_at",
+              "sum": 1148.0
+            },
+            "logical_calls": 360,
+            "output_tokens_all_attempts": 55426,
+            "provider_calls": 360,
+            "reasoning_token_observations": 360,
+            "reasoning_tokens_all_attempts": 19156,
+            "retry_input_token_surcharge": 0
+          },
+          "B": {
+            "input_tokens_all_attempts": 826476,
+            "input_tokens_first_attempts": 826380,
+            "latency_seconds": {
+              "max": 33.0,
+              "mean": 3.1194444444444445,
+              "median": 2.0,
+              "min": 1.0,
+              "n": 360,
+              "status": "measured_from_provider_created_at_and_completed_at",
+              "sum": 1123.0
+            },
+            "logical_calls": 360,
+            "output_tokens_all_attempts": 57236,
+            "provider_calls": 362,
+            "reasoning_token_observations": 362,
+            "reasoning_tokens_all_attempts": 19378,
+            "retry_input_token_surcharge": 96
+          },
+          "E": {
+            "input_tokens_all_attempts": 826380,
+            "input_tokens_first_attempts": 826380,
+            "latency_seconds": {
+              "max": 10.0,
+              "mean": 3.202777777777778,
+              "median": 3.0,
+              "min": 1.0,
+              "n": 360,
+              "status": "measured_from_provider_created_at_and_completed_at",
+              "sum": 1153.0
+            },
+            "logical_calls": 360,
+            "output_tokens_all_attempts": 59614,
+            "provider_calls": 360,
+            "reasoning_token_observations": 360,
+            "reasoning_tokens_all_attempts": 20365,
+            "retry_input_token_surcharge": 0
+          }
+        },
+        "by_fault": {
+          "A": {
+            "F1": {
+              "input_tokens_all_attempts": 118638,
+              "input_tokens_first_attempts": 118638,
+              "latency_seconds": {
+                "max": 7.0,
+                "mean": 3.513888888888889,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 253.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 12749,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 5322,
+              "retry_input_token_surcharge": 0
+            },
+            "F10": {
+              "input_tokens_all_attempts": 119142,
+              "input_tokens_first_attempts": 119142,
+              "latency_seconds": {
+                "max": 10.0,
+                "mean": 3.0555555555555554,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 220.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 10526,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 2956,
+              "retry_input_token_surcharge": 0
+            },
+            "F13": {
+              "input_tokens_all_attempts": 118890,
+              "input_tokens_first_attempts": 118890,
+              "latency_seconds": {
+                "max": 11.0,
+                "mean": 3.5694444444444446,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 257.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 12592,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 5168,
+              "retry_input_token_surcharge": 0
+            },
+            "F8": {
+              "input_tokens_all_attempts": 119058,
+              "input_tokens_first_attempts": 119058,
+              "latency_seconds": {
+                "max": 11.0,
+                "mean": 3.6805555555555554,
+                "median": 3.0,
+                "min": 2.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 265.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 13187,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 5710,
+              "retry_input_token_surcharge": 0
+            },
+            "Normal": {
+              "input_tokens_all_attempts": 105942,
+              "input_tokens_first_attempts": 105942,
+              "latency_seconds": {
+                "max": 4.0,
+                "mean": 2.125,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 153.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 6372,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 0,
+              "retry_input_token_surcharge": 0
+            }
+          },
+          "B": {
+            "F1": {
+              "input_tokens_all_attempts": 167580,
+              "input_tokens_first_attempts": 167580,
+              "latency_seconds": {
+                "max": 10.0,
+                "mean": 2.5555555555555554,
+                "median": 2.0,
+                "min": 2.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 184.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 9083,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 727,
+              "retry_input_token_surcharge": 0
+            },
+            "F10": {
+              "input_tokens_all_attempts": 168084,
+              "input_tokens_first_attempts": 168084,
+              "latency_seconds": {
+                "max": 9.0,
+                "mean": 2.5277777777777777,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 182.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 8720,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 621,
+              "retry_input_token_surcharge": 0
+            },
+            "F13": {
+              "input_tokens_all_attempts": 167880,
+              "input_tokens_first_attempts": 167832,
+              "latency_seconds": {
+                "max": 33.0,
+                "mean": 3.75,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 270.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 14553,
+              "provider_calls": 73,
+              "reasoning_token_observations": 73,
+              "reasoning_tokens_all_attempts": 6951,
+              "retry_input_token_surcharge": 48
+            },
+            "F8": {
+              "input_tokens_all_attempts": 168048,
+              "input_tokens_first_attempts": 168000,
+              "latency_seconds": {
+                "max": 10.0,
+                "mean": 4.583333333333333,
+                "median": 4.0,
+                "min": 2.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 330.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 18707,
+              "provider_calls": 73,
+              "reasoning_token_observations": 73,
+              "reasoning_tokens_all_attempts": 11079,
+              "retry_input_token_surcharge": 48
+            },
+            "Normal": {
+              "input_tokens_all_attempts": 154884,
+              "input_tokens_first_attempts": 154884,
+              "latency_seconds": {
+                "max": 9.0,
+                "mean": 2.1805555555555554,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 157.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 6173,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 0,
+              "retry_input_token_surcharge": 0
+            }
+          },
+          "E": {
+            "F1": {
+              "input_tokens_all_attempts": 167580,
+              "input_tokens_first_attempts": 167580,
+              "latency_seconds": {
+                "max": 6.0,
+                "mean": 2.4583333333333335,
+                "median": 2.0,
+                "min": 2.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 177.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 9187,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 711,
+              "retry_input_token_surcharge": 0
+            },
+            "F10": {
+              "input_tokens_all_attempts": 168084,
+              "input_tokens_first_attempts": 168084,
+              "latency_seconds": {
+                "max": 4.0,
+                "mean": 2.4722222222222223,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 178.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 8994,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 711,
+              "retry_input_token_surcharge": 0
+            },
+            "F13": {
+              "input_tokens_all_attempts": 167832,
+              "input_tokens_first_attempts": 167832,
+              "latency_seconds": {
+                "max": 10.0,
+                "mean": 4.0,
+                "median": 3.0,
+                "min": 2.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 288.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 15211,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 7214,
+              "retry_input_token_surcharge": 0
+            },
+            "F8": {
+              "input_tokens_all_attempts": 168000,
+              "input_tokens_first_attempts": 168000,
+              "latency_seconds": {
+                "max": 8.0,
+                "mean": 4.666666666666667,
+                "median": 5.0,
+                "min": 2.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 336.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 19887,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 11729,
+              "retry_input_token_surcharge": 0
+            },
+            "Normal": {
+              "input_tokens_all_attempts": 154884,
+              "input_tokens_first_attempts": 154884,
+              "latency_seconds": {
+                "max": 10.0,
+                "mean": 2.4166666666666665,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 72,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 174.0
+              },
+              "logical_calls": 72,
+              "output_tokens_all_attempts": 6335,
+              "provider_calls": 72,
+              "reasoning_token_observations": 72,
+              "reasoning_tokens_all_attempts": 0,
+              "retry_input_token_surcharge": 0
+            }
+          }
+        }
+      }
+    },
+    "experiment_1": {
+      "accuracy_key": "experiment_1",
+      "aggregate_predictions_per_condition": 60,
+      "consumer_model": "gpt-5.6-terra",
+      "federated_payload_total_B_plus_E": {
+        "insight_record_deliveries": 2160,
+        "knowledge_rounds": 2,
+        "note": "two analytical conditions, each using the same static one-round payload volume; this is not two iterative training rounds",
+        "prompt_block_transfers": 360,
+        "repeated_source_consumer_transfers": 1080,
+        "total_payload_tokens_in_context": 244710,
+        "total_utf8_bytes": 849420
+      },
+      "per_agent_unseen_accuracy": {
+        "A": {
+          "agent_1": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          },
+          "agent_2": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          },
+          "agent_3": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          },
+          "agent_4": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          }
+        },
+        "B": {
+          "agent_1": {
+            "accuracy": 1.0,
+            "correct": 9,
+            "n": 9
+          },
+          "agent_2": {
+            "accuracy": 1.0,
+            "correct": 9,
+            "n": 9
+          },
+          "agent_3": {
+            "accuracy": 0.6666666666666666,
+            "correct": 6,
+            "n": 9
+          },
+          "agent_4": {
+            "accuracy": 0.7777777777777778,
+            "correct": 7,
+            "n": 9
+          }
+        },
+        "E": {
+          "agent_1": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          },
+          "agent_2": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          },
+          "agent_3": {
+            "accuracy": 0.2222222222222222,
+            "correct": 2,
+            "n": 9
+          },
+          "agent_4": {
+            "accuracy": 0.1111111111111111,
+            "correct": 1,
+            "n": 9
+          }
+        }
+      },
+      "physical_cases": 15,
+      "physical_fault_cases": 12,
+      "prompt_metrics": {
+        "A": {
+          "logical_calls": 180,
+          "mean_characters": 4873.5,
+          "mean_utf8_bytes": 4899.166666666667,
+          "source": "deterministic reconstruction verified against every frozen prompt hash",
+          "total_characters": 877230,
+          "total_utf8_bytes": 881850,
+          "unique_prompts": 60
+        },
+        "B": {
+          "logical_calls": 180,
+          "mean_characters": 7220.25,
+          "mean_utf8_bytes": 7258.666666666667,
+          "source": "deterministic reconstruction verified against every frozen prompt hash",
+          "total_characters": 1299645,
+          "total_utf8_bytes": 1306560,
+          "unique_prompts": 60
+        },
+        "E": {
+          "logical_calls": 180,
+          "mean_characters": 7220.25,
+          "mean_utf8_bytes": 7258.666666666667,
+          "source": "deterministic reconstruction verified against every frozen prompt hash",
+          "total_characters": 1299645,
+          "total_utf8_bytes": 1306560,
+          "unique_prompts": 60
+        }
+      },
+      "prompt_payload_ratio_B": {
+        "formula_bytes": "total repeated peer-block UTF-8 bytes / total reconstructed full-prompt UTF-8 bytes",
+        "formula_tokens": "total paired first-attempt B-A input-token delta / total B first-attempt input tokens",
+        "token_ratio": 0.29559917085827764,
+        "utf8_byte_ratio": 0.32505969875091845
+      },
+      "repetitions": 3,
+      "source_refs": [
+        "phase_b/final_evaluation/inference/repetition_records.jsonl",
+        "phase_b/final_evaluation/evaluation_results.json"
+      ],
+      "tokenizer_key": "gpt56_terra",
+      "transfers": {
+        "A": {
+          "insight_record_deliveries": 0,
+          "knowledge_rounds": 0,
+          "prompt_block_transfers": 0,
+          "repeated_source_consumer_transfers": 0,
+          "total_payload_tokens_in_context": 0,
+          "total_utf8_bytes": 0,
+          "unique_directed_source_consumer_edges": 0
+        },
+        "B": {
+          "insight_record_deliveries": 1080,
+          "knowledge_rounds": 1,
+          "prompt_block_transfers": 180,
+          "repeated_source_consumer_transfers": 540,
+          "token_measurement_model": "gpt-5.6-terra",
+          "token_measurement_status": "exact provider-recorded paired first-attempt prompt delta",
+          "total_payload_tokens_in_context": 122355,
+          "total_utf8_bytes": 424710,
+          "unique_directed_source_consumer_edges": 12
+        },
+        "E": {
+          "insight_record_deliveries": 1080,
+          "knowledge_rounds": 1,
+          "prompt_block_transfers": 180,
+          "repeated_source_consumer_transfers": 540,
+          "token_measurement_model": "gpt-5.6-terra",
+          "token_measurement_status": "exact provider-recorded paired first-attempt prompt delta",
+          "total_payload_tokens_in_context": 122355,
+          "total_utf8_bytes": 424710,
+          "unique_directed_source_consumer_edges": 12
+        }
+      },
+      "usage": {
+        "by_agent": {
+          "A": {
+            "agent_1": {
+              "input_tokens_all_attempts": 72453,
+              "input_tokens_first_attempts": 72453,
+              "latency_seconds": {
+                "max": 4.0,
+                "mean": 2.466666666666667,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 45,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 111.0
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 7332,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 2692,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_2": {
+              "input_tokens_all_attempts": 73173,
+              "input_tokens_first_attempts": 73173,
+              "latency_seconds": {
+                "max": 5.0,
+                "mean": 2.3333333333333335,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 45,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 105.0
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 6967,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 2347,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_3": {
+              "input_tokens_all_attempts": 73083,
+              "input_tokens_first_attempts": 73083,
+              "latency_seconds": {
+                "max": 5.0,
+                "mean": 2.511111111111111,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 45,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 113.0
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 8185,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 3576,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_4": {
+              "input_tokens_all_attempts": 72858,
+              "input_tokens_first_attempts": 72858,
+              "latency_seconds": {
+                "max": 3.0,
+                "mean": 1.9555555555555555,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 45,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 88.0
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 5671,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 1118,
+              "retry_input_token_surcharge": 0
+            }
+          },
+          "B": {
+            "agent_1": {
+              "input_tokens_all_attempts": 102333,
+              "input_tokens_first_attempts": 102333,
+              "latency_seconds": {
+                "max": 12.0,
+                "mean": 2.3333333333333335,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 45,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 105.0
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 6462,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 1530,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_2": {
+              "input_tokens_all_attempts": 103953,
+              "input_tokens_first_attempts": 103953,
+              "latency_seconds": {
+                "max": 6.0,
+                "mean": 2.0,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 45,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 90.0
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 6308,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 1429,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_3": {
+              "input_tokens_all_attempts": 103728,
+              "input_tokens_first_attempts": 103728,
+              "latency_seconds": {
+                "max": 5.0,
+                "mean": 2.2444444444444445,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 45,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 101.0
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 7369,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 2816,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_4": {
+              "input_tokens_all_attempts": 103908,
+              "input_tokens_first_attempts": 103908,
+              "latency_seconds": {
+                "max": 5.0,
+                "mean": 2.5555555555555554,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 45,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 115.0
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 7749,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 2909,
+              "retry_input_token_surcharge": 0
+            }
+          },
+          "E": {
+            "agent_1": {
+              "input_tokens_all_attempts": 102333,
+              "input_tokens_first_attempts": 102333,
+              "latency_seconds": {
+                "max": 4.0,
+                "mean": 2.111111111111111,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 45,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 95.0
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 6702,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 1744,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_2": {
+              "input_tokens_all_attempts": 103953,
+              "input_tokens_first_attempts": 103953,
+              "latency_seconds": {
+                "max": 5.0,
+                "mean": 2.0444444444444443,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 45,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 92.0
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 6635,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 1703,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_3": {
+              "input_tokens_all_attempts": 103776,
+              "input_tokens_first_attempts": 103728,
+              "latency_seconds": {
+                "max": 7.0,
+                "mean": 2.2888888888888888,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 45,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 103.0
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 7534,
+              "provider_calls": 46,
+              "reasoning_token_observations": 46,
+              "reasoning_tokens_all_attempts": 3264,
+              "retry_input_token_surcharge": 48
+            },
+            "agent_4": {
+              "input_tokens_all_attempts": 103908,
+              "input_tokens_first_attempts": 103908,
+              "latency_seconds": {
+                "max": 6.0,
+                "mean": 2.6,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 45,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 117.0
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 7921,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 3163,
+              "retry_input_token_surcharge": 0
+            }
+          }
+        },
+        "by_condition": {
+          "A": {
+            "input_tokens_all_attempts": 291567,
+            "input_tokens_first_attempts": 291567,
+            "latency_seconds": {
+              "max": 5.0,
+              "mean": 2.316666666666667,
+              "median": 2.0,
+              "min": 1.0,
+              "n": 180,
+              "status": "measured_from_provider_created_at_and_completed_at",
+              "sum": 417.0
+            },
+            "logical_calls": 180,
+            "output_tokens_all_attempts": 28155,
+            "provider_calls": 180,
+            "reasoning_token_observations": 180,
+            "reasoning_tokens_all_attempts": 9733,
+            "retry_input_token_surcharge": 0
+          },
+          "B": {
+            "input_tokens_all_attempts": 413922,
+            "input_tokens_first_attempts": 413922,
+            "latency_seconds": {
+              "max": 12.0,
+              "mean": 2.283333333333333,
+              "median": 2.0,
+              "min": 1.0,
+              "n": 180,
+              "status": "measured_from_provider_created_at_and_completed_at",
+              "sum": 411.0
+            },
+            "logical_calls": 180,
+            "output_tokens_all_attempts": 27888,
+            "provider_calls": 180,
+            "reasoning_token_observations": 180,
+            "reasoning_tokens_all_attempts": 8684,
+            "retry_input_token_surcharge": 0
+          },
+          "E": {
+            "input_tokens_all_attempts": 413970,
+            "input_tokens_first_attempts": 413922,
+            "latency_seconds": {
+              "max": 7.0,
+              "mean": 2.261111111111111,
+              "median": 2.0,
+              "min": 1.0,
+              "n": 180,
+              "status": "measured_from_provider_created_at_and_completed_at",
+              "sum": 407.0
+            },
+            "logical_calls": 180,
+            "output_tokens_all_attempts": 28792,
+            "provider_calls": 181,
+            "reasoning_token_observations": 181,
+            "reasoning_tokens_all_attempts": 9874,
+            "retry_input_token_surcharge": 48
+          }
+        },
+        "by_fault": {
+          "A": {
+            "F1": {
+              "input_tokens_all_attempts": 59319,
+              "input_tokens_first_attempts": 59319,
+              "latency_seconds": {
+                "max": 4.0,
+                "mean": 2.5,
+                "median": 3.0,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 90.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 6439,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 2686,
+              "retry_input_token_surcharge": 0
+            },
+            "F10": {
+              "input_tokens_all_attempts": 59487,
+              "input_tokens_first_attempts": 59487,
+              "latency_seconds": {
+                "max": 5.0,
+                "mean": 2.2222222222222223,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 80.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 5698,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 1849,
+              "retry_input_token_surcharge": 0
+            },
+            "F13": {
+              "input_tokens_all_attempts": 59487,
+              "input_tokens_first_attempts": 59487,
+              "latency_seconds": {
+                "max": 5.0,
+                "mean": 2.5833333333333335,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 93.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 6432,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 2651,
+              "retry_input_token_surcharge": 0
+            },
+            "F8": {
+              "input_tokens_all_attempts": 59571,
+              "input_tokens_first_attempts": 59571,
+              "latency_seconds": {
+                "max": 4.0,
+                "mean": 2.611111111111111,
+                "median": 2.5,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 94.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 6397,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 2547,
+              "retry_input_token_surcharge": 0
+            },
+            "Normal": {
+              "input_tokens_all_attempts": 53703,
+              "input_tokens_first_attempts": 53703,
+              "latency_seconds": {
+                "max": 4.0,
+                "mean": 1.6666666666666667,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 60.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 3189,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 0,
+              "retry_input_token_surcharge": 0
+            }
+          },
+          "B": {
+            "F1": {
+              "input_tokens_all_attempts": 83790,
+              "input_tokens_first_attempts": 83790,
+              "latency_seconds": {
+                "max": 5.0,
+                "mean": 1.8333333333333333,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 66.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 4650,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 677,
+              "retry_input_token_surcharge": 0
+            },
+            "F10": {
+              "input_tokens_all_attempts": 83958,
+              "input_tokens_first_attempts": 83958,
+              "latency_seconds": {
+                "max": 4.0,
+                "mean": 2.0,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 72.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 4605,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 486,
+              "retry_input_token_surcharge": 0
+            },
+            "F13": {
+              "input_tokens_all_attempts": 83958,
+              "input_tokens_first_attempts": 83958,
+              "latency_seconds": {
+                "max": 5.0,
+                "mean": 2.638888888888889,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 95.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 6467,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 2439,
+              "retry_input_token_surcharge": 0
+            },
+            "F8": {
+              "input_tokens_all_attempts": 84042,
+              "input_tokens_first_attempts": 84042,
+              "latency_seconds": {
+                "max": 12.0,
+                "mean": 3.4166666666666665,
+                "median": 3.0,
+                "min": 2.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 123.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 8849,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 4877,
+              "retry_input_token_surcharge": 0
+            },
+            "Normal": {
+              "input_tokens_all_attempts": 78174,
+              "input_tokens_first_attempts": 78174,
+              "latency_seconds": {
+                "max": 3.0,
+                "mean": 1.5277777777777777,
+                "median": 1.0,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 55.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 3317,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 205,
+              "retry_input_token_surcharge": 0
+            }
+          },
+          "E": {
+            "F1": {
+              "input_tokens_all_attempts": 83790,
+              "input_tokens_first_attempts": 83790,
+              "latency_seconds": {
+                "max": 4.0,
+                "mean": 1.8055555555555556,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 65.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 4818,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 714,
+              "retry_input_token_surcharge": 0
+            },
+            "F10": {
+              "input_tokens_all_attempts": 83958,
+              "input_tokens_first_attempts": 83958,
+              "latency_seconds": {
+                "max": 3.0,
+                "mean": 1.8611111111111112,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 67.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 4852,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 695,
+              "retry_input_token_surcharge": 0
+            },
+            "F13": {
+              "input_tokens_all_attempts": 84006,
+              "input_tokens_first_attempts": 83958,
+              "latency_seconds": {
+                "max": 5.0,
+                "mean": 2.6666666666666665,
+                "median": 2.5,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 96.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 7031,
+              "provider_calls": 37,
+              "reasoning_token_observations": 37,
+              "reasoning_tokens_all_attempts": 3527,
+              "retry_input_token_surcharge": 48
+            },
+            "F8": {
+              "input_tokens_all_attempts": 84042,
+              "input_tokens_first_attempts": 84042,
+              "latency_seconds": {
+                "max": 6.0,
+                "mean": 3.2777777777777777,
+                "median": 3.0,
+                "min": 2.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 118.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 8845,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 4785,
+              "retry_input_token_surcharge": 0
+            },
+            "Normal": {
+              "input_tokens_all_attempts": 78174,
+              "input_tokens_first_attempts": 78174,
+              "latency_seconds": {
+                "max": 7.0,
+                "mean": 1.6944444444444444,
+                "median": 2.0,
+                "min": 1.0,
+                "n": 36,
+                "status": "measured_from_provider_created_at_and_completed_at",
+                "sum": 61.0
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 3246,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 153,
+              "retry_input_token_surcharge": 0
+            }
+          }
+        }
+      }
+    },
+    "experiment_2_qwen": {
+      "accuracy_key": "experiment_2_qwen",
+      "aggregate_predictions_per_condition": 60,
+      "consumer_model": "Qwen/Qwen3.8-27B-FP8",
+      "federated_payload_total_B_plus_E": {
+        "insight_record_deliveries": 2160,
+        "knowledge_rounds": 2,
+        "note": "two analytical conditions, each using the same static one-round payload volume; this is not two iterative training rounds",
+        "prompt_block_transfers": 360,
+        "repeated_source_consumer_transfers": 1080,
+        "total_payload_tokens_in_context": 267660,
+        "total_utf8_bytes": 849420
+      },
+      "per_agent_unseen_accuracy": {
+        "A": {
+          "agent_1": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          },
+          "agent_2": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          },
+          "agent_3": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          },
+          "agent_4": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          }
+        },
+        "B": {
+          "agent_1": {
+            "accuracy": 1.0,
+            "correct": 9,
+            "n": 9
+          },
+          "agent_2": {
+            "accuracy": 1.0,
+            "correct": 9,
+            "n": 9
+          },
+          "agent_3": {
+            "accuracy": 0.7777777777777778,
+            "correct": 7,
+            "n": 9
+          },
+          "agent_4": {
+            "accuracy": 1.0,
+            "correct": 9,
+            "n": 9
+          }
+        },
+        "E": {
+          "agent_1": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          },
+          "agent_2": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          },
+          "agent_3": {
+            "accuracy": 0.1111111111111111,
+            "correct": 1,
+            "n": 9
+          },
+          "agent_4": {
+            "accuracy": 0.0,
+            "correct": 0,
+            "n": 9
+          }
+        }
+      },
+      "physical_cases": 15,
+      "physical_fault_cases": 12,
+      "prompt_metrics": {
+        "A": {
+          "logical_calls": 180,
+          "mean_characters": 4873.5,
+          "mean_utf8_bytes": 4899.166666666667,
+          "source": "deterministic reconstruction verified against every frozen prompt hash",
+          "total_characters": 877230,
+          "total_utf8_bytes": 881850,
+          "unique_prompts": 60
+        },
+        "B": {
+          "logical_calls": 180,
+          "mean_characters": 7220.25,
+          "mean_utf8_bytes": 7258.666666666667,
+          "source": "deterministic reconstruction verified against every frozen prompt hash",
+          "total_characters": 1299645,
+          "total_utf8_bytes": 1306560,
+          "unique_prompts": 60
+        },
+        "E": {
+          "logical_calls": 180,
+          "mean_characters": 7220.25,
+          "mean_utf8_bytes": 7258.666666666667,
+          "source": "deterministic reconstruction verified against every frozen prompt hash",
+          "total_characters": 1299645,
+          "total_utf8_bytes": 1306560,
+          "unique_prompts": 60
+        }
+      },
+      "prompt_payload_ratio_B": {
+        "formula_bytes": "total repeated peer-block UTF-8 bytes / total reconstructed full-prompt UTF-8 bytes",
+        "formula_tokens": "total paired first-attempt B-A input-token delta / total B first-attempt input tokens",
+        "token_ratio": 0.31785956036909047,
+        "utf8_byte_ratio": 0.32505969875091845
+      },
+      "repetitions": 3,
+      "source_refs": [
+        "phase_b/exp2/qwen/inference/repetition_records.jsonl",
+        "phase_b/exp2/qwen/evaluation/evaluation_results.json",
+        "phase_b/exp2/qwen/config.json"
+      ],
+      "tokenizer_key": "qwen38_27b",
+      "transfers": {
+        "A": {
+          "insight_record_deliveries": 0,
+          "knowledge_rounds": 0,
+          "prompt_block_transfers": 0,
+          "repeated_source_consumer_transfers": 0,
+          "total_payload_tokens_in_context": 0,
+          "total_utf8_bytes": 0,
+          "unique_directed_source_consumer_edges": 0
+        },
+        "B": {
+          "insight_record_deliveries": 1080,
+          "knowledge_rounds": 1,
+          "prompt_block_transfers": 180,
+          "repeated_source_consumer_transfers": 540,
+          "token_measurement_model": "Qwen/Qwen3.8-27B-FP8",
+          "token_measurement_status": "exact provider-recorded paired first-attempt prompt delta",
+          "total_payload_tokens_in_context": 133830,
+          "total_utf8_bytes": 424710,
+          "unique_directed_source_consumer_edges": 12
+        },
+        "E": {
+          "insight_record_deliveries": 1080,
+          "knowledge_rounds": 1,
+          "prompt_block_transfers": 180,
+          "repeated_source_consumer_transfers": 540,
+          "token_measurement_model": "Qwen/Qwen3.8-27B-FP8",
+          "token_measurement_status": "exact provider-recorded paired first-attempt prompt delta",
+          "total_payload_tokens_in_context": 133830,
+          "total_utf8_bytes": 424710,
+          "unique_directed_source_consumer_edges": 12
+        }
+      },
+      "usage": {
+        "by_agent": {
+          "A": {
+            "agent_1": {
+              "input_tokens_all_attempts": 71160,
+              "input_tokens_first_attempts": 71160,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 34971,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 30267,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_2": {
+              "input_tokens_all_attempts": 71970,
+              "input_tokens_first_attempts": 71970,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 17055,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 12705,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_3": {
+              "input_tokens_all_attempts": 72330,
+              "input_tokens_first_attempts": 72330,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 25590,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 21204,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_4": {
+              "input_tokens_all_attempts": 71745,
+              "input_tokens_first_attempts": 71745,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 24150,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 19662,
+              "retry_input_token_surcharge": 0
+            }
+          },
+          "B": {
+            "agent_1": {
+              "input_tokens_all_attempts": 103740,
+              "input_tokens_first_attempts": 103740,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 34320,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 28833,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_2": {
+              "input_tokens_all_attempts": 105675,
+              "input_tokens_first_attempts": 105675,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 38310,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 32430,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_3": {
+              "input_tokens_all_attempts": 105945,
+              "input_tokens_first_attempts": 105945,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 38967,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 33237,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_4": {
+              "input_tokens_all_attempts": 105675,
+              "input_tokens_first_attempts": 105675,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 39108,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 33333,
+              "retry_input_token_surcharge": 0
+            }
+          },
+          "E": {
+            "agent_1": {
+              "input_tokens_all_attempts": 103740,
+              "input_tokens_first_attempts": 103740,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 36390,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 30705,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_2": {
+              "input_tokens_all_attempts": 105675,
+              "input_tokens_first_attempts": 105675,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 35010,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 29484,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_3": {
+              "input_tokens_all_attempts": 105945,
+              "input_tokens_first_attempts": 105945,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 41115,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 35532,
+              "retry_input_token_surcharge": 0
+            },
+            "agent_4": {
+              "input_tokens_all_attempts": 105675,
+              "input_tokens_first_attempts": 105675,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 45,
+              "output_tokens_all_attempts": 38664,
+              "provider_calls": 45,
+              "reasoning_token_observations": 45,
+              "reasoning_tokens_all_attempts": 32550,
+              "retry_input_token_surcharge": 0
+            }
+          }
+        },
+        "by_condition": {
+          "A": {
+            "input_tokens_all_attempts": 287205,
+            "input_tokens_first_attempts": 287205,
+            "latency_seconds": {
+              "max": null,
+              "mean": null,
+              "median": null,
+              "min": null,
+              "n": 0,
+              "status": "not_recorded",
+              "sum": null
+            },
+            "logical_calls": 180,
+            "output_tokens_all_attempts": 101766,
+            "provider_calls": 180,
+            "reasoning_token_observations": 180,
+            "reasoning_tokens_all_attempts": 83838,
+            "retry_input_token_surcharge": 0
+          },
+          "B": {
+            "input_tokens_all_attempts": 421035,
+            "input_tokens_first_attempts": 421035,
+            "latency_seconds": {
+              "max": null,
+              "mean": null,
+              "median": null,
+              "min": null,
+              "n": 0,
+              "status": "not_recorded",
+              "sum": null
+            },
+            "logical_calls": 180,
+            "output_tokens_all_attempts": 150705,
+            "provider_calls": 180,
+            "reasoning_token_observations": 180,
+            "reasoning_tokens_all_attempts": 127833,
+            "retry_input_token_surcharge": 0
+          },
+          "E": {
+            "input_tokens_all_attempts": 421035,
+            "input_tokens_first_attempts": 421035,
+            "latency_seconds": {
+              "max": null,
+              "mean": null,
+              "median": null,
+              "min": null,
+              "n": 0,
+              "status": "not_recorded",
+              "sum": null
+            },
+            "logical_calls": 180,
+            "output_tokens_all_attempts": 151179,
+            "provider_calls": 180,
+            "reasoning_token_observations": 180,
+            "reasoning_tokens_all_attempts": 128271,
+            "retry_input_token_surcharge": 0
+          }
+        },
+        "by_fault": {
+          "A": {
+            "F1": {
+              "input_tokens_all_attempts": 58365,
+              "input_tokens_first_attempts": 58365,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 29040,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 25290,
+              "retry_input_token_surcharge": 0
+            },
+            "F10": {
+              "input_tokens_all_attempts": 58677,
+              "input_tokens_first_attempts": 58677,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 19875,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 16053,
+              "retry_input_token_surcharge": 0
+            },
+            "F13": {
+              "input_tokens_all_attempts": 58581,
+              "input_tokens_first_attempts": 58581,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 18156,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 14445,
+              "retry_input_token_surcharge": 0
+            },
+            "F8": {
+              "input_tokens_all_attempts": 58677,
+              "input_tokens_first_attempts": 58677,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 23565,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 19890,
+              "retry_input_token_surcharge": 0
+            },
+            "Normal": {
+              "input_tokens_all_attempts": 52905,
+              "input_tokens_first_attempts": 52905,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 11130,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 8160,
+              "retry_input_token_surcharge": 0
+            }
+          },
+          "B": {
+            "F1": {
+              "input_tokens_all_attempts": 85131,
+              "input_tokens_first_attempts": 85131,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 25161,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 20460,
+              "retry_input_token_surcharge": 0
+            },
+            "F10": {
+              "input_tokens_all_attempts": 85443,
+              "input_tokens_first_attempts": 85443,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 26505,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 21579,
+              "retry_input_token_surcharge": 0
+            },
+            "F13": {
+              "input_tokens_all_attempts": 85347,
+              "input_tokens_first_attempts": 85347,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 38508,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 33687,
+              "retry_input_token_surcharge": 0
+            },
+            "F8": {
+              "input_tokens_all_attempts": 85443,
+              "input_tokens_first_attempts": 85443,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 41910,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 36828,
+              "retry_input_token_surcharge": 0
+            },
+            "Normal": {
+              "input_tokens_all_attempts": 79671,
+              "input_tokens_first_attempts": 79671,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 18621,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 15279,
+              "retry_input_token_surcharge": 0
+            }
+          },
+          "E": {
+            "F1": {
+              "input_tokens_all_attempts": 85131,
+              "input_tokens_first_attempts": 85131,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 30129,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 25200,
+              "retry_input_token_surcharge": 0
+            },
+            "F10": {
+              "input_tokens_all_attempts": 85443,
+              "input_tokens_first_attempts": 85443,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 23040,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 18039,
+              "retry_input_token_surcharge": 0
+            },
+            "F13": {
+              "input_tokens_all_attempts": 85347,
+              "input_tokens_first_attempts": 85347,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 37125,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 32502,
+              "retry_input_token_surcharge": 0
+            },
+            "F8": {
+              "input_tokens_all_attempts": 85443,
+              "input_tokens_first_attempts": 85443,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 41778,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 36828,
+              "retry_input_token_surcharge": 0
+            },
+            "Normal": {
+              "input_tokens_all_attempts": 79671,
+              "input_tokens_first_attempts": 79671,
+              "latency_seconds": {
+                "max": null,
+                "mean": null,
+                "median": null,
+                "min": null,
+                "n": 0,
+                "status": "not_recorded",
+                "sum": null
+              },
+              "logical_calls": 36,
+              "output_tokens_all_attempts": 19107,
+              "provider_calls": 36,
+              "reasoning_token_observations": 36,
+              "reasoning_tokens_all_attempts": 15702,
+              "retry_input_token_surcharge": 0
+            }
+          }
+        }
+      }
+    }
+  },
+  "git_head_observed": "9a44820e7672831fe7468965c9c9653237867306",
+  "historical_frozen_refs": {
+    "exp3-v2-inference-frozen-001": "9a7ccaa95bae8c0d2d00dc0959e177eb90a5cd61",
+    "exp3-v2-results-frozen-001": "3781d6801191757a47bd919f0e4e9705b5895769",
+    "exp3_v2_verbalization_payload_commit": "5be0c3c14e7e1601708486d56c2cb4cee29658ab"
+  },
+  "main_document_sources": [
+    "docs/fot_walkthrough_conversazione.md",
+    "docs/fot_walkthrough.html",
+    "docs/lit_review/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md",
+    "docs/lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md",
+    "docs/lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md"
+  ],
+  "measurement_classes": {
+    "estimated": "standalone per-insight and Condition C payload token counts",
+    "exact_in_context": "paired A/B/E first-attempt input-token deltas",
+    "interpretive": "cross-paradigm comparison and communication-round framing",
+    "measured": "characters, UTF-8 bytes, words, lines, provider usage, prompt hashes, accuracies"
+  },
+  "missing_data": [
+    "standalone GPT-5.6-terra tokenizer name/version/files",
+    "repository-frozen Qwen tokenizer files/config (model revision is frozen)",
+    "reasoning-token breakdown for Condition C",
+    "usable latency for Qwen and Condition C",
+    "applicable monetary prices or charged amounts",
+    "concrete isomorphic FedMD/FedProto/LoRA configurations",
+    "Condition C on EXP3_V2"
+  ],
+  "payload": {
+    "B_blocks": {
+      "agent_1": {
+        "characters": 2289,
+        "insight_count": 6,
+        "lines": 46,
+        "sha256": "3540fe0fb55cc772b774d80590d4a0b25ef7d87f3bb395dca987307f7a037677",
+        "utf8_bytes": 2304,
+        "words_unicode_regex": 240
+      },
+      "agent_2": {
+        "characters": 2327,
+        "insight_count": 6,
+        "lines": 46,
+        "sha256": "57b81eff44d186df93817c584fd4e77a8c9cbed53ce8ee119566862371121821",
+        "utf8_bytes": 2336,
+        "words_unicode_regex": 244
+      },
+      "agent_3": {
+        "characters": 2410,
+        "insight_count": 6,
+        "lines": 46,
+        "sha256": "3dccc58bd3fd9b486491551b75cf314a9b1c0432e8191b9212160072b8685e34",
+        "utf8_bytes": 2420,
+        "words_unicode_regex": 258
+      },
+      "agent_4": {
+        "characters": 2361,
+        "insight_count": 6,
+        "lines": 46,
+        "sha256": "a47fb046308eeaaeff113a1d4c34d4dba4642e656275fcbdb11bfe65a2d8f057",
+        "utf8_bytes": 2378,
+        "words_unicode_regex": 250
+      }
+    },
+    "E_blocks": {
+      "agent_1": {
+        "characters": 2289,
+        "insight_count": 6,
+        "lines": 46,
+        "sha256": "f5c6695d2bea12d4d7be1937989f4440eb97e5bb20782e02b6e568ce635fb489",
+        "utf8_bytes": 2304,
+        "words_unicode_regex": 240
+      },
+      "agent_2": {
+        "characters": 2327,
+        "insight_count": 6,
+        "lines": 46,
+        "sha256": "bf1190615709f5394269307f2ecd86d1bca2f4d95e3a4e214577e82af05e5466",
+        "utf8_bytes": 2336,
+        "words_unicode_regex": 244
+      },
+      "agent_3": {
+        "characters": 2410,
+        "insight_count": 6,
+        "lines": 46,
+        "sha256": "f9a972cdd746bc68c49bbd1b1787d56e76f31ca75ecb3891b423cb05dc7fbfa5",
+        "utf8_bytes": 2420,
+        "words_unicode_regex": 258
+      },
+      "agent_4": {
+        "characters": 2361,
+        "insight_count": 6,
+        "lines": 46,
+        "sha256": "6b40a98210f2c3810edc0d137f9773d90a3237134ba90450ad3ccbeca7b4879a",
+        "utf8_bytes": 2378,
+        "words_unicode_regex": 250
+      }
+    },
+    "all_receiver_unit_B": {
+      "characters": 9387,
+      "gpt_tokens": 2719,
+      "insight_record_deliveries": 24,
+      "qwen_tokens": 2974,
+      "utf8_bytes": 9438
+    },
+    "serialization": "PEER INSIGHTS\\n + json.dumps(records, ensure_ascii=False, indent=2) + \\n\\n",
+    "source_refs": [
+      "phase_b/insights/final_local_insights.json",
+      "phase_b/insights/peer_libraries/agent_*_[BE].json",
+      "phase_b/conditions/builders.py"
+    ],
+    "unique_insights": {
+      "by_source_agent": {
+        "agent_1": {
+          "characters": {
+            "max": 412,
+            "mean": 401.0,
+            "median": 401.0,
+            "min": 390,
+            "n": 2,
+            "pstdev": 11.0
+          },
+          "count": 2,
+          "gpt56_terra_tokens_estimated": {
+            "max": 119,
+            "mean": 116.0,
+            "median": 116.0,
+            "min": 113,
+            "n": 2,
+            "pstdev": 3.0
+          },
+          "lines": {
+            "max": 7,
+            "mean": 7.0,
+            "median": 7.0,
+            "min": 7,
+            "n": 2,
+            "pstdev": 0.0
+          },
+          "qwen38_27b_tokens_estimated": {
+            "max": 130,
+            "mean": 127.0,
+            "median": 127.0,
+            "min": 124,
+            "n": 2,
+            "pstdev": 3.0
+          },
+          "utf8_bytes": {
+            "max": 412,
+            "mean": 402.0,
+            "median": 402.0,
+            "min": 392,
+            "n": 2,
+            "pstdev": 10.0
+          },
+          "words_unicode_regex": {
+            "max": 46,
+            "mean": 45.0,
+            "median": 45.0,
+            "min": 44,
+            "n": 2,
+            "pstdev": 1.0
+          }
+        },
+        "agent_2": {
+          "characters": {
+            "max": 382,
+            "mean": 382.0,
+            "median": 382.0,
+            "min": 382,
+            "n": 2,
+            "pstdev": 0.0
+          },
+          "count": 2,
+          "gpt56_terra_tokens_estimated": {
+            "max": 111,
+            "mean": 111.0,
+            "median": 111.0,
+            "min": 111,
+            "n": 2,
+            "pstdev": 0.0
+          },
+          "lines": {
+            "max": 7,
+            "mean": 7.0,
+            "median": 7.0,
+            "min": 7,
+            "n": 2,
+            "pstdev": 0.0
+          },
+          "qwen38_27b_tokens_estimated": {
+            "max": 122,
+            "mean": 122.0,
+            "median": 122.0,
+            "min": 122,
+            "n": 2,
+            "pstdev": 0.0
+          },
+          "utf8_bytes": {
+            "max": 386,
+            "mean": 386.0,
+            "median": 386.0,
+            "min": 386,
+            "n": 2,
+            "pstdev": 0.0
+          },
+          "words_unicode_regex": {
+            "max": 46,
+            "mean": 43.0,
+            "median": 43.0,
+            "min": 40,
+            "n": 2,
+            "pstdev": 3.0
+          }
+        },
+        "agent_3": {
+          "characters": {
+            "max": 361,
+            "mean": 340.5,
+            "median": 340.5,
+            "min": 320,
+            "n": 2,
+            "pstdev": 20.5
+          },
+          "count": 2,
+          "gpt56_terra_tokens_estimated": {
+            "max": 106,
+            "mean": 99.0,
+            "median": 99.0,
+            "min": 92,
+            "n": 2,
+            "pstdev": 7.0
+          },
+          "lines": {
+            "max": 7,
+            "mean": 7.0,
+            "median": 7.0,
+            "min": 7,
+            "n": 2,
+            "pstdev": 0.0
+          },
+          "qwen38_27b_tokens_estimated": {
+            "max": 116,
+            "mean": 108.5,
+            "median": 108.5,
+            "min": 101,
+            "n": 2,
+            "pstdev": 7.5
+          },
+          "utf8_bytes": {
+            "max": 367,
+            "mean": 344.0,
+            "median": 344.0,
+            "min": 321,
+            "n": 2,
+            "pstdev": 23.0
+          },
+          "words_unicode_regex": {
+            "max": 39,
+            "mean": 36.0,
+            "median": 36.0,
+            "min": 33,
+            "n": 2,
+            "pstdev": 3.0
+          }
+        },
+        "agent_4": {
+          "characters": {
+            "max": 378,
+            "mean": 365.0,
+            "median": 365.0,
+            "min": 352,
+            "n": 2,
+            "pstdev": 13.0
+          },
+          "count": 2,
+          "gpt56_terra_tokens_estimated": {
+            "max": 109,
+            "mean": 105.0,
+            "median": 105.0,
+            "min": 101,
+            "n": 2,
+            "pstdev": 4.0
+          },
+          "lines": {
+            "max": 7,
+            "mean": 7.0,
+            "median": 7.0,
+            "min": 7,
+            "n": 2,
+            "pstdev": 0.0
+          },
+          "qwen38_27b_tokens_estimated": {
+            "max": 119,
+            "mean": 115.0,
+            "median": 115.0,
+            "min": 111,
+            "n": 2,
+            "pstdev": 4.0
+          },
+          "utf8_bytes": {
+            "max": 378,
+            "mean": 365.0,
+            "median": 365.0,
+            "min": 352,
+            "n": 2,
+            "pstdev": 13.0
+          },
+          "words_unicode_regex": {
+            "max": 40,
+            "mean": 40.0,
+            "median": 40.0,
+            "min": 40,
+            "n": 2,
+            "pstdev": 0.0
+          }
+        }
+      },
+      "definition": "each complete insight JSON object serialized with ensure_ascii=False, indent=2, without array/header framing",
+      "overall_stats": {
+        "characters": {
+          "max": 412,
+          "mean": 372.125,
+          "median": 380.0,
+          "min": 320,
+          "n": 8,
+          "pstdev": 25.944351504711
+        },
+        "gpt56_terra_tokens_estimated": {
+          "max": 119,
+          "mean": 107.75,
+          "median": 110.0,
+          "min": 92,
+          "n": 8,
+          "pstdev": 7.693341276714559
+        },
+        "lines": {
+          "max": 7,
+          "mean": 7.0,
+          "median": 7.0,
+          "min": 7,
+          "n": 8,
+          "pstdev": 0.0
+        },
+        "qwen38_27b_tokens_estimated": {
+          "max": 130,
+          "mean": 118.125,
+          "median": 120.5,
+          "min": 101,
+          "n": 8,
+          "pstdev": 8.328227602557462
+        },
+        "utf8_bytes": {
+          "max": 412,
+          "mean": 374.25,
+          "median": 382.0,
+          "min": 321,
+          "n": 8,
+          "pstdev": 26.013217794036937
+        },
+        "words_unicode_regex": {
+          "max": 46,
+          "mean": 41.0,
+          "median": 40.0,
+          "min": 33,
+          "n": 8,
+          "pstdev": 4.031128874149275
+        }
+      },
+      "records": [
+        {
+          "characters": 390,
+          "gpt56_terra_tokens_estimated": 113,
+          "insight_id": "INS-001",
+          "lines": 7,
+          "pseudolabel": "CLS-ZOGAA",
+          "qwen38_27b_tokens_estimated": 124,
+          "sha256": "c4cd1a9bd0ba3eb7a6eb92654e3ec03515e590067b806166600992b0462f6801",
+          "source_agent": "agent_1",
+          "token_estimate_method": "receiver-block empirical token/UTF-8-byte rate; not standalone tokenizer output",
+          "utf8_bytes": 392,
+          "words_unicode_regex": 44
+        },
+        {
+          "characters": 412,
+          "gpt56_terra_tokens_estimated": 119,
+          "insight_id": "INS-002",
+          "lines": 7,
+          "pseudolabel": "CLS-ZOGAA",
+          "qwen38_27b_tokens_estimated": 130,
+          "sha256": "0e4e6bcf198bddb4f9915782e298acaef1b7c35d805753d284210b9d9c7b205b",
+          "source_agent": "agent_1",
+          "token_estimate_method": "receiver-block empirical token/UTF-8-byte rate; not standalone tokenizer output",
+          "utf8_bytes": 412,
+          "words_unicode_regex": 46
+        },
+        {
+          "characters": 382,
+          "gpt56_terra_tokens_estimated": 111,
+          "insight_id": "INS-003",
+          "lines": 7,
+          "pseudolabel": "CLS-OJNSG",
+          "qwen38_27b_tokens_estimated": 122,
+          "sha256": "ea79f0a117e9e98a2d2a2ed398a335049a2dd29d84c0857a1751d1ecca966cb3",
+          "source_agent": "agent_2",
+          "token_estimate_method": "receiver-block empirical token/UTF-8-byte rate; not standalone tokenizer output",
+          "utf8_bytes": 386,
+          "words_unicode_regex": 46
+        },
+        {
+          "characters": 382,
+          "gpt56_terra_tokens_estimated": 111,
+          "insight_id": "INS-004",
+          "lines": 7,
+          "pseudolabel": "CLS-OJNSG",
+          "qwen38_27b_tokens_estimated": 122,
+          "sha256": "a27d3a45c7c5e1c93f284fb300fbc57f1c1bf40801ca972f1e413cb75ed08785",
+          "source_agent": "agent_2",
+          "token_estimate_method": "receiver-block empirical token/UTF-8-byte rate; not standalone tokenizer output",
+          "utf8_bytes": 386,
+          "words_unicode_regex": 40
+        },
+        {
+          "characters": 320,
+          "gpt56_terra_tokens_estimated": 92,
+          "insight_id": "INS-005",
+          "lines": 7,
+          "pseudolabel": "CLS-R463B",
+          "qwen38_27b_tokens_estimated": 101,
+          "sha256": "100bdb01bee4ee4b58357cf5498e55391c1a3541c9d5ffa492d29167c265ae36",
+          "source_agent": "agent_3",
+          "token_estimate_method": "receiver-block empirical token/UTF-8-byte rate; not standalone tokenizer output",
+          "utf8_bytes": 321,
+          "words_unicode_regex": 33
+        },
+        {
+          "characters": 361,
+          "gpt56_terra_tokens_estimated": 106,
+          "insight_id": "INS-006",
+          "lines": 7,
+          "pseudolabel": "CLS-R463B",
+          "qwen38_27b_tokens_estimated": 116,
+          "sha256": "76f6eb7a8907a9069280cc8c868cc223015678b3fbc70127ad467cde159a40c8",
+          "source_agent": "agent_3",
+          "token_estimate_method": "receiver-block empirical token/UTF-8-byte rate; not standalone tokenizer output",
+          "utf8_bytes": 367,
+          "words_unicode_regex": 39
+        },
+        {
+          "characters": 352,
+          "gpt56_terra_tokens_estimated": 101,
+          "insight_id": "INS-007",
+          "lines": 7,
+          "pseudolabel": "CLS-Z3ISU",
+          "qwen38_27b_tokens_estimated": 111,
+          "sha256": "57d1f7bf5113c8ed5dfda68f9351aef61a6c82e90e7af5bd5bc45a2d589fc431",
+          "source_agent": "agent_4",
+          "token_estimate_method": "receiver-block empirical token/UTF-8-byte rate; not standalone tokenizer output",
+          "utf8_bytes": 352,
+          "words_unicode_regex": 40
+        },
+        {
+          "characters": 378,
+          "gpt56_terra_tokens_estimated": 109,
+          "insight_id": "INS-008",
+          "lines": 7,
+          "pseudolabel": "CLS-Z3ISU",
+          "qwen38_27b_tokens_estimated": 119,
+          "sha256": "46afa28bcef37947c74c2dee8635585f8bce94325f293516ca596af541d59dbe",
+          "source_agent": "agent_4",
+          "token_estimate_method": "receiver-block empirical token/UTF-8-byte rate; not standalone tokenizer output",
+          "utf8_bytes": 378,
+          "words_unicode_regex": 40
+        }
+      ]
+    },
+    "unique_library_artifact": {
+      "characters": 3108,
+      "lines": 58,
+      "sha256": "b7ea847ccaf72b04c407ae4878924719c5363d4ccc6851d3d5fef79386e4bcfd",
+      "utf8_bytes": 3125,
+      "words_unicode_regex": 328
+    },
+    "word_rule": "\\b[^\\W_]+(?:[’'-][^\\W_]+)*\\b"
+  },
+  "producer_cost": {
+    "by_agent_and_fault": {
+      "agent_1": {
+        "calls": 1,
+        "fault": "F1",
+        "input_tokens": 1961,
+        "insights_produced": 2,
+        "latency_observations": 1,
+        "latency_seconds_sum": 2.0,
+        "output_tokens": 220,
+        "reasoning_tokens": 0,
+        "source": "phase_b/insights/generation_runs.json"
+      },
+      "agent_2": {
+        "calls": 1,
+        "fault": "F8",
+        "input_tokens": 2002,
+        "insights_produced": 2,
+        "latency_observations": 1,
+        "latency_seconds_sum": 3.0,
+        "output_tokens": 201,
+        "reasoning_tokens": 0,
+        "source": "phase_b/insights/generation_runs.json"
+      },
+      "agent_3": {
+        "calls": 1,
+        "fault": "F10",
+        "input_tokens": 1996,
+        "insights_produced": 2,
+        "latency_observations": 1,
+        "latency_seconds_sum": 2.0,
+        "output_tokens": 204,
+        "reasoning_tokens": 0,
+        "source": "phase_b/insights/generation_runs.json"
+      },
+      "agent_4": {
+        "calls": 1,
+        "fault": "F13",
+        "input_tokens": 1995,
+        "insights_produced": 2,
+        "latency_observations": 1,
+        "latency_seconds_sum": 2.0,
+        "output_tokens": 195,
+        "reasoning_tokens": 0,
+        "source": "phase_b/insights/generation_runs.json"
+      }
+    },
+    "calls": 4,
+    "input_tokens": 7954,
+    "latency_observations": 4,
+    "latency_seconds_sum": 9.0,
+    "monetary_cost": null,
+    "monetary_cost_status": "not_available: no applicable price snapshot or charged amount is frozen in the repository",
+    "one_time_frozen_production": true,
+    "output_tokens": 820,
+    "reasoning_tokens": 0
+  },
+  "pseudolabel_mapping": {
+    "real_to_opaque": {
+      "F1": "CLS-ZOGAA",
+      "F10": "CLS-R463B",
+      "F13": "CLS-Z3ISU",
+      "F8": "CLS-OJNSG"
+    },
+    "source": "phase_b/config/evaluator_side/pseudolabel_mapping.json"
+  },
+  "repository_root": "/Users/luker/fot-tep",
+  "schema_version": "1.0",
+  "tokenization": {
+    "gpt56_terra": {
+      "api": "OpenAI Responses API /v1/responses",
+      "configuration": {
+        "reasoning_effort": "medium",
+        "seed": null,
+        "temperature": null
+      },
+      "in_context_delta": {
+        "B": {
+          "agent_1": 664,
+          "agent_2": 684,
+          "agent_3": 681,
+          "agent_4": 690
+        },
+        "E": {
+          "agent_1": 664,
+          "agent_2": 684,
+          "agent_3": 681,
+          "agent_4": 690
+        }
+      },
+      "model": "gpt-5.6-terra",
+      "sdk_version": "3.6.0",
+      "standalone_estimate_tokens_per_utf8_byte": 0.2880906971816063,
+      "tokenizer_name": null,
+      "tokenizer_status": "not frozen/identified; exact counts come from provider usage logs",
+      "tokenizer_version": null
+    },
+    "measurement_note": "B/E token values are exact paired first-attempt in-context deltas. Standalone per-insight and C values are estimates, never exact claims.",
+    "qwen38_27b": {
+      "api": "OpenAI-compatible Chat Completions",
+      "configuration": {
+        "max_tokens": 1536,
+        "seed": 20260829,
+        "temperature": 0.0,
+        "thinking_token_budget": 1024
+      },
+      "in_context_delta": {
+        "B": {
+          "agent_1": 724,
+          "agent_2": 749,
+          "agent_3": 747,
+          "agent_4": 754
+        },
+        "E": {
+          "agent_1": 724,
+          "agent_2": 749,
+          "agent_3": 747,
+          "agent_4": 754
+        }
+      },
+      "model": "Qwen/Qwen3.8-27B-FP8",
+      "model_revision": "017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+      "sdk_version": "3.8.0",
+      "served_model": "fot-exp2-consumer",
+      "server": "vLLM 0.28.0",
+      "standalone_estimate_tokens_per_utf8_byte": 0.31510913329095147,
+      "tokenizer_files_frozen_in_repository": false,
+      "tokenizer_name": "server tokenizer for frozen model revision",
+      "tokenizer_status": "exact prompt counts recorded by vLLM; tokenizer files/config are not repository artifacts"
+    }
+  },
+  "validation": {
+    "checks": [
+      "minimal UTF-8/word/line fixture",
+      "minimal equal-length semantic-derangement fixture",
+      "current frozen inference hashes (104 files)",
+      "known frozen routing: 8 unique, 6/receiver, no self, 3 deliveries/insight, 9438 B bytes/unit",
+      "explicit B/E structural and byte-level control",
+      "frozen repetition record counts 540/1080/540",
+      "paired exact token deltas constant and B/E-equal",
+      "all A/B/E prompt hashes reconstructed and verified",
+      "all Condition C prompt hashes reconstructed and verified",
+      "per-agent unseen accuracies reconcile to frozen totals"
+    ],
+    "hash_verified_current_files": [
+      "phase_b/final_evaluation/inference/aggregate_records.jsonl",
+      "phase_b/final_evaluation/inference/execution_metadata.json",
+      "phase_b/final_evaluation/inference/repetition_records.jsonl",
+      "phase_b/exp2/qwen/inference/aggregate_records.jsonl",
+      "phase_b/exp2/qwen/inference/execution_metadata.json",
+      "phase_b/exp2/qwen/inference/repetition_records.jsonl",
+      "phase_b/config/phase_b_protocol_frozen.json",
+      "phase_b/PHASE_B_PROTOCOL_FREEZE.md",
+      "phase_b/FINAL_EVALUATION_RUNBOOK.md",
+      "phase_b/config/protocol_config.json",
+      "phase_b/config/protocol_config.schema.json",
+      "phase_b/config/protocol.py",
+      "phase_b/config/evaluator_side/pseudolabel_mapping.json",
+      "phase_b/config/evaluator_side/local_example_sources.json",
+      "phase_b/config/evaluator_side/condition_e_derangements.json",
+      "phase_b/config/execution_config.json",
+      "phase_b/local_knowledge/local_examples.json",
+      "phase_b/local_knowledge/build_local_examples.py",
+      "phase_b/prompts/isolated_A.txt",
+      "phase_b/prompts/fot_B.txt",
+      "phase_b/prompts/corrupted_E.txt",
+      "phase_b/prompts/insight_generation.txt",
+      "phase_b/prompts/leakage.py",
+      "phase_b/insights/insight.schema.json",
+      "phase_b/insights/insight_generation.openai.schema.json",
+      "phase_b/insights/final_local_insights.json",
+      "phase_b/insights/generation_runs.json",
+      "phase_b/insights/final_insight_hashes.json",
+      "phase_b/insights/FINAL_INSIGHT_GENERATION_REPORT.md",
+      "phase_b/insights/library.py",
+      "phase_b/insights/input_bundles/agent_1.json",
+      "phase_b/insights/input_bundles/agent_2.json",
+      "phase_b/insights/input_bundles/agent_3.json",
+      "phase_b/insights/input_bundles/agent_4.json",
+      "phase_b/insights/peer_libraries/agent_1_B.json",
+      "phase_b/insights/peer_libraries/agent_1_E.json",
+      "phase_b/insights/peer_libraries/agent_2_B.json",
+      "phase_b/insights/peer_libraries/agent_2_E.json",
+      "phase_b/insights/peer_libraries/agent_3_B.json",
+      "phase_b/insights/peer_libraries/agent_3_E.json",
+      "phase_b/insights/peer_libraries/agent_4_B.json",
+      "phase_b/insights/peer_libraries/agent_4_E.json",
+      "phase_b/execution/generate_final_insights.py",
+      "phase_b/execution/openai_adapter.py",
+      "phase_b/conditions/diagnostic_output.schema.json",
+      "phase_b/conditions/diagnostic_output.openai.schema.json",
+      "phase_b/conditions/parser.py",
+      "phase_b/conditions/retry.py",
+      "phase_b/conditions/builders.py",
+      "phase_b/evaluation/aggregation.py",
+      "phase_b/evaluation/metrics.py",
+      "phase_b/evaluation/bootstrap.py",
+      "phase_b/evaluation/records.py",
+      "phase_b/evaluation/run_record.schema.json",
+      "phase_b/evaluation/token_logging.py",
+      "phase_b/heldout/phase_b_heldout_manifest.csv",
+      "phase_b/heldout/PHASE_B_HELDOUT_FREEZE.md",
+      "phase_b/heldout/verify_heldout_integrity.py",
+      "code/verbalizer_config_v2.json",
+      "code/tep_verbalize_v2.py",
+      "code/evaluate_verbalizer_v2.py",
+      "code/tep_features.py",
+      "phase_b/final_evaluation/EVALUATION_REPORT.md",
+      "phase_b/final_evaluation/bootstrap_results.json",
+      "phase_b/final_evaluation/confusion_matrices.json",
+      "phase_b/final_evaluation/evaluation_results.json",
+      "phase_b/final_evaluation/per_agent_metrics.csv",
+      "phase_b/final_evaluation/primary_metrics.csv",
+      "phase_b/final_evaluation/secondary_metrics.csv",
+      "phase_b/final_evaluation/transfer_counts.csv",
+      "phase_b/exp2/qwen/evaluation/EVALUATION_REPORT.md",
+      "phase_b/exp2/qwen/evaluation/bootstrap_results.json",
+      "phase_b/exp2/qwen/evaluation/confusion_matrices.json",
+      "phase_b/exp2/qwen/evaluation/evaluation_results.json",
+      "phase_b/exp2/qwen/evaluation/per_agent_metrics.csv",
+      "phase_b/exp2/qwen/evaluation/primary_metrics.csv",
+      "phase_b/exp2/qwen/evaluation/secondary_metrics.csv",
+      "phase_b/exp2/qwen/evaluation/transfer_counts.csv",
+      "icl/prompts/pooled_C.txt",
+      "icl/pooled_libraries/pooled_examples.json",
+      "icl/pooled_libraries/pooled_insights.json",
+      "icl/config/condition_c_config.json",
+      "phase_b/conditions/diagnostic_output.openai.schema.json",
+      "icl/conditions/builder_c.py",
+      "icl/runner/build_c_schedule.py",
+      "icl/runner/run_c_inference.py",
+      "icl/runner/records_c.py",
+      "icl/schemas/c_run_record.schema.json",
+      "phase_b/conditions/parser.py",
+      "phase_b/conditions/retry.py",
+      "phase_b/prompts/leakage.py",
+      "phase_b/config/execution_config.json",
+      "phase_b/execution/openai_adapter.py",
+      "phase_b/heldout/phase_b_heldout_manifest.csv",
+      "icl/full_evaluation/c_schedule.json",
+      "icl/full_evaluation/protocol_amendment_c.md",
+      "icl/full_evaluation/protocol_amendment_c.json",
+      "icl/tests/test_builder_c.py",
+      "icl/tests/test_records_c.py",
+      "icl/tests/test_build_c_schedule.py",
+      "icl/tests/test_run_c_inference.py",
+      "icl/inference/c_records.jsonl",
+      "icl/inference/c_aggregate_records.jsonl",
+      "icl/full_evaluation/evaluation_results_c.json"
+    ],
+    "status": "PASS"
+  }
+}

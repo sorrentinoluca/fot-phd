@@ -1267,6 +1267,124 @@ Il verdetto **GO-with-reservations** della review esterna riflette proprio quest
 
 ---
 
+## Caratterizzazione del payload comunicativo FoT–TEP
+
+Questa sezione quantifica la comunicazione usando **soltanto gli artefatti frozen**: non sono state eseguite nuove inferenze LLM e nessun risultato sperimentale è stato modificato. L'unità primaria è il blocco realmente inserito nel prompt del consumer: `PEER INSIGHTS\n` + array JSON UTF-8 indentato + due newline finali. I prompt A/B/E e C sono stati ricostruiti deterministicamente e tutti gli hash sono stati verificati contro i prediction log.
+
+Gli output completi e machine-readable sono il [report di caratterizzazione](../analysis/communication_characterization/COMMUNICATION_PAYLOAD_CHARACTERIZATION.md), il [CSV](../analysis/communication_characterization/communication_payload_metrics.csv) e il [riepilogo JSON](../analysis/communication_characterization/communication_payload_summary.json). Si rigenerano con un solo comando:
+
+```bash
+python analysis/communication_characterization/characterize_payload.py
+```
+
+### Payload prodotto e ricevuto
+
+La libreria contiene **8 insight unici, 2 per producer**. L'artefatto completo occupa 3.108 caratteri e 3.125 byte UTF-8, inclusa la newline terminale. Ogni consumer riceve i 6 insight prodotti dai tre peer:
+
+| Consumer | Insight | Caratteri | Byte UTF-8 | Parole | Righe | Token GPT* | Token Qwen* |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| agent_1 | 6 | 2.289 | 2.304 | 240 | 46 | 664 | 724 |
+| agent_2 | 6 | 2.327 | 2.336 | 244 | 46 | 684 | 749 |
+| agent_3 | 6 | 2.410 | 2.420 | 258 | 46 | 681 | 747 |
+| agent_4 | 6 | 2.361 | 2.378 | 250 | 46 | 690 | 754 |
+| **Unità completa, 4 receiver** | **24 consegne** | **9.387** | **9.438** | — | — | **2.719** | **2.974** |
+
+\* I token sono incrementi **esatti in contesto** B−A ricavati dai log del provider, non tokenizzazioni standalone del solo blocco. Per GPT-5.6-terra il nome/versione del tokenizer non è frozen; per Qwen è frozen la revisione `017b9c7af6b5689d5dd426a76e0bc077eb5ca20a`, ma non i file del tokenizer. Le stime standalone per insight non vanno presentate come misure esatte.
+
+Statistiche sui singoli oggetti insight JSON, escluso il framing dell'array/header:
+
+| Metrica | Media | Mediana | Min | Max | Dev. std. popolazione |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Caratteri | 372,12 | 380,00 | 320 | 412 | 25,94 |
+| Byte UTF-8 | 374,25 | 382,00 | 321 | 412 | 26,01 |
+| Parole | 41,00 | 40,00 | 33 | 46 | 4,03 |
+| Righe | 7,00 | 7,00 | 7 | 7 | 0,00 |
+| Token GPT stimati | 107,75 | 110,00 | 92 | 119 | 7,69 |
+| Token Qwen stimati | 118,12 | 120,50 | 101 | 130 | 8,33 |
+
+La regola per le parole è `\b[^\W_]+(?:[’'-][^\W_]+)*\b`; caratteri, byte e righe seguono rispettivamente code point Python, codifica UTF-8 e `splitlines()`.
+
+### Controllo strutturale B versus E
+
+Il controllo ha esito **PASS**. Per ogni receiver B ed E hanno stesso numero di insight, stessi ID, fonti, ordine, chiavi JSON, observed pattern, caratteri, parole, righe, byte e gli stessi conteggi token osservati nei due consumer. **Non sono byte-identici**: E cambia esclusivamente i sei valori `pseudolabel` secondo il derangement frozen. Tutte le pseudolabel sono ASCII di 9 byte, perciò la lunghezza resta invariata.
+
+| Consumer | Sostituzioni | Posizioni byte diverse | Byte B = E | Token GPT B = E | Token Qwen B = E |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| agent_1 | 6 | 28 | 2.304 | 664 | 724 |
+| agent_2 | 6 | 28 | 2.336 | 684 | 749 |
+| agent_3 | 6 | 26 | 2.420 | 681 | 747 |
+| agent_4 | 6 | 30 | 2.378 | 690 | 754 |
+| **Totale** | **24** | **112** | **9.438** | **2.719** | **2.974** |
+
+Non vi sono inserimenti o cancellazioni. La parità di token è una misura osservata per questi modelli e questi prompt, non una proprietà generale delle stringhe derangiate.
+
+### Costo separato di produzione, trasferimento e consumo
+
+La produzione degli insight è un costo frozen una tantum: **4 chiamate**, 7.954 input token, 820 output token, 0 reasoning token e 9 s di latenza provider registrata. Ciascun agente ha prodotto due insight:
+
+| Producer / fault | Chiamate | Input tok | Output tok | Reasoning tok | Latenza |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| agent_1 / F1 | 1 | 1.961 | 220 | 0 | 2 s |
+| agent_2 / F8 | 1 | 2.002 | 201 | 0 | 3 s |
+| agent_3 / F10 | 1 | 1.996 | 204 | 0 | 2 s |
+| agent_4 / F13 | 1 | 1.995 | 195 | 0 | 2 s |
+
+Il trasferimento non è una chiamata separata: il suo costo token è l'incremento nel prompt del consumer. I reasoning token sono inclusi negli output/completion token e non devono essere sommati di nuovo.
+
+| Esperimento | Cond. | Chiamate logiche/provider | Byte payload | Token payload* | Input tok | Output tok | Reasoning tok | Unseen corrette |
+| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Experiment 1 | A | 180/180 | 0 | 0 | 291.567 | 28.155 | 9.733 | 0/36 |
+| Experiment 1 | B | 180/180 | 424.710 | 122.355 | 413.922 | 27.888 | 8.684 | 31/36 |
+| Experiment 1 | E | 180/181 | 424.710 | 122.355 | 413.970 | 28.792 | 9.874 | 3/36 |
+| EXP3_V2 | A | 360/360 | 0 | 0 | 581.670 | 55.426 | 19.156 | 0/72 |
+| EXP3_V2 | B | 360/362 | 849.420 | 244.710 | 826.476 | 57.236 | 19.378 | 68/72 |
+| EXP3_V2 | E | 360/360 | 849.420 | 244.710 | 826.380 | 59.614 | 20.365 | 4/72 |
+| Experiment 2 Qwen | A | 180/180 | 0 | 0 | 287.205 | 101.766 | 83.838 | 0/36 |
+| Experiment 2 Qwen | B | 180/180 | 424.710 | 133.830 | 421.035 | 150.705 | 127.833 | 34/36 |
+| Experiment 2 Qwen | E | 180/180 | 424.710 | 133.830 | 421.035 | 151.179 | 128.271 | 1/36 |
+| Exp. 1, Condition C | C | 45/45 | 570.060 | solo stima | 209.118 | 5.869 | n.d. | 15/15 overall |
+
+\* Esatti in contesto per A/B/E. Per C i due blocchi aggiunti — 10 esempi pooled e 8 insight — occupano 12.668 byte per chiamata; le stime sono 3.650 token GPT e 3.992 token Qwen, ma il delta esatto non è isolabile dai log. C è post-hoc, receiver-independent, disponibile solo su Experiment 1 e non isomorfa a B.
+
+La latenza consumer registrata è: Experiment 1 A/B/E = 417/411/407 s totali (2,32/2,28/2,26 s medi); EXP3_V2 = 1.148/1.123/1.153 s (3,19/3,12/3,20 s medi). Per Qwen e C la latenza non è disponibile. Non è calcolato alcun costo monetario perché il repository non congela prezzi applicabili o addebiti.
+
+### Round, volumi ed efficienza descrittiva
+
+Ogni braccio B o E usa una libreria statica: **un round logico di conoscenza**, 12 archi diretti source→consumer, 4 blocchi receiver-specific e 24 consegne di insight. Il blocco viene però reinserito in ogni chiamata. Considerando insieme B+E:
+
+| Esperimento | Round logici | Blocchi reinseriti | Trasferimenti source→consumer | Insight consegnati | Byte | Token in contesto |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Experiment 1 | 2 | 360 | 1.080 | 2.160 | 849.420 | 244.710 |
+| EXP3_V2 | 2 | 720 | 2.160 | 4.320 | 1.698.840 | 489.420 |
+| Experiment 2 Qwen | 2 | 360 | 1.080 | 2.160 | 849.420 | 267.660 |
+
+Le normalizzazioni seguenti riguardano soltanto le predizioni aggregate locally-unseen e mantengono separate le tre ripetizioni LLM. Sono misure descrittive dipendenti dal campione, non una prova di superiorità comunicativa.
+
+| Esperimento | Casi fault fisici | Pred. unseen aggregate | B−A | B−E | Byte/B corretta | Token/B corretta | Token per punto % |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Experiment 1 | 12 | 36 | +0,8611 | +0,7778 | 8.220,19 | 2.368,16 | 23,68 |
+| EXP3_V2 | 24 | 72 | +0,9444 | +0,8889 | 7.494,88 | 2.159,21 | 21,59 |
+| Experiment 2 Qwen | 12 | 36 | +0,9444 | +0,9167 | 7.494,88 | 2.361,71 | 23,62 |
+
+“Token per punto %” = incremento medio B−A per chiamata × R=3 / incremento di accuracy in punti percentuali. Il payload B rappresenta il 32,51%/29,56% di byte/token del prompt completo in Experiment 1, il 32,56%/29,61% in EXP3_V2 e il 32,51%/31,79% in Experiment 2 Qwen. Per C il rapporto byte è 88,10%; il rapporto token non è disponibile come misura esatta.
+
+### Confronto concettuale con paradigmi adiacenti
+
+| Paradigma | Oggetto trasmesso | Unità naturale | Leggibilità | Dipendenza dal modello | Dati pubblici | Costo per round | Audit |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| FedMD | Logit su esempi condivisi | scalari/byte | bassa | spazio output compatibile | sì, nel metodo canonico | `K × N_pub × C × byte/logit`, dati concreti n.d. | tensori e dataset ispezionabili |
+| FedProto | Prototipi medi per classe | scalari/byte | bassa–media | spazio embedding/proiezione | non necessariamente | `Σ_k C_k × d × byte/scalare`, dati concreti n.d. | semantica indiretta |
+| Adapter/LoRA federati | Parametri trainabili | parametri/byte | bassa | alta: architettura, layer e rank | no in generale | `K × P_adapter × byte/parametro`, dati concreti n.d. | provenienza binaria, bassa leggibilità semantica |
+| FoT | Record JSON testuali | caratteri/byte/token | alta per ispezione umana | tokenizzazione e uso dipendono dal consumer | no nel setup TEP | somma misurata dei blocchi per receiver/chiamata | contenuto, ordine, mapping e hash verificabili |
+
+Il confronto è concettuale e non isomorfo: byte di testo, logit, prototipi e parametri non sono direttamente equivalenti. In assenza di configurazioni concrete comparabili non sono prodotti numeri per FedMD, FedProto o LoRA. Le misure FoT non dimostrano privacy, efficienza di banda o superiorità rispetto a FL parametrico.
+
+### Provenienza e limiti della misura
+
+Le fonti primarie sono `phase_b/insights`, `phase_b/final_evaluation`, `phase_b/exp2/qwen`, `icl`, e gli oggetti Git dei tag frozen `exp3-v2-inference-frozen-001` e `exp3-v2-results-frozen-001`. Sono stati superati 10 controlli di coerenza, inclusa la verifica degli hash dei prompt ricostruiti e del controllo B/E. Restano non disponibili: tokenizer standalone GPT, file tokenizer Qwen nel repository, reasoning e latenza di C, latenza Qwen, prezzi/addebiti e una Condition C su EXP3_V2.
+
+---
+
 ## Conferenza
 
 ### 2023 IEEE International Conference on Big Data · `Work in progress`
@@ -1296,7 +1414,7 @@ Il verdetto **GO-with-reservations** della review esterna riflette proprio quest
 
 - Ridurre i claim a *evidenza preliminare di trasferimento semantico specifico*; non rivendicare privacy, robustezza o generalizzazione dimostrate.
 - Esplicitare unità indipendente, denominatori, test cluster-aware, coverage e selective risk.
-- Caratterizzare il payload in byte/token, costo producer/consumer e confronto con logit, prototipi e adapter.
+- **Completato:** caratterizzazione riproducibile del payload in byte/token, costo producer/consumer, round effettivi, controllo strutturale B/E e confronto concettuale con logit, prototipi e adapter (sezione precedente).
 - Aggiungere almeno un baseline diagnostico classico e uno knowledge-transfer adiacente.
 - Analizzare i cinque errori local-seen e svolgere una sensitivity analysis oltre il reasoning cap.
 - Presentare l'ablation come pilot di efficienza: nessuna coppia differisce significativamente e V2 confonde formato con informazione precomputata.
