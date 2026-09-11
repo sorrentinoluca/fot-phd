@@ -43,6 +43,21 @@ Questa revisione incorpora le correzioni dell'autore. Sono elencate qui perché 
 | 21 | **Novità riposizionata.** "Federare testo" e "trasferire conoscenza fra LLM" non sono sostenibili contro questo corpus. Le rivendicazioni che sopravvivono ai sei lavori esaminati sono la diagnosi local-unseen su serie temporali multivariate, lo spazio di etichette disgiunto, il confronto controllato con conoscenza semanticamente errata e la protezione dell'esperienza locale (§12.9). Sopravvivere a sei lavori non equivale a una lacuna del campo: serve una ricerca bibliografica più ampia. | tutti |
 | 22 | **Confermato di NON introdurre** aggregazione, top-k, round multipli, confidence weighting e DP (§12.8), con motivazione citabile invece che per omissione. | P031, P030, P065 |
 
+### Revisione 4 — verifica incrociata su letteratura e artefatti
+
+| # | Modifica | Origine |
+| --- | --- | --- |
+| 23 | **Precedenze nella checklist §11.** S12 e S13 dipendono da S1; S5 da S17; S3 e S4 da S1–S2. La checklist elencava i requisiti senza il loro ordine, e §0.1 metteva le decisioni 1, 3 e 4 nello stesso gruppo «lavorabili oggi» senza ordinarle: alcuni prerequisiti risultavano risolvibili subito quando non lo sono, e la cronologia di §7 ne usciva ottimistica. | autore |
+| 24 | **Unità statistica del gate R=1.** 40 prompt × 3 ripetizioni non sono 120 osservazioni indipendenti: l'unità è il prompt. Il limite della regola del tre passa da ≈2,5% a ≈7,5% (§8.7, D7). | verifica incrociata |
+| 25 | **§8.10 punto 7 ridimensionato.** EviFDD-Agent pubblica sul TEP una tabella di conformità con intervalli di Wilson. Le due misure non coincidono — validità dello schema lato producer contro tracciabilità evidence-based del reporter — ma l'espressione «l'unica del suo genere fra i lavori comparabili» non è sostenibile. | verifica letteratura |
+| 26 | **P065 va ristretto in tre punti**: scala a 500 client e non a 5 (§5 G2); riporta un pavimento Local-Only (§9.3); è il caso più vicino al claim local-unseen (§12.9 claim 2). | verifica letteratura |
+| 27 | **FedProto: previsione tolta.** «Un secondo numero quasi identico al primo» non è dimostrabile — FedProto apprende anche la rappresentazione e aggrega Normal. La ridondanza è concettuale, non empirica. D8 regge. | autore |
+| 28 | **Due comparatori FL già pubblicati su TEP mancavano in §9**: Zhang et al. 2026 e Xu et al. 2026, entrambi 🟢 in §14.1. | verifica letteratura |
+| 29 | **Secondo vincolo sui due fault OOD** (§8.6, S13): il gruppo compensato dal controllo produce evidence quasi vuota, quindi astensione per assenza di segnale invece che per riconoscimento di novità. | verifica letteratura |
+| 30 | **«sei lavori federati» → «sei lavori esaminati»**: cinque sono federati, P001/ACE è mono-agente, come §12.6 già dichiara. | verifica incrociata |
+| 31 | **S11b esplicitata**: i tre numeri dell'endpoint vanno calcolati e riportati separatamente per A, B-LF ed E-LF. | autore |
+| 32 | **§8.9 rafforzata** con la frase di P001 sulla stabilità 10K–100K e con i due riscontri operativi di EviFDD (identificatori di variabile, serializzazione deterministica). | verifica letteratura |
+
 ---
 
 ## 0.1 · Decisioni ancora da congelare
@@ -53,8 +68,8 @@ La revisione precedente lasciava intendere che restasse aperta solo D8. Non è c
 | --- | --- | --- | --- |
 | 1 | **Quali 4 fault nuovi**, oltre ai 4 di continuità | D1, §12 | ⬜ aperta |
 | 2 | **6 o 8 run per fault** — prezzata: +590 chiamate, +24% | D2, §8.8 | ⬜ aperta |
-| 3 | **Quali 2 fault fuori catalogo**, meccanicamente distinti da tutto il catalogo | §8.6, S13 | ⬜ aperta |
-| 4 | **Sottoinsieme dell'ablation local-first**: quali coppie confondibili | D11, §8.3 | ⬜ aperta |
+| 3 | **Quali 2 fault fuori catalogo**, meccanicamente distinti da tutto il catalogo e con rilevabilità documentata | §8.6, S13 | ⬜ aperta — **dipende dalla 1** |
+| 4 | **Sottoinsieme dell'ablation local-first**: quali coppie confondibili | D11, §8.3 | ⬜ aperta — **dipende dalla 1** |
 | 5 | **Margini statistici**: il margine *m* di non inferiorità per H3, e la gerarchia di test | §8.5, S10–S11 | ⬜ aperta |
 | 6 | Baseline FL | D8, §9 | ✅ **risolta: FedAvg minimale** |
 | 7 | local-first | D6, §8.2 | ✅ risolta: B-LF è il metodo |
@@ -64,7 +79,7 @@ La revisione precedente lasciava intendere che restasse aperta solo D8. Non è c
 
 La decisione 10 è nuova nella revisione 3 e appartiene al gruppo indipendente dal modello: va congelata prima della produzione degli insight, non prima dei run di test, perché vincola *come* gli insight vengono generati da entrambi i producer.
 
-Le prime cinque **non dipendono dalla disponibilità di Qwen** e sono quindi lavorabili oggi. Le decisioni 1, 3 e 4 devono essere prese guardando soltanto Downs & Vogel e la letteratura di §12; la 5 guardando soltanto considerazioni operative e la risoluzione del disegno. Nessuna delle cinque può essere presa dopo aver visto un risultato.
+Le prime cinque **non dipendono dalla disponibilità di Qwen**, ma non sono tutte lavorabili nello stesso momento. ⚠️ **Le decisioni 3 e 4 dipendono dalla 1.** «Meccanicamente distinto da tutto il catalogo» e «coppia confondibile» sono entrambe definite *rispetto agli 8 fault*, che è la 1 a fissare: scriverle come prerequisiti autonomi le fa sembrare risolvibili oggi quando non lo sono. Il cammino reale è: §6.1 congela i criteri → la 1 estrae gli 8 fault → solo allora si chiudono la 3 e la 4. Le decisioni 2 e 5 sono invece indipendenti e procedono in parallelo. Le decisioni 1, 3 e 4 vanno prese guardando soltanto Downs & Vogel e la letteratura di §12; la 5 guardando soltanto considerazioni operative e la risoluzione del disegno. Nessuna delle cinque può essere presa dopo aver visto un risultato.
 
 ---
 
@@ -173,7 +188,7 @@ Un vero esperimento sulla dimensione della federazione richiederebbe stessi agen
 | ID critica | Descrizione breve | Effetto del piano consolidato | Nota |
 | --- | --- | --- | --- |
 | **G1** | Baseline numerica superiore (100% vs 86.1%) | **Mitiga** | La baseline numerica è nel finale sugli stessi dati e protocollo. Se con 8 fault e un modello diverso la distanza si riduce, l'argomento migliora; se il numerico vince ancora nettamente, il problema resta identico. |
-| **G2** | Scala troppo piccola | **Mitiga moderatamente** | 8 agenti, 8 fault, ≥6 run per fault: scala doppia rispetto all'esplorativo, 48 cluster contro 12. Il confronto con i sei lavori esaminati — 3 client in P041, P030 e P031, 5 in P042 e P065 — serve a collocare il numero, non a legittimarlo: otto agenti restano pochi, e non rendono lo studio scalabile né Big Data. La critica è attenuata, non risolta, e il paper non deve presentare il confronto come se lo fosse. |
+| **G2** | Scala troppo piccola | **Mitiga moderatamente** | 8 agenti, 8 fault, ≥6 run per fault: scala doppia rispetto all'esplorativo, 48 cluster contro 12. Il confronto con i sei lavori esaminati — 3 client in P041, P030 e P031, 5 in P042 e negli esperimenti principali di P065 — serve a collocare il numero, non a legittimarlo: otto agenti restano pochi, e non rendono lo studio scalabile né Big Data. ⚠️ Il confronto va però fatto con precisione: **P065 pubblica anche una tabella di scalabilità fino a 500 client**, con dimensione del compendio limitata e p95 sotto i 500 ms. Non è una federazione reale — resta simulazione senza rete né nodi offline — ma citare P065 come «5 client» è smontabile in una riga, ed è proprio la riga che deve reggere contro CF2/C18. La critica è attenuata, non risolta, e il paper non deve presentare il confronto come se lo fosse. |
 | **G5** | Unico producer | **Mitiga — identificabile** | *Corretto rispetto alla revisione 1, che dichiarava "Risolve".* Lo studio finale ha producer = consumer = Qwen, quindi la molteplicità di modelli resta tra i due studi. Il braccio producer-swap (§8.4) rende però l'effetto del producer **misurabile su dati vergini**, con libreria di insight completa dal producer alternativo. G5 passa da non verificata a stimata, non a risolta. Va inoltre notato che producer = consumer introduce un confondente nuovo (possibile vantaggio del modello nel leggere il proprio fraseggio): il producer-swap è anche il controllo di quel confondente. |
 | **C06** | Degradazione local-seen in B | **Replica prospettica con protocollo congelato** | *Riclassificata.* Non è un endpoint esplorativo: `B_LOCAL_FIRST_V1` è già congelato e già eseguito sull'intera replica (§10.3 del walkthrough), con 23/24 local-seen contro 19/24 di B e local-unseen invariati a 68/72. Nel nuovo studio è la replica di un effetto misurato, con protocollo ed endpoint congiunto fissati prima dell'apertura dei run. Il congelamento è **interno**, non una registrazione pubblica: il termine «pre-registrata» non va usato. Resta un esito atteso, non acquisito. |
 | **C07** | Reasoning cap e parsing | **Mitiga e controlla, se il pilot passa** | Il capability pilot stabilisce i parametri prima del congelamento ed è un gate bloccante, non una previsione. Ma un pilot superato riduce il rischio di parsing e di budget di ragionamento; non garantisce che nessun errore compaia nello studio completo, che gira su un volume due ordini di grandezza maggiore. Per questo il controllo non finisce con il pilot: proseguono il logging di conformità e il set canary (§8.7). |
@@ -184,7 +199,7 @@ Un vero esperimento sulla dimensione della federazione richiederebbe stessi agen
 | **CF2 / C18** | Manca evidenza Big Data | **Mitiga debolmente** | 8 agenti è meglio di 4, ma per una conferenza chiamata BigData resta insufficiente. Nessun test su 50+ agenti, streaming, o edge. |
 | **G3** | Federazione solo simulata | **Non affronta; comune nei sei lavori comparabili esaminati** | I nodi restano processi logici sulla stessa macchina. Va dichiarato che P041 (ICML 2025), P030, P031 (ICLR 2025) e P042 simulano allo stesso modo, con 3–5 client su una macchina, e nessuno di essi ha rete, latenze o nodi offline. Questo colloca il limite rispetto ai lavori esaminati; non stabilisce che sia una norma del campo, per la quale servirebbe una rassegna più ampia. Resta un limite del lavoro. |
 | **G4** | Un solo round, senza iterazione | **Non affronta — scelta di scopo dichiarata** | Insight prodotti una volta. La revisione 3 converte l'omissione in scelta documentata, ma con un'avvertenza sul tipo di evidenza. I tre riscontri citati riguardano **fenomeni diversi fra loro**: round di comunicazione federati (P030, plateau al round 2 e FERA-Q che peggiora nei round finali), step di ottimizzazione locale (P031, degrado da 5 a 10), iterazioni di riflessione di un singolo agente (P001, 67,6 → 65,2 da 5 a 10). Non sono la stessa grandezza e non sono cumulabili in un'unica tendenza. Giustificano di **non aprire questo fronte adesso**, dato il costo e la finestra di §7; **non dimostrano che round aggiuntivi sarebbero inutili in FoT**, dove il compito, l'unità scambiata e la struttura delle classi sono diversi da tutti e tre. Va scritto così nel paper, e l'iterazione resta future work con una domanda aperta, non chiusa. |
-| **G7** | Nessuna garanzia di privacy | **Non affronta** | Nessun attacco di ricostruzione, nessuna analisi formale. La barra si è però alzata: P065 fornisce (ε,0)-DP sui *soli campi numerici* del proprio artefatto, lasciando il testo a mascheramento euristico. Conseguenza pratica: la privacy non va presentata come contributo di questo lavoro in nessuna forma, nemmeno parziale, e l'argomento «non inviamo dati grezzi» va dichiarato come proprietà architetturale, non come garanzia. |
+| **G7** | Nessuna garanzia di privacy | **Non affronta** | Nessun attacco di ricostruzione, nessuna analisi formale. La barra si è però alzata: P065 fornisce (ε,0)-DP sui *soli campi numerici* del proprio artefatto, lasciando il testo a mascheramento euristico. Conseguenza pratica: la privacy non va presentata come contributo di questo lavoro in nessuna forma, nemmeno parziale, e l'argomento «non inviamo dati grezzi» va dichiarato come proprietà architetturale, non come garanzia. Vanno inoltre citati **DP-FPL** (Tran et al. 2025) e **FedDTPT**, entrambi 🟢 in §14.1 ed espressamente sulla privacy federata: oggi la barra è costruita sul solo P065. |
 | **CF1 / CF5** | Non è FL in senso stretto; aggregazione assente | **Mitiga, resta aperta** | *Corretto nella revisione 3, che su questo punto era andata troppo in là.* L'aggregazione **non è inapplicabile**: contributi di client diversi possono essere aggregati anche quando ogni client possiede un fault diverso. Ciò che la configurazione class-disjoint indebolisce è **FedProto** in particolare (§9.1), non l'aggregazione in generale, e la questione dello scope FL resta intera. Quello che il piano fa è mitigare: la baseline FedAvg colloca il lavoro rispetto alla FL canonica, e un framing corretto evita di promettere ciò che il metodo non fa. Va inoltre notato, come contesto e non come giustificazione, che l'aggregazione testuale resta problematica anche dove è stata tentata: P031 (ICLR 2025) riporta che la concatenazione ottiene risultati migliori della sintesi, non scala oltre la finestra di contesto, e che il rimedio proposto rende +0,01–0,02, entro una deviazione standard. **La critica resta aperta e va dichiarata come limite.** |
 | **CF4** | Privacy non affrontata | **Non affronta** | Come G7. |
 
@@ -328,6 +343,8 @@ Vincolo di disegno: il sottoinsieme va scelto **strutturalmente e dichiarato pri
 | local-unseen sulle coppie confondibili dichiarate | 4 × 3 × 7 | 84 |
 | **Totale** | | **132** |
 
+**Nota sulla simmetria** *(revisione 4)*. L'ablation esiste per B e non per E. Non è un buco del contrasto causale: local-first è tenuto **costante** fra B-LF ed E-LF, quindi B−E isola l'informazione e non la politica, ed è questo che va scritto nel paper. Non va invece affermato che la politica renda il contrasto *conservativo*: non è dimostrato, e local-first può spostare errori e astensioni in entrambe le direzioni. Se si volesse chiudere anche la simmetria, E-senza-LF sullo stesso sottoinsieme dichiarato costerebbe 4 × 3 × 7 = 84 chiamate, +3,4% del budget. Non è necessaria al claim.
+
 ### 8.4 Braccio producer-swap
 
 Affronta G5 su dati vergini. La manipolazione è a fattore singolo: **libreria di insight interamente dal producer alternativo** contro libreria interamente da Qwen-2.4T, stesso consumer, stessi run di test, stessa condizione B-LF.
@@ -393,6 +410,10 @@ Eseguirlo solo in B non permetterebbe di capire se gli insight migliorano o pegg
 
 **Scelta dei due fault OOD.** Devono essere meccanicamente distinti da **tutti** gli 8 in catalogo. F2 e F5, proposti nella revisione 1, non sono adatti se in catalogo c'è F1: F1 è uno step sul rapporto A/C in alimentazione, F2 uno step sulla composizione di B, e un agente che etichetta F2 come F1 non sta sbagliando in modo interessante. Il "falso positivo" sarebbe comportamento ragionevole e il test non discriminerebbe.
 
+**Secondo vincolo, aggiunto nella revisione 4: la rilevabilità.** La distinzione meccanica non basta. §12.1 documenta che F3, F9 e F15 sono compensati dagli anelli di controllo e producono evidence quasi vuota. Un fault OOD scelto in quel gruppo farebbe astenere l'agente per **assenza di segnale**, non per riconoscimento di novità, e il test misurerebbe il verbalizzatore invece dell'agente. I due fault vanno quindi scelti fuori dal gruppo a fallimento concorde, oppure accompagnati da un criterio esterno di rilevabilità dichiarato prima.
+
+⚠️ **La scelta dipende da quali 8 fault entrano in catalogo.** «Meccanicamente distinto da *tutti* gli 8» non è valutabile finché gli 8 non sono fissati: S13 dipende da S1, e quindi da §6.1 e da D1. È bloccante ma **non lavorabile oggi**, e va contato così nella cronologia di §7 (§0.1, §11).
+
 **Limite da dichiarare.** 2 fault × 3 run sono 6 eventi OOD: una dimostrazione di esistenza, non una caratterizzazione del comportamento open-set. Nel paper va come *prima sonda*, con G6 dichiarata parzialmente aperta.
 
 ### 8.7 R=1, gate di stabilità e rilevamento del cambio di modello
@@ -406,7 +427,9 @@ Eseguirlo solo in B non permetterebbe di capire se gli insight migliorano o pegg
 
 Ne segue che **l'audit a R=3 e il set canary non sono rifiniture ma i due strumenti che rendono R=1 difendibile**: senza di essi, R=1 sarebbe una scelta di costo travestita da scelta metodologica.
 
-**Il pilot è un gate tecnico, non una stima.** Un pilot da 40 prompt × 3 ripetizioni con zero divergenze osservate non dimostra che l'instabilità sia sotto l'1%: per la regola del tre, il limite superiore al 95% con zero eventi su 120 osservazioni è 3/120 ≈ **2,5%**. La soglia dell'1% era irraggiungibile in linea di principio con quel pilot e va rimossa. La formulazione corretta è:
+**Il pilot è un gate tecnico, non una stima.** Un pilot da 40 prompt × 3 ripetizioni con zero divergenze osservate non dimostra che l'instabilità sia sotto l'1%.
+
+⚠️ **Correzione della revisione 4: l'unità statistica è il prompt, non la chiamata.** L'evento «divergenza» è definito *fra le ripetizioni di uno stesso prompt*, quindi le osservazioni indipendenti sono **40**, non 120. Per la regola del tre il limite superiore al 95% con zero eventi su 40 osservazioni è 3/40 ≈ **7,5%**, non 3/120 ≈ 2,5%. Vanno rimosse entrambe le soglie: l'1% era irraggiungibile in linea di principio, il 2,5% contava le ripetizioni come prove indipendenti. Unità statistica e definizione dell'evento vanno scritte nel protocollo **prima** di eseguire il pilot. La formulazione corretta è:
 
 - **nessuna divergenza osservata nel pilot → R=1 con audit continuo**
 - divergenze osservate → R=3 sull'intero studio, e il non-determinismo entra nel modello di varianza e nel reporting
@@ -487,7 +510,11 @@ Questa sottosezione è nuova nella revisione 3 e nasce da una lacuna comune a tu
 
 **Che cosa NON è, per evitare un'accusa di novità gonfiata.** Insight strutturati con campi e identificatori sono prior art consolidato: P001 (ICLR 2026) ha bullet con ID stabili e contatori di utilità, P065 ha un tipo-prodotto a cinque componenti, P042 ha quattro campi. **La struttura non è il contributo.** Il contributo è che lo schema sia *congelato prima*, *vincolato per elemento*, *identico fra producer* e *misurato*. Formulato diversamente, sarebbe una rivendicazione facilmente smontabile.
 
-**Un argomento a favore del cap, contro l'obiezione prevedibile.** P001 sostiene apertamente che i contesti debbano essere «comprehensive, not concise» e che i cap facciano perdere informazione. Ma la sua stessa Tab. 21 riporta, per soglie di pruning a 10K, 50K e 100K token, i valori 78,6 / 78,4 / 78,3: in quell'esperimento **un budget dieci volte più stretto non produce una perdita evidente**. Nulla in quei numeri dimostra che 10K sia *migliore* — lo scarto di 0,3 punti non è interpretabile e P001 non riporta varianza in alcun esperimento; l'unica lettura sostenibile è che la perdita attesa dal restringimento non si manifesta. Va inoltre notato che la tesi pro-verbosità di P001 non è sottoposta a un controllo di lunghezza a parità di contenuto. Il cap per elemento non è quindi dimostrato superiore: è una scelta che la letteratura disponibile non penalizza, ed è su questa base — non su una superiorità dimostrata — che va difesa.
+**Che cosa non è, seconda precisazione** *(revisione 4)*. Non è nemmeno la prima misura di conformità pubblicata su questo benchmark. **EviFDD-Agent** (2026, *Computers & Chemical Engineering*) riporta sul TEP una tabella con Evidence Field Traceability e Untraceable Report Rate, intervalli di Wilson su n = 210, sette configurazioni e una tassonomia degli errori. Misura però una grandezza **diversa e complementare**: la tracciabilità dei campi del *reporter* verso un evidence record già prodotto da tool deterministici, non la validità dello schema lato *producer* — che è ciò che §8.9 misura, insieme a retry, troncamenti e token. La differenza va nominata; l'omissione del lavoro no (§8.10 punto 7).
+
+**Due riscontri di EviFDD che entrano nel disegno.** Primo: nel prompt passivo a singolo passaggio l'URR è 77,1%, e i fallimenti sono concentrati negli **identificatori di variabile** parafrasati — `XMEAS(n)` che diventa «reactor temperature» — mentre i campi numerici hanno zero errori. Gli insight FoT portano identificatori XMEAS: è la modalità di fallimento attesa, e il validatore di D12 va costruito su quella. Secondo: le condizioni in cui i campi critici sono serializzati da una struttura deterministica invece che trascritti dal modello raggiungono **URR = 0**, il che rende valutabile in D12 la separazione fra campi serializzati dal verbalizzatore e parte narrativa lasciata al producer. Va infine notato che lo stesso protocollo su due modelli della stessa famiglia dà URR 1,4% contro 19,5% con 11,8× di wall time, con il modello **più grande** meno conforme e più lento: la sonda di conformità del capability pilot va eseguita su **entrambi** i modelli candidati, non solo sul preferito (§7.1, T9).
+
+**Un argomento a favore del cap, contro l'obiezione prevedibile.** P001 sostiene apertamente che i contesti debbano essere «comprehensive, not concise» e che i cap facciano perdere informazione. Ma la sua stessa Tab. 21 riporta, per soglie di pruning a 10K, 50K e 100K token, i valori 78,6 / 78,4 / 78,3: in quell'esperimento **un budget dieci volte più stretto non produce una perdita evidente**. Nulla in quei numeri dimostra che 10K sia *migliore* — lo scarto di 0,3 punti non è interpretabile e P001 non riporta varianza in alcun esperimento; l'unica lettura sostenibile è che la perdita attesa dal restringimento non si manifesta. Va inoltre notato che la tesi pro-verbosità di P001 non è sottoposta a un controllo di lunghezza a parità di contenuto. Il cap per elemento non è quindi dimostrato superiore: è una scelta che la letteratura disponibile non penalizza, ed è su questa base — non su una superiorità dimostrata — che va difesa. Va aggiunto che P001 arriva alla stessa lettura in proprio: «performance is stable from 10K to 100K tokens, indicating ACE does not require finely tuned length thresholds». L'argomento non è quindi una lettura di parte di Tab. 21, è la conclusione che gli autori traggono dal proprio esperimento.
 
 ### 8.10 Che cosa va nel paper
 
@@ -497,8 +524,8 @@ Questa sottosezione è nuova nella revisione 3 e nasce da una lacuna comune a tu
 4. **Test fuori catalogo:** prima sonda sul comportamento open-set.
 5. **Ablation local-first:** difesa del metodo principale.
 6. **Confronto descrittivo con l'esplorativo** sui 4 fault di continuità, dichiarato come descrittivo e non causale.
-7. **Conformità allo schema:** validità, retry, troncamenti e token per producer (§8.9). È una tabella piccola, ed è l'unica del suo genere fra i lavori comparabili.
-8. **Related work obbligatoria:** P042, P041, P031, P030, P065, P001 e FaultExplainer (§12.6). L'omissione di uno qualsiasi è oggi un rischio concreto in revisione.
+7. **Conformità allo schema:** validità, retry, troncamenti e token per producer (§8.9). È una tabella piccola. ⚠️ **Non va presentata come «l'unica del suo genere fra i lavori comparabili»**: EviFDD-Agent pubblica sul TEP una tabella di conformità con intervalli di Wilson. La formulazione sostenibile è che fra i sei lavori esaminati — cinque federati e ACE, che è mono-agente — nessuno riporta congiuntamente validità dello schema **lato producer**, retry, troncamenti e token, mentre EviFDD riporta una grandezza diversa e complementare, la conformità evidence-traceable del reporter (§8.9).
+8. **Related work obbligatoria:** P042, P041, P031, P030, P065, P001, FaultExplainer ed **EviFDD-Agent** (§12.6). L'omissione di uno qualsiasi è oggi un rischio concreto in revisione. EviFDD entra per due ragioni indipendenti: è LLM applicato alla diagnosi sul TEP, e delimita direttamente il punto 7.
 
 ### 8.11 Domande scientifiche, in ordine di priorità
 
@@ -524,7 +551,7 @@ La quarta — la baseline FL — non è più opzionale: **D8 è risolta con un s
 
 ### 9.1 Perché FedAvg e non FedProto
 
-FedProto è poco naturale su questo compito. Con clienti class-disjoint, ogni fault appartiene a un solo client e l'unica classe condivisa è Normal: l'aggregazione di prototipi non ha quasi nulla da aggregare e il metodo degenera verso la baseline numerica a prototipi, che **esiste già** nel piano. Implementarlo produrrebbe un secondo numero quasi identico al primo, presentato come se fosse un confronto con la letteratura FL.
+FedProto è poco naturale su questo compito. Con clienti class-disjoint, ogni fault appartiene a un solo client e l'unica classe condivisa è Normal: l'aggregazione di prototipi ha quasi nulla da aggregare, e l'oggetto federato che ne risulta — un prototipo per classe — è lo stesso della baseline numerica a prototipi, che **esiste già** nel piano. ⚠️ *Precisazione della revisione 4:* **la ridondanza è concettuale, non empirica.** FedProto apprende anche la rappresentazione e aggrega la classe Normal fra gli otto client, quindi prevedere che «produrrebbe un numero quasi identico» sarebbe una previsione non dimostrabile e facilmente falsificabile. Ciò che si può affermare è che resterebbe nella stessa famiglia di oggetto federato già rappresentata nel piano — ed è esattamente questo che rende FedAvg il comparatore realmente diverso.
 
 FedAvg è la scelta corretta:
 
@@ -536,6 +563,13 @@ FedAvg è la scelta corretta:
 | Costo API | **zero** |
 | Disponibilità | avviabile subito, non attende Qwen: non compete con il cammino critico di §7 |
 | Attesa dei reviewer | **è il comparatore atteso in questa letteratura**: P041 e P030 eseguono entrambi FedAvg (OpenFedLLM). P031, pur essendo un paper di FL a ICLR 2025, non lo esegue mai — ed è una debolezza visibile. Non eseguirlo significa presentarsi sotto lo standard dei lavori con cui si verrà confrontati. |
+
+**Comparatori FL già pubblicati sullo stesso benchmark** *(revisione 4)*. FedAvg non va presentata come l'unico riferimento FL disponibile su TEP. §14.1 del walkthrough contiene due lavori 🟢 testati sul Tennessee Eastman:
+
+- **Zhang et al. 2026**, *Federated Meta-Learning with Transformer Fusion for Few-Shot Multi-Condition Fault Diagnosis*, Knowledge-Based Systems, DOI [10.1016/j.knosys.2026.116739](https://doi.org/10.1016/j.knosys.2026.116739);
+- **Xu et al. 2026**, *Federated Learning Based on Fuzzy Fusion Rules for Chemical Production Process Fault Diagnosis*, Sensors, DOI [10.3390/s26113545](https://doi.org/10.3390/s26113545).
+
+§14.2 li descrive come comparatori numerici diretti sullo stesso processo. **Non vanno riprodotti** — protocolli, split e compiti sono diversi, e riprodurli sarebbe un progetto a sé — ma vanno citati in §9 e nella related work, con la differenza di compito dichiarata. Presentare una baseline FL su TEP senza nominarli espone allo stesso rischio che §8.10 punto 8 vuole evitare.
 
 ### 9.2 Specifica minima da congelare
 
@@ -560,7 +594,7 @@ La difesa costa quasi nulla, perché è lo stesso codice eseguito due volte in p
 
 Tre numeri da un solo codebase, zero chiamate API. Il soffitto centralizzato è la riga che disinnesca l'accusa di baseline azzoppata, ed è gratuito.
 
-**La revisione 3 alza la priorità di questo blocco.** Il **pavimento** — ogni client da solo, senza collaborazione — è assente in P042, P030 e P031, e in P041 esiste solo in forma indiretta (Fed-ICL-LB). Senza pavimento non si sa quanto valga la sola conoscenza locale, e quindi quanto valga davvero la federazione: è la lacuna che rende i guadagni di quei lavori difficili da interpretare. Qui il pavimento esiste già in forma LLM — è la condizione A — quindi **riportarlo anche in forma numerica costa una sola esecuzione in più e chiude un buco che la letteratura comparabile ha lasciato aperto**. Da difesa diventa elemento differenziante, e questo giustifica di eseguirlo prima e non dopo la disponibilità del modello.
+**La revisione 3 alza la priorità di questo blocco.** Il **pavimento** — ogni client da solo, senza collaborazione — è assente in P042, P030 e P031, e in P041 esiste solo in forma indiretta (Fed-ICL-LB). Senza pavimento non si sa quanto valga la sola conoscenza locale, e quindi quanto valga davvero la federazione: è la lacuna che rende i guadagni di quei lavori difficili da interpretare. Qui il pavimento esiste già in forma LLM — è la condizione A — quindi **riportarlo anche in forma numerica costa una sola esecuzione in più**. ⚠️ *Correzione della revisione 4:* non va presentato come un buco della letteratura comparabile. **P065 riporta il pavimento Local-Only in tabella**, su GSM8k, su τ-bench retail e per organizzazione. L'affermazione corretta è quindi «assente in P042, P030 e P031, indiretto in P041 (Fed-ICL-LB), presente in P065». Resta una difesa necessaria della baseline — senza pavimento non si sa quanto valga la federazione — e questo giustifica di eseguirlo prima e non dopo la disponibilità del modello. Non è però un elemento differenziante.
 
 **Rischio residuo, da accettare in anticipo:** se FedAvg o il soffitto centralizzato battono nettamente FoT sulle stesse feature, il paper deve riportarlo. Sarebbe un risultato onesto e informativo — il trasferimento testuale non è competitivo con il trasferimento numerico su questo compito — ma cambierebbe il framing del lavoro. Meglio saperlo ora, che è possibile proprio perché FedAvg non dipende da Qwen ed è eseguibile questa settimana.
 
@@ -604,7 +638,7 @@ Tutti e 7. Il costo è lineare, la potenza statistica dipende dai cluster (48 o 
 
 ### D7 — R=1 o R=3?
 
-**Gate tecnico, non soglia numerica.** Nessuna divergenza osservata nel pilot → R=1 con audit continuo. Divergenze osservate → R=3 sull'intero studio e non-determinismo nel modello di varianza. La soglia dell'1% è rimossa: irraggiungibile con un pilot da 120 osservazioni (§8.7).
+**Gate tecnico, non soglia numerica.** Nessuna divergenza osservata nel pilot → R=1 con audit continuo. Divergenze osservate → R=3 sull'intero studio e non-determinismo nel modello di varianza. La soglia dell'1% è rimossa, e nella revisione 4 lo è anche quella del 2,5%: le osservazioni indipendenti sono i **40 prompt**, non le 120 chiamate, quindi il limite della regola del tre è ≈ **7,5%** (§8.7). Unità statistica e definizione dell'evento di divergenza vanno scritte nel protocollo prima del pilot.
 
 **R=1 resta un compromesso operativo.** Non stabilisce che il modello sia deterministico né che la variabilità delle risposte sia nulla: lascia quella componente non stimata, e per questo l'audit a R=3 e il set canary sono parte della decisione, non un complemento facoltativo (§8.7).
 
@@ -612,7 +646,7 @@ Tutti e 7. Il costo è lineare, la potenza statistica dipende dai cluster (48 o 
 
 **Decisione: implementare una FedAvg piccola, non FedProto.**
 
-FedProto sarebbe in parte ridondante e poco naturale su questo compito: con clienti class-disjoint, ogni fault appartiene a un solo client e l'unica classe condivisa è Normal, quindi l'aggregazione di prototipi ha quasi nulla da aggregare e degenera verso la baseline numerica a prototipi che già esiste.
+FedProto sarebbe **concettualmente** ridondante su questo compito: con clienti class-disjoint, ogni fault appartiene a un solo client e l'unica classe condivisa è Normal, quindi l'aggregazione di prototipi ha quasi nulla da aggregare e l'oggetto federato resta un prototipo per classe, cioè lo stesso della baseline numerica che già esiste. La ridondanza è di **famiglia**, non di numero atteso: FedProto apprende la rappresentazione e aggrega Normal, quindi prevederne il risultato sarebbe scorretto (§9.1).
 
 FedAvg è invece la scelta giusta per cinque ragioni: è **canonica e immediatamente riconoscibile** da qualunque reviewer FL; è **adatta al label-skew class-disjoint**, che è esattamente il regime in cui è studiata; è **eseguibile sulle stesse feature 697-D**; **non consuma chiamate API**; ed è **avviabile subito**, senza attendere la disponibilità di Qwen — quindi non compete con il cammino critico di §7 nel modo in cui competerebbe un lavoro che dipende dal modello.
 
@@ -625,6 +659,8 @@ Vedi §9.1 per la specifica completa e per i due numeri di contorno che rendono 
 Campi, tipi, cardinalità fissa, cap di lunghezza per singolo insight, validatore eseguibile (§8.9). Va congelata **prima della produzione degli insight**, non prima dei run di test, perché vincola il modo in cui entrambi i producer generano. Non dipende dalla disponibilità del modello e non consuma budget.
 
 Tre vincoli che la decisione deve soddisfare: lo schema è identico per i due producer; E si ottiene permutando soltanto il campo pseudolabel; validità, retry, troncamenti e token sono loggati per producer e condizione.
+
+**Due indicazioni della revisione 4, da EviFDD-Agent (§8.9).** Il validatore va costruito sulla modalità di fallimento documentata — la parafrasi degli **identificatori di variabile**, non l'errore numerico. E va valutata la separazione fra campi serializzati deterministicamente dal verbalizzatore e parte narrativa lasciata al producer: nelle condizioni in cui i campi critici non passano dal modello, EviFDD ottiene URR = 0.
 
 ### D9 — Piano B, con date
 
@@ -675,15 +711,27 @@ Le coppie di fault confondibili vanno identificate su base meccanica — variabi
 | S9 | Baseline numerica preparata (prototipi dai dati di sviluppo) | ⬜ | **SÌ** |
 | S10 | Le tre ipotesi H1–H3 scritte, con il margine *m* di non inferiorità e la sua giustificazione esterna | ⬜ | **SÌ** |
 | S11 | Gerarchia di test (gatekeeping H1 → H2 → H3) congelata | ⬜ | **SÌ** |
-| S11b | Definizione dei tre numeri dell'endpoint con `Unknown`, e indicazione del primario | ⬜ | **SÌ** |
-| S12 | Coppie confondibili dell'ablation dichiarate prima | ⬜ | **SÌ** |
-| S13 | Due fault OOD scelti, meccanicamente distinti da tutto il catalogo | ⬜ | **SÌ** |
+| S11b | Definizione dei tre numeri dell'endpoint con `Unknown` e indicazione del primario, con la regola esplicita: **i tre numeri sono calcolati e riportati separatamente per A, B-LF ed E-LF** | ⬜ | **SÌ** |
+| S12 | Coppie confondibili dell'ablation dichiarate prima — **dipende da S1** | ⬜ | **SÌ** |
+| S13 | Due fault OOD scelti, meccanicamente distinti da tutto il catalogo **e non appartenenti al gruppo compensato dal controllo** (§8.6, §12.1) — **dipende da S1** | ⬜ | **SÌ** |
 | S14 | Regola di reporting stratificato (continuità / nuovi / aggregato) scritta | ⬜ | No, ma raccomandata |
 | S15 | Specifica FedAvg congelata: architettura, round, epoche locali, lr, seed, e protocollo di valutazione identico al braccio LLM | ⬜ | **SÌ** se la baseline entra nel paper |
 | S16 | Pavimento locale e soffitto centralizzato pianificati insieme a FedAvg (§9.3) | ⬜ | No, ma è la difesa della baseline |
 | S17 | Schema degli insight congelato: campi, tipi, cardinalità, cap per elemento, validatore eseguibile (§8.9) | ⬜ | **SÌ** |
 | S18 | Diff B↔E verificato e allegato: differisce esclusivamente nel campo pseudolabel (§8.9) | ⬜ | **SÌ** |
 | S19 | Parità strutturale fra i due producer verificata sugli insight congelati (§8.4) | ⬜ | **SÌ** |
+
+**Precedenze fra prerequisiti** *(revisione 4)*. La tabella elenca i requisiti, non il loro ordine, e questo ha fatto sembrare risolvibili subito prerequisiti che non lo sono.
+
+| Requisito | Dipende da | Perché |
+| --- | --- | --- |
+| S3, S4 | S1, S2 | run di test e soglie si generano per gli 8 fault già scelti |
+| S12 | S1 | «coppia confondibile» è definita rispetto al catalogo |
+| S13 | S1 | «meccanicamente distinto da tutto il catalogo» è definito rispetto al catalogo |
+| S5 | S17 | lo schema vincola il modo in cui entrambi i producer generano (§6.10, D12) |
+| S18, S19 | S5, S17 | si verificano su insight già prodotti e congelati |
+
+Conseguenza da riportare in §7: **S13 è bloccante e indipendente dal modello, ma non è lavorabile oggi.** Il suo cammino passa da §6.1 e da D1. Lo stesso vale per S12. Contarli fra le attività immediatamente avviabili rende la cronologia critica più ottimistica di quanto sia.
 
 ### Prerequisiti organizzativi
 
@@ -842,10 +890,10 @@ Quattro componenti presenti nei paper esaminati **non vanno aggiunte**. La motiv
 
 ### 12.9 Dove la novità è difendibile
 
-La domanda non è se il lavoro sia nuovo in generale — a quella domanda questo corpus non può rispondere — ma quali rivendicazioni **sopravvivano** a ciò che §12.7 esclude. Le quattro seguenti sopravvivono alla verifica sui sei lavori esaminati, e vanno formulate con quell'ambito dichiarato: non «nessuno ha fatto X», ma «X non è osservato nei sei lavori federati esaminati».
+La domanda non è se il lavoro sia nuovo in generale — a quella domanda questo corpus non può rispondere — ma quali rivendicazioni **sopravvivano** a ciò che §12.7 esclude. Le quattro seguenti sopravvivono alla verifica sui sei lavori esaminati, e vanno formulate con quell'ambito dichiarato: non «nessuno ha fatto X», ma «X non è osservato nei sei lavori esaminati» — sei, di cui **cinque** federati: P001/ACE è mono-agente, come §12.6 già dichiara, e chiamarli tutti «federati» è un'imprecisione che un reviewer coglie.
 
-1. **Diagnosi local-unseen su serie temporali multivariate.** Nessuno dei sei tocca il dominio: tutti operano su dati già testuali — query, risposte, descrizioni di API, prompt. Il problema di *costruire* un artefatto testuale a partire da una modalità numerica, e di verificare che la traduzione preservi informazione diagnostica, non è affrontato in questo corpus.
-2. **Spazio di etichette realmente disgiunto, con misura sulla classe mai vista localmente.** P041 e P030 partizionano con Dirichlet uno spazio di etichette **condiviso**: nessun client deve mai produrre una classe che non conosce. P042 ha toolset disgiunti ma non separa mai le prestazioni sui tool posseduti da quelle sui tool noti solo attraverso il compendio altrui. P031 assegna task diversi ai client ma riporta solo la media fra task, senza scomposizione per client. **Nessuno dei sei pubblica un numero sulla domanda che qui è l'endpoint primario.**
+1. **Diagnosi local-unseen su serie temporali multivariate.** Nessuno dei sei tocca il dominio: tutti operano su dati già testuali — query, risposte, descrizioni di API, prompt. Il problema di *costruire* un artefatto testuale a partire da una modalità numerica, e di verificare che la traduzione preservi informazione diagnostica, non è affrontato in questo corpus. ⚠️ **L'ambito va tenuto stretto al federato.** Fuori da questo corpus quel problema è affrontato: S2S-FDD (Li & Zhao, 2026) converte segnali industriali multivariati in descrizioni di trend, periodicità e deviazione da una baseline normale e diagnostica zero-shot senza alcun dato di guasto; T2SP e CGTime lavorano sul verbalizzatore, e §14.7 del walkthrough dichiara già che T2SP «blocca ogni novità sul verbalizzatore». La rivendicazione va quindi formulata come «in regime federato», mai «in generale».
+2. **Spazio di etichette realmente disgiunto, con misura sulla classe mai vista localmente.** P041 e P030 partizionano con Dirichlet uno spazio di etichette **condiviso**: nessun client deve mai produrre una classe che non conosce. P042 ha toolset disgiunti ma non separa mai le prestazioni sui tool posseduti da quelle sui tool noti solo attraverso il compendio altrui. P031 assegna task diversi ai client ma riporta solo la media fra task, senza scomposizione per client. ⚠️ **P065 è il caso più vicino e va nominato** *(revisione 4)*: riporta un pavimento Local-Only — 0,46 su GSM8k, 0,191 su τ-bench retail — contro il federato, e attribuisce il divario al fatto che «∼54% of queries require scenarios unseen locally». È però un'accuratezza **globale** più una percentuale di copertura, non un'accuratezza stratificata su quel sottoinsieme, e non esiste uno spazio di etichette chiuso in cui la risposta corretta sia una classe mai osservata localmente. **La formulazione difendibile è quindi: nessuno dei sei misura l'accuratezza per-classe su una classe che il client non ha mai osservato, dentro uno spazio di etichette chiuso e disgiunto.** «Nessuno pubblica un numero» è troppo forte e cade su P065.
 3. **Confronto controllato fra conoscenza corretta e conoscenza semanticamente errata.** **Non osservato nei sei lavori esaminati:** nessuno dei sei esegue un controllo con informazione permutata a parità di tutto il resto. P030 arriva al troncamento (sottocampionamento di step), che non è informazione errata. P001 è il più vicino con il *harmful reflector* di Tab. 17, ma è iniezione di contenuto dannoso generato da un modello, non una permutazione controllata. Due dei sei contengono inoltre confronti in cui la quantità di contesto varia insieme al contenuto senza essere isolata (P041, 5 esempi contro 1; P031, concatenazione contro sintesi): in quei confronti «più contesto» resta una spiegazione alternativa non esclusa, il che rende il controllo più utile, non meno. Con E ottenuta permutando soltanto la pseudolabel su uno schema congelato (§8.9), il controllo diventa verificabile e non solo dichiarato.
 4. **Protezione dell'esperienza locale.** **Non osservato nei sei lavori esaminati:** nessuno dei sei riporta la degradazione sulle classi che il client già conosceva, né propone un meccanismo per proteggerla. ⚠️ Il calo di accuratezza **media** al crescere del numero di client che P042, P041 e P030 documentano **non è evidenza di degradazione sulle classi localmente note**: è un aggregato compatibile con molte cause diverse — maggiore eterogeneità, contesto più lungo, più distrattori, diluizione dell'attenzione — e nessuno dei tre lo scompone. Va citato, se citato, solo come indizio che la scalabilità in numero di client non è risolta, non come sostegno a C06. Il sostegno a C06 viene da un'altra fonte e da un'altra misura: i 19/24 contro 23/24 di §10.3 del walkthrough, che sono proprio una misura sui local-seen. C06 con local-first e l'endpoint congiunto di §8.5 restano quindi una domanda che i sei lavori non affrontano.
 
