@@ -136,6 +136,7 @@ coerentemente a XMEAS-1 nei cinque batch.
 ## Problemi metodologici e limiti
 
 - Le stesse 50 finestre sono usate per calibrazione e diagnostica false-positive: il conteggio è descrittivo, non una stima out-of-sample.
+- **La funzione di score non è la stessa in calibrazione e in applicazione.** I 50 punteggi di calibrazione usano una baseline leave-one-block-out costruita sugli **altri quattro** blocchi Normal; le finestre di fault, di validazione e di test usano una baseline costruita su **tutti e cinque**. La costruzione split-conformal ordinaria richiede invece la stessa funzione congelata sui due lati. Il leave-one-block-out è una forma di cross-fitting e riduce l'ottimismo della calibrazione, ma non converte automaticamente la procedura in cross-conformal con garanzia. È una ragione ulteriore, indipendente dalla dipendenza temporale, per attenersi alla formula `conformal-style upper order statistic` e non rivendicare una copertura marginale.
 - La calibrazione è per-feature e corregge la simultaneità tra 41 sensori, ma non la simultaneità tra le quattro feature.
 - Le finestre Normal adiacenti dello stesso blocco non sono indipendenti; la garanzia conformal exchangeability è quindi approssimata, non dimostrata.
 - Con n=50 il rank 49 produce una calibrazione discreta e conservativa per singola feature: con superamento stretto, normalmente una sola finestra supera la soglia.

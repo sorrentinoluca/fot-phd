@@ -575,6 +575,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p>Per ciascuna delle 50 finestre si calcola la feature sulle 41 XMEAS e si prende <strong>il massimo di sistema</strong>. Gli score sono adimensionali — ogni variabile è espressa rispetto al proprio comportamento normale — quindi il massimo risponde alla domanda «almeno una variabile si è allontanata dal proprio normale più del previsto?». Non identifica la causa e non rende anomale le altre variabili.</p>
 <p>I 50 massimi vengono ordinati e la soglia è il valore al <strong>rango 49</strong>, con attivazione stretta <code>&gt;</code>.</p>
 <p><em>Natura della motivazione del rango 49: scelta di disegno.</em> Corrisponde a un quantile empirico prossimo al 98° sui massimi Normal disponibili. Gli artefatti <strong>non documentano</strong> una calibrazione mirata a un tasso di falsi allarmi obiettivo, e non ne viene attribuita una a posteriori.</p>
+<blockquote><p><strong>Dove si verifica davvero.</strong> La formula, il valore di <code>alpha</code> e i limiti della calibrazione stanno in <a href="../code/tep_analysis_v2/threshold_calibration_report.md"><code>code/tep_analysis_v2/threshold_calibration_report.md</code></a> e in <code>threshold_calibration.json</code>, che sono la fonte: questa sezione ne è la narrazione. Il report registra <code>alpha = 0.05</code>, la regola <code>k = ceil((n+1)*(1-alpha)) = 49</code> e cinque limiti dichiarati — fra cui che le finestre adiacenti non sono indipendenti, che la calibrazione è per-feature e non corregge la simultaneità fra le quattro feature (l'unione produce 3/50, cioè 6,0%, non 5%), e che <strong>la funzione di score non è la stessa in calibrazione e in applicazione</strong>, perché la calibrazione usa una baseline leave-one-block-out su quattro blocchi e le finestre di fault e di test ne usano una su tutti e cinque. Chi deve verificare una soglia apre il report, non questa pagina.</p></blockquote>
 <blockquote>
 <p><strong>Esempio reale — dalle 50 finestre alla soglia di spostamento</strong></p>
 <div class="scroll"><table>
@@ -1995,7 +1996,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <tr><td style="text-align:center">🟡</td><td><strong>Adiacente</strong></td><td>Condivide un asse — dominio, regime non-IID o payload — ma non cambia le nostre scelte: citazione di contesto</td></tr>
 <tr><td style="text-align:center">🔴</td><td><strong>Distante</strong></td><td>Sfondo del campo: serve a mostrare il perimetro consultato, non richiede discussione</td></tr>
 </tbody></table></div>
-<p>Complessivamente: <strong>98 lavori</strong>, di cui 25 🟢, 38 🟡, 35 🔴.</p>
+<p>Complessivamente: <strong>101 lavori</strong>, di cui 28 🟢, 38 🟡, 35 🔴.</p>
 <p>Autori e anno provengono da fonti già verificate nel repository: l'audit di prior art, la gap analysis e la scansione del related work. Un trattino <strong>—</strong> significa che il dato <strong>non è stato verificato su fonte ufficiale</strong>: è 1 lavoro su 97, e va confermato prima di usarli in bibliografia.</p>
 <details class="litcat">
 <summary><span class="lc-name">Federazione testuale</span> <span class="lc-meta">14 lavori · 🟢 7 · 🟡 5 · 🔴 2</span></summary>
@@ -2054,11 +2055,12 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Federated few-shot e privacy</button></p>
 </details>
 <details class="litcat">
-<summary><span class="lc-name">TS→testo fedele</span> <span class="lc-meta">6 lavori · 🟢 3 · 🟡 1 · 🔴 2</span></summary>
+<summary><span class="lc-name">TS→testo fedele</span> <span class="lc-meta">7 lavori · 🟢 4 · 🟡 1 · 🔴 2</span></summary>
 <div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
 <tr><td>Truth-Conditional Captions for Time Series Data</td><td>Jhamtani &amp; Berg-Kirkpatrick, 2021</td><td style="text-align:center">🟢</td></tr>
 <tr><td>Representing Time Series as Structured Programs for LLM Reasoning (T2SP)</td><td>Kim et al., 2026</td><td style="text-align:center">🟢</td></tr>
 <tr><td>CGTime: Decoupling Perception from Description in Time-Series Reasoning</td><td>Feng, Xie, Zhang, Li, Ling, Li, Liu</td><td style="text-align:center">🟢</td></tr>
+<tr><td>S2S-FDD: Bridging Industrial Time Series and Natural Language for Explainable Zero-shot Fault Diagnosis</td><td>Li &amp; Zhao, 2025</td><td style="text-align:center">🟢</td></tr>
 <tr><td>An On-the-Fly Signals-to-Semantics Storytelling Framework for Explainable Industrial Maintenance Decisions</td><td>Yue, Zhao, Cheng, 2026</td><td style="text-align:center">🟡</td></tr>
 <tr><td>A Fuzzy Approach to Data-to-Text for Time Series</td><td>Ramos-Soto, Janeiro, Alonso, Bugarín et al., 2017</td><td style="text-align:center">🔴</td></tr>
 <tr><td>ICA2TEXT: Data-to-Text for Air-Quality Time Series</td><td>Cascallar-Fuentes et al., 2022</td><td style="text-align:center">🔴</td></tr>
@@ -2076,9 +2078,10 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Rappresentazioni simboliche</button></p>
 </details>
 <details class="litcat">
-<summary><span class="lc-name">LLM per fault diagnosis</span> <span class="lc-meta">6 lavori · 🟢 1 · 🟡 3 · 🔴 2</span></summary>
+<summary><span class="lc-name">LLM per fault diagnosis</span> <span class="lc-meta">7 lavori · 🟢 2 · 🟡 3 · 🔴 2</span></summary>
 <div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
 <tr><td>Evidence-Traceable LLM Reporting for Industrial Process Fault Detection and Diagnosis (EviFDD-Agent)</td><td>Chen, Peng, Zhang, Zhu, Hu, Zhai et al., 2026</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Exploring LLM-based Agentic Frameworks for Fault Diagnosis</td><td>Lee, Vidyaratne, Farahat, Gupta, 2025</td><td style="text-align:center">🟢</td></tr>
 <tr><td>FD-LLM: Large Language Model for Fault Diagnosis of Machines</td><td>Qaid et al., 2024</td><td style="text-align:center">🟡</td></tr>
 <tr><td>FD-LLM: Large Language Model for Fault Diagnosis of Complex Equipment</td><td>Lin et al., 2025</td><td style="text-align:center">🟡</td></tr>
 <tr><td>LLM-TSFD: Industrial Time-Series Human-in-the-Loop Fault Diagnosis</td><td>Zhang, Xu, Li, Sun, Bao, Zhang, 2024</td><td style="text-align:center">🟡</td></tr>
@@ -2105,9 +2108,10 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Calibrazione e predizione conforme</button></p>
 </details>
 <details class="litcat">
-<summary><span class="lc-name">Allineamento TS–linguaggio</span> <span class="lc-meta">7 lavori · 🟢 1 · 🔴 6</span></summary>
+<summary><span class="lc-name">Allineamento TS–linguaggio</span> <span class="lc-meta">8 lavori · 🟢 2 · 🔴 6</span></summary>
 <div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
 <tr><td>TableTime: Reformulating Time Series Classification as Training-Free Table Understanding with LLMs</td><td>Wang, Cheng, Mao, Zhou, Wang, Liu et al., 2025</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Can LLMs Understand Time Series Anomalies?</td><td>Zhou &amp; Yu, 2025</td><td style="text-align:center">🟢</td></tr>
 <tr><td>T3: Domain-Agnostic Neural Time-Series Narration</td><td>Sharma, Brownstein &amp; Ramakrishnan, 2021</td><td style="text-align:center">🔴</td></tr>
 <tr><td>Repr2Seq: Time Series Representation to Sequence</td><td>Li et al., 2023</td><td style="text-align:center">🔴</td></tr>
 <tr><td>TADACap: Time-Series Image Retrieval for Domain-Aware Captioning</td><td>Fons et al., 2024</td><td style="text-align:center">🔴</td></tr>
@@ -2173,7 +2177,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p>Le stringhe di ricerca che hanno prodotto ciascuna voce sono conservate in <a href="lit_review"><code>docs/lit_review</code></a>, insieme alle schede complete.</p>
 <h3>14.2 Schede estese: i lavori che influenzano il disegno</h3>
 <p>Le schede riguardano i lavori che <strong>influenzano direttamente il disegno</strong>. Stessa modalità di §14.1: apri la categoria che ti serve e richiudila con la <strong>✕</strong> o con il pulsante in fondo.</p>
-<blockquote><p><strong>Le schede sono 19, i 🟢 di §14.1 sono 25.</strong> Sette lavori marcati come vicini non hanno ancora una scheda: FICAL, DP-FPL, FedDTPT, T2SP e i tre promossi dopo la verifica dei metadati — EviFDD-Agent, TableTime e la rassegna sui federated reasoning LLM. È un arretrato dichiarato, non una svista.</p></blockquote>
+<blockquote><p><strong>Le schede sono 23, i 🟢 di §14.1 sono 28.</strong> Una scheda riguarda un 🔴 (FedSRD), quindi i vicini con scheda sono 22 e <strong>sei</strong> restano senza: FICAL, DP-FPL, FedDTPT, T2SP, TableTime e la rassegna sui federated reasoning LLM. È un arretrato dichiarato, non una svista. EviFDD-Agent è uscito dall'arretrato nel 2026-09: delimita §8.9–§8.10 del piano sperimentale e non poteva restare senza scheda.</p></blockquote>
 <details class="litcat">
 <summary><span class="lc-name">Federazione testuale</span> <span class="lc-meta">7 schede</span></summary>
 <div class="lc-body">
@@ -2253,7 +2257,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Contesto e memoria testuale</button></p>
 </details>
 <details class="litcat">
-<summary><span class="lc-name">TS→testo fedele</span> <span class="lc-meta">2 schede</span></summary>
+<summary><span class="lc-name">TS→testo fedele</span> <span class="lc-meta">3 schede</span></summary>
 <div class="lc-body">
 <h4>Truth-Conditional Captions for Time Series Data</h4>
 <p class="lc-au">Jhamtani &amp; Berg-Kirkpatrick, 2021</p>
@@ -2263,6 +2267,10 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p class="lc-au">Feng, Xie, Zhang, Li, Ling, Li, Liu</p>
 <p>Propone un approccio a percezione statistica separata dalla descrizione.</p>
 <p><strong>Rapporto con questo lavoro</strong> — <em>Implicazione:</em> è il braccio <code>CGTIME_STATS</code> del confronto delle rappresentazioni di §10.4, nella versione adattata.</p>
+<h4>S2S-FDD: Bridging Industrial Time Series and Natural Language for Explainable Zero-shot Fault Diagnosis</h4>
+<p class="lc-au">Li &amp; Zhao, 2025</p>
+<p>Li, B. &amp; Zhao, C., <em>2025 CAA Symposium on Fault Detection, Supervision and Safety for Technical Processes (SAFEPROCESS)</em>, IEEE. DOI <code>10.1109/safeprocess67117.2025.11268252</code>; preprint arXiv <code>2603.08048</code>. Un operatore Signal-to-Semantic converte segnali di sensori multivariati in descrizioni in linguaggio naturale che catturano trend, periodicità e deviazione rispetto a una baseline normale costruita su 500 campioni; un metodo di diagnosi multi-turno ad albero interroga poi documenti di manutenzione e richiede dinamicamente altri segnali. 76,92% di accuratezza sul multiphase flow di Cranfield, <strong>senza alcun dato di guasto</strong>.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> è la stessa catena — segnale numerico → descrizione testuale → diagnosi di una condizione mai osservata — sulle stesse tre famiglie di descrittori che usa il verbalizzatore V2. <em>Differenza:</em> è centralizzato e mono-agente, non c'è federazione né trasferimento fra pari; il banco è il multiphase flow, non il TEP; e la descrizione è generata da un LLM, non da un renderer deterministico. <em>Implicazione:</em> è il <strong>precedente centralizzato più vicino alla catena FoT</strong>, e delimita un claim. Impedisce di sostenere che costruire un artefatto testuale a partire da una modalità numerica per diagnosticare una classe non vista sia un problema non affrontato: lo è, fuori dal contesto federato. La rivendicazione va quindi ancorata al regime federato e al confronto controllato B/E, mai formulata «in generale».</p>
 </div>
 <p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi TS→testo fedele</button></p>
 </details>
@@ -2275,6 +2283,30 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p><strong>Rapporto con questo lavoro</strong> — <em>Implicazione:</em> è il braccio <code>SAX_SYMBOLIC</code> del confronto delle rappresentazioni di §10.4.</p>
 </div>
 <p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Rappresentazioni simboliche</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">LLM per fault diagnosis</span> <span class="lc-meta">2 schede</span></summary>
+<div class="lc-body">
+<h4>Evidence-Traceable LLM Reporting for Industrial Process Fault Detection and Diagnosis (EviFDD-Agent)</h4>
+<p class="lc-au">Chen, Peng, Zhang, Zhu, Hu, Zhai et al., 2026</p>
+<p>Preprint sottomesso a <em>Computers &amp; Chemical Engineering</em>. Un <em>Evidence Citation Schema</em> lega i campi strutturati di un report diagnostico alle uscite dei tool che li hanno prodotti; tre metriche — Evidence Field Traceability, Untraceable Report Rate e un Report Actionability Score preliminare — misurano quanto il testo generato sia riconducibile a quelle uscite. Valutato sul TEP su sette configurazioni, n = 210, con intervalli di Wilson.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> è l'unico lavoro del corpus che <strong>misuri e pubblichi</strong> la conformità di un artefatto testuale a uno schema, sullo stesso banco di prova. <em>Differenza:</em> misura la tracciabilità dei campi del <strong>reporter</strong> verso un evidence record già prodotto da tool deterministici; §8.9 del piano misura la validità dello schema lato <strong>producer</strong>, insieme a retry, troncamenti e token. Sono grandezze complementari, non equivalenti. <em>Implicazione:</em> delimita il claim di §8.10 punto 7, che non può dire «l'unica tabella del suo genere fra i lavori comparabili». Porta inoltre due indicazioni operative: i fallimenti di conformità si concentrano negli <strong>identificatori di variabile</strong> parafrasati (URR 77,1% nel prompt passivo, campi numerici a zero errori), e le configurazioni in cui i campi critici sono serializzati da una struttura deterministica raggiungono URR = 0. Con due modelli della stessa famiglia, il più grande risulta il meno conforme (URR 19,5% contro 1,4%) e 11,8× più lento.</p>
+<h4>Exploring LLM-based Agentic Frameworks for Fault Diagnosis</h4>
+<p class="lc-au">Lee, Vidyaratne, Farahat, Gupta, 2025</p>
+<p>Lee, X.Y., Vidyaratne, L., Farahat, A. &amp; Gupta, C., <em>Annual Conference of the PHM Society</em> 17(1), 2025. DOI <code>10.36001/phmconf.2025.v17i1.4350</code>. ⚠️ Il titolo esatto contiene <strong>«Agentic»</strong>, che il nome del file omette. Confronta configurazioni di agenti LLM su dati di sensori grezzi: rappresentazione dell'ingresso (dati grezzi, statistiche descrittive, entrambe), presenza e forma dei dati di riferimento normali, architettura singolo-LLM contro multi-LLM, e apprendimento continuo da feedback.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> mette a confronto <strong>rappresentazioni</strong> dello stesso segnale in ingresso a un LLM, che è ciò che fa §10.4, e contrappone un agente LLM a una baseline statistica, che è ciò che fa §9.1. <em>Differenza:</em> non è federato, non è sul TEP, e il compito primario è la rilevazione binaria più una classificazione a poche classi. <em>Implicazione:</em> delimita tre affermazioni. Primo, la superiorità della rappresentazione descrittiva sui dati grezzi è già pubblicata (F1 0,84 contro 0,79; accuratezza 0,73 contro 0,67): §10.4 la conferma su un altro dominio, non la scopre. Secondo, la baseline a regole ottiene F1 0,85 in rilevazione — <strong>più di ogni configurazione LLM</strong> — ma precision, recall e F1 pari a zero in classificazione: è il precedente pubblicato dello scenario di rischio di §9.3, e permette di riportarlo come pattern noto invece che come sconfitta. Terzo, gli LLM non migliorano con il feedback accumulato in contesto, il che sostiene §5 G4 senza chiuderne la domanda.</p>
+</div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi LLM per fault diagnosis</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">Allineamento TS–linguaggio</span> <span class="lc-meta">1 schede</span></summary>
+<div class="lc-body">
+<h4>Can LLMs Understand Time Series Anomalies?</h4>
+<p class="lc-au">Zhou &amp; Yu, 2025</p>
+<p>Zhou, Z. &amp; Yu, R. Il frontespizio riporta <em>Published as a conference paper at ICLR 2025</em>; i cataloghi registrano solo il preprint arXiv <code>2410.05440</code> (DOI <code>10.48550/arXiv.2410.05440</code>), quindi la sede non è confermata su catalogo. Studio controllato su quattro ipotesi: gli LLM capiscono le serie temporali meglio come <strong>immagini</strong> che come testo; <strong>non</strong> migliorano quando sono sollecitati a ragionare esplicitamente, e spesso peggiorano; la loro comprensione non deriva da bias di ripetizione o da abilità aritmetiche; il comportamento varia molto fra modelli.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> è la domanda che sta sotto all'intera catena di §3 — che cosa un LLM sia effettivamente in grado di fare su una serie temporale. <em>Differenza:</em> presenta serie grezze o immagini, non testo verbalizzato da un renderer deterministico, e il compito è rilevazione di anomalie, non diagnosi multi-classe. <em>Implicazione:</em> sostiene indirettamente la scelta della verbalizzazione — se il numerico grezzo è un ingresso povero, tradurlo è la mossa giusta — e allo stesso tempo <strong>impedisce di trattarla come contributo</strong>. Delimita inoltre §8.7 e §10.2: che un budget di ragionamento più ampio migliori il risultato non è un'assunzione neutra, perché su serie temporali il ragionamento esplicito è documentato come non migliorativo. Su ingresso verbalizzato il risultato può non trasferirsi, ma l'assunzione va dichiarata e il capability pilot è il luogo dove il dato esiste già senza costo aggiuntivo.</p>
+</div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Allineamento TS–linguaggio</button></p>
 </details>
 <details class="litcat">
 <summary><span class="lc-name">Calibrazione e predizione conforme</span> <span class="lc-meta">1 schede</span></summary>
@@ -2336,6 +2368,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p><strong>Le altre due interrogazioni non sono più vuote, e la dichiarazione precedente va corretta.</strong> La specificità semantica in apprendimento in contesto è affrontata, in forma diversa dalla nostra, da ACE, che nomina <em>brevity bias</em> e <em>context collapse</em> come modalità di degradazione del contesto, e da FedTextGrad, che misura la perdita di dettaglio nell'aggregazione testuale. L'affidabilità della conoscenza condivisa fra agenti è affrontata da FERA, con pesatura per incertezza, e da SYNAPSE, con risoluzione dei conflitti per campo.</p>
 <blockquote><p><strong>Nessuno di questi lavori usa però un controllo ad associazione corrotta a parità di contenuto e ordine.</strong> La condizione E di <a class="xref" href="#sez-7-studio-principale">§7</a> resta, nel corpus consultato, senza equivalenti: gli altri mitigano l'inaffidabilità, non la inducono per misurarne l'effetto.</p></blockquote>
 <p>Questo <strong>delimita il corpus consultato, non prova l'assenza di precedenti</strong>. Sostiene una formulazione prudente sulla combinazione studiata, del tipo <em>to the best of our knowledge</em> — ora su un perimetro più ampio e verificato sul testo integrale, non soltanto su interrogazioni bibliografiche.</p>
+<p>⚠️ <strong>Correzione del 2026-09: la prima interrogazione va riletta in modo più stretto.</strong> «L'intersezione fra trasferimento federato di conoscenza <em>testuale</em> e serie temporali non produce precedenti» resta vera per l'intersezione a <strong>tre</strong> assi, ed è su quella che poggia §1.4. Non è invece vera se si toglie il federato: S2S-FDD (Li &amp; Zhao, 2025) costruisce descrizioni in linguaggio naturale da segnali industriali multivariati e diagnostica zero-shot senza dati di guasto, e T2SP e CGTime lavorano sul verbalizzatore. La formula da usare nomina quindi tutti e tre gli assi insieme, e non la sola coppia testo + serie temporali.</p>
 <p><strong>Come è stata condotta la ricerca.</strong> Fonti: arXiv, OpenReview e gli atti NeurIPS/ICML/ICLR, ACM DL, IEEE Xplore, Springer, Elsevier/ScienceDirect, Semantic Scholar, OpenAlex, Crossref, Scopus e DBLP. Intervallo fino a settembre 2026, con enfasi sul 2020–2026. Alle interrogazioni dirette si è aggiunto il <em>citation chaining</em>: all'indietro dalle referenze di Yao et al., in avanti dai vicini verso i lavori che li citano. Le stringhe esatte sono conservate in <a href="lit_review"><code>docs/lit_review</code></a>.</p>
 <p><strong>Esclusioni documentate.</strong> Sei dei venticinque lavori — FedPOB, FedPrompt, pFedPG, pFedMoAP, DP²FL, pFedRAG — sono stati esaminati e lasciati fuori perimetro: aggiornano parametri, scambiano payload numerici (prompt continui, parametri di bandit, pesi di embedding) e in gran parte lavorano su benchmark visivi. Non hanno un corrispettivo testuale con cui confrontarsi.</p>
 <h3>14.5 I lavori più vicini</h3>
@@ -2385,6 +2418,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p><strong>Sintesi.</strong> Ogni singolo asse ha un vicino stretto. Nessuno dei cinque combina serie temporali multivariate, LLM in contesto, scambio testuale, classi localmente non viste, assenza di scambio di dati grezzi e controllo di specificità. La novità vive <strong>nell'intersezione e nel disegno di valutazione</strong>, non nei componenti.</p>
 <blockquote>
 <p><strong>Un sesto vicino, individuato dopo.</strong> Questa analisi precede l'esame del corpus federato di §14.1. <strong>SYNAPSE</strong> va aggiunto come vicino sull'asse che qui non compare: la portabilità dello stesso artefatto testuale fra famiglie di modelli diverse. Vieta di presentare la portabilità cross-model di <a class="xref" href="#sez-10-verifiche-di-robustezza">§10.1</a> come capacità inedita; lascia possibile presentarla come conferma lato consumatore su evidenza temporale.</p>
+<p><strong>Un settimo vicino, aggiunto nel 2026-09.</strong> <strong>S2S-FDD</strong> (Li &amp; Zhao, 2025) è vicino sull'asse che gli altri sei non toccano: la catena segnale numerico → descrizione testuale → diagnosi di una condizione mai osservata, su un processo industriale reale. <em>Claim che ci vieta:</em> qualunque formulazione per cui tradurre una modalità numerica in testo diagnostico per riconoscere una classe non vista sarebbe un problema aperto. <em>Claim che resta:</em> la stessa catena in regime <strong>federato</strong>, con esperienza disgiunta per classe fra pari, controllo di specificità B/E e misura della degradazione sulle classi già note — nessuna delle quali compare in S2S-FDD, che è centralizzato, mono-agente e senza controllo a informazione corrotta.</p>
 </blockquote>
 <h3>14.6 Tenuta della novità</h3>
 <p><strong>Tentativo di falsificazione.</strong> La ricerca è stata condotta <em>contro</em> la nostra tesi, cercando un lavoro che combinasse tutti gli assi insieme. A criteri pieni non ne è emerso alcuno. Rilassando i criteri uno alla volta compaiono i vicini, e mostrano dove la nostra posizione è fragile:</p>
@@ -2417,7 +2451,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 </tr>
 <tr>
 <td>Dominio — prima applicazione documentata di un approccio FoT-like alla diagnosi su TEP</td>
-<td><strong>Moderata.</strong> Reale ma applicativa</td>
+<td><strong>Moderata, rivista al ribasso nel 2026-09.</strong> Reale ma applicativa, e non più isolata: S2S-FDD porta la catena segnale→testo→diagnosi zero-shot su un processo industriale, sebbene centralizzata e su un altro banco</td>
 </tr>
 <tr>
 <td>Metodologia — la catena evidenza deterministica → ragionamento locale → trasferimento testuale</td>

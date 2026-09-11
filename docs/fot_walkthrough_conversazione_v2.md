@@ -264,6 +264,8 @@ I 50 massimi vengono ordinati e la soglia è il valore al **rango 49**, con atti
 
 *Natura della motivazione del rango 49: scelta di disegno.* Corrisponde a un quantile empirico prossimo al 98° sui massimi Normal disponibili. Gli artefatti **non documentano** una calibrazione mirata a un tasso di falsi allarmi obiettivo, e non ne viene attribuita una a posteriori.
 
+> **Dove si verifica davvero.** La formula, il valore di `alpha` e i limiti della calibrazione stanno in [`code/tep_analysis_v2/threshold_calibration_report.md`](../code/tep_analysis_v2/threshold_calibration_report.md) e in `threshold_calibration.json`, che sono la fonte: questa sezione ne è la narrazione. Il report registra `alpha = 0.05`, la regola `k = ceil((n+1)*(1-alpha)) = 49` e cinque limiti dichiarati — fra cui che le finestre adiacenti non sono indipendenti, che la calibrazione è per-feature e non corregge la simultaneità fra le quattro feature (l'unione produce 3/50, cioè 6,0%, non 5%), e che **la funzione di score non è la stessa in calibrazione e in applicazione**, perché la calibrazione usa una baseline leave-one-block-out su quattro blocchi e le finestre di fault e di test ne usano una su tutti e cinque. Chi deve verificare una soglia apre il report, non questa pagina.
+
 > **Esempio reale — dalle 50 finestre alla soglia di spostamento**
 >
 > | Rango | Score | Finestra | Esito |
@@ -1084,7 +1086,7 @@ La tabella è divisa per categoria: apri quella che ti serve, richiudila con la 
 | 🟡 | **Adiacente** | Condivide un asse — dominio, regime non-IID o payload — ma non cambia le nostre scelte: citazione di contesto |
 | 🔴 | **Distante** | Sfondo del campo: serve a mostrare il perimetro consultato, non richiede discussione |
 
-Complessivamente: **98 lavori**, di cui 25 🟢, 38 🟡, 35 🔴.
+Complessivamente: **101 lavori**, di cui 28 🟢, 38 🟡, 35 🔴.
 
 Autori e anno provengono da fonti già verificate nel repository: l'audit di prior art, la gap analysis e la scansione del related work. Un trattino **—** significa che il dato **non è stato verificato su fonte ufficiale**: è 1 lavoro su 97, e va confermato prima di usarli in bibliografia.
 
@@ -1153,13 +1155,14 @@ Autori e anno provengono da fonti già verificate nel repository: l'audit di pri
 </details>
 
 <details>
-<summary><strong>TS→testo fedele</strong> · 6 lavori · 🟢 3 · 🟡 1 · 🔴 2</summary>
+<summary><strong>TS→testo fedele</strong> · 7 lavori · 🟢 4 · 🟡 1 · 🔴 2</summary>
 
 | Lavoro | Autori, anno | Vicinanza |
 | --- | --- | :---: |
 | Truth-Conditional Captions for Time Series Data | Jhamtani & Berg-Kirkpatrick, 2021 | 🟢 |
 | Representing Time Series as Structured Programs for LLM Reasoning (T2SP) | Kim et al., 2026 | 🟢 |
 | CGTime: Decoupling Perception from Description in Time-Series Reasoning | Feng, Xie, Zhang, Li, Ling, Li, Liu | 🟢 |
+| S2S-FDD: Bridging Industrial Time Series and Natural Language for Explainable Zero-shot Fault Diagnosis | Li & Zhao, 2025 | 🟢 |
 | An On-the-Fly Signals-to-Semantics Storytelling Framework for Explainable Industrial Maintenance Decisions | Yue, Zhao, Cheng, 2026 | 🟡 |
 | A Fuzzy Approach to Data-to-Text for Time Series | Ramos-Soto, Janeiro, Alonso, Bugarín et al., 2017 | 🔴 |
 | ICA2TEXT: Data-to-Text for Air-Quality Time Series | Cascallar-Fuentes et al., 2022 | 🔴 |
@@ -1179,11 +1182,12 @@ Autori e anno provengono da fonti già verificate nel repository: l'audit di pri
 </details>
 
 <details>
-<summary><strong>LLM per fault diagnosis</strong> · 6 lavori · 🟢 1 · 🟡 3 · 🔴 2</summary>
+<summary><strong>LLM per fault diagnosis</strong> · 7 lavori · 🟢 2 · 🟡 3 · 🔴 2</summary>
 
 | Lavoro | Autori, anno | Vicinanza |
 | --- | --- | :---: |
 | Evidence-Traceable LLM Reporting for Industrial Process Fault Detection and Diagnosis (EviFDD-Agent) | Chen, Peng, Zhang, Zhu, Hu, Zhai et al., 2026 | 🟢 |
+| Exploring LLM-based Agentic Frameworks for Fault Diagnosis | Lee, Vidyaratne, Farahat, Gupta, 2025 | 🟢 |
 | FD-LLM: Large Language Model for Fault Diagnosis of Machines | Qaid et al., 2024 | 🟡 |
 | FD-LLM: Large Language Model for Fault Diagnosis of Complex Equipment | Lin et al., 2025 | 🟡 |
 | LLM-TSFD: Industrial Time-Series Human-in-the-Loop Fault Diagnosis | Zhang, Xu, Li, Sun, Bao, Zhang, 2024 | 🟡 |
@@ -1213,11 +1217,12 @@ Le cinque voci 🟡 aggiunte nel 2026-09 calibrano o controllano esplicitamente 
 </details>
 
 <details>
-<summary><strong>Allineamento TS–linguaggio</strong> · 7 lavori · 🟢 1 · 🔴 6</summary>
+<summary><strong>Allineamento TS–linguaggio</strong> · 8 lavori · 🟢 2 · 🔴 6</summary>
 
 | Lavoro | Autori, anno | Vicinanza |
 | --- | --- | :---: |
 | TableTime: Reformulating Time Series Classification as Training-Free Table Understanding with LLMs | Wang, Cheng, Mao, Zhou, Wang, Liu et al., 2025 | 🟢 |
+| Can LLMs Understand Time Series Anomalies? | Zhou & Yu, 2025 | 🟢 |
 | T3: Domain-Agnostic Neural Time-Series Narration | Sharma, Brownstein & Ramakrishnan, 2021 | 🔴 |
 | Repr2Seq: Time Series Representation to Sequence | Li et al., 2023 | 🔴 |
 | TADACap: Time-Series Image Retrieval for Domain-Aware Captioning | Fons et al., 2024 | 🔴 |
@@ -1294,7 +1299,7 @@ Le stringhe di ricerca che hanno prodotto ciascuna voce sono conservate in [`doc
 
 Le schede riguardano i lavori che **influenzano direttamente il disegno**. Stessa modalità di §14.1: apri la categoria che ti serve e richiudila con la **✕** o con il pulsante in fondo.
 
-> **Le schede sono 19, i 🟢 di §14.1 sono 25.** Sette lavori marcati come vicini non hanno ancora una scheda: FICAL, DP-FPL, FedDTPT, T2SP e i tre promossi dopo la verifica dei metadati — EviFDD-Agent, TableTime e la rassegna sui federated reasoning LLM. È un arretrato dichiarato, non una svista.
+> **Le schede sono 23, i 🟢 di §14.1 sono 28.** Una scheda riguarda un 🔴 (FedSRD), quindi i vicini con scheda sono 22 e **sei** restano senza: FICAL, DP-FPL, FedDTPT, T2SP, TableTime e la rassegna sui federated reasoning LLM. È un arretrato dichiarato, non una svista. EviFDD-Agent è uscito dall'arretrato nel 2026-09: delimita §8.9–§8.10 del piano sperimentale e non poteva restare senza scheda.
 
 <details>
 <summary><strong>Federazione testuale</strong> · 7 schede</summary>
@@ -1417,7 +1422,7 @@ Tratta il contesto come un manuale che si accumula e si organizza, e nomina due 
 </details>
 
 <details>
-<summary><strong>TS→testo fedele</strong> · 2 schede</summary>
+<summary><strong>TS→testo fedele</strong> · 3 schede</summary>
 
 **Truth-Conditional Captions for Time Series Data**  
 *Jhamtani & Berg-Kirkpatrick, 2021*
@@ -1433,6 +1438,13 @@ Propone un approccio a percezione statistica separata dalla descrizione.
 
 **Rapporto con questo lavoro** — *Implicazione:* è il braccio `CGTIME_STATS` del confronto delle rappresentazioni di §10.4, nella versione adattata.
 
+**S2S-FDD: Bridging Industrial Time Series and Natural Language for Explainable Zero-shot Fault Diagnosis**  
+*Li & Zhao, 2025*
+
+Li, B. & Zhao, C., *2025 CAA Symposium on Fault Detection, Supervision and Safety for Technical Processes (SAFEPROCESS)*, IEEE. DOI `10.1109/safeprocess67117.2025.11268252`; preprint arXiv `2603.08048`. Un operatore Signal-to-Semantic converte segnali di sensori multivariati in descrizioni in linguaggio naturale che catturano trend, periodicità e deviazione rispetto a una baseline normale costruita su 500 campioni; un metodo di diagnosi multi-turno ad albero interroga poi documenti di manutenzione e richiede dinamicamente altri segnali. 76,92% di accuratezza sul multiphase flow di Cranfield, **senza alcun dato di guasto**.
+
+**Rapporto con questo lavoro** — *Somiglianza:* è la stessa catena — segnale numerico → descrizione testuale → diagnosi di una condizione mai osservata — sulle stesse tre famiglie di descrittori che usa il verbalizzatore V2. *Differenza:* è centralizzato e mono-agente, non c'è federazione né trasferimento fra pari; il banco è il multiphase flow, non il TEP; e la descrizione è generata da un LLM, non da un renderer deterministico. *Implicazione:* è il **precedente centralizzato più vicino alla catena FoT**, e delimita un claim. Impedisce di sostenere che costruire un artefatto testuale a partire da una modalità numerica per diagnosticare una classe non vista sia un problema non affrontato: lo è, fuori dal contesto federato. La rivendicazione va quindi ancorata al regime federato e al confronto controllato B/E, mai formulata «in generale».
+
 </details>
 
 <details>
@@ -1444,6 +1456,37 @@ Propone un approccio a percezione statistica separata dalla descrizione.
 Codifica simbolica di segnali da sensori per il consumo da parte di un modello linguistico.
 
 **Rapporto con questo lavoro** — *Implicazione:* è il braccio `SAX_SYMBOLIC` del confronto delle rappresentazioni di §10.4.
+
+</details>
+
+<details>
+<summary><strong>LLM per fault diagnosis</strong> · 2 schede</summary>
+
+**Evidence-Traceable LLM Reporting for Industrial Process Fault Detection and Diagnosis (EviFDD-Agent)**  
+*Chen, Peng, Zhang, Zhu, Hu, Zhai et al., 2026*
+
+Preprint sottomesso a *Computers & Chemical Engineering*. Un *Evidence Citation Schema* lega i campi strutturati di un report diagnostico alle uscite dei tool che li hanno prodotti; tre metriche — Evidence Field Traceability, Untraceable Report Rate e un Report Actionability Score preliminare — misurano quanto il testo generato sia riconducibile a quelle uscite. Valutato sul TEP su sette configurazioni, n = 210, con intervalli di Wilson.
+
+**Rapporto con questo lavoro** — *Somiglianza:* è l'unico lavoro del corpus che **misuri e pubblichi** la conformità di un artefatto testuale a uno schema, sullo stesso banco di prova. *Differenza:* misura la tracciabilità dei campi del **reporter** verso un evidence record già prodotto da tool deterministici; §8.9 del piano misura la validità dello schema lato **producer**, insieme a retry, troncamenti e token. Sono grandezze complementari, non equivalenti. *Implicazione:* delimita il claim di §8.10 punto 7, che non può dire «l'unica tabella del suo genere fra i lavori comparabili». Porta inoltre due indicazioni operative: i fallimenti di conformità si concentrano negli **identificatori di variabile** parafrasati (URR 77,1% nel prompt passivo, campi numerici a zero errori), e le configurazioni in cui i campi critici sono serializzati da una struttura deterministica raggiungono URR = 0. Con due modelli della stessa famiglia, il più grande risulta il meno conforme (URR 19,5% contro 1,4%) e 11,8× più lento.
+
+**Exploring LLM-based Agentic Frameworks for Fault Diagnosis**  
+*Lee, Vidyaratne, Farahat, Gupta, 2025*
+
+Lee, X.Y., Vidyaratne, L., Farahat, A. & Gupta, C., *Annual Conference of the PHM Society* 17(1), 2025. DOI `10.36001/phmconf.2025.v17i1.4350`. ⚠️ Il titolo esatto contiene **«Agentic»**, che il nome del file omette. Confronta configurazioni di agenti LLM su dati di sensori grezzi: rappresentazione dell'ingresso (dati grezzi, statistiche descrittive, entrambe), presenza e forma dei dati di riferimento normali, architettura singolo-LLM contro multi-LLM, e apprendimento continuo da feedback.
+
+**Rapporto con questo lavoro** — *Somiglianza:* mette a confronto **rappresentazioni** dello stesso segnale in ingresso a un LLM, che è ciò che fa §10.4, e contrappone un agente LLM a una baseline statistica, che è ciò che fa §9.1. *Differenza:* non è federato, non è sul TEP, e il compito primario è la rilevazione binaria più una classificazione a poche classi. *Implicazione:* delimita tre affermazioni. Primo, la superiorità della rappresentazione descrittiva sui dati grezzi è già pubblicata (F1 0,84 contro 0,79; accuratezza 0,73 contro 0,67): §10.4 la conferma su un altro dominio, non la scopre. Secondo, la baseline a regole ottiene F1 0,85 in rilevazione — **più di ogni configurazione LLM** — ma precision, recall e F1 pari a zero in classificazione: è il precedente pubblicato dello scenario di rischio di §9.3, e permette di riportarlo come pattern noto invece che come sconfitta. Terzo, gli LLM non migliorano con il feedback accumulato in contesto, il che sostiene §5 G4 senza chiuderne la domanda.
+
+</details>
+
+<details>
+<summary><strong>Allineamento TS–linguaggio</strong> · 1 schede</summary>
+
+**Can LLMs Understand Time Series Anomalies?**  
+*Zhou & Yu, 2025*
+
+Zhou, Z. & Yu, R. Il frontespizio riporta *Published as a conference paper at ICLR 2025*; i cataloghi registrano solo il preprint arXiv `2410.05440` (DOI `10.48550/arXiv.2410.05440`), quindi la sede non è confermata su catalogo. Studio controllato su quattro ipotesi: gli LLM capiscono le serie temporali meglio come **immagini** che come testo; **non** migliorano quando sono sollecitati a ragionare esplicitamente, e spesso peggiorano; la loro comprensione non deriva da bias di ripetizione o da abilità aritmetiche; il comportamento varia molto fra modelli.
+
+**Rapporto con questo lavoro** — *Somiglianza:* è la domanda che sta sotto all'intera catena di §3 — che cosa un LLM sia effettivamente in grado di fare su una serie temporale. *Differenza:* presenta serie grezze o immagini, non testo verbalizzato da un renderer deterministico, e il compito è rilevazione di anomalie, non diagnosi multi-classe. *Implicazione:* sostiene indirettamente la scelta della verbalizzazione — se il numerico grezzo è un ingresso povero, tradurlo è la mossa giusta — e allo stesso tempo **impedisce di trattarla come contributo**. Delimita inoltre §8.7 e §10.2: che un budget di ragionamento più ampio migliori il risultato non è un'assunzione neutra, perché su serie temporali il ragionamento esplicito è documentato come non migliorativo. Su ingresso verbalizzato il risultato può non trasferirsi, ma l'assunzione va dichiarata e il capability pilot è il luogo dove il dato esiste già senza costo aggiuntivo.
 
 </details>
 
@@ -1486,6 +1529,8 @@ Le ricerche sono state eseguite su OpenAlex, arXiv, Scopus e Crossref, e sono st
 
 Questo **delimita il corpus consultato, non prova l'assenza di precedenti**. Sostiene una formulazione prudente sulla combinazione studiata, del tipo *to the best of our knowledge* — ora su un perimetro più ampio e verificato sul testo integrale, non soltanto su interrogazioni bibliografiche.
 
+⚠️ **Correzione del 2026-09: la prima interrogazione va riletta in modo più stretto.** «L'intersezione fra trasferimento federato di conoscenza *testuale* e serie temporali non produce precedenti» resta vera per l'intersezione a **tre** assi, ed è su quella che poggia §1.4. Non è invece vera se si toglie il federato: S2S-FDD (Li & Zhao, 2025) costruisce descrizioni in linguaggio naturale da segnali industriali multivariati e diagnostica zero-shot senza dati di guasto, e T2SP e CGTime lavorano sul verbalizzatore. La formula da usare nomina quindi tutti e tre gli assi insieme, e non la sola coppia testo + serie temporali.
+
 **Come è stata condotta la ricerca.** Fonti: arXiv, OpenReview e gli atti NeurIPS/ICML/ICLR, ACM DL, IEEE Xplore, Springer, Elsevier/ScienceDirect, Semantic Scholar, OpenAlex, Crossref, Scopus e DBLP. Intervallo fino a settembre 2026, con enfasi sul 2020–2026. Alle interrogazioni dirette si è aggiunto il *citation chaining*: all'indietro dalle referenze di Yao et al., in avanti dai vicini verso i lavori che li citano. Le stringhe esatte sono conservate in [`docs/lit_review`](lit_review).
 
 **Esclusioni documentate.** Sei dei venticinque lavori — FedPOB, FedPrompt, pFedPG, pFedMoAP, DP²FL, pFedRAG — sono stati esaminati e lasciati fuori perimetro: aggiornano parametri, scambiano payload numerici (prompt continui, parametri di bandit, pesi di embedding) e in gran parte lavorano su benchmark visivi. Non hanno un corrispettivo testuale con cui confrontarsi.
@@ -1506,6 +1551,8 @@ Cinque lavori sono abbastanza vicini da poter essere scambiati per il nostro. Pe
 
 > **Un sesto vicino, individuato dopo.** Questa analisi precede l'esame del corpus federato di §14.1. **SYNAPSE** va aggiunto come vicino sull'asse che qui non compare: la portabilità dello stesso artefatto testuale fra famiglie di modelli diverse. Vieta di presentare la portabilità cross-model di [§10.1](#sez-10-verifiche-di-robustezza) come capacità inedita; lascia possibile presentarla come conferma lato consumatore su evidenza temporale.
 
+> **Un settimo vicino, aggiunto nel 2026-09.** **S2S-FDD** (Li & Zhao, 2025) è vicino sull'asse che gli altri sei non toccano: la catena segnale numerico → descrizione testuale → diagnosi di una condizione mai osservata, su un processo industriale reale. *Claim che ci vieta:* qualunque formulazione per cui tradurre una modalità numerica in testo diagnostico per riconoscere una classe non vista sarebbe un problema aperto. *Claim che resta:* la stessa catena in regime **federato**, con esperienza disgiunta per classe fra pari, controllo di specificità B/E e misura della degradazione sulle classi già note — nessuna delle quali compare in S2S-FDD, che è centralizzato, mono-agente e senza controllo a informazione corrotta.
+
 ### 14.6 Tenuta della novità
 
 **Tentativo di falsificazione.** La ricerca è stata condotta *contro* la nostra tesi, cercando un lavoro che combinasse tutti gli assi insieme. A criteri pieni non ne è emerso alcuno. Rilassando i criteri uno alla volta compaiono i vicini, e mostrano dove la nostra posizione è fragile:
@@ -1522,7 +1569,7 @@ Cinque lavori sono abbastanza vicini da poter essere scambiati per il nostro. Pe
 | Componente — verbalizzazione, insight testuali, federazione non parametrica, classi disgiunte | **Bassa.** Tutti noti singolarmente |
 | Combinazione — l'unione di testo-LLM, serie temporali multivariate, classi disgiunte, non viste, nessun dato grezzo | **Moderata.** Il livello più difendibile |
 | Valutazione — A/B/E con permutazione pre-registrata, freeze, held-out, pseudolabel opachi | **Moderata/alta.** Il pezzo migliore: il controllo B−E, cioè specificità semantica a parità di testo, è raro in questo filone |
-| Dominio — prima applicazione documentata di un approccio FoT-like alla diagnosi su TEP | **Moderata.** Reale ma applicativa |
+| Dominio — prima applicazione documentata di un approccio FoT-like alla diagnosi su TEP | **Moderata, rivista al ribasso nel 2026-09.** Reale ma applicativa, e non più isolata: S2S-FDD porta la catena segnale→testo→diagnosi zero-shot su un processo industriale, sebbene centralizzata e su un altro banco |
 | Metodologia — la catena evidenza deterministica → ragionamento locale → trasferimento testuale | **Bassa/moderata.** Composizione di tecniche note, resa rigorosa |
 
 La raccomandazione che ne segue è puntare il paper su **combinazione e valutazione**, non su componente e metodologia. La formula sicura, da usare così com'è:
