@@ -666,7 +666,7 @@ class Exp2QwenDocumentStatusChecks(unittest.TestCase):
     not individual lines, so a keyword split across lines is still caught.
     """
 
-    LIT_REVIEW = ROOT / 'docs' / 'lit_review' / 'FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md'
+    LIT_REVIEW = ROOT / 'docs' / 'archive' / 'lit_review_2026-09' / 'FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md'
     EXP_PLAN = ROOT / 'docs' / 'paper' / 'FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md'
 
     @classmethod

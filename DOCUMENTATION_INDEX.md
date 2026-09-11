@@ -9,7 +9,7 @@ changes only when the structure changes.
 | Document | What it is for |
 |---|---|
 | [`README.md`](README.md) | Project orientation: objective, main result, status, repository map |
-| [`docs/fot_walkthrough_conversazione.html`](docs/fot_walkthrough_conversazione.html) | Primary scientific and didactic walkthrough (Italian, self-contained) |
+| [`docs/fot_walkthrough_conversazione_v2.md`](docs/fot_walkthrough_conversazione_v2.md) | **The walkthrough.** Reference generation; §14 is the project's single active home for literature |
 | [`AUDIT_GUIDE.md`](AUDIT_GUIDE.md) | Independent verification path for every frozen result |
 | [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md) | Maintenance contract: content categories, what is frozen, what must stay in sync |
 
@@ -19,7 +19,8 @@ changes only when the structure changes.
 |---|---|---|
 | [`docs/`](docs) | Walkthrough documents | Two generations coexist; tracked by git = canonical, untracked = draft. See `docs/MAINTENANCE.md` §3.1 |
 | [`docs/paper/`](docs/paper) | Material for the future paper: blueprint and experiment plan | Not process documentation |
-| [`docs/lit_review/`](docs/lit_review) | Literature reviews, gap analyses, comparative analyses | Reviews only — no plans, no papers |
+| [`docs/lit_review/`](docs/lit_review) | Supporting analyses that feed §14 of the walkthrough | Not a parallel corpus: the literature lives in §14 and nowhere else |
+| [`docs/archive/`](docs/archive) | Closed snapshots of superseded documents | Read-only; each carries a header saying what migrated where |
 | [`docs/audits/`](docs/audits) | Audits produced during the FoT-TEP process | Not audits of imported work |
 | [`docs/figures/`](docs/figures) | Figures and their manifest | |
 | [`docs/prompts/`](docs/prompts) | Operational handoff prompts | |
@@ -41,6 +42,7 @@ changes only when the structure changes.
 |---|---|
 | Which artifact backs a given result, and how do I verify its bytes? | [`AUDIT_GUIDE.md`](AUDIT_GUIDE.md) §5 to §13 |
 | Where is the artifact for a given section of the walkthrough? | Walkthrough, §15.2 "Dove si trova ogni cosa" |
+| Which works were consulted, what do they forbid us to claim? | Walkthrough §14.1 to §14.7 — the only place |
 | Which frozen tag anchors which milestone? | [`AUDIT_GUIDE.md`](AUDIT_GUIDE.md) §14 |
 | What is in this folder and why? | The folder's own `README.md`, when it has one |
 

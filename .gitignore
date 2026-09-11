@@ -41,3 +41,7 @@ tmp/
 # Dataset workbooks must not be committed to this source repository.
 *.xlsx
 *.xls
+
+# Local SWaT material and images generated while extracting papers.
+/swat/
+/papers/**/*_images/

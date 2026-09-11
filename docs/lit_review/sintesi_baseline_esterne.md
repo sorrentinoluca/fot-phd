@@ -31,7 +31,7 @@ Critica analizzata: *"Baseline esterne al paradigma — metodi diagnostici conve
 - La ricerca nel repository curato [LLM-based-PHM](https://github.com/CHAOZHAO-1/LLM-based-PHM) (>50 paper) non contiene **nessun** paper all'intersezione di "federated learning" + "LLM fault diagnosis."
 - Le ricerche su OpenAlex per "federated learning fault diagnosis baseline FedAvg" restituiscono solo survey generici su FL, nessuno che confronti FL parametrico con approcci testuali/linguistici.
 - Il gap analysis presente nel nostro doc `FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md` (riga 160) conferma: tutti i paper FL-FDD esistenti scambiano parametri/gradienti; **nessuno** usa trasferimento testuale di conoscenza.
-- La catena evolutiva FedAvg → FedMD → FedProto → FedGen → FoT (tracciata nel nostro `FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`, Parte C) mostra che FoT è il primo a proporre la federazione over text.
+- La catena evolutiva FedAvg → FedMD → FedProto → FedGen → FoT (tracciata in `docs/fot_walkthrough_conversazione_v2.md` §14 e, nella versione originale archiviata, in `docs/archive/lit_review_2026-09/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`, Parte C) mostra che FoT è il primo a proporre la federazione over text.
 
 **Verdetto**: Non esistono precedenti di confronto cross-paradigma (testuale vs parametrico) in FL-FDD. FoT apre un filone nuovo, il che rende il confronto diretto con FedAvg non solo tecnicamente problematico (task diversi: unseen-class transfer vs classificazione completa) ma anche senza precedenti nella letteratura.
 

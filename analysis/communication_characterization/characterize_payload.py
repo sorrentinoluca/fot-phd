@@ -56,7 +56,7 @@ MAIN_SOURCES = [
     "docs/fot_walkthrough.html",
     "docs/paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md",
     "docs/lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md",
-    "docs/lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md",
+    "docs/archive/lit_review_2026-09/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md",
 ]
 
 
@@ -1344,7 +1344,7 @@ def main() -> int:
                 "federated_LoRA_uplink": "K * P_adapter * bytes_per_parameter per round; P_LoRA=sum r(d_in+d_out)",
                 "FoT_realized": "sum over prompt calls of receiver-specific UTF-8 peer-block bytes/tokens",
             },
-            "source_refs": ["docs/lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md", "docs/lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md"],
+            "source_refs": ["docs/lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md", "docs/archive/lit_review_2026-09/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md"],
         },
         "missing_data": [
             "standalone GPT-5.6-terra tokenizer name/version/files",

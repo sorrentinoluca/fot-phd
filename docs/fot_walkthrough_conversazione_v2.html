@@ -1,0 +1,2586 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Framework sperimentale di base per il trasferimento federato di conoscenza testuale: documentazione interna, versione 2.">
+<title>Federation over Text for Locally Unseen Fault Diagnosis in Multivariate Time Series</title>
+<style>
+:root{--paper:#f4f6f7;--ink:#1a2733;--muted:#55677a;--line:#d3dbe1;--navy:#123b56;--blue:#1f638c;--teal:#0a7a6e;--teal-soft:#e9f5f2;--amber:#8a5a13;--amber-soft:#fff6e2;--white:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;background:var(--paper);color:var(--ink);font:16.5px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--blue);text-underline-offset:3px}
+a:hover{color:var(--teal)}
+.xref{font-weight:650;text-decoration:none;border-bottom:1px dotted currentColor}
+a:focus-visible,summary:focus-visible{outline:3px solid #f1a52b;outline-offset:3px}
+.skip{position:fixed;left:-9999px;top:10px;z-index:100;background:#fff;padding:.7rem 1rem;border-radius:7px}
+.skip:focus{left:12px}
+.layout{max-width:1500px;margin:auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:26px;padding:22px 24px 60px}
+nav.toc{position:sticky;top:18px;align-self:start;max-height:calc(100vh - 40px);overflow:auto;padding:16px 14px 20px;background:var(--white);border:1px solid var(--line);border-radius:12px}
+nav.toc h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:2px 0 10px}
+nav.toc ol{list-style:none;margin:0;padding:0}
+nav.toc li{margin:2px 0}
+nav.toc a{display:flex;gap:9px;padding:6px 8px;border-radius:7px;color:#2d4a5c;text-decoration:none;font-size:13.5px;line-height:1.35}
+nav.toc a:hover{background:#eef4f7}
+nav.toc .n{flex:0 0 20px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:700}
+main{min-width:0;max-width:1120px;margin:0 auto}
+header.hero{padding:clamp(26px,4.5vw,52px);background:linear-gradient(125deg,#123b56,#0a6e64);color:#fff;border-radius:16px}
+header.hero h1{font-size:clamp(27px,4vw,44px);line-height:1.12;margin:0 0 14px}
+header.hero .lede em,header.hero .lede p{color:#e4eff1}
+header.hero .lede p{margin:8px 0;max-width:80ch}
+section{scroll-margin-top:18px;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:clamp(20px,3.4vw,38px);margin:20px 0}
+.kicker{margin:0;color:var(--teal);font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+.kicker .num{display:inline-block;padding:2px 9px;border:1px solid #a8ccc6;border-radius:999px;background:var(--teal-soft)}
+h2{font-size:clamp(23px,2.7vw,31px);line-height:1.2;margin:9px 0 18px;color:var(--navy)}
+h3{font-size:19px;margin:26px 0 9px;color:#234b60}
+h4{font-size:16px;margin:20px 0 6px;color:#2c5468}
+p{margin:11px 0;max-width:86ch}
+ul,ol{padding-left:24px;max-width:86ch}
+li{margin:5px 0}
+code{font-size:.9em;background:#edf2f5;padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+pre{margin:13px 0;background:#102d3d;color:#edf7f8;padding:16px;border-radius:9px;overflow:auto;font-size:13.5px}
+pre code{background:none;color:inherit;padding:0}
+.scroll{overflow-x:auto;margin:15px 0;border:1px solid var(--line);border-radius:8px;background:var(--white)}
+table{width:100%;border-collapse:collapse;font-size:14.2px}
+th,td{padding:8px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#eef3f6;color:var(--navy);font-weight:750;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+blockquote{margin:15px 0;padding:14px 18px;border-left:5px solid var(--amber);background:var(--amber-soft);border-radius:0 8px 8px 0;max-width:86ch}
+details.litcat{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--white)}
+details.litcat>summary{cursor:pointer;padding:11px 14px;border-radius:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;list-style:none}
+details.litcat>summary::-webkit-details-marker{display:none}
+details.litcat>summary::before{content:"\25B8";color:var(--teal);font-weight:700;flex:0 0 auto}
+details.litcat[open]>summary::before{content:"\2715"}
+details.litcat>summary:hover{background:#eef4f7}
+details.litcat[open]>summary{border-bottom:1px solid var(--line);border-radius:10px 10px 0 0;background:#f7fafb}
+.lc-name{font-weight:750;color:var(--navy)}
+.lc-meta{color:var(--muted);font-size:13.5px;font-variant-numeric:tabular-nums}
+details.litcat .scroll{margin:0;border:none;border-radius:0}
+details.litcat .lc-body{padding:4px 16px 2px}
+details.litcat .lc-body h4{margin:16px 0 2px;color:#234b60}
+details.litcat .lc-body h4:first-child{margin-top:6px}
+.lc-au{margin:0 0 8px;color:var(--muted);font-size:14px}
+.lc-close{margin:0;padding:9px 14px 13px;text-align:right}
+.lc-close button{font:inherit;font-size:13.5px;color:var(--muted);background:none;border:1px solid var(--line);border-radius:7px;padding:5px 11px;cursor:pointer}
+.lc-close button:hover{color:var(--navy);border-color:var(--blue);background:#eef4f7}
+blockquote p{margin:7px 0}
+blockquote .scroll{background:#fffdf7}
+em{color:inherit}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+@media (max-width:960px){.layout{grid-template-columns:1fr;padding:14px}nav.toc{position:static;max-height:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#contenuto">Vai al contenuto</a>
+<div class="layout">
+<nav class="toc" aria-label="Indice del documento">
+<h2>Indice</h2>
+<ol>
+<li><a href="#sez-0-come-leggere-questo-documento"><span class="n">0</span>Come leggere questo documento</a></li>
+<li><a href="#sez-1-obiettivo-e-domanda-scientifica"><span class="n">1</span>Obiettivo e domanda scientifica</a></li>
+<li><a href="#sez-2-il-banco-di-prova-tep-agenti-guasti"><span class="n">2</span>Il banco di prova: TEP, agenti, guasti</a></li>
+<li><a href="#sez-3-dalla-serie-temporale-al-testo"><span class="n">3</span>Dalla serie temporale al testo</a></li>
+<li><a href="#sez-4-produzione-e-trasferimento-degli-insight"><span class="n">4</span>Produzione e trasferimento degli insight</a></li>
+<li><a href="#sez-5-le-quattro-condizioni-a-a-b-e"><span class="n">5</span>Le quattro condizioni: A, A+, B, E</a></li>
+<li><a href="#sez-6-protocollo-di-valutazione"><span class="n">6</span>Protocollo di valutazione</a></li>
+<li><a href="#sez-7-studio-principale"><span class="n">7</span>Studio principale</a></li>
+<li><a href="#sez-8-replica-su-nuovi-run"><span class="n">8</span>Replica su nuovi run</a></li>
+<li><a href="#sez-9-confronti-esterni-e-riferimenti"><span class="n">9</span>Confronti esterni e riferimenti</a></li>
+<li><a href="#sez-10-verifiche-di-robustezza"><span class="n">10</span>Verifiche di robustezza</a></li>
+<li><a href="#sez-11-costo-della-comunicazione"><span class="n">11</span>Costo della comunicazione</a></li>
+<li><a href="#sez-12-che-cosa-il-framework-mostra-e-che-cosa"><span class="n">12</span>Che cosa il framework mostra e che cosa non mostra</a></li>
+<li><a href="#sez-13-aderenza-alla-conferenza"><span class="n">13</span>Aderenza alla conferenza</a></li>
+<li><a href="#sez-14-letteratura"><span class="n">14</span>Letteratura</a></li>
+<li><a href="#sez-15-provenienza-e-riproducibilita"><span class="n">15</span>Provenienza e riproducibilità</a></li>
+</ol>
+</nav>
+<main id="contenuto">
+<header class="hero">
+<h1>Federation over Text for Locally Unseen Fault Diagnosis in Multivariate Time Series</h1>
+<div class="lede"><p><em>Documentazione sperimentale interna — versione 2. Destinata all'autore e ai colleghi, per comprendere, discutere e riprodurre il lavoro. Non contiene testo destinato a essere copiato nel paper.</em></p>
+<hr /></div>
+</header>
+<section id="sez-0-come-leggere-questo-documento">
+<p class="kicker"><span class="num">0</span></p><h2>Come leggere questo documento</h2>
+<p>Questo documento presenta un <strong>framework sperimentale di base per il trasferimento federato di conoscenza testuale</strong>. È organizzato per domande e funzioni, non secondo l'ordine in cui il lavoro è stato costruito.</p>
+<h3>0.1 Che cosa trova, e dove</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Se vuole sapere…</th>
+<th>Vada a</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>perché esiste questo esperimento e che cosa chiede</td>
+<td><a class="xref" href="#sez-1-obiettivo-e-domanda-scientifica">§1</a></td>
+</tr>
+<tr>
+<td>perché sono stati scelti questo processo, questi agenti e questi guasti</td>
+<td><a class="xref" href="#sez-2-il-banco-di-prova-tep-agenti-guasti">§2</a></td>
+</tr>
+<tr>
+<td>come i numeri dei sensori diventano testo verificabile</td>
+<td><a class="xref" href="#sez-3-dalla-serie-temporale-al-testo">§3</a></td>
+</tr>
+<tr>
+<td>come nasce e come circola la conoscenza testuale</td>
+<td><a class="xref" href="#sez-4-produzione-e-trasferimento-degli-insight">§4</a></td>
+</tr>
+<tr>
+<td>che cosa distingue le quattro condizioni sperimentali</td>
+<td><a class="xref" href="#sez-5-le-quattro-condizioni-a-a-b-e">§5</a></td>
+</tr>
+<tr>
+<td>come si conta, che cosa è l'unità statistica, come si costruiscono gli intervalli</td>
+<td><a class="xref" href="#sez-6-protocollo-di-valutazione">§6</a></td>
+</tr>
+<tr>
+<td>il risultato principale</td>
+<td><a class="xref" href="#sez-7-studio-principale">§7</a></td>
+</tr>
+<tr>
+<td>se il risultato si ripete su dati nuovi</td>
+<td><a class="xref" href="#sez-8-replica-su-nuovi-run">§8</a></td>
+</tr>
+<tr>
+<td>come si colloca rispetto a metodi numerici e a riferimenti centralizzati</td>
+<td><a class="xref" href="#sez-9-confronti-esterni-e-riferimenti">§9</a></td>
+</tr>
+<tr>
+<td>quanto tiene il risultato sotto verifiche indipendenti</td>
+<td><a class="xref" href="#sez-10-verifiche-di-robustezza">§10</a></td>
+</tr>
+<tr>
+<td>quanto testo viene effettivamente scambiato</td>
+<td><a class="xref" href="#sez-11-costo-della-comunicazione">§11</a></td>
+</tr>
+<tr>
+<td>che cosa si può e non si può concludere</td>
+<td><a class="xref" href="#sez-12-che-cosa-il-framework-mostra-e-che-cosa">§12</a></td>
+</tr>
+<tr>
+<td>come si colloca rispetto alla conferenza</td>
+<td><a class="xref" href="#sez-13-aderenza-alla-conferenza">§13</a></td>
+</tr>
+<tr>
+<td>che cosa esiste in letteratura</td>
+<td><a class="xref" href="#sez-14-letteratura">§14</a></td>
+</tr>
+<tr>
+<td>dove verificare ogni numero</td>
+<td><a class="xref" href="#sez-15-provenienza-e-riproducibilita">§15</a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>0.2 Nomi usati in questo documento</h3>
+<p>La numerazione tecnica presente negli artefatti e nei documenti precedenti è confusa: coesistevano tre sistemi (<code>Step N</code>, <code>Fase 1/2/3</code>, <code>Experiment 1/2/3</code>) con corrispondenze contro-intuitive. Qui si usano nomi funzionali. Gli identificativi tecnici compaiono una volta tra parentesi e nelle tabelle di provenienza di <a class="xref" href="#sez-15-provenienza-e-riproducibilita">§15</a>.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Nome usato qui</th>
+<th>Identificativo tecnico</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Studio principale</td>
+<td>Experiment 1 · Phase B</td>
+</tr>
+<tr>
+<td>Replica su nuovi run</td>
+<td>EXP3_V2 · Experiment 3</td>
+</tr>
+<tr>
+<td>Verifica con un altro LLM</td>
+<td>Experiment 2 · lane Qwen</td>
+</tr>
+<tr>
+<td>Condizione senza insight (A)</td>
+<td>Condition A · isolated</td>
+</tr>
+<tr>
+<td>Controllo local-only (A+)</td>
+<td>Condition A+ · local-only self-insight</td>
+</tr>
+<tr>
+<td>Condizione federata (B)</td>
+<td>Condition B · FoT</td>
+</tr>
+<tr>
+<td>Condizione con associazioni corrotte (E)</td>
+<td>Condition E · corrupted</td>
+</tr>
+<tr>
+<td>Riferimento testuale centralizzato</td>
+<td>Condition C · centralized pooled ICL</td>
+</tr>
+<tr>
+<td>Baseline numerica condivisa</td>
+<td>Baseline a prototipi numerici condivisi</td>
+</tr>
+<tr>
+<td>Baseline numerica local-only</td>
+<td>Braccio local-only della stessa baseline</td>
+</tr>
+<tr>
+<td>Riferimenti ML centralizzati</td>
+<td>Suite di otto modelli centralizzati</td>
+</tr>
+<tr>
+<td>Confronto delle rappresentazioni</td>
+<td>Ablation TS→testo</td>
+</tr>
+<tr>
+<td>Sensibilità al budget di ragionamento</td>
+<td>Sensitivity analysis sul reasoning cap</td>
+</tr>
+<tr>
+<td>Approfondimento sui casi al limite</td>
+<td>Follow-up capped a 4096 token</td>
+</tr>
+<tr>
+<td>Variante local-first</td>
+<td><code>B_LOCAL_FIRST_V1</code></td>
+</tr>
+<tr>
+<td>Costo della comunicazione</td>
+<td>Communication payload characterization</td>
+</tr>
+</tbody>
+</table></div>
+<h3>0.3 Glossario minimo</h3>
+<ul>
+<li><strong>Agente</strong> — un nodo diagnostico. Nell'esperimento è una configurazione di prompt su un modello linguistico frozen, non un impianto fisico.</li>
+<li><strong>Sensore (variabile misurata XMEAS)</strong> — un canale del processo. Il simulatore ne registra 41; nel testo breve viene chiamato semplicemente <em>sensore XMEAS</em>.</li>
+<li><strong>Run</strong> — una simulazione indipendente del processo, con o senza guasto.</li>
+<li><strong>Batch</strong> — il numero assegnato a un run nel dataset originale. Per esempio, <em>F1 batch 1</em> è il primo run disponibile di F1.</li>
+<li><strong>Finestra</strong> — una porzione temporale di un run. Non è un nuovo run e non è un'unità sperimentale indipendente.</li>
+<li><strong>Misura calcolata (feature)</strong> — un numero ricavato dalle misure grezze di un sensore dentro una finestra, per esempio lo spostamento della media.</li>
+<li><strong>Funzionamento normale (Normal)</strong> — la classe senza guasto, usata per costruire il riferimento e come possibile risposta diagnostica.</li>
+<li><strong>Coppia agente–run</strong> — l'unità elementare di valutazione: un agente giudica un run. Negli artefatti si chiama <em>agent-case</em>.</li>
+<li><strong>Guasto già noto localmente</strong> — il run appartiene alla classe di guasto che quell'agente conosce (<em>local-seen</em>).</li>
+<li><strong>Guasto mai visto da quell'agente</strong> — il run appartiene a una classe che quell'agente non ha nella propria esperienza locale (<em>local-unseen</em>). È la popolazione primaria.</li>
+<li><strong>Testo neutrale</strong> — la descrizione di un singolo run prodotta da regole fisse, senza nomi di guasto e senza diagnosi.</li>
+<li><strong>Insight</strong> — una breve unità di conoscenza testuale che sintetizza ciò che un agente ha appreso da più testi neutrali. <em>Testo neutrale</em> e <em>insight</em> non sono sinonimi.</li>
+<li><strong>Pseudolabel</strong> — un'etichetta opaca (<code>CLS-…</code>) che sostituisce il nome reale del guasto nel materiale mostrato al modello.</li>
+<li><strong>Contenuto trasmesso (payload)</strong> — l'insieme degli insight inviati agli altri agenti.</li>
+<li><strong>Congelato prima della valutazione</strong> — la configurazione è stata fissata e verificata con hash prima di eseguire la valutazione corrispondente, e non è più stata modificata.</li>
+</ul>
+<h3>0.4 Gerarchia delle fonti</h3>
+<p>Il Markdown è la <strong>fonte editoriale principale</strong> dei documenti V2. I numeri e le conclusioni <strong>derivano dagli artefatti sperimentali verificati</strong>. La replica HTML lunga è una replica fedele di questo Markdown.</p>
+<p>In caso di conflitto vale questo ordine:</p>
+<ol>
+<li>risultati sperimentali, rapporti verificati e configurazioni congelate;</li>
+<li>artefatti e manifest tecnici;</li>
+<li>la documentazione discorsiva precedente;</li>
+<li>il blueprint del paper;</li>
+<li>le versioni HTML, che sono copie o sintesi.</li>
+</ol>
+<p>Nessun dato è stato accettato perché proveniente dal documento più recente: ogni valore riportato qui è stato verificato nell'artefatto corrispondente. <a class="xref" href="#sez-15-provenienza-e-riproducibilita">§15</a> dice dove.</p>
+<h3>0.5 Categorie usate per qualificare le prove</h3>
+<p>Non tutte le prove hanno lo stesso valore, e il documento lo dichiara ogni volta.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Categoria</th>
+<th>Significato</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Studio principale</td>
+<td>Disegno e criteri fissati prima della propria valutazione</td>
+</tr>
+<tr>
+<td>Replica su nuovi dati</td>
+<td>Stesso disegno applicato a realizzazioni simulate nuove</td>
+</tr>
+<tr>
+<td>Controllo aggiuntivo</td>
+<td>Condizione che esclude una spiegazione alternativa specifica</td>
+</tr>
+<tr>
+<td>Confronto esterno</td>
+<td>Metodo diverso valutato sullo stesso compito</td>
+</tr>
+<tr>
+<td>Riferimento descrittivo</td>
+<td>Metodo non confrontabile alla pari, usato per collocare il risultato</td>
+</tr>
+<tr>
+<td>Analisi di sensibilità</td>
+<td>Variazione controllata di un parametro operativo</td>
+</tr>
+<tr>
+<td>Verifica diagnostica</td>
+<td>Intervento definito dopo aver osservato un problema e valutato sullo stesso campione</td>
+</tr>
+<tr>
+<td>Analisi esplorativa</td>
+<td>Confronto introdotto dopo aver visto i risultati, non causale</td>
+</tr>
+<tr>
+<td>Analisi descrittiva</td>
+<td>Decomposizione dei record già congelati, senza nuovo endpoint</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section id="sez-1-obiettivo-e-domanda-scientifica">
+<p class="kicker"><span class="num">1</span></p><h2>Obiettivo e domanda scientifica</h2>
+<h3>1.1 Il problema</h3>
+<p>Immagini quattro impianti dello stesso tipo. Ciascuno osserva le proprie serie temporali e i propri eventi. Nella pratica non tutti i guasti capitano ovunque: ogni sito accumula esperienza su ciò che gli è successo, e resta cieco sul resto. Quando in un sito si presenta un guasto che lì non è mai occorso, chi lo osserva non ha modo di riconoscerlo.</p>
+<p>La domanda è se sia possibile dare a un nodo la conoscenza che gli manca <strong>senza condividere le serie temporali grezze né i parametri di un modello</strong>. Il vincolo è importante e va enunciato con precisione: quello che circola sono descrizioni testuali, che derivano comunque dai dati locali. Non è vero che «non esce nulla»; è vero che non escono né le serie né i pesi.</p>
+<h3>1.2 La domanda scientifica</h3>
+<blockquote>
+<p>Un agente può usare conoscenza testuale prodotta da altri agenti per riconoscere un tipo di guasto assente dalla propria esperienza locale?</p>
+</blockquote>
+<p>Non è la domanda «FoT risolve la diagnosi dei guasti?», e non è la domanda «FoT è il metodo migliore per questo compito?». È una domanda sul <strong>meccanismo</strong>: il testo può funzionare come veicolo di conoscenza discriminante fra nodi con esperienza diversa?</p>
+<p>Il confronto primario è <strong>B−A</strong>: la condizione con gli insight dei peer contro la condizione senza insight, sui guasti mai visti da quell'agente. Il confronto di supporto è <strong>B−E</strong>: gli stessi insight con le associazioni semantiche corrotte, per distinguere l'effetto del contenuto da quello del semplice volume di testo. B−E non è un secondo endpoint primario.</p>
+<h3>1.3 Attribuzione</h3>
+<p><strong>Federation over Text (FoT) è stato introdotto da Yao et al.</strong>, <em>Federation over Text: Insight Sharing for Multi-Agent Reasoning</em> (<a href="https://arxiv.org/abs/2604.16778">arXiv:2604.16778</a>, repo <a href="https://github.com/dixiyao/FoT">github.com/dixiyao/FoT</a>). In FoT, agenti con LLM frozen distillano tracce di ragionamento in insight, che vengono aggregati e ridistribuiti come testo, senza gradienti né fine-tuning. Yao et al. valutano il paradigma su compiti testuali di matematica, question answering e coding.</p>
+<p>Questo lavoro <strong>non propone FoT</strong> e non propone la federazione testuale. Riprende l'architettura ad alto livello — insight locali, ridistribuzione, consumo in contesto — e la applica a un dominio diverso.</p>
+<h3>1.4 Perimetro del contributo</h3>
+<p>Il contributo è circoscritto alla combinazione dei seguenti elementi, non a ciascuno di essi preso singolarmente:</p>
+<ol>
+<li>serie temporali industriali multivariate come dominio;</li>
+<li>esperienza locale disgiunta per classe: ogni agente conosce il funzionamento normale e un solo guasto;</li>
+<li>valutazione su guasti localmente non osservati;</li>
+<li>pseudolabel opache, che impediscono al modello di rispondere usando conoscenza pregressa sul processo invece dell'evidenza trasferita;</li>
+<li>verbalizzazione deterministica e verificabile: ogni frase è riconducibile ai numeri di partenza;</li>
+<li>trasferimento di insight testuali fra pari, senza server di aggregazione;</li>
+<li>controllo semantico B/E a parità di testo, ordine e volume;</li>
+<li>confronto con il controllo local-only A+;</li>
+<li>protocollo congelato prima della propria valutazione;</li>
+<li>replica su realizzazioni simulate nuove;</li>
+<li>confronto numerico sullo stesso compito;</li>
+<li>portabilità lato consumatore verso un secondo modello;</li>
+<li>caratterizzazione del payload comunicativo.</li>
+</ol>
+<p>La formulazione di novità più prudente resta: <em>«To the best of our knowledge, this is the first controlled study of federated textual knowledge transfer for locally unseen fault diagnosis in multivariate industrial time series.»</em> Il perimetro del corpus consultato che sostiene questa formulazione è descritto in <a class="xref" href="#sez-14-letteratura">§14</a>.</p>
+<h3>1.5 Che cosa questo documento non sostiene</h3>
+<p>Il framework, così com'è, non dimostra superiorità diagnostica, garanzie di privacy, scalabilità, efficienza di comunicazione, generalizzazione industriale, equivalenza con FedAvg o FedProto, né funzionamento in mondo aperto. <a class="xref" href="#sez-12-che-cosa-il-framework-mostra-e-che-cosa">§12</a> raccoglie i limiti in modo sistematico.</p>
+</section>
+<section id="sez-2-il-banco-di-prova-tep-agenti-guasti">
+<p class="kicker"><span class="num">2</span></p><h2>Il banco di prova: TEP, agenti, guasti</h2>
+<p>Questa sezione raccoglie le motivazioni di disegno. Per ciascuna è indicata la natura della giustificazione: letteratura, caratteristiche dei dati, necessità sperimentale, scelta tecnica, limite pratico. Dove gli artefatti non documentano una motivazione ulteriore, il documento lo dichiara invece di costruirne una a posteriori.</p>
+<h3>2.1 Perché il Tennessee Eastman Process</h3>
+<p><em>Natura della motivazione: necessità sperimentale.</em></p>
+<p>Il TEP è un impianto chimico simulato. Offre guasti noti, una risposta corretta verificabile e run distinti e ripetibili. Questo permette di verificare il framework in condizioni controllate. Il framework è pensato per altri domini di serie temporali industriali, ma questo lavoro non ne dimostra ancora la trasferibilità.</p>
+<p>I dati provengono dallo snapshot upstream <a href="https://github.com/mv-per/tennessee-eastman-dataset">github.com/mv-per/tennessee-eastman-dataset</a>, commit pinnato <code>309b944f</code>. La pipeline legge da ogni file la colonna <code>Time</code> più <strong>41 sensori, registrati come variabili misurate XMEAS</strong>, campionati a un minuto.</p>
+<h3>2.2 I dati usati</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Struttura</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Normal</td>
+<td>un file da 500 h, 30 001 righe, diviso in 10 blocchi da 50 h (N1…N10)</td>
+<td>riferimento e casi normali</td>
+</tr>
+<tr>
+<td>Guasto</td>
+<td>un file per run, 50 h, 3 001 righe; guasto iniettato a 10 h</td>
+<td>casi di guasto</td>
+</tr>
+</tbody>
+</table></div>
+<p>L'ultima riga del file Normal, l'endpoint a 500 h, viene esclusa: 30 000 righe si dividono esattamente in dieci blocchi da 50 h.</p>
+<p>I file di guasto contengono anche <strong>12 variabili manipolate XMV</strong>. Vengono escluse. <em>Natura della motivazione: limite pratico e procedurale.</em> Il layer di rappresentazione è stato definito sulle sole XMEAS e congelato così; aggiungere le XMV dopo aver osservato i dati modificherebbe la rappresentazione a valle del congelamento. Non è una scelta motivata da ragioni fisiche o diagnostiche.</p>
+<h3>2.3 Perché quattro agenti</h3>
+<p><em>Natura della motivazione: scelta di disegno. Gli artefatti non documentano una motivazione ulteriore.</em></p>
+<p>Quattro agenti è il numero minimo che, con un solo guasto conosciuto per agente, consente contemporaneamente di avere quattro classi di guasto distinte e, per ogni run di guasto, un agente informato e tre non informati. La struttura del conteggio dipende da questo: ogni run produce una coppia su guasto già noto e tre coppie su guasto mai visto. Non risulta documentata negli artefatti una motivazione che vada oltre questa convenienza strutturale, e non ne viene costruita una a posteriori.</p>
+<h3>2.4 Perché ogni agente conosce il funzionamento normale e un solo guasto</h3>
+<p><em>Natura della motivazione: necessità sperimentale.</em></p>
+<p>È la condizione che rende possibile la domanda. Se ogni agente conoscesse più guasti, la nozione di «guasto mai visto da quell'agente» si diluirebbe e il confronto primario perderebbe significato. La disgiunzione per classe è la forma estrema di eterogeneità fra nodi: dati diversi tra gli agenti, per costruzione.</p>
+<h3>2.5 Perché F1, F8, F10 e F13</h3>
+<p><em>Natura della motivazione: letteratura (tassonomia dei comportamenti documentati) più caratteristiche dei dati (osservazione a posteriori sulle firme).</em></p>
+<p>Il <strong>dataset utilizzato contiene i 21 guasti standard del Tennessee Eastman Process</strong>, raggruppati per meccanismo nella tassonomia originale di Downs &amp; Vogel (1993): <em>gradino (Step)</em> (F1–F7), <em>variazione casuale (Random variation)</em> (F8–F12), <em>deriva lenta (Slow drift)</em> (F13), <em>blocco (Sticking)</em> (F14–F15), <em>meccanismo non specificato (Unknown)</em> (F16–F20), più il guasto a valvola fissa F21. Il simulatore modificato espone 28 ingressi di disturbo, ma questi <strong>non vanno presentati come 28 classi di guasto</strong>. L'esperimento valuta quattro guasti standard: F1, F8, F10 e F13.</p>
+<p>I quattro guasti coprono tre famiglie di comportamento documentate. <strong>F1</strong> rappresenta un cambiamento improvviso e persistente. <strong>F8</strong> e <strong>F10</strong> appartengono entrambi alla famiglia delle variazioni casuali: la loro presenza permette di verificare se il metodo distingue guasti della stessa famiglia che interessano variabili diverse. <strong>F13</strong> introduce invece una deriva lenta, la cui firma emerge gradualmente e si sovrappone a lungo al comportamento nominale.</p>
+<p>Gli altri guasti non sono stati valutati perché lo studio è limitato a quattro classi; <strong>i risultati non permettono di stabilire che siano ridondanti o inadatti</strong>.</p>
+<p>L'analisi delle firme a 697 dimensioni descrive a posteriori come si collocano le quattro classi. È una caratterizzazione del campione osservato, non una scala di difficoltà generale: le difficoltà rilevate dipendono da questo esperimento e da questa rappresentazione.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Guasto</th>
+<th>Meccanismo</th>
+<th style="text-align: right;">Similarità dentro la classe</th>
+<th style="text-align: right;">Margine dal Normal</th>
+<th>Nota</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td>Gradino (Step)</td>
+<td style="text-align: right;">0,991</td>
+<td style="text-align: right;">0,077</td>
+<td>firma stabile, ben separata</td>
+</tr>
+<tr>
+<td>F10</td>
+<td>Variazione casuale (Random variation)</td>
+<td style="text-align: right;">0,991</td>
+<td style="text-align: right;">0,011</td>
+<td>stabile ma vicina a F1 (0,905 fra le due classi)</td>
+</tr>
+<tr>
+<td>F8</td>
+<td>Variazione casuale (Random variation)</td>
+<td style="text-align: right;">0,860</td>
+<td style="text-align: right;">0,014</td>
+<td>la meno stabile fra le quattro: massima variabilità interna</td>
+</tr>
+<tr>
+<td>F13</td>
+<td>Deriva lenta (Slow drift)</td>
+<td style="text-align: right;">0,889</td>
+<td style="text-align: right;">0,044</td>
+<td>minima similarità col Normal (0,718), deriva graduale</td>
+</tr>
+</tbody>
+</table></div>
+<h3>2.6 Come sono divisi i dati</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Split</th>
+<th>Guasti (F1, F8, F10, F13)</th>
+<th>Normal</th>
+<th>Ruolo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sviluppo e calibrazione</td>
+<td>batch 1–5</td>
+<td>N1–N5</td>
+<td>costruisce e calibra il metodo</td>
+</tr>
+<tr>
+<td>Validazione</td>
+<td>batch 6–7</td>
+<td>N6–N7</td>
+<td>controllo fuori sviluppo, nessuna taratura</td>
+</tr>
+<tr>
+<td>Test</td>
+<td>batch 8–10</td>
+<td>N8–N10</td>
+<td>verifica finale, aperto dopo il congelamento</td>
+</tr>
+</tbody>
+</table></div>
+<p>I run di guasto vengono analizzati solo dopo l'iniezione: le 40 h successive alle prime 10 h producono <strong>otto finestre da 5 h</strong> (W1…W8, da <code>[10,15)</code> a <code>[45,50)</code>). Un blocco Normal completo, 50 h, ne produce dieci.</p>
+<p><em>Natura della motivazione della finestra da 5 h: scelta di disegno. Gli artefatti non documentano una motivazione ulteriore</em> — la durata non risulta ottimizzata né confrontata con alternative; discende dall'intervallo post-guasto di 40 h e dall'ottenere otto finestre per run.</p>
+<p>Una finestra è una porzione descrittiva dello stesso run, <strong>non un run indipendente</strong>. La distinzione torna decisiva in <a class="xref" href="#sez-6-protocollo-di-valutazione">§6</a>, quando si contano i casi statisticamente indipendenti.</p>
+</section>
+<section id="sez-3-dalla-serie-temporale-al-testo">
+<p class="kicker"><span class="num">3</span></p><h2>Dalla serie temporale al testo</h2>
+<p>Questa è la parte deterministica del framework: nessun modello linguistico interviene. Le regole vengono definite una volta, congelate, e da lì in avanti soltanto applicate.</p>
+<h3>3.1 Le sei operazioni</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Ordine</th>
+<th>Operazione</th>
+<th>Quando, e che cosa produce</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Scelta delle feature</td>
+<td>decisione di progetto, eseguita una volta: si caratterizzano i guasti batch 1–5 per decidere <strong>quali</strong> feature usare; qui non si calcolano soglie</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Calibrazione delle soglie</td>
+<td>eseguita <strong>soltanto</strong> sui blocchi Normal N1–N5, senza guardare i guasti; produce riferimento e soglie</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Congelamento</td>
+<td>fissa feature, riferimento, soglie, struttura e renderer</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Calcolo delle feature e applicazione delle soglie</td>
+<td>a runtime, per ogni finestra × XMEAS: valori e confronto con le soglie già congelate</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Dalle finestre alla struttura</td>
+<td>aggrega flag e struttura temporale in evidenza numerica verificabile</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Dalla struttura al testo neutrale</td>
+<td>rende i fatti quantitativi senza identificativi di guasto e senza diagnosi</td>
+</tr>
+</tbody>
+</table></div>
+<p>La distinzione fra il punto 1 e il punto 4 è sostanziale: la <strong>scelta</strong> delle feature è una decisione presa una volta a monte; il <strong>calcolo</strong> è l'operazione ripetuta su ogni finestra. Confonderli farebbe sembrare che il metodo venga reinventato per ciascun guasto.</p>
+<h3>3.2 Le feature</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Che cosa quantifica</th>
+<th>Che cosa non prova da sola</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shift_sigma</code></td>
+<td>spostamento della media, in deviazioni standard del Normal</td>
+<td>la causa</td>
+</tr>
+<tr>
+<td><code>slope_sigma_h</code></td>
+<td>pendenza normalizzata per ora</td>
+<td>deriva persistente</td>
+</tr>
+<tr>
+<td><code>residual_std_ratio</code></td>
+<td>variabilità dopo rimozione del trend</td>
+<td>periodicità</td>
+</tr>
+<tr>
+<td><code>diff_std_ratio</code></td>
+<td>variazioni fra campioni consecutivi</td>
+<td>oscillazioni lente</td>
+</tr>
+<tr>
+<td><code>raw_std_ratio</code></td>
+<td>dispersione descrittiva</td>
+<td>instabilità oscillatoria</td>
+</tr>
+</tbody>
+</table></div>
+<h3>3.3 Il riferimento normale e la soglia</h3>
+<p>Prima di dire che qualcosa è cambiato serve sapere com'è quando tutto va bene. Il riferimento si costruisce <strong>solo</strong> dai blocchi Normal N1–N5: cinque blocchi × dieci finestre = 50 finestre.</p>
+<p>Per <code>shift_sigma</code>, il calcolo è:</p>
+<pre><code>shift_sigma = (x̄_w − μ₀) / σ₀
+</code></pre>
+<p>dove <code>x̄_w</code> è la media della stessa XMEAS nella finestra corrente, <code>μ₀</code> la media del riferimento Normal per quella variabile e <code>σ₀</code> la sua deviazione standard campionaria. Il confronto con la soglia usa il modulo; il segno resta disponibile nell'evidenza strutturata.</p>
+<p>Per ciascuna delle 50 finestre si calcola la feature sulle 41 XMEAS e si prende <strong>il massimo di sistema</strong>. Gli score sono adimensionali — ogni variabile è espressa rispetto al proprio comportamento normale — quindi il massimo risponde alla domanda «almeno una variabile si è allontanata dal proprio normale più del previsto?». Non identifica la causa e non rende anomale le altre variabili.</p>
+<p>I 50 massimi vengono ordinati e la soglia è il valore al <strong>rango 49</strong>, con attivazione stretta <code>&gt;</code>.</p>
+<p><em>Natura della motivazione del rango 49: scelta di disegno.</em> Corrisponde a un quantile empirico prossimo al 98° sui massimi Normal disponibili. Gli artefatti <strong>non documentano</strong> una calibrazione mirata a un tasso di falsi allarmi obiettivo, e non ne viene attribuita una a posteriori.</p>
+<blockquote>
+<p><strong>Esempio reale — dalle 50 finestre alla soglia di spostamento</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: right;">Rango</th>
+<th style="text-align: right;">Score</th>
+<th>Finestra</th>
+<th>Esito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">1,2688185320140528</td>
+<td>N3 [135,140)</td>
+<td>sotto</td>
+</tr>
+<tr>
+<td style="text-align: right;">48</td>
+<td style="text-align: right;">1,5988379030092623</td>
+<td>N2 [85,90)</td>
+<td>sotto</td>
+</tr>
+<tr>
+<td style="text-align: right;"><strong>49</strong></td>
+<td style="text-align: right;"><strong>1,9695333234149084</strong></td>
+<td>N4 [190,195)</td>
+<td><strong>soglia</strong></td>
+</tr>
+<tr>
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">2,0050511992352518</td>
+<td>N2 [95,100)</td>
+<td>unico <code>&gt;</code> soglia</td>
+</tr>
+</tbody>
+</table></div>
+<p>Ogni score è il massimo sui 41 canali della finestra corrispondente.</p>
+</blockquote>
+<p>Il criterio <strong>leave-one-block-out</strong> nasce qui: quando si misura N1, il riferimento usa N2+N3+N4+N5, e così ciclicamente.</p>
+<h3>3.4 Il congelamento</h3>
+<p>Prima di aprire validazione, test e held-out vengono congelati feature, soglie, rappresentazione temporale, renderer ed evaluator. È il principio <em>congela prima di valutare</em>: nessun dato di valutazione può più influenzare le regole con cui verrà giudicato. Da qui in avanti le regole si applicano soltanto, non si ridefiniscono.</p>
+<p>Fino a questo punto sono entrati in gioco esclusivamente i blocchi Normal N1–N5, per calibrare le soglie, e i guasti batch 1–5, usati <strong>solo</strong> in fase di progetto per scegliere quali feature usare — mai per calcolare le soglie. N6–N10 e i guasti batch 6–10 non sono ancora stati toccati.</p>
+<h3>3.5 Dai numeri ai fatti strutturati</h3>
+<p>Per ogni finestra e per ogni XMEAS si applica la soglia congelata: se il valore la supera si genera un <strong>flag</strong>, e per le feature con segno si conserva il segno.</p>
+<blockquote>
+<p><strong>Esempio reale — F1 batch 1, XMEAS-1, finestra W1</strong></p>
+<p>Caso di sviluppo, non test indipendente. W1 è <code>[10,15)</code> h: 5 h × 60 = 300 misure.</p>
+<ol>
+<li><strong>Misure grezze</strong> (prime cinque e ultime tre delle 300): <code>0.266206, 0.264258, 0.265880, 0.268725, 0.267920, …, 1.018145, 1.017490, 1.018571</code></li>
+<li><strong>Media della finestra</strong>: <code>Σxᵢ = 216.7053282371516</code> → <code>x̄_w = 0.7223510941238387</code></li>
+<li><strong>Riferimento N1–N5</strong>, 15 000 misure in <code>[0,250)</code> h: <code>μ₀ = 0.26679593084899306</code>, <code>σ₀ = 0.005941491332146645</code></li>
+<li><strong>Sostituzione</strong>: <code>shift_sigma = (0.7223510941238387 − 0.26679593084899306) / 0.005941491332146645 = 76.67353831016274</code></li>
+<li><strong>Confronto</strong>: <code>|76.67353831016274| &gt; 1.9695333234149084</code> → flag attivo, segno positivo conservato.</li>
+</ol>
+<p>Provenienza: <code>mode1_1_1.xlsx</code>, righe 602–901, XMEAS-1; riferimento da <code>mode1_normal_500.xlsx</code>, righe 2–15001.</p>
+</blockquote>
+<p>Lo stesso procedimento si ripete per tutte le otto finestre e tutte le 41 XMEAS. La griglia risultante viene aggregata in una <strong>struttura di fatti</strong> che conserva conteggi, segni, coerenza di segno e collocazione temporale delle attivazioni.</p>
+<blockquote>
+<p><strong>Estratto reale della struttura, per XMEAS-1</strong></p>
+<pre><code>{
+  "variable": "XMEAS-1",
+  "window_size_h": 5,
+  "level": {
+    "n_active_windows": 8, "active_fraction": 1.0,
+    "positive_count": 8, "negative_count": 0,
+    "sign_consistency": 1.0, "longest_same_sign_run": 8,
+    "first_active_window": 10.0, "last_active_window": 45.0,
+    "early_active": true, "late_active": true
+  }
+}</code></pre>
+</blockquote>
+<h3>3.6 Il testo neutrale</h3>
+<p>Il renderer trasforma la struttura in una descrizione a parole. Nel testo prodotto <strong>non compaiono identificativi di guasto, etichette di classe o diagnosi</strong>: solo fatti osservati.</p>
+<blockquote>
+<p><strong>Testo neutrale reale — caso EXM-001 (F1 batch 1, identità nota solo all'evaluator)</strong></p>
+<p>Intervallo osservato 10.0–50.0 h in 8 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 8/8 finestre, sempre con segno positivo; il run più lungo con segno coerente comprende 8 finestre, dalla prima attivazione a 10.0 h all'ultima a 45.0 h. XMEAS-1 supera la soglia di pendenza in 6/8 finestre, con segno positivo in 3 e negativo in 3; il run più lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 10.0 h all'ultima a 35.0 h. XMEAS-20: variabilità residua dopo rimozione del trend lineare sopra soglia in 4/8 finestre; 2/2 nella fase iniziale e 0/2 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 1/8 finestre; 1/2 nella fase iniziale e 0/2 nelle ultime finestre. Su XMEAS-10, residual e diff superano simultaneamente le rispettive soglie in 1/8 finestre, incluse 0/2 finestre finali. La massima dispersione complessiva osservata è su XMEAS-1 (rapporto tra deviazioni standard 46.30).</p>
+</blockquote>
+<p>Il testo nasce dalla struttura completa a 41 canali, quindi cita altri canali quando dominano altre sezioni. Ogni frase è riconducibile ai numeri di partenza: è questo che rende la verbalizzazione verificabile.</p>
+<h3>3.7 Il controllo della rappresentazione</h3>
+<p>Prima di affidare i testi a un modello linguistico, un evaluator offline verifica se la rappresentazione conserva struttura sufficiente. Lavora sulla struttura numerica, non sul testo, e misura stabilità dentro la classe e separabilità fra classi. Una firma contiene 17 componenti normalizzate per XMEAS: 41 × 17 = <strong>697 valori</strong>; la similarità è <code>1 − mean(abs(a−b))</code>.</p>
+<p>L'evaluator <strong>non produce una predizione e non misura accuratezza</strong>. Verifica la qualità descrittiva della rappresentazione.</p>
+<blockquote>
+<p><strong>La distinzione che conta.</strong> Alta similarità dentro la classe e bassa similarità fra classi indicano che il testo neutrale conserva abbastanza struttura da distinguere le condizioni senza mai nominarle. Ma <strong>la separabilità descrittiva non equivale all'accuratezza diagnostica</strong>: una firma separabile non garantisce che un ragionatore la utilizzi correttamente.</p>
+</blockquote>
+<h3>3.8 Dopo il congelamento: validazione, test, nuove simulazioni</h3>
+<p>La stessa pipeline runtime viene eseguita prima sulla validazione (guasti batch 6–7, Normal N6–N7) e poi sul test (batch 8–10, N8–N10). Il percorso è sempre <code>finestre → feature → soglie congelate → struttura → testo neutrale → evaluator</code>.</p>
+<p>I batch 8–10 erano il test di questa fase, e sono stati aperti. Un test osservato non è più vergine per la fase successiva. Servono quindi run nuovi, generati e congelati prima della verbalizzazione e dell'inferenza. Sono <strong>15 nuove realizzazioni simulate</strong>: 3 Normal e 3 run per ciascuno dei quattro guasti. Sono il materiale dello studio principale.</p>
+</section>
+<section id="sez-4-produzione-e-trasferimento-degli-insight">
+<p class="kicker"><span class="num">4</span></p><h2>Produzione e trasferimento degli insight</h2>
+<p>Da qui entrano in gioco gli agenti e il modello linguistico. La pipeline della sezione precedente non viene ri-progettata: gli agenti la riusano così com'è, applicando riferimento e soglie congelati senza mai ricalibrarli.</p>
+<h3>4.1 Gli agenti e la loro conoscenza locale</h3>
+<p>Quattro agenti conoscono tutti il funzionamento normale, ma ciascuno un solo guasto.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Agente 1</th>
+<th>Agente 2</th>
+<th>Agente 3</th>
+<th>Agente 4</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 Normal + 2 esempi di F1</td>
+<td>2 Normal + 2 esempi di F8</td>
+<td>2 Normal + 2 esempi di F10</td>
+<td>2 Normal + 2 esempi di F13</td>
+</tr>
+</tbody>
+</table></div>
+<p>Tre cose vanno tenute distinte:</p>
+<ul>
+<li>gli <strong>esempi locali</strong> sono i batch 1–2 del proprio guasto e i blocchi Normal N1–N2, dai dati originali;</li>
+<li>il <strong>caso da diagnosticare</strong> è un run dell'held-out indipendente, e compare solo al momento dell'inferenza;</li>
+<li>le <strong>soglie</strong> restano quelle calibrate su N1–N5, congelate e mai ricalcolate.</li>
+</ul>
+<p>Ogni agente costruisce i propri esempi facendo passare i casi che conosce attraverso la pipeline già congelata, e associa a ciascuno la propria pseudolabel. Nessun modello linguistico interviene in questo passaggio. Il risultato sono quattro pacchetti da quattro esempi, ciascuno ridotto alla coppia <code>(testo neutrale, pseudolabel)</code>.</p>
+<h3>4.2 Perché le etichette sono opache</h3>
+<p><em>Natura della motivazione: necessità sperimentale.</em></p>
+<p>Una <strong>pseudolabel</strong> sostituisce il nome reale del guasto con un token opaco <code>CLS-…</code>: F1, F8, F10 e F13 non vengono mai mostrati al modello, mentre <code>Normal</code> resta <code>Normal</code>. La corrispondenza reale è nota soltanto all'evaluator.</p>
+<p>Il TEP è un benchmark pubblico e molto citato. Se il modello vedesse i nomi reali, una risposta corretta non distinguerebbe fra l'uso dell'evidenza trasferita e il recupero di conoscenza acquisita in addestramento. La pseudonimizzazione maschera il nome, non la firma descritta nel testo: è una difesa contro la scorciatoia, non contro l'inferenza.</p>
+<blockquote>
+<p><strong>Esempio di coppia locale.</strong> Il testo neutrale EXM-001 riportato in <a class="xref" href="#sez-3-dalla-serie-temporale-al-testo">§3.6</a>, presentato al modello con l'etichetta <code>CLS-ZOGAA</code>. Che si tratti di F1 batch 1 resta informazione lato evaluator.</p>
+</blockquote>
+<h3>4.3 Come nascono gli insight</h3>
+<p>Dopo gli esempi, ogni agente compie una seconda operazione, su un ramo distinto: riparte dai <strong>cinque</strong> casi di sviluppo del proprio guasto (batch 1–5), li fa passare per la stessa pipeline congelata e chiede al modello di distillarne le regolarità ricorrenti.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Passaggio</th>
+<th>Che cosa accade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ingresso</td>
+<td>un bundle per agente con cinque testi neutrali del guasto locale, ricostruiti dai workbook di sviluppo tramite la pipeline congelata; non provengono dal file degli esempi</td>
+</tr>
+<tr>
+<td>Operazione</td>
+<td>il bundle viene passato a <code>gpt-5.6-terra</code>, reasoning <code>medium</code>, output strutturato strict. Vale la regola <em>vince il primo output strutturalmente valido</em>: nessuna selezione o rigenerazione basata sul contenuto</td>
+</tr>
+<tr>
+<td>Uscita</td>
+<td>2 insight per agente, <strong>8 in totale</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>Nell'esecuzione congelata ogni agente ha richiesto un solo tentativo e zero ripetizioni. Nessuna soglia viene ricalibrata.</p>
+<p>Tutto questo avviene <strong>prima</strong> di aprire diagnosticamente i 15 run indipendenti, già generati e congelati: gli insight nascono soltanto da ciò che l'agente conosceva già.</p>
+<blockquote>
+<p><strong>Esempio reale — un insight di Agente 1</strong></p>
+<pre><code>INS-001 · agent_1 · CLS-ZOGAA
+"XMEAS-1 exceeds the displacement threshold positively in all 8/8 windows,
+ with one coherent 8-window run from 10.0 to 45.0 h; it also has the largest
+ overall dispersion (standard-deviation ratio 46.06–46.50)."</code></pre>
+<p>L'intervallo 46,06–46,50 deriva da cinque run, non da uno: l'insight distilla più casi.</p>
+</blockquote>
+<h3>4.4 Come circolano</h3>
+<p>La federazione è <strong>fra pari e senza server</strong>: ogni agente riceve i sei insight prodotti dagli altri tre, <strong>mai i propri</strong>. La libreria globale ne contiene otto; ciascuna libreria ricevuta ne contiene sei.</p>
+<p>Dei sei insight che un agente riceve, due descrivono il guasto che si troverà davanti in un dato caso e quattro agiscono da distrattori. La conoscenza circola come testo: non vengono scambiati dati grezzi né parametri del modello.</p>
+</section>
+<section id="sez-5-le-quattro-condizioni-a-a-b-e">
+<p class="kicker"><span class="num">5</span></p><h2>Le quattro condizioni: A, A+, B, E</h2>
+<p>Una <strong>condizione</strong> è una versione controllata dello stesso caso. Il testo neutrale del caso e gli esempi locali restano identici; cambia una sola cosa: il blocco degli insight inserito nel prompt. Così la differenza fra condizioni non può essere attribuita a un caso diverso o a esempi diversi.</p>
+<p>Prima in parole comuni, poi con le sigle che verranno usate nelle tabelle.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>In parole</th>
+<th>Sigla</th>
+<th>Che cosa riceve l'agente oltre ai propri esempi</th>
+<th>A quale domanda risponde</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Da solo</strong></td>
+<td><strong>A</strong></td>
+<td>nessun insight, né dei pari né propri</td>
+<td>qual è il punto di partenza informativo per una classe che l'agente non conosce?</td>
+</tr>
+<tr>
+<td><strong>Da solo, con le proprie descrizioni</strong></td>
+<td><strong>A+</strong></td>
+<td>i due insight che ha prodotto sulla propria classe locale</td>
+<td>il vantaggio potrebbe venire dal semplice possesso di insight, anche propri?</td>
+</tr>
+<tr>
+<td><strong>Con le descrizioni degli altri</strong></td>
+<td><strong>B</strong></td>
+<td>i sei insight dei pari, con le associazioni corrette</td>
+<td>che cosa aggiunge la conoscenza degli altri agenti?</td>
+</tr>
+<tr>
+<td><strong>Con le descrizioni associate alle etichette sbagliate</strong></td>
+<td><strong>E</strong></td>
+<td>gli stessi sei insight di B: stessi identificativi, fonti, testi, ordine e volume; cambiano solo le pseudolabel, permutate</td>
+<td>il beneficio dipende dall'associazione corretta o dalla sola presenza di più testo?</td>
+</tr>
+</tbody>
+</table></div>
+<h3>5.1 Perché E è la condizione decisiva</h3>
+<p>La permutazione è uno <strong>scompaginamento senza punti fissi</strong>, specifico per agente: nessuna pseudolabel resta associata alla classe originale. Per l'agente 3, per esempio, <code>CLS-ZOGAA</code> diventa <code>CLS-OJNSG</code>.</p>
+<p>E ha quindi lo stesso volume, la stessa forma e lo stesso costo in token di B. Se bastasse avere più testo nel prompt, E funzionerebbe quanto B. Il contrasto B−E isola la correttezza dell'informazione dal volume del testo.</p>
+<h3>5.2 Perché A+ è una condizione e non un dettaglio</h3>
+<p>A è un punto di partenza in cui l'agente non possiede alcuna informazione sulla classe remota. Si potrebbe obiettare che il salto da A a B derivi semplicemente dall'aggiungere un blocco di insight al prompt, indipendentemente da chi li ha scritti.</p>
+<p>A+ risponde a questa obiezione specifica: l'agente riceve <strong>i propri</strong> insight, prodotti sulla propria classe locale, nella stessa posizione del prompt in cui B mette quelli dei pari. Struttura identica, sorgente diversa. È un controllo aggiuntivo, non un esperimento separato, ed è per questo che i suoi risultati compaiono insieme a quelli dello studio principale in <a class="xref" href="#sez-7-studio-principale">§7</a>.</p>
+<h3>5.3 Lo spazio delle risposte è chiuso</h3>
+<p>L'agente sceglie fra le pseudolabel presenti nel prompt più <code>Normal</code>. Il protocollo prevede l'<strong>astensione</strong>: se le ripetizioni non producono una maggioranza valida, la decisione aggregata è un'astensione, che nel conteggio vale come errore.</p>
+<p>Questo va detto qui perché è una proprietà del disegno, non un limite emerso a posteriori: il sistema opera in un catalogo chiuso di risposte. <a class="xref" href="#sez-12-che-cosa-il-framework-mostra-e-che-cosa">§12</a> ne trae le conseguenze.</p>
+</section>
+<section id="sez-6-protocollo-di-valutazione">
+<p class="kicker"><span class="num">6</span></p><h2>Protocollo di valutazione</h2>
+<p>Questa sezione contiene, <strong>una volta sola</strong>, le regole di conteggio e di inferenza che valgono per tutte le sezioni successive.</p>
+<h3>6.1 L'unità statistica</h3>
+<p>L'endpoint primario riguarda esclusivamente i <strong>guasti mai visti dall'agente che giudica</strong>. Ogni run di guasto viene valutato dai quattro agenti; per l'endpoint primario si esclude l'agente che possiede localmente quel guasto. Restano tre agenti riceventi per run.</p>
+<p>Le tre osservazioni sullo stesso run <strong>sono correlate</strong>: provengono dallo stesso run simulato, con lo stesso rumore e gli stessi transitori. <strong>Il run simulato è trattato come unità sperimentale indipendente</strong>, non la coppia agente–run e non la singola chiamata al modello. È la ragione per cui gli intervalli si calcolano su 12 o 24 cluster, non su 36 o 72 righe.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align: right;">Studio principale</th>
+<th style="text-align: right;">Replica su nuovi run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Run simulati di guasto, indipendenti</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">24</td>
+</tr>
+<tr>
+<td>Coppie su guasto mai visto, per condizione</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">72</td>
+</tr>
+<tr>
+<td>Run Normal</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">6</td>
+</tr>
+</tbody>
+</table></div>
+<h3>6.2 Ripetizioni e aggregazione</h3>
+<p>Ogni combinazione caso–agente–condizione viene eseguita <strong>R = 3</strong> volte con lo stesso input. Una pseudolabel che riceve almeno due voti diventa la predizione aggregata; senza maggioranza valida l'agente si astiene.</p>
+<p><em>Natura della motivazione: scelta tecnica.</em> Le ripetizioni servono a stabilizzare il non-determinismo del modello. <strong>Non sono tre run indipendenti.</strong> Va aggiunto un limite: nella verifica con l'altro modello, eseguita a temperatura 0 e seed fisso, le tre ripetizioni risultano identiche byte per byte, quindi lì R = 3 è degenere e non misura alcuna variabilità.</p>
+<h3>6.3 Astensione</h3>
+<p><strong>L'astensione conta come errore</strong> in tutte le condizioni e in tutte le popolazioni. È la convenzione più severa fra quelle possibili e vale per l'intero documento.</p>
+<h3>6.4 Congelamento e valutazione</h3>
+<p>Tutte le predizioni vengono congelate <strong>prima</strong> di essere unite alla risposta corretta. La corrispondenza fra pseudolabel e guasto reale è nota solo all'evaluator e viene applicata offline.</p>
+<p>Configurazione, prompt, schedule e criteri di successo sono stati <strong>definiti e congelati prima della propria valutazione</strong>, con manifest e hash verificabili. Non si tratta di una preregistrazione: non esiste alcuna registrazione presso un ente esterno.</p>
+<h3>6.5 Incertezza</h3>
+<p>Gli intervalli derivano da un <strong>bootstrap appaiato per cluster</strong> sui run simulati, stratificato per pseudolabel, con 10 000 ricampionamenti e seed congelato. Le tre osservazioni dei riceventi associate allo stesso run vengono mantenute insieme.</p>
+<p>Con 12 o 24 cluster indipendenti, gli intervalli vanno interpretati nel contesto di questo studio controllato e non come una caratterizzazione generale dell'incertezza del metodo.</p>
+<h3>6.6 Popolazioni secondarie</h3>
+<p>Guasti già noti localmente, casi Normal e risultato complessivo sono <strong>secondari e descrittivi</strong>. Non introducono criteri inferenziali e non modificano l'endpoint primario. Servono a verificare che l'aggiunta della conoscenza dei pari non degradi ciò che l'agente già riconosceva.</p>
+<h3>6.7 Criteri di supporto pre-specificati</h3>
+<p>Per lo studio principale, il protocollo congelato indicava quattro criteri: <code>B−A &gt; 0</code>; effetto positivo in almeno 3 agenti su 4; casi migliorati maggiori dei casi peggiorati; <code>B−A &gt; E−A</code>, numericamente equivalente a <code>B−E &gt; 0</code>.</p>
+<p>Per la replica, il criterio è più stringente e riguarda solo il contrasto primario: la differenza osservata deve essere positiva <strong>e</strong> il limite inferiore del suo intervallo al 95% deve essere positivo. Entrambe le condizioni devono valere congiuntamente. Per B−E l'intervallo viene riportato a fini descrittivi e non costituisce un ulteriore criterio decisionale.</p>
+</section>
+<section id="sez-7-studio-principale">
+<p class="kicker"><span class="num">7</span></p><h2>Studio principale</h2>
+<p><em>Categoria: studio principale, con un controllo aggiuntivo (A+).</em>
+<em>Identificativo tecnico: Experiment 1 · Phase B.</em></p>
+<h3>7.1 Il disegno</h3>
+<p>15 casi held-out, congelati prima di qualsiasi inferenza: 12 run di guasto (tre per classe) e 3 run Normal. Ogni caso viene sottoposto ai quattro agenti in ciascuna condizione, con R = 3.</p>
+<p>Per le condizioni A, B ed E: 15 casi × 4 agenti × 3 condizioni × 3 ripetizioni = <strong>540 chiamate</strong>, che diventano 180 esiti aggregati. Il controllo A+ aggiunge 15 × 4 × 3 = 180 chiamate e 60 esiti aggregati.</p>
+<p>La popolazione primaria è costituita dalle 36 coppie su guasto mai visto, derivate da 12 run simulati indipendenti.</p>
+<h3>7.2 Come si presenta un singolo caso</h3>
+<p>Un esempio rende concreta l'unica manipolazione in gioco. Il caso PBH-004 è un nuovo run di F1, identità nota solo all'evaluator. La pipeline congelata lo trasforma nel suo testo neutrale, che segnala XMEAS-1 sopra la soglia di spostamento in 8/8 finestre, sempre positivo, con dispersione massima 47,00: la firma di F1, osservata però su un run mai visto. Il testo viene presentato all'agente 3, che possiede esempi locali di F10 e per cui F1 è quindi una classe mai vista.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Condizione</th>
+<th>Blocco insight</th>
+<th>Le tre ripetizioni</th>
+<th>Esito aggregato</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>nessuno</td>
+<td><code>null ×3</code></td>
+<td>astensione, conta come errore</td>
+</tr>
+<tr>
+<td>B</td>
+<td>sei insight autentici; INS-001 associa quella firma a <code>CLS-ZOGAA</code></td>
+<td><code>CLS-ZOGAA ×3</code></td>
+<td>corretta</td>
+</tr>
+<tr>
+<td>E</td>
+<td>stessi testi e stesso ordine; INS-001 associa quella firma a <code>CLS-OJNSG</code></td>
+<td><code>CLS-OJNSG ×3</code></td>
+<td>errata</td>
+</tr>
+</tbody>
+</table></div>
+<p>Il caso, gli esempi locali, il modello e il prompt sono identici nelle tre righe. Cambia soltanto il blocco degli insight. I record hanno <code>used_insight_ids=[]</code>: non viene attribuita la singola risposta a uno specifico insight; si confrontano le condizioni nel loro insieme.</p>
+<h3>7.3 Il risultato primario</h3>
+<p><strong>Guasti mai visti dall'agente che giudica — 36 coppie per condizione, da 12 run simulati</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Condizione</th>
+<th style="text-align: right;">Corrette</th>
+<th style="text-align: right;">Accuratezza</th>
+<th style="text-align: right;">Astensioni</th>
+<th style="text-align: right;">Errori con decisione</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong> — da solo</td>
+<td style="text-align: right;"><strong>0 / 36</strong></td>
+<td style="text-align: right;">0,0 %</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">22</td>
+</tr>
+<tr>
+<td><strong>A+</strong> — da solo, con le proprie descrizioni</td>
+<td style="text-align: right;"><strong>0 / 36</strong></td>
+<td style="text-align: right;">0,0 %</td>
+<td style="text-align: right;">21</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr>
+<td><strong>B</strong> — con le descrizioni degli altri</td>
+<td style="text-align: right;"><strong>31 / 36</strong></td>
+<td style="text-align: right;">86,1 %</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr>
+<td><strong>E</strong> — con le associazioni corrotte</td>
+<td style="text-align: right;"><strong>3 / 36</strong></td>
+<td style="text-align: right;">8,3 %</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">33</td>
+</tr>
+</tbody>
+</table></div>
+<p>Tre letture, in ordine di importanza.</p>
+<p><strong>Lo zero di A non deriva solo dalle astensioni.</strong> L'agente si astiene in 14 casi su 36 e produce una decisione in 22, e <strong>nessuna</strong> delle 22 decisioni è corretta. Anche quando sceglie, sbaglia.</p>
+<p><strong>I propri insight non aggiungono nulla.</strong> A+ è 0/36 come A, con delta esattamente <strong>0</strong> e intervallo al 95% <code>[0, 0]</code>. L'agente conosce già la propria classe locale; reinserire quella conoscenza nel prompt non gli permette di diagnosticare guasti mai osservati. Il salto non è quindi spiegabile con la semplice presenza di un blocco di insight nel prompt.</p>
+<p><strong>Lo stesso testo, associato male, fa crollare il risultato.</strong> E contiene esattamente gli stessi sei insight di B — stessi identificativi, fonti, testi, ordine e volume — e scende a 3/36.</p>
+<h3>7.4 I contrasti</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Contrasto</th>
+<th style="text-align: right;">Stima</th>
+<th>Intervallo 95%</th>
+<th>Ruolo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>B − A</strong></td>
+<td style="text-align: right;"><strong>+0,8611</strong></td>
+<td>[0,8333 – 0,9167]</td>
+<td>contrasto primario pre-specificato</td>
+</tr>
+<tr>
+<td><strong>B − E</strong></td>
+<td style="text-align: right;"><strong>+0,7778</strong></td>
+<td>[0,7222 – 0,8333]</td>
+<td>contrasto sulla pertinenza dell'informazione</td>
+</tr>
+<tr>
+<td><strong>A+ − A</strong></td>
+<td style="text-align: right;">0,0000</td>
+<td>[0 – 0]</td>
+<td>controllo local-only</td>
+</tr>
+<tr>
+<td><strong>B − A+</strong></td>
+<td style="text-align: right;">+0,8611</td>
+<td>[0,833 – 0,917]</td>
+<td>trasferimento rispetto al controllo</td>
+</tr>
+<tr>
+<td><strong>E − A+</strong></td>
+<td style="text-align: right;">+0,0833</td>
+<td>[0,028 – 0,139]</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>I quattro criteri di supporto pre-specificati risultano soddisfatti 4/4.</p>
+<p>Confronti appaiati sulle 36 coppie: B migliora 31 casi rispetto ad A e ad A+, non ne peggiora nessuno; E migliora 3 casi e non ne peggiora nessuno; A+ non cambia alcun caso rispetto ad A.</p>
+<p>La magnitudine di B−A va letta tenendo presente che A è un <strong>punto di partenza informativo</strong>: l'agente ricevente non possiede alcun esempio locale della classe corrispondente. Il valore +0,8611 non è una misura generale delle prestazioni del metodo in altri problemi, modelli o domini.</p>
+<h3>7.5 Casi già noti e casi normali</h3>
+<p><em>Categoria: analisi descrittiva su popolazioni secondarie.</em></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Popolazione</th>
+<th style="text-align: right;">A</th>
+<th style="text-align: right;">A+</th>
+<th style="text-align: right;">B</th>
+<th style="text-align: right;">E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Guasti già noti localmente</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">12/12</td>
+</tr>
+<tr>
+<td>Normal</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">12/12</td>
+</tr>
+</tbody>
+</table></div>
+<p>Nel campione osservato non si rileva alcuna degradazione delle prestazioni su condizioni già conosciute quando vengono aggiunti gli insight dei pari. Questo non dimostra che il metodo sia immune da interferenze in generale, e <a class="xref" href="#sez-8-replica-su-nuovi-run">§8</a> mostra che su un campione più grande il quadro cambia.</p>
+<h3>7.6 Dove si concentrano gli errori</h3>
+<p><em>Categoria: analisi descrittiva dei record già congelati. Non introduce nuovi endpoint.</em></p>
+<p>Per ciascun guasto ci sono tre run simulati, ciascuno valutato dai tre agenti che non lo conoscono: nove coppie per guasto.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Guasto</th>
+<th style="text-align: right;">Coppie corrette in B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td style="text-align: right;">9 / 9</td>
+</tr>
+<tr>
+<td>F8</td>
+<td style="text-align: right;"><strong>4 / 9</strong></td>
+</tr>
+<tr>
+<td>F10</td>
+<td style="text-align: right;">9 / 9</td>
+</tr>
+<tr>
+<td>F13</td>
+<td style="text-align: right;">9 / 9</td>
+</tr>
+</tbody>
+</table></div>
+<p>Tutti e cinque gli errori di B si concentrano sui tre run di F8. Dentro quei run compare eterogeneità fra riceventi: l'agente che conosce F1 riconosce F8 in 3 run su 3, quello che conosce F10 in 0 su 3, quello che conosce F13 in 1 su 3.</p>
+<p>Per agente, sulle nove coppie ciascuno: agente 1 e agente 2 al 100%, agente 3 al 66,7%, agente 4 al 77,8%.</p>
+<p>Queste decomposizioni mostrano <strong>dove</strong> si concentra la difficoltà osservata, non <strong>perché</strong>. F8 non diventa un endpoint.</p>
+<h3>7.7 Stabilità delle decisioni</h3>
+<p><em>Categoria: analisi descrittiva.</em></p>
+<p>Delle 36 decisioni di B sui guasti mai visti, <strong>33 sono unanime</strong> fra le tre ripetizioni e 3 sono divise. In A+, su 60 esiti aggregati, 57 sono unanimi e 3 a maggioranza 2 su 3.</p>
+<p>È un descrittore dell'accordo fra tre chiamate con lo stesso input e la stessa configurazione. Non è una misura di robustezza rispetto a perturbazioni dei dati, prompt diversi, altri modelli o distribuzioni differenti.</p>
+<h3>7.8 Costo in token del controllo A+</h3>
+<p>333 192 token in ingresso, 29 695 in uscita, 362 887 in totale; zero ripetizioni strutturali e zero errori di parsing.</p>
+</section>
+<section id="sez-8-replica-su-nuovi-run">
+<p class="kicker"><span class="num">8</span></p><h2>Replica su nuovi run</h2>
+<p><em>Categoria: replica su nuovi dati.</em>
+<em>Identificativo tecnico: EXP3_V2 · Experiment 3.</em></p>
+<h3>8.1 Perché serve</h3>
+<p>Un held-out, per definizione, si apre una volta sola: dopo che i risultati sono stati osservati, quei dati non sono più vergini rispetto all'ipotesi.</p>
+<p>Il rischio specifico da escludere non è la contaminazione classica — il congelamento la controlla già — ma che le dodici realizzazioni simulate dello studio principale avessero caratteristiche idiosincratiche (pattern di rumore, transitori, derive) che hanno favorito il trasferimento in quel campione particolare.</p>
+<p>Le nuove realizzazioni simulate sono run indipendenti delle <strong>stesse quattro classi</strong>: non nuove esecuzioni degli stessi file, non classi nuove, non un dominio diverso. Metodo, agenti, soglie, insight e protocollo restano quelli dello studio principale, riapplicati senza ricalibrazione. L'obiettivo non è la generalizzazione, ma verificare se l'effetto sia riproducibile quando cambiano i segnali simulati e resta fisso tutto il resto.</p>
+<h3>8.2 Il disegno</h3>
+<p>30 nuove realizzazioni simulate: 6 Normal e 6 run per ciascuno dei quattro guasti, il doppio dello studio principale. Congelate prima di qualsiasi inferenza.</p>
+<p>24 run di guasto × 3 agenti riceventi = <strong>72 coppie per condizione</strong>, da 24 run simulati indipendenti. Ipotesi primaria, popolazione, contrasti e criteri sono stati scritti prima di aprire i dati.</p>
+<p>Il controllo A+ <strong>non compare in questa replica</strong>: è stato eseguito soltanto sui casi dello studio principale.</p>
+<h3>8.3 Il risultato primario</h3>
+<p><strong>Guasti mai visti dall'agente che giudica — 72 coppie per condizione, da 24 run simulati</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Condizione</th>
+<th style="text-align: right;">Corrette</th>
+<th style="text-align: right;">Accuratezza</th>
+<th style="text-align: right;">Astensioni</th>
+<th style="text-align: right;">Errori con decisione</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong> — da solo</td>
+<td style="text-align: right;"><strong>0 / 72</strong></td>
+<td style="text-align: right;">0,0 %</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">42</td>
+</tr>
+<tr>
+<td><strong>B</strong> — con le descrizioni degli altri</td>
+<td style="text-align: right;"><strong>68 / 72</strong></td>
+<td style="text-align: right;">94,4 %</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr>
+<td><strong>E</strong> — con le associazioni corrotte</td>
+<td style="text-align: right;"><strong>4 / 72</strong></td>
+<td style="text-align: right;">5,6 %</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">68</td>
+</tr>
+</tbody>
+</table></div>
+<p>Anche qui lo zero di A non deriva solo dalle astensioni: 42 decisioni prese, nessuna corretta.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Contrasto</th>
+<th style="text-align: right;">Stima</th>
+<th>Intervallo 95%</th>
+<th>Ruolo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>B − A</strong></td>
+<td style="text-align: right;"><strong>+0,9444</strong></td>
+<td>[0,8611 – 1,0]</td>
+<td>contrasto primario</td>
+</tr>
+<tr>
+<td><strong>B − E</strong></td>
+<td style="text-align: right;"><strong>+0,8889</strong></td>
+<td>[0,7778 – 0,9861]</td>
+<td>evidenza di supporto</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Il criterio di replica pre-specificato è soddisfatto</strong>: la differenza osservata è positiva e il limite inferiore dell'intervallo, 0,8611, è positivo.</p>
+<p>Con 24 cluster indipendenti, il doppio dello studio principale, gli intervalli sono più stretti, ma restano quelli di uno studio controllato di piccola scala.</p>
+<h3>8.4 Dove si concentrano gli errori</h3>
+<p><em>Categoria: analisi descrittiva.</em></p>
+<p>Per ciascun guasto ci sono sei run simulati e tre agenti riceventi: 18 coppie per guasto.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Guasto</th>
+<th style="text-align: right;">Coppie corrette in B</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F1</td>
+<td style="text-align: right;">18 / 18</td>
+</tr>
+<tr>
+<td>F8</td>
+<td style="text-align: right;">16 / 18</td>
+</tr>
+<tr>
+<td>F10</td>
+<td style="text-align: right;">18 / 18</td>
+</tr>
+<tr>
+<td>F13</td>
+<td style="text-align: right;">16 / 18</td>
+</tr>
+</tbody>
+</table></div>
+<p>I quattro errori si concentrano su due run specifici, sui quali sbagliano contemporaneamente l'agente che conosce F1 e quello che conosce F10. Gli agenti che conoscono F8 e F13 non commettono errori su guasti mai visti.</p>
+<h3>8.5 Il fenomeno nuovo: degradazione sui guasti già noti</h3>
+<p><em>Categoria: risultato descrittivo su popolazione secondaria.</em></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Popolazione</th>
+<th style="text-align: right;">A</th>
+<th style="text-align: right;">B</th>
+<th style="text-align: right;">E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Guasti già noti localmente</td>
+<td style="text-align: right;">24/24 (100 %)</td>
+<td style="text-align: right;"><strong>19/24 (79,2 %)</strong></td>
+<td style="text-align: right;">22/24 (91,7 %)</td>
+</tr>
+<tr>
+<td>Normal</td>
+<td style="text-align: right;">24/24</td>
+<td style="text-align: right;">24/24</td>
+<td style="text-align: right;">24/24</td>
+</tr>
+<tr>
+<td>Complessivo</td>
+<td style="text-align: right;">48/120 (40,0 %)</td>
+<td style="text-align: right;">111/120 (92,5 %)</td>
+<td style="text-align: right;">50/120 (41,7 %)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Nello studio principale i guasti già noti erano 12/12 in tutte le condizioni: nessuna degradazione. Qui A resta a 24/24 ma <strong>B scende a 19/24</strong>: cinque casi che l'agente riconosceva diventano errori quando vengono aggiunti gli insight dei pari. Quattro riguardano l'agente che conosce F13, uno l'agente che conosce F8; la confusione è fra queste due classi. Anche E mostra una degradazione più lieve.</p>
+<p>È un segnale che gli insight dei pari, in alcune combinazioni run–agente, possono interferire con il riconoscimento di guasti già noti. Il fenomeno non era osservabile con soli 12 casi. Non essendo un endpoint primario non altera la decisione sulla replica, ma va registrato — e <a class="xref" href="#sez-10-verifiche-di-robustezza">§10</a> descrive l'intervento che ne è seguito.</p>
+<p>Lo stesso fenomeno ricompare, in un contesto diverso, nella verifica con l'altro modello linguistico: là i guasti già noti scendono a 9/12 sui dati <strong>dello studio principale</strong>, dove con il modello originale erano 12/12. Non è quindi legato a un singolo campione.</p>
+<h3>8.6 Confronto sintetico fra le due evidenze</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>Studio principale</th>
+<th>Replica su nuovi run</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Run simulati di guasto</td>
+<td>12</td>
+<td>24</td>
+</tr>
+<tr>
+<td>Guasti mai visti — A / B / E</td>
+<td>0/36 · 31/36 · 3/36</td>
+<td>0/72 · 68/72 · 4/72</td>
+</tr>
+<tr>
+<td>B − A</td>
+<td>+0,861 [0,833 – 0,917]</td>
+<td>+0,944 [0,861 – 1,0]</td>
+</tr>
+<tr>
+<td>B − E</td>
+<td>+0,778 [0,722 – 0,833]</td>
+<td>+0,889 [0,778 – 0,986]</td>
+</tr>
+<tr>
+<td>Guasti già noti in B</td>
+<td>12/12</td>
+<td>19/24</td>
+</tr>
+</tbody>
+</table></div>
+<p>Il disegno riproduce <strong>le stesse classi di guasto su nuove realizzazioni simulate</strong>; non generalizza a guasti non studiati. La replica non comprende un proprio riferimento centralizzato.</p>
+</section>
+<section id="sez-9-confronti-esterni-e-riferimenti">
+<p class="kicker"><span class="num">9</span></p><h2>Confronti esterni e riferimenti</h2>
+<p>Questa sezione risponde a una domanda diversa da quella dello studio principale: <strong>come si colloca il trasferimento testuale rispetto a chi usa direttamente i numeri, o rispetto a chi vede tutto?</strong></p>
+<p>I quattro elementi che seguono hanno ruoli epistemici diversi, ed è essenziale non confonderli.</p>
+<h3>9.1 Baseline numerica condivisa — confronto diretto</h3>
+<p><em>Categoria: confronto esterno. Rispetta lo stesso problema informativo del metodo testuale.</em></p>
+<p>Quattro agenti, ciascuno con il funzionamento normale più un solo guasto locale, pseudolabel opache, stessi dati di sviluppo e stessi 15 casi held-out. La risposta corretta viene collegata alle predizioni solo nella valutazione offline. Il protocollo è stato congelato e hashato prima dell'esecuzione.</p>
+<p>Ogni caso diventa il vettore numerico a <strong>697 componenti</strong> (41 XMEAS × 17) derivato dall'evidenza strutturata <strong>prima</strong> del testo. Per ogni classe si calcola la media dei cinque casi di sviluppo; la classificazione sceglie il prototipo a distanza assoluta media minima. Nessuna normalizzazione viene appresa sul test. Un pareggio entro <code>1e-12</code> produce astensione.</p>
+<p>Il metodo è ispirato a FedProto ma <strong>non è FedProto</strong>: non addestra una rete di rappresentazione e non implementa l'ottimizzazione dell'algoritmo originale.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Braccio</th>
+<th>Libreria disponibile a ciascun agente</th>
+<th style="text-align: right;">Complessivo</th>
+<th style="text-align: right;">Guasti già noti</th>
+<th style="text-align: right;">Guasti mai visti</th>
+<th style="text-align: right;">Normal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Prototipi condivisi</strong></td>
+<td>Normal + guasto locale + 3 guasti dei pari</td>
+<td style="text-align: right;"><strong>60/60 (100 %)</strong></td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;"><strong>36/36 (100 %)</strong></td>
+<td style="text-align: right;">12/12</td>
+</tr>
+<tr>
+<td><strong>Local-only numerica</strong></td>
+<td>Normal + solo guasto locale</td>
+<td style="text-align: right;">24/60 (40 %)</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;"><strong>0/36 (0 %)</strong></td>
+<td style="text-align: right;">12/12</td>
+</tr>
+<tr>
+<td><strong>Centralizzata numerica</strong></td>
+<td>tutti e cinque i centroidi di sviluppo</td>
+<td style="text-align: right;">60/60 (100 %)</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">36/36 (100 %)</td>
+<td style="text-align: right;">12/12</td>
+</tr>
+</tbody>
+</table></div>
+<p>L'intervallo bootstrap al 95% della metrica primaria è <code>[100 %, 100 %]</code>, ma non indica certezza generale: ricampiona soltanto i 12 run simulati disponibili.</p>
+<h4>Il confronto, senza attenuazioni</h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Metodo</th>
+<th style="text-align: right;">Guasti mai visti</th>
+<th style="text-align: right;">Differenza rispetto ai prototipi condivisi</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Prototipi condivisi</strong></td>
+<td style="text-align: right;"><strong>36 / 36</strong></td>
+<td style="text-align: right;">—</td>
+</tr>
+<tr>
+<td>FoT A</td>
+<td style="text-align: right;">0 / 36</td>
+<td style="text-align: right;">+36 casi</td>
+</tr>
+<tr>
+<td><strong>FoT B</strong></td>
+<td style="text-align: right;"><strong>31 / 36</strong></td>
+<td style="text-align: right;"><strong>+5 casi</strong></td>
+</tr>
+<tr>
+<td>FoT E</td>
+<td style="text-align: right;">3 / 36</td>
+<td style="text-align: right;">+33 casi</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Sul campione confrontato la baseline numerica è più accurata di FoT B.</strong> Questi dati <strong>non supportano un claim di superiorità diagnostica del trasferimento testuale.</strong> Mostrano due cose più circoscritte:</p>
+<ol>
+<li>condividere conoscenza di classe è indispensabile in questo compito — lo stesso metodo numerico, senza ricevere nulla dagli altri, scende a 0/36;</li>
+<li>una media numerica compatta delle firme è sufficiente a separare tutti i casi osservati.</li>
+</ol>
+<p>A resta un punto di partenza informativo ed E un controllo di associazione semantica: non sono competitori numerici.</p>
+<p>Nel braccio condiviso ogni cella per agente e per classe è <code>3/3</code>; la matrice di confusione aggregata è interamente diagonale, con zero astensioni.</p>
+<p><strong>Payload del confronto.</strong> Ogni agente riceve 3 prototipi, cioè 2 091 scalari: 16 755 byte per agente e 67 020 byte complessivi per le 12 consegne, contando 9 byte di pseudolabel più 697 float64 per prototipo. Il prototipo Normal non viene trasmesso perché ogni agente possiede già lo stesso riferimento.</p>
+<p><strong>Che cosa non è stato eseguito, e perché.</strong> PCA+SVM centralizzata non è stata eseguita perché esporre tutte le classi al training trasformerebbe il problema in una classificazione supervisionata ordinaria. FedAvg non è stato eseguito perché richiederebbe un nuovo modello e un protocollo di uscita disgiunto per classe: la semplice media di modelli locali non rende disponibile una classe mai presente nell'uscita locale. Produrre quei numeri avrebbe cambiato il compito. Resta il fatto, registrato in <a class="xref" href="#sez-12-che-cosa-il-framework-mostra-e-che-cosa">§12</a>, che <strong>manca un algoritmo di federated learning pubblicato eseguito sullo stesso compito</strong>.</p>
+<h3>9.2 Riferimenti ML centralizzati — riferimenti descrittivi</h3>
+<p><em>Categoria: riferimento descrittivo. Non federato, non confrontabile alla pari.</em></p>
+<p>Una suite congelata prima del training, con otto modelli: AdaBoost, Random Forest, MLP, lineare elastic-net, k-NN, LSTM causale con attention, BiLSTM con attention e BiLSTM multimodale con attention. La variante multimodale fonde la sequenza numerica con il testo neutrale vettorizzato TF-IDF. XGBoost non era disponibile nell'ambiente, quindi è stata usata l'alternativa esplicitamente ammessa, AdaBoost — <em>limite pratico, dichiarato come tale</em>.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Modello centralizzato</th>
+<th style="text-align: right;">15 run simulati</th>
+<th style="text-align: right;">12 casi di guasto</th>
+<th style="text-align: right;">Guasti mai visti, proiettato</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AdaBoost</td>
+<td style="text-align: right;">15/15 (100 %)</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">36/36</td>
+</tr>
+<tr>
+<td>Random Forest</td>
+<td style="text-align: right;">15/15 (100 %)</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">36/36</td>
+</tr>
+<tr>
+<td>MLP</td>
+<td style="text-align: right;">15/15 (100 %)</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">36/36</td>
+</tr>
+<tr>
+<td>Lineare elastic-net</td>
+<td style="text-align: right;">15/15 (100 %)</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">36/36</td>
+</tr>
+<tr>
+<td>k-NN</td>
+<td style="text-align: right;">15/15 (100 %)</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">36/36</td>
+</tr>
+<tr>
+<td>LSTM causale + attention</td>
+<td style="text-align: right;">15/15 (100 %)</td>
+<td style="text-align: right;">12/12</td>
+<td style="text-align: right;">36/36</td>
+</tr>
+<tr>
+<td>BiLSTM + attention</td>
+<td style="text-align: right;">14/15 (93,3 %)</td>
+<td style="text-align: right;">11/12</td>
+<td style="text-align: right;">33/36</td>
+</tr>
+<tr>
+<td>BiLSTM multimodale + attention</td>
+<td style="text-align: right;">14/15 (93,3 %)</td>
+<td style="text-align: right;">11/12</td>
+<td style="text-align: right;">33/36</td>
+</tr>
+</tbody>
+</table></div>
+<p>Tre avvertenze, tutte necessarie perché la tabella non venga letta male.</p>
+<p><strong>Questi otto modelli vedono tutte e cinque le classi durante il training centralizzato.</strong> Non sono federati e non affrontano il problema disgiunto per classe. Il valore «proiettato» replica la stessa predizione centrale sui tre agenti per cui il guasto è localmente mai visto: non trasforma il metodo in federato e non crea 36 osservazioni indipendenti.</p>
+<p><strong>Ogni modello raggiunge il 100% sui 25 casi di training.</strong> Questo, insieme ai soli cinque casi di sviluppo e tre di test per classe, impone prudenza: il risultato può riflettere un benchmark facilmente separabile e non prova generalizzazione ampia.</p>
+<p><strong>Due precisazioni terminologiche.</strong> Una BiLSTM non è causale: usa anche i passi successivi nell'intervallo osservato. La variante multimodale usa due rappresentazioni degli stessi sensori, non una seconda sorgente fisica.</p>
+<p>Il confronto diretto e alla pari resta quello con i prototipi condivisi.</p>
+<h3>9.3 Riferimento testuale centralizzato — analisi esplorativa</h3>
+<p><em>Categoria: analisi esplorativa. Introdotta dopo aver osservato i risultati A/B/E. Non è un confronto causale.</em></p>
+<p>La domanda: quanto perde un sistema a quattro agenti rispetto a uno solo che riceve tutto ciò che nella federazione verrebbe scambiato? È stato costruito un agente unico con l'unione degli artefatti destinati al prompt: esempi etichettati e insight testuali. Non dati grezzi, non testi sorgente, non la risposta corretta, non informazione lato evaluator.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>Esempi etichettati</th>
+<th>Insight</th>
+<th>Forma del contesto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Riferimento centralizzato</strong></td>
+<td>10 aggregati: 2 per ciascuna delle 4 classi + 2 Normal</td>
+<td>8, inclusi quelli che in B sarebbero propri</td>
+<td>contesto unico, indipendente dal ricevente</td>
+</tr>
+<tr>
+<td><strong>B</strong></td>
+<td>4 locali per ricevente: 2 del guasto noto + 2 Normal</td>
+<td>6 dei pari</td>
+<td>contesto diverso per ciascun ricevente</td>
+</tr>
+</tbody>
+</table></div>
+<p>I 10 esempi derivano meccanicamente dall'unione dei quattro pacchetti, con deduplicazione dei Normal.</p>
+<p><strong>Risultati.</strong> 15 casi, R = 3, 45 record e 15 decisioni aggregate: <strong>15/15 (100 %)</strong>, con 12/12 sui casi di guasto e 3/3 sui Normal, zero astensioni. Per ciascun caso le tre ripetizioni hanno prodotto la stessa decisione.</p>
+<p><strong>Distanza descrittiva da B.</strong> Per ciascuno dei 12 casi di guasto si confronta la decisione centralizzata con la media delle decisioni dei tre riceventi per cui quel guasto è mai visto. Il delta appaiato è <strong>+0,1389</strong> con intervallo <code>[0,0833 – 0,1667]</code>, 10 000 ricampionamenti.</p>
+<p>L'intero vantaggio è concentrato nei tre casi di F8, dove i riceventi ottengono 1/3, 2/3 e 1/3; sugli altri nove casi il delta è zero. Il bootstrap è stratificato su 4 classi × 3 cluster e la sua distribuzione occupa una griglia discreta di soli cinque valori: l'intervallo è corretto ma ha risoluzione minima.</p>
+<p><strong>Il riferimento non è isomorfo a B</strong>: cambiano contemporaneamente quantità, forma e struttura del contesto. Il risultato è descrittivo e temporalmente confondibile; non autorizza una lettura causale né una conclusione generale sulla centralizzazione. Non è stato eseguito sulle realizzazioni della replica.</p>
+</section>
+<section id="sez-10-verifiche-di-robustezza">
+<p class="kicker"><span class="num">10</span></p><h2>Verifiche di robustezza</h2>
+<p>Nessuna delle verifiche di questa sezione è evidenza primaria. Ciascuna porta la propria qualificazione.</p>
+<h3>10.1 Verifica con un altro LLM</h3>
+<p><em>Categoria: confronto esterno, limitato al lato consumatore.</em>
+<em>Identificativo tecnico: Experiment 2 · lane Qwen.</em></p>
+<p>La distinzione essenziale è fra <strong>produttore</strong> e <strong>consumatore</strong>:</p>
+<ul>
+<li>il <strong>produttore</strong> degli insight resta <code>gpt-5.6-terra</code> e non viene variato: gli insight sono quelli congelati dello studio principale, byte per byte;</li>
+<li>il <strong>consumatore</strong>, cioè il modello che riceve il caso e gli insight e produce la diagnosi, cambia.</li>
+</ul>
+<p>Il consumatore è <strong>Qwen3.8-27B-FP8</strong>, un modello a pesi aperti servito localmente tramite vLLM su GPU locale, senza chiamate a servizi cloud. Tutto il resto è identico: held-out, insight, template di prompt, schedule, scompaginamento di E, aggregazione 2 su 3, evaluator.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Condizione</th>
+<th style="text-align: right;">Corrette</th>
+<th style="text-align: right;">Accuratezza</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A — da solo</td>
+<td style="text-align: right;">0 / 36</td>
+<td style="text-align: right;">0 %</td>
+</tr>
+<tr>
+<td>B — con le descrizioni degli altri</td>
+<td style="text-align: right;"><strong>34 / 36</strong></td>
+<td style="text-align: right;">94,44 %</td>
+</tr>
+<tr>
+<td>E — con le associazioni corrotte</td>
+<td style="text-align: right;">1 / 36</td>
+<td style="text-align: right;">2,78 %</td>
+</tr>
+</tbody>
+</table></div>
+<p>B − A = +0,944 <code>[0,917 – 1,0]</code>; B − E = +0,917 <code>[0,833 – 1,0]</code>. 34 casi migliorati, 0 peggiorati, 2 invariati ed errati. Zero astensioni. I quattro criteri primari risultano soddisfatti.</p>
+<p>Popolazioni secondarie: Normal 12/12, complessivo 55/60 (91,67 %), e <strong>guasti già noti 9/12 (75 %)</strong>, contro 12/12 ottenuti dal modello originale sugli stessi casi. È lo stesso fenomeno di interferenza osservato nella replica, in un contesto diverso.</p>
+<p><strong>Che cosa la verifica stabilisce.</strong> Il vantaggio della condizione federata persiste su un secondo consumatore nella configurazione esaminata. <strong>Che cosa non stabilisce.</strong> Un solo consumatore non dimostra generalità; gli insight sono ancora prodotti da un unico modello proprietario, quindi non è una replica interamente a pesi aperti; il confronto fra modelli è descrittivo; con temperatura 0 e seed fisso le tre ripetizioni sono identiche byte per byte, quindi qui R = 3 non misura variabilità.</p>
+<p>Il protocollo è stato sottoposto a sonda di capacità e audit indipendente prima del congelamento. La sonda iniziale aveva rivelato un troncamento del ragionamento nella condizione E con un budget di 512 token, corretto portando <code>max_tokens</code> a 1536 e introducendo un budget di ragionamento di 1024. Il verdetto della review scientifica indipendente è <strong>GO WITH LIMITATIONS</strong>.</p>
+<h3>10.2 Sensibilità al budget di ragionamento</h3>
+<p><em>Categoria: analisi di sensibilità. Riguarda esclusivamente la verifica con l'altro modello, non lo studio principale.</em></p>
+<p>Nella configurazione congelata il limite effettivo del ragionamento è <strong>1 023 token</strong> su un budget nominale di 1 024. Tutti e cinque gli errori aggregati di B avevano le tre ripetizioni al limite; tutti i 36 aggregati non limitati erano corretti. Questa coincidenza rendeva ambiguo il fallimento: un errore poteva dipendere dagli insight, ma anche da un ragionamento interrotto troppo presto.</p>
+<p>È stata quindi eseguita un'analisi appaiata e deterministica sulle 60 osservazioni uniche della condizione B, con R = 1 — le triplette congelate erano identiche byte per byte, quindi la ripetizione non aggiungeva informazione. L'ancora a 1 024 riproduce 60/60 predizioni congelate e i controlli di integrità sono superati.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th style="text-align: right;">Budget</th>
+<th style="text-align: right;">Accuratezza B</th>
+<th style="text-align: right;">Guasti già noti</th>
+<th style="text-align: right;">Guasti mai visti</th>
+<th style="text-align: right;">Al limite</th>
+<th style="text-align: right;">Nuove regressioni</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1 024</td>
+<td style="text-align: right;">91,67 %</td>
+<td style="text-align: right;">75,00 %</td>
+<td style="text-align: right;">94,44 %</td>
+<td style="text-align: right;">24/60</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td style="text-align: right;">1 536</td>
+<td style="text-align: right;">93,33 %</td>
+<td style="text-align: right;">75,00 %</td>
+<td style="text-align: right;">97,22 %</td>
+<td style="text-align: right;">15/60</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td style="text-align: right;">2 048</td>
+<td style="text-align: right;">95,00 %</td>
+<td style="text-align: right;">83,33 %</td>
+<td style="text-align: right;">97,22 %</td>
+<td style="text-align: right;">10/60</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr>
+<td style="text-align: right;">3 072</td>
+<td style="text-align: right;">95,00 %</td>
+<td style="text-align: right;">83,33 %</td>
+<td style="text-align: right;">97,22 %</td>
+<td style="text-align: right;">5/60</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table></div>
+<p>L'aumento del budget porta B da 55/60 a 57/60 e riduce i casi al limite dal 40,0 % all'8,3 %, senza regressioni fra i 55 casi già corretti. Il guadagno si arresta dopo 2 048: più spazio di ragionamento corregge alcuni errori, non tutti.</p>
+<h4>Approfondimento sui casi al limite</h4>
+<p><em>Categoria: verifica diagnostica. Riguarda casi selezionati dopo l'analisi e non stima la prestazione complessiva.</em></p>
+<p>I cinque casi ancora al limite a 3 072 sono stati rieseguiti a 4 096. Due terminano sotto il limite, tre lo raggiungono ancora, e tutti e cinque risultano corretti. Fra i due errori presenti a 3 072, uno viene corretto pur restando al limite, l'altro resta errato pur terminando sotto il limite. Nessuna regressione, nessun errore di parsing.</p>
+<p>La lettura causale deve restare prudente. Un caso corretto e sotto il limite è compatibile con la troncatura del ragionamento; due casi ancora errati ma sotto il limite rendono più plausibile un'interferenza, senza dimostrarla; due correzioni ottenute pur restando al limite mostrano che il budget influenza la decisione ma lasciano inconcluso il meccanismo. In breve: <strong>raggiungere il limite non implica sbagliare</strong>, e terminare sotto il limite non identifica da solo la causa dell'errore.</p>
+<h3>10.3 Variante local-first</h3>
+<p><em>Categoria: verifica diagnostica.</em>
+<em>Identificativo tecnico: <code>B_LOCAL_FIRST_V1</code>.</em></p>
+<p>La replica aveva mostrato che nella condizione B i guasti già noti scendevano da 24/24 a 19/24: in cinque casi l'agente ignorava o sottopesava una firma che conosceva già, soprattutto nella confusione fra F8 e F13.</p>
+<p>La variante modifica <strong>una sola parte</strong> del prompt di B: un breve blocco di politica decisionale ordina all'agente di dare precedenza all'evidenza locale quando questa è forte e coerente, usando gli insight dei pari come supporto e non come sostituto. Dopo uno screening su 24 casi, la variante congelata è stata eseguita sull'intera replica: 120 coppie aggregate, ciascuna da tre ripetizioni valide.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Criterio del test completo</th>
+<th style="text-align: right;">B originale</th>
+<th style="text-align: right;">Variante local-first</th>
+<th style="text-align: right;">Soglia</th>
+<th>Esito</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Guasti già noti</td>
+<td style="text-align: right;">19/24 (79,2 %)</td>
+<td style="text-align: right;"><strong>23/24 (95,8 %)</strong></td>
+<td style="text-align: right;">≥ 23/24</td>
+<td>superato</td>
+</tr>
+<tr>
+<td>Guasti mai visti</td>
+<td style="text-align: right;">68/72 (94,4 %)</td>
+<td style="text-align: right;"><strong>68/72 (94,4 %)</strong></td>
+<td style="text-align: right;">≥ 67/72</td>
+<td>superato</td>
+</tr>
+<tr>
+<td>Normal</td>
+<td style="text-align: right;">24/24 (100 %)</td>
+<td style="text-align: right;"><strong>24/24 (100 %)</strong></td>
+<td style="text-align: right;">= 24/24</td>
+<td>superato</td>
+</tr>
+<tr>
+<td>Errori di parsing</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;"><strong>0</strong></td>
+<td style="text-align: right;">= 0</td>
+<td>superato</td>
+</tr>
+<tr>
+<td>Complessivo</td>
+<td style="text-align: right;">111/120 (92,5 %)</td>
+<td style="text-align: right;"><strong>115/120 (95,8 %)</strong></td>
+<td style="text-align: right;">—</td>
+<td>+4 netti</td>
+</tr>
+</tbody>
+</table></div>
+<p>Le soglie erano state fissate e congelate prima dell'esecuzione del test completo.</p>
+<p>Il confronto appaiato contiene <strong>5 miglioramenti e 1 regressione</strong>, tutti nella confusione fra F8 e F13. Si osservano inoltre 112/120 decisioni unanimi e una sola astensione aggregata. La politica mantiene invariata l'accuratezza aggregata sui guasti mai visti, ma <strong>non elimina ogni regressione a livello di singolo caso</strong>.</p>
+<p>Il limite di interpretazione è in <a class="xref" href="#sez-12-che-cosa-il-framework-mostra-e-che-cosa">§12</a>.</p>
+<h3>10.4 Confronto delle rappresentazioni</h3>
+<p><em>Categoria: analisi esplorativa.</em>
+<em>Identificativo tecnico: ablation TS→testo.</em></p>
+<p>La domanda è diversa da quelle precedenti: <strong>perché tradurre i numeri in testo proprio così, e non in un altro modo?</strong></p>
+<p>Quattro modi di rendere gli stessi dati, forniti allo stesso modello, sugli stessi casi, nelle stesse condizioni:</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Braccio</th>
+<th>Che cos'è</th>
+<th>Ispirazione</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Verbalizzazione V2</strong></td>
+<td>il verbalizzatore usato in questo lavoro: otto finestre × cinque feature per variabile, in linguaggio naturale con soglie e trend</td>
+<td>metodo di questo lavoro</td>
+</tr>
+<tr>
+<td><strong>RAW_FEATURES</strong></td>
+<td>serializzazione numerica diretta delle stesse feature, in tabella</td>
+<td>LLMTime (Gruver et al., 2023)</td>
+</tr>
+<tr>
+<td><strong>CGTIME_STATS</strong></td>
+<td>169 statistiche per sensore, tre famiglie, allineate alle finestre</td>
+<td>CGTime (Feng et al., 2026)</td>
+</tr>
+<tr>
+<td><strong>SAX_SYMBOLIC</strong></td>
+<td>codifica simbolica in lettere, alfabeto 5, parola 10</td>
+<td>SAX / HAR-LLM (Pappa et al., 2026)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Il compito è una classificazione centralizzata a cinque classi su 15 casi held-out, 3 ripetizioni per caso: 4 bracci × 15 casi × 3 ripetizioni = 180 inferenze. <em>Natura della scelta: necessità sperimentale.</em> Centralizzare isola la variabile «rappresentazione» evitando confondimento con l'architettura federata; validare nel contesto federato resta un lavoro successivo.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Braccio</th>
+<th style="text-align: right;">Accuratezza</th>
+<th>Intervallo 95%</th>
+<th style="text-align: right;">MCC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RAW_FEATURES</td>
+<td style="text-align: right;">0,933</td>
+<td>[0,800 – 1,000]</td>
+<td style="text-align: right;">0,923</td>
+</tr>
+<tr>
+<td>CGTIME_STATS</td>
+<td style="text-align: right;">0,911</td>
+<td>[0,756 – 1,000]</td>
+<td style="text-align: right;">0,900</td>
+</tr>
+<tr>
+<td><strong>Verbalizzazione V2</strong></td>
+<td style="text-align: right;">0,889</td>
+<td>[0,733 – 1,000]</td>
+<td style="text-align: right;">0,866</td>
+</tr>
+<tr>
+<td>SAX_SYMBOLIC</td>
+<td style="text-align: right;">0,733</td>
+<td>[0,533 – 0,933]</td>
+<td style="text-align: right;">0,699</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Nessun confronto a coppie risulta significativo</strong> dopo correzione Holm–Bonferroni con test consapevoli della struttura a cluster: i valori corretti restano tutti sopra 0,42. Con 15 casi indipendenti, l'effetto minimo rilevabile è di circa 25 punti percentuali. Con questo campione <strong>non è possibile stabilire una graduatoria</strong>.</p>
+<p>Il dato operativamente rilevante riguarda il costo in <strong>token in ingresso</strong>, cioè i token di prompt. I valori sono i totali per braccio riportati dall'artefatto, dove figurano come stima (<code>est_prompt_tokens</code>):</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Braccio</th>
+<th style="text-align: right;">Token in ingresso</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Verbalizzazione V2</td>
+<td style="text-align: right;">2 541</td>
+</tr>
+<tr>
+<td>SAX_SYMBOLIC</td>
+<td style="text-align: right;">13 443</td>
+</tr>
+<tr>
+<td>RAW_FEATURES</td>
+<td style="text-align: right;">50 798</td>
+</tr>
+<tr>
+<td>CGTIME_STATS</td>
+<td style="text-align: right;">342 136</td>
+</tr>
+</tbody>
+</table></div>
+<p>La verbalizzazione V2 usa circa <strong>20 volte meno token di RAW_FEATURES, 135 volte meno di CGTIME_STATS e 5,3 volte meno di SAX</strong>, a parità statistica sui dati osservati. Questo è un dato di costo del prompt in questo confronto; <strong>non costituisce un claim generale di efficienza della comunicazione</strong>.</p>
+<p>Due caveat necessari.</p>
+<p><strong>Il confronto misura formato e informazione insieme.</strong> La verbalizzazione V2 non è solo un formato diverso: incorpora soglie calcolate statisticamente e descrizioni dei trend che gli altri bracci non hanno. Il costo di quel pre-processing è esterno al budget di token del prompt.</p>
+<p><strong>Il campione è piccolo e il modello è uno solo.</strong> In questo confronto F13 è la classe su cui i bracci sbagliano o si astengono più spesso, ma con un pattern che dipende dal braccio: la verbalizzazione V2 tende a confonderlo con F8, gli altri due bracci principali tendono ad astenersi. È un'osservazione su questa rappresentazione e su questo campione, non una proprietà generale della classe.</p>
+</section>
+<section id="sez-11-costo-della-comunicazione">
+<p class="kicker"><span class="num">11</span></p><h2>Costo della comunicazione</h2>
+<p><em>Categoria: misura descrittiva sugli artefatti congelati.</em></p>
+<p>Questa sezione quantifica quanto testo viene effettivamente scambiato. Non sono state eseguite nuove inferenze e nessun risultato è stato modificato: i prompt sono stati ricostruiti in modo deterministico e tutti gli hash verificati contro i log delle predizioni.</p>
+<p>Senza queste misure non si potrebbe dire nulla sul costo del metodo. Con queste misure si può dire quanto costa, <strong>non</strong> che sia più economico o più efficiente di metodi che scambiano logit, prototipi o parametri.</p>
+<h3>11.1 Che cosa viene scambiato</h3>
+<p>L'unità primaria è il blocco realmente inserito nel prompt del consumatore: intestazione <code>PEER INSIGHTS</code>, array JSON UTF-8 indentato, due ritorni a capo finali.</p>
+<p>La libreria contiene <strong>8 insight unici, 2 per produttore</strong>, e occupa 3 108 caratteri, 3 125 byte. Ogni consumatore riceve i 6 insight prodotti dagli altri tre.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Consumatore</th>
+<th style="text-align: right;">Insight</th>
+<th style="text-align: right;">Caratteri</th>
+<th style="text-align: right;">Byte</th>
+<th style="text-align: right;">Token in contesto (GPT)</th>
+<th style="text-align: right;">Token in contesto (Qwen)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>agente 1</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">2 289</td>
+<td style="text-align: right;">2 304</td>
+<td style="text-align: right;">664</td>
+<td style="text-align: right;">724</td>
+</tr>
+<tr>
+<td>agente 2</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">2 327</td>
+<td style="text-align: right;">2 336</td>
+<td style="text-align: right;">684</td>
+<td style="text-align: right;">749</td>
+</tr>
+<tr>
+<td>agente 3</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">2 410</td>
+<td style="text-align: right;">2 420</td>
+<td style="text-align: right;">681</td>
+<td style="text-align: right;">747</td>
+</tr>
+<tr>
+<td>agente 4</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">2 361</td>
+<td style="text-align: right;">2 378</td>
+<td style="text-align: right;">690</td>
+<td style="text-align: right;">754</td>
+</tr>
+<tr>
+<td><strong>Unità completa, 4 riceventi</strong></td>
+<td style="text-align: right;"><strong>24 consegne</strong></td>
+<td style="text-align: right;"><strong>9 387</strong></td>
+<td style="text-align: right;"><strong>9 438</strong></td>
+<td style="text-align: right;"><strong>2 719</strong></td>
+<td style="text-align: right;"><strong>2 974</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>I token sono incrementi <strong>esatti in contesto</strong>, ricavati dai log del provider, non tokenizzazioni isolate del blocco. Per il modello proprietario il nome e la versione del tokenizer non sono congelati; per il modello aperto è congelata la revisione ma non i file del tokenizer. Le stime isolate per singolo insight non vanno presentate come misure esatte.</p>
+<h3>11.2 Controllo strutturale fra B ed E</h3>
+<p>Il controllo è <strong>superato</strong>. Per ogni ricevente, B ed E hanno stesso numero di insight, stessi identificativi, fonti, ordine, chiavi, pattern osservati, caratteri, parole, righe, byte e stessi conteggi di token osservati in entrambi i consumatori.</p>
+<p><strong>Non sono identici byte per byte</strong>: E cambia esclusivamente i sei valori di pseudolabel secondo lo scompaginamento congelato. Le pseudolabel sono tutte ASCII da 9 byte, quindi la lunghezza resta invariata. In totale 24 sostituzioni e 112 posizioni byte differenti, senza inserimenti né cancellazioni.</p>
+<p>La parità di token è una misura osservata per questi modelli e questi prompt, non una proprietà generale delle stringhe permutate.</p>
+<h3>11.3 Costo di produzione, trasferimento e consumo</h3>
+<p>La produzione degli insight è un costo una tantum: <strong>4 chiamate</strong>, 7 954 token in ingresso, 820 in uscita, 0 token di ragionamento, 9 secondi di latenza registrata.</p>
+<p>Il trasferimento non è una chiamata separata: il suo costo è l'incremento nel prompt del consumatore. I token di ragionamento sono inclusi in quelli di uscita e non vanno sommati di nuovo.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Esperimento</th>
+<th>Cond.</th>
+<th style="text-align: right;">Byte payload</th>
+<th style="text-align: right;">Token payload</th>
+<th style="text-align: right;">Token ingresso</th>
+<th style="text-align: right;">Token uscita</th>
+<th style="text-align: right;">Corrette su guasti mai visti</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Studio principale</td>
+<td>A</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">291 567</td>
+<td style="text-align: right;">28 155</td>
+<td style="text-align: right;">0/36</td>
+</tr>
+<tr>
+<td>Studio principale</td>
+<td>B</td>
+<td style="text-align: right;">424 710</td>
+<td style="text-align: right;">122 355</td>
+<td style="text-align: right;">413 922</td>
+<td style="text-align: right;">27 888</td>
+<td style="text-align: right;">31/36</td>
+</tr>
+<tr>
+<td>Studio principale</td>
+<td>E</td>
+<td style="text-align: right;">424 710</td>
+<td style="text-align: right;">122 355</td>
+<td style="text-align: right;">413 970</td>
+<td style="text-align: right;">28 792</td>
+<td style="text-align: right;">3/36</td>
+</tr>
+<tr>
+<td>Replica</td>
+<td>A</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">581 670</td>
+<td style="text-align: right;">55 426</td>
+<td style="text-align: right;">0/72</td>
+</tr>
+<tr>
+<td>Replica</td>
+<td>B</td>
+<td style="text-align: right;">849 420</td>
+<td style="text-align: right;">244 710</td>
+<td style="text-align: right;">826 476</td>
+<td style="text-align: right;">57 236</td>
+<td style="text-align: right;">68/72</td>
+</tr>
+<tr>
+<td>Replica</td>
+<td>E</td>
+<td style="text-align: right;">849 420</td>
+<td style="text-align: right;">244 710</td>
+<td style="text-align: right;">826 380</td>
+<td style="text-align: right;">59 614</td>
+<td style="text-align: right;">4/72</td>
+</tr>
+<tr>
+<td>Verifica altro LLM</td>
+<td>A</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">287 205</td>
+<td style="text-align: right;">101 766</td>
+<td style="text-align: right;">0/36</td>
+</tr>
+<tr>
+<td>Verifica altro LLM</td>
+<td>B</td>
+<td style="text-align: right;">424 710</td>
+<td style="text-align: right;">133 830</td>
+<td style="text-align: right;">421 035</td>
+<td style="text-align: right;">150 705</td>
+<td style="text-align: right;">34/36</td>
+</tr>
+<tr>
+<td>Verifica altro LLM</td>
+<td>E</td>
+<td style="text-align: right;">424 710</td>
+<td style="text-align: right;">133 830</td>
+<td style="text-align: right;">421 035</td>
+<td style="text-align: right;">151 179</td>
+<td style="text-align: right;">1/36</td>
+</tr>
+<tr>
+<td>Riferimento centralizzato</td>
+<td>C</td>
+<td style="text-align: right;">570 060</td>
+<td style="text-align: right;">solo stima</td>
+<td style="text-align: right;">209 118</td>
+<td style="text-align: right;">5 869</td>
+<td style="text-align: right;">15/15 complessivo</td>
+</tr>
+</tbody>
+</table></div>
+<p>Per il riferimento centralizzato i due blocchi aggiunti occupano 12 668 byte per chiamata; le stime sono 3 650 e 3 992 token, ma il delta esatto non è isolabile dai log.</p>
+<p>Non è calcolato alcun costo monetario: il repository non congela prezzi applicabili.</p>
+<h3>11.4 Round e volumi</h3>
+<p>Ogni braccio B o E usa una libreria statica: <strong>un round logico di conoscenza</strong>, 12 archi diretti da sorgente a consumatore, 4 blocchi specifici per ricevente, 24 consegne. Il blocco viene però <strong>reinserito in ogni chiamata</strong>.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Esperimento</th>
+<th style="text-align: right;">Round logici</th>
+<th style="text-align: right;">Blocchi reinseriti</th>
+<th style="text-align: right;">Insight consegnati</th>
+<th style="text-align: right;">Byte</th>
+<th style="text-align: right;">Token in contesto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Studio principale (B+E)</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">360</td>
+<td style="text-align: right;">2 160</td>
+<td style="text-align: right;">849 420</td>
+<td style="text-align: right;">244 710</td>
+</tr>
+<tr>
+<td>Replica (B+E)</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">720</td>
+<td style="text-align: right;">4 320</td>
+<td style="text-align: right;">1 698 840</td>
+<td style="text-align: right;">489 420</td>
+</tr>
+<tr>
+<td>Verifica altro LLM (B+E)</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">360</td>
+<td style="text-align: right;">2 160</td>
+<td style="text-align: right;">849 420</td>
+<td style="text-align: right;">267 660</td>
+</tr>
+</tbody>
+</table></div>
+<p>Il payload di B rappresenta circa il 32,5 % dei byte e il 29,6 % dei token del prompt completo nello studio principale, valori analoghi nella replica, e il 32,5 % / 31,8 % nella verifica con l'altro modello.</p>
+<h3>11.5 Confronto concettuale con paradigmi adiacenti</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Paradigma</th>
+<th>Oggetto trasmesso</th>
+<th>Leggibilità</th>
+<th>Dipendenza dal modello</th>
+<th>Verificabilità</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FedMD</td>
+<td>logit su esempi condivisi</td>
+<td>bassa</td>
+<td>spazio di uscita compatibile</td>
+<td>tensori e dataset ispezionabili</td>
+</tr>
+<tr>
+<td>FedProto</td>
+<td>prototipi medi per classe</td>
+<td>bassa–media</td>
+<td>spazio di embedding</td>
+<td>semantica indiretta</td>
+</tr>
+<tr>
+<td>Adapter / LoRA federati</td>
+<td>parametri addestrabili</td>
+<td>bassa</td>
+<td>architettura, layer, rango</td>
+<td>provenienza binaria</td>
+</tr>
+<tr>
+<td>Trasferimento testuale</td>
+<td>record JSON testuali</td>
+<td>alta per ispezione umana</td>
+<td>tokenizzazione e uso dipendono dal consumatore</td>
+<td>contenuto, ordine, corrispondenze e hash verificabili</td>
+</tr>
+</tbody>
+</table></div>
+<p>Il confronto è <strong>concettuale e non isomorfo</strong>: byte di testo, logit, prototipi e parametri non sono equivalenti. Non sono prodotti numeri attribuiti agli algoritmi originali. Le misure riportate qui non dimostrano privacy, efficienza di banda o superiorità rispetto al federated learning parametrico.</p>
+</section>
+<section id="sez-12-che-cosa-il-framework-mostra-e-che-cosa">
+<p class="kicker"><span class="num">12</span></p><h2>Che cosa il framework mostra e che cosa non mostra</h2>
+<p>Questa è l'unica sezione in cui sono raccolti i limiti. Le sezioni precedenti riportano i fatti osservati; qui si dice che cosa se ne può inferire.</p>
+<h3>12.1 Che cosa mostra</h3>
+<p>Una descrizione testuale corretta può portare a un agente conoscenza discriminante che non possiede. Il risultato è forte nel campione osservato — da 0/36 a 31/36 — e si ripete su realizzazioni simulate indipendenti — da 0/72 a 68/72.</p>
+<p>Il beneficio non è spiegabile con la semplice presenza di più testo nel prompt: a parità di identificativi, testi, ordine e volume, la corruzione delle associazioni fa scendere il risultato a 3/36 e 4/72.</p>
+<p>Il beneficio non è spiegabile con il semplice possesso di insight: fornire all'agente i propri, nella stessa posizione del prompt, lascia il risultato a 0/36 esattamente come senza.</p>
+<p>La rappresentazione intermedia è deterministica e verificabile: ogni frase del testo neutrale è riconducibile ai numeri di partenza.</p>
+<h3>12.2 Che cosa non mostra</h3>
+<p><strong>Non mostra superiorità diagnostica.</strong> Sul campione confrontato la baseline numerica a prototipi condivisi ottiene 36/36 contro 31/36. Il metodo testuale è meno accurato. I vantaggi qualitativi che gli si attribuiscono — leggibilità, verificabilità, assenza di addestramento del consumatore — non sono stati quantificati come compensazioni.</p>
+<p><strong>Non mostra equivalenza con il federated learning parametrico.</strong> Manca un algoritmo di federated learning pubblicato eseguito sullo stesso compito disgiunto per classe. La baseline numerica è ispirata a FedProto ma non è FedProto; FedAvg e le altre suite non sono state eseguite. La collocazione nel panorama del FL resta quindi incompleta.</p>
+<p><strong>Non mostra assenza di interferenza sui guasti già noti.</strong> La replica ha rilevato una degradazione: 19/24 contro 24/24. Lo stesso fenomeno compare nella verifica con l'altro modello linguistico, dove i guasti già noti scendono a 9/12 sui dati dello studio principale. La variante local-first riporta il valore a 23/24 sulla replica, ma <strong>è stata progettata dopo l'osservazione degli errori, è stata provata sullo stesso campione che li aveva mostrati e deve essere replicata su dati indipendenti</strong>. Nel suo perimetro non elimina ogni regressione a livello di singolo caso.</p>
+<p><strong>Non mostra generalità cross-model.</strong> La portabilità è stata verificata <strong>solo lato consumatore</strong>: gli insight sono ancora prodotti da un unico modello proprietario. Non è stato verificato che cosa accada se a produrli è un modello diverso.</p>
+<p><strong>Non mostra funzionamento in mondo aperto.</strong> L'agente sceglie fra le pseudolabel presenti nel prompt. Il protocollo prevede l'astensione, ma questa possibilità <strong>non è stata verificata su guasti realmente fuori catalogo</strong>: non si sa se davanti a un guasto completamente nuovo il sistema si asterrebbe o sceglierebbe erroneamente una classe nota.</p>
+<p><strong>Non mostra scala né generalità industriale.</strong> Quattro agenti, quattro guasti standard fra i 21 del processo, 12 e 24 run simulati, un solo simulatore, una sola configurazione di ragionamento. L'effetto minimo rilevabile nel confronto delle rappresentazioni è di circa 25 punti percentuali.</p>
+<p><strong>Non mostra praticabilità della federazione.</strong> I quattro nodi sono processi logici. Non esistono siti distinti, proprietari diversi, nodi che vanno offline, latenze o reti instabili. Il coordinamento, che in un sistema federato reale è la parte difficile, non è stato affrontato.</p>
+<p><strong>Non mostra robustezza nel tempo.</strong> Gli insight vengono creati una volta e non cambiano. Non c'è iterazione, non c'è aggregazione, non c'è aggiornamento. Non si sa come regga con deriva dei dati, insight iniziali errati, ritardi o molti nodi.</p>
+<p><strong>Non mostra privacy.</strong> Non vengono inviate serie grezze né parametri, ma le descrizioni contengono informazioni statistiche dettagliate. Non è stato tentato alcun attacco di ricostruzione e non esistono garanzie formali.</p>
+<p><strong>Non mostra efficienza di comunicazione.</strong> Le misure di <a class="xref" href="#sez-11-costo-della-comunicazione">§11</a> descrivono un costo osservato. Senza un confronto diretto con metodi che scambiano logit, prototipi o parametri, non si può affermare che il metodo sia più leggero.</p>
+<p><strong>Non mostra trasferibilità della rappresentazione.</strong> Il verbalizzatore non ha feature nel dominio della frequenza né adattamento alla deriva; le soglie sono calibrate su questo processo. Se la traduzione in testo non cattura un pattern diagnostico, nessun insight potrà trasmetterlo. Il confronto delle rappresentazioni non stabilisce una graduatoria e cambia contemporaneamente formato e quantità di informazione preparata a monte.</p>
+<p><strong>Non mostra validazione su un impianto reale.</strong> Tutti gli esperimenti usano un processo simulato.</p>
+<p><strong>Non mostra che la statistica sia ampia.</strong> Con 12 e 24 cluster indipendenti gli intervalli sono utilizzabili ma stretti sul piano della portata: valgono per questo studio controllato.</p>
+<h3>12.3 La lettura d'insieme</h3>
+<p>L'esperimento è una buona prova controllata: mostra che una descrizione testuale corretta può portare a un agente la conoscenza che gli manca, e che il beneficio dipende dal contenuto e non dal volume del testo. Il punto debole è che questa conoscenza viene fornita a B per costruzione, mentre A non possiede alcun collegamento alle classi remote.</p>
+<p>Il grande vantaggio di B dimostra quindi il <strong>meccanismo</strong>, non la superiorità di un sistema federato completo.</p>
+<h3>12.4 Riferimenti descrittivi, non prove</h3>
+<p>Due elementi vanno letti come collocazione e non come evidenza. Gli otto modelli centralizzati vedono tutte le classi in addestramento e raggiungono il 100% anche sui casi di training: il loro risultato dice che il benchmark è facilmente separabile, non che il metodo federato sia inferiore a un metodo federato. Il riferimento testuale centralizzato è stato introdotto dopo aver visto i risultati, riceve più contesto e in forma diversa, ed esiste solo per lo studio principale: la distanza da B è descrittiva e non causale.</p>
+</section>
+<section id="sez-13-aderenza-alla-conferenza">
+<p class="kicker"><span class="num">13</span></p><h2>Aderenza alla conferenza</h2>
+<p>La <a href="https://bigdataieee.org/BigData2026/calls/special-federated-learning/">call ufficiale della Special Session su Federated Learning on Big Data, IEEE BigData 2026</a> include dati distribuiti, distribuzioni non-IID, aggregazione, personalizzazione, privacy, sicurezza, dispositivi edge, evaluation e benchmarking, le cinque V e applicazioni IoT.</p>
+<h3>13.1 Assi su cui il lavoro aderisce, con evidenza</h3>
+<ul>
+<li><strong>Dati distribuiti ed eterogenei per classe</strong> — i quattro agenti hanno esperienze locali disgiunte; è la forma estrema di distribuzione non-IID.</li>
+<li><strong>Trasferimento collaborativo di conoscenza</strong> — gli agenti condividono insight testuali, non aggiornamenti di modello.</li>
+<li><strong>Variety</strong> — serie industriali multivariate e firme di guasto eterogenee.</li>
+<li><strong>Veracity</strong> — risposta corretta verificabile, verbalizzazione deterministica, artefatti congelati, controllo B/E.</li>
+<li><strong>Value</strong> — si valuta se la conoscenza dei pari consenta la diagnosi di guasti localmente non osservati.</li>
+<li><strong>Evaluation e benchmarking</strong> — protocollo a quattro condizioni, replica su nuovi run, analisi di sensibilità, confronti controllati e confronto numerico sullo stesso compito. È l'asse su cui il contributo è più solido.</li>
+<li><strong>Contesto industriale e IoT</strong> — banco di prova industriale simulato pertinente al tema.</li>
+</ul>
+<h3>13.2 Assi su cui non c'è evidenza</h3>
+<p>Volume, Velocity, deployment su dispositivi edge, scalabilità a molti nodi, privacy, sicurezza e validazione su impianto reale <strong>non sono risultati di questo studio</strong>. Il dettaglio dei limiti corrispondenti è in <strong><a class="xref" href="#sez-12-che-cosa-il-framework-mostra-e-che-cosa">§12</a></strong>.</p>
+<h3>13.3 Framing corretto</h3>
+<p>Il framing appropriato è <strong>trasferimento federato di conoscenza testuale</strong>, cioè apprendimento collaborativo di tipo FL-like, non federated learning parametrico classico. Non vengono aggregati parametri, gradienti o modelli, e non viene costruito iterativamente un modello globale.</p>
+<p>Il rischio di posizionamento è reale e va anticipato: un revisore legato alla definizione canonica di federated learning potrebbe considerare questo lavoro distante dal perimetro della sessione. La risposta più difendibile è duplice — inquadrare il lavoro come esplorazione di un estremo nella traiettoria dell'oggetto federato (parametri → logit → prototipi → testo), e valorizzare il contributo di evaluation e benchmarking, che è un tema esplicito della call.</p>
+<p>Il limite di novità è già circoscritto in <a class="xref" href="#sez-1-obiettivo-e-domanda-scientifica">§1.3</a>: FoT è di Yao et al., e il contributo è la combinazione descritta in <a class="xref" href="#sez-1-obiettivo-e-domanda-scientifica">§1.4</a>.</p>
+<p><em>Valutazione editoriale basata sui materiali del progetto e sulla call consultata il 10 settembre 2026. Requisiti di formato e scadenze vanno verificati sulle istruzioni ufficiali della sessione.</em></p>
+</section>
+<section id="sez-14-letteratura">
+<p class="kicker"><span class="num">14</span></p><h2>Letteratura</h2>
+<p>Questa sezione unifica i materiali di <code>docs/lit_review</code>, il workbook bibliografico e i paper convertiti in <code>papers/</code>. Sono inclusi i lavori che incidono su almeno uno degli assi dell'esperimento: oggetto federato, classi localmente non osservate, trasformazione da serie temporale a testo, diagnosi mediante modelli linguistici.</p>
+<p>Al corpus originario si aggiungono i <strong>venticinque lavori di federazione con modelli linguistici</strong> raccolti in <a href="../papers/archive/fed_fsl_2026-07"><code>papers/archive/fed_fsl_2026-07/</code></a> e verificati sul testo integrale dall'audit di prior art conservato nella stessa cartella. Di questi, <strong>diciannove</strong> incidono su almeno uno degli assi e compaiono in §14.1; <strong>sei</strong> riguardano federated prompt learning parametrico su benchmark visivi, sono stati esaminati e lasciati fuori perimetro. L'esclusione è documentata in §14.4, non implicita.</p>
+<p><strong>Il corpus si è allargato oltre i quattro assi.</strong> I trentacinque lavori entrati nel settembre 2026 — diagnosi e monitoraggio centralizzati sul Tennessee Eastman, calibrazione conforme, soglie statistiche — <strong>non toccano nessuno degli assi</strong>. Entrano perché condividono il banco di prova e documentano il perimetro consultato. <strong>Nessuno di essi è 🟢</strong>: nessuno incide sul disegno e nessuno vieta un'affermazione di questo documento, quindi nessuno ha una scheda in §14.2.</p>
+<p>Le schede estese, in <a class="xref" href="#sez-14-letteratura">§14.2</a>, riguardano soltanto i lavori che <strong>influenzano direttamente il disegno</strong>. Per gli altri, la tabella e i file in <code>docs/lit_review</code> sono sufficienti.</p>
+<h3>14.1 Corpus completo</h3>
+<p>La tabella è divisa per categoria: apri quella che ti serve, richiudila con la <strong>✕</strong> nell'intestazione o con il pulsante in fondo al pannello. La colonna <strong>Vicinanza</strong> dice quanto il lavoro tocca questo esperimento.</p>
+<div class="scroll"><table>
+<thead><tr><th>Icona</th><th>Significato</th><th>Che cosa comporta</th></tr></thead><tbody>
+<tr><td style="text-align:center">🟢</td><td><strong>Vicino</strong></td><td>Incide sul disegno o delimita un claim: va citato e discusso, non solo elencato</td></tr>
+<tr><td style="text-align:center">🟡</td><td><strong>Adiacente</strong></td><td>Condivide un asse — dominio, regime non-IID o payload — ma non cambia le nostre scelte: citazione di contesto</td></tr>
+<tr><td style="text-align:center">🔴</td><td><strong>Distante</strong></td><td>Sfondo del campo: serve a mostrare il perimetro consultato, non richiede discussione</td></tr>
+</tbody></table></div>
+<p>Complessivamente: <strong>98 lavori</strong>, di cui 25 🟢, 38 🟡, 35 🔴.</p>
+<p>Autori e anno provengono da fonti già verificate nel repository: l'audit di prior art, la gap analysis e la scansione del related work. Un trattino <strong>—</strong> significa che il dato <strong>non è stato verificato su fonte ufficiale</strong>: è 1 lavoro su 97, e va confermato prima di usarli in bibliografia.</p>
+<details class="litcat">
+<summary><span class="lc-name">Federazione testuale</span> <span class="lc-meta">14 lavori · 🟢 7 · 🟡 5 · 🔴 2</span></summary>
+<div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
+<tr><td>Federation over Text: Insight Sharing for Multi-Agent Reasoning</td><td>Yao, Rabbani, Zaheer, Li, 2026</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Federated In-Context LLM Agent Learning (FICAL)</td><td>Wu, Li, Nan, Wang, 2024</td><td style="text-align:center">🟢</td></tr>
+<tr><td>SYNAPSE: Federated Tool Routing via Typed Compendium Artifacts</td><td>Chakraborty, Shah, Gupta, 2026</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Federated In-Context Learning: Iterative Refinement for Improved Answer Quality (Fed-ICL)</td><td>Wang, Wang, Huang, Wang, Yu, Yao, Lui, Zhou, 2025</td><td style="text-align:center">🟢</td></tr>
+<tr><td>FERA: Uncertainty-Aware Federated Reasoning for Large Language Models</td><td>Wang, Huang, Wang, Wu, Wang, Yu, McAuley, Yao, Zhou, 2026</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Can Textual Gradient Work in Federated Learning? (FedTextGrad)</td><td>Chen, Jin, Deng, Chen, Huang, Yu, Li, 2025</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Time-FFM: LM-Empowered Federated Foundation Model for Time Series Forecasting</td><td>Liu et al., 2024</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Implicit Federated In-Context Learning for Task-Specific LLM Fine-Tuning (IFed-ICL)</td><td>Li, Chen, Zhou, Li, Xian, Liu, Li, 2025</td><td style="text-align:center">🟡</td></tr>
+<tr><td>AsynDBT: Asynchronous Distributed Bilevel Tuning for Efficient In-Context Learning</td><td>Ma, Dou, Liu, Xing, Feng, Pi, 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Fed-SE: Federated Self-Evolution for Cross-Environment Knowledge Transfer</td><td>Chen, Shi, Lan, Qiu, Wang, Gu, Yan</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Social Learning: Towards Collaborative Learning with LLMs</td><td>Mohtashami et al., 2023</td><td style="text-align:center">🟡</td></tr>
+<tr><td>FedCoT: Communication-Efficient Federated Reasoning Enhancement for LLMs</td><td>Li et al., 2025</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Federation of Agents: A Semantics-Aware Communication Fabric for Large-Scale Agentic AI</td><td>Giusti et al. (CERN)</td><td style="text-align:center">🔴</td></tr>
+<tr><td>FedSRD: Communication-Efficient Federated LLM Fine-Tuning via Sparsify-Reconstruct-Decompose</td><td>Yan et al., 2026</td><td style="text-align:center">🔴</td></tr>
+</tbody></table></div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Federazione testuale</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">FL disgiunto per classe</span> <span class="lc-meta">9 lavori · 🟢 7 · 🟡 2</span></summary>
+<div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
+<tr><td>FedMD: Heterogeneous Federated Learning via Model Distillation</td><td>Li &amp; Wang, 2019</td><td style="text-align:center">🟢</td></tr>
+<tr><td>FedProto: Federated Prototype Learning across Heterogeneous Clients</td><td>Tan et al., 2022</td><td style="text-align:center">🟢</td></tr>
+<tr><td>FedCKD: Knowledge Distillation with Label-Exclusive Clients</td><td>Le, Le, Le, Truong-Huu, 2026</td><td style="text-align:center">🟢</td></tr>
+<tr><td>FedMeta-FFD: Federated Meta-Learning for Fault Diagnosis</td><td>Chen, Tang, Li, 2023</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Federated Zero-Shot Learning with Mid-Level Semantic Knowledge Transfer</td><td>Sun, Si, Wu, Gong, 2024</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Federated Meta-Learning with Transformer Fusion for Few-Shot Multi-Condition Fault Diagnosis</td><td>Zhang et al., 2026</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Federated Learning Based on Fuzzy Fusion Rules for Chemical Production Process Fault Diagnosis</td><td>Xu et al., 2026</td><td style="text-align:center">🟢</td></tr>
+<tr><td>FedMAPS: A Federated Meta-Learning Framework with Adaptive Cross-Domain Contrastive Learning for Few-Shot Fault Diagnosis</td><td>Sun, Lu, Chen, Xiang, Hu, 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>FedAPA-FD: Class-Sensitive Personalized Federated Learning for Non-IID Bearing Fault Diagnosis</td><td>Yu, Li, Zhou, 2026</td><td style="text-align:center">🟡</td></tr>
+</tbody></table></div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi FL disgiunto per classe</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">Contesto e memoria testuale</span> <span class="lc-meta">4 lavori · 🟢 1 · 🟡 2 · 🔴 1</span></summary>
+<div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
+<tr><td>Agentic Context Engineering: Evolving Contexts for Self-Improving Language Models (ACE)</td><td>Zhang, Hu, Upasani et al., Zou, Olukotun, 2026</td><td style="text-align:center">🟢</td></tr>
+<tr><td>FORGE: Self-Evolving Agent Memory With No Weight Updates via Population Broadcast</td><td>Bogdanov, Lung, Kunz, Taylor, Gao, Zaman, 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Evo-Memory: Benchmarking LLM Agent Test-time Learning with Self-Evolving Memory</td><td>Wei, Sachdeva et al. (Google DeepMind), 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>TextGrad: Automatic "Differentiation" via Text</td><td>Yuksekgonul, Bianchi, Boen, Liu, Huang, Guestrin, Zou, 2024</td><td style="text-align:center">🔴</td></tr>
+</tbody></table></div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Contesto e memoria testuale</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">Federated few-shot e privacy</span> <span class="lc-meta">5 lavori · 🟢 2 · 🟡 3</span></summary>
+<div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
+<tr><td>Privacy-Preserving Personalized Federated Prompt Learning for Multimodal LLMs (DP-FPL)</td><td>Tran, Sun, Patterson, Milanova, 2025</td><td style="text-align:center">🟢</td></tr>
+<tr><td>FedDTPT: Federated Discrete and Transferable Prompt Tuning for Black-Box LLMs</td><td>Wu, Chen, Yang et al.</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Federated Few-shot Learning (F²L)</td><td>Fu, Wang, Ding, Chen, Chen, Li, 2023</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Personalized Federated Few-Shot Learning (pFedFSL)</td><td>Zhao, Yu, Wang, Domeniconi, Guo, Zhang, Cui, 2024</td><td style="text-align:center">🟡</td></tr>
+<tr><td>PPFedIT: Towards Privacy-preserving Federated Instruction Tuning with Few-shot Local Examples</td><td>Zhang, Zhang, Huang et al., 2026</td><td style="text-align:center">🟡</td></tr>
+</tbody></table></div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Federated few-shot e privacy</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">TS→testo fedele</span> <span class="lc-meta">6 lavori · 🟢 3 · 🟡 1 · 🔴 2</span></summary>
+<div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
+<tr><td>Truth-Conditional Captions for Time Series Data</td><td>Jhamtani &amp; Berg-Kirkpatrick, 2021</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Representing Time Series as Structured Programs for LLM Reasoning (T2SP)</td><td>Kim et al., 2026</td><td style="text-align:center">🟢</td></tr>
+<tr><td>CGTime: Decoupling Perception from Description in Time-Series Reasoning</td><td>Feng, Xie, Zhang, Li, Ling, Li, Liu</td><td style="text-align:center">🟢</td></tr>
+<tr><td>An On-the-Fly Signals-to-Semantics Storytelling Framework for Explainable Industrial Maintenance Decisions</td><td>Yue, Zhao, Cheng, 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>A Fuzzy Approach to Data-to-Text for Time Series</td><td>Ramos-Soto, Janeiro, Alonso, Bugarín et al., 2017</td><td style="text-align:center">🔴</td></tr>
+<tr><td>ICA2TEXT: Data-to-Text for Air-Quality Time Series</td><td>Cascallar-Fuentes et al., 2022</td><td style="text-align:center">🔴</td></tr>
+</tbody></table></div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi TS→testo fedele</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">Rappresentazioni simboliche</span> <span class="lc-meta">4 lavori · 🟢 1 · 🟡 1 · 🔴 2</span></summary>
+<div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
+<tr><td>Bridging Time Series and Large Language Models via Symbolic Representation for HAR</td><td>Pappa, Karvelis &amp; Stylios, 2026</td><td style="text-align:center">🟢</td></tr>
+<tr><td>A Novel Feature Extraction Approach for Mechanical Fault Diagnosis Based on ESAX and BoW</td><td>Zhao et al., 2022</td><td style="text-align:center">🟡</td></tr>
+<tr><td>HSQP: Hierarchical Symbolic Quantization Prompting for Time-Series Forecasting</td><td>Abdullahi et al., 2026</td><td style="text-align:center">🔴</td></tr>
+<tr><td>LLM-ABBA: Understanding Time Series via Symbolic Approximation</td><td>Chen, Carson, Kang, 2026</td><td style="text-align:center">🔴</td></tr>
+</tbody></table></div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Rappresentazioni simboliche</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">LLM per fault diagnosis</span> <span class="lc-meta">6 lavori · 🟢 1 · 🟡 3 · 🔴 2</span></summary>
+<div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
+<tr><td>Evidence-Traceable LLM Reporting for Industrial Process Fault Detection and Diagnosis (EviFDD-Agent)</td><td>Chen, Peng, Zhang, Zhu, Hu, Zhai et al., 2026</td><td style="text-align:center">🟢</td></tr>
+<tr><td>FD-LLM: Large Language Model for Fault Diagnosis of Machines</td><td>Qaid et al., 2024</td><td style="text-align:center">🟡</td></tr>
+<tr><td>FD-LLM: Large Language Model for Fault Diagnosis of Complex Equipment</td><td>Lin et al., 2025</td><td style="text-align:center">🟡</td></tr>
+<tr><td>LLM-TSFD: Industrial Time-Series Human-in-the-Loop Fault Diagnosis</td><td>Zhang, Xu, Li, Sun, Bao, Zhang, 2024</td><td style="text-align:center">🟡</td></tr>
+<tr><td>CL-LLMOps: Fuzzy-Gated Verification of LLM Agents for Industrial Fault Diagnosis</td><td>Xiao, Xu, Li, Ding, Huang (identità da confermare), 2026</td><td style="text-align:center">🔴</td></tr>
+<tr><td>DML–LLM Hybrid Architecture for Fault Detection and Diagnosis in Sensor-Rich Industrial Systems</td><td>Hu, Marandi, Modarres, 2026</td><td style="text-align:center">🔴</td></tr>
+</tbody></table></div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi LLM per fault diagnosis</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">Calibrazione e predizione conforme</span> <span class="lc-meta">10 lavori · 🟢 1 · 🟡 6 · 🔴 3</span></summary>
+<div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
+<tr><td>Class-Conditional Conformal Prediction for Reliable Open-Set Fault Diagnosis in Safety-Critical Industrial Systems</td><td>Heddoub et al., 2026</td><td style="text-align:center">🟢</td></tr>
+<tr><td>Uncertainty-Aware Fault Diagnosis with Conformal Prediction</td><td>Heddoub, Diallo, Homri, Dantan, Siadat, 2025</td><td style="text-align:center">🟡</td></tr>
+<tr><td>RBC-AD: conformal anomaly detection with explicit false-alarm control for the Tennessee Eastman Process</td><td>Mudasir, Asiri, Ameer, Al Reshan, Almansour, Awan, Shaikh, 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Reducing false alarms in fault detection: a comparative analysis between conformal prediction and classical methods applied to PCA and autoencoders</td><td>Diallo, Homri, Dantan, 2025</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Quantifying and mitigating alarm fatigue caused by fault detection systems</td><td>Diallo, Homri, Boeuf, Dantan, Bonnet, 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Conformal machine learning for reliable anomaly detection in industrial cyber-physical systems</td><td>Yuan, Li, Wang, Zhang, 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Adaptive Conformal Anomaly Detection with Time Series Foundation Models for Signal Monitoring</td><td>Martinez Gil, O'Donncha, Gifford, Zhou, Patel, Vaculin, 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>CODiT: Conformal Out-of-Distribution Detection in Time-Series Data for Cyber-Physical Systems</td><td>Kaur, Sridhar, Park, Yang, Jha, Roy, Sokolsky, Lee, 2023</td><td style="text-align:center">🔴</td></tr>
+<tr><td>Out-of-distribution Detection in Dependent Data for Cyber-physical Systems with Conformal Guarantees (estensione di CODiT)</td><td>Kaur, Yang, Sokolsky, Lee, 2024</td><td style="text-align:center">🔴</td></tr>
+<tr><td>Between Resolution Collapse and Variance Inflation: Weighted Conformal Anomaly Detection in Low-Data Regimes</td><td>Hennhöfer &amp; Preisach, 2026</td><td style="text-align:center">🔴</td></tr>
+</tbody></table></div>
+<p>Le cinque voci 🟡 aggiunte nel 2026-09 calibrano o controllano esplicitamente l'errore <strong>su TEP o su processi industriali</strong>: è il terreno che questo studio non presidia, perché <a href="#sez-6-protocollo-di-valutazione">§6.3</a> conta l'astensione come errore e <a href="#sez-12-che-cosa-il-framework-mostra-e-che-cosa">§12.2</a> dichiara non verificato il funzionamento in mondo aperto. Le tre 🔴 riguardano domini ciberfisici estranei al processo chimico o sono puramente metodologiche. Nessuna vieta un'affermazione di questo documento.</p>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Calibrazione e predizione conforme</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">Allineamento TS–linguaggio</span> <span class="lc-meta">7 lavori · 🟢 1 · 🔴 6</span></summary>
+<div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
+<tr><td>TableTime: Reformulating Time Series Classification as Training-Free Table Understanding with LLMs</td><td>Wang, Cheng, Mao, Zhou, Wang, Liu et al., 2025</td><td style="text-align:center">🟢</td></tr>
+<tr><td>T3: Domain-Agnostic Neural Time-Series Narration</td><td>Sharma, Brownstein &amp; Ramakrishnan, 2021</td><td style="text-align:center">🔴</td></tr>
+<tr><td>Repr2Seq: Time Series Representation to Sequence</td><td>Li et al., 2023</td><td style="text-align:center">🔴</td></tr>
+<tr><td>TADACap: Time-Series Image Retrieval for Domain-Aware Captioning</td><td>Fons et al., 2024</td><td style="text-align:center">🔴</td></tr>
+<tr><td>CLaSP: Contrastive Language–Signal Pretraining</td><td>Ito, Dohi &amp; Kawaguchi, 2025</td><td style="text-align:center">🔴</td></tr>
+<tr><td>TSLM: Time Series Language Model for Descriptive Caption Generation</td><td>Trabelsi, Boyd, Cao, Uzunalioğlu, 2025</td><td style="text-align:center">🔴</td></tr>
+<tr><td>Towards Semantically Faithful Text-to-Time Series Generation via Agents and Spectral Conditioning</td><td>Wu, Lu, Zheng, Liu, Zhang, 2026</td><td style="text-align:center">🔴</td></tr>
+</tbody></table></div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Allineamento TS–linguaggio</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">Survey e benchmark</span> <span class="lc-meta">5 lavori · 🟢 1 · 🟡 1 · 🔴 3</span></summary>
+<div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
+<tr><td>Federated Reasoning LLMs: A Survey</td><td>Wei, Tong, Zhou, Xu, Gao, Tu et al., 2025</td><td style="text-align:center">🟢</td></tr>
+<tr><td>BEDTime: A Unified Benchmark for Automatically Describing Time Series</td><td>Sen, Gottesman, Qiu, Bruss, Nguyen, Hartvigsen, 2025</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Empowering Time Series Analysis with Large Language Models: A Survey</td><td>Jiang et al., 2024</td><td style="text-align:center">🔴</td></tr>
+<tr><td>Time-Series Large Language Models: A Systematic Review</td><td>Abdullahi et al., 2025</td><td style="text-align:center">🔴</td></tr>
+<tr><td>Large Language Models for Time-Series Reasoning: A TMLR Survey</td><td>—</td><td style="text-align:center">🔴</td></tr>
+</tbody></table></div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Survey e benchmark</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">Diagnosi e monitoraggio di processo centralizzati su TEP</span> <span class="lc-meta">23 lavori · 🟡 14 · 🔴 9</span></summary>
+<div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
+<tr><td>TopoCausFormer (TCF-STAE): spatio-temporal representation learning per la diagnosi in processi industriali complessi</td><td>Peng, Tang, Li, Simani, Dong, 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>A novel deep learning based fault diagnosis approach for chemical process with extended deep belief network</td><td>Wang, Pan, Yuan, Yang, Gui, 2020</td><td style="text-align:center">🟡</td></tr>
+<tr><td>A novel fault diagnosis method based on CNN and LSTM and its application in fault diagnosis for complex systems</td><td>Huang, Zhang, Tang, Zhao, Lu, 2022</td><td style="text-align:center">🟡</td></tr>
+<tr><td>HDLCNN-SHAP: hierarchical dilated CNN order-invariant e interpretabile per rilevazione e diagnosi chimica</td><td>Li, Peng, Wang, Wang, 2023</td><td style="text-align:center">🟡</td></tr>
+<tr><td>DACN: dual adversarial and contrastive network per single-source domain generalization nella diagnosi</td><td>Li, Atoui, Li, 2025</td><td style="text-align:center">🟡</td></tr>
+<tr><td>ES-QLSTM: entropy space quantum-behaved dung beetle optimized LSTM per la diagnosi di processo</td><td>Ao, Ma, Liu, Li, Han, 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>SAEDLPP: improved discrimination locality preserving projections integrate con sparse autoencoder</td><td>He, Li, Zhang, Xu, Zhu, 2021</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Fault Diagnosis of Chemical Processes Based on PCA-MSRN</td><td>Sun, 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Improving Accuracy and Interpretability of CNN-Based Fault Diagnosis through an Attention Mechanism</td><td>Huang, Zhang, Liu, Zhao, 2023</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Inception-SECA-BiLSTM: estrazione multi-scala con attenzione per la diagnosi di processo</td><td>Lv, Wang, Gao, Zhang, 2026</td><td style="text-align:center">🟡</td></tr>
+<tr><td>MDGCN: multichannel dynamic graph convolutional network, applicato all'altoforno</td><td>Wu, Wang, Gao, Zhang, Lou, Yang, 2023</td><td style="text-align:center">🟡</td></tr>
+<tr><td>TDLN-trees: three-layer deep learning network random trees per la produzione chimica</td><td>Lu, Gao, Zou, Chen, Li, 2024</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Deep Anomaly Detection on Tennessee Eastman Process Data</td><td>Hartung et al., 2023</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Comparison of autoencoder architectures for fault detection in industrial processes</td><td>Spina et al., 2024</td><td style="text-align:center">🟡</td></tr>
+<tr><td>Automated feature learning for nonlinear process monitoring – stacked denoising autoencoder e regola k-NN</td><td>Zhang, Jiang, Li, Yang, 2018</td><td style="text-align:center">🔴</td></tr>
+<tr><td>MSLKPCA: multi-block statistics local kernel PCA per il rilevamento non lineare</td><td>Zhou &amp; Gu, 2020</td><td style="text-align:center">🔴</td></tr>
+<tr><td>CVKA: Nonlinear Dynamic Process Monitoring Using Canonical Variate Kernel Analysis</td><td>Li, Yang, Cao, 2023</td><td style="text-align:center">🔴</td></tr>
+<tr><td>Temporal-Spatial Neighborhood Enhanced Sparse Autoencoder per il monitoraggio dinamico non lineare</td><td>Li, Shi, Song, Tao, 2020</td><td style="text-align:center">🔴</td></tr>
+<tr><td>TceOne: temporal CapsNet encoder con classificatore one-class per le industrie di processo</td><td>Wang, Zhao, Han, Wang, 2023</td><td style="text-align:center">🔴</td></tr>
+<tr><td>Incipient Fault Detection Using Sliding Window K-Means Shared Dictionary Learning</td><td>Shen, Chen, Shang, Zhu, Hu, 2026</td><td style="text-align:center">🔴</td></tr>
+<tr><td>Real-time incipient fault detection con KSVD a finestra scorrevole e limiti di controllo adattativi</td><td>Wang, Zhou, Liu, 2026</td><td style="text-align:center">🔴</td></tr>
+<tr><td>DAE-PCA: learnable faster kernel-PCA per il rilevamento non lineare, realizzazione con deep autoencoder</td><td>Ren, Jiang, Yang, Tang, Zhang, Yu, 2024</td><td style="text-align:center">🔴</td></tr>
+<tr><td>Odiowei &amp; Cao: CVA con stime di densità kernel per il monitoraggio dinamico non lineare</td><td>Odiowei &amp; Cao, 2010</td><td style="text-align:center">🔴</td></tr>
+</tbody></table></div>
+<p>Categoria aperta nel 2026-09. <strong>Nessuno di questi lavori è federato e nessuno usa modelli linguistici</strong>: entrano perché condividono il banco di prova, non perché incidano sul disegno. 🟡 quelli che affrontano la <strong>diagnosi multi-classe</strong> su TEP — lo stesso compito delle condizioni A/B/E — o che sono <strong>benchmark comparativi</strong>, e come tali sostengono la lettura di <a href="#sez-9-confronti-esterni-e-riferimenti">§9.2</a> e <a href="#sez-12-che-cosa-il-framework-mostra-e-che-cosa">§12.4</a> secondo cui il benchmark è facilmente separabile. 🔴 quelli di <strong>sola rilevazione</strong> o monitoraggio statistico, che restano sfondo del campo.</p>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Diagnosi e monitoraggio di processo centralizzati su TEP</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">Rilevamento di anomalie e soglie statistiche</span> <span class="lc-meta">5 lavori · 🔴 5</span></summary>
+<div class="scroll"><table><thead><tr><th>Lavoro</th><th>Autori, anno</th><th style="text-align:center">Vicinanza</th></tr></thead><tbody>
+<tr><td>Anomaly Detection in Streams with Extreme Value Theory (SPOT/DSPOT)</td><td>Siffer, Fouque, Termier, Largouët, 2017</td><td style="text-align:center">🔴</td></tr>
+<tr><td>Anomaly Detection in Streaming Nonstationary Temporal Data (oddstream)</td><td>Talagala, Hyndman, Smith-Miles, Kandanaarachchi, Muñoz, 2019</td><td style="text-align:center">🔴</td></tr>
+<tr><td>SHNN-CAD: Online Learning and Sequential Anomaly Detection in Trajectories</td><td>Laxhammar &amp; Falkman, 2014</td><td style="text-align:center">🔴</td></tr>
+<tr><td>One-class classification-based control charts for multivariate process monitoring</td><td>Sukchotrat, Kim, Tsung, 2010</td><td style="text-align:center">🔴</td></tr>
+<tr><td>Structure-Aware Unsupervised Anomaly Detection for Spacecraft Telemetry with Adaptive EVT Thresholding</td><td>Alcarria, Sánchez, Sempere et al., 2026</td><td style="text-align:center">🔴</td></tr>
+</tbody></table></div>
+<p>Categoria aperta nel 2026-09. Sfondo metodologico su soglie statistiche e rilevamento sequenziale, su domini estranei al processo chimico: flussi generici, traiettorie di sorveglianza, carte di controllo, telemetria satellitare. Nessuno tocca gli assi dell'esperimento; servono a documentare il perimetro consultato, non richiedono discussione.</p>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Rilevamento di anomalie e soglie statistiche</button></p>
+</details>
+<p>Le stringhe di ricerca che hanno prodotto ciascuna voce sono conservate in <a href="lit_review"><code>docs/lit_review</code></a>, insieme alle schede complete.</p>
+<h3>14.2 Schede estese: i lavori che influenzano il disegno</h3>
+<p>Le schede riguardano i lavori che <strong>influenzano direttamente il disegno</strong>. Stessa modalità di §14.1: apri la categoria che ti serve e richiudila con la <strong>✕</strong> o con il pulsante in fondo.</p>
+<blockquote><p><strong>Le schede sono 19, i 🟢 di §14.1 sono 25.</strong> Sette lavori marcati come vicini non hanno ancora una scheda: FICAL, DP-FPL, FedDTPT, T2SP e i tre promossi dopo la verifica dei metadati — EviFDD-Agent, TableTime e la rassegna sui federated reasoning LLM. È un arretrato dichiarato, non una svista.</p></blockquote>
+<details class="litcat">
+<summary><span class="lc-name">Federazione testuale</span> <span class="lc-meta">7 schede</span></summary>
+<div class="lc-body">
+<h4>Federation over Text: Insight Sharing for Multi-Agent Reasoning</h4>
+<p class="lc-au">Yao, Rabbani, Zaheer, Li, 2026</p>
+<p>Agenti locali trasformano traiettorie in insight; un server li raggruppa, distilla e ridistribuisce senza condividere esempi o gradienti.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> gli insight in linguaggio naturale come oggetto federato. <em>Differenza:</em> il lavoro originale è multi-round, basato su server e cross-task; qui il trasferimento è a colpo singolo, fra pari e disgiunto per classe. <em>Implicazione:</em> è il precedente obbligatorio; il contributo è l'adattamento e la valutazione controllata.</p>
+<h4>SYNAPSE: Federated Tool Routing via Typed Compendium Artifacts</h4>
+<p class="lc-au">Chakraborty, Shah, Gupta, 2026</p>
+<p>Propone artefatti federati <strong>tipizzati</strong>: oggetti validati da schema il cui insieme di campi dichiarato rende la privacy per campo, la fusione e il trasferimento fra architetture diverse operazioni definite invece che approssimazioni euristiche. Un unico compendio viene consumato da quattro famiglie di modelli congelati con una perdita di circa due punti.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> payload testuale strutturato fra client con modelli congelati ed eterogenei, e trasferimento dello stesso artefatto a consumatori diversi. <em>Differenza:</em> il compito è il routing di strumenti, non il riconoscimento di condizioni temporali; il nostro insight non è tipizzato da schema e non porta garanzie formali. <em>Implicazione:</em> è il <strong>precedente diretto della portabilità lato consumatore</strong> di <a class="xref" href="#sez-10-verifiche-di-robustezza">§10.1</a>. Che un artefatto testuale congelato sopravviva al cambio di modello non è una scoperta di questo lavoro, e va detto. Rende inoltre esplicito ciò che il nostro insight non offre: nessuna struttura a campi su cui far leva per privacy o risoluzione dei conflitti.</p>
+<h4>Federated In-Context Learning: Iterative Refinement (Fed-ICL)</h4>
+<p class="lc-au">Wang, Wang, Huang, Wang, Yu, Yao, Lui, Zhou, 2025</p>
+<p>I client conservano gli esempi, il server coordina più round di raffinamento delle risposte, nessun parametro viene trasmesso; la convergenza è dimostrata su compiti di question answering.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> nessuna trasmissione di parametri, la conoscenza utile resta in forma di contesto. <em>Differenza:</em> multi-round con server aggregatore su QA, contro trasferimento a colpo singolo fra pari su evidenza temporale disgiunta per classe. <em>Implicazione:</em> è il riferimento canonico che colloca questo lavoro dentro la ICL federata. Delimita anche il contributo: il nostro protocollo è <strong>più povero</strong> — un round, nessuna aggregazione — e questo va dichiarato come scelta di disegno, non presentato come semplificazione neutra.</p>
+<h4>FERA: Uncertainty-Aware Federated Reasoning</h4>
+<p class="lc-au">Wang, Huang, Wang, Wu, Wang, Yu, McAuley, Yao, Zhou, 2026</p>
+<p>Framework senza addestramento in cui il server non può ispezionare i dati dei client e l'affidabilità di ciascun contributo dipende dalla richiesta; i client emettono tracce di ragionamento con stime di incertezza e il server le sintetizza pesandole.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> affronta la stessa domanda della condizione E, cioè che cosa accade quando la conoscenza federata è inaffidabile. <em>Differenza:</em> FERA gestisce l'inaffidabilità pesando per incertezza; qui l'inaffidabilità è <strong>indotta deliberatamente</strong> dalla permutazione congelata dei pseudolabel e misurata. <em>Implicazione:</em> rende meno isolato il controllo B/E — il problema è riconosciuto in letteratura — e indica l'estensione naturale: pesare gli insight peer invece di consumarli tutti alla pari.</p>
+<h4>Can Textual Gradient Work in Federated Learning? (FedTextGrad)</h4>
+<p class="lc-au">Chen, Jin, Deng, Chen, Huang, Yu, Li, 2025</p>
+<p>Studia sistematicamente l'aggregazione testuale in federated learning: i client caricano prompt ottimizzati localmente e il server li riassume. Mostra che il riassunto di contributi eterogenei perde dettaglio e degrada le prestazioni.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> il testo come oggetto aggregato in un protocollo federato. <em>Differenza:</em> là il server riassume, qui i sei insight peer arrivano al ricevente <strong>integri e con la propria provenienza</strong>. <em>Implicazione:</em> sostiene a posteriori la scelta di <a class="xref" href="#sez-4-produzione-e-trasferimento-degli-insight">§4</a> di non aggregare, e fornisce l'argomento con cui rispondere a chi chiederà perché non si riassume.</p>
+<h4>Time-FFM: LM-Empowered Federated Foundation Model for Time Series Forecasting</h4>
+<p class="lc-au">Liu et al., 2024</p>
+<p>Adatta un backbone linguistico al forecasting federato di serie temporali con moduli condivisi e teste personalizzate.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> federazione, foundation model e serie temporali. <em>Differenza:</em> forecasting parametrico contro diagnosi con insight. <em>Implicazione:</em> <strong>vieta</strong> qualsiasi claim di «primo FL+LLM per serie temporali».</p>
+<h4>FedSRD: Communication-Efficient Federated LLM Fine-Tuning via Sparsify-Reconstruct-Decompose</h4>
+<p class="lc-au">Yan et al., 2026</p>
+<p>Yan et al., WWW 2026. DOI <code>10.1145/3774904.3792144</code>. Sparsifica gli aggiornamenti LoRA, ricostruisce e decompone per ridurre il payload nel fine-tuning federato.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> affronta il costo comunicativo della federazione con modelli linguistici. <em>Differenza:</em> scambia gradienti compressi, non insight testuali. <em>Implicazione:</em> è la ragione per cui §11 misura byte e token, e insieme la ragione per cui non se ne può dedurre un vantaggio di efficienza senza confronto diretto.</p>
+</div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Federazione testuale</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">FL disgiunto per classe</span> <span class="lc-meta">7 schede</span></summary>
+<div class="lc-body">
+<h4>FedMD: Heterogeneous Federated Learning via Model Distillation</h4>
+<p class="lc-au">Li &amp; Wang, 2019</p>
+<p>Scambia predizioni su dati pubblici per distillare modelli eterogenei.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> l'oggetto federato non sono i pesi. <em>Differenza:</em> logit e dati pubblici contro insight in linguaggio naturale. <em>Implicazione:</em> precedente della catena FedMD → FedProto → trasferimento testuale, che è la traiettoria dell'oggetto federato richiamata in §13.</p>
+<h4>FedProto: Federated Prototype Learning across Heterogeneous Clients</h4>
+<p class="lc-au">Tan et al., 2022</p>
+<p>Condivide prototipi di classe nello spazio di embedding per dati non-IID.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> conoscenza compatta specifica per classe. <em>Differenza:</em> vettori appresi contro testo citabile. <em>Implicazione:</em> è l'ispirazione dichiarata della baseline numerica di §9.1, che però <strong>non implementa</strong> l'algoritmo originale.</p>
+<h4>FedCKD: Knowledge Distillation with Label-Exclusive Clients</h4>
+<p class="lc-au">Le, Le, Le, Truong-Huu, 2026</p>
+<p>Studia la distillazione fra client con insiemi di etichette esclusivi.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> classi non locali. <em>Differenza:</em> logit e parametri su immagini contro evidenza testuale da serie temporali. <em>Implicazione:</em> il regime disgiunto per classe <strong>non è nuovo</strong>; è una ragione per cui il contributo va circoscritto alla combinazione.</p>
+<h4>Federated Zero-Shot Learning with Mid-Level Semantic Knowledge Transfer</h4>
+<p class="lc-au">Sun, Si, Wu, Gong, 2024</p>
+<p>Trasferisce attributi semantici intermedi per riconoscere classi visive mai viste.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> semantica condivisa per classi non osservate. <em>Differenza:</em> attributi strutturati su immagini contro insight liberi da serie temporali. <em>Implicazione:</em> rende distintivo il controllo B/E, non lo zero-shot in sé.</p>
+<h4>FedMeta-FFD: Federated Meta-Learning for Fault Diagnosis</h4>
+<p class="lc-au">Chen, Tang, Li, 2023</p>
+<p>Meta-apprendimento federato per adattare la diagnosi a nuove categorie di guasto con pochi esempi.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> diagnosi federata con categorie nuove. <em>Differenza:</em> few-shot parametrico contro trasferimento di conoscenza testuale. <em>Implicazione:</em> è il vicino più prossimo sull'asse della diagnosi.</p>
+<h4>Federated Meta-Learning with Transformer Fusion for Few-Shot Multi-Condition Fault Diagnosis</h4>
+<p class="lc-au">Zhang et al., 2026</p>
+<p>Zhang et al., <em>Knowledge-Based Systems</em>, 2026. DOI <code>10.1016/j.knosys.2026.116739</code>. Combina meta-learning federato e fusione di feature via transformer, testato anche su TEP.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> stesso benchmark, classi distribuite. <em>Differenza:</em> scambio di rappresentazioni intermedie, non di insight linguistici. <em>Implicazione:</em> è un comparatore numerico diretto sullo stesso processo, e la sua esistenza rende più visibile la lacuna registrata in §12.2.</p>
+<h4>Federated Learning Based on Fuzzy Fusion Rules for Chemical Production Process Fault Diagnosis</h4>
+<p class="lc-au">Xu et al., 2026</p>
+<p>Xu et al., <em>Sensors</em>, 2026. DOI <code>10.3390/s26113545</code>. Applica regole di fusione fuzzy all'aggregazione federata su processi chimici, incluso il TEP.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> federated learning più TEP, stessa piattaforma sperimentale. <em>Differenza:</em> aggregazione parametrica, nessun layer testuale. <em>Implicazione:</em> comparatore diretto sull'asse dell'accuratezza in contesto federato.</p>
+</div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi FL disgiunto per classe</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">Contesto e memoria testuale</span> <span class="lc-meta">1 schede</span></summary>
+<div class="lc-body">
+<h4>Agentic Context Engineering (ACE)</h4>
+<p class="lc-au">Zhang, Hu, Upasani et al., Zou, Olukotun, 2026</p>
+<p>Tratta il contesto come un manuale che si accumula e si organizza, e nomina due modalità di fallimento della sua costruzione: il <em>brevity bias</em>, per cui il riassunto conciso scarta il dettaglio di dominio, e il <em>context collapse</em>, per cui la riscrittura iterativa erode l'informazione.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> il problema di produrre testo che conservi il dettaglio utile invece di comprimerlo. <em>Differenza:</em> ACE ottimizza il contesto con un ciclo di generazione, riflessione e curazione; qui il verbalizzatore è deterministico e gli insight sono prodotti una volta e congelati. <em>Implicazione:</em> dà un nome alle due patologie che <a class="xref" href="#sez-3-dalla-serie-temporale-al-testo">§3</a> e <a class="xref" href="#sez-4-produzione-e-trasferimento-degli-insight">§4</a> devono evitare, ed è il riferimento da citare quando si giustifica perché l'interfaccia testuale è deterministica e verificabile invece che riassuntiva.</p>
+</div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Contesto e memoria testuale</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">TS→testo fedele</span> <span class="lc-meta">2 schede</span></summary>
+<div class="lc-body">
+<h4>Truth-Conditional Captions for Time Series Data</h4>
+<p class="lc-au">Jhamtani &amp; Berg-Kirkpatrick, 2021</p>
+<p>Compone programmi di pattern e genera una didascalia solo quando il programma ne rende vere le condizioni; i moduli restano appresi.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> enfasi sulla fedeltà della descrizione. <em>Differenza:</em> didascalia neurale monovariata contro renderer deterministico multivariato. <em>Implicazione:</em> serve a definire con precisione che cosa significa «fedele per costruzione» in §3.</p>
+<h4>CGTime: Decoupling Perception from Description in Time-Series Reasoning</h4>
+<p class="lc-au">Feng, Xie, Zhang, Li, Ling, Li, Liu</p>
+<p>Propone un approccio a percezione statistica separata dalla descrizione.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Implicazione:</em> è il braccio <code>CGTIME_STATS</code> del confronto delle rappresentazioni di §10.4, nella versione adattata.</p>
+</div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi TS→testo fedele</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">Rappresentazioni simboliche</span> <span class="lc-meta">1 schede</span></summary>
+<div class="lc-body">
+<h4>Bridging Time Series and Large Language Models via Symbolic Representation for HAR</h4>
+<p class="lc-au">Pappa, Karvelis &amp; Stylios, 2026</p>
+<p>Codifica simbolica di segnali da sensori per il consumo da parte di un modello linguistico.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Implicazione:</em> è il braccio <code>SAX_SYMBOLIC</code> del confronto delle rappresentazioni di §10.4.</p>
+</div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Rappresentazioni simboliche</button></p>
+</details>
+<details class="litcat">
+<summary><span class="lc-name">Calibrazione e predizione conforme</span> <span class="lc-meta">1 schede</span></summary>
+<div class="lc-body">
+<h4>Class-Conditional Conformal Prediction for Reliable Open-Set Fault Diagnosis in Safety-Critical Industrial Systems</h4>
+<p class="lc-au">Heddoub et al., 2026</p>
+<p>Heddoub et al., <em>Journal of Process Control</em>, 2026. DOI <code>10.1016/j.jprocont.2026.103701</code>. Estende la predizione conforme al contesto open-set: diagnosticare i guasti noti e rifiutare le classi mai viste, con garanzie per classe.</p>
+<p><strong>Rapporto con questo lavoro</strong> — <em>Somiglianza:</em> il caso open-set visto dal singolo nodo assomiglia al regime disgiunto per classe; l'astensione su classi non note è il punto di contatto. <em>Differenza:</em> approccio statistico su feature, non linguistico. <em>Implicazione:</em> è il quadro di riferimento naturale per il limite registrato in §12.2 sull'astensione mai provata su guasti fuori catalogo.</p>
+</div>
+<p class="lc-close"><button type="button" onclick="this.closest('details').open=false">✕ chiudi Calibrazione e predizione conforme</button></p>
+</details>
+<h3>14.3 Riferimenti metodologici e di dominio</h3>
+<p>I seguenti riferimenti sostengono affermazioni presenti in questo documento e sono stati verificati su Crossref, OpenAlex, DataCite e PMLR quanto a titolo, autori, anno e sede.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Riferimento</th>
+<th>Che cosa sostiene, qui</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Downs, J.J. &amp; Vogel, E.F. (1993), <em>A plant-wide industrial process control problem</em>, Computers &amp; Chemical Engineering 17(3). DOI <code>10.1016/0098-1354(93)80018-I</code></td>
+<td>La tassonomia dei meccanismi di guasto su cui si fonda la selezione di F1, F8, F10 e F13 (<a class="xref" href="#sez-2-il-banco-di-prova-tep-agenti-guasti">§2.5</a>)</td>
+</tr>
+<tr>
+<td>Bathelt, A., Ricker, N.L. &amp; Jelali, M. (2015), <em>Revision of the Tennessee Eastman Process Model</em>, IFAC-PapersOnLine. DOI <code>10.1016/j.ifacol.2015.08.199</code></td>
+<td>La distinzione fra i 21 guasti standard del processo e i 28 ingressi di disturbo esposti dal simulatore modificato (<a class="xref" href="#sez-2-il-banco-di-prova-tep-agenti-guasti">§2.5</a>)</td>
+</tr>
+<tr>
+<td>Rieth, C.A., Amsel, B.D., Tran, R. &amp; Cook, M.B. (2017), <em>Additional Tennessee Eastman Process Simulation Data for Anomaly Detection Evaluation</em>, Harvard Dataverse. DOI <code>10.7910/DVN/6C3JR1</code></td>
+<td>La prassi consolidata di generare realizzazioni simulate indipendenti, che è ciò che fa la replica di <a class="xref" href="#sez-8-replica-su-nuovi-run">§8</a></td>
+</tr>
+<tr>
+<td>Chiang, L.H., Russell, E.L. &amp; Braatz, R.D. (2001), <em>Fault Detection and Diagnosis in Industrial Systems</em>, Springer. DOI <code>10.1007/978-1-4471-0347-9</code></td>
+<td>Il contesto in cui leggere il 36/36 della baseline numerica e i riferimenti centralizzati di <a class="xref" href="#sez-9-confronti-esterni-e-riferimenti">§9</a></td>
+</tr>
+<tr>
+<td>McMahan, B., Moore, E., Ramage, D., Hampson, S. &amp; Agüera y Arcas, B. (2017), <em>Communication-Efficient Learning of Deep Networks from Decentralized Data</em>, AISTATS, PMLR 54, 1273–1282</td>
+<td>Il termine di paragone rispetto al quale <a class="xref" href="#sez-12-che-cosa-il-framework-mostra-e-che-cosa">§12.2</a> dichiara <strong>non</strong> equivalenza</td>
+</tr>
+<tr>
+<td>Wang, Z., Dai, Z., Póczos, B. &amp; Carbonell, J. (2019), <em>Characterizing and Avoiding Negative Transfer</em>, CVPR. DOI <code>10.1109/CVPR.2019.01155</code></td>
+<td>Il quadro in cui collocare la degradazione sui guasti già noti di <a class="xref" href="#sez-8-replica-su-nuovi-run">§8.5</a> e la variante local-first di <a class="xref" href="#sez-10-verifiche-di-robustezza">§10.3</a></td>
+</tr>
+<tr>
+<td>Holm, S. (1979), <em>A Simple Sequentially Rejective Multiple Test Procedure</em>, Scandinavian Journal of Statistics 6(2), 65–70</td>
+<td>La correzione per confronti multipli usata nel confronto delle rappresentazioni (<a class="xref" href="#sez-10-verifiche-di-robustezza">§10.4</a>)</td>
+</tr>
+<tr>
+<td>Field, C.A. &amp; Welsh, A.H. (2007), <em>Bootstrapping Clustered Data</em>, JRSS-B. DOI <code>10.1111/j.1467-9868.2007.00593.x</code></td>
+<td>Il fondamento del bootstrap appaiato per cluster descritto in <a class="xref" href="#sez-6-protocollo-di-valutazione">§6.5</a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>14.4 Perimetro del corpus consultato</h3>
+<p>Le ricerche sono state eseguite su OpenAlex, arXiv, Scopus e Crossref, e sono state integrate da un <strong>audit sul testo integrale</strong> dei venticinque lavori raccolti in <a href="../papers/archive/fed_fsl_2026-07"><code>papers/archive/fed_fsl_2026-07/</code></a>.</p>
+<p><strong>Prima interrogazione — resta senza risultati.</strong> L'intersezione fra trasferimento federato di conoscenza <em>testuale</em> e serie temporali non produce precedenti: nessuno dei venticinque lavori tocca serie temporali, diagnosi di guasto o dati industriali. È la lacuna su cui poggia la formulazione prudente di <a class="xref" href="#sez-1-obiettivo-e-domanda-scientifica">§1.4</a>.</p>
+<p><strong>Le altre due interrogazioni non sono più vuote, e la dichiarazione precedente va corretta.</strong> La specificità semantica in apprendimento in contesto è affrontata, in forma diversa dalla nostra, da ACE, che nomina <em>brevity bias</em> e <em>context collapse</em> come modalità di degradazione del contesto, e da FedTextGrad, che misura la perdita di dettaglio nell'aggregazione testuale. L'affidabilità della conoscenza condivisa fra agenti è affrontata da FERA, con pesatura per incertezza, e da SYNAPSE, con risoluzione dei conflitti per campo.</p>
+<blockquote><p><strong>Nessuno di questi lavori usa però un controllo ad associazione corrotta a parità di contenuto e ordine.</strong> La condizione E di <a class="xref" href="#sez-7-studio-principale">§7</a> resta, nel corpus consultato, senza equivalenti: gli altri mitigano l'inaffidabilità, non la inducono per misurarne l'effetto.</p></blockquote>
+<p>Questo <strong>delimita il corpus consultato, non prova l'assenza di precedenti</strong>. Sostiene una formulazione prudente sulla combinazione studiata, del tipo <em>to the best of our knowledge</em> — ora su un perimetro più ampio e verificato sul testo integrale, non soltanto su interrogazioni bibliografiche.</p>
+<p><strong>Come è stata condotta la ricerca.</strong> Fonti: arXiv, OpenReview e gli atti NeurIPS/ICML/ICLR, ACM DL, IEEE Xplore, Springer, Elsevier/ScienceDirect, Semantic Scholar, OpenAlex, Crossref, Scopus e DBLP. Intervallo fino a settembre 2026, con enfasi sul 2020–2026. Alle interrogazioni dirette si è aggiunto il <em>citation chaining</em>: all'indietro dalle referenze di Yao et al., in avanti dai vicini verso i lavori che li citano. Le stringhe esatte sono conservate in <a href="lit_review"><code>docs/lit_review</code></a>.</p>
+<p><strong>Esclusioni documentate.</strong> Sei dei venticinque lavori — FedPOB, FedPrompt, pFedPG, pFedMoAP, DP²FL, pFedRAG — sono stati esaminati e lasciati fuori perimetro: aggiornano parametri, scambiano payload numerici (prompt continui, parametri di bandit, pesi di embedding) e in gran parte lavorano su benchmark visivi. Non hanno un corrispettivo testuale con cui confrontarsi.</p>
+<h3>14.5 I lavori più vicini</h3>
+<p>Cinque lavori sono abbastanza vicini da poter essere scambiati per il nostro. Per ciascuno conta sapere <strong>quale affermazione ci impedisce</strong> e quale resta possibile.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lavoro</th>
+<th>Perché è vicino</th>
+<th>Claim che ci vieta</th>
+<th>Claim che resta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Federation over Text</strong> (Yao et al., 2026)</td>
+<td>È il metodo che applichiamo</td>
+<td>«proponiamo FoT» — qualsiasi rivendicazione di invenzione del metodo</td>
+<td>Prima applicazione controllata a diagnosi su serie temporali multivariate con esperienza non-IID disgiunta per classe e controllo di specificità</td>
+</tr>
+<tr>
+<td><strong>FICAL</strong> (2024)</td>
+<td>Stesso oggetto federato: testo in linguaggio naturale prodotto da un LLM, dati che restano locali</td>
+<td>«primi a federare conoscenza testuale con dati locali via LLM»</td>
+<td>Applicazione alla diagnosi con valutazione controllata del trasferimento su classi non viste</td>
+</tr>
+<tr>
+<td><strong>FedCKD</strong></td>
+<td>Struttura non-IID a classi esclusive quasi identica alla nostra</td>
+<td>«la struttura disgiunta per classe è la novità»</td>
+<td>L'oggetto federato è testo interpretabile e il trasferimento avviene in contesto, non via parametri</td>
+</tr>
+<tr>
+<td><strong>FedMeta-FFD</strong> (IEEE TNSE 2023)</td>
+<td>Il vicino più diretto sull'asse diagnosi: federazione più nuove categorie di guasto</td>
+<td>«primo trasferimento cross-client verso nuove classi di guasto»</td>
+<td>Nessun esempio etichettato della classe non vista, oggetto testuale, nessun modello aggregato</td>
+</tr>
+<tr>
+<td><strong>Federated zero-shot con trasferimento semantico di medio livello</strong> (2024)</td>
+<td>Federazione più semantica più classi non viste</td>
+<td>«primo trasferimento semantico a classi non viste in FL»</td>
+<td>La semantica è linguaggio naturale generato da un LLM, il dominio è la diagnosi, e c'è il controllo di corruzione</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Sintesi.</strong> Ogni singolo asse ha un vicino stretto. Nessuno dei cinque combina serie temporali multivariate, LLM in contesto, scambio testuale, classi localmente non viste, assenza di scambio di dati grezzi e controllo di specificità. La novità vive <strong>nell'intersezione e nel disegno di valutazione</strong>, non nei componenti.</p>
+<blockquote>
+<p><strong>Un sesto vicino, individuato dopo.</strong> Questa analisi precede l'esame del corpus federato di §14.1. <strong>SYNAPSE</strong> va aggiunto come vicino sull'asse che qui non compare: la portabilità dello stesso artefatto testuale fra famiglie di modelli diverse. Vieta di presentare la portabilità cross-model di <a class="xref" href="#sez-10-verifiche-di-robustezza">§10.1</a> come capacità inedita; lascia possibile presentarla come conferma lato consumatore su evidenza temporale.</p>
+</blockquote>
+<h3>14.6 Tenuta della novità</h3>
+<p><strong>Tentativo di falsificazione.</strong> La ricerca è stata condotta <em>contro</em> la nostra tesi, cercando un lavoro che combinasse tutti gli assi insieme. A criteri pieni non ne è emerso alcuno. Rilassando i criteri uno alla volta compaiono i vicini, e mostrano dove la nostra posizione è fragile:</p>
+<ul>
+<li>togliendo <em>serie temporali</em> → FoT e FICAL, equivalenti sul paradigma ma non sul dominio;</li>
+<li>togliendo <em>LLM e testo</em> → FedCKD e il trasferimento semantico zero-shot, equivalenti sulla struttura non-IID e sull'idea di classi non viste, ma non sull'oggetto testuale;</li>
+<li>togliendo <em>classi non viste</em> → Time-FFM, che è federazione parametrica su serie temporali;</li>
+<li>tenendo <em>serie temporali, diagnosi e LLM</em> ma togliendo la federazione → la famiglia FD-LLM, centralizzata.</li>
+</ul>
+<p><strong>La novità non è a livello di componente.</strong> È una novità di combinazione, dominio e disegno di valutazione:</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Livello</th>
+<th>Tenuta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Componente — verbalizzazione, insight testuali, federazione non parametrica, classi disgiunte</td>
+<td><strong>Bassa.</strong> Tutti noti singolarmente</td>
+</tr>
+<tr>
+<td>Combinazione — l'unione di testo-LLM, serie temporali multivariate, classi disgiunte, non viste, nessun dato grezzo</td>
+<td><strong>Moderata.</strong> Il livello più difendibile</td>
+</tr>
+<tr>
+<td>Valutazione — A/B/E con permutazione pre-registrata, freeze, held-out, pseudolabel opachi</td>
+<td><strong>Moderata/alta.</strong> Il pezzo migliore: il controllo B−E, cioè specificità semantica a parità di testo, è raro in questo filone</td>
+</tr>
+<tr>
+<td>Dominio — prima applicazione documentata di un approccio FoT-like alla diagnosi su TEP</td>
+<td><strong>Moderata.</strong> Reale ma applicativa</td>
+</tr>
+<tr>
+<td>Metodologia — la catena evidenza deterministica → ragionamento locale → trasferimento testuale</td>
+<td><strong>Bassa/moderata.</strong> Composizione di tecniche note, resa rigorosa</td>
+</tr>
+</tbody>
+</table></div>
+<p>La raccomandazione che ne segue è puntare il paper su <strong>combinazione e valutazione</strong>, non su componente e metodologia. La formula sicura, da usare così com'è:</p>
+<blockquote>
+<p><em>To the best of our knowledge, we did not identify a prior method that federates locally-derived textual knowledge across agents with class-disjoint temporal experience to recognize locally unseen fault conditions, under a preregistered semantic-specificity control.</em></p>
+</blockquote>
+<p>Mai <em>no such method exists</em>.</p>
+<h3>14.7 Priorità bibliografica</h3>
+<p>Quindici riferimenti sono obbligatori. Non perché siano i più citati, ma perché ciascuno <strong>delimita</strong> qualcosa che non possiamo rivendicare.</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Riferimento</th>
+<th>Che cosa delimita</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Yao et al., <em>Federation over Text</em>, arXiv:2604.16778</td>
+<td>Il metodo che applichiamo: attribuzione obbligatoria</td>
+</tr>
+<tr>
+<td>McMahan et al., <em>FedAvg</em>, AISTATS 2017</td>
+<td>La radice del FL, e il contrasto «noi non aggreghiamo parametri»</td>
+</tr>
+<tr>
+<td>Li &amp; Wang, <em>FedMD</em>, NeurIPS 2019 WS</td>
+<td>Sposta l'oggetto federato ai logit</td>
+</tr>
+<tr>
+<td>Lin et al., <em>Ensemble Distillation (FedDF)</em>, NeurIPS 2020</td>
+<td>Distillazione federata lato server</td>
+</tr>
+<tr>
+<td>Tan et al., <em>FedProto</em>, AAAI 2022</td>
+<td>Prototipi invece di gradienti: l'analogo numerico dell'insight per classe</td>
+</tr>
+<tr>
+<td>Zhu, Hong, Zhou, <em>FedGen</em>, ICML 2021</td>
+<td>Federazione di conoscenza sintetica</td>
+</tr>
+<tr>
+<td><em>Federated In-Context LLM Agent Learning</em>, arXiv:2412.08054</td>
+<td>Il vicino più pericoloso: federazione testuale con dati locali</td>
+</tr>
+<tr>
+<td>Mohtashami et al., <em>Social Learning</em>, arXiv:2312.11441</td>
+<td>Il ponte fra distillazione e linguaggio naturale</td>
+</tr>
+<tr>
+<td>Liu et al., <em>Time-FFM</em>, NeurIPS 2024</td>
+<td>FL più foundation model più serie temporali: vieta il primato su «FL+LLM per TS»</td>
+</tr>
+<tr>
+<td>Li et al., <em>FedCoT</em>, arXiv:2508.10020</td>
+<td>Ragionamento federato parametrico</td>
+</tr>
+<tr>
+<td>Kim et al., <em>T2SP</em>, arXiv:2606.12481</td>
+<td>Rappresentazione deterministica TS→LLM già attiva: blocca ogni novità sul verbalizzatore</td>
+</tr>
+<tr>
+<td>Jhamtani &amp; Berg-Kirkpatrick, <em>TRUCE</em>, EMNLP 2021</td>
+<td>Testo fattuale su serie temporali</td>
+</tr>
+<tr>
+<td>Li et al., <em>Non-IID Data Silos</em>, ICDE 2022</td>
+<td>La tassonomia label-subset skew, cioè il nome esatto del nostro regime</td>
+</tr>
+<tr>
+<td>Zhu et al., <em>FL on Non-IID Data</em>, Neurocomputing 2021</td>
+<td>L'inquadramento non-IID</td>
+</tr>
+<tr>
+<td>He et al., <em>FedGKT</em>, NeurIPS 2020</td>
+<td>Trasferimento di conoscenza edge-server</td>
+</tr>
+</tbody>
+</table></div>
+<p>A questi si aggiungono i lavori del corpus federato di §14.1 che incidono sul disegno: SYNAPSE, Fed-ICL, FedTextGrad, FERA e ACE, con il ruolo descritto nelle schede di §14.2.</p>
+</section>
+<section id="sez-15-provenienza-e-riproducibilita">
+<p class="kicker"><span class="num">15</span></p><h2>Provenienza e riproducibilità</h2>
+<h3>15.1 Che cosa è verificabile e che cosa no</h3>
+<p><strong>È verificabile</strong> il ricalcolo scientifico a partire dalle predizioni congelate: metriche, contrasti, intervalli e confronti si ottengono dai record esistenti senza nuove chiamate al modello.</p>
+<p><strong>Non è riproducibile bit per bit</strong> la rigenerazione delle simulazioni del processo: lo stato del generatore casuale non è stato registrato. Questo riguarda la generazione dei dati, non il calcolo dei risultati.</p>
+<h3>15.2 Dove si trova ogni cosa</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Sezione</th>
+<th>Artefatti</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a class="xref" href="#sez-3-dalla-serie-temporale-al-testo">§3</a> pipeline, soglie, congelamento</td>
+<td><a href="../code"><code>code/</code></a>, <a href="../reproducibility"><code>reproducibility/</code></a>, <a href="../tep_validation_v2"><code>tep_validation_v2/</code></a>, <a href="../tep_test_v2"><code>tep_test_v2/</code></a></td>
+</tr>
+<tr>
+<td><a class="xref" href="#sez-4-produzione-e-trasferimento-degli-insight">§4</a> insight</td>
+<td><a href="../phase_b/insights"><code>phase_b/insights/</code></a> e <a href="../phase_b/insights/final_local_insights.json"><code>final_local_insights.json</code></a></td>
+</tr>
+<tr>
+<td><a class="xref" href="#sez-7-studio-principale">§7</a> studio principale</td>
+<td><a href="../phase_b/final_evaluation"><code>phase_b/final_evaluation/</code></a>, <a href="../phase_b/final_evaluation/primary_metrics.csv"><code>primary_metrics.csv</code></a>, <a href="../phase_b/final_evaluation/evaluation_results.json"><code>evaluation_results.json</code></a></td>
+</tr>
+<tr>
+<td><a class="xref" href="#sez-7-studio-principale">§7</a> controllo A+</td>
+<td><a href="../phase_b/final_evaluation_aplus/APLUS_EVALUATION_REPORT.md"><code>APLUS_EVALUATION_REPORT.md</code></a>, <a href="../phase_b/final_evaluation_aplus/aplus_primary_metrics.csv"><code>aplus_primary_metrics.csv</code></a>, <a href="../phase_b/final_evaluation_aplus/APLUS_FREEZE_MANIFEST.json"><code>APLUS_FREEZE_MANIFEST.json</code></a></td>
+</tr>
+<tr>
+<td><a class="xref" href="#sez-8-replica-su-nuovi-run">§8</a> replica</td>
+<td>oggetti Git dei tag <code>exp3-v2-inference-frozen-001</code> e <code>exp3-v2-results-frozen-001</code> — vedi <a class="xref" href="#sez-15-provenienza-e-riproducibilita">§15.3</a></td>
+</tr>
+<tr>
+<td><a class="xref" href="#sez-9-confronti-esterni-e-riferimenti">§9.1</a> baseline numerica</td>
+<td><a href="../phase_b/baselines/c02b_shared_numeric_prototypes/results/C02B_BASELINE_REPORT.md"><code>C02B_BASELINE_REPORT.md</code></a></td>
+</tr>
+<tr>
+<td><a class="xref" href="#sez-9-confronti-esterni-e-riferimenti">§9.2</a> riferimenti ML centralizzati</td>
+<td><a href="../phase_b/baselines/c02b_supervisor_model_suite/results/SUPERVISOR_MODEL_SUITE_REPORT.md"><code>SUPERVISOR_MODEL_SUITE_REPORT.md</code></a></td>
+</tr>
+<tr>
+<td><a class="xref" href="#sez-9-confronti-esterni-e-riferimenti">§9.3</a> riferimento testuale centralizzato</td>
+<td><a href="../icl/full_evaluation/evaluation_results_c.json"><code>evaluation_results_c.json</code></a>, <a href="../icl/PLAN_CENTRAL_POOLED_ICL.md"><code>PLAN_CENTRAL_POOLED_ICL.md</code></a>, <a href="audits/CONDITION_C_R10_INDEPENDENT_REVIEW.md"><code>CONDITION_C_R10_INDEPENDENT_REVIEW.md</code></a></td>
+</tr>
+<tr>
+<td><a class="xref" href="#sez-10-verifiche-di-robustezza">§10.1</a> verifica con altro LLM</td>
+<td><a href="../phase_b/exp2/qwen"><code>phase_b/exp2/qwen/</code></a>, <a href="audits/EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md"><code>EXP2_QWEN_RESULTS_INDEPENDENT_REVIEW_R2.md</code></a></td>
+</tr>
+<tr>
+<td><a class="xref" href="#sez-10-verifiche-di-robustezza">§10.3</a> variante local-first</td>
+<td><a href="../phase_b/c06/full_test/inference/FULL_TEST_REPORT.md"><code>FULL_TEST_REPORT.md</code></a>, <a href="../phase_b/c06/full_test/inference/full_test_results.json"><code>full_test_results.json</code></a></td>
+</tr>
+<tr>
+<td><a class="xref" href="#sez-10-verifiche-di-robustezza">§10.4</a> confronto delle rappresentazioni</td>
+<td><a href="../ablation/ablation_results/ablation_evaluation.json"><code>ablation_evaluation.json</code></a>, <a href="../ablation/ablation_results/token_summary.json"><code>token_summary.json</code></a>, <a href="../ablation/ablation_results/ablation_report.md"><code>ablation_report.md</code></a></td>
+</tr>
+<tr>
+<td><a class="xref" href="#sez-11-costo-della-comunicazione">§11</a> costo della comunicazione</td>
+<td><a href="../analysis/communication_characterization/COMMUNICATION_PAYLOAD_CHARACTERIZATION.md"><code>COMMUNICATION_PAYLOAD_CHARACTERIZATION.md</code></a>, <a href="../analysis/communication_characterization/communication_payload_metrics.csv"><code>communication_payload_metrics.csv</code></a></td>
+</tr>
+</tbody>
+</table></div>
+<h3>15.3 Artefatti disponibili nei tag Git</h3>
+<p>Gli artefatti della <strong>replica su nuovi run</strong> non sono presenti nel working tree: la cartella corrispondente contiene solo file temporanei. Restano però <strong>congelati e indirizzabili negli oggetti Git</strong>, sotto i tag <code>exp3-v2-inference-frozen-001</code> e <code>exp3-v2-results-frozen-001</code>. Tutti i valori riportati in <a class="xref" href="#sez-8-replica-su-nuovi-run">§8</a> sono stati letti da lì e sono verificabili.</p>
+<p>Lo stesso vale per gli artefatti dell'<strong>approfondimento sui casi al limite</strong> a 4 096 token, leggibili dai commit del ramo dedicato alla sensibilità del budget di ragionamento.</p>
+<p>Questi non sono dati mancanti: sono dati fuori dal working tree.</p>
+<h3>15.4 Artefatti effettivamente mancanti</h3>
+<p>Un solo elemento rientra in questa categoria. I record grezzi del <strong>sweep del budget di ragionamento</strong> a 1 024, 1 536, 2 048 e 3 072 token — quelli da cui deriva la tabella di <a class="xref" href="#sez-10-verifiche-di-robustezza">§10.2</a> — non esistono né nel working tree né in alcun commit del repository. Sono referenziati per hash dalla configurazione dell'approfondimento a 4 096, ma il file corrispondente non è presente.</p>
+<p>Di conseguenza: l'approfondimento a 4 096 è verificabile su artefatto; la tabella del sweep è verificabile solo sulla documentazione. Chi volesse riprodurla dovrebbe rieseguire l'analisi.</p>
+<h3>15.5 Disallineamento dell'indice del repository</h3>
+<p>I file di orientamento alla radice del repository — l'indice della documentazione e la guida di audit — non indicizzano il controllo A+, la variante local-first e le baseline numeriche, tutti successivi alla loro ultima revisione. Chi partisse da lì per una verifica indipendente non li troverebbe. Il riallineamento di quei file è fuori dal perimetro di questo documento, che non li modifica.</p>
+<h3>15.6 Perimetro di questo documento</h3>
+<p>Questo documento e le sue versioni HTML sono materiale editoriale nuovo. Non modificano né sostituiscono la documentazione precedente, il blueprint del paper, i paper o gli artefatti sperimentali, che restano intatti.</p>
+</section>
+</main>
+</div>
+</body>
+</html>

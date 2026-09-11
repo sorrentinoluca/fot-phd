@@ -61,7 +61,7 @@ Priority order (highest wins in conflicts):
 2. Machine-readable configurations and manifests
 3. Audit reports
 4. README/documentation
-5. Paper/literature planning documents (`docs/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`, `docs/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md`)
+5. Paper/literature planning documents (`docs/fot_walkthrough_conversazione_v2.md` §14, `docs/paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md`)
 6. Chat summaries / narratives
 
 ---
@@ -299,7 +299,7 @@ EXP3 provenance chain (all immutable):
 
 ## 18. Literature Backbone
 
-(Sources verified in `docs/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md` and `docs/related_work_scan.md`. Mark uncertain refs as `[REFERENCE TO VERIFY]`.)
+(Sources verified in `docs/fot_walkthrough_conversazione_v2.md` §14 and `docs/lit_review/related_work_scan.md`. Mark uncertain refs as `[REFERENCE TO VERIFY]`.)
 
 **FoT / textual knowledge federation:**
 - **Yao et al. 2026 — Federation over Text** (arXiv:2604.16778v2): the method this project applies. Original FoT for multi-agent reasoning; already claims cross-domain transfer in text space. Our delta: TS domain + class-disjoint non-IID + semantic specificity control.
@@ -446,7 +446,7 @@ Key committed artifacts:
 - `phase_b/exp3/EXP3_POST_FREEZE_HOTFIX_001.md` through `004.json`
 - `phase_b/PHASE_B_PROTOCOL_FREEZE.md` — Exp1 protocol freeze
 - `phase_b/PHASE_B_PROTOCOL_HASHES.json` — 56 frozen artifact hashes
-- `docs/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md` — literature review + reviewer analysis
+- `docs/fot_walkthrough_conversazione_v2.md` §14 — literature, nearest neighbours, novelty red team
 - `docs/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md` (Rev.2) — experiment strategy + payload definition
 
 Key UNTRACKED files (not scientifically frozen, but operationally important):
