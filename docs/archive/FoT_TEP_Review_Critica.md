@@ -1,3 +1,8 @@
+> **Documento archiviato — superato.**
+> Review critica del 10 settembre 2026, conservata integralmente. È stata sostituita da
+> `docs/paper/FoT_TEP_Review_Piano_Sperimentale.md`, che è il piano corrente della nuova fase.
+> Archiviato l'11 settembre 2026.
+
 # Review critica dell'esperimento FoT-TEP
 
 **Reviewer:** indipendente (simulato)  
