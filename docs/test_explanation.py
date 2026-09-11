@@ -667,7 +667,7 @@ class Exp2QwenDocumentStatusChecks(unittest.TestCase):
     """
 
     LIT_REVIEW = ROOT / 'docs' / 'lit_review' / 'FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md'
-    EXP_PLAN = ROOT / 'docs' / 'lit_review' / 'FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md'
+    EXP_PLAN = ROOT / 'docs' / 'paper' / 'FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md'
 
     @classmethod
     def setUpClass(cls):

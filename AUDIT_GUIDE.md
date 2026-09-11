@@ -545,7 +545,191 @@ dependence on one proprietary consumer. It does not prove universal
 portability, cross-model generality, or end-to-end proprietary-model
 independence.
 
-## 11. Frozen milestones
+## 11. Condition A+ — local-only self-insight control
+
+A+ is the fourth condition of the main study. The receiving agent is given
+**self-generated insights only**, with no peer insights. It isolates a
+confound the A/B/E design alone cannot settle: whether B's advantage comes
+from *having insights at all* or specifically from their **peer origin**.
+
+> **Freeze status differs from sections 9 and 10.** A+, C06 and C02B are frozen
+> by **hash manifest**, not by annotated git tag. There is no entry for them in
+> section 14. An auditor can verify byte integrity against the committed
+> manifests, but cannot anchor them to a tagged commit.
+
+### 11.1 Canonical artifacts
+
+Everything lives under [`phase_b/final_evaluation_aplus/`](phase_b/final_evaluation_aplus):
+
+- [`APLUS_EVALUATION_REPORT.md`](phase_b/final_evaluation_aplus/APLUS_EVALUATION_REPORT.md) — canonical report;
+- [`APLUS_FREEZE_MANIFEST.json`](phase_b/final_evaluation_aplus/APLUS_FREEZE_MANIFEST.json) — freeze record;
+- [`aplus_evaluation_hash_manifest.json`](phase_b/final_evaluation_aplus/aplus_evaluation_hash_manifest.json) — path-to-SHA256 map under key `evaluation_artifacts`;
+- `aplus_primary_metrics.csv`, `aplus_secondary_metrics.csv`, `aplus_per_agent_metrics.csv`, `aplus_transfer_counts.csv`, `aplus_paired_rows.csv`;
+- `aplus_evaluation_results.json`, `aplus_bootstrap_results.json`, `aplus_confusion_matrix.json`;
+- `inference/` — `repetition_records.jsonl`, `aggregate_records.jsonl`, `execution_metadata.json`, `infrastructure_failures.jsonl`, `inference_output_hash_manifest.json`.
+
+### 11.2 Verify frozen bytes
+
+```bash
+python - <<'PY'
+import hashlib, json
+from pathlib import Path
+
+manifest = json.loads(Path(
+    "phase_b/final_evaluation_aplus/aplus_evaluation_hash_manifest.json"
+).read_text())
+for relative, digest in manifest["evaluation_artifacts"].items():
+    actual = hashlib.sha256(Path(relative).read_bytes()).hexdigest()
+    if actual != digest:
+        raise SystemExit(f"FAIL {relative}: {actual} != {digest}")
+    print(f"PASS {relative}")
+PY
+```
+
+### 11.3 Frozen result and interpretation boundary
+
+For locally-unseen fault observations (abstentions count as incorrect):
+
+| Condition | Correct / n | Accuracy | Abstentions |
+|---|---:|---:|---:|
+| A — isolated | 0 / 36 | 0.00% | 14 |
+| A+ — self-insight only | 0 / 36 | 0.00% | 21 |
+| B — FoT | 31 / 36 | 86.11% | 0 |
+| E — corrupted | 3 / 36 | 8.33% | 0 |
+
+Deltas: A+−A is 0; B−A+ is 0.861111; E−A+ is 0.083333.
+
+Self-generated insights **do not raise the floor**: A+ produces zero correct
+observations on locally-unseen classes and *more* abstentions than A, 21
+against 14. The permissible conclusion is that B's advantage is not explained
+by the mere presence of insights in the context; the peer origin is what
+carries discriminative information.
+
+Interpretation limits: A+ is a control within the frozen main study, not an
+independent experiment; it reuses the same held-out cases; and a floor of 0/36
+for both A and A+ means the contrast cannot rank them against each other.
+
+## 12. C06 — local-first decision policy, post-hoc mitigation
+
+EXP3_V2 showed five local-seen errors under B: peer insights can displace
+correct local knowledge. C06 is the variant `B_LOCAL_FIRST_V1`, a
+decision-policy block that instructs the receiver to weigh local evidence
+first. It is a **post-hoc mitigation**, and the artifact itself says so: the
+field `analysis_kind` in the results file reads *"post-hoc diagnostic; not an
+independent replication"*.
+
+### 12.1 Canonical artifacts
+
+Under [`phase_b/c06/`](phase_b/c06):
+
+- [`C06_SCREENING_PROTOCOL.md`](phase_b/c06/C06_SCREENING_PROTOCOL.md) and [`C06_INPUT_FREEZE_MANIFEST.json`](phase_b/c06/C06_INPUT_FREEZE_MANIFEST.json) — screening stage;
+- [`full_test/C06_FULL_TEST_PROTOCOL.md`](phase_b/c06/full_test/C06_FULL_TEST_PROTOCOL.md) and [`full_test/C06_FULL_TEST_FREEZE_MANIFEST.json`](phase_b/c06/full_test/C06_FULL_TEST_FREEZE_MANIFEST.json) — frozen **before** inference;
+- [`full_test/inference/FULL_TEST_REPORT.md`](phase_b/c06/full_test/inference/FULL_TEST_REPORT.md) — canonical report;
+- [`full_test/inference/full_test_results.json`](phase_b/c06/full_test/inference/full_test_results.json) — metrics, gate, per-case regressions and improvements;
+- `full_test/inference/output_hashes.json` — filename-to-SHA256 map for the six inference outputs.
+
+### 12.2 Verify frozen bytes
+
+```bash
+python - <<'PY'
+import hashlib, json
+from pathlib import Path
+
+base = Path("phase_b/c06/full_test/inference")
+for name, digest in json.loads((base / "output_hashes.json").read_text()).items():
+    actual = hashlib.sha256((base / name).read_bytes()).hexdigest()
+    if actual != digest:
+        raise SystemExit(f"FAIL {name}: {actual} != {digest}")
+    print(f"PASS {name}")
+PY
+```
+
+### 12.3 Frozen result and interpretation boundary
+
+| Stratum | C06 | Frozen B | Improved | Regressed |
+|---|---:|---:|---:|---:|
+| local-seen | 23 / 24 (95.83%) | 19 / 24 (79.17%) | 4 | 0 |
+| local-unseen | 68 / 72 (94.44%) | 68 / 72 (94.44%) | 1 | 1 |
+| Normal | 24 / 24 (100%) | 24 / 24 (100%) | 0 | 0 |
+| overall | 115 / 120 (95.83%) | — | — | — |
+
+The gate is PASS and the recorded status is *"Risolta — trasferimento negativo
+mitigato dal decision-policy block"*. There is one abstention and no parse
+failure.
+
+Interpretation limits, all mandatory:
+
+- the policy was evaluated on the **same EXP3_V2 sample that motivated it**, so
+  this is not an independent replication and the effect size is optimistic;
+- local-unseen accuracy is **unchanged**: one improvement and one regression,
+  net zero. C06 does not add transfer, it protects local knowledge;
+- one local-unseen regression survives — agent 2 on case `EXP3V2-F13-002` —
+  so the mitigation is not a proof of absence of individual regressions;
+- no replication on independent data has been run.
+
+## 13. C02B — same-task numerical baselines
+
+C02B answers the question a reviewer asks immediately: on this same held-out,
+how does a numerical method perform? It has two independent parts.
+
+### 13.1 Canonical artifacts
+
+- Shared numeric prototypes — [`phase_b/baselines/c02b_shared_numeric_prototypes/`](phase_b/baselines/c02b_shared_numeric_prototypes): [`C02B_PROTOCOL_FREEZE.md`](phase_b/baselines/c02b_shared_numeric_prototypes/C02B_PROTOCOL_FREEZE.md), [`results/C02B_BASELINE_REPORT.md`](phase_b/baselines/c02b_shared_numeric_prototypes/results/C02B_BASELINE_REPORT.md), `results/metrics.json`, `results/bootstrap_results.json`, `results/predictions.csv`, `results/prototypes.json`, `results/payloads/agent_[1-4].bin`, `results/output_hash_manifest.json`;
+- Supervisor-requested centralized suite — [`phase_b/baselines/c02b_supervisor_model_suite/`](phase_b/baselines/c02b_supervisor_model_suite): [`PROTOCOL_FREEZE.md`](phase_b/baselines/c02b_supervisor_model_suite/PROTOCOL_FREEZE.md), [`results/SUPERVISOR_MODEL_SUITE_REPORT.md`](phase_b/baselines/c02b_supervisor_model_suite/results/SUPERVISOR_MODEL_SUITE_REPORT.md), `results/metrics.json`, `results/models/`, `results/output_hash_manifest.json`.
+
+Both manifests use the same shape: an `artifacts` object mapping
+repository-relative path to SHA256.
+
+### 13.2 Verify frozen bytes
+
+```bash
+python - <<'PY'
+import hashlib, json
+from pathlib import Path
+
+manifests = [
+    "phase_b/baselines/c02b_shared_numeric_prototypes/results/output_hash_manifest.json",
+    "phase_b/baselines/c02b_supervisor_model_suite/results/output_hash_manifest.json",
+]
+for manifest in manifests:
+    for relative, digest in json.loads(Path(manifest).read_text())["artifacts"].items():
+        actual = hashlib.sha256(Path(relative).read_bytes()).hexdigest()
+        if actual != digest:
+            raise SystemExit(f"FAIL {relative}: {actual} != {digest}")
+        print(f"PASS {relative}")
+PY
+```
+
+### 13.3 Frozen result and interpretation boundary
+
+**Shared numeric prototypes.** Locally-unseen accuracy is 36/36, 100%, with a
+stratified physical-case cluster bootstrap CI of [1.0, 1.0] over 10 000 draws,
+12 physical clusters, seed 20260910. Communication payload is 3 peer
+prototypes, 2 091 scalar values, 16 755 bytes per receiver. Recorded status:
+`MITIGATA`.
+
+**Centralized model suite.** Six models reach 15/15 — AdaBoost, k-NN, linear
+elastic-net, causal LSTM with attention, MLP, random forest — each 12/12 on
+fault cases and 3/3 on Normal. Two reach 14/15: BiLSTM with attention and the
+multimodal BiLSTM with attention and TF-IDF, both 11/12 on fault cases.
+
+The comparison anchors are recorded inside the artifact itself: FoT B
+locally-unseen 31/36 (86.11%) against shared prototypes 36/36 (100%).
+
+Interpretation limits, all mandatory:
+
+- **the numerical baseline is more accurate than FoT B on this benchmark**, by
+  13.9 points. No text in the paper or documentation may describe FoT as
+  competitive or superior in accuracy. The residual value of FoT is auditable
+  text and transfer without consumer training, and these properties do not
+  compensate quantitatively;
+- the centralized suite sees **all classes during training**. Its models are
+  descriptive references, not federated evidence, and the projected
+  locally-unseen figure does not make them federated;
+- the multimodal model fuses the sequence and the verbalization of the **same**
+  sensors, not two independent physical sources.
+
+## 14. Frozen milestones
 
 | Milestone | Annotated tag | Peeled target commit |
 |---|---|---|
@@ -566,7 +750,11 @@ independence.
 The Phase A verbalizer also has dedicated pre-validation and completion tags;
 the table above lists the shortest cross-phase audit chain.
 
-## 12. Expected audit conclusion
+**Not tagged.** Condition A+ (section 11), C06 (section 12) and the C02B
+baselines (section 13) have no annotated tag. They are frozen by hash
+manifest only.
+
+## 15. Expected audit conclusion
 
 > The repository preserves the frozen experimental record needed to
 > independently recompute the reported Phase B metrics from the original frozen
@@ -577,6 +765,11 @@ the table above lists the shortest cross-phase audit chain.
 > Qwen is auditable through its four-tag chain, frozen inference and evaluation
 > artifacts, and independent R2 review, within the stated consumer-portability
 > limitations.
+>
+> Condition A+, the C06 local-first mitigation and the C02B numerical
+> baselines are auditable at the level of byte integrity against their
+> committed hash manifests, but they carry no tagged commit chain, and C06 is
+> a post-hoc analysis on the sample that motivated it.
 
 An audit should separately report whether it verified:
 

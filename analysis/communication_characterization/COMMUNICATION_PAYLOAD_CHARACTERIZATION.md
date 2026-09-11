@@ -18,7 +18,7 @@ I prompt completi A/B/E e C sono stati ricostruiti deterministicamente dai templ
 - EXP3_V2: tag Git `exp3-v2-inference-frozen-001` (`inference_outputs/records/*.json`), `exp3-v2-results-frozen-001` (`evaluation_outputs/exp3v2_confirmatory_results.json`) e payload commit `5be0c3c14e7e1601708486d56c2cb4cee29658ab` (`verbalization_outputs/neutral_text/*.txt`), registrato nel manifest di freeze. Gli artefatti non sono presenti nel working tree corrente ma restano frozen e indirizzabili negli oggetti Git.
 - Experiment 2/Qwen: `phase_b/exp2/qwen/inference/*.json[l]`, `config.json` ed `evaluation/evaluation_results.json`.
 - Condition C: `icl/pooled_libraries/*.json`, `icl/inference/c_records.jsonl`, `icl/full_evaluation/evaluation_results_c.json`.
-- Inquadramento: `docs/fot_walkthrough_conversazione.md`, `docs/fot_walkthrough.html`, `docs/lit_review/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md`, `docs/lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md`, `docs/lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`.
+- Inquadramento: `docs/fot_walkthrough_conversazione.md`, `docs/fot_walkthrough.html`, `docs/paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md`, `docs/lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md`, `docs/lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`.
 
 ### Inventario operativo
 

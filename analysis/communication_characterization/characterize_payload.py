@@ -54,7 +54,7 @@ WORD_RE = re.compile(r"\b[^\W_]+(?:[’'-][^\W_]+)*\b", re.UNICODE)
 MAIN_SOURCES = [
     "docs/fot_walkthrough_conversazione.md",
     "docs/fot_walkthrough.html",
-    "docs/lit_review/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md",
+    "docs/paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md",
     "docs/lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md",
     "docs/lit_review/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md",
 ]
