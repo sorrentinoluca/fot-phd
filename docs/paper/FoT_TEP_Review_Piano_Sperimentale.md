@@ -58,6 +58,16 @@ Questa revisione incorpora le correzioni dell'autore. Sono elencate qui perché 
 | 31 | **S11b esplicitata**: i tre numeri dell'endpoint vanno calcolati e riportati separatamente per A, B-LF ed E-LF. | autore |
 | 32 | **§8.9 rafforzata** con la frase di P001 sulla stabilità 10K–100K e con i due riscontri operativi di EviFDD (identificatori di variabile, serializzazione deterministica). | verifica letteratura |
 
+### Revisione 5 — verifica sugli artefatti congelati e sul codice
+
+| # | Modifica | Origine |
+| --- | --- | --- |
+| 33 | **D10 risolta nella forma.** `Unknown` è congelato come nome dell'astensione già implementata (`abstain=true`, `predicted_label=null`), non come label letterale. La strada letterale richiederebbe di sostituire l'idioma posizionale `label_space[:-1]` — undici occorrenze, incluse quelle che governano derangement ed E — con categorie semantiche esplicite, e di riscrivere i test perché verifichino la separazione invece di riprodurla. | verifica codice |
+| 34 | **Il trade-off di §8.6 non si applica.** «L'esplorativo non aveva `Unknown`» è falso sugli artefatti: `primary_metrics.csv` mostra 14 astensioni su 36 in A, un tasso misurato separatamente e un'accuratezza che già conta l'astensione come non-corretta. Il confronto descrittivo resta indebolito da scala, modello e contesto, non dallo spazio delle etichette. | `phase_b/final_evaluation/` |
+| 35 | **S11b costa una metrica, non tre.** Due dei tre numeri dell'endpoint esistono già negli artefatti e nell'evaluator; manca solo l'accuratezza sui soli casi non astenuti, assente da entrambi i file di metriche. | verifica artefatti |
+| 36 | **Il carico di simulazione è totalizzato** (§8.8): 105 run con 6 per fault, 123 con 8, per tutti e otto i fault più i 6 OOD. Non consuma chiamate API ma è un secondo percorso critico, indipendente da Qwen e da chiudere prima del congelamento del protocollo. | verifica dati |
+| 37 | **Capacità dell'API registrate nel pilot** (§8.7, T10), con la regola che l'assenza di temperatura e seed non è una divergenza osservata e non attiva R=3 da sola. La politica conservativa, se voluta, è una nuova decisione da pre-specificare (§0.1, decisione 11). | `execution_config.json` |
+
 ---
 
 ## 0.1 · Decisioni ancora da congelare
@@ -76,6 +86,8 @@ La revisione precedente lasciava intendere che restasse aperta solo D8. Non è c
 | 8 | R=1 o R=3 | D7, §8.7 | ⏳ subordinata al gate del pilot |
 | 9 | Modello | D9, §7 | ⏳ data limite **17 settembre** |
 | 10 | **Schema degli insight**: campi, cardinalità, cap per-elemento, validatore | §8.9, D12 | ⬜ **aperta, lavorabile oggi** |
+| 11 | **Politica conservativa su R=3** in assenza di controlli di determinismo dell'API | §8.7, D7 | ⬜ aperta — da pre-specificare **prima** del pilot |
+| — | Forma di `Unknown` | D10, §8.6 | ✅ **risolta: nome dell'astensione esistente** |
 
 La decisione 10 è nuova nella revisione 3 e appartiene al gruppo indipendente dal modello: va congelata prima della produzione degli insight, non prima dei run di test, perché vincola *come* gli insight vengono generati da entrambi i producer.
 
@@ -234,7 +246,7 @@ Queste attività non richiedono Qwen-2.4T e non rischiano di contaminare il test
 Scrivere i criteri strutturali e **congelare** il documento prima di esaminare qualunque risultato per-fault. I criteri ammessi sono solo due famiglie: (a) copertura dei meccanismi fisici documentati in Downs & Vogel 1993 — step, random variation, slow drift, sticking valve — e identità di variabile perturbata, leggibile dalla loro tabella dei fault; (b) stratificazione per difficoltà **documentata in letteratura**, con le fonti di §12. Non è ammesso alcun criterio basato su separabilità osservata nei propri dati. I 4 fault di continuità sono dichiarati come tali (§2.2).
 
 **6.2 — Generare nuovi run di sviluppo**
-Per ciascuno degli 8 fault e per Normal, generare i batch di sviluppo (equivalenti dei batch 1–5 e N1–N5 dell'esplorativo). Servono per calibrare soglie e produrre insight, non per valutare.
+Per ciascuno degli 8 fault e per Normal, generare i batch di sviluppo (equivalenti dei batch 1–5 e N1–N5 dell'esplorativo). Servono per calibrare soglie e produrre insight, non per valutare. **45 simulazioni** (8 × 5 + 5 Normal), per tutti e otto i fault: i quattro di continuità non fanno eccezione, perché i run dell'esplorativo restano risultati dell'esplorativo (§13, domanda 4).
 
 **6.3 — Calibrare soglie sui Normal di sviluppo**
 Il verbalizzatore V2 calibra le soglie sui batch Normal di sviluppo. Farlo ora sui nuovi Normal è corretto e necessario.
@@ -243,7 +255,7 @@ Il verbalizzatore V2 calibra le soglie sui batch Normal di sviluppo. Farlo ora s
 Trasformare i run di sviluppo nelle 697-D evidence e nel testo neutrale. Stabilisce come i nuovi fault appaiono al verbalizzatore.
 
 **6.5 — Definire pseudolabel e permutazioni di E**
-Generare 9 pseudolabel opache (8 fault + Normal) più l'etichetta `Unknown`, e la permutazione a zero-fixed-point per 8 classi di fault. Operazione combinatorica, indipendente dal modello.
+Generare 9 pseudolabel opache (8 fault + Normal) e la permutazione a zero-fixed-point per 8 classi di fault. Operazione combinatorica, indipendente dal modello. ⚠️ Le pseudolabel sono **nove**, non dieci: per D10 `Unknown` è l'astensione (`abstain=true`, `predicted_label=null`) e non entra nello spazio delle etichette.
 
 **6.6 — Scrivere il piano statistico completo**
 Popolazione primaria, endpoint (§8.5), contrasti, criteri di successo, δ, metodo bootstrap adattato a 9 classi più astensione, definizione di cluster, run minimi per fault, regola GO/NO-GO. Tutto congelato prima del primo run di test.
@@ -252,10 +264,10 @@ Popolazione primaria, endpoint (§8.5), contrasti, criteri di successo, δ, meto
 Prototipi per classe dai dati di sviluppo (vettori medi 697-D), regola di classificazione congelata (distanza L1 minima). Indipendente dal modello linguistico.
 
 **6.8 — Preparare l'harness API**
-Aggiornare l'inferenza per 8 agenti, 14 insight, 9 pseudolabel + `Unknown`, logging esteso (§8.7) e set canary. Testare con Qwen-27B come surrogato.
+Aggiornare l'inferenza per 8 agenti, 14 insight, 9 pseudolabel con astensione disponibile (D10), logging esteso (§8.7) e set canary. Testare con Qwen-27B come surrogato.
 
 **6.9 — Generare e congelare i run finali di test**
-Almeno 6 run per fault × 8 fault, più Normal. Generare adesso e sigillare. Regola cruciale: **nessuna decisione di progettazione dopo aver osservato questi run.** Se serve ispezionarli per integrità tecnica, l'ispezione va loggata e non deve includere analisi delle distribuzioni dei sensori.
+Almeno 6 run per fault × 8 fault, più Normal: **54 simulazioni** con 6 run, **72** con 8. Vanno aggiunti i **6 run OOD** di §8.6 (2 fault × 3 run), che sono simulazioni come le altre. Generare adesso e sigillare. Regola cruciale: **nessuna decisione di progettazione dopo aver osservato questi run.** Se serve ispezionarli per integrità tecnica, l'ispezione va loggata e non deve includere analisi delle distribuzioni dei sensori.
 
 **6.10 — Congelare lo schema degli insight (§8.9)**
 Campi, tipi, cardinalità, cap di lunghezza per elemento, validatore eseguibile. Non dipende dal modello, non consuma chiamate, e **deve precedere la produzione degli insight** di entrambi i producer: è ciò che rende il braccio producer-swap una manipolazione a fattore singolo invece di un confronto fra stili di scrittura.
@@ -394,6 +406,8 @@ Si sceglie la giustificazione operativa e si usa la seconda come verifica. Il da
 
 Lasciata implicita, questa scelta diventa una leva post-hoc.
 
+**Due dei tre numeri esistono già** *(revisione 5)*. `phase_b/final_evaluation/primary_metrics.csv` e `secondary_metrics.csv` portano le colonne `accuracy` — con le astensioni dentro il denominatore, cioè il numero 1 — e `abstention_rate`, cioè il numero 2; `phase_b/evaluation/metrics.py` le calcola. **Manca solo il numero 3**, ed è assente da entrambi gli artefatti: la sua aggiunta è nuova per assenza verificata, non per impressione. S11b costa quindi una metrica, non tre.
+
 **Reporting stratificato obbligatorio.** Accuratezza riportata per i 4 fault di continuità, per i 4 fault nuovi, e aggregata. Costa zero e permette al lettore di vedere se il numero principale dipende dal sottoinsieme di continuità.
 
 ### 8.6 Test fuori catalogo e astensione
@@ -406,7 +420,22 @@ Eseguirlo solo in B non permetterebbe di capire se gli insight migliorano o pegg
 | --- | ---: |
 | 2 fault × 3 run × 8 agenti × 3 condizioni | 144 |
 
-**Condizione di validità:** il test misura qualcosa solo se il prompt offre effettivamente l'astensione. `Unknown` va quindi incluso in **tutte** le condizioni dall'inizio, non aggiunto per il solo test OOD — altrimenti il tasso di falsi positivi non ha comparatore in-catalogo e l'accuratezza principale è misurata su un altro spazio di etichette. Costo aggiuntivo in chiamate: zero. Costo reale: cambia i numeri principali e indebolisce il confronto descrittivo con l'esplorativo, che non aveva `Unknown`. È un trade-off da dichiarare, non da scoprire dopo.
+**Condizione di validità:** il test misura qualcosa solo se il prompt offre effettivamente l'astensione. L'astensione va quindi disponibile in **tutte** le condizioni dall'inizio, non aggiunta per il solo test OOD — altrimenti il tasso di falsi positivi non ha comparatore in-catalogo. Costo aggiuntivo in chiamate: zero.
+
+⚠️ **Correzione della revisione 5: il trade-off dichiarato qui non si applica.** Questa sezione affermava che l'inclusione di `Unknown` «cambia i numeri principali e indebolisce il confronto descrittivo con l'esplorativo, che non aveva `Unknown`». L'affermazione è falsa sugli artefatti congelati. `phase_b/final_evaluation/primary_metrics.csv` porta le colonne `abstentions` e `abstention_rate`:
+
+```
+condition,n,correct,accuracy,abstentions,abstention_rate
+A,36,0,0.0,14,0.3888888888888889
+B,36,31,0.8611111111111112,0,0.0
+E,36,3,0.08333333333333333,0,0.0
+```
+
+Se ne leggono tre fatti. L'astensione era **offerta e usata** — 14 casi su 36 in A. Era **misurata come tasso separato**, cioè il secondo dei tre numeri di §8.5. Ed era **contata come non-corretta**, perché l'accuratezza di A è 0,0 su `n=36` con le 14 astensioni dentro il denominatore: esattamente la definizione marcata come primaria in §8.5. `phase_b/final_evaluation/secondary_metrics.csv` lo conferma sugli strati (A complessivo 24/60, 14 astensioni, tasso 0,2333); per la replica il numero corrispondente — 30 astensioni in A — è in §8.3 del walkthrough, che lo legge dagli oggetti dei tag `exp3-v2-*` e non dal working tree.
+
+Ne segue che, nella forma congelata in D10, il confronto descrittivo con l'esplorativo **non è indebolito dallo spazio delle etichette**. Resta indebolito da tutto il resto — otto fault contro quattro, un modello diverso, un contesto più lungo — e questo va comunque dichiarato.
+
+**Che cosa resta da osservare, e non da ereditare.** Che l'astensione fosse praticabile con 4 insight e 5 classi non dimostra che lo sia con **14 insight e 9 classi**. La condizione di validità di questa sezione va quindi verificata nel capability pilot, misurando il tasso di astensione in-catalogo delle tre condizioni prima di aprire i run di test. Un tasso che collassa a zero renderebbe il test OOD non informativo, e andrebbe saputo prima e non dopo.
 
 **Scelta dei due fault OOD.** Devono essere meccanicamente distinti da **tutti** gli 8 in catalogo. F2 e F5, proposti nella revisione 1, non sono adatti se in catalogo c'è F1: F1 è uno step sul rapporto A/C in alimentazione, F2 uno step sulla composizione di B, e un agente che etichetta F2 come F1 non sta sbagliando in modo interessante. Il "falso positivo" sarebbe comportamento ragionevole e il test non discriminerebbe.
 
@@ -452,6 +481,15 @@ Il caveat tecnico è sostanziale: Qwen-27B è un modello denso, un 2.4T-A95B è 
 | **troncamenti rispetto al cap per elemento** | saturazione del budget |
 | **token per insight e per prompt, per producer e condizione** | separare effetto informazione da effetto lunghezza |
 
+**Registrare le capacità dell'API, non solo i suoi output** *(revisione 5)*. Il capability pilot deve annotare quali controlli di determinismo l'API del modello scelto espone effettivamente — temperatura e seed in primo luogo — e non assumerli. Il precedente è nel repository: `phase_b/config/execution_config.json` registra `temperature_supported: false` e `seed_supported: false` per il modello del primo studio, che quindi è stato eseguito senza alcuna leva sul determinismo.
+
+Due regole interpretative da congelare con il protocollo, perché senza di esse la registrazione diventa una leva post-hoc:
+
+- **l'assenza dei controlli non è una divergenza osservata**, e da sola non attiva R=3: il gate di D7 resta definito sull'evento «divergenza fra le ripetizioni di uno stesso prompt», non sulle capacità dichiarate dal provider;
+- **se si vuole una politica più conservativa** — R=3 quando l'API non espone né temperatura né seed — è una **nuova decisione**, da pre-specificare prima del pilot e non dopo averne visto l'esito. È aperta (§0.1, decisione 11).
+
+Il valore della registrazione è un altro: senza controlli sul determinismo, la riproducibilità operativa dello studio è più debole, e questo va scritto nei limiti invece di essere scoperto da un reviewer.
+
 **Hash, timestamp e latenza non dimostrano un cambio di modello**: sono forensi, permettono di ricostruire un cambio dopo averlo sospettato. ID, request ID e fingerprint sono il livello dichiarativo, e dipendono dall'onestà e dall'aggiornamento del provider. Lo strumento **rilevativo** è un **set canary**: 10 prompt fissi con output atteso congelato, rieseguiti ogni giorno dell'esecuzione. Una variazione nel canary è evidenza positiva di cambio di comportamento indipendentemente da ciò che l'API dichiara. Costo: ~10 chiamate al giorno.
 
 ### 8.8 Budget
@@ -477,7 +515,21 @@ Il budget dipende da D2 — 6 o 8 run per fault — che non è ancora congelata.
 | **Sottototale con retry** | **~2.700** | **~3.344** |
 | **Tetto da richiedere** | **3.000** | **3.500** |
 
-Passare a 8 run costa **+590 chiamate, cioè +24%**, e porta i cluster da 48 a 64. Non cambia nulla nella finestra temporale di §7, perché il collo di bottiglia è la data della decisione sul modello e non il volume. La baseline FL (§9.1) non entra in questa tabella: non consuma chiamate API.
+Passare a 8 run costa **+590 chiamate, cioè +24%**, e porta i cluster da 48 a 64. La baseline FL (§9.1) non entra in questa tabella: non consuma chiamate API.
+
+**Il budget in chiamate non è l'unico budget** *(revisione 5)*. Il piano prescrive la generazione dei run in §6.2 e §6.9 ma non ne ha mai totalizzato il costo, e questo ha fatto sembrare la generazione dati un preliminare invece di una voce del cammino critico:
+
+| Blocco di simulazione | 6 run | 8 run |
+| --- | ---: | ---: |
+| Sviluppo — 8 fault × 5 + 5 Normal (§6.2) | 45 | 45 |
+| Test — 8 fault × *n* + *n* Normal (§6.9) | 54 | 72 |
+| **In catalogo** | **99** | **117** |
+| Fuori catalogo — 2 fault × 3 run (§8.6) | 6 | 6 |
+| **Totale simulazioni** | **105** | **123** |
+
+Nessuna di queste consuma chiamate API: consumano **giorni di simulazione** e la disponibilità dell'ambiente MATLAB/Simulink. Al 2026-09-11 le cache del repository coprono soltanto F1, F8, F10, F13 e Normal, quindi la quasi totalità di queste simulazioni è ancora da produrre.
+
+Ne segue una correzione alla lettura del collo di bottiglia data in §7: la data della decisione sul modello resta il vincolo per l'**esecuzione**, ma la generazione dei run è un secondo percorso, indipendente da Qwen e attivabile subito, che deve chiudersi **prima** del congelamento del protocollo. Va pianificato in parallelo alla settimana del pilot, non dopo.
 
 Per confronto, il piano originale costava 5.184 chiamate di **solo nucleo** e oltre 6.000 con tutto incluso. Un budget quotato come stima puntuale si esaurisce sempre: va chiesto come tetto.
 
@@ -670,9 +722,20 @@ Tre vincoli che la decisione deve soddisfare: lo schema è identico per i due pr
 
 La copertura dell'opzione 3 va costruita adesso, non quando serve: le sezioni condivise tra le due versioni del paper sono circa il 60% del testo (§6.12).
 
-### D10 — `Unknown` nello spazio delle etichette
+### D10 — `Unknown` nello spazio delle etichette *(risolta nella revisione 5: `Unknown` è il nome dell'astensione esistente)*
 
-**Sì, in tutte le condizioni, dall'inizio.** Non solo nel test OOD. Conseguenze da congelare: definizione dei tre numeri dell'endpoint (§8.5) e dichiarazione che il confronto descrittivo con l'esplorativo è indebolito perché l'esplorativo non aveva `Unknown`.
+**Sì, in tutte le condizioni, dall'inizio.** Non solo nel test OOD.
+
+**La decisione residua era quale forma dare a `Unknown`, ed è ora congelata.** Le due strade non erano equivalenti, e la formulazione precedente le confondeva:
+
+| Forma | Che cosa comporta |
+| --- | --- |
+| **`Unknown` = l'astensione già implementata** *(scelta)* | `abstain=true` con `predicted_label=null`. Schema di output, parser e due dei tre numeri di §8.5 esistono già e sono validati. Resta da aggiungere la terza metrica — accuratezza sui soli casi non astenuti — e da dichiarare il framing comparativo. |
+| `Unknown` come label letterale | Non è una modifica di configurazione. `phase_b/config/protocol.py` impone cinque label con `Normal` in ultima posizione e fallirebbe in modo esplicito; se quel validatore venisse rilassato, l'idioma posizionale `label_space[:-1]` — **undici occorrenze**, in `insights/library.py` (validazione insight e dominio del derangement di E), `evaluation/bootstrap.py`, `execution/generate_final_insights.py`, `local_knowledge/build_local_examples.py` e cinque punti dentro `tests/` — farebbe entrare `Normal` nel dominio dei fault. Inserire `Unknown` prima di `Normal` non risolve: verrebbe trattato esso stesso come fault. Servirebbe sostituire l'assunzione posizionale con categorie semantiche esplicite — pseudolabel dei fault, `Normal`, esito open-set — e riscrivere i test perché **verifichino** quella separazione invece di riprodurla. |
+
+La seconda strada tocca i percorsi che governano derangement ed E, cioè il contrasto causale B−E: è la via a maggior rischio metodologico per un guadagno espressivo. **Si congela la prima.**
+
+**Conseguenze da congelare:** i tre numeri dell'endpoint di §8.5, riportati separatamente per A, B-LF ed E-LF (S11b); e la dichiarazione che il confronto descrittivo con l'esplorativo resta indebolito da scala, modello e lunghezza del contesto — ma **non** dallo spazio delle etichette, per la verifica sugli artefatti riportata in §8.6.
 
 ### D11 — Sottoinsieme dell'ablation local-first
 
@@ -688,13 +751,15 @@ Le coppie di fault confondibili vanno identificate su base meccanica — variabi
 | --- | --- | --- | --- |
 | T1 | API del modello scelto funzionante e stabile | ⬜ | **SÌ** |
 | T2 | Capability pilot completato con esito positivo | ⬜ | **SÌ** |
-| T3 | Formato JSON compatibile con il parser, `Unknown` incluso | ⬜ | **SÌ** |
+| T3 | Formato JSON compatibile con il parser, astensione inclusa — `abstain=true` con `predicted_label=null` (D10) | ⬜ | **SÌ** |
 | T4 | Reasoning budget sufficiente con 14 insight | ⬜ | **SÌ** |
 | T5 | Latenza compatibile con il tetto di §8.8 (3.000 o 3.500) nella finestra di §7 | ⬜ | **SÌ** |
 | T6 | Gate di stabilità superato (nessuna divergenza) o R=3 attivato | ⬜ | **SÌ** |
 | T7 | Logging esteso attivo: ID modello restituito, request ID, fingerprint, hash, latenza | ⬜ | **SÌ** |
 | T8 | Set canary definito, con output atteso congelato e schedulazione giornaliera | ⬜ | **SÌ** |
 | T9 | Logging di conformità attivo: validità schema, retry, troncamenti, token per insight e per prompt (§8.7) | ⬜ | **SÌ** |
+| T10 | Capacità di determinismo dell'API registrate nel pilot — temperatura e seed esposti o no — con la regola interpretativa di §8.7 congelata | ⬜ | **SÌ** |
+| T11 | Tasso di astensione in-catalogo misurato nel pilot nelle tre condizioni, a 14 insight e 9 classi (§8.6) | ⬜ | No, ma è la condizione di validità del test OOD |
 
 ### Prerequisiti scientifici
 
@@ -706,12 +771,12 @@ Le coppie di fault confondibili vanno identificate su base meccanica — variabi
 | S4 | Soglie calibrate sui soli Normal di sviluppo | ⬜ | **SÌ** |
 | S5 | Insight prodotti e congelati, **per entrambi i producer** (libreria completa) | ⬜ | **SÌ** |
 | S6 | Piano statistico completo scritto e congelato | ⬜ | **SÌ** |
-| S7 | Pseudolabel, `Unknown` e permutazione E congelate | ⬜ | **SÌ** |
+| S7 | Le 9 pseudolabel, la forma dell'astensione (D10) e la permutazione E congelate | ⬜ | **SÌ** |
 | S8 | Prompt, template e le tre condizioni congelate | ⬜ | **SÌ** |
 | S9 | Baseline numerica preparata (prototipi dai dati di sviluppo) | ⬜ | **SÌ** |
 | S10 | Le tre ipotesi H1–H3 scritte, con il margine *m* di non inferiorità e la sua giustificazione esterna | ⬜ | **SÌ** |
 | S11 | Gerarchia di test (gatekeeping H1 → H2 → H3) congelata | ⬜ | **SÌ** |
-| S11b | Definizione dei tre numeri dell'endpoint con `Unknown` e indicazione del primario, con la regola esplicita: **i tre numeri sono calcolati e riportati separatamente per A, B-LF ed E-LF** | ⬜ | **SÌ** |
+| S11b | Definizione dei tre numeri dell'endpoint con l'astensione e indicazione del primario, con la regola esplicita: **i tre numeri sono calcolati e riportati separatamente per A, B-LF ed E-LF** | ⬜ | **SÌ** |
 | S12 | Coppie confondibili dell'ablation dichiarate prima — **dipende da S1** | ⬜ | **SÌ** |
 | S13 | Due fault OOD scelti, meccanicamente distinti da tutto il catalogo **e non appartenenti al gruppo compensato dal controllo** (§8.6, §12.1) — **dipende da S1** | ⬜ | **SÌ** |
 | S14 | Regola di reporting stratificato (continuità / nuovi / aggregato) scritta | ⬜ | No, ma raccomandata |
@@ -947,7 +1012,7 @@ Due, più due numeri di contorno — e nella revisione 3 il pavimento sale di pr
 Escludere dal disegno: studio ponte, Q4, A+, condizione C centralizzata, ablation delle rappresentazioni. Escludere dalle componenti suggerite dal prior art, con motivazione citabile (§12.8): **aggregazione lato server, selezione top-k, round multipli, confidence weighting, privacy differenziale**. Mantenere: A, B-LF, E-LF, baseline numerica, FedAvg con pavimento e soffitto, producer-swap con parità strutturale, test OOD, ablation local-first, schema congelato con metriche di conformità, set canary.
 
 **14. Qual è il minimo studio finale pubblicabile?**
-§8 di questo documento: Q8 con 8 agenti e 8 fault, tre condizioni A/B-LF/E-LF, `Unknown` globale, ≥6 run per fault, baseline numerica, FedAvg minimale con pavimento e soffitto, producer-swap con libreria completa, test fuori catalogo in tutte le condizioni, ablation local-first dichiarata, R=1 subordinato al gate, audit continuo e set canary. Circa 2.450 chiamate con 6 run (tetto 3.000) o ~3.040 con 8 run (tetto 3.500); la baseline FL non consuma chiamate.
+§8 di questo documento: Q8 con 8 agenti e 8 fault, tre condizioni A/B-LF/E-LF, astensione disponibile in tutte (D10), ≥6 run per fault, baseline numerica, FedAvg minimale con pavimento e soffitto, producer-swap con libreria completa, test fuori catalogo in tutte le condizioni, ablation local-first dichiarata, R=1 subordinato al gate, audit continuo e set canary. Circa 2.450 chiamate con 6 run (tetto 3.000) o ~3.040 con 8 run (tetto 3.500); la baseline FL non consuma chiamate.
 
 Tre ipotesi statistiche in gerarchia (§8.5): B-LF > E-LF e B-LF > A sui local-unseen, B-LF non inferiore ad A sui local-seen. Tre domande scientifiche riformulate in §8.11 sulla base dei gap osservati nei sei lavori esaminati: la conoscenza di un pari permette di diagnosticare una classe mai osservata localmente? il guadagno dipende dalla correttezza dell'informazione o dalla sua sola presenza? la conoscenza ricevuta danneggia ciò che l'agente già sapeva, e a che prezzo la si può proteggere?
 
