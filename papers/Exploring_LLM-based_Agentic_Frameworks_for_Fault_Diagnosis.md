@@ -67,13 +67,13 @@ Preprint
 We begin with the model of the temperature dynamics, where the indoor temperature is governed by a simplified first-order thermal model: 
 
 
-![](EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS_images/EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS.pdf-0003-04.png)
+![](Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis_images/Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis.pdf-0003-04.png)
 
 
 where _Tin_ is the indoor temperature, _Tamb_ is the ambient temperature, _Qcool_ is cooling output, _α_ is the thermal gain coefficient, and _β_ is cooling effectiveness. Ambient temperature is modeled as a daily sinusoidal cycle with noise: 
 
 
-![](EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS_images/EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS.pdf-0003-06.png)
+![](Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis_images/Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis.pdf-0003-06.png)
 
 
 where _Tmean_ is the mean temperature, _A_ is amplitude, _ϕ_ is the phase offset, and _ϵ_ ( _t_ ) _∼N_ (0 _, σ_<sup>2</sup> ). 
@@ -83,13 +83,13 @@ where _Tmean_ is the mean temperature, _A_ is amplitude, _ϕ_ is the phase offse
 To model the mechanical part of the system, we assume the suction _Psuct_ ( _t_ ) and discharge _Pdisc_ ( _t_ ) pressures, i.e., pressure of refrigerant entering and exiting the compressor, scale with the normalized cooling demand, where _Qnom_ denotes the nominal cooling capacity of the system: 
 
 
-![](EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS_images/EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS.pdf-0003-10.png)
+![](Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis_images/Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis.pdf-0003-10.png)
 
 
 and _P_ 0 denotes base pressure, and _γ_ 1, _γ_ 2 are scaling factors. Furthermore, the compressor power is modeled as: 
 
 
-![](EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS_images/EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS.pdf-0003-12.png)
+![](Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis_images/Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis.pdf-0003-12.png)
 
 
 where _Pnom_ is the nominal power consumption of the compressor and _η_ ( _t_ ) _∼N_ (0 _, σp_<sup>2) representing power variation.</sup> 
@@ -99,7 +99,7 @@ where _Pnom_ is the nominal power consumption of the compressor and _η_ ( _t_ )
 To model potential faults in the system, we assume the fault dynamics can be parameterized by their severity _S_ and different temporal functions _f_ ( _t_ ): 
 
 
-![](EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS_images/EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS.pdf-0003-16.png)
+![](Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis_images/Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis.pdf-0003-16.png)
 
 
 We consider the following common onset profiles : 
@@ -107,7 +107,7 @@ We consider the following common onset profiles :
 - **Step:** _f_ ( _t_ ) = 1 
 
 
-![](EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS_images/EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS.pdf-0003-19.png)
+![](Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis_images/Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis.pdf-0003-19.png)
 
 
 - **Exponential:** _f_ ( _t_ ) = 1 _− e_<sup>_−t−_</sup> _τ_<sup>_t_</sup><sup><u>0</u></sup> 
@@ -119,7 +119,7 @@ In our work, we consider three types of potential faults: refrigerant leaks, com
 **Refrigerant Leak (** _Fleak_ **):** 
 
 
-![](EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS_images/EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS.pdf-0003-24.png)
+![](Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis_images/Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis.pdf-0003-24.png)
 
 
 3 
@@ -148,7 +148,7 @@ In summary, the simulator takes in a set of user configurations such as ambient 
 ## **4.1 Overview** 
 
 
-![](EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS_images/EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS.pdf-0004-07.png)
+![](Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis_images/Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis.pdf-0004-07.png)
 
 
 Figure 1: Overview of an LLM-based framework for fault diagnosis. LLM-based capabilities enables operator to describe faults in natural language and predictions made by the framework are explainable. 
@@ -213,13 +213,13 @@ Preprint
 ## **4.2 Anomaly Detection and Fault Classification** 
 
 
-![](EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS_images/EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS.pdf-0006-03.png)
+![](Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis_images/Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis.pdf-0006-03.png)
 
 
 Figure 2: Visualization of simulated data with faults. 
 
 
-![](EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS_images/EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS.pdf-0006-05.png)
+![](Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis_images/Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis.pdf-0006-05.png)
 
 
 Figure 3: Visualization of fault onset profiles used to generate data in Fig 2. 
@@ -513,11 +513,11 @@ Preprint
 Preprint 
 
 
-![](EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS_images/EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS.pdf-0014-01.png)
+![](Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis_images/Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis.pdf-0014-01.png)
 
 
 
-![](EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS_images/EXPLORING_LLM_BASED_FRAMEWORKS_FOR_FAULT_DIAGNOSIS.pdf-0014-02.png)
+![](Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis_images/Exploring_LLM-based_Agentic_Frameworks_for_Fault_Diagnosis.pdf-0014-02.png)
 
 
 Figure 4: (a) Visualization of the fault onset profile used to generate data for the continual learning experiments. (b) Performance (anomaly detection accuracy) of model configurations across continual learning cycles. 

@@ -1086,7 +1086,7 @@ La tabella è divisa per categoria: apri quella che ti serve, richiudila con la 
 | 🟡 | **Adiacente** | Condivide un asse — dominio, regime non-IID o payload — ma non cambia le nostre scelte: citazione di contesto |
 | 🔴 | **Distante** | Sfondo del campo: serve a mostrare il perimetro consultato, non richiede discussione |
 
-Complessivamente: **101 lavori**, di cui 28 🟢, 38 🟡, 35 🔴.
+Complessivamente: **107 lavori**, di cui 28 🟢, 43 🟡, 36 🔴.
 
 Autori e anno provengono da fonti già verificate nel repository: l'audit di prior art, la gap analysis e la scansione del related work. Un trattino **—** significa che il dato **non è stato verificato su fonte ufficiale**: è 1 lavoro su 97, e va confermato prima di usarli in bibliografia.
 
@@ -1182,7 +1182,7 @@ Autori e anno provengono da fonti già verificate nel repository: l'audit di pri
 </details>
 
 <details>
-<summary><strong>LLM per fault diagnosis</strong> · 7 lavori · 🟢 2 · 🟡 3 · 🔴 2</summary>
+<summary><strong>LLM per fault diagnosis</strong> · 9 lavori · 🟢 2 · 🟡 5 · 🔴 2</summary>
 
 | Lavoro | Autori, anno | Vicinanza |
 | --- | --- | :---: |
@@ -1191,6 +1191,8 @@ Autori e anno provengono da fonti già verificate nel repository: l'audit di pri
 | FD-LLM: Large Language Model for Fault Diagnosis of Machines | Qaid et al., 2024 | 🟡 |
 | FD-LLM: Large Language Model for Fault Diagnosis of Complex Equipment | Lin et al., 2025 | 🟡 |
 | LLM-TSFD: Industrial Time-Series Human-in-the-Loop Fault Diagnosis | Zhang, Xu, Li, Sun, Bao, Zhang, 2024 | 🟡 |
+| A Large Language Model Enhanced Fault Diagnosis Framework for Chemical Processes | Liang & Sin, 2026 | 🟡 |
+| Enhanced Fault Diagnosis Using Large Language Models and Probabilistic Label Fusion | Chen, Yao, Wang, Shi, Qin, Li et al., 2025 | 🟡 |
 | CL-LLMOps: Fuzzy-Gated Verification of LLM Agents for Industrial Fault Diagnosis | Xiao, Xu, Li, Ding, Huang (identità da confermare), 2026 | 🔴 |
 | DML–LLM Hybrid Architecture for Fault Detection and Diagnosis in Sensor-Rich Industrial Systems | Hu, Marandi, Modarres, 2026 | 🔴 |
 
@@ -1217,12 +1219,13 @@ Le cinque voci 🟡 aggiunte nel 2026-09 calibrano o controllano esplicitamente 
 </details>
 
 <details>
-<summary><strong>Allineamento TS–linguaggio</strong> · 8 lavori · 🟢 2 · 🔴 6</summary>
+<summary><strong>Allineamento TS–linguaggio</strong> · 9 lavori · 🟢 1 · 🟡 2 · 🔴 6</summary>
 
 | Lavoro | Autori, anno | Vicinanza |
 | --- | --- | :---: |
 | TableTime: Reformulating Time Series Classification as Training-Free Table Understanding with LLMs | Wang, Cheng, Mao, Zhou, Wang, Liu et al., 2025 | 🟢 |
-| Can LLMs Understand Time Series Anomalies? | Zhou & Yu, 2025 | 🟢 |
+| FD-Zero: LLM-Based Diagnosis Framework for Zero-Shot Mechanical Time-Domain Signals | Ran, Li, Li, Li, Wang, Chu et al., 2025 | 🟡 |
+| Towards Generalizable Fault Diagnosis via LLM-Driven Hierarchical Cross-Modal Alignment (HCMA_GPT) | Wang, Sun, Zhang, Shao, Xiao, Liu, 2026 | 🟡 |
 | T3: Domain-Agnostic Neural Time-Series Narration | Sharma, Brownstein & Ramakrishnan, 2021 | 🔴 |
 | Repr2Seq: Time Series Representation to Sequence | Li et al., 2023 | 🔴 |
 | TADACap: Time-Series Image Retrieval for Domain-Aware Captioning | Fons et al., 2024 | 🔴 |
@@ -1233,15 +1236,18 @@ Le cinque voci 🟡 aggiunte nel 2026-09 calibrano o controllano esplicitamente 
 </details>
 
 <details>
-<summary><strong>Survey e benchmark</strong> · 5 lavori · 🟢 1 · 🟡 1 · 🔴 3</summary>
+<summary><strong>Survey e benchmark</strong> · 8 lavori · 🟢 2 · 🟡 2 · 🔴 4</summary>
 
 | Lavoro | Autori, anno | Vicinanza |
 | --- | --- | :---: |
 | Federated Reasoning LLMs: A Survey | Wei, Tong, Zhou, Xu, Gao, Tu et al., 2025 | 🟢 |
+| Can LLMs Understand Time Series Anomalies? | Zhou & Yu, 2025 | 🟢 |
 | BEDTime: A Unified Benchmark for Automatically Describing Time Series | Sen, Gottesman, Qiu, Bruss, Nguyen, Hartvigsen, 2025 | 🟡 |
+| Data-Driven Fault Detection and Diagnosis in Industrial Process Systems: A Systematic Review and Perspective | Zhao, Yang, Kareck, Khan, Wang, 2025 | 🟡 |
 | Empowering Time Series Analysis with Large Language Models: A Survey | Jiang et al., 2024 | 🔴 |
 | Time-Series Large Language Models: A Systematic Review | Abdullahi et al., 2025 | 🔴 |
 | Large Language Models for Time-Series Reasoning: A TMLR Survey | — | 🔴 |
+| A Review of Fault Diagnosis Methods: From Traditional Machine Learning to Large Language Model Fusion Paradigm | Nie, Geng, Liu, 2026 | 🔴 |
 
 </details>
 
