@@ -19,8 +19,22 @@ Se una cifra del report non si ritrova nell'artefatto, **non scriverla**: segnal
 
 ## Che cosa si aggiorna
 
-La **coppia** `docs/fot_walkthrough_conversazione_studio2.md` ↔ `.html`, nella sezione della fase
-conclusa. Le coppie vanno sempre insieme, nella stessa sessione (MAINTENANCE §3).
+**Due documenti, con ruoli diversi.**
+
+1. La **coppia** `docs/fot_walkthrough_conversazione_studio2.md` ↔ `.html`, nella sezione della
+   fase conclusa. È il documento lungo, ed è qui che si scrive. Le due forme vanno sempre insieme,
+   nella stessa sessione (MAINTENANCE §3).
+2. La **sintesi divulgativa** `docs/fot_walkthrough_studio2.html` — solo HTML, non è una coppia.
+   Va aggiornata **quando c'è qualcosa da sintetizzare**, cioè quando la fase ha prodotto un
+   risultato leggibile da chi non apre il documento lungo. Regole sue:
+   - **rimanda e non duplica**: una riga o due su cosa è stato fatto e il link alla sezione lunga.
+     Non è una fonte, né per il disegno né per i numeri, e lo dichiara;
+   - niente numeri che non siano già nella sezione lunga;
+   - se la fase è interna — harness, congelamenti, preparazione — **non si tocca**: una sintesi
+     divulgativa di un passaggio tecnico è rumore. Dillo invece di riempirla per completezza.
+
+Alla prima fase che la aggiorna, va **rimosso l'avviso «scheletro al 2026-09-12»** che oggi dice
+che non contiene ancora nulla.
 
 Non si aggiorna il piano: il piano è la fonte del **disegno**, il walkthrough racconta l'**esito**.
 Se durante la fase una decisione del piano è cambiata, questo va **segnalato**, non riscritto qui.
@@ -58,7 +72,8 @@ Ogni sezione di fase ha questa struttura, nell'ordine, con eventuali sotto-sezio
 ## Chiusura
 
 1. Parità MD/HTML verificata **sul contenuto**, non sul diff.
-2. Link risolti; `§0.1` aggiornato se un punto aperto si è chiuso.
-3. `python3 docs/test_explanation.py` confrontato con il numero di partenza.
-4. Elenco dei file toccati e **decisione se committare** con il messaggio proposto
+2. Sintesi divulgativa: aggiornata se la fase lo giustificava, o **dichiarato perché no**.
+3. Link risolti; `§0.1` aggiornato se un punto aperto si è chiuso.
+4. `python3 docs/test_explanation.py` confrontato con il numero di partenza.
+5. Elenco dei file toccati e **decisione se committare** con il messaggio proposto
    (`Commit_LLM.md`).
