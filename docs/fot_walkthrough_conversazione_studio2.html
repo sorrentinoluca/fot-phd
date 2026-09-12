@@ -70,7 +70,7 @@ em{color:inherit}
 hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 @media (max-width:960px){.layout{grid-template-columns:1fr;padding:14px}nav.toc{position:static;max-height:none}}
 </style>
-</head></head>
+</head>
 <body>
 <div class="layout">
 <nav class="toc" aria-label="Indice del documento">
@@ -79,7 +79,8 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <li><a href="#sez-0-fonti-autorevoli"><span class="n">0</span>Fonti autorevoli e precedenze</a></li>
 <li><a href="#sez-0-1-punti-aperti"><span class="n">0.1</span>Punti aperti</a></li>
 <li><a href="#sez-1-introduzione"><span class="n">1</span>Introduzione</a></li>
-<li><a href="#sez-fasi"><span class="n">2–12</span>Fasi</a></li>
+<li><a href="#sez-2-ricognizione"><span class="n">2</span>Ricognizione del patrimonio</a></li>
+<li><a href="#sez-fasi-successive"><span class="n">3–12</span>Fasi successive</a></li>
 <li><a href="#sez-13-conferenza"><span class="n">13</span>Conferenza</a></li>
 <li><a href="#sez-14-letteratura"><span class="n">14</span>Letteratura</a></li>
 </ol>
@@ -89,7 +90,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 
 <h1>Studio 2 &mdash; walkthrough</h1>
 
-<div class="warn"><p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>: si lavora su una fase, si documenta qui, si passa alla successiva. Stato al <strong>2026-09-12</strong>: nessuna fase ancora documentata. Finch&eacute; una sezione resta vuota, <strong>la fonte autorevole &egrave; il piano</strong>, non questo file.</p></div>
+<div class="warn"><p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>: si lavora su una fase, si documenta qui, si passa alla successiva. Stato al <strong>2026-09-12</strong>: <strong>fase 01 documentata in §2</strong>; le fasi successive restano a scheletro. Finch&eacute; una sezione resta vuota, <strong>la fonte autorevole &egrave; il piano</strong>, non questo file.</p></div>
 
 <div class="tablewrap"><table>
 <thead><tr><th>Ruolo</th><th>File</th></tr></thead>
@@ -144,7 +145,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p class="kicker"><span class="num">1</span></p><h2>Introduzione</h2>
 <p><em>Scheletro. Ogni voce dice dove sta oggi la fonte; il testo si scrive quando la fase relativa &egrave; conclusa.</em></p>
 <ul>
-<li><strong>Le fasi dello studio 2</strong> &mdash; l'elenco completo &egrave; in <a href="#sez-fasi">§2&ndash;12</a> qui sotto; questa voce ne d&agrave; la lettura in una riga e segnala che l'ordine dentro §6 &egrave; vincolato: preparazione indipendente dal modello, capability pilot come gate, produzione insight, congelamento, esecuzione, analisi.</li>
+<li><strong>Le fasi dello studio 2</strong> &mdash; la fase 01 &egrave; documentata in <a href="#sez-2-ricognizione">§2</a> e le successive sono mappate in <a href="#sez-fasi-successive">§3&ndash;12</a>; l'ordine dentro §6 &egrave; vincolato: preparazione indipendente dal modello, capability pilot come gate, produzione insight, congelamento, esecuzione, analisi.</li>
 <li><strong>Obiettivo e domanda scientifica dello studio 2</strong> &mdash; piano §8</li>
 <li><strong>Che cosa cambia rispetto al primo studio</strong> &mdash; e che cosa viene riusato: da decidere e scrivere qui, &egrave; la voce che manca a tutti gli altri documenti</li>
 <li><strong>Banco di prova: agenti, guasti, pseudolabel</strong> &mdash; piano §8; &#9888; le pseudolabel sono <strong>nove</strong>, non dieci: <code>Unknown</code> &egrave; il nome dell'astensione, non una classe</li>
@@ -157,23 +158,77 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 </ul>
 </section>
 
-<section id="sez-fasi">
-<p class="kicker"><span class="num">2&ndash;12</span></p><h2>Fasi</h2>
-<p>Le fasi non sono un'invenzione di questo documento: vengono da <strong>§6</strong> (attivit&agrave; che si possono iniziare subito, indipendenti dal modello) e <strong>§7</strong> (esecuzione, tutta subordinata alla disponibilit&agrave; di Qwen) del piano sperimentale. Qui sono raggruppate nelle sezioni che occuperanno, cos&igrave; che ogni sessione di lavoro sappia dove scrivere.</p>
+<section id="sez-2-ricognizione">
+<p class="kicker"><span class="num">2</span></p><h2>Preparazione indipendente dal modello &mdash; ricognizione del patrimonio (fase 01)</h2>
+
+<h3>2.1 &middot; Riassunto e sintesi</h3>
+<p>La fase 01 ha chiuso la <strong>ricognizione e il consolidamento del patrimonio sperimentale</strong>: ha censito dati grezzi, derivati, esecuzioni e componenti disponibili; ne ha ricostruito la provenienza; ha distinto ci&ograve; che pu&ograve; essere riusato direttamente, ci&ograve; che richiede un ricalcolo e ci&ograve; che resta soltanto un riferimento descrittivo; ha infine riesaminato il perimetro dei dati, il budget e i percorsi di scrittura. La verifica indipendente ha dato <strong>OK alla chiusura della ricognizione</strong>, dopo un primo NON OK e le integrazioni richieste (<a href="../studio2/fase01/REPORT_FASE01.md">report</a>, <a href="../studio2/fase01/VERIFICA_FASE01.md">verifica</a>).</p>
+<p>L'esito &egrave; una mappa verificata di ci&ograve; che esiste e di ci&ograve; che manca, <strong>non</strong> l'esecuzione dei dodici cantieri di preparazione del piano. Non sono state avviate nuove simulazioni o inferenze LLM, non sono state scelte nuove classi, non sono state calibrate nuove soglie e non &egrave; stato congelato alcun protocollo. Le proposte di riuso R1 e R2 restano proposte: l'OK non le adotta e non trasforma dati gi&agrave; osservati in una conferma indipendente del nuovo studio.</p>
+
+<h3>2.2 &middot; Dettaglio</h3>
+<h4>Inventario e provenienza</h4>
+<p>Il censimento riproducibile trova <strong>108 percorsi XLSX materializzati e 104 contenuti distinti per SHA-256</strong> nelle quattro raccolte <code>code/tep_cache/</code>, <code>tep_cache/</code>, <code>tep_heldout/mode1/</code> e <code>tep_exp3_v2_heldout/mode1/</code>. Il <a href="../phase_b/heldout/phase_b_heldout_manifest.csv">manifest PBH</a> contiene 15 casi; i 17 file held-out restanti sono il suo complemento dentro la stessa raccolta, non un'aggiunta al totale. Uno di essi, F6, termina a 17,1333 ore per un trip fisico documentato: non sono autorizzati padding, troncamento o rigenerazione selettiva (<a href="../tep_heldout_phase_summary.md">nota di generazione</a>, §12).</p>
+<p>N1&ndash;N5 sono cinque blocchi consecutivi di 50 ore estratti dalla stessa traiettoria Normal di 500 ore: rappresentano <strong>250 ore continue, non cinque simulazioni indipendenti</strong>. Il seed dei 17 run aggiuntivi, il <code>Ts_base</code> storico di N1&ndash;N5 e la disponibilit&agrave; remota degli oggetti LFS non sono stati ricostruiti e non vanno inferiti.</p>
+<p>La verifica sui ref Git trova 30 contenuti EXP3_V2 conservati come blob XLSX reali nel tag <code>exp3-v2-heldout-data-frozen-001</code>; gli altri <strong>74 dei 104 contenuti distinti non risultano conservati in Git</strong>. Gli hash ne attestano l'identit&agrave;, non la reperibilit&agrave;. La prima attivit&agrave; operativa successiva deve quindi essere una copia recuperabile verificata dei 74 contenuti, con registrazione di posizione e impronte, prima di ulteriori usi o spostamenti per il nuovo studio (<a href="../studio2/fase01/VERIFICA_FASE01.md">verifica, §5</a>).</p>
+
+<h4>Derivati ed esecuzioni recuperati</h4>
+<p>Le tabelle in <a href="../code/tep_analysis_v2/"><code>code/tep_analysis_v2/</code></a> contengono, al netto delle intestazioni, 820 record di feature per caso, 6.560 per finestra, 820 firme temporali, 2.050 valori Normal per variabile e finestra e 50 massimi Normal. Sono granularit&agrave; diverse e non osservazioni indipendenti da sommare. Gli artefatti di inferenza recuperati comprendono 3.002 record costruiti su <strong>45 casi fisici distinti</strong> &mdash; 15 PBH e 30 EXP3_V2 &mdash; e quindi non documentano 3.002 simulazioni indipendenti. Il dettaglio per gruppo e i relativi ref sono verificati in <a href="../studio2/fase01/VERIFICA_FASE01.md"><code>VERIFICA_FASE01.md</code>, §3</a>.</p>
+
+<h4>Compatibilit&agrave; e classificazione del riuso</h4>
+<p>Il controllo numerico sui Normal mostra che le tabelle archiviate usano una baseline leave-one-block-out, mentre il nuovo score richiede una baseline fissa sui blocchi di sviluppo. Di conseguenza i dati Normal possono essere riusati solo nel ruolo che sar&agrave; autorizzato, ma le feature necessarie al nuovo score devono essere ricalcolate. Le feature dei fault anteriori all'applicazione delle soglie sono riusabili soltanto se coincidono dati, baseline, finestre e formule; firme, testi, esempi e prototipi dipendono invece dalle scelte definitive e devono essere ricostruiti o verificati per identit&agrave;. Le fonti numeriche sono <a href="../code/tep_analysis_v2/normal_5h_variable_features.csv"><code>normal_5h_variable_features.csv</code></a>, <a href="../code/tep_analysis_v2/normal_5h_window_maxima.csv"><code>normal_5h_window_maxima.csv</code></a> e <a href="../code/tep_analysis_v2/threshold_calibration.json"><code>threshold_calibration.json</code></a>.</p>
+<p>Il report recepisce il massimo LOBO corretto, <code>1,41e-12</code>. La verifica precisa che il valore non arrotondato &egrave; <code>1,414e-12</code> per <code>abs_shift_sigma</code> e che 20 valori LOBO su 2.050 superano <code>1e-12</code>. La separazione dalla baseline fissa resta ampia, ma si fonda sulla magnitudine &mdash; ordine <code>1e-12</code> contro ordine <code>1e-2</code> &mdash; non su <code>1e-12</code> come soglia separatrice (<a href="../studio2/fase01/VERIFICA_FASE01.md">verifica, §8.3</a>).</p>
+
+<h4>Perimetro dei dati e budget</h4>
+<p>La fase formula due revisioni distinte, entrambe ancora da decidere:</p>
+<ul>
+<li><strong>R1:</strong> riusare i 20 run di sviluppo F1/F8/F10/F13 al posto della loro rigenerazione;</li>
+<li><strong>R2:</strong> usare N1&ndash;N5 anche come Normal di sviluppo, ruolo ulteriore rispetto alla baseline gi&agrave; prevista dal registro di calibrazione.</li>
+</ul>
+<p>R1 e R2 insieme eviterebbero 25 nuove simulazioni soltanto se superano le rispettive verifiche di compatibilit&agrave;. Il budget delle simulazioni resta parametrico in run recuperabili, nuovi Normal di sviluppo, 6/8 run per classe e diagnostiche ancora da dimensionare. Il budget API corrente del piano &egrave; circa <strong>2.853/3.555 chiamate con margine</strong> per 6/8 run, con tetti di pianificazione 3.000/3.700 (<a href="paper/FoT_TEP_Review_Piano_Sperimentale.md">piano, §8.8</a>). Prima della decisione sul numero di run va corretta la contraddizione con i criteri T5 e O2, che riportano ancora 3.500 per il ramo a otto run; il suo subtotale stimato di circa 3.555 supera quel tetto.</p>
+
+<h4>Perimetro operativo</h4>
+<p>Tutto il nuovo codice, i dati, le configurazioni, i test, i manifest, le esecuzioni e i risultati devono vivere sotto <code>studio2/</code>. Il caratterizzatore esistente <a href="../code/tep_characterize_v2.py"><code>tep_characterize_v2.py</code></a> usa una destinazione relativa predefinita, non espone un parametro per cambiarla e pu&ograve; scrivere nell'area degli artefatti esistenti: <strong>non &egrave; riutilizzabile cos&igrave; com'&egrave;</strong>. L'adattamento dovr&agrave; essere un file nuovo dentro <code>studio2/</code>, con destinazioni esplicite e protezioni contro la sovrascrittura. Prima di qualsiasi riuso va inoltre creato <code>studio2/PROVENIENZA.md</code>, indicando per ogni oggetto origine, commit, impronta, destinazione, modifiche, ruolo e natura pre-specificata o post-hoc dell'analisi; i metadati non recuperabili devono essere dichiarati mancanti.</p>
+
+<h3>2.3 &middot; Connessione alla letteratura</h3>
+<p>La ricognizione non produce un claim bibliografico nuovo. Rafforza per&ograve; tre vincoli gi&agrave; registrati in <a href="letteratura.html"><code>letteratura.md</code></a>:</p>
+<ul>
+<li>le schede sulla predizione conforme (§14.2) richiedono di distinguere validit&agrave; marginale, condizionale ed empirica e di esplicitare IID/scambiabilit&agrave;; la continuit&agrave; di N1&ndash;N5 impedisce di contarli come cinque repliche indipendenti senza ulteriore giustificazione;</li>
+<li>EviFDD-Agent (§14.2) sostiene la separazione fra campi deterministici e narrazione e rende centrale la tracciabilit&agrave; dello schema, ma questa fase non ha ancora dimostrato la conformit&agrave; degli insight del nuovo studio;</li>
+<li>FedSRD (§14.2) rende pertinente la misura di byte e token, ma un budget di chiamate non dimostra efficienza comunicativa. §§14.5&ndash;14.6 delimitano inoltre ogni rivendicazione di novit&agrave;: il contributo difendibile resta nell'intersezione e nel disegno A/B/E, non nel semplice riuso o inventario di componenti noti.</li>
+</ul>
+
+<h3>2.4 &middot; Connessione alle critiche</h3>
+<p>La fase <strong>non chiude alcuna critica scientifica</strong> del piano. Mitiga il rischio operativo di riuso opaco rendendo visibili provenienza, duplicazioni, dipendenze e lacune di conservazione; rende inoltre misurabili i costi prima dell'esecuzione. Restano aperte le critiche sulla scala e sulla pretesa Big Data, sulla degradazione delle classi localmente note, sul parsing e sul reasoning cap, sulla dipendenza dal producer e sull'OOD: per esse la ricognizione prepara i controlli, ma non fornisce risultati.</p>
+
+<h3>2.5 &middot; Artefatti e riproducibilit&agrave;</h3>
+<ul>
+<li>Chiusura: <a href="../studio2/fase01/REPORT_FASE01.md"><code>REPORT_FASE01.md</code></a>, SHA-256 <code>51ca64099e50e37724b87c0aeb6fd7a16081ba39b8b2b1f30c2c9cf8d3e164e3</code>.</li>
+<li>Verifica indipendente: <a href="../studio2/fase01/VERIFICA_FASE01.md"><code>VERIFICA_FASE01.md</code></a>, SHA-256 <code>fbbb163a22d3d8aad7c8bd9bbc7951a1349f4e1f3c2b192b86e62323d7ddee42</code>; verdetto <strong>OK</strong>. Le tre correzioni puntuali richieste dalla verifica sono state recepite nel report.</li>
+<li>Manifest di riferimento: <a href="../phase_b/heldout/phase_b_heldout_manifest.csv"><code>phase_b_heldout_manifest.csv</code></a>, SHA-256 <code>610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3</code>.</li>
+<li>Configurazione di calibrazione recuperata: <a href="../code/tep_analysis_v2/threshold_calibration.json"><code>threshold_calibration.json</code></a>, SHA-256 <code>684ce2a68761d81bf839590292d8e7225e27ab079f4172f70b3dbc38f9649c33</code>.</li>
+<li>Stati esaminati dalla ricognizione e dalla verifica: <code>9289a4cb&hellip;</code>, <code>941c09b&hellip;</code> e <code>9e3d9031&hellip;</code>; stato di redazione del report: <code>9e3d9031013788a583e348fbd7bfc40e14d3c68b</code>. Sono riferimenti di provenienza, non tag di congelamento. Nessun nuovo tag o freeze &egrave; stato creato.</li>
+</ul>
+
+<h3>2.6 &middot; Lavoro che resta</h3>
+<p>Prima delle fasi dipendenti dal modello restano da realizzare la messa in sicurezza dei 74 contenuti, la decisione su R1/R2, <code>Ts_base</code>, burn-in, Philox, score eseguibile e casi degeneri, verifica dei prefissi, scelte ancora aperte del piano e congelamento degli artefatti effettivamente usati. I tre punti di §0.1 restano aperti.</p>
+</section>
+
+<section id="sez-fasi-successive">
+<p class="kicker"><span class="num">3&ndash;12</span></p><h2>Fasi successive</h2>
+<p>Le fasi successive vengono da <strong>§6</strong> (i cantieri di preparazione indipendenti dal modello ancora da eseguire) e <strong>§7</strong> (esecuzione subordinata alla disponibilit&agrave; di Qwen) del piano sperimentale.</p>
 <p><strong>Sintesi per sezione.</strong></p>
 <div class="tablewrap"><table>
 <thead><tr><th>§</th><th>Fase</th><th>Che cos'&egrave;</th><th>Fonte</th><th>Stato</th></tr></thead>
 <tbody>
-<tr><td style="text-align:center">2</td><td><strong>Preparazione indipendente dal modello</strong></td><td>Raggruppamento operativo dei 12 cantieri in §6 (ordine da rispettare)</td><td>piano §6.1&ndash;6.12</td><td>da fare</td></tr>
 <tr><td style="text-align:center">3</td><td><strong>Capability pilot</strong></td><td>Il <em>gatekeeper</em>: il modello risponde, il JSON passa il parser, il budget di ragionamento tiene, la stabilit&agrave; regge</td><td>piano §7.1</td><td>bloccata dall'API</td></tr>
 <tr><td style="text-align:center">4</td><td><strong>Produzione degli insight</strong></td><td>Gli 8&times;2 insight dai dati di sviluppo, pi&ugrave; la libreria completa del producer alternativo per il braccio <em>producer-swap</em></td><td>piano §7.2</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">5</td><td><strong>Congelamento del protocollo</strong></td><td>Solo dopo il pilot, mai prima</td><td>piano §7.3</td><td>dopo il pilot</td></tr>
-<tr><td style="text-align:center">6</td><td><strong>Esecuzione dello studio finale</strong></td><td>Tutte le inferenze A, B-LF, E-LF, pi&ugrave; swap, OOD, ablation e canary &mdash; circa 2.450 chiamate</td><td>piano §7.4</td><td>dopo il congelamento</td></tr>
+<tr><td style="text-align:center">6</td><td><strong>Esecuzione dello studio finale</strong></td><td>Tutte le inferenze A, B-LF, E-LF, pi&ugrave; swap, OOD, ablation e canary &mdash; circa 2.853/3.555 chiamate con margine, per 6/8 run</td><td>piano §7.4 e §8.8</td><td>dopo il congelamento</td></tr>
 <tr><td style="text-align:center">7</td><td><strong>Analisi e redazione</strong></td><td>Solo a esecuzione completata</td><td>piano §7.5</td><td>ultima</td></tr>
 <tr><td style="text-align:center">8&ndash;12</td><td><strong><em>riservate</em></strong></td><td>Spazio per fasi non previste, o per separare l'analisi dalla redazione</td><td>&mdash;</td><td>&mdash;</td></tr>
 </tbody>
 </table></div>
-<p><strong>Dettaglio degli ambiti indicati in §2&ndash;7:</strong></p>
+<p><strong>Dettaglio dei cantieri ancora previsti dal piano §§6&ndash;7:</strong></p>
 <ol>
 <li><strong>§6.1</strong> — Definire i criteri di selezione degli 8 fault</li>
 <li><strong>§6.2</strong> — Generare nuovi run di sviluppo</li>

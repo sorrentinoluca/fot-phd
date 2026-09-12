@@ -1,8 +1,9 @@
 # Studio 2 — walkthrough
 
 > **Documento vivo, a scheletro.** Si aggiorna **fase per fase**: si lavora su una fase, si
-> documenta qui, si passa alla successiva. Stato al **2026-09-12**: nessuna fase ancora
-> documentata. Finché una sezione resta vuota, **la fonte autorevole è il piano**, non questo file.
+> documenta qui, si passa alla successiva. Stato al **2026-09-12**: **fase 01 documentata in §2**;
+> le fasi successive restano a scheletro. Finché una sezione resta vuota, **la fonte autorevole è
+> il piano**, non questo file.
 
 | Ruolo | File |
 | --- | --- |
@@ -70,8 +71,9 @@ compete: nel piano, in un registro di `lit_review/`, o in `MAINTENANCE.md` §1.*
 *Scheletro. Ogni voce dice dove sta oggi la fonte; il testo si scrive quando la fase relativa
 è conclusa.*
 
-- **Le fasi dello studio 2** — l'elenco completo è in [§2–12](#2–12--fasi) qui sotto; questa voce ne dà
-  la lettura in una riga e segnala che l'ordine dentro §6 è vincolato: preparazione
+- **Le fasi dello studio 2** — la fase 01 è documentata in
+  [§2](#2--preparazione-indipendente-dal-modello--ricognizione-del-patrimonio-fase-01) e le
+  successive sono mappate in [§3–12](#312--fasi-successive); l'ordine dentro §6 è vincolato: preparazione
   indipendente dal modello, capability pilot come gate, produzione insight, congelamento, esecuzione, analisi.
 - **Obiettivo e domanda scientifica dello studio 2** — piano §8
 - **Che cosa cambia rispetto al primo studio** — e che cosa viene riusato: da decidere e
@@ -88,26 +90,173 @@ compete: nel piano, in un registro di `lit_review/`, o in `MAINTENANCE.md` §1.*
 
 ---
 
-## 2–12 · Fasi
+## 2 · Preparazione indipendente dal modello — ricognizione del patrimonio (fase 01)
 
-Le fasi non sono un'invenzione di questo documento: vengono da **§6** (attività che si possono
-iniziare subito, indipendenti dal modello) e **§7** (esecuzione, tutta subordinata alla
-disponibilità di Qwen) del piano sperimentale. Qui sono raggruppate nelle sezioni che
-occuperanno, così che ogni sessione di lavoro sappia dove scrivere.
+### 2.1 · Riassunto e sintesi
+
+La fase 01 ha chiuso la **ricognizione e il consolidamento del patrimonio sperimentale**: ha
+censito dati grezzi, derivati, esecuzioni e componenti disponibili; ne ha ricostruito la
+provenienza; ha distinto ciò che può essere riusato direttamente, ciò che richiede un ricalcolo e
+ciò che resta soltanto un riferimento descrittivo; ha infine riesaminato il perimetro dei dati, il
+budget e i percorsi di scrittura. La verifica indipendente ha dato **OK alla chiusura della
+ricognizione**, dopo un primo NON OK e le integrazioni richieste
+([report](../studio2/fase01/REPORT_FASE01.md),
+[verifica](../studio2/fase01/VERIFICA_FASE01.md)).
+
+L'esito è una mappa verificata di ciò che esiste e di ciò che manca, **non** l'esecuzione dei dodici
+cantieri di preparazione del piano. Non sono state avviate nuove simulazioni o inferenze LLM, non
+sono state scelte nuove classi, non sono state calibrate nuove soglie e non è stato congelato alcun
+protocollo. Le proposte di riuso R1 e R2 restano proposte: l'OK non le adotta e non trasforma dati
+già osservati in una conferma indipendente del nuovo studio.
+
+### 2.2 · Dettaglio
+
+#### Inventario e provenienza
+
+Il censimento riproducibile trova **108 percorsi XLSX materializzati e 104 contenuti distinti per
+SHA-256** nelle quattro raccolte `code/tep_cache/`, `tep_cache/`, `tep_heldout/mode1/` e
+`tep_exp3_v2_heldout/mode1/`. Il [manifest PBH](../phase_b/heldout/phase_b_heldout_manifest.csv)
+contiene 15 casi; i 17 file held-out restanti sono il suo complemento dentro la stessa raccolta,
+non un'aggiunta al totale. Uno di essi, F6, termina a 17,1333 ore per un trip fisico documentato:
+non sono autorizzati padding, troncamento o rigenerazione selettiva
+([nota di generazione](../tep_heldout_phase_summary.md), §12).
+
+N1–N5 sono cinque blocchi consecutivi di 50 ore estratti dalla stessa traiettoria Normal di 500
+ore: rappresentano **250 ore continue, non cinque simulazioni indipendenti**. Il seed dei 17 run
+aggiuntivi, il `Ts_base` storico di N1–N5 e la disponibilità remota degli oggetti LFS non sono stati
+ricostruiti e non vanno inferiti.
+
+La verifica sui ref Git trova 30 contenuti EXP3_V2 conservati come blob XLSX reali nel tag
+`exp3-v2-heldout-data-frozen-001`; gli altri **74 dei 104 contenuti distinti non risultano
+conservati in Git**. Gli hash ne attestano l'identità, non la reperibilità. La prima attività
+operativa successiva deve quindi essere una copia recuperabile verificata dei 74 contenuti, con
+registrazione di posizione e impronte, prima di ulteriori usi o spostamenti per il nuovo studio
+([verifica, §5](../studio2/fase01/VERIFICA_FASE01.md)).
+
+#### Derivati ed esecuzioni recuperati
+
+Le tabelle in [`code/tep_analysis_v2/`](../code/tep_analysis_v2/) contengono, al netto delle
+intestazioni, 820 record di feature per caso, 6.560 per finestra, 820 firme temporali, 2.050 valori
+Normal per variabile e finestra e 50 massimi Normal. Sono granularità diverse e non osservazioni
+indipendenti da sommare. Gli artefatti di inferenza recuperati comprendono 3.002 record costruiti
+su **45 casi fisici distinti** — 15 PBH e 30 EXP3_V2 — e quindi non documentano 3.002 simulazioni
+indipendenti. Il dettaglio per gruppo e i relativi ref sono verificati in
+[`VERIFICA_FASE01.md`, §3](../studio2/fase01/VERIFICA_FASE01.md).
+
+#### Compatibilità e classificazione del riuso
+
+Il controllo numerico sui Normal mostra che le tabelle archiviate usano una baseline
+leave-one-block-out, mentre il nuovo score richiede una baseline fissa sui blocchi di sviluppo.
+Di conseguenza i dati Normal possono essere riusati solo nel ruolo che sarà autorizzato, ma le
+feature necessarie al nuovo score devono essere ricalcolate. Le feature dei fault anteriori
+all'applicazione delle soglie sono riusabili soltanto se coincidono dati, baseline, finestre e
+formule; firme, testi, esempi e prototipi dipendono invece dalle scelte definitive e devono essere
+ricostruiti o verificati per identità. Le fonti numeriche sono
+[`normal_5h_variable_features.csv`](../code/tep_analysis_v2/normal_5h_variable_features.csv),
+[`normal_5h_window_maxima.csv`](../code/tep_analysis_v2/normal_5h_window_maxima.csv) e
+[`threshold_calibration.json`](../code/tep_analysis_v2/threshold_calibration.json).
+
+Il report recepisce il massimo LOBO corretto, `1,41e-12`. La verifica precisa che il valore non
+arrotondato è `1,414e-12` per `abs_shift_sigma` e che 20 valori LOBO su 2.050 superano `1e-12`.
+La separazione dalla baseline fissa resta ampia, ma si fonda sulla magnitudine — ordine `1e-12`
+contro ordine `1e-2` — non su `1e-12` come soglia separatrice
+([verifica, §8.3](../studio2/fase01/VERIFICA_FASE01.md)).
+
+#### Perimetro dei dati e budget
+
+La fase formula due revisioni distinte, entrambe ancora da decidere:
+
+- **R1:** riusare i 20 run di sviluppo F1/F8/F10/F13 al posto della loro rigenerazione;
+- **R2:** usare N1–N5 anche come Normal di sviluppo, ruolo ulteriore rispetto alla baseline già
+  prevista dal registro di calibrazione.
+
+R1 e R2 insieme eviterebbero 25 nuove simulazioni soltanto se superano le rispettive verifiche di
+compatibilità. Il budget delle simulazioni resta parametrico in run recuperabili, nuovi Normal di
+sviluppo, 6/8 run per classe e diagnostiche ancora da dimensionare. Il budget API corrente del
+piano è circa **2.853/3.555 chiamate con margine** per 6/8 run, con tetti di pianificazione
+3.000/3.700 ([piano, §8.8](paper/FoT_TEP_Review_Piano_Sperimentale.md)). Prima della decisione sul
+numero di run va corretta la contraddizione con i criteri T5 e O2, che riportano ancora 3.500 per
+il ramo a otto run; il suo subtotale stimato di circa 3.555 supera quel tetto.
+
+#### Perimetro operativo
+
+Tutto il nuovo codice, i dati, le configurazioni, i test, i manifest, le esecuzioni e i risultati
+devono vivere sotto `studio2/`. Il caratterizzatore esistente
+[`tep_characterize_v2.py`](../code/tep_characterize_v2.py) usa una destinazione relativa
+predefinita, non espone un parametro per cambiarla e può scrivere nell'area degli artefatti
+esistenti: **non è riutilizzabile così com'è**. L'adattamento dovrà essere un file nuovo dentro
+`studio2/`, con destinazioni esplicite e protezioni contro la sovrascrittura. Prima di qualsiasi
+riuso va inoltre creato `studio2/PROVENIENZA.md`, indicando per ogni oggetto origine, commit,
+impronta, destinazione, modifiche, ruolo e natura pre-specificata o post-hoc dell'analisi; i
+metadati non recuperabili devono essere dichiarati mancanti.
+
+### 2.3 · Connessione alla letteratura
+
+La ricognizione non produce un claim bibliografico nuovo. Rafforza però tre vincoli già registrati
+in [`letteratura.md`](letteratura.md):
+
+- le schede sulla predizione conforme (§14.2) richiedono di distinguere validità marginale,
+  condizionale ed empirica e di esplicitare IID/scambiabilità; la continuità di N1–N5 impedisce di
+  contarli come cinque repliche indipendenti senza ulteriore giustificazione;
+- EviFDD-Agent (§14.2) sostiene la separazione fra campi deterministici e narrazione e rende
+  centrale la tracciabilità dello schema, ma questa fase non ha ancora dimostrato la conformità
+  degli insight del nuovo studio;
+- FedSRD (§14.2) rende pertinente la misura di byte e token, ma un budget di chiamate non dimostra
+  efficienza comunicativa. §§14.5–14.6 delimitano inoltre ogni rivendicazione di novità: il
+  contributo difendibile resta nell'intersezione e nel disegno A/B/E, non nel semplice riuso o
+  inventario di componenti noti.
+
+### 2.4 · Connessione alle critiche
+
+La fase **non chiude alcuna critica scientifica** del piano. Mitiga il rischio operativo di riuso
+opaco rendendo visibili provenienza, duplicazioni, dipendenze e lacune di conservazione; rende
+inoltre misurabili i costi prima dell'esecuzione. Restano aperte le critiche sulla scala e sulla
+pretesa Big Data, sulla degradazione delle classi localmente note, sul parsing e sul reasoning cap,
+sulla dipendenza dal producer e sull'OOD: per esse la ricognizione prepara i controlli, ma non
+fornisce risultati.
+
+### 2.5 · Artefatti e riproducibilità
+
+- Chiusura: [`REPORT_FASE01.md`](../studio2/fase01/REPORT_FASE01.md), SHA-256
+  `51ca64099e50e37724b87c0aeb6fd7a16081ba39b8b2b1f30c2c9cf8d3e164e3`.
+- Verifica indipendente: [`VERIFICA_FASE01.md`](../studio2/fase01/VERIFICA_FASE01.md), SHA-256
+  `fbbb163a22d3d8aad7c8bd9bbc7951a1349f4e1f3c2b192b86e62323d7ddee42`; verdetto **OK**. Le tre
+  correzioni puntuali richieste dalla verifica sono state recepite nel report.
+- Manifest di riferimento: [`phase_b_heldout_manifest.csv`](../phase_b/heldout/phase_b_heldout_manifest.csv),
+  SHA-256 `610c8a5fa6e763c25a9f9602a7e095c5fe850ed41b22552b0b92cec7edb450a3`.
+- Configurazione di calibrazione recuperata:
+  [`threshold_calibration.json`](../code/tep_analysis_v2/threshold_calibration.json), SHA-256
+  `684ce2a68761d81bf839590292d8e7225e27ab079f4172f70b3dbc38f9649c33`.
+- Stati esaminati dalla ricognizione e dalla verifica: `9289a4cb…`, `941c09b…` e `9e3d9031…`;
+  stato di redazione del report: `9e3d9031013788a583e348fbd7bfc40e14d3c68b`. Sono riferimenti di
+  provenienza, non tag di congelamento. Nessun nuovo tag o freeze è stato creato.
+
+### 2.6 · Lavoro che resta
+
+Prima delle fasi dipendenti dal modello restano da realizzare la messa in sicurezza dei 74
+contenuti, la decisione su R1/R2, `Ts_base`, burn-in, Philox, score eseguibile e casi degeneri,
+verifica dei prefissi, scelte ancora aperte del piano e congelamento degli artefatti effettivamente
+usati. I tre punti di §0.1 restano aperti.
+
+---
+
+## 3–12 · Fasi successive
+
+Le fasi successive vengono da **§6** (i cantieri di preparazione indipendenti dal modello ancora
+da eseguire) e **§7** (esecuzione subordinata alla disponibilità di Qwen) del piano sperimentale.
 
 ### Sintesi per sezione
 
 | § | Fase | Che cos'è | Fonte | Stato |
 | :---: | --- | --- | --- | --- |
-| 2 | **Preparazione indipendente dal modello** | Raggruppamento operativo dei 12 cantieri in §6 (ordine da rispettare) | piano §6.1–6.12 | da fare |
 | 3 | **Capability pilot** | Il *gatekeeper*: il modello risponde, il JSON passa il parser, il budget di ragionamento tiene, la stabilità regge | piano §7.1 | bloccata dall'API |
 | 4 | **Produzione degli insight** | Gli 8×2 insight dai dati di sviluppo, più la libreria completa del producer alternativo per il braccio *producer-swap* | piano §7.2 | dopo il pilot |
 | 5 | **Congelamento del protocollo** | Solo dopo il pilot, mai prima | piano §7.3 | dopo il pilot |
-| 6 | **Esecuzione dello studio finale** | Tutte le inferenze A, B-LF, E-LF, più swap, OOD, ablation e canary — circa 2.450 chiamate | piano §7.4 | dopo il congelamento |
+| 6 | **Esecuzione dello studio finale** | Tutte le inferenze A, B-LF, E-LF, più swap, OOD, ablation e canary — circa 2.853/3.555 chiamate con margine, per 6/8 run | piano §7.4 e §8.8 | dopo il congelamento |
 | 7 | **Analisi e redazione** | Solo a esecuzione completata | piano §7.5 | ultima |
 | 8–12 | *riservate* | Spazio per fasi non previste, o per separare l'analisi dalla redazione | — | — |
 
-Dettaglio degli ambiti indicati in §2–6:
+Dettaglio dei cantieri ancora previsti dal piano §§6–7:
 
 1. **§6.1** — Definire i criteri di selezione degli 8 fault
 2. **§6.2** — Generare nuovi run di sviluppo
