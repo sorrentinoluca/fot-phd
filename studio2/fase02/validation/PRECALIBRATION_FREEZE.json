@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "status": "content_frozen_and_data_archived_pending_independent_reverification_and_commit",
-  "source_head_commit": "63274711a506597ff9690e7a87c7b4b3fac80591",
+  "source_head_commit": "d472dc56c41f2b07563a362b81eed844460bf1c7",
   "selected_burn_in_hours": 20,
   "score_variant": "A",
   "score_threshold": null,
@@ -11,8 +11,8 @@
   "artifact_storage_record": "studio2/fase02/ARTIFACT_STORAGE.json",
   "files": {
     "docs/lit_review/DECISIONE_calibrazione_soglie_fase_B.md": {
-      "sha256": "74bf431266072ab9692c9b97d96fa7291a9e1d07ea40642df435801ed7055188",
-      "bytes": 48182
+      "sha256": "a472d193064615b9a42218844d2cf71bcc7acc06b93cd65f8fa20c1fc0abdfd3",
+      "bytes": 48215
     },
     "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md": {
       "sha256": "d2b52222a0ae0a288d4c60e09e39343c6de959aa05956985cbe7711992c6c6ba",

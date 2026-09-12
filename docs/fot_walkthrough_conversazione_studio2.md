@@ -61,7 +61,7 @@ fault e R2 è autorizzato soltanto come `baseline_fit` condizionata
 | :---: | --- | --- | --- | --- | --- |
 | 1 | **Sigle `C06`, `C07`, `C18`** citate dal piano sperimentale | Vengono dal registro critiche `C01–C18`, che esiste **solo** in `fot_walkthrough_conversazione.md` §33 — la prima esposizione del primo studio, che non è fonte. Finché restano così sono riferimenti appesi a un documento che nessuno deve usare | riportarle per esteso nel piano **oppure** rinumerarle | 2026-09-12 | `docs/paper/FoT_TEP_Review_Piano_Sperimentale.md` §0.1 — **non** il piano BIGDATA2026, che §0 esclude dalle fonti autorevoli |
 | 2 | **Perimetro del codice della Q8** | La terza metrica di §8.5, il cap sulla lunghezza dello schema, l'estensione a 8 agenti e il derangement a 7 pseudolabel richiedono tutti di scrivere dentro `phase_b/`, che [`MAINTENANCE.md`](MAINTENANCE.md) §1 dichiara **congelato**. Nessuna sessione può decidere da sola di scriverci | aprire un perimetro nuovo (`phase_b/q8/`) **oppure** dichiarare quale parte di `phase_b/` è harness riutilizzabile e quale è artefatto — in entrambi i casi è una modifica a §1 | 2026-09-12 | `docs/MAINTENANCE.md` §1 (separato tra harness riutilizzabile e artefatto) |
-| 3 | **Congelamento definitivo della fase 02** | Il freeze corrente è per contenuto e registra ancora l'HEAD precedente agli artefatti non committati; il record di storage è successivo al riesame indipendente | commit esplicito degli artefatti, rigenerazione del freeze sul commit completo e controllo finale delle impronte | 2026-09-12 | `studio2/fase02/validation/PRECALIBRATION_FREEZE.json` e ciclo `Commit_LLM` |
+| 3 | **Congelamento definitivo della fase 02** | Gli artefatti sono committati e il freeze è stato rigenerato sul loro HEAD; il record di storage e il freeze rigenerato sono successivi al riesame indipendente | riverifica indipendente delle impronte del freeze rigenerato prima di ogni tag definitivo | 2026-09-12 | `studio2/fase02/validation/PRECALIBRATION_FREEZE.json` e ciclo `Verifica_LLM` |
 
 *Registrati il 2026-09-12. Quando uno si chiude, va tolto da qui e la decisione va scritta dove
 compete: nel piano, in un registro di `lit_review/`, o in `MAINTENANCE.md` §1.*
@@ -334,9 +334,9 @@ Il [freeze pre-calibrazione](../studio2/fase02/validation/PRECALIBRATION_FREEZE.
 elenca **41 file e cinque manifest eseguiti** per contenuto. Il verificatore aveva controllato la
 versione precedente con 40 file più cinque manifest; il quarantunesimo è il record di storage
 aggiunto in seguito. Lo stato corrente resta correttamente
-`content_frozen_and_data_archived_pending_independent_reverification_and_commit`: serve ancora il
-commit esplicito, la rigenerazione del freeze sull'HEAD completo e il controllo finale delle
-impronte. Nessun tag di congelamento è stato creato.
+`content_frozen_and_data_archived_pending_independent_reverification_and_commit`: gli artefatti
+sono stati committati e il freeze è stato rigenerato sull'HEAD che li contiene; resta il controllo
+indipendente finale delle impronte. Nessun tag di congelamento è stato creato.
 
 ### 3.3 · Connessione alla letteratura
 
@@ -363,12 +363,12 @@ local-seen, dipendenza dal producer e OOD. Non produce ancora alcun effetto diag
 ### 3.5 · Artefatti e riproducibilità
 
 - Chiusura: [`REPORT_FASE02.md`](../studio2/fase02/REPORT_FASE02.md), SHA-256
-  `ba17b3b02084e641a0725cbb75f46ee932a297fad70dcfea4e8ae9ced34d2859`.
+  `fa555197b9421f073d65f9cfb34aa7f06762fc0377ab26bad76ef60da47641d2`.
 - Verifica indipendente: [`VERIFICA_FASE02.md`](../studio2/fase02/VERIFICA_FASE02.md), SHA-256
   `34c8df542c1ee6dc9b3169d4ef53aba9eca726f15a92547bd28065178b903183`; verdetto **OK**, con il
   limite temporale sul trasferimento dati descritto sopra.
 - Freeze corrente: [`PRECALIBRATION_FREEZE.json`](../studio2/fase02/validation/PRECALIBRATION_FREEZE.json),
-  SHA-256 `0cb8c447e3611e5e1e598d355189c2802a15b67cd0c5fce5b1282e214591e8f6`.
+  SHA-256 `be01fe4cccf6e9f3c9d82e8de69e426aa68b80d3e106bac81fa29dfb325bf085`.
 - Storage pubblico: [`ARTIFACT_STORAGE.json`](../studio2/fase02/ARTIFACT_STORAGE.json), SHA-256
   `74eae7b154524ce3fd4667cd68accebbc658c8cf1521e256d50de17282eab4a5`.
 - Codice, piani, manifest e risultati numerici sono sotto [`studio2/fase02/`](../studio2/fase02/);
@@ -378,8 +378,8 @@ local-seen, dipendenza dal producer e OOD. Non produce ancora alcun effetto diag
 
 Restano la selezione e generazione dei nuovi fault, `cal_thr` e `far_ver`, la produzione delle
 feature/evidence e dei prototipi, le decisioni di catalogo, il capability pilot e tutte le
-inferenze LLM. Prima di dichiarare definitivo il congelamento della fase 02 resta inoltre il ciclo
-commit → rigenerazione del freeze → verifica finale delle impronte.
+inferenze LLM. Prima di dichiarare definitivo il congelamento della fase 02 resta la riverifica
+indipendente finale delle impronte del freeze rigenerato.
 
 ---
 
