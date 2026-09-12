@@ -27,3 +27,5 @@ Procedi così:
 
 Al termine riporta: i commit creati, i file inclusi in ciascuno, le verifiche svolte con i loro
 esiti, le modifiche lasciate fuori con il motivo, e le decisioni ancora necessarie.
+
+7. **Fase chiusa e consegna.** Una fase si considera chiusa solo se **report e verifica** della fase sono committati e presenti in `origin/main` (non basta che siano in locale). Quando una fase è pronta, proponi l'integrazione di `main` con **fast-forward o merge** e **eseguila solo su richiesta esplicita**; la fase successiva parte da `origin/main`.
