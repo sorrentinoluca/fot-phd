@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "status": "pre_execution_specification",
+  "ts_base_hours": 0.0005,
+  "output_sampling_interval_hours": 0.016666666666666666,
+  "window_hours": 5,
+  "useful_windows_per_full_run": 10,
+  "rng": {
+    "algorithm": "Philox4x32-10",
+    "key_seed_hex": "0x464f545445503032",
+    "stream_identifier": "run_index_uint64",
+    "draw_counter": "uniform_draw_index_uint64",
+    "msflag_0x20": false
+  },
+  "burn_in_qualification": {
+    "run_count": 10,
+    "run_indices": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "candidate_hours": [10, 20, 30, 40],
+    "reference_interval_hours": [60, 70],
+    "minimum_selected_hours": 20,
+    "median_shift_mad_limit": 0.5,
+    "mad_ratio_interval": [0.5, 2.0],
+    "required_consecutive_candidates": 2,
+    "fallback": "stop_and_extend_qualification"
+  },
+  "validation": {
+    "known_answer_tests": "exact",
+    "deterministic_replay": "byte_exact_uniform_sequence",
+    "legacy_comparison": {
+      "run_count_per_generator": 10,
+      "median_shift_mad_limit": 0.5,
+      "mad_ratio_interval": [0.5, 2.0],
+      "metrics": [
+        "abs_shift_sigma",
+        "abs_slope_sigma_h",
+        "residual_std_ratio",
+        "diff_std_ratio",
+        "S"
+      ]
+    },
+    "prefix_comparison": {
+      "run_count": 10,
+      "positions": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "raw_atol": 1e-10,
+      "raw_rtol": 1e-9,
+      "feature_atol": 1e-10,
+      "feature_rtol": 1e-8,
+      "score_absolute_tolerance": 1e-8,
+      "allowed_failures": 0,
+      "failure_fallback": "full_length_calibration_runs"
+    },
+    "r2_reuse_guard": {
+      "pilot_run_count": 10,
+      "pilot_run_indices": [1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009],
+      "burn_in_hours": 20,
+      "useful_hours": 50,
+      "reference": "N1-N5_contiguous_historical_baseline",
+      "median_shift_mad_limit": 0.5,
+      "mad_ratio_interval": [0.5, 2.0],
+      "metrics": [
+        "abs_shift_sigma",
+        "abs_slope_sigma_h",
+        "residual_std_ratio",
+        "diff_std_ratio",
+        "S"
+      ],
+      "failure_fallback": "baseline_fit_new_100_runs_and_cal_thr_300"
+    }
+  }
+}
