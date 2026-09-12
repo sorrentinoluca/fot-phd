@@ -65,7 +65,7 @@ Questa revisione incorpora le correzioni dell'autore. Sono elencate qui perché 
 | 33 | **D10 risolta nella forma.** `Unknown` è congelato come nome dell'astensione già implementata (`abstain=true`, `predicted_label=null`), non come label letterale. La strada letterale richiederebbe di sostituire l'idioma posizionale `label_space[:-1]` — undici occorrenze, incluse quelle che governano derangement ed E — con categorie semantiche esplicite, e di riscrivere i test perché verifichino la separazione invece di riprodurla. | verifica codice |
 | 34 | **Il trade-off di §8.6 non si applica.** «L'esplorativo non aveva `Unknown`» è falso sugli artefatti: `primary_metrics.csv` mostra 14 astensioni su 36 in A, un tasso misurato separatamente e un'accuratezza che già conta l'astensione come non-corretta. Il confronto descrittivo resta indebolito da scala, modello e contesto, non dallo spazio delle etichette. | `phase_b/final_evaluation/` |
 | 35 | **S11b costa una metrica, non tre.** Due dei tre numeri dell'endpoint esistono già negli artefatti e nell'evaluator; manca solo l'accuratezza sui soli casi non astenuti, assente da entrambi i file di metriche. | verifica artefatti |
-| 36 | **Il carico di simulazione è totalizzato** (§8.8): 105 run con 6 per fault, 123 con 8, per tutti e otto i fault più i 6 OOD. Non consuma chiamate API ma è un secondo percorso critico, indipendente da Qwen e da chiudere prima del congelamento del protocollo. | verifica dati |
+| 36 | **Il carico di simulazione è riconciliato col disegno conformal** (§8.8): 750 run con 6 per fault, 768 con 8, inclusi 150 run di qualifica già completati; il residuo è 600/618. Non consuma chiamate API ma è un secondo percorso critico indipendente da Qwen. | verifica dati |
 | 37 | **Capacità dell'API registrate nel pilot** (§8.7, T10), con la regola che l'assenza di temperatura e seed non è una divergenza osservata e non attiva R=3 da sola. La politica conservativa, se voluta, è una nuova decisione da pre-specificare (§0.1, decisione 11). | `execution_config.json` |
 
 ---
@@ -223,7 +223,7 @@ Un vero esperimento sulla dimensione della federazione richiederebbe stessi agen
 | **C07** | Reasoning cap e parsing | **Mitiga e controlla, se il pilot passa** | Il capability pilot stabilisce i parametri prima del congelamento ed è un gate bloccante, non una previsione. Ma un pilot superato riduce il rischio di parsing e di budget di ragionamento; non garantisce che nessun errore compaia nello studio completo, che gira su un volume due ordini di grandezza maggiore. Per questo il controllo non finisce con il pilot: proseguono il logging di conformità e il set canary (§8.7). |
 | **G6** | Fault fuori catalogo / astensione | **Mitiga parzialmente** | *Aggiornata: la revisione 1 diceva "Non affronta".* Il test OOD (§8.6) su 2 fault fuori catalogo × 3 run × 8 agenti × 3 condizioni misura l'astensione in mondo aperto. Ma sono 6 eventi OOD: è una prima sonda, non una caratterizzazione. G6 resta parzialmente aperta e va dichiarata tale. |
 | **G8** | La condizione A è un pavimento ovvio | **Mitiga indirettamente** | *Riga nuova.* Con `Unknown` disponibile in tutte le condizioni, A non è più uno zero per costruzione: diventa la misura di quanto il modello sa di non sapere in assenza di insight. Il pavimento resta basso, ma smette di essere un artefatto del disegno. |
-| **G9** | Feature e soglie fisse | **Mitiga debolmente** | Ricalibrazione soglie sui nuovi Normal di sviluppo. Ma le stesse 5 feature, nessuna nel dominio della frequenza, nessun adattamento al drift. Miglioramento marginale. |
+| **G9** | Feature e soglie fisse | **Mitiga debolmente** | Score combinato congelato su R2 e soglia ricalibrata su 350 nuovi run Normal, con FAR verificato su altri 150. Ma restano le stesse famiglie di feature, nessuna nel dominio della frequenza e nessun adattamento al drift. Miglioramento marginale. |
 | **G10 / CF3** | Assenza baseline FL reali | **Mitiga** | *Aggiornata: D8 è risolta.* Il piano include una baseline FedAvg minimale sulle stesse feature 697-D, con pavimento locale e soffitto centralizzato (§9). Mitiga, non risolve: una sola famiglia di metodi FL, congelata e non ottimizzata, non copre la letteratura FL. |
 | **CF2 / C18** | Manca evidenza Big Data | **Mitiga debolmente** | 8 agenti è meglio di 4, ma per una conferenza chiamata BigData resta insufficiente. Nessun test su 50+ agenti, streaming, o edge. |
 | **G3** | Federazione solo simulata | **Non affronta; comune nei sei lavori comparabili esaminati** | I nodi restano processi logici sulla stessa macchina. Va dichiarato che P041 (ICML 2025), P030, P031 (ICLR 2025) e P042 simulano allo stesso modo, con 3–5 client su una macchina, e nessuno di essi ha rete, latenze o nodi offline. Questo colloca il limite rispetto ai lavori esaminati; non stabilisce che sia una norma del campo, per la quale servirebbe una rassegna più ampia. Resta un limite del lavoro. |
@@ -262,11 +262,22 @@ Queste attività non richiedono Qwen-2.4T e non rischiano di contaminare il test
 **6.1 — Definire i criteri di selezione degli 8 fault**
 Scrivere i criteri strutturali e **congelare** il documento prima di esaminare qualunque risultato per-fault. I criteri ammessi sono solo due famiglie: (a) copertura dei meccanismi fisici documentati in Downs & Vogel 1993 — step, random variation, slow drift, sticking valve — e identità di variabile perturbata, leggibile dalla loro tabella dei fault; (b) stratificazione per difficoltà **documentata in letteratura**, con le fonti di §12. Non è ammesso alcun criterio basato su separabilità osservata nei propri dati. I 4 fault di continuità sono dichiarati come tali (§2.2).
 
-**6.2 — Generare nuovi run di sviluppo**
-Per ciascuno degli 8 fault e per Normal, generare i batch di sviluppo (equivalenti dei batch 1–5 e N1–N5 dell'esplorativo). Servono per calibrare soglie e produrre insight, non per valutare. **45 simulazioni** (8 × 5 + 5 Normal), per tutti e otto i fault: i quattro di continuità non fanno eccezione, perché i run dell'esplorativo restano risultati dell'esplorativo (§13, domanda 4).
+**6.2 — Generare nuovi run fault di sviluppo**
+Per ciascuno degli 8 fault generare cinque batch di sviluppo. Servono per produrre insight e
+prototipi, non per valutare: **40 simulazioni** (8 × 5). I quattro fault di continuità non fanno
+eccezione. La qualifica R1 della Fase 02 ha respinto l'uso dei venti fault storici come sostituti,
+perché seed, `Ts_base` e configurazione effettivamente eseguita non sono ricostruibili; restano
+consultabili soltanto come materiale storico già osservato. I cinque nuovi Normal prima previsti
+qui sono invece eliminati: il disegno autorevole di calibrazione, riconciliato in §6.3, usa R2 come
+`baseline_fit` e nuovi run disgiunti per soglia e verifica.
 
-**6.3 — Calibrare soglie sui Normal di sviluppo**
-Il verbalizzatore V2 calibra le soglie sui batch Normal di sviluppo. Farlo ora sui nuovi Normal è corretto e necessario.
+**6.3 — Costruire e calibrare lo score Normal secondo il registro autorevole**
+Applicare `docs/lit_review/DECISIONE_calibrazione_soglie_fase_B.md`: N1–N5 sono autorizzati come
+sola `baseline_fit` congelata dopo il superamento della guardia R2; non sono cinque run indipendenti
+e non calibrano la soglia. Lo score A, costruito sulla baseline, viene poi applicato a **350 nuovi
+run `cal_thr`**, una finestra per run, e verificato su **150 nuovi run `far_ver`** mai usati prima.
+I dieci pilot restano esclusi da baseline, calibrazione e verifica. Il fallback già congelato, se
+R2 decade, è 100 `baseline_fit_new`, 300 `cal_thr` e 150 `far_ver`.
 
 **6.4 — Produrre dati strutturati e verbalizzazioni di sviluppo**
 Trasformare i run di sviluppo nelle 697-D evidence e nel testo neutrale. Stabilisce come i nuovi fault appaiono al verbalizzatore.
@@ -561,13 +572,21 @@ Passare a 8 run costa **+590 chiamate, cioè +24%**, e porta i cluster da 48 a 6
 
 | Blocco di simulazione | 6 run | 8 run |
 | --- | ---: | ---: |
-| Sviluppo — 8 fault × 5 + 5 Normal (§6.2) | 45 | 45 |
+| Qualifica generatore e R2 — completata in Fase 02 | 150 | 150 |
+| Sviluppo fault — 8 fault × 5 (§6.2) | 40 | 40 |
+| Calibrazione Normal — `cal_thr` (§6.3) | 350 | 350 |
+| Verifica Normal — `far_ver` (§6.3) | 150 | 150 |
 | Test — 8 fault × *n* + *n* Normal (§6.9) | 54 | 72 |
-| **In catalogo** | **99** | **117** |
 | Fuori catalogo — 2 fault × 3 run (§8.6) | 6 | 6 |
-| **Totale simulazioni** | **105** | **123** |
+| **Totale del protocollo di generazione** | **750** | **768** |
+| **Residuo dopo la Fase 02** | **600** | **618** |
 
-Nessuna di queste consuma chiamate API: consumano **giorni di simulazione** e la disponibilità dell'ambiente MATLAB/Simulink. Al 2026-09-11 le cache del repository coprono soltanto F1, F8, F10, F13 e Normal, quindi la quasi totalità di queste simulazioni è ancora da produrre.
+Nessuna di queste consuma chiamate API: consumano **tempo di simulazione** e disponibilità
+dell'ambiente MATLAB/Simulink. Le 150 simulazioni di qualifica sono una voce di protocollo già
+chiusa, non dati riusabili per calibrazione o test. Il conteggio distingue il budget scientifico
+dalle ripetizioni tecniche eseguite durante l'implementazione e rendicontate nel report di Fase 02.
+R1 non riduce le 40 simulazioni fault; R2 elimina soltanto i cinque Normal del vecchio §6.2 e non
+riduce i 500 nuovi run conformal.
 
 Ne segue una correzione alla lettura del collo di bottiglia data in §7: la data della decisione sul
 modello resta il vincolo per l'**esecuzione**, ma la generazione dei run è un secondo percorso,

@@ -1,28 +1,35 @@
 # Decisione: calibrazione delle soglie in Fase B
 
-**Data**: 2026-09-11 · **Revisione**: 18 (settimo requisito: congelamento verificabile degli artefatti effettivamente utilizzati) · **Stato**: disegno statistico **chiuso e concordato** (C0–C4 approvate, P0 risolto con la Via B, C5 separata e non attivata).
-**Non congelabile operativamente** finché mancano tre prerequisiti bloccanti: (i) durata del burn-in e criterio verificabile per dichiararlo concluso — riguarda il transitorio e l'interpretazione a regime, **non** produce indipendenza fra run; (ii) implementazione e validazione dello schema dei flussi pseudocasuali (scelta teorica compiuta: Philox4×32-10; restano implementazione, compilazione, verifica con vettori noti, misura runtime e validazione contro il legacy); (iii) `Ts_base` fissato, documentato e registrato nel manifest, con lo stesso valore per `cal_thr` e `far_ver`.
+**Data**: 2026-09-12 · **Revisione**: 19 (chiusura operativa della Fase 02 e riconciliazione col piano) · **Stato**: disegno statistico **chiuso e concordato** (C0–C4 approvate, P0 risolto con la Via B, C5 separata e non attivata); prerequisiti operativi verificati, congelamento per contenuto predisposto e in attesa di verifica indipendente e commit.
+
+La Fase 02 ha fissato `Ts_base=0.0005 h`, qualificato 20 h di burn-in, implementato
+Philox4×32-10, superato vettori noti, confronto col legacy e 100/100 confronti dei prefissi. I
+manifest della build definitiva registrano stream, chiave, contatori, impronte e configurazione.
+Il commit di congelamento non viene anticipato alla verifica indipendente: fino a quel commit il
+freeze è identificato da SHA-256 ma resta formalmente candidato.
 
 Flussi separati e procedura identica **sostengono in sede di progetto** l'assunzione IID su cui poggiano la Beta e la binomiale esatta, senza dimostrarla. La ricostruzione del `Ts_base` **storico** di N1–N5 è invece una questione di riproducibilità e confrontabilità, e non è da sola condizione necessaria della garanzia conformal del nuovo esperimento.
-## Requisiti residui al congelamento finale
+## Esito dei sette requisiti per il congelamento finale
 
-*Elenco aggiornato al 2026-09-12. La chiusura della scelta A/A′ non certifica la chiusura di questi punti: nessuno dei sette è oggi riscontrato.*
+1. **Riscontrato:** `Ts_base=0.0005 h`, identico per ogni nuovo insieme e registrato nei manifest.
+2. **Riscontrato:** burn-in selezionato a 20 h con procedura e gate fissati prima dell'esecuzione.
+3. **Riscontrato:** Philox compila senza warning, supera tre vettori noti Random123, replay,
+   misura runtime e confronto a dieci run col legacy su quattro feature più `S`.
+4. **Riscontrato:** il piano autorevole ora usa R2 come sola `baseline_fit`, 350 `cal_thr`, 150
+   `far_ver`; i cinque Normal del vecchio §6.2 sono eliminati. R1 non sostituisce i nuovi fault.
+5. **Riscontrato:** `combined_score.py` rende eseguibili A/A′ e i casi degeneri; su R2 seleziona A
+   con dominanza massima 0,48 e congela anche i 164 riferimenti per sensore.
+6. **Riscontrato sul campione pre-specificato:** 100/100 confronti di prefisso superati con
+   differenza massima 0 per uscite, feature e `S`; zero fallimenti nei controlli di contatore.
+   Questo sostiene la forma economica ma non dimostra equivalenza numerica generale.
 
-**Prerequisiti operativi bloccanti.**
+7. **Predisposto, con ultimo atto deliberatamente pendente:**
+   `studio2/fase02/validation/PRECALIBRATION_FREEZE.json`
+   identifica per contenuto documento di decisione, codice, modello, risultati, variante A,
+   parametri robusti e riferimenti per sensore. La verifica indipendente deve confermare il report;
+   poi il commit completo sostituirà lo stato `pending_independent_verification_and_commit`.
 
-1. `Ts_base` del nuovo esperimento fissato, documentato e registrato nel manifest, con lo stesso valore per `cal_thr` e `far_ver`.
-2. Durata del burn-in e criterio verificabile per dichiararlo concluso.
-3. Implementazione e validazione dello schema dei flussi pseudocasuali: compilazione, verifica con vettori noti, misura runtime, validazione contro il legacy.
-
-**Rilievi della review complessiva ancora da riscontrare.**
-
-4. *Allineamento con il piano autorevole.* Il piano prevede in §§6.2–6.3 cinque nuovi run Normal di sviluppo con ricalibrazione su quelli; questo registro propone il riuso di N1–N5 come `baseline_fit` e 510 nuovi run con allocazione diversa. Va stabilito se i due disegni siano conciliabili e quale documento vada aggiornato.
-5. *Specificazione completa dello score e dei casi degeneri.* La definizione di `S` (varianti A e A′, valori assoluti, offset `c_f`, arresti su `c_f` non definibile e su `MAD_f(u) = 0`) va portata a forma eseguibile e senza ambiguità residue, verificata contro il codice che la realizzerà.
-6. *Equivalenza della forma economica rispetto ai prefissi delle simulazioni complete.* La forma economica assume che un run fermato a `burn-in + 5·J` coincida con il prefisso di un run più lungo con lo stesso flusso. L'argomento dato in revisione 4 riguardava il **processo matematico**, per cui lo stato al tempo `t` non dipende dall'intenzione di proseguire. Con `ode45` la **traiettoria numerica** non eredita automaticamente quella proprietà: il passo è adattivo e l'ultimo passo viene troncato per cadere su `StopTime`, quindi la finestra finale e il conteggio delle estrazioni possono differire fra un run fermato a `T` e un run più lungo che attraversa `T`.
-
-   L'equivalenza va quindi **verificata numericamente** — stesso flusso, `StopTime` diverso, confronto dell'uscita salvata sull'intervallo comune — e non assunta. Due cautele sull'interpretazione, da tenere esplicite: traiettorie numeriche diverse **non dimostrano da sole** distribuzioni diverse degli score; e concordanza su alcuni run **non dimostra** equivalenza generale. Il **criterio di accettazione va fissato prima** del confronto, e deve riguardare non solo le uscite grezze ma anche le quattro feature e lo score finale `S`. Se il criterio non è soddisfatto, si torna alla forma completa: è una scelta progettuale conservativa, non una conseguenza dimostrata.
-
-7. *Congelamento verificabile degli artefatti effettivamente utilizzati.* È un requisito di **riproducibilità e di controllo dell'implementazione di C0**. Non sostituisce nessuno dei sei punti precedenti e **non introduce un nuovo requisito teorico conformal**. A differenza degli altri sei è interamente sotto il controllo del gruppo.
+Il requisito 7 è un requisito di **riproducibilità e di controllo dell'implementazione di C0**. Non sostituisce nessuno dei sei punti precedenti e **non introduce un nuovo requisito teorico conformal**.
 
    **Prima della calibrazione** si identificano: il documento di decisione; il codice che realizza `S`; e **tutti** i parametri necessari a calcolarlo. Gli 8 numeri di A o i 12 di A′ non bastano: vanno inclusi anche i **riferimenti per sensore** usati per costruire le feature, la **variante selezionata** (A oppure A′) e la **configurazione rilevante**.
 
@@ -91,7 +98,7 @@ Motivo: conserva le quattro feature congelate, i dati precedenti e il confronto 
 500 run complessivi più 10 pilota, **non** 500 per la calibrazione. La baseline riusa N1–N5, già disponibile.
 
 | Insieme | Fonte | Numero | Lunghezza per run | Uso |
-|---|---|---|---|---|
+| --- | --- | ---: | --- | --- |
 | `pilot` | nuovi run | **10** | burn-in + 50 h | solo controllo preliminare; **esclusi da tutto il resto** |
 | `baseline_fit` | N1–N5 esistenti | 250 h continue | — | normalizzazione dello score, congelata |
 | `cal_thr` | nuovi run | **350** | burn-in + 5·J, J ~ Unif{1..10} | **una** finestra per run → la soglia |
@@ -104,13 +111,13 @@ La revisione 3 proponeva run di calibrazione corti, con la finestra sempre immed
 La posizione va quindi campionata nella calibrazione **con la stessa distribuzione che ha nella verifica**. Con J = 10 finestre utili per run di verifica, la posizione marginale in verifica è uniforme su {1,…,10}, quindi:
 
 - *Forma diretta*: generare i run di calibrazione a lunghezza piena (burn-in + 50 h) e campionare una finestra uniformemente fra le dieci. È il dispositivo di Kaur et al. 2024 / CODiT.
-- *Forma economica, equivalente in distribuzione*: estrarre J ~ Unif{1,…,10} per ciascun run di calibrazione, simulare burn-in + 5·J ore e prendere l'**ultima** finestra. Lo stato del processo al tempo burn-in + 5·J non dipende dall'intenzione di continuare la simulazione, quindi la coppia (posizione, score) ha la stessa distribuzione congiunta della forma diretta, a lunghezza media burn-in + 27.5 h invece di burn-in + 50 h.
+- *Forma economica, autorizzata dal gate operativo*: estrarre J ~ Unif{1,…,10} per ciascun run di calibrazione, simulare burn-in + 5·J ore e prendere l'**ultima** finestra. Il gate della Fase 02 ha trovato concordanza esatta su 100/100 coppie pre-specificate; ciò sostiene l'uso operativo senza dimostrare equivalenza generale. La lunghezza media è burn-in + 27.5 h invece di burn-in + 50 h.
 
 Con burn-in di 20 h: forma diretta 35.000 h simulate in totale, forma economica 27.125 h, cioè il 22% in meno. Il risparmio della revisione 3 era del 60% ma comprava finestre non scambiabili, quindi non valeva nulla.
 
 ### Verifica del FAR: una metrica primaria e una secondaria
 
-- **Primaria, allineata alla garanzia**: una finestra per run di `far_ver`, a posizione uniforme su {1,…,10}. Dà 150 osservazioni, quindi un intervallo binomiale **esatto sotto run indipendenti e identicamente distribuiti**: non è senza assunzioni, ma le due assunzioni riguardano la procedura di generazione, non i dati. **Semi distinti non bastano**: servono **flussi separati**, uno per run. La scelta è compiuta (Philox4×32-10) e restano implementazione, verifica con vettori noti e validazione contro il legacy. Anche a schema realizzato, flussi separati e procedura identica sostengono l'assunzione IID in sede di progetto senza dimostrarla: resta un requisito di progetto dichiarato, non un fatto acquisito. L'identica distribuzione viene invece dall'usare la stessa procedura per `cal_thr` e `far_ver`. *Precisione attesa prima dell'esperimento*, non un intervallo già determinato: con FAR vero 4.84% il conteggio dei superamenti cadrà fra 3 e 12 con probabilità **0.947**, non 0.90: è l'intervallo centrale nominale al 90% allargato dalla discrezione della binomiale (l'intervallo 4–12 copre **0.9046**), e la semiampiezza dell'intervallo di Clopper–Pearson varierà di conseguenza fra **2.7 e 4.7 pt**. L'esito modale è 7 superamenti (P = 0.152), che darebbe [1.90%, 9.38%] e semiampiezza 3.74 pt: è un esempio atteso, non una previsione.
+- **Primaria, allineata alla garanzia**: una finestra per run di `far_ver`, a posizione uniforme su {1,…,10}. Dà 150 osservazioni, quindi un intervallo binomiale **esatto sotto run indipendenti e identicamente distribuiti**: non è senza assunzioni, ma le due assunzioni riguardano la procedura di generazione, non i dati. **Semi distinti non bastano**: servono **flussi separati**, uno per run. Philox4×32-10 è ora implementato e ha superato vettori noti, replay, confronto col legacy e gate dei prefissi. Flussi separati e procedura identica sostengono l'assunzione IID in sede di progetto senza dimostrarla: resta un requisito di progetto dichiarato, non un fatto acquisito. L'identica distribuzione viene invece dall'usare la stessa procedura per `cal_thr` e `far_ver`. *Precisione attesa prima dell'esperimento*, non un intervallo già determinato: con FAR vero 4.84% il conteggio dei superamenti cadrà fra 3 e 12 con probabilità **0.947**, non 0.90: è l'intervallo centrale nominale al 90% allargato dalla discrezione della binomiale (l'intervallo 4–12 copre **0.9046**), e la semiampiezza dell'intervallo di Clopper–Pearson varierà di conseguenza fra **2.7 e 4.7 pt**. L'esito modale è 7 superamenti (P = 0.152), che darebbe [1.90%, 9.38%] e semiampiezza 3.74 pt: è un esempio atteso, non una previsione.
 - **Secondaria, operativa**: tutte le 1.500 finestre di `far_ver`. Precisazione necessaria: **non** è vero che ogni posizione abbia la stessa distribuzione di una finestra di calibrazione; è la **miscela uniforme delle dieci posizioni** a coincidere con la distribuzione di calibrazione. La media su tutte le finestre stima quindi il FAR della miscela, che è esattamente la quantità coperta dalla garanzia, mentre i FAR per singola posizione possono differire fra loro. La dipendenza intra-run gonfia soltanto l'errore standard, che si ottiene con un bootstrap a livello di run. È il numero che interessa in esercizio, non quello che verifica la garanzia.
 - **Diagnostica da riportare insieme**: il FAR disaggregato per posizione 1,…,10. Un FAR sistematicamente più alto alla posizione 1 **suggerisce** un burn-in insufficiente, ma non lo dimostra da solo: spiegazioni alternative sono un transitorio residuo dal cambio di condizione iniziale, il comportamento delle feature di pendenza al bordo dello stream, o una baseline che non copre il regime di inizio run. Alla diagnostica segue quindi una verifica mirata, allungando il burn-in su un sottoinsieme di run e ricontrollando la posizione 1, non una conclusione immediata. Non costa nulla perché i dati ci sono già.
 
@@ -118,7 +125,7 @@ Con burn-in di 20 h: forma diretta 35.000 h simulate in totale, forma economica 
 
 ### Controllo preliminare sui 10 run pilota: guardia descrittiva, non test
 
-I 10 run pilota sono generati per primi, con la stessa procedura, e **sono esclusi da `cal_thr`, da `far_ver` e dalla baseline**: non rientrano in nessun altro uso, qualunque sia l'esito.
+I 10 run pilota sono stati generati con la stessa procedura e **sono esclusi da `cal_thr`, da `far_ver` e dalla baseline**: non rientrano in nessun altro uso, qualunque sia l'esito.
 
 **Il test binomiale proposto nella revisione 4 non è valido e viene ritirato.** Le 100 finestre pilota provengono da 10 run e sono dipendenti entro run; abbassare il livello dall'5% all'1% non corregge la dipendenza, la nasconde. In più la soglia provvisoria sarebbe ricavata dalle stesse finestre di `baseline_fit` che definiscono la normalizzazione dello score, quindi il tasso di superamento su baseline è ≈ 5% per costruzione e il confronto confonde due cose. Con 10 run indipendenti, una finestra per run, non esiste potenza per testare un tasso del 5%: servirebbero ordini di grandezza in più.
 
@@ -130,13 +137,25 @@ Si presenta perciò come **controllo descrittivo con una regola di decisione bas
 - **Regola di ricostruzione della baseline**: si ricostruisce se `|mediana(S_pilot) − mediana(S_baseline)| > 0.5 · MAD(S_baseline)`, oppure se `MAD(S_pilot) / MAD(S_baseline)` esce dall'intervallo [0.5, 2.0].
 - Nessun p-value è usato come trigger. La regola è una soglia di magnitudine fissata prima di guardare i dati, e il suo unico scopo è evitare di calibrare su una baseline che descrive un regime diverso da quello dei run nuovi.
 
+**Esito della Fase 02.** La guardia è superata. Per `S`, scarto di mediana = 0,389889 MAD di
+N1–N5 e rapporto MAD = 0,956200. La verifica implementata ha applicato in aggiunta, in modo più
+severo, gli stessi limiti alle quattro famiglie per-variabile: tutte passano. R2 è quindi
+autorizzato soltanto come `baseline_fit`; l'ambiguità del `Ts_base` storico e la dipendenza dei
+cinque blocchi restano limiti dichiarati.
+
 *Destino dello split se la baseline va ricostruita,* deciso ora per non scegliere dopo aver visto i dati: si generano **100 run aggiuntivi** per `baseline_fit_new`, **di lunghezza burn-in + 50 h come `far_ver`**, usandone **tutte** le finestre. Tre ragioni per questa lunghezza: la normalizzazione richiede molti valori per-variabile in coda (100 run × 10 finestre × 41 XMEAS = 41.000 valori per feature, contro i 2.050 di N1–N5); le dieci posizioni risultano uniformemente rappresentate, quindi la baseline è bilanciata per posizione come la calibrazione e la verifica; e il burn-in si ammortizza su dieci finestre invece di una. `cal_thr` scende a **300** e `far_ver` resta a 150. Conseguenza sul risultato principale: Beta(15, 286), livello dichiarabile 4.98%, IC90 [3.11%, 7.20%], semiampiezza 2.05 pt invece di 1.87. Totale 560 run invece di 510.
 
 ### Requisiti sulla generazione
 
 - `cal_thr` e `far_ver` devono provenire dalla **stessa procedura di generazione**: stessa distribuzione dello stato iniziale, stessa politica di burn-in, stessa famiglia di semi, con i soli semi a variare. È questo che rende i due insiemi scambiabili fra loro, ed è la condizione su cui poggia tutto.
 - La baseline da N1–N5 non deve essere scambiabile con nulla: per la validità basta che sia **congelata e disgiunta** dai run di calibrazione e verifica. Se i nuovi run differiscono sistematicamente da N1–N5, lo scostamento si applica identico a calibrazione e verifica, quindi una differenza limitata alla baseline storica non invalida la calibrazione su nuovi run omogenei. Può però alterare **sensibilità e confrontabilità**, e la guardia mediana/MAD **non garantisce di intercettarla**, in particolare se cambiano le code o le correlazioni temporali: quella guardia confronta posizione e scala, non forma della coda né struttura temporale.
-- **Ambiguità storica su `Ts_base`, da ricostruire.** Gli artefatti mostrano `0.0005` in una riga **commentata** di `Mode_1_Init.m` e `5/1000` come assegnazione in un altro script di lancio, un fattore 10 di differenza. Questo documenta un'ambiguità fra artefatti; **non** dimostra che N1–N5 siano stati generati con uno dei due valori. Il parametro storico resta da ricostruire, ed è una lacuna di riproducibilità della Fase A indipendente dalla Fase B: le quattro soglie in `verbalizer_config_v2.json` sono state calibrate su N1–N5 a un `Ts_base` non documentato.
+- **Ambiguità storica su `Ts_base`, da ricostruire.** Gli artefatti dello snapshot mostrano
+  `0.0005` in `gen_modes.m` e `5/1000` in `single_batch_autorum.m`, un fattore 10 di differenza.
+  Il `Mode_1_Init.m` della copia pre-setpoint usa anch'esso `0.0005`, ma nessuno di questi file
+  dimostra quale launcher e quale valore abbiano generato N1–N5. Il parametro storico resta da
+  ricostruire, ed è una lacuna di riproducibilità della Fase A indipendente dalla Fase B: le
+  quattro soglie in `verbalizer_config_v2.json` sono state calibrate su N1–N5 a un `Ts_base` non
+  documentato.
 - **Controllo preliminare, prima di calibrare**: confrontare la distribuzione dei quattro score su una decina di nuovi run con quella degli score su N1–N5. Se è spostata in modo marcato, le feature stanno misurando la procedura di generazione e non il processo, e in quel caso la baseline va ricostruita dai nuovi run invece di riusare N1–N5.
 - Burn-in da documentare e da scartare esplicitamente, con il criterio usato per dichiarare raggiunto il regime stazionario.
 - **`Ts_base` fissato, documentato e registrato nel manifest: requisito bloccante.** `Ts_base` è il periodo di campionamento dei controllori PI discreti, quindi governa la dinamica ad anello chiuso e non solo la risoluzione in uscita, anche con `ode45`. `cal_thr` e `far_ver` devono usare **lo stesso** valore: valori diversi farebbero venir meno la giustificazione progettuale della scambiabilità fra i due insiemi, non sarebbero una questione di sola potenza.
