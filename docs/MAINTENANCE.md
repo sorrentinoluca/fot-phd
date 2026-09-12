@@ -37,56 +37,38 @@ ammessa è quella delle coppie in sync (§3), che cambia quasi mai.
 
 **Coppie di file** — vanno modificate nella stessa sessione, mai una sola:
 
-- `docs/fot_walkthrough_conversazione.md` ↔ `docs/fot_walkthrough_conversazione.html`
-- `docs/fot_walkthrough_conversazione_v2.md` ↔ `docs/fot_walkthrough_conversazione_v2.html`
+- `docs/letteratura.md` ↔ `docs/letteratura.html`
+- `docs/fot_walkthrough_conversazione_studio2.md` ↔ `docs/fot_walkthrough_conversazione_studio2.html`
+- `docs/fot_walkthrough_conversazione_v2.md` ↔ `docs/fot_walkthrough_conversazione_v2.html` *(primo studio: record, si tocca solo per correzioni)*
+- `docs/fot_walkthrough_conversazione.md` ↔ `docs/fot_walkthrough_conversazione.html` *(prima generazione del primo studio, chiusa)*
 
-### 3.1 Documenti in transizione — leggere prima di toccare i walkthrough
+### 3.1 Mappa dei documenti e loro ruolo
 
-> Sezione **temporanea**: §3.1 e §3.2 si cancellano a promozione avvenuta.
+> Sostituisce, dal **2026-09-12**, le vecchie §3.1 e §3.2 sulla «transizione fra generazioni».
+> Quella transizione non avverrà: il primo studio **non verrà citato nel paper**, quindi la v2
+> non va promossa a canonico. Resta come record.
 
-I walkthrough esistono in **due generazioni contemporanee**. La regola per distinguerle è
-meccanica: **tracciato da git = canonico, non tracciato = bozza.**
-
-| Documento | Ruolo | git |
+| Documento | Ruolo | Si aggiorna? |
 | --- | --- | --- |
-| `fot_walkthrough_conversazione_v2.md` / `.html` | **riferimento di lavoro** — ogni aggiornamento va qui | non tracciato |
-| `fot_walkthrough_v2.html` | **riferimento di lavoro**, versione divulgativa | non tracciato |
-| `fot_walkthrough_conversazione.md` / `.html` | generazione precedente, **da non aggiornare e da non usare come fonte** | tracciato |
-| `fot_walkthrough.html` | generazione precedente, idem | tracciato |
+| `fot_walkthrough_conversazione_studio2.md` / `.html` | **Studio 2 — documento di lavoro.** Si aggiorna fase per fase | **sì**, è qui che si scrive |
+| `fot_walkthrough_studio2.html` | Sintesi divulgativa dello studio 2 | sì, quando c'è qualcosa da sintetizzare |
+| `letteratura.md` / `.html` | **Corpus bibliografico, luogo unico.** Non appartiene a nessuno studio | **sì**, procedura §6 |
+| `fot_walkthrough_conversazione_v2.md` / `.html` | **Primo studio: record.** Base consultabile per lo studio 2, non fonte del suo disegno | solo correzioni |
+| `fot_walkthrough_v2.html` | Sintesi divulgativa del primo studio | solo correzioni |
+| `fot_walkthrough_conversazione.md` / `.html`, `fot_walkthrough.html` | Prima esposizione del primo studio. Conserva lo **strato operativo** che la v2 ha perso: nomi di campo del testo neutrale (§9), contabilità byte/token (§29), definizioni statistiche (§6, §8) | no |
 
-Le `_v2` sono **il default per il contenuto**: si trattano come se le precedenti non
-esistessero. Restano non tracciate da git finché non avviene la promozione (§3.2), quindi
-la regola «tracciato = canonico» descrive lo stato del repository, non quale documento
-consultare.
+**Il primo studio è consultabile, non citabile.** Le due esposizioni — `conversazione` e
+`conversazione_v2` — descrivono lo **stesso** esperimento: la prima segue la costruzione passo
+passo in 36 sezioni, la seconda la riorganizza in 16 per un lettore. La v2 **non è un
+sovrainsieme**: mancano gli identificatori di caso (`PBH-*`, `EXP3V2-*`, `CLS-*`, `LKP-*`), il
+registro critiche `C01–C18` e lo strato operativo elencato sopra. Chi cerca *come è stato fatto*
+guarda la prima; chi cerca *che cosa è risultato* guarda la seconda; chi progetta lo studio 2 non
+guarda né l'una né l'altra, ma il piano e i registri di decisione.
 
-Conseguenze operative, da rispettare:
+⚠️ **Tre sigle in sospeso.** Il piano cita `C06`, `C07` e `C18`, che vengono dal registro
+`C01–C18` presente solo in `fot_walkthrough_conversazione.md` §33. Vanno riportate per esteso nel
+piano o rinumerate, altrimenti restano riferimenti appesi.
 
-- **Il lavoro nuovo va nelle `_v2`**, sempre.
-- **Non promuovere, rinominare o cancellare** una generazione: la promozione la decide
-  l'autore, non un aggiornamento di routine.
-- **Non allineare le due generazioni fra loro.** Divergono per costruzione: la v2 ha una
-  sezione «14 · Letteratura» — unico luogo della letteratura — che la v1 non ha, e ha abbandonato l'impaginazione a `Step N / M`
-  per le sezioni §0–§15. Non è un disallineamento da correggere.
-- **Non usare la v1 come fonte** per verificare un fatto: la fonte sono gli artefatti
-  congelati (§3), mai l'altra generazione.
-
-### 3.2 Checklist di promozione v2 → canonico
-
-Da eseguire quando l'autore decide che la v2 è pronta, **non prima**:
-
-1. ripristinare nella v2 i contenuti che la v1 aveva e la v2 ha perso — verificati al
-   2026-09-11: la stringa `C1–C4: 4/4 PASS` (presente in v1, assente in v2);
-2. decidere, una per una, le asserzioni che `docs/test_explanation.py` pretende e che
-   nessuna delle due generazioni soddisfa: il caveat `non un risultato empiricamente
-   misurato` sulla Condizione C, la cifra `0.944444`, l'hash di provenienza `d9bb95c`.
-   Per ciascuna: ripristinare nel documento **oppure** togliere l'asserzione, con motivo;
-3. promuovere rinominando, così che i percorsi canonici non cambino e nulla vada aggiornato
-   altrove;
-4. solo dopo, riportare `docs/test_explanation.py` sull'architettura a sezioni: eliminare i
-   test che verificano l'impaginazione a step (morta) e conservare quelli che verificano la
-   verità rispetto agli artefatti;
-5. rieseguire il test e annotare il nuovo numero di partenza al punto 4 di §5;
-6. **cancellare §3.1 e §3.2 di questo file**: esaurita la transizione, sono peso morto.
 
 **Contenuti che vivono in più documenti.** Non sono coppie, sono *insiemi*: una modifica
 di contenuto va propagata a tutti i membri, che hanno forma diversa e non sono
@@ -94,18 +76,27 @@ allineabili meccanicamente.
 
 | Contenuto | Dove vive |
 | --- | --- |
-| **Letteratura — luogo unico** | `fot_walkthrough_conversazione_v2.md` §14 ↔ `fot_walkthrough_conversazione_v2.html` §14 (coppia, da allineare) |
+| **Letteratura — luogo unico** | `docs/letteratura.md` ↔ `docs/letteratura.html` (coppia, da allineare) |
 
-> Nessun altro file contiene letteratura. `fot_walkthrough_v2.html` **rimanda** alla §14
-> e non va riempito di nuovo; `docs/lit_review/` conserva le analisi di supporto che
-> alimentano la §14, non un corpus parallelo; `docs/archive/lit_review_2026-09/` è
-> un'istantanea chiusa. Se un lavoro nuovo va aggiunto, si aggiunge in §14 e basta.
+> **Spostata il 2026-09-12.** Il corpus stava nella §14 di `fot_walkthrough_conversazione_v2`;
+> ora vive in `docs/letteratura.md` e nella sua replica. La numerazione interna è rimasta
+> **14.1–14.7** apposta: decine di riferimenti nel repository citano «§14.1», «§14.2», «§14.5».
+>
+> Nessun altro file contiene letteratura. I tre walkthrough — primo studio, studio 2 e le
+> sintesi divulgative — **rimandano** e non vanno riempiti di nuovo; `docs/lit_review/`
+> conserva le analisi di supporto che alimentano il corpus, non un corpus parallelo;
+> `docs/archive/lit_review_2026-09/` è un'istantanea chiusa. Se un lavoro nuovo va aggiunto,
+> si aggiunge in `letteratura.md` e basta — procedura in §6, prompt pronto in
+> `docs/prompts/Letteratura_LLM.md`.
+>
+> **La letteratura non appartiene a nessuno studio.** Vale per il primo, per lo studio 2 e per
+> quelli successivi: è la ragione per cui non sta più dentro un walkthrough.
 
-**Le categorie di §14.1 sono definite nel walkthrough, non qui.** Aprirne una nuova non cambia
+**Le categorie di §14.1 sono definite in `letteratura.md`, non qui.** Aprirne una nuova non cambia
 le categorie di §1 né le coppie in sync: cambia il contenuto di un documento che è già in sync.
 Quello che questo file impone è che le due forme portino **lo stesso insieme di categorie, nello
 stesso ordine, con gli stessi conteggi**, verificato sul contenuto e non a occhio (§5). L'elenco
-aggiornato sta in §14.1, non qui: duplicarlo significherebbe farlo marcire. Ultima apertura:
+aggiornato sta in §14.1 di `letteratura.md`, non qui: duplicarlo significherebbe farlo marcire. Ultima apertura:
 2026-09-11, due categorie — «Diagnosi e monitoraggio di processo centralizzati su TEP» e
 «Rilevamento di anomalie e soglie statistiche» — per i lavori che condividono il banco di prova
 senza toccare nessuno dei quattro assi.
@@ -168,12 +159,12 @@ se ne accorge; senza il terzo la letteratura si sdoppia.
    non corrispondono a quelli dei cataloghi — capita più spesso di quanto sembri.
 2. **`papers/README.md`** — una riga per paper, solo con ciò che `ls` non dice:
    titolo esteso, autori, venue, DOI, disambiguazioni fra omonimi.
-3. **§14.1 del walkthrough**, in `.md` e `.html` — aggiungi alla categoria giusta
+3. **§14.1 di `docs/letteratura.md`**, e la stessa riga nella replica `.html` — aggiungi alla categoria giusta
    con autori, anno e colore di vicinanza (🟢 incide sul disegno o delimita un
    claim · 🟡 condivide un asse · 🔴 sfondo). Motiva ogni colore in una riga,
    mantieni i due formati allineati e l'ordinamento per vicinanza dentro la
    categoria.
-4. **Se è 🟢** — scheda estesa in §14.2 nel formato delle altre: descrizione, poi
+4. **Se è 🟢** — scheda estesa in §14.2 di `letteratura.md` nel formato delle altre: descrizione, poi
    *Somiglianza / Differenza / Implicazione*. Poi verifica se tocca §14.4
    (perimetro), §14.5 (lavori più vicini), §14.6 (tenuta della novità) o §14.7
    (priorità bibliografica).
@@ -191,7 +182,9 @@ il testo non è ricercabile con `grep`, il lavoro non si legge fuori dal PDF e l
 di catalogarlo è il catalogo. Controllalo esplicitamente a ogni ingresso — un `.pdf` senza
 `.md` non si nota scorrendo l'elenco dei `.md`.
 
-**Prompt minimo da usare:** «Ho aggiunto nuovi paper in `papers/`. Applica la
+**Prompt pronto:** `docs/prompts/Letteratura_LLM.md`, che contiene anche i controlli che questa
+procedura non copre (riconciliazione `papers/` ↔ §14.1, criteri di colore, formato scheda).
+In alternativa, il minimo indispensabile: «Ho aggiunto nuovi paper in `papers/`. Applica la
 procedura §6 di `docs/MAINTENANCE.md` e dimmi cosa hai cambiato.»
 
 Se i paper nuovi sono molti, la verifica dei metadati si delega bene a un

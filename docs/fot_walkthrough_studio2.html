@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Sintesi introduttiva dello studio 2 FoT-TEP. Non e' una fonte bibliografica ne' di disegno.">
+<title>Studio 2 — sintesi</title>
+<style>
+:root{--paper:#f4f6f7;--ink:#1a2733;--muted:#55677a;--line:#d3dbe1;--navy:#123b56;--blue:#1f638c;--teal:#0a7a6e;--teal-soft:#e9f5f2;--amber:#8a5a13;--amber-soft:#fff6e2;--white:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;background:var(--paper);color:var(--ink);font:16.5px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--blue);text-underline-offset:3px}
+a:hover{color:var(--teal)}
+.xref{font-weight:650;text-decoration:none;border-bottom:1px dotted currentColor}
+a:focus-visible,summary:focus-visible{outline:3px solid #f1a52b;outline-offset:3px}
+.skip{position:fixed;left:-9999px;top:10px;z-index:100;background:#fff;padding:.7rem 1rem;border-radius:7px}
+.skip:focus{left:12px}
+.layout{max-width:1500px;margin:auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:26px;padding:22px 24px 60px}
+nav.toc{position:sticky;top:18px;align-self:start;max-height:calc(100vh - 40px);overflow:auto;padding:16px 14px 20px;background:var(--white);border:1px solid var(--line);border-radius:12px}
+nav.toc h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:2px 0 10px}
+nav.toc ol{list-style:none;margin:0;padding:0}
+nav.toc li{margin:2px 0}
+nav.toc a{display:flex;gap:9px;padding:6px 8px;border-radius:7px;color:#2d4a5c;text-decoration:none;font-size:13.5px;line-height:1.35}
+nav.toc a:hover{background:#eef4f7}
+nav.toc .n{flex:0 0 20px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:700}
+main{min-width:0;max-width:1120px;margin:0 auto}
+header.hero{padding:clamp(26px,4.5vw,52px);background:linear-gradient(125deg,#123b56,#0a6e64);color:#fff;border-radius:16px}
+header.hero h1{font-size:clamp(27px,4vw,44px);line-height:1.12;margin:0 0 14px}
+header.hero .lede em,header.hero .lede p{color:#e4eff1}
+header.hero .lede p{margin:8px 0;max-width:80ch}
+section{scroll-margin-top:18px;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:clamp(20px,3.4vw,38px);margin:20px 0}
+.kicker{margin:0;color:var(--teal);font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+.kicker .num{display:inline-block;padding:2px 9px;border:1px solid #a8ccc6;border-radius:999px;background:var(--teal-soft)}
+h2{font-size:clamp(23px,2.7vw,31px);line-height:1.2;margin:9px 0 18px;color:var(--navy)}
+h3{font-size:19px;margin:26px 0 9px;color:#234b60}
+h4{font-size:16px;margin:20px 0 6px;color:#2c5468}
+p{margin:11px 0;max-width:86ch}
+ul,ol{padding-left:24px;max-width:86ch}
+li{margin:5px 0}
+code{font-size:.9em;background:#edf2f5;padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+pre{margin:13px 0;background:#102d3d;color:#edf7f8;padding:16px;border-radius:9px;overflow:auto;font-size:13.5px}
+pre code{background:none;color:inherit;padding:0}
+.scroll{overflow-x:auto;margin:15px 0;border:1px solid var(--line);border-radius:8px;background:var(--white)}
+table{width:100%;border-collapse:collapse;font-size:14.2px}
+th,td{padding:8px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#eef3f6;color:var(--navy);font-weight:750;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+blockquote{margin:15px 0;padding:14px 18px;border-left:5px solid var(--amber);background:var(--amber-soft);border-radius:0 8px 8px 0;max-width:86ch}
+details.litcat{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--white)}
+details.litcat>summary{cursor:pointer;padding:11px 14px;border-radius:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;list-style:none}
+details.litcat>summary::-webkit-details-marker{display:none}
+details.litcat>summary::before{content:"\25B8";color:var(--teal);font-weight:700;flex:0 0 auto}
+details.litcat[open]>summary::before{content:"\2715"}
+details.litcat>summary:hover{background:#eef4f7}
+details.litcat[open]>summary{border-bottom:1px solid var(--line);border-radius:10px 10px 0 0;background:#f7fafb}
+.lc-name{font-weight:750;color:var(--navy)}
+.lc-meta{color:var(--muted);font-size:13.5px;font-variant-numeric:tabular-nums}
+details.litcat .scroll{margin:0;border:none;border-radius:0}
+details.litcat .lc-body{padding:4px 16px 2px}
+details.litcat .lc-body h4{margin:16px 0 2px;color:#234b60}
+details.litcat .lc-body h4:first-child{margin-top:6px}
+.lc-au{margin:0 0 8px;color:var(--muted);font-size:14px}
+.lc-close{margin:0;padding:9px 14px 13px;text-align:right}
+.lc-close button{font:inherit;font-size:13.5px;color:var(--muted);background:none;border:1px solid var(--line);border-radius:7px;padding:5px 11px;cursor:pointer}
+.lc-close button:hover{color:var(--navy);border-color:var(--blue);background:#eef4f7}
+blockquote p{margin:7px 0}
+blockquote .scroll{background:#fffdf7}
+em{color:inherit}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+@media (max-width:960px){.layout{grid-template-columns:1fr;padding:14px}nav.toc{position:static;max-height:none}}
+</style>
+</head></head>
+<body>
+<div class="layout" style="grid-template-columns:minmax(0,1fr);max-width:900px">
+<main id="contenuto">
+<h1>Studio 2 &mdash; sintesi</h1>
+
+<div class="warn"><p><strong>Scheletro al 2026-09-12.</strong> Questa pagina sar&agrave; la sintesi divulgativa dello studio 2: un'introduzione rapida al metodo, per chi non legge il documento lungo. Oggi non contiene ancora nulla, perch&eacute; nessuna fase &egrave; stata documentata.</p></div>
+
+<p>Questa pagina <strong>rimanda e non duplica</strong>. Non &egrave; una fonte: n&eacute; per il disegno, n&eacute; per la bibliografia, n&eacute; per i risultati.</p>
+
+<div class="tablewrap"><table>
+<thead><tr><th>Cerchi</th><th>Vai a</th></tr></thead>
+<tbody>
+<tr><td>Il disegno dello studio 2</td><td><code>paper/FoT_TEP_Review_Piano_Sperimentale.md</code> §§8&ndash;11, §13 &mdash; e §0.1 per ci&ograve; che non &egrave; ancora congelato</td></tr>
+<tr><td>Il documento lungo dello studio 2</td><td><a href="fot_walkthrough_conversazione_studio2.html">fot_walkthrough_conversazione_studio2.html</a></td></tr>
+<tr><td>La letteratura</td><td><a href="letteratura.html">letteratura.html</a> &mdash; luogo unico, vale per tutti gli studi</td></tr>
+<tr><td>Il primo studio</td><td><a href="fot_walkthrough_conversazione_v2.html">fot_walkthrough_conversazione_v2.html</a> &mdash; record, non fonte per questo disegno</td></tr>
+<tr><td>Le regole del repository</td><td><code>MAINTENANCE.md</code></td></tr>
+</tbody>
+</table></div>
+
+<p style="color:var(--muted);font-size:14.5px">Si riempie quando la prima fase dello studio 2 &egrave; conclusa e documentata nel documento lungo. Fino ad allora resta intenzionalmente vuota: una sintesi di cose non ancora fatte sarebbe una promessa, non una documentazione.</p>
+
+</main>
+</div>
+</body>
+</html>

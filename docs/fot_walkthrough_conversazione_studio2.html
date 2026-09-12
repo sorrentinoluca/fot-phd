@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Walkthrough dello studio 2 FoT-TEP: documento vivo, aggiornato fase per fase.">
+<title>Studio 2 — walkthrough</title>
+<style>
+:root{--paper:#f4f6f7;--ink:#1a2733;--muted:#55677a;--line:#d3dbe1;--navy:#123b56;--blue:#1f638c;--teal:#0a7a6e;--teal-soft:#e9f5f2;--amber:#8a5a13;--amber-soft:#fff6e2;--white:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+body{margin:0;background:var(--paper);color:var(--ink);font:16.5px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--blue);text-underline-offset:3px}
+a:hover{color:var(--teal)}
+.xref{font-weight:650;text-decoration:none;border-bottom:1px dotted currentColor}
+a:focus-visible,summary:focus-visible{outline:3px solid #f1a52b;outline-offset:3px}
+.skip{position:fixed;left:-9999px;top:10px;z-index:100;background:#fff;padding:.7rem 1rem;border-radius:7px}
+.skip:focus{left:12px}
+.layout{max-width:1500px;margin:auto;display:grid;grid-template-columns:290px minmax(0,1fr);gap:26px;padding:22px 24px 60px}
+nav.toc{position:sticky;top:18px;align-self:start;max-height:calc(100vh - 40px);overflow:auto;padding:16px 14px 20px;background:var(--white);border:1px solid var(--line);border-radius:12px}
+nav.toc h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:2px 0 10px}
+nav.toc ol{list-style:none;margin:0;padding:0}
+nav.toc li{margin:2px 0}
+nav.toc a{display:flex;gap:9px;padding:6px 8px;border-radius:7px;color:#2d4a5c;text-decoration:none;font-size:13.5px;line-height:1.35}
+nav.toc a:hover{background:#eef4f7}
+nav.toc .n{flex:0 0 20px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:700}
+main{min-width:0;max-width:1120px;margin:0 auto}
+header.hero{padding:clamp(26px,4.5vw,52px);background:linear-gradient(125deg,#123b56,#0a6e64);color:#fff;border-radius:16px}
+header.hero h1{font-size:clamp(27px,4vw,44px);line-height:1.12;margin:0 0 14px}
+header.hero .lede em,header.hero .lede p{color:#e4eff1}
+header.hero .lede p{margin:8px 0;max-width:80ch}
+section{scroll-margin-top:18px;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:clamp(20px,3.4vw,38px);margin:20px 0}
+.kicker{margin:0;color:var(--teal);font-size:12px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+.kicker .num{display:inline-block;padding:2px 9px;border:1px solid #a8ccc6;border-radius:999px;background:var(--teal-soft)}
+h2{font-size:clamp(23px,2.7vw,31px);line-height:1.2;margin:9px 0 18px;color:var(--navy)}
+h3{font-size:19px;margin:26px 0 9px;color:#234b60}
+h4{font-size:16px;margin:20px 0 6px;color:#2c5468}
+p{margin:11px 0;max-width:86ch}
+ul,ol{padding-left:24px;max-width:86ch}
+li{margin:5px 0}
+code{font-size:.9em;background:#edf2f5;padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+pre{margin:13px 0;background:#102d3d;color:#edf7f8;padding:16px;border-radius:9px;overflow:auto;font-size:13.5px}
+pre code{background:none;color:inherit;padding:0}
+.scroll{overflow-x:auto;margin:15px 0;border:1px solid var(--line);border-radius:8px;background:var(--white)}
+table{width:100%;border-collapse:collapse;font-size:14.2px}
+th,td{padding:8px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#eef3f6;color:var(--navy);font-weight:750;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+blockquote{margin:15px 0;padding:14px 18px;border-left:5px solid var(--amber);background:var(--amber-soft);border-radius:0 8px 8px 0;max-width:86ch}
+details.litcat{border:1px solid var(--line);border-radius:10px;margin:10px 0;background:var(--white)}
+details.litcat>summary{cursor:pointer;padding:11px 14px;border-radius:10px;display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;list-style:none}
+details.litcat>summary::-webkit-details-marker{display:none}
+details.litcat>summary::before{content:"\25B8";color:var(--teal);font-weight:700;flex:0 0 auto}
+details.litcat[open]>summary::before{content:"\2715"}
+details.litcat>summary:hover{background:#eef4f7}
+details.litcat[open]>summary{border-bottom:1px solid var(--line);border-radius:10px 10px 0 0;background:#f7fafb}
+.lc-name{font-weight:750;color:var(--navy)}
+.lc-meta{color:var(--muted);font-size:13.5px;font-variant-numeric:tabular-nums}
+details.litcat .scroll{margin:0;border:none;border-radius:0}
+details.litcat .lc-body{padding:4px 16px 2px}
+details.litcat .lc-body h4{margin:16px 0 2px;color:#234b60}
+details.litcat .lc-body h4:first-child{margin-top:6px}
+.lc-au{margin:0 0 8px;color:var(--muted);font-size:14px}
+.lc-close{margin:0;padding:9px 14px 13px;text-align:right}
+.lc-close button{font:inherit;font-size:13.5px;color:var(--muted);background:none;border:1px solid var(--line);border-radius:7px;padding:5px 11px;cursor:pointer}
+.lc-close button:hover{color:var(--navy);border-color:var(--blue);background:#eef4f7}
+blockquote p{margin:7px 0}
+blockquote .scroll{background:#fffdf7}
+em{color:inherit}
+hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+@media (max-width:960px){.layout{grid-template-columns:1fr;padding:14px}nav.toc{position:static;max-height:none}}
+</style>
+</head></head>
+<body>
+<div class="layout">
+<nav class="toc" aria-label="Indice del documento">
+<h2>Studio 2</h2>
+<ol>
+<li><a href="#sez-0-fonti-autorevoli"><span class="n">0</span>Fonti autorevoli e precedenze</a></li>
+<li><a href="#sez-1-introduzione"><span class="n">1</span>Introduzione</a></li>
+<li><a href="#sez-fasi"><span class="n">2–12</span>Fasi</a></li>
+<li><a href="#sez-13-conferenza"><span class="n">13</span>Conferenza</a></li>
+<li><a href="#sez-14-letteratura"><span class="n">14</span>Letteratura</a></li>
+</ol>
+<p style="margin-top:14px;font-size:13px;line-height:1.45"><a href="letteratura.html">Letteratura &rarr;</a><br><a href="fot_walkthrough_conversazione_v2.html">Primo studio &rarr;</a></p>
+</nav>
+<main id="contenuto">
+
+<h1>Studio 2 &mdash; walkthrough</h1>
+
+<div class="warn"><p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>: si lavora su una fase, si documenta qui, si passa alla successiva. Stato al <strong>2026-09-12</strong>: nessuna fase ancora documentata. Finch&eacute; una sezione resta vuota, <strong>la fonte autorevole &egrave; il piano</strong>, non questo file.</p></div>
+
+<div class="tablewrap"><table>
+<thead><tr><th>Ruolo</th><th>File</th></tr></thead>
+<tbody>
+<tr><td>Documento lungo</td><td><code>fot_walkthrough_conversazione_studio2.md</code></td></tr>
+<tr><td>Replica web (questa), da tenere allineata</td><td><code>fot_walkthrough_conversazione_studio2.html</code></td></tr>
+<tr><td>Sintesi divulgativa</td><td><code>fot_walkthrough_studio2.html</code> &mdash; rimanda, non duplica</td></tr>
+<tr><td>Letteratura</td><td><a href="letteratura.html"><code>letteratura.html</code></a> &mdash; luogo unico, non si copia qui</td></tr>
+<tr><td>Primo studio</td><td><code>fot_walkthrough_conversazione_v2.html</code> &mdash; <strong>record</strong>, non fonte per questo disegno</td></tr>
+</tbody>
+</table></div>
+
+<p><strong>Perch&eacute; la numerazione salta da 1 a 13.</strong> Le sezioni §2&ndash;§12 sono riservate alle fasi, che si aggiungeranno man mano. §13 e §14 stanno dove stavano nel primo studio, cos&igrave; i riferimenti «§13» e «§14» conservano lo stesso significato in entrambi gli studi.</p>
+
+<section id="sez-0-fonti-autorevoli">
+<p class="kicker"><span class="num">0</span></p><h2>Fonti autorevoli e precedenze</h2>
+<p>Da rispettare finch&eacute; questo documento non descrive una fase di persona.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Ambito</th><th>Fonte</th><th>Nota</th></tr></thead>
+<tbody>
+<tr><td>Disegno generale</td><td><code>paper/FoT_TEP_Review_Piano_Sperimentale.md</code> §§8&ndash;11, §13</td><td>la revisione corrente &egrave; la 6</td></tr>
+<tr><td>Decisioni non ancora congelate</td><td>idem, §0.1</td><td>prima cosa da guardare</td></tr>
+<tr><td>Calibrazione delle soglie</td><td><code>lit_review/DECISIONE_calibrazione_soglie_fase_B.md</code> (rev. 18)</td><td><strong>prevale sul piano</strong>: il piano dichiara di non riformularne la decisione. Sette requisiti residui, tre bloccanti</td></tr>
+<tr><td>Scelta dei descrittori</td><td><code>lit_review/criteri_scelta_descrittori.md</code> §5.1</td><td>&#9888; <strong>non</strong> la §5.5, superata dal piano</td></tr>
+<tr><td>Feature e pre-impegno su E5</td><td><code>lit_review/DECISIONE_SCELTA_FEATURE_fase_A.md</code></td><td>registro di decisione; il disegno resta autorevole nel piano</td></tr>
+<tr><td>Ablazione dei descrittori</td><td><code>../analysis/feature_ablation/FEATURE_ABLATION.md</code></td><td></td></tr>
+<tr><td>Vincoli su cosa &egrave; congelato</td><td><code>MAINTENANCE.md</code> §1 e §2</td><td></td></tr>
+<tr><td>Letteratura</td><td><a href="letteratura.html"><code>letteratura.html</code></a></td><td></td></tr>
+</tbody>
+</table></div>
+<p><strong>Da non usare come fonte:</strong> <code>paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md</code> &mdash; &egrave; il piano originale che la review critica, non lo stato corrente; i risultati e la narrazione del primo studio; <code>archive/lit_review_2026-09/</code>.</p>
+</section>
+
+<section id="sez-1-introduzione">
+<p class="kicker"><span class="num">1</span></p><h2>Introduzione</h2>
+<p><em>Scheletro. Ogni voce dice dove sta oggi la fonte; il testo si scrive quando la fase relativa &egrave; conclusa.</em></p>
+<ul>
+<li><strong>Obiettivo e domanda scientifica dello studio 2</strong> &mdash; piano §8</li>
+<li><strong>Che cosa cambia rispetto al primo studio</strong> &mdash; e che cosa viene riusato: da decidere e scrivere qui, &egrave; la voce che manca a tutti gli altri documenti</li>
+<li><strong>Banco di prova: agenti, guasti, pseudolabel</strong> &mdash; piano §8; &#9888; le pseudolabel sono <strong>nove</strong>, non dieci: <code>Unknown</code> &egrave; il nome dell'astensione, non una classe</li>
+<li><strong>Condizioni e bracci</strong> &mdash; piano §8, incluso il braccio <em>producer-swap</em></li>
+<li><strong>Popolazione, endpoint e contrasti</strong> &mdash; piano §8.5</li>
+<li><strong>Protocollo di valutazione e criteri di successo</strong> &mdash; piano §8.5, §11 (GO/NO-GO)</li>
+<li><strong>Baseline</strong> &mdash; piano §9</li>
+<li><strong>Che cosa non &egrave; ancora congelato</strong> &mdash; piano §0.1, pi&ugrave; i sette requisiti residui di <code>lit_review/DECISIONE_calibrazione_soglie_fase_B.md</code></li>
+<li><strong>Limiti dichiarati in partenza</strong> &mdash; piano §5 (tabella delle critiche) e §12</li>
+</ul>
+</section>
+
+<section id="sez-fasi">
+<p class="kicker"><span class="num">2&ndash;12</span></p><h2>Fasi</h2>
+<p><em>Riservate. Una sezione per fase, aggiunta a fase conclusa.</em></p>
+</section>
+
+<section id="sez-13-conferenza">
+<p class="kicker"><span class="num">13</span></p><h2>Conferenza</h2>
+<p><em>Work in progress.</em> Sede, scadenze, formato e vincoli editoriali. Finch&eacute; &egrave; vuota, il riferimento &egrave; il piano e <code>paper/FoT_TEP_paper_blueprint.html</code>.</p>
+</section>
+
+<section id="sez-14-letteratura">
+<p class="kicker"><span class="num">14</span></p><h2>Letteratura</h2>
+<p>Il corpus bibliografico <strong>non vive qui</strong>: sta in <a href="letteratura.html"><code>letteratura.html</code></a> (sorgente <a href="letteratura.md"><code>letteratura.md</code></a>), che &egrave; il <strong>luogo unico</strong> stabilito da <code>MAINTENANCE.md</code> §3. Vale per entrambi gli studi, e per questo non appartiene a nessuno dei due walkthrough.</p>
+<p>La numerazione interna &egrave; invariata: §14.1 corpus completo (117 lavori), §14.2 schede estese, §14.3 riferimenti metodologici, §14.4 perimetro consultato, §14.5 i lavori pi&ugrave; vicini, §14.6 tenuta della novit&agrave;, §14.7 priorit&agrave; bibliografica.</p>
+<p>Quando lo studio 2 avr&agrave; implicazioni bibliografiche proprie, si aggiornano <strong>§14.5 e §14.6 in <code>letteratura.md</code></strong>, non questa sezione.</p>
+</section>
+
+</main>
+</div>
+</body>
+</html>

@@ -312,7 +312,7 @@ fot-phd/
 │   ├── fot_walkthrough_conversazione.md    # Markdown source of the guide
 │   ├── lit_review/                     # experiment plan, literature review, related work
 │   │   ├── FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md
-│   │   └── (la letteratura vive in docs/fot_walkthrough_conversazione_v2.md §14)
+│   │   └── (la letteratura vive in docs/letteratura.md — luogo unico)
 │   ├── audits/                        # pre-freeze and post-freeze audit reports
 │   ├── prompts/                       # operational AI prompts
 │   └── figures/                       # walkthrough and paper figures

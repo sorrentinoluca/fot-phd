@@ -44,7 +44,7 @@ richiede, rispondi e **segnala il limite del confronto**.
 
 ## Contraddizioni: segnalale, non appianarle
 
-Piano e walkthrough possono divergere, e in punti noti divergono per ragioni
+Piano, registri di decisione e walkthrough possono divergere, e in punti noti divergono per ragioni
 storiche. Quando succede **dillo**, indicando le due formulazioni e quale fonte
 prevale secondo le precedenze. Non mediare, non scegliere in silenzio: la
 contraddizione è essa stessa un'informazione utile.
@@ -54,11 +54,15 @@ contraddizione è essa stessa un'informazione utile.
 - Nel piano, **`Unknown` non è una classe**: è la forma dell'astensione e sta
   fuori dallo spazio delle etichette, che ha 9 pseudolabel opache. Chiarito nella
   revisione 5; testo più vecchio può suggerire il contrario.
-- In §14.1 il colore indica la vicinanza a **questo** esperimento, non la qualità
-  del lavoro: 🟢 incide sul disegno o delimita un claim, 🟡 condivide un asse,
+- In §14.1 di `docs/letteratura.md` il colore indica la vicinanza **all'esperimento per cui
+  è stato assegnato**, non la qualità del lavoro: 🟢 incide sul disegno o delimita un claim, 🟡 condivide un asse,
   🔴 è sfondo.
-- I file `_v2` sono il riferimento; le versioni senza suffisso sono superate e non
-  vanno usate come fonte.
+- **Due studi, non due versioni.** `_studio2` è lo studio in corso ed è oggi uno
+  **scheletro**: per il disegno vale il piano, non quel file. `_v2` e la versione senza
+  suffisso sono due esposizioni del **primo** studio, che non verrà citato nel paper nuovo:
+  si consultano come record, non si usano come fonte per lo studio 2.
+- La letteratura non sta in nessun walkthrough: vive in `docs/letteratura.md`, vale per
+  entrambi gli studi, e la numerazione §14.x è rimasta invariata dopo lo spostamento.
 
 ## Come chiudere
 

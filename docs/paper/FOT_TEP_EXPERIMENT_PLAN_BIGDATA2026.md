@@ -1,7 +1,7 @@
 # Piano sperimentale pre-submission — FoT–TEP per IEEE BigData 2026 (Rev. 5)
 ## Supervisor / Area-Chair review: pacchetto di esperimenti pre-specificati per massimizzare l'accettazione
 
-**Companion di** `docs/fot_walkthrough_conversazione_v2.md` §14, unico luogo attivo della letteratura. La review che accompagnava questo piano è archiviata in `docs/archive/lit_review_2026-09/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`.
+**Companion di** `docs/letteratura.md`, unico luogo attivo della letteratura. La review che accompagnava questo piano è archiviata in `docs/archive/lit_review_2026-09/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`.
 
 ### Changelog — Rev. 5 (ablazione dei descrittori di Fase A, 2026-09-12)
 

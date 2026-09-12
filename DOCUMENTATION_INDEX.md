@@ -9,7 +9,10 @@ changes only when the structure changes.
 | Document | What it is for |
 |---|---|
 | [`README.md`](README.md) | Project orientation: objective, main result, status, repository map |
-| [`docs/fot_walkthrough_conversazione_v2.md`](docs/fot_walkthrough_conversazione_v2.md) | **The walkthrough.** Reference generation; §14 is the project's single active home for literature |
+| [`docs/fot_walkthrough_conversazione_studio2.md`](docs/fot_walkthrough_conversazione_studio2.md) | **Study 2 walkthrough.** Living document, updated phase by phase. A skeleton as of 2026-09-12: while a section is empty the authoritative source is the experiment plan |
+| [`docs/letteratura.md`](docs/letteratura.md) | **The literature corpus.** Single active home, shared by every study. Numbering §14.1–§14.7 kept from its former place |
+| [`docs/paper/FoT_TEP_Review_Piano_Sperimentale.md`](docs/paper/FoT_TEP_Review_Piano_Sperimentale.md) | **Study 2 design.** §§8–11 and §13; §0.1 lists what is not frozen yet |
+| [`docs/fot_walkthrough_conversazione_v2.md`](docs/fot_walkthrough_conversazione_v2.md) | **First study: record.** Consultable, not cited in the new paper and not a source for study 2's design |
 | [`AUDIT_GUIDE.md`](AUDIT_GUIDE.md) | Independent verification path for every frozen result |
 | [`docs/MAINTENANCE.md`](docs/MAINTENANCE.md) | Maintenance contract: content categories, what is frozen, what must stay in sync |
 
@@ -17,9 +20,9 @@ changes only when the structure changes.
 
 | Folder | Holds | Rule |
 |---|---|---|
-| [`docs/`](docs) | Walkthrough documents | Two generations coexist; tracked by git = canonical, untracked = draft. See `docs/MAINTENANCE.md` §3.1 |
+| [`docs/`](docs) | Walkthrough documents and the literature corpus | Two studies, not two versions: `_studio2` is live, `_v2` and the unsuffixed pair are the first study's record. See `docs/MAINTENANCE.md` §3.1 |
 | [`docs/paper/`](docs/paper) | Material for the future paper: blueprint and experiment plan | Not process documentation |
-| [`docs/lit_review/`](docs/lit_review) | Supporting analyses that feed §14 of the walkthrough | Not a parallel corpus: the literature lives in §14 and nowhere else |
+| [`docs/lit_review/`](docs/lit_review) | Supporting analyses and decision records for study 2 | Not a parallel corpus: the literature lives in `docs/letteratura.md` and nowhere else |
 | [`docs/archive/`](docs/archive) | Closed snapshots of superseded documents | Read-only; each carries a header saying what migrated where |
 | [`docs/audits/`](docs/audits) | Audits produced during the FoT-TEP process | Not audits of imported work |
 | [`docs/figures/`](docs/figures) | Figures and their manifest | |

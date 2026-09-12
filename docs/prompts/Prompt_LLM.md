@@ -20,8 +20,8 @@ Ho aggiunto nuovi paper in `papers/`. Applica la procedura §6 di `docs/MAINTENA
 
 ------------------
 Decisione.  File da citare
-«Questa scelta di disegno è difendibile?»  walkthrough v2 §14.2 (le schede estese)
-«È davvero nuovo? Cosa posso rivendicare?» `docs/lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md` + walkthrough v2 §14.5 e §14.6
+«Questa scelta di disegno è difendibile?»  `docs/letteratura.md` §14.2 (le schede estese)
+«È davvero nuovo? Cosa posso rivendicare?» `docs/lit_review/FOT_TEP_GAP_ANALYSIS_AND_RELATED_WORK.md` + `docs/letteratura.md` §14.5 e §14.6
 «Come lo scrivo nel paper?» docs/paper/FoT_TEP_paper_blueprint.html §2 e la tabella riferimenti
 «Questo lavoro è verificato? Che venue ha?» papers/archive/fed_fsl_2026-07/audit/Audit_Nuovi_Prior_Art_Fed_FSL.md — l'unico con verifica sul testo integrale
 «Quali esperimenti mancano?» docs/paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md
@@ -29,7 +29,7 @@ Decisione.  File da citare
 PROMPT VERIFICA LETTERATURA
 ----------------
 
-Per le implicazioni della letteratura leggi §14.2, §14.5 e §14.6 di `docs/fot_walkthrough_conversazione_v2.md`. Consulta §14.1 solo per verificare se un lavoro specifico è già nel corpus, filtrando sui 🟢.
+Per le implicazioni della letteratura leggi §14.2, §14.5 e §14.6 di `docs/letteratura.md`. Consulta §14.1 solo per verificare se un lavoro specifico è già nel corpus, filtrando sui 🟢.
 
 Per i vincoli leggi `docs/MAINTENANCE.md` §2 (cosa è congelato e non si tocca) e §12 di `docs/fot_walkthrough_conversazione_v2.md` (cosa l'esperimento stabilisce e cosa no).
 
@@ -42,7 +42,7 @@ Prima di modificare qualsiasi cosa in questo repository leggi docs/MAINTENANCE.m
 Per comprendere l’esperimento già eseguito, consulta docs/fot_walkthrough_conversazione_v2.md. Usa docs/fot_walkthrough_v2.html soltanto come sintesi introduttiva. Non leggere la replica HTML del documento lungo.
 In parallelo esegui una verifica su tutta la letteratura presente nel repo.
 
-Per le implicazioni della letteratura leggi §14.2, §14.5 e §14.6 di `docs/fot_walkthrough_conversazione_v2.md`. Consulta §14.1 solo per verificare se un lavoro specifico è già nel corpus, filtrando sui 🟢.
+Per le implicazioni della letteratura leggi §14.2, §14.5 e §14.6 di `docs/letteratura.md`. Consulta §14.1 solo per verificare se un lavoro specifico è già nel corpus, filtrando sui 🟢.
 
 Per i vincoli leggi `docs/MAINTENANCE.md` §2 (cosa è congelato e non si tocca) e §12 di `docs/fot_walkthrough_conversazione_v2.md` (cosa l'esperimento stabilisce e cosa no).
 
@@ -53,7 +53,7 @@ In caso di conflitto:
 - per la nuova fase prevale la review del piano;
 - per risultati e fatti dell'esperimento precedente prevalgono il walkthrough lungo e gli artefatti originali;
 - per l'implementazione prevalgono codice, manifest e dati, che devono essere verificati direttamente;
-- **per la letteratura prevale §14 di `docs/fot_walkthrough_conversazione_v2.md`, che ne è il luogo unico.**
+- **per la letteratura prevale `docs/letteratura.md`, che ne è il luogo unico.**
 
 Prima di proporre modifiche, restituisci un riepilogo breve composto da: disegno corrente, decisioni già congelate, decisioni ancora aperte, attività escluse e principali rischi. Non modificare file.
 
@@ -84,30 +84,39 @@ blueprint del paper, che esiste solo in HTML.
 |---|---|---|
 | Orientamento, dove sta cosa | `DOCUMENTATION_INDEX.md` | ~0,9k |
 | Cosa posso/non posso modificare | `docs/MAINTENANCE.md` §1 e §2 | ~1k |
-| Come funziona l'esperimento | walkthrough §0–§7 | ~9k |
-| Risultati e numeri | walkthrough §7–§10 | ~7k |
-| **Limiti: cosa NON è dimostrato** | walkthrough §12 | ~1,5k |
-| Letteratura: cosa posso rivendicare | walkthrough §14.2 + §14.5 + §14.6 | ~6,3k |
-| Esiste già un lavoro su X? | walkthrough §14.1, filtrando sui 🟢 | ~4,5k |
-| Verificare un numero sugli artefatti | `AUDIT_GUIDE.md` §5–§13 | ~8,5k |
-| Nuova fase / piano sperimentale | `docs/paper/FoT_TEP_Review_Piano_Sperimentale.md` §8–§11, §13 | ~32k |
+| **Studio 2 — disegno** | `docs/paper/FoT_TEP_Review_Piano_Sperimentale.md` §8–§11, §13 · e §0.1 per ciò che non è congelato | ~32k |
+| Studio 2 — calibrazione soglie | `docs/lit_review/DECISIONE_calibrazione_soglie_fase_B.md` (rev. 18) — **prevale sul piano** | ~9k |
+| Studio 2 — descrittori e feature | `docs/lit_review/criteri_scelta_descrittori.md` §5.1 (⚠️ non la §5.5) · `DECISIONE_SCELTA_FEATURE_fase_A.md` | ~7k |
+| Studio 2 — stato del documento | `docs/fot_walkthrough_conversazione_studio2.md` §0 | ~1k |
+| Letteratura: cosa posso rivendicare | `docs/letteratura.md` §14.2 + §14.5 + §14.6 | ~6,5k |
+| Esiste già un lavoro su X? | `docs/letteratura.md` §14.1, filtrando sui 🟢 | ~4,6k |
+| Aggiungere paper al corpus | `Letteratura_LLM.md` in questa cartella | ~1,5k |
 | Come scrivere il paper | `docs/paper/FoT_TEP_paper_blueprint.html` | ~21k |
-| Aggiungere paper al corpus | `docs/MAINTENANCE.md` §6 | ~1k |
+| Verificare un numero sugli artefatti | `AUDIT_GUIDE.md` §5–§13 | ~8,5k |
+| Primo studio: come funzionava | walkthrough primo studio §0–§7 | ~9k |
+| Primo studio: risultati e numeri | walkthrough primo studio §7–§10 | ~7k |
+| Primo studio: **cosa NON è dimostrato** | walkthrough primo studio §12 | ~1,5k |
+| Primo studio: com'è stato costruito | `docs/fot_walkthrough_conversazione.md` §6, §8, §9, §29 — schema del testo neutrale, contabilità byte/token, definizioni statistiche | ~6k |
 
-Il walkthrough è `docs/fot_walkthrough_conversazione_v2.md` (~35k intero: non aprirlo tutto).
+**Quale walkthrough.** Lo studio 2 è `docs/fot_walkthrough_conversazione_studio2.md`: oggi è uno
+**scheletro**, quindi per il disegno vale il piano, non lui. Il primo studio è
+`docs/fot_walkthrough_conversazione_v2.md` (~20k dopo l'uscita della letteratura): è un **record**,
+non si cita nel paper nuovo e non è fonte per il disegno dello studio 2.
 
 > **Per rispondere a domande** invece che per modificare, leggi anche `Questions_LLM.md`
 > in questa stessa cartella: aggiunge le poche regole specifiche e non ripete queste.
 
 ## Come leggere in modo economico
 
-- **§14.1** classifica 107 lavori con 🟢 incide sul disegno · 🟡 condivide un asse ·
+- **§14.1 di `docs/letteratura.md`** classifica 117 lavori con 🟢 incide sul disegno · 🟡 condivide un asse ·
   🔴 sfondo. Filtra sul colore: per una decisione servono i 🟢, non l'elenco.
 - **Un paper**: il nome del file è il titolo; per autori/anno/venue interroga un
   catalogo (OpenAlex, Crossref, arXiv), non il file. Per classificarlo bastano i
   primi ~2.500 caratteri. Testo integrale solo se è 🟢 **e** il compito lo esige.
 - **Un numero specifico**: cerca mirato nei report sotto `phase_b/`, `icl/`,
   `ablation/` invece di leggere il walkthrough.
+- **La letteratura non sta più nei walkthrough**: dal 2026-09-12 vive in `docs/letteratura.md`
+  (replica `letteratura.html`), luogo unico per tutti gli studi. La numerazione §14.x è invariata.
 - Dichiara sempre, in fondo, **cosa hai letto** e quanto è costato all'incirca.
 
 ## In caso di conflitto fra documenti
@@ -116,7 +125,7 @@ Il walkthrough è `docs/fot_walkthrough_conversazione_v2.md` (~35k intero: non a
 2. risultati e fatti dell'esperimento concluso  prevalgono il walkthrough e gli
    artefatti congelati;
 3. implementazione  prevalgono codice, manifest e dati, da verificare;
-4. letteratura  prevale §14 del walkthrough, che ne è il luogo unico.
+4. letteratura  prevale `docs/letteratura.md`, che ne è il luogo unico.
 
 ## Regole che non si violano
 
