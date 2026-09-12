@@ -1086,9 +1086,9 @@ La tabella è divisa per categoria: apri quella che ti serve, richiudila con la 
 | 🟡 | **Adiacente** | Condivide un asse — dominio, regime non-IID o payload — ma non cambia le nostre scelte: citazione di contesto |
 | 🔴 | **Distante** | Sfondo del campo: serve a mostrare il perimetro consultato, non richiede discussione |
 
-Complessivamente: **107 lavori**, di cui 28 🟢, 43 🟡, 36 🔴.
+Complessivamente: **117 lavori**, di cui 34 🟢, 47 🟡, 36 🔴.
 
-Autori e anno provengono da fonti già verificate nel repository: l'audit di prior art, la gap analysis e la scansione del related work. Un trattino **—** significa che il dato **non è stato verificato su fonte ufficiale**: è 1 lavoro su 97, e va confermato prima di usarli in bibliografia.
+Autori e anno provengono da fonti già verificate nel repository: l'audit di prior art, la gap analysis e la scansione del related work. Un trattino **—** significa che il dato **non è stato verificato su fonte ufficiale**: è 1 lavoro su 117, e va confermato prima di usarli in bibliografia.
 
 <details>
 <summary><strong>Federazione testuale</strong> · 14 lavori · 🟢 7 · 🟡 5 · 🔴 2</summary>
@@ -1182,12 +1182,13 @@ Autori e anno provengono da fonti già verificate nel repository: l'audit di pri
 </details>
 
 <details>
-<summary><strong>LLM per fault diagnosis</strong> · 9 lavori · 🟢 2 · 🟡 5 · 🔴 2</summary>
+<summary><strong>LLM per fault diagnosis</strong> · 10 lavori · 🟢 3 · 🟡 5 · 🔴 2</summary>
 
 | Lavoro | Autori, anno | Vicinanza |
 | --- | --- | :---: |
 | Evidence-Traceable LLM Reporting for Industrial Process Fault Detection and Diagnosis (EviFDD-Agent) | Chen, Peng, Zhang, Zhu, Hu, Zhai et al., 2026 | 🟢 |
 | Exploring LLM-based Agentic Frameworks for Fault Diagnosis | Lee, Vidyaratne, Farahat, Gupta, 2025 | 🟢 |
+| FaultExplainer: Leveraging Large Language Models for Interpretable Fault Detection and Diagnosis | Khan, Nahar, Chen, Constante-Flores, Li, 2025 | 🟢 |
 | FD-LLM: Large Language Model for Fault Diagnosis of Machines | Qaid et al., 2024 | 🟡 |
 | FD-LLM: Large Language Model for Fault Diagnosis of Complex Equipment | Lin et al., 2025 | 🟡 |
 | LLM-TSFD: Industrial Time-Series Human-in-the-Loop Fault Diagnosis | Zhang, Xu, Li, Sun, Bao, Zhang, 2024 | 🟡 |
@@ -1199,22 +1200,30 @@ Autori e anno provengono da fonti già verificate nel repository: l'audit di pri
 </details>
 
 <details>
-<summary><strong>Calibrazione e predizione conforme</strong> · 10 lavori · 🟢 1 · 🟡 6 · 🔴 3</summary>
+<summary><strong>Calibrazione e predizione conforme</strong> · 18 lavori · 🟢 6 · 🟡 9 · 🔴 3</summary>
 
 | Lavoro | Autori, anno | Vicinanza |
 | --- | --- | :---: |
 | Class-Conditional Conformal Prediction for Reliable Open-Set Fault Diagnosis in Safety-Critical Industrial Systems | Heddoub et al., 2026 | 🟢 |
+| Testing for Outliers with Conformal p-values | Bates, Candès, Lei, Romano, Sesia, 2023 | 🟢 |
+| Conditional validity of inductive conformal predictors | Vovk, 2012 / 2013 | 🟢 |
+| Conformal Prediction via Transported Beta Laws | Ramos, Graziadei, Cabezas, 2026 | 🟢 |
+| Universal distribution of the empirical coverage in split conformal prediction | Marques F., 2025 | 🟢 |
+| Training-conditional coverage for distribution-free predictive inference | Bian & Barber, 2023 | 🟢 |
 | Uncertainty-Aware Fault Diagnosis with Conformal Prediction | Heddoub, Diallo, Homri, Dantan, Siadat, 2025 | 🟡 |
 | RBC-AD: conformal anomaly detection with explicit false-alarm control for the Tennessee Eastman Process | Mudasir, Asiri, Ameer, Al Reshan, Almansour, Awan, Shaikh, 2026 | 🟡 |
 | Reducing false alarms in fault detection: a comparative analysis between conformal prediction and classical methods applied to PCA and autoencoders | Diallo, Homri, Dantan, 2025 | 🟡 |
 | Quantifying and mitigating alarm fatigue caused by fault detection systems | Diallo, Homri, Boeuf, Dantan, Bonnet, 2026 | 🟡 |
 | Conformal machine learning for reliable anomaly detection in industrial cyber-physical systems | Yuan, Li, Wang, Zhang, 2026 | 🟡 |
 | Adaptive Conformal Anomaly Detection with Time Series Foundation Models for Signal Monitoring | Martinez Gil, O'Donncha, Gifford, Zhou, Patel, Vaculin, 2026 | 🟡 |
+| Semi-supervised concept drift detection and adaptation based on conformal martingale framework | Zhang, Zhou, Zhang, Lu, Chai, 2025 | 🟡 |
+| Conformal Anomaly Detection for Predictive Maintenance in Thermal Power Plants | Kundačina, Vincan, Gojić, Ninković, Mišković, 2025 | 🟡 |
+| The Tight Constant in the Dvoretzky–Kiefer–Wolfowitz Inequality | Massart, 1990 | 🟡 |
 | CODiT: Conformal Out-of-Distribution Detection in Time-Series Data for Cyber-Physical Systems | Kaur, Sridhar, Park, Yang, Jha, Roy, Sokolsky, Lee, 2023 | 🔴 |
 | Out-of-distribution Detection in Dependent Data for Cyber-physical Systems with Conformal Guarantees (estensione di CODiT) | Kaur, Yang, Sokolsky, Lee, 2024 | 🔴 |
 | Between Resolution Collapse and Variance Inflation: Weighted Conformal Anomaly Detection in Low-Data Regimes | Hennhöfer & Preisach, 2026 | 🔴 |
 
-Le cinque voci 🟡 aggiunte nel 2026-09 calibrano o controllano esplicitamente l'errore **su TEP o su processi industriali**: è il terreno che questo studio non presidia, perché [§6.3](#sez-6-protocollo-di-valutazione) conta l'astensione come errore e [§12.2](#sez-12-che-cosa-il-framework-mostra-e-che-cosa) dichiara non verificato il funzionamento in mondo aperto. Le tre 🔴 riguardano domini ciberfisici estranei al processo chimico o sono puramente metodologiche. Nessuna vieta un'affermazione di questo documento.
+Le sette voci 🟡 aggiunte nel 2026-09 calibrano o controllano esplicitamente l'errore **su TEP o su processi industriali**: è il terreno che questo studio non presidia, perché [§6.3](#sez-6-protocollo-di-valutazione) conta l'astensione come errore e [§12.2](#sez-12-che-cosa-il-framework-mostra-e-che-cosa) dichiara non verificato il funzionamento in mondo aperto. Le tre 🔴 riguardano domini ciberfisici estranei al processo chimico o sono puramente metodologiche. Nessuna vieta un'affermazione di questo documento. Le tre entrate del 2026-09-12 non sono applicative ma **fondazionali**, e cambiano il registro della categoria: sono le fonti primarie su cui poggia la calibrazione delle soglie di Fase B, e dicono con quali ipotesi ciascuna garanzia vale. Sono perciò le prime 🟢 teoriche del corpus. Massart (1990) entra invece come 🟡 e non 🟢: è la fonte della costante che rende DKW utilizzabile, quindi va citato **se** si riportano numeri DKW, ma non delimita alcuna affermazione di questo studio. Le due entrate del 2026-09-11 spostano leggermente il perimetro: Kundačina et al. controllano il tasso di falsi positivi su un impianto reale senza taratura manuale della soglia, e Zhang et al. usano gli intervalli conformi per **selezionare gli pseudolabel affidabili** prima di riaddestrare. Quest'ultimo è l'alternativa di principio a ciò che qui si fa di proposito — consumare gli pseudolabel opachi senza filtrarli — e va citato quando si giustifica la condizione E invece di un pesaggio per affidabilità.
 
 </details>
 
@@ -1252,7 +1261,7 @@ Le cinque voci 🟡 aggiunte nel 2026-09 calibrano o controllano esplicitamente 
 </details>
 
 <details>
-<summary><strong>Diagnosi e monitoraggio di processo centralizzati su TEP</strong> · 23 lavori · 🟡 14 · 🔴 9</summary>
+<summary><strong>Diagnosi e monitoraggio di processo centralizzati su TEP</strong> · 24 lavori · 🟡 15 · 🔴 9</summary>
 
 | Lavoro | Autori, anno | Vicinanza |
 | --- | --- | :---: |
@@ -1270,6 +1279,7 @@ Le cinque voci 🟡 aggiunte nel 2026-09 calibrano o controllano esplicitamente 
 | TDLN-trees: three-layer deep learning network random trees per la produzione chimica | Lu, Gao, Zou, Chen, Li, 2024 | 🟡 |
 | Deep Anomaly Detection on Tennessee Eastman Process Data | Hartung et al., 2023 | 🟡 |
 | Comparison of autoencoder architectures for fault detection in industrial processes | Spina et al., 2024 | 🟡 |
+| Early-warning industrial fault detection based on physics-guided residual learning and calibrated CRNNs | Khan et al., 2026 | 🟡 |
 | Automated feature learning for nonlinear process monitoring – stacked denoising autoencoder e regola k-NN | Zhang, Jiang, Li, Yang, 2018 | 🔴 |
 | MSLKPCA: multi-block statistics local kernel PCA per il rilevamento non lineare | Zhou & Gu, 2020 | 🔴 |
 | CVKA: Nonlinear Dynamic Process Monitoring Using Canonical Variate Kernel Analysis | Li, Yang, Cao, 2023 | 🔴 |
@@ -1280,7 +1290,7 @@ Le cinque voci 🟡 aggiunte nel 2026-09 calibrano o controllano esplicitamente 
 | DAE-PCA: learnable faster kernel-PCA per il rilevamento non lineare, realizzazione con deep autoencoder | Ren, Jiang, Yang, Tang, Zhang, Yu, 2024 | 🔴 |
 | Odiowei & Cao: CVA con stime di densità kernel per il monitoraggio dinamico non lineare | Odiowei & Cao, 2010 | 🔴 |
 
-Categoria aperta nel 2026-09. **Nessuno di questi lavori è federato e nessuno usa modelli linguistici**: entrano perché condividono il banco di prova, non perché incidano sul disegno. 🟡 quelli che affrontano la **diagnosi multi-classe** su TEP — lo stesso compito delle condizioni A/B/E — o che sono **benchmark comparativi**, e come tali sostengono la lettura di [§9.2](#sez-9-confronti-esterni-e-riferimenti) e [§12.4](#sez-12-che-cosa-il-framework-mostra-e-che-cosa) secondo cui il benchmark è facilmente separabile. 🔴 quelli di **sola rilevazione** o monitoraggio statistico, che restano sfondo del campo.
+Categoria aperta nel 2026-09. **Nessuno di questi lavori è federato e nessuno usa modelli linguistici**: entrano perché condividono il banco di prova, non perché incidano sul disegno. 🟡 quelli che affrontano la **diagnosi multi-classe** su TEP — lo stesso compito delle condizioni A/B/E — o che sono **benchmark comparativi**, e come tali sostengono la lettura di [§9.2](#sez-9-confronti-esterni-e-riferimenti) e [§12.4](#sez-12-che-cosa-il-framework-mostra-e-che-cosa) secondo cui il benchmark è facilmente separabile. 🔴 quelli di **sola rilevazione** o monitoraggio statistico, che restano sfondo del campo. La voce del 2026-09-11 (Khan et al., 2026) è la prima della categoria a riportare **probabilità calibrate, ECE e intervalli bootstrap** sul TEP: rafforza la lettura di §9.2 sulla separabilità del banco — circa 99% di accuratezza con macro-F1 0,93 su split a livello di run — e mostra quale forma di governo della soglia la letteratura centralizzata considera ormai attesa.
 
 </details>
 
@@ -1305,7 +1315,7 @@ Le stringhe di ricerca che hanno prodotto ciascuna voce sono conservate in [`doc
 
 Le schede riguardano i lavori che **influenzano direttamente il disegno**. Stessa modalità di §14.1: apri la categoria che ti serve e richiudila con la **✕** o con il pulsante in fondo.
 
-> **Le schede sono 23, i 🟢 di §14.1 sono 28.** Una scheda riguarda un 🔴 (FedSRD), quindi i vicini con scheda sono 22 e **sei** restano senza: FICAL, DP-FPL, FedDTPT, T2SP, TableTime e la rassegna sui federated reasoning LLM. È un arretrato dichiarato, non una svista. EviFDD-Agent è uscito dall'arretrato nel 2026-09: delimita §8.9–§8.10 del piano sperimentale e non poteva restare senza scheda.
+> **Le schede sono 29, i 🟢 di §14.1 sono 34.** Una scheda riguarda un 🔴 (FedSRD), quindi i vicini con scheda sono 28 e **sei** restano senza: FICAL, DP-FPL, FedDTPT, T2SP, TableTime e la rassegna sui federated reasoning LLM. È un arretrato dichiarato, non una svista. EviFDD-Agent è uscito dall'arretrato nel 2026-09: delimita §8.9–§8.10 del piano sperimentale e non poteva restare senza scheda. FaultExplainer non è mai entrato nell'arretrato: individuato l'11 settembre 2026 come **assente da §14.1** durante la riconciliazione con `papers/`, è stato inserito già con la sua scheda. Lo stesso vale per le tre 🟢 fondazionali sulla predizione conforme, entrate il 2026-09-12 con la scheda contestuale.
 
 <details>
 <summary><strong>Federazione testuale</strong> · 7 schede</summary>
@@ -1466,7 +1476,7 @@ Codifica simbolica di segnali da sensori per il consumo da parte di un modello l
 </details>
 
 <details>
-<summary><strong>LLM per fault diagnosis</strong> · 2 schede</summary>
+<summary><strong>LLM per fault diagnosis</strong> · 3 schede</summary>
 
 **Evidence-Traceable LLM Reporting for Industrial Process Fault Detection and Diagnosis (EviFDD-Agent)**  
 *Chen, Peng, Zhang, Zhu, Hu, Zhai et al., 2026*
@@ -1481,6 +1491,14 @@ Preprint sottomesso a *Computers & Chemical Engineering*. Un *Evidence Citation 
 Lee, X.Y., Vidyaratne, L., Farahat, A. & Gupta, C., *Annual Conference of the PHM Society* 17(1), 2025. DOI `10.36001/phmconf.2025.v17i1.4350`. ⚠️ Il titolo esatto contiene **«Agentic»**, che il nome del file omette. Confronta configurazioni di agenti LLM su dati di sensori grezzi: rappresentazione dell'ingresso (dati grezzi, statistiche descrittive, entrambe), presenza e forma dei dati di riferimento normali, architettura singolo-LLM contro multi-LLM, e apprendimento continuo da feedback.
 
 **Rapporto con questo lavoro** — *Somiglianza:* mette a confronto **rappresentazioni** dello stesso segnale in ingresso a un LLM, che è ciò che fa §10.4, e contrappone un agente LLM a una baseline statistica, che è ciò che fa §9.1. *Differenza:* non è federato, non è sul TEP, e il compito primario è la rilevazione binaria più una classificazione a poche classi. *Implicazione:* delimita tre affermazioni. Primo, la superiorità della rappresentazione descrittiva sui dati grezzi è già pubblicata (F1 0,84 contro 0,79; accuratezza 0,73 contro 0,67): §10.4 la conferma su un altro dominio, non la scopre. Secondo, la baseline a regole ottiene F1 0,85 in rilevazione — **più di ogni configurazione LLM** — ma precision, recall e F1 pari a zero in classificazione: è il precedente pubblicato dello scenario di rischio di §9.3, e permette di riportarlo come pattern noto invece che come sconfitta. Terzo, gli LLM non migliorano con il feedback accumulato in contesto, il che sostiene §5 G4 senza chiuderne la domanda.
+
+**FaultExplainer: Leveraging Large Language Models for Interpretable Fault Detection and Diagnosis**  
+*Khan, Nahar, Chen, Constante-Flores, Li, 2025*
+
+Khan, A., Nahar, R., Chen, H., Constante-Flores, G.E. & Li, C., *Computers & Chemical Engineering* (2025). DOI `10.1016/j.compchemeng.2025.109152`; preprint arXiv `2412.14492` (2024). La rilevazione è PCA con statistica T²; l'analisi dei contributi seleziona le sei variabili più deviate, che insieme a una descrizione testuale del TEP entrano nel prompt di GPT-4o e o1-preview, chiamati a proporre tre ipotesi di causa radice. Due condizioni: con la lista dei 15 guasti di Downs & Vogel (*Root Causes-Included Prompt*) e senza (*General Reasoning Prompt*), quest'ultima costruita per imitare un guasto mai incontrato.
+
+**Rapporto con questo lavoro** — *Somiglianza:* è la stessa catena — poche feature deviate più una descrizione di processo → LLM congelato → ipotesi di causa per un guasto fuori dal repertorio — sullo stesso banco di prova. *Differenza:* è centralizzato e mono-agente, senza federazione né trasferimento fra pari; l'uscita è una spiegazione in prosa valutata qualitativamente guasto per guasto, non una classificazione con accuratezza e astensione misurate su una popolazione; e le feature vengono dalla PCA, non da un verbalizzatore deterministico. *Implicazione:* **delimita il claim sul guasto non visto**. Non si può sostenere che interrogare un LLM congelato sulla causa di un guasto TEP mai osservato sia un problema non affrontato: lo è, dal 2024, fuori dal contesto federato. La rivendicazione va ancorata al regime federato e al contrasto B/E, mai formulata in generale. Porta inoltre un avvertimento diretto su §8.6: quando le feature selezionate non contengono il meccanismo del guasto (casi 10 e 13), entrambi i modelli costruiscono una catena causale **plausibile e sbagliata** invece di astenersi. È la forma che prende l'«evidence quasi vuota» segnalata in S13, ed è una ragione in più per misurare l'astensione invece di darla per acquisita.
+
 
 </details>
 
@@ -1497,7 +1515,7 @@ Zhou, Z. & Yu, R. Il frontespizio riporta *Published as a conference paper at IC
 </details>
 
 <details>
-<summary><strong>Calibrazione e predizione conforme</strong> · 1 schede</summary>
+<summary><strong>Calibrazione e predizione conforme</strong> · 6 schede</summary>
 
 **Class-Conditional Conformal Prediction for Reliable Open-Set Fault Diagnosis in Safety-Critical Industrial Systems**  
 *Heddoub et al., 2026*
@@ -1505,6 +1523,43 @@ Zhou, Z. & Yu, R. Il frontespizio riporta *Published as a conference paper at IC
 Heddoub et al., *Journal of Process Control*, 2026. DOI `10.1016/j.jprocont.2026.103701`. Estende la predizione conforme al contesto open-set: diagnosticare i guasti noti e rifiutare le classi mai viste, con garanzie per classe.
 
 **Rapporto con questo lavoro** — *Somiglianza:* il caso open-set visto dal singolo nodo assomiglia al regime disgiunto per classe; l'astensione su classi non note è il punto di contatto. *Differenza:* approccio statistico su feature, non linguistico. *Implicazione:* è il quadro di riferimento naturale per il limite registrato in §12.2 sull'astensione mai provata su guasti fuori catalogo.
+
+**Testing for Outliers with Conformal p-values**  
+*Bates, Candès, Lei, Romano, Sesia, 2023*
+
+Bates, S., Candès, E., Lei, L., Romano, Y. & Sesia, M., *The Annals of Statistics* 51(1), 2023. DOI `10.1214/22-AOS2244`; preprint arXiv `2104.08279` (2021). P-value conformi per il rilevamento di outlier, in ottica di test multiplo. La **§1.1** fissa le ipotesi — punti **IID** e score con distribuzione continua — e la distinzione che qui conta: i p-value conformi sono indipendenti fra loro **solo condizionatamente al set di calibrazione**, mentre sono validi **solo marginalmente** su di esso. La **§3.1** enuncia il tasso di falsi positivi realizzato a soglia fissata come variabile aleatoria: FPR(α; D) ∼ Beta(ℓ, n+1−ℓ) con ℓ = ⌊(n+1)α⌋, e la garanzia marginale E[FPR] ≤ α ne è la **media**. Il risultato è attribuito a Vovk (2012), non rivendicato.
+
+**Rapporto con questo lavoro** — *Somiglianza:* è la stessa struttura della calibrazione delle soglie di Fase B — score congelato, insieme di calibrazione, soglia realizzata, e un FAR che da quella soglia dipende. *Differenza:* il compito è test multiplo di outlier con controllo dell'FDR, non diagnosi multi-classe; nulla di federato né di linguistico. *Implicazione:* è la fonte primaria delle **tre garanzie da enunciare separatamente** — marginale, Beta condizionale alla calibrazione, proporzione a soglia congelata — ciascuna con le sue ipotesi. Vieta di scrivere «FAR garantito al 5%» per la soglia realizzata: con n = 350 e k = 334 la Beta(17, 334) dà P(FAR > 5%) = 41,68%. Impone inoltre di **dichiarare** la continuità dello score invece di darla per acquisita: nessun pareggio osservato non la dimostra.
+
+**Conditional validity of inductive conformal predictors**  
+*Vovk, 2012 / 2013*
+
+Vovk, V., *Machine Learning* 92(2–3), 349–376, 2013. DOI `10.1007/s10994-013-5355-6`. Versione di conferenza: ACML 2012, PMLR 25:475–490 — **è questa che Bates cita** come fonte della legge Beta. In `papers/` ci sono ora **entrambe le versioni**: `…_ACML2012.pdf` sono gli atti (JMLR W&CP 25:475–490, editor Hoi e Buntine) e `…_predictors.pdf` è l'estesa su arXiv `1209.2673` del 10 agosto 2018. ✅ Confronto eseguito il 2026-09-12: **la numerazione coincide** — proposizione 2a, proposizione 2b, stesso enunciato, stessa condizione (7), stessa ipotesi IID nella §3. «Vovk (2012), proposizione 2b» è quindi citabile così com'è. La §3 lavora esplicitamente su esempi **IID** («we consider a canonical probability space in which Zᵢ … are i.i.d. random examples»). La proposizione 2a è il limite PAC ottenuto con Hoeffding; la **2b** è la versione esatta che si ferma prima di quel passaggio: Γ^ε è (E, δ)-valido se bin_{n,E}(⌊ε(n+1)−1⌋) ≤ δ, e **se e solo se** quando lo score è continuo. L'appendice A la riconduce alle regioni di tolleranza di Wilks (1941).
+
+**Rapporto con questo lavoro** — *Somiglianza:* è il risultato che la decisione sulla calibrazione usa due volte — la legge Beta del FAR e il limite di tolleranza binomiale. *Differenza:* è teoria della predizione conforme, senza dominio industriale e senza federazione. *Implicazione:* precisa in che senso la 2b sia un'«alternativa» a DKW. Le due letture **non danno numeri diversi**: con n = 350 e k = 340, `Beta(11, 340).sf(0,05)` e `bin_{350; 0,05}(10)` valgono entrambe 3,526974%, perché sono la stessa quantità letta come coda oppure come coppia (E, δ). La conservatività in più si paga **spostando k**, non cambiando formula: k = 340 porta il FAR marginale da 4,843% a 3,134%. Secondo punto: anche la 2b poggia su **IID**, non sulla sola scambiabilità — non è una scorciatoia per evitare l'ipotesi che la Beta richiede.
+
+**Conformal Prediction via Transported Beta Laws**  
+*Ramos, Graziadei, Cabezas, 2026*
+
+Ramos, T. R., Graziadei, H. & Cabezas, L. M. C. (Federal University of São Carlos; USP; Inria / Université Grenoble Alpes). Preprint in formato JMLR, **15 maggio 2026** (data di creazione del PDF). ⚠️ **Nessun DOI, nessun identificatore arXiv, assente da OpenAlex, Crossref e arXiv** alla verifica del 2026-09-12: i metadati non sono confermabili su fonte ufficiale e vanno riverificati prima della bibliografia. Prende la legge Beta della copertura condizionale alla calibrazione come **oggetto di riferimento a campione finito** e misura gli scostamenti da essa con distanze di Wasserstein su [0,1], separando due sorgenti distinte di comportamento non-IID: lo shift lato test agisce come mappa di trasporto sulla scala della copertura, mentre la dipendenza dentro la calibrazione cambia la legge delle statistiche d'ordine. Istanziato nei casi scale-shift, clusterizzato e stazionario mixing.
+
+**Rapporto con questo lavoro** — *Somiglianza:* è esattamente la domanda che la calibrazione di Fase B lascia aperta — che cosa resta della Beta quando le unità di calibrazione non sono indipendenti. *Differenza:* lavoro teorico, nessun banco industriale, nessun LLM. *Implicazione:* attenua due formule e ne chiarisce una terza. Primo, il suo related work mostra un campo **attivo** — Marques F. (2025, *Statistics and Probability Letters*), Gazin (2024), la linea conformal + optimal transport — quindi «vuoto reale» e «unico lavoro del suo genere» non sono sostenibili. Secondo, e più utile: dichiara che l'ipotesi IID «can be relaxed to exchangeability» **nel senso di Marques F. (2025)**, dove la copertura *empirica* su un campione di test scambiabile converge quasi certamente a una legge Beta per de Finetti. Non è lo stesso oggetto del FAR condizionale a calibrazione fissata e test finito, che è ciò di cui parla il controesempio *U*, 1−*U*. I due enunciati convivono e vanno tenuti distinti nel testo: la scambiabilità basta per il **limite empirico**, non per la legge a campione finito.
+
+**Universal distribution of the empirical coverage in split conformal prediction**  
+*Marques F., 2025*
+
+Marques F., P. C. (Insper, São Paulo), *Statistics & Probability Letters* 219 (2025) 110350. DOI `10.1016/j.spl.2024.110350`. Due teoremi, entrambi sotto **sola scambiabilità** dei dati e con funzione di conformità regolare (pareggi esclusi quasi certamente). **Teorema 1:** la copertura empirica di un lotto **finito** di m osservabili futuri soddisfa m·Cₘ ∼ Beta-Binomiale(⌈(1−α)(n+1)⌉, ⌊α(n+1)⌋). **Teorema 2:** per m → ∞, Cₘ converge **quasi certamente** a C∞ ∼ Beta(⌈(1−α)(n+1)⌉, ⌊α(n+1)⌋), per rappresentazione di de Finetti. Entrambe le leggi sono *universali*: dipendono solo da α e da n.
+
+**Rapporto con questo lavoro** — *Somiglianza:* sono esattamente i due oggetti che la calibrazione di Fase B calcola — la beta-binomiale del conteggio di falsi allarmi e la Beta del FAR. *Differenza:* teoria pura, nessun banco, nessuna diagnosi. *Implicazione:* **scioglie l'apparente contraddizione** fra «serve IID» e «basta la scambiabilità», che senza questo lavoro resta un'obiezione aperta in review. La scambiabilità basta per la legge della copertura **empirica** — lotto finito, e limite quasi certo su lotto infinito. Non basta per l'oggetto diverso su cui poggia il controesempio *U*, 1−*U*: la probabilità di errore **condizionale alla calibrazione** per un singolo punto di test. Il teorema 2 chiede una successione scambiabile **infinita**, e *U*, 1−*U* è una coppia finita non estendibile: i due enunciati non si contraddicono, parlano di cose diverse. Conseguenza pratica: la beta-binomiale del registro può essere enunciata sotto scambiabilità; la frase sul FAR condizionale no. Resta intatto il problema vero, che è **la dipendenza fra le unità di calibrazione** — cinque blocchi contigui dello stesso tratto non sono né IID né dimostratamente scambiabili con il test.
+
+**Training-conditional coverage for distribution-free predictive inference**  
+*Bian & Barber, 2023*
+
+Bian, M. & Barber, R. F., *Electronic Journal of Statistics* (2023). DOI `10.1214/23-EJS2145`; preprint arXiv `2205.03647`, 19 gennaio 2023. Ipotesi: punti di addestramento **IID**. Il loro **teorema 1 è dichiaratamente «Vovk [2012, Proposition 2a]»**, riportato per il solo split conformal. Il contributo proprio è **negativo**: per full conformal e jackknife+ la copertura condizionale all'addestramento è *impossibile* da garantire senza ipotesi aggiuntive (la stabilità algoritmica, che Liang & Barber 2025 mostrano essere sufficiente).
+
+**Rapporto con questo lavoro** — *Somiglianza:* riguarda la stessa garanzia che la Fase B invoca, cioè che *la maggior parte* delle calibrazioni dia una soglia accettabile, non solo la media. *Differenza:* è regressione distribution-free, nessun dominio industriale. *Implicazione:* sostiene per esclusione la scelta di disegno. Lo split conformal non è la variante più debole per pigrizia: **è l'unica delle famiglie esaminate a portare con sé una garanzia condizionale all'addestramento senza ipotesi ulteriori**, e questo va scritto come argomento, non taciuto. Delimita però anche l'attribuzione: descriverlo come co-proprietario del risultato Beta insieme a Vovk è impreciso — per lo split conformal *riporta* Vovk. Se si cita la garanzia, la fonte è Vovk; Bian & Barber si citano per ciò che è **impossibile** altrove.
+
+
 
 </details>
 
@@ -1559,6 +1614,8 @@ Cinque lavori sono abbastanza vicini da poter essere scambiati per il nostro. Pe
 
 > **Un settimo vicino, aggiunto nel 2026-09.** **S2S-FDD** (Li & Zhao, 2025) è vicino sull'asse che gli altri sei non toccano: la catena segnale numerico → descrizione testuale → diagnosi di una condizione mai osservata, su un processo industriale reale. *Claim che ci vieta:* qualunque formulazione per cui tradurre una modalità numerica in testo diagnostico per riconoscere una classe non vista sarebbe un problema aperto. *Claim che resta:* la stessa catena in regime **federato**, con esperienza disgiunta per classe fra pari, controllo di specificità B/E e misura della degradazione sulle classi già note — nessuna delle quali compare in S2S-FDD, che è centralizzato, mono-agente e senza controllo a informazione corrotta.
 
+> **Un ottavo vicino, aggiunto il 2026-09-11.** **FaultExplainer** (Khan, Nahar, Chen, Constante-Flores & Li, 2025) è vicino sull'asse più scomodo: interroga un LLM congelato sulla **causa di un guasto TEP non presente nel repertorio fornito**, sul nostro stesso banco di prova. *Claim che ci vieta:* qualunque formulazione per cui chiedere a un LLM di ragionare sulla causa di un guasto mai visto sul TEP sarebbe un problema aperto o inedito. *Claim che resta:* il regime federato, il trasferimento di insight fra pari con esperienza disgiunta per classe, il controllo B/E e la misura dell'astensione su una popolazione — FaultExplainer è centralizzato, mono-agente, con feature scelte dalla PCA, e valuta la spiegazione in prosa guasto per guasto invece di misurare accuratezza e astensione.
+
 ### 14.6 Tenuta della novità
 
 **Tentativo di falsificazione.** La ricerca è stata condotta *contro* la nostra tesi, cercando un lavoro che combinasse tutti gli assi insieme. A criteri pieni non ne è emerso alcuno. Rilassando i criteri uno alla volta compaiono i vicini, e mostrano dove la nostra posizione è fragile:
@@ -1566,7 +1623,7 @@ Cinque lavori sono abbastanza vicini da poter essere scambiati per il nostro. Pe
 - togliendo *serie temporali* → FoT e FICAL, equivalenti sul paradigma ma non sul dominio;
 - togliendo *LLM e testo* → FedCKD e il trasferimento semantico zero-shot, equivalenti sulla struttura non-IID e sull'idea di classi non viste, ma non sull'oggetto testuale;
 - togliendo *classi non viste* → Time-FFM, che è federazione parametrica su serie temporali;
-- tenendo *serie temporali, diagnosi e LLM* ma togliendo la federazione → la famiglia FD-LLM, centralizzata.
+- tenendo *serie temporali, diagnosi e LLM* ma togliendo la federazione → la famiglia FD-LLM, centralizzata, e **FaultExplainer**, che è centralizzato ma gira **sul TEP stesso**.
 
 **La novità non è a livello di componente.** È una novità di combinazione, dominio e disegno di valutazione:
 
@@ -1575,7 +1632,7 @@ Cinque lavori sono abbastanza vicini da poter essere scambiati per il nostro. Pe
 | Componente — verbalizzazione, insight testuali, federazione non parametrica, classi disgiunte | **Bassa.** Tutti noti singolarmente |
 | Combinazione — l'unione di testo-LLM, serie temporali multivariate, classi disgiunte, non viste, nessun dato grezzo | **Moderata.** Il livello più difendibile |
 | Valutazione — A/B/E con permutazione pre-registrata, freeze, held-out, pseudolabel opachi | **Moderata/alta.** Il pezzo migliore: il controllo B−E, cioè specificità semantica a parità di testo, è raro in questo filone |
-| Dominio — prima applicazione documentata di un approccio FoT-like alla diagnosi su TEP | **Moderata, rivista al ribasso nel 2026-09.** Reale ma applicativa, e non più isolata: S2S-FDD porta la catena segnale→testo→diagnosi zero-shot su un processo industriale, sebbene centralizzata e su un altro banco |
+| Dominio — prima applicazione documentata di un approccio FoT-like alla diagnosi su TEP | **Moderata, rivista al ribasso nel 2026-09.** Reale ma applicativa, e non più isolata: S2S-FDD porta la catena segnale→testo→diagnosi zero-shot su un processo industriale, sebbene centralizzata e su un altro banco; e FaultExplainer (Khan et al., 2025) porta un LLM congelato sulla causa di un guasto non visto **sul TEP stesso**, pur restando centralizzato e limitato alla spiegazione |
 | Metodologia — la catena evidenza deterministica → ragionamento locale → trasferimento testuale | **Bassa/moderata.** Composizione di tecniche note, resa rigorosa |
 
 La raccomandazione che ne segue è puntare il paper su **combinazione e valutazione**, non su componente e metodologia. La formula sicura, da usare così com'è:
@@ -1607,6 +1664,8 @@ Quindici riferimenti sono obbligatori. Non perché siano i più citati, ma perch
 | He et al., *FedGKT*, NeurIPS 2020 | Trasferimento di conoscenza edge-server |
 
 A questi si aggiungono i lavori del corpus federato di §14.1 che incidono sul disegno: SYNAPSE, Fed-ICL, FedTextGrad, FERA e ACE, con il ruolo descritto nelle schede di §14.2.
+
+Dal 2026-09-12 se ne aggiungono altri due, su un asse diverso — quello di **ciò che si può affermare sul FAR della soglia calibrata**: **Bates et al. (2023)** per la distinzione fra garanzia marginale e legge Beta condizionale alla calibrazione, e **Vovk (2012/2013)** perché ne è la fonte e fornisce il limite di tolleranza binomiale esatto. **Ramos et al. (2026)** va citato solo se il testo afferma qualcosa sulla Beta sotto dipendenza, e finché i suoi metadati non sono confermati va trattato come preprint non verificato.
 
 ---
 
