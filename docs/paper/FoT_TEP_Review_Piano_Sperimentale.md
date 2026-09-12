@@ -70,6 +70,20 @@ Questa revisione incorpora le correzioni dell'autore. Sono elencate qui perché 
 
 ---
 
+### Revisione 6 — registrazione dell'ablazione dei descrittori di Fase A (2026-09-12)
+
+| # | Modifica | Origine |
+| --- | --- | --- |
+| 38 | **Registrata in §8.12 l'ablazione testuale dei descrittori di Fase A**, approvata come disegno il 2026-09-11 e **non congelata**: restano aperti effetto minimo, run per fault e criterio di successo esatto (E5-C, decisione 12 di §0.1). Le sotto-decisioni usano il prefisso `E5-` per non collidere con il namespace D1–D12 di §10. | autore |
+| 39 | **Il drift lento ha un solo fault documentato, IDV(13).** La copertura a due fault per meccanismo è insoddisfacibile per il drift; si adotta **un solo fault per il meccanismo slow drift**, con più run indipendenti, e **la conclusione va enunciata su IDV(13), non sui drift lenti in generale**. Vincola D1 (§10) oltre che §8.12. | verifica Downs & Vogel |
+| 44 | **Tracciata in §0.1 la decisione di conservare i quattro descrittori di Fase A** (2026-09-11). La decisione viveva solo in un documento di rassegna; ora è rintracciabile dal piano autorevole, con rimando alla motivazione e senza duplicarla. | autore |
+| 43 | **E5-C2 fissata in via provvisoria: scarto relativo ≤ 5% per caso** sul prompt completo, tokenizer del modello usato, zero differenze di troncamento; una sola violazione declassa il contrasto della famiglia. Soglia operativa, non statistica. Richiede una **verifica di fattibilità sui dati di sviluppo prima del freeze**, perché la regola è a scatto singolo e non rimediabile dopo. | autore |
+| 42 | **E5-C1 chiusa: Δ ≥ 0,10** — 10 punti percentuali assoluti di accuratezza top-1 sul meccanismo bersaglio, soglia di **rilevanza pratica** e non di significatività, indipendente da modello e numerosità. Effetti inferiori si riportano ma non sostengono la necessità del descrittore; effetti negativi si riportano col segno. | autore |
+| 41 | **IDV(13), via scelta: risultato esplorativo senza run dedicati.** E5 eredita D2; aggiungere run del solo IDV(13) richiederebbe riaprire D2 esplicitamente. Ne segue che il criterio di successo di E5-C è **a due livelli**: inferenziale per le famiglie con copertura sufficiente, sola stima descrittiva per `slope_sigma_h`. | autore |
+| 40 | **Motivazione bibliografica** in `docs/lit_review/criteri_scelta_descrittori.md`: nessun criterio di selezione dei descrittori esiste in letteratura; l'argomento disponibile è di progetto (chiusura sui canali di perdita) più un'ipotesi da verificare. | `docs/lit_review/` |
+
+---
+
 ## 0.1 · Decisioni ancora da congelare
 
 La revisione precedente lasciava intendere che restasse aperta solo D8. Non è così. Queste sono **tutte** le decisioni che devono essere prese e congelate prima di aprire i run di test, con il riferimento alla sezione che le discute.
@@ -87,6 +101,9 @@ La revisione precedente lasciava intendere che restasse aperta solo D8. Non è c
 | 9 | Modello | D9, §7 | ⏳ data limite **17 settembre** |
 | 10 | **Schema degli insight**: campi, cardinalità, cap per-elemento, validatore | §8.9, D12 | ⬜ **aperta, lavorabile oggi** |
 | 11 | **Politica conservativa su R=3** in assenza di controlli di determinismo dell'API | §8.7, D7 | ⬜ aperta — da pre-specificare **prima** del pilot |
+| 12 | **Ablazione dei descrittori**: effetto minimo (E5-C1), soglia di lunghezza (E5-C2), criterio di successo (E5-C3) | §8.12 | ⬜ parziale — **E5-C1 ✅ (Δ ≥ 0,10)**; **E5-C2 ⏳ provvisoria (≤ 5% per caso)**, si chiude dopo la verifica di fattibilità; **E5-C3** aperta, dipende dalla 1, dalla 2 e dalle altre due |
+| — | **Conservare i quattro descrittori calibrati di Fase A, più `rapid` derivata**, anziché sostituirli | `docs/lit_review/criteri_scelta_descrittori.md` §5.1 | ✅ **risolta (2026-09-11): si conservano.** Motivazione lì, verifica dell'utilità diagnostica in §8.12 |
+| — | **Pre-impegno sugli esiti di E5** | §8.12 · `docs/lit_review/DECISIONE_SCELTA_FEATURE_fase_A.md` §4 | ✅ **registrato 2026-09-12.** Gli esiti di E5, inclusi effetti nulli, negativi o discordanti, saranno riportati senza modificare retroattivamente descrittori, soglie, sottoinsiemi o criteri. Eventuali revisioni successive saranno dichiarate esplorative; una loro verifica prospettica richiederà dati non utilizzati per deciderle |
 | — | Forma di `Unknown` | D10, §8.6 | ✅ **risolta: nome dell'astensione esistente** |
 
 La decisione 10 è nuova nella revisione 3 e appartiene al gruppo indipendente dal modello: va congelata prima della produzione degli insight, non prima dei run di test, perché vincola *come* gli insight vengono generati da entrambi i producer.
@@ -502,18 +519,41 @@ Il budget dipende da D2 — 6 o 8 run per fault — che non è ancora congelata.
 | Nucleo local-seen | 144 | 192 |
 | Nucleo Normal | 144 | 192 |
 | **Nucleo** | **1.296** | **1.728** |
-| Audit R=3 sul 10% | ~260 | ~346 |
+| Audit R=3 sul 10% *(nucleo soltanto; **non copre E5**)* | ~260 | ~346 |
 | Braccio producer-swap (§8.4) | 188 | 244 |
 | Ablation B-senza-LF (§8.3) | 132 | 148 |
+| Experiment 5 — ablazione descrittori (§8.12) | 144\* | 192\* |
 | Test fuori catalogo (§8.6) | 144 | 144 |
 | Produzione insight | ~30 | ~30 |
 | Capability pilot incluso test di stabilità | ~200 | ~200 |
 | Verifiche tecniche e harness | ~100 | ~100 |
 | Set canary | ~100 | ~100 |
-| **Totale stimato** | **~2.450** | **~3.040** |
-| Retry e riparsing (+10%) | ~245 | ~304 |
-| **Sottototale con retry** | **~2.700** | **~3.344** |
-| **Tetto da richiedere** | **3.000** | **3.500** |
+| **Totale stimato** | **~2.594** | **~3.232** |
+| Retry e riparsing (+10%) | ~259 | ~323 |
+| **Sottototale con retry** | **~2.853** | **~3.555** |
+| **Tetto da richiedere** | **3.000** | **3.700** |
+
+\* **La voce E5 è parametrica, non definitiva.** Vale **2nR · Σ_F (m_F + c_F)** per i bracci
+corrotti, con n run per fault, R ripetizioni, m_F fault bersaglio e c_F = 1 controllo per famiglia.
+**Per E5 si adotta R = 1**, coerentemente con lo statuto descrittivo e con il contenimento del costo.
+
+I 144/192 in tabella sono uno **scenario prudenziale di budget**, non il sottoinsieme concordato: tre
+fault per ciascuna famiglia non coincide con quanto stabilito per `slope_sigma_h`, che ne ha due.
+Con tre fault per ciascuna delle altre tre famiglie e due per slope il costo è **132/176** — anch'esso uno **scenario**, non il costo definitivo finché la mappa famiglia–meccanismo resta aperta. I 144/192 restano
+come **accantonamento prudenziale e non autorizzano un controllo aggiuntivo**. La cifra resta
+indicativa finché la mappa famiglia–meccanismo (E5-C3) è aperta.
+
+**FULL è una voce aggiuntiva solo se non risulta riusabile da B-LF** (§8.12): in quel caso vale
+**R n |∪_F S_F|**, cioè con R = 1 al massimo **48 a 6 run e 64 a 8**. Mantenendo l'accantonamento
+prudenziale e senza riuso di FULL, i totali comprensivi del 10% diventano circa **2.906 / 3.626**,
+entro i tetti scelti.
+
+**L'audit R=3 del 10% è calcolato sul nucleo e non copre E5**, che gira a R = 1: **la stabilità dei
+contrasti di E5 rispetto alle ripetizioni dell'inferenza non è verificata**, ed è un limite da
+dichiarare nel paper, non una svista.
+
+I tetti di **3.000 a 6 run e 3.700 a 8** sono tetti di **pianificazione**: le cifre effettive restano
+subordinate alla mappa finale e al riuso di FULL.
 
 Passare a 8 run costa **+590 chiamate, cioè +24%**, e porta i cluster da 48 a 64. La baseline FL (§9.1) non entra in questa tabella: non consuma chiamate API.
 
@@ -529,7 +569,17 @@ Passare a 8 run costa **+590 chiamate, cioè +24%**, e porta i cluster da 48 a 6
 
 Nessuna di queste consuma chiamate API: consumano **giorni di simulazione** e la disponibilità dell'ambiente MATLAB/Simulink. Al 2026-09-11 le cache del repository coprono soltanto F1, F8, F10, F13 e Normal, quindi la quasi totalità di queste simulazioni è ancora da produrre.
 
-Ne segue una correzione alla lettura del collo di bottiglia data in §7: la data della decisione sul modello resta il vincolo per l'**esecuzione**, ma la generazione dei run è un secondo percorso, indipendente da Qwen e attivabile subito, che deve chiudersi **prima** del congelamento del protocollo. Va pianificato in parallelo alla settimana del pilot, non dopo.
+Ne segue una correzione alla lettura del collo di bottiglia data in §7: la data della decisione sul
+modello resta il vincolo per l'**esecuzione**, ma la generazione dei run è un secondo percorso,
+indipendente da Qwen e attivabile subito. Va pianificato in parallelo alla settimana del pilot.
+
+**Ordine di generazione, identico a §8.12** *(sostituisce la prescrizione precedente, per cui la
+generazione doveva chiudersi prima del congelamento).* Le simulazioni possono essere anticipate
+rispetto al congelamento del protocollo, ma i run restano **sigillati**: nessuna ispezione di segnali,
+feature o risultati del test per decisioni progettuali; ammesse le sole verifiche tecniche
+predefinite che non orientano tali decisioni. Mappe donatore–ricevente e assegnazioni degli agenti si
+costruiscono e si congelano **prima** del freeze, sui soli identificativi; l'applicazione
+all'evidenza e la generazione di omissioni e prompt vengono **dopo**.
 
 Per confronto, il piano originale costava 5.184 chiamate di **solo nucleo** e oltre 6.000 con tutto incluso. Un budget quotato come stima puntuale si esaurisce sempre: va chiesto come tetto.
 
@@ -588,6 +638,310 @@ Riformulate nella revisione 3 per non ricadere su terreno che i sei lavori esami
 3. **La conoscenza ricevuta danneggia ciò che l'agente già sapeva, e a che prezzo la si può proteggere?** È C06 con local-first e l'endpoint congiunto di §8.5. Nessuno dei sei misura la degradazione sulle classi già note localmente.
 
 Domande di supporto, non primarie: il testo compete con un trasferimento numerico semplice (baseline numerica e FedAvg, §9); il risultato dipende da chi produce gli insight (producer-swap, §8.4); payload, latenza, conformità e scomposizione per agente.
+
+### 8.12 Ablazione testuale dei descrittori di Fase A (approvata 2026-09-11, **non congelata**)
+
+**Documento autorevole del disegno: questa sezione.** Il piano BIGDATA2026 ne porta solo un rimando.
+Motivazione bibliografica: `docs/lit_review/criteri_scelta_descrittori.md` §5.1 (la §5.5 dello stesso file è una bozza superata da questa sezione). **Non** sostituisce
+l'ablazione in `analysis/feature_ablation/`, che resta valida sul proprio endpoint — separabilità
+1-NN della signature strutturata — e **esplorativa**.
+
+> ⚠️ **§8.12 NON È CONGELATA.** Mancano, e vanno chiusi prima di `exp5-protocol-frozen`:
+> mappa famiglia–meccanismo; tabella delle assegnazioni ricevente–run; regola di aggregazione;
+> specifica degli intervalli (pesi, bootstrap clusterizzato, accoppiamento donatore–ricevente);
+> verifica della coincidenza FULL = B-LF sul decoding; chiusura di E5-C2.
+
+**RQ.** Ciascuna famiglia di descrittori contribuisce all'utilità diagnostica del testo, e il
+contributo è specifico del meccanismo che la famiglia è progettata a descrivere?
+
+**Perché serve.** Nel corpus esaminato non emerge un criterio di selezione dei descrittori
+applicabile a priori. FaultExplainer mostra che un'evidenza povera — **sei variabili scelte per
+contributo al T² della PCA, senza alcun confronto fra descrittori** — limita la diagnosi: **F10
+fallisce in entrambe le condizioni**, con e senza catalogo di cause; **F13 è corretto in top-3 solo
+con il catalogo** e fallisce senza. Esistono conteggi (7/11 e 9/11 con catalogo, 8/11 entrambi
+senza), con le tre qualificazioni di §12.5: top-3, alias accettati, denominatore ai soli 11 fault
+rilevati dalla PCA. Questo **non** dimostra che i nostri descrittori colmino quel vuoto: è l'ipotesi
+sotto test.
+
+**Popolazione, condizione di riferimento e perimetro.**
+
+*FULL è B-LF, non una condizione nuova.* Coincide **se e solo se** coincidono tutte e sei: stesso
+**caso**; stesso **ricevente**; stesso **prompt completo** (esempi locali, libreria di insight, blocco
+di politica local-first, testo V2 con il set completo); stesso **modello e configurazione**; stesso
+**decoding**; stessa **regola di aggregazione**. La coincidenza del solo nome della politica non
+basta. Se tutte valgono, FULL non si riesegue: è **riuso computazionale interno al nuovo studio**, non
+riuso inferenziale di dati vecchi, perché B-LF appartiene a questo studio. ⬜ **Punto aperto:** la
+verifica del decoding va fatta prima del freeze.
+
+*Un ricevente per run fisico.* Scelto fra i sette agenti diversi dal proprietario della classe.
+Assegnazione **bilanciata quanto possibile fra agenti, complessivamente ed entro ciascun fault**, così
+che nessun fault sia legato a un solo agente. Algoritmo deterministico e seme documentati; calcolata
+sui **soli identificativi dei run**, prima dell'apertura del test e indipendentemente dagli esiti;
+tabella completa delle assegnazioni congelata con il protocollo. **Lo stesso ricevente vale per FULL,
+PERM e OMIT**, e per tutte le famiglie in cui quel run compare. La scomposizione per agente è
+descrittiva: il bilanciamento riduce la concentrazione, **non elimina l'effetto del ricevente**.
+
+*Perimetro della manipolazione.* Si altera **solo il caso interrogato**. Esempi locali, insight della
+libreria, contesto e politica restano **fissi e identici** in tutti i bracci.
+
+*Sottoinsieme dei fault per famiglia.* Ogni famiglia gira sui fault del **proprio meccanismo
+bersaglio** più **un fault di controllo fuori meccanismo**, fissati prima del freeze e riportati nella
+mappa famiglia–meccanismo. OMIT resta su tutto il sottoinsieme, perché la regola di lettura congiunta
+ne ha bisogno. I run **non** si riducono. ⚠️ Un solo controllo per famiglia consente il confronto **con
+quel controllo**, non con tutti i meccanismi alternativi: il claim segue il sottoinsieme.
+
+**Braccio principale — corruzione per derangement, a parità di forma.** Per ogni famiglia
+F ∈ {level, trend, residual, diff}, l'evidenza strutturata di F è sostituita con quella della stessa
+famiglia presa da un altro caso. La corruzione si applica **a monte del renderer**, sull'evidenza
+strutturata, mai sul testo prodotto: schema, vocabolario controllato e grandezze derivate seguono dal
+verbalizzatore congelato. Precedente: Pappa et al. §6.3; strutturalmente è **E applicata al
+descrittore invece che alla pseudolabel**.
+
+*Regola di permutazione, da congelare nel protocollo.* Per ciascuna famiglia F si definisce una
+permutazione π_F sui casi che è un **derangement, cioè priva di punti fissi**: nessun caso conserva
+la propria evidenza di F. Un derangement indipendente per famiglia, ciascuno generato con **seme
+documentato e congelato**. Le mappe donatore–ricevente sono costruite e congelate **prima del freeze,
+sui soli identificativi**, e applicate all'evidenza solo dopo.
+
+*Gruppo dei donatori.* Il derangement avviene **entro il sottoinsieme S_F effettivamente valutato per
+quella famiglia**, e resta disgiunto per classe. Conseguenza da dichiarare: se S_F contiene un solo
+bersaglio e un solo controllo con uguale numerosità, l'evidenza del bersaglio proviene **interamente**
+dal controllo e viceversa — è una **perturbazione specifica fra due classi**, non una corruzione
+rappresentativa. *Nota per E5-C3, preferenza e non requisito.* Dove il costo lo consente e **senza modificare il
+sottoinsieme concordato**, un S_F con almeno tre classi consente abbinamenti fra più classi, senza
+garantire una perturbazione più rappresentativa. Non è un requisito: per `slope_sigma_h` il
+sottoinsieme è necessariamente a due classi — un solo bersaglio, IDV(13), più un controllo — e **quel
+caso si mantiene così, con il limite dichiarato**. Aggiungere un secondo controllo cambierebbe
+sottoinsieme e budget concordati, e non si fa.
+
+*Disgiuntività per classe (decisa 2026-09-12).* Il derangement è **anche disgiunto per classe**:
+nessun caso riceve evidenza da un caso della propria classe. Ragione: una mappatura verso la stessa
+classe sostituisce l'evidenza con evidenza simile e **non rimuove davvero l'informazione
+diagnostica**, che è ciò che il braccio deve rimuovere. L'effetto di una mappatura intra-classe
+**potrebbe** attenuare il contrasto, ma l'attenuazione **non è garantita** né quantificabile a
+priori: non va quindi descritta come una conservatività del test.
+
+Il campionamento resta **uniforme sui soli derangement validi** — quelli privi di punti fissi e senza
+mappature intra-classe — quindi la disgiuntività non costa nulla sul piano metodologico: non è una
+permutazione «meno uniforme», è una permutazione uniforme su un insieme ammissibile più piccolo.
+
+*Che cosa significa «parità di forma».* Significa **stesso schema e stesso multinsieme dell'evidenza
+della famiglia permutata**, non uguale lunghezza per singolo caso e **non** uguale distribuzione della
+lunghezza totale dei prompt. Il derangement conserva esattamente il multinsieme dell'evidenza di F;
+non conserva la lunghezza totale, per due motivi indipendenti: l'evidenza permutata si **abbina** a
+un'evidenza diversa nelle altre famiglie, e `rapid` è **ricalcolata** (E5-B) da una combinazione
+nuova. Entrambi possono spostare la distribuzione della lunghezza a livello di braccio. La conservazione
+del multinsieme non va quindi presentata come garanzia sulla lunghezza: è la ragione per cui il
+controllo che segue è obbligatorio e non una formalità.
+
+Vanno tenute distinte due cose che altrimenti si confondono: la **costruzione** garantisce schema e
+multinsieme, e nient'altro; la **verifica** (E5-C2) pretende in più una quasi-parità di lunghezza
+*caso per caso*, e declassa il braccio se non la trova. La seconda non discende dalla prima: è un
+requisito aggiuntivo che il disegno può fallire.
+
+**E5-A — statuto del braccio di omissione *(chiusa)*.** L'omissione cambia insieme informazione e
+lunghezza. È **dichiarata analisi secondaria, con il confondente dichiarato**, non mascherata con
+riempitivi: un riempitivo neutro a lunghezza appaiata è esso stesso informazione e sposterebbe il
+confondente senza eliminarlo. Permutazione e omissione restano separate perché misurano cose diverse
+— *se l'LLM si appoggia* al descrittore, contro *se la diagnosi ne ha bisogno*. Una divergenza fra le
+due è un risultato.
+
+**E5-B — `rapid` va ricalcolata, mai trasportata *(chiusa)*.** `rapid` è derivata (residual **e** diff
+congiuntamente attive). Lasciarla invariata mentre si altera un genitore le fa veicolare l'informazione
+che si credeva rimossa. Regola: **in ogni braccio `rapid` è ricalcolata a valle dall'evidenza
+effettivamente presente in quel braccio** — nella permutazione, `rapid` = (residual permutata ∧ diff
+vera) o simmetricamente. Nell'omissione `rapid` non è computabile e cade con il genitore: quel braccio
+rimuove quindi **una famiglia primaria più il canale derivato**, e va dichiarato così.
+
+**Esiti: tabella minima e regola di lettura congiunta.** Per ogni famiglia F e ogni meccanismo M:
+
+| Famiglia | Meccanismo | accuratezza FULL | FULL − PERM | FULL − OMIT | (FULL−PERM) − (FULL−OMIT) |
+
+L'ultima colonna equivale a **OMIT − PERM**: positiva = **maggiore penalizzazione sotto corruzione**.
+È lettura complementare, non un endpoint; la soglia di annotazione del 10% resta **solo su FULL −
+PERM**. Regola pre-specificata:
+
+- **cali concordi**, cioè **entrambi positivi** → sensibilità della diagnosi alla disponibilità e alla
+  qualità dell'evidenza di quella famiglia. Effetti piccoli **non diventano supporto
+  automaticamente**;
+- **una penalizzazione maggiore sotto PERM rispetto a OMIT** è compatibile con un effetto aggiuntivo
+  dell'evidenza incompatibile; se ne riportano **grandezza e incertezza**, senza attribuzione causale
+  esclusiva;
+- **esiti discordanti o incerti** → **non conclusivi**, e si riportano come tali.
+
+*Asimmetrie, da dichiarare ogni volta che i due cali si confrontano.* OMIT modifica informazione,
+lunghezza e struttura del prompt. PERM conserva lo schema e, sull'insieme di permutazione, il
+multinsieme dell'evidenza primaria, ma può modificare la lunghezza dei singoli prompt e le
+combinazioni fra famiglie. E5-C2 controlla la quasi-parità di lunghezza fra FULL e PERM. Per
+`residual` e `diff`, OMIT elimina **anche `rapid`**. **Una violazione di E5-C2 impedisce di attribuire
+il contrasto alla sola informazione della famiglia, anche in regime descrittivo: l'avvertenza non è
+ornamentale.**
+
+**E5-C — fault, effetto minimo, run, criterio di successo *(aperta)*.**
+
+- *Catalogo dei fault: non se ne apre uno nuovo.* L'esperimento gira sugli **8 fault di D1** — i 4 di
+  continuità (F1, F8, F10, F13) più i 4 nuovi — e sui **run per fault di D2**. E5-C **dipende quindi
+  dalla 1 e dalla 2 di §0.1** e non è chiudibile prima di quelle.
+- *Assegnazione del meccanismo:* Downs & Vogel 1993, secondo §12.4. Cieca rispetto a quali feature si
+  attivano nei nostri dati: selezionare guardando le attivazioni sarebbe selezione sull'esito.
+- *Drift lento — vincolo accettato.* **IDV(13) è l'unico fault documentato per il meccanismo slow
+  drift.** Si adotta quindi **un solo fault per quel meccanismo**, con più run indipendenti: il
+  meccanismo resta uno dei quattro, ciò che manca è una seconda istanza al suo interno. Conseguenza
+  da rispettare nel testo del paper: **la conclusione sul drift riguarda IDV(13), non i drift lenti
+  in generale.** Le valvole bloccate IDV(14)/(15) non
+  sono utilizzabili come secondo drift, perché assegnerebbero il meccanismo dalla firma attesa; un
+  dataset esteso è escluso dalla decisione P0/Via B, che fissa la generazione Simulink a 1 minuto per
+  conservare le feature congelate.
+*Le tre voci aperte non hanno la stessa dipendenza.* **E5-C1** ed **E5-C2** sono indipendenti da D1 e
+da D2 e sono **chiudibili subito**; solo **E5-C3** deve attendere.
+
+| Voce | Dipende da | Quando |
+| --- | --- | --- |
+| **E5-C1** — effetto minimo di interesse | nulla: è una scelta di merito scientifico. D2 determina soltanto se quell'effetto sia *rilevabile*, non quale sia | ✅ **chiusa: Δ ≥ 0,10** |
+| **E5-C2** — soglia del controllo di lunghezza | modello e formato dei prompt; **non** dal numero di run | ⏳ **provvisoria: ≤ 5% per caso** — si chiude solo dopo la verifica di fattibilità |
+| **E5-C3** — criterio di successo completo | D1, D2, **e** i valori fissati in E5-C1 ed E5-C2 | ⬜ dopo le altre |
+
+- *Run per fault: **ereditati da D2**, non decisi di nuovo qui.* Ne segue che il numero di run è un
+  vincolo in ingresso e non un'incognita: l'effetto minimo rilevabile è una **conseguenza** della
+  scelta fatta in D2, non un parametro da cui calcolare i run. Se l'effetto che D2 rende rilevabile è
+  più grande di quello di interesse, è un limite da dichiarare nel paper — non una ragione per
+  cambiare D2 dentro questo esperimento.
+- *E5-C1 — effetto minimo di interesse:* ✅ **fissato (2026-09-12): 10 punti percentuali assoluti** di
+  accuratezza top-1 sul meccanismo bersaglio.
+
+  `Δ_F = accuracy_FULL − accuracy_PERM_F ≥ 0,10`
+
+  Lettura: almeno **una diagnosi corretta in più ogni dieci casi**. È una soglia di rilevanza
+  pratica, scelta sul merito e **indipendente da modello e numerosità**; non è una soglia di
+  significatività. Effetti inferiori **vanno riportati**, ma non possono sostenere la necessità
+  pratica del descrittore.
+
+  *Segno.* Δ_F può risultare **negativo** — la corruzione migliora l'accuratezza. Non è ipotesi di
+  scuola: l'ablazione in `analysis/feature_ablation/` mostra già rimozioni che *alzano* il margine.
+  I valori negativi vanno riportati come tali, mai troncati a zero né riportati in valore assoluto.
+
+  *Nota da portare in E5-C3.* Con i run di D2 l'accuratezza per meccanismo si misura su poche unità
+  indipendenti — 6 o 8 per IDV(13), circa il doppio dove i fault per meccanismo sono due. La
+  granularità della stima puntuale è quindi grossolana rispetto a 10 punti, e su IDV(13) il più
+  piccolo effetto non nullo osservabile è già ≥ 12,5 punti con 8 run. Non è un problema di E5-C1, che
+  fissa una soglia di rilevanza e non di misurabilità; è un vincolo che E5-C3 deve assorbire quando
+  tratterà incertezza e specificità di meccanismo.
+
+  Si confronta **poi** con ciò che D2 rende rilevabile: se D2 non lo raggiunge, è un limite da
+  dichiarare, non una ragione per rivedere l'effetto dopo aver visto il campione.
+- *E5-C2 — soglia del controllo di lunghezza:* ⏳ **provvisoria (2026-09-12)**: scarto relativo ≤ 5%
+  per caso e zero differenze di troncamento. Si chiude dopo la verifica di fattibilità. Specifica
+  completa nel blocco «E5-C2» sopra.
+- *Endpoint:* accuratezza diagnostica top-1 **per meccanismo**, unità = *physical run*, bootstrap
+  clusterizzato. Contrasto: FULL − PERM_F per ciascuna famiglia F.
+- *Limite principale, già noto e da dichiarare nel paper.* Con D2 pari a 6 o 8 run, **IDV(13) fornisce
+  soltanto 6 o 8 unità indipendenti**: è l'unico fault del meccanismo slow drift, quindi non c'è una
+  seconda istanza su cui accumulare potenza. Senza run aggiuntivi dedicati, **il risultato su
+  `slope_sigma_h` resta esplorativo e non può sostenere un criterio inferenziale forte.** È il
+  descrittore che ha già meno evidenza a favore (`analysis/feature_ablation/`), quindi il limite cade
+  esattamente dove farebbe più danno. **Via scelta (2026-09-12): risultato esplorativo, senza run
+  dedicati.** E5 eredita D2 e non lo modifica; aggiungere run del solo IDV(13) richiederebbe
+  **riaprire D2 esplicitamente**, e non è una cosa che questo esperimento può fare per conto proprio.
+- *E5-C3 — statuto **DESCRITTIVO**.* **Modifica deliberata del protocollo, 2026-09-12.** La
+  formulazione precedente prevedeva un livello **inferenziale** per `level`/`residual`/`diff` e uno
+  descrittivo per `slope_sigma_h`; è sostituita da uno statuto descrittivo integrale. Motivo:
+  proporzione a un paper di 10 pagine, e un solo fault per meccanismo su almeno un meccanismo, che
+  rende la gerarchia a due livelli più fragile di quanto appaia.
+
+  Si riporta la tabella degli effetti per famiglia e meccanismo, con **intervalli dichiarati
+  esplorativi**. **Nessun test di ipotesi, nessuna correzione per molteplicità.** La lettura resta
+  orientata alla **specificità di meccanismo**: un calo concentrato sul meccanismo che la famiglia
+  descrive dice altro da un calo uniforme, che indica perdita di informazione generica.
+
+  Restano da fissare prima del freeze: **mappa famiglia–meccanismo**; **regola di aggregazione** (per
+  fault, run, ricevente); e la specifica degli intervalli — **pesi, procedura del bootstrap
+  clusterizzato e trattamento dell'accoppiamento donatore–ricevente**, che non è indipendenza fra
+  osservazioni e va dichiarato. Un capoverso in metodologia, non un apparato.
+
+**E5-C2 — controllo di lunghezza: ⏳ regola PROVVISORIA (2026-09-12).** Soglia **operativa**, non
+statistica, applicata **senza modificare in seguito derangement o prompt**. **Non è chiusa:** il valore
+del 5% può ancora cambiare all'esito della verifica di fattibilità, e finché può cambiare non va
+segnato come deciso. Si chiude — e diventa congelabile — solo dopo quella verifica.
+
+- *Conteggio:* con il **tokenizer del modello effettivamente usato**, sul **prompt completo**, non su
+  un suo frammento né su una stima.
+- *Criterio, per ogni coppia FULL / PERM_F e per ogni caso:*
+  `|token_PERM − token_FULL| / token_FULL ≤ 5%`
+- *Troncamento:* **zero differenze di troncamento** fra i due bracci.
+- *Conseguenza:* se anche **un solo caso** supera il 5% o viene troncato diversamente, il contrasto
+  di quella famiglia è **riportato con avvertenza esplicita di confondimento con la lunghezza**,
+  accanto al contrasto stratificato per lunghezza. In regime descrittivo l'avvertenza non è
+  ornamentale: una violazione **impedisce di attribuire il contrasto alla sola informazione della
+  famiglia**. Non si sostituisce il braccio, non si rigenera il derangement, non si riscrive il
+  prompt dopo aver visto i dati.
+
+*Il controllo con `rapid` congelata al valore vero resta solo diagnostico:* serve ad attribuire uno
+scostamento all'abbinamento fra famiglie o al ricalcolo di `rapid`, non è un braccio sperimentale e
+non entra in nessun contrasto riportato.
+
+⚠️ **Verifica di fattibilità, da fare prima del freeze e non dopo.** La regola è a scatto singolo: un
+caso fuori soglia declassa l'intera famiglia, e non è rimediabile dopo il congelamento. È quindi
+necessario misurare **in anticipo, sui soli dati di sviluppo e con il verbalizzatore congelato**, la
+distribuzione effettiva di `|Δtoken|/token_FULL` sotto derangement disgiunto per classe. Il rischio è
+concreto: una famiglia occupa una frazione non trascurabile del testo, e un caso che riceve evidenza
+molto più attiva della propria può spostare il totale oltre il 5%. Se la misura mostra che il 5% non è
+raggiungibile, la soglia va rivista **prima** di `exp5-protocol-frozen` — non dopo, e mai dopo aver
+visto un risultato diagnostico. Questa verifica non apre validazione né test e non consuma chiamate al
+modello oltre la tokenizzazione.
+
+*Che cosa può motivare una revisione del 5%, e che cosa no.* Solo **misure di lunghezza** — la
+distribuzione osservata di `|Δtoken|/token_FULL` sui dati di sviluppo. **Mai un risultato
+diagnostico:** nessuna accuratezza, nessun contrasto, nessuna anteprima dell'endpoint può entrare
+nella scelta della soglia, altrimenti il controllo smette di essere indipendente da ciò che deve
+proteggere. Ogni revisione va **registrata qui con la sua misura e la sua data, prima del freeze**;
+dopo `exp5-protocol-frozen` la soglia non si tocca più, qualunque cosa mostri l'esecuzione.
+
+**Limiti dichiarati.**
+
+- **Seme unico di derangement.** Il risultato è relativo **alla corruzione realizzata**, non alla
+  media su tutte le corruzioni possibili.
+- **I donatori possono condividere il meccanismo del ricevente.** La disgiuntività è per **classe**,
+  non per meccanismo. Va documentata la **matrice degli abbinamenti**. *Opzionale, senza chiamate
+  aggiuntive:* riportare FULL − PERM stratificato fra donatori di stesso e diverso meccanismo.
+- **Meccanismi con un solo fault.** Il risultato riguarda **quella classe**, non il meccanismo. Regola
+  valida per tutto il catalogo finale, non solo per IDV(13).
+
+**Manifest dei dati e dei ruoli.**
+
+| Ruolo | Dati | Nota |
+| --- | --- | --- |
+| Sviluppo | vecchi batch F1/F8/F10/F13 già osservati, tabelle `code/tep_analysis_v2/`, ablazione esistente | **usati nello sviluppo della rappresentazione e delle ipotesi**: non sono evidenza confermativa |
+| Baseline | N1–N5, tratto Normal continuo | statistiche di riferimento del verbalizzatore |
+| Calibrazione storica | le 50 finestre da N1–N5 usate per le soglie di Fase A | il FAR storico è un **conteggio in-sample**, non una verifica indipendente. Per l'eredità o meno delle soglie vale `docs/lit_review/DECISIONE_calibrazione_soglie_fase_B.md`: qui non se ne riformula la decisione |
+| Test | **nuovi run degli otto fault di D1** — quattro classi di continuità e quattro nuove | la selezione storica del catalogo resta un **limite di generalizzazione** dichiarato |
+
+**Costo.** Bracci corrotti: **2n · Σ_F (m_F + c_F)**, con n run per fault, m_F fault bersaglio e
+c_F = 1 controllo. FULL: **n · |∪_F S_F| ≤ 8n**. Scenario a 3 fault per famiglia, R = 1, un ricevente
+per caso, **FULL riusato da B-LF**: **144** chiamate a 6 run, **192** a 8 — circa il **6%** dello
+studio. Perimetro pieno, per confronto: **lordo 3.024 / 4.032**; **aggiuntivo con FULL riusato
+2.688 / 3.584**.
+
+**Molteplicità.** Tutti gli esiti sono **descrittivi**: non si applica correzione per molteplicità
+perché non si eseguono test. Unità = *physical run*, bootstrap clusterizzato per gli intervalli
+esplorativi; mai trattare le osservazioni agent-case come indipendenti.
+
+**Ordine di generazione e congelamento.** I **run fisici possono essere simulati prima del freeze ma
+restano sigillati**. *Sigillato* significa: **nessuna ispezione di segnali, feature o risultati del
+test per decisioni progettuali**; sono ammesse le verifiche tecniche predefinite che non orientano
+tali decisioni. **Prima del freeze** si costruiscono e si congelano, **sui soli identificativi**, le
+mappe donatore–ricevente e le assegnazioni degli agenti. **Dopo il freeze** si applicano le mappe
+all'evidenza e si producono omissioni e prompt.
+
+E5-C1 va fissata **prima** di conoscere la potenza disponibile, altrimenti l'effetto minimo finisce
+adattato al campione.
+
+1. ✅ **E5-C1** fissata: Δ ≥ 0,10 come soglia di annotazione;
+2. ⏳ **E5-C2** provvisoria; si chiude con la **verifica di fattibilità** sulle sole lunghezze;
+3. chiudere **D1** e **D2**; verificare la coincidenza **FULL = B-LF** sul decoding;
+4. formulare **E5-C3** — mappa famiglia–meccanismo, regola di aggregazione, specifica degli intervalli;
+5. costruire e congelare mappe e assegnazioni sui soli identificativi;
+6. congelare con `exp5-protocol-frozen`; poi applicazione delle mappe, generazione di omissioni e
+   prompt → esecuzione → results.
 
 ---
 

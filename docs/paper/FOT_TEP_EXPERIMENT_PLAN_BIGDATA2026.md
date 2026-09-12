@@ -1,7 +1,24 @@
-# Piano sperimentale pre-submission — FoT–TEP per IEEE BigData 2026 (Rev. 4)
+# Piano sperimentale pre-submission — FoT–TEP per IEEE BigData 2026 (Rev. 5)
 ## Supervisor / Area-Chair review: pacchetto di esperimenti pre-specificati per massimizzare l'accettazione
 
 **Companion di** `docs/fot_walkthrough_conversazione_v2.md` §14, unico luogo attivo della letteratura. La review che accompagnava questo piano è archiviata in `docs/archive/lit_review_2026-09/FOT_TEP_LITERATURE_REVIEW_BIGDATA2026.md`.
+
+### Changelog — Rev. 5 (ablazione dei descrittori di Fase A, 2026-09-12)
+
+1. **Registrata l'ablazione testuale dei descrittori di Fase A**, approvata come disegno il
+   2026-09-11. Il disegno **non è congelato**.
+2. **Il disegno autorevole vive in `FoT_TEP_Review_Piano_Sperimentale.md` §8.12**, documento
+   autorevole del nuovo studio. Qui §7 porta soltanto un rimando: il disegno non è duplicato, per non
+   creare due copie da tenere allineate.
+3. **Sotto-decisioni rinominate `E5-A`/`E5-B`/`E5-C`** per non collidere con il namespace D1–D12
+   delle decisioni da congelare. E5-A (statuto dell'omissione) ed E5-B (ricalcolo di `rapid`) sono
+   **chiuse**; **E5-C1 è chiusa** (Δ ≥ 0,10, soglia di annotazione) ed **E5-C2 è provvisoria**
+   (≤ 5% per caso); **resta aperta E5-C3**, di statuto descrittivo, che dipende da D1, da D2 e dalle
+   altre due. I run per fault non sono una decisione di E5: sono ereditati da D2.
+4. **Vincolo registrato:** IDV(13) è l'unico fault documentato per il meccanismo slow drift. Si adotta
+   **un solo fault per quel meccanismo**, con più run indipendenti, e la conclusione sul drift va
+   enunciata **su IDV(13), non sui drift lenti in generale**.
+5. **§19 aggiornata** di conseguenza.
 
 ### Changelog — Rev. 4 (registrazione completamento Exp 2 Qwen, 2026-09-09)
 
@@ -453,6 +470,47 @@ Bootstrap cluster-pairato su 24 cluster, seed 320031, 10.000 draw.
 - **Molteplicità:** dichiarare i contrasti come **secondari/esplorativi**; niente claim primarie qui.
 - **Freeze order:** `exp4-protocol-frozen` → esecuzione → results.
 
+### Experiment 5 — Ablazione testuale dei descrittori di Fase A (APPROVATO 2026-09-11, **NON CONGELATO**)
+
+> **Il disegno non è qui.** Vive in `FoT_TEP_Review_Piano_Sperimentale.md` **§8.12**, documento
+> autorevole del nuovo studio. Questa voce è un rimando e non va riempita: due copie di un disegno
+> divergono. Motivazione bibliografica: `docs/lit_review/criteri_scelta_descrittori.md` §5.1.
+
+In sintesi, per chi legge solo questo piano: ablazione delle quattro famiglie di descrittori di
+Fase A sul **testo renderizzato**, con endpoint l'accuratezza diagnostica per meccanismo di guasto.
+Braccio principale a **derangement dell'evidenza strutturata a monte del renderer**, senza punti fissi
+e con seme congelato (E applicata al descrittore invece che alla pseudolabel); braccio di omissione
+secondario, con confondente di lunghezza dichiarato. **Non** sostituisce l'ablazione in `analysis/feature_ablation/`, che resta
+valida sul proprio endpoint — separabilità 1-NN della signature — ed esplorativa.
+
+Stato: **E5-A** ed **E5-B** chiuse; il derangement è **disgiunto per classe** (deciso 2026-09-12,
+campionamento uniforme sui soli derangement validi). **E5-C aperta** in tre voci con dipendenze diverse:
+**E5-C1 ✅ chiusa** — effetto minimo di interesse Δ = accuracy_FULL − accuracy_PERM_F ≥ **0,10**
+(10 punti assoluti sul meccanismo bersaglio; rilevanza pratica, non significatività). **E5-C2 ⏳ provvisoria** — scarto relativo
+dei token ≤ 5% per caso sul prompt completo e zero differenze di troncamento; una sola violazione fa sì che il
+contrasto della famiglia sia riportato con **avvertenza esplicita di confondimento con la lunghezza**;
+la violazione impedisce di attribuire il contrasto alla sola informazione della famiglia. **Non è chiusa:** si chiude con la **verifica di fattibilità sui
+dati di sviluppo prima del freeze**, e un'eventuale revisione può usare solo lunghezze, mai risultati
+diagnostici. **E5-C3** (criterio di successo) aperta: dipende da D1, da D2 e dalle
+altre due.
+I fault vengono da D1 e i **run per fault sono ereditati da D2**, non ridecisi qui. ⚠️ Con D2 a 6 o 8 run, IDV(13) dà 6–8 unità
+indipendenti; **via scelta: risultato esplorativo senza run dedicati** — aggiungerli richiederebbe
+riaprire D2. **E5-C3 ha statuto descrittivo integrale** (deciso 2026-09-12, modifica deliberata del protocollo):
+tabella degli effetti per famiglia e meccanismo con intervalli esplorativi, **nessun test di ipotesi,
+nessuna correzione per molteplicità**. Restano da fissare mappa famiglia–meccanismo, regola di
+aggregazione e specifica degli intervalli. Vincolo registrato:
+IDV(13) è l'unico slow drift documentato, quindi la conclusione sul drift riguarda IDV(13) e non i
+drift lenti in generale.
+
+Perimetro ridotto: **un ricevente per run fisico**, ogni famiglia sui fault del proprio meccanismo più
+un controllo, **R = 1**. Costo ~144/192 come accantonamento prudenziale (§8.8), FULL riusato da B-LF
+se ne ricorrono le condizioni. L'audit R=3 del nucleo **non copre E5**.
+
+**Ordine di generazione e congelamento:** vale l'ordine di §8.12 del documento autorevole, che qui non
+si duplica. `exp5-protocol-frozen` non è assegnato.
+
+---
+
 **Invariante statistico (tutti):** unità = *physical run*; bootstrap clusterizzato; mai trattare le
 osservazioni agent-case come indipendenti.
 
@@ -669,7 +727,7 @@ soddisfatto).
 
 ---
 
-## 19. COSA RESTA DA FARE (Rev. 4 — aggiornamento 2026-09-09)
+## 19. COSA RESTA DA FARE (Rev. 5 — aggiornamento 2026-09-12)
 
 ### Completato
 
@@ -689,6 +747,10 @@ soddisfatto).
 6. ⬜ **Framing + terminologia + PV-motivation + delta vs FoT** — per il paper.
 7. ⬜ **Scrittura del paper** (10 pagine IEEE 2-col).
 8. *(Solo se resta tempo dopo 4–7)* **Seconda lane Exp 2** (famiglia diversa) o **Exp 4 — ablation**.
+9. ⬜ **Experiment 5 — chiusura di E5-C.** E5-A ed E5-B sono chiuse. **E5-C1** (Δ ≥ 0,10) è chiusa; **E5-C2** (≤ 5% per
+   caso) è **provvisoria** e si chiude con la verifica di fattibilità sui dati di sviluppo. Solo **E5-C3** è bloccata da D1, da D2 e dalle altre due: statuto **descrittivo**, restano
+   da fissare mappa famiglia–meccanismo, regola di aggregazione e specifica degli intervalli. Disegno in
+   `FoT_TEP_Review_Piano_Sperimentale.md` §8.12; nessun run va aperto prima di `exp5-protocol-frozen`.
 
 ### Risultati che hanno confermato / vincolano il framing (Rev. 4)
 
