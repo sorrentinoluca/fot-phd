@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "status": "public_release_verified_by_redownload",
+  "repository": "sorrentinoluca/fot-tep-data",
+  "repository_url": "https://github.com/sorrentinoluca/fot-tep-data",
+  "release_tag": "studio2-fase02-v1",
+  "release_id": 387656892,
+  "release_url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase02-v1",
+  "release_commit": "6d238929285e57c6c70f4d563ef7e30b59da6ac5",
+  "published_at_utc": "2026-09-12T18:02:55Z",
+  "verification": {
+    "method": "downloaded both release assets into a separate temporary directory, verified asset SHA-256, extracted both archives, then verified every workbook against the included CSV manifests",
+    "legacy_manifest_rows": 78,
+    "legacy_distinct_workbooks": 74,
+    "generation_manifests": 5,
+    "generation_workbooks": 150,
+    "mismatches": 0
+  },
+  "assets": [
+    {
+      "name": "studio2-fase02-legacy-v1.tar",
+      "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase02-v1/studio2-fase02-legacy-v1.tar",
+      "bytes": 144904704,
+      "sha256": "0669aae7106d91f96068c25bd215968343bbd3e9ddff1db982e27573de063d81",
+      "contents": "74 distinct conserved legacy XLSX contents plus MANIFEST_CONSERVAZIONE.csv"
+    },
+    {
+      "name": "studio2-fase02-validation-v1.tar",
+      "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase02-v1/studio2-fase02-validation-v1.tar",
+      "bytes": 281648128,
+      "sha256": "d4143bdd3fa0d67c4e0e9e81496b6716242e381575b19fd9358209d652233fc9",
+      "contents": "140 definitive Philox XLSX outputs, 10 authoritative legacy-comparison XLSX outputs, and five execution manifests"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+run_id,set_name,stream_id,stop_time_h,burn_in_h,window_position
+burnin_qual-001,burnin_qual,0,70,0,0
+burnin_qual-002,burnin_qual,1,70,0,0
+burnin_qual-003,burnin_qual,2,70,0,0
+burnin_qual-004,burnin_qual,3,70,0,0
+burnin_qual-005,burnin_qual,4,70,0,0
+burnin_qual-006,burnin_qual,5,70,0,0
+burnin_qual-007,burnin_qual,6,70,0,0
+burnin_qual-008,burnin_qual,7,70,0,0
+burnin_qual-009,burnin_qual,8,70,0,0
+burnin_qual-010,burnin_qual,9,70,0,0

@@ -1,0 +1,11 @@
+run_id,set_name,stream_id,legacy_seed,stop_time_h,burn_in_h,window_position
+philox_legacy_qual-001,philox_legacy_qual,200,,70,20,0
+philox_legacy_qual-002,philox_legacy_qual,201,,70,20,0
+philox_legacy_qual-003,philox_legacy_qual,202,,70,20,0
+philox_legacy_qual-004,philox_legacy_qual,203,,70,20,0
+philox_legacy_qual-005,philox_legacy_qual,204,,70,20,0
+philox_legacy_qual-006,philox_legacy_qual,205,,70,20,0
+philox_legacy_qual-007,philox_legacy_qual,206,,70,20,0
+philox_legacy_qual-008,philox_legacy_qual,207,,70,20,0
+philox_legacy_qual-009,philox_legacy_qual,208,,70,20,0
+philox_legacy_qual-010,philox_legacy_qual,209,,70,20,0

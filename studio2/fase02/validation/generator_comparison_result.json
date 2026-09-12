@@ -1,0 +1,53 @@
+{
+  "philox_run_count": 10,
+  "legacy_run_count": 10,
+  "burn_in_hours": 20.0,
+  "metrics": {
+    "abs_shift_sigma": {
+      "candidate_median": 0.11492616005835632,
+      "candidate_mad": 0.0829434228728925,
+      "reference_median": 0.11744620326334822,
+      "reference_mad": 0.08147272190978894,
+      "median_shift_in_reference_mad": 0.030931128185237605,
+      "mad_ratio": 1.018051452420259,
+      "pass": true
+    },
+    "abs_slope_sigma_h": {
+      "candidate_median": 0.07355882932934188,
+      "candidate_mad": 0.049012538764682416,
+      "reference_median": 0.06913492419583746,
+      "reference_mad": 0.04553851990402545,
+      "median_shift_in_reference_mad": 0.09714644092140033,
+      "mad_ratio": 1.0762874785561458,
+      "pass": true
+    },
+    "residual_std_ratio": {
+      "candidate_median": 0.9518137610089732,
+      "candidate_mad": 0.06751330226027308,
+      "reference_median": 0.9501923548194657,
+      "reference_mad": 0.06868698991761635,
+      "median_shift_in_reference_mad": 0.023605724918972035,
+      "mad_ratio": 0.9829125186771032,
+      "pass": true
+    },
+    "diff_std_ratio": {
+      "candidate_median": 0.9960142359417754,
+      "candidate_mad": 0.050735189057622365,
+      "reference_median": 0.9947441452134891,
+      "reference_mad": 0.047736593749812095,
+      "median_shift_in_reference_mad": 0.026606228650139518,
+      "mad_ratio": 1.0628154435049542,
+      "pass": true
+    },
+    "S": {
+      "candidate_median": 7.5548791712252665,
+      "candidate_mad": 1.6831704517361308,
+      "reference_median": 7.5263661650068325,
+      "reference_mad": 1.5812348948923378,
+      "median_shift_in_reference_mad": 0.018032112945733706,
+      "mad_ratio": 1.064465790106873,
+      "pass": true
+    }
+  },
+  "pass": true
+}

@@ -1,0 +1,11 @@
+run_id,set_name,stream_id,stop_time_h,burn_in_h,window_position,started_at_utc,finished_at_utc,output_path,sha256,data_rows,columns
+pilot-001,pilot,1000,70,20,0,12-Sep-2026 16:50:10,12-Sep-2026 16:50:25,/Users/luker/fot-tep/studio2/fase02/validation/data/r2_pilot/pilot-001.xlsx,82af25a57237f6d7bc56771b9c87e1f930a9b61e0bc62e12ee6d5a772a056315,4201,54
+pilot-002,pilot,1001,70,20,0,12-Sep-2026 16:50:26,12-Sep-2026 16:50:35,/Users/luker/fot-tep/studio2/fase02/validation/data/r2_pilot/pilot-002.xlsx,63552b9c16c276ca0ab62cf0f09bb5e467bd2846962ed2749c76788043364809,4201,54
+pilot-003,pilot,1002,70,20,0,12-Sep-2026 16:50:36,12-Sep-2026 16:50:45,/Users/luker/fot-tep/studio2/fase02/validation/data/r2_pilot/pilot-003.xlsx,f94a2831a998695b583254f365a57535dffe52f9e2134e8fc8af692bc4b1b6ec,4201,54
+pilot-004,pilot,1003,70,20,0,12-Sep-2026 16:50:45,12-Sep-2026 16:50:55,/Users/luker/fot-tep/studio2/fase02/validation/data/r2_pilot/pilot-004.xlsx,8182a164095e32a1ab9e45f533be69ff627f70651553fcd112c74859f06e8478,4201,54
+pilot-005,pilot,1004,70,20,0,12-Sep-2026 16:50:55,12-Sep-2026 16:51:04,/Users/luker/fot-tep/studio2/fase02/validation/data/r2_pilot/pilot-005.xlsx,076d724937109c09a4e599596385f8980554b21a5e3bad82046d83ca74b369d2,4201,54
+pilot-006,pilot,1005,70,20,0,12-Sep-2026 16:51:05,12-Sep-2026 16:51:14,/Users/luker/fot-tep/studio2/fase02/validation/data/r2_pilot/pilot-006.xlsx,c8db6b9dd3e1f7b5b27e19a5063712b13c4f00d9776af12c1ac09cd5acf93e94,4201,54
+pilot-007,pilot,1006,70,20,0,12-Sep-2026 16:51:14,12-Sep-2026 16:51:23,/Users/luker/fot-tep/studio2/fase02/validation/data/r2_pilot/pilot-007.xlsx,6074baea65fb91605fbc48267e38aee91030950e83d48b17db21a6bc49655bef,4201,54
+pilot-008,pilot,1007,70,20,0,12-Sep-2026 16:51:24,12-Sep-2026 16:51:33,/Users/luker/fot-tep/studio2/fase02/validation/data/r2_pilot/pilot-008.xlsx,d6bbde2a5618797ce3491a905b40cf4deb5c885219f58ed3a20ddb08c28dcfc0,4201,54
+pilot-009,pilot,1008,70,20,0,12-Sep-2026 16:51:34,12-Sep-2026 16:51:43,/Users/luker/fot-tep/studio2/fase02/validation/data/r2_pilot/pilot-009.xlsx,c62d75d915da7b8efecf435c3260faad7896f1dea2c41a8b79583a9c20d5267b,4201,54
+pilot-010,pilot,1009,70,20,0,12-Sep-2026 16:51:43,12-Sep-2026 16:51:52,/Users/luker/fot-tep/studio2/fase02/validation/data/r2_pilot/pilot-010.xlsx,279e91c756cc18761dd80ffed8a849df2a9e74b867492f4890de2be78e1a149f,4201,54

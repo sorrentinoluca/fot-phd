@@ -1,0 +1,11 @@
+run_id,set_name,stream_id,legacy_seed,stop_time_h,burn_in_h,window_position
+pilot-001,pilot,1000,,70,20,0
+pilot-002,pilot,1001,,70,20,0
+pilot-003,pilot,1002,,70,20,0
+pilot-004,pilot,1003,,70,20,0
+pilot-005,pilot,1004,,70,20,0
+pilot-006,pilot,1005,,70,20,0
+pilot-007,pilot,1006,,70,20,0
+pilot-008,pilot,1007,,70,20,0
+pilot-009,pilot,1008,,70,20,0
+pilot-010,pilot,1009,,70,20,0

@@ -1,0 +1,2 @@
+run_id,set_name,stream_id,stop_time_h,burn_in_h,window_position,started_at_utc,finished_at_utc,output_path,sha256,data_rows,columns
+implementation-smoke,technical_smoke,999999,0.05,0,0,12-Sep-2026 16:16:04,12-Sep-2026 16:16:11,/Users/luker/fot-tep/studio2/fase02/runtime_smoke_output/implementation-smoke.xlsx,5fd12c76f03caf90f27287b1080a4b5d1d7216c77b3731730bce84ccd29811b4,4,54

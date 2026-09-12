@@ -1,0 +1,206 @@
+{
+  "schema_version": 2,
+  "status": "content_frozen_and_data_archived_pending_independent_reverification_and_commit",
+  "source_head_commit": "63274711a506597ff9690e7a87c7b4b3fac80591",
+  "selected_burn_in_hours": 20,
+  "score_variant": "A",
+  "score_threshold": null,
+  "calibration_rank": null,
+  "calibration_size": null,
+  "exceedance_rule_after_calibration": "S > threshold",
+  "artifact_storage_record": "studio2/fase02/ARTIFACT_STORAGE.json",
+  "files": {
+    "docs/lit_review/DECISIONE_calibrazione_soglie_fase_B.md": {
+      "sha256": "74bf431266072ab9692c9b97d96fa7291a9e1d07ea40642df435801ed7055188",
+      "bytes": 48182
+    },
+    "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md": {
+      "sha256": "d2b52222a0ae0a288d4c60e09e39343c6de959aa05956985cbe7711992c6c6ba",
+      "bytes": 159146
+    },
+    "studio2/PROVENIENZA.md": {
+      "sha256": "1adf90d950daf95eb67ce5b13a6f209a92180c87171c56edcc4b82371e842c40",
+      "bytes": 8119
+    },
+    "studio2/fase02/ARTIFACT_STORAGE.json": {
+      "sha256": "74eae7b154524ce3fd4667cd68accebbc658c8cf1521e256d50de17282eab4a5",
+      "bytes": 1694
+    },
+    "studio2/fase02/MANIFEST_CONSERVAZIONE.csv": {
+      "sha256": "743bfd9e58c1f171f4d408d21e058b2332a46422b00f92f73ac897cf500e5181",
+      "bytes": 23231
+    },
+    "studio2/fase02/QUALIFICAZIONE_RIUSO.md": {
+      "sha256": "614d6118a69aa4443ad580aee5653524afbb70848d5ed71224306905b67e3b70",
+      "bytes": 3156
+    },
+    "studio2/fase02/SIMULATOR_PROVENIENZA.md": {
+      "sha256": "bada3e88478c5bc63a4534b3d5bb137112b229f435fd0e9c5fdca4d43619b717",
+      "bytes": 3446
+    },
+    "studio2/fase02/SPECIFICA_GENERAZIONE.md": {
+      "sha256": "5b6056b730e2625e1eede574ff757dd26189f00125d7dc48315525f9538cba5a",
+      "bytes": 10331
+    },
+    "studio2/fase02/generation_spec.json": {
+      "sha256": "37800d80af8b5734607d00a76193a7c44918ec25234a2144faa1a80c276e0aa9",
+      "bytes": 2125
+    },
+    "studio2/fase02/preserve_legacy_data.py": {
+      "sha256": "a1c688133b83bfc8370f534bab3fd1cb60e5eb32ea241761fdfdf93a0377e23b",
+      "bytes": 6556
+    },
+    "studio2/fase02/build_generation_plan.py": {
+      "sha256": "6d8f5c458eae0fe215d89bcc6564fe077c09187d1dd6a4863ef1269970772951",
+      "bytes": 4477
+    },
+    "studio2/fase02/freeze_precalibration.py": {
+      "sha256": "851d2c56a15e06db2c7a3ca0303c3ecec09598934a5e6e649faf44fd87e85009",
+      "bytes": 5365
+    },
+    "studio2/fase02/analysis/combined_score.py": {
+      "sha256": "6d083820789c888c393864b40c19205920029eac3113e36133e78d53c98cac48",
+      "bytes": 9683
+    },
+    "studio2/fase02/analysis/tep_features.py": {
+      "sha256": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+      "bytes": 10439
+    },
+    "studio2/fase02/analysis/validate_numerics.py": {
+      "sha256": "f17066ebd6a7523eddf350589a44ac2cf85a90c95ef0e3076a1bb492b9f27efe",
+      "bytes": 16963
+    },
+    "studio2/fase02/tests/fixtures/runtime_smoke_plan.csv": {
+      "sha256": "064dfbed503b2fc16f7f45165504071d2b134bc4e067e686e4f538a9b62d4dbf",
+      "bytes": 117
+    },
+    "studio2/fase02/tests/test_combined_score.py": {
+      "sha256": "924228a959a835c655484c3294c7d6cd5df745993bc4198eb08d2e39450cb2e9",
+      "bytes": 2055
+    },
+    "studio2/fase02/tests/test_generation_plan.py": {
+      "sha256": "668dcc1126865cddf018846a567fecfd23dabe7764b59b95f513a8399fce869b",
+      "bytes": 1783
+    },
+    "studio2/fase02/validation/score_fit_legacy.json": {
+      "sha256": "e679caf45bf1ec1c923b8ef50b36fef5bcb350e17cf3296e00c748ec9fdef477",
+      "bytes": 7606
+    },
+    "studio2/fase02/simulator/source/temexd_philox.c": {
+      "sha256": "230086e7712e753bf48f3e9108cd0ce2f68aba97d9590ebb3c7593a47f8b6d25",
+      "bytes": 195583
+    },
+    "studio2/fase02/simulator/source/philox4x32.h": {
+      "sha256": "9c272c6dd32bd749431ec6c2d37333dc6ba3732795e656dfe6d8c40c35a3cf61",
+      "bytes": 2155
+    },
+    "studio2/fase02/simulator/source/philox_kat.c": {
+      "sha256": "20274cf2b9c36393d20d7d618ee07841505e2998c5bdb652d74135587a6fa524",
+      "bytes": 2161
+    },
+    "studio2/fase02/simulator/source/teprob_mod.h": {
+      "sha256": "e8d07857030a837443ce947361335f2e6f2ade5d2fa54a85bcc5c4a6d9afe939",
+      "bytes": 6907
+    },
+    "studio2/fase02/simulator/matlab/MultiLoop_mode1.mdl": {
+      "sha256": "c58826748edd306b723da2f0199a0fb2dc193a51dc5c28dbde8ac821e39dfafd",
+      "bytes": 186672
+    },
+    "studio2/fase02/simulator/matlab/tesys.mdl": {
+      "sha256": "64e75834d02dc9dd486d22503b71efcc673982c1be4594508ea57d304a170016",
+      "bytes": 26600
+    },
+    "studio2/fase02/simulator/matlab/TElib.mdl": {
+      "sha256": "4605de6ca0e6da67626e2be6d5f328c735f8bf5a5a730dc67f558a3f1dabddba",
+      "bytes": 12702
+    },
+    "studio2/fase02/simulator/matlab/Mode_1_Init.m": {
+      "sha256": "9dfb4e404c8c982c035fe47472020443b0a1d3f37b55425219968489d92d8933",
+      "bytes": 2270
+    },
+    "studio2/fase02/simulator/matlab/Mode1xInitial.mat": {
+      "sha256": "40eaebc92badb04ad026e358cfd28ec9c778fcf2d24a1b8f5d85565854da2747",
+      "bytes": 13592
+    },
+    "studio2/fase02/simulator/matlab/TEplot.m": {
+      "sha256": "f10cc8751c1dd99c2efe989460871e701704bc8bde901d83a13834327e75b1be",
+      "bytes": 4871
+    },
+    "studio2/fase02/simulator/matlab/compile_philox.m": {
+      "sha256": "8afe763af72a81bef3caa9ebab1dee2cc1353f18f51f16f9ce6dca692d62e1fe",
+      "bytes": 594
+    },
+    "studio2/fase02/simulator/matlab/generate_normal_runs.m": {
+      "sha256": "923d657608f5bbf30869c8cdf2772dd5cacd2a98b4ef62dc85540dc812eda837",
+      "bytes": 6272
+    },
+    "studio2/fase02/simulator/matlab/generate_legacy_normal_runs.m": {
+      "sha256": "b0c319c6901371cddcd25f51983fa96c76ec2bb3acc76bd60512207ec1e6596a",
+      "bytes": 4843
+    },
+    "studio2/fase02/validation/plans/burnin_qual.csv": {
+      "sha256": "ef1b3bf58c680a0697bb77c5c0f47222a6a961f6e2fa666dd1af1660f9999686",
+      "bytes": 434
+    },
+    "studio2/fase02/validation/plans/philox_legacy_qual.csv": {
+      "sha256": "509b60480da8080890036e557b063a801e86eb97db2653659f7a8dbb71db5a2d",
+      "bytes": 626
+    },
+    "studio2/fase02/validation/plans/legacy_generator_qual.csv": {
+      "sha256": "6e2a3f1e07152adb7dfa151ebc935188e6c1010cc51db9a4932a679788003447",
+      "bytes": 786
+    },
+    "studio2/fase02/validation/plans/prefix_qual.csv": {
+      "sha256": "ca53cf059db22b4588c86a150bc778dc2030f174e6c3ce3c00d4f8373ae7b7b8",
+      "bytes": 5046
+    },
+    "studio2/fase02/validation/plans/r2_pilot.csv": {
+      "sha256": "5fc5029cd68a91253399621fd22976d591514cc63c564709e8871215736b7739",
+      "bytes": 376
+    },
+    "studio2/fase02/validation/burn_in_result_v2.json": {
+      "sha256": "ffa617914728ff9b5c9ce675b52584f6c77e341e565cf92f2cc65df669fb8b89",
+      "bytes": 6285
+    },
+    "studio2/fase02/validation/generator_comparison_result_v2.json": {
+      "sha256": "77c08297b13b0fd30e52f219bb24de8d2078241b24aecaf0aa336f9da237599d",
+      "bytes": 1761
+    },
+    "studio2/fase02/validation/prefix_result_v2.json": {
+      "sha256": "f17ad8dce8df5f8a0655908f597e7f44618ea69420f32441e4d97a6a6f38ce6e",
+      "bytes": 35994
+    },
+    "studio2/fase02/validation/r2_guard_result_v2.json": {
+      "sha256": "3b7131400747cd7b13a6ad02841fbdb84c85952297e090bd7b99678f03f2ee82",
+      "bytes": 1780
+    }
+  },
+  "local_mex": {
+    "path": "studio2/fase02/simulator/build/temexd_philox.mexmaca64",
+    "sha256": "6ae7e7be5394773f1854f1c53eddbd778ad7557b61fb05a93b3edb0552b1d11e",
+    "tracked": false,
+    "rebuild_required_on_other_platforms": true
+  },
+  "executed_manifests": [
+    {
+      "path": "studio2/fase02/validation/data_v2/burnin_qual/generation_manifest.csv",
+      "sha256": "d25dedafcf31770fd6f15fccb41ed2a5ac32ce009ca4f4764ae02a41919ff0a6"
+    },
+    {
+      "path": "studio2/fase02/validation/data_v2/philox_legacy_qual/generation_manifest.csv",
+      "sha256": "8a1721eb18c5adf429cbceda5877988b35d141c210029033727cb7bdf8e7a711"
+    },
+    {
+      "path": "studio2/fase02/validation/data_v2/prefix_qual/generation_manifest.csv",
+      "sha256": "2e5ad753d7e5252d9861ab51803c1eeb78a263482936c42264cf049a53e353ff"
+    },
+    {
+      "path": "studio2/fase02/validation/data_v2/r2_pilot/generation_manifest.csv",
+      "sha256": "7b51e508d226fe815ef14c816b6e06422ef5071de8054c781ee7ad6c1e2128ef"
+    },
+    {
+      "path": "studio2/fase02/validation/data/legacy_generator_qual/generation_manifest.csv",
+      "sha256": "a6720b951b2bbeada3f56ae86d681a84c0b2c18b534fb92298e6737cd6dbf876"
+    }
+  ]
+}
