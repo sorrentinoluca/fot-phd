@@ -1,8 +1,8 @@
 # Studio 2 — walkthrough
 
 > **Documento vivo, a scheletro.** Si aggiorna **fase per fase**: si lavora su una fase, si
-> documenta qui, si passa alla successiva. Stato al **2026-09-12**: **fase 01 documentata in §2**;
-> le fasi successive restano a scheletro. Finché una sezione resta vuota, **la fonte autorevole è
+> documenta qui, si passa alla successiva. Stato al **2026-09-12**: **fasi 01 e 02 documentate in
+> §2 e §3**; le fasi successive restano a scheletro. Finché una sezione resta vuota, **la fonte autorevole è
 > il piano**, non questo file.
 
 | Ruolo | File |
@@ -27,7 +27,7 @@ Da rispettare finché questo documento non descrive una fase di persona.
 | --- | --- | --- |
 | Disegno generale | `paper/FoT_TEP_Review_Piano_Sperimentale.md` §§8–11, §13 | la revisione corrente è la 6 |
 | Decisioni non ancora congelate | idem, §0.1 | prima cosa da guardare |
-| Calibrazione delle soglie | `lit_review/DECISIONE_calibrazione_soglie_fase_B.md` (rev. 18) | **prevale sul piano**: il piano dichiara di non riformularne la decisione. Sette requisiti residui, tre bloccanti |
+| Calibrazione delle soglie | `lit_review/DECISIONE_calibrazione_soglie_fase_B.md` (rev. 19) | **prevale sul piano**: la fase 02 ne ha chiuso i prerequisiti operativi; soglia, rango e FAR restano risultati futuri |
 | Scelta dei descrittori | `lit_review/criteri_scelta_descrittori.md` §5.1 | ⚠️ **non** la §5.5, superata dal piano |
 | Feature e pre-impegno su E5 | `lit_review/DECISIONE_SCELTA_FEATURE_fase_A.md` | registro di decisione; il disegno resta autorevole nel piano |
 | Ablazione dei descrittori | `../analysis/feature_ablation/FEATURE_ABLATION.md` | |
@@ -52,14 +52,16 @@ studio; `archive/lit_review_2026-09/`.
 
 ## 0.1 · Punti aperti — da risolvere, non da aggirare
 
-Nessuno dei tre si risolve dentro una singola sessione di lavoro: richiedono una decisione
-dell'autore. Restano qui finché non sono chiusi, con la data in cui sono stati registrati.
+Restano qui le decisioni che una fase non può chiudere da sola. Il precedente punto sul riuso dei
+dati del primo studio è stato chiuso dalla fase 02: R1 è respinto come sostituzione di nuovi run
+fault e R2 è autorizzato soltanto come `baseline_fit` condizionata
+([§3](#3--preparazione-indipendente-dal-modello--generazione-e-riuso-fase-02)).
 
 | # | Punto aperto | Perché blocca | Chi decide | Registrato | Decisione da chiudere in |
 | :---: | --- | --- | --- | --- | --- |
 | 1 | **Sigle `C06`, `C07`, `C18`** citate dal piano sperimentale | Vengono dal registro critiche `C01–C18`, che esiste **solo** in `fot_walkthrough_conversazione.md` §33 — la prima esposizione del primo studio, che non è fonte. Finché restano così sono riferimenti appesi a un documento che nessuno deve usare | riportarle per esteso nel piano **oppure** rinumerarle | 2026-09-12 | `docs/paper/FoT_TEP_Review_Piano_Sperimentale.md` §0.1 — **non** il piano BIGDATA2026, che §0 esclude dalle fonti autorevoli |
-| 2 | **Quali dati del primo studio lo studio 2 riusa davvero** | Se sono solo i run Normal per la calibrazione è una cosa; se sono anche gli insight o le soglie congelate è un'altra, e cambia quanto dello **strato operativo** va recuperato dalla prima esposizione (schema del testo neutrale §9, contabilità byte/token §29, definizioni statistiche §6 e §8) | autore | 2026-09-12 | `docs/paper/FoT_TEP_Review_Piano_Sperimentale.md` §0.1, più un registro in `docs/lit_review/` se la selezione del riuso richiede motivazione per singolo dato |
-| 3 | **Perimetro del codice della Q8** | La terza metrica di §8.5, il cap sulla lunghezza dello schema, l'estensione a 8 agenti e il derangement a 7 pseudolabel richiedono tutti di scrivere dentro `phase_b/`, che [`MAINTENANCE.md`](MAINTENANCE.md) §1 dichiara **congelato**. Nessuna sessione può decidere da sola di scriverci | aprire un perimetro nuovo (`phase_b/q8/`) **oppure** dichiarare quale parte di `phase_b/` è harness riutilizzabile e quale è artefatto — in entrambi i casi è una modifica a §1 | 2026-09-12 | `docs/MAINTENANCE.md` §1 (separato tra harness riutilizzabile e artefatto) |
+| 2 | **Perimetro del codice della Q8** | La terza metrica di §8.5, il cap sulla lunghezza dello schema, l'estensione a 8 agenti e il derangement a 7 pseudolabel richiedono tutti di scrivere dentro `phase_b/`, che [`MAINTENANCE.md`](MAINTENANCE.md) §1 dichiara **congelato**. Nessuna sessione può decidere da sola di scriverci | aprire un perimetro nuovo (`phase_b/q8/`) **oppure** dichiarare quale parte di `phase_b/` è harness riutilizzabile e quale è artefatto — in entrambi i casi è una modifica a §1 | 2026-09-12 | `docs/MAINTENANCE.md` §1 (separato tra harness riutilizzabile e artefatto) |
+| 3 | **Congelamento definitivo della fase 02** | Il freeze corrente è per contenuto e registra ancora l'HEAD precedente agli artefatti non committati; il record di storage è successivo al riesame indipendente | commit esplicito degli artefatti, rigenerazione del freeze sul commit completo e controllo finale delle impronte | 2026-09-12 | `studio2/fase02/validation/PRECALIBRATION_FREEZE.json` e ciclo `Commit_LLM` |
 
 *Registrati il 2026-09-12. Quando uno si chiude, va tolto da qui e la decisione va scritta dove
 compete: nel piano, in un registro di `lit_review/`, o in `MAINTENANCE.md` §1.*
@@ -71,21 +73,23 @@ compete: nel piano, in un registro di `lit_review/`, o in `MAINTENANCE.md` §1.*
 *Scheletro. Ogni voce dice dove sta oggi la fonte; il testo si scrive quando la fase relativa
 è conclusa.*
 
-- **Le fasi dello studio 2** — la fase 01 è documentata in
-  [§2](#2--preparazione-indipendente-dal-modello--ricognizione-del-patrimonio-fase-01) e le
-  successive sono mappate in [§3–12](#312--fasi-successive); l'ordine dentro §6 è vincolato: preparazione
+- **Le fasi dello studio 2** — le fasi 01 e 02 sono documentate in
+  [§2](#2--preparazione-indipendente-dal-modello--ricognizione-del-patrimonio-fase-01) e
+  [§3](#3--preparazione-indipendente-dal-modello--generazione-e-riuso-fase-02); le successive
+  sono mappate in [§4–12](#412--fasi-successive); l'ordine dentro §6 è vincolato: preparazione
   indipendente dal modello, capability pilot come gate, produzione insight, congelamento, esecuzione, analisi.
 - **Obiettivo e domanda scientifica dello studio 2** — piano §8
-- **Che cosa cambia rispetto al primo studio** — e che cosa viene riusato: da decidere e
-  scrivere qui, è la voce che manca a tutti gli altri documenti
+- **Che cosa cambia rispetto al primo studio** — il riuso effettivo finora è limitato a N1–N5
+  come `baseline_fit`, pre-specificata nel nuovo studio ma basata su dati già osservati; §3 ne
+  registra provenienza e limiti. Il resto del confronto resta da completare nelle fasi successive
 - **Banco di prova: agenti, guasti, pseudolabel** — piano §8; ⚠️ le pseudolabel sono **nove**,
   non dieci: `Unknown` è il nome dell'astensione, non una classe
 - **Condizioni e bracci** — piano §8, incluso il braccio *producer-swap*
 - **Popolazione, endpoint e contrasti** — piano §8.5
 - **Protocollo di valutazione e criteri di successo** — piano §8.5, §11 (GO/NO-GO)
 - **Baseline** — piano §9
-- **Che cosa non è ancora congelato** — piano §0.1, più i sette requisiti residui di
-  `lit_review/DECISIONE_calibrazione_soglie_fase_B.md`
+- **Che cosa non è ancora congelato** — piano §0.1; per la calibrazione restano da produrre e
+  congelare soglia, rango, numerosità e FAR nelle fasi successive
 - **Limiti dichiarati in partenza** — piano §5 (tabella delle critiche) e §12
 
 ---
@@ -233,14 +237,153 @@ fornisce risultati.
 
 ### 2.6 · Lavoro che resta
 
-Prima delle fasi dipendenti dal modello restano da realizzare la messa in sicurezza dei 74
-contenuti, la decisione su R1/R2, `Ts_base`, burn-in, Philox, score eseguibile e casi degeneri,
-verifica dei prefissi, scelte ancora aperte del piano e congelamento degli artefatti effettivamente
-usati. I tre punti di §0.1 restano aperti.
+La fase 02 ha poi messo in sicurezza i 74 contenuti, deciso R1/R2, fissato `Ts_base`, qualificato
+burn-in e Philox, reso eseguibile lo score e verificato i prefissi. Restano le scelte di catalogo,
+la calibrazione e verifica FAR, i run fault, le componenti dipendenti dal modello e il congelamento
+definitivo sul commit completo.
 
 ---
 
-## 3–12 · Fasi successive
+## 3 · Preparazione indipendente dal modello — generazione e riuso (fase 02)
+
+### 3.1 · Riassunto e sintesi
+
+La fase 02 ha trasformato la ricognizione in una **procedura eseguibile di generazione Normal** e
+ha deciso i due riusi candidati. Ha fissato `Ts_base`, burn-in, generatore pseudocasuale, score e
+regole sui fallimenti; ha quindi verificato replay, compatibilità descrittiva col generatore legacy,
+coincidenza dei prefissi e guardia sul riuso. Il verdetto indipendente è **OK** per chiudere la fase
+e passare alla fase 03 ([report](../studio2/fase02/REPORT_FASE02.md),
+[verifica](../studio2/fase02/VERIFICA_FASE02.md)).
+
+L'esito non è una calibrazione già conclusa: soglia, rango, numerosità e FAR realizzato sono ancora
+assenti dal [freeze](../studio2/fase02/validation/PRECALIBRATION_FREEZE.json), come previsto. Non
+sono stati selezionati i nuovi fault, generati i run finali o avviate inferenze LLM. L'accordo
+osservato nei gate autorizza la configurazione nel perimetro provato; **non dimostra** indipendenza
+matematica dei flussi, equivalenza generale Philox–legacy o validità fuori dalle configurazioni
+esaminate.
+
+### 3.2 · Dettaglio
+
+#### Conservazione e provenienza
+
+Il [manifest di conservazione](../studio2/fase02/MANIFEST_CONSERVAZIONE.csv) collega 78 percorsi
+logici a **74 contenuti distinti**, identificati per SHA-256. I contenuti occupano 144.745.600 byte
+distinti contro 152.308.644 byte logici. Il [registro di provenienza](../studio2/PROVENIENZA.md)
+separa conservazione, candidatura e uso autorizzato e lascia esplicitamente mancanti seed, data di
+generazione e `Ts_base` storici quando non sono recuperabili.
+
+Il [record di storage](../studio2/fase02/ARTIFACT_STORAGE.json) registra la release pubblica
+`studio2-fase02-v1`, il commit dati `6d238929285e57c6c70f4d563ef7e30b59da6ac5` e una verifica
+per nuovo download dei due archivi: **74 workbook legacy e 150 output di validazione**, zero
+mismatch. Questo record è successivo al riesame indipendente, che al momento del proprio verdetto
+segnalava ancora il trasferimento come in corso; perciò la pubblicazione è documentata
+dall'artefatto corrente, non attribuita retroattivamente al verificatore.
+
+#### Specifica, generatore e score
+
+La [specifica](../studio2/fase02/SPECIFICA_GENERAZIONE.md) e la sua
+[forma machine-readable](../studio2/fase02/generation_spec.json) fissano `Ts_base=0.0005 h`, uscita
+ogni minuto, finestre utili da 5 h e Philox4×32-10 con namespace di stream separati. Distinguono
+trip fisici, trip Normal e fallimenti tecnici, impedendo sostituzioni o rilanci selettivi basati
+sull'esito.
+
+Lo [score congelato](../studio2/fase02/validation/score_fit_legacy.json) seleziona la variante A:
+la dominanza massima osservata sulla `baseline_fit` è **0,48**, sotto il limite 0,70 della regola
+pre-specificata. Il file contiene otto parametri robusti e 164 riferimenti per sensore; la MAD è
+non riscalata e i casi degeneri arrestano il calcolo invece di introdurre sostituzioni silenziose.
+
+#### Gate numerici
+
+La procedura sui dieci stream Normal confronta i candidati 10/20/30/40 h con l'intervallo tardivo
+`[60,70)` e richiede due candidati consecutivi. Il
+[risultato burn-in](../studio2/fase02/validation/burn_in_result_v2.json) registra il passaggio di
+20 e 30 h e seleziona **20 h**.
+
+Il [confronto Philox–legacy](../studio2/fase02/validation/generator_comparison_result_v2.json)
+passa tutte le cinque metriche — quattro famiglie di feature e `S` — sui dieci run per generatore.
+Il [gate dei prefissi](../studio2/fase02/validation/prefix_result_v2.json) passa **100/100**
+confronti su dieci stream e dieci posizioni: differenze massime nulle per uscite, feature e score,
+contatori crescenti e J10 uguale al run pieno per tutti gli stream. Sono risultati descrittivi e
+configurazione-specifici, non una prova di equivalenza universale.
+
+#### Decisioni R1 e R2
+
+La [qualificazione del riuso](../studio2/fase02/QUALIFICAZIONE_RIUSO.md) chiude separatamente i due
+candidati:
+
+- **R1 è respinto come sostituzione**: i 20 fault storici restano materiale già osservato, perché
+  seed, data, `Ts_base` e configurazione effettivamente eseguita non sono ricostruibili;
+- **R2 è autorizzato condizionatamente soltanto come `baseline_fit`**. N1–N5 sono cinque blocchi
+  contigui dello stesso tratto, non repliche indipendenti e non possono entrare in `cal_thr`,
+  `far_ver` o test. La [guardia R2](../studio2/fase02/validation/r2_guard_result_v2.json) passa le
+  quattro famiglie e `S`; per `S` registra scarto **0,389889 MAD** e rapporto MAD **0,956200**.
+
+L'analisi R2 era **pre-specificata rispetto all'uso nel nuovo studio**, ma usa dati storici già
+osservati e non è cieca rispetto a essi. Se identità dei dati, codice, parametri o verifica
+decadono, il fallback fissato è 100 nuovi run `baseline_fit`, 300 `cal_thr` e 150 `far_ver`.
+
+#### Budget e stato del congelamento
+
+Il piano riconciliato assegna 150 simulazioni alla qualifica già conclusa, 40 allo sviluppo fault,
+350 a `cal_thr`, 150 a `far_ver`, 54/72 al test in catalogo e 6 all'OOD: **750/768** simulazioni
+scientifiche per 6/8 run a fault, con **600/618** residue
+([piano, §8.8](paper/FoT_TEP_Review_Piano_Sperimentale.md)). Le ripetizioni tecniche non cambiano
+questo budget scientifico.
+
+Il [freeze pre-calibrazione](../studio2/fase02/validation/PRECALIBRATION_FREEZE.json), schema 2,
+elenca **41 file e cinque manifest eseguiti** per contenuto. Il verificatore aveva controllato la
+versione precedente con 40 file più cinque manifest; il quarantunesimo è il record di storage
+aggiunto in seguito. Lo stato corrente resta correttamente
+`content_frozen_and_data_archived_pending_independent_reverification_and_commit`: serve ancora il
+commit esplicito, la rigenerazione del freeze sull'HEAD completo e il controllo finale delle
+impronte. Nessun tag di congelamento è stato creato.
+
+### 3.3 · Connessione alla letteratura
+
+La fase non introduce un claim bibliografico nuovo. Applica invece i vincoli già raccolti in
+[`letteratura.md`](letteratura.md) §14.2: Bates et al. e Vovk impongono di non confondere garanzia
+marginale, legge condizionale alla calibrazione e FAR osservato, mentre Marques F. distingue la
+copertura empirica sotto scambiabilità dall'errore condizionale su un punto futuro. Di conseguenza
+la separazione degli stream e l'identità della procedura sostengono l'assunzione di progetto, ma
+non la dimostrano; N1–N5 contigui non vengono promossi a unità scambiabili.
+
+Le §§14.5–14.6 restano invariate: conservazione, RNG e score sono infrastruttura metodologica, non
+la novità del lavoro. L'eventuale contributo resta nell'intersezione fra trasferimento testuale,
+serie multivariate, esperienza disgiunta per classe e controllo A/B/E, che questa fase non ha
+ancora valutato.
+
+### 3.4 · Connessione alle critiche
+
+La fase **mitiga**, ma non chiude, G9 (*feature e soglie fisse*): rende eseguibili la variante A,
+la futura calibrazione su nuovi Normal e la verifica FAR su un insieme separato. Mitiga inoltre i
+rischi operativi di provenienza opaca, RNG non riproducibile e rerun selettivi. Non chiude C07
+(*reasoning cap e parsing*), che appartiene al capability pilot, né le critiche su scala/Big Data,
+local-seen, dipendenza dal producer e OOD. Non produce ancora alcun effetto diagnostico.
+
+### 3.5 · Artefatti e riproducibilità
+
+- Chiusura: [`REPORT_FASE02.md`](../studio2/fase02/REPORT_FASE02.md), SHA-256
+  `ba17b3b02084e641a0725cbb75f46ee932a297fad70dcfea4e8ae9ced34d2859`.
+- Verifica indipendente: [`VERIFICA_FASE02.md`](../studio2/fase02/VERIFICA_FASE02.md), SHA-256
+  `34c8df542c1ee6dc9b3169d4ef53aba9eca726f15a92547bd28065178b903183`; verdetto **OK**, con il
+  limite temporale sul trasferimento dati descritto sopra.
+- Freeze corrente: [`PRECALIBRATION_FREEZE.json`](../studio2/fase02/validation/PRECALIBRATION_FREEZE.json),
+  SHA-256 `0cb8c447e3611e5e1e598d355189c2802a15b67cd0c5fce5b1282e214591e8f6`.
+- Storage pubblico: [`ARTIFACT_STORAGE.json`](../studio2/fase02/ARTIFACT_STORAGE.json), SHA-256
+  `74eae7b154524ce3fd4667cd68accebbc658c8cf1521e256d50de17282eab4a5`.
+- Codice, piani, manifest e risultati numerici sono sotto [`studio2/fase02/`](../studio2/fase02/);
+  gli originali congelati del primo studio non sono stati modificati.
+
+### 3.6 · Lavoro che resta
+
+Restano la selezione e generazione dei nuovi fault, `cal_thr` e `far_ver`, la produzione delle
+feature/evidence e dei prototipi, le decisioni di catalogo, il capability pilot e tutte le
+inferenze LLM. Prima di dichiarare definitivo il congelamento della fase 02 resta inoltre il ciclo
+commit → rigenerazione del freeze → verifica finale delle impronte.
+
+---
+
+## 4–12 · Fasi successive
 
 Le fasi successive vengono da **§6** (i cantieri di preparazione indipendenti dal modello ancora
 da eseguire) e **§7** (esecuzione subordinata alla disponibilità di Qwen) del piano sperimentale.
@@ -249,17 +392,17 @@ da eseguire) e **§7** (esecuzione subordinata alla disponibilità di Qwen) del 
 
 | § | Fase | Che cos'è | Fonte | Stato |
 | :---: | --- | --- | --- | --- |
-| 3 | **Capability pilot** | Il *gatekeeper*: il modello risponde, il JSON passa il parser, il budget di ragionamento tiene, la stabilità regge | piano §7.1 | bloccata dall'API |
-| 4 | **Produzione degli insight** | Gli 8×2 insight dai dati di sviluppo, più la libreria completa del producer alternativo per il braccio *producer-swap* | piano §7.2 | dopo il pilot |
-| 5 | **Congelamento del protocollo** | Solo dopo il pilot, mai prima | piano §7.3 | dopo il pilot |
-| 6 | **Esecuzione dello studio finale** | Tutte le inferenze A, B-LF, E-LF, più swap, OOD, ablation e canary — circa 2.853/3.555 chiamate con margine, per 6/8 run | piano §7.4 e §8.8 | dopo il congelamento |
-| 7 | **Analisi e redazione** | Solo a esecuzione completata | piano §7.5 | ultima |
-| 8–12 | *riservate* | Spazio per fasi non previste, o per separare l'analisi dalla redazione | — | — |
+| 4 | **Capability pilot** | Il *gatekeeper*: il modello risponde, il JSON passa il parser, il budget di ragionamento tiene, la stabilità regge | piano §7.1 | dopo la preparazione residua |
+| 5 | **Produzione degli insight** | Gli 8×2 insight dai dati di sviluppo, più la libreria completa del producer alternativo per il braccio *producer-swap* | piano §7.2 | dopo il pilot |
+| 6 | **Congelamento del protocollo** | Solo dopo il pilot, mai prima | piano §7.3 | dopo il pilot |
+| 7 | **Esecuzione dello studio finale** | Tutte le inferenze A, B-LF, E-LF, più swap, OOD, ablation e canary — circa 2.853/3.555 chiamate con margine, per 6/8 run | piano §7.4 e §8.8 | dopo il congelamento |
+| 8 | **Analisi e redazione** | Solo a esecuzione completata | piano §7.5 | ultima |
+| 9–12 | *riservate* | Spazio per fasi non previste, o per separare l'analisi dalla redazione | — | — |
 
 Dettaglio dei cantieri ancora previsti dal piano §§6–7:
 
 1. **§6.1** — Definire i criteri di selezione degli 8 fault
-2. **§6.2** — Generare nuovi run di sviluppo
+2. **§6.2** — Generare nuovi run fault di sviluppo; la generazione Normal e R1/R2 sono già qualificate in §3
 3. **§6.3** — Calibrare soglie sui Normal di sviluppo
 4. **§6.4** — Produrre dati strutturati e verbalizzazioni di sviluppo
 5. **§6.5** — Definire pseudolabel e permutazioni di E
