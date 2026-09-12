@@ -77,6 +77,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <h2>Studio 2</h2>
 <ol>
 <li><a href="#sez-0-fonti-autorevoli"><span class="n">0</span>Fonti autorevoli e precedenze</a></li>
+<li><a href="#sez-0-1-punti-aperti"><span class="n">0.1</span>Punti aperti</a></li>
 <li><a href="#sez-1-introduzione"><span class="n">1</span>Introduzione</a></li>
 <li><a href="#sez-fasi"><span class="n">2–12</span>Fasi</a></li>
 <li><a href="#sez-13-conferenza"><span class="n">13</span>Conferenza</a></li>
@@ -121,6 +122,21 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 </table></div>
 <p><strong>Da non usare come fonte:</strong> <code>paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md</code> &mdash; &egrave; il piano originale che la review critica, non lo stato corrente; i risultati e la narrazione del primo studio; <code>archive/lit_review_2026-09/</code>.</p>
 </section>
+
+<section id="sez-0-1-punti-aperti">
+<p class="kicker"><span class="num">0.1</span></p><h2>Punti aperti &mdash; da risolvere, non da aggirare</h2>
+<p>Nessuno dei tre si risolve dentro una singola sessione di lavoro: richiedono una decisione dell'autore. Restano qui finch&eacute; non sono chiusi, con la data in cui sono stati registrati.</p>
+<div class="tablewrap"><table>
+<thead><tr><th>#</th><th>Punto aperto</th><th>Perch&eacute; blocca</th><th>Chi decide</th><th>Registrato</th><th>Decisione da chiudere in</th></tr></thead>
+<tbody>
+<tr><td style="text-align:center">1</td><td><strong>Sigle <code>C06</code>, <code>C07</code>, <code>C18</code></strong> citate dal piano sperimentale</td><td>Vengono dal registro critiche <code>C01&ndash;C18</code>, che esiste <strong>solo</strong> in <code>fot_walkthrough_conversazione.md</code> §33 &mdash; la prima esposizione del primo studio, che non &egrave; fonte. Finch&eacute; restano cos&igrave; sono riferimenti appesi a un documento che nessuno deve usare</td><td>riportarle per esteso nel piano <strong>oppure</strong> rinumerarle</td><td>2026-09-12</td><td><code>docs/paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md</code> (sezione di decisioni di progettazione)</td></tr>
+<tr><td style="text-align:center">2</td><td><strong>Quali dati del primo studio lo studio 2 riusa davvero</strong></td><td>Se sono solo i run Normal per la calibrazione &egrave; una cosa; se sono anche gli insight o le soglie congelate &egrave; un'altra, e cambia quanto dello <strong>strato operativo</strong> va recuperato dalla prima esposizione (schema del testo neutrale §9, contabilit&agrave; byte/token §29, definizioni statistiche §6 e §8)</td><td>autore</td><td>2026-09-12</td><td><code>docs/paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md</code> (piano + eventuale richiamo nei riferimenti operativi)</td></tr>
+<tr><td style="text-align:center">3</td><td><strong>Perimetro del codice della Q8</strong></td><td>La terza metrica di §8.5, il cap sulla lunghezza dello schema, l'estensione a 8 agenti e il derangement a 7 pseudolabel richiedono tutti di scrivere dentro <code>phase_b/</code>, che <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §1 dichiara <strong>congelato</strong>. Nessuna sessione pu&ograve; decidere da sola di scrivereci</td><td>aprire un perimetro nuovo (<code>phase_b/q8/</code>) <strong>oppure</strong> dichiarare quale parte di <code>phase_b/</code> &egrave; harness riutilizzabile e quale &egrave; artefatto &mdash; in entrambi i casi &egrave; una modifica a §1</td><td>2026-09-12</td><td><code>docs/MAINTENANCE.md</code> §1 (separato tra harness riutilizzabile e artefatto)</td></tr>
+</tbody>
+</table></div>
+<p style="color:var(--muted);font-size:14.5px"><em>Registrati il 2026-09-12. Quando uno si chiude, va tolto da qui e la decisione va scritta dove compete: nel piano, in un registro di <code>lit_review/</code>, o in <code>MAINTENANCE.md</code> §1.</em></p>
+</section>
+
 
 <section id="sez-1-introduzione">
 <p class="kicker"><span class="num">1</span></p><h2>Introduzione</h2>

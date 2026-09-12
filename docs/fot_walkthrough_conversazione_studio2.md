@@ -37,6 +37,20 @@ Da rispettare finché questo documento non descrive una fase di persona.
 originale che la review critica, non lo stato corrente; i risultati e la narrazione del primo
 studio; `archive/lit_review_2026-09/`.
 
+## 0.1 · Punti aperti — da risolvere, non da aggirare
+
+Nessuno dei tre si risolve dentro una singola sessione di lavoro: richiedono una decisione
+dell'autore. Restano qui finché non sono chiusi, con la data in cui sono stati registrati.
+
+| # | Punto aperto | Perché blocca | Chi decide | Registrato | Decisione da chiudere in |
+| :---: | --- | --- | --- | --- | --- |
+| 1 | **Sigle `C06`, `C07`, `C18`** citate dal piano sperimentale | Vengono dal registro critiche `C01–C18`, che esiste **solo** in `fot_walkthrough_conversazione.md` §33 — la prima esposizione del primo studio, che non è fonte. Finché restano così sono riferimenti appesi a un documento che nessuno deve usare | riportarle per esteso nel piano **oppure** rinumerarle | 2026-09-12 | `docs/paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md` (sezione di decisioni di progettazione) |
+| 2 | **Quali dati del primo studio lo studio 2 riusa davvero** | Se sono solo i run Normal per la calibrazione è una cosa; se sono anche gli insight o le soglie congelate è un'altra, e cambia quanto dello **strato operativo** va recuperato dalla prima esposizione (schema del testo neutrale §9, contabilità byte/token §29, definizioni statistiche §6 e §8) | autore | 2026-09-12 | `docs/paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md` (piano + eventuale richiamo nei riferimenti operativi) |
+| 3 | **Perimetro del codice della Q8** | La terza metrica di §8.5, il cap sulla lunghezza dello schema, l'estensione a 8 agenti e il derangement a 7 pseudolabel richiedono tutti di scrivere dentro `phase_b/`, che [`MAINTENANCE.md`](MAINTENANCE.md) §1 dichiara **congelato**. Nessuna sessione può decidere da sola di scriverci | aprire un perimetro nuovo (`phase_b/q8/`) **oppure** dichiarare quale parte di `phase_b/` è harness riutilizzabile e quale è artefatto — in entrambi i casi è una modifica a §1 | 2026-09-12 | `docs/MAINTENANCE.md` §1 (separato tra harness riutilizzabile e artefatto) |
+
+*Registrati il 2026-09-12. Quando uno si chiude, va tolto da qui e la decisione va scritta dove
+compete: nel piano, in un registro di `lit_review/`, o in `MAINTENANCE.md` §1.*
+
 ---
 
 ## 1 · Introduzione
