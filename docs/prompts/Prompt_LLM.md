@@ -1,5 +1,11 @@
 Agisci come un reviewer critico per la letteratura accademica; il tema principale è ML - Federated learning.
 
+**Nota operativa breve.** Questo file non è un secondo contratto di regole: per regole e vincoli
+vivi in `docs/MAINTENANCE.md` §8 e viene lì deciso il contratto. Per ogni fase usa sempre il
+ciclo `Fase_LLM` → `Verifica_LLM` (altra finestra, altro modello) → `Documentazione_LLM` →
+`Commit_LLM`. I dati del primo studio si leggono dagli artefatti con commit e impronta:
+non si ipotizzano, non si ricostruiscono da memoria.
+
 Usa come fonte principale `docs/fot_walkthrough_conversazione_v2.md`. Il file `.html` con lo stesso nome ne è la replica web: **non leggerlo**, ha lo stesso contenuto e costa il 50% in più.
 
 `docs/fot_walkthrough_v2.html` è una sintesi divulgativa, utile solo per un'introduzione rapida al metodo. **Non è una fonte bibliografica**: la sua sezione «Letteratura» rimanda a §14 del documento lungo e non contiene il corpus.
@@ -91,6 +97,10 @@ blueprint del paper, che esiste solo in HTML.
 | Letteratura: cosa posso rivendicare | `docs/letteratura.md` §14.2 + §14.5 + §14.6 | ~6,5k |
 | Esiste già un lavoro su X? | `docs/letteratura.md` §14.1, filtrando sui 🟢 | ~4,6k |
 | Aggiungere paper al corpus | `Letteratura_LLM.md` in questa cartella | ~1,5k |
+| **Lavorare una fase dello studio 2** | `Fase_LLM.md` | ~1,2k |
+| Verificare una fase conclusa | `Verifica_LLM.md` — **altra finestra, altro modello** | ~1k |
+| Aggiornare il walkthrough dopo l'OK | `Documentazione_LLM.md` | ~1k |
+| Committare | `Commit_LLM.md` + `docs/MAINTENANCE.md` §8 | ~1,5k |
 | Come scrivere il paper | `docs/paper/FoT_TEP_paper_blueprint.html` | ~21k |
 | Verificare un numero sugli artefatti | `AUDIT_GUIDE.md` §5–§13 | ~8,5k |
 | Primo studio: come funzionava | walkthrough primo studio §0–§7 | ~9k |
@@ -103,6 +113,10 @@ blueprint del paper, che esiste solo in HTML.
 `docs/fot_walkthrough_conversazione_v2.md` (~20k dopo l'uscita della letteratura): è un **record**,
 non si cita nel paper nuovo e non è fonte per il disegno dello studio 2.
 
+> **Quale prompt aprire e in che ordine**: `README.md` di questa cartella. Il ciclo di una fase è
+> `Fase_LLM` → `Verifica_LLM` (altra finestra) → `Documentazione_LLM` → `Commit_LLM`, e l'ordine
+> non è negoziabile: il walkthrough non si aggiorna prima della verifica indipendente.
+>
 > **Per rispondere a domande** invece che per modificare, leggi anche `Questions_LLM.md`
 > in questa stessa cartella: aggiunge le poche regole specifiche e non ripete queste.
 
@@ -117,6 +131,11 @@ non si cita nel paper nuovo e non è fonte per il disegno dello studio 2.
   `ablation/` invece di leggere il walkthrough.
 - **La letteratura non sta più nei walkthrough**: dal 2026-09-12 vive in `docs/letteratura.md`
   (replica `letteratura.html`), luogo unico per tutti gli studi. La numerazione §14.x è invariata.
+- **I dati del primo studio si leggono, non si ipotizzano.** Se servono soglie, insight, run o
+  risultati del primo studio, apri il walkthrough `docs/fot_walkthrough_conversazione_v2.md`
+  nella sezione pertinente e verifica sugli artefatti. Per **come** è stata costruita la pipeline
+  la fonte è `docs/fot_walkthrough_conversazione.md` (§6, §8, §9, §29): la v2 quello strato lo ha
+  perso. Ricostruire a memoria non è ammesso, nemmeno quando sembra ovvio.
 - Dichiara sempre, in fondo, **cosa hai letto** e quanto è costato all'incirca.
 
 ## In caso di conflitto fra documenti

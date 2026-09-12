@@ -120,6 +120,8 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <tr><td>Letteratura</td><td><a href="letteratura.html"><code>letteratura.html</code></a></td><td></td></tr>
 </tbody>
 </table></div>
+<p><strong>Il ciclo di lavoro di una fase.</strong> <code>Fase_LLM</code> &rarr; <code>Verifica_LLM</code> (altra finestra, altro modello) &rarr; <code>Documentazione_LLM</code> &rarr; <code>Commit_LLM</code>, tutti in <a href="prompts">prompts/</a>, con il <code>README.md</code> della cartella che dice quale aprire quando. L'ordine non &egrave; negoziabile: <strong>questa sezione del walkthrough non si scrive prima della verifica indipendente.</strong> Le regole di perimetro, commit e congelamento sono in <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.</p>
+<p><strong>I dati del primo studio si leggono, non si ipotizzano.</strong> Sono patrimonio disponibile, non una storia da raccontare: nel paper si descrivono per quello che sono &mdash; configurazione, seed, data di generazione &mdash; senza narrare un esperimento precedente. Ci&ograve; che non &egrave; sostenibile &egrave; farli passare per generati <em>per</em> questo studio. La provenienza resta interna, in <code>studio2/PROVENIENZA.md</code>, con la marca <strong>pre-specificato / post-hoc</strong> di ogni analisi che li usa (<a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.2).</p>
 <p><strong>Da non usare come fonte:</strong> <code>paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md</code> &mdash; &egrave; il piano originale che la review critica, non lo stato corrente; i risultati e la narrazione del primo studio; <code>archive/lit_review_2026-09/</code>.</p>
 </section>
 
@@ -129,8 +131,8 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <div class="tablewrap"><table>
 <thead><tr><th>#</th><th>Punto aperto</th><th>Perch&eacute; blocca</th><th>Chi decide</th><th>Registrato</th><th>Decisione da chiudere in</th></tr></thead>
 <tbody>
-<tr><td style="text-align:center">1</td><td><strong>Sigle <code>C06</code>, <code>C07</code>, <code>C18</code></strong> citate dal piano sperimentale</td><td>Vengono dal registro critiche <code>C01&ndash;C18</code>, che esiste <strong>solo</strong> in <code>fot_walkthrough_conversazione.md</code> §33 &mdash; la prima esposizione del primo studio, che non &egrave; fonte. Finch&eacute; restano cos&igrave; sono riferimenti appesi a un documento che nessuno deve usare</td><td>riportarle per esteso nel piano <strong>oppure</strong> rinumerarle</td><td>2026-09-12</td><td><code>docs/paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md</code> (sezione di decisioni di progettazione)</td></tr>
-<tr><td style="text-align:center">2</td><td><strong>Quali dati del primo studio lo studio 2 riusa davvero</strong></td><td>Se sono solo i run Normal per la calibrazione &egrave; una cosa; se sono anche gli insight o le soglie congelate &egrave; un'altra, e cambia quanto dello <strong>strato operativo</strong> va recuperato dalla prima esposizione (schema del testo neutrale §9, contabilit&agrave; byte/token §29, definizioni statistiche §6 e §8)</td><td>autore</td><td>2026-09-12</td><td><code>docs/paper/FOT_TEP_EXPERIMENT_PLAN_BIGDATA2026.md</code> (piano + eventuale richiamo nei riferimenti operativi)</td></tr>
+<tr><td style="text-align:center">1</td><td><strong>Sigle <code>C06</code>, <code>C07</code>, <code>C18</code></strong> citate dal piano sperimentale</td><td>Vengono dal registro critiche <code>C01&ndash;C18</code>, che esiste <strong>solo</strong> in <code>fot_walkthrough_conversazione.md</code> §33 &mdash; la prima esposizione del primo studio, che non &egrave; fonte. Finch&eacute; restano cos&igrave; sono riferimenti appesi a un documento che nessuno deve usare</td><td>riportarle per esteso nel piano <strong>oppure</strong> rinumerarle</td><td>2026-09-12</td><td><code>docs/paper/FoT_TEP_Review_Piano_Sperimentale.md</code> §0.1 &mdash; <strong>non</strong> il piano BIGDATA2026, che §0 esclude dalle fonti autorevoli</td></tr>
+<tr><td style="text-align:center">2</td><td><strong>Quali dati del primo studio lo studio 2 riusa davvero</strong></td><td>Se sono solo i run Normal per la calibrazione &egrave; una cosa; se sono anche gli insight o le soglie congelate &egrave; un'altra, e cambia quanto dello <strong>strato operativo</strong> va recuperato dalla prima esposizione (schema del testo neutrale §9, contabilit&agrave; byte/token §29, definizioni statistiche §6 e §8)</td><td>autore</td><td>2026-09-12</td><td><code>docs/paper/FoT_TEP_Review_Piano_Sperimentale.md</code> §0.1, pi&ugrave; un registro in <code>docs/lit_review/</code> se la selezione del riuso richiede motivazione per singolo dato</td></tr>
 <tr><td style="text-align:center">3</td><td><strong>Perimetro del codice della Q8</strong></td><td>La terza metrica di §8.5, il cap sulla lunghezza dello schema, l'estensione a 8 agenti e il derangement a 7 pseudolabel richiedono tutti di scrivere dentro <code>phase_b/</code>, che <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §1 dichiara <strong>congelato</strong>. Nessuna sessione pu&ograve; decidere da sola di scrivereci</td><td>aprire un perimetro nuovo (<code>phase_b/q8/</code>) <strong>oppure</strong> dichiarare quale parte di <code>phase_b/</code> &egrave; harness riutilizzabile e quale &egrave; artefatto &mdash; in entrambi i casi &egrave; una modifica a §1</td><td>2026-09-12</td><td><code>docs/MAINTENANCE.md</code> §1 (separato tra harness riutilizzabile e artefatto)</td></tr>
 </tbody>
 </table></div>
@@ -142,6 +144,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p class="kicker"><span class="num">1</span></p><h2>Introduzione</h2>
 <p><em>Scheletro. Ogni voce dice dove sta oggi la fonte; il testo si scrive quando la fase relativa &egrave; conclusa.</em></p>
 <ul>
+<li><strong>Le fasi dello studio 2</strong> &mdash; l'elenco completo &egrave; in <a href="#sez-fasi">§2&ndash;12</a> qui sotto; questa voce ne d&agrave; la lettura in una riga e segnala che l'ordine dentro §6 &egrave; vincolato: preparazione indipendente dal modello, capability pilot come gate, produzione insight, congelamento, esecuzione, analisi.</li>
 <li><strong>Obiettivo e domanda scientifica dello studio 2</strong> &mdash; piano §8</li>
 <li><strong>Che cosa cambia rispetto al primo studio</strong> &mdash; e che cosa viene riusato: da decidere e scrivere qui, &egrave; la voce che manca a tutti gli altri documenti</li>
 <li><strong>Banco di prova: agenti, guasti, pseudolabel</strong> &mdash; piano §8; &#9888; le pseudolabel sono <strong>nove</strong>, non dieci: <code>Unknown</code> &egrave; il nome dell'astensione, non una classe</li>
@@ -156,7 +159,42 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 
 <section id="sez-fasi">
 <p class="kicker"><span class="num">2&ndash;12</span></p><h2>Fasi</h2>
-<p><em>Riservate. Una sezione per fase, aggiunta a fase conclusa.</em></p>
+<p>Le fasi non sono un'invenzione di questo documento: vengono da <strong>§6</strong> (attivit&agrave; che si possono iniziare subito, indipendenti dal modello) e <strong>§7</strong> (esecuzione, tutta subordinata alla disponibilit&agrave; di Qwen) del piano sperimentale. Qui sono raggruppate nelle sezioni che occuperanno, cos&igrave; che ogni sessione di lavoro sappia dove scrivere.</p>
+<p><strong>Sintesi per sezione.</strong></p>
+<div class="tablewrap"><table>
+<thead><tr><th>§</th><th>Fase</th><th>Che cos'&egrave;</th><th>Fonte</th><th>Stato</th></tr></thead>
+<tbody>
+<tr><td style="text-align:center">2</td><td><strong>Preparazione indipendente dal modello</strong></td><td>Raggruppamento operativo dei 12 cantieri in §6 (ordine da rispettare)</td><td>piano §6.1&ndash;6.12</td><td>da fare</td></tr>
+<tr><td style="text-align:center">3</td><td><strong>Capability pilot</strong></td><td>Il <em>gatekeeper</em>: il modello risponde, il JSON passa il parser, il budget di ragionamento tiene, la stabilit&agrave; regge</td><td>piano §7.1</td><td>bloccata dall'API</td></tr>
+<tr><td style="text-align:center">4</td><td><strong>Produzione degli insight</strong></td><td>Gli 8&times;2 insight dai dati di sviluppo, pi&ugrave; la libreria completa del producer alternativo per il braccio <em>producer-swap</em></td><td>piano §7.2</td><td>dopo il pilot</td></tr>
+<tr><td style="text-align:center">5</td><td><strong>Congelamento del protocollo</strong></td><td>Solo dopo il pilot, mai prima</td><td>piano §7.3</td><td>dopo il pilot</td></tr>
+<tr><td style="text-align:center">6</td><td><strong>Esecuzione dello studio finale</strong></td><td>Tutte le inferenze A, B-LF, E-LF, pi&ugrave; swap, OOD, ablation e canary &mdash; circa 2.450 chiamate</td><td>piano §7.4</td><td>dopo il congelamento</td></tr>
+<tr><td style="text-align:center">7</td><td><strong>Analisi e redazione</strong></td><td>Solo a esecuzione completata</td><td>piano §7.5</td><td>ultima</td></tr>
+<tr><td style="text-align:center">8&ndash;12</td><td><strong><em>riservate</em></strong></td><td>Spazio per fasi non previste, o per separare l'analisi dalla redazione</td><td>&mdash;</td><td>&mdash;</td></tr>
+</tbody>
+</table></div>
+<p><strong>Dettaglio degli ambiti indicati in §2&ndash;7:</strong></p>
+<ol>
+<li><strong>§6.1</strong> — Definire i criteri di selezione degli 8 fault</li>
+<li><strong>§6.2</strong> — Generare nuovi run di sviluppo</li>
+<li><strong>§6.3</strong> — Calibrare soglie sui Normal di sviluppo</li>
+<li><strong>§6.4</strong> — Produrre dati strutturati e verbalizzazioni di sviluppo</li>
+<li><strong>§6.5</strong> — Definire pseudolabel e permutazioni di E</li>
+<li><strong>§6.6</strong> — Scrivere il piano statistico completo</li>
+<li><strong>§6.7</strong> — Preparare la baseline numerica</li>
+<li><strong>§6.8</strong> — Preparare l'harness API</li>
+<li><strong>§6.9</strong> — Generare e congelare i run finali di test</li>
+<li><strong>§6.10</strong> — Congelare lo schema degli insight</li>
+<li><strong>§6.11</strong> — Implementare la baseline FedAvg</li>
+<li><strong>§6.12</strong> — Scrivere le sezioni del paper indipendenti dal modello</li>
+<li><strong>§7.1</strong> — Capability pilot su Qwen-2.4T</li>
+<li><strong>§7.2</strong> — Produzione insight con Qwen-2.4T</li>
+<li><strong>§7.3</strong> — Congelamento protocollo finale</li>
+<li><strong>§7.4</strong> — Esecuzione studio finale</li>
+<li><strong>§7.5</strong> — Analisi e redazione</li>
+</ol>
+<div class="warn"><p><strong>Ordine vincolato, non suggerito.</strong> Dentro §6 le dipendenze non sono libere: i criteri di §6.1 devono congelarsi <strong>prima</strong> che si estraggano gli 8 fault, e le decisioni «meccanicamente distinto dal catalogo» e «coppia confondibile» sono definite <em>rispetto a quegli otto</em>, quindi non sono lavorabili oggi. Il piano §7 lo dice esplicitamente: il rischio pi&ugrave; urgente non &egrave; scientifico, &egrave; <strong>temporale</strong>, e si concentra su una sola data &mdash; la decisione GO/NO-GO sul modello.</p></div>
+<p style="color:var(--muted);font-size:14.5px"><em>Una sezione si scrive quando la fase &egrave; conclusa, non mentre &egrave; in corso: finch&eacute; &egrave; aperta, la fonte resta il piano.</em></p>
 </section>
 
 <section id="sez-13-conferenza">

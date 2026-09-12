@@ -194,3 +194,67 @@ sottoagente: sono interrogazioni indipendenti, e torna indietro solo la tabella.
 
 Si aggiorna quando cambiano le **categorie** o le **coppie in sync**, non quando si aggiunge
 un file. Se serve modificarlo a ogni commit, è scritto male.
+
+## 8. Studio 2: perimetro, commit e congelamenti
+
+Le regole operative di studio2 stanno **qui**: `docs/MAINTENANCE.md` è il contratto unico.
+I file in `docs/prompts/` servono solo a capire quale finestra aprire e non creano un secondo
+contratto. Se un prompt differisce da questa sezione, prevale sempre questa.
+
+Il repository finale **conserva entrambi gli studi**. Dati, risultati, codice e documentazione
+del primo restano recuperabili e riconoscibili nella loro versione originale; gli artefatti
+congelati non si modificano, non si spostano, non si sovrascrivono.
+
+### 8.1 Perimetro
+
+- **`studio2/`** — tutto il nuovo: codice, configurazioni, test, manifest, esecuzioni, risultati.
+- **Fuori da `studio2/`** restano piano, registri di decisione, letteratura e walkthrough, nelle
+  sedi autorevoli che già hanno. Non si creano documenti concorrenti: si aggiornano quelli.
+- `studio2/PROVENIENZA.md` registra ogni dato o risultato riusato dal primo studio con
+  **origine, commit, impronta, destinazione, modifiche, ruolo** e la marca
+  **pre-specificato / post-hoc** dell'analisi che lo usa.
+
+### 8.2 Riuso e adattamento
+
+Gli originali si leggono nella versione identificata da **commit e impronta**, non «come li
+ricordo». Gli adattamenti necessari allo studio 2 sono **file nuovi dentro il suo perimetro**, non
+modifiche agli originali. Gli artefatti non si duplicano se basta referenziarli.
+
+**Provenienza interna, descrizione onesta nel paper.** Il primo studio non va raccontato nel
+paper, e non serve: i dati riusati si descrivono per quello che sono — configurazione, seed, data
+di generazione — senza narrazione. I dati si leggono dall'artefatto, con commit e impronta; non
+si ipotizzano. La distinzione che regge tutto è quella tra analisi
+**pre-specificata** e **post-hoc** rispetto all'uso di un dato.
+
+Regola in 3 punti:
+
+1. I dati non diventano auto-generati per questo studio: `studio2/PROVENIENZA.md` deve citarne
+   origine, seed, data e commit;
+2. Nel paper si scrive solo `configurazione`, `seed`, `data di generazione`, senza attribuire
+   causalità narrativa al semplice fatto dell'averli disponibile;
+3. Se una soglia o un criterio si appoggia a dati riusati, la dipendenza va dichiarata esplicitamente
+   (non cieca) nella sezione che ne trae conseguenze.
+
+### 8.3 Commit
+
+- Branch di lavoro: `codex/studio2-<argomento>`. Il lavoro già presente si preserva.
+- Un commit per cambiamento indipendente: organizzazione, decisioni, implementazione, produzione
+  di artefatti, risultati. **Le coppie Markdown/HTML vanno sempre insieme**, così come codice e
+  verifiche che lo riguardano.
+- Messaggi: `studio2(<ambito>): <azione concreta>`.
+- Si selezionano esplicitamente i file da includere. Mai incorporare modifiche estranee.
+
+### 8.4 Commit e congelamento non sono la stessa cosa
+
+Un **commit** salva una modifica. Un **congelamento** richiede i controlli scientifici e
+operativi previsti, e solo allora nasce un tag. Non si creano tag di congelamento prematuri, non
+si riscrive la storia pubblicata, non si spostano tag esistenti. Una correzione a un artefatto
+congelato produce una **nuova revisione tracciata**, non una modifica in luogo.
+
+### 8.5 Verificabilità del repository finale
+
+Codice, configurazioni, manifest, predizioni e risultati necessari alla verifica devono essere
+raggiungibili dalla storia integrata in `main`, senza dipendere da branch temporanei. Per i dati
+voluminosi esclusi da Git va documentata una **posizione recuperabile** e va verificata la copia
+conservata: **gli hash da soli non bastano**, perché attestano l'integrità di un file, non la sua
+esistenza.

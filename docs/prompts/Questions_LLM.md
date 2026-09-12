@@ -5,7 +5,15 @@ comuni: instradamento per tipo di richiesta, costi, precedenze sui conflitti,
 divieto di inventare riferimenti, luogo unico della letteratura. Qui ci sono
 solo le regole che valgono quando si risponde a domande invece di modificare.
 
+**Nota rapida.** Per il workflow operativo e i vincoli del riuso dati del primo studio, usa il
+contratto in `docs/MAINTENANCE.md` §8: dati del primo studio = letti da artefatto, con commit
+e impronta, classificati tra analisi pre-specificata e post-hoc quando rilevanti.
+
 **Sola lettura.** Nessuna modifica ai file, nessun commit, nessun tag.
+
+**I dati del primo studio si leggono.** Se la domanda riguarda soglie, run, insight o risultati
+del primo studio, apri il walkthrough e gli artefatti: non ricostruirli a memoria e non dedurli
+da come «dovrebbe» essere andata. Se non li hai letti, dillo invece di rispondere.
 
 ## Instradamento fine dentro il piano della nuova fase
 
