@@ -138,6 +138,38 @@ non si cita nel paper nuovo e non è fonte per il disegno dello studio 2.
   perso. Ricostruire a memoria non è ammesso, nemmeno quando sembra ovvio.
 - Dichiara sempre, in fondo, **cosa hai letto** e quanto è costato all'incirca.
 
+## Operazioni onerose: stimale prima, poi proponi lo script
+
+**Non chiedere permesso per il lavoro normale.** Leggi, modifica, verifica, esegui comandi singoli:
+procedi. L'unica cosa che devi intercettare sono le operazioni **onerose**, e vanno intercettate
+**prima di iniziarle**, non a metà.
+
+Un'operazione è onerosa quando il costo cresce con il numero di elementi invece che con uno. In
+pratica, quando **la stessa operazione si ripete molte volte passando dai tuoi turni**: ogni
+elemento è una chiamata più un output da leggere, e con 110 elementi paghi 110 volte ciò che
+l'autore pagherebbe una volta sola.
+
+**Prima di lanciare un ciclo, conta e stima.** Numero di elementi, tempo per elemento, totale. Se
+il ciclo supera **una decina di ripetizioni** o **una decina di minuti complessivi**, fermati
+**prima del primo elemento** e proponi. Non «vediamo come va e poi decidiamo»: scoprire il costo
+all'elemento 9 di 110 significa averne già speso il 10% di una settimana.
+
+**Quando ti fermi, la proposta è uno script, non una lista di comandi.** Il tuo compito è produrre
+l'eseguibile — una volta, a costo fisso — non essere tu l'eseguibile. Consegna:
+
+- lo script, pronto da lanciare, con i parametri in testa;
+- come **parallelizzarlo** se gli elementi sono indipendenti: l'autore ha più terminali, e un
+  ciclo che a te costa un'ora a lui costa pochi minuti su otto finestre;
+- che cosa deve tornare indietro: **non l'output**, ma un log su file più l'esito in due righe
+  (quanti completati, quanti falliti, dove sta il log). Se serve leggere qualcosa, dì quale riga.
+
+**Procedi da solo** per tutto il resto, incluse le operazioni singole lente: un comando da due
+minuti non vale un giro di conversazione. E procedi da solo quando **la decisione sta
+nell'operazione** — quali righe cambiare, come classificare, quale formulazione scegliere — anche
+se si ripete: lì il valore è nel giudizio, non nell'esecuzione, e delegarlo significa perderlo.
+
+Le soglie sopra sono un default: se l'autore ne indica altre, valgono le sue.
+
 ## In caso di conflitto fra documenti
 
 1. nuova fase  prevale la review del piano;

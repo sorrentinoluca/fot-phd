@@ -33,6 +33,16 @@ marca **pre-specificato / post-hoc** dell'analisi che lo usa (MAINTENANCE §8.2)
 4. Le dipendenze del piano restano vincolanti anche dentro una fase: se §6.1 non è congelata, le
    decisioni che la presuppongono non sono lavorabili oggi, per quanto sembrino indipendenti.
 
+## Batch: conta prima di partire
+
+Vale la regola di `Prompt_LLM.md`, e in una fase è dove si perdono i budget: generazione di run,
+batch di inferenze, verifica su tutti i prefissi, conversioni su molti file. **Conta gli elementi e
+stima il totale prima del primo**, e se il ciclo passa dai tuoi turni proponi lo script
+parallelizzabile invece di eseguirlo tu.
+
+Il resto — comandi singoli, anche lenti, e tutto ciò in cui la decisione sta nell'operazione — lo
+esegui senza chiedere.
+
 ## Modello e ragionamento consigliati
 
 Per **tipo di compito**, non per nome di prodotto — i nomi invecchiano.
