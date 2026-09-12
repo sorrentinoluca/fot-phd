@@ -1,9 +1,41 @@
 # Decisione: calibrazione delle soglie in Fase B
 
-**Data**: 2026-09-11 · **Revisione**: 16 (regola di selezione A/A′ adottata e congelata il 2026-09-12) · **Stato**: disegno statistico **chiuso e concordato** (C0–C4 approvate, P0 risolto con la Via B, C5 separata e non attivata).
+**Data**: 2026-09-11 · **Revisione**: 18 (settimo requisito: congelamento verificabile degli artefatti effettivamente utilizzati) · **Stato**: disegno statistico **chiuso e concordato** (C0–C4 approvate, P0 risolto con la Via B, C5 separata e non attivata).
 **Non congelabile operativamente** finché mancano tre prerequisiti bloccanti: (i) durata del burn-in e criterio verificabile per dichiararlo concluso — riguarda il transitorio e l'interpretazione a regime, **non** produce indipendenza fra run; (ii) implementazione e validazione dello schema dei flussi pseudocasuali (scelta teorica compiuta: Philox4×32-10; restano implementazione, compilazione, verifica con vettori noti, misura runtime e validazione contro il legacy); (iii) `Ts_base` fissato, documentato e registrato nel manifest, con lo stesso valore per `cal_thr` e `far_ver`.
 
 Flussi separati e procedura identica **sostengono in sede di progetto** l'assunzione IID su cui poggiano la Beta e la binomiale esatta, senza dimostrarla. La ricostruzione del `Ts_base` **storico** di N1–N5 è invece una questione di riproducibilità e confrontabilità, e non è da sola condizione necessaria della garanzia conformal del nuovo esperimento.
+## Requisiti residui al congelamento finale
+
+*Elenco aggiornato al 2026-09-12. La chiusura della scelta A/A′ non certifica la chiusura di questi punti: nessuno dei sette è oggi riscontrato.*
+
+**Prerequisiti operativi bloccanti.**
+
+1. `Ts_base` del nuovo esperimento fissato, documentato e registrato nel manifest, con lo stesso valore per `cal_thr` e `far_ver`.
+2. Durata del burn-in e criterio verificabile per dichiararlo concluso.
+3. Implementazione e validazione dello schema dei flussi pseudocasuali: compilazione, verifica con vettori noti, misura runtime, validazione contro il legacy.
+
+**Rilievi della review complessiva ancora da riscontrare.**
+
+4. *Allineamento con il piano autorevole.* Il piano prevede in §§6.2–6.3 cinque nuovi run Normal di sviluppo con ricalibrazione su quelli; questo registro propone il riuso di N1–N5 come `baseline_fit` e 510 nuovi run con allocazione diversa. Va stabilito se i due disegni siano conciliabili e quale documento vada aggiornato.
+5. *Specificazione completa dello score e dei casi degeneri.* La definizione di `S` (varianti A e A′, valori assoluti, offset `c_f`, arresti su `c_f` non definibile e su `MAD_f(u) = 0`) va portata a forma eseguibile e senza ambiguità residue, verificata contro il codice che la realizzerà.
+6. *Equivalenza della forma economica rispetto ai prefissi delle simulazioni complete.* La forma economica assume che un run fermato a `burn-in + 5·J` coincida con il prefisso di un run più lungo con lo stesso flusso. L'argomento dato in revisione 4 riguardava il **processo matematico**, per cui lo stato al tempo `t` non dipende dall'intenzione di proseguire. Con `ode45` la **traiettoria numerica** non eredita automaticamente quella proprietà: il passo è adattivo e l'ultimo passo viene troncato per cadere su `StopTime`, quindi la finestra finale e il conteggio delle estrazioni possono differire fra un run fermato a `T` e un run più lungo che attraversa `T`.
+
+   L'equivalenza va quindi **verificata numericamente** — stesso flusso, `StopTime` diverso, confronto dell'uscita salvata sull'intervallo comune — e non assunta. Due cautele sull'interpretazione, da tenere esplicite: traiettorie numeriche diverse **non dimostrano da sole** distribuzioni diverse degli score; e concordanza su alcuni run **non dimostra** equivalenza generale. Il **criterio di accettazione va fissato prima** del confronto, e deve riguardare non solo le uscite grezze ma anche le quattro feature e lo score finale `S`. Se il criterio non è soddisfatto, si torna alla forma completa: è una scelta progettuale conservativa, non una conseguenza dimostrata.
+
+7. *Congelamento verificabile degli artefatti effettivamente utilizzati.* È un requisito di **riproducibilità e di controllo dell'implementazione di C0**. Non sostituisce nessuno dei sei punti precedenti e **non introduce un nuovo requisito teorico conformal**. A differenza degli altri sei è interamente sotto il controllo del gruppo.
+
+   **Prima della calibrazione** si identificano: il documento di decisione; il codice che realizza `S`; e **tutti** i parametri necessari a calcolarlo. Gli 8 numeri di A o i 12 di A′ non bastano: vanno inclusi anche i **riferimenti per sensore** usati per costruire le feature, la **variante selezionata** (A oppure A′) e la **configurazione rilevante**.
+
+   **Dopo la calibrazione e prima della verifica** si congelano anche la **soglia ottenuta**, il **rango** usato, la **numerosità di calibrazione** e la **regola di superamento** (`S > soglia`). La soglia è un *risultato* della calibrazione: non si congela insieme alla procedura prima di eseguirla.
+
+   **Nel manifest** si riportano commit completi e impronte dei contenuti **effettivamente eseguiti e caricati**, e prima di ogni applicazione si controlla che corrispondano agli artefatti congelati.
+
+   **Conservazione.** Si mantiene una **copia recuperabile** degli artefatti congelati, oltre alle impronte conservate separatamente. Un'impronta segnala un cambiamento ma **non distingue da sola** un ripristino da una modifica legittima, e **non permette di recuperare** il contenuto perduto; un blob git calcolato senza scriverlo nell'archivio degli oggetti non è una copia di sicurezza.
+
+   **Indice e commit vanno tenuti distinti.** Un indice svuotato non rende automaticamente non verificabile un commit esistente. Serve verificare che il commit sia **disponibile** e, separatamente, che i dati **effettivamente usati** corrispondano al suo contenuto: il solo riferimento al commit, come `DATASET_COMMIT` in `calibrate_thresholds_v2.py`, non certifica quella corrispondenza.
+
+**Collegamento fra i punti 3 e 6, con i rispettivi ambiti.** Se la forma economica decade, il ramo principale con burn-in di 20 h torna a 510 × 70 = 35.700 ore simulate, cioè la riga con rapporto 1,0533 nella tabella sul generatore. È l'unico caso in cui un argomento per cassetti sull'intero spazio potrebbe funzionare, e restano necessarie entrambe le condizioni già indicate: un limite inferiore giustificato sulle estrazioni e il confinamento degli stati conteggiati al sottoinsieme considerato. **Quel rapporto riguarda esclusivamente il generatore legacy e non costituisce un ostacolo di capacità per Philox4×32-10.** Conviene raccogliere confronto dei prefissi e conteggio delle estrazioni nello stesso giro diagnostico, mantenendo però separate le due conclusioni.
+
 > **Nota terminologica (2026-09-11).** In tutto il documento il criterio decisivo per la validità conformal è la **scambiabilità**, non l'indipendenza. La dipendenza può esserne un indizio, non è il criterio matematico.
 >
 > Restano corrette le occorrenze in cui la dipendenza è invocata per ciò che fa davvero, cioè gonfiare l'errore standard di una stima: la verifica del FAR, dove l'errore standard si ottiene con un bootstrap a livello di run.
@@ -177,7 +209,7 @@ La dominanza si misura esclusivamente su `baseline_fit`, mai su `cal_thr`.
 
 **Proprietà garantita, e suo limite.** L'enunciato corretto è: *nessun percorso aumenta la dominanza misurata sulla baseline.* **Non** «nessun percorso congela la variante peggiore»: una dominanza minore non implica una maggiore potenza diagnostica, che non è stabilita. La proprietà riguarda esclusivamente la dominanza misurata sulla baseline.
 
-**Stato del congelamento.** Congelata il 2026-09-12. La scelta è **informata dai dati storici di sviluppo e baseline già osservati**, inclusa la diagnostica LOBO riportata sotto, e questo è dichiarato esplicitamente. Ciò che è congelato è la **procedura di selezione**: l'esito effettivo, A oppure A′, sarà determinato applicandola alla `baseline_fit` prevista, **prima della calibrazione** e prima di ogni accesso a verifica, validazione e test.
+**Stato del congelamento.** Procedura congelata il 2026-09-12. Questo chiude la scelta fra A e A′, **non** i requisiti residui elencati in testa al documento. La scelta è **informata dai dati storici di sviluppo e baseline già osservati**, inclusa la diagnostica LOBO riportata sotto, e questo è dichiarato esplicitamente. Ciò che è congelato è la **procedura di selezione**: l'esito effettivo, A oppure A′, sarà determinato applicandola alla `baseline_fit` prevista, **prima della calibrazione** e prima di ogni accesso a verifica, validazione e test.
 
 **Indicazione anticipata dai dati di Fase A, non esito della decisione.** Sulle feature leave-one-block-out di N1–N5 la dominanza risulta del 48% con A e del 74% con A′. Per riferimento, le mediane delle feature **per variabile** `residual_std_ratio` e `diff_std_ratio` sullo stesso CSV storico valgono 0,9518127 e 0,9978460: sono mediane di quelle due feature, **non** mediane degli score combinati A e A′. Applicando la regola congelata a questi numeri l'esito sarebbe «si resta su A», per la clausola 1 (48% ≤ 70%), senza nemmeno calcolare A′. Questi numeri sono calcolati con la funzione di score della Fase A, baseline su quattro blocchi, non con la funzione congelata di C0 su `baseline_fit`: sono un'indicazione utile — e rassicurante su A — ma non costituiscono l'esito della decisione, che non esiste ancora. Mostrano inoltre che la trasformazione di A′ può peggiorare la dominanza anziché riequilibrarla.
 
