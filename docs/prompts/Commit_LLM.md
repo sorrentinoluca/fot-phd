@@ -20,6 +20,10 @@ Procedi così:
 4. **Messaggi** `studio2(<ambito>): <azione concreta>`. Il corpo dice *cosa* è cambiato e *perché*,
    non come.
 5. **Nessun tag di congelamento** se i controlli previsti non sono stati eseguiti (§8.4).
+6. **Includi report e verifica.** `studio2/fase<N>/REPORT_FASE<N>.md` e
+   `studio2/fase<N>/VERIFICA_FASE<N>.md` entrano nel commit: sono la traccia di che cosa è stato
+   fatto e di chi lo ha verificato in modo indipendente. Se manca il file di verifica, dillo e non
+   committare l'aggiornamento del walkthrough.
 
 Al termine riporta: i commit creati, i file inclusi in ciascuno, le verifiche svolte con i loro
 esiti, le modifiche lasciate fuori con il motivo, e le decisioni ancora necessarie.

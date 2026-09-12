@@ -6,6 +6,17 @@ si è conclusa con NON OK, questa finestra non si apre: fermati e dillo.
 **Leggi prima `Prompt_LLM.md`**. Poi `docs/fot_walkthrough_conversazione_studio2.md` §0 e §2–12,
 per sapere quale sezione stai scrivendo e quali fonti valgono.
 
+## Da dove prendi il contenuto
+
+Non erediti il contesto della finestra che ha svolto il lavoro: leggi il **repository**.
+
+1. `studio2/fase<N>/REPORT_FASE<N>.md` — il report di chiusura: è l'**indice**, dice quali file guardare;
+2. `studio2/fase<N>/VERIFICA_FASE<N>.md` — il verdetto. Se non c'è, o non dice **OK**, fermati;
+3. **i file che il report elenca** — codice, configurazioni, risultati, manifest, log. I numeri della
+   sezione vengono da lì, non dal report: il report può contenere un errore di trascrizione.
+
+Se una cifra del report non si ritrova nell'artefatto, **non scriverla**: segnalala.
+
 ## Che cosa si aggiorna
 
 La **coppia** `docs/fot_walkthrough_conversazione_studio2.md` ↔ `.html`, nella sezione della fase

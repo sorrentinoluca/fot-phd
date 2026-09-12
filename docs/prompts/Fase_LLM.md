@@ -46,7 +46,13 @@ Per **tipo di compito**, non per nome di prodotto — i nomi invecchiano.
 
 ## Chiusura della finestra
 
-Quando **tutte** le sotto-fasi sono chiuse — non prima — produci:
+Quando **tutte** le sotto-fasi sono chiuse — non prima — **scrivi il report di chiusura in un file**:
+`studio2/fase<N>/REPORT_FASE<N>.md`. Non lasciarlo solo in chat: le finestre di verifica e di
+documentazione non ereditano questo contesto, leggono il repository. **Ciò che esiste solo nella
+conversazione non è verificabile né documentabile.** Il report è solo Markdown, non è una coppia
+con un `.html`.
+
+Il report contiene:
 
 1. **Riassunto e risultati**, organizzati **seguendo le sotto-fasi eseguite**, nello stesso ordine.
 2. **File toccati**, uno per riga, e cosa è cambiato in ciascuno.
@@ -55,6 +61,11 @@ Quando **tutte** le sotto-fasi sono chiuse — non prima — produci:
 5. `python3 docs/test_explanation.py` confrontato con il numero di partenza.
 6. **La decisione se committare, con il messaggio proposto** nel formato
    `studio2(<ambito>): <azione concreta>` di MAINTENANCE §8.3.
+
+In chat lascia solo il percorso del report e le tre righe di sintesi. Tutto il resto sta nel file.
+
+⚠️ **Prima di chiudere, verifica che tutto sia su disco.** Codice, configurazioni, risultati, log:
+quello che hai solo raccontato non esiste per le finestre successive.
 
 ⚠️ **Non aggiornare il walkthrough adesso.** L'ordine è: fase conclusa → **verifica indipendente**
 (`Verifica_LLM.md`, altra finestra) → OK del verificatore → **aggiornamento documentazione**

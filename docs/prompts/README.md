@@ -13,7 +13,15 @@ Il ciclo di una fase dello studio 2 va in un ordine, e l'ordine conta:
 ```
 Fase_LLM  →  Verifica_LLM  →  Documentazione_LLM  →  Commit_LLM
 (si lavora)   (altra finestra)   (solo dopo l'OK)      (si salva)
+     ↓              ↓                   ↑
+ REPORT_FASE<N>.md  VERIFICA_FASE<N>.md ┘
+      in studio2/fase<N>/
 ```
+
+**Le finestre non si passano il contesto, si passano file.** Ogni tappa scrive il proprio esito in
+`studio2/fase<N>/`, e la successiva lo legge da lì insieme agli artefatti che cita. È l'unica
+ragione per cui il ciclo funziona con finestre e modelli diversi: ciò che esiste solo in una
+conversazione non è verificabile né documentabile.
 
 | File | Aprilo quando | Finestra |
 | --- | --- | --- |

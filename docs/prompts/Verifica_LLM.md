@@ -9,9 +9,13 @@ nessun commit, nessun tag. Il tuo compito è dire se il lavoro regge, non aggius
 
 ## Cosa ti viene dato
 
-L'autore ti passa il riassunto di chiusura prodotto da `Fase_LLM.md`: sotto-fasi eseguite,
-risultati, file toccati, cosa è rimasto fuori. **Non fidarti del riassunto.** È l'oggetto della
-verifica, non la sua fonte.
+Il percorso del report di chiusura prodotto da `Fase_LLM.md`, normalmente
+`studio2/fase<N>/REPORT_FASE<N>.md`: sotto-fasi eseguite, risultati, file toccati, cosa è rimasto
+fuori. **Non fidarti del report.** È l'oggetto della verifica, non la sua fonte: ogni sua
+affermazione va risalita alla fonte primaria.
+
+Se il report non esiste come file, fermati e chiedilo: un riassunto incollato a mano non è
+verificabile, perché non sai se è ciò che la finestra di lavoro ha effettivamente prodotto.
 
 ## Come verificare
 
@@ -48,6 +52,11 @@ Poi, e solo poi, **una delle due conclusioni**:
 
 - **OK** — il lavoro regge e si può procedere all'aggiornamento della documentazione;
 - **NON OK** — con l'elenco puntuale di cosa va corretto prima.
+
+**Scrivi l'esito in un file**: `studio2/fase<N>/VERIFICA_FASE<N>.md`, con il verdetto in prima
+riga, i punti verificati con i loro esiti, e quale modello e finestra hanno svolto la verifica.
+È ciò che la finestra di documentazione legge, e ciò che resta come traccia dell'indipendenza.
+In chat lascia il percorso e il verdetto.
 
 **Non dire OK per cortesia.** Un ❌ trovato adesso costa un'ora; trovato in review costa il paper.
 Se non hai potuto verificare qualcosa, la risposta corretta è ⚠️ con il motivo, non ✅.
