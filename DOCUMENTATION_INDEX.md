@@ -20,6 +20,7 @@ changes only when the structure changes.
 
 | Folder | Holds | Rule |
 |---|---|---|
+| [`studio2/`](studio2) | Study 2 work, artifacts and macro-phase reports | Single operational root under `docs/MAINTENANCE.md` §8; experiment design remains in its authoritative documents |
 | [`docs/`](docs) | Walkthrough documents and the literature corpus | Two studies, not two versions: `_studio2` is live, `_v2` and the unsuffixed pair are the first study's record. See `docs/MAINTENANCE.md` §3.1 |
 | [`docs/paper/`](docs/paper) | Material for the future paper: blueprint and experiment plan | Not process documentation |
 | [`docs/lit_review/`](docs/lit_review) | Supporting analyses and decision records for study 2 | Not a parallel corpus: the literature lives in `docs/letteratura.md` and nowhere else |
