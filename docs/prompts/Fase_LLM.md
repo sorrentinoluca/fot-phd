@@ -24,7 +24,8 @@ marca **pre-specificato / post-hoc** dell'analisi che lo usa (MAINTENANCE §8.2)
 ## Sotto-fasi: elencare prima, procedere una alla volta
 
 1. **In apertura, elenca le sotto-fasi** della fase in corso e fermati: conferma l'elenco prima di
-   iniziare. Elencare non è decidere — è il piano di lavoro, non l'esito.
+   iniziare. Elencare non è decidere — è il piano di lavoro, non l'esito. Per **ciascuna** indica il
+   **profilo d'esecuzione** (vedi sotto): è ciò che permette all'autore di decidere dove farla girare.
 2. **Poi procedi una sotto-fase alla volta.** Chiusa una, si passa alla successiva.
 3. **Non anticipare decisioni o discussioni delle sotto-fasi successive**, e non riorganizzare
    l'ordine per comodità. L'eccezione è una sola: quando la sotto-fase corrente **non è
@@ -42,6 +43,27 @@ parallelizzabile invece di eseguirlo tu.
 
 Il resto — comandi singoli, anche lenti, e tutto ciò in cui la decisione sta nell'operazione — lo
 esegui senza chiedere.
+
+## Profilo d'esecuzione delle sotto-fasi
+
+Nell'elenco di apertura, ogni sotto-fase porta una di queste tre etichette. Serve a decidere **con
+quale modello e in quale finestra** eseguirla, prima di spendere.
+
+| Profilo | Che cos'è | Dove va eseguita |
+| --- | --- | --- |
+| **Decisionale** | Criteri, soglie, piano statistico, scelte che si congelano, lettura critica di letteratura | Questa finestra, modello capace, ragionamento esteso |
+| **Implementativo** | Harness, script, strumentazione, test | Questa finestra, ragionamento medio, con i test eseguiti e non immaginati |
+| **Esecutivo-batch** | Batch run, simulazioni Simulink o del simulatore TEP, invocazioni ripetute di tool esterni, conversioni in massa | **Non qui.** Modello economico in una finestra dedicata, o script lanciato dall'autore |
+
+**Se la fase contiene sotto-fasi esecutivo-batch, dillo in apertura e proponi di spezzarla per
+profilo.** Un batch di simulazioni non ha bisogno del modello che ha scelto i criteri: girare
+centinaia di run dentro una finestra costosa è lo spreco più grande che questo ciclo può produrre, e
+si evita solo prevedendolo. La proposta concreta è: questa finestra produce lo **script e la
+specifica**, una finestra economica — o l'autore da terminale — lo **esegue**, e i risultati tornano
+su disco dove la finestra successiva li legge.
+
+La fase resta una, anche se attraversa più finestre: il passaggio funziona perché tutto sta in
+`studio2/fase<N>/`, non nella conversazione.
 
 ## Modello e ragionamento consigliati
 
@@ -66,10 +88,13 @@ Il report contiene:
 
 1. **Riassunto e risultati**, organizzati **seguendo le sotto-fasi eseguite**, nello stesso ordine.
 2. **File toccati**, uno per riga, e cosa è cambiato in ciascuno.
-3. **Cosa è rimasto fuori** e perché.
-4. **Decisioni ancora necessarie**, se ce ne sono.
-5. `python3 docs/test_explanation.py` confrontato con il numero di partenza.
-6. **La decisione se committare, con il messaggio proposto** nel formato
+3. **Quale modello ha eseguito quale sotto-fase**, con il profilo dichiarato in apertura. Serve al
+   verificatore: un batch eseguito da un modello economico è corretto, una scelta di disegno presa
+   da un modello economico è un rischio, e senza questa riga non si distinguono.
+4. **Cosa è rimasto fuori** e perché.
+5. **Decisioni ancora necessarie**, se ce ne sono.
+6. `python3 docs/test_explanation.py` confrontato con il numero di partenza.
+7. **La decisione se committare, con il messaggio proposto** nel formato
    `studio2(<ambito>): <azione concreta>` di MAINTENANCE §8.3.
 
 In chat lascia solo il percorso del report e le tre righe di sintesi. Tutto il resto sta nel file.
