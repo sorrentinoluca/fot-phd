@@ -260,6 +260,9 @@ La differenza rispetto alla revisione 1 è che **G5 e G6, le due sole critiche n
 Queste attività non richiedono Qwen-2.4T e non rischiano di contaminare il test finale, a condizione di rispettare le regole indicate. Sono, oggi, il cammino critico reale: ogni ora spesa qui è tempo sottratto al collo di bottiglia di §7.
 
 **6.1 — Definire i criteri di selezione degli 8 fault**
+
+Registro operativo (revisione 1, 2026-09-13): [criteri di selezione](../lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md). Il congelamento riguarda i criteri; D1 resta aperta fino all’estrazione successiva.
+
 Scrivere i criteri strutturali e **congelare** il documento prima di esaminare qualunque risultato per-fault. I criteri ammessi sono solo due famiglie: (a) copertura dei meccanismi fisici documentati in Downs & Vogel 1993 — step, random variation, slow drift, sticking valve — e identità di variabile perturbata, leggibile dalla loro tabella dei fault; (b) stratificazione per difficoltà **documentata in letteratura**, con le fonti di §12. Non è ammesso alcun criterio basato su separabilità osservata nei propri dati. I 4 fault di continuità sono dichiarati come tali (§2.2).
 
 **6.2 — Generare nuovi run fault di sviluppo**
@@ -1236,7 +1239,9 @@ La distinzione che conta non è "difficile" contro "facile", ma **perché** è d
 
 Ne discende la forma di criterio utilizzabile — **strutturale, esterno, preesistente e concorde**:
 
-> Stratificare su "fault compensati dal controllo, con FDR sotto il 10% **in tutti i metodi confrontati** nella letteratura citata".
+> Stratificare sul gruppo nominale **F3/F9/F15**, documentato come difficile da rilevare nei confronti citati, senza applicare una soglia FDR universale.
+
+**Correzione §6.1, 2026-09-13.** La precedente formula «sotto il 10% in tutti i metodi» contraddiceva i range attribuiti a Yin in §12.1. Non viene sostituita con una soglia ricavata dai massimi. Il [registro dei criteri](../lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md) fissa lo strato nominale e riporta i valori PHM 2023 riverificati sulla tabella primaria; i range Yin restano attribuzioni preesistenti del piano, non riverificate sul testo integrale in questa sessione e non usate come filtro numerico. La concordanza riguarda i confronti citati, non ogni metodo possibile.
 
 È difendibile perché non usa i propri dati e non dipende da un singolo rilevatore. Non lo sono: "nei nostri dati di sviluppo separano male" (usa i propri dati) e "PCA non lo rileva" (usa un solo metodo).
 

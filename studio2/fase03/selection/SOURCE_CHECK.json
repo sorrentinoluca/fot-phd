@@ -1,0 +1,24 @@
+{
+  "date": "2026-09-13",
+  "primary_pdfs": [
+    {
+      "source": "Downs",
+      "url": "https://users.abo.fi/~khaggblo/RS/Downs.pdf",
+      "sha256": "5f19b0bf7f0e5c052335943fff263769a28757066582c3166e16ac163e0e9538",
+      "bytes": 972988,
+      "consulted_pages": "250 (tabella 8 e nota)"
+    },
+    {
+      "source": "PHM2023",
+      "url": "https://papers.phmsociety.org/index.php/phmconf/article/download/3578/phmc_23_3578",
+      "sha256": "e11310c44cebca7a6ebc368b3862dc2edc0003a4ee31cb9223feb6d5e0ae7b78",
+      "bytes": 721381,
+      "consulted_pages": "6 (tabella 2), 7 (commento 4.3)"
+    }
+  ],
+  "yin_2012": {
+    "metadata_verified": true,
+    "full_text_verified": false,
+    "numerical_ranges_used_for_eligibility": false
+  }
+}

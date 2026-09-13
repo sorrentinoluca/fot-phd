@@ -1,0 +1,16 @@
+{
+  "scope": "criteria_6_1_feasibility_only",
+  "counts": {
+    "total_quadruples": 330,
+    "admissible_quadruples": 12
+  },
+  "mechanism_compositions": {
+    "step=3,random=2,drift=1,sticking=2": 5,
+    "step=2,random=3,drift=1,sticking=2": 7
+  },
+  "draw_executed": false,
+  "catalog_selected": false,
+  "scientific_data_opened": false,
+  "model_calls": 0,
+  "method": "Enumerazione itertools.combinations; soli attributi della tabella 8 e vincoli del registro; nessun hash di sorteggio calcolato."
+}
