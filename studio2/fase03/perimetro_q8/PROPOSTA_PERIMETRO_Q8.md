@@ -27,11 +27,26 @@ da proposta e report; corregge la proposta così:
    interamente identica ai tag Phase A. §5.1 propone quindi di nominarle come directory, senza
    introdurre un elenco di file.
 
+## Revisione 3 — correzioni dopo la seconda verifica
+
+La seconda verifica indipendente del 2026-09-13 (`VERIFICA_PERIMETRO_Q8_rev002.md`, OpenAI
+`gpt-5.6-sol`) ha dato **NON OK** sul solo controllo uniforme delle righe H residue. Questa
+revisione è minima e non riapre i controlli già positivi:
+
+1. §1 dichiara che un valore operativo del primo studio incorporato come default di parametro è
+   una costante incorporata anche quando è sovrascrivibile.
+2. `code/tep_features.py` passa da H a HC per il default `window_h=5.0`; di conseguenza
+   `code/test_features.py` passa da H a HC perché importa quel modulo. Resta H soltanto
+   `phase_b/evaluation/token_logging.py`, ricontrollato con lo stesso criterio: non ha default
+   operativi del primo studio e riceve tokenizer, testi e conteggi come input.
+3. §5.5 rende esplicito per 03.6 che `analyze_window`, o le funzioni effettivamente usate, ricevono
+   `window_h` e ogni altro default dalla configurazione di `studio2/`, con provenienza del modulo.
+
 | Campo | Valore |
 | --- | --- |
-| Data | 2026-09-13; revisione 2 nello stesso giorno |
-| Modello | proposta originale: Claude Fable 5.1 (`claude-fable-5-1`), ragionamento esteso; revisione 2: OpenAI Codex (GPT-5), ragionamento esteso — profilo **decisionale** (`Fase_LLM.md`) |
-| Finestra | proposta originale: Cowork; revisione 2: worktree `/Users/luker/fot-tep-q8`; branch `codex/studio2-perimetro-q8` creato da `origin/main` = `b7f359fc593b74cf756f3b407ddabe5027f91b0f` |
+| Data | 2026-09-13; revisioni 2 e 3 nello stesso giorno |
+| Modello | proposta originale: Claude Fable 5.1 (`claude-fable-5-1`), ragionamento esteso; revisione 2: OpenAI Codex (GPT-5), ragionamento esteso; revisione 3: OpenAI Codex (GPT-5), ragionamento medio — profilo **decisionale** (`Fase_LLM.md`) |
+| Finestra | proposta originale: Cowork; revisioni 2 e 3: worktree `/Users/luker/fot-tep-q8`; branch `codex/studio2-perimetro-q8` creato da `origin/main` = `b7f359fc593b74cf756f3b407ddabe5027f91b0f` |
 | Chiamate a modelli / simulazioni | nessuna |
 | File modificati fuori da `studio2/fase03/perimetro_q8/` | nessuno; `phase_b/`, `code/`, `docs/`, artefatti congelati intatti (verificato con `git status` prima del commit) |
 
@@ -70,7 +85,10 @@ La classe si assegna al **file intero**, non alla funzione più riutilizzabile c
 (config, record, tabelle), non incorpora numeri, identità o esiti del protocollo del primo studio e
 non importa transitivamente un file HC. Lo schema intrinseco del dominio TEP (41 XMEAS) non è una
 costante di protocollo; nei test H sono ammessi numeri che costruiscono esclusivamente fixture
-sintetiche e verificano invarianti qualitativi. È **artefatto** se è una
+sintetiche e verificano invarianti qualitativi. Un valore operativo del primo studio incorporato
+come default di parametro — finestra, burn-in, soglia od orizzonte — conta come costante incorporata
+ai fini della classe anche se è sovrascrivibile, coerentemente con §5.2 che impone di passare o
+dichiarare ogni default ereditato. È **artefatto** se è una
 configurazione, un prompt, una predizione, un risultato, una libreria di insight, un mapping
 evaluator-side, un manifest di freeze, o un test che verifica uno di questi per contenuto o impronta.
 
@@ -151,13 +169,13 @@ occorrenze di `label_space[:-1]` di D10 sono esattamente quelle riportate qui so
 
 | Percorso | Commit | SHA-256 | Copertura | Funzione | Assunzioni incorporate | Classe | Richiesto da |
 | --- | --- | --- | --- | --- | --- | :---: | --- |
-| `code/tep_features.py` | `3fd960a192bafacbaabce9471e3c3614d6b2d2db` | `cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c` | H, P, T | `XMEAS` (41), `BaselineStats`, `analyze_window` (shift/slope/residual/diff/raw ratio), `iter_time_windows`, `analyze_case_windows` | nessuna label, nessun agente; solo schema colonne TEP e 41 XMEAS | H | 03.6 (già copiato byte-identico in `studio2/fase02/analysis/tep_features.py`, commit `dec2010`) |
+| `code/tep_features.py` | `3fd960a192bafacbaabce9471e3c3614d6b2d2db` | `cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c` | H, P, T | `XMEAS` (41), `BaselineStats`, `analyze_window` (shift/slope/residual/diff/raw ratio), `iter_time_windows`, `analyze_case_windows` | nessuna label, nessun agente; schema TEP e default operativo `window_h=5.0` in `iter_time_windows` e `analyze_case_windows` | HC (costante di Fase A) | 03.6 (già copiato byte-identico in `studio2/fase02/analysis/tep_features.py`, commit `dec2010`) |
 | `code/tep_verbalize_v2.py` | `3fd960a…` | `3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be` | H, P, T | `load_config` (rifiuta versioni ≠ 2.0 e set di soglie diverso), `load_development_baseline` (N1–N5 in `[0,250)`), `_variable_signature`, `render_text`, `verbalize_feature_table`, `verbalize_case` | `fault_injection_h = 10`, finestre da 5 h, baseline 5 blocchi da 50 h, vocabolario italiano congelato; nessuna label | HC (costanti di Fase A, non di protocollo) | 03.6 (testo neutrale e JSON strutturato dai 40 run) |
 | `code/verbalizer_config_v2.json` | `3fd960a…` | `552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519` | H, P, T | soglie congelate (4), logica temporale, vocabolario; `dataset_commit 309b944f…` | soglie calibrate su N1–N5 del primo studio | A | 03.6 (**da decidere in 03.5/03.6** se le soglie restano queste o vengono ricalibrate: non qui) |
 | `code/evaluate_verbalizer_v2.py` | `3fd960a…` | `972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92` | H, P, T | `signature_vector` (**la 697-D**), `signature_similarity`, valutazione stabilità/separabilità | il file importa `tep_verbalize_v2.py` HC al caricamento e l'evaluator fissa N1–N5, batch 1–5 e fault F1/F8/F10/F13; la sola `signature_vector` usa 41 XMEAS × 17 componenti e `n_windows`, non soglie/baseline/finestre | HC | 03.6, 03.9 (riuso da valutare a livello della funzione) |
 | `code/tep_characterize_v2.py` | `3fd960a…` | `440b2488b30144944e52ad27f21f53eede781550efdef5a1f6251cf8e2630560` | — (già in PROVENIENZA §7) | caratterizzazione con firme temporali | costanti 10/50/5 | HC | 03.6 (già letto per la specifica dei run §6.2) |
 | `code/characterize_fot_communication_payload.py` | `430590001922b28d618b739b12e3471e7ebd0afa` | `d12b71d29152a4831e8cc10576ead51f6aaabbf6de87385a313dcaf74e36bb3c` | — | caratterizzazione del payload Exp1: importa `phase_b.conditions.builders`, `phase_b.insights`, `tep_features`; ricostruisce i prompt e ne verifica gli hash contro i prediction log | percorsi e impronte di Exp1, `agent_1..4`, 8 insight | HC (misura un artefatto) | 03.10/03.13 (pattern per le metriche di conformità §8.9: byte, token, retry) |
-| `code/test_features.py` | `3fd960a…` | `28cf1c7de607fbeca84b383b7efbae0a491a970e7879575c36788d71e0364349` | — | unit test delle feature | — | H | 03.6 (pattern) |
+| `code/test_features.py` | `3fd960a…` | `28cf1c7de607fbeca84b383b7efbae0a491a970e7879575c36788d71e0364349` | — | unit test delle feature | importa `tep_features.py` HC al caricamento | HC | 03.6 (pattern) |
 | `code/test_verbalize_v2.py` | `3fd960a…` | `17e0ae0f9a09f52eae05ab8014fb8077edfd3347cf84b79339bd90a83c2ad672` | — | unit test del renderer V2 | vocabolario, soglie | HC | 03.6 (pattern) |
 | `code/test_characterize_fot_communication_payload.py` | `4305900…` | `f0d896afe75f2fb0aacccf5fc7a434ed43d780cf79bfe1cb568a1db3e89eedd6` | — | test della caratterizzazione | artefatti Exp1 | A | — |
 
@@ -365,7 +383,7 @@ come eccezione storica. La nuova regola a livello di funzione non autorizza a ri
 
 | Sotto-fase | Con (a′) |
 | --- | --- |
-| **03.6** evidence 697-D e testo neutrale | valuta a livello di funzione `tep_features`, il verbalizzatore e `signature_vector`: verifica dipendenze ed effetti del caricamento, registra commit/impronte e controlla le impronte prima di ogni import; baseline, finestre, soglie e default sono espliciti. Se un'assunzione non è eliminabile per parametro, adatta la funzione in `studio2/` con riga PROVENIENZA. Scrive lì lo script sui 40 run, manifest e test; riscrive lo scanner anti-leakage per gli 8 fault D1. **Non decide** se le soglie V2 restano quelle di `verbalizer_config_v2.json` o dipendono da 03.5 |
+| **03.6** evidence 697-D e testo neutrale | valuta a livello di funzione `tep_features`, il verbalizzatore e `signature_vector`: verifica dipendenze ed effetti del caricamento, registra commit/impronte e controlla le impronte prima di ogni import. `analyze_window`, o le funzioni effettivamente usate, ricevono `window_h` e ogni altro default esplicitamente dalla configurazione di `studio2/`; la riga PROVENIENZA registra modulo, commit e impronta. Se un'assunzione non è eliminabile per parametro, adatta la funzione in `studio2/` con riga PROVENIENZA. Scrive lì lo script sui 40 run, manifest e test; riscrive lo scanner anti-leakage per gli 8 fault D1. **Non decide** se le soglie V2 restano quelle di `verbalizer_config_v2.json` o dipendono da 03.5 |
 | **03.7** pseudolabel e derangement | riusa il pattern `derive_opaque_pseudolabel` (in `studio2/fase03/protocol.py` esiste solo la regex di forma `S2-CLS-`) e scrive il generatore dei derangement a 7 peer in `studio2/` (oggi esiste solo nella fixture sintetica); il test dimostra assenza di punti fissi e opacità; seed e namespace sono la decisione da congelare lì. Nessun file di `phase_b/` toccato; `condition_e_derangements.json` resta il riferimento di forma |
 | **03.9** baseline numerica | riscrive il pattern di `c02b/run_baseline.py` (prototipi medi 697-D, L1, astensione su pareggio) in `studio2/` per 9 classi e 8 agenti, con riga PROVENIENZA su `run_baseline.py` (`5a0d4572…`) e sul protocollo C02B (`229f901a…`); l'eventuale riuso di `signature_vector` segue la verifica function-level e dell'impronta di §5.2 |
 | **03.10** harness API | `studio2/fase03/protocol.py`, `run_pilot.py`, `prepare_gate.py` sono già l'harness; restano da collegare gli input reali di 03.6/03.7 e da aggiungere logging §8.7 (pattern `records.py`, `token_logging.py`) e la **terza metrica** di §8.5 (accuratezza sui soli non astenuti), come codice nuovo accanto ai numeri 1 e 2 (pattern `metrics.py`); i test di `phase_b/tests/` si riscrivono. Se la terza metrica appartiene al piano statistico di 03.8 anziché all'harness, lo decide 03.8: qui si registra solo che è codice nuovo in `studio2/` |
