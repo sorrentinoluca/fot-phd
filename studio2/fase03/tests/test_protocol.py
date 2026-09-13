@@ -239,8 +239,9 @@ class DiagnosticAndBudgetTests(unittest.TestCase):
         self.assertFalse(result["generation_budget_frozen"])
         self.assertEqual(
             [item["thinking_token_budget"] for item in result["feasible_candidates"]],
-            [2048, 3072],
+            [2048, 3072, 4096],
         )
+        self.assertEqual(result["candidates"][-1]["required_context_tokens"], 7864)
 
     def test_d11_is_not_determinism_decision_11(self):
         policy = CONFIG["determinism_policy"]

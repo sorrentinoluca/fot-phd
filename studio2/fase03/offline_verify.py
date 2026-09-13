@@ -142,10 +142,23 @@ def run(snapshot: Path) -> dict[str, Any]:
             "producer calls",
             "fault selection",
             "simulation or scientific data generation",
-            "configuration freeze for a real gate"
+            "complete configuration freeze for a real gate"
         ],
         "model_calls": 0,
         "http_calls": 0,
+        "canonical_endpoint": {
+            "base_url": config["candidate"]["base_url"],
+            "max_model_len": config["candidate"]["expected_max_model_len"],
+            "vllm_version": config["candidate"]["expected_vllm_version"],
+            "expected_process": config["candidate"]["expected_process"],
+            "gpu_kv_cache": config["candidate"]["gpu_kv_cache"],
+            "supersedes": config["candidate"]["supersedes"],
+            "runtime_contacted_by_this_verification": False,
+        },
+        "gate_submission_freeze": {
+            "status": config["gate_submission_freeze"]["status"],
+            "not_yet_frozen": config["gate_submission_freeze"]["not_yet_frozen"],
+        },
         "schemas": check_json_schemas(),
         "preflight_config_sha256": sha256_file(PREFLIGHT_CONFIG_PATH),
         "tokenizer_snapshot": str(snapshot.resolve()),

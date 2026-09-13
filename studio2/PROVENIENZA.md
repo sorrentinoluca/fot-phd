@@ -108,9 +108,15 @@ lettura; gli adattamenti vivono sotto `studio2/`.
 | `phase_b/c06/prompts/B_LOCAL_FIRST_V1.txt` | `9e3d9031013788a583e348fbd7bfc40e14d3c68b` | `4e6cc81f87033f0b3bcddebff694e7f446e31c228c5ac1f7560b9552aada6192` | `studio2/fase03/protocol.py` | blocco decisionale riusato per B-LF ed E-LF; label e insight resi parametrici | politica local-first congelata | pre-specificato |
 | `phase_b/exp2/qwen/config.json` e risultati congelati della sensitivity descritti in walkthrough v2 §10.1–10.2 | `9e3d9031013788a583e348fbd7bfc40e14d3c68b` | `3b58e321c5d09c8e1fdf2f5ddab6bac14f9b537b0febcc294909164f3febcbe9` | `studio2/fase03/config/pilot_preflight.json` | vecchi valori 4096/1024 non ereditati; usati solo per definire la scala 2048/3072/4096 da verificare prima del gate | precedente operativo sullo stesso Qwen-27B | pre-specificato |
 
-Il report di chiusura della Fase 02 dichiarato dall'autore non è presente nei riferimenti remoti
-fetchati al commit `9e3d903`, quindi non è ancora possibile registrarne percorso e impronta. Il
-suo paragrafo «Fuori dalla Fase02» esclude catalogo definitivo, 40 nuovi run fault di sviluppo e
-relative feature/evidence: questi elementi non sono dati riusati né output della Fase 02, ma
-prerequisiti scientifici futuri. Quando esisteranno, ogni artefatto effettivamente usato dal
-pilot riceverà una riga autonoma con origine, commit, impronta e destinazione.
+Il rebase su `origin/main` `c6e19d646cfdb1fd73ad2d537c167656f0bd8038` ha sincronizzato il
+report e la verifica di chiusura della Fase 02 e il freeze pre-calibrazione. Le rispettive impronte
+sono registrate in `fase03/config/pilot_preflight.json`; il freeze dichiara
+`source_head_commit=d472dc56c41f2b07563a362b81eed844460bf1c7`. Le sezioni 1–4 sopra sono
+state conservate intatte nella risoluzione del rebase.
+
+La pubblicazione sblocca quindi identità, manifest e hash degli artefatti che la Fase 02 dichiara
+conclusi; non crea ciò che il report colloca in «Fuori dalla Fase02». Catalogo definitivo, 40 nuovi
+run fault di sviluppo e relative feature/evidence restano prerequisiti scientifici futuri. Quando
+esisteranno, ogni artefatto effettivamente usato dal pilot riceverà una riga autonoma con origine,
+commit, impronta e destinazione. Il producer alternativo resta privo di configurazione e non può
+ancora ricevere una riga di provenienza né superare la sonda di conformità.

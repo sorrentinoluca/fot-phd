@@ -2,7 +2,7 @@
   "artifact_version": "1",
   "phase": "03",
   "subphase": "03.0",
-  "status": "OFFLINE_IMPLEMENTED_EXECUTION_SUSPENDED",
+  "status": "GATE_ENVELOPE_FROZEN_EXECUTION_SUSPENDED",
   "scope": "PRELIMINARY_MODEL_AND_CONFIGURATION_ONLY",
   "study_model_decision": "UNDECIDED",
   "candidate": {
@@ -14,9 +14,42 @@
     "expected_model_root": "Qwen/Qwen3.8-27B-FP8",
     "expected_model_revision": "017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
     "expected_vllm_version": "0.28.0",
-    "expected_max_model_len": 7168,
+    "expected_max_model_len": 16384,
     "concurrency": 1,
-    "stateless": true
+    "stateless": true,
+    "expected_process": {
+      "api_server_pid": 690460,
+      "engine_core_pid": 690661,
+      "command": "/home/luca/fot-exp2/env-vllm/bin/python3 /home/luca/fot-exp2/env-vllm/bin/vllm serve Qwen/Qwen3.8-27B-FP8 --revision 017b9c7af6b5689d5dd426a76e0bc077eb5ca20a --served-model-name fot-exp2-consumer --host 127.0.0.1 --port 8001 --tensor-parallel-size 1 --max-model-len 16384 --max-num-seqs 1 --gpu-memory-utilization 0.97 --language-model-only --reasoning-parser qwen3 --seed 20260829 --generation-config vllm --enforce-eager --no-enable-prefix-caching --kernel-config {\"enable_flashinfer_autotune\":false,\"enable_jit_warmup\":false,\"enable_cutedsl_warmup\":false}",
+      "command_sha256": "b1560330f54807c5396e03360e7938748a1e4c41bf63f427ff74b6661de499d7",
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "VLLM_USE_FLASHINFER_SAMPLER": "0"
+      },
+      "environment_sha256": "de6e5d641edcdc8542fddadf5abfbbeae9054e08aa099cb2998150d274816793",
+      "vllm_version": "0.28.0",
+      "fingerprint_sha256": "39b59324e643e892bfdd05beac763aa9ca80092941f28ce01f582f0f3a593017"
+    },
+    "runtime_record": {
+      "path": "studio2/fase03/env/ENDPOINT_8001_16384_RECORD.md",
+      "sha256": "6424d416d3228898a4e9313b800162441b530bcadd1d7fe2e1b83ee096a2af21"
+    },
+    "launch_script": {
+      "path": "studio2/fase03/env/start_vllm_8001_16384.sh",
+      "sha256": "fca8ea1c48bd640f28a944ae038e70cf896c3de7b231198e7c3474c374ffa36f"
+    },
+    "gpu_kv_cache": {
+      "observed_tokens": 34133,
+      "maximum_concurrency_at_16384": 2.08,
+      "comparison_key": false,
+      "reason": "Derived from --max-model-len; recorded operationally but excluded from the process fingerprint."
+    },
+    "supersedes": {
+      "endpoint_configuration": "8001@7168",
+      "api_server_pid": 636846,
+      "status": "SUPERSEDED_NOT_AVAILABLE",
+      "preserve_historical_records": true
+    }
   },
   "generation_budget": {
     "temperature": 0.0,
@@ -73,9 +106,13 @@
     "hard_stop_provider_requests": 200
   },
   "dependencies": {
-    "existing_artifacts_to_synchronize": [
-      "Phase 02 closure report, including its Fuori dalla Fase02 section; path and hash unavailable in fetched refs at 9e3d903",
-      "decisions and implementation artifacts actually listed as completed by that report, without inferring omitted deliverables",
+    "phase02_artifacts_synchronized_from_origin_main": [
+      "studio2/fase02/REPORT_FASE02.md at c6e19d6, sha256 fa555197b9421f073d65f9cfb34aa7f06762fc0377ab26bad76ef60da47641d2",
+      "studio2/fase02/VERIFICA_FASE02.md at c6e19d6, sha256 34c8df542c1ee6dc9b3169d4ef53aba9eca726f15a92547bd28065178b903183",
+      "studio2/fase02/validation/PRECALIBRATION_FREEZE.json at c6e19d6, sha256 be01fe4cccf6e9f3c9d82e8de69e426aa68b80d3e106bac81fa29dfb325bf085, source_head_commit d472dc56c41f2b07563a362b81eed844460bf1c7",
+      "studio2/PROVENIENZA.md Phase 02 sections preserved during rebase"
+    ],
+    "existing_artifacts_available": [
       "the already installed Qwen3.8-27B-FP8 snapshot and observed local vLLM runtime",
       "the frozen first-study parser, Qwen adapter/probe and B_LOCAL_FIRST_V1 used only as provenance for new Study 2 adaptations"
     ],
@@ -114,6 +151,48 @@
       "cross-producer schema conformance",
       "parity of fixed fields and length caps",
       "producer-swap readiness"
+    ]
+  },
+  "gate_submission_freeze": {
+    "status": "FROZEN_ENVELOPE_AWAITING_SCIENTIFIC_PROMPTS_AND_BUDGET_PROBE",
+    "frozen_at": "2026-09-13T02:15:43+02:00",
+    "integration_base": "c6e19d646cfdb1fd73ad2d537c167656f0bd8038",
+    "model_and_endpoint": "candidate plus expected_process above",
+    "prompt_contract": {
+      "renderer": "studio2/fase03/protocol.py",
+      "renderer_sha256": "39ea42b3c5da7c22974b80f79fa4b924274c75086ccaaf4365af580a5474bb55",
+      "local_first_source": "phase_b/c06/prompts/B_LOCAL_FIRST_V1.txt",
+      "local_first_sha256": "4e6cc81f87033f0b3bcddebff694e7f446e31c228c5ac1f7560b9552aada6192",
+      "rendered_prompt_file_sha256": null,
+      "pending_reason": "The definitive catalog and development-only pilot manifest do not yet exist."
+    },
+    "schemas": {
+      "diagnostic_output": "c4f73e784d281983a0a564c96ac59f2653871ecc6cc8936c9254278ce9e3e60a",
+      "insight": "9d9de7dc9bd1795aea5f8fe323a2579eb2b5cc52ca8c753c594a292570fab9a1",
+      "pilot_input_manifest": "91270c79b7ad675a2030a80a28fa248f0e42dd79b8e8ceec8adec3017d47c27d"
+    },
+    "tokenizer": {
+      "snapshot": "/home/luca/fot-exp2/cache/huggingface/hub/models--Qwen--Qwen3.8-27B-FP8/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+      "tokenizer_json_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+      "tokenizer_config_sha256": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27",
+      "chat_template_sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041",
+      "runtime_snapshot_note": "The endpoint loaded the same revision from /home/luca/.cache; all 76 inference files are byte-identical per the runtime record."
+    },
+    "generation_configuration": {
+      "temperature": 0.0,
+      "seed": 20260829,
+      "thinking_token_budget_candidates": [2048, 3072, 4096],
+      "answer_reserve_tokens": 512,
+      "context_safety_margin_tokens": 256,
+      "max_structural_retries": 0,
+      "selected_thinking_token_budget": null,
+      "selection_rule": "First tested candidate with zero length truncations and valid first-attempt parsing on the A/B-LF/E-LF stress prompts."
+    },
+    "not_yet_frozen": [
+      "scientific pilot manifest and its source commit/hash",
+      "forty rendered prompts and their file/individual hashes",
+      "selected thinking/max_tokens pair, which requires the at-most-nine-call budget probe",
+      "alternate producer model, endpoint, tariff and conformance result"
     ]
   }
 }

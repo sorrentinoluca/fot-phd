@@ -64,7 +64,7 @@ def http_json(url: str, *, timeout: float = 30.0) -> dict[str, Any]:
     return value
 
 
-def process_provenance(config: dict[str, Any]) -> dict[str, Any]:
+def process_provenance(config: dict[str, Any], vllm_version: str) -> dict[str, Any]:
     candidate = config["candidate"]
     port = candidate["base_url"].split(":")[-1].split("/")[0]
     matches: list[tuple[int, str]] = []
@@ -89,11 +89,63 @@ def process_provenance(config: dict[str, Any]) -> dict[str, Any]:
     if len(matches) != 1:
         raise RuntimeError(f"expected exactly one matching vLLM process, found {len(matches)}")
     pid, command = matches[0]
-    return {
-        "pid": pid,
+    environment: dict[str, str] = {}
+    for item in (Path("/proc") / str(pid) / "environ").read_bytes().split(b"\0"):
+        if not item or b"=" not in item:
+            continue
+        key_raw, value_raw = item.split(b"=", 1)
+        key = key_raw.decode("utf-8")
+        if key.startswith(("VLLM_", "CUDA_")):
+            environment[key] = value_raw.decode("utf-8")
+    child_pids = [
+        int(value)
+        for value in (Path("/proc") / str(pid) / "task" / str(pid) / "children")
+        .read_text(encoding="utf-8")
+        .split()
+    ]
+    engine_core = []
+    for child_pid in child_pids:
+        try:
+            child_command = (
+                (Path("/proc") / str(child_pid) / "cmdline")
+                .read_bytes()
+                .replace(b"\0", b" ")
+                .decode()
+                .strip()
+            )
+        except (OSError, UnicodeDecodeError):
+            continue
+        if "VLLM::EngineCore" in child_command:
+            engine_core.append(child_pid)
+    if len(engine_core) != 1:
+        raise RuntimeError(f"expected exactly one EngineCore child, found {len(engine_core)}")
+    fingerprint_fields = {
+        "api_server_pid": pid,
+        "engine_core_pid": engine_core[0],
         "command": command,
-        "command_sha256": sha256_text(command),
+        "environment": environment,
+        "vllm_version": vllm_version,
     }
+    observed = {
+        **fingerprint_fields,
+        "command_sha256": sha256_text(command),
+        "environment_sha256": sha256_text(canonical_json(environment)),
+        "fingerprint_sha256": sha256_text(canonical_json(fingerprint_fields)),
+    }
+    expected = candidate["expected_process"]
+    checks = {
+        "api_server_pid": observed["api_server_pid"],
+        "engine_core_pid": observed["engine_core_pid"],
+        "command": observed["command"],
+        "command_sha256": observed["command_sha256"],
+        "environment": observed["environment"],
+        "environment_sha256": observed["environment_sha256"],
+        "vllm_version": observed["vllm_version"],
+        "fingerprint_sha256": observed["fingerprint_sha256"],
+    }
+    if checks != expected:
+        raise RuntimeError(f"vLLM process fingerprint mismatch: observed={checks}, expected={expected}")
+    return observed
 
 
 def server_contract(config: dict[str, Any]) -> dict[str, Any]:
@@ -134,7 +186,7 @@ def server_contract(config: dict[str, Any]) -> dict[str, Any]:
     }
     if any(observed[key] != value for key, value in expected.items()):
         raise RuntimeError(f"server contract mismatch: observed={observed}, expected={expected}")
-    observed["process"] = process_provenance(config)
+    observed["process"] = process_provenance(config, observed["vllm_version"])
     return observed
 
 
@@ -340,7 +392,7 @@ def run_stability_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]
     if frozen["candidate"] != config["candidate"]:
         raise RuntimeError("candidate configuration changed after freeze")
     server = server_contract(config)
-    if server["process"]["command_sha256"] != frozen["server"]["process"]["command_sha256"]:
+    if server["process"]["fingerprint_sha256"] != frozen["server"]["process"]["fingerprint_sha256"]:
         raise RuntimeError("server process configuration changed after freeze")
     schema = load_json(DIAGNOSTIC_SCHEMA_PATH)
     provider = Provider(config)
@@ -407,6 +459,14 @@ def print_plan(config: dict[str, Any]) -> None:
                 "status": "PLAN_ONLY_NO_PROVIDER_CALLS",
                 "script": str(Path(__file__).resolve()),
                 "pre_gate_budget_calls_max": calls["pre_gate_generation_budget_max"],
+                "pre_gate_budget_calls_per_candidate": 3,
+                "budget_candidates_in_order": config["generation_budget"][
+                    "thinking_token_budget_candidates"
+                ],
+                "budget_selection_rule": (
+                    "Select the first candidate whose A, B-LF and E-LF stress calls all "
+                    "finish without length truncation and parse validly on the first attempt."
+                ),
                 "stability_gate_calls": calls["stability_gate"],
                 "qwen_producer_conformance_calls": calls["qwen_producer_conformance"],
                 "alternate_producer_calls_deferred": calls[
@@ -420,7 +480,18 @@ def print_plan(config: dict[str, Any]) -> None:
                 ),
                 "retry_reserve_authorized": calls["retry_reserve_authorized"],
                 "hard_stop_provider_requests": calls["hard_stop_provider_requests"],
-                "estimated_qwen_wall_time": "3-6 hours sequential; historical lower bound 49.4 s/call at a 1024-token thinking budget",
+                "duration_estimate_basis": (
+                    "Only sequential 8001@16384 is verified. Extrapolation from 49.4 s/call "
+                    "at thinking=1024, scaled linearly by the selected thinking cap with a "
+                    "25% planning allowance for prompts up to 9875 input tokens."
+                ),
+                "estimated_budget_probe_wall_time": "25-40 minutes for the nine-call maximum",
+                "estimated_stability_gate_wall_time_by_budget": {
+                    "2048": "4-5 hours",
+                    "3072": "6-7.5 hours",
+                    "4096": "8-10 hours",
+                },
+                "estimated_probe_plus_gate_wall_time": "approximately 4.5-10.7 hours sequential",
                 "direct_local_api_cost": "EUR 0; electricity/opportunity cost not priced",
                 "alternate_producer_cost": "unknown until provider, model and tariff are frozen",
             },

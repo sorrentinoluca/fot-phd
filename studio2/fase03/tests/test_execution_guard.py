@@ -25,10 +25,19 @@ class ExecutionGuardTests(unittest.TestCase):
         self.assertEqual(value["planned_total_with_retry_reserve"], 160)
         self.assertFalse(value["retry_reserve_authorized"])
         self.assertEqual(value["hard_stop_provider_requests"], 200)
+        self.assertEqual(config["candidate"]["expected_max_model_len"], 16384)
+        self.assertEqual(
+            config["candidate"]["expected_process"]["environment"],
+            {
+                "CUDA_VISIBLE_DEVICES": "0",
+                "VLLM_USE_FLASHINFER_SAMPLER": "0",
+            },
+        )
+        self.assertFalse(config["candidate"]["gpu_kv_cache"]["comparison_key"])
 
     def test_inventory_is_blocked_and_has_no_calls(self):
         value = prepare_gate.inventory()
-        self.assertEqual(value["status"], "OFFLINE_IMPLEMENTED_EXECUTION_SUSPENDED")
+        self.assertEqual(value["status"], "GATE_ENVELOPE_FROZEN_EXECUTION_SUSPENDED")
         self.assertEqual(value["model_calls"], 0)
         self.assertTrue(value["next_command_requires_independently_frozen_study2_pilot_inputs"])
 

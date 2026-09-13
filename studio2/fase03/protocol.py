@@ -620,6 +620,7 @@ def context_feasibility(
                 "thinking_token_budget": thinking,
                 "max_tokens": max_tokens,
                 "maximum_input_tokens": maximum,
+                "required_context_tokens": maximum + max_tokens + margin,
                 "context_margin_tokens": remaining,
                 "fits_with_required_safety_margin": remaining >= margin,
             }
