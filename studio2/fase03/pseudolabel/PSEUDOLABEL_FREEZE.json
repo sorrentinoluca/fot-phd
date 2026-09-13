@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-13",
+  "scope": "phase03_subphase_03_7_pseudolabels_agent_assignment_condition_E_derangements",
+  "status": "frozen_pending_independent_verification",
+  "proposed_freeze_tag": "studio2-fase03-pseudolabel-frozen-001",
+  "tag_conditions": [
+    "independent verification OK recorded in VERIFICA_PSEUDOLABEL.md",
+    "source_commit reachable from origin/main",
+    "python3 -m studio2.fase03.pseudolabel.pseudolabel_draw --check passes at the tagged commit"
+  ],
+  "namespace": "studio2-fase03-pseudolabel-v1",
+  "seed": 20260913,
+  "source_commit": "8c90ecec421980211258e9323d4266a32ba70ccd",
+  "catalog_tag": "studio2-fase03-catalogo-D1-frozen-001",
+  "catalog_commit": "ab43f0b20f45cdb475c0caf52c6f7afcbae50891",
+  "catalog_sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+  "files": [
+    {
+      "path": "studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json",
+      "sha256": "b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6",
+      "bytes": 1038
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json",
+      "sha256": "df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf",
+      "bytes": 1667
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/CONDITION_E_DERANGEMENTS.json",
+      "sha256": "34350c7e49b11d29b885da128d4b34ce3df31cd41df7c521cb66421aa1b9d001",
+      "bytes": 3899
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/DRAW_LOG.json",
+      "sha256": "469da8eac9f84ee007183d10c0c024f4c5bfb293136867cba4ab59e4d974fd03",
+      "bytes": 10603
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/pseudolabel_draw.py",
+      "sha256": "c4e886695ff0d58e8ea7674f5b29f1075c86a8c065c1a4dd7af142c3b689d410",
+      "bytes": 17866
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/test_pseudolabel.py",
+      "sha256": "284b366b06ff350a09ebd7d73d43e5431d4660f5f837434b7f9135d7397e80fb",
+      "bytes": 10481
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/SPECIFICA_PSEUDOLABEL.md",
+      "sha256": "ee7109cd425da639caa0bc6c450b759aea5885cc7daebd6d7dabd619c1f60cef",
+      "bytes": 8479
+    }
+  ],
+  "interface_note": "if 03.12 changes the pseudolabel format, regenerate deterministically under namespace studio2-fase03-pseudolabel-v2 in new files; never overwrite v1",
+  "model_calls": 0,
+  "simulations": 0
+}

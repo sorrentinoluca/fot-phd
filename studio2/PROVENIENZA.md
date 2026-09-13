@@ -248,3 +248,22 @@ da terminale esterno ha mantenuto invariati piano, indici e stream. L'esito è 4
 zero trip e 320 finestre post-fault complete. Questi dati ricevono il solo ruolo di sviluppo:
 non sono ancora stati trasformati in feature, evidence, verbalizzazioni, insight, prototipi o
 calibrazione e non costituiscono materiale di test.
+
+## 9. Fase 03 — sotto-fase 03.7: pseudolabel, assegnazione degli agenti e derangement di E (§6.5)
+
+Questo registro segue `docs/MAINTENANCE.md` §8.2. L'unico elemento del primo studio riusato è un
+**pattern di codice**, letto in sola lettura e riscritto in `studio2/`; nessun dato, soglia, insight
+o risultato del primo studio entra in questa sotto-fase. Nessun import da `phase_b/`.
+
+| Origine | Commit | SHA-256 | Destinazione | Modifiche | Ruolo | Marca |
+| --- | --- | --- | --- | --- | --- | --- |
+| `phase_b/config/protocol.py`, funzione `derive_opaque_pseudolabel` (SHA-256 di namespace+identificatore, base32, prefisso, 5 caratteri) | `c431cd87ee0ef563ad77cc6b0b330e6b61bf9735` | `fa2488d1d964c98682c3fc82d650bbe43d74a3f9f041e5745ca71a51331e7b2e` | `studio2/fase03/pseudolabel/pseudolabel_draw.py` (`label_message`, `candidate_suffix`, `derive_labels`) | prefisso `S2-CLS-` e regex di `studio2/fase03/protocol.py`; messaggio con separatori e contatore di collisione `namespace|label|identifier|counter`; guardia di opacità sulle cifre dell'idv; `Normal` letterale in ultima posizione; nessun import | pattern di derivazione delle label opache | pre-specificato (`SPECIFICA_PSEUDOLABEL.md` §3, scritta prima dell'esecuzione) |
+| `phase_b/config/evaluator_side/condition_e_derangements.json` (forma dell'artefatto a 4 agenti, rotazione di un passo) | `c431cd87ee0ef563ad77cc6b0b330e6b61bf9735` | `e8a0bdbf5a0b7c04d1ba978fd7e18f55b933d8062125ea11c1fb117f9990b231` | `studio2/fase03/pseudolabel/CONDITION_E_DERANGEMENTS.json` | 8 agenti e 7 peer; la rotazione fissa è sostituita da un derangement campionato uniformemente fra i 1854 con seed dichiarato; forma `pseudolabel → pseudolabel` per agente coerente con `protocol._validate_derangements` | forma dell'artefatto evaluator-side | pre-specificato (`SPECIFICA_PSEUDOLABEL.md` §5) |
+
+Input scientifico della sotto-fase: il catalogo D1 al tag `studio2-fase03-catalogo-D1-frozen-001`
+(commit `ab43f0b20f45cdb475c0caf52c6f7afcbae50891`, `CATALOG_FREEZE.json` SHA-256
+`68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda`), verificato dal generatore
+prima di ogni derivazione. Artefatti, impronte e stato di congelamento sono in
+`fase03/pseudolabel/PSEUDOLABEL_FREEZE.json` (`frozen_pending_independent_verification`, nessun
+tag). Il mapping pseudolabel↔fault e l'assegnazione agli agenti sono evaluator-side e non entrano
+in alcun prompt.
