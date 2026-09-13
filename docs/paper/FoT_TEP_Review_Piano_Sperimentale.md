@@ -90,7 +90,7 @@ La revisione precedente lasciava intendere che restasse aperta solo D8. Non è c
 
 | # | Decisione | Dove | Stato |
 | --- | --- | --- | --- |
-| 1 | **Quali 4 fault nuovi**, oltre ai 4 di continuità | D1, §12 | ⏳ **estrazione verificata (2026-09-13): F2/F3/F14/F15**; congelamento in attesa di commit e pubblicazione |
+| 1 | **Quali 4 fault nuovi**, oltre ai 4 di continuità | D1, §12 | ✅ **congelata e pubblicata (2026-09-13): F2/F3/F14/F15**; tag `studio2-fase03-catalogo-D1-frozen-001` |
 | 2 | **6 o 8 run per fault** — prezzata: +590 chiamate, +24% | D2, §8.8 | ⬜ aperta |
 | 3 | **Quali 2 fault fuori catalogo**, meccanicamente distinti da tutto il catalogo e con rilevabilità documentata | §8.6, S13 | ⬜ aperta — **dipende dalla 1** |
 | 4 | **Sottoinsieme dell'ablation local-first**: quali coppie confondibili | D11, §8.3 | ⬜ aperta — **dipende dalla 1** |
@@ -108,7 +108,7 @@ La revisione precedente lasciava intendere che restasse aperta solo D8. Non è c
 
 La decisione 10 è nuova nella revisione 3 e appartiene al gruppo indipendente dal modello: va congelata prima della produzione degli insight, non prima dei run di test, perché vincola *come* gli insight vengono generati da entrambi i producer.
 
-Le prime cinque **non dipendono dalla disponibilità di Qwen**, ma non sono tutte lavorabili nello stesso momento. ⚠️ **Le decisioni 3 e 4 dipendono dalla 1.** «Meccanicamente distinto da tutto il catalogo» e «coppia confondibile» sono entrambe definite *rispetto agli 8 fault*, che è la 1 a fissare: la loro definizione richiede prima il catalogo. **Aggiornamento D1, 2026-09-13:** l’estrazione è verificata; le decisioni 3 e 4 sono ora lavorabili, ma restano aperte e il congelamento del catalogo attende commit e pubblicazione. Il cammino reale è: §6.1 congela i criteri → la 1 estrae gli 8 fault → solo allora si chiudono la 3 e la 4. Le decisioni 2 e 5 sono invece indipendenti e procedono in parallelo. Le decisioni 1, 3 e 4 vanno prese guardando soltanto Downs & Vogel e la letteratura di §12; la 5 guardando soltanto considerazioni operative e la risoluzione del disegno. Nessuna delle cinque può essere presa dopo aver visto un risultato.
+Le prime cinque **non dipendono dalla disponibilità di Qwen**, ma non sono tutte lavorabili nello stesso momento. ⚠️ **Le decisioni 3 e 4 dipendono dalla 1.** «Meccanicamente distinto da tutto il catalogo» e «coppia confondibile» sono entrambe definite *rispetto agli 8 fault*, che è la 1 a fissare: la loro definizione richiede prima il catalogo. **Aggiornamento D1, 2026-09-13:** il catalogo è congelato e pubblicato; le decisioni 3 e 4 sono ora lavorabili, ma restano aperte. Il cammino reale è: §6.1 congela i criteri → la 1 estrae gli 8 fault → solo allora si chiudono la 3 e la 4. Le decisioni 2 e 5 sono invece indipendenti e procedono in parallelo. Le decisioni 1, 3 e 4 vanno prese guardando soltanto Downs & Vogel e la letteratura di §12; la 5 guardando soltanto considerazioni operative e la risoluzione del disegno. Nessuna delle cinque può essere presa dopo aver visto un risultato.
 
 ---
 
@@ -261,7 +261,7 @@ Queste attività non richiedono Qwen-2.4T e non rischiano di contaminare il test
 
 **6.1 — Definire i criteri di selezione degli 8 fault**
 
-Registro operativo (revisione 1, 2026-09-13): [criteri di selezione](../lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md). Il congelamento riguarda i criteri; l’estrazione successiva D1 è ora verificata, con il catalogo ancora in attesa di commit e pubblicazione (vedi D1).
+Registro operativo (revisione 1, 2026-09-13): [criteri di selezione](../lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md). Il congelamento riguarda i criteri; l’estrazione successiva D1 è verificata e il catalogo è congelato con un tag dedicato pubblicato (vedi D1).
 
 Scrivere i criteri strutturali e **congelare** il documento prima di esaminare qualunque risultato per-fault. I criteri ammessi sono solo due famiglie: (a) copertura dei meccanismi fisici documentati in Downs & Vogel 1993 — step, random variation, slow drift, sticking valve — e identità di variabile perturbata, leggibile dalla loro tabella dei fault; (b) stratificazione per difficoltà **documentata in letteratura**, con le fonti di §12. Non è ammesso alcun criterio basato su separabilità osservata nei propri dati. I 4 fault di continuità sono dichiarati come tali (§2.2).
 
@@ -1032,15 +1032,17 @@ Tre numeri da un solo codebase, zero chiamate API. Il soffitto centralizzato è 
 
 ### D1 — Quali 8 fault?
 
-**Esito verificato, 2026-09-13:** catalogo **F1, F2, F3, F8, F10, F13, F14, F15**;
+**Esito verificato, congelato e pubblicato, 2026-09-13:** catalogo **F1, F2, F3, F8, F10, F13, F14, F15**;
 nuovi **F2/F3/F14/F15**. Composizione step/random/drift/sticking **3/2/1/2**, H={F3,F15}.
 L'indice 0 è l'esito del digest prespecificato, senza nuovo seed o rilanci per cambiare esito.
 [Log dell'estrazione](../../studio2/fase03/selection/D1_DRAW_LOG.json),
 [manifest del catalogo](../../studio2/fase03/selection/CATALOG_FREEZE.json),
 [verifica indipendente](../../studio2/fase03/selection/VERIFICA_CATALOGO_D1.md): **OK dopo
 correzioni di tracciabilità**, con esito numerico e log originari invariati.
-Il catalogo è verificato ma **non ancora congelato**: restano commit, tag dedicato e pubblicazione
-in `origin/main`. Nessuna proposta OOD/D11 è approvata da questo esito.
+Il catalogo è **congelato e pubblicato**: tag annotato `studio2-fase03-catalogo-D1-frozen-001`,
+commit `ab43f0b` raggiungibile da `origin/main`. L’[attestazione di pubblicazione](../../studio2/fase03/selection/CATALOG_PUBLICATION.json)
+registra l’efficacia; i manifest nel tag conservano lo stato storico verificato prima del push.
+Nessuna proposta OOD/D11 è approvata da questo esito.
 
 
 Criteri ammessi, in questo ordine:

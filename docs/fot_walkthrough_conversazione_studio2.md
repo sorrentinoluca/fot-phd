@@ -2,8 +2,7 @@
 
 > **Documento vivo, a scheletro.** Si aggiorna **fase per fase**. Stato al **2026-09-13**:
 > fasi 01 e 02 documentate in §2 e §3; la sotto-fase **criteri di selezione (§6.1)** della
-> Fase 03 è documentata in [§4.1](#criteri-selezione-61); **D1, estratta e verificata ma non ancora
-> congelata**, in [§4.2](#catalogo-d1). La parte restante delle fasi successive
+> Fase 03 è documentata in [§4.1](#criteri-selezione-61); **D1, verificata, congelata e pubblicata**, in [§4.2](#catalogo-d1). La parte restante delle fasi successive
 > resta a scheletro: per essa **la fonte autorevole è il piano**, non questo file.
 
 | Ruolo | File |
@@ -465,22 +464,23 @@ sospeso il gate reale. La sonda sintetica provvisoria non fonda la scelta dei cr
 #### Lavoro che resta
 
 Alla chiusura di §6.1 restava da eseguire D1. L'estrazione e la sua verifica sono ora
-registrate in [§4.2](#catalogo-d1); il congelamento del catalogo attende la pubblicazione.
+registrate in [§4.2](#catalogo-d1); il catalogo è ora congelato e pubblicato.
 D11 e la scelta OOD sono ora lavorabili ma restano aperte. Restano inoltre D2, producer
 alternativo, nuovi run ed evidence reali, sonda sui prompt reali e gate 40×3.
 La sola chiusura di §6.1 non chiude S1 e non autorizza esecuzioni.
 
 <a id="catalogo-d1"></a>
 
-### 4.2 · Fase 03 — estrazione e verifica del catalogo D1
+### 4.2 · Fase 03 — estrazione, verifica e congelamento del catalogo D1
 
 #### Riassunto e sintesi
 
 L'estrazione applica i criteri già congelati in §4.1. Il catalogo risultante è **F1, F2, F3,
 F8, F10, F13, F14, F15**. La [verifica indipendente](../studio2/fase03/selection/VERIFICA_CATALOGO_D1.md)
 ha dato inizialmente NON OK per tre problemi di tracciabilità, poi **OK** dopo le correzioni.
-L'esito e il log originali sono rimasti invariati. Il catalogo è **verificato, non ancora
-congelato**: questa consegna attende conferma per commit, tag e integrazione in `origin/main`.
+L'esito e il log originali sono rimasti invariati. Il catalogo è **congelato e pubblicato**
+con il tag annotato `studio2-fase03-catalogo-D1-frozen-001`, sul commit `ab43f0b` integrato in
+`origin/main`. La pubblicazione è stata verificata dopo l'autorizzazione dell'autore.
 
 #### Dettaglio dell'estrazione
 
@@ -533,16 +533,24 @@ compreso il replay byte-identico in un contesto Git successivo.
 
 [CRITERIA_FREEZE_rev002.json](../studio2/fase03/selection/CRITERIA_FREEZE_rev002.json) è una
 revisione amministrativa: sotto `criteria_origin` conserva i metadati storici della rev1,
-che resta intatta; il nuovo stato D1 richiede la propria verifica e il futuro tag
+che resta intatta; il nuovo stato D1 è attestato dalla propria verifica e dal tag
 `studio2-fase03-catalogo-D1-frozen-001`. Il tag dei criteri non attesta la rev002.
 Il [controllo del riesame](../studio2/fase03/selection/D1_REVIEW_CHECK.json) e il
 [controllo documentale](../studio2/fase03/selection/D1_DELIVERY_CHECK.json) riportano verifiche
 e impronte. Il test documentale generale mantiene **35 test, 14 fallimenti preesistenti e
 1 skipped**. Non sono state eseguite inferenze scientifiche o simulazioni.
 
+I manifest e i verbali nel tag conservano i byte verificati e lo stato storico precedente alla
+pubblicazione (`catalog_frozen=false`); le loro condizioni di efficacia sono ora soddisfatte.
+Lo stato efficace `catalog_frozen=true`, il commit completo, l'oggetto del tag e le impronte
+sono registrati nell'[attestazione di pubblicazione](../studio2/fase03/selection/CATALOG_PUBLICATION.json).
+Il [resoconto di pubblicazione](../studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md) distingue
+commit, controlli documentali e attività rimaste aperte. Il tag non è stato spostato e gli
+artefatti congelati non sono stati riscritti.
+
 #### Passaggi ancora aperti
 
-Restano la pubblicazione del catalogo, D2, producer alternativo, specifica di generazione,
+Restano D2, producer alternativo, specifica di generazione,
 nuovi run/evidence e gate reale 03.0. OOD e D11 sono ora lavorabili: la
 [nota di proposta](../studio2/fase03/selection/PROPOSTA_OOD_D11.md) resta non vincolante e
 **fuori dal congelamento D1**. Questa consegna non sceglie il secondo fault OOD, non approva
@@ -561,7 +569,7 @@ coppie D11 e non chiude la Fase 03.
 
 Dettaglio dei cantieri ancora previsti dal piano §§6–7:
 
-1. **§6.1** — Criteri verificati e congelati nella sotto-fase descritta in [§4.1](#criteri-selezione-61); estrazione D1 verificata in [§4.2](#catalogo-d1), congelamento del catalogo in attesa di pubblicazione
+1. **§6.1** — Criteri verificati e congelati nella sotto-fase descritta in [§4.1](#criteri-selezione-61); estrazione D1 verificata in [§4.2](#catalogo-d1), catalogo congelato e pubblicato
 2. **§6.2** — Generare nuovi run fault di sviluppo; la generazione Normal e R1/R2 sono già qualificate in §3
 3. **§6.3** — Calibrare soglie sui Normal di sviluppo
 4. **§6.4** — Produrre dati strutturati e verbalizzazioni di sviluppo

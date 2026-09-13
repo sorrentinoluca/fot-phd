@@ -1,0 +1,196 @@
+{
+  "schema_version": 1,
+  "scope": "phase03_D1_catalog_publication_only",
+  "observed_at_utc": "2026-09-13T09:24:08.673807+00:00",
+  "status": "published_and_effective",
+  "catalog_frozen": true,
+  "catalog": [
+    1,
+    2,
+    3,
+    8,
+    10,
+    13,
+    14,
+    15
+  ],
+  "freeze_tag": "studio2-fase03-catalogo-D1-frozen-001",
+  "tag_object": "b6828afc3062e1e6371376638c42eab529635e32",
+  "tagged_commit": "ab43f0b20f45cdb475c0caf52c6f7afcbae50891",
+  "origin_url": "https://github.com/sorrentinoluca/fot-phd.git",
+  "remote_main_observed_at_publication": "ab43f0b20f45cdb475c0caf52c6f7afcbae50891",
+  "remote_tag_object_verified": true,
+  "remote_tag_peeled_commit_verified": true,
+  "tag_type": "annotated",
+  "integration": "fast-forward; atomic push of main and tag",
+  "author_authorization": "Explicit request to apply Documentazione_LLM, then Commit_LLM, tag and integration into origin/main.",
+  "criteria_origin_tag": "studio2-fase03-criteri-selezione-frozen-001",
+  "independent_reviews": [
+    "studio2/fase03/selection/VERIFICA_CATALOGO_D1.md",
+    "studio2/fase03/selection/VERIFICA_CONSEGNA_D1.md"
+  ],
+  "independent_review_verdict": "OK",
+  "reviewed_files_at_tag": [
+    {
+      "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+      "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+      "bytes": 6894
+    },
+    {
+      "path": "studio2/fase03/selection/CRITERIA_FREEZE_rev002.json",
+      "sha256": "67785912feae29212001f7deb0a21b468d4d768421269e900314bef88ea41d21",
+      "bytes": 5493
+    },
+    {
+      "path": "studio2/fase03/selection/D1_DELIVERY_CHECK.json",
+      "sha256": "a3c788515c939fc5fc28e62659a6e9aa3ad05a38a42011241aff9f12203234ba",
+      "bytes": 1346
+    },
+    {
+      "path": "studio2/fase03/selection/D1_DRAW_LOG.json",
+      "sha256": "fa571e89054a004021b08e93cd857ad4b8d41794b8c070260a49d4fb03a08b95",
+      "bytes": 4926
+    },
+    {
+      "path": "studio2/fase03/selection/D1_REVIEW_CHECK.json",
+      "sha256": "0ed5ced09ab09013e861d2fcc3e0e9a0735367c8aa39aa2d69235be3a38401f6",
+      "bytes": 1126
+    },
+    {
+      "path": "studio2/fase03/selection/PROPOSTA_OOD_D11.md",
+      "sha256": "47c84d937bc01d37c84b81c09691bc5c3ad6d0607bcbfcb8621ea1a6be885046",
+      "bytes": 6960
+    },
+    {
+      "path": "studio2/fase03/selection/REPORT_CATALOGO_D1.md",
+      "sha256": "c078f9b1282fcd06ada3652655c728d4818c49bf248d807ad6a8ed7a7e2b0fad",
+      "bytes": 15161
+    },
+    {
+      "path": "studio2/fase03/selection/VERIFICA_CATALOGO_D1.md",
+      "sha256": "e0227be49d75b8f1e680625f1ab9ba260a3d7e7967426388f2e6c84bb577a455",
+      "bytes": 10350
+    },
+    {
+      "path": "studio2/fase03/selection/VERIFICA_CONSEGNA_D1.md",
+      "sha256": "4a15e84777d4ec1b6c790e6163c475c5f6d5fb1d8b1f448bc70ec1993d47f3dc",
+      "bytes": 6300
+    },
+    {
+      "path": "studio2/fase03/selection/draw_d1.py",
+      "sha256": "60fa97d48ef6899b4e4fe17f12907361461d73ff4d9f14769e1da9e93a6ced6c",
+      "bytes": 12483
+    },
+    {
+      "path": "studio2/fase03/selection/execution_snapshot/draw_d1.py",
+      "sha256": "b9fba113ade9729b0f59469b31e412ebb0c4ed0d2bc53ce580b65bd3e536f06b",
+      "bytes": 9846
+    },
+    {
+      "path": "studio2/fase03/selection/test_draw_d1.py",
+      "sha256": "5a93e1c908bb3b6a090218e96b7f43300cac30c121479b8ad16219724a330efa",
+      "bytes": 3647
+    },
+    {
+      "path": "docs/fot_walkthrough_conversazione_studio2.html",
+      "sha256": "60307c84cf90ad872f987037a3fc101704b9550eb2db58b03a0de3751811027a",
+      "bytes": 54189
+    },
+    {
+      "path": "docs/fot_walkthrough_conversazione_studio2.md",
+      "sha256": "6c82a722736e7111cdfc30beb487c19e64ce01d17d4a4554a3e2b36f71d9480d",
+      "bytes": 39393
+    },
+    {
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "sha256": "bcae7b97566db244552d7428b2434a977c0f8cb5ac5ce6bbae05967444541878",
+      "bytes": 161050
+    },
+    {
+      "path": "studio2/PROVENIENZA.md",
+      "sha256": "0e34dc8bd2bfc0228207545c809e4ee53fb13d136450a0732616efca9f99e6c5",
+      "bytes": 14100
+    }
+  ],
+  "historical_manifest_state_note": "CATALOG_FREEZE.json and CRITERIA_FREEZE_rev002.json retain exactly the reviewed bytes and catalog_frozen=false as their pre-publication snapshot. Their effective_when conditions are now satisfied by the independent OK reviews, the published annotated tag and reachability from origin/main. This separate receipt records effectiveness after publication; it does not revise selection criteria, the catalog or the frozen manifests.",
+  "frozen_artifacts_modified": false,
+  "selection_or_replay_repeated_in_publication": false,
+  "scientific_model_calls": 0,
+  "scientific_runs": 0,
+  "scientific_protocol_frozen": false,
+  "model_execution_authorized": false,
+  "proposals_OOD_D11_approved": false,
+  "open_after_D1": [
+    "D2",
+    "OOD fault selection",
+    "D11 pairs",
+    "alternative producer",
+    "generation specification including Downs & Vogel IDV(14)-IDV(15) note",
+    "new runs and evidence",
+    "real 03.0 gate"
+  ],
+  "documentation_checks": {
+    "baseline_source": "D1_DELIVERY_CHECK.json at the catalog tag; existing audit not rerun",
+    "document_tests": {
+      "command": "python3 docs/test_explanation.py",
+      "tests": 35,
+      "failures_before": 14,
+      "failures_after": 14,
+      "skipped": 1,
+      "scope_note": "Run after publication-status edits; no D1 draw, replay or regression tests repeated. General documentation tests cover legacy walkthroughs, not the D1 content."
+    },
+    "walkthrough_parity": "PASS: full text of sections 4.1 and 4.2, opening paragraph and section6.1 item; same catalog table and preserved scientific content",
+    "current_local_paths_verified": 190,
+    "previously_verified_local_links_and_anchors": 179,
+    "new_local_links_verified": [
+      {
+        "source": "docs/fot_walkthrough_conversazione_studio2.md",
+        "target": "../studio2/fase03/selection/CATALOG_PUBLICATION.json"
+      },
+      {
+        "source": "docs/fot_walkthrough_conversazione_studio2.md",
+        "target": "../studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md"
+      },
+      {
+        "source": "docs/fot_walkthrough_conversazione_studio2.html",
+        "target": "../studio2/fase03/selection/CATALOG_PUBLICATION.json"
+      },
+      {
+        "source": "docs/fot_walkthrough_conversazione_studio2.html",
+        "target": "../studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md"
+      },
+      {
+        "source": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+        "target": "../../studio2/fase03/selection/CATALOG_PUBLICATION.json"
+      },
+      {
+        "source": "studio2/PROVENIENZA.md",
+        "target": "fase03/selection/CATALOG_PUBLICATION.json"
+      },
+      {
+        "source": "studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md",
+        "target": "CATALOG_PUBLICATION.json"
+      },
+      {
+        "source": "studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md",
+        "target": "VERIFICA_CONSEGNA_D1.md"
+      },
+      {
+        "source": "studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md",
+        "target": "VERIFICA_CATALOGO_D1.md"
+      }
+    ],
+    "anchor_policy": "No new fragments. Existing anchors unchanged from independently checked tagged delivery; target historical result documents not reopened.",
+    "document_sha256": {
+      "docs/fot_walkthrough_conversazione_studio2.md": "939100995f8d2330b38ec9d3396c8586763de9377fa4c222f820fb5cf55509ff",
+      "docs/fot_walkthrough_conversazione_studio2.html": "260f4ac657861dcde2ab80409b0781d2a8759a2cbdd4046cfdfbdf48abdcf6a1",
+      "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md": "8d79b662ecc14358d2a2e29f699f6cab2ec6e41b584415ed2d93247a8df24ce1",
+      "studio2/PROVENIENZA.md": "49e6db12aaf5ef615271f48507a3943962f9b2ea415f8e10a9f3f051a410ed08",
+      "studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md": "4044ae8f2c571cdfde7a9dd113d0f91bc9a4a1e4e7c2b50f6c98283015d633b5"
+    },
+    "summary_html_changed": false,
+    "summary_reason": "Protocol preparation only, no new scientific result.",
+    "D1_scientific_audit_or_replay_repeated": false
+  },
+  "amendment_policy": "Keep frozen manifests and tag unchanged. This receipt records observed publication references; future corrections use a new traceable record."
+}

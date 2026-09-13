@@ -141,3 +141,12 @@ Esito e impronte dell'estrazione: `fase03/selection/D1_DRAW_LOG.json`, `CATALOG_
 `CRITERIA_FREEZE_rev002.json` e `REPORT_CATALOGO_D1.md`. Il catalogo estratto è
 {F1, F2, F3, F8, F10, F13, F14, F15}; il congelamento diventa efficace solo con verifica
 indipendente, commit raggiungibile da `origin/main` e tag dedicato.
+
+
+**Pubblicazione D1, 2026-09-13.** Le condizioni sono soddisfatte: il tag annotato
+`studio2-fase03-catalogo-D1-frozen-001` (oggetto `b6828afc3062e1e6371376638c42eab529635e32`)
+punta a `ab43f0b20f45cdb475c0caf52c6f7afcbae50891`, verificato su `origin/main`.
+L'[attestazione](fase03/selection/CATALOG_PUBLICATION.json) conserva le impronte dei 16 file
+della consegna nel tag. I manifest e i verbali restano intatti come snapshot precedente alla
+pubblicazione; lo stato efficace è `catalog_frozen=true`. Non sono stati aggiunti dati riusati,
+nuovi sorteggi o autorizzazioni per run, OOD e D11.
