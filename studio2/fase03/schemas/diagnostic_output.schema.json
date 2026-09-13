@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Study 2 diagnostic output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["predicted_label", "abstain", "used_insight_ids", "reasoning_summary"],
+  "properties": {
+    "predicted_label": {"type": ["string", "null"]},
+    "abstain": {"type": "boolean"},
+    "used_insight_ids": {
+      "type": "array",
+      "maxItems": 14,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^S2-INS-[0-9]{3}$"}
+    },
+    "reasoning_summary": {"type": "string", "minLength": 1, "maxLength": 1200}
+  }
+}

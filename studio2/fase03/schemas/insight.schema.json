@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Study 2 frozen textual insight",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "insight_id",
+    "source_agent",
+    "pseudolabel",
+    "evidence_scope",
+    "variable_ids",
+    "observed_pattern"
+  ],
+  "properties": {
+    "insight_id": {"type": "string", "pattern": "^S2-INS-[0-9]{3}$"},
+    "source_agent": {"type": "string", "pattern": "^agent_[1-8]$"},
+    "pseudolabel": {"type": "string", "pattern": "^S2-CLS-[A-Z0-9]{5}$"},
+    "evidence_scope": {"type": "string", "minLength": 1, "maxLength": 240},
+    "variable_ids": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^X(?:MEAS|MV)\\([1-9][0-9]*\\)$"}
+    },
+    "observed_pattern": {"type": "string", "minLength": 1, "maxLength": 800}
+  }
+}

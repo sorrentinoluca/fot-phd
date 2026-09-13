@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Study 2 scientific inputs required by the Phase 03 preliminary pilot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_version", "status", "provenance_kind", "source_commit", "catalog_id",
+    "label_space", "agents", "development_cases", "local_examples", "insights",
+    "derangements", "transfer_case_by_agent"
+  ],
+  "properties": {
+    "artifact_version": {"const": "1"},
+    "status": {
+      "enum": ["FROZEN_FOR_PHASE03_PRE_GATE", "SYNTHETIC_OFFLINE_FIXTURE"]
+    },
+    "provenance_kind": {"enum": ["study2_scientific", "synthetic_offline_only"]},
+    "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "catalog_id": {"type": "string", "minLength": 1},
+    "label_space": {"type": "array", "minItems": 9, "maxItems": 9, "uniqueItems": true},
+    "agents": {"type": "object", "minProperties": 8, "maxProperties": 8},
+    "development_cases": {"type": "array", "minItems": 9},
+    "local_examples": {"type": "object", "minProperties": 8, "maxProperties": 8},
+    "insights": {"type": "array", "minItems": 16, "maxItems": 16},
+    "derangements": {"type": "object", "minProperties": 8, "maxProperties": 8},
+    "transfer_case_by_agent": {"type": "object", "minProperties": 8, "maxProperties": 8}
+  }
+}
