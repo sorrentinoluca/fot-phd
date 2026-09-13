@@ -1,0 +1,9 @@
+{
+  "artifact_version": "1",
+  "files": {
+    "studio2/fase03/prepared/provisional_cap_stress/pilot_prompts.jsonl": "90744d3d3f708d09fa45f45928dda05a8f8ae023c117a147a92af57e91d625e0",
+    "studio2/fase03/prepared/provisional_cap_stress/pre_gate_plan.json": "5a63b445ed5fc69214c8998caf890e6f4eec4e49a092175923104f2e857d380d",
+    "studio2/fase03/config/pilot_preflight.json": "27e38fc93caf9123811bb26ea534dfd7ec9d57ee46f5695829e05343fdef8a67",
+    "/home/luca/fot-phd-studio2-phase03/studio2/fase03/prepared/provisional_cap_stress/synthetic_cap_stress_manifest.json": "0b03755a7cba8347268e425f30973195acf86fdb51e06315e5ba8f747da816ed"
+  }
+}
