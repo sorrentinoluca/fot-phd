@@ -34,12 +34,15 @@ class ExecutionGuardTests(unittest.TestCase):
             },
         )
         self.assertFalse(config["candidate"]["gpu_kv_cache"]["comparison_key"])
+        self.assertFalse(value["provisional_stress_probe"]["writes_gate_freeze"])
+        self.assertTrue(value["provisional_stress_probe"]["real_prompt_repeat_required"])
 
     def test_inventory_is_blocked_and_has_no_calls(self):
         value = prepare_gate.inventory()
         self.assertEqual(value["status"], "GATE_ENVELOPE_FROZEN_EXECUTION_SUSPENDED")
         self.assertEqual(value["model_calls"], 0)
         self.assertTrue(value["next_command_requires_independently_frozen_study2_pilot_inputs"])
+        self.assertTrue(value["provisional_cap_stress_never_authorizes_stability_gate"])
 
     def test_producer_probe_defaults_to_plan_only(self):
         config = load_json(ROOT / "studio2/fase03/config/pilot_preflight.json")

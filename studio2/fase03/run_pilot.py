@@ -36,6 +36,7 @@ from studio2.fase03.protocol import (  # noqa: E402
 
 
 ACK = "EXECUTE_PHASE03_PRELIMINARY_PILOT"
+PROVISIONAL_STRESS_ACK = "EXECUTE_PHASE03_PROVISIONAL_STRESS_PROBE"
 DEFAULT_PREPARED = ROOT / "studio2/fase03/prepared"
 DEFAULT_RESULTS = ROOT / "studio2/fase03/results"
 
@@ -284,7 +285,11 @@ class Provider:
         }
 
 
-def load_prepared(prepared_dir: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+def load_prepared(
+    prepared_dir: Path,
+    *,
+    expected_status: str = "READY_FOR_PRE_GATE_GENERATION_PROBE",
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     plan_path = prepared_dir / "pre_gate_plan.json"
     prompt_path = prepared_dir / "pilot_prompts.jsonl"
     hashes = load_json(prepared_dir / "pre_gate_hashes.json")["files"]
@@ -293,7 +298,7 @@ def load_prepared(prepared_dir: Path) -> tuple[dict[str, Any], list[dict[str, An
         if hashes.get(key) != sha256_file(path):
             raise RuntimeError(f"prepared hash mismatch: {key}")
     plan = load_json(plan_path)
-    if plan["status"] != "READY_FOR_PRE_GATE_GENERATION_PROBE":
+    if plan["status"] != expected_status:
         raise RuntimeError("static context preparation did not pass")
     prompts = read_jsonl(prompt_path)
     if len(prompts) != 40:
@@ -366,6 +371,99 @@ def run_budget_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]:
         json.dumps(frozen, indent=2, ensure_ascii=False) + "\n",
     )
     return frozen
+
+
+def run_provisional_stress_budget_stage(
+    prepared_dir: Path, results_dir: Path
+) -> dict[str, Any]:
+    """Probe the synthetic cap-stress fixture without producing a gate-valid freeze."""
+    config = load_json(PREFLIGHT_CONFIG_PATH)
+    plan, prompts = load_prepared(
+        prepared_dir,
+        expected_status="READY_FOR_PROVISIONAL_STRESS_BUDGET_PROBE",
+    )
+    if not plan.get("provisional_synthetic") or not plan.get("real_prompt_repeat_required"):
+        raise RuntimeError("provisional probe requires an explicitly synthetic prepared plan")
+    server = server_contract(config)
+    schema = load_json(DIAGNOSTIC_SCHEMA_PATH)
+    provider = Provider(config)
+    stress: dict[str, dict[str, Any]] = {}
+    for condition in ("A", "B-LF", "E-LF"):
+        candidates = [item for item in prompts if item["condition"] == condition]
+        stress[condition] = max(candidates, key=lambda item: item["input_tokens"])
+    records: list[dict[str, Any]] = []
+    selected = None
+    for candidate in plan["context_feasibility"]["feasible_candidates"]:
+        generation = {
+            "temperature": config["generation_budget"]["temperature"],
+            "seed": config["generation_budget"]["seed"],
+            "thinking_token_budget": candidate["thinking_token_budget"],
+            "max_tokens": candidate["max_tokens"],
+        }
+        batch = [
+            provider.call(prompt=stress[condition], schema=schema, generation=generation)
+            for condition in ("A", "B-LF", "E-LF")
+        ]
+        records.extend(batch)
+        if all(
+            item["finish_reason"] == "stop" and item["parse_valid_first_attempt"]
+            for item in batch
+        ):
+            selected = generation
+            break
+    record_path = results_dir / "provisional_stress_probe_records.jsonl"
+    write_atomic(record_path, "".join(canonical_json(item) + "\n" for item in records))
+    summary = {
+        "artifact_version": "1",
+        "status": (
+            "PROVISIONAL_TECHNICAL_PASS_REQUIRES_REAL_PROMPT_REPEAT"
+            if selected
+            else "NO_GO_PROVISIONAL_TECHNICAL_REQUIRES_REAL_PROMPT_REPEAT"
+        ),
+        "scope": "SYNTHETIC_CAP_STRESS_FIXTURE_ONLY_NOT_A_GATE",
+        "completed_at": utc_now(),
+        "provider_requests": provider.requests,
+        "maximum_provider_requests_authorized": 9,
+        "selected_generation_provisional": selected,
+        "generation_budget_frozen": False,
+        "stability_gate_authorized": False,
+        "mandatory_next_step": (
+            "Repeat the budget probe on the independently frozen forty real Study 2 prompts; "
+            "only that real-input run may write frozen_gate_config.json."
+        ),
+        "source_plan_sha256": sha256_file(prepared_dir / "pre_gate_plan.json"),
+        "prompt_file_sha256": sha256_file(prepared_dir / "pilot_prompts.jsonl"),
+        "diagnostic_schema_sha256": sha256_file(DIAGNOSTIC_SCHEMA_PATH),
+        "records_sha256": sha256_file(record_path),
+        "server": server,
+        "results": [
+            {
+                "condition": item["condition"],
+                "prompt_id": item["prompt_id"],
+                "input_tokens": next(
+                    prompt["input_tokens"]
+                    for prompt in stress.values()
+                    if prompt["prompt_id"] == item["prompt_id"]
+                ),
+                "thinking_token_budget": item["generation"]["thinking_token_budget"],
+                "max_tokens": item["generation"]["max_tokens"],
+                "finish_reason": item["finish_reason"],
+                "parse_valid_first_attempt": item["parse_valid_first_attempt"],
+                "prompt_tokens_reported": item["prompt_tokens"],
+                "completion_tokens_reported": item["completion_tokens"],
+                "latency_seconds": item["latency_seconds"],
+                "raw_output_sha256": item["raw_output_sha256"],
+            }
+            for item in records
+        ],
+        "model_calls_counter_after_probe": provider.requests,
+        "scientific_claims_authorized": False,
+    }
+    write_atomic(
+        results_dir / "provisional_stress_probe_summary.json",
+        json.dumps(summary, indent=2, ensure_ascii=False) + "\n",
+    )
+    return summary
 
 
 def divergence_signature(record: dict[str, Any]) -> str:
@@ -467,6 +565,13 @@ def print_plan(config: dict[str, Any]) -> None:
                     "Select the first candidate whose A, B-LF and E-LF stress calls all "
                     "finish without length truncation and parse validly on the first attempt."
                 ),
+                "provisional_stress_probe": {
+                    "scope": "synthetic cap-stress fixture only",
+                    "maximum_calls": calls["pre_gate_generation_budget_max"],
+                    "writes_gate_freeze": False,
+                    "real_prompt_repeat_required": True,
+                    "stability_gate_authorized": False,
+                },
                 "stability_gate_calls": calls["stability_gate"],
                 "qwen_producer_conformance_calls": calls["qwen_producer_conformance"],
                 "alternate_producer_calls_deferred": calls[
@@ -503,7 +608,10 @@ def print_plan(config: dict[str, Any]) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--stage", choices=("budget", "stability"))
+    parser.add_argument(
+        "--stage",
+        choices=("budget", "stability", "provisional-stress-budget"),
+    )
     parser.add_argument("--prepared-dir", type=Path, default=DEFAULT_PREPARED)
     parser.add_argument("--results-dir", type=Path, default=DEFAULT_RESULTS)
     parser.add_argument("--execute", action="store_true")
@@ -513,15 +621,23 @@ def main() -> int:
     if not args.execute:
         print_plan(config)
         return 0
-    if args.acknowledge != ACK:
-        raise SystemExit(f"execution requires --acknowledge {ACK}")
     if args.stage is None:
-        raise SystemExit("execution requires --stage budget or --stage stability")
-    result = (
-        run_budget_stage(args.prepared_dir, args.results_dir)
-        if args.stage == "budget"
-        else run_stability_stage(args.prepared_dir, args.results_dir)
+        raise SystemExit(
+            "execution requires --stage budget, stability or provisional-stress-budget"
+        )
+    required_ack = (
+        PROVISIONAL_STRESS_ACK
+        if args.stage == "provisional-stress-budget"
+        else ACK
     )
+    if args.acknowledge != required_ack:
+        raise SystemExit(f"execution requires --acknowledge {required_ack}")
+    if args.stage == "budget":
+        result = run_budget_stage(args.prepared_dir, args.results_dir)
+    elif args.stage == "stability":
+        result = run_stability_stage(args.prepared_dir, args.results_dir)
+    else:
+        result = run_provisional_stress_budget_stage(args.prepared_dir, args.results_dir)
     print(canonical_json(result))
     return 0 if not result["status"].startswith("NO_GO") else 2
 
