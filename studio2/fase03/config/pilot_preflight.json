@@ -168,6 +168,8 @@
     },
     "schemas": {
       "diagnostic_output": "c4f73e784d281983a0a564c96ac59f2653871ecc6cc8936c9254278ce9e3e60a",
+      "diagnostic_output_vllm_grammar": "4bde5d3a53372bb1629502f305bbab2539f74b7db3f33d5a00c55ee58230c9a3",
+      "vllm_grammar_compatibility": "vLLM 0.28.0 rejects uniqueItems; it is removed only from the server grammar while parse_diagnostic_output continues to reject duplicate insight IDs locally",
       "insight": "9d9de7dc9bd1795aea5f8fe323a2579eb2b5cc52ca8c753c594a292570fab9a1",
       "pilot_input_manifest": "91270c79b7ad675a2030a80a28fa248f0e42dd79b8e8ceec8adec3017d47c27d"
     },
@@ -186,12 +188,20 @@
       "context_safety_margin_tokens": 256,
       "max_structural_retries": 0,
       "selected_thinking_token_budget": null,
-      "selection_rule": "First tested candidate with zero length truncations and valid first-attempt parsing on the A/B-LF/E-LF stress prompts."
+      "selection_rule": "First tested candidate with zero length truncations and valid first-attempt parsing on the A/B-LF/E-LF stress prompts.",
+      "synthetic_provisional_observation": {
+        "thinking_token_budget": 2048,
+        "max_tokens": 2560,
+        "status": "PASS_TECHNICAL_ONLY_NOT_FROZEN",
+        "result": "studio2/fase03/results/provisional_cap_stress/provisional_stress_probe_summary.json",
+        "result_sha256": "c9adf2a8f07d9058257cc2c51a00064662874611875a715c716a1f1ea4828368",
+        "mandatory_repeat": "Repeat on the independently frozen forty real Study 2 prompts before any gate freeze."
+      }
     },
     "not_yet_frozen": [
       "scientific pilot manifest and its source commit/hash",
       "forty rendered prompts and their file/individual hashes",
-      "selected thinking/max_tokens pair, which requires the at-most-nine-call budget probe",
+    "selected thinking/max_tokens pair, which requires repeating the at-most-nine-call budget probe on the real prompts",
       "alternate producer model, endpoint, tariff and conformance result"
     ]
   }

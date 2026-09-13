@@ -1,7 +1,7 @@
 {
   "artifact_version": "1",
   "status": "PASS_OFFLINE_ONLY",
-  "executed_at": "2026-09-13T00:23:03.076664+00:00",
+  "executed_at": "2026-09-13T00:49:04.725755+00:00",
   "scope": "synthetic schema, validator, renderer and offline token-count verification",
   "explicit_exclusions": [
     "model inference",
@@ -50,7 +50,7 @@
     "not_yet_frozen": [
       "scientific pilot manifest and its source commit/hash",
       "forty rendered prompts and their file/individual hashes",
-      "selected thinking/max_tokens pair, which requires the at-most-nine-call budget probe",
+      "selected thinking/max_tokens pair, which requires repeating the at-most-nine-call budget probe on the real prompts",
       "alternate producer model, endpoint, tariff and conformance result"
     ]
   },
@@ -68,7 +68,7 @@
       "sha256": "91270c79b7ad675a2030a80a28fa248f0e42dd79b8e8ceec8adec3017d47c27d"
     }
   ],
-  "preflight_config_sha256": "27e38fc93caf9123811bb26ea534dfd7ec9d57ee46f5695829e05343fdef8a67",
+  "preflight_config_sha256": "6bf50982d2ba8040e18c468999a110c426e3b9be217d5d9be5f272df6515f5f5",
   "tokenizer_snapshot": "/home/luca/fot-exp2/cache/huggingface/hub/models--Qwen--Qwen3.8-27B-FP8/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
   "tokenizer_json_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
   "token_counting": {
