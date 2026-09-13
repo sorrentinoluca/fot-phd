@@ -21,10 +21,10 @@ SHA-256(`namespace|seed|derangement|<agent_id>|<i>`), peer ordinati come in `lab
 Guardia sul catalogo D1: SHA-256 `68b8461a…`, lista `[1,2,3,8,10,13,14,15]`, tag
 `studio2-fase03-catalogo-D1-frozen-001` (commit `ab43f0b2…`).
 
-**Esecuzione** (commit `8c90ece`): singola, nessun rilancio, contatori di collisione tutti a 0,
+**Esecuzione** (commit `8c90ece`): dichiarata singola dall’autore originale, nessun rilancio dichiarato, contatori di collisione tutti a 0,
 zero parole rifiutate nel rejection sampling. Zero chiamate a modelli, zero simulazioni.
 
-**Le nove label** (evaluator-side, mai in un prompt):
+**Le nove label** (questa tabella di mapping è evaluator-side, mai in un prompt; le sole label operative possono comparire nei prompt):
 
 | Identificatore | idv | Pseudolabel |
 | --- | ---: | --- |
@@ -72,7 +72,7 @@ Nessun agente ha ricevuto la rotazione di un passo; nessun punto fisso; ogni map
 dei suoi 7 peer e non tocca la label locale.
 
 **Test** (`test_pseudolabel.py`, `python3 -m unittest studio2.fase03.pseudolabel.test_pseudolabel`):
-**21/21 OK**. Coprono: 9 label uniche di uguale lunghezza; regex di `protocol.PSEUDOLABEL` e
+**21/21 OK** nell’esecuzione originale. Coprono: 9 label uniche, con uguale lunghezza delle sole 8 label opache (`Normal` è letterale); regex di `protocol.PSEUDOLABEL` e
 `protocol._validate_label_space`; `Normal` letterale e ultimo, `Unknown` assente; identificatori
 uguali al catalogo congelato; opacità — test dichiarato: nessun suffisso contiene le cifre
 dell'idv del proprio fault, né `F<idv>`, né `F` seguito da cifra; ordine lessicografico delle
@@ -85,15 +85,26 @@ sui file su disco; seed diverso cambia i derangement e non le label, namespace d
 le label; fallimento (`CatalogMismatch`) se il catalogo differisce per byte o per lista. I 16 test
 preesistenti di `studio2/fase03/tests/` restano OK.
 
-**Osservazione da riportare, non un'anomalia.** La correlazione di Spearman fra ordine del
-catalogo e ordine lessicografico delle label è **−0,833**: per caso del digest, F15, F14 e F13
-hanno le tre label lessicograficamente più basse. La costruzione per digest non trasporta
-informazione d'ordine e nessuna label rivela il numero del fault; il test dichiarato (`|ρ| < 1`,
-ordine ≠ catalogo e ≠ inverso) passa. La specifica vieta di rilanciare dopo aver visto l'output:
-il risultato si accetta come sorteggio unico. Chi legge `label_space` senza il mapping
-evaluator-side non può risalire al catalogo; se l'autore giudicasse comunque preferibile un
-ordine di presentazione delle label nei prompt diverso da quello lessicografico, la scelta
-appartiene a 03.10/03.12 e va dichiarata lì prima del pilot, non qui.
+**Osservazione e limite del controllo.** La correlazione di Spearman fra ordine del
+catalogo e ordine lessicografico delle otto label di fault (esclusa `Normal`) è **−0,833**
+(esattamente −5/6): F15, F14 e F13 hanno le tre label lessicograficamente più basse.
+Il test implementato (`|ρ| < 1`, ordine ≠ catalogo e ≠ inverso) passa, ma esclude soltanto
+una relazione monotona perfetta: non dimostra «nessuna correlazione», come richiesto
+letteralmente dal prompt iniziale. Il nome del test è quindi più forte del controllo effettivo.
+La specifica fissa la derivazione prima dell’esecuzione; non si sceglie un altro risultato
+in funzione della correlazione osservata.
+
+L’autore ha accettato esplicitamente la conservazione del sorteggio unico **dopo aver
+osservato questo risultato**, registrando la differenza dal requisito iniziale e senza
+introdurre una nuova soglia statistica post-hoc: si veda
+[`DECISIONE_ACCETTAZIONE_V1.md`](DECISIONE_ACCETTAZIONE_V1.md).
+Nessuna stringa contiene un identificatore esplicito del proprio fault secondo le guardie
+implementate; ciò non prova indipendenza statistica o segretezza. Conoscendo namespace,
+algoritmo e identificatori il mapping è ricostruibile: questi ingredienti e il mapping
+restano evaluator-side, fuori dai prompt sperimentali.
+Non si cambia ora l’ordine per compensare −0,833. Un’eventuale regola generale di
+presentazione appartiene a 03.10/03.12, deve essere riproducibile e comune alle condizioni
+confrontate, e va fissata prima del pilot senza modificare mapping e derangement v1.
 
 **Congelamento** (`PSEUDOLABEL_FREEZE.json`): stato `frozen_pending_independent_verification`,
 `source_commit` = `8c90ecec421980211258e9323d4266a32ba70ccd`, `catalog_tag`
@@ -159,9 +170,9 @@ mini-decisionale (namespace, seed, regole) è stata fissata nella specifica prim
 
 1. Verifica indipendente (`Verifica_LLM.md`, altra finestra e modello) → `VERIFICA_PSEUDOLABEL.md`.
 2. Se OK: integrazione del branch e tag `studio2-fase03-pseudolabel-frozen-001`.
-3. Prendere atto dell'osservazione sulla correlazione d'ordine (§1): accettare il sorteggio unico
-   (raccomandato: rilanciare dopo aver visto l'output è vietato dalla specifica) oppure decidere in
-   03.10/03.12 un ordine di presentazione delle label nei prompt diverso da quello lessicografico.
+3. **Deciso dall’autore il 2026-09-13:** conservare v1 e il sorteggio unico, registrare il limite
+   del test e non cambiare l’ordine ad hoc; eventuale regola generale in 03.10/03.12 prima del pilot
+   (`DECISIONE_ACCETTAZIONE_V1.md`).
 4. Rimozione del worktree `.worktrees/pseudolabel` dopo l'integrazione.
 
 ## 6. `python3 docs/test_explanation.py`
@@ -178,3 +189,29 @@ Tre commit sul branch `codex/studio2-pseudolabel`, base `d815ce9`, nel formato d
 3. (questo) `studio2(fase03): congela gli artefatti della sotto-fase 03.7 in attesa di verifica e registra la provenienza del pattern` — freeze, PROVENIENZA §9, report
 
 Nessun push, merge o tag.
+
+## 8. Rettifica documentale del 2026-09-13
+
+Dopo il parere e l’autorizzazione dell’autore, il report precisa il limite del test
+di correlazione, la distinzione fra label operative e mapping evaluator-side,
+l’eccezione di lunghezza per `Normal` e la natura riproducibile, non segreta, della
+derivazione. I risultati dei test in §1 e §6 sono quelli dichiarati dall’autore
+originale; i riscontri indipendenti sono nel verbale di verifica. Specifica, codice,
+test e tutti gli artefatti elencati nel freeze v1 restano byte-identici.
+
+**Precedenza di 03.12.** `APERTURA_SOTTOFASI_FASE03.md` §5 indica 03.12 → 03.7,
+come ordine proposto non ancora approvato, mentre la tabella operativa consente di lavorare da 03.4 e D1. Il lavoro eseguito
+è quindi un anticipo limitato alla derivazione combinatoria nel formato v1 già
+accettato da `protocol.py`: non chiude l’interfaccia con 03.12. Il formato resta
+provvisorio rispetto alla decisione di 03.12; prima del pilot va verificata la
+compatibilità finale. Se cambia, si applica la revisione con nuovo namespace e
+nuovi file prevista dalla specifica, senza sovrascrivere v1. Questa sotto-fase
+non autorizza avvio del pilot o produzione degli insight.
+
+**Limiti della prova di processo.** La storia Git contiene la specifica prima del
+commit di generazione e un unico insieme di artefatti. Replay e log deterministici
+non possono dimostrare che non siano esistite esecuzioni private non registrate:
+«singola esecuzione» resta una dichiarazione dell’autore originale coerente con
+la storia disponibile. Il rejection sampling elimina il bias dell’operazione
+modulo assumendo parole uniformi; l’impiego di SHA-256 è pseudocasuale e
+deterministico, non una prova empirica di randomizzazione uniforme.
