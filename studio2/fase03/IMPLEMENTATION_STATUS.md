@@ -1,16 +1,19 @@
 # Fase 03 — stato dell'implementazione
 
-Questo file registra il codice già predisposto oltre la ricognizione 03.0 e la sola sonda
-sintetica esplicitamente autorizzata. Non è un report di chiusura della fase e non autorizza
-ulteriori chiamate al modello.
+Questo file registra il codice predisposto oltre la ricognizione 03.0, il catalogo D1, i run
+fault di sviluppo e la sola sonda sintetica esplicitamente autorizzata. Non è un report di
+chiusura della macro-Fase 03 e non autorizza ulteriori chiamate al modello.
 
 | Componente | Stato | Può essere eseguito ora? |
 | --- | --- | --- |
+| Catalogo D1 | congelato: F1/F2/F3/F8/F10/F13/F14/F15 | sì, come input già fissato |
+| Run fault di sviluppo | 40/40 completi, zero trip; conservati e verificati per riscaricamento | sì, dopo verifica indipendente della consegna |
+| MEX fault strumentato | hash identificato; equivalenza col MEX base dimostrata con due prove incrociate | sì, per audit; nessuna nuova simulazione autorizzata |
 | Schemi insight, output diagnostico e manifest del pilot | implementati e validati offline | sì, solo validazione |
 | Validatore libreria 16 insight / 14 peer | implementato e testato su fixture sintetiche | sì, solo offline |
 | Controllo E-LF: cambia solo `pseudolabel` | implementato e testato | sì, solo offline |
 | Renderer A/B-LF/E-LF | implementato e testato su fixture sintetiche | sì, solo offline |
-| Selezione 40 prompt | implementata, ma richiede catalogo e sviluppo reali | no |
+| Selezione 40 prompt | implementata; catalogo e run esistono, ma feature/evidence reali mancano | no |
 | Conteggio token col tokenizer locale | implementato; fixture rieseguite contro 16384 | sì, offline |
 | Sonda di capienza e budget di generazione | prova sintetica provvisoria completata: 2048 passa A/B-LF/E-LF; ripetizione reale obbligatoria | **sospesa in attesa di input reali e nuovo OK** |
 | Freeze della configurazione prima del gate | envelope tecnico congelato; prompt reali e budget reale pendenti; nessun `frozen_gate_config.json` | solo verifica offline |
@@ -24,15 +27,23 @@ ulteriori chiamate al modello.
 `validation/PRECALIBRATION_FREEZE.json` con `source_head_commit=d472dc5`; manifest, decisioni e
 hash dichiarati da tali artefatti; sezioni Fase 02 di `studio2/PROVENIENZA.md`.
 
+**Run fault disponibili:** campagna `fault_dev_001`, 40/40 run completi e 320 finestre
+post-fault. Manifest aggregato SHA-256
+`9eaed0e901c6f06d5aa94b4e2d81d5afdd3464022ae6d2709b92f872789a6d9d`; archivio pubblico
+SHA-256 `6edd96711d2913953c6de81ce6dbb7c51e7677a2a7c1892b0676de5e7a9fd97c`, release
+[`studio2-fase03-fault-dev-v1`](https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-fault-dev-v1).
+La copia è stata verificata riscaricando l'asset e confrontando 240/240 file, zero mismatch.
+Questa disponibilità non produce automaticamente feature, evidence o insight.
+
 **Endpoint canonico:** soltanto 8001@16384, PID server/EngineCore 690460/690661, vLLM 0.28.0,
 GPU 0. Il fingerprint include la riga di comando e l'ambiente
 `CUDA_VISIBLE_DEVICES=0`, `VLLM_USE_FLASHINFER_SAMPLER=0`. La 8001@7168 è superata e non più
 disponibile; la KV cache da 34.133 token è telemetria dipendente dal contesto e non una chiave di
 confronto. Record e launcher sono conservati in `env/`.
 
-**Ancora da realizzare scientificamente:** catalogo definitivo, 40 run fault di sviluppo,
-feature/evidence/verbalizzazioni associate e manifest autonomo dei veri input del pilot. Questa
-finestra non seleziona fault, non genera dati e non crea surrogati da promuovere a input reali.
+**Ancora da realizzare scientificamente:** feature/evidence/verbalizzazioni associate ai 40 run,
+insight e prototipi, più il manifest autonomo dei veri input del pilot. I run sono materiale di
+sviluppo, non valutazione, e non vengono promossi direttamente a prompt o risultati.
 
 ## Fixture sintetiche
 

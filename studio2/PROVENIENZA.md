@@ -47,6 +47,17 @@ legacy e 5 manifest/150 output coincidono individualmente con dimensioni e SHA-2
 con zero mismatch. Il record machine-readable completo è
 [`fase02/ARTIFACT_STORAGE.json`](fase02/ARTIFACT_STORAGE.json).
 
+**Nota di metodo sui workbook XLSX.** L'identità di contenuto di un workbook rigenerato si
+verifica confrontando nomi e byte dei membri interni del contenitore ZIP, intestazioni, valori
+IEEE-754 e, quando pertinente, stato o contatore finale del generatore. Non si richiede che il
+contenitore XLSX rigenerato abbia lo stesso hash: i timestamp DOS degli entry ZIP cambiano a ogni
+scrittura anche quando tutti i membri e i valori sono identici. La stessa distinzione vale per le
+verifiche per riscaricamento della Fase 02: l'asset `.tar` scaricato deve conservare esattamente il
+proprio SHA-256 pubblicato; per i workbook estratti, l'hash del file prova identità solo quando si
+confronta la medesima copia pubblicata, mentre il confronto con una rigenerazione indipendente va
+eseguito sul contenuto ZIP e sui valori. Il criterio è applicato e quantificato per il MEX fault in
+[`fase03/fault_runs/MEX_RECORD.md`](fase03/fault_runs/MEX_RECORD.md).
+
 Stato del repository al momento della copia: `043e05bb296871ac2a0413d7115fb784b9fefe93`.
 Questo identificatore descrive il contesto della conservazione, non è un tag di congelamento e non
 contiene i workbook ignorati.
@@ -197,3 +208,36 @@ finestre fino a 65 h. Segnale debole/assente e trip si conservano: niente estens
 perturbazioni o sostituzioni dopo osservazione. Lo smoke unico è F1/stream 30040,
 25.1 h totali, senza finestre post-fault complete. Marca **pre-specificato**.
 La specifica contiene anche i limiti da dichiarare nel futuro paper.
+
+## 8. Fase 03 — run fault di sviluppo e conservazione
+
+La campagna `fault_dev_001` contiene 40 nuove simulazioni: F1/F2/F3/F8/F10/F13/F14/F15,
+cinque batch per fault, indici e stream Philox 30000–30039. Tutti i manifest riportano come
+commit di esecuzione `49d58064efb25566e866ffdf9df8da3dd66116cf`; la specifica pre-esecuzione
+era già registrata al commit `c02111d132f3cc1c047d5c4ed112398724138e3f`. Il piano eseguito
+ha SHA-256 `583f4316f3788abd23f687e19ba9494aa44087a7ce2c6b0c8263eec9147aa178` e la
+specifica originale SHA-256 `14d36742c158b1ca71b1adc848d13d6f7a85107530450b19a3e1d122eb063b2e`.
+
+| Origine | Commit / identità | Impronta | Destinazione e ruolo | Marca |
+| --- | --- | --- | --- | --- |
+| Piano `fase03/fault_runs/plans/fault_dev.csv` e specifica pre-esecuzione | specifica `c02111d`; esecuzione registrata `49d5806` | piano `583f4316…`; specifica `14d36742…` | `fase03/fault_runs/runs/fault_dev_001/`; 40 run per sviluppo soltanto | pre-specificato |
+| Manifest aggregato dei file conservati | derivato in sola lettura dai 40 manifest per-run | `MANIFEST_FAULT_DEV.csv` SHA-256 `9eaed0e901c6f06d5aa94b4e2d81d5afdd3464022ae6d2709b92f872789a6d9d` | controllo di 200 output/diagnostiche/log/manifest/attempt | documentazione post-esecuzione, nessuna selezione |
+| MEX strumentato fault | sorgente base `230086e…`; sorgente strumentato `74bf641b…`; ambiente in `MEX_RECORD.md` | binario `834e2361915249402a1ec9074a4be04f22a6404deb841e5134bf34347dfde544` | diagnostica IDV, variabili interne e trip; uscite numeriche equivalenti al MEX base | strumentazione pre-specificata; equivalenza verificata post-esecuzione |
+| Archivio pubblico della campagna | repository `sorrentinoluca/fot-tep-data`, commit release `6d238929285e57c6c70f4d563ef7e30b59da6ac5` | 208.257.536 byte; SHA-256 `6edd96711d2913953c6de81ce6dbb7c51e7677a2a7c1892b0676de5e7a9fd97c` | recuperabilità dei run, del tentativo abortito e delle prove MEX | conservazione, nessuna promozione analitica |
+
+La release pubblica è
+[`studio2-fase03-fault-dev-v1`](https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-fault-dev-v1);
+l'asset diretto è
+[`studio2-fase03-fault-dev-v1.tar`](https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-fault-dev-v1/studio2-fase03-fault-dev-v1.tar).
+La copia remota è stata verificata riscaricando l'asset in `/tmp`, fuori dal repository:
+SHA-256 dell'archivio coincidente e 240/240 file estratti uguali per percorso, byte e SHA-256,
+con zero mismatch. Il dettaglio machine-readable è in
+[`fase03/fault_runs/ARTIFACT_STORAGE.json`](fase03/fault_runs/ARTIFACT_STORAGE.json); la mappa
+dei file è `fase03/fault_runs/MANIFEST_CONSERVAZIONE.csv`.
+
+Il primo tentativo di lancio, terminato dalla sandbox mentre il processo era in background,
+non ha prodotto run; il log vuoto e il PID sono conservati come evidenza separata. Il rilancio
+da terminale esterno ha mantenuto invariati piano, indici e stream. L'esito è 40/40 `complete`,
+zero trip e 320 finestre post-fault complete. Questi dati ricevono il solo ruolo di sviluppo:
+non sono ancora stati trasformati in feature, evidence, verbalizzazioni, insight, prototipi o
+calibrazione e non costituiscono materiale di test.
