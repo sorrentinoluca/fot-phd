@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "archive_root": "studio2/fase03/evidence/output/",
+  "status": "public_release_verified_by_redownload",
+  "repository": "sorrentinoluca/fot-tep-data",
+  "repository_url": "https://github.com/sorrentinoluca/fot-tep-data",
+  "release_tag": "studio2-fase03-evidence-v1",
+  "release_id": 387982362,
+  "release_url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-evidence-v1",
+  "release_commit": "6d238929285e57c6c70f4d563ef7e30b59da6ac5",
+  "published_at_utc": "2026-09-13T17:50:50Z",
+  "conditional_validity": {
+    "authorization": "U3 extension of U1/R2, author decision 2026-09-13",
+    "r2_guard_recheck_sha256": "7df0cef2d7854c689b79eb911fa01d1ede1625e22f0d3636c0ea5d678c9f33f8",
+    "rule": "if R2 fails or phase 03.5 switches to baseline_fit_new, this complete evidence release is invalid and must be regenerated"
+  },
+  "verification": {
+    "method": "downloaded the release asset into a separate temporary directory outside the repository, verified archive SHA-256, extracted it, then compared every file path, byte count, and SHA-256 with MANIFEST_CONSERVAZIONE.csv",
+    "temporary_directory": "/tmp/fot-tep-evidence-redownload-verify-001",
+    "archive_sha256_match": true,
+    "manifest_rows": 1283,
+    "extracted_files": 1283,
+    "files_verified": 1283,
+    "bytes_verified": 61208618,
+    "mismatches": 0,
+    "extra_files": 0
+  },
+  "assets": [
+    {
+      "name": "studio2-fase03-evidence-v1.tar",
+      "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-evidence-v1/studio2-fase03-evidence-v1.tar",
+      "bytes": 64817152,
+      "sha256": "3e1eb87f38ff3fc6dd3346476785d06c2b98944b209f7f58706b3c71c1676999",
+      "contents": "1283 files: 320 feature CSV, 320 structured JSON, 320 neutral texts, 320 697-D signature CSV, EVIDENCE_MANIFEST.csv, EVALUATOR_INDEX.csv, and EXTRACTION_SUMMARY.json"
+    }
+  ]
+}
