@@ -820,6 +820,14 @@ sotto-fase non produce alcun effetto diagnostico.
   [`MANIFEST_CONSERVAZIONE.csv`](../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE.csv), SHA-256
   `85930a16e6b59c4048ce5cedac79b83ad72606bea45207b8a7d6b7565f11d1b0`; asset
   `6edd96711d2913953c6de81ce6dbb7c51e7677a2a7c1892b0676de5e7a9fd97c`.
+- Conservazione, rev002: [`ARTIFACT_STORAGE.json`](../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json)
+  ristrutturato a `schema_version` 2 (`releases[]`, `archive_root` dichiarato), SHA-256
+  `9ca14c8cf5f8bbc78084cdbdd64e166d93b7246b47962dce5c3d15e5ed0b31b1`;
+  [`MANIFEST_CONSERVAZIONE_rev002.csv`](../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE_rev002.csv),
+  SHA-256 `d8724cb964d487a2c12ae9d1d0f04bf2b2bc72e5fde442f52c50b153fba98ebb`; asset
+  [`studio2-fase03-fault-dev-v2.tar`](https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-fault-dev-v2),
+  SHA-256 `5940fd417149d3ff92ee4c3d4f7826b80cb2b58b066eb2213b4ce38ac32a2527`, 20 file, verificato per
+  riscaricamento con 0 mismatch; non riscrive l'asset v1.
 - Commit della sotto-fase, in ordine: `c02111d`, `55d442b`, `88eb34e`, `49d5806` (esecuzione
   registrata nei manifest), `fe771e5`, `49f1229`, `3b9ec1e`; convenzione di pubblicazione al commit
   docs `6851bb6`. Sono riferimenti di provenienza, non tag di congelamento: nessun tag è stato creato.
@@ -851,6 +859,11 @@ originale o artefatti congelati.
 - Il tag `studio2-fase03-fault-dev-v1` non segue letteralmente `studio2-fase<N>-v<k>` di
   [`MAINTENANCE.md`](MAINTENANCE.md) §8.5: il formato per lotto va esplicitato lì, o l'eccezione registrata.
   Punto 4, risolto come rinvio di allineamento in [MAINTENANCE §8.6](MAINTENANCE.md#86-sotto-fasi-e-granularità-del-ciclo).
+- Chiuso: la release `studio2-fase03-fault-dev-v2` conserva sorgente e binario del MEX strumentato,
+  `matlab.log`/`matlab.pid` del lancio riuscito e la directory del replay (primi tre punti sopra),
+  con `MANIFEST_CONSERVAZIONE_rev002.csv` e `ARTIFACT_STORAGE.json` §`archive_root` dichiarato.
+  Restano non recuperabili, e dichiarati assenti, gli script MATLAB delle due prove di equivalenza
+  e del replay (secondo punto sopra, solo la parte degli script).
 
 Restano inoltre le dipendenze del report §7: estrazione pre-specificata di feature ed evidence dai
 40 run; insight e prototipi delle sotto-fasi successive; manifest scientifico autonomo dei veri

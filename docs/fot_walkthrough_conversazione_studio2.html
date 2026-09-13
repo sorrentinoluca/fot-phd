@@ -692,6 +692,14 @@ sorgente strumentato <code>74bf641bcd16ce42093b3c78cf03887376d19561041f8746ccf01
 <a href="../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE.csv"><code>MANIFEST_CONSERVAZIONE.csv</code></a>, SHA-256
 <code>85930a16e6b59c4048ce5cedac79b83ad72606bea45207b8a7d6b7565f11d1b0</code>; asset
 <code>6edd96711d2913953c6de81ce6dbb7c51e7677a2a7c1892b0676de5e7a9fd97c</code>.</li>
+<li>Conservazione, rev002: <a href="../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json"><code>ARTIFACT_STORAGE.json</code></a>
+ristrutturato a <code>schema_version</code> 2 (<code>releases[]</code>, <code>archive_root</code> dichiarato), SHA-256
+<code>9ca14c8cf5f8bbc78084cdbdd64e166d93b7246b47962dce5c3d15e5ed0b31b1</code>;
+<a href="../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE_rev002.csv"><code>MANIFEST_CONSERVAZIONE_rev002.csv</code></a>,
+SHA-256 <code>d8724cb964d487a2c12ae9d1d0f04bf2b2bc72e5fde442f52c50b153fba98ebb</code>; asset
+<a href="https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-fault-dev-v2"><code>studio2-fase03-fault-dev-v2.tar</code></a>,
+SHA-256 <code>5940fd417149d3ff92ee4c3d4f7826b80cb2b58b066eb2213b4ce38ac32a2527</code>, 20 file, verificato per
+riscaricamento con 0 mismatch; non riscrive l'asset v1.</li>
 <li>Commit della sotto-fase, in ordine: <code>c02111d</code>, <code>55d442b</code>, <code>88eb34e</code>, <code>49d5806</code> (esecuzione
 registrata nei manifest), <code>fe771e5</code>, <code>49f1229</code>, <code>3b9ec1e</code>; convenzione di pubblicazione al commit
 docs <code>6851bb6</code>. Sono riferimenti di provenienza, non tag di congelamento: nessun tag è stato creato.</li>
@@ -722,6 +730,11 @@ manifest per le fasi future resta da valutare, perché quello della Fase 02 ha u
 <li>Il tag <code>studio2-fase03-fault-dev-v1</code> non segue letteralmente <code>studio2-fase&lt;N&gt;-v&lt;k&gt;</code> di
 <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.5: il formato per lotto va esplicitato lì, o l'eccezione registrata.
 Punto 4, risolto come rinvio di allineamento in <a href="MAINTENANCE.md#86-sotto-fasi-e-granularità-del-ciclo">MAINTENANCE §8.6</a>.</li>
+<li>Chiuso: la release <code>studio2-fase03-fault-dev-v2</code> conserva sorgente e binario del MEX strumentato,
+<code>matlab.log</code>/<code>matlab.pid</code> del lancio riuscito e la directory del replay (primi tre punti sopra),
+con <code>MANIFEST_CONSERVAZIONE_rev002.csv</code> e <code>ARTIFACT_STORAGE.json</code> §<code>archive_root</code> dichiarato.
+Restano non recuperabili, e dichiarati assenti, gli script MATLAB delle due prove di equivalenza
+e del replay (secondo punto sopra, solo la parte degli script).</li>
 </ul>
 <p>Restano inoltre le dipendenze del report §7: estrazione pre-specificata di feature ed evidence dai
 40 run; insight e prototipi delle sotto-fasi successive; manifest scientifico autonomo dei veri

@@ -224,6 +224,7 @@ specifica originale SHA-256 `14d36742c158b1ca71b1adc848d13d6f7a85107530450b19a3e
 | Manifest aggregato dei file conservati | derivato in sola lettura dai 40 manifest per-run | `MANIFEST_FAULT_DEV.csv` SHA-256 `9eaed0e901c6f06d5aa94b4e2d81d5afdd3464022ae6d2709b92f872789a6d9d` | controllo di 200 output/diagnostiche/log/manifest/attempt | documentazione post-esecuzione, nessuna selezione |
 | MEX strumentato fault | sorgente base `230086e…`; sorgente strumentato `74bf641b…`; ambiente in `MEX_RECORD.md` | binario `834e2361915249402a1ec9074a4be04f22a6404deb841e5134bf34347dfde544` | diagnostica IDV, variabili interne e trip; uscite numeriche equivalenti al MEX base | strumentazione pre-specificata; equivalenza verificata post-esecuzione |
 | Archivio pubblico della campagna | repository `sorrentinoluca/fot-tep-data`, commit release `6d238929285e57c6c70f4d563ef7e30b59da6ac5` | 208.257.536 byte; SHA-256 `6edd96711d2913953c6de81ce6dbb7c51e7677a2a7c1892b0676de5e7a9fd97c` | recuperabilità dei run, del tentativo abortito e delle prove MEX | conservazione, nessuna promozione analitica |
+| Archivio pubblico della campagna, rev002 | repository `sorrentinoluca/fot-tep-data`, commit release `6d238929285e57c6c70f4d563ef7e30b59da6ac5` | 5.683.200 byte; SHA-256 `5940fd417149d3ff92ee4c3d4f7826b80cb2b58b066eb2213b4ce38ac32a2527` | sorgente e binario del MEX strumentato, log/pid del lancio riuscito, replay MATLAB F1/30000 (20 file, non nell'asset v1) | conservazione, nessuna promozione analitica |
 
 La release pubblica è
 [`studio2-fase03-fault-dev-v1`](https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-fault-dev-v1);
@@ -234,6 +235,7 @@ SHA-256 dell'archivio coincidente e 240/240 file estratti uguali per percorso, b
 con zero mismatch. Il dettaglio machine-readable è in
 [`fase03/fault_runs/ARTIFACT_STORAGE.json`](fase03/fault_runs/ARTIFACT_STORAGE.json); la mappa
 dei file è `fase03/fault_runs/MANIFEST_CONSERVAZIONE.csv`.
+La release [`studio2-fase03-fault-dev-v2`](https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-fault-dev-v2), verificata allo stesso modo, aggiunge sorgente e binario del MEX strumentato, `matlab.log`/`matlab.pid` del lancio riuscito e la directory del replay, senza riscrivere l'asset v1 (`6edd…`); gli script MATLAB delle prove di equivalenza e del replay restano non recuperabili, dichiarati assenti. Dettaglio in `ARTIFACT_STORAGE.json` (`schema_version` 2, `releases[]`) e `fase03/fault_runs/MANIFEST_CONSERVAZIONE_rev002.csv`.
 
 Il primo tentativo di lancio, terminato dalla sandbox mentre il processo era in background,
 non ha prodotto run; il log vuoto e il PID sono conservati come evidenza separata. Il rilancio
