@@ -1,0 +1,16 @@
+{
+  "tests": 21,
+  "failures": 0,
+  "simulation_runs": 0,
+  "python_command": "python3 -m unittest discover -s studio2/fase03/fault_runs/tests -v",
+  "matlab_checkcode": "PASS, no messages after unused assignment removed",
+  "matlab_preflight": "model load, controlled MEX path, delay 25 h, plan uint64 strings; no simulation",
+  "instrumentation_roundtrip": "exact original source bytes after removing marked diagnostics and restoring S_FUNCTION_NAME",
+  "build": "R2025b ARM / Xcode Clang PASS",
+  "initial_build_invocation": "failed under Rosetta; no simulation; successful native ARM invocation follows",
+  "base_mex_unchanged": "6ae7e7be5394773f1854f1c53eddbd778ad7557b61fb05a93b3edb0552b1d11e",
+  "instrumented_mex_sha256": "834e2361915249402a1ec9074a4be04f22a6404deb841e5134bf34347dfde544",
+  "base_source_sha256": "230086e7712e753bf48f3e9108cd0ce2f68aba97d9590ebb3c7593a47f8b6d25",
+  "instrumented_source_sha256": "74bf641bcd16ce42093b3c78cf03887376d19561041f8746ccf01339042fb4c9",
+  "implementation_commit": "55d442bae61a3b2f8badf4a64280680fdef51f4c"
+}

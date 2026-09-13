@@ -1,0 +1,23 @@
+                     run_id: "smoke-F1-001"
+                   set_name: "smoke"
+                      batch: 0
+           run_index_uint64: "30040"
+                  stream_id: "30040"
+            seed_descriptor: "0x464f545445503032:0000000000007558"
+                stream_lo32: 30040
+                stream_hi32: 0
+                        idv: 1
+                  burn_in_h: 20
+                    onset_h: 25
+                  horizon_h: 0.1000
+                stop_time_h: 25.1000
+                   window_h: 5
+    useful_windows_expected: 0
+
+[Warning: Model 'TElib' was last saved using Simulink 5.0. Models last saved in
+releases before Simulink 6.0 (R14) may not function correctly in the current
+release. Save the models in an intermediate release (R2019b or older) then
+proceed.] 
+Array
+/Users/luker/fot-tep/studio2/fase03/fault_runs/runtime/build/temexd_fault_philox.mexmaca64
+PREFLIGHT_OK_NO_SIMULATION

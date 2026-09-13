@@ -1,0 +1,10 @@
+L 23 (C 1-4): Value assigned to variable might be unused.
+
+Building with 'Xcode with Clang'.
+MEX completed successfully.
+Compiled: /Users/luker/fot-tep/studio2/fase03/fault_runs/runtime/build/temexd_fault_philox.mexmaca64
+
+ans =
+
+    '/Users/luker/fot-tep/studio2/fase03/fault_runs/runtime/build/temexd_fault_philox.mexmaca64'
+
