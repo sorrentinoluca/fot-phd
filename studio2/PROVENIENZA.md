@@ -93,3 +93,24 @@ promuove a sviluppo, calibrazione o test.
 R1 non compare fra gli usi autorizzati perché la sostituzione proposta è stata respinta. I venti
 file fault possono restare consultabili nel ruolo storico già dichiarato dal piano, senza essere
 contati come nuove repliche del secondo studio.
+
+## 5. Fase 03.0 — Provenienza degli adattamenti del capability pilot
+
+Questo registro segue `docs/MAINTENANCE.md` §8.2. Gli artefatti elencati sono letti in sola
+lettura; gli adattamenti vivono sotto `studio2/`.
+
+| Origine | Commit | SHA-256 | Destinazione | Modifiche | Ruolo | Marca |
+| --- | --- | --- | --- | --- | --- | --- |
+| `phase_b/exp2/qwen/adapter.py` | `9e3d9031013788a583e348fbd7bfc40e14d3c68b` | `49de085165f9aad99b17fa7713c0aae5fffded535cccda5dd508d7b65fef6bcf` | `studio2/fase03/run_pilot.py` | adattamento a 8 agenti, 14 insight, logging di latenza/fingerprint e guardia esplicita di esecuzione | pattern dell'adapter OpenAI-compatible locale | pre-specificato |
+| `phase_b/exp2/qwen/capability_probe.py` | `9e3d9031013788a583e348fbd7bfc40e14d3c68b` | `b383611d4c7c7bd55215c0458827efec63ca0261264ed737ee05c8ba2a5f9dcd` | `studio2/fase03/prepare_gate.py`, `studio2/fase03/run_pilot.py` | separazione obbligatoria fra controllo budget e gate; campione 40×3; nessun accesso al test | pattern di capability probe e contabilità richieste | pre-specificato |
+| `phase_b/conditions/parser.py` | `9e3d9031013788a583e348fbd7bfc40e14d3c68b` | `bdddfe99ba6e4328a071ea94c221a91cc5942252865691a280bcd6687301eb99` | `studio2/fase03/protocol.py` | parser autonomo per nove label e massimo 14 insight | parsing JSON stretto | pre-specificato |
+| `phase_b/insights/library.py` | `9e3d9031013788a583e348fbd7bfc40e14d3c68b` | `679f2074067f13c29f63237e25dd0c86a979d48232ecf0c333cf8e7e41fe93c9` | `studio2/fase03/protocol.py`, `studio2/fase03/producer_probe.py` | estensione a 8 agenti; campi fissi, identificatori di variabile e cap per elemento | validazione libreria, controllo E a campo singolo e sonda producer | pre-specificato |
+| `phase_b/c06/prompts/B_LOCAL_FIRST_V1.txt` | `9e3d9031013788a583e348fbd7bfc40e14d3c68b` | `4e6cc81f87033f0b3bcddebff694e7f446e31c228c5ac1f7560b9552aada6192` | `studio2/fase03/protocol.py` | blocco decisionale riusato per B-LF ed E-LF; label e insight resi parametrici | politica local-first congelata | pre-specificato |
+| `phase_b/exp2/qwen/config.json` e risultati congelati della sensitivity descritti in walkthrough v2 §10.1–10.2 | `9e3d9031013788a583e348fbd7bfc40e14d3c68b` | `3b58e321c5d09c8e1fdf2f5ddab6bac14f9b537b0febcc294909164f3febcbe9` | `studio2/fase03/config/pilot_preflight.json` | vecchi valori 4096/1024 non ereditati; usati solo per definire la scala 2048/3072/4096 da verificare prima del gate | precedente operativo sullo stesso Qwen-27B | pre-specificato |
+
+Il report di chiusura della Fase 02 dichiarato dall'autore non è presente nei riferimenti remoti
+fetchati al commit `9e3d903`, quindi non è ancora possibile registrarne percorso e impronta. Il
+suo paragrafo «Fuori dalla Fase02» esclude catalogo definitivo, 40 nuovi run fault di sviluppo e
+relative feature/evidence: questi elementi non sono dati riusati né output della Fase 02, ma
+prerequisiti scientifici futuri. Quando esisteranno, ogni artefatto effettivamente usato dal
+pilot riceverà una riga autonoma con origine, commit, impronta e destinazione.
