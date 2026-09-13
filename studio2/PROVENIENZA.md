@@ -485,3 +485,23 @@ I due numeri storici Terra restano recuperabili nella storia Git e nei report st
 controllato. Non è stata prodotta un'analisi post-hoc: è aggiornata la descrizione di usi
 pre-specificati e di limiti già registrati. Firma/freeze statistico, D9 e verifica
 indipendente del nuovo delta restano pendenti; sotto-fase 03.15 e Fase 03 aperte.
+## 15. Fase 03 — sotto-fase 03.14: baseline FedAvg con pavimento e soffitto (§6.11, §9)
+
+La specifica e il codice sono **pre-specificati** rispetto a ogni addestramento reale e a ogni
+run di test. In questa sotto-fase non sono stati importati codice, dati o risultati del primo
+studio. Le firme fault sono state soltanto qualificate come input futuro verificato; lo smoke è
+stato eseguito su fixture sintetica perché il lotto `normal_dev` di 03.9 non è ancora pubblicato.
+
+| Origine | Commit / release | SHA-256 | Destinazione e ruolo | Marca |
+| --- | --- | --- | --- | --- |
+| `studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv` | branch 03.6 `2f6dd8de38b944e61853e605202c4c376a90585d`; release `studio2-fase03-evidence-v1` | `5111d0c61c2e93fe5071d7a85015673549af0bf9c1dc74e0d940719a8400e020` | input fault futuro del loader FedAvg; 320 firme 697-D | pre-specificato |
+| `studio2/fase03/evidence/output/EVALUATOR_INDEX.csv` | idem | `b966cdd3d579efaf595fd48c4b9baa70747ba584522926520840a1e914dbf69c` | join evaluator-side `evidence_id → run/fault/batch` | pre-specificato |
+| archivio evidence v1 | release pubblica 03.6, commit repository dati `6d238929285e57c6c70f4d563ef7e30b59da6ac5` | `3e1eb87f38ff3fc6dd3346476785d06c2b98944b209f7f58706b3c71c1676999` | recuperabilità dei due indici e delle firme fault; nessuna duplicazione nel branch | conservazione verificata da 03.6 |
+| `studio2/fase03/piano_statistico/PIANO_STATISTICO.md` | branch 03.8 osservato a `dd82cd1753b31c10235de18052f24683306f8751` | `c660db84474e54056ac623f51aceadcc771297b0af19870dc9c304c1dbf0bf96` | unità run-cluster e tre metriche; specifica ancora pending, nessun bootstrap reimplementato | proposta, non congelata |
+| `normal_dev` 03.9 | non ancora pubblicato | pending | 40 run Normal, cinque esclusivi per client; necessario per ogni training reale | pre-specificato, input mancante |
+
+La dipendenza indiretta U3 delle firme 03.6 resta quella registrata dalla loro sotto-fase:
+baseline N1–N5 esclusivamente per normalizzazione/flag del verbalizzatore, valida solo finché passa
+la guardia R2. La baseline FedAvg non usa N1–N5 come osservazioni Normal. Il file
+`fase03/fedavg/FEDAVG_FREEZE.json` registra ricetta, impronte e stato
+`frozen_spec_and_code_pending_normal_dev_and_independent_verification`.
