@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-13",
+  "scope": "phase03_section6_1_selection_criteria_only",
+  "source_commit": "9d0e1911afd6c244f748f05f62934590f5314794",
+  "pilot_parent_commit": "6a029270a7c29122bd7c56ee2b34ac236f359839",
+  "freeze_tag": "studio2-fase03-criteri-selezione-frozen-001",
+  "effective_when": "independent_review_OK_and_commit_reachable_from_origin_main_and_annotated_freeze_tag_published",
+  "independent_review": "studio2/fase03/selection/VERIFICA_CRITERI_6_1.md",
+  "independent_review_verdict": "OK",
+  "report": "studio2/fase03/selection/REPORT_CRITERI_6_1.md",
+  "files": [
+    {
+      "path": "docs/lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+      "sha256": "d58a7606d69a560a626da44833c065ddbf1aa395ae8b2e523262daf8622231c7",
+      "bytes": 11339,
+      "role": "normative_criteria_revision"
+    },
+    {
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "sha256": "7f9462c28eef7bc0cf74e201a1ffe283d68056359728fea62740e43a1bb1767a",
+      "bytes": 159979,
+      "role": "reference_snapshot",
+      "note": "The living plan may evolve outside section 6.1 criteria. Such changes do not alter or invalidate this frozen criteria revision; verify this reference against source_commit, not a later worktree."
+    },
+    {
+      "path": "studio2/fase03/selection/FEASIBILITY.json",
+      "sha256": "ca830d054af19e27aa191fcb51f8e80d3c8444bb746dd9da486304490bd59810",
+      "bytes": 504,
+      "role": "verification_record_snapshot"
+    },
+    {
+      "path": "studio2/fase03/selection/SOURCE_CHECK.json",
+      "sha256": "82c654d142ac0ab13f9b47d9648231bd3f1bfda4c5486a8399f510ff87165372",
+      "bytes": 747,
+      "role": "verification_record_snapshot"
+    }
+  ],
+  "d1_draw_executed": false,
+  "catalog_frozen": false,
+  "scientific_protocol_frozen": false,
+  "model_execution_authorized": false,
+  "amendment_policy": "Preserve this manifest and the normative criteria revision after tag. Hashes identify the recorded source_commit snapshot, not an indefinite freeze of the living plan. Future plan updates outside the criteria do not invalidate this revision. Any change to the criteria requires a new separately reviewed revision and a new tag before using results.",
+  "integrity_basis": "source_commit_snapshot"
+}

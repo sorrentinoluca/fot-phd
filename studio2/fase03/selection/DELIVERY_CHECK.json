@@ -1,0 +1,45 @@
+{
+  "date": "2026-09-13",
+  "scope": "pre_delivery_checks_selection_6_1",
+  "criteria_source_commit": "9d0e1911afd6c244f748f05f62934590f5314794",
+  "freeze_hashes_verified_against_worktree_and_source_commit": 4,
+  "walkthrough_parity": {
+    "status": "PASS",
+    "scope": "all new and modified narrative blocks: section 4.1, introduction, section 6.1 item, dependency warning; navigation link checked",
+    "new_section_links_same_order": true,
+    "new_section_text_equal": true
+  },
+  "local_links_and_anchors": {
+    "status": "PASS",
+    "checked_occurrences": 145,
+    "files": 4
+  },
+  "documentation_tests": {
+    "command": "python3 docs/test_explanation.py",
+    "tests": 35,
+    "baseline_failures": 14,
+    "final_failures": 14,
+    "skipped": 1,
+    "new_failures": 0
+  },
+  "pilot_offline_tests": {
+    "command": "python3 -m unittest discover -s studio2/fase03/tests -v",
+    "tests": 16,
+    "passed": 16
+  },
+  "planning_modes": {
+    "run_pilot": "PLAN_ONLY_NO_PROVIDER_CALLS",
+    "producer_probe": "PLAN_ONLY_NO_PROVIDER_CALLS",
+    "prepare_gate": "GATE_ENVELOPE_FROZEN_EXECUTION_SUSPENDED"
+  },
+  "inherited_pilot_and_provenance_files_unchanged": 30,
+  "scientific_model_calls": 0,
+  "d1_draw_executed": false,
+  "summary_html_changed": false,
+  "summary_html_reason": "Internal preparation and freeze only; no new scientific result to summarize.",
+  "git_delivery": "This pre-delivery record does not attest a future push. Require report/review/manifest reachable from origin/main and published annotated tag; verify remote refs after push.",
+  "walkthrough_sha256": {
+    "docs/fot_walkthrough_conversazione_studio2.md": "201ba1306553b09989061af1fbf2673aad2122083c6da9a319676be17239dd41",
+    "docs/fot_walkthrough_conversazione_studio2.html": "561b241cf0d5f00388b120f51db68054366dfb6270e8a8defc252586a1ae3788"
+  }
+}

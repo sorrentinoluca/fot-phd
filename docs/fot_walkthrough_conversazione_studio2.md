@@ -1,9 +1,9 @@
 # Studio 2 — walkthrough
 
-> **Documento vivo, a scheletro.** Si aggiorna **fase per fase**: si lavora su una fase, si
-> documenta qui, si passa alla successiva. Stato al **2026-09-12**: **fasi 01 e 02 documentate in
-> §2 e §3**; le fasi successive restano a scheletro. Finché una sezione resta vuota, **la fonte autorevole è
-> il piano**, non questo file.
+> **Documento vivo, a scheletro.** Si aggiorna **fase per fase**. Stato al **2026-09-13**:
+> fasi 01 e 02 documentate in §2 e §3; la sotto-fase **criteri di selezione (§6.1)** della
+> Fase 03 è documentata in [§4.1](#criteri-selezione-61). La parte restante delle fasi successive
+> resta a scheletro: per essa **la fonte autorevole è il piano**, non questo file.
 
 | Ruolo | File |
 | --- | --- |
@@ -388,6 +388,86 @@ indipendente finale delle impronte del freeze rigenerato.
 Le fasi successive vengono da **§6** (i cantieri di preparazione indipendenti dal modello ancora
 da eseguire) e **§7** (esecuzione subordinata alla disponibilità di Qwen) del piano sperimentale.
 
+<a id="criteri-selezione-61"></a>
+
+### 4.1 · Fase 03 — criteri di selezione dei fault (§6.1)
+
+#### Riassunto e sintesi
+
+La sotto-fase decisionale §6.1 ha definito i criteri prima di eseguire D1 o consultare risultati
+per-fault dei nostri esperimenti. La [verifica indipendente](../studio2/fase03/selection/VERIFICA_CRITERI_6_1.md)
+ha dato **OK** alla prespecificazione e alla fattibilità. Il congelamento dedicato riguarda
+esclusivamente i criteri: **il catalogo degli otto fault non è stato estratto e la Fase 03
+non è chiusa**. La fonte della decisione è il
+[registro dei criteri](lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md), collegato dal piano §6.1.
+
+#### Dettaglio della decisione
+
+Il catalogo futuro manterrà F1/F8/F10/F13 come quattro classi di continuità, con quattro nuovi
+fault nell'universo IDV(1)–IDV(15). I vincoli congiunti fissano almeno due step, due random
+variation, due sticking valve e un solo slow drift, IDV(13); vietano le coppie con identica
+variabile perturbata {3,9}, {4,11}, {5,12}; richiedono almeno due membri dello strato nominale
+H={F3,F9,F15}, difficile da rilevare secondo le fonti esterne prescritte. Il complemento è
+«ordinario rispetto alla stratificazione», senza dichiarazione di facilità diagnostica.
+
+Il [controllo combinatorio](../studio2/fase03/selection/FEASIBILITY.json) conta **330 quadruple
+candidate e 12 ammissibili**: cinque con composizione step/random/drift/sticking 3/2/1/2 e sette
+con 2/3/1/2. F14/F15 sono quindi inclusioni forzate dai criteri; entra esattamente uno fra
+F3 e F9. Nessun catalogo è stato sorteggiato. Il registro prespecifica seed `20260913`,
+ordinamento e procedura riproducibile di D1, senza rilanci per cambiare esito.
+
+La quota di due fault per famiglia è una scelta di progetto: non deriva da una legge
+bibliografica e non garantisce generalizzabilità al meccanismo o potenza inferenziale.
+La continuità non diventa un campione casuale e i suoi run storici non sostituiscono i nuovi
+run di sviluppo. Il risultato sul drift rimane riferito a IDV(13).
+
+#### Connessione alla letteratura
+
+La tassonomia usa Downs & Vogel, richiamati in [`letteratura.md`](letteratura.md) §14.3;
+la stratificazione segue i riferimenti già prescritti dal piano §12. Il
+[record delle fonti](../studio2/fase03/selection/SOURCE_CHECK.json) identifica i PDF primari
+consultati e riverificati. La PHM 2023 conferma direttamente il gruppo nominale H; il testo
+integrale di Yin 2012 non è stato riverificato e i suoi range non entrano nel filtro.
+
+È stata corretta nel piano §12.2 la richiesta incoerente di FDR sotto il 10% in tutti i metodi,
+che contraddiceva i range dello stesso §12.1. Non è stata introdotta una nuova soglia dai massimi.
+Gli FDR esterni riguardano rilevazione, non diagnosi FoT. Non nasce un nuovo claim bibliografico:
+§§14.5–14.6 del corpus restano invariati.
+
+#### Connessione alle critiche e limiti
+
+La prespecificazione mitiga la selezione del catalogo in base agli esiti, ma non dimostra
+rappresentatività su tutti i fault TEP. L'audit può verificare artefatti e operazioni registrate,
+non l'assenza di conoscenza pregressa. Downs & Vogel raccomandano perturbazioni congiunte per
+IDV(14)–IDV(20) e 24–48 ore per osservarne l'effetto completo: la futura specifica di generazione
+deve esplicitare il rapporto col disegno a singolo fault **prima dei nuovi run**, senza scegliere
+in base al segnale osservato. La copertura tassonomica non dimostra rilevabilità.
+
+#### Artefatti e riproducibilità
+
+Il [report](../studio2/fase03/selection/REPORT_CRITERI_6_1.md) e la
+[verifica](../studio2/fase03/selection/VERIFICA_CRITERI_6_1.md) sono specifici della sotto-fase.
+Il [freeze dei criteri](../studio2/fase03/selection/CRITERIA_FREEZE.json) registra commit sorgente,
+impronte e perimetro. Il piano è registrato come snapshot al commit sorgente e resta aggiornabile
+nelle parti estranee ai criteri; il tag dedicato è `studio2-fase03-criteri-selezione-frozen-001`.
+Il [controllo di consegna](../studio2/fase03/selection/DELIVERY_CHECK.json) registra parità
+MD/HTML, link, impronte e verifiche offline. Il controllo documentale generale mantiene
+**35 test, 14 fallimenti preesistenti e 1 skipped**; non copre direttamente i nuovi criteri.
+
+Il branch pilot integrato con questa consegna comprende 13 commit `studio2(fase03)` fino a
+`6a02927`. I suoi file sono conservati invariati. I 16 test offline passano e i comandi di
+preparazione restano a zero chiamate; ciò non è un nuovo audit scientifico del pilot.
+Il suo [preflight](../studio2/fase03/PREFLIGHT_03_0.md) e lo
+[stato implementativo](../studio2/fase03/IMPLEMENTATION_STATUS.md) continuano a dichiarare
+sospeso il gate reale. La sonda sintetica provvisoria non fonda la scelta dei criteri.
+
+#### Lavoro che resta
+
+D1 deve eseguire l'unica estrazione dopo il congelamento dei criteri e registrarne l'esito.
+Solo il catalogo risultante renderà lavorabili D11 e la scelta OOD. Restano inoltre D2,
+producer alternativo, nuovi run ed evidence reali, sonda sui prompt reali e gate 40×3.
+La chiusura di §6.1 non chiude S1, che richiede anche il catalogo, né autorizza esecuzioni.
+
 ### Sintesi per sezione
 
 | § | Fase | Che cos'è | Fonte | Stato |
@@ -401,7 +481,7 @@ da eseguire) e **§7** (esecuzione subordinata alla disponibilità di Qwen) del 
 
 Dettaglio dei cantieri ancora previsti dal piano §§6–7:
 
-1. **§6.1** — Definire i criteri di selezione degli 8 fault
+1. **§6.1** — Criteri verificati e congelati nella sotto-fase descritta in [§4.1](#criteri-selezione-61); estrazione D1 ancora da eseguire
 2. **§6.2** — Generare nuovi run fault di sviluppo; la generazione Normal e R1/R2 sono già qualificate in §3
 3. **§6.3** — Calibrare soglie sui Normal di sviluppo
 4. **§6.4** — Produrre dati strutturati e verbalizzazioni di sviluppo
@@ -421,8 +501,8 @@ Dettaglio dei cantieri ancora previsti dal piano §§6–7:
 
 ⚠️ **Ordine vincolato, non suggerito.** Dentro §6 le dipendenze non sono libere: i criteri di
 §6.1 devono congelarsi **prima** che si estraggano gli 8 fault, e le decisioni «meccanicamente
-distinto dal catalogo» e «coppia confondibile» sono definite *rispetto a quegli otto*, quindi non
-sono lavorabili oggi. Il piano §7 lo dice esplicitamente: il rischio più urgente non è
+distinto dal catalogo» e «coppia confondibile» sono definite *rispetto a quegli otto*, quindi
+saranno lavorabili solo dopo D1. Il piano §7 lo dice esplicitamente: il rischio più urgente non è
 scientifico, è **temporale**, e si concentra su una sola data — la decisione GO/NO-GO sul modello.
 
 *Una sezione si scrive quando la fase è conclusa, non mentre è in corso: finché è aperta, la
