@@ -3,11 +3,11 @@
 ## Dalla federazione parametrica alla conoscenza testuale
 
 Il federated learning canonico coordina l'apprendimento tramite aggregazione di parametri; lavori
-successivi hanno spostato l'oggetto condiviso verso logit, prototipi o conoscenza sintetica. Questo
+successivi hanno spostato l'oggetto condiviso verso logit e prototipi. Questo
 studio occupa un'estremità diversa della stessa traiettoria: non aggrega pesi e usa record testuali
 ispezionabili come interfaccia fra agenti. La distinzione è architetturale, non implica superiorità
-né equivalenza empirica con FedAvg, FedMD, FedProto o FedGen.
-[Fonte bibliografica: `docs/letteratura.md` §14.2–§14.3; fonte di disegno: piano §9]
+né equivalenza empirica con FedAvg, FedMD o FedProto.
+[Fonte bibliografica: FedMD e FedProto, `docs/letteratura.md` §14.1–§14.2; fonte di disegno: piano §9; riferimento FedAvg da integrare tramite Letteratura_LLM]
 
 Time-FFM combina foundation model e federazione parametrica per il forecasting di serie temporali.
 La sua esistenza impedisce di presentare l'accostamento fra federazione, modelli linguistici e serie
@@ -97,4 +97,3 @@ assi sotto un controllo di specificità pre-specificato. Non si rivendicano effi
 privacy, generalità cross-model, scalabilità di rete o superiorità rispetto alla condivisione
 numerica e alla centralizzazione.
 [Fonte bibliografica: `docs/letteratura.md` §14.4–§14.6; limiti: piano §5, §12.7–§12.9]
-

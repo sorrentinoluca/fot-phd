@@ -267,3 +267,25 @@ prima di ogni derivazione. Artefatti, impronte e stato di congelamento sono in
 `fase03/pseudolabel/PSEUDOLABEL_FREEZE.json` (`frozen_pending_independent_verification`, nessun
 tag). Il mapping pseudolabel↔fault e l'assegnazione agli agenti sono evaluator-side e non entrano
 in alcun prompt.
+
+## Sotto-fase 03.15 — sezioni del paper indipendenti dal modello
+
+La sotto-fase 03.15 è redazionale: non crea dati, non esegue inferenze e non promuove risultati.
+Le bozze in `fase03/paper_sections/` descrivono soltanto artefatti congelati o proposte marcate come
+pendenti; il loro eventuale trasferimento in `docs/paper/` resta una decisione successiva alla
+verifica indipendente.
+
+| Origine | Commit / identità | Impronta o attestazione | Destinazione e ruolo | Marca |
+| --- | --- | --- | --- | --- |
+| Catalogo D1 e criteri | tag `studio2-fase03-catalogo-D1-frozen-001`, commit `ab43f0b20f45cdb475c0caf52c6f7afcbae50891` | `CATALOG_FREEZE.json` SHA-256 `68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda` | descrizione del catalogo e della selezione in `protocol.md` | pre-specificato; nessun esito per-fault consultato |
+| Run fault di sviluppo | specifica `c02111d`; esecuzione `49d5806`; report in `fase03/fault_runs/` | piano SHA-256 `583f4316…`; manifest SHA-256 `9eaed0e9…` | configurazione, seed/stream, innesco, orizzonte e finestre in `protocol.md` e `verbalizer.md` | pre-specificato; ruolo sviluppo soltanto |
+| Evidence 03.6 | branch `codex/studio2-evidence`, commit `2f6dd8d`; release `studio2-fase03-evidence-v1` | archivio SHA-256 `3e1eb87f38ff3fc6dd3346476785d06c2b98944b209f7f58706b3c71c1676999` | catena feature→JSON→testo→firma in `verbalizer.md` | pre-specificato; nessuna accuracy o selezione |
+| Pseudolabel e derangement | tag `studio2-fase03-pseudolabel-frozen-001`; artefatti in `fase03/pseudolabel/` | impronte nel `PSEUDOLABEL_FREEZE.json` | descrizione opaca e evaluator-side in `method.md` e `protocol.md` | pre-specificato; mapping escluso dai prompt |
+| Schema insight 03.12 | byte al commit `e058cb0`, branch `codex/studio2-schema-insight` | manifest `SCHEMA_FREEZE.json`; impronte dei file di contratto | schema, parità fra producer, metriche e diff B→E in `method.md` | pre-specificato; nessun insight scientifico prodotto |
+| Soglia Normal 03.5 | `THRESHOLD_FREEZE.json` al commit `9507143` | freeze precedente all'analisi `far_ver` | sola forma di calibrazione e regola `S > soglia` in `verbalizer.md` | pre-specificato; valore e FAR omessi in attesa di verifica indipendente |
+| Piano statistico 03.8 | branch `codex/studio2-piano-statistico`, documento `PIANO_STATISTICO.md` | stato `proposed_pending_author_decisions` | ipotesi, endpoint, bootstrap e threats in `protocol.md` e `threats.md` | proposta pendente; non trattata come congelata |
+| Codice e dati del primo studio | origini, commit e SHA-256 già registrati nelle sezioni U1/R2, U3 e 03.6 | guardie e manifest 03.6 | sola descrizione di configurazione, seed e data; due numeri motivazionali autorizzati dal piano | riuso dichiarato; nessuna narrazione del primo studio |
+
+Le fonti bibliografiche sono state lette esclusivamente in `docs/letteratura.md` §14.1–§14.6.
+Nessun nuovo riferimento è stato inserito nel corpus: i riferimenti metodologici esterni richiesti
+da 03.8 e il riferimento FedAvg restano segnalazioni per il ciclo `Letteratura_LLM`.
