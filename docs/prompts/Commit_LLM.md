@@ -29,3 +29,5 @@ Al termine riporta: i commit creati, i file inclusi in ciascuno, le verifiche sv
 esiti, le modifiche lasciate fuori con il motivo, e le decisioni ancora necessarie.
 
 7. **Fase chiusa e consegna.** Una fase si considera chiusa solo se **report e verifica** della fase sono committati e presenti in `origin/main` (non basta che siano in locale). Quando una fase è pronta, proponi l'integrazione di `main` con **fast-forward o merge** e **eseguila solo su richiesta esplicita**; la fase successiva parte da `origin/main`.
+   La fase non è considerata consegnata se i suoi dati voluminosi non sono pubblicati su `fot-tep-data`
+   e verificati tramite riscaricamento degli asset.
