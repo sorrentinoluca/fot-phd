@@ -243,3 +243,33 @@ da terminale esterno ha mantenuto invariati piano, indici e stream. L'esito è 4
 zero trip e 320 finestre post-fault complete. Questi dati ricevono il solo ruolo di sviluppo:
 non sono ancora stati trasformati in feature, evidence, verbalizzazioni, insight, prototipi o
 calibrazione e non costituiscono materiale di test.
+
+## 9. Fase 03 — soglie Normal (§6.3)
+
+La sotto-fase 03.5 usa U1/R2 esclusivamente come `baseline_fit` N1–N5, con score A e parametri
+congelati in `fase02/validation/score_fit_legacy.json`; guardia R2 superata e ricontrollata.
+I nuovi lotti sono pre-specificati: `cal_thr` 350 run, stream 40000–40349, e `far_ver` 150 run,
+stream 50000–50149. Il piano, il freeze e gli output sono identificati dai manifest e dalle
+impronte in `fase03/soglie_normal/`.
+
+Il freeze della soglia è stato eseguito prima dell'apertura analitica di `far_ver`, al commit
+`9507143`: soglia `13.623626738268857`, rango 334, n=350, regola `S > threshold`. Il codice di
+score è quello Fase 02; la soglia, il lotto e il sigillo dei 150 file sono in
+`fase03/soglie_normal/THRESHOLD_FREEZE.json`. L'analisi FAR è stata eseguita dopo il freeze,
+senza modifica della soglia: `11/150` primari e `108/1500` secondari.
+
+| Artefatto | Identità | Ruolo | Marca |
+| --- | --- | --- | --- |
+| `fase03/soglie_normal/plans/cal_thr.csv` e `far_ver.csv` | piani SHA-256 nei manifest | allocazione e stream disgiunti | pre-specificato |
+| `fase03/soglie_normal/CAL_THR_SCORES.csv` | SHA-256 `a1c5991af1ee136372b1da7c63ab05027d9710fd99c228a549395964d5519191` | calibrazione della soglia | pre-specificato |
+| `fase03/soglie_normal/THRESHOLD_FREEZE.json` | commit `9507143`; soglia e sigillo `far_ver` | freeze prima della verifica | pre-specificato / post-esecuzione |
+| `fase03/soglie_normal/FAR_VERIFICATION.json` | analisi a soglia immutata | FAR primario, secondario e diagnostica | pre-specificato |
+| release `studio2-fase03-normal-v1` | archivio SHA-256 `bbcfd0c43a5fbda624deba62fea746150dda4a6d649e6372b8e118270277ac1d` | conservazione, 515 file | post-esecuzione |
+
+L'archivio pubblico è stato riscaricato e verificato: 515/515 file, zero mismatch. Dettagli e
+URL sono in `fase03/soglie_normal/ARTIFACT_STORAGE.json`. Il batch è stato lanciato prima del
+freeze, come previsto dall'handoff operativo; la non conformità di processo (generazione fisica
+di `far_ver` prima del freeze analitico) è registrata nei report, mentre il freeze analitico e
+l'analisi sono stati eseguiti nell'ordine vincolante successivo. Tutti gli score `far_ver` qui
+riportati sono stati calcolati solo dopo il freeze; gli unici score precedenti restano quelli
+degli smoke esclusi (stream 49900–49901).
