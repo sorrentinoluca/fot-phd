@@ -13,7 +13,7 @@
   "forbidden_patterns": [
     "(?<![A-Za-z0-9])F\\s*0*(?:1[0-5]|[1-9])(?![A-Za-z0-9])",
     "\\b(?:IDV|fault|guasto)\\s*[-_:(#]?\\s*0*\\d+\\b",
-    "\\b(?:step|gradino|random[ -]+variation|variazioni?[ -]+casual[ei]|slow[ -]+drift|drift[ -]+lento|sticking|stiction|incollamento)\\b",
+    "\\b(?:step|gradino|random[ -]+variation|variazion[ei][ -]+casual[ei]|slow[ -]+drift|drift[ -]+lento|sticking|stiction|incollamento)\\b",
     "\\b(?:reactor|stripper|separator|condenser|feed|cooling|compressor|reattore|condensatore|alimentazione|raffreddamento|valvola|valve)\\b",
     "\\b(?:reaction[ -]+kinetics|cinetica[ -]+di[ -]+reazione|A\\s*/\\s*[BC]|B\\s*/\\s*C)\\b",
     "ratio_ac_s4",

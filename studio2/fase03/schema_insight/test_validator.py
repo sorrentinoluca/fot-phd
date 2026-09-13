@@ -1,5 +1,6 @@
 """Synthetic contract fixtures only; fake counts never qualify scientific budgets."""
 import copy
+import json
 import os
 from pathlib import Path
 import unittest
@@ -179,12 +180,56 @@ class ContractTests(unittest.TestCase):
         self.reject('log',lambda:v.conformity_metrics([{}],context=self.context,count=self.count))
         self.assertEqual(v.conformity_metrics([],context=self.context,count=self.count),[])
 
+    def test_malformed_identifiers_alongside_valid_reference(self):
+        for alias in ['XMEAS7', 'XMV11', 'ＸＭＥＡＳ(7)', 'ＸＭＶ(11)',
+                      'XMEAS(７)', 'X\u200bMEAS(7)', 'XMEAS\u200b7']:
+            with self.subTest(alias=alias):
+                self.reject('variable', lambda: self.check(dict(
+                    self.items[0], observed_pattern='XMEAS(7) rises; '+alias+' is stable.')))
+        self.check(dict(self.items[0], observed_pattern='XMEAS(7) rises; XMV(11) is stable.'))
+
+    def test_singular_plural_and_invisible_leakage(self):
+        for text in ['variazione casuale', 'variazioni casuali', 'F\u200b1',
+                     'IDV\u200b(14)', 'slow\u200b drift', 'S2-CLS-\u200bABCDE']:
+            with self.subTest(text=text):
+                self.reject('leakage', lambda: self.check(dict(
+                    self.items[0], observed_pattern='XMEAS(7) '+text)))
+        item=dict(self.items[0], observed_pattern='XMEAS(7) rises across 10 samples.')
+        self.check(item)
+
+    def assert_counter_probes(self, counter):
+        # Empty text and a single ASCII vocabulary token have known counts.
+        # The variable probe additionally rejects constant/word-count substitutes.
+        probes = {text: counter(text) for text in ['', 'a', 'XMEAS(7)']}
+        self.assertEqual(probes[''], 0)
+        self.assertEqual(probes['a'], 1)
+        self.assertGreater(probes['XMEAS(7)'], 2)
+        return probes
+
+    def test_qwen_probe_rejects_broken_counters(self):
+        for counter in [lambda text: 0, lambda text: 2, lambda text: len(text.split())]:
+            with self.assertRaises(AssertionError):
+                self.assert_counter_probes(counter)
+
     @unittest.skipUnless(os.environ.get('QWEN_TOKENIZER_SNAPSHOT'), 'pinned Qwen tokenizer absent; real-budget qualification pending')
     def test_real_offline_qwen(self):
         with patch('socket.socket', side_effect=AssertionError('network forbidden')):
             counter=v.offline_counter(Path(os.environ['QWEN_TOKENIZER_SNAPSHOT']))
-            self.assertEqual(len(v.validate_library(self.items,context=self.context,count=counter)),16)
+            probes=self.assert_counter_probes(counter)
+            metrics=v.validate_library(self.items,context=self.context,count=counter)
+            self.assertEqual(len(metrics),16)
             self.assertTrue(counter.metadata['revision_verified'])
+            for metric in metrics:
+                self.assertGreater(metric['observed_pattern_tokens'], 2)
+                self.assertGreater(metric['record_tokens'], metric['observed_pattern_tokens'])
+            print('\nQWEN_TOKENIZER_QUALIFICATION '+json.dumps({
+                'tokenizer': counter.metadata, 'probe_counts': probes,
+                'fixture_metrics': [dict(insight_id=item['insight_id'],
+                    record_tokens=metric['record_tokens'],
+                    observed_pattern_tokens=metric['observed_pattern_tokens'],
+                    evidence_scope_tokens=metric['evidence_scope_tokens'])
+                    for item, metric in zip(self.items, metrics)],
+            }, sort_keys=True), flush=True)
 
 if __name__ == '__main__':
     unittest.main()

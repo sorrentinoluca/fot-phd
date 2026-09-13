@@ -78,12 +78,20 @@ def offline_counter(snapshot):
         fail('tokenizer', '', 'snapshot directory must identify the pinned Qwen revision')
     return count
 
+def scan_normalized(text):
+    """Detection only: normalize width and remove invisible format characters.
+
+    Never rewrite accepted payload bytes or the text passed to the tokenizer.
+    """
+    return ''.join(c for c in unicodedata.normalize('NFKC', text)
+                   if unicodedata.category(c) != 'Cf')
+
 def scan(value):
     rules = loads((HERE / 'leakage_rules_v1.json').read_bytes())
     findings = []
     for field, content in value.items():
         text = ' '.join(content) if isinstance(content, list) else content
-        text = unicodedata.normalize('NFKC', text)
+        text = scan_normalized(text)
         for pattern in rules['forbidden_patterns']:
             for match in re.finditer(pattern, text, re.I):
                 findings.append({'field': field, 'rule': pattern, 'match': match.group()})
@@ -111,8 +119,10 @@ def validate(value, *, fixed, count):
         fail('leakage', findings[0]['field'], json.dumps(findings, ensure_ascii=False))
     narrative = value['observed_pattern']
     refs = VARIABLE.findall(narrative)
-    residue = VARIABLE.sub('', narrative)
-    if re.search(r'\bX\s*(?:MEAS|MV)\b', residue, re.I):
+    # Remove only exact ASCII references before normalization: fullwidth IDs
+    # must be rejected, not silently repaired into valid references.
+    residue = scan_normalized(VARIABLE.sub('', narrative))
+    if re.search(r'X\s*(?:MEAS|MV)', residue, re.I):
         fail('variable', 'observed_pattern', 'malformed variable identifier')
     if not refs or not set(refs) <= set(value['variable_ids']):
         fail('variable', 'observed_pattern', 'literal references required and must be declared')
