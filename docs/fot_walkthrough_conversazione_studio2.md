@@ -482,6 +482,12 @@ L'esito e il log originali sono rimasti invariati. Il catalogo è **congelato e 
 con il tag annotato `studio2-fase03-catalogo-D1-frozen-001`, sul commit `ab43f0b` integrato in
 `origin/main`. La pubblicazione è stata verificata dopo l'autorizzazione dell'autore.
 
+L'[appendice 01 alla verifica](../studio2/fase03/selection/VERIFICA_CATALOGO_D1_APPENDICE_01.md)
+colma un'omissione del verbale originario: attesta esplicitamente, leggendo il registro al tag
+rev. 1 dei criteri, che seed, namespace, ordinamento e regola completa di estrazione erano già
+prescritti prima di D1. È un riscontro documentato successivamente, senza nuovo sorteggio;
+il verbale congelato e i tag restano intatti.
+
 #### Dettaglio dell'estrazione
 
 Il [log originale](../studio2/fase03/selection/D1_DRAW_LOG.json) registra le 330 quadruple
