@@ -1,0 +1,4 @@
+/runtime/
+/runs/
+/smoke/*/cache/
+/smoke/*.pid
