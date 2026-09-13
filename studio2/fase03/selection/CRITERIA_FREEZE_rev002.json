@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "revision": 2,
+  "date": "2026-09-13",
+  "supersedes": {
+    "path": "studio2/fase03/selection/CRITERIA_FREEZE.json",
+    "revision": 1,
+    "sha256": "ecae57172d6a83d8b0943f5a9f47b49a3966b96e2fb47f807a9ff61449755c9b",
+    "bytes": 2284,
+    "tag": "studio2-fase03-criteri-selezione-frozen-001",
+    "commit": "9faecaf7337e5864b7a3ad44cadb8971853dd260",
+    "kept_unchanged": true
+  },
+  "reason_for_revision": "Aggiornamento amministrativo dopo D1, senza modifiche ai criteri. La rev1 resta intatta e conserva il proprio stato storico. criteria_origin identifica esclusivamente il freeze dei criteri già verificato. Lo stato D1 della rev2 richiede una nuova verifica, un nuovo commit e il tag dedicato al catalogo; non eredita l’efficacia del tag rev1. Il log e lo script eseguito originari sono preservati; il replay corretto è identificato separatamente.",
+  "changed_fields": [
+    "catalog_freeze_manifest",
+    "catalog_frozen_note",
+    "changed_fields",
+    "criteria_origin",
+    "d1_draw_executed",
+    "d1_draw_record",
+    "effective_when",
+    "files",
+    "freeze_tag",
+    "independent_review",
+    "integrity_basis",
+    "pilot_parent_commit",
+    "reason_for_revision",
+    "report",
+    "revision",
+    "scope",
+    "source_commit",
+    "status",
+    "supersedes",
+    "validated_replay_script"
+  ],
+  "d1_draw_executed": true,
+  "catalog_frozen": false,
+  "scientific_protocol_frozen": false,
+  "model_execution_authorized": false,
+  "amendment_policy": "Preserve this manifest and the normative criteria revision after tag. Hashes identify the recorded source_commit snapshot, not an indefinite freeze of the living plan. Future plan updates outside the criteria do not invalidate this revision. Any change to the criteria requires a new separately reviewed revision and a new tag before using results.",
+  "d1_draw_record": {
+    "path": "studio2/fase03/selection/D1_DRAW_LOG.json",
+    "sha256": "fa571e89054a004021b08e93cd857ad4b8d41794b8c070260a49d4fb03a08b95",
+    "bytes": 4926,
+    "script": "studio2/fase03/selection/execution_snapshot/draw_d1.py",
+    "script_sha256": "b9fba113ade9729b0f59469b31e412ebb0c4ed0d2bc53ce580b65bd3e536f06b"
+  },
+  "catalog_freeze_manifest": {
+    "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+    "role": "reviewed_catalog_candidate_pending_commit_and_publication",
+    "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+    "bytes": 6894,
+    "status": "reviewed_pending_commit_and_publication"
+  },
+  "catalog_frozen_note": "Il catalogo è estratto ma non ancora congelato: lo diventa con verifica indipendente OK, commit raggiungibile da origin/main e tag annotato dedicato (proposto: studio2-fase03-catalogo-D1-frozen-001).",
+  "criteria_origin": {
+    "scope": "phase03_section6_1_selection_criteria_only",
+    "source_commit": "9d0e1911afd6c244f748f05f62934590f5314794",
+    "pilot_parent_commit": "6a029270a7c29122bd7c56ee2b34ac236f359839",
+    "freeze_tag": "studio2-fase03-criteri-selezione-frozen-001",
+    "effective_when": "independent_review_OK_and_commit_reachable_from_origin_main_and_annotated_freeze_tag_published",
+    "independent_review": "studio2/fase03/selection/VERIFICA_CRITERI_6_1.md",
+    "independent_review_verdict": "OK",
+    "report": "studio2/fase03/selection/REPORT_CRITERI_6_1.md",
+    "files": [
+      {
+        "path": "docs/lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+        "sha256": "d58a7606d69a560a626da44833c065ddbf1aa395ae8b2e523262daf8622231c7",
+        "bytes": 11339,
+        "role": "normative_criteria_revision"
+      },
+      {
+        "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+        "sha256": "7f9462c28eef7bc0cf74e201a1ffe283d68056359728fea62740e43a1bb1767a",
+        "bytes": 159979,
+        "role": "reference_snapshot",
+        "note": "The living plan may evolve outside section 6.1 criteria. Such changes do not alter or invalidate this frozen criteria revision; verify this reference against source_commit, not a later worktree."
+      },
+      {
+        "path": "studio2/fase03/selection/FEASIBILITY.json",
+        "sha256": "ca830d054af19e27aa191fcb51f8e80d3c8444bb746dd9da486304490bd59810",
+        "bytes": 504,
+        "role": "verification_record_snapshot"
+      },
+      {
+        "path": "studio2/fase03/selection/SOURCE_CHECK.json",
+        "sha256": "82c654d142ac0ab13f9b47d9648231bd3f1bfda4c5486a8399f510ff87165372",
+        "bytes": 747,
+        "role": "verification_record_snapshot"
+      }
+    ],
+    "integrity_basis": "source_commit_snapshot"
+  },
+  "scope": "phase03_criteria_status_after_D1_no_normative_criteria_change",
+  "status": "reviewed_pending_commit_and_publication",
+  "freeze_tag": "studio2-fase03-catalogo-D1-frozen-001",
+  "effective_when": "D1_review_OK_and_this_revision_and_catalog_and_review_committed_in_origin_main_and_contained_in_the_published_annotated_D1_catalog_tag",
+  "independent_review": "studio2/fase03/selection/VERIFICA_CATALOGO_D1.md",
+  "independent_review_verdict": "OK",
+  "report": "studio2/fase03/selection/REPORT_CATALOGO_D1.md",
+  "integrity_basis": "criteria_origin.files_at_criteria_origin.source_commit; D1 state and linked artifacts at the future dedicated D1 catalog tag",
+  "validated_replay_script": {
+    "path": "studio2/fase03/selection/draw_d1.py",
+    "role": "validated_replay_script_after_review",
+    "sha256": "60fa97d48ef6899b4e4fe17f12907361461d73ff4d9f14769e1da9e93a6ced6c",
+    "bytes": 12483
+  }
+}

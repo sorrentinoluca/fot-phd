@@ -1,0 +1,41 @@
+{
+  "scope": "D1_review_before_commit_and_publication",
+  "date": "2026-09-13",
+  "original_execution_script_sha256": "b9fba113ade9729b0f59469b31e412ebb0c4ed0d2bc53ce580b65bd3e536f06b",
+  "original_draw_log_sha256": "fa571e89054a004021b08e93cd857ad4b8d41794b8c070260a49d4fb03a08b95",
+  "criteria_revision_1_unchanged": true,
+  "catalog_manifest_file_hashes_verified": 7,
+  "criteria_origin_snapshot_hashes_verified": 4,
+  "revision_2_linked_artifact_hashes_verified": 4,
+  "revision_2_changed_fields_exact": true,
+  "independent_recalculation": {
+    "candidate_quadruples": 330,
+    "admissible": 12,
+    "counter": 0,
+    "index": 0,
+    "catalog": [
+      1,
+      2,
+      3,
+      8,
+      10,
+      13,
+      14,
+      15
+    ]
+  },
+  "regression_tests": {
+    "tests": 4,
+    "passed": 4,
+    "command": "python3 -m unittest discover -s studio2/fase03/selection -p 'test_*.py' -v",
+    "replay_byte_identical_after_head_advance": true
+  },
+  "documentation_baseline": {
+    "tests": 35,
+    "failures": 14,
+    "skipped": 1
+  },
+  "scientific_model_calls": 0,
+  "scientific_runs": 0,
+  "publication_performed": false
+}

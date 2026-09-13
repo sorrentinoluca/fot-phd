@@ -120,3 +120,24 @@ run fault di sviluppo e relative feature/evidence restano prerequisiti scientifi
 esisteranno, ogni artefatto effettivamente usato dal pilot riceverà una riga autonoma con origine,
 commit, impronta e destinazione. Il producer alternativo resta privo di configurazione e non può
 ancora ricevere una riga di provenienza né superare la sonda di conformità.
+
+## 6. Fase 03 — D1: fonti usate per l'estrazione del catalogo
+
+L'estrazione D1 del 2026-09-13 non riusa dati, run o risultati del primo studio: la continuità
+F1/F8/F10/F13 è un vincolo del piano, non un dato. Le fonti effettivamente usate sono le seguenti;
+l'analisi è **pre-specificata** (procedura §5 del registro, congelata prima del sorteggio) e
+nessun risultato per-fault dei nostri esperimenti è stato aperto.
+
+| Fonte | Identità | SHA-256 | Ruolo in D1 | Marca |
+| --- | --- | --- | --- | --- |
+| `docs/lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md` (rev. 1) | tag `studio2-fase03-criteri-selezione-frozen-001`, commit `9faecaf`, source `9d0e191` | `d58a7606d69a560a626da44833c065ddbf1aa395ae8b2e523262daf8622231c7` | universo, attributi (tabella 8 trascritta in §2), strato H, vincoli §4, procedura §5 | pre-specificato |
+| `studio2/fase03/selection/CRITERIA_FREEZE.json` (rev. 1) | idem | `ecae57172d6a83d8b0943f5a9f47b49a3966b96e2fb47f807a9ff61449755c9b` | attestazione del congelamento, `d1_draw_executed=false` al via | pre-specificato |
+| `studio2/fase03/selection/FEASIBILITY.json` | idem | `ca830d054af19e27aa191fcb51f8e80d3c8444bb746dd9da486304490bd59810` | conteggio atteso 330/12, riprodotto indipendentemente | pre-specificato |
+| Downs & Vogel 1993, tabella 8 p. 250 | copia primaria registrata in `SOURCE_CHECK.json` | `5f19b0bf7f0e5c052335943fff263769a28757066582c3166e16ac163e0e9538` (PDF) | meccanismo e variabile perturbata, **via la trascrizione del registro §2** (non riscaricato in D1) | esterno, preesistente |
+| Xiao, Kordon & Sen, PHM 2023, tabella 2 e §4.3 | copia primaria registrata in `SOURCE_CHECK.json` | `e11310c44cebca7a6ebc368b3862dc2edc0003a4ee31cb9223feb6d5e0ae7b78` (PDF) | strato H nominale, **via il registro §3** (non riscaricato in D1) | esterno, preesistente |
+| `docs/paper/FoT_TEP_Review_Piano_Sperimentale.md` | snapshot al source commit `9d0e191`, invariato a `9faecaf` | `7f9462c28eef7bc0cf74e201a1ffe283d68056359728fea62740e43a1bb1767a` | D1, §6.1, §0.1, §12.1–12.4 per contesto; §8.3/§8.6/D11 solo per la proposta non vincolante | pre-specificato |
+
+Esito e impronte dell'estrazione: `fase03/selection/D1_DRAW_LOG.json`, `CATALOG_FREEZE.json`,
+`CRITERIA_FREEZE_rev002.json` e `REPORT_CATALOGO_D1.md`. Il catalogo estratto è
+{F1, F2, F3, F8, F10, F13, F14, F15}; il congelamento diventa efficace solo con verifica
+indipendente, commit raggiungibile da `origin/main` e tag dedicato.
