@@ -1,0 +1,34 @@
+{
+  "run_destination": "studio2/fase03/fault_runs/runs/fault_dev_001",
+  "manifest_count": 40,
+  "expected_count": 40,
+  "run_counts": {
+    "complete": 40,
+    "physical_trip": 0,
+    "technical_failure": 0,
+    "not_run": 0
+  },
+  "duration_seconds_total": 330.7640000000002,
+  "platform": {
+    "computer": "MACA64",
+    "architecture": "maca64",
+    "mexext": "mexmaca64"
+  },
+  "matlab_version": "25.2.0.3312555 (R2025b) Update 6",
+  "mex_sha256": "834e2361915249402a1ec9074a4be04f22a6404deb841e5134bf34347dfde544",
+  "events_log": "studio2/fase03/fault_runs/runs/fault_dev_001/events.jsonl",
+  "events_lines": 82,
+  "generation_manifest_csv": "studio2/fase03/fault_runs/runs/fault_dev_001/generation_manifest.csv",
+  "generation_manifest_sha256": "69a7f2f97568a656a96e8eeb0871a6295b087d44b2ae7306fd09a5365e1f4f23",
+  "aggregated_hash_csv": "69a7f2f97568a656a96e8eeb0871a6295b087d44b2ae7306fd09a5365e1f4f23",
+  "failed_launch_attempts_recoverable": [
+    {
+      "directory": "studio2/fase03/fault_runs/runtime/batch_launch_failed_20260913T122247",
+      "matlab_log": "studio2/fase03/fault_runs/runtime/batch_launch_failed_20260913T122247/matlab.log",
+      "matlab_log_size_bytes": 0,
+      "pid": "94590",
+      "empty_log": true
+    }
+  ],
+  "anomalies": []
+}
