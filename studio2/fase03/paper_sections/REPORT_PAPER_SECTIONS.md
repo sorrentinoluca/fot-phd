@@ -15,8 +15,8 @@ marcati `[DECISIONE: …]` e `[RISULTATO: …]`.
 | --- | --- | --- |
 | Related work | scritta | conversione futura alle citazioni IEEE; nessun risultato |
 | Metodo | scritta | identità/configurazione del modello e del producer alternativo |
-| Verbalizzatore/evidence | scritta | soglia numerica e FAR omessi; risultati di conformità assenti |
-| Protocollo | scritto nella parte congelata | D2, statistica, OOD, D11, politica R, modello ed endpoint osservati |
+| Verbalizzatore/evidence | scritta sulla base disponibile | soglia numerica e FAR omessi; risultati di conformità assenti; integrazione `normal_dev` dopo 03.9 |
+| Protocollo | scritto nella parte congelata alla base | D2, statistica, OOD, D11, politica R, modello, endpoint osservati e ruoli di `normal_dev` dopo 03.9 |
 | Threats | scritta | impatto empirico del modello, audit e canary come segnaposto |
 
 Le bozze non rivendicano l'invenzione di FoT, della verbalizzazione o degli artefatti strutturati;
@@ -66,6 +66,21 @@ Hoeffding (1963) e Bahadur–Savage (1956), aggiunti nella revisione successiva 
 sono anch'essi esterni secondo la sua §17 e vanno verificati prima che il test proposto entri nella
 bibliografia finale; non erano compresi nella lista originaria dei sei riportata dal report 03.8.
 
+### Apertura residua dovuta alla base precedente alla revisione 7
+
+Il branch 03.15 è nato da `origin/main` a `46c0b62`, prima della revisione 7 del piano al commit
+`a572d1c`. Di conseguenza, `protocol.md` descrive la separazione fra sviluppo, calibrazione e test
+senza includere il lotto Normal di sviluppo `normal_dev`; `verbalizer.md` non dichiara ancora che
+anche le evidence Normal di sviluppo attraversano la trasformazione congelata N1–N5/soglie V2
+sotto U3. È un residuo temporale registrato, non un difetto delle bozze rispetto alla loro base.
+
+L'integrazione va eseguita quando il lotto esiste, usando come fonti il piano revisione 7 §6.2 e
+`SPECIFICA_NORMAL_DEV.md` della sotto-fase 03.9. In quel momento andranno aggiunti: ruolo esclusivo
+di sviluppo per prototipi, esempi locali e baseline; divieto di fit, calibrazione, verifica FAR e
+test; assegnazione pre-generazione; distinzione fra finestre e repliche indipendenti; dipendenza U3
+dalla coppia N1–N5/V2. Fino ad allora non si anticipano in `protocol.md` o `verbalizer.md` dettagli
+che la specifica 03.9 deve attestare.
+
 ## 5. Decisioni ancora necessarie
 
 1. Attivare Q8 oppure il fallback Terra-only e congelare identità/versione del modello.
@@ -77,6 +92,8 @@ bibliografia finale; non erano compresi nella lista originaria dei sei riportata
    i segnaposto `[RISULTATO]`.
 6. Decidere se e quando promuovere le bozze in `docs/paper/`.
 7. Avviare `Letteratura_LLM` per i riferimenti elencati in §4.
+8. Dopo la produzione del lotto 03.9, integrare `normal_dev` in `protocol.md` e `verbalizer.md` dalle
+   fonti indicate nell'apertura residua, quindi rieseguire il lint.
 
 ## 6. Verifiche
 
