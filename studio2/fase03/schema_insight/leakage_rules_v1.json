@@ -1,0 +1,36 @@
+{
+  "version": "1.0.0",
+  "catalog": [
+    1,
+    2,
+    3,
+    8,
+    10,
+    13,
+    14,
+    15
+  ],
+  "forbidden_patterns": [
+    "(?<![A-Za-z0-9])F\\s*0*(?:1[0-5]|[1-9])(?![A-Za-z0-9])",
+    "\\b(?:IDV|fault|guasto)\\s*[-_:(#]?\\s*0*\\d+\\b",
+    "\\b(?:step|gradino|random[ -]+variation|variazioni?[ -]+casual[ei]|slow[ -]+drift|drift[ -]+lento|sticking|stiction|incollamento)\\b",
+    "\\b(?:reactor|stripper|separator|condenser|feed|cooling|compressor|reattore|condensatore|alimentazione|raffreddamento|valvola|valve)\\b",
+    "\\b(?:reaction[ -]+kinetics|cinetica[ -]+di[ -]+reazione|A\\s*/\\s*[BC]|B\\s*/\\s*C)\\b",
+    "ratio_ac_s4",
+    "rapporto\\ A/C,\\ B\\ costante,\\ flusso\\ 4",
+    "composition_b_s4",
+    "composizione\\ B,\\ A/C\\ costante,\\ flusso\\ 4",
+    "temperature_d_s2",
+    "temperatura\\ alimentazione\\ D,\\ flusso\\ 2",
+    "composition_abc_s4",
+    "composizione\\ A/B/C,\\ flusso\\ 4",
+    "temperature_c_s4",
+    "temperatura\\ alimentazione\\ C,\\ flusso\\ 4",
+    "reaction_kinetics",
+    "cinetica\\ di\\ reazione",
+    "valve_cw_reactor",
+    "valvola\\ acqua\\ reattore",
+    "valve_cw_condenser",
+    "valvola\\ acqua\\ condensatore"
+  ]
+}

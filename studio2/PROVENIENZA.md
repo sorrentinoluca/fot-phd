@@ -248,3 +248,23 @@ da terminale esterno ha mantenuto invariati piano, indici e stream. L'esito è 4
 zero trip e 320 finestre post-fault complete. Questi dati ricevono il solo ruolo di sviluppo:
 non sono ancora stati trasformati in feature, evidence, verbalizzazioni, insight, prototipi o
 calibrazione e non costituiscono materiale di test.
+
+
+## Sotto-fase 03.12 — schema degli insight
+
+Data 2026-09-13. Uso **pre-specificato** prima di qualsiasi insight dello studio 2.
+Confronto implementativo in sola lettura e riscrittura dei controlli in
+`studio2/fase03/schema_insight/validator.py` e `leakage_rules_v1.json`; nessun import da phase_b,
+nessun dato, insight o risultato sperimentale riusato. Il confronto storico non è fonte scientifica.
+Lo schema del primo studio ha cinque campi e quattro agenti: non ne si ereditano cardinalità
+né default. Lo scanner è riscritto per D1 e per meccanismi/identificatori fisici.
+
+| Origine | Commit letto | SHA-256 |
+| --- | --- | --- |
+| `phase_b/insights/insight.schema.json` | `d815ce96d928254de79209f02e11a561445764cd` | `c3020aed97db6e9722661e04c2498c280f2d6cc10cdc6f364a14727200298fae` |
+| `phase_b/insights/library.py` | `d815ce96d928254de79209f02e11a561445764cd` | `679f2074067f13c29f63237e25dd0c86a979d48232ecf0c333cf8e7e41fe93c9` |
+| `phase_b/prompts/leakage.py` | `d815ce96d928254de79209f02e11a561445764cd` | `da1a39c72d36d7c04d276097d2de4c57fecb94642027870bd802b449b429ee76` |
+
+Il tokenizer segue encode senza special token di `studio2/fase03/prepare_gate.py`,
+riscritto localmente senza import; asset verificati contro le impronte del preflight.
+Nessuna chiamata HTTP o a modelli; nessuna simulazione.
