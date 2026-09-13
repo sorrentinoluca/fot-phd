@@ -258,9 +258,11 @@ raggiungibili dalla storia integrata in `main`, senza dipendere da branch tempor
 voluminosi esclusi da Git va documentata una **posizione recuperabile** e va verificata la copia
 conservata: **gli hash da soli non bastano**, perché attestano l'integrità di un file, non la sua
 esistenza. La convenzione operativa per il trasferimento in repository esterna è fissa: i dati
-esclusi da Git vengono pubblicati nel repository `fot-tep-data` con un tag per fase o lotto nel formato
-`studio2-fase<N>-v<k>`, come archivi `.tar` accompagnati da SHA-256. I metadati nel repository
-principale (`ARTIFACT_STORAGE.json` e `MANIFEST_CONSERVAZIONE.csv`) devono descrivere tali asset;
+esclusi da Git vengono pubblicati nel repository `fot-tep-data` con un tag per fase nel formato
+`studio2-fase<N>-v<k>` o per lotto nel formato `studio2-fase<N>-<lotto>-v<k>`, dove
+`<lotto>` è minuscolo e con trattini (es. `fault-dev`, `normal-cal`), come archivi `.tar`
+accompagnati da SHA-256. I metadati nel repository principale (`ARTIFACT_STORAGE.json` e
+`MANIFEST_CONSERVAZIONE.csv`) devono descrivere tali asset;
 la verifica deve essere fatta **scaricando** gli asset dal repository dedicato e confrontando gli hash,
 non solo confrontando una copia locale.
 
