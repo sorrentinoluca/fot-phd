@@ -1,0 +1,4 @@
+openai==3.8.0
+tokenizers==0.23.2
+transformers==5.16.1
+jsonschema==4.26.0
