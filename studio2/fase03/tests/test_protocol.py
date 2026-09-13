@@ -227,6 +227,22 @@ class DiagnosticAndBudgetTests(unittest.TestCase):
                 allowed_insight_ids=[],
             )
 
+    def test_diagnostic_contract_rejects_duplicate_insight_ids_locally(self):
+        raw = json.dumps(
+            {
+                "predicted_label": None,
+                "abstain": True,
+                "used_insight_ids": ["S2-INS-001", "S2-INS-001"],
+                "reasoning_summary": "Insufficient evidence.",
+            }
+        )
+        with self.assertRaisesRegex(ContractError, "duplicates"):
+            parse_diagnostic_output(
+                raw,
+                label_space=fixture_manifest()["label_space"],
+                allowed_insight_ids=["S2-INS-001"],
+            )
+
     def test_context_gate_requires_margin_and_does_not_freeze(self):
         prompts = build_pilot_sample(
             fixture_manifest(),

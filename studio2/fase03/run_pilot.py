@@ -56,6 +56,19 @@ def read_jsonl(path: Path) -> list[dict[str, Any]]:
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line]
 
 
+def vllm_grammar_schema(schema: dict[str, Any]) -> dict[str, Any]:
+    """Adapt only the server grammar; the canonical local contract stays strict."""
+    grammar_schema = json.loads(canonical_json(schema))
+    used_ids = grammar_schema.get("properties", {}).get("used_insight_ids", {})
+    if used_ids.get("uniqueItems") is not True:
+        raise RuntimeError("canonical diagnostic schema must require unique insight IDs")
+    # vLLM 0.28.0 rejects this keyword before inference.  The local parser below
+    # independently rejects duplicate IDs, so removing it here does not relax
+    # acceptance of a provider response.
+    del used_ids["uniqueItems"]
+    return grammar_schema
+
+
 def http_json(url: str, *, timeout: float = 30.0) -> dict[str, Any]:
     request = Request(url, method="GET")
     with urlopen(request, timeout=timeout) as response:
@@ -314,6 +327,7 @@ def run_budget_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]:
     plan, prompts = load_prepared(prepared_dir)
     server = server_contract(config)
     schema = load_json(DIAGNOSTIC_SCHEMA_PATH)
+    grammar_schema = vllm_grammar_schema(schema)
     provider = Provider(config)
     stress: dict[str, dict[str, Any]] = {}
     for condition in ("A", "B-LF", "E-LF"):
@@ -329,7 +343,9 @@ def run_budget_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]:
             "max_tokens": candidate["max_tokens"],
         }
         batch = [
-            provider.call(prompt=stress[condition], schema=schema, generation=generation)
+            provider.call(
+                prompt=stress[condition], schema=grammar_schema, generation=generation
+            )
             for condition in ("A", "B-LF", "E-LF")
         ]
         records.extend(batch)
@@ -356,6 +372,11 @@ def run_budget_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]:
         "prompt_file_sha256": sha256_file(prepared_dir / "pilot_prompts.jsonl"),
         "pre_gate_plan_sha256": sha256_file(prepared_dir / "pre_gate_plan.json"),
         "diagnostic_schema_sha256": sha256_file(DIAGNOSTIC_SCHEMA_PATH),
+        "vllm_grammar_schema_sha256": sha256_text(canonical_json(grammar_schema)),
+        "vllm_grammar_schema_compatibility": (
+            "uniqueItems removed from the server grammar only; duplicate IDs remain "
+            "forbidden by parse_diagnostic_output"
+        ),
         "budget_probe_records_sha256": sha256_file(results_dir / "budget_probe_records.jsonl"),
         "budget_probe_provider_requests": provider.requests,
         "stability_gate_provider_requests": 120,
@@ -386,6 +407,7 @@ def run_provisional_stress_budget_stage(
         raise RuntimeError("provisional probe requires an explicitly synthetic prepared plan")
     server = server_contract(config)
     schema = load_json(DIAGNOSTIC_SCHEMA_PATH)
+    grammar_schema = vllm_grammar_schema(schema)
     provider = Provider(config)
     stress: dict[str, dict[str, Any]] = {}
     for condition in ("A", "B-LF", "E-LF"):
@@ -401,7 +423,9 @@ def run_provisional_stress_budget_stage(
             "max_tokens": candidate["max_tokens"],
         }
         batch = [
-            provider.call(prompt=stress[condition], schema=schema, generation=generation)
+            provider.call(
+                prompt=stress[condition], schema=grammar_schema, generation=generation
+            )
             for condition in ("A", "B-LF", "E-LF")
         ]
         records.extend(batch)
@@ -434,6 +458,11 @@ def run_provisional_stress_budget_stage(
         "source_plan_sha256": sha256_file(prepared_dir / "pre_gate_plan.json"),
         "prompt_file_sha256": sha256_file(prepared_dir / "pilot_prompts.jsonl"),
         "diagnostic_schema_sha256": sha256_file(DIAGNOSTIC_SCHEMA_PATH),
+        "vllm_grammar_schema_sha256": sha256_text(canonical_json(grammar_schema)),
+        "vllm_grammar_schema_compatibility": (
+            "uniqueItems removed from the server grammar only; duplicate IDs remain "
+            "forbidden by parse_diagnostic_output"
+        ),
         "records_sha256": sha256_file(record_path),
         "server": server,
         "results": [
@@ -493,13 +522,18 @@ def run_stability_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]
     if server["process"]["fingerprint_sha256"] != frozen["server"]["process"]["fingerprint_sha256"]:
         raise RuntimeError("server process configuration changed after freeze")
     schema = load_json(DIAGNOSTIC_SCHEMA_PATH)
+    grammar_schema = vllm_grammar_schema(schema)
+    if frozen.get("vllm_grammar_schema_sha256") != sha256_text(
+        canonical_json(grammar_schema)
+    ):
+        raise RuntimeError("vLLM grammar schema changed after generation-budget freeze")
     provider = Provider(config)
     records: list[dict[str, Any]] = []
     for prompt in prompts:
         for repetition in range(1, 4):
             record = provider.call(
                 prompt=prompt,
-                schema=schema,
+                schema=grammar_schema,
                 generation=frozen["generation"],
             )
             record["repetition"] = repetition

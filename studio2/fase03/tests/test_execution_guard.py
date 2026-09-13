@@ -44,6 +44,15 @@ class ExecutionGuardTests(unittest.TestCase):
         self.assertTrue(value["next_command_requires_independently_frozen_study2_pilot_inputs"])
         self.assertTrue(value["provisional_cap_stress_never_authorizes_stability_gate"])
 
+    def test_vllm_schema_adapter_preserves_canonical_uniqueness_contract(self):
+        schema = load_json(ROOT / "studio2/fase03/schemas/diagnostic_output.schema.json")
+        grammar_schema = run_pilot.vllm_grammar_schema(schema)
+        self.assertTrue(schema["properties"]["used_insight_ids"]["uniqueItems"])
+        self.assertNotIn(
+            "uniqueItems", grammar_schema["properties"]["used_insight_ids"]
+        )
+        self.assertNotEqual(schema, grammar_schema)
+
     def test_producer_probe_defaults_to_plan_only(self):
         config = load_json(ROOT / "studio2/fase03/config/pilot_preflight.json")
         output = io.StringIO()
