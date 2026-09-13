@@ -1,7 +1,8 @@
 # Fase 03 — stato dell'implementazione
 
-Questo file registra il codice già predisposto oltre la ricognizione 03.0. Non è un report di
-chiusura della fase e non autorizza chiamate al modello.
+Questo file registra il codice già predisposto oltre la ricognizione 03.0 e la sola sonda
+sintetica esplicitamente autorizzata. Non è un report di chiusura della fase e non autorizza
+ulteriori chiamate al modello.
 
 | Componente | Stato | Può essere eseguito ora? |
 | --- | --- | --- |
@@ -11,10 +12,10 @@ chiusura della fase e non autorizza chiamate al modello.
 | Renderer A/B-LF/E-LF | implementato e testato su fixture sintetiche | sì, solo offline |
 | Selezione 40 prompt | implementata, ma richiede catalogo e sviluppo reali | no |
 | Conteggio token col tokenizer locale | implementato; fixture rieseguite contro 16384 | sì, offline |
-| Sonda di capienza e budget di generazione | implementata e presentata, massimo 9 chiamate | **sospesa in attesa di input reali e OK** |
-| Freeze della configurazione prima del gate | envelope tecnico congelato; prompt reali e budget selezionato pendenti | solo verifica offline |
+| Sonda di capienza e budget di generazione | prova sintetica provvisoria completata: 2048 passa A/B-LF/E-LF; ripetizione reale obbligatoria | **sospesa in attesa di input reali e nuovo OK** |
+| Freeze della configurazione prima del gate | envelope tecnico congelato; prompt reali e budget reale pendenti; nessun `frozen_gate_config.json` | solo verifica offline |
 | Gate di stabilità 40×3 | implementato con guardie fail-closed | **sospeso** |
-| Logging modello/request/fingerprint/hash/latency/token | fingerprint esteso a comando, ambiente `VLLM_*`/`CUDA_*`, PID e vLLM | **sospeso** |
+| Logging modello/request/fingerprint/hash/latency/token | fingerprint esteso; 1 POST rifiutato e 3 inferenze sintetiche registrati | solo audit della sonda conclusa |
 | Sonda producer Qwen e producer alternativo | implementata | **sospesa** |
 
 ## Separazione delle dipendenze
@@ -37,7 +38,9 @@ finestra non seleziona fault, non genera dati e non crea surrogati da promuovere
 
 Le fixture di `synthetic_fixture.py` hanno `status=SYNTHETIC_OFFLINE_FIXTURE`,
 `provenance_kind=synthetic_offline_only` e un catalogo esplicitamente non scientifico. Il
-preparatore esecutivo le rifiuta; sono utilizzabili soltanto da `offline_verify.py` e dai test.
+percorso scientifico del preparatore le rifiuta. La sola eccezione è il percorso separato
+`--synthetic-profile cap_stress`, protetto da acknowledgement dedicato e incapace di autorizzare
+il gate. La sua prova conclusa è descritta in `PROVISIONAL_STRESS_PROBE.md`.
 
 ## Verifica offline eseguita
 

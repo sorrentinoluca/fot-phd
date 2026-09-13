@@ -1,10 +1,13 @@
 # Fase 03.0 — preflight del pilot preliminare Qwen-27B
 
-Stato: **envelope tecnico 8001@16384 congelato; esecuzione sospesa sul catalogo definitivo,
-sui suoi input derivati e sul producer alternativo**.
+Stato: **envelope tecnico 8001@16384 congelato e sonda sintetica provvisoria completata;
+esecuzione scientifica sospesa sul catalogo definitivo, sui suoi input derivati e sul producer
+alternativo**.
 
-Questa sotto-fase non ha contattato endpoint HTTP, non ha tokenizzato tramite server, non ha
-eseguito inferenze e non ha aperto dati finali. Predispone un pilot tecnico preliminare su
+La verifica sotto-fase offline 03.0 non aveva contattato endpoint HTTP né aperto dati finali. Dopo
+autorizzazione esplicita è stata eseguita una prova tecnica dichiaratamente provvisoria sulla
+sola fixture sintetica di stress: 1 POST rifiutato prima dell'inferenza e 3 inferenze completate.
+Non sono stati aperti dati finali e non è stato eseguito il gate. Il pilot resta preliminare su
 `Qwen/Qwen3.8-27B-FP8`; non sceglie il modello definitivo dello studio.
 
 L'ambiente riproducibile richiesto dagli script è fissato in `requirements.txt`; le versioni
@@ -28,8 +31,10 @@ corrispondono all'ambiente vLLM locale osservato.
   stress ne richiede 14.739. Entrambi passano il gate statico, ma le fixture non sono
   rappresentative e non congelano il budget finale.
 - Prima del gate 40×3 si esegue una sonda A/B-LF/E-LF sui soli candidati staticamente capienti.
-  Si congela il più piccolo budget provato senza troncamenti e senza errori di parsing su tutti
-  e tre gli stress prompt. Se nessun candidato passa, il gate non parte.
+  La prova sintetica provvisoria ha trovato il primo candidato, 2048, senza troncamenti né
+  errori di parsing; il risultato deve essere ripetuto sui prompt reali e non congela il budget.
+  Nella ripetizione reale si congelerà il più piccolo budget che passa tutti e tre gli stress
+  prompt; se nessun candidato passa, il gate non parte.
 - Lo script di stabilità rifiuta di partire se prompt, schema, processo vLLM o configurazione
   differiscono dalle impronte congelate dopo la sonda di budget.
 
@@ -120,13 +125,15 @@ Restano subordinate al producer alternativo, non ancora configurato:
 
 `config/pilot_preflight.json` congela l'envelope già determinabile: modello e revisione; endpoint;
 PID, comando, ambiente e versione del processo vLLM; record e script di avvio; renderer e politica
-local-first con hash; tre schemi; snapshot, configurazione e chat template del tokenizer;
+local-first con hash; tre schemi canonici e la derivazione della grammatica vLLM con hash;
+snapshot, configurazione e chat template del tokenizer;
 temperatura, seed, candidati 2048/3072/4096, riserva output 512, margine 256 e zero retry
 strutturali.
 
 Non viene presentato come congelamento completo. Restano intenzionalmente nulli il manifest
 scientifico, l'hash del file dei 40 prompt e il budget selezionato: i primi due dipendono dal
-catalogo definitivo e dai dati di sviluppo; il terzo può essere scelto solo dalla sonda. Modello,
+catalogo definitivo e dai dati di sviluppo; il terzo può essere scelto solo dalla sonda sui
+prompt reali. Il valore 2048 osservato sulla fixture sintetica è soltanto provvisorio. Modello,
 endpoint, tariffa e conformità del producer alternativo restano un blocco separato.
 
 ## Script e guardie
@@ -151,6 +158,18 @@ Presentazione della sonda di conformità del producer, anch'essa a zero chiamate
 python3 -m studio2.fase03.producer_probe
 ```
 
+La sonda tecnica autorizzata sulla fixture `cap_stress` usa acknowledgement e directory
+separati. È stata eseguita una sola volta e documentata in `PROVISIONAL_STRESS_PROBE.md`; il suo
+percorso non può scrivere `frozen_gate_config.json`:
+
+```bash
+/home/luca/fot-exp2/env-vllm/bin/python -m studio2.fase03.run_pilot \
+  --stage provisional-stress-budget \
+  --prepared-dir studio2/fase03/prepared/provisional_cap_stress \
+  --results-dir studio2/fase03/results/provisional_cap_stress \
+  --execute --acknowledge EXECUTE_PHASE03_PROVISIONAL_STRESS_PROBE
+```
+
 Lo script di esecuzione richiede insieme `--execute`, uno stage esplicito e l'acknowledgement
 `EXECUTE_PHASE03_PRELIMINARY_PILOT`. Lo stage `stability` rifiuta di partire finché lo stage
 `budget` non ha scritto una configurazione congelata valida.
@@ -161,11 +180,12 @@ richiederebbe una decisione separata e produrrebbe un artefatto di remediation d
 
 ## Implementazione già svolta oltre il solo preflight
 
-Sono già implementati, ma non eseguiti: renderer A/B-LF/E-LF; selettore deterministico dei 40
-prompt; calcolo offline della capienza; sonda di budget con freeze della configurazione; runner
-sequenziale 40×3; logging forense; rilevazione delle divergenze; sonda di conformità per due
-insight per agente e supporto a un producer alternativo configurabile. Lo stato puntuale è in
-`IMPLEMENTATION_STATUS.md`. La presenza del codice non autorizza l'esecuzione.
+Sono implementati: renderer A/B-LF/E-LF; selettore deterministico dei 40 prompt; calcolo offline
+della capienza; sonda di budget con freeze della configurazione; runner sequenziale 40×3; logging
+forense; rilevazione delle divergenze; sonda di conformità per due insight per agente e supporto
+a un producer alternativo configurabile. Solo il percorso provvisorio sintetico della sonda è
+stato eseguito; gate e producer non lo sono stati. Lo stato puntuale è in
+`IMPLEMENTATION_STATUS.md`. La presenza del codice non autorizza ulteriori esecuzioni.
 
 ## Stima preventiva
 
@@ -180,13 +200,15 @@ insight per agente e supporto a un producer alternativo configurabile. Lo stato 
 | **Pianificato con riserva** | **160** |
 | Hard stop | **200** |
 
-Il precedente congelato di 540 chiamate ha richiesto 26.636 secondi, in media 49,4 secondi per
-chiamata, con thinking budget 1024. Per pianificare senza una nuova inferenza, quel tempo è scalato
-linearmente col cap e maggiorato del 25% per prompt fino a 9.875 token: la sonda completa da nove
-chiamate richiede circa **25–40 minuti**; il gate 40×3 circa **4–5 ore** a 2048, **6–7,5 ore** a
-3072 o **8–10 ore** a 4096. Sonda più gate: circa **4,5–10,7 ore sequenziali**. La vecchia stima
-03.0 di 3–6 ore è quindi superata. Non si stimano varianti parallele, perché 8001@16384
-sequenziale è l'unica sequenza verificata.
+La sonda sintetica a 2048 ha richiesto 247,7 secondi sommando le tre latenze: A 32,8 s, B-LF
+152,5 s ed E-LF 62,3 s. La proiezione pesata sui 40 prompt e tre ripetizioni vale circa 3,08 ore,
+ma deriva da sole tre osservazioni sintetiche ed è stata influenzata dalla compilazione JIT
+tardiva. Per la ripetizione sui prompt reali si pianificano **4–7 minuti** se passa il primo
+candidato e **20–35 minuti** se occorrono tutti e nove i tentativi. Per il gate si mantengono
+intervalli cautelativi di **3–5 ore** a 2048, **4,5–7 ore** a 3072 e **6–9 ore** a 4096. La
+vecchia stima unica 03.0 di 3–6 ore non copriva esplicitamente prompt fino a 9.875 token e thinking
+massimo. Non si stimano varianti parallele, perché 8001@16384 sequenziale è l'unica sequenza
+verificata.
 
 Il costo API diretto locale è **€0** sia per la sonda sia per il gate; energia e costo-opportunità
 GPU non sono prezzati. Durata e costo del producer alternativo restano ignoti finché provider,
