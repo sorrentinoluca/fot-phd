@@ -1,0 +1,29 @@
+WARNING: package sun.awt.X11 not in java.desktop
+WARNING: package sun.awt.X11 not in java.desktop
+1 approved rows
+[Warning: Model 'TElib' was last saved using Simulink 5.0. Models last saved in
+releases before Simulink 6.0 (R14) may not function correctly in the current
+release. Save the models in an intermediate release (R2019b or older) then
+proceed.] 
+[> In generate_fault_runs (line 33)] 
+[2026-09-13T10:09:40.641Z] campaign_start 
+[2026-09-13T10:09:40.664Z] run_start smoke-F1-001
+complete
+[2026-09-13T10:09:50.302Z] run_end smoke-F1-001
+[2026-09-13T10:09:50.494Z] campaign_end 
+{
+  "manifest_count": 1,
+  "expected_count": 1,
+  "counts": {
+    "complete": 1,
+    "physical_trip": 0,
+    "technical_failure": 0,
+    "not_run": 0
+  },
+  "useful_windows_complete": 0,
+  "hashes_verified": true,
+  "accepted": true,
+  "generation_manifest_sha256": "e0453c728e46837abfae9f08d51ec2c25b3e839fa681378e044f11da415b26d0",
+  "events_sha256": "fd18a678662162af983f0f3d73ffcf03b101dda52bea2d1a96262666ccdba623"
+}
+[2026-09-13T10:09:50.602Z] FAULT_CAMPAIGN_COMPLETE manifests=1 destination=/Users/luker/fot-tep/studio2/fase03/fault_runs/smoke/f1_short_001

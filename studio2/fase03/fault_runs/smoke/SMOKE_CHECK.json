@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "simulations_executed": 1,
+  "fault": "F1",
+  "stream_id": "30040",
+  "batch_runs_executed": 0,
+  "audit": {
+    "manifest_count": 1,
+    "expected_count": 1,
+    "counts": {
+      "complete": 1,
+      "physical_trip": 0,
+      "technical_failure": 0,
+      "not_run": 0
+    },
+    "useful_windows_complete": 0,
+    "hashes_verified": true,
+    "accepted": true,
+    "generation_manifest_sha256": "e0453c728e46837abfae9f08d51ec2c25b3e839fa681378e044f11da415b26d0",
+    "events_sha256": "fd18a678662162af983f0f3d73ffcf03b101dda52bea2d1a96262666ccdba623"
+  },
+  "control_samples": 300,
+  "post_onset_samples_including_endpoint": 6,
+  "pre_composition_pct": {
+    "feed_a_pct": 48.5,
+    "feed_b_pct": 0.5,
+    "feed_c_pct": 51.0
+  },
+  "post_composition_pct": {
+    "feed_a_pct": 45.5,
+    "feed_b_pct": 0.5,
+    "feed_c_pct": 54.0
+  },
+  "nominal_onset_h": 25,
+  "observed_onset_h": 25.000410376861183,
+  "onset_observation_lag_seconds": 1.4773567002578147,
+  "first_active_saved_sample_h": 25.016666666666666,
+  "boundary_sample_at_25h_retained_unchanged": true,
+  "runtime_seconds": 9.599,
+  "simulation_seconds": 9.313330875,
+  "matlab_process_wall_seconds": 33.04349170799833,
+  "projection_40_run_seconds": 994.3187250996016,
+  "projection_simulation_only_seconds": 964.7275009960158,
+  "measured_process_overhead_seconds": 23.444491707998328,
+  "projection_with_one_process_overhead_seconds": 1017.7632168075999,
+  "projection_formula": "40 * runtime_smoke * 65 / 25.1",
+  "projection_limitation": "single short F1, linear scaling; no measured distribution across faults, no bound",
+  "regime_claim": "control input composition nominal; no statistical proof of process stationarity"
+}

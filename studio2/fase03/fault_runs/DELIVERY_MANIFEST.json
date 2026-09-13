@@ -1,0 +1,181 @@
+{
+  "base_commit": "9ec87791dd79b82893dc09568bd8c47fdd154c50",
+  "scope": "preparation_plus_exactly_one_smoke_no_full_batch",
+  "files": [
+    {
+      "path": "DOCUMENTATION_INDEX.md",
+      "sha256": "66f0c7c352eb91f9a3c836ddaa9c4c7dcffedd2eabebfeec5f8816cb4effa041",
+      "bytes": 4886
+    },
+    {
+      "path": "studio2/PROVENIENZA.md",
+      "sha256": "94b286fe68e92bc1acefc4b4862f5a3d981759ef4be2feae5f8dd3086a8ea743",
+      "bytes": 19181
+    },
+    {
+      "path": "studio2/fase03/fault_runs/.gitignore",
+      "sha256": "ca63f58be1d3cfcba7653cbffd5f06bb5ee1462cc8e3f6fd1814b60ce431d417",
+      "bytes": 46
+    },
+    {
+      "path": "studio2/fase03/fault_runs/BASELINE_CHECK.json",
+      "sha256": "7e1b5f4f51ecbcbf961b45977e006389d7ddd8e309ccd212ef31e346f09cce17",
+      "bytes": 2570
+    },
+    {
+      "path": "studio2/fase03/fault_runs/FINAL_CHECK.json",
+      "sha256": "6497577a3717cf136944b6e90c7901591c740dad793e3da6e233de9a2fb80c31",
+      "bytes": 3255
+    },
+    {
+      "path": "studio2/fase03/fault_runs/HANDOFF_BATCH.md",
+      "sha256": "0b2c57659bc0a53f5cfd69455688ca46e61c510186ec775cb9c1e956c897d9bf",
+      "bytes": 5054
+    },
+    {
+      "path": "studio2/fase03/fault_runs/REPORT_RUN_FAULT.md",
+      "sha256": "441c33d5199bc9847bc81782f2f28732814874503c696bca76bfe6638d36bd7b",
+      "bytes": 12613
+    },
+    {
+      "path": "studio2/fase03/fault_runs/SOURCE_AUDIT.json",
+      "sha256": "472de171c127da0508aaa0652eb1084f32cf27f833cb6332778ee9d350f83773",
+      "bytes": 9116
+    },
+    {
+      "path": "studio2/fase03/fault_runs/SPECIFICA_RUN_FAULT.md",
+      "sha256": "14d36742c158b1ca71b1adc848d13d6f7a85107530450b19a3e1d122eb063b2e",
+      "bytes": 15418
+    },
+    {
+      "path": "studio2/fase03/fault_runs/build_generation_plan.py",
+      "sha256": "d98eba7378f40ff94239af602a95dc44da11125794b45ec4d4c91a4e30fb2a6d",
+      "bytes": 3438
+    },
+    {
+      "path": "studio2/fase03/fault_runs/compile_fault_philox.m",
+      "sha256": "5fcc1f3b731fa3c8f115717ed6c2917caba07a9d59b970d950773ffa2ec8d38a",
+      "bytes": 586
+    },
+    {
+      "path": "studio2/fase03/fault_runs/fault_protocol.py",
+      "sha256": "dd04ae52d0ed3aa53473b21a19bb0fdcba886d4c1905a7c417a8961ecbcac309",
+      "bytes": 21725
+    },
+    {
+      "path": "studio2/fase03/fault_runs/generate_fault_runs.m",
+      "sha256": "4e162d9e4ca5d4ef0990e0da2e4750eb7fe1b3e0530f10016b4945fc97ade2d4",
+      "bytes": 9234
+    },
+    {
+      "path": "studio2/fase03/fault_runs/launch_fault_batch.sh",
+      "sha256": "a1a934db9fc19621ea2078f1bfa9ff1817cafeb7220edb51ff658ba0015ae1cb",
+      "bytes": 761
+    },
+    {
+      "path": "studio2/fase03/fault_runs/plans/fault_dev.csv",
+      "sha256": "583f4316f3788abd23f687e19ba9494aa44087a7ce2c6b0c8263eec9147aa178",
+      "bytes": 4326
+    },
+    {
+      "path": "studio2/fase03/fault_runs/plans/smoke.csv",
+      "sha256": "f64c294a594f3e9fc2f90b1f7feabeec9caf7fccfbddbfdc46d8064193e9b28d",
+      "bytes": 264
+    },
+    {
+      "path": "studio2/fase03/fault_runs/prepare_simulator.py",
+      "sha256": "3c18315d121366e3ef6372b197b67f26176b6397dfbd9da7c155d0e38fcbb70d",
+      "bytes": 3315
+    },
+    {
+      "path": "studio2/fase03/fault_runs/smoke/FINAL_TEST_LOG.txt",
+      "sha256": "f24080cbbb7b1cb43a073fb6df15e63666b0b005460b0d9ea1d192774ac406d9",
+      "bytes": 7164
+    },
+    {
+      "path": "studio2/fase03/fault_runs/smoke/LAUNCH_TIMING.json",
+      "sha256": "09b71b784719785737d5a99574dd0e1ccb765703191ea04cc718c14cd642f7bb",
+      "bytes": 534
+    },
+    {
+      "path": "studio2/fase03/fault_runs/smoke/MATLAB_LAUNCH.log",
+      "sha256": "cd5b978a5c0ac8b65cf60187fbe72fd58fa1eed9cf6fc5ab56b91f768b907008",
+      "bytes": 1153
+    },
+    {
+      "path": "studio2/fase03/fault_runs/smoke/REPORT_SMOKE.md",
+      "sha256": "37588db778241bb40e118475165c2f56d2fd1ad32f258cb3d2c76fc95711061a",
+      "bytes": 5234
+    },
+    {
+      "path": "studio2/fase03/fault_runs/smoke/SMOKE_CHECK.json",
+      "sha256": "400f93daaf18cbf14757239edb785bc542d64411b52389ca20e796db5e967790",
+      "bytes": 1714
+    },
+    {
+      "path": "studio2/fase03/fault_runs/smoke/f1_short_001/events.jsonl",
+      "sha256": "fd18a678662162af983f0f3d73ffcf03b101dda52bea2d1a96262666ccdba623",
+      "bytes": 601
+    },
+    {
+      "path": "studio2/fase03/fault_runs/smoke/f1_short_001/generation_manifest.csv",
+      "sha256": "e0453c728e46837abfae9f08d51ec2c25b3e839fa681378e044f11da415b26d0",
+      "bytes": 5428
+    },
+    {
+      "path": "studio2/fase03/fault_runs/smoke/f1_short_001/smoke-F1-001.attempt.json",
+      "sha256": "fbe239635072475ef4f6fea993c282ede5ad956025ece789fccd76e5b3f8255f",
+      "bytes": 4129
+    },
+    {
+      "path": "studio2/fase03/fault_runs/smoke/f1_short_001/smoke-F1-001.csv",
+      "sha256": "4f86088d06218b43fb65efb05746ffadd3a199f0db0cf5bb7b333439c4c46d62",
+      "bytes": 1475231
+    },
+    {
+      "path": "studio2/fase03/fault_runs/smoke/f1_short_001/smoke-F1-001.diagnostics.csv",
+      "sha256": "3dfbecb73fda11681115381840871fa5510e8ef5a497c6b1f1d96b8417121b6f",
+      "bytes": 203866
+    },
+    {
+      "path": "studio2/fase03/fault_runs/smoke/f1_short_001/smoke-F1-001.manifest.json",
+      "sha256": "c20079c52ba9468a5e1ceb5cb5e6e0cd654567530374fd987552063efc7c7260",
+      "bytes": 6149
+    },
+    {
+      "path": "studio2/fase03/fault_runs/smoke/f1_short_001/smoke-F1-001.simulation.log",
+      "sha256": "3c8d8ef8f700ba7e0a5af5d38952f34a414101a795e1bc822a27b6127c2d951b",
+      "bytes": 199862
+    },
+    {
+      "path": "studio2/fase03/fault_runs/tests/BUILD_LOG.txt",
+      "sha256": "6680c78c3538dd75d955fb9dc994086bca4e7482224fd55175326ac2b06b5f9f",
+      "bytes": 328
+    },
+    {
+      "path": "studio2/fase03/fault_runs/tests/MATLAB_PREFLIGHT.txt",
+      "sha256": "620da329468e9479235d37f96e28c480c26f9b08f36ae2e51ebc332b3b6e3f08",
+      "bytes": 919
+    },
+    {
+      "path": "studio2/fase03/fault_runs/tests/TEST_LOG.txt",
+      "sha256": "2dcb8ed03782d484ee45ea5d783a4af6febaa72c9749c03d5f5e4e15eb1e9428",
+      "bytes": 7164
+    },
+    {
+      "path": "studio2/fase03/fault_runs/tests/TEST_REPORT.json",
+      "sha256": "6473c7eba12cd8f9e9f3da8401c8e1a02ce0760e0322e72f2635e6f6ce0fbd3d",
+      "bytes": 1062
+    },
+    {
+      "path": "studio2/fase03/fault_runs/tests/test_fault_runs.py",
+      "sha256": "41ce4298d10196bb13e1ed6d6bbc9631200f98443b9860a1e6566c51732bd584",
+      "bytes": 10739
+    },
+    {
+      "path": "studio2/fase03/fault_runs/verify_smoke.py",
+      "sha256": "033dd816cd4cf86dd8dc32615637a127a10b62404c2be89b4423a4ae293307da",
+      "bytes": 3346
+    }
+  ]
+}

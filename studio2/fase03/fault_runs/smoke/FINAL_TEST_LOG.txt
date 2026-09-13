@@ -1,0 +1,69 @@
+test_only_marked_diagnostics_added_to_qualified_source (test_fault_runs.Instrumentation.test_only_marked_diagnostics_added_to_qualified_source) ... ok
+test_unknown_base_source_is_rejected (test_fault_runs.Instrumentation.test_unknown_base_source_is_rejected) ... ok
+test_event_log_sequence_and_timestamps (test_fault_runs.Logs.test_event_log_sequence_and_timestamps) ... ok
+test_malformed_instrumentation_not_silently_ignored (test_fault_runs.Logs.test_malformed_instrumentation_not_silently_ignored) ... ok
+test_parser_extracts_trip_and_onset (test_fault_runs.Logs.test_parser_extracts_trip_and_onset) ... ok
+test_wrong_early_extra_or_missing_idv_rejected (test_fault_runs.Logs.test_wrong_early_extra_or_missing_idv_rejected) ... ok
+test_changed_manifest_invariants_rejected (test_fault_runs.Manifests.test_changed_manifest_invariants_rejected) ... /Users/luker/fot-tep/studio2/fase03/fault_runs/build_generation_plan.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/luker/fot-tep/studio2/fase02/runtime_smoke_output/generation_manifest.csv' mode='r' encoding='UTF-8'>
+  for row in csv.DictReader(p.open()):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/luker/fot-tep/studio2/fase03/fault_runs/build_generation_plan.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/luker/fot-tep/studio2/fase02/runtime_smoke_replay/generation_manifest.csv' mode='r' encoding='UTF-8'>
+  for row in csv.DictReader(p.open()):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/luker/fot-tep/studio2/fase03/fault_runs/build_generation_plan.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/luker/fot-tep/studio2/fase02/validation/data_v2/prefix_qual/generation_manifest.csv' mode='r' encoding='UTF-8'>
+  for row in csv.DictReader(p.open()):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/luker/fot-tep/studio2/fase03/fault_runs/build_generation_plan.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/luker/fot-tep/studio2/fase02/validation/data_v2/r2_pilot/generation_manifest.csv' mode='r' encoding='UTF-8'>
+  for row in csv.DictReader(p.open()):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/luker/fot-tep/studio2/fase03/fault_runs/build_generation_plan.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/luker/fot-tep/studio2/fase02/validation/data_v2/burnin_qual/generation_manifest.csv' mode='r' encoding='UTF-8'>
+  for row in csv.DictReader(p.open()):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/luker/fot-tep/studio2/fase03/fault_runs/build_generation_plan.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/luker/fot-tep/studio2/fase02/validation/data_v2/philox_legacy_qual/generation_manifest.csv' mode='r' encoding='UTF-8'>
+  for row in csv.DictReader(p.open()):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/luker/fot-tep/studio2/fase03/fault_runs/build_generation_plan.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/luker/fot-tep/studio2/fase02/validation/data/prefix_qual/generation_manifest.csv' mode='r' encoding='UTF-8'>
+  for row in csv.DictReader(p.open()):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/luker/fot-tep/studio2/fase03/fault_runs/build_generation_plan.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/luker/fot-tep/studio2/fase02/validation/data/legacy_generator_qual/generation_manifest.csv' mode='r' encoding='UTF-8'>
+  for row in csv.DictReader(p.open()):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/luker/fot-tep/studio2/fase03/fault_runs/build_generation_plan.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/luker/fot-tep/studio2/fase02/validation/data/r2_pilot/generation_manifest.csv' mode='r' encoding='UTF-8'>
+  for row in csv.DictReader(p.open()):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/luker/fot-tep/studio2/fase03/fault_runs/build_generation_plan.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/luker/fot-tep/studio2/fase02/validation/data/instrumented_smoke/generation_manifest.csv' mode='r' encoding='UTF-8'>
+  for row in csv.DictReader(p.open()):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/luker/fot-tep/studio2/fase03/fault_runs/build_generation_plan.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/luker/fot-tep/studio2/fase02/validation/data/burnin_qual/generation_manifest.csv' mode='r' encoding='UTF-8'>
+  for row in csv.DictReader(p.open()):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/Users/luker/fot-tep/studio2/fase03/fault_runs/build_generation_plan.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='/Users/luker/fot-tep/studio2/fase02/validation/data/philox_legacy_qual/generation_manifest.csv' mode='r' encoding='UTF-8'>
+  for row in csv.DictReader(p.open()):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_complete_manifest_fields_window_exclusion_and_immutability (test_fault_runs.Manifests.test_complete_manifest_fields_window_exclusion_and_immutability) ... ok
+test_early_stop_without_trip_is_technical_failure (test_fault_runs.Manifests.test_early_stop_without_trip_is_technical_failure) ... ok
+test_failure_marks_remaining_reserved_runs_not_run (test_fault_runs.Manifests.test_failure_marks_remaining_reserved_runs_not_run) ... ok
+test_missing_counter_records_technical_failure (test_fault_runs.Manifests.test_missing_counter_records_technical_failure) ... ok
+test_missing_fields_or_modified_output_rejected (test_fault_runs.Manifests.test_missing_fields_or_modified_output_rejected) ... ok
+test_trip_prefix_preserved_without_replacement (test_fault_runs.Manifests.test_trip_prefix_preserved_without_replacement) ... ok
+test_trip_window_completeness (test_fault_runs.Manifests.test_trip_window_completeness) ... ok
+test_collision_blocks_generation (test_fault_runs.Plans.test_collision_blocks_generation) ... ok
+test_destination_guard_and_existing_directory (test_fault_runs.Plans.test_destination_guard_and_existing_directory) ... ok
+test_disjoint_all_phase02_manifests_and_reservations (test_fault_runs.Plans.test_disjoint_all_phase02_manifests_and_reservations) ... ok
+test_exact_catalog_batch_indices (test_fault_runs.Plans.test_exact_catalog_batch_indices) ... ok
+test_reordered_edited_duplicate_incomplete_plan_rejected (test_fault_runs.Plans.test_reordered_edited_duplicate_incomplete_plan_rejected) ... ok
+test_seed_words_reconstruct_uint64 (test_fault_runs.Plans.test_seed_words_reconstruct_uint64) ... ok
+test_smoke_separate_and_reduced_only_post_horizon (test_fault_runs.Plans.test_smoke_separate_and_reduced_only_post_horizon) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.436s
+
+OK
+complete
+complete
+technical_failure
+technical_failure
+technical_failure
+complete
+physical_trip

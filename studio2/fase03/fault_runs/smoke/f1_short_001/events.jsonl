@@ -1,0 +1,4 @@
+{"timestamp_utc":"2026-09-13T10:09:40.641Z","event":"campaign_start","run_id":"","details":{"plan_sha256":"f64c294a594f3e9fc2f90b1f7feabeec9caf7fccfbddbfdc46d8064193e9b28d","expected_runs":1}}
+{"timestamp_utc":"2026-09-13T10:09:40.664Z","event":"run_start","run_id":"smoke-F1-001","details":{"stream_id":"30040","idv":1}}
+{"timestamp_utc":"2026-09-13T10:09:50.302Z","event":"run_end","run_id":"smoke-F1-001","details":{"status":"complete","runtime_seconds":9.599}}
+{"timestamp_utc":"2026-09-13T10:09:50.494Z","event":"campaign_end","run_id":"","details":{"technical_failure":false,"expected_runs":1}}

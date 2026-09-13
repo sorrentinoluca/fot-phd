@@ -1,0 +1,45 @@
+{
+  "timestamp_utc": "2026-09-13T10:11:54.342381+00:00",
+  "documentation": {
+    "command": "python3 docs/test_explanation.py",
+    "exit_code": 1,
+    "summary": [
+      "FAIL: test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "FAIL: test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)",
+      "Ran 35 tests in 0.108s",
+      "FAILED (failures=14, skipped=1)"
+    ],
+    "baseline_failure_count": 14,
+    "final_failure_count": 14,
+    "same_failure_names": true,
+    "scope_limit": "does not cover section 14, v2 or these new scripts"
+  },
+  "fault_tests": {
+    "count": 21,
+    "exit_code": 0,
+    "log": "smoke/FINAL_TEST_LOG.txt"
+  },
+  "md_html_pairs_modified": false,
+  "relative_markdown_links_missing": [],
+  "phase02_unchanged": true,
+  "diff_check": {
+    "code_and_documents": "PASS",
+    "raw_matlab_logs": "6 trailing-whitespace diagnostics retained to preserve original output bytes",
+    "excluded_paths": [
+      "studio2/fase03/fault_runs/smoke/MATLAB_LAUNCH.log",
+      "studio2/fase03/fault_runs/smoke/f1_short_001/smoke-F1-001.simulation.log"
+    ]
+  }
+}
