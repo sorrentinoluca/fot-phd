@@ -267,3 +267,24 @@ prima di ogni derivazione. Artefatti, impronte e stato di congelamento sono in
 `fase03/pseudolabel/PSEUDOLABEL_FREEZE.json` (`frozen_pending_independent_verification`, nessun
 tag). Il mapping pseudolabel↔fault e l'assegnazione agli agenti sono evaluator-side e non entrano
 in alcun prompt.
+
+## 10. Fase 03 — sotto-fase 03.9: `normal_dev` e baseline numerica
+
+Data 2026-09-14. La specifica è **pre-specificata** rispetto alla generazione di `normal_dev`,
+alla costruzione dei prototipi e a qualunque run di test. In questa finestra non sono state aperte
+firme per classe, non sono state eseguite simulazioni e non sono stati prodotti risultati reali.
+
+| Origine | Commit / identità | SHA-256 | Destinazione e modifiche | Ruolo | Marca |
+| --- | --- | --- | --- | --- | --- |
+| Piano rev. 7, §6.2 | `a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155` | `f3959866f1b45e3ef91e8b924436408fa512ed610bea4684aedfd90f4d2bf3ca` | `fase03/baseline_numerica/SPECIFICA_NORMAL_DEV.md`, piano 40 run/60000–60039 e handoff; nessuna copia del piano | fonte della decisione `normal_dev` | pre-specificato; al termine non ancora raggiungibile da `origin/main`, quindi batch non lanciabile |
+| Generatore Normal qualificato | `studio2/fase02/simulator/matlab/generate_normal_runs.m`, base `46c0b62` | `923d657608f5bbf30869c8cdf2772dd5cacd2a98b4ef62dc85540dc812eda837` | `generate_normal_dev_runs.m` delega senza cambiare modello, MEX, RNG o scrittura | generazione futura dei 40 Normal | pre-specificato |
+| Evidence 03.6 | commit verificato `2f6dd8de38b944e61853e605202c4c376a90585d`; release `studio2-fase03-evidence-v1` | manifest `5111d0c61c2e93fe5071d7a85015673549af0bf9c1dc74e0d940719a8400e020`; archivio `3e1eb87f38ff3fc6dd3346476785d06c2b98944b209f7f58706b3c71c1676999` | `baseline.py` legge le firme già pubblicate e verifica hash/dimensione; le future evidence Normal devono usare le stesse funzioni e guardie | 320 firme fault di sviluppo e contratto per le firme Normal | pre-specificato; validità condizionata a U3/R2 |
+| N1–N5 + soglie V2, uso U3 | baseline SHA-256 `79883dd0aabbd034c15337b0be1ffca37e59ea7b32443a15d560b7feda2b2e6a`; guardia R2 `7df0cef2d7854c689b79eb911fa01d1ede1625e22f0d3636c0ea5d678c9f33f8` | dipendenze 03.6 SHA-256 `b485edea5de1a037f4d2cd9e186e7bb4feeb8cf7df451e50a5f36868778d7baf` | nuova destinazione operativa U3: `normal_dev` → evidence Normal di sviluppo per prototipi, esempi locali e FedAvg; nessun uso come osservazioni di sviluppo di N1–N5 | normalizzazione e flag congelati delle nuove evidence | pre-specificato; se R2 decade, rigenerare; vietati fit, calibrazione, FAR e test |
+| Pattern C02B `run_baseline.py` e freeze | commit d'origine `72af2a7ffa97544ec10cc6d0e6c65253e21de22c` | codice `5a0d4572ba8f8ac462abba3da1f72af780751fc3652c934cf8096f3dbb452bfa`; manifest `09c507a42417adb5c3dd88509bf8723d12a0599d4511ab50ab7b27ed73d8ca6c` | `baseline.py`: media su finestre fissate, L1 media, pareggio `1e-12`, separazione predizione/verità; estensione a 8 agenti e 9 classi, varianti globale/locale | pattern implementativo, nessun dato o risultato riusato | pre-specificato |
+| Piano statistico 03.8 §6 | proposta al commit `dd82cd1753b31c10235de18052f24683306f8751` | `c660db84474e54056ac623f51aceadcc771297b0af19870dc9c304c1dbf0bf96` | output evaluator-side con tre numeri, cluster `physical_case_id`, `independence_claim=false`; nessun test confermativo implementato | compatibilità proposta con il braccio LLM | pre-specificato ma **pending**, non assunto congelato |
+
+Il lotto `normal_dev` separa le osservazioni Normal di sviluppo dai dati che definiscono la
+trasformazione, ma non rende indipendente la trasformazione stessa: ogni nuova firma continua a
+dipendere dalla coppia N1–N5/soglie V2 attraverso U3. I 320 Normal contro 40 finestre per ciascun
+fault sono passati alla 03.14 come vincolo di sbilanciamento da risolvere prima
+dell'addestramento, senza scegliere qui la soluzione.
