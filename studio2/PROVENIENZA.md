@@ -150,3 +150,50 @@ L'[attestazione](fase03/selection/CATALOG_PUBLICATION.json) conserva le impronte
 della consegna nel tag. I manifest e i verbali restano intatti come snapshot precedente alla
 pubblicazione; lo stato efficace è `catalog_frozen=true`. Non sono stati aggiunti dati riusati,
 nuovi sorteggi o autorizzazioni per run, OOD e D11.
+
+
+## 7. Fase 03 — specifica dei nuovi run fault (§6.2)
+
+Data 2026-09-13; base verificata `9ec87791dd79b82893dc09568bd8c47fdd154c50`.
+Riuso di convenzioni e codice, non dei workbook o risultati fault storici. La destinazione
+è `fase03/fault_runs/`; ogni analisi e adattamento qui progettato è **pre-specificato**
+rispetto ai nuovi run. Nessun uso post-hoc di valori per-fault per scegliere il protocollo.
+
+| Origine | Commit verificato | SHA-256 | Adattamento e ruolo | Marca |
+| --- | --- | --- | --- | --- |
+| `docs/fot_walkthrough_conversazione.md` | `9ec87791dd79b82893dc09568bd8c47fdd154c50` | `fb9de573a903f3d8c599cc51fdfbf5d9f8df79b44d34617d95fdd68bd30fa3d6` | convenzione storica 40 h post-fault, otto finestre half-open; traslazione da 10 a 25 h | pre-specificato |
+| `docs/fot_walkthrough_conversazione_v2.md` | `9ec87791dd79b82893dc09568bd8c47fdd154c50` | `ec64e1f5d754cafc144f54e5136bba86daa165b158f7957693187e2018fbda2b` | conferma narrativa della convenzione; esposizione incidentale dichiarata sotto | pre-specificato |
+| `code/tep_characterize_v2.py` | `9ec87791dd79b82893dc09568bd8c47fdd154c50` | `440b2488b30144944e52ad27f21f53eede781550efdef5a1f6251cf8e2630560` | costanti 10/50/5 e chiamata analyze_case_windows verificate; nuovo onset 25 e stop 65 | pre-specificato |
+| `studio2/fase02/simulator/matlab/generate_normal_runs.m` | `9ec87791dd79b82893dc09568bd8c47fdd154c50` | `923d657608f5bbf30869c8cdf2772dd5cacd2a98b4ef62dc85540dc812eda837` | launcher gemello con manifest per tentativo, protezione destinazione, gestione trip e log | pre-specificato |
+| `studio2/fase02/build_generation_plan.py` | `9ec87791dd79b82893dc09568bd8c47fdd154c50` | `6d8f5c458eae0fe215d89bcc6564fe077c09187d1dd6a4863ef1269970772951` | generatore gemello con prenotazione 30000–30040 e seed descritti come coppia chiave/stream | pre-specificato |
+| `studio2/fase02/simulator/source/temexd_philox.c` | `9ec87791dd79b82893dc09568bd8c47fdd154c50` | `230086e7712e753bf48f3e9108cd0ce2f68aba97d9590ebb3c7593a47f8b6d25` | copia strumentata per IDV, variabili perturbate e trip; equazioni e RNG preservati | pre-specificato |
+
+Le ulteriori dipendenze di Fase 02, il catalogo al tag e tutti i manifest letti sono
+identificati in [SOURCE_AUDIT.json](fase03/fault_runs/SOURCE_AUDIT.json), con SHA-256 e
+commit. Sono riusati come input di configurazione e provenienza; marca **pre-specificato**.
+Il modello e gli init restano invariati su disco; le sole modifiche operative del modello
+sono registrate dal nuovo launcher. `auto_run.m`, `generate_phaseB_extra_runs.m` e il modello
+storico in `tep_parent_a0413e16/` sono stati aperti: confermano il pattern di IDV singolo e
+il ritardo configurato di 10 h. I loro hash locali sono nel medesimo audit; il collegamento
+al commit dichiarato `a0413e16…` resta non verificabile perché l'oggetto non è disponibile.
+Il sorgente di caratterizzazione tracciato alla base costituisce il riscontro verificabile
+della convenzione 10/50/5. Nessuna simulazione storica è stata rieseguita.
+
+**Esposizione incidentale, dichiarazione di processo.** Nella lettura iniziale della v2
+§2, un intervallo troppo ampio ha incluso la tabella narrativa di risultati per-fault
+(similarità intra-classe, margini e commenti). Nessun suo valore è stato usato per catalogo,
+innesco, orizzonte, indici, finestre, criteri o smoke. Non sono stati aperti i corrispondenti
+artefatti numerici per-fault. Le sezioni operative richieste della prima esposizione
+contengono inoltre esempi numerici narrativi; l'output iniziale non filtrato del test
+documentale ha incorporato estratti storici nei messaggi di assert. Anche questi valori
+non hanno alimentato alcuna scelta. I successivi test documentali vengono letti soltanto
+per nomi e conteggi. Si dichiara l'esposizione, senza rivendicare cecità assoluta.
+
+**Decisioni dell'autore prima dei nuovi dati.** Approvati un solo IDV per run (anche
+F14/F15), nessuna perturbazione aggiuntiva o variazione di setpoint; deviazione esplicita
+dalla raccomandazione Downs & Vogel, pp. 250–251. Innesco 25 h, burn-in qualificato 20 h,
+controllo negativo interno [20,25) escluso da insight/prototipi, 40 h post-fault e otto
+finestre fino a 65 h. Segnale debole/assente e trip si conservano: niente estensioni,
+perturbazioni o sostituzioni dopo osservazione. Lo smoke unico è F1/stream 30040,
+25.1 h totali, senza finestre post-fault complete. Marca **pre-specificato**.
+La specifica contiene anche i limiti da dichiarare nel futuro paper.
