@@ -263,3 +263,29 @@ esclusi da Git vengono pubblicati nel repository `fot-tep-data` con un tag per f
 principale (`ARTIFACT_STORAGE.json` e `MANIFEST_CONSERVAZIONE.csv`) devono descrivere tali asset;
 la verifica deve essere fatta **scaricando** gli asset dal repository dedicato e confrontando gli hash,
 non solo confrontando una copia locale.
+
+### 8.6 Sotto-fasi e granularità del ciclo
+
+Il ciclo fase → verifica indipendente → documentazione → commit si applica a una **fase** quando la fase
+produce un solo esito da verificare. Quando una fase contiene più sotto-fasi che congelano un
+artefatto, producono un tag o pubblicano un lotto di dati, il ciclo si applica **a ciascuna
+sotto-fase**, nell'ordine dichiarato in apertura (`Fase_LLM.md`), perché è lì che la verifica deve
+precedere la documentazione.
+
+Convenzioni operative:
+
+- report e verifica di sotto-fase stanno nella cartella della sotto-fase, con nome per sotto-fase:
+  `studio2/fase<N>/<sottofase>/REPORT_<SOTTOFASE>.md` e
+  `VERIFICA_<SOTTOFASE>.md`; il verbale di verifica ha il verdetto in prima riga e dichiara
+  modello e finestra;
+- il walkthrough studio2 riceve una sotto-sezione `§N.x` per sotto-fase, con la struttura di
+  `Documentazione_LLM.md`; la sezione dice esplicitamente che la fase **non** è chiusa;
+- alla chiusura della fase, `studio2/fase<N>/REPORT_FASE<N>.md` è l'**indice** dei report di
+  sotto-fase (cosa è stato fatto, in che ordine, da quale modello, cosa è rimasto fuori) e
+  `VERIFICA_FASE<N>.md` verifica la **coerenza fra sotto-fasi** (ordine, dipendenze rispettate,
+  nessuna decisione anticipata, artefatti congelati intatti, numeri coerenti fra sezioni) senza rifare
+  le verifiche già fatte; la documentazione di chiusura consolida `§N`, correggendo le
+  sotto-sezioni che la chiusura rende false;
+- una sotto-fase **non** chiude la fase ai fini di `Commit_LLM.md` §7 (integrazione in `main` e
+  consegna): l'integrazione di una sotto-fase in `main` è ammessa su richiesta dell'autore, ma la
+  fase si considera chiusa solo con report e verifica **di fase** in `origin/main`.
