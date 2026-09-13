@@ -11,7 +11,7 @@ nessun commit, nessun tag. Il tuo compito è dire se il lavoro regge, non aggius
 
 Il percorso del report di chiusura prodotto da `Fase_LLM.md`, normalmente
 `studio2/fase<N>/REPORT_FASE<N>.md`: sotto-fasi eseguite, risultati, file toccati, cosa è rimasto
-fuori. **Non fidarti del report.** È l'oggetto della verifica, non la sua fonte: ogni sua
+fuori. In alternativa, per una sotto-fase: `studio2/fase<N>/<SOTTOFASE>/REPORT_<SOTTOFASE>.md` / `VERIFICA_<SOTTOFASE>.md` (MAINTENANCE §8.6). **Non fidarti del report.** È l'oggetto della verifica, non la sua fonte: ogni sua
 affermazione va risalita alla fonte primaria.
 
 Se il report non esiste come file, fermati e chiedilo: un riassunto incollato a mano non è
@@ -34,6 +34,8 @@ verificabile, perché non sai se è ciò che la finestra di lavoro ha effettivam
    è marcata **pre-specificato** o **post-hoc**, e la marca è corretta?
 5. **Sotto-fasi.** Sono state eseguite nell'ordine dichiarato? Ci sono decisioni prese in anticipo
    su sotto-fasi successive — cioè scelte che a quel punto non erano ancora lavorabili?
+   Alla chiusura di fase la verifica valuta coerenza fra sotto-fasi (ordine, dipendenze, prerequisiti,
+   nessuna decisione anticipata), non rifà verifiche già svolte per ciascuna sotto-fase.
 6. **Coppie e conteggi.** Ogni coppia MD/HTML toccata è allineata **sul contenuto**: stesse
    sezioni, stesso ordine, stessi numeri. I totali dichiarati coincidono con le righe effettive.
 7. **Test.** Riesegui `python3 docs/test_explanation.py` e confronta con il numero dichiarato.

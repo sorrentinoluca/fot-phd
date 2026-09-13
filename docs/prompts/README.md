@@ -15,6 +15,8 @@ Fase_LLM  →  Verifica_LLM  →  Documentazione_LLM  →  Commit_LLM
 (si lavora)   (altra finestra)   (solo dopo l'OK)      (si salva)
      ↓              ↓                   ↑
  REPORT_FASE<N>.md  VERIFICA_FASE<N>.md ┘
+                   (o per sotto-fase: REPORT_<SOTTOFASE>.md / VERIFICA_<SOTTOFASE>.md in
+                   studio2/fase<N>/<SOTTOFASE>/, MAINTENANCE §8.6)
       in studio2/fase<N>/
 ```
 

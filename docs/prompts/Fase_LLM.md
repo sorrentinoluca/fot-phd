@@ -84,6 +84,10 @@ documentazione non ereditano questo contesto, leggono il repository. **Ciò che 
 conversazione non è verificabile né documentabile.** Il report è solo Markdown, non è una coppia
 con un `.html`.
 
+Se la fase è lavorata a sotto-fasi che congelano artefatti o pubblicano lotti, il ciclo vale per
+ciascuna sotto-fase con i nomi e i file di MAINTENANCE §8.6; il report di fase si scrive alla
+chiusura della fase come indice dei report di sotto-fase.
+
 Il report contiene:
 
 1. **Riassunto e risultati**, organizzati **seguendo le sotto-fasi eseguite**, nello stesso ordine.
@@ -105,4 +109,4 @@ quello che hai solo raccontato non esiste per le finestre successive.
 ⚠️ **Non aggiornare il walkthrough adesso.** L'ordine è: fase conclusa → **verifica indipendente**
 (`Verifica_LLM.md`, altra finestra) → OK del verificatore → **aggiornamento documentazione**
 (`Documentazione_LLM.md`). Scrivere il walkthrough prima della verifica significa documentare
-qualcosa che potrebbe non reggere.
+qualcosa che potrebbe non reggere. Vale anche per la sotto-fase: la sua sezione si scrive solo dopo la sua verifica.

@@ -12,6 +12,8 @@ Non erediti il contesto della finestra che ha svolto il lavoro: leggi il **repos
 
 1. `studio2/fase<N>/REPORT_FASE<N>.md` — il report di chiusura: è l'**indice**, dice quali file guardare;
 2. `studio2/fase<N>/VERIFICA_FASE<N>.md` — il verdetto. Se non c'è, o non dice **OK**, fermati;
+   per una sotto-fase: `studio2/fase<N>/<SOTTOFASE>/REPORT_<SOTTOFASE>.md` e
+   `VERIFICA_<SOTTOFASE>.md` nella cartella della sotto-fase (MAINTENANCE §8.6).
 3. **i file che il report elenca** — codice, configurazioni, risultati, manifest, log. I numeri della
    sezione vengono da lì, non dal report: il report può contenere un errore di trascrizione.
 
@@ -23,7 +25,8 @@ Se una cifra del report non si ritrova nell'artefatto, **non scriverla**: segnal
 
 1. La **coppia** `docs/fot_walkthrough_conversazione_studio2.md` ↔ `.html`, nella sezione della
    fase conclusa. È il documento lungo, ed è qui che si scrive. Le due forme vanno sempre insieme,
-   nella stessa sessione (MAINTENANCE §3).
+   nella stessa sessione (MAINTENANCE §3). Una sotto-fase riceve una sotto-sezione `§N.x` e dice
+   esplicitamente che la fase non è chiusa; la chiusura di fase consolida `§N`.
 2. La **sintesi divulgativa** `docs/fot_walkthrough_studio2.html` — solo HTML, non è una coppia.
    Va aggiornata **quando c'è qualcosa da sintetizzare**, cioè quando la fase ha prodotto un
    risultato leggibile da chi non apre il documento lungo. Regole sue:
