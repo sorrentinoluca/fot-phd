@@ -1,0 +1,12 @@
+{
+  "checked_at_utc": "2026-09-13",
+  "score_fit_legacy_sha256": "e679caf45bf1ec1c923b8ef50b36fef5bcb350e17cf3296e00c748ec9fdef477",
+  "r2_guard_result_v2_sha256": "3b7131400747cd7b13a6ad02841fbdb84c85952297e090bd7b99678f03f2ee82",
+  "r2_guard_result_independent_byte_identical": true,
+  "combined_score_sha256": "6d083820789c888c393864b40c19205920029eac3113e36133e78d53c98cac48",
+  "tep_features_sha256": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040",
+  "validate_numerics_sha256": "f17066ebd6a7523eddf350589a44ac2cf85a90c95ef0e3076a1bb492b9f27efe",
+  "parameters_and_code_current": true,
+  "guard_pass": true,
+  "active_branch": "350 cal_thr + 150 far_ver"
+}
