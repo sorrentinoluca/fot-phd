@@ -1,0 +1,1 @@
+{"api_request_count":1,"error_code":400,"error_message":"Grammar error: Unimplemented keys: [\"uniqueItems\"]","inference_completed":false,"observed_at":"2026-09-13T00:39:31+00:00","outcome":"REJECTED_BEFORE_INFERENCE","scope":"SYNTHETIC_CAP_STRESS_FIXTURE_ONLY_NOT_A_GATE"}

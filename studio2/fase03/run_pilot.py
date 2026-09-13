@@ -409,6 +409,10 @@ def run_provisional_stress_budget_stage(
     schema = load_json(DIAGNOSTIC_SCHEMA_PATH)
     grammar_schema = vllm_grammar_schema(schema)
     provider = Provider(config)
+    attempt_journal_path = results_dir / "provisional_stress_probe_attempts.jsonl"
+    prior_attempts = read_jsonl(attempt_journal_path) if attempt_journal_path.exists() else []
+    prior_provider_requests = len(prior_attempts)
+    maximum_provider_requests = 9
     stress: dict[str, dict[str, Any]] = {}
     for condition in ("A", "B-LF", "E-LF"):
         candidates = [item for item in prompts if item["condition"] == condition]
@@ -416,6 +420,8 @@ def run_provisional_stress_budget_stage(
     records: list[dict[str, Any]] = []
     selected = None
     for candidate in plan["context_feasibility"]["feasible_candidates"]:
+        if prior_provider_requests + provider.requests + 3 > maximum_provider_requests:
+            break
         generation = {
             "temperature": config["generation_budget"]["temperature"],
             "seed": config["generation_budget"]["seed"],
@@ -446,8 +452,10 @@ def run_provisional_stress_budget_stage(
         ),
         "scope": "SYNTHETIC_CAP_STRESS_FIXTURE_ONLY_NOT_A_GATE",
         "completed_at": utc_now(),
-        "provider_requests": provider.requests,
-        "maximum_provider_requests_authorized": 9,
+        "provider_requests_this_run": provider.requests,
+        "prior_rejected_provider_requests": prior_provider_requests,
+        "provider_requests_total": prior_provider_requests + provider.requests,
+        "maximum_provider_requests_authorized": maximum_provider_requests,
         "selected_generation_provisional": selected,
         "generation_budget_frozen": False,
         "stability_gate_authorized": False,
@@ -464,6 +472,9 @@ def run_provisional_stress_budget_stage(
             "forbidden by parse_diagnostic_output"
         ),
         "records_sha256": sha256_file(record_path),
+        "attempt_journal_sha256": (
+            sha256_file(attempt_journal_path) if attempt_journal_path.exists() else None
+        ),
         "server": server,
         "results": [
             {
@@ -485,7 +496,8 @@ def run_provisional_stress_budget_stage(
             }
             for item in records
         ],
-        "model_calls_counter_after_probe": provider.requests,
+        "completed_model_inferences": provider.requests,
+        "api_requests_counter_after_probe": prior_provider_requests + provider.requests,
         "scientific_claims_authorized": False,
     }
     write_atomic(
