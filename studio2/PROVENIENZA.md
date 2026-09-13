@@ -248,3 +248,25 @@ da terminale esterno ha mantenuto invariati piano, indici e stream. L'esito è 4
 zero trip e 320 finestre post-fault complete. Questi dati ricevono il solo ruolo di sviluppo:
 non sono ancora stati trasformati in feature, evidence, verbalizzazioni, insight, prototipi o
 calibrazione e non costituiscono materiale di test.
+
+## 9. Fase 03 — harness evidence 697-D (sotto-fase 03.6, sospesa)
+
+Registrazione del 2026-09-13, precedente a qualunque estrazione reale. Le funzioni sono
+importate dal codice congelato soltanto dopo la guardia su tutti i quattro hash del manifest
+`phase_b/PHASE_B_PROTOCOL_HASHES.json`. La marca **pre-specificato** riguarda il protocollo
+e la fixture sintetica, non autorizza dati o baseline ulteriori.
+
+| Funzione importata | Modulo, commit e SHA-256 | Default passato o dichiarato | Destinazione e ruolo | Marca |
+| --- | --- | --- | --- | --- |
+| `XMEAS` | `code/tep_features.py`; `3fd960a192bafacbaabce9471e3c3614d6b2d2db`; `cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c` | ordine fisso esplicito delle 41 variabili | `fase03/evidence/extract_evidence.py`; ordinamento e controllo 41 × 17 | pre-specificato |
+| `load_case` | stesso modulo, commit e impronta | percorso CSV esplicito, verificato contro il manifest prima della lettura | caricamento con schema stretto dei futuri input | pre-specificato |
+| `compute_baseline_stats_from_blocks` | stesso modulo, commit e impronta | blocchi passati esplicitamente; nessun default | baseline della sola fixture sintetica | pre-specificato; nessun riuso di dati |
+| `analyze_case_windows` | stesso modulo, commit e impronta | `start_h=25.0`, `end_h=65.0`, `window_h=5.0` espliciti | 8 finestre half-open; feature prive di soglie | pre-specificato |
+| `load_config` | `code/tep_verbalize_v2.py`; `3fd960a192bafacbaabce9471e3c3614d6b2d2db`; `3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be` | percorso `code/verbalizer_config_v2.json` esplicito; SHA-256 `552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519` | carica soglie e vocabolario congelati, senza ridecisione | pre-specificato |
+| `load_development_baseline` | stesso modulo, commit e impronta | configurazione passata esplicitamente; funzione importata ma non chiamata sui dati reali | ingresso predisposto per la baseline reale; uso sospeso | **non autorizzato finché l'autore non decide fra estensione U1/R2 e nuovi Normal 03.5** |
+| `verbalize_feature_table` | stesso modulo, commit e impronta | configurazione passata esplicitamente | JSON e testo neutrali per singola finestra | pre-specificato |
+| `signature_vector` | `code/evaluate_verbalizer_v2.py`; `3fd960a192bafacbaabce9471e3c3614d6b2d2db`; `972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92` | nessun default; il modulo importa transitivamente il verbalizzatore al caricamento | firma deterministica 697-D | pre-specificato |
+
+Non viene aggiunta una riga di riuso della baseline N1–N5: U1/R2 è autorizzato soltanto
+per il `baseline_fit` dello score A e non copre evidentemente i flag del verbalizzatore.
+`fase03/evidence/DIPENDENZE_EVIDENCE.md` registra le due alternative sottoposte all'autore.
