@@ -1,0 +1,431 @@
+{
+  "schema_version": 1,
+  "specification": "studio2/fase03/pseudolabel/SPECIFICA_PSEUDOLABEL.md",
+  "namespace": "studio2-fase03-pseudolabel-v1",
+  "seed": 20260913,
+  "prefix": "S2-CLS-",
+  "suffix_length": 5,
+  "catalog": {
+    "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+    "tag": "studio2-fase03-catalogo-D1-frozen-001",
+    "commit": "ab43f0b20f45cdb475c0caf52c6f7afcbae50891",
+    "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+    "idvs": [
+      1,
+      2,
+      3,
+      8,
+      10,
+      13,
+      14,
+      15
+    ]
+  },
+  "processing_order": [
+    "F1",
+    "F2",
+    "F3",
+    "F8",
+    "F10",
+    "F13",
+    "F14",
+    "F15"
+  ],
+  "order_of_operations": [
+    "catalog_guard",
+    "labels",
+    "label_space",
+    "assignment",
+    "derangements"
+  ],
+  "label_attempts": [
+    {
+      "identifier": "F1",
+      "counter": 0,
+      "message": "studio2-fase03-pseudolabel-v1|label|F1|0",
+      "sha256": "9e0af3241309afdbfa7f2926ea70ce350a1e258342cfa947e187cf0e1f3de71e",
+      "suffix": "TYFPG",
+      "accepted": true,
+      "rejection_reasons": []
+    },
+    {
+      "identifier": "F2",
+      "counter": 0,
+      "message": "studio2-fase03-pseudolabel-v1|label|F2|0",
+      "sha256": "34afb5aa43aeb46ffd63fd64e55564bae8aca2f44857070870e0da8947cea3a3",
+      "suffix": "GSX3L",
+      "accepted": true,
+      "rejection_reasons": []
+    },
+    {
+      "identifier": "F3",
+      "counter": 0,
+      "message": "studio2-fase03-pseudolabel-v1|label|F3|0",
+      "sha256": "844420ede499f7603cc8a00df7af7a125b7cbaf41a3a4db48a65134909d09d0f",
+      "suffix": "QRCCB",
+      "accepted": true,
+      "rejection_reasons": []
+    },
+    {
+      "identifier": "F8",
+      "counter": 0,
+      "message": "studio2-fase03-pseudolabel-v1|label|F8|0",
+      "sha256": "392daee45d7c5edf0ae3d8ceeded1d3e56790f4f26a4fbd4efaa7962cacf6755",
+      "suffix": "HEW25",
+      "accepted": true,
+      "rejection_reasons": []
+    },
+    {
+      "identifier": "F10",
+      "counter": 0,
+      "message": "studio2-fase03-pseudolabel-v1|label|F10|0",
+      "sha256": "61d94e18e8958be250f2f6dc1e6e8a4ce24c31f8fe7c8f1c4f8ae83f34f41a89",
+      "suffix": "MHMU4",
+      "accepted": true,
+      "rejection_reasons": []
+    },
+    {
+      "identifier": "F13",
+      "counter": 0,
+      "message": "studio2-fase03-pseudolabel-v1|label|F13|0",
+      "sha256": "28f66cfb48ece07ff92bf6253f59abc0c606c2b17431a2d54e5e558d78a007f0",
+      "suffix": "FD3GZ",
+      "accepted": true,
+      "rejection_reasons": []
+    },
+    {
+      "identifier": "F14",
+      "counter": 0,
+      "message": "studio2-fase03-pseudolabel-v1|label|F14|0",
+      "sha256": "e0192e24c469d9846b7dc63e9766148c79e52f40828a041c83cb8288e56bdce8",
+      "suffix": "4AMS4",
+      "accepted": true,
+      "rejection_reasons": []
+    },
+    {
+      "identifier": "F15",
+      "counter": 0,
+      "message": "studio2-fase03-pseudolabel-v1|label|F15|0",
+      "sha256": "de4d6840e30c722ef0d5f250662dc44e421214cab5e3058dcfa466741845261e",
+      "suffix": "3ZGWQ",
+      "accepted": true,
+      "rejection_reasons": []
+    }
+  ],
+  "label_counters": {
+    "F1": 0,
+    "F2": 0,
+    "F3": 0,
+    "F8": 0,
+    "F10": 0,
+    "F13": 0,
+    "F14": 0,
+    "F15": 0
+  },
+  "assignment_keys": [
+    {
+      "identifier": "F10",
+      "assignment_sha256": "0bbaaae415cdf45848fe63d71ab27cfa125ee00de43ab26fa7dea54abaf4d110",
+      "agent_id": "agent_1"
+    },
+    {
+      "identifier": "F3",
+      "assignment_sha256": "22b85c953249117607ca08766460d5d34dd11ec3c157ca6084082bf08a2c5df2",
+      "agent_id": "agent_2"
+    },
+    {
+      "identifier": "F2",
+      "assignment_sha256": "3d0a3cbcd3aedcbb2243017d208effec52ff6e6ed0c7410744bf6625b34a0fef",
+      "agent_id": "agent_3"
+    },
+    {
+      "identifier": "F8",
+      "assignment_sha256": "5e843ad27698e317f71ef09833eef97aa08ab5bf96f6595b21049bfac3d11819",
+      "agent_id": "agent_4"
+    },
+    {
+      "identifier": "F13",
+      "assignment_sha256": "646c06c5d40c07fb7c8aa1862a2a1e204f84ae7c8decc6d74dc8be370d299cf5",
+      "agent_id": "agent_5"
+    },
+    {
+      "identifier": "F15",
+      "assignment_sha256": "7437bfc2e3e815c5d775ff57d094486cba700a4f3197bd42187173da92f6589c",
+      "agent_id": "agent_6"
+    },
+    {
+      "identifier": "F14",
+      "assignment_sha256": "7579437ac81fe4cba868a080dbd4d64527923451939e32bd4b910edd6b015e8e",
+      "agent_id": "agent_7"
+    },
+    {
+      "identifier": "F1",
+      "assignment_sha256": "ea49efe8712ea9806c9009e804a9a17f19b9e59c7d89c6d07a16d79757d6fbff",
+      "agent_id": "agent_8"
+    }
+  ],
+  "derangement_rejections": {
+    "agent_1": 0,
+    "agent_2": 0,
+    "agent_3": 0,
+    "agent_4": 0,
+    "agent_5": 0,
+    "agent_6": 0,
+    "agent_7": 0,
+    "agent_8": 0
+  },
+  "derangements": {
+    "derangement_count": 1854,
+    "acceptance_limit": 4294967130,
+    "agents": {
+      "agent_1": {
+        "local_fault_label": "S2-CLS-MHMU4",
+        "peers_in_label_space_order": [
+          "S2-CLS-3ZGWQ",
+          "S2-CLS-4AMS4",
+          "S2-CLS-FD3GZ",
+          "S2-CLS-GSX3L",
+          "S2-CLS-HEW25",
+          "S2-CLS-QRCCB",
+          "S2-CLS-TYFPG"
+        ],
+        "draws": [
+          {
+            "draw_index": 0,
+            "message": "studio2-fase03-pseudolabel-v1|20260913|derangement|agent_1|0",
+            "word": 854589941,
+            "accepted": true
+          }
+        ],
+        "rejections": 0,
+        "selected_index": 1619,
+        "permutation": [
+          6,
+          2,
+          1,
+          5,
+          3,
+          4,
+          0
+        ]
+      },
+      "agent_2": {
+        "local_fault_label": "S2-CLS-QRCCB",
+        "peers_in_label_space_order": [
+          "S2-CLS-3ZGWQ",
+          "S2-CLS-4AMS4",
+          "S2-CLS-FD3GZ",
+          "S2-CLS-GSX3L",
+          "S2-CLS-HEW25",
+          "S2-CLS-MHMU4",
+          "S2-CLS-TYFPG"
+        ],
+        "draws": [
+          {
+            "draw_index": 0,
+            "message": "studio2-fase03-pseudolabel-v1|20260913|derangement|agent_2|0",
+            "word": 2898396702,
+            "accepted": true
+          }
+        ],
+        "rejections": 0,
+        "selected_index": 1422,
+        "permutation": [
+          5,
+          4,
+          0,
+          2,
+          3,
+          6,
+          1
+        ]
+      },
+      "agent_3": {
+        "local_fault_label": "S2-CLS-GSX3L",
+        "peers_in_label_space_order": [
+          "S2-CLS-3ZGWQ",
+          "S2-CLS-4AMS4",
+          "S2-CLS-FD3GZ",
+          "S2-CLS-HEW25",
+          "S2-CLS-MHMU4",
+          "S2-CLS-QRCCB",
+          "S2-CLS-TYFPG"
+        ],
+        "draws": [
+          {
+            "draw_index": 0,
+            "message": "studio2-fase03-pseudolabel-v1|20260913|derangement|agent_3|0",
+            "word": 1150423548,
+            "accepted": true
+          }
+        ],
+        "rejections": 0,
+        "selected_index": 1716,
+        "permutation": [
+          6,
+          3,
+          5,
+          2,
+          0,
+          1,
+          4
+        ]
+      },
+      "agent_4": {
+        "local_fault_label": "S2-CLS-HEW25",
+        "peers_in_label_space_order": [
+          "S2-CLS-3ZGWQ",
+          "S2-CLS-4AMS4",
+          "S2-CLS-FD3GZ",
+          "S2-CLS-GSX3L",
+          "S2-CLS-MHMU4",
+          "S2-CLS-QRCCB",
+          "S2-CLS-TYFPG"
+        ],
+        "draws": [
+          {
+            "draw_index": 0,
+            "message": "studio2-fase03-pseudolabel-v1|20260913|derangement|agent_4|0",
+            "word": 2524565191,
+            "accepted": true
+          }
+        ],
+        "rejections": 0,
+        "selected_index": 1201,
+        "permutation": [
+          4,
+          6,
+          3,
+          0,
+          2,
+          1,
+          5
+        ]
+      },
+      "agent_5": {
+        "local_fault_label": "S2-CLS-FD3GZ",
+        "peers_in_label_space_order": [
+          "S2-CLS-3ZGWQ",
+          "S2-CLS-4AMS4",
+          "S2-CLS-GSX3L",
+          "S2-CLS-HEW25",
+          "S2-CLS-MHMU4",
+          "S2-CLS-QRCCB",
+          "S2-CLS-TYFPG"
+        ],
+        "draws": [
+          {
+            "draw_index": 0,
+            "message": "studio2-fase03-pseudolabel-v1|20260913|derangement|agent_5|0",
+            "word": 441671923,
+            "accepted": true
+          }
+        ],
+        "rejections": 0,
+        "selected_index": 919,
+        "permutation": [
+          3,
+          6,
+          5,
+          2,
+          1,
+          0,
+          4
+        ]
+      },
+      "agent_6": {
+        "local_fault_label": "S2-CLS-3ZGWQ",
+        "peers_in_label_space_order": [
+          "S2-CLS-4AMS4",
+          "S2-CLS-FD3GZ",
+          "S2-CLS-GSX3L",
+          "S2-CLS-HEW25",
+          "S2-CLS-MHMU4",
+          "S2-CLS-QRCCB",
+          "S2-CLS-TYFPG"
+        ],
+        "draws": [
+          {
+            "draw_index": 0,
+            "message": "studio2-fase03-pseudolabel-v1|20260913|derangement|agent_6|0",
+            "word": 101685104,
+            "accepted": true
+          }
+        ],
+        "rejections": 0,
+        "selected_index": 620,
+        "permutation": [
+          3,
+          0,
+          1,
+          4,
+          2,
+          6,
+          5
+        ]
+      },
+      "agent_7": {
+        "local_fault_label": "S2-CLS-4AMS4",
+        "peers_in_label_space_order": [
+          "S2-CLS-3ZGWQ",
+          "S2-CLS-FD3GZ",
+          "S2-CLS-GSX3L",
+          "S2-CLS-HEW25",
+          "S2-CLS-MHMU4",
+          "S2-CLS-QRCCB",
+          "S2-CLS-TYFPG"
+        ],
+        "draws": [
+          {
+            "draw_index": 0,
+            "message": "studio2-fase03-pseudolabel-v1|20260913|derangement|agent_7|0",
+            "word": 955777137,
+            "accepted": true
+          }
+        ],
+        "rejections": 0,
+        "selected_index": 1203,
+        "permutation": [
+          4,
+          6,
+          3,
+          0,
+          5,
+          2,
+          1
+        ]
+      },
+      "agent_8": {
+        "local_fault_label": "S2-CLS-TYFPG",
+        "peers_in_label_space_order": [
+          "S2-CLS-3ZGWQ",
+          "S2-CLS-4AMS4",
+          "S2-CLS-FD3GZ",
+          "S2-CLS-GSX3L",
+          "S2-CLS-HEW25",
+          "S2-CLS-MHMU4",
+          "S2-CLS-QRCCB"
+        ],
+        "draws": [
+          {
+            "draw_index": 0,
+            "message": "studio2-fase03-pseudolabel-v1|20260913|derangement|agent_8|0",
+            "word": 1187716238,
+            "accepted": true
+          }
+        ],
+        "rejections": 0,
+        "selected_index": 1196,
+        "permutation": [
+          4,
+          6,
+          1,
+          5,
+          2,
+          0,
+          3
+        ]
+      }
+    }
+  }
+}

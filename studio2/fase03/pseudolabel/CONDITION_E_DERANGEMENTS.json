@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "scope": "EVALUATOR_SIDE_ONLY_never_in_prompts",
+  "namespace": "studio2-fase03-pseudolabel-v1",
+  "seed": 20260913,
+  "method": "uniform derangement of each agent's seven peers (rejection sampling over the 1854 derangements, SHA-256 word stream)",
+  "derangements": {
+    "agent_1": {
+      "S2-CLS-3ZGWQ": "S2-CLS-TYFPG",
+      "S2-CLS-4AMS4": "S2-CLS-FD3GZ",
+      "S2-CLS-FD3GZ": "S2-CLS-4AMS4",
+      "S2-CLS-GSX3L": "S2-CLS-QRCCB",
+      "S2-CLS-HEW25": "S2-CLS-GSX3L",
+      "S2-CLS-QRCCB": "S2-CLS-HEW25",
+      "S2-CLS-TYFPG": "S2-CLS-3ZGWQ"
+    },
+    "agent_2": {
+      "S2-CLS-3ZGWQ": "S2-CLS-MHMU4",
+      "S2-CLS-4AMS4": "S2-CLS-HEW25",
+      "S2-CLS-FD3GZ": "S2-CLS-3ZGWQ",
+      "S2-CLS-GSX3L": "S2-CLS-FD3GZ",
+      "S2-CLS-HEW25": "S2-CLS-GSX3L",
+      "S2-CLS-MHMU4": "S2-CLS-TYFPG",
+      "S2-CLS-TYFPG": "S2-CLS-4AMS4"
+    },
+    "agent_3": {
+      "S2-CLS-3ZGWQ": "S2-CLS-TYFPG",
+      "S2-CLS-4AMS4": "S2-CLS-HEW25",
+      "S2-CLS-FD3GZ": "S2-CLS-QRCCB",
+      "S2-CLS-HEW25": "S2-CLS-FD3GZ",
+      "S2-CLS-MHMU4": "S2-CLS-3ZGWQ",
+      "S2-CLS-QRCCB": "S2-CLS-4AMS4",
+      "S2-CLS-TYFPG": "S2-CLS-MHMU4"
+    },
+    "agent_4": {
+      "S2-CLS-3ZGWQ": "S2-CLS-MHMU4",
+      "S2-CLS-4AMS4": "S2-CLS-TYFPG",
+      "S2-CLS-FD3GZ": "S2-CLS-GSX3L",
+      "S2-CLS-GSX3L": "S2-CLS-3ZGWQ",
+      "S2-CLS-MHMU4": "S2-CLS-FD3GZ",
+      "S2-CLS-QRCCB": "S2-CLS-4AMS4",
+      "S2-CLS-TYFPG": "S2-CLS-QRCCB"
+    },
+    "agent_5": {
+      "S2-CLS-3ZGWQ": "S2-CLS-HEW25",
+      "S2-CLS-4AMS4": "S2-CLS-TYFPG",
+      "S2-CLS-GSX3L": "S2-CLS-QRCCB",
+      "S2-CLS-HEW25": "S2-CLS-GSX3L",
+      "S2-CLS-MHMU4": "S2-CLS-4AMS4",
+      "S2-CLS-QRCCB": "S2-CLS-3ZGWQ",
+      "S2-CLS-TYFPG": "S2-CLS-MHMU4"
+    },
+    "agent_6": {
+      "S2-CLS-4AMS4": "S2-CLS-HEW25",
+      "S2-CLS-FD3GZ": "S2-CLS-4AMS4",
+      "S2-CLS-GSX3L": "S2-CLS-FD3GZ",
+      "S2-CLS-HEW25": "S2-CLS-MHMU4",
+      "S2-CLS-MHMU4": "S2-CLS-GSX3L",
+      "S2-CLS-QRCCB": "S2-CLS-TYFPG",
+      "S2-CLS-TYFPG": "S2-CLS-QRCCB"
+    },
+    "agent_7": {
+      "S2-CLS-3ZGWQ": "S2-CLS-MHMU4",
+      "S2-CLS-FD3GZ": "S2-CLS-TYFPG",
+      "S2-CLS-GSX3L": "S2-CLS-HEW25",
+      "S2-CLS-HEW25": "S2-CLS-3ZGWQ",
+      "S2-CLS-MHMU4": "S2-CLS-QRCCB",
+      "S2-CLS-QRCCB": "S2-CLS-GSX3L",
+      "S2-CLS-TYFPG": "S2-CLS-FD3GZ"
+    },
+    "agent_8": {
+      "S2-CLS-3ZGWQ": "S2-CLS-HEW25",
+      "S2-CLS-4AMS4": "S2-CLS-QRCCB",
+      "S2-CLS-FD3GZ": "S2-CLS-4AMS4",
+      "S2-CLS-GSX3L": "S2-CLS-MHMU4",
+      "S2-CLS-HEW25": "S2-CLS-FD3GZ",
+      "S2-CLS-MHMU4": "S2-CLS-3ZGWQ",
+      "S2-CLS-QRCCB": "S2-CLS-GSX3L"
+    }
+  },
+  "derangements_by_identifier": {
+    "agent_1": {
+      "F15": "F1",
+      "F14": "F13",
+      "F13": "F14",
+      "F2": "F3",
+      "F8": "F2",
+      "F3": "F8",
+      "F1": "F15"
+    },
+    "agent_2": {
+      "F15": "F10",
+      "F14": "F8",
+      "F13": "F15",
+      "F2": "F13",
+      "F8": "F2",
+      "F10": "F1",
+      "F1": "F14"
+    },
+    "agent_3": {
+      "F15": "F1",
+      "F14": "F8",
+      "F13": "F3",
+      "F8": "F13",
+      "F10": "F15",
+      "F3": "F14",
+      "F1": "F10"
+    },
+    "agent_4": {
+      "F15": "F10",
+      "F14": "F1",
+      "F13": "F2",
+      "F2": "F15",
+      "F10": "F13",
+      "F3": "F14",
+      "F1": "F3"
+    },
+    "agent_5": {
+      "F15": "F8",
+      "F14": "F1",
+      "F2": "F3",
+      "F8": "F2",
+      "F10": "F14",
+      "F3": "F15",
+      "F1": "F10"
+    },
+    "agent_6": {
+      "F14": "F8",
+      "F13": "F14",
+      "F2": "F13",
+      "F8": "F10",
+      "F10": "F2",
+      "F3": "F1",
+      "F1": "F3"
+    },
+    "agent_7": {
+      "F15": "F10",
+      "F13": "F1",
+      "F2": "F8",
+      "F8": "F15",
+      "F10": "F3",
+      "F3": "F2",
+      "F1": "F13"
+    },
+    "agent_8": {
+      "F15": "F8",
+      "F14": "F3",
+      "F13": "F14",
+      "F2": "F10",
+      "F8": "F13",
+      "F10": "F15",
+      "F3": "F2"
+    }
+  }
+}
