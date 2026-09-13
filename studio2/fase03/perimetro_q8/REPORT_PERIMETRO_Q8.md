@@ -11,9 +11,33 @@ decisione; nessun artefatto è congelato, nessun tag creato, nessun file fuori d
 finestra, altro modello) e la conferma dell'autore precedono qualunque modifica a
 `docs/MAINTENANCE.md`, al walkthrough e a `studio2/PROVENIENZA.md`.
 
+**Revisione 2.** Il primo verbale indipendente ha dato **NON OK**. OpenAI Codex (GPT-5), in una
+finestra decisionale con ragionamento esteso, ha corretto la proposta senza attuarla. Restano
+necessari una riverifica mirata con modello diverso e il successivo OK prima della documentazione.
+
 ## 1. Riassunto e risultati
 
 Una sola sotto-fase eseguita, in quest'ordine interno.
+
+**Correzione dopo NON OK.** La revisione 2 recepisce i tre blocchi di
+`VERIFICA_PERIMETRO_Q8.md`: §5.2 ora disciplina il riuso a livello di funzione, includendo
+dipendenze, effetti del caricamento e controllo dell'impronta prima dell'import; il criterio di §1
+è esplicitamente file-level e tutte le righe H sono state rilette; il glob `tep_*_v2/` è descritto
+letteralmente e distinto da `tep_exp3_v2_heldout/` e `code/tep_analysis_v2/`.
+
+Nove righe sono state riclassificate: `conditions/parser.py`, `conditions/retry.py`,
+`evaluation/records.py`, `execution/openai_adapter.py`, `guard.py`, `exp2/qwen/adapter.py`,
+`exp2/qwen/capability_probe.py`, `tests/test_parser_retry_guard.py` e
+`code/evaluate_verbalizer_v2.py` sono ora HC. Restano H soltanto `evaluation/token_logging.py`,
+`code/tep_features.py` e `code/test_features.py`: il primo è interamente parametrico, il secondo
+contiene soltanto lo schema intrinseco TEP e il terzo usa fixture sintetiche per invarianti
+qualitativi. Essere «superato» o «riusabile come pattern» non determina più la classe.
+
+La verifica del filesystem e dei ref stabilisce che il glob root-relative seleziona a HEAD soltanto
+`tep_test_v2/` e `tep_validation_v2/`. `tep_exp3_v2_heldout/` è assente a HEAD, ma 32 file sono
+conservati nel tag `exp3-v2-heldout-data-frozen-001`. `code/tep_analysis_v2/` contiene 12 file,
+non è in un manifest complessivo e la copia corrente differisce dai tag Phase A per
+`threshold_calibration_report.md`; §5.1 propone perciò di nominare entrambe le directory.
 
 **Lettura del contratto e dello stato.** `MAINTENANCE.md` §1, §2, §8.1–8.6; walkthrough studio2 §0 e
 §0.1 (punto 2 testualmente); `Fase_LLM.md`; PROVENIENZA §5; `IMPLEMENTATION_STATUS.md`;
@@ -51,8 +75,12 @@ testo esatto per §1, §8.2, la chiusura in §0.1 e una riga PROVENIENZA; effett
 
 | File | Cosa è cambiato |
 | --- | --- |
-| `studio2/fase03/perimetro_q8/PROPOSTA_PERIMETRO_Q8.md` | **nuovo**: proposta di decisione con inventario, analisi del punto 2, opzioni, raccomandazione e testi proposti |
-| `studio2/fase03/perimetro_q8/REPORT_PERIMETRO_Q8.md` | **nuovo**: questo report |
+| `studio2/fase03/perimetro_q8/PROPOSTA_PERIMETRO_Q8.md` | **nuovo nella revisione 1; modificato nella revisione 2**: sezione di risposta al NON OK, criterio file-level, 9 riclassificazioni, §5.2 function-level, glob e conseguenze 03.6/03.9 corretti |
+| `studio2/fase03/perimetro_q8/REPORT_PERIMETRO_Q8.md` | **nuovo nella revisione 1; modificato nella revisione 2**: registra correzioni, modello, test, file e decisioni residue |
+
+Il verbale `VERIFICA_PERIMETRO_Q8.md` è stato copiato byte-identico dalla copia principale
+(SHA-256 `acbe8bda7f297c6fe77d34a72fde241f98ddff593eb85fab75331d71e81197ef`) e committato da solo
+prima della revisione; A2 non ne modifica il contenuto.
 
 Nessun altro file. In particolare **non** toccati: `docs/MAINTENANCE.md`,
 `docs/fot_walkthrough_conversazione_studio2.md` (e `.html`), `studio2/PROVENIENZA.md`, `phase_b/`,
@@ -69,6 +97,7 @@ dell'autore. Non è una modifica al contenuto tracciato.
 | Sotto-fase | Profilo dichiarato | Modello | Ragionamento |
 | --- | --- | --- | --- |
 | 03.4 | decisionale (breve) | Claude Fable 5.1 (`claude-fable-5-1`) | esteso |
+| 03.4, revisione 2 dopo NON OK | decisionale | OpenAI Codex (GPT-5) | esteso |
 
 Nessuna chiamata a modelli linguistici, nessuna simulazione, nessuna esecuzione di test di
 `phase_b/` o `studio2/` (non richiesti: la sotto-fase legge, non implementa). Comandi eseguiti:
@@ -79,8 +108,9 @@ Nessuna chiamata a modelli linguistici, nessuna simulazione, nessuna esecuzione 
 
 - **L'attuazione della decisione** (modifica a §1, §8.2, §0.1, PROVENIENZA): per mandato, in
   un'altra finestra dopo la conferma dell'autore.
-- **La scelta copia/import** per il codice congelato: è una scelta dell'autore (proposta §6.2); qui
-  è solo raccomandata.
+- **L'applicazione alle singole funzioni** del codice congelato: 03.6 e 03.9 devono verificare
+  dipendenze, caricamento e impronta; questa revisione fissa il criterio ma non approva soglie o
+  default e non implementa import o adattamenti.
 - **Test di `studio2/fase03/`** non eseguiti (`pytest` non installato nell'ambiente locale; non
   richiesti dalla sotto-fase).
 - **Ogni decisione delle sotto-fasi successive**: schema insight (03.12), seed/namespace delle
@@ -93,8 +123,8 @@ Nessuna chiamata a modelli linguistici, nessuna simulazione, nessuna esecuzione 
 1. Confermare l'opzione (a′), o scegliere (a)/(b)/(c). La colonna «Decisione da chiudere in» del
    punto 2 indicava §1 «separato tra harness riutilizzabile e artefatto»: la proposta se ne discosta e
    spiega perché (§4 b).
-2. Regola copia/import per `code/tep_features.py`, `tep_verbalize_v2.py`, `verbalizer_config_v2.json`,
-   `evaluate_verbalizer_v2.py` (vincola 03.6 e 03.9).
+2. Valutazione function-level, in 03.6 e 03.9, delle funzioni effettivamente necessarie da
+   `code/`, secondo §5.2 corretto; non esiste più un'autorizzazione binaria per modulo.
 3. Sanare o no il precedente di Fase 02 con la riga PROVENIENZA di §5.4.
 4. Se e quando committare `APERTURA_SOTTOFASI_FASE03.md`.
 
@@ -104,6 +134,8 @@ Nessuna chiamata a modelli linguistici, nessuna simulazione, nessuna esecuzione 
 | --- | --- |
 | Prima (HEAD `b7f359f`, prima di creare il branch) | `Ran 35 tests` — **FAILED (failures=14, skipped=1)** |
 | Dopo (con i due file nuovi) | `Ran 35 tests` — **FAILED (failures=14, skipped=1)** |
+| Prima della revisione 2 (HEAD `ac81b38`, verbale già registrato) | `Ran 35 tests` — **FAILED (failures=14, skipped=1)** |
+| Dopo la revisione 2 | `Ran 35 tests` — **FAILED (failures=14, skipped=1)** |
 
 Numero di partenza dichiarato in `MAINTENANCE.md` §5: 14 al 2026-09-11, preesistenti e relativi ai
 walkthrough v1 (`test_step27_qwen_*`, `test_condition_c_*`, `test_one_flow_*`). Invariato. Il test
@@ -111,12 +143,14 @@ non copre `studio2/`, quindi l'invarianza non è prova di correttezza della prop
 
 ## 7. Commit
 
-**Sì**, un solo commit sul branch `codex/studio2-perimetro-q8`, con i soli due file di §2:
+La revisione 1 è nel commit `53a3e92`. Il verbale NON OK è stato poi registrato, da solo, nel
+commit `ac81b38`. La revisione 2 usa un ulteriore commit con i soli due file di §2 e messaggio:
 
 ```
-studio2(fase03): propone il perimetro del codice Q8 (sotto-fase 03.4) con inventario di phase_b/ e code/
+studio2(fase03): corregge la proposta 03.4 dopo la verifica — regola di import a livello di funzione, inventario riclassificato, glob tep_*_v2/
 ```
 
 Non è un congelamento (§8.4): nessun tag. L'integrazione in `main` è ammessa su richiesta
-dell'autore (§8.6), ma la sotto-fase si considera chiusa solo dopo `VERIFICA_PERIMETRO_Q8.md`
-(verdetto in prima riga, modello e finestra dichiarati) e la conferma dell'autore sulla decisione.
+dell'autore (§8.6), ma la correzione deve ricevere l'OK di
+`VERIFICA_PERIMETRO_Q8_rev002.md`, prodotto in un'altra finestra e con un modello diverso, prima
+dell'attuazione e della documentazione.
