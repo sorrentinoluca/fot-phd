@@ -1,0 +1,926 @@
+{
+  "freeze_status": "frozen_before_far_ver_analysis",
+  "frozen_at_utc": "2026-09-13T18:28:19.798728+00:00",
+  "source_head_commit": "0127ef4df99b0e0b0c8dc64a1edaa5dda726b248",
+  "alpha": 0.05,
+  "n": 350,
+  "rank": 334,
+  "threshold": 13.623626738268857,
+  "rule": "S > threshold",
+  "score_variant": "A",
+  "score_ties_at_threshold": 1,
+  "cal_thr_scores_sha256": "a1c5991af1ee136372b1da7c63ab05027d9710fd99c228a549395964d5519191",
+  "sources": {
+    "cal_thr_scores_csv": "a1c5991af1ee136372b1da7c63ab05027d9710fd99c228a549395964d5519191",
+    "score_fit_legacy_json": "e679caf45bf1ec1c923b8ef50b36fef5bcb350e17cf3296e00c748ec9fdef477",
+    "combined_score_py": "6d083820789c888c393864b40c19205920029eac3113e36133e78d53c98cac48",
+    "tep_features_py": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+    "validate_numerics_py": "f17066ebd6a7523eddf350589a44ac2cf85a90c95ef0e3076a1bb492b9f27efe",
+    "cal_thr_plan_csv": "fae355fdfd6db17b25e55c72f174ee8c7bb9c8b298facfb9a8012908f921a3ad",
+    "far_ver_plan_csv": "084dcabf03cc34c6a23002a956d579864c6e1086ca18bbc3b44ef96d218c10a5",
+    "precalibration_freeze_json": "be01fe4cccf6e9f3c9d82e8de69e426aa68b80d3e106bac81fa29dfb325bf085",
+    "lot_audit_json": "ec1838280f0ce2cc57e3e0df528c59a8b7b6bf5cb07563a7406187f443c79472"
+  },
+  "far_ver_seal": [
+    {
+      "run_id": "far_ver-001",
+      "stream_id": 50000,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-001.xlsx",
+      "sha256": "d76a173be008693b6b56c3f777bf2e9ae4eabd473c119c45acd6674f5f76ddde"
+    },
+    {
+      "run_id": "far_ver-002",
+      "stream_id": 50001,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-002.xlsx",
+      "sha256": "b56bf610cc27fda8501c97040bea5244a3d395e24d4d72c37e35ec1391ae596a"
+    },
+    {
+      "run_id": "far_ver-003",
+      "stream_id": 50002,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-003.xlsx",
+      "sha256": "04eb6e0d1bd6b0136145485d8607965db6648fc6ccbd71c521f2fd0633d7fbe6"
+    },
+    {
+      "run_id": "far_ver-004",
+      "stream_id": 50003,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-004.xlsx",
+      "sha256": "2bc1797b7175387b81030904217c21dc26963aadcc5628a3f78f67b0dc366d17"
+    },
+    {
+      "run_id": "far_ver-005",
+      "stream_id": 50004,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-005.xlsx",
+      "sha256": "1befd2f95e2203dae0fe96f2dc5fcf735c77b94c92832278ca04617ea7ca2e8d"
+    },
+    {
+      "run_id": "far_ver-006",
+      "stream_id": 50005,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-006.xlsx",
+      "sha256": "67aa84ead9e313ce7af60b6cbdd046eab863216ab08690d9dcaa451d24814c4e"
+    },
+    {
+      "run_id": "far_ver-007",
+      "stream_id": 50006,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-007.xlsx",
+      "sha256": "2af3cc3f0d7076fec397054fa6a6966e35c8e1bddcf115925a146006daa6d82f"
+    },
+    {
+      "run_id": "far_ver-008",
+      "stream_id": 50007,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-008.xlsx",
+      "sha256": "6c666d90f1fbd582b98f33940c077817f88c75f78a6ec4b4dc122b1c9c329f2a"
+    },
+    {
+      "run_id": "far_ver-009",
+      "stream_id": 50008,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-009.xlsx",
+      "sha256": "f5e31cad9560db6672c51ec80e2314ccecb2618e09e6524961c3033d7f678d42"
+    },
+    {
+      "run_id": "far_ver-010",
+      "stream_id": 50009,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-010.xlsx",
+      "sha256": "a5bab1b50bc021d3d4d5740931849e59f850b729b31a8688eeda92bd3403278c"
+    },
+    {
+      "run_id": "far_ver-011",
+      "stream_id": 50010,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-011.xlsx",
+      "sha256": "d7737fd4fa7e39bb50e20edf3d976a26b75e8435da023fbf9aad231fe411d609"
+    },
+    {
+      "run_id": "far_ver-012",
+      "stream_id": 50011,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-012.xlsx",
+      "sha256": "456a916e8350ed2b17c23cb275e57ab77dd669811000a0f31dd86015f0f320b4"
+    },
+    {
+      "run_id": "far_ver-013",
+      "stream_id": 50012,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-013.xlsx",
+      "sha256": "26f6ad7b33a4a43a0eaea378d4dffff9da35292f7546b7a174642a15e1b22f40"
+    },
+    {
+      "run_id": "far_ver-014",
+      "stream_id": 50013,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-014.xlsx",
+      "sha256": "2214376cb3dbd024ddae6da2c650c05324ae674eef59c6daef940312c3d37e14"
+    },
+    {
+      "run_id": "far_ver-015",
+      "stream_id": 50014,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-015.xlsx",
+      "sha256": "1943ffa3bf9278fd9859ecc72bb0c4921f3fdbc55da7da79fa4529bd15c07a84"
+    },
+    {
+      "run_id": "far_ver-016",
+      "stream_id": 50015,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-016.xlsx",
+      "sha256": "f53a66012e096f3d0bb34f8ad0363a73a794c10d80aaa72633adb06e278fdd3a"
+    },
+    {
+      "run_id": "far_ver-017",
+      "stream_id": 50016,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-017.xlsx",
+      "sha256": "f2d48bbfabc73a097dbabad55aaf281d0bcbb036c949424247ee5aac9c00e59c"
+    },
+    {
+      "run_id": "far_ver-018",
+      "stream_id": 50017,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-018.xlsx",
+      "sha256": "81e46c4d797cca8e82d4b8f150e2e3c1719af0c0fb8955f07799d1d67eda5aab"
+    },
+    {
+      "run_id": "far_ver-019",
+      "stream_id": 50018,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-019.xlsx",
+      "sha256": "e6a8a58c08545d5cddbeb9ac42088fdef8e247e610a8d5f1e6ddf18070fcf470"
+    },
+    {
+      "run_id": "far_ver-020",
+      "stream_id": 50019,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-020.xlsx",
+      "sha256": "a09e407da9787957185af7dd65dc8bd28ac6c0f31ef08b40681eff5138cee6ad"
+    },
+    {
+      "run_id": "far_ver-021",
+      "stream_id": 50020,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-021.xlsx",
+      "sha256": "cc59824143830a6fb90d0c885344a885d6315a12066b9c91fd2c28bb26032ee0"
+    },
+    {
+      "run_id": "far_ver-022",
+      "stream_id": 50021,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-022.xlsx",
+      "sha256": "d12f95a0f5e07f678a99cbce6fa9ec12d11c96748e56d5bf95ae985053d19a70"
+    },
+    {
+      "run_id": "far_ver-023",
+      "stream_id": 50022,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-023.xlsx",
+      "sha256": "6140f4cbb9cf86494c242a232e4da8a5abaf66c13bf8eaad1e8f9d0a867bd450"
+    },
+    {
+      "run_id": "far_ver-024",
+      "stream_id": 50023,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-024.xlsx",
+      "sha256": "4f1b101f83b333ae0b1662b9c5697759ffd36bb77b8e7d010896666ce3ea8f56"
+    },
+    {
+      "run_id": "far_ver-025",
+      "stream_id": 50024,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-025.xlsx",
+      "sha256": "bf19e4ba70ff2d46b2add4059259923ae03a22486ab5133e10531efeb80c8378"
+    },
+    {
+      "run_id": "far_ver-026",
+      "stream_id": 50025,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-026.xlsx",
+      "sha256": "4065559cb6bb7465f4ce99d1d0402277475b9933a093a3230bf2962c4764318f"
+    },
+    {
+      "run_id": "far_ver-027",
+      "stream_id": 50026,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-027.xlsx",
+      "sha256": "8d857210964e064083944261a8a44e031512651e2a8d5a8099f1b8173a823026"
+    },
+    {
+      "run_id": "far_ver-028",
+      "stream_id": 50027,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-028.xlsx",
+      "sha256": "d2162efd616bfa7311746dc0910195fe21bb23a896ea2149e3b098d8fa9b86b1"
+    },
+    {
+      "run_id": "far_ver-029",
+      "stream_id": 50028,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-029.xlsx",
+      "sha256": "3511da1140d1aacefc86fa5825e5f14d67eea7ecbba1319f324752e97f145115"
+    },
+    {
+      "run_id": "far_ver-030",
+      "stream_id": 50029,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-030.xlsx",
+      "sha256": "f5c3e6ac5dc0d2742a317641e364e1003e858cb9894e60a53e10482818b5ed7c"
+    },
+    {
+      "run_id": "far_ver-031",
+      "stream_id": 50030,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-031.xlsx",
+      "sha256": "f322175b11fd4c19a5b2e21df0bd7fb61e690fe5e56c5d5191b534d38101f64f"
+    },
+    {
+      "run_id": "far_ver-032",
+      "stream_id": 50031,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-032.xlsx",
+      "sha256": "0ede57d547be41c378808d7d3b552eecd51167e3a040267a74f1b1ef48bbdb6d"
+    },
+    {
+      "run_id": "far_ver-033",
+      "stream_id": 50032,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-033.xlsx",
+      "sha256": "22e306d725f007c12f0b3b51bc2c182b8c7f631e20caa0d64778c0cc424b0e82"
+    },
+    {
+      "run_id": "far_ver-034",
+      "stream_id": 50033,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-034.xlsx",
+      "sha256": "c485bf4112028e9c078ac95ee60ae7c464547dbcc7a3357f083f5cdf9aaa0b25"
+    },
+    {
+      "run_id": "far_ver-035",
+      "stream_id": 50034,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-035.xlsx",
+      "sha256": "1b9be64f53e9cf35d1a3bc6ff4f0445d58319f18d550e030248563b89518c8d2"
+    },
+    {
+      "run_id": "far_ver-036",
+      "stream_id": 50035,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-036.xlsx",
+      "sha256": "ec808c86d0a5852b64c2373d4fec66c37fa33da2e05efe67b6a2e1294e2b2145"
+    },
+    {
+      "run_id": "far_ver-037",
+      "stream_id": 50036,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-037.xlsx",
+      "sha256": "20b1b9738c9d21b3e27c9e120c84eb11c49c0c8d01af55e65407609cff84bdc8"
+    },
+    {
+      "run_id": "far_ver-038",
+      "stream_id": 50037,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-038.xlsx",
+      "sha256": "2e0ffd7e60e855d6b927b7a16160c62070ef558eaa9c757ad732b5ef0da029a3"
+    },
+    {
+      "run_id": "far_ver-039",
+      "stream_id": 50038,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-039.xlsx",
+      "sha256": "2bee52a8413d6e080efb6f2e2370cd8553dfe2a0334db7f2220eb631bab31f16"
+    },
+    {
+      "run_id": "far_ver-040",
+      "stream_id": 50039,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-040.xlsx",
+      "sha256": "af8bd331e848a763dc49ea7531be9b84be077f787cf18ada7a8c0ae708162226"
+    },
+    {
+      "run_id": "far_ver-041",
+      "stream_id": 50040,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-041.xlsx",
+      "sha256": "5aec783aec951e8f6dd1d0280196c3791435181f169967f461bfc5d2e64390a5"
+    },
+    {
+      "run_id": "far_ver-042",
+      "stream_id": 50041,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-042.xlsx",
+      "sha256": "b7aa8ca7b1bbb80df390fdc05e4e484bbc1f001974280785b91f6be372121df9"
+    },
+    {
+      "run_id": "far_ver-043",
+      "stream_id": 50042,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-043.xlsx",
+      "sha256": "c1f65455b79d92ab20fa4efb412c3a89f650f942b9202bc46e4482c8694a9f8e"
+    },
+    {
+      "run_id": "far_ver-044",
+      "stream_id": 50043,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-044.xlsx",
+      "sha256": "5092fea9da52048e4fb9ac56cc070a963af5a2d4791ede39e8f0b6acb808ab75"
+    },
+    {
+      "run_id": "far_ver-045",
+      "stream_id": 50044,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-045.xlsx",
+      "sha256": "3b311b8d613c354fc312b6d381effef8fbd574a1a9c34b579571e4cae71a0fc4"
+    },
+    {
+      "run_id": "far_ver-046",
+      "stream_id": 50045,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-046.xlsx",
+      "sha256": "4f165a43816780c17c790034f735b5384939fd64dd2f92124cd4d8c62ebf140c"
+    },
+    {
+      "run_id": "far_ver-047",
+      "stream_id": 50046,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-047.xlsx",
+      "sha256": "0fde00702f7c307421c52d25e7aff848ec5475008e3b18483f2395613c4a1955"
+    },
+    {
+      "run_id": "far_ver-048",
+      "stream_id": 50047,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-048.xlsx",
+      "sha256": "e75217a6f457b5863e13522b3bbeb5c1abc5971dfcb9457877ea6b5612384453"
+    },
+    {
+      "run_id": "far_ver-049",
+      "stream_id": 50048,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-049.xlsx",
+      "sha256": "c58e71f1cf3d7efa19ca5bc0c095225f2bb4c5e2980011d9303e453caff12297"
+    },
+    {
+      "run_id": "far_ver-050",
+      "stream_id": 50049,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-050.xlsx",
+      "sha256": "d2ad2e11ef6ec9515eb44f4b43938eda556b582081ff44beac529259aa81d676"
+    },
+    {
+      "run_id": "far_ver-051",
+      "stream_id": 50050,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-051.xlsx",
+      "sha256": "ec51d68d1da0db2421b052e7d741f313675c0f9f8c43e94ed00d748f47a9b680"
+    },
+    {
+      "run_id": "far_ver-052",
+      "stream_id": 50051,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-052.xlsx",
+      "sha256": "ecbf6818880d0d8477ed00b25145b42dcbc649c220396be975782ae8760f8273"
+    },
+    {
+      "run_id": "far_ver-053",
+      "stream_id": 50052,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-053.xlsx",
+      "sha256": "fd241eefe56544047be33815d9fce54b0046231c1be67067f0017013c3c99878"
+    },
+    {
+      "run_id": "far_ver-054",
+      "stream_id": 50053,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-054.xlsx",
+      "sha256": "e53c46d2fe4fbbd9dc656424c264eda80bdb0934d7c73e0fe0ff06ae09ff4b31"
+    },
+    {
+      "run_id": "far_ver-055",
+      "stream_id": 50054,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-055.xlsx",
+      "sha256": "c3242829a4df7ef6a7c1ba2827657645949d3d4d6ae6d111bab8c2152b25b29b"
+    },
+    {
+      "run_id": "far_ver-056",
+      "stream_id": 50055,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-056.xlsx",
+      "sha256": "f20f1ce9f6fd9edff5ded13c31a551f31e2915ffffc3bfe130b274047a754011"
+    },
+    {
+      "run_id": "far_ver-057",
+      "stream_id": 50056,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-057.xlsx",
+      "sha256": "f3d548eed982a3f909ab1a04ddd58236ea56a2e5b58a7cd9a2127566a93cbb2b"
+    },
+    {
+      "run_id": "far_ver-058",
+      "stream_id": 50057,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-058.xlsx",
+      "sha256": "8033fd2b8d81ef412ddc5327887afd9d80b7ac9d4550b57c8e267d9075f5c633"
+    },
+    {
+      "run_id": "far_ver-059",
+      "stream_id": 50058,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-059.xlsx",
+      "sha256": "e5396caf209b518e7d2426434af27a5b6b81dd399f120350e460edb344ac563d"
+    },
+    {
+      "run_id": "far_ver-060",
+      "stream_id": 50059,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-060.xlsx",
+      "sha256": "6a7c6478f1f2d1bd0cb1ef15edc6ae8736ab6e61806e0e16a21de36f1a7c39cb"
+    },
+    {
+      "run_id": "far_ver-061",
+      "stream_id": 50060,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-061.xlsx",
+      "sha256": "6ee0c64cdda55d51f8b69324d68c8c06c9c632f03aa68f5e70e56eccd495ace7"
+    },
+    {
+      "run_id": "far_ver-062",
+      "stream_id": 50061,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-062.xlsx",
+      "sha256": "fa1c3eff719f9358e5da6f52626e11790eca930fd411462b516970808405bea0"
+    },
+    {
+      "run_id": "far_ver-063",
+      "stream_id": 50062,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-063.xlsx",
+      "sha256": "10ceaa13a15c7aa6a8b94d14288f7631f3b988acb8a54e78954be05e214e36c5"
+    },
+    {
+      "run_id": "far_ver-064",
+      "stream_id": 50063,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-064.xlsx",
+      "sha256": "f877feaed29feb2bc8ad4df2c3d851dbb1c4720a2c48d38f7ec47ee6c787f36a"
+    },
+    {
+      "run_id": "far_ver-065",
+      "stream_id": 50064,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-065.xlsx",
+      "sha256": "c04cc9c9322295594e9c6850ff3aab5177106497a097110f3a3c02757a6221b1"
+    },
+    {
+      "run_id": "far_ver-066",
+      "stream_id": 50065,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-066.xlsx",
+      "sha256": "ce6f2d67c436994113ba2e4aefd5d45660c4d4277ba4a484dec92ed56c727e0c"
+    },
+    {
+      "run_id": "far_ver-067",
+      "stream_id": 50066,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-067.xlsx",
+      "sha256": "5e58f29c5e34811adecc5ae2cbea1e1d955214175dc6a6b0d8303ba178396b92"
+    },
+    {
+      "run_id": "far_ver-068",
+      "stream_id": 50067,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-068.xlsx",
+      "sha256": "303a073a07f31c78c31e919280e0c941b14520e65c84116e2ce851c2a421bcec"
+    },
+    {
+      "run_id": "far_ver-069",
+      "stream_id": 50068,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-069.xlsx",
+      "sha256": "86f79b44b540cc0b795f2f851958819e46e9ac99567184cda937b014b4e36100"
+    },
+    {
+      "run_id": "far_ver-070",
+      "stream_id": 50069,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-070.xlsx",
+      "sha256": "cf4ee967b4da1abf355f23a89a1f780099215645ca060d17097f30a761eeebc7"
+    },
+    {
+      "run_id": "far_ver-071",
+      "stream_id": 50070,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-071.xlsx",
+      "sha256": "00bc5ec8df75bca90dc1f0a537d38792bd00e71198e0e63b1fd7d2cbba368979"
+    },
+    {
+      "run_id": "far_ver-072",
+      "stream_id": 50071,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-072.xlsx",
+      "sha256": "5982b2100542d836fceeeae4b7c33da0cb82d0b538f325b6d818e36e584f49f1"
+    },
+    {
+      "run_id": "far_ver-073",
+      "stream_id": 50072,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-073.xlsx",
+      "sha256": "d844bb9ad591da2daa07fc760e3e035762bf90d3ae3b67145dad4cbd78a11a21"
+    },
+    {
+      "run_id": "far_ver-074",
+      "stream_id": 50073,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-074.xlsx",
+      "sha256": "83e59e614322e74fbd136f73f652dca8fd90b46b760c918db4f1cb663b810e37"
+    },
+    {
+      "run_id": "far_ver-075",
+      "stream_id": 50074,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-075.xlsx",
+      "sha256": "35f7da0b9332a8c1aa0a17f090329e3a46f08aaae80dec39b2edf24b377f4146"
+    },
+    {
+      "run_id": "far_ver-076",
+      "stream_id": 50075,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-076.xlsx",
+      "sha256": "62eb8cb5527eb94de3efe52a0a8c8254f3cb9a76d9ce3d7c5e45b13d7f6c0c84"
+    },
+    {
+      "run_id": "far_ver-077",
+      "stream_id": 50076,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-077.xlsx",
+      "sha256": "0400b365b9354aea4d2e7975bdc7954af53a8adc1c1fdcf05c80ffeb501b95df"
+    },
+    {
+      "run_id": "far_ver-078",
+      "stream_id": 50077,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-078.xlsx",
+      "sha256": "82f9be493d13e027ec3822f4f243d24385c6d26def8fc427bca9b0c71d5b7c1a"
+    },
+    {
+      "run_id": "far_ver-079",
+      "stream_id": 50078,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-079.xlsx",
+      "sha256": "94341ffb2c27ba2801ed3bb4202b7151dcd89dd4327f51c93f83b849b2f4845a"
+    },
+    {
+      "run_id": "far_ver-080",
+      "stream_id": 50079,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-080.xlsx",
+      "sha256": "1cbb82938949e927a88ee6b1b5275a9ac475a10f1f3dbba1bc51de9d55d0d1f8"
+    },
+    {
+      "run_id": "far_ver-081",
+      "stream_id": 50080,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-081.xlsx",
+      "sha256": "6bb300256a37b234794cf16f2e8e2be423be44aefa5a9d82889b39eb66f30549"
+    },
+    {
+      "run_id": "far_ver-082",
+      "stream_id": 50081,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-082.xlsx",
+      "sha256": "cb94dc7b90aa3a22abb84f158665279872291f144482d0bde5eee8e7396297de"
+    },
+    {
+      "run_id": "far_ver-083",
+      "stream_id": 50082,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-083.xlsx",
+      "sha256": "20062178461ccc15ef1384bfabaeccf9ad92c3ee0e870196f87e5e79172a0ae2"
+    },
+    {
+      "run_id": "far_ver-084",
+      "stream_id": 50083,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-084.xlsx",
+      "sha256": "c73c746e50a28bb5612e252369a67d9ae87a82157f88ce2850802fe9ab12bef0"
+    },
+    {
+      "run_id": "far_ver-085",
+      "stream_id": 50084,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-085.xlsx",
+      "sha256": "58e16873e4da3685e5bb0d980508fa3cd138f1887b0a48067facab731d23e106"
+    },
+    {
+      "run_id": "far_ver-086",
+      "stream_id": 50085,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-086.xlsx",
+      "sha256": "2387fcde72ffb1ffe7cdec7c77af9ff7125677445d8236450a071a84c0c5ba69"
+    },
+    {
+      "run_id": "far_ver-087",
+      "stream_id": 50086,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-087.xlsx",
+      "sha256": "f56c8c49646989886e91df7f3aa3cf411ec14329f6ecc39cf157fb207d4d06fc"
+    },
+    {
+      "run_id": "far_ver-088",
+      "stream_id": 50087,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-088.xlsx",
+      "sha256": "631b9db5b72c807920e60036befd099094cc9182fb349f4c1e611231b8aef772"
+    },
+    {
+      "run_id": "far_ver-089",
+      "stream_id": 50088,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-089.xlsx",
+      "sha256": "c812284389189a7cadb692524dc2668a532b25adb5bc0c58d6e20bac73456e18"
+    },
+    {
+      "run_id": "far_ver-090",
+      "stream_id": 50089,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-090.xlsx",
+      "sha256": "f095c3fd83d413a81171c7e899ed4868abc712ce18c7c141652d64b77af7da87"
+    },
+    {
+      "run_id": "far_ver-091",
+      "stream_id": 50090,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-091.xlsx",
+      "sha256": "5b02d9b5e4826b5501c75a9819a357ef76d647b360ca2020abf5f144bc6c0941"
+    },
+    {
+      "run_id": "far_ver-092",
+      "stream_id": 50091,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-092.xlsx",
+      "sha256": "295229c087dfb38a96a28723f40ca3a236c7f51b9dd5f8fd6d1f5318236664dc"
+    },
+    {
+      "run_id": "far_ver-093",
+      "stream_id": 50092,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-093.xlsx",
+      "sha256": "d8e16167f12d4393a22d091c9a1e7899306456815154a30bca8cbc55a872d7d3"
+    },
+    {
+      "run_id": "far_ver-094",
+      "stream_id": 50093,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-094.xlsx",
+      "sha256": "ad682db6372b90eefe7de2c1ef5757f5ae362a89699f5c6f1cb55d1b63f34114"
+    },
+    {
+      "run_id": "far_ver-095",
+      "stream_id": 50094,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-095.xlsx",
+      "sha256": "d8b635006beaf02c526661c0e050ec26e53ddeca0728cc322b1301423f692caa"
+    },
+    {
+      "run_id": "far_ver-096",
+      "stream_id": 50095,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-096.xlsx",
+      "sha256": "aae7f506b03e4b777a4f9ccc8e7db4f19ec1af5c13ab6b17fce72a15f414342a"
+    },
+    {
+      "run_id": "far_ver-097",
+      "stream_id": 50096,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-097.xlsx",
+      "sha256": "d4711e6154c6e8aaa4c1f8aef2782d4e1ce3aa5721d53a2619266efe306799ff"
+    },
+    {
+      "run_id": "far_ver-098",
+      "stream_id": 50097,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-098.xlsx",
+      "sha256": "a9ff51f4057dd71f7aa98b6a05bb12e9c19a2660b1eda644fd9b3e08af3df951"
+    },
+    {
+      "run_id": "far_ver-099",
+      "stream_id": 50098,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-099.xlsx",
+      "sha256": "0f4ea03d6aafe94e4ff9dad5ec4114a711bb34ae2ed3431b1fda2df4847c7c85"
+    },
+    {
+      "run_id": "far_ver-100",
+      "stream_id": 50099,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-100.xlsx",
+      "sha256": "04e6f994acb6295bdc40dcd7163f09781c7e346e0f9a83643314da00766b4a24"
+    },
+    {
+      "run_id": "far_ver-101",
+      "stream_id": 50100,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-101.xlsx",
+      "sha256": "afbf7c2f1d256997eee855c09b0ba385ab2268176f10c4e72e6003f625eb9d6d"
+    },
+    {
+      "run_id": "far_ver-102",
+      "stream_id": 50101,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-102.xlsx",
+      "sha256": "04f9b0056b726e02a9ab4b956a67eb01adcc5db338fa9209248b61e0c7ecb43c"
+    },
+    {
+      "run_id": "far_ver-103",
+      "stream_id": 50102,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-103.xlsx",
+      "sha256": "12b763a72af6e430811194c64b8977389a8312945beae7702eb2b38f08f0ae84"
+    },
+    {
+      "run_id": "far_ver-104",
+      "stream_id": 50103,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-104.xlsx",
+      "sha256": "022e55a5e465c67bfaba0a0c97d738f4726d16aaa3ea3e210b0d374983da4167"
+    },
+    {
+      "run_id": "far_ver-105",
+      "stream_id": 50104,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-105.xlsx",
+      "sha256": "b61a5d08e76d2c709f65b981508621e54016b14036b7c0b3a838c861262274d9"
+    },
+    {
+      "run_id": "far_ver-106",
+      "stream_id": 50105,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-106.xlsx",
+      "sha256": "4707be9cb4aff0ff03b34297bf72f3fa34e5a211503492095377365e0b7877c5"
+    },
+    {
+      "run_id": "far_ver-107",
+      "stream_id": 50106,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-107.xlsx",
+      "sha256": "dd207110dcf33bdfbb7c694f122b0d925c00b0dcf1b68eb2458a12fb203d4d29"
+    },
+    {
+      "run_id": "far_ver-108",
+      "stream_id": 50107,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-108.xlsx",
+      "sha256": "f782300043b7a512542fef8ca29b32d4411bf8667cb4c989066a70385e0c39a2"
+    },
+    {
+      "run_id": "far_ver-109",
+      "stream_id": 50108,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-109.xlsx",
+      "sha256": "84ccb1754a778b810693a804963849856fd136957d57ea5b8698f054fe52688e"
+    },
+    {
+      "run_id": "far_ver-110",
+      "stream_id": 50109,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-110.xlsx",
+      "sha256": "657c2cd20819dba50d596c15d5aeb8e45d7f4db202bc0e19b75031e03c6c3776"
+    },
+    {
+      "run_id": "far_ver-111",
+      "stream_id": 50110,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-111.xlsx",
+      "sha256": "7079a836df273fc73d52ec5d09af7d404844943a10d7a1ba98c25762e753df43"
+    },
+    {
+      "run_id": "far_ver-112",
+      "stream_id": 50111,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-112.xlsx",
+      "sha256": "2d64300d33f44772e3db2d6bfeaa584184d4bafb35f0fe070e44776be7bd101f"
+    },
+    {
+      "run_id": "far_ver-113",
+      "stream_id": 50112,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-113.xlsx",
+      "sha256": "d0b153c196b8954e01585b6a76981460a30eba869275d68de2d8c2c194d8c7b8"
+    },
+    {
+      "run_id": "far_ver-114",
+      "stream_id": 50113,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-114.xlsx",
+      "sha256": "48a9daf13e48d911364b000c6af0759c4d7c7892d629f8492b453c0a79386fb1"
+    },
+    {
+      "run_id": "far_ver-115",
+      "stream_id": 50114,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-115.xlsx",
+      "sha256": "911b402be8f61591d1081ce5c265bdad941a2338898770279cc4bdffda85fb1c"
+    },
+    {
+      "run_id": "far_ver-116",
+      "stream_id": 50115,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-116.xlsx",
+      "sha256": "9fbb2b553f40c8274db3d1001d1aee784281418a14ca9e888f00aa7e6680a1e2"
+    },
+    {
+      "run_id": "far_ver-117",
+      "stream_id": 50116,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-117.xlsx",
+      "sha256": "c88e16b39debe1fda4b177008ef8e92bdcd674a69dc5f82981477fa95016d023"
+    },
+    {
+      "run_id": "far_ver-118",
+      "stream_id": 50117,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-118.xlsx",
+      "sha256": "e571be1e3a0270b221368212bf61e779e1337229a49f46dd48f12f9f96d0e229"
+    },
+    {
+      "run_id": "far_ver-119",
+      "stream_id": 50118,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-119.xlsx",
+      "sha256": "fc5b6d74ce9cc36673b0f130696bc692e1de44a25e7a9c351fc5c0f522b6d4e7"
+    },
+    {
+      "run_id": "far_ver-120",
+      "stream_id": 50119,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-120.xlsx",
+      "sha256": "5c5386e4299f6ccd5f21a0072a474b690dec4b2af5f14277f74e0a991975c8ae"
+    },
+    {
+      "run_id": "far_ver-121",
+      "stream_id": 50120,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-121.xlsx",
+      "sha256": "ed61bb8f063a1e747dc94a3786a5c44ca1509bbf4c9c70987ae6d0c7e1ce0349"
+    },
+    {
+      "run_id": "far_ver-122",
+      "stream_id": 50121,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-122.xlsx",
+      "sha256": "877d59c9fab4a0a9f7047e332fbedd70247f21c6e6c7075d5b7b4a0b9f5816a3"
+    },
+    {
+      "run_id": "far_ver-123",
+      "stream_id": 50122,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-123.xlsx",
+      "sha256": "d9a36a5c505922481c6b23c1529ea4e3fb4f1bae040252d24d29213234de9069"
+    },
+    {
+      "run_id": "far_ver-124",
+      "stream_id": 50123,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-124.xlsx",
+      "sha256": "7299cb5be6609e63d63b953873e7ba310d447511985fb0c8288262547e9eb6ac"
+    },
+    {
+      "run_id": "far_ver-125",
+      "stream_id": 50124,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-125.xlsx",
+      "sha256": "c2275a6bb1fe2bd46bce31eaaedc910bac903722e78c3cc1814ab9e44a7380dc"
+    },
+    {
+      "run_id": "far_ver-126",
+      "stream_id": 50125,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-126.xlsx",
+      "sha256": "eaaff95f3576c3494fe12c452feac37d979415c3b69e554418df13a46a4135be"
+    },
+    {
+      "run_id": "far_ver-127",
+      "stream_id": 50126,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-127.xlsx",
+      "sha256": "389ab24f1f5573f19797b86b94fb81c209ae14bdcfb99c1eaecf192fc53bb290"
+    },
+    {
+      "run_id": "far_ver-128",
+      "stream_id": 50127,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-128.xlsx",
+      "sha256": "b4c90f8737411ff0f72cf58687885f50dc9bc268531f42cd26ca02da36c93b0a"
+    },
+    {
+      "run_id": "far_ver-129",
+      "stream_id": 50128,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-129.xlsx",
+      "sha256": "f3d7dc2ddbc65de026a941baa82fbd2422ac75095b9d38b0af82cc3391d5172b"
+    },
+    {
+      "run_id": "far_ver-130",
+      "stream_id": 50129,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-130.xlsx",
+      "sha256": "2010d1a21e2fe30a86c270f8dc34a297e6c6f8121985fc06ef923c066d838b7b"
+    },
+    {
+      "run_id": "far_ver-131",
+      "stream_id": 50130,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-131.xlsx",
+      "sha256": "d90aa01b7c55492eb3ad846921bbc6d60a829e16e25b28abfae0e0a729213ef1"
+    },
+    {
+      "run_id": "far_ver-132",
+      "stream_id": 50131,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-132.xlsx",
+      "sha256": "fd522c42d1868780e744fbaf06ac4aa36c1af94001a16729228dbd5e73791108"
+    },
+    {
+      "run_id": "far_ver-133",
+      "stream_id": 50132,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-133.xlsx",
+      "sha256": "ee0463cd2cc55e103bd3b4d51ed73b76d5a8c12efc3533aeb35c4d1952041940"
+    },
+    {
+      "run_id": "far_ver-134",
+      "stream_id": 50133,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-134.xlsx",
+      "sha256": "e91c39a4b3e9e6550be2db38ea195e31efcd85188d5228ef9db8d7db22b4bd91"
+    },
+    {
+      "run_id": "far_ver-135",
+      "stream_id": 50134,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-135.xlsx",
+      "sha256": "dc4a6e5e1aa3161013368ce0f10ab128546b4980479062cf6dff4c5aac04d5cf"
+    },
+    {
+      "run_id": "far_ver-136",
+      "stream_id": 50135,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-136.xlsx",
+      "sha256": "f3f3107690dfd7ef64ed39325c54ebf817f0de8c39bee565183d2070c2457f84"
+    },
+    {
+      "run_id": "far_ver-137",
+      "stream_id": 50136,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-137.xlsx",
+      "sha256": "b041e886b18e676e7786fa9ee7516ec19205915e01a7d527a730d4a8416cd01f"
+    },
+    {
+      "run_id": "far_ver-138",
+      "stream_id": 50137,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-138.xlsx",
+      "sha256": "3d892269fe8c544dda0aec3534498085acf8cc674412d16b70bd059c6d3f9b35"
+    },
+    {
+      "run_id": "far_ver-139",
+      "stream_id": 50138,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-139.xlsx",
+      "sha256": "fea0da6b3255b1b3e8046e2cd3cbb4f3e74aeb068de10b2f756f76ef9838ae3f"
+    },
+    {
+      "run_id": "far_ver-140",
+      "stream_id": 50139,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-140.xlsx",
+      "sha256": "55b2a1680cd3640409fec1e621421dd6fb05fa5e7bb28c5d980ce1e0bd114439"
+    },
+    {
+      "run_id": "far_ver-141",
+      "stream_id": 50140,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-141.xlsx",
+      "sha256": "6fc3d8123419b21e66ddfd019cf21adf7edb38d4eae10329061f45221c29be1c"
+    },
+    {
+      "run_id": "far_ver-142",
+      "stream_id": 50141,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-142.xlsx",
+      "sha256": "6a3f3098b9385bda2df66d24fae6abc73fe163aaf9871657ced433dc29a5e097"
+    },
+    {
+      "run_id": "far_ver-143",
+      "stream_id": 50142,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-143.xlsx",
+      "sha256": "0b7353eb9de6ad84329095a7b87ea99cb9fd3697240e19311aa7e8f8df245b50"
+    },
+    {
+      "run_id": "far_ver-144",
+      "stream_id": 50143,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-144.xlsx",
+      "sha256": "3ddc97fa63fb1d911709b665706b4bd25c9f84e2b42d24ba6c0a8b04be56f8ca"
+    },
+    {
+      "run_id": "far_ver-145",
+      "stream_id": 50144,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-145.xlsx",
+      "sha256": "e67f8f8e8e43819b2197e75720e21b7479355a9b74e05817ce3beb1febf8f981"
+    },
+    {
+      "run_id": "far_ver-146",
+      "stream_id": 50145,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-146.xlsx",
+      "sha256": "bc52bcbc3f126ac2349d0f89d7457de279e2b25538053446acbf2695fa944ebb"
+    },
+    {
+      "run_id": "far_ver-147",
+      "stream_id": 50146,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-147.xlsx",
+      "sha256": "8238bb0f619031b015cb95fee9402a27709eb1e609f335ade5992ebd2ab953ef"
+    },
+    {
+      "run_id": "far_ver-148",
+      "stream_id": 50147,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-148.xlsx",
+      "sha256": "030abf77ee1c9ded27950228267f415ce0212a562bb5f18da9da03e0dba96a6b"
+    },
+    {
+      "run_id": "far_ver-149",
+      "stream_id": 50148,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-149.xlsx",
+      "sha256": "918a4bf70bc5cfbba2eaa5c702dec91582902fd8c53902e0c8e3d05e5e888176"
+    },
+    {
+      "run_id": "far_ver-150",
+      "stream_id": 50149,
+      "path": "studio2/fase03/soglie_normal/runs/normal_001/far_ver/far_ver-150.xlsx",
+      "sha256": "5d7d545f7e2d26e0ee479f3b734c01e51f6fd6cfaacc79cee65ff83ce58060f5"
+    }
+  ]
+}
