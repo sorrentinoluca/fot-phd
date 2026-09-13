@@ -1,0 +1,42 @@
+{
+  "date": "2026-09-13",
+  "scope": "D1_reviewed_uncommitted_delivery",
+  "status": "PASS",
+  "catalog": [
+    1,
+    2,
+    3,
+    8,
+    10,
+    13,
+    14,
+    15
+  ],
+  "walkthrough_parity": "PASS: sections4.1/4.2,introduction,6.1item,dependencywarning;same text and link order",
+  "local_links_and_anchors_verified": 179,
+  "catalog_manifest_hashes_verified": 7,
+  "criteria_historical_snapshot_hashes_verified": 4,
+  "revision2_artifact_links_verified": 4,
+  "original_log_script_and_frozen_criteria_preserved": true,
+  "catalog_table_matches_manifest": true,
+  "document_tests": {
+    "tests": 35,
+    "failures_before": 14,
+    "failures_after": 14,
+    "skipped": 1
+  },
+  "regression_tests": {
+    "tests": 4,
+    "passed": 4
+  },
+  "publication_performed": false,
+  "catalog_frozen": false,
+  "proposals_OOD_D11_approved": false,
+  "summary_html_changed": false,
+  "summary_reason": "Protocol preparation only, no new scientific result.",
+  "document_sha256": {
+    "docs/fot_walkthrough_conversazione_studio2.md": "6c82a722736e7111cdfc30beb487c19e64ce01d17d4a4554a3e2b36f71d9480d",
+    "docs/fot_walkthrough_conversazione_studio2.html": "60307c84cf90ad872f987037a3fc101704b9550eb2db58b03a0de3751811027a",
+    "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md": "bcae7b97566db244552d7428b2434a977c0f8cb5ac5ce6bbae05967444541878"
+  }
+}

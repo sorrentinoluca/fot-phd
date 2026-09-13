@@ -83,6 +83,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <li><a href="#sez-3-generazione-riuso"><span class="n">3</span>Generazione e riuso</a></li>
 <li><a href="#sez-fasi-successive"><span class="n">4–12</span>Fasi successive</a></li>
 <li><a href="#criteri-selezione-61"><span class="n">4.1</span>Criteri di selezione (§6.1)</a></li>
+<li><a href="#catalogo-d1"><span class="n">4.2</span>Catalogo D1 verificato</a></li>
 <li><a href="#sez-13-conferenza"><span class="n">13</span>Conferenza</a></li>
 <li><a href="#sez-14-letteratura"><span class="n">14</span>Letteratura</a></li>
 </ol>
@@ -95,7 +96,8 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <div class="warn"><blockquote>
 <p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>. Stato al <strong>2026-09-13</strong>:
 fasi 01 e 02 documentate in §2 e §3; la sotto-fase <strong>criteri di selezione (§6.1)</strong> della
-Fase 03 è documentata in <a href="#criteri-selezione-61">§4.1</a>. La parte restante delle fasi successive
+Fase 03 è documentata in <a href="#criteri-selezione-61">§4.1</a>; <strong>D1, estratta e verificata ma non ancora
+congelata</strong>, in <a href="#catalogo-d1">§4.2</a>. La parte restante delle fasi successive
 resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, non questo file.</p>
 </blockquote>
 </div>
@@ -282,11 +284,11 @@ resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, no
 <p>La sotto-fase decisionale §6.1 ha definito i criteri prima di eseguire D1 o consultare risultati
 per-fault dei nostri esperimenti. La <a href="../studio2/fase03/selection/VERIFICA_CRITERI_6_1.md">verifica indipendente</a>
 ha dato <strong>OK</strong> alla prespecificazione e alla fattibilità. Il congelamento dedicato riguarda
-esclusivamente i criteri: <strong>il catalogo degli otto fault non è stato estratto e la Fase 03
-non è chiusa</strong>. La fonte della decisione è il
+esclusivamente i criteri: <strong>alla chiusura di §6.1 il catalogo non era ancora estratto</strong>.
+L’esito successivo D1 è in <a href="#catalogo-d1">§4.2</a>; la Fase 03 resta aperta. La fonte della decisione è il
 <a href="lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md">registro dei criteri</a>, collegato dal piano §6.1.</p>
 <h4>Dettaglio della decisione</h4>
-<p>Il catalogo futuro manterrà F1/F8/F10/F13 come quattro classi di continuità, con quattro nuovi
+<p>Il disegno prespecificato mantiene F1/F8/F10/F13 come quattro classi di continuità, con quattro nuovi
 fault nell'universo IDV(1)–IDV(15). I vincoli congiunti fissano almeno due step, due random
 variation, due sticking valve e un solo slow drift, IDV(13); vietano le coppie con identica
 variabile perturbata {3,9}, {4,11}, {5,12}; richiedono almeno due membri dello strato nominale
@@ -295,7 +297,7 @@ H={F3,F9,F15}, difficile da rilevare secondo le fonti esterne prescritte. Il com
 <p>Il <a href="../studio2/fase03/selection/FEASIBILITY.json">controllo combinatorio</a> conta <strong>330 quadruple
 candidate e 12 ammissibili</strong>: cinque con composizione step/random/drift/sticking 3/2/1/2 e sette
 con 2/3/1/2. F14/F15 sono quindi inclusioni forzate dai criteri; entra esattamente uno fra
-F3 e F9. Nessun catalogo è stato sorteggiato. Il registro prespecifica seed <code>20260913</code>,
+F3 e F9. Nella sotto-fase §6.1 nessun catalogo è stato sorteggiato. Il registro prespecifica seed <code>20260913</code>,
 ordinamento e procedura riproducibile di D1, senza rilanci per cambiare esito.</p>
 <p>La quota di due fault per famiglia è una scelta di progetto: non deriva da una legge
 bibliografica e non garantisce generalizzabilità al meccanismo o potenza inferenziale.
@@ -334,10 +336,123 @@ Il suo <a href="../studio2/fase03/PREFLIGHT_03_0.md">preflight</a> e lo
 <a href="../studio2/fase03/IMPLEMENTATION_STATUS.md">stato implementativo</a> continuano a dichiarare
 sospeso il gate reale. La sonda sintetica provvisoria non fonda la scelta dei criteri.</p>
 <h4>Lavoro che resta</h4>
-<p>D1 deve eseguire l'unica estrazione dopo il congelamento dei criteri e registrarne l'esito.
-Solo il catalogo risultante renderà lavorabili D11 e la scelta OOD. Restano inoltre D2,
-producer alternativo, nuovi run ed evidence reali, sonda sui prompt reali e gate 40×3.
-La chiusura di §6.1 non chiude S1, che richiede anche il catalogo, né autorizza esecuzioni.</p>
+<p>Alla chiusura di §6.1 restava da eseguire D1. L'estrazione e la sua verifica sono ora
+registrate in <a href="#catalogo-d1">§4.2</a>; il congelamento del catalogo attende la pubblicazione.
+D11 e la scelta OOD sono ora lavorabili ma restano aperte. Restano inoltre D2, producer
+alternativo, nuovi run ed evidence reali, sonda sui prompt reali e gate 40×3.
+La sola chiusura di §6.1 non chiude S1 e non autorizza esecuzioni.</p>
+</section>
+<section id="catalogo-d1">
+<h3>4.2 · Fase 03 — estrazione e verifica del catalogo D1</h3>
+<h4>Riassunto e sintesi</h4>
+<p>L'estrazione applica i criteri già congelati in §4.1. Il catalogo risultante è <strong>F1, F2, F3,
+F8, F10, F13, F14, F15</strong>. La <a href="../studio2/fase03/selection/VERIFICA_CATALOGO_D1.md">verifica indipendente</a>
+ha dato inizialmente NON OK per tre problemi di tracciabilità, poi <strong>OK</strong> dopo le correzioni.
+L'esito e il log originali sono rimasti invariati. Il catalogo è <strong>verificato, non ancora
+congelato</strong>: questa consegna attende conferma per commit, tag e integrazione in <code>origin/main</code>.</p>
+<h4>Dettaglio dell'estrazione</h4>
+<p>Il <a href="../studio2/fase03/selection/D1_DRAW_LOG.json">log originale</a> registra le 330 quadruple
+candidate e le 12 ammissibili nell'ordine prespecificato. Namespace <code>studio2-fase03-D1-v1</code>,
+seed <code>20260913</code>, contatore accettato <strong>0</strong>, nessun rifiuto e indice estratto <strong>0</strong> producono
+la quadrupla nuova <strong>F2/F3/F14/F15</strong>. Il digest completo è
+<code>0116bf108b82d515210233f433caa65f0b91d9fe46a18fc9d25a1294b8a644f0</code>.</p>
+<table>
+<thead>
+<tr>
+  <th>Fault</th>
+  <th>Meccanismo</th>
+  <th style="text-align:center">Strato</th>
+  <th>Origine</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>F1</td>
+  <td>step</td>
+  <td style="text-align:center">O</td>
+  <td>continuità</td>
+</tr>
+<tr>
+  <td>F2</td>
+  <td>step</td>
+  <td style="text-align:center">O</td>
+  <td>nuovo</td>
+</tr>
+<tr>
+  <td>F3</td>
+  <td>step</td>
+  <td style="text-align:center">H</td>
+  <td>nuovo</td>
+</tr>
+<tr>
+  <td>F8</td>
+  <td>random variation</td>
+  <td style="text-align:center">O</td>
+  <td>continuità</td>
+</tr>
+<tr>
+  <td>F10</td>
+  <td>random variation</td>
+  <td style="text-align:center">O</td>
+  <td>continuità</td>
+</tr>
+<tr>
+  <td>F13</td>
+  <td>slow drift</td>
+  <td style="text-align:center">O</td>
+  <td>continuità</td>
+</tr>
+<tr>
+  <td>F14</td>
+  <td>sticking valve</td>
+  <td style="text-align:center">O</td>
+  <td>nuovo, forzato dai vincoli</td>
+</tr>
+<tr>
+  <td>F15</td>
+  <td>sticking valve</td>
+  <td style="text-align:center">H</td>
+  <td>nuovo, forzato dai vincoli</td>
+</tr>
+</tbody>
+</table>
+<p>Il <a href="../studio2/fase03/selection/CATALOG_FREEZE.json">manifest del catalogo</a> registra
+composizione step/random/drift/sticking <strong>3/2/1/2</strong>, H={F3,F15} e otto chiavi distinte.
+F14/F15 erano già forzati dai criteri; l'indice zero è il risultato del digest, non una scelta
+manuale del primo catalogo. I replay di audit non sono rilanci per cambiare esito.</p>
+<h4>Connessione alla letteratura</h4>
+<p>D1 usa la tassonomia e lo strato H trascritti nel registro congelato, già verificati sulle
+fonti primarie. Non aggiunge proprietà dei fault o nuove conclusioni bibliografiche.
+Valgono i riferimenti e i limiti di §4.1 e di <a href="letteratura.html"><code>letteratura.md</code></a> §14.3;
+la conoscenza esterna di rilevazione non predice la diagnosi nel futuro esperimento.</p>
+<h4>Connessione alle critiche e limiti</h4>
+<p>La riproduzione indipendente conferma che l'esito segue la procedura prespecificata. Non
+prova la rappresentatività del catalogo né l'assenza di consultazioni private non registrate.
+Il catalogo non è stato selezionato usando risultati per-fault dei nostri esperimenti.
+Prima di generare run resta obbligatorio esplicitare nella specifica il rapporto fra
+IDV(14)/IDV(15), disegno a singolo fault e raccomandazione Downs &amp; Vogel sulle perturbazioni
+congiunte e sulle 24–48 ore. Il risultato sul drift resta limitato a IDV(13).</p>
+<h4>Artefatti e riproducibilità</h4>
+<p>Il <a href="../studio2/fase03/selection/REPORT_CATALOGO_D1.md">report D1</a> distingue l'esecuzione
+originaria dalle correzioni. Lo <a href="../studio2/fase03/selection/execution_snapshot/draw_d1.py">snapshot dello script eseguito</a>
+e il log originario sono conservati byte per byte. Lo <a href="../studio2/fase03/selection/draw_d1.py">script corrente di replay</a>
+verifica il contesto congelato prima del sorteggio, conserva il commit storico dopo
+l'avanzamento di HEAD e protegge il log originale. <strong>Quattro test di regressione passano</strong>,
+compreso il replay byte-identico in un contesto Git successivo.</p>
+<p><a href="../studio2/fase03/selection/CRITERIA_FREEZE_rev002.json">CRITERIA_FREEZE_rev002.json</a> è una
+revisione amministrativa: sotto <code>criteria_origin</code> conserva i metadati storici della rev1,
+che resta intatta; il nuovo stato D1 richiede la propria verifica e il futuro tag
+<code>studio2-fase03-catalogo-D1-frozen-001</code>. Il tag dei criteri non attesta la rev002.
+Il <a href="../studio2/fase03/selection/D1_REVIEW_CHECK.json">controllo del riesame</a> e il
+<a href="../studio2/fase03/selection/D1_DELIVERY_CHECK.json">controllo documentale</a> riportano verifiche
+e impronte. Il test documentale generale mantiene <strong>35 test, 14 fallimenti preesistenti e
+1 skipped</strong>. Non sono state eseguite inferenze scientifiche o simulazioni.</p>
+<h4>Passaggi ancora aperti</h4>
+<p>Restano la pubblicazione del catalogo, D2, producer alternativo, specifica di generazione,
+nuovi run/evidence e gate reale 03.0. OOD e D11 sono ora lavorabili: la
+<a href="../studio2/fase03/selection/PROPOSTA_OOD_D11.md">nota di proposta</a> resta non vincolante e
+<strong>fuori dal congelamento D1</strong>. Questa consegna non sceglie il secondo fault OOD, non approva
+coppie D11 e non chiude la Fase 03.</p>
 </section>
 <p><strong>Sintesi per sezione.</strong></p>
 <div class="tablewrap"><table>
@@ -353,7 +468,7 @@ La chiusura di §6.1 non chiude S1, che richiede anche il catalogo, né autorizz
 </table></div>
 <p><strong>Dettaglio dei cantieri ancora previsti dal piano §§6&ndash;7:</strong></p>
 <ol>
-<li><strong>§6.1</strong> — Criteri verificati e congelati nella sotto-fase descritta in <a href="#criteri-selezione-61">§4.1</a>; estrazione D1 ancora da eseguire</li>
+<li><strong>§6.1</strong> — Criteri verificati e congelati nella sotto-fase descritta in <a href="#criteri-selezione-61">§4.1</a>; estrazione D1 verificata in <a href="#catalogo-d1">§4.2</a>, congelamento del catalogo in attesa di pubblicazione</li>
 <li><strong>§6.2</strong> — Generare nuovi run fault di sviluppo; la generazione Normal e R1/R2 sono gi&agrave; qualificate in §3</li>
 <li><strong>§6.3</strong> — Calibrare soglie sui Normal di sviluppo</li>
 <li><strong>§6.4</strong> — Produrre dati strutturati e verbalizzazioni di sviluppo</li>
@@ -371,7 +486,7 @@ La chiusura di §6.1 non chiude S1, che richiede anche il catalogo, né autorizz
 <li><strong>§7.4</strong> — Esecuzione studio finale</li>
 <li><strong>§7.5</strong> — Analisi e redazione</li>
 </ol>
-<div class="warn"><p><strong>Ordine vincolato, non suggerito.</strong> Dentro §6 le dipendenze non sono libere: i criteri di §6.1 devono congelarsi <strong>prima</strong> che si estraggano gli 8 fault, e le decisioni «meccanicamente distinto dal catalogo» e «coppia confondibile» sono definite <em>rispetto a quegli otto</em>, quindi saranno lavorabili solo dopo D1. Il piano §7 lo dice esplicitamente: il rischio pi&ugrave; urgente non &egrave; scientifico, &egrave; <strong>temporale</strong>, e si concentra su una sola data &mdash; la decisione GO/NO-GO sul modello.</p></div>
+<div class="warn"><p><strong>Ordine vincolato, non suggerito.</strong> Dentro §6 le dipendenze non sono libere: i criteri di §6.1 devono congelarsi <strong>prima</strong> che si estraggano gli 8 fault, e le decisioni «meccanicamente distinto dal catalogo» e «coppia confondibile» sono definite <em>rispetto a quegli otto</em>, quindi sono ora lavorabili dopo l’estrazione verificata D1; restano decisioni separate. Il piano §7 lo dice esplicitamente: il rischio pi&ugrave; urgente non &egrave; scientifico, &egrave; <strong>temporale</strong>, e si concentra su una sola data &mdash; la decisione GO/NO-GO sul modello.</p></div>
 <p style="color:var(--muted);font-size:14.5px"><em>Una sezione si scrive quando la fase &egrave; conclusa, non mentre &egrave; in corso: finch&eacute; &egrave; aperta, la fonte resta il piano.</em></p>
 </section>
 
