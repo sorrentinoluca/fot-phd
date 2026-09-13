@@ -6,7 +6,10 @@
    350 `cal_thr` economici con `J~Unif{1..10}` e ultima finestra, 150 `far_ver` pieni con dieci
    finestre, trip-stop e fallback R2. Fonti e definizioni sono in `SPECIFICA_SOGLIE_NORMAL.md`.
 2. **Guardia R2.** Riverifica su impronte correnti: `pass=true`, file indipendente byte-identico;
-   ramo attivo 350+150. Dettagli in `R2_GUARD_RECHECK.json`.
+   ramo attivo 350+150. Dopo la correzione, `R2_GUARD_RECHECK.json` è stato prodotto da
+   `recheck_r2_guard.py`, che ricalcola le cinque SHA-256, verifica 64 caratteri esadecimali,
+   confronta i due risultati R2 della Fase 02 e riscrive l’attestazione. Il valore corretto di
+   `tep_features_sha256` è `cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c`.
 3. **Piani e script.** Piani validati: 350+150, stream 40000–40349 e 50000–50149, smoke
    49900–49901; generatori J riproducibili e preflight anti-collisione. Il test standard-library
    passa; `pytest` non è installato nell’ambiente di sistema.
@@ -25,6 +28,13 @@
 `python3 docs/test_explanation.py` è stato eseguito prima e dopo la sottofase: stesso esito,
 35 test eseguiti, 14 failure preesistenti nelle verifiche del walkthrough/Qwen e 1 skip; nessuna
 failure è riferita ai file di `soglie_normal`.
+
+### Correzione pre-batch e cosa è rimasto fuori
+
+La correzione è stata limitata a `R2_GUARD_RECHECK.json`, allo script di rigenerazione e al test.
+La scansione con regex di 63 caratteri esadecimali su specifica, report, handoff, smoke check e
+manifest smoke non ha trovato altri valori troncati. Restano fuori, come previsto, il batch, la
+soglia, il rango, il FAR e `THRESHOLD_FREEZE.json`; non è stata eseguita alcuna simulazione.
 
 ### Decisioni che richiedono l’intervento dell’autore
 
