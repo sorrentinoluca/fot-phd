@@ -47,16 +47,16 @@ decisione, §§P0 e C4.
 
 ## Contabilità e prestazione attesa
 
-Il lotto attivo contiene **500 run**. Le ore simulate sono `350×20 + 5×ΣJ + 150×70`; con il
-generatore deterministico del piano `ΣJ` è registrata nel manifest e, per il piano corrente,
-vale 1.925, quindi **27.125 h** (`cal_thr`) + **10.500 h** (`far_ver`) = **37.625 h**.
+Il lotto attivo contiene **500 run**. Le ore simulate sono `350×20 + 5×ΣJ + 150×70`; il piano
+registra `ΣJ=2.022`, quindi **17.110 h** (`cal_thr`, burn-in incluso) + **10.500 h** (`far_ver`) =
+**27.610 h**.
 La forma economica sostituisce 35.000 h piene per `cal_thr` senza cambiare la finestra di legge;
 fonte: decisione, §P0.
 
 La proiezione è calcolata dal precedente fault in termini di secondi per ora simulata, mai per
-run: il report precedente registra il tempo complessivo e le ore effettivamente completate.
-Il valore misurato nello smoke di questa sotto-fase aggiornerà la proiezione nel report e nel
-handoff; il batch non viene lanciato in questa finestra.
+run: 330,764 s / 1.600 h = **0,2067275 s/h**, dunque **5.707,75 s = 95,13 min** per il lotto
+attivo. Lo smoke definitivo misura 42,79 s per 95 h simulate (0,4504 s/h, incluso il primo
+avvio e il modello); il batch non viene lanciato in questa finestra.
 
 ## Stream riservati
 
@@ -64,4 +64,3 @@ handoff; il batch non viene lanciato in questa finestra.
 da tutti gli stream elencati in `studio2/fase02/build_generation_plan.py` (qualifica, pilot,
 baseline fallback e piani Fase 02) e da `30000–30039` dei fault. Gli indici di run sono registrati
 come `uint64` nel piano e nel manifest. I dieci pilot (1000–1009) restano esclusi da ogni uso.
-

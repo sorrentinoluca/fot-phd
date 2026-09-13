@@ -1,0 +1,17 @@
+WARNING: package sun.awt.X11 not in java.desktop
+WARNING: package sun.awt.X11 not in java.desktop
+[Warning: The specified buffer for 'MultiLoop_mode1/Variable Time Delay' was too
+small. During simulation, the buffer size was temporarily increased to 64512.
+In order to generate code, you need to update the buffer size parameter] 
+[> In generate_normal_runs (line 98)
+In generate_normal_runs_soglie (line 5)] 
+Generated 1 runs; manifest: /Users/luker/fot-tep/studio2/fase03/soglie_normal/runs/smoke_002/cal_thr/generation_manifest.csv
+[Warning: The specified buffer for 'MultiLoop_mode1/Variable Time Delay' was too
+small. During simulation, the buffer size was temporarily increased to 63488.
+In order to generate code, you need to update the buffer size parameter] 
+[> In generate_normal_runs (line 98)
+In generate_normal_runs_soglie (line 5)] 
+Generated 1 runs; manifest: /Users/luker/fot-tep/studio2/fase03/soglie_normal/runs/smoke_002/far_ver/generation_manifest.csv
+real 42.79
+user 44.27
+sys 5.67
