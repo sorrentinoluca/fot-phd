@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "status": "public_release_verified_by_redownload",
+  "repository": "sorrentinoluca/fot-tep-data",
+  "repository_url": "https://github.com/sorrentinoluca/fot-tep-data",
+  "release_tag": "studio2-fase03-fault-dev-v1",
+  "release_id": 387872892,
+  "release_url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-fault-dev-v1",
+  "release_commit": "6d238929285e57c6c70f4d563ef7e30b59da6ac5",
+  "published_at_utc": "2026-09-13T11:06:10Z",
+  "verification": {
+    "method": "downloaded the release asset into a separate temporary directory outside the repository, verified archive SHA-256, extracted the tar, then compared every file path, byte count, and SHA-256 with MANIFEST_CONSERVAZIONE.csv",
+    "temporary_directory": "/tmp/fot-tep-fault-release-redownload-verify-001",
+    "archive_sha256_match": true,
+    "manifest_rows": 240,
+    "extracted_files": 240,
+    "files_verified": 240,
+    "bytes_verified": 207757349,
+    "mismatches": 0
+  },
+  "assets": [
+    {
+      "name": "studio2-fase03-fault-dev-v1.tar",
+      "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-fault-dev-v1/studio2-fase03-fault-dev-v1.tar",
+      "bytes": 208257536,
+      "sha256": "6edd96711d2913953c6de81ce6dbb7c51e7677a2a7c1892b0676de5e7a9fd97c",
+      "contents": "240 files: the complete fault_dev_001 campaign tree, the aborted background-launch evidence, and the MEX equivalence runs, logs, outputs, and caches; individual paths, byte counts, and SHA-256 values are in MANIFEST_CONSERVAZIONE.csv"
+    }
+  ]
+}
