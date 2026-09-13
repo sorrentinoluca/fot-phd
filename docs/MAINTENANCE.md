@@ -17,7 +17,7 @@ ammessa è quella delle coppie in sync (§3), che cambia quasi mai.
 
 | Categoria | Dove | Fonte di verità | Regola |
 | --- | --- | --- | --- |
-| **Artefatti congelati** | `phase_b/`, `icl/`, `ablation/`, `tep_*_v2/`, `reproducibility/`, tag git | sé stessi | **Non si modificano mai.** Se un numero nella documentazione non torna, si corregge la documentazione. |
+| **Artefatti congelati** | `phase_b/`, `icl/`, `ablation/`, `tep_*_v2/`, `tep_exp3_v2_heldout/`, `reproducibility/`, tag git, e i file di `code/` elencati in `phase_b/PHASE_B_PROTOCOL_HASHES.json` | sé stessi | **Non si modificano mai.** Se un numero nella documentazione non torna, si corregge la documentazione. |
 | **Documentazione narrativa** | `docs/fot_walkthrough*` | gli artefatti congelati | Ogni numero deve essere ricavabile da un artefatto. Coppie `.md`/`.html` da aggiornare insieme (§3). |
 | **Materiale del paper** | `docs/paper/` | — | Blueprint e piano sperimentale del paper futuro. Non è documentazione del processo. |
 | **Letteratura — analisi** | `docs/lit_review/` | — | Solo rassegne, gap analysis, analisi comparative. Niente piani, niente paper. |
@@ -25,7 +25,7 @@ ammessa è quella delle coppie in sync (§3), che cambia quasi mai.
 | **Letteratura — archivi importati** | `papers/archive/<nome>_<AAAA-MM>/` | sé stessi | Istantanee di lavori precedenti, **non** il corpus corrente. Si lasciano intatte, con README di provenienza. I loro audit restano con il loro corpus. |
 | **Audit di processo** | `docs/audits/` | — | Audit prodotti *durante* il processo FoT-TEP. Non ci vanno audit di lavori importati. |
 | **Indici** | `README.md`, `DOCUMENTATION_INDEX.md`, `AUDIT_GUIDE.md`, README locali | — | Vedi §4. |
-| **Codice e verifica** | `code/`, `docs/test_explanation.py`, `papers/tools/` | — | `test_explanation.py` è il guardiano della documentazione: vedi §5. |
+| **Codice e verifica** | `code/`, `docs/test_explanation.py`, `papers/tools/` | — | `test_explanation.py` è il guardiano della documentazione: vedi §5. Il codice del primo studio in `code/` e `phase_b/` non si modifica per lo studio 2: si riusa come dice §8.2. |
 | **Fuori perimetro** | `docs/figures/`, `docs/prompts/`, `docs/archive/`, `_to_delete/` | — | Non toccare se non richiesto esplicitamente. |
 
 ## 2. Che cosa non si tocca mai
@@ -219,6 +219,18 @@ congelati non si modificano, non si spostano, non si sovrascrivono.
 Gli originali si leggono nella versione identificata da **commit e impronta**, non «come li
 ricordo». Gli adattamenti necessari allo studio 2 sono **file nuovi dentro il suo perimetro**, non
 modifiche agli originali. Gli artefatti non si duplicano se basta referenziarli.
+
+**Codice del primo studio.** I file congelati di `phase_b/` e `code/` non si modificano. Dal
+codice congelato si possono importare soltanto **funzioni** compatibili, dopo aver verificato le
+loro dipendenze effettive e gli effetti del caricamento del modulo. Commit e SHA-256 del modulo di
+origine si registrano in `studio2/PROVENIENZA.md`; prima dell'esecuzione, lo script che importa
+verifica l'impronta del modulo contro quella registrata e si ferma se differisce. Configurazione e
+orchestrazione dello studio 2 restano esplicite dentro `studio2/`: baseline, finestre, soglie e
+ogni default ereditato sono passati o dichiarati, mai approvati implicitamente dal riuso della
+funzione. Se le assunzioni ereditate non sono eliminabili mediante parametri, la funzione si
+adatta riscrivendola in `studio2/`, con una riga di provenienza che dichiara origine, commit,
+impronta e modifiche. Nessun modulo di `studio2/` importa da `phase_b/`; i test si riscrivono in
+`studio2/` e verificano gli invarianti nuovi, senza eseguire `phase_b/tests/` contro `studio2/`.
 
 **Provenienza interna, descrizione onesta nel paper.** Il primo studio non va raccontato nel
 paper, e non serve: i dati riusati si descrivono per quello che sono — configurazione, seed, data

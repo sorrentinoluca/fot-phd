@@ -100,10 +100,15 @@ promuove a sviluppo, calibrazione o test.
 | ID uso | Origine e identità | Destinazione operativa | Trasformazioni | Ruolo | Marca e limiti |
 | --- | --- | --- | --- | --- | --- |
 | U1 / R2 | `code/tep_cache/mode1_normal_500.xlsx`; snapshot dichiarato `309b944f35ac440ff0c70616947ffe723c766e14`; SHA-256 `79883dd0aabbd034c15337b0be1ffca37e59ea7b32443a15d560b7feda2b2e6a` | parametri in `fase02/validation/score_fit_legacy.json`; copia recuperabile per SHA sotto `fase02/patrimonio_conservato/contenuti/` | segmentazione half-open in N1–N5 da 50 h; statistiche per sensore; feature in finestre da 5 h; fit robusto A | `baseline_fit` soltanto | pre-specificato ma su dati osservati; nessuna indipendenza; vietati `cal_thr`, `far_ver` e test; fallback esplicito se il congelamento o la verifica decadono |
+| U2 / registrazione tardiva | `code/tep_features.py`; commit `3fd960a192bafacbaabce9471e3c3614d6b2d2db`; SHA-256 `cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c` | `studio2/fase02/analysis/tep_features.py` (commit `dec2010`, stessa impronta) | nessuna: copia byte-identica, inclusa in `fase02/validation/PRECALIBRATION_FREEZE.json` | feature per finestra dello score Normal | **pre-specificato** descrive l'uso originario in Fase 02; registrazione tardiva del 2026-09-13 nella sotto-fase 03.4; la copia congelata resta intatta come eccezione storica |
 
 R1 non compare fra gli usi autorizzati perché la sostituzione proposta è stata respinta. I venti
 file fault possono restare consultabili nel ruolo storico già dichiarato dal piano, senza essere
 contati come nuove repliche del secondo studio.
+
+U2 è registrato in §4, anziché fra i candidati, perché documenta un uso già avvenuto e congelato
+nella Fase 02: questa registrazione tardiva non autorizza nuovi import, non modifica la copia e non
+trasforma il valore operativo `window_h=5.0` in una decisione per le fasi successive.
 
 ## 5. Fase 03.0 — Provenienza degli adattamenti del capability pilot
 

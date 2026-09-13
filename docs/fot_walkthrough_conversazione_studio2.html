@@ -86,6 +86,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <li><a href="#criteri-selezione-61"><span class="n">4.1</span>Criteri di selezione (§6.1)</a></li>
 <li><a href="#catalogo-d1"><span class="n">4.2</span>Catalogo D1 congelato</a></li>
 <li><a href="#run-fault-62"><span class="n">4.3</span>Run fault di sviluppo (§6.2)</a></li>
+<li><a href="#perimetro-codice-q8"><span class="n">4.4</span>Perimetro del codice Q8</a></li>
 <li><a href="#sez-13-conferenza"><span class="n">13</span>Conferenza</a></li>
 <li><a href="#sez-14-letteratura"><span class="n">14</span>Letteratura</a></li>
 </ol>
@@ -99,7 +100,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>. Stato al <strong>2026-09-13</strong>:
 fasi 01 e 02 documentate in §2 e §3; la sotto-fase <strong>criteri di selezione (§6.1)</strong> della
 Fase 03 è documentata in <a href="#criteri-selezione-61">§4.1</a>; <strong>D1, verificata, congelata e pubblicata</strong>, in <a href="#catalogo-d1">§4.2</a>;
-i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
+i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; il <strong>perimetro del codice Q8</strong>, chiuso, in <a href="#perimetro-codice-q8">§4.4</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
 resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, non questo file.</p>
 </blockquote>
 </div>
@@ -140,17 +141,16 @@ resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, no
 
 <section id="sez-0-1-punti-aperti">
 <p class="kicker"><span class="num">0.1</span></p><h2>Punti aperti &mdash; da risolvere, non da aggirare</h2>
-<p>Restano qui le decisioni che una fase non pu&ograve; chiudere da sola. Il precedente punto sul riuso dei dati del primo studio &egrave; stato chiuso dalla fase 02: R1 &egrave; respinto come sostituzione di nuovi run fault e R2 &egrave; autorizzato soltanto come <code>baseline_fit</code> condizionata (<a href="#sez-3-generazione-riuso">§3</a>).</p>
+<p>Restano qui le decisioni che una fase non pu&ograve; chiudere da sola. Il precedente punto sul riuso dei dati del primo studio &egrave; stato chiuso dalla fase 02: R1 &egrave; respinto come sostituzione di nuovi run fault e R2 &egrave; autorizzato soltanto come <code>baseline_fit</code> condizionata (<a href="#sez-3-generazione-riuso">§3</a>). Il punto sul perimetro del codice della Q8, registrato il 2026-09-12, &egrave; stato chiuso dalla sotto-fase 03.4 senza aprire un nuovo perimetro: la terza metrica di §8.5, il cap dello schema, l'estensione a 8 agenti e il derangement a 7 peer sono codice nuovo in <code>studio2/</code> secondo <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.2, che ora disciplina il riuso a livello di funzione; <code>phase_b/</code> e il nucleo di <code>code/</code> restano congelati per impronta (<a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §1).</p>
 <div class="tablewrap"><table>
 <thead><tr><th>#</th><th>Punto aperto</th><th>Perch&eacute; blocca</th><th>Chi decide</th><th>Registrato</th><th>Decisione da chiudere in</th></tr></thead>
 <tbody>
 <tr><td style="text-align:center">1</td><td><strong>Sigle <code>C06</code>, <code>C07</code>, <code>C18</code></strong> citate dal piano sperimentale</td><td>Vengono dal registro critiche <code>C01&ndash;C18</code>, che esiste <strong>solo</strong> in <code>fot_walkthrough_conversazione.md</code> §33 &mdash; la prima esposizione del primo studio, che non &egrave; fonte. Finch&eacute; restano cos&igrave; sono riferimenti appesi a un documento che nessuno deve usare</td><td>riportarle per esteso nel piano <strong>oppure</strong> rinumerarle</td><td>2026-09-12</td><td><code>docs/paper/FoT_TEP_Review_Piano_Sperimentale.md</code> §0.1 &mdash; <strong>non</strong> il piano BIGDATA2026, che §0 esclude dalle fonti autorevoli</td></tr>
-<tr><td style="text-align:center">2</td><td><strong>Perimetro del codice della Q8</strong></td><td>La terza metrica di §8.5, il cap sulla lunghezza dello schema, l'estensione a 8 agenti e il derangement a 7 pseudolabel richiedono tutti di scrivere dentro <code>phase_b/</code>, che <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §1 dichiara <strong>congelato</strong>. Nessuna sessione pu&ograve; decidere da sola di scrivereci</td><td>aprire un perimetro nuovo (<code>phase_b/q8/</code>) <strong>oppure</strong> dichiarare quale parte di <code>phase_b/</code> &egrave; harness riutilizzabile e quale &egrave; artefatto &mdash; in entrambi i casi &egrave; una modifica a §1</td><td>2026-09-12</td><td><code>docs/MAINTENANCE.md</code> §1 (separato tra harness riutilizzabile e artefatto)</td></tr>
 <tr><td style="text-align:center">3</td><td><strong>Congelamento definitivo della fase 02</strong></td><td>Gli artefatti sono committati e il freeze &egrave; stato rigenerato sul loro HEAD; il record di storage e il freeze rigenerato sono successivi al riesame indipendente</td><td>riverifica indipendente delle impronte del freeze rigenerato prima di ogni tag definitivo</td><td>2026-09-12</td><td><code>studio2/fase02/validation/PRECALIBRATION_FREEZE.json</code> e ciclo <code>Verifica_LLM</code></td></tr>
 <tr><td style="text-align:center">4</td><td><strong>Formato del tag di lotto su <code>fot-tep-data</code></strong></td><td>Chiuso: segue <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.5; per i lotti il formato operativo è ora esplicito e rinvia lì</td><td>aggiornato in <code>docs/MAINTENANCE.md</code></td><td>2026-09-13</td><td><a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.5 / §8.6</td></tr>
 </tbody>
 </table></div>
-<p style="color:var(--muted);font-size:14.5px"><em>Registrati il 2026-09-12 (1&ndash;3) e il 2026-09-13 (4, ora chiuso in <a href="MAINTENANCE.md">MAINTENANCE.md</a> §8). Quando uno si chiude, va tolto da qui e la decisione va scritta dove compete: nel piano, in un registro di <code>lit_review/</code>, o in <code>MAINTENANCE.md</code> §1/§8.</em></p>
+<p style="color:var(--muted);font-size:14.5px"><em>Registrati il 2026-09-12 (1&ndash;3) e il 2026-09-13 (4, ora chiuso in <a href="MAINTENANCE.md">MAINTENANCE.md</a> §8); il punto 2 &egrave; stato chiuso il 2026-09-13 e rimosso dalla tabella. Quando uno si chiude, va tolto da qui e la decisione va scritta dove compete: nel piano, in un registro di <code>lit_review/</code>, o in <code>MAINTENANCE.md</code> §1/§8.</em></p>
 </section>
 
 
@@ -742,11 +742,24 @@ input del pilot; nuovo controllo di capienza e autorizzazione esplicita prima di
 LLM; decisioni D2, D11, OOD e producer alternativo; integrazione in <code>main</code> solo su richiesta
 dell'autore. La macro-Fase 03 resta aperta.</p>
 </section>
+<section id="perimetro-codice-q8">
+<h3>4.4 &middot; Fase 03 &mdash; perimetro del codice Q8 (sotto-fase 03.4)</h3>
+<h4>Riassunto e sintesi</h4>
+<p>La sotto-fase 03.4 ha chiuso il punto aperto sul perimetro del codice senza creare <code>phase_b/q8/</code> n&eacute; separare l'harness dagli artefatti dentro <code>phase_b/</code>. Tutto il codice nuovo resta sotto <code>studio2/</code>; il codice congelato del primo studio si riusa soltanto a livello di funzioni compatibili, con dipendenze ed effetti di caricamento verificati, provenienza e controllo fail-closed dell'impronta prima dell'import. Default ereditati, incluse finestre, burn-in, soglie e orizzonti, devono essere passati o dichiarati esplicitamente. La Fase 03 <strong>non &egrave; chiusa</strong>.</p>
+<h4>Dettaglio</h4>
+<p>L'opzione (a&prime;) confermata conserva <code>phase_b/</code> e il nucleo di <code>code/</code> come artefatti congelati e corregge la premessa secondo cui l'estensione a otto agenti avrebbe richiesto di scrivere nel primo. Se un'assunzione non &egrave; eliminabile tramite parametri, la funzione viene adattata riscrivendola in <code>studio2/</code>; gli import da <code>phase_b/</code> restano vietati e i test vengono riscritti sugli invarianti del nuovo studio. La funzione <code>signature_vector</code> illustra l'unit&agrave; di riuso, ma la sua compatibilit&agrave; non rende automaticamente importabile l'intero modulo che la contiene.</p>
+<h4>Connessione alla letteratura e alle critiche</h4>
+<p>La decisione &egrave; di processo e non introduce un claim bibliografico. Mitiga il rischio di riuso opaco e di contaminazione fra studi; non chiude critiche scientifiche su trasferimento, accuratezza, astensione o generalit&agrave; del modello.</p>
+<h4>Artefatti e riproducibilit&agrave;</h4>
+<p>La traccia &egrave; in <a href="../studio2/fase03/perimetro_q8/PROPOSTA_PERIMETRO_Q8.md"><code>PROPOSTA_PERIMETRO_Q8.md</code></a>, <a href="../studio2/fase03/perimetro_q8/REPORT_PERIMETRO_Q8.md"><code>REPORT_PERIMETRO_Q8.md</code></a>, nei tre verbali <a href="../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md"><code>VERIFICA_PERIMETRO_Q8.md</code></a>, <a href="../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8_rev002.md"><code>rev002</code></a> e <a href="../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8_rev003.md"><code>rev003</code></a>, concluso con <strong>OK</strong>, e in <a href="../studio2/fase03/perimetro_q8/DECISIONE_PERIMETRO_Q8.md"><code>DECISIONE_PERIMETRO_Q8.md</code></a>. La riga U2 di <a href="../studio2/PROVENIENZA.md"><code>PROVENIENZA.md</code></a> registra tardivamente la copia byte-identica di <code>tep_features.py</code> usata nella Fase 02, senza modificarla. Nessun tag &egrave; stato creato.</p>
+<h4>Lavoro che resta</h4>
+<p>Le sotto-fasi 03.6 e 03.9 devono applicare la regola function-level alle funzioni effettivamente usate e rendere espliciti i parametri. Resta all'autore la scelta se proteggere <code>code/tep_analysis_v2/</code> a HEAD oppure lasciarla fuori da §1 e affidarsi ai tag Phase A; questa sotto-fase non decide il punto. Restano inoltre aperte l'integrazione del branch e la chiusura della macro-Fase 03.</p>
+</section>
 <p><strong>Sintesi per sezione.</strong></p>
 <div class="tablewrap"><table>
 <thead><tr><th>§</th><th>Fase</th><th>Che cos'&egrave;</th><th>Fonte</th><th>Stato</th></tr></thead>
 <tbody>
-<tr><td style="text-align:center">4</td><td><strong>Capability pilot</strong></td><td>Il <em>gatekeeper</em>: il modello risponde, il JSON passa il parser, il budget di ragionamento tiene, la stabilit&agrave; regge</td><td>piano §7.1</td><td>dopo la preparazione residua</td></tr>
+<tr><td style="text-align:center">4</td><td><strong>Preparazione e capability pilot &mdash; Fase 03</strong></td><td>Cantieri §6.1&ndash;§6.12 e gate §7.1; §4.1&ndash;§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice</td><td>piano §§6&ndash;7.1 e artefatti delle sotto-fasi</td><td>aperta; 03.1&ndash;03.4 chiuse</td></tr>
 <tr><td style="text-align:center">5</td><td><strong>Produzione degli insight</strong></td><td>Gli 8&times;2 insight dai dati di sviluppo, pi&ugrave; la libreria completa del producer alternativo per il braccio <em>producer-swap</em></td><td>piano §7.2</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">6</td><td><strong>Congelamento del protocollo</strong></td><td>Solo dopo il pilot, mai prima</td><td>piano §7.3</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">7</td><td><strong>Esecuzione dello studio finale</strong></td><td>Tutte le inferenze A, B-LF, E-LF, pi&ugrave; swap, OOD, ablation e canary &mdash; circa 2.853/3.555 chiamate con margine, per 6/8 run</td><td>piano §7.4 e §8.8</td><td>dopo il congelamento</td></tr>
@@ -758,6 +771,7 @@ dell'autore. La macro-Fase 03 resta aperta.</p>
 <ol>
 <li><strong>§6.1</strong> — Criteri verificati e congelati nella sotto-fase descritta in <a href="#criteri-selezione-61">§4.1</a>; estrazione D1 verificata in <a href="#catalogo-d1">§4.2</a>, catalogo congelato e pubblicato</li>
 <li><strong>§6.2</strong> — Run fault di sviluppo eseguiti, verificati e conservati nella sotto-fase descritta in <a href="#run-fault-62">§4.3</a>: 40 run, catalogo D1, stream 30000–30039, release <code>studio2-fase03-fault-dev-v1</code>; la generazione Normal e R1/R2 erano gi&agrave; qualificate in §3</li>
+<li><strong>Blocco 03.4</strong> — Perimetro del codice Q8 chiuso nella sotto-fase descritta in <a href="#perimetro-codice-q8">§4.4</a>: nessun nuovo perimetro, riuso function-level secondo MAINTENANCE §8.2</li>
 <li><strong>§6.3</strong> — Calibrare soglie sui Normal di sviluppo</li>
 <li><strong>§6.4</strong> — Produrre dati strutturati e verbalizzazioni di sviluppo</li>
 <li><strong>§6.5</strong> — Definire pseudolabel e permutazioni di E</li>
