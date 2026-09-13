@@ -1,6 +1,6 @@
 # Sotto-fase 03.6 — dipendenze dell'estrazione evidence
 
-Data: **2026-09-13**. Stato: **dichiarazione pre-estrazione; evidence reali sospese**.
+Data: **2026-09-13**. Stato: **autorizzata dall'autore; pronta per l'estrazione reale**.
 Nessuna simulazione, chiamata a modelli o valutazione del segnale è prevista in questa
 sotto-fase.
 
@@ -40,7 +40,7 @@ Le soglie sono le quattro costanti congelate di Fase A presenti nella configuraz
 `residual_std_ratio=1.3681613543196571`,
 `diff_std_ratio=1.4051245046201666`. L'estrazione non le calibra né le modifica.
 
-## 3. Baseline richiesta e decisione bloccante
+## 3. Baseline richiesta e decisione dell'autore
 
 `load_development_baseline` richiede il workbook legacy Normal e costruisce le statistiche
 di normalizzazione dai cinque blocchi contigui N1–N5 in `[0,250 h)`. Il registro
@@ -48,17 +48,24 @@ di normalizzazione dai cinque blocchi contigui N1–N5 in `[0,250 h)`. Il regist
 con destinazione `fase02/validation/score_fit_legacy.json`; inoltre precisa che la
 registrazione U2 delle feature non autorizza nuovi import o valori operativi.
 
-Non è quindi evidente che U1/R2 copra un uso ulteriore delle statistiche N1–N5 per le
-feature normalizzate e i flag del verbalizzatore. Prima di produrre evidence reali serve
-una decisione dell'autore fra:
+La formulazione originaria non rendeva evidente che U1/R2 coprisse questo secondo uso.
+L'autore ha deciso il 2026-09-13 di estendere U1/R2 con l'uso **U3**, limitatamente alla
+normalizzazione e ai flag del verbalizzatore V2. Il dato resta
+`code/tep_cache/mode1_normal_500.xlsx`, snapshot dichiarato `309b944f…`, SHA-256
+`79883dd0…`, letto in `[0,250 h)`; è vietato usarlo per calibrazione, scelta di soglia,
+verifica o test.
 
-1. estendere U1/R2 esplicitamente alla normalizzazione e ai flag congelati del
-   verbalizzatore 03.6, con una nuova riga autonoma in `PROVENIENZA.md`; oppure
-2. usare una baseline ricavata dai nuovi run Normal della 03.5, quando il lotto e la
-   relativa regola saranno disponibili e verificati.
+La baseline e le quattro soglie di `verbalizer_config_v2.json` sono trattate come coppia
+indivisibile: le soglie restano quelle congelate contro N1–N5 in Fase A e non vengono
+ricalibrate. La soglia dello score resta invece di competenza dei nuovi Normal della 03.5.
 
-Fino a tale decisione lo script è eseguito soltanto con una baseline sintetica costruita
-da blocchi sintetici; nessun byte dei 40 run fault viene trasformato in evidence.
+Condizione fail-closed: l'estrazione richiede il file canonico
+`R2_GUARD_RECHECK.json` della 03.5, SHA-256
+`7df0cef2d7854c689b79eb911fa01d1ede1625e22f0d3636c0ea5d678c9f33f8`, con
+`guard_pass`, `parameters_and_code_current` e
+`r2_guard_result_independent_byte_identical` veri. Se R2 decade o la 03.5 passa a
+`baseline_fit_new`, tutte le evidence prodotte con U3 sono invalide e vanno rigenerate;
+questa regola è scritta nel manifest e nel riepilogo dell'estrazione.
 
 ## 4. Esclusioni scientifiche
 
@@ -67,4 +74,3 @@ Questa sotto-fase non calcola separabilità, accuracy, rilevabilità, margini tr
 contenuto. Fault, batch e stream restano in un indice evaluator-side separato. Testi e
 JSON consumer-facing non contengono numero del fault, IDV, meccanismo, label o marca
 «continuità/nuovo».
-

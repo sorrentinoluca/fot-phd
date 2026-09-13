@@ -32,6 +32,12 @@ WINDOW_H = 5.0
 EXPECTED_RUNS = 40
 EXPECTED_WINDOWS_PER_RUN = 8
 SIGNATURE_DIMENSION = 697
+EXPECTED_BASELINE_SHA256 = (
+    "79883dd0aabbd034c15337b0be1ffca37e59ea7b32443a15d560b7feda2b2e6a"
+)
+EXPECTED_R2_GUARD_SHA256 = (
+    "7df0cef2d7854c689b79eb911fa01d1ede1625e22f0d3636c0ea5d678c9f33f8"
+)
 
 
 @dataclass(frozen=True)
@@ -196,6 +202,28 @@ def verify_run_manifest(row: dict[str, str], source: Path) -> None:
         raise RuntimeError(f"{row['run_id']}: per-run manifest mismatch: {mismatches}")
 
 
+def validate_r2_guard(path: Path) -> dict[str, Any]:
+    digest = sha256_file(path)
+    if digest != EXPECTED_R2_GUARD_SHA256:
+        raise RuntimeError(
+            f"R2 guard hash mismatch: expected {EXPECTED_R2_GUARD_SHA256}, got {digest}"
+        )
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    required_true = (
+        "r2_guard_result_independent_byte_identical",
+        "parameters_and_code_current",
+        "guard_pass",
+    )
+    failed = [key for key in required_true if payload.get(key) is not True]
+    if failed:
+        raise RuntimeError(f"R2 guard is not valid: {failed}")
+    if payload.get("tep_features_sha256") != protocol_hashes(
+        Path(__file__).resolve().parents[3]
+    )["code/tep_features.py"]:
+        raise RuntimeError("R2 guard and frozen tep_features.py disagree")
+    return payload
+
+
 def _write_json(path: Path, value: object) -> None:
     path.write_text(
         json.dumps(
@@ -229,6 +257,7 @@ def extract_rows(
     baseline: Any,
     output_dir: Path,
     runs_root: Path | None = None,
+    baseline_provenance: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     if output_dir.exists():
         raise FileExistsError(f"Output directory already exists: {output_dir}")
@@ -315,6 +344,13 @@ def extract_rows(
                         "window_ordinal": ordinal,
                         "signature_dimension": len(signature),
                         "leakage_pass": "pending",
+                        "baseline_sha256": (
+                            baseline_provenance or {}
+                        ).get("baseline_sha256", "synthetic"),
+                        "r2_guard_sha256": (
+                            baseline_provenance or {}
+                        ).get("r2_guard_sha256", "synthetic"),
+                        "regenerate_if_r2_fails": "true",
                         **artifacts,
                     }
                 )
@@ -328,8 +364,12 @@ def extract_rows(
                         "window_ordinal": ordinal,
                         "window_start_h": format(start_h, ".1f"),
                         "window_end_h": format(start_h + WINDOW_H, ".1f"),
-                        "source_path": str(source),
+                        "source_path": str(
+                            Path("studio2/fase03/fault_runs/runs/fault_dev_001")
+                            / source.name
+                        ),
                         "source_sha256": row["output_sha256"],
+                        "source_manifest_sha256": row.get("manifest_sha256", ""),
                     }
                 )
 
@@ -359,6 +399,13 @@ def extract_rows(
             "end_h": END_H,
             "window_h": WINDOW_H,
             "windows_per_run": EXPECTED_WINDOWS_PER_RUN,
+            "baseline_provenance": baseline_provenance or {
+                "scope": "synthetic_fixture_only"
+            },
+            "regeneration_rule": (
+                "All evidence is invalid and must be regenerated if the R2 guard fails "
+                "or the study switches to baseline_fit_new."
+            ),
             "evidence_manifest_sha256": sha256_file(manifest_path),
             "evaluator_index_sha256": sha256_file(index_path),
         }
@@ -376,11 +423,19 @@ def main() -> None:
     parser.add_argument("--normal", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--runs-root", type=Path)
+    parser.add_argument("--r2-guard", type=Path, required=True)
     args = parser.parse_args()
     repo_root = Path(__file__).resolve().parents[3]
     api = load_frozen_api(repo_root)
     config_path = repo_root / "code" / "verbalizer_config_v2.json"
     config = api.load_config(config_path)
+    baseline_hash = sha256_file(args.normal)
+    if baseline_hash != EXPECTED_BASELINE_SHA256:
+        raise RuntimeError(
+            f"Legacy baseline hash mismatch: expected {EXPECTED_BASELINE_SHA256}, "
+            f"got {baseline_hash}"
+        )
+    validate_r2_guard(args.r2_guard)
     baseline = api.load_development_baseline(args.normal, config)
     rows = read_manifest(args.manifest, require_full_campaign=True)
     summary = extract_rows(
@@ -390,6 +445,15 @@ def main() -> None:
         baseline=baseline,
         output_dir=args.output,
         runs_root=args.runs_root,
+        baseline_provenance={
+            "authorization": "U3 extension of U1/R2, author decision 2026-09-13",
+            "role": "normalization and frozen V2 verbalizer flags only",
+            "baseline_sha256": baseline_hash,
+            "verbalizer_config_sha256": sha256_file(config_path),
+            "r2_guard_sha256": sha256_file(args.r2_guard),
+            "r2_guard_required": True,
+            "score_threshold_source": "new Normal runs from phase 03.5; not this baseline",
+        },
     )
     print(json.dumps(summary, ensure_ascii=False, sort_keys=True))
 

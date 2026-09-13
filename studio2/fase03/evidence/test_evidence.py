@@ -16,6 +16,7 @@ try:
         extract_rows,
         load_frozen_api,
         sha256_file,
+        validate_r2_guard,
         verify_frozen_sources,
     )
     from .leakage import scan_json, scan_text
@@ -25,6 +26,7 @@ except ImportError:  # Direct execution from this directory.
         extract_rows,
         load_frozen_api,
         sha256_file,
+        validate_r2_guard,
         verify_frozen_sources,
     )
     from leakage import scan_json, scan_text
@@ -138,6 +140,12 @@ class EvidenceTests(unittest.TestCase):
         target.write_bytes(target.read_bytes() + b"\n# altered by guard test\n")
         with self.assertRaisesRegex(RuntimeError, "Frozen source guard failed"):
             verify_frozen_sources(ROOT, code_dir=copied)
+
+    def test_r2_guard_rejects_noncanonical_file(self) -> None:
+        path = self.base / "r2.json"
+        path.write_text('{"guard_pass": false}\n', encoding="utf-8")
+        with self.assertRaisesRegex(RuntimeError, "R2 guard hash mismatch"):
+            validate_r2_guard(path)
 
     def test_leakage_detects_fault_id_mechanism_and_origin(self) -> None:
         self.assertTrue(scan_text("Diagnosi F14 su IDV(14)"))
