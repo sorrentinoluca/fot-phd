@@ -82,6 +82,14 @@ Questa revisione incorpora le correzioni dell'autore. Sono elencate qui perché 
 | 41 | **IDV(13), via scelta: risultato esplorativo senza run dedicati.** E5 eredita D2; aggiungere run del solo IDV(13) richiederebbe riaprire D2 esplicitamente. Ne segue che il criterio di successo di E5-C è **a due livelli**: inferenziale per le famiglie con copertura sufficiente, sola stima descrittiva per `slope_sigma_h`. | autore |
 | 40 | **Motivazione bibliografica** in `docs/lit_review/criteri_scelta_descrittori.md`: nessun criterio di selezione dei descrittori esiste in letteratura; l'argomento disponibile è di progetto (chiusura sui canali di perdita) più un'ipotesi da verificare. | `docs/lit_review/` |
 
+### Revisione 7 — lotto Normal di sviluppo `normal_dev` (2026-09-13)
+
+| # | Modifica | Origine |
+| --- | --- | --- |
+| 45 | **Reintrodotti i run Normal di sviluppo, con ruolo diverso da quello eliminato dalla revisione 5.** §6.2 aveva tolto i cinque Normal perché l'allocazione conformal di §6.3 usa R2 come `baseline_fit` e nuovi run per soglia e verifica; quell'allocazione però non fornisce le osservazioni Normal che §6.7 (prototipo Normal), §6.8 (esempio locale Normal per agente, imposto dal validatore dell'harness) e §9.2 (client = Normal + proprio fault) richiedono, e §8.1 conservava «5 per lo sviluppo» in contraddizione con §6.2. Si genera un lotto **`normal_dev` di 40 run, 5 assegnati in esclusiva a ciascun agente prima della generazione**, stream 60000–60039, stesso generatore e MEX base qualificati in §6.3, burn-in 20 h, termine 65 h, otto finestre half-open da 5 h in [25,65) (anche [20,25) esclusa). Uso: prototipi, esempi locali, FedAvg con pavimento e soffitto. Esclusi: fit della normalizzazione, calibrazione delle soglie, verifica del FAR, test. Sono 320 finestre da 40 run, non 320 repliche indipendenti. Registrata come integrazione **pre-specificata** rispetto al lotto: decisione e testo precedono la generazione. | autore, sotto-fase 03.9 |
+| 46 | **N1–N5 non diventano osservazioni Normal di sviluppo.** U1/R2 copre la sola `baseline_fit` dello score e U3 la normalizzazione e i flag del verbalizzatore; usarli per apprendere prototipi, addestrare reti o costruire esempi avrebbe richiesto un'ulteriore estensione, con gli stessi dati in tre ruoli e Normal identici per tutti gli agenti. Il lotto `normal_dev` separa le osservazioni di sviluppo dai dati che definiscono la trasformazione; **non** elimina la dipendenza dalla coppia N1–N5/soglie V2, attraverso cui anche le sue evidence passano (U3, condizione di validità R2), e questa nuova destinazione di U3 va registrata in `studio2/PROVENIENZA.md`. | autore |
+| 47 | **§8.1 e §8.8 riconciliati:** «5 per lo sviluppo» diventa «40 per lo sviluppo (`normal_dev`)»; la tabella di simulazione passa a **790 run con 6 per fault, 808 con 8** (residuo dopo la Fase 02: 640/658). Lo sbilanciamento 320 finestre Normal contro 40 per fault nell'aggregato va trattato nella ricetta FedAvg (§9.2) **prima** dell'addestramento; la regola di selezione degli esempi locali Normal è fissata prima di osservare i nuovi dati. | autore |
+
 ---
 
 ## 0.1 · Decisioni ancora da congelare
@@ -274,6 +282,19 @@ consultabili soltanto come materiale storico già osservato. I cinque nuovi Norm
 qui sono invece eliminati: il disegno autorevole di calibrazione, riconciliato in §6.3, usa R2 come
 `baseline_fit` e nuovi run disgiunti per soglia e verifica.
 
+**Run Normal di sviluppo `normal_dev`** *(revisione 7, pre-specificata prima della generazione)*.
+L'allocazione di §6.3 non fornisce osservazioni Normal per lo sviluppo, che servono a §6.7
+(prototipo Normal), §6.8 (esempio locale Normal per ciascun agente) e §9.2 (client = Normal +
+proprio fault). Si genera quindi un lotto di **40 run Normal, 5 assegnati in esclusiva a ciascun
+agente prima della generazione**: stream 60000–60039, stesso generatore, MEX base e configurazione
+qualificati in §6.3, burn-in 20 h, termine 65 h, otto finestre half-open da 5 h in [25,65) (le
+stesse dei run fault; [20,25) esclusa). Uso ammesso: prototipi, esempi locali, FedAvg con
+pavimento e soffitto. Uso vietato: fit della normalizzazione, calibrazione delle soglie, verifica
+del FAR, test. Sono 320 finestre da 40 run, non 320 repliche indipendenti. Le loro evidence
+passano dalla stessa coppia N1–N5/soglie V2 del verbalizzatore (U3): il lotto separa le
+osservazioni di sviluppo dai dati che definiscono la trasformazione, non la dipendenza da essi.
+N1–N5 non sono osservazioni Normal di sviluppo.
+
 **6.3 — Costruire e calibrare lo score Normal secondo il registro autorevole**
 Applicare `docs/lit_review/DECISIONE_calibrazione_soglie_fase_B.md`: N1–N5 sono autorizzati come
 sola `baseline_fit` congelata dopo il superamento della guardia R2; non sono cinque run indipendenti
@@ -357,7 +378,7 @@ Questa è la versione definitiva dello studio finale. Sostituisce integralmente 
   - **E-LF** — conoscenza locale + insight permutati + la stessa politica local-first
 - **Run di test:** ≥6 per fault (48 cluster), preferibilmente 8 (64 cluster)
 - **Run di sviluppo:** ≥5 per fault, per calibrazione soglie e produzione insight
-- **Run Normal:** ≥6 per il test, 5 per lo sviluppo
+- **Run Normal:** ≥6 per il test; **40 per lo sviluppo** (`normal_dev`, 5 per agente, §6.2), disgiunti da baseline, calibrazione, verifica e test
 - **Baseline numerica:** prototipi condivisi, stessi dati, stesso protocollo
 - **`Unknown` disponibile in tutte le condizioni** (§8.6)
 - **Schema degli insight congelato, tipizzato, con cap di lunghezza per elemento** (§8.9), identico per entrambi i producer
@@ -577,19 +598,21 @@ Passare a 8 run costa **+590 chiamate, cioè +24%**, e porta i cluster da 48 a 6
 | --- | ---: | ---: |
 | Qualifica generatore e R2 — completata in Fase 02 | 150 | 150 |
 | Sviluppo fault — 8 fault × 5 (§6.2) | 40 | 40 |
+| Sviluppo Normal — `normal_dev`, 8 agenti × 5 (§6.2, revisione 7) | 40 | 40 |
 | Calibrazione Normal — `cal_thr` (§6.3) | 350 | 350 |
 | Verifica Normal — `far_ver` (§6.3) | 150 | 150 |
 | Test — 8 fault × *n* + *n* Normal (§6.9) | 54 | 72 |
 | Fuori catalogo — 2 fault × 3 run (§8.6) | 6 | 6 |
-| **Totale del protocollo di generazione** | **750** | **768** |
-| **Residuo dopo la Fase 02** | **600** | **618** |
+| **Totale del protocollo di generazione** | **790** | **808** |
+| **Residuo dopo la Fase 02** | **640** | **658** |
 
 Nessuna di queste consuma chiamate API: consumano **tempo di simulazione** e disponibilità
 dell'ambiente MATLAB/Simulink. Le 150 simulazioni di qualifica sono una voce di protocollo già
 chiusa, non dati riusabili per calibrazione o test. Il conteggio distingue il budget scientifico
 dalle ripetizioni tecniche eseguite durante l'implementazione e rendicontate nel report di Fase 02.
 R1 non riduce le 40 simulazioni fault; R2 elimina soltanto i cinque Normal del vecchio §6.2 e non
-riduce i 500 nuovi run conformal.
+riduce i 500 nuovi run conformal; la revisione 7 aggiunge i 40 `normal_dev`, con ruolo distinto da
+calibrazione e verifica.
 
 Ne segue una correzione alla lettura del collo di bottiglia data in §7: la data della decisione sul
 modello resta il vincolo per l'**esecuzione**, ma la generazione dei run è un secondo percorso,
