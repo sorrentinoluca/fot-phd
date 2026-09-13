@@ -44,7 +44,8 @@ registrare raw/log per insight e metadati API, rimisurare capienza sui prompt re
 - `studio2/fase03/schema_insight/leakage_rules_v1.json`: dizionario D1, meccanismi e nomi fisici vietati.
 - `studio2/fase03/schema_insight/test_validator.py`: fixture sintetiche e test degli invarianti.
 - `studio2/fase03/schema_insight/requirements.txt`: dipendenze allineate al preflight.
-- `studio2/fase03/schema_insight/TEST_RESULTS.txt`: esiti dei test e limitazione tokenizer.
+- `studio2/fase03/schema_insight/TEST_RESULTS.txt`: esiti storici della prima verifica locale, invariati.
+- `studio2/fase03/schema_insight/TEST_RESULTS_qwen.txt`: log originale della qualifica sul server.
 - `studio2/fase03/schema_insight/SCHEMA_FREEZE.json`: versione, commit, catalog tag e impronte.
 - `studio2/fase03/schema_insight/REPORT_SCHEMA_INSIGHT.md`: questo report, senza replica HTML prevista.
 - `studio2/PROVENIENZA.md`: sola nuova sezione in coda, fonti originali con commit e SHA-256.
@@ -63,13 +64,17 @@ Lo scanner lessicale non dimostra l'assenza di qualsiasi parafrasi; richiede rev
 su copertura e falsi positivi. Non verifica supporto empirico/EFT né opacità dell'assegnazione.
 Il contatore Qwen controlla le due impronte tokenizer del preflight prima del caricamento,
 usa local_files_only=True e trust_remote_code=False. Lo snapshot non è disponibile su questo
-computer: il test reale è saltato esplicitamente, non sostituito con conteggi stimati.
-Il test unitario usa un contatore iniettato solo per verificare le soglie, non misura budget reali.
+computer: nella prima esecuzione locale il test reale era saltato. Il successivo test sul server
+albireo, eseguito dall’autore sul commit 924ec3d, è riuscito: log originale conservato senza modifiche
+in `TEST_RESULTS_qwen.txt` (20 PASS, zero skip, 4,107 secondi).
+Le prove esatte ai confini dei cap usano tuttora un contatore iniettato. Il test Qwen reale
+valida la libreria sintetica contro gli asset pinnati: non prova l’ottimalità scientifica dei cap
+né la capienza dei prompt reali. Modello e tokenizer non hanno effettuato inferenze.
 
 ## 5. Decisioni e verifiche ancora necessarie
 
 Verifica indipendente in altra finestra di decisione, implementazione, scanner e impronte.
-Eseguire il test opzionale col tokenizer pinnato (stesso ambiente del preflight):
+Qualifica col tokenizer pinnato completata sul server dall’autore. Comando per ripeterla:
 
 ```bash
 QWEN_TOKENIZER_SNAPSHOT=/percorso/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a python -m unittest studio2.fase03.schema_insight.test_validator -v
@@ -97,7 +102,12 @@ La Fase 03 non è chiusa e il manifest pending non autorizza produzione di insig
 
 ## 6. Verifiche
 
-20 test nuovi: **19 PASS, 1 SKIP** (tokenizer reale assente), zero fallimenti.
+Prima esecuzione sul Mac: **19 PASS, 1 SKIP**, zero fallimenti.
+Qualifica successiva su albireo: **20 PASS, zero SKIP**, in 4,107 secondi;
+`test_real_offline_qwen` eseguito e riuscito. L’autore ha fornito il log originale allegato;
+il commit 924ec3d è attestato dall’output di checkout condiviso nella conversazione, non dal solo log unittest.
+Ambiente dichiarato nel comando: `/home/luca/fot-exp2/env-vllm/bin/python`;
+checkout `/home/luca/fot-phd-schema-insight`. Nessun accesso remoto da questa finestra.
 16 test di regressione dell'harness: **16 PASS**.
 `python3 docs/test_explanation.py`: prima **14 fallimenti/35 test, 1 skip**;
 dopo **14 fallimenti/35 test, 1 skip**, con gli stessi 14 nomi di test falliti.
@@ -117,12 +127,15 @@ nessuna ricerca web o lettura in blocco dei paper.
 
 Commit decisione: `b6441e9` — `studio2(fase03): pre-specifica lo schema insight e le interfacce 03.12`.
 Commit implementazione: `43eadb6` — `studio2(fase03): implementa validazione insight diff byte e metriche offline`.
-Terzo commit richiesto: `studio2(fase03): registra freeze pending e report dello schema insight`;
+Terzo commit `924ec3d`: `studio2(fase03): registra freeze pending e report dello schema insight`;
 contiene questo report e SCHEMA_FREEZE.json. Il suo hash si ricava da Git senza auto-riferimenti.
 
 Stato del manifest: `frozen_pending_independent_verification`.
-Commit sorgente: `43eadb6cb57a7d49638ce2c13b37137a20152cfd`.
-SHA-256 del manifest: `e99745a11679971d0ed1ba5db5aae55e33ae6c0966af0443aad6f5165320e28e`.
+Commit sorgente e checkout qualificato: `924ec3d446bb6860123b82c8685bbdcbfc8f90a0`.
+Manifest revisione 2: include il log Qwen e conserva l’impronta del manifest precedente.
+Commit della qualifica: `studio2(fase03): qualifica i cap token dello schema col tokenizer pinnato`
+(hash reperibile dalla storia Git, per evitare auto-riferimenti).
+SHA-256 del manifest: `472f1b01b09f189e724a1fb11b96ab28b303b1914b4601b576cf5de91292428c`.
 
 | Artefatto | SHA-256 |
 | --- | --- |
@@ -133,6 +146,7 @@ SHA-256 del manifest: `e99745a11679971d0ed1ba5db5aae55e33ae6c0966af0443aad6f5165
 | `leakage_rules_v1.json` | `2aba741047afa99830605227a5ed4e7e8553b3c48bf819f86ec123eb8b814f4b` |
 | `requirements.txt` | `1e53672145c42bd48e9e2f8540d89a224be2b6d8665599272ccb7506c238de86` |
 | `TEST_RESULTS.txt` | `9c8c7d51149cb033e584166ced334ee233a27622314d99192b4b8649640ae0b0` |
+| `TEST_RESULTS_qwen.txt` | `7113bf87d758e2dd0bbb3fed5fecfac7aa0a4629825db69c5046ebef5db233e0` |
 
 Le impronte sono dei byte su disco e sono ripetibili; report e manifest sono esclusi dal proprio
 manifest per evitare dipendenze circolari. Nessun tag creato; verifica indipendente ancora pendente.

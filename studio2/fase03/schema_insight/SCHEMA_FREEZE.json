@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "status": "frozen_pending_independent_verification",
-  "source_commit": "43eadb6cb57a7d49638ce2c13b37137a20152cfd",
+  "source_commit": "924ec3d446bb6860123b82c8685bbdcbfc8f90a0",
   "base_commit": "d815ce96d928254de79209f02e11a561445764cd",
   "catalog_tag": "studio2-fase03-catalogo-D1-frozen-001",
   "catalog_tag_commit": "ab43f0b20f45cdb475c0caf52c6f7afcbae50891",
@@ -42,6 +42,11 @@
       "path": "studio2/fase03/schema_insight/TEST_RESULTS.txt",
       "sha256": "9c8c7d51149cb033e584166ced334ee233a27622314d99192b4b8649640ae0b0",
       "bytes": 3393
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_qwen.txt",
+      "sha256": "7113bf87d758e2dd0bbb3fed5fecfac7aa0a4629825db69c5046ebef5db233e0",
+      "bytes": 2821
     }
   ],
   "source_files": [
@@ -78,14 +83,14 @@
   ],
   "unit_tests": {
     "run": 20,
-    "passed": 19,
-    "skipped": 1,
+    "passed": 20,
+    "skipped": 0,
     "failed": 0
   },
   "harness_regressions_passed": 16,
   "documentation_failures_before": 14,
   "documentation_failures_after": 14,
-  "real_tokenizer_qualification": "pending_local_snapshot_unavailable",
+  "real_tokenizer_qualification": "passed_pinned_tokenizer_fixture_validation",
   "independent_verification": "pending_other_window",
   "model_calls": 0,
   "simulations": 0,
@@ -93,5 +98,24 @@
   "excluded_from_self_hash": [
     "SCHEMA_FREEZE.json",
     "REPORT_SCHEMA_INSIGHT.md"
-  ]
+  ],
+  "manifest_revision": 2,
+  "previous_manifest_sha256": "e99745a11679971d0ed1ba5db5aae55e33ae6c0966af0443aad6f5165320e28e",
+  "initial_local_unit_tests": {
+    "run": 20,
+    "passed": 19,
+    "skipped": 1,
+    "failed": 0
+  },
+  "qwen_test_provenance": {
+    "executor": "user luca on albireo; original log supplied by user",
+    "checkout": "/home/luca/fot-phd-schema-insight",
+    "tested_commit": "924ec3d446bb6860123b82c8685bbdcbfc8f90a0",
+    "commit_evidence": "user-provided terminal transcript showing bundle checkout at 924ec3d",
+    "python": "/home/luca/fot-exp2/env-vllm/bin/python",
+    "tokenizer_snapshot": "/home/luca/fot-exp2/cache/huggingface/hub/models--Qwen--Qwen3.8-27B-FP8/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+    "elapsed_seconds": 4.107,
+    "original_log_sha256": "7113bf87d758e2dd0bbb3fed5fecfac7aa0a4629825db69c5046ebef5db233e0",
+    "scope": "Real pinned tokenizer validates synthetic library; exact cap boundaries still tested with injected counter. No scientific optimality or real-prompt capacity established."
+  }
 }
