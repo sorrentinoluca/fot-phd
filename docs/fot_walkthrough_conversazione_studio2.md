@@ -3,7 +3,7 @@
 > **Documento vivo, a scheletro.** Si aggiorna **fase per fase**. Stato al **2026-09-13**:
 > fasi 01 e 02 documentate in §2 e §3; la sotto-fase **criteri di selezione (§6.1)** della
 > Fase 03 è documentata in [§4.1](#criteri-selezione-61); **D1, verificata, congelata e pubblicata**, in [§4.2](#catalogo-d1);
-> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8). La Fase 03 resta aperta. La parte restante delle fasi successive
+> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037). La Fase 03 resta aperta. La parte restante delle fasi successive
 > resta a scheletro: per essa **la fonte autorevole è il piano**, non questo file.
 
 | Ruolo | File |
@@ -920,11 +920,86 @@ usate e rendere espliciti i parametri. Resta all'autore la scelta se proteggere
 sotto-fase non decide il punto. Restano inoltre aperte l'integrazione del branch e la chiusura della
 macro-Fase 03.
 
+<a id="pseudolabel-037"></a>
+
+### 4.7 · Fase 03 — pseudolabel e derangement di E (sotto-fase 03.7)
+
+#### Riassunto e sintesi
+
+La sotto-fase 03.7 ha prodotto e verificato otto pseudolabel opache più `Normal`,
+la biiezione degli otto fault del catalogo D1 con gli otto agenti e un derangement
+senza punti fissi dei sette peer per ciascun agente. La verifica indipendente è
+**OK dopo rettifiche documentali**. L’autore conserva il sorteggio v1 e ne accetta
+esplicitamente la correlazione d’ordine osservata. La Fase 03 **non è chiusa**.
+
+#### Dettaglio
+
+La specifica al commit `221bf58` precede la generazione `8c90ece`; il freeze
+originale è in `fdf06b82`. Namespace `studio2-fase03-pseudolabel-v1`, seed `20260913`:
+le label derivano da SHA-256/base32 e l’assegnazione da digest separati; il seed
+interviene soltanto nei derangement. Per agente si sceglie un indice fra i 1854
+derangement dei sette peer tramite rejection sampling su parole derivate da SHA-256.
+La costruzione è pseudocasuale e riproducibile; l’eliminazione del bias modulo
+presuppone parole uniformi, non dimostra empiricamente casualità.
+
+Le otto label opache hanno lunghezza 12; `Normal` è letterale, lungo 6 e ultimo;
+`Unknown` è astensione, non una classe. Il mapping reale resta evaluator-side;
+le sole label operative sono utilizzabili nei prompt. Il revisore ha ricostruito
+indipendentemente label, assegnazioni e derangement; 21 test dedicati e 16 test Q8
+sono passati, con replay byte-identico dei quattro artefatti e sette impronte verificate.
+
+#### Connessione alla letteratura
+
+La scheda FERA in `letteratura.md` §14.2 distingue la gestione dell’inaffidabilità
+dalla sua induzione deliberata nella condizione E. Questa sotto-fase prepara
+il controllo B/E; non misura ancora un effetto e non aggiunge claim bibliografici.
+
+#### Connessione alle critiche e limiti
+
+Sulle otto label di fault la correlazione di Spearman fra rango di catalogo e
+rango lessicografico è **−5/6 (−0,833)**; F15, F14 e F13 occupano le prime tre
+posizioni. Il test `|rho| < 1` esclude soltanto una relazione monotona perfetta,
+non verifica l’assenza di correlazione richiesta letteralmente dal prompt iniziale.
+L’accettazione dell’autore è successiva all’osservazione e registrata come tale:
+non si rigenera v1 né si riordina ad hoc per compensare questo valore.
+
+Opacità delle stringhe non significa segretezza: namespace, algoritmo e
+identificatori consentono di ricostruire il mapping. L’harness deve mantenere
+questi ingredienti e il mapping fuori dai prompt sperimentali. Log e storia Git
+mostrano un insieme registrato e la specifica precedente; non provano l’assenza
+di esecuzioni private non registrate. Gli effetti di posizione non sono esclusi.
+
+#### Artefatti e riproducibilità
+
+Le fonti sono [specifica](../studio2/fase03/pseudolabel/SPECIFICA_PSEUDOLABEL.md),
+[report rettificato](../studio2/fase03/pseudolabel/REPORT_PSEUDOLABEL.md),
+[verifica indipendente](../studio2/fase03/pseudolabel/VERIFICA_PSEUDOLABEL.md) e
+[decisione dell’autore](../studio2/fase03/pseudolabel/DECISIONE_ACCETTAZIONE_V1.md).
+Il [freeze v1](../studio2/fase03/pseudolabel/PSEUDOLABEL_FREEZE.json) registra
+sette impronte e il commit sorgente `8c90ecec421980211258e9323d4266a32ba70ccd`;
+resta intatto come fotografia dello stato pending originario. Il tag previsto è
+`studio2-fase03-pseudolabel-frozen-001`, subordinato a verifica OK, sorgente
+raggiungibile da `origin/main` e replay al commit taggato. Il controllo è
+`python3 -m studio2.fase03.pseudolabel.pseudolabel_draw --check`.
+La provenienza del pattern riscritto è in `studio2/PROVENIENZA.md` §9, senza
+import da `phase_b/` e senza riuso di dati sperimentali. Il controllo documentale
+generale mantiene 14 fallimenti preesistenti e un test saltato; non copre questa sottofase.
+
+#### Lavoro che resta
+
+L’anticipo combinatorio rispetto all’ordine proposto 03.12 → 03.7 non chiude
+lo schema degli insight: 03.12 deve confermare la compatibilità prima del pilot.
+Un cambio di formato richiede nuovo namespace e nuovi file, senza sovrascrivere v1.
+L’eventuale regola generale di presentazione nei prompt compete a 03.10/03.12:
+deve essere riproducibile e comune alle condizioni confrontate, fissata prima
+del pilot. Restano fuori contenuti degli insight, esempi locali, manifest reale
+ed esecuzione del pilot; nessuna chiamata al modello o simulazione è stata avviata.
+
 ### Sintesi per sezione
 
 | § | Fase | Che cos'è | Fonte | Stato |
 | :---: | --- | --- | --- | --- |
-| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.1–03.4 chiuse |
+| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.7 documenta pseudolabel e derangement | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.1–03.4 chiuse; 03.7 verificata, interfaccia 03.12 aperta |
 | 5 | **Produzione degli insight** | Gli 8×2 insight dai dati di sviluppo, più la libreria completa del producer alternativo per il braccio *producer-swap* | piano §7.2 | dopo il pilot |
 | 6 | **Congelamento del protocollo** | Solo dopo il pilot, mai prima | piano §7.3 | dopo il pilot |
 | 7 | **Esecuzione dello studio finale** | Tutte le inferenze A, B-LF, E-LF, più swap, OOD, ablation e canary — circa 2.853/3.555 chiamate con margine, per 6/8 run | piano §7.4 e §8.8 | dopo il congelamento |
@@ -938,7 +1013,7 @@ Dettaglio dei cantieri ancora previsti dal piano §§6–7:
 3. **Blocco 03.4** — Perimetro del codice Q8 chiuso nella sotto-fase descritta in [§4.4](#perimetro-codice-q8): nessun nuovo perimetro, riuso function-level secondo MAINTENANCE §8.2
 3. **§6.3** — Calibrare soglie sui Normal di sviluppo
 4. **§6.4** — Produrre dati strutturati e verbalizzazioni di sviluppo
-5. **§6.5** — Definire pseudolabel e permutazioni di E
+5. **§6.5** — Pseudolabel e derangement v1 verificati in [§4.7](#pseudolabel-037); interfaccia finale con 03.12 ancora aperta
 6. **§6.6** — Scrivere il piano statistico completo
 7. **§6.7** — Preparare la baseline numerica
 8. **§6.8** — Preparare l'harness API
