@@ -1,0 +1,45 @@
+{
+  "artifact_version": "1",
+  "observed_at": "2026-09-12T20:00:55Z",
+  "observation_only": true,
+  "model_calls": 0,
+  "selected_preliminary_endpoint": {
+    "base_url": "http://127.0.0.1:8001/v1",
+    "model_root": "Qwen/Qwen3.8-27B-FP8",
+    "revision": "017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+    "served_model_name": "fot-exp2-consumer",
+    "max_model_len": 7168,
+    "max_num_seqs": 1,
+    "server_seed": 20260829,
+    "process_pid_at_observation": 636846,
+    "process_command_sha256": "c8bdfd59b79bd11937b22b34709a8d2c472e003bbd9cbe0fc399d1a696f02774"
+  },
+  "nonselected_endpoint": {
+    "base_url": "http://127.0.0.1:8000/v1",
+    "max_model_len": 4096,
+    "reason": "Insufficiently conservative for the new 14-insight prompt until exact offline counts exist; mixing endpoints would confound the stability gate."
+  },
+  "model_snapshot": {
+    "path": "/home/luca/fot-exp2/cache/huggingface/hub/models--Qwen--Qwen3.8-27B-FP8/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+    "config_sha256": "74227dd615bf1ea975aa676bdf355a0379858c12f394b5365cd9dfa5fc2c70bc",
+    "tokenizer_json_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+    "tokenizer_config_sha256": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27"
+  },
+  "runtime": {
+    "vllm": "0.28.0",
+    "openai_sdk": "3.8.0",
+    "transformers": "5.16.1",
+    "tokenizers": "0.23.2"
+  },
+  "hardware": {
+    "selected_gpu": 1,
+    "name": "NVIDIA RTX 5000 Ada Generation",
+    "memory_total_mib": 32760,
+    "memory_used_mib_at_observation": 31800
+  },
+  "limitations": [
+    "The process observation does not prove the HTTP API contract; that is inspected immediately before the first pre-gate generation call.",
+    "The local candidate is Qwen3.8-27B-FP8, not Qwen-2.4T, and does not settle the final Study 2 model choice.",
+    "No alternate producer endpoint or tariff is frozen."
+  ]
+}

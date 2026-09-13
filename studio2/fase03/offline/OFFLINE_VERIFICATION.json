@@ -1,0 +1,151 @@
+{
+  "artifact_version": "1",
+  "status": "PASS_OFFLINE_ONLY",
+  "executed_at": "2026-09-12T20:17:11.878626+00:00",
+  "scope": "synthetic schema, validator, renderer and offline token-count verification",
+  "explicit_exclusions": [
+    "model inference",
+    "HTTP endpoint access",
+    "40x3 stability gate",
+    "producer calls",
+    "fault selection",
+    "simulation or scientific data generation",
+    "configuration freeze for a real gate"
+  ],
+  "model_calls": 0,
+  "http_calls": 0,
+  "schemas": [
+    {
+      "path": "studio2/fase03/schemas/diagnostic_output.schema.json",
+      "sha256": "c4f73e784d281983a0a564c96ac59f2653871ecc6cc8936c9254278ce9e3e60a"
+    },
+    {
+      "path": "studio2/fase03/schemas/insight.schema.json",
+      "sha256": "9d9de7dc9bd1795aea5f8fe323a2579eb2b5cc52ca8c753c594a292570fab9a1"
+    },
+    {
+      "path": "studio2/fase03/schemas/pilot_input_manifest.schema.json",
+      "sha256": "91270c79b7ad675a2030a80a28fa248f0e42dd79b8e8ceec8adec3017d47c27d"
+    }
+  ],
+  "preflight_config_sha256": "780328d527b912f62cecd3f9b166a4570440d1220d5ffd0de87a9a0677df29f1",
+  "tokenizer_snapshot": "/home/luca/fot-exp2/cache/huggingface/hub/models--Qwen--Qwen3.8-27B-FP8/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+  "tokenizer_json_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+  "token_counting": {
+    "diagnostic_input": "Qwen chat template with generation prompt",
+    "observed_pattern_cap": "raw field without special tokens"
+  },
+  "profiles": [
+    {
+      "profile": "nominal",
+      "fixture_status": "SYNTHETIC_OFFLINE_FIXTURE",
+      "provenance_kind": "synthetic_offline_only",
+      "catalog_id": "SYNTHETIC-NOT-A-CATALOG-NOMINAL",
+      "scientific_data": false,
+      "fault_selection": false,
+      "simulations_generated": 0,
+      "model_calls": 0,
+      "prompt_count": 40,
+      "condition_counts": {
+        "A": 8,
+        "B-LF": 16,
+        "E-LF": 16
+      },
+      "peer_insight_counts": [
+        14
+      ],
+      "unique_prompt_hashes": 40,
+      "combined_prompt_hash": "59aef68ef21c3c66e36ec5fbf7639d7814f7d7a6e222a7820c12945061593aad",
+      "context": {
+        "expected_max_model_len": 7168,
+        "minimum_input_tokens": 2217,
+        "maximum_input_tokens": 4603,
+        "answer_reserve_tokens": 512,
+        "required_safety_margin_tokens": 256,
+        "candidates": [
+          {
+            "thinking_token_budget": 2048,
+            "max_tokens": 2560,
+            "maximum_input_tokens": 4603,
+            "context_margin_tokens": 5,
+            "fits_with_required_safety_margin": false
+          },
+          {
+            "thinking_token_budget": 3072,
+            "max_tokens": 3584,
+            "maximum_input_tokens": 4603,
+            "context_margin_tokens": -1019,
+            "fits_with_required_safety_margin": false
+          },
+          {
+            "thinking_token_budget": 4096,
+            "max_tokens": 4608,
+            "maximum_input_tokens": 4603,
+            "context_margin_tokens": -2043,
+            "fits_with_required_safety_margin": false
+          }
+        ],
+        "feasible_candidates": [],
+        "static_context_gate": "FAIL",
+        "generation_budget_frozen": false,
+        "note": "Static fit is necessary but not sufficient. A candidate becomes frozen only after the pre-gate generation probe shows no length truncation on every A/B-LF/E-LF stress fixture."
+      }
+    },
+    {
+      "profile": "cap_stress",
+      "fixture_status": "SYNTHETIC_OFFLINE_FIXTURE",
+      "provenance_kind": "synthetic_offline_only",
+      "catalog_id": "SYNTHETIC-NOT-A-CATALOG-CAP_STRESS",
+      "scientific_data": false,
+      "fault_selection": false,
+      "simulations_generated": 0,
+      "model_calls": 0,
+      "prompt_count": 40,
+      "condition_counts": {
+        "A": 8,
+        "B-LF": 16,
+        "E-LF": 16
+      },
+      "peer_insight_counts": [
+        14
+      ],
+      "unique_prompt_hashes": 40,
+      "combined_prompt_hash": "b19884b35155f4b356a680962c7743ebeedc84965b3b0135abddb2516dec24d0",
+      "context": {
+        "expected_max_model_len": 7168,
+        "minimum_input_tokens": 6550,
+        "maximum_input_tokens": 9875,
+        "answer_reserve_tokens": 512,
+        "required_safety_margin_tokens": 256,
+        "candidates": [
+          {
+            "thinking_token_budget": 2048,
+            "max_tokens": 2560,
+            "maximum_input_tokens": 9875,
+            "context_margin_tokens": -5267,
+            "fits_with_required_safety_margin": false
+          },
+          {
+            "thinking_token_budget": 3072,
+            "max_tokens": 3584,
+            "maximum_input_tokens": 9875,
+            "context_margin_tokens": -6291,
+            "fits_with_required_safety_margin": false
+          },
+          {
+            "thinking_token_budget": 4096,
+            "max_tokens": 4608,
+            "maximum_input_tokens": 9875,
+            "context_margin_tokens": -7315,
+            "fits_with_required_safety_margin": false
+          }
+        ],
+        "feasible_candidates": [],
+        "static_context_gate": "FAIL",
+        "generation_budget_frozen": false,
+        "note": "Static fit is necessary but not sufficient. A candidate becomes frozen only after the pre-gate generation probe shows no length truncation on every A/B-LF/E-LF stress fixture."
+      }
+    }
+  ],
+  "interpretation": "Synthetic token counts exercise the implementation and expose nominal/cap-bound arithmetic only. They neither establish representativeness nor authorize a real budget or stability gate; those require independently frozen Study 2 inputs."
+}
