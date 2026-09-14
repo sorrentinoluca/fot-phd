@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "checked_at_utc": "2026-09-14",
+  "source_release_preserved": {
+    "tag": "studio2-fase03-evidence-v1",
+    "asset_bytes": 64817152,
+    "asset_sha256": "3e1eb87f38ff3fc6dd3346476785d06c2b98944b209f7f58706b3c71c1676999",
+    "unchanged": true
+  },
+  "replacement_packaging": {
+    "tag": "studio2-fase03-evidence-v2",
+    "asset_bytes": 62185472,
+    "asset_sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf",
+    "tar_members": 1285,
+    "directory_members": 2,
+    "regular_files": 1283,
+    "appledouble_entries": 0,
+    "members_with_pax_headers": 0
+  },
+  "redownload_verification": {
+    "temporary_directory": "/tmp/fot-tep-evidence-v2-redownload-curl-001",
+    "archive_sha256_match": true,
+    "manifest_rows": 1283,
+    "extracted_files": 1283,
+    "files_verified": 1283,
+    "bytes_verified": 61208618,
+    "appledouble_files": 0,
+    "mismatches": 0,
+    "extra_files": 0
+  },
+  "scientific_content_changed": false,
+  "recommended_release": "studio2-fase03-evidence-v2"
+}

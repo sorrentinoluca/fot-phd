@@ -291,3 +291,13 @@ conservato nella release pubblica `studio2-fase03-evidence-v1`, archivio SHA-256
 `3e1eb87f38ff3fc6dd3346476785d06c2b98944b209f7f58706b3c71c1676999`, verificata per
 riscaricamento. Metadati e manifest sono in `fase03/evidence/ARTIFACT_STORAGE.json` e
 `fase03/evidence/MANIFEST_CONSERVAZIONE.csv`.
+
+**Revisione di packaging del 2026-09-14.** La release v1 resta pubblicata e immutata;
+il verbale indipendente ha rilevato membri AppleDouble `._*` non scientifici e non
+elencati nel manifest. Gli stessi 1.283 file scientifici, con percorsi, byte e SHA-256
+invariati, sono stati ripubblicati come `studio2-fase03-evidence-v2` in un tar creato
+con `COPYFILE_DISABLE=1`, `--no-mac-metadata` e `--no-xattrs`. La v2 è la copia
+raccomandata per il recupero; non è una revisione delle evidence e non cambia U3, soglie,
+manifest scientifico o verdetto. Il controllo di packaging e la verifica per
+riscaricamento sono registrati in `fase03/evidence/PACKAGING_V2_CHECK.json` e
+`fase03/evidence/ARTIFACT_STORAGE.json`.
