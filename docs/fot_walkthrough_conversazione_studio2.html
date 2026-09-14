@@ -86,6 +86,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <li><a href="#criteri-selezione-61"><span class="n">4.1</span>Criteri di selezione (§6.1)</a></li>
 <li><a href="#catalogo-d1"><span class="n">4.2</span>Catalogo D1 congelato</a></li>
 <li><a href="#run-fault-62"><span class="n">4.3</span>Run fault di sviluppo (§6.2)</a></li>
+<li><a href="#soglie-normal-63"><span class="n">4.4</span>Soglie Normal (§6.3)</a></li>
 <li><a href="#sez-13-conferenza"><span class="n">13</span>Conferenza</a></li>
 <li><a href="#sez-14-letteratura"><span class="n">14</span>Letteratura</a></li>
 </ol>
@@ -96,10 +97,11 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <h1>Studio 2 &mdash; walkthrough</h1>
 
 <div class="warn"><blockquote>
-<p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>. Stato al <strong>2026-09-13</strong>:
+<p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>. Stato al <strong>2026-09-14</strong>:
 fasi 01 e 02 documentate in §2 e §3; la sotto-fase <strong>criteri di selezione (§6.1)</strong> della
 Fase 03 è documentata in <a href="#criteri-selezione-61">§4.1</a>; <strong>D1, verificata, congelata e pubblicata</strong>, in <a href="#catalogo-d1">§4.2</a>;
-i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
+i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; le
+<strong>soglie Normal (§6.3)</strong>, calibrate e verificate, in <a href="#soglie-normal-63">§4.4</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
 resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, non questo file.</p>
 </blockquote>
 </div>
@@ -125,7 +127,7 @@ resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, no
 <tbody>
 <tr><td>Disegno generale</td><td><code>paper/FoT_TEP_Review_Piano_Sperimentale.md</code> §§8&ndash;11, §13</td><td>la revisione corrente &egrave; la 6</td></tr>
 <tr><td>Decisioni non ancora congelate</td><td>idem, §0.1</td><td>prima cosa da guardare</td></tr>
-<tr><td>Calibrazione delle soglie</td><td><code>lit_review/DECISIONE_calibrazione_soglie_fase_B.md</code> (rev. 19)</td><td><strong>prevale sul piano</strong>: la fase 02 ne ha chiuso i prerequisiti operativi; soglia, rango e FAR restano risultati futuri</td></tr>
+<tr><td>Calibrazione delle soglie</td><td><code>lit_review/DECISIONE_calibrazione_soglie_fase_B.md</code> (rev. 19)</td><td><strong>prevale sul piano</strong> per il metodo; soglia, rango, FAR e incertezza prodotti dalla 03.5 sono documentati in <a href="#soglie-normal-63">§4.4</a></td></tr>
 <tr><td>Scelta dei descrittori</td><td><code>lit_review/criteri_scelta_descrittori.md</code> §5.1</td><td>&#9888; <strong>non</strong> la §5.5, superata dal piano</td></tr>
 <tr><td>Feature e pre-impegno su E5</td><td><code>lit_review/DECISIONE_SCELTA_FEATURE_fase_A.md</code></td><td>registro di decisione; il disegno resta autorevole nel piano</td></tr>
 <tr><td>Ablazione dei descrittori</td><td><code>../analysis/feature_ablation/FEATURE_ABLATION.md</code></td><td></td></tr>
@@ -166,7 +168,7 @@ resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, no
 <li><strong>Popolazione, endpoint e contrasti</strong> &mdash; piano §8.5</li>
 <li><strong>Protocollo di valutazione e criteri di successo</strong> &mdash; piano §8.5, §11 (GO/NO-GO)</li>
 <li><strong>Baseline</strong> &mdash; piano §9</li>
-<li><strong>Che cosa non &egrave; ancora congelato</strong> &mdash; piano §0.1; per la calibrazione restano da produrre e congelare soglia, rango, numerosit&agrave; e FAR nelle fasi successive</li>
+<li><strong>Che cosa non &egrave; ancora congelato</strong> &mdash; piano §0.1; soglia, rango, numerosit&agrave; e FAR della 03.5 sono ora documentati in <a href="#soglie-normal-63">§4.4</a>, mentre la Fase 03 resta aperta</li>
 <li><strong>Limiti dichiarati in partenza</strong> &mdash; piano §5 (tabella delle critiche) e §12</li>
 </ul>
 </section>
@@ -742,6 +744,86 @@ input del pilot; nuovo controllo di capienza e autorizzazione esplicita prima di
 LLM; decisioni D2, D11, OOD e producer alternativo; integrazione in <code>main</code> solo su richiesta
 dell'autore. La macro-Fase 03 resta aperta.</p>
 </section>
+
+<section id="soglie-normal-63">
+<h3>4.4 &middot; Fase 03 &mdash; soglie Normal (§6.3)</h3>
+
+<h4>Riassunto e sintesi</h4>
+<p>La sotto-fase 03.5 ha calibrato lo score combinato sui <strong>350 run Normal <code>cal_thr</code></strong> e ha
+congelato la soglia <strong>13,623626738268857</strong>, rango <strong>334</strong>, con regola stretta
+<code>S &gt; threshold</code>. La verifica separata su <strong>150 run Normal <code>far_ver</code></strong> ha osservato
+<strong>11/150 = 7,3333%</strong> di falsi allarmi nella metrica primaria; l’IC esatto di
+Clopper&ndash;Pearson al 95% è <strong>[3,7175%; 12,7424%]</strong>. Sulle dieci finestre per run, la stima
+secondaria è <strong>108/1500 = 7,2%</strong>, con bootstrap a livello di run, SE <strong>0,7513 punti
+percentuali</strong> e intervallo percentile 95% <strong>[5,7333%; 8,7333%]</strong>.</p>
+
+<p>La soglia resta invariata. Il FAR primario è compatibile con l’ordine di grandezza atteso ma,
+con 150 run, non verifica strettamente la legge Beta fra calibrazioni. La sotto-fase è chiusa
+nel presente branch dopo decisione autoriale, verifica indipendente e documentazione; la
+<strong>macro-Fase 03 resta aperta</strong> e non è stata integrata o pubblicata da questa consegna.</p>
+
+<h4>Dettaglio</h4>
+<p>Il disegno segue il registro autorevole
+<a href="lit_review/DECISIONE_calibrazione_soglie_fase_B.md"><code>DECISIONE_calibrazione_soglie_fase_B.md</code></a>,
+revisione 19. I 350 score sono tutti distinti; la molteplicità alla soglia è uno. Questa
+assenza di pareggi è una diagnostica, non dimostra continuità o IID. Sotto continuità dello
+score, IID dei run pertinenti e fit fissato indipendentemente, il FAR condizionale fra
+calibrazioni segue <strong>Beta(17,334)</strong>: media <strong>4,843304843%</strong>, SD <strong>1,144245586 punti
+percentuali</strong>, intervallo centrale 90% <strong>[3,118163613%; 6,860631796%]</strong>. È una legge teorica
+condizionata alle ipotesi, non l’intervallo empirico del FAR della soglia realizzata.</p>
+
+<p>Il completamento C4 ricampiona i 350 run con rango fisso 334, seed 20260914 e 10.000 repliche.
+Per la soglia ottiene SE <strong>0,5821769414</strong> nelle unità dello score e intervallo Monte Carlo
+95% <strong>[12,2632210962; 14,2087372188]</strong>. Il controllo esatto della distribuzione bootstrap
+empirica usa l’inversa generalizzata e conserva anche <strong>[12,2632210962; 14,4086543351]</strong>.
+Condizionate ai 350 score osservati, le masse dei due intervalli chiusi sono rispettivamente
+<strong>95,38705407%</strong> e <strong>96,89204510%</strong>: non sono garanzie di copertura frequentista del quantile
+della popolazione. Seed, numero di repliche e convenzione percentile sono dettagli operativi
+fissati dopo i risultati; non vengono presentati come preregistrazione cieca.</p>
+
+<p>I file <code>far_ver</code> erano già stati generati e accessibili prima del freeze, anche se le tracce
+disponibili collocano l’apertura analitica FAR dopo il congelamento. Sigilli, log e storia Git
+provano identità e sequenza registrata, non l’assenza assoluta di consultazioni umane o di
+processi non registrati. L’autore ha accettato esplicitamente l’uso dei risultati FAR con
+soglia invariata e questo limite dichiarato; la sua decisione resta distinta dalle prove
+tecniche. Non sono state introdotte nuove simulazioni o calibrazioni per colmare a posteriori
+questa lacuna storica.</p>
+
+<h4>Connessione alla letteratura</h4>
+<p>La cornice metodologica è quella raccolta in <a href="letteratura.html"><code>letteratura.md</code></a> §14.3 e nel
+registro rev. 19: il quantile conforme in campione finito, la legge Beta condizionata alle
+ipotesi e l’obbligo di misurare il FAR su Normal nuovi sono trattati come componenti diverse.
+La 03.5 non trasforma l’assenza di pareggi in prova di continuità e non usa il FAR osservato
+per rifissare la soglia.</p>
+
+<h4>Connessione alle critiche e limiti</h4>
+<p>La sotto-fase chiude la componente “soglia fissa e verificata” di G9 e rende osservabile il FAR
+out-of-sample della pipeline; non dimostra continuità, IID, uguaglianza fra FAR vero e livello
+nominale, né copertura del quantile della popolazione da parte degli intervalli bootstrap. Il
+profilo per posizione non autorizza conclusioni causali sul burn-in. Il limite di segregazione
+dei file FAR è accettato e dichiarato, non cancellato.</p>
+
+<h4>Artefatti e riproducibilità</h4>
+<ul>
+<li><a href="../studio2/fase03/soglie_normal/REPORT_SOGLIE_NORMAL.md">Report della sotto-fase</a> e
+<a href="../studio2/fase03/soglie_normal/DECISIONE_AUTORE_FAR.md">decisione FAR dell’autore</a>.</li>
+<li><a href="../studio2/fase03/soglie_normal/THRESHOLD_FREEZE.json">Freeze della soglia</a>,
+<a href="../studio2/fase03/soglie_normal/FAR_VERIFICATION.json">risultati FAR</a>,
+<a href="../studio2/fase03/soglie_normal/THRESHOLD_UNCERTAINTY_PROTOCOL.json">protocollo C4</a> e
+<a href="../studio2/fase03/soglie_normal/THRESHOLD_UNCERTAINTY.json">risultato C4</a>.</li>
+<li><a href="../studio2/fase03/soglie_normal/REPRODUCIBILITY_C4.md">Procedura riproducibile C4</a> con
+dipendenze fissate; non richiede la directory temporanea usata dalla prima riverifica.</li>
+<li>Il verbale mirato ha conservato il proprio NON OK; le
+<a href="../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_01.md">Appendice 01</a> e
+<a href="../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_02.md">Appendice 02</a> e
+<a href="../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_03.md">Appendice 03</a>
+registrano i successivi OK senza sovrascriverlo. I due verbali storici e lo snapshot già
+approvato sono acquisiti byte per byte in <code>soglie_normal/evidence/</code>.</li>
+<li>I dati voluminosi restano nella release verificata <code>studio2-fase03-normal-v1</code>; il
+<a href="../studio2/fase03/soglie_normal/ARTIFACT_STORAGE.json">record di storage</a> documenta asset,
+impronta e riscaricamento. La release e i suoi dati non sono stati rigenerati.</li>
+</ul>
+</section>
 <p><strong>Sintesi per sezione.</strong></p>
 <div class="tablewrap"><table>
 <thead><tr><th>§</th><th>Fase</th><th>Che cos'&egrave;</th><th>Fonte</th><th>Stato</th></tr></thead>
@@ -758,7 +840,7 @@ dell'autore. La macro-Fase 03 resta aperta.</p>
 <ol>
 <li><strong>§6.1</strong> — Criteri verificati e congelati nella sotto-fase descritta in <a href="#criteri-selezione-61">§4.1</a>; estrazione D1 verificata in <a href="#catalogo-d1">§4.2</a>, catalogo congelato e pubblicato</li>
 <li><strong>§6.2</strong> — Run fault di sviluppo eseguiti, verificati e conservati nella sotto-fase descritta in <a href="#run-fault-62">§4.3</a>: 40 run, catalogo D1, stream 30000–30039, release <code>studio2-fase03-fault-dev-v1</code>; la generazione Normal e R1/R2 erano gi&agrave; qualificate in §3</li>
-<li><strong>§6.3</strong> — Calibrare soglie sui Normal di sviluppo</li>
+<li><strong>§6.3</strong> — Soglia Normal calibrata e FAR verificato nella sotto-fase descritta in <a href="#soglie-normal-63">§4.4</a>: rango 334 su 350, soglia 13,623626738268857, release <code>studio2-fase03-normal-v1</code>; la macro-Fase 03 resta aperta</li>
 <li><strong>§6.4</strong> — Produrre dati strutturati e verbalizzazioni di sviluppo</li>
 <li><strong>§6.5</strong> — Definire pseudolabel e permutazioni di E</li>
 <li><strong>§6.6</strong> — Scrivere il piano statistico completo</li>
