@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-14",
+  "scope": "normative_source_only_for_phase03_9_metric_residual_closure",
+  "status": "candidate_byte_identical_pending_independent_verification_and_origin_main_publication",
+  "destination_path": "studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md",
+  "source_commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+  "source_introducing_commit": "526561feabeb6b4083170b1817b8abdac1a2a4c7",
+  "source_blob": "780e08ae9e176a819a745ab2054a2e6ae79a8a9a",
+  "source_sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e",
+  "candidate_blob": "780e08ae9e176a819a745ab2054a2e6ae79a8a9a",
+  "candidate_sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e",
+  "byte_identical": true,
+  "source_commit_reachable_from_origin_main_at_preparation": false,
+  "candidate_base_origin_main": "f1746e1e76c5657e5cb74ed765d2f22143f979ce",
+  "whole_phase03_8_plan_integrated": false,
+  "whole_phase03_8_plan_frozen": false,
+  "d9_decided": false,
+  "pilot_authorized_or_executed": false,
+  "purpose": "Make the exact normative source cited by the already-published metric adapter reproducible from the future origin/main tree without merging or freezing the complete 03.8 statistical plan.",
+  "preservation_rule": "Do not edit this acquired file. Any later change belongs to a separately reviewed revision and must retain these source pins."
+}

@@ -1,0 +1,112 @@
+{
+  "schema_version": 3,
+  "revision": 4,
+  "date": "2026-09-14",
+  "scope": "phase03_subphase_03_9_normal_dev_and_numeric_baseline_residual_closure",
+  "status": "candidate_residual_closure_pending_independent_verification_publication_and_tag_definition",
+  "effective": false,
+  "supersedes_when_effective": "BASELINE_FREEZE_rev003.json",
+  "revision_chain": [
+    {
+      "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE.json",
+      "sha256": "8ac1f1e72b23484395c2955c7d14ac333e61f8743d662dd92b933e37f90547c9"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev002.json",
+      "sha256": "b6f455f65640a5bc4353874627d4777fc596aee2b6ddb22757aaef3ab112589b"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json",
+      "sha256": "0312f416dfdbaf8984b2063df2c2e9d00e1737321b9a65dd7e32b0295a937ec8"
+    }
+  ],
+  "historical_revisions_modified": false,
+  "candidate_base_origin_main": "f1746e1e76c5657e5cb74ed765d2f22143f979ce",
+  "candidate_commit_resolution": "Resolve the first commit containing this record from Git history; the immutable verification must name that full commit.",
+  "independent_verification": {
+    "status": "PENDING",
+    "scope": "Only the residual-closure delta after origin/main 4f98a297: normative-source acquisition, requirement matrix, and this revision. Do not repeat scientific verification of normal_dev, evidence, prototypes, or the already-qualified metric adapter.",
+    "prompt": "studio2/fase03/baseline_numerica/PROMPT_VERIFICA_RESIDUI_BASELINE_03_9.md"
+  },
+  "requirements": {
+    "phase03_12_publication_order": {
+      "status": "SATISFIED_BEFORE_CANDIDATE_FINALIZATION",
+      "origin_main_final_record": "f1746e1e76c5657e5cb74ed765d2f22143f979ce",
+      "schema_tag": "studio2-fase03-schema-insight-frozen-001",
+      "schema_tag_modified_by_this_delta": false
+    },
+    "metric_mapping_03_10": {
+      "status": "SATISFIED_IN_ORIGIN_MAIN",
+      "qualified_candidate": "3360867751c66a39e819247f86dab8e936f8cbb3",
+      "qualified_consolidation": "04dee86140b3ff18882f9d164beef5ab7bf33e00",
+      "mapping": {
+        "accuracy": "accuracy_all",
+        "n": "total",
+        "abstentions": "abstained"
+      },
+      "non_abstained": "preserved after checking total - abstained",
+      "invalid": "explicit zero only for the fail-closed 03.9 valid-only source; general 03.10 invalid rows are neither correct nor abstained and remain in non_abstained",
+      "current_test_result": "9/9 metric tests PASS on origin/main f1746e1e"
+    },
+    "phase03_6_sources": {
+      "status": "SATISFIED_IN_ORIGIN_MAIN",
+      "candidate": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "integration": "7c99a8318cbe24bf864790566302f72614d963ed",
+      "extract_evidence_sha256": "46b451c2d6d8b1627993828ac9bac39532562f2fa1b27955b8a20f098ba24e97",
+      "leakage_sha256": "c77ae5b11186c5b0df87b2f1df8800cb45fb25317e248fe8484d3e8283073887",
+      "baseline_consumer_guard_sha256": "8d50bf1466b7b87b303ff742b2e99a5d4eea8b147545ad4fa466b005d9c62c1d",
+      "current_baseline_test_result": "10/10 baseline, plan, and extractor-guard tests PASS on origin/main f1746e1e"
+    },
+    "normal_dev_conservation": {
+      "status": "SATISFIED_REUSED_VERIFIED_RECORD",
+      "release": "studio2-fase03-normal-dev-v1",
+      "archive_sha256": "eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03",
+      "verification_record": "studio2/fase03/baseline_numerica/VERIFICA_RISCARICAMENTO_NORMAL_DEV.json",
+      "reexecuted_now": false
+    },
+    "revision10_normative_source": {
+      "status": "CANDIDATE_ACQUIRED_BYTE_IDENTICAL_PENDING_INDEPENDENT_VERIFICATION_AND_ORIGIN_MAIN_REACHABILITY",
+      "path": "studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md",
+      "source_commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "source_blob": "780e08ae9e176a819a745ab2054a2e6ae79a8a9a",
+      "sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e",
+      "acquisition_record": "studio2/fase03/baseline_numerica/ACQUISIZIONE_DELTA_HARNESS_03_10.json",
+      "whole_phase03_8_plan_integrated_or_frozen": false
+    }
+  },
+  "frozen_method_preserved": {
+    "prototype": "componentwise arithmetic mean of all fixed development windows",
+    "distance": "mean absolute L1",
+    "tie_tolerance_absolute": "0.000000000001",
+    "distance_abstention_threshold": null,
+    "local_absent_class_policy": "not_a_candidate_no_global_fallback",
+    "metric_denominators_changed": false
+  },
+  "freeze_publication": {
+    "tag_name": null,
+    "tag_name_status": "BLOCKED_MISSING_EXACT_NAME_IN_AUTHORITATIVE_PHASE03_9_SOURCES",
+    "tag_target_commit": null,
+    "tag_target_rule_candidate": "After independent OK and the 03.12 publication turn, use the reviewed main-reachable residual-closure commit immediately preceding the later effectiveness record; author confirmation is required because the historical 03.9 sources do not state the exact tag name or target.",
+    "tag_exists_at_preparation": null,
+    "tag_published": false,
+    "remote_object": null,
+    "remote_peeled": null,
+    "effective_record": null
+  },
+  "requirements_remaining_for_effective_freeze": [
+    "obtain independent OK on the exact residual-closure candidate commit",
+    "record an authoritatively supplied exact baseline freeze tag name and confirmation of its target rule",
+    "publish the reviewed residual-closure commits and verify them reachable from origin/main",
+    "create and publish only that baseline tag after confirming it does not already exist, then verify remote object and peeled commit",
+    "publish a later immutable effectiveness revision without rewriting BASELINE_FREEZE.json through BASELINE_FREEZE_rev004.json"
+  ],
+  "out_of_scope": [
+    "D9",
+    "qualification 122B",
+    "signature or freeze of phase03_8",
+    "complete phase03_8 statistical plan integration",
+    "pilot execution or final runs",
+    "phase03 closure"
+  ],
+  "amendment_policy": "Do not edit historical revisions in place. This revision remains a non-effective candidate; after publication of the tag, record effectiveness in a subsequent immutable revision."
+}
