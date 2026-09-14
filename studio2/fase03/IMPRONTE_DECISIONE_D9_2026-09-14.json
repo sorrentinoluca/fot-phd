@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "role": "documentary_acquisition_not_runtime_configuration",
+  "decision_acquired_date": "2026-09-14",
+  "timezone": "Europe/Rome",
+  "clock_observed_utc": "2026-09-14 21:57:40 UTC",
+  "clock_meaning": "Clock observation during acquisition; not timestamp of author utterances",
+  "authorization_source": "Current user mandate; decision block transcribed in the record. No independent original-message hash, session ID or author signature claimed.",
+  "branch": "codex/studio2-proposta-d9",
+  "worktree": "/Users/luker/fot-tep-proposta-d9",
+  "head_before": "95ff8571af02bab79094ed1a6be3f6a7b410c711",
+  "remote_main_before": "a00605862f627710347bd63c49f79a6d0a00135f",
+  "sources": [
+    {
+      "role": "maintenance_requested",
+      "commit": "819b12e97fb94d501032655ec2f226139e6c5ca5",
+      "path": "docs/MAINTENANCE.md",
+      "consulted_worktree": "/Users/luker/fot-tep",
+      "bytes": 19373,
+      "sha256": "4a75b0677c5eb09d36274cb36be37a1ec73afb2ca86b274cc36193812465647b"
+    },
+    {
+      "role": "maintenance_current",
+      "commit": "95ff8571af02bab79094ed1a6be3f6a7b410c711",
+      "path": "docs/MAINTENANCE.md",
+      "consulted_worktree": "/Users/luker/fot-tep-proposta-d9",
+      "bytes": 20636,
+      "sha256": "77b4768c2b6ae1bc27d2e1aaaa56f9c38626add20b2f5e74f6a426eef7a66ec0"
+    },
+    {
+      "role": "commit_rules",
+      "commit": "95ff8571af02bab79094ed1a6be3f6a7b410c711",
+      "path": "docs/prompts/Commit_LLM.md",
+      "consulted_worktree": "/Users/luker/fot-tep-proposta-d9",
+      "bytes": 2643,
+      "sha256": "5488a915b79aee9d703c17aa628b669db1d5c5eaccaf042e72f375366d107623"
+    },
+    {
+      "role": "proposal",
+      "commit": "95ff8571af02bab79094ed1a6be3f6a7b410c711",
+      "path": "studio2/fase03/PROPOSTA_D9_RUOLI_MODELLI_2026-09-14.md",
+      "consulted_worktree": "/Users/luker/fot-tep-proposta-d9",
+      "bytes": 36141,
+      "sha256": "a47f42dda7ee9702c292e34ada6b116ac3c85e42ec3a50e68af97c159f0d0f9d"
+    },
+    {
+      "role": "harness",
+      "commit": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69",
+      "path": "studio2/fase03/harness/DECISIONE_D9_ORDINE_LABEL_PENDING.md",
+      "consulted_worktree": "/Users/luker/fot-tep-harness-0310-offline",
+      "bytes": 1884,
+      "sha256": "375442948ee41067a52467586fee580be0847e5b17694e1b3a5f69764db6aa47"
+    },
+    {
+      "role": "harness",
+      "commit": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69",
+      "path": "studio2/fase03/harness/REPORT_HARNESS_OFFLINE_03_10.md",
+      "consulted_worktree": "/Users/luker/fot-tep-harness-0310-offline",
+      "bytes": 9840,
+      "sha256": "0f778a20b6d049a8c8e6a40d9dd6153a1ecd525488c7aa431bbca9dd432ecac6"
+    },
+    {
+      "role": "harness",
+      "commit": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69",
+      "path": "studio2/fase03/harness/SPECIFICA_HARNESS.md",
+      "consulted_worktree": "/Users/luker/fot-tep-harness-0310-offline",
+      "bytes": 9075,
+      "sha256": "d4cacc0932a473bca333e1e9a1f57afc0ac104a47fba15806f7ec00f7e3001b9"
+    },
+    {
+      "role": "harness",
+      "commit": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69",
+      "path": "studio2/fase03/harness/PROMPT_VERIFICA_HARNESS_OFFLINE_03_10.md",
+      "consulted_worktree": "/Users/luker/fot-tep-harness-0310-offline",
+      "bytes": 5758,
+      "sha256": "d83190ba8898722e00b97db9a994dc01b0b6cf459c5bfe65bd93e51094b476ff"
+    },
+    {
+      "role": "harness_config",
+      "commit": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69",
+      "path": "studio2/fase03/config/pilot_preflight.json",
+      "consulted_worktree": "/Users/luker/fot-tep-harness-0310-offline",
+      "bytes": 12846,
+      "sha256": "559b8cb857e54f428d9724b96e4b0600c4dafcb69773a0c3567909d4e019e549"
+    },
+    {
+      "role": "statistical_handoff",
+      "commit": "2520e7abc1cd68785f2789448b509dea5e55ee7d",
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_CANDIDATO_ALLINEAMENTI_03_8_REV10.md",
+      "consulted_worktree": "/Users/luker/fot-tep-piano-statistico-chiusura",
+      "bytes": 5149,
+      "sha256": "0ebf25e444f3092409dd6a055b01e5331c37c7872268a68700c66e011fd3b48b"
+    },
+    {
+      "role": "statistical_handoff",
+      "commit": "2520e7abc1cd68785f2789448b509dea5e55ee7d",
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_TECNICA_03_10_DA_REV10.md",
+      "consulted_worktree": "/Users/luker/fot-tep-piano-statistico-chiusura",
+      "bytes": 4255,
+      "sha256": "44e8be9a3647dcfbef3fa0197647a4c39a597e441bb488de334608dfe9b4aa95"
+    },
+    {
+      "role": "statistical_handoff",
+      "commit": "2520e7abc1cd68785f2789448b509dea5e55ee7d",
+      "path": "studio2/fase03/piano_statistico/MATRICE_RESIDUI_CHIUSURA_03_8_REV10.md",
+      "consulted_worktree": "/Users/luker/fot-tep-piano-statistico-chiusura",
+      "bytes": 5223,
+      "sha256": "2b59150d89f1da74a4f18784a0d0c7f0db191e9364c091cc3d3049e45eb17462"
+    },
+    {
+      "role": "paper_published",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "path": "studio2/fase03/paper_sections/protocol.md",
+      "consulted_worktree": "/Users/luker/fot-tep-proposta-d9",
+      "bytes": 17418,
+      "sha256": "ddcaf1c2790d7e3fe966ed80bb91d3ae7316090d4b9dc554b85f8dd030ca5468"
+    },
+    {
+      "role": "paper_published",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "path": "studio2/fase03/paper_sections/method.md",
+      "consulted_worktree": "/Users/luker/fot-tep-proposta-d9",
+      "bytes": 7557,
+      "sha256": "db697de1d124150bf8e754154c21a2d07cfaa0a79034bf32d3a6c5a449331938"
+    },
+    {
+      "role": "paper_published",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "path": "studio2/fase03/paper_sections/threats.md",
+      "consulted_worktree": "/Users/luker/fot-tep-proposta-d9",
+      "bytes": 9221,
+      "sha256": "915b7484ee3bff65c2633405db027c3e797d927bc56548238da2d631c06b2c35"
+    },
+    {
+      "role": "paper_published",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "path": "studio2/fase03/paper_sections/FONTI_DELTA_0315.json",
+      "consulted_worktree": "/Users/luker/fot-tep-proposta-d9",
+      "bytes": 15039,
+      "sha256": "dc01cd71e1b7bae0b65a56de0de50c6db8ac2db426cb471b5110fc7a8d694610"
+    },
+    {
+      "role": "historical_config",
+      "commit": "95ff8571af02bab79094ed1a6be3f6a7b410c711",
+      "path": "studio2/fase03/config/pilot_preflight.json",
+      "consulted_worktree": "/Users/luker/fot-tep-proposta-d9",
+      "bytes": 11636,
+      "sha256": "6bf50982d2ba8040e18c468999a110c426e3b9be217d5d9be5f272df6515f5f5"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "studio2/fase03/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md",
+      "bytes": 9083,
+      "sha256": "fcb113636de80cc87709905324436555e0ba103bd46de3ac079ce0ef7f60f1b8"
+    },
+    {
+      "path": "studio2/fase03/CONSEGNA_RECEPIMENTO_D9_2026-09-14.md",
+      "bytes": 13282,
+      "sha256": "3ea739065f1011ed2fd17bface11231f8857dc3f5256d26eff7abcc1d1ef2c77"
+    }
+  ],
+  "checks": {
+    "proposal_preserved": {
+      "commit": "95ff8571af02bab79094ed1a6be3f6a7b410c711",
+      "path": "studio2/fase03/PROPOSTA_D9_RUOLI_MODELLI_2026-09-14.md",
+      "bytes": 36141,
+      "sha256": "a47f42dda7ee9702c292e34ada6b116ac3c85e42ec3a50e68af97c159f0d0f9d",
+      "byte_identical": true
+    },
+    "source_hashes": {
+      "verified": 17,
+      "mismatches": 0
+    },
+    "markdown_links": {
+      "checked": 6,
+      "missing": 0
+    },
+    "matrix_target_paths": {
+      "checked": 28,
+      "missing": 0
+    },
+    "no_conflict_markers_or_obvious_credentials_in_new_documents": true,
+    "guardian": {
+      "command": "python3 docs/test_explanation.py",
+      "before": {
+        "tests": 35,
+        "failures": 14,
+        "skipped": 1,
+        "errors": 0,
+        "exit_code": 1
+      },
+      "after": {
+        "tests": 35,
+        "failures": 14,
+        "skipped": 1,
+        "errors": 0,
+        "exit_code": 1
+      },
+      "same_failure_identifiers_and_subtests": true,
+      "interpretation": "No regression; historical failures preserved; not a PASS suite",
+      "failure_and_summary_signatures": [
+        "FAIL: test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+        "FAIL: test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+        "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+        "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+        "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)",
+        "FAILED (failures=14, skipped=1)"
+      ]
+    },
+    "scope": "Documentary checks by the preparer, not independent scientific review or experimental qualification",
+    "staged_diff_check": {
+      "command": "git diff --cached --check",
+      "exit_code": 0
+    },
+    "allowed_delta": {
+      "added_files": [
+        "studio2/fase03/CONSEGNA_RECEPIMENTO_D9_2026-09-14.md",
+        "studio2/fase03/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md",
+        "studio2/fase03/IMPRONTE_DECISIONE_D9_2026-09-14.json"
+      ],
+      "modified_or_deleted_preexisting_files": 0,
+      "proposal_and_canonical_files_preserved": true
+    }
+  },
+  "delivery_completed_date": "2026-09-15",
+  "remote_main_before_commit": "a00605862f627710347bd63c49f79a6d0a00135f"
+}
