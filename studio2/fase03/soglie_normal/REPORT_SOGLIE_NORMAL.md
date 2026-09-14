@@ -49,3 +49,27 @@ soglia, il rango, il FAR e `THRESHOLD_FREEZE.json`; non è stata eseguita alcuna
 Restano fuori il walkthrough e la verifica indipendente della finestra; non è stata modificata la
 soglia dopo il freeze. Serve l’intervento dell’autore per autorizzare la verifica indipendente e
 decidere come riportare nel paper la non conformità temporale del launcher.
+
+## Addendum — confronto FAR atteso/osservato e nota di processo
+
+**Data:** 2026-09-14
+
+Per la verifica primaria il registro prevede, con FAR nominale del 5% e 150 run indipendenti,
+un conteggio atteso nell’intervallo **3–12 superamenti**, con probabilità **0,947**. Sono stati
+osservati **11/150 superamenti**, pari a **7,333%**: il conteggio è quindi nell’intervallo
+pre-specificato e l’intervallo Clopper–Pearson al 95% è **[3,717%; 12,742%]**, includendo il 5%
+nominale. Il risultato è compatibile con il controllo previsto; non costituisce una prova di
+uguaglianza esatta al 5%.
+
+La verifica secondaria, basata sulle 1.500 finestre e con bootstrap a livello di run, dà
+**108/1500 = 7,200%**, SE **0,751%**, IC percentile 95% **[5,733%; 8,733%]**. La diagnostica
+per posizione varia da 4,000% (posizione 4) a 9,333% (posizioni 1 e 5), senza modifica della
+soglia congelata.
+
+Nota di processo: il launcher ha generato fisicamente i file `far_ver` nello stesso processo
+subito dopo `cal_thr`, prima che l’analisi potesse creare `THRESHOLD_FREEZE.json`; questo non
+rispetta l’ordine scientifico previsto dall’handoff. La non conformità è stata registrata e non
+è stata nascosta né corretta retroattivamente. L’ordine analitico successivo è stato rispettato:
+audit e score `cal_thr`, freeze della soglia, ricontrollo del sigillo, quindi apertura e analisi
+dei contenuti `far_ver`; nessuna soglia è stata modificata dopo l’analisi FAR. La decisione
+sull’accettabilità di questa deviazione di processo resta aperta alla verifica indipendente.
