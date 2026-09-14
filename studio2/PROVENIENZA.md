@@ -324,6 +324,16 @@ release restano invariati e descrivono i loro snapshot; il report conservato nel
 quello pre-chiusura, non questa revisione. U1/R2 non riceve alcun nuovo ruolo e i suoi
 parametri non sono rifittati.
 
+### 10.2 Integrazione e consegna del 2026-09-14
+
+Le descrizioni precedenti conservano il loro stato storico. La decisione FAR è ora
+registrata in `fase03/soglie_normal/DECISIONE_AUTORE_FAR.md`; C4, verbali e report sono
+integrati in `origin/main` con merge `98d958d870a10ada0d095893af9edb05a68ebc67`.
+Tag di consegna pubblicato: `studio2-fase03-soglie-normal-frozen-001`. Il freeze storico
+della soglia e la release normal-v1 restano invariati. La 03.5 è chiusa; la Fase 03 resta
+aperta. Dettagli e distinzione fra tag di consegna e freeze scientifico in
+`fase03/soglie_normal/INTEGRAZIONE_03_5.md`.
+
 ## 11. Fase 03 — sotto-fase 03.9: `normal_dev` e baseline numerica
 
 Data 2026-09-14. Specifica, piano, stream, finestre, regola di selezione degli esempi locali e
@@ -351,3 +361,15 @@ fault sono passati alla 03.14 come vincolo di sbilanciamento da risolvere prima
 dell'addestramento, senza scegliere qui la soluzione. L'archivio di conservazione è verificato
 localmente ma non è ancora pubblicato né riscaricato; `origin/main`, tag e freeze efficace restano
 quindi pending.
+
+### 11.1 Integrazione e conservazione del 2026-09-14
+
+Aggiornamento successivo al candidato descritto sopra: il merge
+`5bd1648c54a0673ebd66df3655cf8258dfa48d3b` è pubblicato in `origin/main`; la release
+`studio2-fase03-normal-dev-v1` conserva l’archivio originale, senza rigenerarlo.
+Riscaricamento: 1.336/1.336 file e 150.575.225 byte di contenuto, zero mismatch, extra,
+AppleDouble o PAX. Impronta dell’archivio invariata: `eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03`.
+I metadati aggiornati e la prova sono in `fase03/baseline_numerica/ARTIFACT_STORAGE.json`
+e `VERIFICA_RISCARICAMENTO_NORMAL_DEV.json`. La rev. 3 del manifest mantiene
+`effective=false`: restano raccordo con 03.10, raggiungibilità in main dei sorgenti
+riusati di 03.6 e successivo tag della baseline. Il tag della release dati non li sostituisce.

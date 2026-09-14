@@ -772,9 +772,11 @@ secondaria è <strong>108/1500 = 7,2%</strong>, con bootstrap a livello di run, 
 percentuali</strong> e intervallo percentile 95% <strong>[5,7333%; 8,7333%]</strong>.</p>
 
 <p>La soglia resta invariata. Il FAR primario è compatibile con l’ordine di grandezza atteso ma,
-con 150 run, non verifica strettamente la legge Beta fra calibrazioni. La sotto-fase è chiusa
-nel presente branch dopo decisione autoriale, verifica indipendente e documentazione; la
-<strong>macro-Fase 03 resta aperta</strong> e non è stata integrata o pubblicata da questa consegna.</p>
+con 150 run, non verifica strettamente la legge Beta fra calibrazioni. La sotto-fase è chiusa,
+integrata in <code>origin/main</code> e pubblicata con il tag <code>studio2-fase03-soglie-normal-frozen-001</code>,
+dopo decisione autoriale, verifica indipendente e documentazione. La <strong>macro-Fase 03 resta aperta</strong>.
+La <a href="../studio2/fase03/soglie_normal/INTEGRAZIONE_03_5.md">nota di integrazione</a> distingue il tag
+di consegna dal freeze scientifico storico della soglia.</p>
 
 <h4>Dettaglio</h4>
 <p>Il disegno segue il registro autorevole
@@ -908,9 +910,7 @@ componenti e costruiti <strong>nove prototipi globali e sedici locali</strong>. 
 25 vettori ha differenza massima zero. Non sono stati aperti dati di test, calcolate accuratezze o
 scelte soglie sulle prestazioni.</p>
 <p>La verifica separata è <strong>OK</strong>, dopo due candidati NON OK per errori di provenienza poi corretti.
-L'OK non rende efficace il freeze: pubblicazione e riscaricamento del lotto, adozione del mapping
-dei nomi da parte della 03.10, integrazione in <code>origin/main</code> e tag restano pending. La Fase 03
-<strong>non è chiusa</strong>.</p>
+Il pacchetto è integrato in <code>origin/main</code> e il lotto è pubblicato e verificato per riscaricamento. L'OK non rende efficace il freeze: restano il mapping dei nomi nella 03.10, l'integrazione dei sorgenti riusati di 03.6 e il tag della baseline. La Fase 03 <strong>non è chiusa</strong>.</p>
 <h4>Dettaglio</h4>
 <p>Il piano, fissato prima della generazione, assegna cinque run a ciascuno degli otto agenti e gli
 stream 60000–60039. Ogni workbook copre 65 h con campionamento al minuto; le otto finestre utili
@@ -946,27 +946,22 @@ fra 320 firme Normal e 40 per fault resta un vincolo da trattare nella ricetta F
 audit, decisione, controllo del warning, evidence, prototipi e controllo d'interfaccia. La
 <a href="../studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md">verifica indipendente</a> registra
 l'OK sul commit <code>ba1a206e1fe31c062d5491b4fb821ff925149982</code> e la cronologia dei due NON OK. Il
-<a href="../studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev002.json">freeze revisionato</a> resta
-<code>effective=false</code>; quello storico non è stato sovrascritto.</p>
+<a href="../studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json">freeze revisionato</a> resta
+<code>effective=false</code>; i manifest storico e rev. 2 non sono stati sovrascritti.</p>
 <p><code>PROTOTYPES.json</code> ha SHA-256 <code>6d0b754065eb8a69d0657638deeef0756de0ec8e93a905c55aea18fadace2cb2</code>;
 il manifest dei prototipi <code>8309a914d2141da38d1120606897bcead40142829ecd541b6b0423d0d9465751</code>;
 il manifest Normal <code>cc8d96c2c60169afc99cb811cea194aa553afcc7cc51cad4a0092d44de38fdc1</code>.
-L'archivio locale USTAR candidato ha SHA-256
-<code>eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03</code> e 1.336 membri verificati,
-ma non è ancora una release. Dati grezzi, runtime, storia audit, evidence e archivio restano fuori
+L'archivio USTAR pubblicato ha SHA-256
+<code>eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03</code> e 1.336 membri verificati per riscaricamento dalla release <code>studio2-fase03-normal-dev-v1</code>, senza differenze. Dati grezzi, runtime, storia audit, evidence e archivio restano fuori
 da Git e sono legati agli inventari tracciati.</p>
 <h4>Lavoro che resta</h4>
-<p>Pubblicare l'archivio proposto <code>studio2-fase03-normal-dev-v1</code> su <code>fot-tep-data</code>, riscaricarlo in
-una directory fresca e verificarne tutti gli hash; integrare e testare il mapping dei nomi nella
-03.10; rendere il commit finale raggiungibile da <code>origin/main</code>; solo dopo, creare e registrare un
-tag in una nuova revisione immutabile del freeze. Fino ad allora il lotto è accettato e la
-baseline è verificata, ma la sotto-fase non è congelata efficacemente.</p>
+<p>Integrare e testare il mapping dei nomi nella 03.10 e rendere raggiungibili da <code>origin/main</code> i sorgenti riusati della 03.6. Solo dopo, creare e registrare il tag della baseline in una nuova revisione del freeze. Pubblicazione, riscaricamento e integrazione del pacchetto 03.9 sono completati; la sotto-fase resta aperta. La <a href="../studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md">consegna di integrazione</a> riporta commit, prove e dipendenze residue.</p>
 </section>
 <p><strong>Sintesi per sezione.</strong></p>
 <div class="tablewrap"><table>
 <thead><tr><th>§</th><th>Fase</th><th>Che cos'&egrave;</th><th>Fonte</th><th>Stato</th></tr></thead>
 <tbody>
-<tr><td style="text-align:center">4</td><td><strong>Preparazione e capability pilot &mdash; Fase 03</strong></td><td>Cantieri §6.1&ndash;§6.12 e gate §7.1; §4.1&ndash;§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.7 pseudolabel; §4.9 <code>normal_dev</code> e baseline</td><td>piano §§6&ndash;7.1 e artefatti delle sotto-fasi</td><td>aperta; 03.9 verificata ma freeze, pubblicazione e integrazione 03.10 pending</td></tr>
+<tr><td style="text-align:center">4</td><td><strong>Preparazione e capability pilot &mdash; Fase 03</strong></td><td>Cantieri §6.1&ndash;§6.12 e gate §7.1; §4.1&ndash;§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.7 pseudolabel; §4.9 <code>normal_dev</code> e baseline</td><td>piano §§6&ndash;7.1 e artefatti delle sotto-fasi</td><td>aperta; 03.5 chiusa e pubblicata; 03.9 integrata e dati pubblicati, freeze pending</td></tr>
 <tr><td style="text-align:center">5</td><td><strong>Produzione degli insight</strong></td><td>Gli 8&times;2 insight dai dati di sviluppo, pi&ugrave; la libreria completa del producer alternativo per il braccio <em>producer-swap</em></td><td>piano §7.2</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">6</td><td><strong>Congelamento del protocollo</strong></td><td>Solo dopo il pilot, mai prima</td><td>piano §7.3</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">7</td><td><strong>Esecuzione dello studio finale</strong></td><td>Tutte le inferenze A, B-LF, E-LF, pi&ugrave; swap, OOD, ablation e canary &mdash; circa 2.853/3.555 chiamate con margine, per 6/8 run</td><td>piano §7.4 e §8.8</td><td>dopo il congelamento</td></tr>

@@ -1,0 +1,192 @@
+{
+  "schema_version": 2,
+  "date": "2026-09-14",
+  "scope": "phase03_subphase_03_9_normal_dev_and_numeric_baseline",
+  "status": "integrated_and_published_pending_interface_and_source_integration",
+  "effective": false,
+  "supersedes_when_effective": "BASELINE_FREEZE.json",
+  "previous_manifest_sha256": "b6f455f65640a5bc4353874627d4777fc596aee2b6ddb22757aaef3ab112589b",
+  "artifact_commit": "6372cb3c457a30b39c838e066b613c61313c35db",
+  "work_branch": "codex/studio2-baseline-numerica",
+  "freeze_tag": null,
+  "model_calls": 0,
+  "test_data_opened": false,
+  "performance_evaluation_performed": false,
+  "independent_verification": {
+    "status": "OK",
+    "reviewed_commit": "ba1a206e1fe31c062d5491b4fb821ff925149982",
+    "review_session": "/root/verifica_039",
+    "record": "studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md",
+    "previous_non_ok_candidates": [
+      "fc927a663395fd88edecf69dc3f594c47c7b663e",
+      "4970134c319107b3058e084c263bc890a06838cc"
+    ],
+    "scope": "scientific candidate ba1a206; the present revision records subsequent publication and integration, not a new independent scientific review"
+  },
+  "normal_dev": {
+    "technical_status": "PASS",
+    "author_acceptance_status": "ACCEPTED_WITH_RECORDED_PROCESS_DEVIATIONS",
+    "runs_valid": 40,
+    "runs_invalid": 0,
+    "windows_valid": 320,
+    "streams": "60000-60039",
+    "simulated_hours": 2600,
+    "plan_sha256": "66382b3ecedd8be417656e56e97d38fc4815d0c857d2c6dd302d58d80a512a97",
+    "generation_manifest_sha256": "aaacc96e8f95d62da639a8830f462a72efa55dce7cb6068bf1e7a2864bbd4e6d",
+    "audit_sha256": "fb44c26ceaf3b045fe16902296bc3e01219acff7f7fac969c106369c7b48937f",
+    "decision_sha256": "1e1b3759b76f77b0a6a72f36a3d4017bf0b46c12f9b0f4a3ba4c4342140584b0",
+    "process_deviations": [
+      "successful launch reused normal_dev_001 after a pre-start failed attempt",
+      "no separate failed-attempt run destination or manifest independently proves the zero-run count",
+      "successful command and MATLABPATH are not independently recorded in the successful log or manifest"
+    ],
+    "deviations_converted_to_conformity": false,
+    "author_decision_provenance": "current conversation message: 3.9 - OK; recorded without signature or retroactive date"
+  },
+  "simulator_warning": {
+    "status": "ACCEPTABLE_FOR_THIS_NORMAL_MODE_SIMULATION_LOT",
+    "check_sha256": "1e62dfc573df98e93ff3a9c62c83d3b8678085e3fce3bb75aa7a65996f090f5f",
+    "model_sha256": "c58826748edd306b723da2f0199a0fb2dc193a51dc5c28dbde8ac821e39dfafd",
+    "generator_sha256": "923d657608f5bbf30869c8cdf2772dd5cacd2a98b4ef62dc85540dc812eda837",
+    "successful_log_sha256": "983d4f3e54395078820df7b44d094823e99f2f856c47bb5d8a87df0ade2fb31d",
+    "limits": [
+      "not accepted for ERT/GRT or embedded code generation",
+      "not a general scientific-validity claim",
+      "valid only for the inspected model, generator, mode, and hashes"
+    ]
+  },
+  "normal_evidence": {
+    "status": "EXTRACTED_AND_LEAKAGE_CHECKED",
+    "reuse_destination": "studio2/fase03/baseline_numerica/evidence/normal_dev_002",
+    "units": 320,
+    "dimensions": 697,
+    "manifest_sha256": "cc8d96c2c60169afc99cb811cea194aa553afcc7cc51cad4a0092d44de38fdc1",
+    "evaluator_index_sha256": "4f340a0e24e809a5d16d783b561262826fae08afb143bde81d410ae103f55329",
+    "phase03_6_extractor_sha256": "46b451c2d6d8b1627993828ac9bac39532562f2fa1b27955b8a20f098ba24e97",
+    "phase03_6_leakage_sha256": "c77ae5b11186c5b0df87b2f1df8800cb45fb25317e248fe8484d3e8283073887",
+    "baseline_n1_n5_sha256": "79883dd0aabbd034c15337b0be1ffca37e59ea7b32443a15d560b7feda2b2e6a",
+    "r2_guard_sha256": "7df0cef2d7854c689b79eb911fa01d1ede1625e22f0d3636c0ea5d678c9f33f8",
+    "regenerate_if_r2_fails": true,
+    "test_role": false
+  },
+  "fault_evidence": {
+    "preferred_release": "studio2-fase03-evidence-v2",
+    "source_commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+    "scientific_manifest_sha256": "5111d0c61c2e93fe5071d7a85015673549af0bf9c1dc74e0d940719a8400e020",
+    "archive_sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf",
+    "scientific_files": 1283,
+    "scientific_bytes": 61208618
+  },
+  "prototypes": {
+    "status": "BUILT_AND_INDEPENDENTLY_RECOMPUTED_BY_SEPARATE_IMPLEMENTATION",
+    "dimensions": 697,
+    "global_vectors": 9,
+    "local_vectors": 16,
+    "fault_signatures_per_class": 40,
+    "normal_signatures_global": 320,
+    "normal_signatures_per_agent": 40,
+    "prototypes_sha256": "6d0b754065eb8a69d0657638deeef0756de0ec8e93a905c55aea18fadace2cb2",
+    "manifest_sha256": "8309a914d2141da38d1120606897bcead40142829ecd541b6b0423d0d9465751",
+    "check_sha256": "e806b1761aa5c7451a2fe46812640b1d552a9817a986a56e2eac140a6fff8178",
+    "maximum_absolute_component_difference": "0",
+    "comparison_tolerance": "0.0000000000000002"
+  },
+  "method": {
+    "prototype": "componentwise arithmetic mean of all fixed development windows",
+    "distance": "mean absolute L1",
+    "tie_tolerance_absolute": "0.000000000001",
+    "distance_abstention_threshold": null,
+    "variants": [
+      "numeric_global",
+      "numeric_local"
+    ],
+    "local_absent_class_policy": "not_a_candidate_no_global_fallback"
+  },
+  "handoff": {
+    "normal_examples_sha256": "e2409c64ad4e36e0f3b597a5e0b9745d866af72f4da717fc7a128b25753c166a",
+    "normal_examples": 8,
+    "selection_rule": "agent_run_index=1 and window_ordinal=1, [25,30) h",
+    "selection_rule_pre_specified": true,
+    "phase03_10_parser_status": "PASS",
+    "interface_check_sha256": "77cf4d8d3620bc739f58f48782e6846345d922463d4d93e34d281ea85d62a4f9",
+    "metric_name_mapping_status": "pending_phase03_10_adoption"
+  },
+  "conservation": {
+    "status": "PUBLISHED_AND_REDOWNLOAD_VERIFIED",
+    "archive_name": "studio2-fase03-normal-dev-v1.tar",
+    "archive_sha256": "eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03",
+    "archive_bytes": 151500800,
+    "inventory_sha256": "198b572ab1f0e600f34c182c2dba98427a3a3cbc56faf13f146187de4d914283",
+    "inventory_rows": 1336,
+    "release_tag_proposed": "studio2-fase03-normal-dev-v1",
+    "release_url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-normal-dev-v1",
+    "redownload_verified": true,
+    "published_at_utc": "2026-09-14T15:18:38Z",
+    "verification_record": "VERIFICA_RISCARICAMENTO_NORMAL_DEV.json"
+  },
+  "source_files": [
+    {
+      "path": "studio2/fase03/baseline_numerica/SPECIFICA_NORMAL_DEV.md",
+      "sha256": "6ce0a646e2852bf005635aa24e8eb9d319434c5fb8554894937866ab35fce3a5"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/SPECIFICA_BASELINE_NUMERICA.md",
+      "sha256": "510b119ca54ac05225a7302dcf1b685cb4a778673a0f18d5a9a0e736078a6143"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/baseline.py",
+      "sha256": "b1fe2a83b29b25760dd32df00a2178c5235f714273a194feb6cfe8a12ac74f22"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/extract_normal_evidence.py",
+      "sha256": "8d50bf1466b7b87b303ff742b2e99a5d4eea8b147545ad4fa466b005d9c62c1d"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/verify_prototypes.py",
+      "sha256": "7e05316681467a2f7f8faafd9fd4a2f7da666b360bd1dbe89e21b32b8983a29d"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/prepare_conservation.py",
+      "sha256": "9e74969cd279cedbf2e8b4f188db39e759513ed9f0d08e3190910d53cdbacdeb"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/preflight_normal_dev.py",
+      "sha256": "1cbac6e0ec0896b62943fb568d9895a5371991087781180f63fe433ce60186a7"
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json",
+      "sha256": "b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6"
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json",
+      "sha256": "df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf"
+    }
+  ],
+  "requirements_remaining_for_effective_freeze": [
+    "phase03_10 adopts and tests the metric/count name mapping",
+    "make the pinned phase03_6 extraction/leakage source and required dependencies reachable from origin/main (MAINTENANCE 8.5)",
+    "after remaining conditions and required checks, publish a freeze tag and record it in a subsequent immutable revision"
+  ],
+  "amendment_policy": "Do not edit an effective manifest in place. This candidate may be corrected before effectiveness; after effectiveness, create a new revision.",
+  "revision": 3,
+  "previous_manifest_path": "BASELINE_FREEZE_rev002.json",
+  "integration": {
+    "commit": "5bd1648c54a0673ebd66df3655cf8258dfa48d3b",
+    "candidate_commit": "459947af892e33ed23a8bdf998db49aabf923c68",
+    "reachable_from_origin_main": true,
+    "scientific_package_byte_identical_at_integration": true,
+    "provenance_section": 11
+  },
+  "supplemental_evidence": [
+    {
+      "path": "ARTIFACT_STORAGE.json",
+      "sha256": "c038e56d08271cda651825fcd102dd96b1f1c48178b3ca7f8d728e2b89bed1e8",
+      "bytes": 1987
+    },
+    {
+      "path": "VERIFICA_RISCARICAMENTO_NORMAL_DEV.json",
+      "sha256": "ce9aa338eb76c8058d9d5ddd23349fec4f72511914e95e3e6f6e29c1eec59227",
+      "bytes": 2110
+    }
+  ]
+}

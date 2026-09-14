@@ -1,0 +1,48 @@
+{
+  "regular_files": 1336,
+  "bytes_verified": 150575225,
+  "appledouble_entries": 0,
+  "members_with_pax_headers": 0,
+  "extra_files": 0,
+  "mismatches": 0,
+  "archive_verification": "PASS",
+  "method": "fresh download from GitHub release; verify archive SHA-256 and size, checksum asset, exact tar member set and all file sizes/SHA-256",
+  "archive_sha256": "eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03",
+  "archive_bytes": 151500800,
+  "download_directory": "/tmp/fase03-normal-dev-redownload-20260914",
+  "verified_at_utc": "2026-09-14T15:20:16.404831+00:00",
+  "inventory_sha256": "198b572ab1f0e600f34c182c2dba98427a3a3cbc56faf13f146187de4d914283",
+  "release": {
+    "assets": [
+      {
+        "apiUrl": "https://api.github.com/repos/sorrentinoluca/fot-tep-data/releases/assets/563651936",
+        "contentType": "application/x-tar",
+        "createdAt": "2026-09-14T15:18:18Z",
+        "downloadCount": 0,
+        "id": "RA_kwDOUYNbzc4hmKVg",
+        "label": "",
+        "name": "studio2-fase03-normal-dev-v1.tar",
+        "size": 151500800,
+        "state": "uploaded",
+        "updatedAt": "2026-09-14T15:18:37Z",
+        "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-normal-dev-v1/studio2-fase03-normal-dev-v1.tar"
+      },
+      {
+        "apiUrl": "https://api.github.com/repos/sorrentinoluca/fot-tep-data/releases/assets/563651937",
+        "contentType": "application/octet-stream",
+        "createdAt": "2026-09-14T15:18:19Z",
+        "downloadCount": 0,
+        "id": "RA_kwDOUYNbzc4hmKVh",
+        "label": "",
+        "name": "studio2-fase03-normal-dev-v1.tar.sha256",
+        "size": 99,
+        "state": "uploaded",
+        "updatedAt": "2026-09-14T15:18:19Z",
+        "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-normal-dev-v1/studio2-fase03-normal-dev-v1.tar.sha256"
+      }
+    ],
+    "publishedAt": "2026-09-14T15:18:38Z",
+    "tagName": "studio2-fase03-normal-dev-v1",
+    "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-normal-dev-v1"
+  }
+}
