@@ -10,7 +10,7 @@ nel branch `codex/studio2-paper-sections`. Il verbale conferma il candidato
 proprio §B il precedente passaggio NON OK.
 
 Commit locale di acquisizione:
-`50f07a998afb87b832aab6653c9241c69ac3b020`, parent diretto del candidato
+`50f07a998afb87b832aab6653c9241c69ac3b020`, figlio diretto del candidato
 verificato. Nessun merge, push o tag è stato eseguito.
 
 ## File acquisiti e prodotti
