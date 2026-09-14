@@ -22,8 +22,10 @@ class ExecutionGuardTests(unittest.TestCase):
         value = json.loads(output.getvalue())
         self.assertEqual(value["status"], "PLAN_ONLY_NO_PROVIDER_CALLS")
         self.assertEqual(value["stability_gate_calls"], 120)
-        self.assertEqual(value["planned_total_with_retry_reserve"], 160)
-        self.assertFalse(value["retry_reserve_authorized"])
+        self.assertEqual(value["planned_max_without_alternate"], 152)
+        self.assertEqual(value["planned_max_with_alternate"], 160)
+        self.assertEqual(value["shared_reserve"]["constraint"], "8*remediation+transport<=15")
+        self.assertEqual(value["shared_reserve"]["gate_retries"], 0)
         self.assertEqual(value["hard_stop_provider_requests"], 200)
         self.assertEqual(config["candidate"]["expected_max_model_len"], 16384)
         self.assertEqual(

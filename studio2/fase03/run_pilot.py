@@ -33,6 +33,11 @@ from studio2.fase03.protocol import (  # noqa: E402
     sha256_file,
     sha256_text,
 )
+from studio2.fase03.harness.gate_rules import (  # noqa: E402
+    evaluate_stability_gate,
+    semantic_signature,
+)
+from studio2.fase03.harness.ledger import PilotLedger  # noqa: E402
 
 
 ACK = "EXECUTE_PHASE03_PRELIMINARY_PILOT"
@@ -322,7 +327,85 @@ def load_prepared(
     return plan, prompts
 
 
-def run_budget_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]:
+def _tracked_call(
+    provider: Provider,
+    ledger: PilotLedger,
+    *,
+    prompt: dict[str, Any],
+    schema: dict[str, Any],
+    generation: dict[str, Any],
+    stage: str,
+    stage_run: str,
+    logical_id: str,
+    request_id: str,
+    return_error_record: bool = False,
+) -> dict[str, Any]:
+    ledger.reserve_request(
+        request_id=request_id,
+        logical_id=logical_id,
+        model=provider.model,
+        producer="consumer",
+        stage=stage,
+        stage_run=stage_run,
+    )
+    begin = time.monotonic()
+    try:
+        record = provider.call(prompt=prompt, schema=schema, generation=generation)
+    except Exception as exc:
+        ledger.complete_request(
+            request_id,
+            status="FAILED",
+            latency_ms=(time.monotonic() - begin) * 1000,
+            detail={"error_type": type(exc).__name__, "message": str(exc)},
+        )
+        if not return_error_record:
+            raise RuntimeError(
+                "provider failure recorded; no retry is allowed without separately documented zero-token proof"
+            ) from exc
+        return {
+            "prompt_id": prompt["prompt_id"],
+            "agent_id": prompt["agent_id"],
+            "case_id": prompt["case_id"],
+            "condition": prompt["condition"],
+            "sample_role": prompt["sample_role"],
+            "generation": generation,
+            "returned_model": None,
+            "response_id": None,
+            "system_fingerprint": None,
+            "finish_reason": None,
+            "truncated": False,
+            "latency_seconds": time.monotonic() - begin,
+            "prompt_tokens": None,
+            "completion_tokens": None,
+            "total_tokens": None,
+            "raw_output": "",
+            "raw_output_sha256": sha256_text(""),
+            "parsed_output": None,
+            "parse_valid_first_attempt": False,
+            "parse_error": f"{type(exc).__name__}: {exc}",
+            "retry_count": 0,
+            "response_raw": None,
+            "sdk_version": provider.sdk_version,
+        }
+    ledger.complete_request(
+        request_id,
+        status="COMPLETED",
+        prompt_tokens=record.get("prompt_tokens"),
+        completion_tokens=record.get("completion_tokens"),
+        total_tokens=record.get("total_tokens"),
+        latency_ms=record["latency_seconds"] * 1000,
+        detail={
+            "response_id": record.get("response_id"),
+            "finish_reason": record.get("finish_reason"),
+            "parse_valid_first_attempt": record.get("parse_valid_first_attempt"),
+        },
+    )
+    return record
+
+
+def run_budget_stage(
+    prepared_dir: Path, results_dir: Path, *, ledger: PilotLedger
+) -> dict[str, Any]:
     config = load_json(PREFLIGHT_CONFIG_PATH)
     plan, prompts = load_prepared(prepared_dir)
     server = server_contract(config)
@@ -335,6 +418,7 @@ def run_budget_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]:
         stress[condition] = max(candidates, key=lambda item: item["input_tokens"])
     records: list[dict[str, Any]] = []
     selected = None
+    stage_run = "budget:" + sha256_file(prepared_dir / "pilot_prompts.jsonl")
     for candidate in plan["context_feasibility"]["feasible_candidates"]:
         generation = {
             "temperature": config["generation_budget"]["temperature"],
@@ -342,12 +426,22 @@ def run_budget_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]:
             "thinking_token_budget": candidate["thinking_token_budget"],
             "max_tokens": candidate["max_tokens"],
         }
-        batch = [
-            provider.call(
-                prompt=stress[condition], schema=grammar_schema, generation=generation
+        batch = []
+        for condition in ("A", "B-LF", "E-LF"):
+            logical = f"budget:{candidate['thinking_token_budget']}:{condition}"
+            batch.append(
+                _tracked_call(
+                    provider,
+                    ledger,
+                    prompt=stress[condition],
+                    schema=grammar_schema,
+                    generation=generation,
+                    stage="budget_probe",
+                    stage_run=stage_run,
+                    logical_id=logical,
+                    request_id=f"{stage_run}:{logical}",
+                )
             )
-            for condition in ("A", "B-LF", "E-LF")
-        ]
         records.extend(batch)
         if all(
             item["finish_reason"] == "stop" and item["parse_valid_first_attempt"]
@@ -358,6 +452,11 @@ def run_budget_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]:
     write_atomic(
         results_dir / "budget_probe_records.jsonl",
         "".join(canonical_json(item) + "\n" for item in records),
+    )
+    ledger.record_stage_outcome(
+        "budget_probe",
+        outcome="PASS" if selected else "FAIL",
+        artifact_sha256=sha256_file(results_dir / "budget_probe_records.jsonl"),
     )
     frozen = {
         "artifact_version": "1",
@@ -508,18 +607,12 @@ def run_provisional_stress_budget_stage(
 
 
 def divergence_signature(record: dict[str, Any]) -> str:
-    fields = {
-        "abstain": (record["parsed_output"] or {}).get("abstain"),
-        "predicted_label": (record["parsed_output"] or {}).get("predicted_label"),
-        "parsed_output": record["parsed_output"],
-        "finish_reason": record["finish_reason"],
-        "parse_valid_first_attempt": record["parse_valid_first_attempt"],
-        "raw_output_sha256": record["raw_output_sha256"],
-    }
-    return sha256_text(canonical_json(fields))
+    return sha256_text(canonical_json(semantic_signature(record)))
 
 
-def run_stability_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]:
+def run_stability_stage(
+    prepared_dir: Path, results_dir: Path, *, ledger: PilotLedger
+) -> dict[str, Any]:
     config = load_json(PREFLIGHT_CONFIG_PATH)
     plan, prompts = load_prepared(prepared_dir)
     frozen_path = results_dir / "frozen_gate_config.json"
@@ -541,12 +634,21 @@ def run_stability_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]
         raise RuntimeError("vLLM grammar schema changed after generation-budget freeze")
     provider = Provider(config)
     records: list[dict[str, Any]] = []
+    stage_run = "gate:" + sha256_file(frozen_path)
     for prompt in prompts:
         for repetition in range(1, 4):
-            record = provider.call(
+            logical = f"gate:{prompt['prompt_id']}:r{repetition}"
+            record = _tracked_call(
+                provider,
+                ledger,
                 prompt=prompt,
                 schema=grammar_schema,
                 generation=frozen["generation"],
+                stage="stability_gate",
+                stage_run=stage_run,
+                logical_id=logical,
+                request_id=f"{stage_run}:{logical}",
+                return_error_record=True,
             )
             record["repetition"] = repetition
             records.append(record)
@@ -554,30 +656,13 @@ def run_stability_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]
         raise AssertionError(f"stability gate made {provider.requests} requests, expected 120")
     record_path = results_dir / "stability_records.jsonl"
     write_atomic(record_path, "".join(canonical_json(item) + "\n" for item in records))
-    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for record in records:
-        grouped[record["prompt_id"]].append(record)
-    divergent = sorted(
-        prompt_id
-        for prompt_id, group in grouped.items()
-        if len({divergence_signature(item) for item in group}) != 1
-    )
-    invalid = sum(not item["parse_valid_first_attempt"] for item in records)
-    truncated = sum(item["finish_reason"] == "length" for item in records)
-    status = "PASS_R1_WITH_CONTINUOUS_AUDIT" if not divergent else "PASS_SWITCH_TO_R3"
-    if invalid or truncated:
-        status = "NO_GO_CONFIGURATION"
+    gate = evaluate_stability_gate(records)
     summary = {
         "artifact_version": "1",
-        "status": status,
+        **gate,
         "scope": frozen["go_scope"],
         "completed_at": utc_now(),
-        "unique_prompts": len(grouped),
-        "provider_requests": provider.requests,
-        "divergent_prompt_count": len(divergent),
-        "divergent_prompt_ids": divergent,
-        "invalid_first_attempts": invalid,
-        "length_truncations": truncated,
+        "unique_prompts": 40,
         "stability_records_sha256": sha256_file(record_path),
         "frozen_gate_config_sha256": sha256_file(frozen_path),
         "rule_of_three_upper_bound_note": (
@@ -623,28 +708,15 @@ def print_plan(config: dict[str, Any]) -> None:
                 "alternate_producer_calls_deferred": calls[
                     "alternate_producer_conformance_deferred"
                 ],
-                "planned_total_with_both_producers": calls[
-                    "planned_total_with_both_producers"
-                ],
-                "planned_total_with_retry_reserve": (
-                    calls["planned_total_with_both_producers"] + calls["retry_reserve"]
-                ),
-                "retry_reserve_authorized": calls["retry_reserve_authorized"],
+                "base_total_without_alternate_range": calls["base_total_without_alternate_range"],
+                "base_total_with_alternate_range": calls["base_total_with_alternate_range"],
+                "shared_reserve": calls["shared_reserve"],
+                "planned_max_without_alternate": calls["planned_max_without_alternate"],
+                "planned_max_with_alternate": calls["planned_max_with_alternate"],
                 "hard_stop_provider_requests": calls["hard_stop_provider_requests"],
-                "duration_estimate_basis": (
-                    "Only sequential 8001@16384 is verified. Extrapolation from 49.4 s/call "
-                    "at thinking=1024, scaled linearly by the selected thinking cap with a "
-                    "25% planning allowance for prompts up to 9875 input tokens."
-                ),
-                "estimated_budget_probe_wall_time": "25-40 minutes for the nine-call maximum",
-                "estimated_stability_gate_wall_time_by_budget": {
-                    "2048": "4-5 hours",
-                    "3072": "6-7.5 hours",
-                    "4096": "8-10 hours",
-                },
-                "estimated_probe_plus_gate_wall_time": "approximately 4.5-10.7 hours sequential",
-                "direct_local_api_cost": "EUR 0; electricity/opportunity cost not priced",
-                "alternate_producer_cost": "unknown until provider, model and tariff are frozen",
+                "persistent_ledger": calls["persistent_ledger"],
+                "temporal_feasibility": "NOT_VERIFIED_OFFLINE; measure on the D9-selected and qualified configuration with 20% margin",
+                "d9_model_roles": "UNDECIDED",
             },
             indent=2,
             ensure_ascii=False,
@@ -662,6 +734,8 @@ def main() -> int:
     parser.add_argument("--results-dir", type=Path, default=DEFAULT_RESULTS)
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--acknowledge")
+    parser.add_argument("--ledger", type=Path)
+    parser.add_argument("--pilot-id")
     args = parser.parse_args()
     config = load_json(PREFLIGHT_CONFIG_PATH)
     if not args.execute:
@@ -678,12 +752,19 @@ def main() -> int:
     )
     if args.acknowledge != required_ack:
         raise SystemExit(f"execution requires --acknowledge {required_ack}")
+    if args.stage == "provisional-stress-budget":
+        raise SystemExit(
+            "the historical synthetic stress execution path is disabled; rev.10 requires real frozen prompts and cumulative accounting"
+        )
+    if args.ledger is None or args.pilot_id is None:
+        raise SystemExit("execution requires --ledger ABSOLUTE_PATH and --pilot-id")
+    ledger = PilotLedger(args.ledger, pilot_id=args.pilot_id)
     if args.stage == "budget":
-        result = run_budget_stage(args.prepared_dir, args.results_dir)
+        result = run_budget_stage(args.prepared_dir, args.results_dir, ledger=ledger)
     elif args.stage == "stability":
-        result = run_stability_stage(args.prepared_dir, args.results_dir)
-    else:
-        result = run_provisional_stress_budget_stage(args.prepared_dir, args.results_dir)
+        result = run_stability_stage(args.prepared_dir, args.results_dir, ledger=ledger)
+    else:  # unreachable: retained only so historical artifacts remain readable
+        raise AssertionError("disabled provisional stage")
     print(canonical_json(result))
     return 0 if not result["status"].startswith("NO_GO") else 2
 

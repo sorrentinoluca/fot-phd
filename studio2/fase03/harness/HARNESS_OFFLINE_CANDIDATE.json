@@ -1,0 +1,113 @@
+{
+  "artifact_version": "1",
+  "created_utc": "2026-09-14",
+  "status": "offline_candidate_pending_independent_verification",
+  "assembly_base_commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+  "source_harness": {
+    "path": "/Users/luker/fot-tep/.worktrees/studio2-harness",
+    "branch": "codex/studio2-harness",
+    "commit": "1ac06ebdc92f73d3b630ccca9bf75f413bea170b",
+    "use": "selective code source; no branch merge"
+  },
+  "normative_sources": {
+    "statistical_plan_revision_10_commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+    "statistical_plan_tree": "24847ce0cc4ff7b6defea4d65f3f41cb9ccd1c1a",
+    "statistical_plan_sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a",
+    "statistical_manifest_sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8",
+    "delta_harness_blob": "780e08ae9e176a819a745ab2054a2e6ae79a8a9a",
+    "delta_harness_sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e",
+    "schema_r4_target": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+    "schema_r4_manifest_sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12",
+    "schema_r4_tag_object": "4d15c4fb915ea9db9f7425225d231746778f0ba1",
+    "normal_handoff_source_commit": "6372cb3c457a30b39c838e066b613c61313c35db",
+    "normal_handoff_sha256": "e2409c64ad4e36e0f3b597a5e0b9745d866af72f4da717fc7a128b25753c166a",
+    "evidence_source_commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+    "evidence_integration_commit": "7c99a8318cbe24bf864790566302f72614d963ed",
+    "evidence_release": "studio2-fase03-evidence-v2",
+    "evidence_archive_sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf"
+  },
+  "recovery": {
+    "adapted_from_1ac06eb": [
+      "studio2/fase03/harness/canary.py",
+      "studio2/fase03/harness/guards.py",
+      "studio2/fase03/harness/inputs.py",
+      "studio2/fase03/harness/insight_adapter.py",
+      "studio2/fase03/harness/logging_v1.py",
+      "studio2/fase03/harness/ordering.py",
+      "studio2/fase03/harness/producer.py",
+      "studio2/fase03/harness/render.py",
+      "studio2/fase03/harness/sampling.py"
+    ],
+    "new_for_revision_10": [
+      "studio2/fase03/harness/ledger.py",
+      "studio2/fase03/harness/gate_rules.py",
+      "studio2/fase03/harness/test_harness_offline.py"
+    ],
+    "current_main_adaptations": [
+      "studio2/fase03/config/pilot_preflight.json",
+      "studio2/fase03/producer_probe.py",
+      "studio2/fase03/protocol.py",
+      "studio2/fase03/run_pilot.py",
+      "studio2/fase03/tests/test_execution_guard.py"
+    ],
+    "intentionally_not_recovered": [
+      "old freeze and integration-status manifests",
+      "old reports and delivery records",
+      "old incomplete input manifest",
+      "obsolete evidence v1 and schema R3 pins",
+      "historical model defaults"
+    ]
+  },
+  "files": [
+    {"path": "studio2/fase03/PREFLIGHT_03_0.md", "bytes": 14054, "sha256": "6da3d87e90e0be35565e393feeb7ddbf500afbd287d7fa1b7ba4203ca6073c15"},
+    {"path": "studio2/fase03/config/pilot_preflight.json", "bytes": 12846, "sha256": "559b8cb857e54f428d9724b96e4b0600c4dafcb69773a0c3567909d4e019e549"},
+    {"path": "studio2/fase03/producer_probe.py", "bytes": 15019, "sha256": "59baeace95e1f7cc28db1b3c0e48a359f2a730cafff7b950b0cdaa1d3e1e1290"},
+    {"path": "studio2/fase03/protocol.py", "bytes": 27868, "sha256": "19105c5994bcf68d1f7848c07bd65c80c16edc30eec7a4438f0e1b883a2452f5"},
+    {"path": "studio2/fase03/run_pilot.py", "bytes": 32054, "sha256": "f44770cce18079878beb49ec5f687cb823d47b3f2ef0fa4d904e42465ed244be"},
+    {"path": "studio2/fase03/tests/test_execution_guard.py", "bytes": 3148, "sha256": "9f16a03c6799385452e531dc36983d713ffdde01992b185edf971ed390eebde2"},
+    {"path": "studio2/fase03/harness/PILOT_INPUT_SOURCES.pending.json", "bytes": 194648, "sha256": "7103482d6c7b8038944b0af63bac58548557c8d0b8f5d24e420346bd93fa304b"},
+    {"path": "studio2/fase03/harness/SPECIFICA_HARNESS.md", "bytes": 9075, "sha256": "d4cacc0932a473bca333e1e9a1f57afc0ac104a47fba15806f7ec00f7e3001b9"},
+    {"path": "studio2/fase03/harness/DECISIONE_D9_ORDINE_LABEL_PENDING.md", "bytes": 1884, "sha256": "375442948ee41067a52467586fee580be0847e5b17694e1b3a5f69764db6aa47"},
+    {"path": "studio2/fase03/harness/canary.py", "bytes": 3696, "sha256": "c357b6daa51d601ea072f7af8131c15c7af04fab49af71d2fbf2739226db0a06"},
+    {"path": "studio2/fase03/harness/gate_rules.py", "bytes": 3477, "sha256": "0f170c1f5d574c4038e9fd70bf5784b285d72f08e69ee582b86e302d7d94d003"},
+    {"path": "studio2/fase03/harness/guards.py", "bytes": 3047, "sha256": "c41515524b46fbee3ba10f5c9d06c7b5a2605ece724e163770ee26d6003c9c83"},
+    {"path": "studio2/fase03/harness/inputs.py", "bytes": 20198, "sha256": "771c5b2ffababff025267f855ccdb1cdb277d649e3fa70a0957ba9d438d274e4"},
+    {"path": "studio2/fase03/harness/insight_adapter.py", "bytes": 4720, "sha256": "0f90a1e7341412b58bf38adfb2419a503b9a850768a7abb2c78ba7fe8ef54fcc"},
+    {"path": "studio2/fase03/harness/ledger.py", "bytes": 20260, "sha256": "8d9cb2b4bbd77e57e363ab3958c1dd7847005602a6e4b6935f4a6e0bee470ab9"},
+    {"path": "studio2/fase03/harness/logging_v1.py", "bytes": 5801, "sha256": "aea5e967669b843b50ca2c8f94f0545cac1f4f0eb34dc5b25f31aeb6358f4fe6"},
+    {"path": "studio2/fase03/harness/ordering.py", "bytes": 1353, "sha256": "b5ddf3ecfc4e0cd3b60b4e4ae38ddcb310331fc13c24d41d395a6ce86e2f4e1e"},
+    {"path": "studio2/fase03/harness/producer.py", "bytes": 2130, "sha256": "d44525694afd92c4f57445f35439c9603d84ff88c3947b157427c093553a930c"},
+    {"path": "studio2/fase03/harness/render.py", "bytes": 2661, "sha256": "bd544be641a52fd0c5f1fcb76b636687534ecde9a8c88f216ed12bf74a2561bf"},
+    {"path": "studio2/fase03/harness/sampling.py", "bytes": 2844, "sha256": "3a805668ebdebbaf897b0a070a4d4e28e91d9905dd0b63559571e24aed1e6182"},
+    {"path": "studio2/fase03/harness/test_harness_offline.py", "bytes": 18754, "sha256": "1555db6a1865f4491cc80a7daa126187a1790fe3010f6a19201207435ecd65db"}
+  ],
+  "preserved_qualified_metric_files": [
+    "studio2/fase03/harness/metric_adapter.py",
+    "studio2/fase03/harness/metrics.py",
+    "studio2/fase03/harness/test_metric_raccordo.py"
+  ],
+  "offline_verification": {
+    "phase03_discovery_tests": "80/80 OK",
+    "targeted_contract_and_metric_tests": "45/45 OK",
+    "compileall": "OK",
+    "diff_check": "OK",
+    "provider_calls": 0,
+    "inferences": 0,
+    "simulations": 0
+  },
+  "open": [
+    "independent verification of this delta",
+    "author approval of prompt-facing label order",
+    "D9 exact model roles and revisions",
+    "sixteen real R4-valid insights",
+    "service, tokenizer, capacity, stability, latency and temporal feasibility qualification"
+  ],
+  "scope_guards": {
+    "full_harness_freeze": false,
+    "pilot_go": false,
+    "subphase_03_10_closed": false,
+    "phase_03_closed": false,
+    "walkthrough_updated": false,
+    "general_plan_or_apertura_updated": false
+  }
+}

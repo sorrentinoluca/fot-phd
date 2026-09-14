@@ -69,7 +69,7 @@
     "absence_of_both_controls_alone_activates_r3": false,
     "observed_divergence_between_repetitions_activates_r3": true,
     "divergence_unit": "one frozen prompt compared across three repetitions",
-    "divergence_event": "Any difference in abstain, predicted_label, parsed JSON, finish reason, parse validity, or raw response bytes across the three first attempts. Reasoning text differences are raw-response differences."
+    "divergence_event": "A difference in first-attempt validity or, when valid, in the parsed pair (abstain,predicted_label). Parsed JSON, finish reason, free text and raw byte differences are forensic only; length truncation remains a separate T4 event."
   },
   "pilot_sample": {
     "origin": "future frozen Study 2 development artifacts, produced after the scientific prerequisites are completed; final-test, OOD and ground-truth evaluation artifacts are forbidden",
@@ -100,10 +100,31 @@
     "stability_gate": 120,
     "qwen_producer_conformance": 8,
     "alternate_producer_conformance_deferred": 8,
-    "planned_total_with_both_producers": 145,
-    "retry_reserve": 15,
-    "retry_reserve_authorized": false,
-    "hard_stop_provider_requests": 200
+    "base_total_without_alternate_range": [131, 137],
+    "base_total_with_alternate_range": [139, 145],
+    "shared_reserve": {
+      "constraint": "8*remediation+transport<=15",
+      "remediation_domain": [0, 1],
+      "remediation_calls": 8,
+      "transport_max_while_preserving_remediation": 7,
+      "conformity_transport_max_after_explicit_remediation_waiver": 15,
+      "budget_probe_transport_cumulative_max": 7,
+      "budget_probe_repeat_unit": 3,
+      "gate_retries": 0,
+      "automatic_retries": 0,
+      "alternate_producer_calls_fund_retries": false,
+      "authorization": "limited to documented zero-token transport and one separately approved producer-prompt remediation diff"
+    },
+    "planned_max_without_alternate": 152,
+    "planned_max_with_alternate": 160,
+    "hard_stop_provider_requests": 200,
+    "persistent_ledger": {
+      "format": "SQLite WAL with FULL synchronous writes",
+      "path_requirement": "absolute shared path supplied at execution; never inferred from results or working directory",
+      "intent_before_transport": true,
+      "counts_unresolved_intent_after_crash": true,
+      "shared_across_stages_directories_processes_and_producers": true
+    }
   },
   "dependencies": {
     "phase02_artifacts_synchronized_from_origin_main": [
@@ -138,7 +159,9 @@
     "offline_token_counter": "IMPLEMENTED_AND_VERIFIED_LOCAL_TOKENIZER",
     "budget_probe_runner": "IMPLEMENTED_NOT_EXECUTED",
     "stability_gate_runner": "IMPLEMENTED_SUSPENDED",
-    "producer_probe_runner": "IMPLEMENTED_SUSPENDED"
+    "producer_probe_runner": "IMPLEMENTED_SUSPENDED",
+    "persistent_ledger": "IMPLEMENTED_AND_TESTED_OFFLINE",
+    "revision_10_gate_evaluator": "IMPLEMENTED_AND_TESTED_OFFLINE"
   },
   "subordinated_checks": {
     "final_catalog": [

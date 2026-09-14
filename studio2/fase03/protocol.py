@@ -466,6 +466,7 @@ def render_diagnostic_prompt(
     case: dict[str, Any],
     manifest: dict[str, Any],
     insights: list[Insight],
+    presentation_label_space: Iterable[str] | None = None,
 ) -> tuple[str, tuple[str, ...]]:
     if condition not in CONDITIONS:
         raise ContractError(f"unknown condition: {condition}")
@@ -482,13 +483,28 @@ def render_diagnostic_prompt(
             condition=condition,
             derangements=manifest["derangements"],
         )
+    displayed_labels = tuple(
+        manifest["label_space"]
+        if presentation_label_space is None
+        else presentation_label_space
+    )
+    canonical_labels = tuple(manifest["label_space"])
+    if (
+        len(displayed_labels) != len(canonical_labels)
+        or set(displayed_labels) != set(canonical_labels)
+        or displayed_labels[-1] != "Normal"
+    ):
+        raise ContractError(
+            "presentation_label_space must be a permutation of the canonical labels "
+            "with Normal last"
+        )
     sections = [BASE_INSTRUCTION]
     if condition != "A":
         sections.extend(("DECISION POLICY", LOCAL_FIRST_POLICY))
     sections.extend(
         (
             "LABEL SPACE",
-            json.dumps(manifest["label_space"], ensure_ascii=False),
+            json.dumps(displayed_labels, ensure_ascii=False),
             "LOCAL LABELED EXAMPLES",
             json.dumps(examples, ensure_ascii=False, indent=2),
         )
@@ -525,6 +541,7 @@ def build_pilot_sample(
     *,
     token_count: Callable[[str], int],
     allow_synthetic: bool = False,
+    presentation_label_space: Iterable[str] | None = None,
 ) -> list[RenderedPrompt]:
     validate_pilot_input_manifest(manifest, config, allow_synthetic=allow_synthetic)
     insights = validate_insight_library(
@@ -546,6 +563,7 @@ def build_pilot_sample(
             case=case,
             manifest=manifest,
             insights=insights,
+            presentation_label_space=presentation_label_space,
         )
         rows.append(
             RenderedPrompt(
@@ -586,6 +604,7 @@ def build_pilot_sample(
                 case=case,
                 manifest=manifest,
                 insights=insights,
+                presentation_label_space=presentation_label_space,
             )
             scored.append((token_count(text), case["case_id"], case))
         stress = max(scored, key=lambda item: (item[0], item[1]))[2]
