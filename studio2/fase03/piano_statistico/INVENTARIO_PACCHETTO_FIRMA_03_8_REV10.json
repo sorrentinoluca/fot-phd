@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-15",
+  "scope": "studio2_phase03_subphase_03_8_material_signature_package",
+  "status": "corrected_signature_copy_pending_independent_review",
+  "worktree": "/Users/luker/fot-tep-allineamenti-038-r1-r4",
+  "branch": "codex/studio2-allineamenti-038-r1-r4",
+  "base_commit": "8a3f7ba706570201c5b622c4e0fc79529b1c8cfd",
+  "origin_main_observed": "a00605862f627710347bd63c49f79a6d0a00135f",
+  "non_self_referential": true,
+  "signature_candidate": {
+    "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_COPIA_FIRMA_REV10.md",
+    "bytes": 6585,
+    "sha256": "d470a6ce477f31f85951df8d877d786429a56e2f34a369407ae590494c39f605",
+    "status": "proposal_not_to_be_signed_before_independent_review",
+    "author_fields_to_complete_only_after_OK": [
+      "Luogo e data effettiva",
+      "Firma dell'autore"
+    ],
+    "planned_signed_return_path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_SOTTOSCRITTE_REV10.md"
+  },
+  "contradiction_in_preserved_unsigned_act": {
+    "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_DA_SOTTOSCRIVERE_REV10.md",
+    "source_candidate_commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+    "current_history_commit": "767e1d090c80b6c5f1cd7ff477b997a0c11847a5",
+    "bytes": 4974,
+    "sha256": "4a0a4e1fc2797ee7a81439110e164d43159c745007136c9dda7bed7759471cc8",
+    "preserved_byte_identical": true,
+    "finding": "The act still states in present tense that D9, revision-10 review, normative alignments and bibliography integration are pending; later acquired records show those documentary states have changed."
+  },
+  "bound_revision_10": {
+    "candidate_commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+    "candidate_tree": "24847ce0cc4ff7b6defea4d65f3f41cb9ccd1c1a",
+    "plan": {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "source_candidate_commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "current_history_commit": "767e1d090c80b6c5f1cd7ff477b997a0c11847a5",
+      "bytes": 81490,
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a"
+    },
+    "historical_manifest": {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json",
+      "source_candidate_commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "current_history_commit": "767e1d090c80b6c5f1cd7ff477b997a0c11847a5",
+      "bytes": 25894,
+      "sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8",
+      "freeze_effective": false,
+      "freeze_tag": null,
+      "historical_review_state": "pending"
+    },
+    "original_independent_OK": {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV10.md",
+      "source_acquisition_commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "current_history_commit": "dac458609a642bb317bc48b8c2d000a340e163ed",
+      "bytes": 12478,
+      "sha256": "d269e26d8cb4e23370577e1e193d90d9357d66f7c739e9d0669970edf71b0066",
+      "verdict": "OK"
+    }
+  },
+  "approved_decision_sources": [
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_bozza.md",
+      "historical_source_commit": "75bd14898e43f03f849c5d248d6c2481da55e245",
+      "current_history_commit": "70c84e3a573951171813add26a46167cbc6c7203",
+      "bytes": 43136,
+      "sha256": "66e04dd2d8dd00fcf0edf6076a9e3f60bb6fd1fdf8c1e86028a9f80c8754fafb"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ADDENDUM_DECISIONI_RESIDUE_03_8.md",
+      "historical_source_commit": "526561feabeb6b4083170b1817b8abdac1a2a4c7",
+      "current_history_commit": "945cb1fad9b5e2d96569c39a4bacce0250573d42",
+      "bytes": 3768,
+      "sha256": "6035967ceb390de69e63cac9f828b17386ab8a76bb1999db524597770fc782f8"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/APPROVAZIONE_ADDENDUM_03_8.md",
+      "historical_source_commit": "f37e7e00cbdd959ef6fdb7cc96ce42ed521075d6",
+      "current_history_commit": "b4652a5c565479a58ea808655be0e4510c10a0e4",
+      "bytes": 2830,
+      "sha256": "df2a754d3ad2d2215def012eb4d6e887c77d93ebdcad4a6811c5cbc18786a70a"
+    },
+    {
+      "path": "studio2/fase03/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md",
+      "historical_source_commit": "aaba893dff8c62f9f9281eec7423eee020235e03",
+      "acquisition_commit": "dc4d6560af73579300e33a0a81fc9c3b4316722d",
+      "bytes": 9083,
+      "sha256": "fcb113636de80cc87709905324436555e0ba103bd46de3ac079ce0ef7f60f1b8",
+      "scope": "D9 roles only; no label-order approval, signature or execution authorization"
+    }
+  ],
+  "subsequent_independent_OK_chain": [
+    {
+      "scope": "corrected normative alignments R1-R4",
+      "candidate_commit": "9a56d12d0633a0c9790c48792182f26fc6eb424a",
+      "path": "studio2/fase03/piano_statistico/VERIFICA_CORREZIONI_ALLINEAMENTI_03_8_REV10.md",
+      "acquisition_commit": "5b784219b08de1249636536ac98e9a546b4d4577",
+      "bytes": 20816,
+      "sha256": "9248c42572a20388ddf5af976840e68fdc908e545312a63234167778ce53a256",
+      "verdict": "OK"
+    },
+    {
+      "scope": "D9 acquisition and documentary receipt",
+      "candidate_commit": "8a20c125bd294191c67ebdbf571832b1e32ac0f1",
+      "path": "studio2/fase03/piano_statistico/VERIFICA_RECEPIMENTO_D9_ALLINEAMENTI_03_8.md",
+      "acquisition_commit": "8a3f7ba706570201c5b622c4e0fc79529b1c8cfd",
+      "bytes": 21644,
+      "sha256": "bb8555792c5dad78fc3ffeaf5f797e3da427ef79ec1d3ebe7c840810f77c53e3",
+      "verdict": "OK"
+    }
+  ],
+  "signature_receipt_checks": [
+    "Verify that the signed artifact derives from the independently approved signature candidate and that no text other than the author fields changed.",
+    "Verify that place/date and the author's signature are actually present and are not preparer-supplied placeholders.",
+    "Record the received path, receipt time, byte size, SHA-256 and acquisition commit in a separate non-self-referential record.",
+    "Preserve the unsigned proposal and every historical plan, manifest, review and acquisition byte-identical.",
+    "Do not infer publication, freeze, label-order approval, service qualification or execution authorization from the signature."
+  ],
+  "remaining_after_signature": [
+    "signed artifact acquisition and verification",
+    "applicable documentary raccordo",
+    "selective integration and publication reachable from origin/main",
+    "final non-self-referential manifest and annotated freeze tag"
+  ],
+  "explicitly_not_performed": [
+    "signature",
+    "push",
+    "merge_to_main",
+    "tag_or_freeze",
+    "harness_change_or_import",
+    "API_call",
+    "inference",
+    "scientific_simulation"
+  ]
+}
