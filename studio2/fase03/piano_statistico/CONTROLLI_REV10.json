@@ -1,0 +1,177 @@
+{
+  "scope": "revision_10_local_preparer_checks_not_independent_review",
+  "date": "2026-09-14",
+  "statistical_tests": {
+    "command": "/Users/luker/fot-env/bin/python -m unittest studio2.fase03.piano_statistico.test_design_resolution",
+    "tests": 26,
+    "passed": true,
+    "python": "3.13.9",
+    "full_grid_regenerated": false
+  },
+  "documentary_tests": {
+    "command": "python3 docs/test_explanation.py",
+    "before": {
+      "tests": 35,
+      "failures": 14,
+      "skipped": 1
+    },
+    "after": {
+      "tests": 35,
+      "failures": 14,
+      "skipped": 1
+    },
+    "failure_ids_unchanged": true,
+    "failure_ids": [
+      "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ]
+  },
+  "unchanged_statistical_sections": {
+    "## 2. Popolazione": true,
+    "## 3. Endpoint": true,
+    "## 4. Ipotesi": true,
+    "### 4.1 Le tre ipotesi": true,
+    "### 4.2 Gerarchia": true,
+    "### 4.3 Statistiche": true,
+    "### 4.4 Esiti": true,
+    "### 4.5 Che cosa": true,
+    "## 5. Il margine": true,
+    "## 6. Specifica": true,
+    "### 7.1 Numeri": true,
+    "### 7.3 Decisione": true,
+    "### 7.4 Run di scorta": true,
+    "### 8.1 Lettura": true,
+    "### 8.3 Run e chiamate": true,
+    "### 8.4 Analisi": true,
+    "## 9. D11": true,
+    "### 9.1 Coppie": true,
+    "### 9.2 Run": true,
+    "### 9.3 Metrica": true,
+    "### 10.1 Che cosa": true,
+    "### 10.3 Definizione": true,
+    "### 10.4 Audit": true,
+    "### 10.5 Set canary": true,
+    "## 12. Reporting": true,
+    "## 13. Analisi": true,
+    "## 14. Threats": true,
+    "## 17. Riferimenti": true
+  },
+  "unchanged_manifest_inputs": [
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_bozza.md",
+      "role": "byte_identical_author_decision_source_copy",
+      "sha256": "66e04dd2d8dd00fcf0edf6076a9e3f60bb6fd1fdf8c1e86028a9f80c8754fafb",
+      "bytes": 43136
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO.md",
+      "role": "historical_independent_review_revision_7_OK_preserved_verbatim",
+      "sha256": "06c2a45bb13e70d92a6a7fbb1f6df1549ccaf5911e72f9f56066751d2f99abbe",
+      "bytes": 8471
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV8.md",
+      "role": "historical_independent_review_revision_8_NON_OK_preserved_verbatim",
+      "sha256": "e7b0846e36b9b2328bb073f486921aacbf29e66337bcb53efe8ab1cdec7cdd11",
+      "bytes": 32614
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV9.md",
+      "role": "independent_review_revision_9_OK_restricted_delta",
+      "sha256": "289a74433d70e2bf911bdea893711ff7a294c75cf74d5e6fa0addbf3ede72a58",
+      "bytes": 9845
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/design_resolution.py",
+      "role": "design_resolution_script_revision_7_preserved",
+      "sha256": "25a648b99fcb86f8111eaaf2f712183d6c3e0a0af5960b6b84c424c38fb1e613",
+      "bytes": 31905
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/test_design_resolution.py",
+      "role": "design_resolution_tests_revision_7_preserved",
+      "sha256": "569d63e60a2028958f3e41b92b6fa38628cd8ce3ad5d3546328308eaf39cf06f",
+      "bytes": 18504
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.json",
+      "role": "design_resolution_output_revision_7_preserved",
+      "sha256": "8bf79dc958e045598cf7538b72752caa902d2f8b134f642e54daaf0274fddbde",
+      "bytes": 126303
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.md",
+      "role": "design_resolution_tables_revision_7_preserved",
+      "sha256": "9ed15d15e8a6210e79573c9e4b3d073dfb8d8d9ed680735d83dc7c35358febb7",
+      "bytes": 27356
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/sottofase_3_8.md",
+      "role": "subphase_prompt_preserved",
+      "sha256": "ed6bb7123678b0ee3aec9dbd69ed8576e7988e759cf9e364cc9c23426bec9afc",
+      "bytes": 5942
+    },
+    {
+      "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+      "role": "catalog_D1_manifest",
+      "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+      "bytes": 6894
+    },
+    {
+      "path": "studio2/fase03/selection/PROPOSTA_OOD_D11.md",
+      "role": "non_binding_OOD_D11_proposal",
+      "sha256": "47c84d937bc01d37c84b81c09691bc5c3ad6d0607bcbfcb8621ea1a6be885046",
+      "bytes": 6960
+    },
+    {
+      "path": "docs/lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+      "role": "criteria_registry_table8_transcription",
+      "sha256": "d58a7606d69a560a626da44833c065ddbf1aa395ae8b2e523262daf8622231c7",
+      "bytes": 11339
+    },
+    {
+      "path": "docs/lit_review/DECISIONE_calibrazione_soglie_fase_B.md",
+      "role": "FAR_calibration_constraint_03_5",
+      "sha256": "a472d193064615b9a42218844d2cf71bcc7acc06b93cd65f8fa20c1fc0abdfd3",
+      "bytes": 48215
+    },
+    {
+      "path": "phase_b/evaluation/bootstrap.py",
+      "role": "HC_pattern_read_only",
+      "sha256": "524751fede48e678ee66b9f783be8fdeaefe7bebe32772e5367ba9be9c3d9df5",
+      "bytes": 5636
+    },
+    {
+      "path": "phase_b/evaluation/metrics.py",
+      "role": "HC_pattern_read_only",
+      "sha256": "9aa8e6d12957c10e3059c95dcb93efa59679e97a7374500aea9e86ad26e9f0cb",
+      "bytes": 8874
+    }
+  ],
+  "historical_preparation_check": "Passed on 526561f before edits; historical check_preparazione_chiusura.py targets that snapshot, not the revised current plan.",
+  "budget_check": {
+    "core_R1": 1728,
+    "core_R3": 5184,
+    "four_consumer_blocks_R1": 2244,
+    "four_consumer_blocks_R3": 6732,
+    "illustrative_total_excluding_nonpilot_retries_R1": 3142,
+    "illustrative_total_excluding_nonpilot_retries_R3": 7284,
+    "pilot_maxima": [
+      152,
+      160
+    ],
+    "probe_repeat_triplets_max_when_transport_quota_7_intact": 2
+  }
+}
