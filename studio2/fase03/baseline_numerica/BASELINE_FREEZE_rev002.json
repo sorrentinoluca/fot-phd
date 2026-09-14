@@ -2,7 +2,7 @@
   "schema_version": 2,
   "date": "2026-09-14",
   "scope": "phase03_subphase_03_9_normal_dev_and_numeric_baseline",
-  "status": "candidate_pending_independent_verification_publication_and_integration",
+  "status": "candidate_independently_verified_pending_publication_and_integration",
   "effective": false,
   "supersedes_when_effective": "BASELINE_FREEZE.json",
   "previous_manifest_sha256": "8ac1f1e72b23484395c2955c7d14ac333e61f8743d662dd92b933e37f90547c9",
@@ -12,6 +12,16 @@
   "model_calls": 0,
   "test_data_opened": false,
   "performance_evaluation_performed": false,
+  "independent_verification": {
+    "status": "OK",
+    "reviewed_commit": "ba1a206e1fe31c062d5491b4fb821ff925149982",
+    "review_session": "/root/verifica_039",
+    "record": "studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md",
+    "previous_non_ok_candidates": [
+      "fc927a663395fd88edecf69dc3f594c47c7b663e",
+      "4970134c319107b3058e084c263bc890a06838cc"
+    ]
+  },
   "normal_dev": {
     "technical_status": "PASS",
     "author_acceptance_status": "ACCEPTED_WITH_RECORDED_PROCESS_DEVIATIONS",
@@ -120,7 +130,6 @@
     {"path": "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json", "sha256": "df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf"}
   ],
   "requirements_remaining_for_effective_freeze": [
-    "independent review of the candidate commit reports OK",
     "phase03_10 adopts and tests the metric/count name mapping",
     "publish the conservation archive and checksum to fot-tep-data",
     "redownload into a fresh external directory and verify bytes, members, and all hashes",

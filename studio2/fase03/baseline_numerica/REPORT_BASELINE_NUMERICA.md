@@ -17,7 +17,7 @@ sotto-fase ancora pending.** Data: 2026-09-14.
 | Handoff degli otto esempi Normal a 03.10 | regola pre-specificata: run locale 1, finestra `[25,30)`; controllo sul parser del harness | completato nel candidato |
 | Nomi metriche/conteggi 03.9 ↔ 03.10 | semantica compatibile; restano `accuracy`/`accuracy_all`, `n`/`total`, `abstentions`/`abstained` | pending integrazione 03.10 |
 | Conservazione remota verificata | archivio locale USTAR `eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03`, 1.336 file | pending pubblicazione e riscaricamento |
-| Verifica indipendente del candidato | `VERIFICA_BASELINE_NUMERICA.md` | pending al momento di questo report |
+| Verifica indipendente del candidato | `VERIFICA_BASELINE_NUMERICA.md`: OK su `ba1a206e1fe31c062d5491b4fb821ff925149982`, dopo due candidati NON OK corretti | completato |
 | Raggiungibilità da `origin/main` e tag di freeze | nessuna operazione esterna autorizzata/eseguita | pending |
 
 Questa tabella distingue tre livelli: il **lotto** è tecnicamente PASS e le deviazioni sono state
@@ -99,8 +99,8 @@ e nuovo confronto byte/hash.
 
 `BASELINE_FREEZE.json` resta la fotografia storica pre-generazione e non viene riscritto.
 `BASELINE_FREEZE_rev002.json` raccoglie gli artefatti reali ma resta intenzionalmente inefficace
-finché non sono soddisfatti verifica indipendente, mapping 03.10, pubblicazione+riscaricamento,
-integrazione in `origin/main` e tag.
+pur registrando la verifica indipendente OK: restano da soddisfare mapping 03.10,
+pubblicazione+riscaricamento, integrazione in `origin/main` e tag.
 
 ## 6. Verifiche eseguite
 

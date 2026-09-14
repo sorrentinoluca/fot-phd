@@ -1,9 +1,9 @@
 # Studio 2 — walkthrough
 
-> **Documento vivo, a scheletro.** Si aggiorna **fase per fase**. Stato al **2026-09-13**:
+> **Documento vivo, a scheletro.** Si aggiorna **fase per fase**. Stato al **2026-09-14**:
 > fasi 01 e 02 documentate in §2 e §3; la sotto-fase **criteri di selezione (§6.1)** della
 > Fase 03 è documentata in [§4.1](#criteri-selezione-61); **D1, verificata, congelata e pubblicata**, in [§4.2](#catalogo-d1);
-> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037). La Fase 03 resta aperta. La parte restante delle fasi successive
+> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037); `normal_dev` e baseline numerica, verificati ma non ancora congelati efficacemente, in [§4.9](#normal-dev-baseline-039). La Fase 03 resta aperta. La parte restante delle fasi successive
 > resta a scheletro: per essa **la fonte autorevole è il piano**, non questo file.
 
 | Ruolo | File |
@@ -995,11 +995,91 @@ deve essere riproducibile e comune alle condizioni confrontate, fissata prima
 del pilot. Restano fuori contenuti degli insight, esempi locali, manifest reale
 ed esecuzione del pilot; nessuna chiamata al modello o simulazione è stata avviata.
 
+<a id="normal-dev-baseline-039"></a>
+
+### 4.9 · Fase 03 — `normal_dev` e baseline numerica (sotto-fase 03.9)
+
+#### Riassunto e sintesi
+
+La sotto-fase 03.9 ha accettato tecnicamente il lotto Normal di sviluppo e ha costruito la
+baseline numerica pre-specificata. L'audit e la verifica indipendente confermano **40/40 run** e
+**320/320 finestre**; dai dati di sviluppo sono state estratte 320 evidence Normal da 697
+componenti e costruiti **nove prototipi globali e sedici locali**. Il ricalcolo indipendente dei
+25 vettori ha differenza massima zero. Non sono stati aperti dati di test, calcolate accuratezze o
+scelte soglie sulle prestazioni.
+
+La verifica separata è **OK**, dopo due candidati NON OK per errori di provenienza poi corretti.
+L'OK non rende efficace il freeze: pubblicazione e riscaricamento del lotto, adozione del mapping
+dei nomi da parte della 03.10, integrazione in `origin/main` e tag restano pending. La Fase 03
+**non è chiusa**.
+
+#### Dettaglio
+
+Il piano, fissato prima della generazione, assegna cinque run a ciascuno degli otto agenti e gli
+stream 60000–60039. Ogni workbook copre 65 h con campionamento al minuto; le otto finestre utili
+sono `[25,30)`, …, `[60,65)`. L'audit ha verificato piano, manifest, hash, modello, MEX, RNG,
+griglia, dimensioni e finitezza. Le 320 finestre appartengono a 40 run e non sono trattate come 320
+repliche indipendenti.
+
+L'autore ha accettato il riuso del pathname `normal_dev_001` dopo il tentativo pre-start e ha
+considerato sufficiente la tracciabilità residua di comando e `MATLABPATH`, conservandone il
+limite. Non ha autorizzato una deroga al prerequisito `origin/main`: lo stato del ref al momento
+del lancio non è attestato. Il log riuscito contiene 40 warning del blocco `Variable Time Delay`.
+Modello e generatore congelati, `FixedBuffer=off`, normal-mode, `ode45` e assenza di code
+generation circoscrivono il messaggio alla crescita dinamica del buffer. L'accettazione vale solo
+per questo lotto e non per ERT/GRT, embedded o validità scientifica generale.
+
+L'estrazione Normal verifica per hash `extract_evidence.py` e `leakage.py` della 03.6 e conserva
+le guardie U3/R2: N1–N5 e soglie V2 servono soltanto a normalizzazione e flag, non come esempi
+Normal. Se R2 decade, le evidence vanno rigenerate. La release fault preferita è
+`studio2-fase03-evidence-v2`, repackaging verificato con gli stessi 1.283 file scientifici della
+v1. La baseline usa 40 firme per fault, 320 Normal globali e 40 Normal per agente; ciascun
+prototipo è una media aritmetica 697-D e la classificazione usa L1 media, con pareggio entro
+`1e-12` che produce astensione e senza nuova soglia di distanza o fallback globale.
+
+Gli otto esempi Normal locali seguono la regola pre-specificata run locale 1, finestra `[25,30)`.
+Il parser reale del harness 03.10 li accetta 8/8. Le righe evaluator-side sono compatibili con la
+03.8; resta però da adottare in 03.10 il mapping `accuracy`→`accuracy_all`, `n`→`total` e
+`abstentions`→`abstained`, con il conteggio `invalid` aggiuntivo nel harness.
+
+#### Connessione alla letteratura e alle critiche
+
+La sotto-fase non introduce un nuovo claim bibliografico: prepara il comparatore deterministico
+che il disegno richiede per interpretare i bracci LLM. Mitiga i rischi di selezione post-hoc e di
+contaminazione del test grazie a specifica precedente, separazione development/test e verifica
+hash; non dimostra accuratezza, robustezza o indipendenza statistica. Lo sbilanciamento di sviluppo
+fra 320 firme Normal e 40 per fault resta un vincolo da trattare nella ricetta FedAvg della 03.14.
+
+#### Artefatti e riproducibilità
+
+Il [report](../studio2/fase03/baseline_numerica/REPORT_BASELINE_NUMERICA.md) indicizza specifiche,
+audit, decisione, controllo del warning, evidence, prototipi e controllo d'interfaccia. La
+[verifica indipendente](../studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md) registra
+l'OK sul commit `ba1a206e1fe31c062d5491b4fb821ff925149982` e la cronologia dei due NON OK. Il
+[freeze revisionato](../studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev002.json) resta
+`effective=false`; quello storico non è stato sovrascritto.
+
+`PROTOTYPES.json` ha SHA-256 `6d0b754065eb8a69d0657638deeef0756de0ec8e93a905c55aea18fadace2cb2`;
+il manifest dei prototipi `8309a914d2141da38d1120606897bcead40142829ecd541b6b0423d0d9465751`;
+il manifest Normal `cc8d96c2c60169afc99cb811cea194aa553afcc7cc51cad4a0092d44de38fdc1`.
+L'archivio locale USTAR candidato ha SHA-256
+`eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03` e 1.336 membri verificati,
+ma non è ancora una release. Dati grezzi, runtime, storia audit, evidence e archivio restano fuori
+da Git e sono legati agli inventari tracciati.
+
+#### Lavoro che resta
+
+Pubblicare l'archivio proposto `studio2-fase03-normal-dev-v1` su `fot-tep-data`, riscaricarlo in
+una directory fresca e verificarne tutti gli hash; integrare e testare il mapping dei nomi nella
+03.10; rendere il commit finale raggiungibile da `origin/main`; solo dopo, creare e registrare un
+tag in una nuova revisione immutabile del freeze. Fino ad allora il lotto è accettato e la
+baseline è verificata, ma la sotto-fase non è congelata efficacemente.
+
 ### Sintesi per sezione
 
 | § | Fase | Che cos'è | Fonte | Stato |
 | :---: | --- | --- | --- | --- |
-| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.7 documenta pseudolabel e derangement | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.1–03.4 chiuse; 03.7 verificata, interfaccia 03.12 aperta |
+| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.7 pseudolabel; §4.9 `normal_dev` e baseline | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.9 verificata ma freeze, pubblicazione e integrazione 03.10 pending |
 | 5 | **Produzione degli insight** | Gli 8×2 insight dai dati di sviluppo, più la libreria completa del producer alternativo per il braccio *producer-swap* | piano §7.2 | dopo il pilot |
 | 6 | **Congelamento del protocollo** | Solo dopo il pilot, mai prima | piano §7.3 | dopo il pilot |
 | 7 | **Esecuzione dello studio finale** | Tutte le inferenze A, B-LF, E-LF, più swap, OOD, ablation e canary — circa 2.853/3.555 chiamate con margine, per 6/8 run | piano §7.4 e §8.8 | dopo il congelamento |
@@ -1015,7 +1095,7 @@ Dettaglio dei cantieri ancora previsti dal piano §§6–7:
 4. **§6.4** — Produrre dati strutturati e verbalizzazioni di sviluppo
 5. **§6.5** — Pseudolabel e derangement v1 verificati in [§4.7](#pseudolabel-037); interfaccia finale con 03.12 ancora aperta
 6. **§6.6** — Scrivere il piano statistico completo
-7. **§6.7** — Preparare la baseline numerica
+7. **§6.7** — Baseline numerica costruita e verificata nella [§4.9](#normal-dev-baseline-039); freeze efficace e integrazione 03.10 pending
 8. **§6.8** — Preparare l'harness API
 9. **§6.9** — Generare e congelare i run finali di test
 10. **§6.10** — Congelare lo schema degli insight

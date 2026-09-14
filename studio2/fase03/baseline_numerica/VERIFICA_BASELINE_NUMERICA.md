@@ -1,11 +1,12 @@
-VERDETTO: NON OK
+VERDETTO: OK
 
 # Verifica indipendente — sotto-fase 03.9 `normal_dev` e baseline numerica
 
 **Modello:** OpenAI Codex, GPT-5  
 **Sessione separata:** `/root/verifica_039`  
-**Commit verificato:** `4970134c319107b3058e084c263bc890a06838cc`  
-**Commit della prima verifica:** `fc927a663395fd88edecf69dc3f594c47c7b663e`  
+**Commit verificato:** `ba1a206e1fe31c062d5491b4fb821ff925149982`  
+**Primo candidato, NON OK:** `fc927a663395fd88edecf69dc3f594c47c7b663e`  
+**Secondo candidato, NON OK:** `4970134c319107b3058e084c263bc890a06838cc`  
 **Branch osservato:** `codex/studio2-baseline-numerica`  
 **Data:** 2026-09-14
 
@@ -17,7 +18,7 @@ stati eseguiti commit, push, merge, tag, release, simulazioni o valutazioni su d
 
 | Esito | Punto | Fonte primaria e riscontro |
 | :---: | --- | --- |
-| ✅ | Identità e perimetro del candidato | `git rev-parse 4970134c319107b3058e084c263bc890a06838cc` restituisce il commit completo sopra. Rispetto al candidato precedente, il commit modifica solo `studio2/PROVENIENZA.md`, `REPORT_BASELINE_NUMERICA.md` e registra il primo verbale. Il diff complessivo da `46c0b62` resta confinato a `studio2/`; nessun artefatto congelato di `phase_b/`, `icl/`, `ablation/`, `tep_*_v2/`, `reproducibility/` o `code/` è modificato. `BASELINE_FREEZE.json` è preservato byte per byte, SHA-256 `8ac1f1e72b23484395c2955c7d14ac333e61f8743d662dd92b933e37f90547c9`. |
+| ✅ | Identità e perimetro del candidato | `git rev-parse ba1a206e1fe31c062d5491b4fb821ff925149982` restituisce il commit completo sopra. Rispetto al secondo candidato, il commit corregge una sola riga di `studio2/PROVENIENZA.md` e registra il secondo verbale; nessun artefatto tecnico cambia. Il diff complessivo da `46c0b62` resta confinato a `studio2/`; nessun artefatto congelato di `phase_b/`, `icl/`, `ablation/`, `tep_*_v2/`, `reproducibility/` o `code/` è modificato. `BASELINE_FREEZE.json` è preservato byte per byte, SHA-256 `8ac1f1e72b23484395c2955c7d14ac333e61f8743d662dd92b933e37f90547c9`. |
 | ✅ | Pre-specificazione | I commit `0a38e2c` e `8eed658` fissano rispettivamente lotto/regola dell'esempio e baseline prima dei timestamp del manifest di generazione (prima run `2026-09-14 09:01:43 UTC`). Il piano ha 40 righe, cinque per agente, stream 60000–60039 e SHA-256 `66382b3ecedd8be417656e56e97d38fc4815d0c857d2c6dd302d58d80a512a97`. |
 | ✅ | Integrità tecnica `normal_dev` | Controllo indipendente con `openpyxl` su tutti i 40 workbook: manifest/piano in bijezione, SHA-256 di ogni workbook uguale al manifest, unico foglio `Sheet1`, 54 colonne, 3.901 righe dati, soli numeri finiti, griglia `i/60` con errore massimo `1.4210854715202004e-14 h`. Confermati 40/40 run e otto finestre da 300 campioni per run, quindi 320/320. Il manifest di generazione ha SHA-256 `aaacc96e8f95d62da639a8830f462a72efa55dce7cb6068bf1e7a2864bbd4e6d`. |
 | ✅ | Separazione fra PASS e deviazioni | `AUDIT_NORMAL_DEV.json` (SHA-256 `fb44c26ceaf3b045fe16902296bc3e01219acff7f7fac969c106369c7b48937f`) conserva `technical_result=PASS` e `process_status=deviazioni`. `DECISIONE_ACCETTAZIONE_NORMAL_DEV.md` registra senza firma né retrodatazione le due autorizzazioni effettive dell'autore: riuso del pathname e sufficienza limitata della tracciabilità comando/`MATLABPATH`. Le deviazioni non sono convertite in conformità. |
@@ -29,7 +30,7 @@ stati eseguiti commit, push, merge, tag, release, simulazioni o valutazioni su d
 | ✅ | Conservazione locale e stato remoto | Ricalcolato l'archivio locale `studio2-fase03-normal-dev-v1.tar`: 151.500.800 byte, SHA-256 `eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03`. Tutti i 1.336 membri regolari coincidono per path, byte e SHA-256 con `MANIFEST_CONSERVAZIONE.csv` (150.575.225 byte di contenuto); zero PAX e AppleDouble. `ARTIFACT_STORAGE.json` dichiara correttamente `local_candidate_not_published_not_redownloaded`, URL/data null e `redownload_verified=false`. Non è stata fatta una verifica remota in questa sessione: pubblicazione e riscaricamento restano requisiti pending, come impone MAINTENANCE §8.5. |
 | ✅ | Freeze e assenza di chiusura prematura | `BASELINE_FREEZE_rev002.json` ha `effective=false`, nessun tag e stato candidato. Conserva come pending: review indipendente, adozione mapping 03.10, pubblicazione+riscaricamento, raggiungibilità da `origin/main` e tag successivo. Il nuovo candidato non è contenuto in alcun branch remoto o tag. Il report distingue correttamente lotto tecnicamente accettato, baseline costruita/ricalcolata e freeze/integrazione ancora pending; non riporta accuracy, FAR o risultati test. |
 | ✅ | Test | `python3 -m unittest studio2.fase03.baseline_numerica.test_baseline studio2.fase03.baseline_numerica.test_normal_dev_plan studio2.fase03.baseline_numerica.test_extract_normal_evidence -v`: 10/10 PASS. `python3 docs/test_explanation.py`: 35 test, 14 failure, 1 skip, invariati rispetto alla baseline dichiarata. Identificativi: `test_condition_c_contract_and_caveats` (1), `test_one_flow_and_ordered_step_headings` (1), `test_step27_qwen_frozen_results_and_limitations` (9), `test_step27_qwen_protocol_stable_facts` (3); skip `TutorialChecks.setUpClass` perché manca il walkthrough legacy part 1 nel checkout. Nessuna coppia MD/HTML è stata toccata nel candidato. |
-| ❌ | Provenienza dell'autorizzazione | La prima delle due formulazioni contestate è corretta: la riga del piano ora dice che `origin/main` contiene la revisione, che lo stato del ref al lancio non è attestato e che «3.9 - OK» non autorizza una deroga. Rimane però, nella riga immediatamente successiva dedicata al lotto `normal_dev_001`, la frase «pathname riusato, piano non su `origin/main` e lacuna comando/MATLABPATH accettati dall'autore». Questa seconda occorrenza continua sia ad affermare come fatto uno stato remoto non attestato al lancio, sia ad attribuirne l'accettazione all'autore. Il testo primario autorizza soltanto pathname e tracciabilità, non una deroga a `origin/main`; il blocco della prima verifica è quindi corretto solo a metà. |
+| ✅ | Provenienza dell'autorizzazione | Le due formulazioni contestate sono ora entrambe corrette. La riga del piano dice che `origin/main` contiene oggi la revisione, che lo stato del ref al lancio non è attestato e che «3.9 - OK» non autorizza una deroga. La riga del lotto attribuisce all'autore soltanto l'accettazione del pathname riusato e della lacuna comando/`MATLABPATH`, poi precisa separatamente che lo stato di `origin/main` al lancio non è attestato né coperto dall'OK. Una ricerca sul candidato non trova più `piano non su origin/main` associato all'accettazione. Il secondo blocco è risolto senza inventare prova retroattiva. |
 | ✅ | Nome della fonte leakage | Corretto in entrambi i documenti modificati: `studio2/PROVENIENZA.md` e il report citano ora `extract_evidence.py` e `leakage.py`. I due file esistono nella worktree evidence e mantengono gli hash verificati `46b451c2...24e97` e `c77ae5b1...3887`. Il primo blocco sul pathname inesistente è risolto. |
 | ✅ | Storia dei tentativi parziali di estrazione | Report e provenienza qualificano ora esplicitamente la storia come nota di sessione senza log/traccia primaria, non verificabile e non usata come prova. Gli output riusciti restano sostenuti autonomamente dai 320 record e dai relativi hash. La precedente avvertenza è risolta senza inventare evidenza retroattiva. |
 
@@ -39,16 +40,19 @@ La parte scientifico-tecnica verificabile regge: lotto **PASS 40/40 e 320/320**,
 nel perimetro circoscritto, evidence e dipendenze U3/R2 integre, baseline ricalcolata senza dati test,
 handoff compatibile e conservazione locale coerente. La baseline è quindi tecnicamente verificata.
 
-Il nuovo candidato risolve il pathname della fonte leakage e qualifica correttamente come non
-probatoria la storia dei tentativi parziali. Non può però ricevere `OK` perché la seconda riga di
-`studio2/PROVENIENZA.md` sopra indicata continua ad attribuire all'autore una deroga che «3.9 - OK»
-non contiene. Serve una correzione puntuale e una nuova riverifica. Pubblicazione/riscaricamento,
-mapping 03.10, integrazione in `origin/main` e tag restano comunque pending: il lotto è accettato,
+Il candidato risolve tutti i rilievi delle due verifiche precedenti: limita l'autorizzazione alla
+fonte primaria, usa il pathname reale `leakage.py` e qualifica come non probatoria la storia dei
+tentativi parziali. Il lavoro regge e può procedere all'aggiornamento coordinato della
+documentazione.
+
+L'`OK` non rende efficace il freeze e non chiude la Fase 03. Pubblicazione e riscaricamento del
+lotto, mapping 03.10, integrazione in `origin/main` e tag restano pending: il lotto è accettato e
 la baseline è verificata, ma la sotto-fase non è ancora integrata né congelata efficacemente.
 
 ## Comandi principali rieseguiti
 
-- confronto `fc927a6..4970134`, controllo del perimetro e ricerca di tutte le occorrenze contestate;
+- confronto `4970134..ba1a206`, controllo del perimetro e ricerca globale delle formulazioni
+  contestate, escludendo soltanto la loro citazione storica in questo verbale;
 - ricalcolo SHA-256 di freeze storico/rev002, audit, warning check, prototipi, handoff, inventario,
   manifest Normal e manifest di generazione: artefatti tecnici invariati rispetto alla prima verifica;
 - suite unitaria 03.9: 10/10 PASS;
@@ -64,6 +68,6 @@ Fonti lette: `Prompt_LLM.md`, `Verifica_LLM.md`, `docs/MAINTENANCE.md` completo 
 specifiche/report/freeze/audit/codice 03.9, `studio2/PROVENIENZA.md` §10, artefatti ignorati
 `runs/`, `runtime/`, `evidence/`, `conservation/`, fonti 03.6 nella worktree evidence, guardia R2
 nel checkout primario, piano 03.8 al commit dichiarato e parser/metriche della worktree 03.10.
-Costo aggiuntivo della riverifica: diff mirato di 13 righe effettivamente modificate, rilettura
-delle sezioni coinvolte, 10 test unitari e 35 test documentali; i controlli massivi non sono stati
+Costo aggiuntivo della terza riverifica: diff mirato di una riga scientifica, rilettura della
+sezione di provenienza, 10 test unitari e 35 test documentali; i controlli massivi non sono stati
 duplicati perché i relativi hash sono rimasti invariati.
