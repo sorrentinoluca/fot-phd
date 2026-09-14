@@ -1,0 +1,208 @@
+{
+  "status": "CONTROLLI_DEL_PREPARATORE_COMPLETATI_REVIEW_INDIPENDENTE_PENDING",
+  "base": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+  "environment": {
+    "python": "3.11.5 (v3.11.5:cce6ba91b3, Aug 24 2023, 10:50:31) [Clang 13.0.0 (clang-1300.0.29.30)]",
+    "platform": "macOS-26.6.2-x86_64-i386-64bit"
+  },
+  "source_fingerprints_checked": 54,
+  "source_numeric_checks": {
+    "threshold": 13.623626738268857,
+    "rank": 334,
+    "n_cal_thr": 350,
+    "far_primary": {
+      "exceedances": 11,
+      "denominator": 150,
+      "far": 0.07333333333333333,
+      "clopper_pearson_95": [
+        0.03717461478190512,
+        0.12742416212603974
+      ],
+      "expected_count_interval_3_12": true
+    },
+    "far_secondary": {
+      "exceedances": 108,
+      "denominator": 1500,
+      "far": 0.07200000000000001,
+      "bootstrap_seed": 20260913,
+      "bootstrap_replicates": 10000,
+      "bootstrap_unit": "run",
+      "bootstrap_standard_error": 0.007512512137130144,
+      "bootstrap_95_percentile_interval": [
+        0.05733333333333334,
+        0.08733333333333333
+      ]
+    },
+    "normal_runs": 40,
+    "normal_windows": 320,
+    "global_vectors": 9,
+    "local_vectors": 16,
+    "dimensions": 697,
+    "method": "arithmetic_mean_697d_then_minimum_mean_l1",
+    "tie_tolerance_absolute": 1e-12,
+    "maximum_recorded_vector_difference": "0",
+    "baseline_effective": false,
+    "statistical_freeze_effective": false,
+    "core_calls_R1": 1728,
+    "core_calls_R3": 5184,
+    "four_measurements_per_R": 2244
+  },
+  "commands": {
+    "guard_after": {
+      "command": "python3 docs/test_explanation.py",
+      "exit_code": 1,
+      "log_sha256": "812d3fd4166f6e9d4b0991d75cf4cbee12167d7ed47dcb2b6960e91e5a7c1387"
+    },
+    "lint_after": {
+      "command": "python3 studio2/fase03/paper_sections/lint_paper_sections.py --corpus docs/letteratura.md",
+      "exit_code": 0,
+      "log_sha256": "7863036d3116bda1194afa539cbb041d486d3a4771b68cd51b58001e95b3485f"
+    },
+    "diff_check": {
+      "command": "git diff --check",
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "guardian": {
+    "tests_before": 35,
+    "tests_after": 35,
+    "failures_before": 14,
+    "failures_after": 14,
+    "skips_before": 1,
+    "skips_after": 1,
+    "errors_before": 0,
+    "errors_after": 0,
+    "test_and_subtest_preamble_identical": true,
+    "preamble_sha256": "50e0d9f8e94b2a1be869aa238cfff5182acd3e7d1796cc024f94056dbacb899a",
+    "preamble": [
+      "test_artifact_values_and_status (__main__.C02bDocumentationChecks.test_artifact_values_and_status) ... ok",
+      "test_html_is_balanced_and_main_step_contract_matches (__main__.C02bDocumentationChecks.test_html_is_balanced_and_main_step_contract_matches) ... ok",
+      "test_supervisor_model_suite_values_and_documentation (__main__.C02bDocumentationChecks.test_supervisor_model_suite_values_and_documentation) ... ok",
+      "test_three_walkthroughs_report_same_c02b_outcome (__main__.C02bDocumentationChecks.test_three_walkthroughs_report_same_c02b_outcome) ... ok",
+      "test_correct_seed_present_exp_plan (__main__.Exp2QwenDocumentStatusChecks.test_correct_seed_present_exp_plan) ... ok",
+      "test_exp_plan_b_error_pattern_complete (__main__.Exp2QwenDocumentStatusChecks.test_exp_plan_b_error_pattern_complete)",
+      "All three error types must be listed. ... ok",
+      "test_exp_plan_b_errors_count_accurate (__main__.Exp2QwenDocumentStatusChecks.test_exp_plan_b_errors_count_accurate)",
+      "Must mention 5 B errors, not 2. ... ok",
+      "test_exp_plan_b_minus_e_not_mapped_to_c2 (__main__.Exp2QwenDocumentStatusChecks.test_exp_plan_b_minus_e_not_mapped_to_c2)",
+      "B−E supports C4 (delta_unseen > delta_E), not C2 ... ok",
+      "test_exp_plan_capped_errors_noted (__main__.Exp2QwenDocumentStatusChecks.test_exp_plan_capped_errors_noted)",
+      "The relationship between B errors and the 1023-token cap ... ok",
+      "test_exp_plan_completed_markers (__main__.Exp2QwenDocumentStatusChecks.test_exp_plan_completed_markers) ... ok",
+      "test_exp_plan_frozen_chain (__main__.Exp2QwenDocumentStatusChecks.test_exp_plan_frozen_chain) ... ok",
+      "test_exp_plan_no_exp2_avviato (__main__.Exp2QwenDocumentStatusChecks.test_exp_plan_no_exp2_avviato) ... ok",
+      "test_exp_plan_no_exp2_in_corso (__main__.Exp2QwenDocumentStatusChecks.test_exp_plan_no_exp2_in_corso) ... ok",
+      "test_lit_review_b_errors_and_cap (__main__.Exp2QwenDocumentStatusChecks.test_lit_review_b_errors_and_cap)",
+      "Literature review must document: all 5 B errors at cap, ... ok",
+      "test_lit_review_completed_markers (__main__.Exp2QwenDocumentStatusChecks.test_lit_review_completed_markers) ... ok",
+      "test_lit_review_frozen_chain (__main__.Exp2QwenDocumentStatusChecks.test_lit_review_frozen_chain) ... ok",
+      "test_lit_review_no_exp2_avviato (__main__.Exp2QwenDocumentStatusChecks.test_lit_review_no_exp2_avviato) ... ok",
+      "test_lit_review_no_exp2_in_corso (__main__.Exp2QwenDocumentStatusChecks.test_lit_review_no_exp2_in_corso) ... ok",
+      "test_lit_review_not_solid (__main__.Exp2QwenDocumentStatusChecks.test_lit_review_not_solid)",
+      "Walkthrough says PLAUSIBLE (limite alto). SOLID is unjustified. ... ok",
+      "test_lit_review_plausible (__main__.Exp2QwenDocumentStatusChecks.test_lit_review_plausible) ... ok",
+      "test_no_seed_42_in_exp_plan (__main__.Exp2QwenDocumentStatusChecks.test_no_seed_42_in_exp_plan) ... ok",
+      "test_no_seed_42_in_lit_review (__main__.Exp2QwenDocumentStatusChecks.test_no_seed_42_in_lit_review) ... ok",
+      "test_p3_phase_b_design_v1_annotated_and_not_linked (__main__.Exp2QwenDocumentStatusChecks.test_p3_phase_b_design_v1_annotated_and_not_linked) ... ok",
+      "test_p3_xlsx_annotated_and_not_linked (__main__.Exp2QwenDocumentStatusChecks.test_p3_xlsx_annotated_and_not_linked) ... ok",
+      "setUpClass (__main__.TutorialChecks) ... skipped 'legacy part-1 walkthrough is not present in this checkout'",
+      "test_active_readme_publishes_main_guide_and_artifacts_exist (__main__.UnifiedConversationChecks.test_active_readme_publishes_main_guide_and_artifacts_exist) ... ok",
+      "test_collapsible_navigation_and_progressive_layout (__main__.UnifiedConversationChecks.test_collapsible_navigation_and_progressive_layout) ... ok",
+      "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) ... ",
+      "  test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato') ... FAIL",
+      "test_forbidden_condition_c_formulations_absent (__main__.UnifiedConversationChecks.test_forbidden_condition_c_formulations_absent) ... ok",
+      "test_json_and_neutral_text_are_real_pair (__main__.UnifiedConversationChecks.test_json_and_neutral_text_are_real_pair) ... ok",
+      "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings) ... FAIL",
+      "test_real_heldout_A_B_E_case (__main__.UnifiedConversationChecks.test_real_heldout_A_B_E_case) ... ok",
+      "test_real_reduced_example_and_calibration (__main__.UnifiedConversationChecks.test_real_reduced_example_and_calibration) ... ok",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) ... ",
+      "  test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444') ... FAIL",
+      "  test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667') ... FAIL",
+      "  test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333') ... FAIL",
+      "  test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni') ... FAIL",
+      "  test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS') ... FAIL",
+      "  test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto') ... FAIL",
+      "  test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024') ... FAIL",
+      "  test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti') ... FAIL",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) ... FAIL",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)",
+      "Stable facts from the frozen Qwen protocol (commit d9bb95c). ... ",
+      "  test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "Stable facts from the frozen Qwen protocol (commit d9bb95c). ... FAIL",
+      "  test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "Stable facts from the frozen Qwen protocol (commit d9bb95c). ... FAIL",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)",
+      "Stable facts from the frozen Qwen protocol (commit d9bb95c). ... FAIL",
+      "test_valid_markup_links_and_unique_anchors (__main__.UnifiedConversationChecks.test_valid_markup_links_and_unique_anchors) ... ok"
+    ],
+    "failure_identifiers_with_subtests": [
+      "FAIL: test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "FAIL: test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ]
+  },
+  "preserved": {
+    "historical_review_sha256": "8faca80c87071d87bf66d97848c290a5724f6569be6f6040cfb6568bad022cb1",
+    "historical_review_bytes": 13949,
+    "acquisition_record_report_and_lint_unchanged": true
+  },
+  "relative_links_checked": [
+    {
+      "file": "studio2/PROVENIENZA.md",
+      "target": "fase02/MANIFEST_CONSERVAZIONE.csv"
+    },
+    {
+      "file": "studio2/PROVENIENZA.md",
+      "target": "fase02/preserve_legacy_data.py"
+    },
+    {
+      "file": "studio2/PROVENIENZA.md",
+      "target": "fase02/ARTIFACT_STORAGE.json"
+    },
+    {
+      "file": "studio2/PROVENIENZA.md",
+      "target": "fase03/fault_runs/MEX_RECORD.md"
+    },
+    {
+      "file": "studio2/PROVENIENZA.md",
+      "target": "fase03/selection/CATALOG_PUBLICATION.json"
+    },
+    {
+      "file": "studio2/PROVENIENZA.md",
+      "target": "fase03/fault_runs/SOURCE_AUDIT.json"
+    },
+    {
+      "file": "studio2/PROVENIENZA.md",
+      "target": "fase03/fault_runs/ARTIFACT_STORAGE.json"
+    },
+    {
+      "file": "studio2/PROVENIENZA.md",
+      "target": "fase03/paper_sections/FONTI_DELTA_0315.json"
+    }
+  ],
+  "limits": [
+    "Nessun ricalcolo FAR, bootstrap, prototipi o evidence; lettura di valori già prodotti e aritmetica del ledger",
+    "Il guardiano non copre la correttezza scientifica del delta",
+    "Lint minimale invariato: controllo manuale necessario",
+    "H e prompt storico esterni non tracciati, verificati per impronta",
+    "Log completi nel supporto locale temporaneo; identificativi e subtest conservati qui"
+  ],
+  "scientific_candidate": "91a880b136dee5d805b54040f5e32345be361eb2",
+  "scientific_base": "bcb462da3f3c329af5b80d9cb028bb8893a8d09d",
+  "committed_delta_whitespace_check": {
+    "command": "git diff --check bcb462da3f3c329af5b80d9cb028bb8893a8d09d..91a880b136dee5d805b54040f5e32345be361eb2",
+    "exit_code": 0
+  }
+}
