@@ -1,0 +1,147 @@
+{
+  "utc": "2026-09-14T17:56:18.534568+00:00",
+  "scope": "All evidence files and final report; excludes this manifest itself to avoid self-reference.",
+  "candidate": "9b6bd64c3e23f03d09272dda43c1a043305add50",
+  "files": [
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_ESTERNA_B.md",
+      "bytes": 11046,
+      "sha256": "b7398a24f57f18b59be4cd77e40785a286805e619f76eb65d8642f0d941ba607"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_GIT_A.md",
+      "bytes": 5484,
+      "sha256": "11143a5a3304370c23845b6a7b571aabe05fa48d6aa98027634c892fb5aa632d"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/VERIFICA_BASE_e82b5a0.md",
+      "bytes": 21639,
+      "sha256": "7c1d6ebf90ccb29d2b3f418b0b6740b62435626db8e9a6b7f6abdd8512a27511"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/acquisizione.json",
+      "bytes": 486,
+      "sha256": "4575a771df550a9d36f5c3ec94d104bb1072ad94eb6b618e86554dea5efce48f"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_documents.py",
+      "bytes": 5398,
+      "sha256": "83a47041e8668356309ad2831d0154a0d0ef8c02888fc4d111a5ff51ea11f3e7"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_integrity.py",
+      "bytes": 5269,
+      "sha256": "4cc3428773fbfac6d33647047b48ce45410e6c3fdfd70f7440b5f48e3534fec5"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_A_names.txt",
+      "bytes": 1207,
+      "sha256": "77737e5946ca622c90a77f3650833da1305a3ffb758f89579113763889a18f32"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_B.patch",
+      "bytes": 7338,
+      "sha256": "dcc522366c98ae907f7f8ec3d7a61ee62380540e2d28299dce12b56e99441de6"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_shared.patch",
+      "bytes": 28227,
+      "sha256": "76a77aeb5cf5565a05523abbc89e4f36950ec4ac6e73dd929d1f745a135f1e2b"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_all_delta.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_documentation.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/documents.json",
+      "bytes": 148013,
+      "sha256": "c6373dbc01ffc60178ef9d635411e0801b2a715f5f2942e6b6297c4ae23551fb"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/final_preservation.json",
+      "bytes": 1505,
+      "sha256": "793ee30bb5d2dddd4262758f9a014587fbf9141714e64108f3194c76e8ef1189"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_HANDOFF_FASE03_2026-09-14_rev02.md",
+      "bytes": 48244,
+      "sha256": "b7d47c75538e12ab129fa17789c241a54d290ad19746cec18ecb53dc1050abff"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_sottofase_3_15.md",
+      "bytes": 6783,
+      "sha256": "1eca10539849c85530f6c7cbd4abb572e26d5d40b5f26fde0bb71cfc65780ac1"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_A.log",
+      "bytes": 2582249,
+      "sha256": "32d7c79bf2cc6c4d3e551ff40ca0d0184a12a8c9b239c01bcf2a96b9eb7a9bd4"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_base.log",
+      "bytes": 2582179,
+      "sha256": "aa51dee98af7507eb55826014cbb457483eff6b8e9cd1cf2e5c8921be3147b5b"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/integrity.json",
+      "bytes": 35831,
+      "sha256": "5f6bf3cf179fa9eda75e7a96eb24a42dbe28f53c64aa18393bdd0d5041f6eed8"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/lint.log",
+      "bytes": 44,
+      "sha256": "7863036d3116bda1194afa539cbb041d486d3a4771b68cd51b58001e95b3485f"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/local_tags_containing_91a880b.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/metadata_runtime.json",
+      "bytes": 1460,
+      "sha256": "43b1f21276d4e4a929904e1002eccff76dc91e27d096508e0877425721ba7bea"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/preflight_sorgente.txt",
+      "bytes": 81,
+      "sha256": "1a64722c783e88fc8acbca0f73588d297b2282b6dfbf7ae3867ba5eacd3afeb5"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_refs_final.txt",
+      "bytes": 57,
+      "sha256": "2851a07a74e0461d5b5d467397a4c07fb29ee3fe6d2ff4ad9fdc8cdc1f0915a0"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_tags_final.txt",
+      "bytes": 6396,
+      "sha256": "f086f4d2f6dfb68370c5f1c60725c9f921b792c71731226657eb54cea0d260cd"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/supplement.json",
+      "bytes": 5424,
+      "sha256": "6721fd891c7246b4b1620b607b3f3884862e4a0d7449c16454f7ec77e617cca0"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/worktrees.txt",
+      "bytes": 5238,
+      "sha256": "7815e2855a20d0e8027c55e5987da3f403fdea78e4935b9b7a9a1e64eb1a992e"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/write_report.py",
+      "bytes": 20002,
+      "sha256": "9501c6f91722f84c8cfa6d8ace23f519dd399668a9eeb2616542031e266e5be7"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/VERIFICA_RACCORDO_DOCUMENTALE_0315.md",
+      "bytes": 24282,
+      "sha256": "1b6125541df01b1172af3bfa5639cd0ff200657820d977dadcf277f5b399d7d3"
+    }
+  ]
+}

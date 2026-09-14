@@ -1,0 +1,22 @@
+[
+  {
+    "path": "/Users/luker/.codex/sessions/2026/09/14/rollout-2026-09-14T19-06-23-01a0a0e2-5a0b-7bc3-a111-b41f24734216.jsonl",
+    "line": 1,
+    "type": "session_meta",
+    "timestamp": "2026-09-14T17:06:25.311Z",
+    "id": "01a0a0e2-5a0b-7bc3-a111-b41f24734216",
+    "session_id": "01a0a0e2-5a0b-7bc3-a111-b41f24734216",
+    "model_provider": "openai",
+    "cwd": "/Users/luker/fot-tep",
+    "originator": "Codex Desktop"
+  },
+  {
+    "path": "/Users/luker/.codex/sessions/2026/09/14/rollout-2026-09-14T19-06-23-01a0a0e2-5a0b-7bc3-a111-b41f24734216.jsonl",
+    "line": 8,
+    "type": "turn_context",
+    "timestamp": "2026-09-14T17:06:25.968Z",
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "cwd": "/Users/luker/fot-tep"
+  }
+]

@@ -1,0 +1,37 @@
+[
+  {
+    "path": "/Users/luker/.codex/sessions/2026/09/14/rollout-2026-09-14T18-22-18-01a0a0b9-fc72-79b1-81b4-a4d5daa38f94.jsonl",
+    "metadata": {
+      "session_id": "01a0a0b9-fc72-79b1-81b4-a4d5daa38f94",
+      "model_provider": "openai",
+      "cwd": "/Users/luker/fot-tep",
+      "originator": "Codex Desktop"
+    },
+    "turns": [
+      {
+        "line": 8,
+        "model": "gpt-5.6-sol",
+        "effort": "high",
+        "cwd": "/Users/luker/fot-tep"
+      },
+      {
+        "line": 347,
+        "model": "gpt-5.6-sol",
+        "effort": "high",
+        "cwd": "/Users/luker/fot-tep"
+      }
+    ],
+    "hits": [
+      {
+        "line": 317,
+        "type": "event_msg",
+        "payload_type": "item_completed"
+      },
+      {
+        "line": 318,
+        "type": "response_item",
+        "payload_type": "custom_tool_call_output"
+      }
+    ]
+  }
+]

@@ -1,0 +1,155 @@
+worktree /Users/luker/fot-tep
+HEAD 819b12e97fb94d501032655ec2f226139e6c5ca5
+branch refs/heads/codex/studio2-soglie-normal
+
+worktree /sessions/rcw-01118v3oqfpugb5ejgh8zaz5/mnt/fot-tep/.worktrees/verifica_si_rev3
+HEAD e058cb07dceeefa8eb4a4b6d1f6fcab5aad483db
+detached
+locked initializing
+
+worktree /sessions/rcw-01192th8ku9vujvmtpldgzmb/.codex_worktrees/e748_fot_tep
+HEAD 89e4caebe635973ef438d4b601bb4f761417193a
+detached
+locked initializing
+
+worktree /sessions/rcw-0156foabkya4cwpud246sqxc/mnt/fot-tep/.worktrees/verifica-delta-0315-91a880b
+HEAD 91a880b136dee5d805b54040f5e32345be361eb2
+detached
+locked initializing
+
+worktree /sessions/rcw-01chtctybyq1nnbumduhrcsc/mnt/fot-tep/.worktrees/acquisizione-raccordo-ok
+HEAD 6c51330f0d6074e441d6b92f934c199e85a3b1b8
+branch refs/heads/codex/studio2-harness-raccordo-ok
+locked initializing
+
+worktree /sessions/rcw-01qjz5yshisitdgrobzvah2w/mnt/fot-tep/.worktrees/piano_statistico
+HEAD dd82cd1753b31c10235de18052f24683306f8751
+branch refs/heads/codex/studio2-piano-statistico
+prunable gitdir file points to non-existent location
+
+worktree /sessions/rcw-01uepzmrzzutk3fvdr6yyrsv/mnt/fot-tep/.worktrees/verifica_evidence
+HEAD 2f6dd8de38b944e61853e605202c4c376a90585d
+detached
+locked initializing
+
+worktree /sessions/rcw-01wrdu2fmsdmwpx4ovj7npqu/mnt/fot-tep/.worktrees/verifica-raccordo-caf5bfb
+HEAD caf5bfb0ff9b4fc974608f9bc432e0430d90b7ae
+detached
+locked initializing
+
+worktree /sessions/rcw-01wrdu2fmsdmwpx4ovj7npqu/mnt/fot-tep/.worktrees/verifica-raccordo-main-c486eee
+HEAD c486eee95fe24c1e7bf4135ed7cebf01ac2962f1
+detached
+locked initializing
+
+worktree /sessions/rcw-01y11uc227qhevrbqxjzrpzk/mnt/fot-tep/.worktrees/verifica-schema-insight-rev004-indipendente
+HEAD 3c64390bc4dd58c48cc4e1e388a38989b32b3143
+detached
+locked initializing
+
+worktree /tmp/exp2-qwen-review
+HEAD 37195cf2c5076b5da724b857f10e157177654cac
+detached
+locked initializing
+
+worktree /tmp/exp2-review
+HEAD a8f9884dfe2150a89131ba604b34ff1f6914f6e9
+detached
+locked initializing
+
+worktree /Users/luker/fot-tep-chiusura-035-039
+HEAD c486eee95fe24c1e7bf4135ed7cebf01ac2962f1
+branch refs/heads/codex/studio2-chiusura-035-039
+
+worktree /Users/luker/fot-tep-correzione-soglie-normal
+HEAD b64ff387b8abad063a08885ac77e8a8f9621c3a8
+branch refs/heads/codex/studio2-soglie-normal-correzioni
+
+worktree /Users/luker/fot-tep-evidence
+HEAD c66bd8dddf8e2af9dd0665ee30afd36c248b93fb
+branch refs/heads/codex/studio2-evidence
+
+worktree /Users/luker/fot-tep-integrazione-evidence-036
+HEAD 7c99a8318cbe24bf864790566302f72614d963ed
+branch refs/heads/codex/studio2-evidence-integrazione
+
+worktree /Users/luker/fot-tep-letteratura-fase03
+HEAD 40911d0e3e7b75960e6973f3fd8f609e65ab6e05
+branch refs/heads/codex/studio2-letteratura-fase03
+
+worktree /Users/luker/fot-tep-paper-sections
+HEAD d35b684acbfd1f357bc34f3a21cebb18e8a6bea0
+branch refs/heads/codex/studio2-paper-sections
+
+worktree /Users/luker/fot-tep-piano-statistico-fix
+HEAD 51782e8c40069c0a2310afafc36907a61d517ff6
+branch refs/heads/codex/studio2-piano-statistico-fix
+
+worktree /Users/luker/fot-tep-raccordo-0315-local
+HEAD 9b6bd64c3e23f03d09272dda43c1a043305add50
+branch refs/heads/codex/studio2-raccordo-0315-local
+
+worktree /Users/luker/fot-tep-raccordo-036-0312-letteratura
+HEAD e82b5a08bf642ad45f77e71832958207beb1181c
+branch refs/heads/codex/studio2-raccordo-036-0312-letteratura
+
+worktree /Users/luker/fot-tep-schema-insight
+HEAD 43b31afc1ff271594cb4bd21a39fa4469a8c83bc
+branch refs/heads/codex/studio2-schema-insight
+
+worktree /Users/luker/fot-tep-schema-insight-r4-integrazione
+HEAD c9f83c6447a9963cd69531b14439a3ac5a5a72b2
+branch refs/heads/codex/studio2-schema-insight-r4-integrazione
+
+worktree /Users/luker/fot-tep-verifica-fedavg
+HEAD d56354934d2b5f88dace3f9b312fcf64ce3cf42b
+detached
+
+worktree /Users/luker/fot-tep-verifica-paper-sections
+HEAD e2f9aea948ac4bfc64089962c5357343f997621f
+detached
+
+worktree /Users/luker/fot-tep-verifica-piano-statistico-rev10
+HEAD 6aaa5b3eebfed4ba502c25c0443caabd0051af21
+detached
+
+worktree /Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64
+HEAD 9b6bd64c3e23f03d09272dda43c1a043305add50
+detached
+
+worktree /Users/luker/fot-tep-verifica-raccordo-base-c486eee
+HEAD c486eee95fe24c1e7bf4135ed7cebf01ac2962f1
+detached
+
+worktree /Users/luker/fot-tep-verifica-raccordo-e82b5a0
+HEAD e82b5a08bf642ad45f77e71832958207beb1181c
+detached
+
+worktree /Users/luker/fot-tep-verifica-schema-insight-rev004
+HEAD 3c64390bc4dd58c48cc4e1e388a38989b32b3143
+detached
+
+worktree /Users/luker/fot-tep-verifica-soglie-normal
+HEAD 819b12e97fb94d501032655ec2f226139e6c5ca5
+detached
+
+worktree /Users/luker/fot-tep/.worktrees/riverifica-soglie-normal
+HEAD 819b12e97fb94d501032655ec2f226139e6c5ca5
+detached
+
+worktree /Users/luker/fot-tep/.worktrees/studio2-baseline-numerica
+HEAD 459947af892e33ed23a8bdf998db49aabf923c68
+branch refs/heads/codex/studio2-baseline-numerica
+
+worktree /Users/luker/fot-tep/.worktrees/studio2-fedavg
+HEAD bfbde772bf14c496ff0b255008904d3deb424e54
+branch refs/heads/codex/studio2-fedavg
+
+worktree /Users/luker/fot-tep/.worktrees/studio2-harness
+HEAD 1ac06ebdc92f73d3b630ccca9bf75f413bea170b
+branch refs/heads/codex/studio2-harness
+
+worktree /Users/luker/fot-tep/.worktrees/verifica-paper-sections-esterna
+HEAD cf79e81f917c7969dfd375e38db54315c28d4c07
+detached
+

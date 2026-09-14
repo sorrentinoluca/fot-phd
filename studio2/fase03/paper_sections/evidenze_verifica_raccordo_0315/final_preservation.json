@@ -1,0 +1,25 @@
+{
+  "utc": "2026-09-14T17:56:18.474075+00:00",
+  "assertions": "all satisfied",
+  "check_harness_note": "First attempt stopped before writes because the verifier expected a newline for detached branch; git returns empty bytes. Corrected assertion to strip whitespace. No candidate error.",
+  "source_head": "9b6bd64c3e23f03d09272dda43c1a043305add50",
+  "source_status": " M studio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md\n",
+  "verification_status": "?? studio2/fase03/paper_sections/VERIFICA_RACCORDO_DOCUMENTALE_0315.md\n?? studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/\n",
+  "verification_tracked_and_staged_diff": "empty",
+  "base_tracked_and_staged_diff": "empty",
+  "external_B": {
+    "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_ESTERNA_B.md",
+    "bytes": 11046,
+    "sha256": "b7398a24f57f18b59be4cd77e40785a286805e619f76eb65d8642f0d941ba607"
+  },
+  "report": {
+    "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/VERIFICA_RACCORDO_DOCUMENTALE_0315.md",
+    "bytes": 24282,
+    "sha256": "1b6125541df01b1172af3bfa5639cd0ff200657820d977dadcf277f5b399d7d3"
+  },
+  "base_report": {
+    "path": "/Users/luker/fot-tep-verifica-raccordo-e82b5a0/studio2/fase03/VERIFICA_RACCORDO_DOCUMENTALE_036_0312_LETTERATURA.md",
+    "bytes": 21639,
+    "sha256": "7c1d6ebf90ccb29d2b3f418b0b6740b62435626db8e9a6b7f6abdd8512a27511"
+  }
+}

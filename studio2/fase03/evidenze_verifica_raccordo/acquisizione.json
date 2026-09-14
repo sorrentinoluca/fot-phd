@@ -1,0 +1,14 @@
+{
+  "time_utc": "2026-09-14T17:07:18.260767+00:00",
+  "session": "01a0a0e2-5a0b-7bc3-a111-b41f24734216",
+  "source": "/Users/luker/fot-tep-raccordo-036-0312-letteratura/studio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md",
+  "A": {
+    "bytes": 10245,
+    "sha256": "10c322b27b2c562bccd5e4ff4b89b8e79a2a5c29b434d7f28d51f0966b77b2f4"
+  },
+  "B": {
+    "bytes": 17597,
+    "sha256": "46185e3d15867253e98f5c9f08df5ab8ed8a6a6643a15d5011079341045514e6"
+  },
+  "B_starts_with_A": true
+}

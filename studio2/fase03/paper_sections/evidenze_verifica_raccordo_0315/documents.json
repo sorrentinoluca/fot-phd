@@ -1,0 +1,4669 @@
+{
+  "parity_415": {
+    "md_blocks": 15,
+    "html_blocks": 15,
+    "equal": true,
+    "diff": [],
+    "md_normalized_chars": 4113,
+    "html_normalized_chars": 4113
+  },
+  "shared_new_unmatched_blocks": [],
+  "prior_sections": [
+    {
+      "anchor": "criteri-selezione-61",
+      "md_equal": true,
+      "html_equal": true,
+      "md_sha256": "dd297724388d417c7f1610cf6d335a886d902ef1799d70e38baaeeab2b8291fe"
+    },
+    {
+      "anchor": "catalogo-d1",
+      "md_equal": true,
+      "html_equal": true,
+      "md_sha256": "80cad2f81e0dc80054dff51aeae42a1405b5c5804cdc4b165706d392ae868996"
+    },
+    {
+      "anchor": "run-fault-62",
+      "md_equal": true,
+      "html_equal": true,
+      "md_sha256": "609cdcbe976043752b4b5b2e792aeede2fd92ffaf4d357991b6e443f274e9bed"
+    },
+    {
+      "anchor": "perimetro-codice-q8",
+      "md_equal": true,
+      "html_equal": true,
+      "md_sha256": "d41fd3487a04203e02a332f7c6ea76ac0fa472d59c903b98cb280963401fc225"
+    },
+    {
+      "anchor": "soglie-normal-63",
+      "md_equal": true,
+      "html_equal": true,
+      "md_sha256": "fd5babbf212ad574720b4c21f57bd8e7a9cec8a3c37e103cc3732e9b959c3219"
+    },
+    {
+      "anchor": "evidence-697-d",
+      "md_equal": true,
+      "html_equal": true,
+      "md_sha256": "18186d211a622845c8d5dd70775e4c2393ed87c958230311a7d81992516898ea"
+    },
+    {
+      "anchor": "pseudolabel-037",
+      "md_equal": true,
+      "html_equal": true,
+      "md_sha256": "9eb08be94af6771f9ebfe935dada18052cea7acbc5b1f084f3027f763c6a9d81"
+    },
+    {
+      "anchor": "normal-dev-baseline-039",
+      "md_equal": true,
+      "html_equal": true,
+      "md_sha256": "50e5655346920c99c3ac779a975acb5c9cab9c6cd90614c0f9973de6fc75b6cd"
+    },
+    {
+      "anchor": "schema-insight-0312",
+      "md_equal": true,
+      "html_equal": true,
+      "md_sha256": "88b9cf658035096ae4f72679f1eb631f31467a65217b466b740c5535b86eedf8"
+    }
+  ],
+  "headings_missing": [],
+  "subsection_order": [
+    "4.1 · Fase 03 — criteri di selezione dei fault (§6.1)",
+    "4.2 · Fase 03 — estrazione, verifica e congelamento del catalogo D1",
+    "4.3 · Fase 03 — run fault di sviluppo (§6.2)",
+    "4.4 · Fase 03 — perimetro del codice Q8 (sotto-fase 03.4)",
+    "4.5 · Fase 03 — soglie Normal (§6.3)",
+    "4.6 · Fase 03 — sotto-fase 03.6 — evidence 697-D",
+    "4.7 · Fase 03 — pseudolabel e derangement di E (sotto-fase 03.7)",
+    "4.9 · Fase 03 — normal_dev e baseline numerica (sotto-fase 03.9)",
+    "4.12 · Fase 03 — schema degli insight (sotto-fase 03.12)",
+    "4.15 · Fase 03 — sezioni comuni del paper (sotto-fase 03.15)"
+  ],
+  "links_base": [
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#criteri-selezione-61",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#run-fault-62",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#perimetro-codice-q8",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#pseudolabel-037",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#schema-insight-0312",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "prompts",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#3--preparazione-indipendente-dal-modello--generazione-e-riuso-fase-02",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#2--preparazione-indipendente-dal-modello--ricognizione-del-patrimonio-fase-01",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#3--preparazione-indipendente-dal-modello--generazione-e-riuso-fase-02",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#412--fasi-successive",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/REPORT_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../phase_b/heldout/phase_b_heldout_manifest.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/REPORT_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../code/tep_analysis_v2/",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../code/tep_analysis_v2/normal_5h_variable_features.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../code/tep_analysis_v2/normal_5h_window_maxima.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../code/tep_analysis_v2/threshold_calibration.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../code/tep_characterize_v2.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/REPORT_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../phase_b/heldout/phase_b_heldout_manifest.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../code/tep_analysis_v2/threshold_calibration.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/REPORT_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/VERIFICA_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/PRECALIBRATION_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/SPECIFICA_GENERAZIONE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/generation_spec.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/score_fit_legacy.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/burn_in_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/generator_comparison_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/prefix_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/QUALIFICAZIONE_RIUSO.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/r2_guard_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/PRECALIBRATION_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/REPORT_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/VERIFICA_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/PRECALIBRATION_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/VERIFICA_CRITERI_6_1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/FEASIBILITY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/SOURCE_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/REPORT_CRITERI_6_1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/VERIFICA_CRITERI_6_1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/CRITERIA_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/DELIVERY_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/PREFLIGHT_03_0.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/IMPLEMENTATION_STATUS.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/VERIFICA_CATALOGO_D1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/VERIFICA_CATALOGO_D1_APPENDICE_01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/D1_DRAW_LOG.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/CATALOG_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/REPORT_CATALOGO_D1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/execution_snapshot/draw_d1.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/draw_d1.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/CRITERIA_FREEZE_rev002.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/D1_REVIEW_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/D1_DELIVERY_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/CATALOG_PUBLICATION.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/PROPOSTA_OOD_D11.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/VERIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/REPORT_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/SPECIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/CATALOG_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/build_generation_plan.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/plans/fault_dev.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/prepare_simulator.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/compile_fault_philox.m",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/generate_fault_runs.m",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/tests/test_fault_runs.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/smoke/f1_short_001/",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/smoke/REPORT_SMOKE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/HANDOFF_BATCH.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/BATCH_SUMMARY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/BATCH_SUMMARY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_FAULT_DEV.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/MEX_RECORD.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/SPECIFICA_RUN_FAULT_rev002.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/IMPLEMENTATION_STATUS.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/VERIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/REPORT_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/VERIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/MEX_RECORD.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE_rev002.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md#86-sotto-fasi-e-granularit%C3%A0-del-ciclo",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/perimetro_q8/PROPOSTA_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/perimetro_q8/REPORT_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8_rev002.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8_rev003.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/perimetro_q8/DECISIONE_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/INTEGRAZIONE_03_5.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "lit_review/DECISIONE_calibrazione_soglie_fase_B.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/REPORT_SOGLIE_NORMAL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/DECISIONE_AUTORE_FAR.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/THRESHOLD_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/FAR_VERIFICATION.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/THRESHOLD_UNCERTAINTY_PROTOCOL.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/THRESHOLD_UNCERTAINTY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/REPRODUCIBILITY_C4.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_03.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/VERIFICA_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../phase_b/PHASE_B_PROTOCOL_HASHES.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/REPORT_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/VERIFICA_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/PACKAGING_V2_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/PACKAGING_V2_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/extract_evidence.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/leakage.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/verify_output.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/pseudolabel/SPECIFICA_PSEUDOLABEL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/pseudolabel/REPORT_PSEUDOLABEL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/pseudolabel/VERIFICA_PSEUDOLABEL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/pseudolabel/DECISIONE_ACCETTAZIONE_V1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/pseudolabel/PSEUDOLABEL_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/baseline_numerica/REPORT_BASELINE_NUMERICA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/REPORT_SCHEMA_INSIGHT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/SCHEMA_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev004.txt",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/PREPARAZIONE_INTEGRAZIONE_SCHEMA_INSIGHT_R4.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004_NON_OK_STORICO.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#criteri-selezione-61",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#run-fault-62",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#perimetro-codice-q8",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#pseudolabel-037",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#schema-insight-0312",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-0-fonti-autorevoli",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-0-1-punti-aperti",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-1-introduzione",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-2-ricognizione",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-3-generazione-riuso",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-fasi-successive",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#criteri-selezione-61",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#run-fault-62",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#perimetro-codice-q8",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#pseudolabel-037",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#schema-insight-0312",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-13-conferenza",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-14-letteratura",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "fot_walkthrough_conversazione_v2.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#criteri-selezione-61",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#run-fault-62",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#perimetro-codice-q8",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#pseudolabel-037",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#schema-insight-0312",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "prompts",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-3-generazione-riuso",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-2-ricognizione",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-3-generazione-riuso",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-fasi-successive",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/REPORT_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../phase_b/heldout/phase_b_heldout_manifest.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/REPORT_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../code/tep_analysis_v2/",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../code/tep_analysis_v2/normal_5h_variable_features.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../code/tep_analysis_v2/normal_5h_window_maxima.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../code/tep_analysis_v2/threshold_calibration.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../code/tep_characterize_v2.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/REPORT_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../phase_b/heldout/phase_b_heldout_manifest.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../code/tep_analysis_v2/threshold_calibration.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/REPORT_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/VERIFICA_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/PRECALIBRATION_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/SPECIFICA_GENERAZIONE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/generation_spec.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/score_fit_legacy.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/burn_in_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/generator_comparison_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/prefix_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/QUALIFICAZIONE_RIUSO.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/r2_guard_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/PRECALIBRATION_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/REPORT_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/VERIFICA_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/PRECALIBRATION_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/VERIFICA_CRITERI_6_1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/FEASIBILITY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/SOURCE_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/REPORT_CRITERI_6_1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/VERIFICA_CRITERI_6_1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/CRITERIA_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/DELIVERY_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/PREFLIGHT_03_0.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/IMPLEMENTATION_STATUS.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/VERIFICA_CATALOGO_D1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/VERIFICA_CATALOGO_D1_APPENDICE_01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/D1_DRAW_LOG.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/CATALOG_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/REPORT_CATALOGO_D1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/execution_snapshot/draw_d1.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/draw_d1.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/CRITERIA_FREEZE_rev002.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/D1_REVIEW_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/D1_DELIVERY_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/CATALOG_PUBLICATION.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/PROPOSTA_OOD_D11.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/VERIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/REPORT_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/SPECIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/CATALOG_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/build_generation_plan.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/plans/fault_dev.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/prepare_simulator.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/compile_fault_philox.m",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/generate_fault_runs.m",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/tests/test_fault_runs.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/smoke/f1_short_001/",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/smoke/REPORT_SMOKE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/HANDOFF_BATCH.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/BATCH_SUMMARY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/BATCH_SUMMARY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_FAULT_DEV.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/MEX_RECORD.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/SPECIFICA_RUN_FAULT_rev002.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/IMPLEMENTATION_STATUS.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/VERIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/REPORT_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/VERIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/MEX_RECORD.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE_rev002.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md#86-sotto-fasi-e-granularità-del-ciclo",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/perimetro_q8/PROPOSTA_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/perimetro_q8/REPORT_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8_rev002.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8_rev003.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/perimetro_q8/DECISIONE_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/INTEGRAZIONE_03_5.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "lit_review/DECISIONE_calibrazione_soglie_fase_B.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/REPORT_SOGLIE_NORMAL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/DECISIONE_AUTORE_FAR.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/THRESHOLD_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/FAR_VERIFICATION.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/THRESHOLD_UNCERTAINTY_PROTOCOL.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/THRESHOLD_UNCERTAINTY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/REPRODUCIBILITY_C4.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_03.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/VERIFICA_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../phase_b/PHASE_B_PROTOCOL_HASHES.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/REPORT_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/VERIFICA_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/PACKAGING_V2_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/PACKAGING_V2_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/extract_evidence.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/leakage.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/verify_output.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/pseudolabel/SPECIFICA_PSEUDOLABEL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/pseudolabel/REPORT_PSEUDOLABEL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/pseudolabel/VERIFICA_PSEUDOLABEL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/pseudolabel/DECISIONE_ACCETTAZIONE_V1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/pseudolabel/PSEUDOLABEL_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/baseline_numerica/REPORT_BASELINE_NUMERICA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/REPORT_SCHEMA_INSIGHT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/SCHEMA_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev004.txt",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/PREPARAZIONE_INTEGRAZIONE_SCHEMA_INSIGHT_R4.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004_NON_OK_STORICO.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#criteri-selezione-61",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#run-fault-62",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#perimetro-codice-q8",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#pseudolabel-037",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#schema-insight-0312",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase02/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase02/preserve_legacy_data.py",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase02/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase03/fault_runs/MEX_RECORD.md",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase03/selection/CATALOG_PUBLICATION.json",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase03/fault_runs/SOURCE_AUDIT.json",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    }
+  ],
+  "links_A": [
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#criteri-selezione-61",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#run-fault-62",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#perimetro-codice-q8",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#pseudolabel-037",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#schema-insight-0312",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#paper-sections-0315",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "prompts",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#3--preparazione-indipendente-dal-modello--generazione-e-riuso-fase-02",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#2--preparazione-indipendente-dal-modello--ricognizione-del-patrimonio-fase-01",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#3--preparazione-indipendente-dal-modello--generazione-e-riuso-fase-02",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#412--fasi-successive",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/REPORT_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../phase_b/heldout/phase_b_heldout_manifest.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/REPORT_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../code/tep_analysis_v2/",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../code/tep_analysis_v2/normal_5h_variable_features.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../code/tep_analysis_v2/normal_5h_window_maxima.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../code/tep_analysis_v2/threshold_calibration.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../code/tep_characterize_v2.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/REPORT_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../phase_b/heldout/phase_b_heldout_manifest.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../code/tep_analysis_v2/threshold_calibration.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/REPORT_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/VERIFICA_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/PRECALIBRATION_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/SPECIFICA_GENERAZIONE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/generation_spec.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/score_fit_legacy.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/burn_in_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/generator_comparison_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/prefix_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/QUALIFICAZIONE_RIUSO.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/r2_guard_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/PRECALIBRATION_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/REPORT_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/VERIFICA_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/validation/PRECALIBRATION_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase02/",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/VERIFICA_CRITERI_6_1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/FEASIBILITY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/SOURCE_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/REPORT_CRITERI_6_1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/VERIFICA_CRITERI_6_1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/CRITERIA_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/DELIVERY_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/PREFLIGHT_03_0.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/IMPLEMENTATION_STATUS.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/VERIFICA_CATALOGO_D1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/VERIFICA_CATALOGO_D1_APPENDICE_01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/D1_DRAW_LOG.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/CATALOG_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/REPORT_CATALOGO_D1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/execution_snapshot/draw_d1.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/draw_d1.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/CRITERIA_FREEZE_rev002.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/D1_REVIEW_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/D1_DELIVERY_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/CATALOG_PUBLICATION.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/PROPOSTA_OOD_D11.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/VERIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/REPORT_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/SPECIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/selection/CATALOG_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/build_generation_plan.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/plans/fault_dev.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/prepare_simulator.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/compile_fault_philox.m",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/generate_fault_runs.m",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/tests/test_fault_runs.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/smoke/f1_short_001/",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/smoke/REPORT_SMOKE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/HANDOFF_BATCH.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/BATCH_SUMMARY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/BATCH_SUMMARY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_FAULT_DEV.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/MEX_RECORD.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/SPECIFICA_RUN_FAULT_rev002.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/IMPLEMENTATION_STATUS.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/VERIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/REPORT_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/VERIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/MEX_RECORD.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE_rev002.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md#86-sotto-fasi-e-granularit%C3%A0-del-ciclo",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/perimetro_q8/PROPOSTA_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/perimetro_q8/REPORT_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8_rev002.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8_rev003.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/perimetro_q8/DECISIONE_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/INTEGRAZIONE_03_5.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "lit_review/DECISIONE_calibrazione_soglie_fase_B.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/REPORT_SOGLIE_NORMAL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/DECISIONE_AUTORE_FAR.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/THRESHOLD_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/FAR_VERIFICATION.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/THRESHOLD_UNCERTAINTY_PROTOCOL.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/THRESHOLD_UNCERTAINTY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/REPRODUCIBILITY_C4.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_03.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/soglie_normal/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/VERIFICA_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../phase_b/PHASE_B_PROTOCOL_HASHES.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/REPORT_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/VERIFICA_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/PACKAGING_V2_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/PACKAGING_V2_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/extract_evidence.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/leakage.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/evidence/verify_output.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/pseudolabel/SPECIFICA_PSEUDOLABEL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/pseudolabel/REPORT_PSEUDOLABEL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/pseudolabel/VERIFICA_PSEUDOLABEL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/pseudolabel/DECISIONE_ACCETTAZIONE_V1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/pseudolabel/PSEUDOLABEL_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/baseline_numerica/REPORT_BASELINE_NUMERICA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/REPORT_SCHEMA_INSIGHT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/SCHEMA_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev004.txt",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/PREPARAZIONE_INTEGRAZIONE_SCHEMA_INSIGHT_R4.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004_NON_OK_STORICO.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/paper_sections/REPORT_DELTA_0315.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/paper_sections/FONTI_DELTA_0315.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/paper_sections/VERIFICA_DELTA_0315.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_DELTA_0315.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "../studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#criteri-selezione-61",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#run-fault-62",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#perimetro-codice-q8",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#pseudolabel-037",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#schema-insight-0312",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "#paper-sections-0315",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.md",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-0-fonti-autorevoli",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-0-1-punti-aperti",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-1-introduzione",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-2-ricognizione",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-3-generazione-riuso",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-fasi-successive",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#criteri-selezione-61",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#run-fault-62",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#perimetro-codice-q8",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#pseudolabel-037",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#schema-insight-0312",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#paper-sections-0315",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-13-conferenza",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-14-letteratura",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "fot_walkthrough_conversazione_v2.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#criteri-selezione-61",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#run-fault-62",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#perimetro-codice-q8",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#pseudolabel-037",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#schema-insight-0312",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#paper-sections-0315",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "prompts",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-3-generazione-riuso",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-2-ricognizione",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-3-generazione-riuso",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#sez-fasi-successive",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/REPORT_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../phase_b/heldout/phase_b_heldout_manifest.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/REPORT_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../code/tep_analysis_v2/",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../code/tep_analysis_v2/normal_5h_variable_features.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../code/tep_analysis_v2/normal_5h_window_maxima.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../code/tep_analysis_v2/threshold_calibration.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../code/tep_characterize_v2.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/REPORT_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase01/VERIFICA_FASE01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../phase_b/heldout/phase_b_heldout_manifest.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../code/tep_analysis_v2/threshold_calibration.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/REPORT_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/VERIFICA_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/PRECALIBRATION_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/SPECIFICA_GENERAZIONE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/generation_spec.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/score_fit_legacy.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/burn_in_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/generator_comparison_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/prefix_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/QUALIFICAZIONE_RIUSO.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/r2_guard_result_v2.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/PRECALIBRATION_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/REPORT_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/VERIFICA_FASE02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/validation/PRECALIBRATION_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase02/",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/VERIFICA_CRITERI_6_1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/FEASIBILITY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/SOURCE_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/REPORT_CRITERI_6_1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/VERIFICA_CRITERI_6_1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/CRITERIA_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/DELIVERY_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/PREFLIGHT_03_0.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/IMPLEMENTATION_STATUS.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/VERIFICA_CATALOGO_D1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/VERIFICA_CATALOGO_D1_APPENDICE_01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/D1_DRAW_LOG.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/CATALOG_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/REPORT_CATALOGO_D1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/execution_snapshot/draw_d1.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/draw_d1.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/CRITERIA_FREEZE_rev002.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/D1_REVIEW_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/D1_DELIVERY_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/CATALOG_PUBLICATION.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/PROPOSTA_OOD_D11.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/VERIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/REPORT_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/SPECIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/selection/CATALOG_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/build_generation_plan.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/plans/fault_dev.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/prepare_simulator.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/compile_fault_philox.m",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/generate_fault_runs.m",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/tests/test_fault_runs.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/smoke/f1_short_001/",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/smoke/REPORT_SMOKE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/HANDOFF_BATCH.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/BATCH_SUMMARY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/BATCH_SUMMARY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_FAULT_DEV.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/MEX_RECORD.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/SPECIFICA_RUN_FAULT_rev002.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/IMPLEMENTATION_STATUS.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/VERIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/REPORT_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/VERIFICA_RUN_FAULT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/MEX_RECORD.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/fault_runs/MANIFEST_CONSERVAZIONE_rev002.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "MAINTENANCE.md#86-sotto-fasi-e-granularità-del-ciclo",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/perimetro_q8/PROPOSTA_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/perimetro_q8/REPORT_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8_rev002.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8_rev003.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/perimetro_q8/DECISIONE_PERIMETRO_Q8.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/INTEGRAZIONE_03_5.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "lit_review/DECISIONE_calibrazione_soglie_fase_B.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/REPORT_SOGLIE_NORMAL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/DECISIONE_AUTORE_FAR.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/THRESHOLD_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/FAR_VERIFICATION.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/THRESHOLD_UNCERTAINTY_PROTOCOL.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/THRESHOLD_UNCERTAINTY.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/REPRODUCIBILITY_C4.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_01.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_02.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA_APPENDICE_03.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/soglie_normal/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/VERIFICA_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../phase_b/PHASE_B_PROTOCOL_HASHES.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/REPORT_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/VERIFICA_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/PACKAGING_V2_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/PACKAGING_V2_CHECK.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/PROVENIENZA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/extract_evidence.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/leakage.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/evidence/verify_output.py",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/pseudolabel/SPECIFICA_PSEUDOLABEL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/pseudolabel/REPORT_PSEUDOLABEL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/pseudolabel/VERIFICA_PSEUDOLABEL.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/pseudolabel/DECISIONE_ACCETTAZIONE_V1.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/pseudolabel/PSEUDOLABEL_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/baseline_numerica/REPORT_BASELINE_NUMERICA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/REPORT_SCHEMA_INSIGHT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/SCHEMA_FREEZE.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev004.txt",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/PREPARAZIONE_INTEGRAZIONE_SCHEMA_INSIGHT_R4.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004_NON_OK_STORICO.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/paper_sections/REPORT_DELTA_0315.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/paper_sections/FONTI_DELTA_0315.json",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/paper_sections/VERIFICA_DELTA_0315.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_DELTA_0315.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "../studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#criteri-selezione-61",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#catalogo-d1",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#run-fault-62",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#perimetro-codice-q8",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#soglie-normal-63",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#evidence-697-d",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#pseudolabel-037",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#normal-dev-baseline-039",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#schema-insight-0312",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "#paper-sections-0315",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.html",
+      "status": "ok"
+    },
+    {
+      "source": "docs/fot_walkthrough_conversazione_studio2.html",
+      "link": "letteratura.md",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase02/MANIFEST_CONSERVAZIONE.csv",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase02/preserve_legacy_data.py",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase02/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase03/fault_runs/MEX_RECORD.md",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase03/selection/CATALOG_PUBLICATION.json",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase03/fault_runs/SOURCE_AUDIT.json",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/PROVENIENZA.md",
+      "link": "fase03/paper_sections/FONTI_DELTA_0315.json",
+      "status": "ok"
+    }
+  ],
+  "links_records": [
+    {
+      "source": "studio2/fase03/paper_sections/REPORT_DELTA_0315.md",
+      "link": "VERIFICA_PAPER_SECTIONS.md",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/REPORT_DELTA_0315.md",
+      "link": "FONTI_DELTA_0315.json",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/REPORT_DELTA_0315.md",
+      "link": "CONTROLLI_DELTA_0315.json",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_DELTA_0315.md",
+      "link": "VERIFICA_DELTA_0315.md",
+      "status": "ok"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+      "link": "/Users/luker/fot-tep-paper-sections/studio2/fase03/paper_sections/REPORT_DELTA_0315.md",
+      "status": "absolute_external_exists"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+      "link": "/Users/luker/fot-tep-paper-sections/studio2/fase03/paper_sections/VERIFICA_DELTA_0315.md",
+      "status": "absolute_external_exists"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+      "link": "/Users/luker/fot-tep-paper-sections/studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_DELTA_0315.md",
+      "status": "absolute_external_exists"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+      "link": "/Users/luker/fot-tep-paper-sections/studio2/fase03/paper_sections/CONTROLLI_DELTA_0315.json",
+      "status": "absolute_external_exists"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+      "link": "/Users/luker/fot-tep-paper-sections/studio2/fase03/paper_sections/FONTI_DELTA_0315.json",
+      "status": "absolute_external_exists"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+      "link": "/Users/luker/fot-tep-paper-sections/studio2/fase03/paper_sections/PROMPT_VERIFICA_DELTA_0315.md",
+      "status": "absolute_external_exists"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+      "link": "/Users/luker/fot-tep-paper-sections/studio2/fase03/paper_sections/REPORT_PAPER_SECTIONS.md",
+      "status": "absolute_external_exists"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+      "link": "/Users/luker/fot-tep-paper-sections/studio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md",
+      "status": "absolute_external_exists"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+      "link": "/Users/luker/fot-tep-paper-sections/studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md",
+      "status": "absolute_external_exists"
+    },
+    {
+      "source": "studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+      "link": "/Users/luker/fot-tep-paper-sections/studio2/fase03/paper_sections/REPORT_ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md",
+      "status": "absolute_external_exists"
+    }
+  ],
+  "html_ids": {
+    "count": 19,
+    "duplicates": []
+  },
+  "html_links": {
+    "total_local": 237,
+    "to_paths": 186,
+    "to_same_page": 51,
+    "errors": []
+  },
+  "conflict_markers": [],
+  "old_6_12": "12. **§6.12** — Scrivere le sezioni del paper indipendenti dal modello",
+  "new_6_12": "12. **§6.12** — Sezioni comuni del paper aggiornate e verificate in [§4.15](#paper-sections-0315); candidato soltanto locale, D9 e promozione nel manoscritto ancora aperte"
+}

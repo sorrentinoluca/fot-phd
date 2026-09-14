@@ -1,0 +1,24 @@
+-i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; il <strong>perimetro del codice Q8</strong>, chiuso, in <a href="#perimetro-codice-q8">§4.4</a>; pseudolabel e derangement, verificati, in <a href="#pseudolabel-037">§4.7</a>; le <strong>soglie Normal (§6.3)</strong>, calibrate e verificate, in <a href="#soglie-normal-63">§4.5</a>; <code>normal_dev</code> e baseline numerica, verificati ma non ancora congelati efficacemente, in <a href="#normal-dev-baseline-039">§4.9</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
+-<p>Restano qui le decisioni che una fase non pu&ograve; chiudere da sola. Il precedente punto sul riuso dei dati del primo studio &egrave; stato chiuso dalla fase 02: R1 &egrave; respinto come sostituzione di nuovi run fault e R2 &egrave; autorizzato soltanto come <code>baseline_fit</code> condizionata (<a href="#sez-3-generazione-riuso">§3</a>). Il punto sul perimetro del codice della Q8, registrato il 2026-09-12, &egrave; stato chiuso dalla sotto-fase 03.4 senza aprire un nuovo perimetro: la terza metrica di §8.5, il cap dello schema, l'estensione a 8 agenti e il derangement a 7 peer sono codice nuovo in <code>studio2/</code> secondo <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.2, che ora disciplina il riuso a livello di funzione; <code>phase_b/</code> e il nucleo di <code>code/</code> restano congelati per impronta (<a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §1).</p>
+-<p>Questa consegna chiude la sotto-fase dei run fault di sviluppo, <strong>non la macro-Fase 03</strong>. I 40 run
+-sono materiale di sviluppo, non di valutazione: da essi non sono ancora state estratte feature,
+-evidence o verbalizzazioni; non esistono insight, prototipi, soglie o score; nessuna chiamata a
+-<p>Restano inoltre le dipendenze del report §7: estrazione pre-specificata di feature ed evidence dai
+-40 run; insight e prototipi delle sotto-fasi successive; manifest scientifico autonomo dei veri
+-<p>Le sotto-fasi 03.6 e 03.9 devono applicare la regola function-level alle funzioni effettivamente usate e rendere espliciti i parametri. Resta all'autore la scelta se proteggere <code>code/tep_analysis_v2/</code> a HEAD oppure lasciarla fuori da §1 e affidarsi ai tag Phase A; questa sotto-fase non decide il punto. Restano inoltre aperte l'integrazione del branch e la chiusura della macro-Fase 03.</p>
+-<tr><td style="text-align:center">4</td><td><strong>Preparazione e capability pilot &mdash; Fase 03</strong></td><td>Cantieri §6.1&ndash;§6.12 e gate §7.1; §4.1&ndash;§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.7 pseudolabel; §4.9 <code>normal_dev</code> e baseline</td><td>piano §§6&ndash;7.1 e artefatti delle sotto-fasi</td><td>aperta; 03.5 chiusa e pubblicata; 03.9 integrata e dati pubblicati, freeze pending</td></tr>
+-<li><strong>§6.4</strong> — Produrre dati strutturati e verbalizzazioni di sviluppo</li>
+-<li><strong>§6.10</strong> — Congelare lo schema degli insight</li>
+-> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037); le **soglie Normal (§6.3)**, calibrate e verificate, in [§4.5](#soglie-normal-63); `normal_dev` e baseline numerica, verificati ma non ancora congelati efficacemente, in [§4.9](#normal-dev-baseline-039). La Fase 03 resta aperta. La parte restante delle fasi successive
+-fault e R2 è autorizzato soltanto come `baseline_fit` condizionata
+-([§3](#3--preparazione-indipendente-dal-modello--generazione-e-riuso-fase-02)). Il punto sul
+-Questa consegna chiude la sotto-fase dei run fault di sviluppo, **non la macro-Fase 03**. I 40 run
+-sono materiale di sviluppo, non di valutazione: da essi non sono ancora state estratte feature,
+-evidence o verbalizzazioni; non esistono insight, prototipi, soglie o score; nessuna chiamata a
+-Restano inoltre le dipendenze del report §7: estrazione pre-specificata di feature ed evidence dai
+-40 run; insight e prototipi delle sotto-fasi successive; manifest scientifico autonomo dei veri
+-Le sotto-fasi 03.6 e 03.9 devono applicare la regola function-level alle funzioni effettivamente
+-usate e rendere espliciti i parametri. Resta all'autore la scelta se proteggere
+-| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.7 pseudolabel; §4.9 `normal_dev` e baseline | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.5 chiusa e pubblicata; 03.9 integrata e dati pubblicati, freeze pending |
+-4. **§6.4** — Produrre dati strutturati e verbalizzazioni di sviluppo
+-10. **§6.10** — Congelare lo schema degli insight

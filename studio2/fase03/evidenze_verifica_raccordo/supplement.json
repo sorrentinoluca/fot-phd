@@ -1,0 +1,243 @@
+{
+  "evidence_vs_scientific_verified": [
+    {
+      "path": "studio2/fase03/evidence/.gitignore",
+      "same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+      "same": false
+    },
+    {
+      "path": "studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/REPORT_EVIDENCE.md",
+      "same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/__init__.py",
+      "same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/extract_evidence.py",
+      "same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/leakage.py",
+      "same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/test_evidence.py",
+      "same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/verify_output.py",
+      "same": true
+    }
+  ],
+  "schema_core_vs_R4": [
+    {
+      "path": "SCHEMA_FREEZE.json",
+      "same": true
+    },
+    {
+      "path": "REPORT_SCHEMA_INSIGHT.md",
+      "same": true
+    },
+    {
+      "path": "DECISIONE_SCHEMA_INSIGHT.md",
+      "same": true
+    }
+  ],
+  "frozen_source_hashes": [
+    {
+      "path": "code/tep_features.py",
+      "sha256": "cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c",
+      "match": true
+    },
+    {
+      "path": "code/tep_verbalize_v2.py",
+      "sha256": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+      "match": true
+    },
+    {
+      "path": "code/verbalizer_config_v2.json",
+      "sha256": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519",
+      "match": true
+    },
+    {
+      "path": "code/evaluate_verbalizer_v2.py",
+      "sha256": "972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92",
+      "match": true
+    }
+  ],
+  "evidence_pins": {
+    "extract_normal_evidence.py": {
+      "extract_evidence.py": true,
+      "leakage.py": true
+    },
+    "BASELINE_FREEZE_rev002.json": {
+      "extract_evidence.py": true,
+      "leakage.py": true
+    },
+    "BASELINE_FREEZE_rev003.json": {
+      "extract_evidence.py": true,
+      "leakage.py": true
+    },
+    "VERIFICA_BASELINE_NUMERICA.md": {
+      "extract_evidence.py": true,
+      "leakage.py": true
+    }
+  },
+  "baseline_source9": [
+    {
+      "path": "studio2/fase03/baseline_numerica/SPECIFICA_NORMAL_DEV.md",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/SPECIFICA_BASELINE_NUMERICA.md",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/baseline.py",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/extract_normal_evidence.py",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/verify_prototypes.py",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/prepare_conservation.py",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/preflight_normal_dev.py",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json",
+      "match": true
+    }
+  ],
+  "manifest_evidence": {
+    "columns": [
+      "path",
+      "bytes",
+      "sha256"
+    ],
+    "rows": 1283,
+    "unique_paths": 1283,
+    "bytes": 61208618
+  },
+  "literal_sections_md": {
+    "evidence-697-d": {
+      "reference": "7c99a83",
+      "same": true,
+      "sha256": "18186d211a622845c8d5dd70775e4c2393ed87c958230311a7d81992516898ea",
+      "bytes": 9764
+    },
+    "schema-insight-0312": {
+      "reference": "c9f83c6",
+      "same": true,
+      "sha256": "88b9cf658035096ae4f72679f1eb631f31467a65217b466b740c5535b86eedf8",
+      "bytes": 5514
+    },
+    "soglie-normal-63": {
+      "reference": "c486eee",
+      "same": true,
+      "sha256": "fd5babbf212ad574720b4c21f57bd8e7a9cec8a3c37e103cc3732e9b959c3219",
+      "bytes": 5620
+    },
+    "pseudolabel-037": {
+      "reference": "c486eee",
+      "same": true,
+      "sha256": "9eb08be94af6771f9ebfe935dada18052cea7acbc5b1f084f3027f763c6a9d81",
+      "bytes": 4420
+    },
+    "normal-dev-baseline-039": {
+      "reference": "c486eee",
+      "same": true,
+      "sha256": "50e5655346920c99c3ac779a975acb5c9cab9c6cd90614c0f9973de6fc75b6cd",
+      "bytes": 5344
+    }
+  },
+  "literal_sections_html": {
+    "evidence-697-d": {
+      "reference": "7c99a83",
+      "same": true,
+      "sha256": "225118fc68d9f2592f79e33cf530d11c9789d025379c9a5052fdca502e5ab67b",
+      "bytes": 11734
+    },
+    "schema-insight-0312": {
+      "reference": "c9f83c6",
+      "same": true,
+      "sha256": "598188c67db7bbc069452d15883754c0178dc46c6aefb48181d8969272e3dd0c",
+      "bytes": 6132
+    },
+    "soglie-normal-63": {
+      "reference": "c486eee",
+      "same": true,
+      "sha256": "353fb85b2a6651886a5b5b89fdef111ac08af911ea26d0017d9406982db5d17b",
+      "bytes": 6253
+    },
+    "pseudolabel-037": {
+      "reference": "c486eee",
+      "same": true,
+      "sha256": "01bc24e9bae36945a880201969c78ba054017f7d5b88f600013f27665e96affa",
+      "bytes": 4776
+    },
+    "normal-dev-baseline-039": {
+      "reference": "c486eee",
+      "same": true,
+      "sha256": "555ac7b02fc38be400bce5abd16b55b50d0b8e9d1df5b0a41ec57115001cf4c6",
+      "bytes": 5886
+    }
+  },
+  "bibliographic_base_shared_unchanged": {
+    "docs/letteratura.md": true,
+    "docs/letteratura.html": true,
+    "docs/paper/FoT_TEP_paper_blueprint.html": true,
+    "papers/README.md": true
+  },
+  "source_status_final": " M studio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md\n",
+  "B_source_unchanged": true,
+  "remote_observation": {
+    "utc": "2026-09-14T17:16:09.201447+00:00",
+    "refs": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1\trefs/heads/main\n"
+  },
+  "local_tag_exists": false,
+  "diff_check": {
+    "exit_code": 2,
+    "by_path": {
+      "docs/lit_review/VERIFICA_INDIPENDENTE_LETTERATURA_FASE03.md": 1,
+      "papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder.md": 821,
+      "papers/Statistical_Principles_for_Clinical_Trials_ICH_E9_1998.md": 1722,
+      "papers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.md": 278,
+      "papers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.pdf": 242,
+      "studio2/fase03/evidence/CONSEGNA_INTEGRAZIONE_03_6.md": 2,
+      "studio2/fase03/evidence/__init__.py": 1,
+      "studio2/fase03/evidence/leakage.py": 1,
+      "studio2/fase03/schema_insight/CONSEGNA_LOCALE_SCHEMA_INSIGHT_R4.md": 2,
+      "studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev003.txt": 1,
+      "studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev004.txt": 4
+    }
+  }
+}

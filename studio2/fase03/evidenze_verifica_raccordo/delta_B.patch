@@ -1,0 +1,125 @@
+diff --git a/studio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md b/studio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md
+index 4a234ab..472b670 100644
+--- a/studio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md
++++ b/studio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md
+@@ -184,3 +184,120 @@ Per la futura pubblicazione, senza eseguirla in questo incarico:
+ 
+ Se il remoto avanza dopo questo record, il candidato va dichiarato basato su `c486eee…` e
+ raccordato nuovamente: non va presentato come automaticamente aggiornato.
++
++## 8. Aggiornamento di completezza per la finestra orchestratrice
++
++### 8.1 Identificazione e riferimento corrente
++
++- **ID operativo:** `FASE03-RACCORDO-03.6-03.12-LETTERATURA`; raccordo delle sottofasi
++  scientifiche 03.6 e 03.12 con il supporto bibliografico non numerato della Fase 03.
++- **Data:** 2026-09-14, Europe/Rome.
++- **Attività ed esito:** integrazione locale seriale 03.6 → 03.12 R4 → letteratura,
++  acquisizione delle consegne storiche e controllo di coerenza; **COMPLETATO LOCALMENTE**.
++- **Worktree assoluto:** `/Users/luker/fot-tep-raccordo-036-0312-letteratura`.
++- **Branch:** `codex/studio2-raccordo-036-0312-letteratura`.
++- **Commit di riferimento:** `e82b5a08bf642ad45f77e71832958207beb1181c`.
++- **Report corrente:** `/Users/luker/fot-tep-raccordo-036-0312-letteratura/studio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md`.
++
++### 8.2 Report, verbali e record pertinenti
++
++- 03.6: `studio2/fase03/evidence/REPORT_EVIDENCE.md`,
++  `studio2/fase03/evidence/VERIFICA_EVIDENCE.md`,
++  `studio2/fase03/evidence/CONSEGNA_INTEGRAZIONE_03_6.md`.
++- 03.12: `studio2/fase03/schema_insight/REPORT_SCHEMA_INSIGHT.md`,
++  `studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004.md`,
++  `studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004_NON_OK_STORICO.md`,
++  `studio2/fase03/schema_insight/PREPARAZIONE_INTEGRAZIONE_SCHEMA_INSIGHT_R4.md`,
++  `studio2/fase03/schema_insight/CONSEGNA_LOCALE_SCHEMA_INSIGHT_R4.md`.
++- Letteratura: `docs/lit_review/VERIFICA_RILEVABILITA_IDV6_IDV4_FASE03.md`,
++  `docs/lit_review/VERIFICA_INDIPENDENTE_LETTERATURA_FASE03.md`,
++  `docs/lit_review/CONSEGNA_ACQUISIZIONE_LETTERATURA_FASE03_2026-09-14.md`.
++- Raccordo: questo report; non esiste un nuovo verbale scientifico perché il lavoro corrente è
++  integrazione Git/documentale e non una nuova verifica scientifica.
++
++### 8.3 Inventario completo rispetto alla base remota
++
++I 64 percorsi creati o modificati fra la base `c486eee…` e il commit di riferimento
++`e82b5a0…` sono:
++
++- `M` `docs/fot_walkthrough_conversazione_studio2.html`
++- `M` `docs/fot_walkthrough_conversazione_studio2.md`
++- `M` `docs/letteratura.html`
++- `M` `docs/letteratura.md`
++- `A` `docs/lit_review/CONSEGNA_ACQUISIZIONE_LETTERATURA_FASE03_2026-09-14.md`
++- `A` `docs/lit_review/VERIFICA_CORPUS_FASE03.json`
++- `A` `docs/lit_review/VERIFICA_FONTI_FASE03.json`
++- `A` `docs/lit_review/VERIFICA_INDIPENDENTE_LETTERATURA_FASE03.md`
++- `A` `docs/lit_review/VERIFICA_RILEVABILITA_IDV6_IDV4_FASE03.md`
++- `M` `docs/paper/FoT_TEP_paper_blueprint.html`
++- `A` `papers/Communication-Efficient_Learning_of_Deep_Networks_from_Decentralized_Data.md`
++- `A` `papers/Communication-Efficient_Learning_of_Deep_Networks_from_Decentralized_Data.pdf`
++- `A` `papers/Equivalence_test_and_confidence_interval_for_the_difference_in_proportions_for_the_paired-sample_design.md`
++- `A` `papers/Equivalence_test_and_confidence_interval_for_the_difference_in_proportions_for_the_paired-sample_design.pdf`
++- `A` `papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder.md`
++- `A` `papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder.pdf`
++- `A` `papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder_images/page-6.png`
++- `A` `papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder_images/page-7.png`
++- `A` `papers/Probability_Inequalities_for_Sums_of_Bounded_Random_Variables_1963.md`
++- `A` `papers/Probability_Inequalities_for_Sums_of_Bounded_Random_Variables_1963.pdf`
++- `M` `papers/README.md`
++- `A` `papers/Statistical_Principles_for_Clinical_Trials_ICH_E9_1998.md`
++- `A` `papers/Statistical_Principles_for_Clinical_Trials_ICH_E9_1998.pdf`
++- `A` `papers/The_Nonexistence_of_Certain_Statistical_Procedures_in_Nonparametric_Problems.md`
++- `A` `papers/The_Nonexistence_of_Certain_Statistical_Procedures_in_Nonparametric_Problems.pdf`
++- `A` `papers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.md`
++- `A` `papers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.pdf`
++- `M` `studio2/PROVENIENZA.md`
++- `A` `studio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md`
++- `A` `studio2/fase03/evidence/.gitignore`
++- `A` `studio2/fase03/evidence/ARTIFACT_STORAGE.json`
++- `A` `studio2/fase03/evidence/CONSEGNA_INTEGRAZIONE_03_6.md`
++- `A` `studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md`
++- `A` `studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv`
++- `A` `studio2/fase03/evidence/OUTPUT_CHECK.json`
++- `A` `studio2/fase03/evidence/PACKAGING_V2_CHECK.json`
++- `A` `studio2/fase03/evidence/REPORT_EVIDENCE.md`
++- `A` `studio2/fase03/evidence/VERIFICA_EVIDENCE.md`
++- `A` `studio2/fase03/evidence/__init__.py`
++- `A` `studio2/fase03/evidence/extract_evidence.py`
++- `A` `studio2/fase03/evidence/leakage.py`
++- `A` `studio2/fase03/evidence/test_evidence.py`
++- `A` `studio2/fase03/evidence/verify_output.py`
++- `A` `studio2/fase03/schema_insight/CONSEGNA_LOCALE_SCHEMA_INSIGHT_R4.md`
++- `A` `studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md`
++- `A` `studio2/fase03/schema_insight/PREPARAZIONE_INTEGRAZIONE_SCHEMA_INSIGHT_R4.md`
++- `A` `studio2/fase03/schema_insight/PROPOSTA_TAG_SCHEMA_INSIGHT.md`
++- `A` `studio2/fase03/schema_insight/REPORT_SCHEMA_INSIGHT.md`
++- `A` `studio2/fase03/schema_insight/SCHEMA_FREEZE.json`
++- `A` `studio2/fase03/schema_insight/TEST_RESULTS.txt`
++- `A` `studio2/fase03/schema_insight/TEST_RESULTS_qwen.txt`
++- `A` `studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev003.txt`
++- `A` `studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev004.txt`
++- `A` `studio2/fase03/schema_insight/TEST_RESULTS_rev004.txt`
++- `A` `studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT.md`
++- `A` `studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev003.md`
++- `A` `studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004.md`
++- `A` `studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004_NON_OK_STORICO.md`
++- `A` `studio2/fase03/schema_insight/insight_v1.schema.json`
++- `A` `studio2/fase03/schema_insight/integrazione_tag_3_12_prompt.md`
++- `A` `studio2/fase03/schema_insight/leakage_rules_v1.json`
++- `A` `studio2/fase03/schema_insight/requirements.txt`
++- `A` `studio2/fase03/schema_insight/test_validator.py`
++- `A` `studio2/fase03/schema_insight/validator.py`
++
++### 8.4 Stato Git al termine di questa richiesta documentale
++
++- **HEAD:** `e82b5a08bf642ad45f77e71832958207beb1181c`; branch avanti di 28 commit rispetto
++  a `origin/main` osservato a `c486eee95fe24c1e7bf4135ed7cebf01ac2962f1`.
++- **File committati:** i 64 percorsi di §8.3, inclusa la versione del presente report contenuta
++  in `e82b5a0…`.
++- **File tracciati modificati e non committati:** soltanto il presente report, aggiornato per
++  completezza in questa richiesta.
++- **File staged:** nessuno.
++- **File non tracciati:** nessuno.
++- Nessun controllo scientifico è stato rieseguito e nessun commit, merge, push o tag è stato
++  effettuato per questa richiesta.
++- Stato effettivo invariato rispetto al §7: raccordo presente soltanto nel branch locale;
++  integrazione/pubblicazione in `main` non eseguite; nessun congelamento o tag 03.12 creato.
++- Operazioni residue, dipendenze, decisioni già acquisite e prossimo passo restano quelli del
++  §7; in particolare il futuro tag 03.12 può puntare esclusivamente a `3c64390…`.

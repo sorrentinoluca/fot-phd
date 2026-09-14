@@ -1,0 +1,148 @@
+{
+  "parity_declared_4132": {
+    "md": 4132,
+    "html": 4132,
+    "equal": true
+  },
+  "historical_guardian_identical": true,
+  "sources_not_ancestors": [
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "bytes": 81490,
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json",
+      "bytes": 25894,
+      "sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "bytes": 8528,
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_DA_SOTTOSCRIVERE_REV10.md",
+      "bytes": 4974,
+      "sha256": "4a0a4e1fc2797ee7a81439110e164d43159c745007136c9dda7bed7759471cc8",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/APPROVAZIONE_ADDENDUM_03_8.md",
+      "bytes": 2830,
+      "sha256": "df2a754d3ad2d2215def012eb4d6e887c77d93ebdcad4a6811c5cbc18786a70a",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/ADDENDUM_DECISIONI_RESIDUE_03_8.md",
+      "bytes": 3768,
+      "sha256": "6035967ceb390de69e63cac9f828b17386ab8a76bb1999db524597770fc782f8",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08-consegna",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_REV10.md",
+      "bytes": 4141,
+      "sha256": "32e2528b327fe9be7f052b7da94375a76c18edc3d98df52bea06d664e36db99c",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08-consegna",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV10.md",
+      "bytes": 12478,
+      "sha256": "d269e26d8cb4e23370577e1e193d90d9357d66f7c739e9d0669970edf71b0066",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    }
+  ],
+  "sources_external": [
+    {
+      "source": "H",
+      "commit": null,
+      "path": "/Users/luker/fot-tep/studio2/fase03/HANDOFF_FASE03_2026-09-14_rev02.md",
+      "bytes": 48244,
+      "sha256": "b7d47c75538e12ab129fa17789c241a54d290ad19746cec18ecb53dc1050abff",
+      "status": "file esterno non tracciato; snapshot per impronta, non HEAD implicito",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": null
+    },
+    {
+      "source": "PROMPT-0315",
+      "commit": null,
+      "path": "/Users/luker/fot-tep/studio2/fase03/paper_sections/sottofase_3_15.md",
+      "bytes": 6783,
+      "sha256": "1eca10539849c85530f6c7cbd4abb572e26d5d40b5f26fde0bb71cfc65780ac1",
+      "status": "file esterno non tracciato; snapshot per impronta, non HEAD implicito",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": null
+    }
+  ],
+  "reachable_source_counts": {
+    "ancestor_commit": 44,
+    "nonancestor_commit": 8,
+    "external": 2
+  },
+  "findings_lines": {
+    "docs/fot_walkthrough_conversazione_studio2.md": [
+      {
+        "line": 1413,
+        "text": "`e82b5a08bf642ad45f77e71832958207beb1181c`. Questa operazione rende storia, fonti, bozze e"
+      },
+      {
+        "line": 1455,
+        "text": "la cartella `paper_sections/` identica a `d35b684`, salvo questa consegna aggiunta dopo il"
+      }
+    ],
+    "docs/fot_walkthrough_conversazione_studio2.html": [
+      {
+        "line": 1101,
+        "text": "<code>e82b5a08bf642ad45f77e71832958207beb1181c</code>. Questa operazione rende storia, fonti, bozze e"
+      },
+      {
+        "line": 1135,
+        "text": "la cartella <code>paper_sections/</code> identica a <code>d35b684</code>, salvo questa consegna aggiunta dopo il"
+      }
+    ]
+  },
+  "remote_refs_final.txt": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1\trefs/heads/main\n",
+  "remote_tags_final.txt": {
+    "bytes": 6396,
+    "sha256": "f086f4d2f6dfb68370c5f1c60725c9f921b792c71731226657eb54cea0d260cd"
+  },
+  "local_tags_containing_91a880b.txt": "",
+  "time_utc": "2026-09-14T17:49:24.185489+00:00",
+  "source_status": " M studio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md\n",
+  "source_B_identical": true,
+  "docs/MAINTENANCE.md": {
+    "bytes": 20636,
+    "sha256": "77b4768c2b6ae1bc27d2e1aaaa56f9c38626add20b2f5e74f6a426eef7a66ec0"
+  },
+  "docs/prompts/Verifica_LLM.md": {
+    "bytes": 4008,
+    "sha256": "1149395ac7d765493524844fc543602e90be88173d2dcda94aaa0cb61279ccae"
+  }
+}

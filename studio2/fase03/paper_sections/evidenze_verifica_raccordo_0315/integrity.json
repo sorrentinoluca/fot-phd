@@ -1,0 +1,892 @@
+{
+  "genealogy": [
+    {
+      "commit": "e82b5a08bf642ad45f77e71832958207beb1181c",
+      "parents": [
+        "601fb70c560b95e35a942a60b706785d28780ee7"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "cf79e81f917c7969dfd375e38db54315c28d4c07",
+      "parents": [
+        "e2f9aea948ac4bfc64089962c5357343f997621f"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "50f07a998afb87b832aab6653c9241c69ac3b020",
+      "parents": [
+        "cf79e81f917c7969dfd375e38db54315c28d4c07"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "parents": [
+        "50f07a998afb87b832aab6653c9241c69ac3b020"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "bcb462da3f3c329af5b80d9cb028bb8893a8d09d",
+      "parents": [
+        "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "91a880b136dee5d805b54040f5e32345be361eb2",
+      "parents": [
+        "bcb462da3f3c329af5b80d9cb028bb8893a8d09d"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "dc6e30c60de79df00841981ac0305f127f811a06",
+      "parents": [
+        "91a880b136dee5d805b54040f5e32345be361eb2"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "d35b684acbfd1f357bc34f3a21cebb18e8a6bea0",
+      "parents": [
+        "dc6e30c60de79df00841981ac0305f127f811a06"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "18aa3bbf1284a41e20bdc4fc521c98c315ca9614",
+      "parents": [
+        "e82b5a08bf642ad45f77e71832958207beb1181c",
+        "d35b684acbfd1f357bc34f3a21cebb18e8a6bea0"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "705f1c4ca61375d51bb69f20e0de613cfb39bf1a",
+      "parents": [
+        "18aa3bbf1284a41e20bdc4fc521c98c315ca9614"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "532cc77bc3d5d046161b6334e1a7b24ac1e7019f",
+      "parents": [
+        "705f1c4ca61375d51bb69f20e0de613cfb39bf1a"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "9b6bd64c3e23f03d09272dda43c1a043305add50",
+      "parents": [
+        "532cc77bc3d5d046161b6334e1a7b24ac1e7019f"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "7c99a8318cbe24bf864790566302f72614d963ed",
+      "parents": [
+        "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+        "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "parents": [
+        "a1bcf61f0ccf20d070e92b7e2580dfdce5e9ea87"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "43b31afc1ff271594cb4bd21a39fa4469a8c83bc",
+      "parents": [
+        "3c64390bc4dd58c48cc4e1e388a38989b32b3143"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "c9f83c6447a9963cd69531b14439a3ac5a5a72b2",
+      "parents": [
+        "9b1fac9808b92222f45b8b590db32a378d73c136"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "e37c3db66689325b703bb99f3750ca3b5b287aab",
+      "parents": [
+        "a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    },
+    {
+      "commit": "40911d0e3e7b75960e6973f3fd8f609e65ab6e05",
+      "parents": [
+        "e37c3db66689325b703bb99f3750ca3b5b287aab"
+      ],
+      "ancestor_A": true,
+      "ancestor_remote_main_observed": false
+    }
+  ],
+  "package": [
+    {
+      "path": "studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_DELTA_0315.md",
+      "bytes": 6764,
+      "sha256": "debb9e19bb08062ea8091d593b2eddd3d56c5f717675c5e2c411b70e601a489d",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md",
+      "bytes": 6546,
+      "sha256": "808f75b57500bacf48369a4892ee0416a7c9beffae436a4aa79bf4c85aacdb9e",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/CONTROLLI_DELTA_0315.json",
+      "bytes": 14284,
+      "sha256": "13bd666acfab1d11cb3ea655df5d3bdac0e636d33df68346ee3057f74974e63f",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/FONTI_DELTA_0315.json",
+      "bytes": 15039,
+      "sha256": "dc01cd71e1b7bae0b65a56de0de50c6db8ac2db426cb471b5110fc7a8d694610",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/PIANO_SEZIONI.md",
+      "bytes": 8853,
+      "sha256": "a7deb8fe2c9643626e47c111ed0f7dfd24f5b6f4db4a42de09b372983c1ed6a8",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/PROMPT_VERIFICA_DELTA_0315.md",
+      "bytes": 10564,
+      "sha256": "cc6a13cea07fe72a02269b3ebf8ba0e96e0a1273b9ba2a3d9b6b2ee5745b79ab",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/REPORT_ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md",
+      "bytes": 2360,
+      "sha256": "6b0800fd8b8359e839b799b0a95be5de04406d2509f56352ea27cc56d3bd1f89",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/REPORT_DELTA_0315.md",
+      "bytes": 15498,
+      "sha256": "1f59eabf8070f1f4b7b77d89564d4e3593308469e8d8aee56676c93dbabd40f1",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/REPORT_PAPER_SECTIONS.md",
+      "bytes": 10005,
+      "sha256": "a15387ffcc237f001c0c8692f1b19edfdf2cd04fa1803a58a79920c403488b3d",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/VERIFICA_DELTA_0315.md",
+      "bytes": 12311,
+      "sha256": "00553079e88a58a68762ba9a3400c04cb22b91f6a99f37f191b67cfd12ca9770",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md",
+      "bytes": 13949,
+      "sha256": "8faca80c87071d87bf66d97848c290a5724f6569be6f6040cfb6568bad022cb1",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/lint_paper_sections.py",
+      "bytes": 4771,
+      "sha256": "514782cffb66db518997102be32b5b55e09ef6c2da1be54d3edd43f830304905",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/method.md",
+      "bytes": 7557,
+      "sha256": "db697de1d124150bf8e754154c21a2d07cfaa0a79034bf32d3a6c5a449331938",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/protocol.md",
+      "bytes": 17418,
+      "sha256": "ddcaf1c2790d7e3fe966ed80bb91d3ae7316090d4b9dc554b85f8dd030ca5468",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/related_work.md",
+      "bytes": 8052,
+      "sha256": "52e0e9ba81948a7f26392884a518682ea5a9f25eaa6a49a5ce3d70a29236f842",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/threats.md",
+      "bytes": 9221,
+      "sha256": "915b7484ee3bff65c2633405db027c3e797d927bc56548238da2d631c06b2c35",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    },
+    {
+      "path": "studio2/fase03/paper_sections/verbalizer.md",
+      "bytes": 7227,
+      "sha256": "1b48085cd90e8dda183a482be333169a382d3c8a0e3f32cc433cec7eb01118f0",
+      "same_d35": true,
+      "same_disk": true,
+      "same_merge": true
+    }
+  ],
+  "package_delta": [
+    "A\tstudio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+    "A\tstudio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md"
+  ],
+  "provenienza": {
+    "base_1_13_exact_prefix": true,
+    "source_0315_tail_equal_after_two_heading_changes": true,
+    "headings": [
+      "## 1. Copia conservata",
+      "## 2. Origine e metadati disponibili",
+      "## 3. Candidati al riuso e decisioni",
+      "## 4. Usi effettivamente autorizzati",
+      "## 5. Fase 03.0 — Provenienza degli adattamenti del capability pilot",
+      "## 6. Fase 03 — D1: fonti usate per l'estrazione del catalogo",
+      "## 7. Fase 03 — specifica dei nuovi run fault (§6.2)",
+      "## 8. Fase 03 — run fault di sviluppo e conservazione",
+      "## 9. Fase 03 — sotto-fase 03.7: pseudolabel, assegnazione degli agenti e derangement di E (§6.5)",
+      "## 10. Fase 03 — soglie Normal (§6.3)",
+      "### 10.1 Completamento C4 dopo la verifica del candidato 819b12e",
+      "### 10.2 Integrazione e consegna del 2026-09-14",
+      "## 11. Fase 03 — sotto-fase 03.9: `normal_dev` e baseline numerica",
+      "### 11.1 Integrazione e conservazione del 2026-09-14",
+      "## 12. Fase 03 — evidence 697-D (sotto-fase 03.6)",
+      "## 13. Fase 03 — sotto-fase 03.12: schema degli insight (§6.10)",
+      "## 14. Fase 03 — sotto-fase 03.15: sezioni del paper indipendenti dal modello",
+      "### 14.1 Delta di allineamento 03.15 del 2026-09-14"
+    ]
+  },
+  "delta_paths": [
+    "M\tdocs/fot_walkthrough_conversazione_studio2.html",
+    "M\tdocs/fot_walkthrough_conversazione_studio2.md",
+    "M\tstudio2/PROVENIENZA.md",
+    "A\tstudio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_DELTA_0315.md",
+    "A\tstudio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md",
+    "A\tstudio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+    "A\tstudio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md",
+    "A\tstudio2/fase03/paper_sections/CONTROLLI_DELTA_0315.json",
+    "A\tstudio2/fase03/paper_sections/FONTI_DELTA_0315.json",
+    "A\tstudio2/fase03/paper_sections/PIANO_SEZIONI.md",
+    "A\tstudio2/fase03/paper_sections/PROMPT_VERIFICA_DELTA_0315.md",
+    "A\tstudio2/fase03/paper_sections/REPORT_ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md",
+    "A\tstudio2/fase03/paper_sections/REPORT_DELTA_0315.md",
+    "A\tstudio2/fase03/paper_sections/REPORT_PAPER_SECTIONS.md",
+    "A\tstudio2/fase03/paper_sections/VERIFICA_DELTA_0315.md",
+    "A\tstudio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md",
+    "A\tstudio2/fase03/paper_sections/lint_paper_sections.py",
+    "A\tstudio2/fase03/paper_sections/method.md",
+    "A\tstudio2/fase03/paper_sections/protocol.md",
+    "A\tstudio2/fase03/paper_sections/related_work.md",
+    "A\tstudio2/fase03/paper_sections/threats.md",
+    "A\tstudio2/fase03/paper_sections/verbalizer.md"
+  ],
+  "unexpected_delta": [],
+  "step_diffs": {
+    "705f1c4": "A\tstudio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md\n",
+    "532cc77": "M\tdocs/fot_walkthrough_conversazione_studio2.html\nM\tdocs/fot_walkthrough_conversazione_studio2.md\n",
+    "9b6bd64": "A\tstudio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md\n"
+  },
+  "B_inventory_matches": true,
+  "historical_delivery": {
+    "path": "studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+    "bytes": 16615,
+    "sha256": "7469790613d644673bec6629ac7fb1ceae53aefdcbe45ae94239b687705aef2b",
+    "matches_source": true,
+    "matches_acquisition": true
+  },
+  "source54": [
+    {
+      "source": "S05",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/soglie_normal/INTEGRAZIONE_03_5.md",
+      "bytes": 2529,
+      "sha256": "7b1f70c66f3c03ba44fe0e6ab2d200c171b3bce7d400f1e04709f8e7989858f4",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S05",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/soglie_normal/THRESHOLD_FREEZE.json",
+      "bytes": 37326,
+      "sha256": "ff5c27002a2548003e4bc5f54805cda3754fb19b9cb2559222996b9c7f7e14a9",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S05",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/soglie_normal/FAR_VERIFICATION.json",
+      "bytes": 73873,
+      "sha256": "458ded0f4300fea8ab77a962cb9ef6d38f903ff4241fada563029765521f82f8",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S05",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/soglie_normal/FAR_VERIFICATION.md",
+      "bytes": 813,
+      "sha256": "a6433f3f450d6540a3298109cfa59a6f3a88ee682d5964007949b956515f12a8",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S05",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/soglie_normal/DECISIONE_AUTORE_FAR.md",
+      "bytes": 1104,
+      "sha256": "84520c63e75d49a4855ce02421df59c5a641612cafa9d82fdfc2e127ebcce58e",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S05",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/soglie_normal/evidence/VERIFICA_CORREZIONI_SOGLIE_NORMAL_OK.md",
+      "bytes": 29331,
+      "sha256": "d98a2856647493b0e96fc1198ac32c457510fc10399538511373655e1b6f1c9e",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/SPECIFICA_NORMAL_DEV.md",
+      "bytes": 4643,
+      "sha256": "6ce0a646e2852bf005635aa24e8eb9d319434c5fb8554894937866ab35fce3a5",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/SPECIFICA_BASELINE_NUMERICA.md",
+      "bytes": 5678,
+      "sha256": "510b119ca54ac05225a7302dcf1b685cb4a778673a0f18d5a9a0e736078a6143",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/REPORT_BASELINE_NUMERICA.md",
+      "bytes": 9758,
+      "sha256": "6df1774775507a75b98e429a8dd0fd6918310f39245fea57c7ad955fff79cf48",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md",
+      "bytes": 3275,
+      "sha256": "356eaccce2695e63133a9756b115241f6b5cdcfae5336f652f74411d255bd311",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/DECISIONE_ACCETTAZIONE_NORMAL_DEV.md",
+      "bytes": 3763,
+      "sha256": "1e1b3759b76f77b0a6a72f36a3d4017bf0b46c12f9b0f4a3ba4c4342140584b0",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/PROTOTYPES.json",
+      "bytes": 278727,
+      "sha256": "6d0b754065eb8a69d0657638deeef0756de0ec8e93a905c55aea18fadace2cb2",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/PROTOTYPES_MANIFEST.json",
+      "bytes": 995,
+      "sha256": "8309a914d2141da38d1120606897bcead40142829ecd541b6b0423d0d9465751",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json",
+      "bytes": 9168,
+      "sha256": "0312f416dfdbaf8984b2063df2c2e9d00e1737321b9a65dd7e32b0295a937ec8",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/BASELINE_CHECK.json",
+      "bytes": 948,
+      "sha256": "e806b1761aa5c7451a2fe46812640b1d552a9817a986a56e2eac140a6fff8178",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/AUDIT_NORMAL_DEV.json",
+      "bytes": 238199,
+      "sha256": "fb44c26ceaf3b045fe16902296bc3e01219acff7f7fac969c106369c7b48937f",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/NORMAL_DEV_HANDOFF.json",
+      "bytes": 5750,
+      "sha256": "e2409c64ad4e36e0f3b597a5e0b9745d866af72f4da717fc7a128b25753c166a",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/plans/normal_dev.csv",
+      "bytes": 6796,
+      "sha256": "66382b3ecedd8be417656e56e97d38fc4815d0c857d2c6dd302d58d80a512a97",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/VERIFICA_RISCARICAMENTO_NORMAL_DEV.json",
+      "bytes": 2110,
+      "sha256": "ce9aa338eb76c8058d9d5ddd23349fec4f72511914e95e3e6f6e29c1eec59227",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md",
+      "bytes": 12342,
+      "sha256": "8129dbbb919bce62d42d663552f1400f3e7c2ca51966db42d6c7928e9fda24f8",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "bytes": 81490,
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json",
+      "bytes": 25894,
+      "sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "bytes": 8528,
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_DA_SOTTOSCRIVERE_REV10.md",
+      "bytes": 4974,
+      "sha256": "4a0a4e1fc2797ee7a81439110e164d43159c745007136c9dda7bed7759471cc8",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/APPROVAZIONE_ADDENDUM_03_8.md",
+      "bytes": 2830,
+      "sha256": "df2a754d3ad2d2215def012eb4d6e887c77d93ebdcad4a6811c5cbc18786a70a",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/ADDENDUM_DECISIONI_RESIDUE_03_8.md",
+      "bytes": 3768,
+      "sha256": "6035967ceb390de69e63cac9f828b17386ab8a76bb1999db524597770fc782f8",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08-consegna",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_REV10.md",
+      "bytes": 4141,
+      "sha256": "32e2528b327fe9be7f052b7da94375a76c18edc3d98df52bea06d664e36db99c",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S08-consegna",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV10.md",
+      "bytes": 12478,
+      "sha256": "d269e26d8cb4e23370577e1e193d90d9357d66f7c739e9d0669970edf71b0066",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": false
+    },
+    {
+      "source": "S06",
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "path": "studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "bytes": 5373,
+      "sha256": "b485edea5de1a037f4d2cd9e186e7bb4feeb8cf7df451e50a5f36868778d7baf",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S06",
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "path": "studio2/fase03/evidence/REPORT_EVIDENCE.md",
+      "bytes": 4855,
+      "sha256": "24d861ab0506161786b4e8456e084fb8c12dd447dfc8ca74c337b9b81db52822",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S06",
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "path": "studio2/fase03/evidence/PACKAGING_V2_CHECK.json",
+      "bytes": 1035,
+      "sha256": "cbffa1f331462455e50e8c55caf0eea944bf514b10af991f6ee635fa9d993add",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S06",
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "path": "studio2/fase03/evidence/extract_evidence.py",
+      "bytes": 18138,
+      "sha256": "46b451c2d6d8b1627993828ac9bac39532562f2fa1b27955b8a20f098ba24e97",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S06",
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "path": "studio2/fase03/evidence/leakage.py",
+      "bytes": 2396,
+      "sha256": "c77ae5b11186c5b0df87b2f1df8800cb45fb25317e248fe8484d3e8283073887",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S06",
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "path": "studio2/PROVENIENZA.md",
+      "bytes": 30138,
+      "sha256": "561cfddf12ad2ec21a6b67cabd69ec1435bb1828956e69617eab6714d97d101b",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S12",
+      "commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "path": "studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md",
+      "bytes": 9671,
+      "sha256": "6923e8d428f1aee0fa2b8adc3584601ece123894b4c8b6b81ba60c79545c8520",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S12",
+      "commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "path": "studio2/fase03/schema_insight/insight_v1.schema.json",
+      "bytes": 1222,
+      "sha256": "15e0d29e033c1d699d4f1114b5fdf378ad1cea8398c89b133403a92983229de6",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "S12",
+      "commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "path": "studio2/fase03/schema_insight/SCHEMA_FREEZE.json",
+      "bytes": 12323,
+      "sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "L",
+      "commit": "40911d0e3e7b75960e6973f3fd8f609e65ab6e05",
+      "path": "docs/letteratura.md",
+      "bytes": 90911,
+      "sha256": "d4048e7f6ae14fb853315ab3f61bdaada0818f31d0e8ff1532e8dbeae7e1974f",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "L",
+      "commit": "40911d0e3e7b75960e6973f3fd8f609e65ab6e05",
+      "path": "docs/lit_review/VERIFICA_RILEVABILITA_IDV6_IDV4_FASE03.md",
+      "bytes": 34808,
+      "sha256": "f2c29416664e27c2ecac7d439939f51f1a3f7313e2aba669bb39db7106cf0b8e",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "L",
+      "commit": "40911d0e3e7b75960e6973f3fd8f609e65ab6e05",
+      "path": "docs/lit_review/VERIFICA_INDIPENDENTE_LETTERATURA_FASE03.md",
+      "bytes": 30107,
+      "sha256": "551f7da9de20096f3a21f6f9a19d2beecd4b03367bbf6cbe4d083f482637ddaf",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/MAINTENANCE.md",
+      "bytes": 20636,
+      "sha256": "77b4768c2b6ae1bc27d2e1aaaa56f9c38626add20b2f5e74f6a426eef7a66ec0",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/prompts/Prompt_LLM.md",
+      "bytes": 14586,
+      "sha256": "4c11026ba170667ae9b45bb363a07592499698d7a735302eb36eacf6d963fe20",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/prompts/Fase_LLM.md",
+      "bytes": 7224,
+      "sha256": "6dbdcd271d60e35a9066c36a6e1183809d50a11c6ef2bfecc654bf155bcfb981",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/prompts/Verifica_LLM.md",
+      "bytes": 4008,
+      "sha256": "1149395ac7d765493524844fc543602e90be88173d2dcda94aaa0cb61279ccae",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/prompts/Documentazione_LLM.md",
+      "bytes": 5008,
+      "sha256": "b105e110206fce05d382e26109327148c67971acf583a992968917fceae84b57",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/prompts/Commit_LLM.md",
+      "bytes": 2643,
+      "sha256": "5488a915b79aee9d703c17aa628b669db1d5c5eaccaf042e72f375366d107623",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md",
+      "bytes": 6546,
+      "sha256": "808f75b57500bacf48369a4892ee0416a7c9beffae436a4aa79bf4c85aacdb9e",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "studio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md",
+      "bytes": 13949,
+      "sha256": "8faca80c87071d87bf66d97848c290a5724f6569be6f6040cfb6568bad022cb1",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "studio2/fase03/paper_sections/REPORT_PAPER_SECTIONS.md",
+      "bytes": 10005,
+      "sha256": "a15387ffcc237f001c0c8692f1b19edfdf2cd04fa1803a58a79920c403488b3d",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "studio2/PROVENIENZA.md",
+      "bytes": 30708,
+      "sha256": "7fd71f1f21d492a01e5e4cffc43fcef012ee5c3224f29d00288b1e65ff2eddbc",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "bytes": 161230,
+      "sha256": "8d79b662ecc14358d2a2e29f699f6cab2ec6e41b584415ed2d93247a8df24ce1",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "MAIN-provenienza",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/PROVENIENZA.md",
+      "bytes": 40732,
+      "sha256": "a95e65f4f09942d2306a248e56ee49bda991b7bb806739a9e66366d25d89738a",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": true
+    },
+    {
+      "source": "H",
+      "commit": null,
+      "path": "/Users/luker/fot-tep/studio2/fase03/HANDOFF_FASE03_2026-09-14_rev02.md",
+      "bytes": 48244,
+      "sha256": "b7d47c75538e12ab129fa17789c241a54d290ad19746cec18ecb53dc1050abff",
+      "status": "file esterno non tracciato; snapshot per impronta, non HEAD implicito",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": null
+    },
+    {
+      "source": "PROMPT-0315",
+      "commit": null,
+      "path": "/Users/luker/fot-tep/studio2/fase03/paper_sections/sottofase_3_15.md",
+      "bytes": 6783,
+      "sha256": "1eca10539849c85530f6c7cbd4abb572e26d5d40b5f26fde0bb71cfc65780ac1",
+      "status": "file esterno non tracciato; snapshot per impronta, non HEAD implicito",
+      "fingerprint_matches": true,
+      "commit_ancestor_A": null
+    }
+  ],
+  "base_verdict": {
+    "source": "/Users/luker/fot-tep-verifica-raccordo-e82b5a0/studio2/fase03/VERIFICA_RACCORDO_DOCUMENTALE_036_0312_LETTERATURA.md",
+    "bytes": 21639,
+    "sha256": "7c1d6ebf90ccb29d2b3f418b0b6740b62435626db8e9a6b7f6abdd8512a27511"
+  },
+  "guardian": {
+    "script_equal": true,
+    "failures_identical": true,
+    "failure_identifiers": [
+      "FAIL: test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "FAIL: test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ],
+    "skip_identical": true,
+    "skip": [
+      "setUpClass (__main__.TutorialChecks) ... skipped 'legacy part-1 walkthrough is not present in this checkout'"
+    ],
+    "full_logs_normalized_equal": true,
+    "historical_identifiers": [
+      "FAIL: test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "FAIL: test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ]
+  },
+  "diff_check_all_delta": 0,
+  "diff_check_documentation": 0
+}

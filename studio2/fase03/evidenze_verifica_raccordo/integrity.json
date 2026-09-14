@@ -1,0 +1,1173 @@
+{
+  "ancestry": [
+    {
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "ancestor_A": true,
+      "ancestor_base": true,
+      "parents": "5bd1648c54a0673ebd66df3655cf8258dfa48d3b"
+    },
+    {
+      "commit": "7c99a8318cbe24bf864790566302f72614d963ed",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1 c66bd8dddf8e2af9dd0665ee30afd36c248b93fb"
+    },
+    {
+      "commit": "cf1f70f3a8b2d601f890d00957ac963452ba342c",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "d815ce96d928254de79209f02e11a561445764cd"
+    },
+    {
+      "commit": "daf5dc522fd9fc4001700d1dcefac8c54c30b12c",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "cf1f70f3a8b2d601f890d00957ac963452ba342c"
+    },
+    {
+      "commit": "d54fa4a2d13a0560a6e7fea2486dea606235c3d0",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "daf5dc522fd9fc4001700d1dcefac8c54c30b12c"
+    },
+    {
+      "commit": "2f6dd8de38b944e61853e605202c4c376a90585d",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "d54fa4a2d13a0560a6e7fea2486dea606235c3d0"
+    },
+    {
+      "commit": "54bbd0ca32c2de03016d340cc10f973a6a732e0e",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "2f6dd8de38b944e61853e605202c4c376a90585d"
+    },
+    {
+      "commit": "bb6d9e71f160baa607e80cd77f2b5b72b928d352",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "54bbd0ca32c2de03016d340cc10f973a6a732e0e"
+    },
+    {
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "bb6d9e71f160baa607e80cd77f2b5b72b928d352"
+    },
+    {
+      "commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "a1bcf61f0ccf20d070e92b7e2580dfdce5e9ea87"
+    },
+    {
+      "commit": "43b31afc1ff271594cb4bd21a39fa4469a8c83bc",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "3c64390bc4dd58c48cc4e1e388a38989b32b3143"
+    },
+    {
+      "commit": "c0f4da01b7b68f21e717f3b52c2409cbe81c649d",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1 43b31afc1ff271594cb4bd21a39fa4469a8c83bc"
+    },
+    {
+      "commit": "9b1fac9808b92222f45b8b590db32a378d73c136",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "c0f4da01b7b68f21e717f3b52c2409cbe81c649d"
+    },
+    {
+      "commit": "c9f83c6447a9963cd69531b14439a3ac5a5a72b2",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "9b1fac9808b92222f45b8b590db32a378d73c136"
+    },
+    {
+      "commit": "e37c3db66689325b703bb99f3750ca3b5b287aab",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155"
+    },
+    {
+      "commit": "40911d0e3e7b75960e6973f3fd8f609e65ab6e05",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "e37c3db66689325b703bb99f3750ca3b5b287aab"
+    },
+    {
+      "commit": "5806871a1e73b49e53a1869e7b9142b6fe4abfa8",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "7c99a8318cbe24bf864790566302f72614d963ed c9f83c6447a9963cd69531b14439a3ac5a5a72b2"
+    },
+    {
+      "commit": "903f37f74816ee893835fbb818cc53c0a0783810",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "5806871a1e73b49e53a1869e7b9142b6fe4abfa8 40911d0e3e7b75960e6973f3fd8f609e65ab6e05"
+    },
+    {
+      "commit": "601fb70c560b95e35a942a60b706785d28780ee7",
+      "ancestor_A": true,
+      "ancestor_base": false,
+      "parents": "903f37f74816ee893835fbb818cc53c0a0783810"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "studio2/fase03/evidence/.gitignore",
+      "ref": "c66bd8d",
+      "bytes": 8,
+      "sha256": "b5726d3ec9335a09c124469eca039523847a6b0f08a083efaefd002b83326600",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+      "ref": "c66bd8d",
+      "bytes": 4089,
+      "sha256": "c9814cfc750fb34665b6e5b6bc04790a2088a921fe6b1df8a783694b44e58143",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "ref": "c66bd8d",
+      "bytes": 5373,
+      "sha256": "b485edea5de1a037f4d2cd9e186e7bb4feeb8cf7df451e50a5f36868778d7baf",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+      "ref": "c66bd8d",
+      "bytes": 163590,
+      "sha256": "d786d91c33311c166a002d57bb41ae5ababc78cd806f2e7a90f5de2dc428f0f4",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/OUTPUT_CHECK.json",
+      "ref": "c66bd8d",
+      "bytes": 713,
+      "sha256": "339f77ad1ed0311d4ca81ad00627fdf4b219ea50b0f642d8f74aec8eddede894",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/PACKAGING_V2_CHECK.json",
+      "ref": "c66bd8d",
+      "bytes": 1035,
+      "sha256": "cbffa1f331462455e50e8c55caf0eea944bf514b10af991f6ee635fa9d993add",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/REPORT_EVIDENCE.md",
+      "ref": "c66bd8d",
+      "bytes": 4855,
+      "sha256": "24d861ab0506161786b4e8456e084fb8c12dd447dfc8ca74c337b9b81db52822",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/VERIFICA_EVIDENCE.md",
+      "ref": "c66bd8d",
+      "bytes": 15109,
+      "sha256": "a59399c7f1173d8ec59872f633b7b1cf2156d09dc0de8be37596aff080cc6820",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/__init__.py",
+      "ref": "c66bd8d",
+      "bytes": 60,
+      "sha256": "58004173bda52d3a83cbe0f5c4019c809f958e68a374843f4dc5f5b8573b264e",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/extract_evidence.py",
+      "ref": "c66bd8d",
+      "bytes": 18138,
+      "sha256": "46b451c2d6d8b1627993828ac9bac39532562f2fa1b27955b8a20f098ba24e97",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/leakage.py",
+      "ref": "c66bd8d",
+      "bytes": 2396,
+      "sha256": "c77ae5b11186c5b0df87b2f1df8800cb45fb25317e248fe8484d3e8283073887",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/test_evidence.py",
+      "ref": "c66bd8d",
+      "bytes": 5322,
+      "sha256": "56df6562cd741e68d2a19b5def6893e853957235eea9fffb855bcc62a19ce7a0",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/evidence/verify_output.py",
+      "ref": "c66bd8d",
+      "bytes": 6336,
+      "sha256": "fe2244aee5cd39f65c1b4c0ac701ac3e542b5f538c7eabfb8023c5e45d95cb9b",
+      "same": true,
+      "disk_same": true
+    }
+  ],
+  "evidence_delta": "A\tstudio2/fase03/evidence/CONSEGNA_INTEGRAZIONE_03_6.md\n",
+  "schema": [
+    {
+      "path": "studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md",
+      "ref": "c9f83c6",
+      "bytes": 9671,
+      "sha256": "6923e8d428f1aee0fa2b8adc3584601ece123894b4c8b6b81ba60c79545c8520",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/PREPARAZIONE_INTEGRAZIONE_SCHEMA_INSIGHT_R4.md",
+      "ref": "c9f83c6",
+      "bytes": 6817,
+      "sha256": "ee1508a787851583ef78fc431898aaba6cab419f80bfb5bab8ce111084fe946e",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/PROPOSTA_TAG_SCHEMA_INSIGHT.md",
+      "ref": "c9f83c6",
+      "bytes": 6702,
+      "sha256": "c4eeb9653aa9ed8c35095ea52ad7dc33ba99d163bf1489192052704387783323",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/REPORT_SCHEMA_INSIGHT.md",
+      "ref": "c9f83c6",
+      "bytes": 14443,
+      "sha256": "ca0bb399def778d5902143f9de1f55e647dd172fcf661c34791d93c6fc872b31",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/SCHEMA_FREEZE.json",
+      "ref": "c9f83c6",
+      "bytes": 12323,
+      "sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS.txt",
+      "ref": "c9f83c6",
+      "bytes": 3393,
+      "sha256": "9c8c7d51149cb033e584166ced334ee233a27622314d99192b4b8649640ae0b0",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_qwen.txt",
+      "ref": "c9f83c6",
+      "bytes": 2821,
+      "sha256": "7113bf87d758e2dd0bbb3fed5fecfac7aa0a4629825db69c5046ebef5db233e0",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev003.txt",
+      "ref": "c9f83c6",
+      "bytes": 5626,
+      "sha256": "908cb77ee620e60afe42eae20c9723b91715037140f12ea2c75838c1da472a3c",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev004.txt",
+      "ref": "c9f83c6",
+      "bytes": 7459,
+      "sha256": "a653c69ceed8ac10b06d57a98049f7939270f61473adab5ca0dbb901be654972",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_rev004.txt",
+      "ref": "c9f83c6",
+      "bytes": 1501,
+      "sha256": "fc3bae8d48aa09ab0478e00a653fedffd366ac5c7a4994f9a7b76fb555b4b93b",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT.md",
+      "ref": "c9f83c6",
+      "bytes": 13135,
+      "sha256": "a30ed836c243b680244ade49b4bc40677ba5a6bf4d2767f7b49d4d806c622148",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev003.md",
+      "ref": "c9f83c6",
+      "bytes": 16850,
+      "sha256": "ebd12370aa8deff74c4d5bf2b7296ec03b3a81118421640520f323855a92237c",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004.md",
+      "ref": "c9f83c6",
+      "bytes": 21288,
+      "sha256": "d0e69094953cac7966eda9d1f612b81f44cc8e646151fd2339dba0b7ca88ec8e",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004_NON_OK_STORICO.md",
+      "ref": "c9f83c6",
+      "bytes": 19064,
+      "sha256": "5bd196820f74b7fbd5ee6736df2b72afc64afbbfb26459dc69f1fe5e15dafd19",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/insight_v1.schema.json",
+      "ref": "c9f83c6",
+      "bytes": 1222,
+      "sha256": "15e0d29e033c1d699d4f1114b5fdf378ad1cea8398c89b133403a92983229de6",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/integrazione_tag_3_12_prompt.md",
+      "ref": "c9f83c6",
+      "bytes": 7827,
+      "sha256": "7daf5508ec9465e02ee7ecc93703a3dad8295b4a64707142627c47902963b95f",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/leakage_rules_v1.json",
+      "ref": "c9f83c6",
+      "bytes": 1184,
+      "sha256": "1cf035b5d5e7a7f4cc909dc0a04f6f0da6580284d32710f3ee6924533c706a7a",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/requirements.txt",
+      "ref": "c9f83c6",
+      "bytes": 131,
+      "sha256": "1e53672145c42bd48e9e2f8540d89a224be2b6d8665599272ccb7506c238de86",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/test_validator.py",
+      "ref": "c9f83c6",
+      "bytes": 16516,
+      "sha256": "b8f6d735fbd2f626e8bb75c36d06432e5d3bc59061bed4a936ffca25393267f7",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/validator.py",
+      "ref": "c9f83c6",
+      "bytes": 17636,
+      "sha256": "cd523d3105e02de99e7cc09bf0c2c4c052c1ae1776c8da37a9b57e869b1aa508",
+      "same": true,
+      "disk_same": true
+    }
+  ],
+  "schema_delta": "A\tstudio2/fase03/schema_insight/CONSEGNA_LOCALE_SCHEMA_INSIGHT_R4.md\n",
+  "manifest18": [
+    {
+      "path": "studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md",
+      "ref": "3c64390",
+      "bytes": 9671,
+      "sha256": "6923e8d428f1aee0fa2b8adc3584601ece123894b4c8b6b81ba60c79545c8520",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/schema_insight/insight_v1.schema.json",
+      "ref": "3c64390",
+      "bytes": 1222,
+      "sha256": "15e0d29e033c1d699d4f1114b5fdf378ad1cea8398c89b133403a92983229de6",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/schema_insight/validator.py",
+      "ref": "3c64390",
+      "bytes": 17636,
+      "sha256": "cd523d3105e02de99e7cc09bf0c2c4c052c1ae1776c8da37a9b57e869b1aa508",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/schema_insight/test_validator.py",
+      "ref": "3c64390",
+      "bytes": 16516,
+      "sha256": "b8f6d735fbd2f626e8bb75c36d06432e5d3bc59061bed4a936ffca25393267f7",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/schema_insight/leakage_rules_v1.json",
+      "ref": "3c64390",
+      "bytes": 1184,
+      "sha256": "1cf035b5d5e7a7f4cc909dc0a04f6f0da6580284d32710f3ee6924533c706a7a",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/schema_insight/requirements.txt",
+      "ref": "3c64390",
+      "bytes": 131,
+      "sha256": "1e53672145c42bd48e9e2f8540d89a224be2b6d8665599272ccb7506c238de86",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS.txt",
+      "ref": "3c64390",
+      "bytes": 3393,
+      "sha256": "9c8c7d51149cb033e584166ced334ee233a27622314d99192b4b8649640ae0b0",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_qwen.txt",
+      "ref": "3c64390",
+      "bytes": 2821,
+      "sha256": "7113bf87d758e2dd0bbb3fed5fecfac7aa0a4629825db69c5046ebef5db233e0",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev003.txt",
+      "ref": "3c64390",
+      "bytes": 5626,
+      "sha256": "908cb77ee620e60afe42eae20c9723b91715037140f12ea2c75838c1da472a3c",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_rev004.txt",
+      "ref": "3c64390",
+      "bytes": 1501,
+      "sha256": "fc3bae8d48aa09ab0478e00a653fedffd366ac5c7a4994f9a7b76fb555b4b93b",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/schemas/insight.schema.json",
+      "ref": "d815ce96d928254de79209f02e11a561445764cd",
+      "bytes": 894,
+      "sha256": "9d9de7dc9bd1795aea5f8fe323a2579eb2b5cc52ca8c753c594a292570fab9a1",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/prepare_gate.py",
+      "ref": "d815ce96d928254de79209f02e11a561445764cd",
+      "bytes": 8659,
+      "sha256": "8ac42c805dd7d425c00f1715a284975c2b76af92139f6792997fcae24491ac04",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/config/pilot_preflight.json",
+      "ref": "d815ce96d928254de79209f02e11a561445764cd",
+      "bytes": 11636,
+      "sha256": "6bf50982d2ba8040e18c468999a110c426e3b9be217d5d9be5f272df6515f5f5",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+      "ref": "d815ce96d928254de79209f02e11a561445764cd",
+      "bytes": 6894,
+      "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+      "match": true,
+      "current_same": true,
+      "frozen_same": null
+    },
+    {
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "ref": "d815ce96d928254de79209f02e11a561445764cd",
+      "bytes": 161230,
+      "sha256": "8d79b662ecc14358d2a2e29f699f6cab2ec6e41b584415ed2d93247a8df24ce1",
+      "match": true,
+      "current_same": false,
+      "frozen_same": null
+    },
+    {
+      "path": "docs/letteratura.md",
+      "ref": "d815ce96d928254de79209f02e11a561445764cd",
+      "bytes": 70392,
+      "sha256": "a53b265a5df0c45c95d2cdfa7c0ed361af084ebcf5e658bd458814fa05f8c291",
+      "match": true,
+      "current_same": false,
+      "frozen_same": null
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json",
+      "ref": "a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155",
+      "bytes": 1038,
+      "sha256": "b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6",
+      "match": true,
+      "current_same": true,
+      "frozen_same": true
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json",
+      "ref": "a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155",
+      "bytes": 1667,
+      "sha256": "df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf",
+      "match": true,
+      "current_same": true,
+      "frozen_same": true
+    }
+  ],
+  "previous_manifest_match": true,
+  "inventory_source": {
+    "path": "/Users/luker/fot-tep-piano-statistico-fix/studio2/fase03/piano_statistico/ACQUISIZIONE_LETTERATURA_03_8.json",
+    "bytes": 13055,
+    "sha256": "5b79eb4bb7db32226e27a18c0db5e1955d07e921a2c2a2b77a14939f7fdac755"
+  },
+  "literature_files": [
+    {
+      "path": "docs/letteratura.html",
+      "bytes": 118348,
+      "sha256": "c6836de6f7b3eea83c5d29bebea1db2b4a410ae21460515336f8cceba633ba3d",
+      "match": true
+    },
+    {
+      "path": "docs/letteratura.md",
+      "bytes": 90911,
+      "sha256": "d4048e7f6ae14fb853315ab3f61bdaada0818f31d0e8ff1532e8dbeae7e1974f",
+      "match": true
+    },
+    {
+      "path": "docs/lit_review/VERIFICA_CORPUS_FASE03.json",
+      "bytes": 56124,
+      "sha256": "f7a0f8dea9d0bc248976dee3ee651336c3d7a38f089834dbd45856eb587e958c",
+      "match": true
+    },
+    {
+      "path": "docs/lit_review/VERIFICA_FONTI_FASE03.json",
+      "bytes": 18119,
+      "sha256": "b1b9e6e7b7c2c20ff4c800281e5807a481de7ab77a786596be336ec03e602c4c",
+      "match": true
+    },
+    {
+      "path": "docs/lit_review/VERIFICA_RILEVABILITA_IDV6_IDV4_FASE03.md",
+      "bytes": 34808,
+      "sha256": "f2c29416664e27c2ecac7d439939f51f1a3f7313e2aba669bb39db7106cf0b8e",
+      "match": true
+    },
+    {
+      "path": "docs/paper/FoT_TEP_paper_blueprint.html",
+      "bytes": 84596,
+      "sha256": "bb7175c3daf12031dd4c4369861385cb5bc3c8a128ccfa015a8073ea25e3e85f",
+      "match": true
+    },
+    {
+      "path": "papers/Communication-Efficient_Learning_of_Deep_Networks_from_Decentralized_Data.md",
+      "bytes": 49642,
+      "sha256": "ff35468825adcbedb8ed9a483c9fe6d508fb66d8f80884c64e3e8a3b9d20b379",
+      "match": true
+    },
+    {
+      "path": "papers/Communication-Efficient_Learning_of_Deep_Networks_from_Decentralized_Data.pdf",
+      "bytes": 763853,
+      "sha256": "a7a8e2e3e437855c1efb53fe8f35f645eae7735fe9b6ac1f656a62004dbf5146",
+      "match": true
+    },
+    {
+      "path": "papers/Equivalence_test_and_confidence_interval_for_the_difference_in_proportions_for_the_paired-sample_design.md",
+      "bytes": 42171,
+      "sha256": "e45f191f919d84e4586ebf894fb8f6dbff4160a9376610dc0d3ae1cfdd204e90",
+      "match": true
+    },
+    {
+      "path": "papers/Equivalence_test_and_confidence_interval_for_the_difference_in_proportions_for_the_paired-sample_design.pdf",
+      "bytes": 257783,
+      "sha256": "71dea8eddc08c73f15e2454d69b7f46d8bfa61b550c6246173fdfa4307df7ecd",
+      "match": true
+    },
+    {
+      "path": "papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder.md",
+      "bytes": 41600,
+      "sha256": "4eb0676440e30f8e6f3fe944497efa23f5a64222f4173e0c261cfaa99d71ea00",
+      "match": true
+    },
+    {
+      "path": "papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder.pdf",
+      "bytes": 721381,
+      "sha256": "e11310c44cebca7a6ebc368b3862dc2edc0003a4ee31cb9223feb6d5e0ae7b78",
+      "match": true
+    },
+    {
+      "path": "papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder_images/page-6.png",
+      "bytes": 286075,
+      "sha256": "0d4174ce35e88e941540b722ff1d632b5a0ed6527f66aeed7d2089eb6d4f2bf8",
+      "match": true
+    },
+    {
+      "path": "papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder_images/page-7.png",
+      "bytes": 557127,
+      "sha256": "020f08386172d87c5ca45fecabc30a402904498bbb60754a745a4520104bed91",
+      "match": true
+    },
+    {
+      "path": "papers/Probability_Inequalities_for_Sums_of_Bounded_Random_Variables_1963.md",
+      "bytes": 35965,
+      "sha256": "8aac701840988609d760fcde92760222a1682babef043711a63f8a9a615f19c5",
+      "match": true
+    },
+    {
+      "path": "papers/Probability_Inequalities_for_Sums_of_Bounded_Random_Variables_1963.pdf",
+      "bytes": 1451039,
+      "sha256": "3021bcc097ef23a99a84d0eef8dcce2fd835c71df79a105727d3e03f8f0b8930",
+      "match": true
+    },
+    {
+      "path": "papers/README.md",
+      "bytes": 34388,
+      "sha256": "b3777d58cbee1660044d2cf36387570cef7c220f5ce0f6fba06ddb2a081d0fc0",
+      "match": true
+    },
+    {
+      "path": "papers/Statistical_Principles_for_Clinical_Trials_ICH_E9_1998.md",
+      "bytes": 140385,
+      "sha256": "805cb8bef8a7783de84fe17015172034f998d17c7abb9de46d8fbf10d121695d",
+      "match": true
+    },
+    {
+      "path": "papers/Statistical_Principles_for_Clinical_Trials_ICH_E9_1998.pdf",
+      "bytes": 332364,
+      "sha256": "6dd74185bb88a6f48a4b3a154893f9d8953b2fa4784c56fedda102e45f410b96",
+      "match": true
+    },
+    {
+      "path": "papers/The_Nonexistence_of_Certain_Statistical_Procedures_in_Nonparametric_Problems.md",
+      "bytes": 18729,
+      "sha256": "921835907c12fcbe5f63905e9bfaf7042bdc95207f7699cb8f646669ad4c3d19",
+      "match": true
+    },
+    {
+      "path": "papers/The_Nonexistence_of_Certain_Statistical_Procedures_in_Nonparametric_Problems.pdf",
+      "bytes": 760570,
+      "sha256": "cc3d6d5b43fa3b136daae5db8831fac12b0e1cbb17326d8087302ffc5139caca",
+      "match": true
+    },
+    {
+      "path": "papers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.md",
+      "bytes": 21784,
+      "sha256": "5a423c7d5f0af2f2e4b246f0cabe30cc2b8f3f5d3f31c82a41b88d21079dcbcb",
+      "match": true
+    },
+    {
+      "path": "papers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.pdf",
+      "bytes": 489367,
+      "sha256": "e49da40d3fc184d591ec87681f30eae8077a2fb57b27850856207f54a7116e39",
+      "match": true
+    }
+  ],
+  "literature_protected_files": [
+    {
+      "path": "docs/lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+      "bytes": 11339,
+      "sha256": "d58a7606d69a560a626da44833c065ddbf1aa395ae8b2e523262daf8622231c7",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+      "bytes": 6894,
+      "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/CATALOG_PUBLICATION.json",
+      "bytes": 8287,
+      "sha256": "2002f251a011ed75cf02490b18a0f878c5688cfa797793cb595d81f50a4af06b",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/CRITERIA_FREEZE.json",
+      "bytes": 2284,
+      "sha256": "ecae57172d6a83d8b0943f5a9f47b49a3966b96e2fb47f807a9ff61449755c9b",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/CRITERIA_FREEZE_rev002.json",
+      "bytes": 5493,
+      "sha256": "67785912feae29212001f7deb0a21b468d4d768421269e900314bef88ea41d21",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/D1_DELIVERY_CHECK.json",
+      "bytes": 1346,
+      "sha256": "a3c788515c939fc5fc28e62659a6e9aa3ad05a38a42011241aff9f12203234ba",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/D1_DRAW_LOG.json",
+      "bytes": 4926,
+      "sha256": "fa571e89054a004021b08e93cd857ad4b8d41794b8c070260a49d4fb03a08b95",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/D1_REVIEW_CHECK.json",
+      "bytes": 1126,
+      "sha256": "0ed5ced09ab09013e861d2fcc3e0e9a0735367c8aa39aa2d69235be3a38401f6",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/DELIVERY_CHECK.json",
+      "bytes": 1841,
+      "sha256": "4a92cb231a5437f4a2bd5756a4ad0427505bb0bf13efe0c7ef77bfac196ecb3b",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/FEASIBILITY.json",
+      "bytes": 504,
+      "sha256": "ca830d054af19e27aa191fcb51f8e80d3c8444bb746dd9da486304490bd59810",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/PROPOSTA_OOD_D11.md",
+      "bytes": 6960,
+      "sha256": "47c84d937bc01d37c84b81c09691bc5c3ad6d0607bcbfcb8621ea1a6be885046",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md",
+      "bytes": 6798,
+      "sha256": "4044ae8f2c571cdfde7a9dd113d0f91bc9a4a1e4e7c2b50f6c98283015d633b5",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/REPORT_CATALOGO_D1.md",
+      "bytes": 15161,
+      "sha256": "c078f9b1282fcd06ada3652655c728d4818c49bf248d807ad6a8ed7a7e2b0fad",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/REPORT_CRITERI_6_1.md",
+      "bytes": 6384,
+      "sha256": "9bdbce7892c6a0a8c1c6dd6bdd5faf76fbde9ba06305ec2c12a2911b47fbab52",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/SOURCE_CHECK.json",
+      "bytes": 747,
+      "sha256": "82c654d142ac0ab13f9b47d9648231bd3f1bfda4c5486a8399f510ff87165372",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/VERIFICA_CATALOGO_D1.md",
+      "bytes": 10350,
+      "sha256": "e0227be49d75b8f1e680625f1ab9ba260a3d7e7967426388f2e6c84bb577a455",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/VERIFICA_CATALOGO_D1_APPENDICE_01.md",
+      "bytes": 6923,
+      "sha256": "805ee86d7cbd03f239572c9fae0a469c49265808338817781be1422a7c786d5b",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/VERIFICA_CONSEGNA_6_1.md",
+      "bytes": 6786,
+      "sha256": "a993ef3a32c9ce7093bab998960f535a517d6f3a228892bdebcbd0d4b0ca5036",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/VERIFICA_CONSEGNA_D1.md",
+      "bytes": 6300,
+      "sha256": "4a15e84777d4ec1b6c790e6163c475c5f6d5fb1d8b1f448bc70ec1993d47f3dc",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/VERIFICA_CRITERI_6_1.md",
+      "bytes": 12301,
+      "sha256": "0f6147dd0f10338d3215ac069848fbd3d67e7cf621c460119a6501e2c31532fa",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/draw_d1.py",
+      "bytes": 12483,
+      "sha256": "60fa97d48ef6899b4e4fe17f12907361461d73ff4d9f14769e1da9e93a6ced6c",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/execution_snapshot/draw_d1.py",
+      "bytes": 9846,
+      "sha256": "b9fba113ade9729b0f59469b31e412ebb0c4ed0d2bc53ce580b65bd3e536f06b",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/selection/test_draw_d1.py",
+      "bytes": 3647,
+      "sha256": "5a93e1c908bb3b6a090218e96b7f43300cac30c121479b8ad16219724a330efa",
+      "match": true
+    }
+  ],
+  "literature_committed": [
+    {
+      "path": "docs/letteratura.html",
+      "ref": "e37c3db",
+      "bytes": 118348,
+      "sha256": "c6836de6f7b3eea83c5d29bebea1db2b4a410ae21460515336f8cceba633ba3d",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "docs/letteratura.md",
+      "ref": "e37c3db",
+      "bytes": 90911,
+      "sha256": "d4048e7f6ae14fb853315ab3f61bdaada0818f31d0e8ff1532e8dbeae7e1974f",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "docs/lit_review/VERIFICA_CORPUS_FASE03.json",
+      "ref": "e37c3db",
+      "bytes": 56124,
+      "sha256": "f7a0f8dea9d0bc248976dee3ee651336c3d7a38f089834dbd45856eb587e958c",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "docs/lit_review/VERIFICA_FONTI_FASE03.json",
+      "ref": "e37c3db",
+      "bytes": 18119,
+      "sha256": "b1b9e6e7b7c2c20ff4c800281e5807a481de7ab77a786596be336ec03e602c4c",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "docs/lit_review/VERIFICA_RILEVABILITA_IDV6_IDV4_FASE03.md",
+      "ref": "e37c3db",
+      "bytes": 34808,
+      "sha256": "f2c29416664e27c2ecac7d439939f51f1a3f7313e2aba669bb39db7106cf0b8e",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "docs/paper/FoT_TEP_paper_blueprint.html",
+      "ref": "e37c3db",
+      "bytes": 84596,
+      "sha256": "bb7175c3daf12031dd4c4369861385cb5bc3c8a128ccfa015a8073ea25e3e85f",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/Communication-Efficient_Learning_of_Deep_Networks_from_Decentralized_Data.md",
+      "ref": "e37c3db",
+      "bytes": 49642,
+      "sha256": "ff35468825adcbedb8ed9a483c9fe6d508fb66d8f80884c64e3e8a3b9d20b379",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/Communication-Efficient_Learning_of_Deep_Networks_from_Decentralized_Data.pdf",
+      "ref": "e37c3db",
+      "bytes": 763853,
+      "sha256": "a7a8e2e3e437855c1efb53fe8f35f645eae7735fe9b6ac1f656a62004dbf5146",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/Equivalence_test_and_confidence_interval_for_the_difference_in_proportions_for_the_paired-sample_design.md",
+      "ref": "e37c3db",
+      "bytes": 42171,
+      "sha256": "e45f191f919d84e4586ebf894fb8f6dbff4160a9376610dc0d3ae1cfdd204e90",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/Equivalence_test_and_confidence_interval_for_the_difference_in_proportions_for_the_paired-sample_design.pdf",
+      "ref": "e37c3db",
+      "bytes": 257783,
+      "sha256": "71dea8eddc08c73f15e2454d69b7f46d8bfa61b550c6246173fdfa4307df7ecd",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder.md",
+      "ref": "e37c3db",
+      "bytes": 41600,
+      "sha256": "4eb0676440e30f8e6f3fe944497efa23f5a64222f4173e0c261cfaa99d71ea00",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder.pdf",
+      "ref": "e37c3db",
+      "bytes": 721381,
+      "sha256": "e11310c44cebca7a6ebc368b3862dc2edc0003a4ee31cb9223feb6d5e0ae7b78",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder_images/page-6.png",
+      "ref": "e37c3db",
+      "bytes": 286075,
+      "sha256": "0d4174ce35e88e941540b722ff1d632b5a0ed6527f66aeed7d2089eb6d4f2bf8",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder_images/page-7.png",
+      "ref": "e37c3db",
+      "bytes": 557127,
+      "sha256": "020f08386172d87c5ca45fecabc30a402904498bbb60754a745a4520104bed91",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/Probability_Inequalities_for_Sums_of_Bounded_Random_Variables_1963.md",
+      "ref": "e37c3db",
+      "bytes": 35965,
+      "sha256": "8aac701840988609d760fcde92760222a1682babef043711a63f8a9a615f19c5",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/Probability_Inequalities_for_Sums_of_Bounded_Random_Variables_1963.pdf",
+      "ref": "e37c3db",
+      "bytes": 1451039,
+      "sha256": "3021bcc097ef23a99a84d0eef8dcce2fd835c71df79a105727d3e03f8f0b8930",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/README.md",
+      "ref": "e37c3db",
+      "bytes": 34388,
+      "sha256": "b3777d58cbee1660044d2cf36387570cef7c220f5ce0f6fba06ddb2a081d0fc0",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/Statistical_Principles_for_Clinical_Trials_ICH_E9_1998.md",
+      "ref": "e37c3db",
+      "bytes": 140385,
+      "sha256": "805cb8bef8a7783de84fe17015172034f998d17c7abb9de46d8fbf10d121695d",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/Statistical_Principles_for_Clinical_Trials_ICH_E9_1998.pdf",
+      "ref": "e37c3db",
+      "bytes": 332364,
+      "sha256": "6dd74185bb88a6f48a4b3a154893f9d8953b2fa4784c56fedda102e45f410b96",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/The_Nonexistence_of_Certain_Statistical_Procedures_in_Nonparametric_Problems.md",
+      "ref": "e37c3db",
+      "bytes": 18729,
+      "sha256": "921835907c12fcbe5f63905e9bfaf7042bdc95207f7699cb8f646669ad4c3d19",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/The_Nonexistence_of_Certain_Statistical_Procedures_in_Nonparametric_Problems.pdf",
+      "ref": "e37c3db",
+      "bytes": 760570,
+      "sha256": "cc3d6d5b43fa3b136daae5db8831fac12b0e1cbb17326d8087302ffc5139caca",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.md",
+      "ref": "e37c3db",
+      "bytes": 21784,
+      "sha256": "5a423c7d5f0af2f2e4b246f0cabe30cc2b8f3f5d3f31c82a41b88d21079dcbcb",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "papers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.pdf",
+      "ref": "e37c3db",
+      "bytes": 489367,
+      "sha256": "e49da40d3fc184d591ec87681f30eae8077a2fb57b27850856207f54a7116e39",
+      "same": true,
+      "disk_same": true
+    }
+  ],
+  "png_modes": "100644 blob 7c158444f287535909fb53c215fa6c10641eb799\tpapers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder_images/page-6.png\n100644 blob b9cdbe6d6e99788c89635391f1c1e0058b8acc9d\tpapers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder_images/page-7.png\n",
+  "historical_deliveries": [
+    {
+      "path": "studio2/fase03/evidence/CONSEGNA_INTEGRAZIONE_03_6.md",
+      "source": "/Users/luker/fot-tep-integrazione-evidence-036",
+      "bytes": 11442,
+      "sha256": "b57c41da7e5eff6d48ebb05b1f2c001e3c680a3f54d1880316a0aaa349a3162c",
+      "source_same": true,
+      "acquisition_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/CONSEGNA_LOCALE_SCHEMA_INSIGHT_R4.md",
+      "source": "/Users/luker/fot-tep-schema-insight-r4-integrazione",
+      "bytes": 15047,
+      "sha256": "9876d5ae8ac38f8c3cb1970a90f356f113a962b98595fe96156e6ffe75023f49",
+      "source_same": true,
+      "acquisition_same": true
+    },
+    {
+      "path": "docs/lit_review/CONSEGNA_ACQUISIZIONE_LETTERATURA_FASE03_2026-09-14.md",
+      "source": "/Users/luker/fot-tep-letteratura-fase03",
+      "bytes": 13592,
+      "sha256": "7aba211c4b7eaf48bc6997eba5f1514abc43500d5835b135b26ffb4d41670b5e",
+      "source_same": true,
+      "acquisition_same": true
+    }
+  ],
+  "evidences": [
+    {
+      "path": "studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004.md",
+      "ref": "43b31af",
+      "bytes": 21288,
+      "sha256": "d0e69094953cac7966eda9d1f612b81f44cc8e646151fd2339dba0b7ca88ec8e",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev004.txt",
+      "ref": "43b31af",
+      "bytes": 7459,
+      "sha256": "a653c69ceed8ac10b06d57a98049f7939270f61473adab5ca0dbb901be654972",
+      "same": true,
+      "disk_same": true
+    },
+    {
+      "path": "docs/lit_review/VERIFICA_INDIPENDENTE_LETTERATURA_FASE03.md",
+      "ref": "40911d0",
+      "bytes": 30107,
+      "sha256": "551f7da9de20096f3a21f6f9a19d2beecd4b03367bbf6cbe4d083f482637ddaf",
+      "same": true,
+      "disk_same": true
+    }
+  ],
+  "non_ok_source_same": true,
+  "changes": [
+    "M\tdocs/fot_walkthrough_conversazione_studio2.html",
+    "M\tdocs/fot_walkthrough_conversazione_studio2.md",
+    "M\tdocs/letteratura.html",
+    "M\tdocs/letteratura.md",
+    "A\tdocs/lit_review/CONSEGNA_ACQUISIZIONE_LETTERATURA_FASE03_2026-09-14.md",
+    "A\tdocs/lit_review/VERIFICA_CORPUS_FASE03.json",
+    "A\tdocs/lit_review/VERIFICA_FONTI_FASE03.json",
+    "A\tdocs/lit_review/VERIFICA_INDIPENDENTE_LETTERATURA_FASE03.md",
+    "A\tdocs/lit_review/VERIFICA_RILEVABILITA_IDV6_IDV4_FASE03.md",
+    "M\tdocs/paper/FoT_TEP_paper_blueprint.html",
+    "A\tpapers/Communication-Efficient_Learning_of_Deep_Networks_from_Decentralized_Data.md",
+    "A\tpapers/Communication-Efficient_Learning_of_Deep_Networks_from_Decentralized_Data.pdf",
+    "A\tpapers/Equivalence_test_and_confidence_interval_for_the_difference_in_proportions_for_the_paired-sample_design.md",
+    "A\tpapers/Equivalence_test_and_confidence_interval_for_the_difference_in_proportions_for_the_paired-sample_design.pdf",
+    "A\tpapers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder.md",
+    "A\tpapers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder.pdf",
+    "A\tpapers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder_images/page-6.png",
+    "A\tpapers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder_images/page-7.png",
+    "A\tpapers/Probability_Inequalities_for_Sums_of_Bounded_Random_Variables_1963.md",
+    "A\tpapers/Probability_Inequalities_for_Sums_of_Bounded_Random_Variables_1963.pdf",
+    "M\tpapers/README.md",
+    "A\tpapers/Statistical_Principles_for_Clinical_Trials_ICH_E9_1998.md",
+    "A\tpapers/Statistical_Principles_for_Clinical_Trials_ICH_E9_1998.pdf",
+    "A\tpapers/The_Nonexistence_of_Certain_Statistical_Procedures_in_Nonparametric_Problems.md",
+    "A\tpapers/The_Nonexistence_of_Certain_Statistical_Procedures_in_Nonparametric_Problems.pdf",
+    "A\tpapers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.md",
+    "A\tpapers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.pdf",
+    "M\tstudio2/PROVENIENZA.md",
+    "A\tstudio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md",
+    "A\tstudio2/fase03/evidence/.gitignore",
+    "A\tstudio2/fase03/evidence/ARTIFACT_STORAGE.json",
+    "A\tstudio2/fase03/evidence/CONSEGNA_INTEGRAZIONE_03_6.md",
+    "A\tstudio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+    "A\tstudio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+    "A\tstudio2/fase03/evidence/OUTPUT_CHECK.json",
+    "A\tstudio2/fase03/evidence/PACKAGING_V2_CHECK.json",
+    "A\tstudio2/fase03/evidence/REPORT_EVIDENCE.md",
+    "A\tstudio2/fase03/evidence/VERIFICA_EVIDENCE.md",
+    "A\tstudio2/fase03/evidence/__init__.py",
+    "A\tstudio2/fase03/evidence/extract_evidence.py",
+    "A\tstudio2/fase03/evidence/leakage.py",
+    "A\tstudio2/fase03/evidence/test_evidence.py",
+    "A\tstudio2/fase03/evidence/verify_output.py",
+    "A\tstudio2/fase03/schema_insight/CONSEGNA_LOCALE_SCHEMA_INSIGHT_R4.md",
+    "A\tstudio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md",
+    "A\tstudio2/fase03/schema_insight/PREPARAZIONE_INTEGRAZIONE_SCHEMA_INSIGHT_R4.md",
+    "A\tstudio2/fase03/schema_insight/PROPOSTA_TAG_SCHEMA_INSIGHT.md",
+    "A\tstudio2/fase03/schema_insight/REPORT_SCHEMA_INSIGHT.md",
+    "A\tstudio2/fase03/schema_insight/SCHEMA_FREEZE.json",
+    "A\tstudio2/fase03/schema_insight/TEST_RESULTS.txt",
+    "A\tstudio2/fase03/schema_insight/TEST_RESULTS_qwen.txt",
+    "A\tstudio2/fase03/schema_insight/TEST_RESULTS_qwen_rev003.txt",
+    "A\tstudio2/fase03/schema_insight/TEST_RESULTS_qwen_rev004.txt",
+    "A\tstudio2/fase03/schema_insight/TEST_RESULTS_rev004.txt",
+    "A\tstudio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT.md",
+    "A\tstudio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev003.md",
+    "A\tstudio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004.md",
+    "A\tstudio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004_NON_OK_STORICO.md",
+    "A\tstudio2/fase03/schema_insight/insight_v1.schema.json",
+    "A\tstudio2/fase03/schema_insight/integrazione_tag_3_12_prompt.md",
+    "A\tstudio2/fase03/schema_insight/leakage_rules_v1.json",
+    "A\tstudio2/fase03/schema_insight/requirements.txt",
+    "A\tstudio2/fase03/schema_insight/test_validator.py",
+    "A\tstudio2/fase03/schema_insight/validator.py"
+  ],
+  "unexpected_paths": [],
+  "protected_delta": "",
+  "ahead": 28,
+  "B_inventory_matches": true,
+  "guard_script_same": true,
+  "guardian": {
+    "failure_ids_equal": true,
+    "failure_ids": [
+      "FAIL: test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "FAIL: test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ],
+    "skip_equal": true,
+    "skip": [
+      "setUpClass (__main__.TutorialChecks) ... skipped 'legacy part-1 walkthrough is not present in this checkout'"
+    ],
+    "normalized_full_logs_equal": true
+  }
+}

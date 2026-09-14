@@ -1,0 +1,6 @@
+evidence-697-d {'md_blocks': 56, 'html_blocks': 56, 'equal': True, 'delta': []}
+schema-insight-0312 {'md_blocks': 14, 'html_blocks': 14, 'equal': True, 'delta': []}
+literature_tables {'counts': [182, 182], 'equal': True, 'delta': []}
+literature_cards {'counts': [40, 40], 'equal': True, 'delta': []}
+literature_index {'categories': 13, 'rows': 128}
+walkthrough_new_unmatched_blocks []
