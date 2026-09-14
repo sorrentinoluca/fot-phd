@@ -84,8 +84,11 @@ si estendono automaticamente alla famiglia intera.
 
 Lo studio simula una federazione di agenti senza server di aggregazione, rete o secure aggregation.
 Che i raw non siano scambiati è una proprietà del protocollo, non una garanzia di privacy; CF1/CF5
-sullo scope FL e G7 sulla privacy restano aperte.
-[Fonte: piano §5 G3/G7/CF1/CF5, §12.8; DP-FPL e P065 in `docs/letteratura.md` §14.1–§14.2]
+sullo scope FL e G7 sulla privacy restano aperte. DP-FPL e FedDTPT mostrano inoltre che la
+letteratura sul prompt learning federato tratta esplicitamente privacy e prompt discreti per LLM
+black-box; qui sono precedenti che alzano l'onere del confronto, non evidenza di una garanzia del
+protocollo FoT-TEP.
+[Fonte: piano §5 G3/G7/CF1/CF5, §12.8; DP-FPL, FedDTPT e P065 in `docs/letteratura.md` §14.1–§14.2]
 
 ## Dipendenza dal modello e stabilità operativa
 
@@ -99,13 +102,24 @@ request ID, fingerprint, hash, timestamp e canary migliorano la ricostruzione fo
 ma non impediscono il cambio né ne identificano sempre la causa.
 [Fonte: piano §8.7; 03.8 §10, §14 punto 8]
 
-> **VARIANTE Q8.** Dichiarare capacità dell'API, modello restituito e qualsiasi instabilità osservata
-> nella configurazione Q8. `[RISULTATO: audit e canary]`.
->
-> [Fonte: piano §8.7; D9]
+Q8 è una proprietà dello scenario, non del modello; la minaccia di dipendenza va rendicontata per
+il ramo D9 effettivamente attivato.
+[Fonte: piano §8.1, §8.7 e D9]
 
-> **VARIANTE TERRA-ONLY.** Dichiarare le capacità effettivamente esposte da Terra e che il fallback
-> non costituisce una verifica cross-model indipendente. `[RISULTATO: audit e canary]`.
+> **VARIANTE D9.1 — Qwen-2.4T.** Se questo ramo supera il gate, dichiarare capacità dell'API,
+> modello restituito e instabilità osservate; non attribuirgli un producer alternativo non
+> configurato. `[RISULTATO: audit e canary]`.
 >
-> [Fonte: piano D9 opzione 3; prompt 03.15]
+> [Fonte: piano revisione 7, D9 opzione 1]
 
+> **VARIANTE D9.2 — Qwen-27B + Terra.** Dopo un pilot positivo, dichiarare capacità e instabilità
+> di Qwen-27B e, nel producer-swap, di Terra. Il pilot Qwen-27B FP8 locale dell'handoff 03.13 non è
+> ancora un esito GO/NO-GO. `[RISULTATO: audit e canary]`.
+>
+> [Fonte: piano revisione 7, D9 opzione 2; handoff 03.13]
+
+> **VARIANTE D9.3 — arresto dell'espansione.** Se Qwen-27B fallisce, dichiarare la ragione
+> operativa e la scelta dell'autore. L'eventuale Terra-only non costituisce verifica cross-model e
+> non implica automaticamente un producer-swap. `[RISULTATO: audit e canary]`.
+>
+> [Fonte: piano revisione 7, D9 opzione 3; prompt 03.15]

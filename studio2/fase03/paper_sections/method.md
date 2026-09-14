@@ -77,14 +77,23 @@ completa del producer alternativo, mantenendo consumer, test, schema, numero di 
 libreria mista confonderebbe identità del producer e composizione del prompt e non viene usata.
 [Fonte: piano §8.4]
 
-> **VARIANTE Q8.** `[DECISIONE: nome e versione esatti]` è producer principale e consumer; Terra è
-> il producer alternativo del braccio swap.
->
-> [Fonte: piano §8.1, §8.4; D9]
+Q8 indica il disegno comune con otto agenti e otto fault, non l'identità del modello.
+[Fonte: piano §8.1]
 
-> **VARIANTE TERRA-ONLY.** Il medesimo metodo usa Terra nella configurazione approvata. La variante
-> non è descritta come replica cross-model; il ruolo del producer-swap viene qualificato secondo la
-> configurazione effettivamente congelata.
+> **VARIANTE D9.1 — Qwen-2.4T.** Se disponibile e promosso dal pilot entro la data prevista,
+> Qwen-2.4T è producer principale e consumer. In questo ramo il producer alternativo non è
+> configurato. `[DECISIONE: esito del gate e versione/API]`.
 >
-> [Fonte: piano D9 opzione 3; prompt 03.15]
+> [Fonte: piano revisione 7, D9 opzione 1]
 
+> **VARIANTE D9.2 — Qwen-27B + Terra.** Soltanto dopo un pilot positivo, Qwen-27B è producer
+> principale e consumer e Terra è producer alternativo nel braccio swap. Il pilot 03.13 prova
+> Qwen-27B FP8 locale; il suo GO/NO-GO non è ancora anticipato in questa bozza.
+>
+> [Fonte: piano revisione 7, §8.4 e D9 opzione 2; handoff 03.13]
+
+> **VARIANTE D9.3 — arresto dell'espansione.** Se Qwen-27B fallisce i criteri operativi, l'autore
+> sceglie fra Terra-only e una submission successiva. L'eventuale Terra-only usa il medesimo metodo,
+> non è presentato come replica cross-model e non eredita automaticamente un producer alternativo.
+>
+> [Fonte: piano revisione 7, D9 opzione 3; prompt 03.15]

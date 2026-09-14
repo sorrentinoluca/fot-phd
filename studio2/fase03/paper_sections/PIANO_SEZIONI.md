@@ -1,8 +1,9 @@
 # Piano delle sezioni comuni del paper — sotto-fase 03.15
 
-Stato: bozza redazionale indipendente dal modello. Le sezioni qui mappate devono poter essere
-riusate senza riscrittura sia nel percorso Q8 sia nel fallback Terra-only; le sole differenze
-ammesse sono raccolte nei blocchi «VARIANTE» sotto. Nessun risultato del nuovo studio è disponibile.
+Stato: bozza redazionale indipendente dal modello. Le sezioni qui mappate descrivono lo scenario
+Q8 — otto agenti e otto fault — e devono poter essere riusate nei diversi rami di modello previsti
+da D9; le sole differenze ammesse sono raccolte nei blocchi «VARIANTE» sotto. Nessun risultato del
+nuovo studio è disponibile.
 [Fonte: prompt 03.15; piano §0.1, §8.10; blueprint §C]
 
 ## Convenzioni editoriali
@@ -75,22 +76,34 @@ riportate come pre-specificazioni pendenti e mai come decisioni congelate.
 
 ## Varianti controllate
 
-> **VARIANTE Q8 — inserire soltanto se il percorso Q8 viene attivato.** Il nuovo studio usa il
-> modello Q8 come producer principale e consumer; Terra è il producer alternativo nel braccio
-> producer-swap. `[DECISIONE: denominazione e versione esatte del modello/API]`.
->
-> [Fonte: piano §8.1, §8.4; D9]
+Q8 identifica sempre lo scenario sperimentale con otto agenti e otto fault, non un modello. Lo
+scenario resta comune ai rami seguenti, che sono condizionati dalla decisione D9 e dal relativo
+pilot.
+[Fonte: piano §8.1 e D9]
 
-> **VARIANTE TERRA-ONLY — inserire soltanto nel fallback del piano B.** Il disegno, gli artefatti
-> deterministici, gli endpoint e le condizioni restano invariati; la frase sul modello dichiara che
-> il percorso è eseguito con Terra. Il testo non presenta il fallback come replica cross-model e
-> qualifica il producer-swap secondo la configurazione effettivamente approvata.
+> **VARIANTE D9.1 — Qwen-2.4T.** Inserire soltanto se Qwen-2.4T diventa disponibile e supera il
+> pilot entro la data prevista. Qwen-2.4T è producer principale e consumer; D9 non configura un
+> producer alternativo per questo ramo. `[DECISIONE: disponibilità, pilot, versione/API]`.
 >
-> [Fonte: piano D9 opzione 3; prompt 03.15]
+> [Fonte: piano revisione 7, D9 opzione 1]
+
+> **VARIANTE D9.2 — Qwen-27B con producer alternativo Terra.** Inserire soltanto dopo esito positivo
+> del pilot Qwen-27B: Qwen-27B è producer principale e consumer, mentre Terra è producer alternativo
+> nel solo braccio producer-swap. L'handoff 03.13 registra Qwen-27B FP8 locale come combinazione in
+> prova e Qwen-2.4T come non disponibile; non anticipa il GO/NO-GO.
+>
+> [Fonte: piano revisione 7, D9 opzione 2; handoff 03.13]
+
+> **VARIANTE D9.3 — arresto dell'espansione.** Se anche Qwen-27B fallisce i criteri di parsing,
+> stabilità o contesto, l'espansione si arresta e l'autore sceglie fra Terra-only e una submission
+> successiva. Terra-only non è automaticamente attivo, non è una replica cross-model e il ruolo
+> del producer-swap va qualificato secondo la configurazione effettivamente approvata.
+>
+> [Fonte: piano revisione 7, D9 opzione 3; prompt 03.15]
 
 Fuori da questi blocchi non devono comparire frasi specifiche del modello. In particolare, related
 work, definizione di A/B-LF/E-LF, verbalizzatore, pseudolabel, schema, endpoint e threats strutturali
-sono identici nelle due versioni.
+sono identici nei rami D9.
 [Fonte: prompt 03.15; piano §8.1–§8.10]
 
 ## Confine del pacchetto

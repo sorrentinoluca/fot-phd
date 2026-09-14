@@ -6,15 +6,15 @@ linguistici, nessuna simulazione e nessun risultato del nuovo studio prodotto o 
 
 ## 1. Riassunto e risultati
 
-È stata costruita una mappa editoriale e sono state redatte cinque sezioni riusabili senza modifica
-nelle versioni Q8 e Terra-only: related work, metodo, verbalizzatore/evidence, protocollo e threats.
-Le differenze di modello sono confinate in blocchi `VARIANTE`; scelte ed esiti non disponibili sono
-marcati `[DECISIONE: …]` e `[RISULTATO: …]`.
+È stata costruita una mappa editoriale e sono state redatte cinque sezioni per lo scenario Q8 —
+otto agenti e otto fault — riusabili nei rami di modello previsti da D9: related work, metodo,
+verbalizzatore/evidence, protocollo e threats. Le differenze di modello sono confinate in blocchi
+`VARIANTE`; scelte ed esiti non disponibili sono marcati `[DECISIONE: …]` e `[RISULTATO: …]`.
 
 | Sezione | Stato | Aperture residue |
 | --- | --- | --- |
 | Related work | scritta | conversione futura alle citazioni IEEE; nessun risultato |
-| Metodo | scritta | identità/configurazione del modello e del producer alternativo |
+| Metodo | scritta | gate D9, identità/configurazione del modello e producer alternativo solo nel ramo D9.2 |
 | Verbalizzatore/evidence | scritta sulla base disponibile | soglia numerica e FAR omessi; risultati di conformità assenti; integrazione `normal_dev` dopo 03.9 |
 | Protocollo | scritto nella parte congelata alla base | D2, statistica, OOD, D11, politica R, modello, endpoint osservati e ruoli di `normal_dev` dopo 03.9 |
 | Threats | scritta | impatto empirico del modello, audit e canary come segnaposto |
@@ -41,9 +41,15 @@ Non sono stati toccati piano, walkthrough, `docs/letteratura.md`, `docs/paper/`,
 
 ## 3. Modello e profilo
 
-La sotto-fase è stata eseguita da Codex nella finestra corrente (identificativo del modello non
-esposto), come attività decisionale/redazionale con ragionamento esteso. Il lint e i controlli Git sono attività
-implementative locali; non sono stati delegati a modelli esterni.
+La sotto-fase è stata eseguita con `gpt-5.6-sol`, finestra
+`01a09cd4-51f2-7240-bbab-20e92e8bb993`, come accertato dal verbale preliminare tramite i metadati
+della sessione. È un'attività decisionale/redazionale con ragionamento esteso. Il lint e i controlli
+Git sono attività implementative locali; non sono stati delegati a modelli esterni.
+
+La verifica preliminare è stata svolta in una finestra distinta ma ancora con `gpt-5.6-sol` e ha
+emesso `NON OK`. Le correzioni richieste sono state applicate, ma una conclusione indipendente
+richiede una nuova verifica del commit corretto con un modello diverso da `gpt-5.6-sol`.
+[Fonte: `VERIFICA_PAPER_SECTIONS.md`, verifica preliminare del commit `c63864b`]
 
 ## 4. Fuori perimetro
 
@@ -83,7 +89,9 @@ che la specifica 03.9 deve attestare.
 
 ## 5. Decisioni ancora necessarie
 
-1. Attivare Q8 oppure il fallback Terra-only e congelare identità/versione del modello.
+1. Conservare Q8 come nome dello scenario e chiudere il gate D9: Qwen-2.4T se disponibile e promosso
+   dal pilot; altrimenti Qwen-27B dopo pilot positivo con Terra alternativo solo nel producer-swap;
+   se anche Qwen-27B fallisce, scegliere fra Terra-only e una submission successiva.
 2. Confermare o modificare le proposte 03.8: D2, margine *m*, α, gerarchia, test locali, OOD, D11,
    politica R, seed e soglie GO/NO-GO.
 3. Completare la verifica indipendente di 03.5 prima di inserire valore della soglia e FAR.
@@ -106,18 +114,22 @@ file controllati, zero segnalazioni. Il lint controlla paragrafi numerici senza 
 bibliografici senza `docs/letteratura.md` e sigla §14.x, un insieme esplicito di citazioni contro il
 corpus, F-number vicino a `pseudolabel` e parole di primato non autorizzate.
 
-`git diff --check` è pulito. I nuovi file non introducono link Markdown interni da risolvere e non
-creano coppie `.md`/`.html`; la coppia letteratura è rimasta intatta.
+Il verbale preliminare ha rilevato quattro righe vuote finali nel controllo
+`git diff --check 46c0b62..c63864b`; sono state rimosse. Sul pacchetto corretto il controllo è stato
+rieseguito esplicitamente contro la base `46c0b62` ed è pulito. I nuovi file non introducono link Markdown
+interni da risolvere e non creano coppie `.md`/`.html`; la coppia letteratura è rimasta intatta.
 
 ## 7. Commit
 
-Creati due commit prima del pacchetto di chiusura:
+Il commit sottoposto alla verifica preliminare era `c63864b`, preceduto dalla seguente sequenza:
 
 1. `2baf2e3` — `studio2(paper): pianifica le sezioni comuni del manoscritto`;
-2. `1590581` — `studio2(paper): redige le sezioni comuni senza risultati`.
+2. `1590581` — `studio2(paper): redige le sezioni comuni senza risultati`;
+3. `283532f` — `studio2(paper): aggiunge lint e report delle sezioni comuni`;
+4. `c63864b` — `studio2(paper): registra il residuo normal_dev`.
 
-Questo lint, la sezione di provenienza e il report formano il terzo cambiamento indipendente, con
-messaggio `studio2(paper): aggiunge lint e report delle sezioni comuni`.
+Le correzioni conseguenti al verbale preliminare — varianti D9, FedDTPT, audit del report e righe
+vuote finali — formano un nuovo commit, il cui hash va registrato dopo la creazione.
 
 ## Fonti lette e costo
 

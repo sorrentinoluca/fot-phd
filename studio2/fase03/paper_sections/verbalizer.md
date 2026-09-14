@@ -65,4 +65,3 @@ La motivazione storica ammessa è limitata a due osservazioni: B = 86,1% nello s
 B = 94,4% nella replica, dichiarato descrittivo. Questi valori motivano il nuovo studio ma non
 calibrano soglie, selezione, ipotesi o decisioni del protocollo.
 [Fonte: piano §8.10 punto 1; walkthrough v2 §7.3 e §8.3]
-

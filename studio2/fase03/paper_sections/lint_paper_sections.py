@@ -102,6 +102,7 @@ def lint_file(path: Path, corpus: str) -> list[str]:
         "FaultExplainer": "FaultExplainer",
         "EviFDD-Agent": "EviFDD-Agent",
         "DP-FPL": "DP-FPL",
+        "FedDTPT": "FedDTPT",
         "Downs & Vogel": "Downs, J.J. & Vogel",
     }
     for label, needle in needles.items():

@@ -82,6 +82,15 @@ lato producer insieme a retry, troncamenti e token. Le due grandezze sono comple
 tabella di conformità di questo studio non viene presentata come senza precedenti.
 [Fonte bibliografica: EviFDD-Agent, `docs/letteratura.md` §14.1–§14.2; distinzione: piano §8.9–§8.10]
 
+## Privacy e prompt federati
+
+DP-FPL e FedDTPT collocano privacy e prompt learning federato nello spazio dei precedenti; FedDTPT
+tratta in particolare prompt discreti e trasferibili per LLM black-box. La loro presenza impedisce
+di dedurre una garanzia di privacy dalla sola assenza di scambio dei dati grezzi. FoT-TEP non misura
+privacy né implementa secure aggregation: usa questi lavori per delimitare il claim, non come prova
+di equivalenza tecnica o protezione.
+[Fonte bibliografica: DP-FPL e FedDTPT, `docs/letteratura.md` §14.1; limite: piano §5 G7 e §12.8]
+
 ## Posizionamento del contributo
 
 Nel corpus consultato, i singoli componenti sono già presenti: federazione testuale, classi

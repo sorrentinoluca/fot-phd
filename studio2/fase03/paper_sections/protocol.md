@@ -105,13 +105,24 @@ non dimostra determinismo; il set canary rileva cambi di comportamento durante l
 poterli prevenire.
 [Fonte: piano §8.7; 03.8 §10, §14]
 
-> **VARIANTE Q8.** Inserire l'identità congelata del modello Q8, delle API e dei controlli di
-> determinismo effettivamente esposti. `[DECISIONE: modello/versione]`.
->
-> [Fonte: piano §8.7; D9]
+Q8 designa lo scenario con otto agenti e otto fault; identità del modello, API e controlli di
+determinismo sono registrati separatamente nel ramo D9 effettivamente attivato.
+[Fonte: piano §8.1, §8.7 e D9]
 
-> **VARIANTE TERRA-ONLY.** Sostituire soltanto la frase di identità del modello e dichiarare i
-> controlli realmente disponibili. Disegno, dati, endpoint, condizioni e analisi restano invariati.
+> **VARIANTE D9.1 — Qwen-2.4T.** Attivare soltanto se disponibile e promosso dal pilot entro la data
+> prevista. Registrare versione/API e controlli effettivi; il producer alternativo non è configurato
+> da D9 in questo ramo. `[DECISIONE: esito del gate]`.
 >
-> [Fonte: piano D9 opzione 3; prompt 03.15]
+> [Fonte: piano revisione 7, D9 opzione 1]
 
+> **VARIANTE D9.2 — Qwen-27B + Terra.** Attivare soltanto dopo pilot positivo. Qwen-27B è producer
+> principale e consumer; Terra è producer alternativo esclusivamente nel braccio swap. L'handoff
+> 03.13 documenta il pilot Qwen-27B FP8 locale e l'indisponibilità di Qwen-2.4T, non un GO/NO-GO.
+>
+> [Fonte: piano revisione 7, D9 opzione 2; handoff 03.13]
+
+> **VARIANTE D9.3 — arresto dell'espansione.** Se Qwen-27B fallisce parsing, stabilità o contesto,
+> arrestare l'espansione e lasciare all'autore la scelta fra Terra-only e una submission successiva.
+> Nell'eventuale Terra-only registrare solo i controlli disponibili e non presupporre uno swap.
+>
+> [Fonte: piano revisione 7, D9 opzione 3; prompt 03.15]
