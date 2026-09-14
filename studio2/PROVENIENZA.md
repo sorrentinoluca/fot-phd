@@ -373,3 +373,56 @@ I metadati aggiornati e la prova sono in `fase03/baseline_numerica/ARTIFACT_STOR
 e `VERIFICA_RISCARICAMENTO_NORMAL_DEV.json`. La rev. 3 del manifest mantiene
 `effective=false`: restano raccordo con 03.10, raggiungibilità in main dei sorgenti
 riusati di 03.6 e successivo tag della baseline. Il tag della release dati non li sostituisce.
+
+## 12. Fase 03 — evidence 697-D (sotto-fase 03.6)
+
+Registrazione iniziata prima dell'estrazione e completata il 2026-09-13. Le funzioni sono
+importate dal codice congelato soltanto dopo la guardia su tutti i quattro hash del manifest
+`phase_b/PHASE_B_PROTOCOL_HASHES.json`. La marca **pre-specificato** riguarda il protocollo
+e la fixture sintetica, non autorizza dati o baseline ulteriori.
+
+| Funzione importata | Modulo, commit e SHA-256 | Default passato o dichiarato | Destinazione e ruolo | Marca |
+| --- | --- | --- | --- | --- |
+| `XMEAS` | `code/tep_features.py`; `3fd960a192bafacbaabce9471e3c3614d6b2d2db`; `cbade7a295dfae6550df7ecbe35fa2be1f844b63c4c528ec194f95a20961040c` | ordine fisso esplicito delle 41 variabili | `fase03/evidence/extract_evidence.py`; ordinamento e controllo 41 × 17 | pre-specificato |
+| `load_case` | stesso modulo, commit e impronta | percorso CSV esplicito, verificato contro il manifest prima della lettura | caricamento con schema stretto dei futuri input | pre-specificato |
+| `compute_baseline_stats_from_blocks` | stesso modulo, commit e impronta | blocchi passati esplicitamente; nessun default | baseline della sola fixture sintetica | pre-specificato; nessun riuso di dati |
+| `analyze_case_windows` | stesso modulo, commit e impronta | `start_h=25.0`, `end_h=65.0`, `window_h=5.0` espliciti | 8 finestre half-open; feature prive di soglie | pre-specificato |
+| `load_config` | `code/tep_verbalize_v2.py`; `3fd960a192bafacbaabce9471e3c3614d6b2d2db`; `3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be` | percorso `code/verbalizer_config_v2.json` esplicito; SHA-256 `552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519` | carica soglie e vocabolario congelati, senza ridecisione | pre-specificato |
+| `load_development_baseline` | stesso modulo, commit e impronta | configurazione passata esplicitamente; lettura limitata a N1–N5 in `[0,250 h)` | baseline di normalizzazione delle evidence reali | pre-specificato; autorizzazione U3 sotto |
+| `verbalize_feature_table` | stesso modulo, commit e impronta | configurazione passata esplicitamente | JSON e testo neutrali per singola finestra | pre-specificato |
+| `signature_vector` | `code/evaluate_verbalizer_v2.py`; `3fd960a192bafacbaabce9471e3c3614d6b2d2db`; `972e06fa29bee5a58d57ca757bd158c5cddaa2f4ed12eb5c739169c7fef79a92` | nessun default; il modulo importa transitivamente il verbalizzatore al caricamento | firma deterministica 697-D | pre-specificato |
+
+**U3 — estensione autorizzata di U1/R2.** Decisione dell'autore del 2026-09-13:
+`code/tep_cache/mode1_normal_500.xlsx`, snapshot dichiarato
+`309b944f35ac440ff0c70616947ffe723c766e14`, SHA-256
+`79883dd0aabbd034c15337b0be1ffca37e59ea7b32443a15d560b7feda2b2e6a`, è usato in
+`fase03/evidence/output/` per la sola normalizzazione e per applicare i flag del
+verbalizzatore ai 40 run di sviluppo. Trasformazione: cinque blocchi contigui N1–N5 in
+`[0,250 h)` tramite `load_development_baseline`; la coppia baseline–soglie congelate V2
+è indivisibile e non viene ricalibrata. Marca **pre-specificato**: la dipendenza era
+congelata in Fase A ed esplicitata prima dell'estrazione 03.6. Vietati calibrazione,
+scelta di soglia, verifica e test su N1–N5; la soglia dello score usa i nuovi Normal 03.5.
+
+U3 è valido soltanto mentre il recheck R2 della 03.5 resta PASS: commit
+`d09e7ed189b4a068f6c094a34c6ad60937d13eb7`, SHA-256 del record
+`7df0cef2d7854c689b79eb911fa01d1ede1625e22f0d3636c0ea5d678c9f33f8`. Se R2 decade
+o la 03.5 passa a `baseline_fit_new`, l'intero lotto evidence è invalido e va rigenerato.
+Limite da riportare nel paper: la normalizzazione delle evidence proviene dai Normal del
+primo studio; seed e data di generazione sono mancanti, mentre configurazione, snapshot e
+impronta sono dichiarati. La soglia dello score proviene dai nuovi run.
+
+L'output contiene 320 unità (40 run × 8 finestre), 1.283 file e 61.208.618 byte; è
+conservato nella release pubblica `studio2-fase03-evidence-v1`, archivio SHA-256
+`3e1eb87f38ff3fc6dd3346476785d06c2b98944b209f7f58706b3c71c1676999`, verificata per
+riscaricamento. Metadati e manifest sono in `fase03/evidence/ARTIFACT_STORAGE.json` e
+`fase03/evidence/MANIFEST_CONSERVAZIONE.csv`.
+
+**Revisione di packaging del 2026-09-14.** La release v1 resta pubblicata e immutata;
+il verbale indipendente ha rilevato membri AppleDouble `._*` non scientifici e non
+elencati nel manifest. Gli stessi 1.283 file scientifici, con percorsi, byte e SHA-256
+invariati, sono stati ripubblicati come `studio2-fase03-evidence-v2` in un tar creato
+con `COPYFILE_DISABLE=1`, `--no-mac-metadata` e `--no-xattrs`. La v2 è la copia
+raccomandata per il recupero; non è una revisione delle evidence e non cambia U3, soglie,
+manifest scientifico o verdetto. Il controllo di packaging e la verifica per
+riscaricamento sono registrati in `fase03/evidence/PACKAGING_V2_CHECK.json` e
+`fase03/evidence/ARTIFACT_STORAGE.json`.
