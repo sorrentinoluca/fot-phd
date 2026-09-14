@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-14",
+  "status": "COMPATIBLE_WITH_PENDING_NAME_MAPPING",
+  "scope": "read-only comparison of the 03.9 baseline output and Normal handoff with the available 03.8 plan and 03.10 harness",
+  "baseline_candidate": {
+    "artifact_commit": "6372cb3c457a30b39c838e066b613c61313c35db",
+    "baseline_code_sha256": "b1fe2a83b29b25760dd32df00a2178c5235f714273a194feb6cfe8a12ac74f22",
+    "normal_handoff_sha256": "e2409c64ad4e36e0f3b597a5e0b9745d866af72f4da717fc7a128b25753c166a"
+  },
+  "phase03_8": {
+    "commit": "526561feabeb6b4083170b1817b8abdac1a2a4c7",
+    "plan_sha256": "e8059a8cc57c5727df63358cb2b3a8f8e7d231e18b4342f1caaa0ea9c1b49f03",
+    "required_row_fields": [
+      "agent_id",
+      "physical_case_id",
+      "condition",
+      "true_pseudolabel",
+      "abstain",
+      "predicted_label",
+      "valid"
+    ],
+    "row_semantics_status": "PASS"
+  },
+  "phase03_10": {
+    "harness_commit": "51160872906feaa63c1fda5e9cf6e0fe8538fb16",
+    "inputs_code_sha256": "1dcfeff59e7de515506fdd188747501434a8790b4b10a13c87da018c20cfaf92",
+    "metrics_code_sha256": "f3edc0719e8e2bf7aeca0a1e60e79c8365bf5cb633a31bd8a4f126cc93ddd1e9",
+    "normal_handoff_parser": {
+      "status": "PASS",
+      "examples_loaded": 8,
+      "missing_requirements": [],
+      "method": "called studio2.fase03.harness.inputs._normal_examples from the harness checkout without modifying it"
+    }
+  },
+  "metric_semantics": {
+    "three_numbers_compatible": true,
+    "mappings_required": [
+      {"baseline": "accuracy", "harness": "accuracy_all"},
+      {"baseline": "n", "harness": "total"},
+      {"baseline": "abstentions", "harness": "abstained"}
+    ],
+    "baseline_only_or_differently_derived": ["non_abstained"],
+    "harness_additional_count": ["invalid"],
+    "integration_status": "pending_phase03_10_adoption"
+  },
+  "constraints": {
+    "phase03_10_files_modified": false,
+    "test_data_opened": false,
+    "performance_evaluation_performed": false,
+    "independence_claim": false
+  }
+}

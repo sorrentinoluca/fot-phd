@@ -1,0 +1,56 @@
+{
+  "status": "FROZEN_NORMAL_DEV_EXAMPLES",
+  "source_commit": "6372cb3c457a30b39c838e066b613c61313c35db",
+  "selection_rule": "one example per agent: agent_run_index=1 and window_ordinal=1, interval [25,30) h; rule fixed before normal_dev generation",
+  "selection_rule_frozen": true,
+  "examples": {
+    "agent_1": {
+      "example_id": "NDEV-EVD-0001",
+      "neutral_text": "Intervallo osservato 25.0–30.0 h in 1 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-26 (rapporto tra deviazioni standard 1.20).",
+      "neutral_text_sha256": "586fe4d54e987e3efba4e7de2b804e526fae3df251d042f5c4aef622d97b8016",
+      "source_sha256": "dd211cb4c3de0c922b030dbccf733921f4b46b0ef83d6493df0df14f74bf9c6d"
+    },
+    "agent_2": {
+      "example_id": "NDEV-EVD-0041",
+      "neutral_text": "Intervallo osservato 25.0–30.0 h in 1 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-34 (rapporto tra deviazioni standard 1.17).",
+      "neutral_text_sha256": "3ce402e919fe11884e001f6aa16fcbd1f1a96e71d2f5a426bf8a41d680e40e6d",
+      "source_sha256": "f3c13c22bebcf187eb67fb0468507381139f48e976378a7837e68e7a19f9dc21"
+    },
+    "agent_3": {
+      "example_id": "NDEV-EVD-0081",
+      "neutral_text": "Intervallo osservato 25.0–30.0 h in 1 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. XMEAS-39: variabilità residua dopo rimozione del trend lineare sopra soglia in 1/1 finestre; 1/1 nella fase iniziale e 0/0 nelle ultime finestre. XMEAS-39: variazioni campione-campione sopra soglia in 1/1 finestre; 1/1 nella fase iniziale e 0/0 nelle ultime finestre. Su XMEAS-39, residual e diff superano simultaneamente le rispettive soglie in 1/1 finestre, incluse 0/0 finestre finali. La massima dispersione complessiva osservata è su XMEAS-39 (rapporto tra deviazioni standard 1.42).",
+      "neutral_text_sha256": "97fcefeac2bda8196689a32481941407c8fd322ea72e1ab467b50bc5bd9f0061",
+      "source_sha256": "9f9f4e6a4520a22c6956f6930175a11b658b3b03ec49730c8743f1bd9b55b348"
+    },
+    "agent_4": {
+      "example_id": "NDEV-EVD-0121",
+      "neutral_text": "Intervallo osservato 25.0–30.0 h in 1 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-41 (rapporto tra deviazioni standard 1.15).",
+      "neutral_text_sha256": "31b39a10f94f0143063f83e5f7c3527c74d3edc60e0930b2b77a38d4c020c403",
+      "source_sha256": "b4c9a001186dc7ff93ce57d31eca4c4c048d57ec0c179cd86ca00f6e2f8d9675"
+    },
+    "agent_5": {
+      "example_id": "NDEV-EVD-0161",
+      "neutral_text": "Intervallo osservato 25.0–30.0 h in 1 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-26 (rapporto tra deviazioni standard 1.15).",
+      "neutral_text_sha256": "832590ac2d00c0d14371ab09b14b635af05bef297043cf0cc7b50dfa183cb1a6",
+      "source_sha256": "3d958d30c3d7e70e65372e7ceca20791debc97dd536ac155e38f10488ee42e1b"
+    },
+    "agent_6": {
+      "example_id": "NDEV-EVD-0201",
+      "neutral_text": "Intervallo osservato 25.0–30.0 h in 1 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-36 (rapporto tra deviazioni standard 1.14).",
+      "neutral_text_sha256": "fd691439df23c7e05c12060a1f294f867707531acb9f1354e0f66198a3056fad",
+      "source_sha256": "156052ddce301f006b5bb21c56686586b7876fe72e79172529470b69e3509505"
+    },
+    "agent_7": {
+      "example_id": "NDEV-EVD-0241",
+      "neutral_text": "Intervallo osservato 25.0–30.0 h in 1 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-39 (rapporto tra deviazioni standard 1.17).",
+      "neutral_text_sha256": "02baf6abbbb752f0c42a928c3e4952c4e1a857777e8b4e1b6374fe832254a857",
+      "source_sha256": "2c675990e584e29d12b1b8cd17b8e128853533b0bfc9e8d042eb78c9d4ee212f"
+    },
+    "agent_8": {
+      "example_id": "NDEV-EVD-0281",
+      "neutral_text": "Intervallo osservato 25.0–30.0 h in 1 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilità residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata è su XMEAS-16 (rapporto tra deviazioni standard 1.08).",
+      "neutral_text_sha256": "d6eccea37ff5f8b090415e8ca1c220092835ec32667ade7e6ee8d54022122a6e",
+      "source_sha256": "9a79587c10b85d0e2158ce48fc2cde6e94df1e145a5cf0c65e5c2a4a099525aa"
+    }
+  }
+}
