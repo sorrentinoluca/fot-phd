@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-14",
+  "status": "IMPLEMENTED_PENDING_INDEPENDENT_VERIFICATION",
+  "scope": "offline metric interface adapter from numeric baseline 03.9 to harness 03.10",
+  "source": {
+    "origin_main_commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+    "baseline_code_sha256": "b1fe2a83b29b25760dd32df00a2178c5235f714273a194feb6cfe8a12ac74f22",
+    "baseline_specification_sha256": "510b119ca54ac05225a7302dcf1b685cb4a778673a0f18d5a9a0e736078a6143",
+    "interface_check_sha256": "77cf4d8d3620bc739f58f48782e6846345d922463d4d93e34d281ea85d62a4f9",
+    "baseline_freeze_rev003_sha256": "0312f416dfdbaf8984b2063df2c2e9d00e1737321b9a65dd7e32b0295a937ec8"
+  },
+  "target": {
+    "branch": "codex/studio2-harness",
+    "base_commit": "51160872906feaa63c1fda5e9cf6e0fe8538fb16",
+    "implementation_commit": "caf5bfb0ff9b4fc974608f9bc432e0430d90b7ae"
+  },
+  "mapping": {
+    "accuracy": "accuracy_all",
+    "n": "total",
+    "abstentions": "abstained",
+    "non_abstained": "preserved_and_validated",
+    "invalid": "explicit_zero_only_for_valid_true_only_03_9_source"
+  },
+  "tests": {
+    "metric_tests": {
+      "run": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    },
+    "baseline_03_9_tests": {
+      "run": 10,
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0
+    },
+    "exhaustive_valid_only_count_configurations": {
+      "run": 12341,
+      "passed": 12341,
+      "total_range": "0..40",
+      "numeric_values_copied_without_replacement": true
+    },
+    "full_protocol_guard_harness_suite": {
+      "run": 34,
+      "passed": 33,
+      "failed": 0,
+      "errors": 1,
+      "preexisting_error": "test_real_0312_adapter_when_checkout_is_available: current external 03.12 checkout differs from the historical pinned hash",
+      "phase03_12_pin_changed_in_this_delta": false
+    },
+    "documentation_guard": {
+      "run": 35,
+      "failures_before": 14,
+      "failures_after": 14,
+      "skipped_before": 1,
+      "skipped_after": 1
+    },
+    "python_compile": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "files": {
+    "studio2/fase03/harness/metric_adapter.py": "967f998a6ac11f9afed516a154c4923b9e7b1192d4e04932b38d3344db318030",
+    "studio2/fase03/harness/metrics.py": "97f0427434d3593a87eaf6885e6b997f40ea41be58b011724869358633ef1be7",
+    "studio2/fase03/harness/test_harness.py": "6fce6bc4b8ac23bbdc97b9d99ae30ec04c6ed6a031b8776b375ab5f7740fd5d7",
+    "studio2/fase03/harness/SPECIFICA_HARNESS.md": "f50fb290d2aaa89473da4ff10eddb7f275b541bae57cf98bb07328946999890d",
+    "studio2/fase03/harness/CONTRATTO_RACCORDO_METRICHE.md": "5c81586f30ddfe8f39f99b313a30e2dad84346821750e93c11f4d5eecc1e7480",
+    "studio2/fase03/harness/REPORT_RACCORDO_METRICHE.md": "8ab3ac62b9fc066259fb00afb1b8d96a6954d8355a4af1e40559d56b7d201c2e",
+    "studio2/fase03/harness/PROMPT_VERIFICA_RACCORDO_METRICHE.md": "6645e122b0764a19d0af8d682271adf12b7d988425a943a221d1eea0e095cad0"
+  },
+  "independent_verification": {
+    "status": "PENDING",
+    "reviewer_identity": null,
+    "required_record": "studio2/fase03/harness/VERIFICA_RACCORDO_METRICHE.md",
+    "prompt": "studio2/fase03/harness/PROMPT_VERIFICA_RACCORDO_METRICHE.md"
+  },
+  "constraints": {
+    "model_calls": 0,
+    "simulations": 0,
+    "final_runs_opened": false,
+    "walkthrough_modified": false,
+    "phase03_9_closed": false,
+    "phase03_10_closed": false,
+    "independence_claim": false
+  }
+}
