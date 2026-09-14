@@ -1,5 +1,71 @@
 Formato pseudolabel CONFERMATO: `S2-CLS-[A-Z0-9]{5}`; 03.7 non deve rigenerare per questa sotto-fase.
 
+# Revisione 4 — correzione del contratto della label `Normal`
+
+Data 2026-09-14. Profilo implementativo; esecutore: Codex, agente basato su GPT-5,
+in questa finestra. Stato: **pending di verifica indipendente**; non è stato eseguito R4-V
+e non viene emesso alcun verbale di approvazione.
+
+## R4.1 Risultato
+
+`validator.py::context_check` valida ora le sole otto chiavi di `owners` con la regex
+`S2-CLS-[A-Z0-9]{5}`, mantenendo l’assegnazione biunivoca a `agent_1`…`agent_8`, e richiede
+separatamente `normal_label == "Normal"`. Prima applicava la regex anche alla nona label e
+accettava soltanto un sentinel opaco, in conflitto con 03.7. Tutti gli altri controlli del
+contesto sono invariati.
+
+La fixture non inventa più nove sentinel: carica `PSEUDOLABEL_MAP.json` e
+`AGENT_ASSIGNMENT.json` reali dal commit di `main`
+`a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155`, verifica che il tag congelato 03.7 sia
+peeled a `c16b533016db4617deb1ba96853253f117e8e32b`, che questo ne sia antenato, che i byte
+coincidano col tag e che le impronte siano rispettivamente `b0ce81d…` e `df74342…`.
+Sono coperti: PASS del contesto reale; FAIL per sentinel opaco, `normal`, `NORMAL`, `Normal `
+e owner `Normal`; uso di `Normal` nel campo metadata `pseudolabel` dello scanner.
+
+Lo scanner resta confinato ai record insight e non scansiona il dizionario di contesto.
+Nel record, `pseudolabel` è escluso dal controllo lessicale di neutralità, mentre la narrativa
+continua a vietare `Normal`; lo schema dell’insight rifiuta comunque `Normal` come pseudolabel.
+Restano quindi 16 insight: due per ciascuna delle otto classi fault, nessuno per Normal.
+
+## R4.2 Test effettivi
+
+- Suite completa 03.12 in venv Python 3.13.15/jsonschema 4.26.0: **25 PASS, 0 FAIL,
+  1 SKIP su 26**. Lo SKIP è `test_real_offline_qwen`, perché manca lo snapshot pinnato.
+- Regressioni `studio2/fase03/tests`: **16 PASS, 0 FAIL, 0 SKIP**.
+- Primo tentativo con Python di sistema: non qualificante, **46 FAIL, 6 ERROR, 1 SKIP su 26**,
+  causati dall’incompatibilità x86_64/arm64 dell’estensione `rpds`; registrato senza
+  trasformarlo in un esito del contratto.
+- `docs/test_explanation.py` prima e dopo la modifica: **14 FAIL, 1 SKIP su 35**,
+  con gli stessi identificativi; nessuna regressione documentale.
+
+Il log R4 è `TEST_RESULTS_rev004.txt`. La precedente qualifica Qwen della revisione 3 resta
+storica e non qualifica R4. Comando riproducibile sul server:
+
+```bash
+QWEN_TOKENIZER_SNAPSHOT=/percorso/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a /percorso/python -m unittest studio2.fase03.schema_insight.test_validator -v
+```
+
+## R4.3 Perimetro, residui e freeze
+
+Modificati per R4: `validator.py`, `test_validator.py`, `TEST_RESULTS_rev004.txt`, questa
+decisione, questo report, `SCHEMA_FREEZE.json` e `PROPOSTA_TAG_SCHEMA_INSIGHT.md`.
+Non sono stati modificati schema JSON, cap, regex, leakage rules, scanner, diff, harness,
+artefatti 03.7, piano, walkthrough o artefatti del primo studio. Il prompt non tracciato
+`sottofase_3_12_verifica.md` è preesistente, preservato e fuori dal commit.
+
+Manifest revisione 5, contratto revisione 4, stato
+`frozen_pending_independent_verification`; `previous_manifest_sha256` è l’impronta dei byte
+del manifest rev. 4: `d6ef52de0f573edf3e5d6eb5ad3530400c5f63e6bcfa6579a93f21fdfb8865b5`.
+Il vecchio target `e058cb0` è superato. I nuovi artefatti sono identificati dal manifest rev. 5;
+lo SHA del commit che li contiene viene riportato nella consegna e nella futura riverifica,
+senza auto-riferimenti circolari in questi documenti.
+
+Resta necessaria la verifica indipendente R4-V. Resta inoltre da eseguire sul server il test
+col tokenizer pinnato aggiornato; non è attestato in questa revisione. Nessun push, merge, tag,
+produzione di insight, inferenza o simulazione è stato eseguito.
+
+---
+
 # Report sotto-fase 03.12 — schema degli insight
 
 ## 1. Riassunto e risultati

@@ -1,7 +1,9 @@
 {
   "version": "1.0.0",
   "status": "frozen_pending_independent_verification",
-  "source_commit": "44dae2fb40ad5e2d6d587f9581c098290164aaab",
+  "source_commit": null,
+  "source_commit_note": "The containing commit is reported from Git in delivery and independent verification; omitted here to avoid a circular self-reference.",
+  "revision_base_commit": "a1bcf61f0ccf20d070e92b7e2580dfdce5e9ea87",
   "base_commit": "d815ce96d928254de79209f02e11a561445764cd",
   "catalog_tag": "studio2-fase03-catalogo-D1-frozen-001",
   "catalog_tag_commit": "ab43f0b20f45cdb475c0caf52c6f7afcbae50891",
@@ -10,8 +12,8 @@
   "files": [
     {
       "path": "studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md",
-      "sha256": "205805572ea2828e77d077b460f62d3bc3711c4c1662dbbc4da2a89749fe10c3",
-      "bytes": 7426
+      "sha256": "6923e8d428f1aee0fa2b8adc3584601ece123894b4c8b6b81ba60c79545c8520",
+      "bytes": 9671
     },
     {
       "path": "studio2/fase03/schema_insight/insight_v1.schema.json",
@@ -20,13 +22,13 @@
     },
     {
       "path": "studio2/fase03/schema_insight/validator.py",
-      "sha256": "ec24159b50dc745963ccf820ccbb8ae2ce05c3894d005239aaf5c960ad9f1228",
-      "bytes": 17442
+      "sha256": "cd523d3105e02de99e7cc09bf0c2c4c052c1ae1776c8da37a9b57e869b1aa508",
+      "bytes": 17636
     },
     {
       "path": "studio2/fase03/schema_insight/test_validator.py",
-      "sha256": "72ec67fe2d4b5ccfcd715bb89a2d0ed78674a10acee0dca2ba265493db191ff5",
-      "bytes": 13501
+      "sha256": "b8f6d735fbd2f626e8bb75c36d06432e5d3bc59061bed4a936ffca25393267f7",
+      "bytes": 16516
     },
     {
       "path": "studio2/fase03/schema_insight/leakage_rules_v1.json",
@@ -52,6 +54,11 @@
       "path": "studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev003.txt",
       "sha256": "908cb77ee620e60afe42eae20c9723b91715037140f12ea2c75838c1da472a3c",
       "bytes": 5626
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_rev004.txt",
+      "sha256": "fc3bae8d48aa09ab0478e00a653fedffd366ac5c7a4994f9a7b76fb555b4b93b",
+      "bytes": 1501
     }
   ],
   "source_files": [
@@ -84,19 +91,35 @@
       "path": "docs/letteratura.md",
       "sha256": "a53b265a5df0c45c95d2cdfa7c0ed361af084ebcf5e658bd458814fa05f8c291",
       "bytes": 70392
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json",
+      "sha256": "b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6",
+      "bytes": 1038,
+      "source_ref": "main at a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155",
+      "frozen_tag": "studio2-fase03-pseudolabel-frozen-001",
+      "frozen_tag_commit": "c16b533016db4617deb1ba96853253f117e8e32b"
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json",
+      "sha256": "df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf",
+      "bytes": 1667,
+      "source_ref": "main at a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155",
+      "frozen_tag": "studio2-fase03-pseudolabel-frozen-001",
+      "frozen_tag_commit": "c16b533016db4617deb1ba96853253f117e8e32b"
     }
   ],
   "unit_tests": {
-    "run": 23,
-    "passed": 23,
-    "skipped": 0,
+    "run": 26,
+    "passed": 25,
+    "skipped": 1,
     "failed": 0
   },
   "harness_regressions_passed": 16,
   "documentation_failures_before": 14,
   "documentation_failures_after": 14,
-  "real_tokenizer_qualification": "passed_pinned_tokenizer_probes_and_logged_fixture_counts",
-  "independent_verification": "pending_delta_review_after_revision_3_qwen_test",
+  "real_tokenizer_qualification": "revision_4_skipped_locally_missing_pinned_snapshot; revision_3 qualification retained as historical only",
+  "independent_verification": "pending_revision_4_independent_verification",
   "model_calls": 0,
   "simulations": 0,
   "freeze_scope": "content hashes of proposed contract; does not authorize production",
@@ -104,8 +127,8 @@
     "SCHEMA_FREEZE.json",
     "REPORT_SCHEMA_INSIGHT.md"
   ],
-  "manifest_revision": 4,
-  "previous_manifest_sha256": "96457eb4f209335e5a2bc3c120245cea3a184f2c5fd741508f865f4e8a9a692e",
+  "manifest_revision": 5,
+  "previous_manifest_sha256": "d6ef52de0f573edf3e5d6eb5ad3530400c5f63e6bcfa6579a93f21fdfb8865b5",
   "initial_local_unit_tests": {
     "run": 20,
     "passed": 19,
@@ -133,27 +156,37 @@
     }
   },
   "revision_notes": {
-    "delta_from_verified_commit": "30ba63be9abcec9bc1454b222c582ab4d984c15c",
+    "delta_from_revision_base": "a1bcf61f0ccf20d070e92b7e2580dfdce5e9ea87",
     "changes": [
-      "Detect malformed/fullwidth narrative variable identifiers without repairing payload bytes",
-      "Normalize invisible format characters only for detection",
-      "Cover Italian singular variazione casuale",
-      "Real tokenizer test asserts probe counts and emits actual tokenizer metadata and fixture counts"
+      "Validate exactly eight opaque owner labels and preserve the eight-agent assignment check",
+      "Require normal_label to be exactly the literal Normal",
+      "Build fixtures from the recorded main commit and verify the frozen 03.7 tag, bytes and fingerprints",
+      "Reject opaque or case/whitespace variants of normal_label and Normal as an owner",
+      "Confirm scanner metadata scope while preserving the narrative ban and excluding Normal insights"
     ],
     "schema_and_caps_unchanged": true,
-    "prior_review": "VERIFICA_SCHEMA_INSIGHT.md is OK for 30ba63b only; not approval of this delta",
-    "prior_report": "REPORT_SCHEMA_INSIGHT.md and TEST_RESULTS_qwen.txt describe revision 2; their historical manifest hash and PASS do not qualify revision 3",
-    "next_log": "TEST_RESULTS_qwen_rev003.txt acquired byte-identically; no further run needed unless implementation changes",
+    "regex_leakage_scanner_and_diff_unchanged": true,
+    "prior_reviews": "VERIFICA_SCHEMA_INSIGHT.md and VERIFICA_SCHEMA_INSIGHT_rev003.md are historical; neither approves revision 4",
+    "prior_qwen_log": "TEST_RESULTS_qwen_rev003.txt is historical and does not qualify revision 4 after implementation/test changes",
+    "current_log": "TEST_RESULTS_rev004.txt records the effective local PASS, FAIL and SKIP counts",
     "producer_prompt_followup_03_10": "Declare intentionally rejected normal/unknown, valve/valvola, feed, step and A/B wording",
     "local_validation": {
-      "python": "3.13.9",
+      "python": "3.13.15",
       "jsonschema": "4.26.0",
       "harness_passed": 16,
       "documentation_failures_before": 14,
       "documentation_failures_after": 14
-    }
+    },
+    "tokenizer_test_command": "QWEN_TOKENIZER_SNAPSHOT=/path/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a /path/python -m unittest studio2.fase03.schema_insight.test_validator -v"
   },
-  "contract_revision": 3,
+  "contract_revision": 4,
+  "revision_4_local_unit_tests": {
+    "run": 26,
+    "passed": 25,
+    "skipped": 1,
+    "failed": 0,
+    "skip_reason": "Pinned Qwen tokenizer snapshot absent locally"
+  },
   "revision_3_local_unit_tests": {
     "run": 23,
     "passed": 22,

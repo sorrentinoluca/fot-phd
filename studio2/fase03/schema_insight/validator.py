@@ -143,9 +143,12 @@ def context_check(context):
     owners = context['owners']
     if not isinstance(owners, dict) or len(owners) != 8 or any(not isinstance(x, str) for x in owners.values()) or set(owners.values()) != {f'agent_{i}' for i in range(1, 9)}:
         fail('context', 'owners', 'eight distinct fault labels and agent owners required')
-    labels = [*owners, context['normal_label']]
-    if any(not isinstance(x, str) or not LABEL.fullmatch(x) for x in labels) or len(set(labels)) != 9:
-        fail('context', 'owners', 'nine distinct opaque labels required')
+    if any(not isinstance(x, str) or not LABEL.fullmatch(x) for x in owners):
+        fail('context', 'owners', 'eight distinct opaque fault labels required')
+    if context['normal_label'] != 'Normal':
+        fail('context', 'normal_label', 'normal label must be exactly Normal')
+    if len({*owners, context['normal_label']}) != 9:
+        fail('context', 'owners', 'eight fault labels and Normal must be distinct')
     fixed = context['fixed']
     if not isinstance(fixed, list) or len(fixed) != 16 or any(not isinstance(x, dict) or set(x) != set(FIXED) for x in fixed):
         fail('context', 'fixed', '16 five-field contracts required')

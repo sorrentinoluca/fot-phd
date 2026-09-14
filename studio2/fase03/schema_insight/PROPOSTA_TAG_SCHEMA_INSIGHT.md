@@ -1,3 +1,54 @@
+# Proposta sospesa — tag dello schema insight, contratto revisione 4
+
+Data 2026-09-14. Il tag `studio2-fase03-schema-insight-frozen-001` **non è stato creato**.
+La revisione 4 è implementata ma attende riverifica indipendente R4-V e qualifica col
+tokenizer pinnato; questa proposta non autorizza tag, push, merge o produzione di insight.
+
+## Target superato e identificazione del nuovo oggetto
+
+Il vecchio target `e058cb07dceeefa8eb4a4b6d1f6fcab5aad483db` riguardava il contratto
+revisione 3, manifest revisione 4, SHA-256
+`d6ef52de0f573edf3e5d6eb5ad3530400c5f63e6bcfa6579a93f21fdfb8865b5`.
+È **superato** dal rilievo bloccante di 03.10: `context_check` non accettava la label
+letterale `Normal` congelata da 03.7.
+
+Il nuovo oggetto proposto è il contratto revisione 4 descritto da
+`SCHEMA_FREEZE.json`, manifest revisione 5, con
+`previous_manifest_sha256 = d6ef52de0f573edf3e5d6eb5ad3530400c5f63e6bcfa6579a93f21fdfb8865b5`.
+L’impronta del manifest rev. 5 identifica i byte della revisione e viene riportata nella
+consegna. Lo SHA Git del commit che contiene questo documento non è scritto al suo interno,
+per evitare un auto-riferimento circolare: va acquisito da Git nella consegna e confermato
+dal verificatore R4-V.
+
+## Condizioni ancora necessarie
+
+1. Riverifica indipendente R4-V, in altra finestra e con modello diverso, con verdetto OK.
+2. Esecuzione della suite R4 col tokenizer pinnato: il test locale corrente ha 25 PASS,
+   0 FAIL e 1 SKIP su 26 perché lo snapshot non è disponibile. I 23 PASS Qwen della
+   revisione 3 sono storici e non qualificano il codice/test R4.
+3. Eventuale aggiornamento delle impronte pinnate nell’adapter 03.10 in un commit proprio,
+   soltanto dopo la pubblicazione del tag; non fa parte di questa patch.
+4. Autorizzazione dell’autore all’attuazione della procedura di integrazione/tag.
+
+La riverifica deve accertare che il delta funzionale in `validator.py` sia confinato a
+`context_check`, che la fixture derivi dai byte 03.7 in `main` e ne controlli il tag, e che
+schema JSON, cap, regex, `leakage_rules_v1.json`, scanner e logica del diff siano immutati.
+Deve inoltre confermare 16 insight totali, due per ciascuna owner fault e nessun insight
+Normal, oltre alla catena delle impronte del manifest.
+
+I verbali e i log precedenti restano fotografie storiche, non approvazioni della revisione 4.
+Il nuovo log locale è `TEST_RESULTS_rev004.txt`. Dopo un OK indipendente, il prompt di
+integrazione/tag dovrà essere aggiornato con SHA del commit e impronta del manifest rev. 5
+verificati; solo allora potrà riprendere la procedura già definita sotto.
+
+Testo indicativo dell’annotazione futura: `studio2(fase03): schema insight contratto rev004
+verificato; context_check allineato alla label Normal di 03.7; manifest rev005 e qualifica
+Qwen verificati; Fase 03 aperta`.
+
+---
+
+## Record storico della proposta per la revisione 3
+
 # Proposta autorizzata — tag dello schema insight, contratto revisione 3
 
 L’autore ha autorizzato la **proposta**, con la procedura già usata per 03.7,

@@ -1,16 +1,55 @@
 """Synthetic contract fixtures only; fake counts never qualify scientific budgets."""
 import copy
+import hashlib
 import json
 import os
 from pathlib import Path
+import subprocess
 import unittest
 from unittest.mock import patch
 from studio2.fase03.schema_insight import validator as v
 
 
+REPO = Path(__file__).resolve().parents[3]
+PSEUDOLABEL_MAIN_COMMIT = 'a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155'
+PSEUDOLABEL_TAG = 'studio2-fase03-pseudolabel-frozen-001'
+PSEUDOLABEL_TAG_COMMIT = 'c16b533016db4617deb1ba96853253f117e8e32b'
+PSEUDOLABEL_SOURCES = {
+    'studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json':
+        'b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6',
+    'studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json':
+        'df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf',
+}
+
+
+def git(*args):
+    return subprocess.run(['git', *args], cwd=REPO, check=True, capture_output=True).stdout
+
+
+def contract_037():
+    tag_commit = git('rev-parse', f'{PSEUDOLABEL_TAG}^{{}}').decode().strip()
+    if tag_commit != PSEUDOLABEL_TAG_COMMIT:
+        raise AssertionError('03.7 frozen tag points to an unexpected commit')
+    git('merge-base', '--is-ancestor', PSEUDOLABEL_TAG_COMMIT, PSEUDOLABEL_MAIN_COMMIT)
+    documents = {}
+    for path, expected_sha256 in PSEUDOLABEL_SOURCES.items():
+        raw = git('show', f'{PSEUDOLABEL_MAIN_COMMIT}:{path}')
+        if raw != git('show', f'{PSEUDOLABEL_TAG}^{{}}:{path}'):
+            raise AssertionError(f'{path} differs between recorded main and the 03.7 tag')
+        if hashlib.sha256(raw).hexdigest() != expected_sha256:
+            raise AssertionError(f'{path} differs from its recorded 03.7 fingerprint')
+        documents[path] = json.loads(raw)
+    mapping = documents['studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json']
+    assignment = documents['studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json']
+    owners = {row['local_fault_label']: agent for agent, row in assignment['agents'].items()}
+    fault_labels = set(mapping['label_by_identifier'].values()) - {'Normal'}
+    if set(owners) != fault_labels or mapping['label_space'] != sorted(fault_labels) + ['Normal']:
+        raise AssertionError('03.7 map and agent assignment disagree')
+    return owners, mapping['label_by_identifier']['Normal']
+
+
 def fixture():
-    labels = [f'S2-CLS-T{i:04d}' for i in range(9)]
-    owners = {label: f'agent_{i+1}' for i, label in enumerate(labels[:8])}
+    owners, normal_label = contract_037()
     items = []
     for i, (label, agent) in enumerate(owners.items()):
         for j in range(2):
@@ -18,7 +57,7 @@ def fixture():
                           'pseudolabel': label, 'evidence_scope': 'Across development windows.',
                           'variable_ids': ['XMEAS(7)', 'XMV(11)'],
                           'observed_pattern': 'XMEAS(7) remains elevated across windows; XMV(11) is stable.'})
-    context = {'owners': owners, 'normal_label': labels[8],
+    context = {'owners': owners, 'normal_label': normal_label,
                'fixed': [{k: x[k] for k in v.FIXED} for x in copy.deepcopy(items)]}
     return items, context
 
@@ -41,6 +80,26 @@ class ContractTests(unittest.TestCase):
         Draft202012Validator.check_schema(v.loads((v.HERE/'insight_v1.schema.json').read_bytes()))
         self.assertEqual(len(v.validate_library(self.items, context=self.context, count=self.count)), 16)
         self.assertGreater(self.check(self.items[0])['record_tokens'], 0)
+
+    def test_context_uses_frozen_037_labels_and_literal_normal(self):
+        fixed = v.context_check(self.context)
+        self.assertEqual(len(fixed), 16)
+        self.assertEqual(self.context['normal_label'], 'Normal')
+        self.assertEqual(set(self.context['owners'].values()), {f'agent_{i}' for i in range(1, 9)})
+
+    def test_context_rejects_nonliteral_normal_label(self):
+        for normal_label in ['S2-CLS-ZZZZZ', 'normal', 'NORMAL', 'Normal ']:
+            with self.subTest(normal_label=normal_label):
+                context = copy.deepcopy(self.context)
+                context['normal_label'] = normal_label
+                self.reject('context', lambda: v.context_check(context))
+
+    def test_context_rejects_normal_as_owner(self):
+        context = copy.deepcopy(self.context)
+        label, agent = next(iter(context['owners'].items()))
+        del context['owners'][label]
+        context['owners']['Normal'] = agent
+        self.reject('context', lambda: v.context_check(context))
 
     def test_every_field_missing_wrong_type_and_extra(self):
         for field in self.items[0]:
@@ -114,6 +173,7 @@ class ContractTests(unittest.TestCase):
             self.assertTrue(v.scan(item))
         for label in ['S2-CLS-ABCDE','Normal','Unknown']:
             self.reject('leakage', lambda: self.check(dict(self.items[0], observed_pattern='XMEAS(7) '+label)))
+        self.assertEqual(v.scan({'pseudolabel': 'Normal'}), [])
 
     def test_library_integrity(self):
         self.reject('cardinality', lambda: v.validate_library(self.items[:-1], context=self.context, count=self.count))
@@ -124,7 +184,7 @@ class ContractTests(unittest.TestCase):
         self.reject('ownership', lambda: v.validate_library(items, context=context, count=self.count))
         items, context = fixture()
         items[0]['pseudolabel']=context['normal_label']; context['fixed'][0]['pseudolabel']=context['normal_label']
-        self.reject('cardinality', lambda: v.validate_library(items, context=context, count=self.count))
+        self.reject('schema', lambda: v.validate_library(items, context=context, count=self.count))
 
     def test_all_receivers_and_diff(self):
         for agent in self.context['owners'].values():

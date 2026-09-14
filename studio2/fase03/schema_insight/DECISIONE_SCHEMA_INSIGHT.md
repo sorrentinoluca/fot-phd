@@ -1,3 +1,43 @@
+# Revisione 4 — `context_check` allineato al contratto 03.7
+
+Data 2026-09-14; base della revisione `a1bcf61f0ccf20d070e92b7e2580dfdce5e9ea87`.
+Stato: correzione implementata, **in attesa di verifica indipendente**. I PASS e l’OK della
+revisione 3 sono record storici e non qualificano automaticamente questa revisione.
+
+Il contratto del contesto distingue ora esplicitamente due domini:
+
+- `owners` contiene esattamente otto chiavi distinte conformi a
+  `S2-CLS-[A-Z0-9]{5}`, assegnate una volta ciascuna a `agent_1`…`agent_8`;
+- `normal_label` è esattamente la stringa case-sensitive `Normal`.
+
+Sono quindi rifiutati un sentinel opaco usato come `normal_label`, `normal`, `NORMAL`,
+`Normal ` e una chiave owner `Normal`. Restano invariati tutti gli altri controlli del
+contesto. La libreria conserva 16 insight, due per ciascuna delle otto classi fault:
+`Normal` non è ammessa dallo schema di un insight e non produce insight.
+
+La fixture positiva è costruita dai byte reali di 03.7 letti nel commit di `main`
+`a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155`. Il tag annotato congelato
+`studio2-fase03-pseudolabel-frozen-001` (oggetto
+`6854c49b4034c16b8df3b11d45dd759a343463e2`) punta al commit
+`c16b533016db4617deb1ba96853253f117e8e32b`, antenato del commit di `main` usato;
+i byte delle due fonti coincidono col tag:
+
+| Fonte 03.7 | SHA-256 | Byte |
+| --- | --- | ---: |
+| `studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json` | `b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6` | 1038 |
+| `studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json` | `df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf` | 1667 |
+
+Il perimetro dello scanner non cambia. `Normal` è accettata nei metadati del contesto;
+il campo `pseudolabel` è escluso dal controllo `label_neutral`, quindi lo scanner isolato
+non boccia il valore nei metadati locali previsti. La narrativa `observed_pattern` continua
+invece a rifiutare `Normal` case-insensitivamente. Lo schema JSON continua a consentire solo
+le pseudolabel opache negli insight, perciò non viene esteso agli insight Normal.
+
+Nessuno schema JSON, cap, regex degli insight, regola di leakage, scanner o logica del diff
+è stato modificato. Zero inferenze LLM e zero simulazioni.
+
+---
+
 Formato pseudolabel CONFERMATO: `S2-CLS-[A-Z0-9]{5}`; nessuna rigenerazione richiesta a 03.7.
 
 # Decisione pre-specificata 03.12 — schema insight v1.0.0
