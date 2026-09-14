@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-14",
+  "scope": "phase03_subphase_03_8_revision_10_normative_alignment",
+  "status": "candidate_pending_independent_review",
+  "freeze_effective": false,
+  "freeze_tag": null,
+  "base_origin_main": "a00605862f627710347bd63c49f79a6d0a00135f",
+  "statistical_candidate_commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+  "statistical_delivery_commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+  "historical_prerequisites_acquisition_commit": "70c84e3a573951171813add26a46167cbc6c7203",
+  "preservation": {
+    "statistical_plan_sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a",
+    "statistical_manifest_sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8",
+    "revision_10_review_sha256": "d269e26d8cb4e23370577e1e193d90d9357d66f7c739e9d0669970edf71b0066",
+    "unsigned_author_act_sha256": "4a0a4e1fc2797ee7a81439110e164d43159c745007136c9dda7bed7759471cc8",
+    "budget_annex_sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887",
+    "harness_delta_sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e",
+    "all_byte_identical_to_source": true
+  },
+  "published_dependencies": {
+    "bibliography": {
+      "inventory_files_matched": 23,
+      "inventory_files_total": 23,
+      "candidate_commit": "e37c3db66689325b703bb99f3750ca3b5b287aab",
+      "review_commit": "40911d0e3e7b75960e6973f3fd8f609e65ab6e05",
+      "review_sha256": "551f7da9de20096f3a21f6f9a19d2beecd4b03367bbf6cbe4d083f482637ddaf",
+      "detectability_addendum_sha256": "f2c29416664e27c2ecac7d439939f51f1a3f7313e2aba669bb39db7106cf0b8e",
+      "status": "reachable_from_base_origin_main_and_hashes_match"
+    },
+    "baseline_03_9": {
+      "tag": "studio2-fase03-baseline-numerica-frozen-001",
+      "remote_tag_object": "124262f5a6172a20965d019f220ff93954284922",
+      "remote_peeled_commit": "38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e",
+      "status": "published_and_frozen"
+    },
+    "schema_03_12_R4": {
+      "tag": "studio2-fase03-schema-insight-frozen-001",
+      "remote_tag_object": "4d15c4fb915ea9db9f7425225d231746778f0ba1",
+      "remote_peeled_commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "historical_manifest_sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12",
+      "status": "published_and_frozen"
+    }
+  },
+  "files": [
+    {
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "role": "general_plan_normative_alignment",
+      "bytes": 166274,
+      "sha256": "119e3f0cc5e442b0b6bd7e256601ec541e0817007170e3fce52feba0bf37b669"
+    },
+    {
+      "path": "studio2/fase03/APERTURA_SOTTOFASI_FASE03.md",
+      "role": "phase_opening_status_and_dependency_alignment",
+      "bytes": 11126,
+      "sha256": "ce3499e40cb1b1c01b16caa0c0f37b634f87a5230b6d7e3034832bc79486affc"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MATRICE_RESIDUI_CHIUSURA_03_8_REV10.md",
+      "role": "requirement_evidence_status_matrix",
+      "bytes": 5223,
+      "sha256": "2b59150d89f1da74a4f18784a0d0c7f0db191e9364c091cc3d3049e45eb17462"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ISTRUZIONI_FIRMA_MATERIALE_REV10.md",
+      "role": "author_material_signature_handoff",
+      "bytes": 1456,
+      "sha256": "4d3f3e02c9c5acf6867c8d946ef2cb991138f9a16ead95f5d618062e33414970"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_TECNICA_03_10_DA_REV10.md",
+      "role": "read_only_handoff_to_owner_window_03_10",
+      "bytes": 4255,
+      "sha256": "44e8be9a3647dcfbef3fa0197647a4c39a597e441bb488de334608dfe9b4aa95"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/REPORT_ALLINEAMENTI_03_8_REV10.md",
+      "role": "candidate_change_report",
+      "bytes": 3974,
+      "sha256": "237950fe9658e171efc6d8ebd020d56a2eaf7fd61a71e1f6115751390b38618c"
+    }
+  ],
+  "markdown_html_pairs_modified": [],
+  "harness_or_preflight_files_modified": [],
+  "d9_decided": false,
+  "author_signature_acquired": false,
+  "independent_review": "pending",
+  "walkthrough_update": "pending_after_independent_review",
+  "publication_to_origin_main": false,
+  "model_calls": 0,
+  "tep_simulations": 0,
+  "pilot_runs": 0
+}

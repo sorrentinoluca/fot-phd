@@ -7,6 +7,15 @@
 **Oggetto:** Valutazione critica del piano sperimentale e definizione del piano consolidato
 **Documenti esaminati:** fot_walkthrough_conversazione_v2.md (sezioni 0–15, in particolare §10.3), fot_walkthrough_v2.html, FoT_TEP_Review_Critica.md (registro critiche G1–G10, CF1–CF6), gap analysis, paper blueprint, CFP IEEE BigData 2026, SWaT dataset documentation (Goh et al. 2016, lista attacchi, glossario equipaggiamento), letteratura TEP sulla difficoltà per-fault (§12)
 
+**Allineamento normativo 03.8, revisione 10 (2026-09-14):** il piano statistico
+verificato al candidato `6aaa5b3eebfed4ba502c25c0443caabd0051af21`
+prevale sui valori ancora presentati come correnti nelle revisioni storiche di
+questo documento. D2=8, OOD F6/F4 condizionati, D11, margine, alpha, gerarchia e
+politica R sono approvati; il tetto rigido 3.700 non è vigente. La pianificazione
+usa il conteggio completo e la fattibilità temporale misurata con margine 20%.
+Firma materiale, verifica indipendente del presente delta, pubblicazione e freeze
+03.8 restano distinti e pendenti. D9 non è deciso da questo allineamento.
+
 ---
 
 ## 0 · Changelog della revisione 2
@@ -99,24 +108,30 @@ La revisione precedente lasciava intendere che restasse aperta solo D8. Non è c
 | # | Decisione | Dove | Stato |
 | --- | --- | --- | --- |
 | 1 | **Quali 4 fault nuovi**, oltre ai 4 di continuità | D1, §12 | ✅ **congelata e pubblicata (2026-09-13): F2/F3/F14/F15**; tag `studio2-fase03-catalogo-D1-frozen-001` |
-| 2 | **6 o 8 run per fault** — prezzata: +590 chiamate, +24% | D2, §8.8 | ⬜ aperta |
-| 3 | **Quali 2 fault fuori catalogo**, meccanicamente distinti da tutto il catalogo e con rilevabilità documentata | §8.6, S13 | ⬜ aperta — **dipende dalla 1** |
-| 4 | **Sottoinsieme dell'ablation local-first**: quali coppie confondibili | D11, §8.3 | ⬜ aperta — **dipende dalla 1** |
-| 5 | **Margini statistici**: il margine *m* di non inferiorità per H3, e la gerarchia di test | §8.5, S10–S11 | ⬜ aperta |
+| 2 | **Run per fault** | D2, §8.8 | ✅ **confermata: 8 run; 64 fault + 8 Normal primari** |
+| 3 | **Due fault fuori catalogo** | §8.6, S13 | ✅ **F6/F4 confermati condizionatamente**; controlli tecnici in 03.11 dopo il freeze e prima delle chiamate |
+| 4 | **Sottoinsieme dell'ablation local-first** | D11, §8.3 | ✅ **{F1,F2} e {F14,F15}, run 1–3 sigillati** |
+| 5 | **Margine, alpha e gerarchia** | §8.5, S10–S11 | ✅ **m=0,125; alpha 0,05; H1→H2→H3; H3 a 0,025 sola sensibilità** |
 | 6 | Baseline FL | D8, §9 | ✅ **risolta: FedAvg minimale** |
 | 7 | local-first | D6, §8.2 | ✅ risolta: B-LF è il metodo |
 | 8 | R=1 o R=3 | D7, §8.7 | ⏳ subordinata al gate del pilot |
 | 9 | Modello | D9, §7 | ⏳ data limite **17 settembre** |
-| 10 | **Schema degli insight**: campi, cardinalità, cap per-elemento, validatore | §8.9, D12 | ⬜ **aperta, lavorabile oggi** |
-| 11 | **Politica conservativa su R=3** in assenza di controlli di determinismo dell'API | §8.7, D7 | ⬜ aperta — da pre-specificare **prima** del pilot |
+| 10 | **Schema degli insight**: campi, cardinalità, cap per-elemento, validatore | §8.9, D12 | ✅ **03.12 R4 pubblicata e congelata**; pin nell'harness ancora di competenza 03.10 |
+| 11 | **Politica conservativa su R=3** in assenza di controlli di determinismo dell'API | §8.7, D7 | ✅ **non adottata**; il trigger resta la divergenza osservata della coppia parsata o della validità |
 | 12 | **Ablazione dei descrittori**: effetto minimo (E5-C1), soglia di lunghezza (E5-C2), criterio di successo (E5-C3) | §8.12 | ⬜ parziale — **E5-C1 ✅ (Δ ≥ 0,10)**; **E5-C2 ⏳ provvisoria (≤ 5% per caso)**, si chiude dopo la verifica di fattibilità; **E5-C3** aperta, dipende dalla 1, dalla 2 e dalle altre due |
 | — | **Conservare i quattro descrittori calibrati di Fase A, più `rapid` derivata**, anziché sostituirli | `docs/lit_review/criteri_scelta_descrittori.md` §5.1 | ✅ **risolta (2026-09-11): si conservano.** Motivazione lì, verifica dell'utilità diagnostica in §8.12 |
 | — | **Pre-impegno sugli esiti di E5** | §8.12 · `docs/lit_review/DECISIONE_SCELTA_FEATURE_fase_A.md` §4 | ✅ **registrato 2026-09-12.** Gli esiti di E5, inclusi effetti nulli, negativi o discordanti, saranno riportati senza modificare retroattivamente descrittori, soglie, sottoinsiemi o criteri. Eventuali revisioni successive saranno dichiarate esplorative; una loro verifica prospettica richiederà dati non utilizzati per deciderle |
 | — | Forma di `Unknown` | D10, §8.6 | ✅ **risolta: nome dell'astensione esistente** |
 
-La decisione 10 è nuova nella revisione 3 e appartiene al gruppo indipendente dal modello: va congelata prima della produzione degli insight, non prima dei run di test, perché vincola *come* gli insight vengono generati da entrambi i producer.
+La decisione 10, introdotta nella revisione 3, è stata poi chiusa da 03.12 R4:
+lo schema è pubblicato e congelato prima della produzione degli insight. Il pin
+esatto nell'adapter resta una responsabilità implementativa della 03.10.
 
-Le prime cinque **non dipendono dalla disponibilità di Qwen**, ma non sono tutte lavorabili nello stesso momento. ⚠️ **Le decisioni 3 e 4 dipendono dalla 1.** «Meccanicamente distinto da tutto il catalogo» e «coppia confondibile» sono entrambe definite *rispetto agli 8 fault*, che è la 1 a fissare: la loro definizione richiede prima il catalogo. **Aggiornamento D1, 2026-09-13:** il catalogo è congelato e pubblicato; le decisioni 3 e 4 sono ora lavorabili, ma restano aperte. Il cammino reale è: §6.1 congela i criteri → la 1 estrae gli 8 fault → solo allora si chiudono la 3 e la 4. Le decisioni 2 e 5 sono invece indipendenti e procedono in parallelo. Le decisioni 1, 3 e 4 vanno prese guardando soltanto Downs & Vogel e la letteratura di §12; la 5 guardando soltanto considerazioni operative e la risoluzione del disegno. Nessuna delle cinque può essere presa dopo aver visto un risultato.
+Le prime cinque non dipendono dalla disponibilità del modello. La dipendenza
+storica D1→OOD/D11 è stata rispettata: D1 è congelata e pubblicata, poi 03.8 ha
+confermato F6/F4 e le coppie D11 senza consultare risultati per-fault. Le decisioni
+1–5 sono ora assunte; non vanno riaperte dopo i run. Restano separati la firma e
+il freeze 03.8, i controlli tecnici OOD 03.11 e la futura decisione D9.
 
 ---
 
@@ -124,7 +139,12 @@ Le prime cinque **non dipendono dalla disponibilità di Qwen**, ma non sono tutt
 
 Il piano originale era ambizioso e affrontava con serietà le debolezze più gravi dello studio esplorativo Terra: scala ridotta (G2), unico producer (G5), degradazione dei local-seen (C06) e dipendenza delle conclusioni da un solo modello. La struttura a tre blocchi — esplorativo, ponte, finale — era logicamente corretta ma sovradimensionata: decine di condizioni, oltre cinquemila chiamate e un modello non ancora disponibile, con deadline al 30 settembre.
 
-Il piano consolidato (§8) elimina il ponte, il confronto Q4 e la condizione A+; riduce le condizioni a tre; subordina R=1 a un gate tecnico; e reinveste il risparmio in due bracci che **mitigano** le due sole critiche non strutturali rimaste aperte. Il risultato è uno studio **più forte a meno della metà del costo**: circa 2.450 chiamate contro 5.184 di solo nucleo nella versione originale, con G5 e G6 rese misurabili invece che soltanto dichiarate come limiti. Nessuna delle due viene chiusa: la parola corretta, coerente con la tabella di §5, è *mitigare*.
+Il piano consolidato (§8) elimina il ponte, il confronto Q4 e la condizione A+;
+riduce le condizioni a tre; subordina R al gate tecnico; e rende G5/G6
+misurabili. Il costo corrente non è espresso da un unico totale finché i
+parametri operativi restano pendenti: il nucleo vale 1.728 a R=1 e 5.184 a R=3,
+mentre il totale usa il ledger completo di §8.8. G5 e G6 sono mitigate, non
+chiuse.
 
 Il prior art federato esaminato nella revisione 3 (§12.6–12.9) **rafforza il disegno ma non ne cambia i limiti**: conferma che schema congelato, parità fra producer, controllo con conoscenza errata e conformità misurata sono le scelte giuste, e al tempo stesso non risolve lo **scope FL** (CF1/CF5 resta aperta), non risolve la **scala** (G2 è mitigata moderatamente: otto agenti restano pochi) e non tocca la **validità esterna**, che resta limitata a un benchmark simulato.
 
@@ -356,7 +376,7 @@ Con R=1 l'esecuzione scende da ~7 giorni a 2–3. Il vincolo non è più il volu
 | 15–16 set | capability pilot, incluso test di stabilità |
 | **17 set** | **decisione GO/NO-GO sul modello — data limite** |
 | 18 set | congelamento protocollo, produzione insight |
-| 19–21 set | esecuzione studio finale (~2.450 chiamate) |
+| 19–21 set | finestra candidata dello studio finale; fattibilità da provare con conteggio completo, tempi misurati e margine 20% |
 | 22–25 set | analisi dei risultati |
 | 25–29 set | redazione |
 | 30 set | deadline |
@@ -421,11 +441,13 @@ Generare insight solo per i fault confrontati produrrebbe un prompt a provenienz
 
 | Componente | Calcolo | Chiamate |
 | --- | --- | ---: |
-| Generazione libreria completa dal producer alternativo | 8 × 2 + margine | ~20 |
-| Misura su 4 fault, condizione B-LF, R=1 | 4 × 6 × 7 | 168 |
-| **Totale** | | **188** |
+| Generazione libreria completa dal producer alternativo | 8 richieste / 16 insight; zero richieste aggiuntive se gli output conformi sono riusabili | **0 o 8** |
+| Misura su 4 fault, condizione B-LF, R=1 | 4 × 8 × 7 | **224** |
+| **Totale corrente** | generazione senza doppio conteggio + misura | **224 o 232** |
 
-Nel piano B (D9 opzione 2), il producer alternativo è Terra: il braccio resta intatto e G5 resta coperta.
+Producer principale, consumer e alternativo sono ruoli; D9 ne fisserà le identità
+effettive. Questo documento non sceglie alcun modello e non duplica le richieste
+quando due ruoli coincidono.
 
 ### 8.5 Endpoint
 
@@ -538,7 +560,9 @@ Il caveat tecnico è sostanziale: Qwen-27B è un modello denso, un 2.4T-A95B è 
 Due regole interpretative da congelare con il protocollo, perché senza di esse la registrazione diventa una leva post-hoc:
 
 - **l'assenza dei controlli non è una divergenza osservata**, e da sola non attiva R=3: il gate di D7 resta definito sull'evento «divergenza fra le ripetizioni di uno stesso prompt», non sulle capacità dichiarate dal provider;
-- **se si vuole una politica più conservativa** — R=3 quando l'API non espone né temperatura né seed — è una **nuova decisione**, da pre-specificare prima del pilot e non dopo averne visto l'esito. È aperta (§0.1, decisione 11).
+- **la politica più conservativa non è adottata**: l'assenza di temperatura e
+  seed va registrata nei limiti ma non attiva R=3 senza divergenza osservata
+  (§0.1, decisione 11 confermata in 03.8).
 
 Il valore della registrazione è un altro: senza controlli sul determinismo, la riproducibilità operativa dello studio è più debole, e questo va scritto nei limiti invece di essere scoperto da un reviewer.
 
@@ -546,7 +570,31 @@ Il valore della registrazione è un altro: senza controlli sul determinismo, la 
 
 ### 8.8 Budget
 
-Il budget dipende da D2 — 6 o 8 run per fault — che non è ancora congelata. Entrambe le colonne sono calcolate, così la decisione è prezzata invece che rimandata.
+**Regola vigente dopo la rev.10.** D2 è confermata a 8 run. Non esiste un
+tetto rigido corrente di 3.700 chiamate: occorrono conteggio completo per
+blocco e modello effettivo e fattibilità temporale misurata sul pilot, con
+`1,20×T≤W`. Se il ramo R=3 non è compatibile con la finestra, si sospende e si
+chiede una decisione all'autore; non si riduce automaticamente il disegno, non
+si estende la finestra e non si dichiara un fallimento scientifico.
+
+Con D2=8, le quattro misure sul consumer valgono:
+
+| Blocco | R=1 | R=3 |
+| --- | ---: | ---: |
+| Nucleo local-unseen + local-seen + Normal | 1.728 | 5.184 |
+| Misura producer-swap | 224 | 672 |
+| Ablation B-senza-LF | 148 | 444 |
+| OOD | 144 | 432 |
+| **Somma delle quattro misure** | **2.244** | **6.732** |
+
+Il totale completo è `2244R + 2k·1[R=1] + 16S + 8U_nonriusato + 10d +
+G_P + G_A + P_tot + X + Q`, con definizioni e vincoli nel
+`BUDGET_RISORSE_REV10.md`. I parametri D9, S/U, riusi, giorni, X/Q, latenze e
+calendario restano da determinare; nessun totale esemplificativo prova T5. Il
+pilot conserva riserva unica, massimi 152/160 e hard stop cumulativo 200.
+
+La tabella seguente è mantenuta come **ricostruzione storica arrotondata a
+R=1**, non come budget vigente né come scelta ancora aperta:
 
 | Blocco | 6 run (48 cluster) | 8 run (64 cluster) |
 | --- | ---: | ---: |
@@ -566,7 +614,7 @@ Il budget dipende da D2 — 6 o 8 run per fault — che non è ancora congelata.
 | **Totale stimato** | **~2.594** | **~3.232** |
 | Retry e riparsing (+10%) | ~259 | ~323 |
 | **Sottototale con retry** | **~2.853** | **~3.555** |
-| **Tetto da richiedere** | **3.000** | **3.700** |
+| **Tetto storico, non vigente** | **3.000** | **3.700** |
 
 \* **La voce E5 è parametrica, non definitiva.** Vale **2nR · Σ_F (m_F + c_F)** per i bracci
 corrotti, con n run per fault, R ripetizioni, m_F fault bersaglio e c_F = 1 controllo per famiglia.
@@ -587,10 +635,13 @@ entro i tetti scelti.
 contrasti di E5 rispetto alle ripetizioni dell'inferenza non è verificata**, ed è un limite da
 dichiarare nel paper, non una svista.
 
-I tetti di **3.000 a 6 run e 3.700 a 8** sono tetti di **pianificazione**: le cifre effettive restano
-subordinate alla mappa finale e al riuso di FULL.
+I tetti storici di **3.000 a 6 run e 3.700 a 8** sono conservati per
+provenienza ma sono sostituiti dalla regola vigente sopra.
 
-Passare a 8 run costa **+590 chiamate, cioè +24%**, e porta i cluster da 48 a 64. La baseline FL (§9.1) non entra in questa tabella: non consuma chiamate API.
+Nelle stime storiche, passare a 8 run aumenta il subtotale con retry da 2.853
+a 3.555: **+702 chiamate, +24,6%**; prima del retry l'aumento è **+638**
+(2.594→3.232). D2 è confermata a 8; il confronto a 6 resta storico. La
+baseline FL (§9.1) non consuma chiamate API.
 
 **Il budget in chiamate non è l'unico budget** *(revisione 5)*. Il piano prescrive la generazione dei run in §6.2 e §6.9 ma non ne ha mai totalizzato il costo, e questo ha fatto sembrare la generazione dati un preliminare invece di una voce del cammino critico:
 
@@ -651,7 +702,12 @@ Questa sottosezione è nuova nella revisione 3 e nasce da una lacuna comune a tu
 2. **Rende E una manipolazione a campo singolo.** Con uno schema tipizzato, E-LF si ottiene permutando **soltanto il valore del campo pseudolabel**, lasciando immutato ogni altro byte. Il diff fra la libreria B e la libreria E diventa un artefatto verificabile da allegare al paper: si vede che il contenuto descrittivo è identico e che cambia solo l'etichetta. Con insight in testo libero questa verifica non esiste e il controllo E resta un'affermazione degli autori.
 3. **Rende misurabile ciò che i sei lavori esaminati non misurano.** Validità, retry, troncamenti e token non sono riportati da nessuno dei sei, e qui costano zero chiamate aggiuntive perché sono logging.
 
-**Costo.** **Zero chiamate API aggiuntive.** La progettazione dello schema e il validatore sono lavoro di ingegneria indipendente dal modello (§6.10). Le ripetizioni per conformità rientrano nelle righe già presenti in §8.8: "Produzione insight" (~30) per il producer principale, la voce di generazione della libreria dentro il braccio swap (~20, §8.4), e il capability pilot (~200), che nella revisione 3 deve includere una sonda di conformità allo schema su **entrambi** i producer. **Il budget di §8.8 resta invariato: ~2.450 con 6 run, ~3.040 con 8 run.**
+**Costo.** Progettazione dello schema e validatore non consumano chiamate API.
+La conformità usa 8 richieste per 16 insight per ciascun producer effettivamente
+configurato. Se caso, input, template, schema, configurazione e provenienza
+coincidono, gli output conformi possono essere riusati per la libreria; altrimenti
+la produzione aggiunge 8 richieste per producer. La contabilità è quella
+parametrica della rev.10 in §8.8, senza stime ~30/~20 né doppio conteggio.
 
 **Critica che mitiga.** Due, entrambe precise: *«l'effetto che chiamate producer è un effetto di formattazione»* e *«la vostra condizione E potrebbe differire da B per più della sola etichetta»*. La seconda è la più pericolosa, perché colpisce il contrasto che porta l'intero claim causale.
 
@@ -826,7 +882,8 @@ ornamentale.**
 
 - *Catalogo dei fault: non se ne apre uno nuovo.* L'esperimento gira sugli **8 fault di D1** — i 4 di
   continuità (F1, F8, F10, F13) più i 4 nuovi — e sui **run per fault di D2**. E5-C **dipende quindi
-  dalla 1 e dalla 2 di §0.1** e non è chiudibile prima di quelle.
+  dalla 1 e dalla 2 di §0.1**; entrambe sono ora chiuse, quindi non sono più
+  un residuo per E5-C3.
 - *Assegnazione del meccanismo:* Downs & Vogel 1993, secondo §12.4. Cieca rispetto a quali feature si
   attivano nei nostri dati: selezionare guardando le attivazioni sarebbe selezione sull'esito.
 - *Drift lento — vincolo accettato.* **IDV(13) è l'unico fault documentato per il meccanismo slow
@@ -837,8 +894,9 @@ ornamentale.**
   sono utilizzabili come secondo drift, perché assegnerebbero il meccanismo dalla firma attesa; un
   dataset esteso è escluso dalla decisione P0/Via B, che fissa la generazione Simulink a 1 minuto per
   conservare le feature congelate.
-*Le tre voci aperte non hanno la stessa dipendenza.* **E5-C1** ed **E5-C2** sono indipendenti da D1 e
-da D2 e sono **chiudibili subito**; solo **E5-C3** deve attendere.
+*Le tre voci non avevano la stessa dipendenza.* **E5-C1** è chiusa;
+**E5-C2** resta provvisoria fino alla verifica di fattibilità; D1 e D2 non
+bloccano più **E5-C3**.
 
 | Voce | Dipende da | Quando |
 | --- | --- | --- |
@@ -866,7 +924,7 @@ da D2 e sono **chiudibili subito**; solo **E5-C3** deve attendere.
   I valori negativi vanno riportati come tali, mai troncati a zero né riportati in valore assoluto.
 
   *Nota da portare in E5-C3.* Con i run di D2 l'accuratezza per meccanismo si misura su poche unità
-  indipendenti — 6 o 8 per IDV(13), circa il doppio dove i fault per meccanismo sono due. La
+  indipendenti — 8 per IDV(13), circa il doppio dove i fault per meccanismo sono due. La
   granularità della stima puntuale è quindi grossolana rispetto a 10 punti, e su IDV(13) il più
   piccolo effetto non nullo osservabile è già ≥ 12,5 punti con 8 run. Non è un problema di E5-C1, che
   fissa una soglia di rilevanza e non di misurabilità; è un vincolo che E5-C3 deve assorbire quando
@@ -879,8 +937,8 @@ da D2 e sono **chiudibili subito**; solo **E5-C3** deve attendere.
   completa nel blocco «E5-C2» sopra.
 - *Endpoint:* accuratezza diagnostica top-1 **per meccanismo**, unità = *physical run*, bootstrap
   clusterizzato. Contrasto: FULL − PERM_F per ciascuna famiglia F.
-- *Limite principale, già noto e da dichiarare nel paper.* Con D2 pari a 6 o 8 run, **IDV(13) fornisce
-  soltanto 6 o 8 unità indipendenti**: è l'unico fault del meccanismo slow drift, quindi non c'è una
+- *Limite principale, già noto e da dichiarare nel paper.* Con D2 confermata a 8 run, **IDV(13) fornisce
+  soltanto 8 unità indipendenti**: è l'unico fault del meccanismo slow drift, quindi non c'è una
   seconda istanza su cui accumulare potenza. Senza run aggiuntivi dedicati, **il risultato su
   `slope_sigma_h` resta esplorativo e non può sostenere un criterio inferenziale forte.** È il
   descrittore che ha già meno evidenza a favore (`analysis/feature_ablation/`), quindi il limite cade
@@ -982,7 +1040,7 @@ adattato al campione.
 
 1. ✅ **E5-C1** fissata: Δ ≥ 0,10 come soglia di annotazione;
 2. ⏳ **E5-C2** provvisoria; si chiude con la **verifica di fattibilità** sulle sole lunghezze;
-3. chiudere **D1** e **D2**; verificare la coincidenza **FULL = B-LF** sul decoding;
+3. D1 e D2 sono chiuse; verificare la coincidenza **FULL = B-LF** sul decoding;
 4. formulare **E5-C3** — mappa famiglia–meccanismo, regola di aggregazione, specifica degli intervalli;
 5. costruire e congelare mappe e assegnazioni sui soli identificativi;
 6. congelare con `exp5-protocol-frozen`; poi applicazione delle mappe, generazione di omissioni e
@@ -1078,11 +1136,17 @@ I 4 fault di continuità (F1, F8, F10, F13) sono dichiarati come tali. I 4 nuovi
 
 **Raccomandazione sulla stratificazione:** includere deliberatamente almeno 2 fault documentati come difficili. Un 78% con i fault difficili dentro è più pubblicabile — e molto più difficile da attaccare — di un 97% su un catalogo selezionato.
 
-### D2 — Quanti run per fault nel test? *(aperta, e prezzata)*
+### D2 — Run per fault nel test *(confermata: 8)*
 
-Minimo 6 (48 cluster, contro 12 dell'Exp1 e 24 della replica). Con 8 run (64 cluster) gli intervalli si stringono.
+Il disegno confermato usa **8 run per ciascuno degli 8 fault**, quindi 64 cluster
+fault, più 8 run Normal primari. Il confronto a 6 run/48 cluster resta storico.
 
-Il costo reale della decisione, ricalcolato in §8.8: **+590 chiamate, +24%**, da ~2.450 a ~3.040, con tetto da 3.000 a 3.500. Non cambia la finestra temporale di §7, perché il collo di bottiglia è la data della decisione sul modello e non il volume. Con R=1 la scelta è quindi economicamente sostenibile in entrambe le direzioni, e va presa sul merito statistico: 64 cluster restringono gli intervalli fra run e allargano il margine di manovra su H3, che è il test di non inferiorità e quindi il più esigente in termini di potenza. Nota che più cluster non compensano la componente lasciata non stimata da R=1 (§8.7): sono due fonti di variabilità distinte.
+Il confronto storico ricalcolato è +702 chiamate (+24,6%) con retry e +638
+prima del retry. Non ne segue alcuna durata: volume, identità del modello,
+latenze, concorrenza e calendario vanno misurati. La regola vigente è il
+conteggio completo e la compatibilità temporale con margine 20%, non un tetto
+3.700. Più cluster non compensano la variabilità del modello lasciata non
+stimata a R=1.
 
 ### D3 — Tutti e 7 i riceventi o un sottoinsieme?
 
@@ -1163,38 +1227,38 @@ Le coppie di fault confondibili vanno identificate su base meccanica — variabi
 | --- | --- | --- | --- |
 | T1 | API del modello scelto funzionante e stabile | ⬜ | **SÌ** |
 | T2 | Capability pilot completato con esito positivo | ⬜ | **SÌ** |
-| T3 | Formato JSON compatibile con il parser, astensione inclusa — `abstain=true` con `predicted_label=null` (D10) | ⬜ | **SÌ** |
-| T4 | Reasoning budget sufficiente con 14 insight | ⬜ | **SÌ** |
-| T5 | Latenza compatibile con il tetto di §8.8 (3.000 o 3.500) nella finestra di §7 | ⬜ | **SÌ** |
-| T6 | Gate di stabilità superato (nessuna divergenza) o R=3 attivato | ⬜ | **SÌ** |
+| T3 | Gate: almeno 114/120 valide al primo tentativo e almeno un'astensione parsata per condizione; invalidità sempre nel denominatore | ⬜ | **SÌ** |
+| T4 | Zero troncamenti al budget scelto su 120 chiamate del gate | ⬜ | **SÌ** |
+| T5 | Conteggio completo per blocco/modello e tempi misurati sulla configurazione effettiva; `1,20×T≤W` | ⬜ | **SÌ** |
+| T6 | 0/40 prompt valutabili divergenti → R=1; ≥1 → ramo R=3 soggetto a T5; tre risposte non valide rendono il prompt non valutabile e bloccano il GO tecnico | ⬜ | **SÌ** |
 | T7 | Logging esteso attivo: ID modello restituito, request ID, fingerprint, hash, latenza | ⬜ | **SÌ** |
 | T8 | Set canary definito, con output atteso congelato e schedulazione giornaliera | ⬜ | **SÌ** |
-| T9 | Logging di conformità attivo: validità schema, retry, troncamenti, token per insight e per prompt (§8.7) | ⬜ | **SÌ** |
-| T10 | Capacità di determinismo dell'API registrate nel pilot — temperatura e seed esposti o no — con la regola interpretativa di §8.7 congelata | ⬜ | **SÌ** |
-| T11 | Tasso di astensione in-catalogo misurato nel pilot nelle tre condizioni, a 14 insight e 9 classi (§8.6) | ⬜ | No, ma è la condizione di validità del test OOD |
+| T9 | 16/16 insight validi in 8 chiamate; eventuale unica remediation sul prompt richiede autorizzazione scritta sul diff e ripetizione completa degli 8 casi | ⬜ | **SÌ** |
+| T10 | Capacità di determinismo registrate; la loro assenza è un limite e non attiva R=3 da sola | ⬜ | No, ma obbligatorio da registrare |
+| T11 | Almeno un'astensione A sui local-unseen rende la sonda OOD informativa; altrimenti resta esplorativa con validità non stabilita | ⬜ | No |
 
 ### Prerequisiti scientifici
 
 | # | Requisito | Stato | Bloccante? |
 | --- | --- | --- | --- |
-| S1 | 8 fault selezionati con criteri documentati e congelati, senza criteri di separabilità | ⬜ | **SÌ** |
+| S1 | 8 fault selezionati con criteri documentati e congelati, senza criteri di separabilità | ✅ | **SÌ** |
 | S2 | Run di sviluppo generati per tutti gli 8 fault + Normal | ⬜ | **SÌ** |
 | S3 | Run di test generati, congelati e hashati, con seed distinti da quelli di sviluppo | ⬜ | **SÌ** |
 | S4 | Soglie calibrate sui soli Normal di sviluppo | ⬜ | **SÌ** |
 | S5 | Insight prodotti e congelati, **per entrambi i producer** (libreria completa) | ⬜ | **SÌ** |
-| S6 | Piano statistico completo scritto e congelato | ⬜ | **SÌ** |
-| S7 | Le 9 pseudolabel, la forma dell'astensione (D10) e la permutazione E congelate | ⬜ | **SÌ** |
+| S6 | Piano statistico rev.10 scritto e verificato; firma, allineamento verificato, pubblicazione e tag ancora pendenti | ⏳ | **SÌ** |
+| S7 | Le 9 pseudolabel, la forma dell'astensione (D10) e la permutazione E congelate | ✅ | **SÌ** |
 | S8 | Prompt, template e le tre condizioni congelate | ⬜ | **SÌ** |
-| S9 | Baseline numerica preparata (prototipi dai dati di sviluppo) | ⬜ | **SÌ** |
-| S10 | Le tre ipotesi H1–H3 scritte, con il margine *m* di non inferiorità e la sua giustificazione esterna | ⬜ | **SÌ** |
-| S11 | Gerarchia di test (gatekeeping H1 → H2 → H3) congelata | ⬜ | **SÌ** |
-| S11b | Definizione dei tre numeri dell'endpoint con l'astensione e indicazione del primario, con la regola esplicita: **i tre numeri sono calcolati e riportati separatamente per A, B-LF ed E-LF** | ⬜ | **SÌ** |
-| S12 | Coppie confondibili dell'ablation dichiarate prima — **dipende da S1** | ⬜ | **SÌ** |
-| S13 | Due fault OOD scelti, meccanicamente distinti da tutto il catalogo **e non appartenenti al gruppo compensato dal controllo** (§8.6, §12.1) — **dipende da S1** | ⬜ | **SÌ** |
-| S14 | Regola di reporting stratificato (continuità / nuovi / aggregato) scritta | ⬜ | No, ma raccomandata |
+| S9 | Baseline numerica 03.9 pubblicata e congelata | ✅ | **SÌ** |
+| S10 | Le tre ipotesi H1–H3 scritte, con *m*=0,125 e giustificazione | ✅ | **SÌ** |
+| S11 | Gerarchia H1 → H2 → H3 a alpha 0,05 fissata nel candidato rev.10 | ✅ | **SÌ** |
+| S11b | Tre numeri dell'endpoint definiti per A, B-LF ed E-LF, con il primo primario | ✅ | **SÌ** |
+| S12 | Coppie confondibili **{F1,F2} e {F14,F15}**, run 1–3 sigillati | ✅ | **SÌ** |
+| S13 | OOD **F6/F4** e catene fissati; controlli tecnici 03.11 ancora pendenti | ⏳ | **SÌ** |
+| S14 | Regola di reporting stratificato scritta nella rev.10 | ✅ | No, ma obbligatoria nel piano statistico |
 | S15 | Specifica FedAvg congelata: architettura, round, epoche locali, lr, seed, e protocollo di valutazione identico al braccio LLM | ⬜ | **SÌ** se la baseline entra nel paper |
 | S16 | Pavimento locale e soffitto centralizzato pianificati insieme a FedAvg (§9.3) | ⬜ | No, ma è la difesa della baseline |
-| S17 | Schema degli insight congelato: campi, tipi, cardinalità, cap per elemento, validatore eseguibile (§8.9) | ⬜ | **SÌ** |
+| S17 | Schema insight 03.12 R4 pubblicato e congelato | ✅ | **SÌ** |
 | S18 | Diff B↔E verificato e allegato: differisce esclusivamente nel campo pseudolabel (§8.9) | ⬜ | **SÌ** |
 | S19 | Parità strutturale fra i due producer verificata sugli insight congelati (§8.4) | ⬜ | **SÌ** |
 
@@ -1215,10 +1279,10 @@ Conseguenza da riportare in §7: **S13 è bloccante e indipendente dal modello, 
 | # | Requisito | Stato | Bloccante? |
 | --- | --- | --- | --- |
 | O1 | Piano B definito e datato (D9) | ⬜ | **SÌ** |
-| O2 | Budget API come tetto: **3.000** con 6 run, **3.500** con 8 run (§8.8) | ⬜ | **SÌ** |
+| O2 | Conteggio completo per blocco/modello e fattibilità temporale misurata con margine 20%; nessun tetto rigido 3.700 vigente | ⏳ misure/calendario | **SÌ** |
 | O3 | Decisione sul modello presa entro il 17 settembre | ⬜ | **SÌ** |
 | O4 | Decisione su baseline FL | ✅ | risolta: FedAvg minimale (D8, §9) |
-| O6 | Le cinque decisioni indipendenti dal modello di §0.1 congelate | ⬜ | **SÌ** |
+| O6 | Decisioni A/B, D2, D11, OOD condizionati, margine, alpha, gerarchia e politica R approvate e recepite; firma/freeze separati | ⏳ | **SÌ** |
 | O5 | Sezioni del paper indipendenti dal modello iniziate (§6.12) | ⬜ | No, ma è l'unica copertura reale |
 
 ### Regola GO/NO-GO
@@ -1228,7 +1292,9 @@ Conseguenza da riportare in §7: **S13 è bloccante e indipendente dal modello, 
 **NO-GO** se almeno uno non lo è. In quel caso:
 - blocco T1 → attivare D9 opzione 2
 - blocco T2–T8 → valutare se è risolvibile in 24 ore; oltre, D9 opzione 2
-- blocco T6 → non è un NO-GO ma un passaggio a R=3, con ricalcolo del budget e della finestra temporale
+- blocco T6 con divergenza → ramo R=3; prima dell'esecuzione servono conteggio
+  completo e T5 con margine 20%. Se non fattibile: sospensione organizzativa e
+  decisione dell'autore, non riduzione automatica o NO-GO scientifico
 - blocco S1–S14 → completare il prerequisito, non procedere
 - blocco O3 → D9 opzione 3
 
@@ -1402,7 +1468,7 @@ I 12+24 run dell'esplorativo restano risultati dell'esplorativo. I nuovi dati di
 Generare i run di test, hasharli, non usarli per nessuna decisione. Congelare soglie, insight, prompt, condizioni, endpoint e δ prima dell'apertura. Seed di sviluppo e di test distinti e documentati. Ogni ispezione tecnica loggata.
 
 **6. Quanti run indipendenti servono per fault?**
-Minimo 6 (48 cluster); 8 (64 cluster) è ora realistico perché R=1 abbatte il costo per run.
+**Otto**, come confermato in D2: 64 cluster fault e 8 run Normal primari.
 
 **7. Tutti i 7 riceventi o un sottoinsieme?**
 Tutti e 7. Costo lineare, potenza determinata dai cluster, scomposizione per agente gratuita.
@@ -1417,7 +1483,12 @@ Sì, indispensabile, nella variante E-LF. Senza E il claim principale perde il s
 No. **B-LF è il metodo** (§8.2). B senza local-first sopravvive come ablation su sottoinsieme meccanicamente dichiarato (§8.3), che non è un residuo ma la difesa del claim principale.
 
 **11. R=1 o R=3?**
-Gate tecnico dopo il pilot: nessuna divergenza osservata → R=1 con audit continuo. La soglia dell'1% è rimossa perché non dimostrabile con 120 osservazioni (§8.7). R=1 va presentato come **compromesso operativo, non come equivalenza statistica a R=3**: un pilot senza divergenze non dimostra determinismo, e gli intervalli sui cluster-run non stimano la variabilità delle risposte del modello alla stessa richiesta. Audit R=3 e set canary sono per questo indispensabili, non opzionali.
+Gate tecnico dopo il pilot: 0/40 prompt valutabili divergenti → R=1 con audit;
+almeno una divergenza della coppia parsata o della validità → R=3. Tre
+risposte non valide rendono il prompt non valutabile e bloccano il GO tecnico.
+Il ramo R=3 richiede conteggio completo e fattibilità temporale misurata con
+margine 20%; se non fattibile si sospende e si decide esplicitamente. R=1 resta
+un compromesso operativo, non un'affermazione di determinismo.
 
 **12. Quali baseline sono indispensabili?**
 Due, più due numeri di contorno — e nella revisione 3 il pavimento sale di priorità, perché è assente in P042, P030 e P031 e presente solo indirettamente in P041. La **baseline numerica a prototipi condivisi** resta indispensabile. La **baseline FL è ora decisa**: FedAvg minimale sulle stesse feature 697-D, con output condiviso sulle nove classi e otto client (§9). Non consuma chiamate API ed è avviabile subito. Accanto a FedAvg vanno riportati il **pavimento** (stessa rete addestrata da ogni client da solo) e il **soffitto centralizzato** (stessa rete sui dati aggregati): costano solo due esecuzioni dello stesso codice e sono ciò che impedisce l'accusa di baseline costruita per fallire (§9.3).
@@ -1426,7 +1497,12 @@ Due, più due numeri di contorno — e nella revisione 3 il pavimento sale di pr
 Escludere dal disegno: studio ponte, Q4, A+, condizione C centralizzata, ablation delle rappresentazioni. Escludere dalle componenti suggerite dal prior art, con motivazione citabile (§12.8): **aggregazione lato server, selezione top-k, round multipli, confidence weighting, privacy differenziale**. Mantenere: A, B-LF, E-LF, baseline numerica, FedAvg con pavimento e soffitto, producer-swap con parità strutturale, test OOD, ablation local-first, schema congelato con metriche di conformità, set canary.
 
 **14. Qual è il minimo studio finale pubblicabile?**
-§8 di questo documento: Q8 con 8 agenti e 8 fault, tre condizioni A/B-LF/E-LF, astensione disponibile in tutte (D10), ≥6 run per fault, baseline numerica, FedAvg minimale con pavimento e soffitto, producer-swap con libreria completa, test fuori catalogo in tutte le condizioni, ablation local-first dichiarata, R=1 subordinato al gate, audit continuo e set canary. Circa 2.450 chiamate con 6 run (tetto 3.000) o ~3.040 con 8 run (tetto 3.500); la baseline FL non consuma chiamate.
+§8 di questo documento, allineato alla rev.10: Q8 con 8 agenti e 8 fault,
+tre condizioni A/B-LF/E-LF, astensione disponibile in tutte, **8 run per fault**,
+baseline numerica, FedAvg con pavimento e soffitto, producer-swap, OOD F6/F4
+condizionati, ablation D11, R subordinato al gate, audit e canary. Il costo segue
+il ledger completo parametrico di §8.8 e la fattibilità temporale +20%; non
+esiste un tetto rigido vigente di 3.700. La baseline FL non consuma chiamate API.
 
 Tre ipotesi statistiche in gerarchia (§8.5): B-LF > E-LF e B-LF > A sui local-unseen, B-LF non inferiore ad A sui local-seen. Tre domande scientifiche riformulate in §8.11 sulla base dei gap osservati nei sei lavori esaminati: la conoscenza di un pari permette di diagnosticare una classe mai osservata localmente? il guadagno dipende dalla correttezza dell'informazione o dalla sua sola presenza? la conoscenza ricevuta danneggia ciò che l'agente già sapeva, e a che prezzo la si può proteggere?
 
