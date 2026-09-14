@@ -1,0 +1,2 @@
+run_id,set_name,stream_id,seed_namespace,seed_digest,J,window_position,burn_in_h,stop_time_h,window_h,use
+smoke_cal_thr-001,smoke_cal_thr,49900,fot-tep/fase03/soglie_normal/cal_thr/j/v1,46d630e26391c267e63b8c703fed7b0bf43604ca0c6b9db26ce17f9789de9df0,1,1,20,25,5,smoke

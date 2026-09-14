@@ -267,3 +267,59 @@ prima di ogni derivazione. Artefatti, impronte e stato di congelamento sono in
 `fase03/pseudolabel/PSEUDOLABEL_FREEZE.json` (`frozen_pending_independent_verification`, nessun
 tag). Il mapping pseudolabel↔fault e l'assegnazione agli agenti sono evaluator-side e non entrano
 in alcun prompt.
+
+## 10. Fase 03 — soglie Normal (§6.3)
+
+La sotto-fase 03.5 usa U1/R2 esclusivamente come `baseline_fit` N1–N5, con score A e parametri
+congelati in `fase02/validation/score_fit_legacy.json`; guardia R2 superata e ricontrollata.
+I nuovi lotti sono pre-specificati: `cal_thr` 350 run, stream 40000–40349, e `far_ver` 150 run,
+stream 50000–50149. Il piano, il freeze e gli output sono identificati dai manifest e dalle
+impronte in `fase03/soglie_normal/`.
+
+Il freeze della soglia è stato eseguito prima dell'apertura analitica di `far_ver`, al commit
+`9507143`: soglia `13.623626738268857`, rango 334, n=350, regola `S > threshold`. Il codice di
+score è quello Fase 02; la soglia, il lotto e il sigillo dei 150 file sono in
+`fase03/soglie_normal/THRESHOLD_FREEZE.json`. L'analisi FAR è stata eseguita dopo il freeze,
+senza modifica della soglia: `11/150` primari e `108/1500` secondari.
+
+| Artefatto | Identità | Ruolo | Marca |
+| --- | --- | --- | --- |
+| `fase03/soglie_normal/plans/cal_thr.csv` e `far_ver.csv` | piani SHA-256 nei manifest | allocazione e stream disgiunti | pre-specificato |
+| `fase03/soglie_normal/CAL_THR_SCORES.csv` | SHA-256 `a1c5991af1ee136372b1da7c63ab05027d9710fd99c228a549395964d5519191` | calibrazione della soglia | pre-specificato |
+| `fase03/soglie_normal/THRESHOLD_FREEZE.json` | commit `9507143`; soglia e sigillo `far_ver` | freeze prima della verifica | pre-specificato / post-esecuzione |
+| `fase03/soglie_normal/FAR_VERIFICATION.json` | analisi a soglia immutata | FAR primario, secondario e diagnostica | pre-specificato |
+| release `studio2-fase03-normal-v1` | archivio SHA-256 `bbcfd0c43a5fbda624deba62fea746150dda4a6d649e6372b8e118270277ac1d` | conservazione, 515 file | post-esecuzione |
+
+L'archivio pubblico è stato riscaricato e verificato: 515/515 file, zero mismatch. Dettagli e
+URL sono in `fase03/soglie_normal/ARTIFACT_STORAGE.json`. Il batch è stato lanciato prima del
+freeze, come previsto dall'handoff operativo, che richiedeva il congelamento prima di aprire
+le finestre `far_ver` e non vietava la loro generazione anticipata. Le tracce accessibili
+documentano hash/manifest prima del freeze e apertura analitica successiva; gli score FAR
+scientifici registrati compaiono dopo il freeze, mentre quelli precedenti rintracciati sono
+degli smoke esclusi (stream 49900–49901). La disponibilità anticipata dei file è un limite di
+segregazione operativa: sigilli e storia Git provano identità e sequenza registrata, non
+escludono consultazioni umane o da processi non registrati. L'accettazione scientifica di questo
+limite rimane una decisione dell'autore; non è implicita nella correzione del report.
+
+### 10.1 Completamento C4 dopo la verifica del candidato 819b12e
+
+Il 2026-09-14 l'autore ha richiesto di correggere il report e completare l'incertezza della
+soglia. Il requisito C4 era pre-specificato nel registro rev. 19; seed, numero di repliche e
+convenzione dell'intervallo sono invece scelte operative **post-hoc rispetto ai risultati**,
+registrate prima di questo ricalcolo supplementare. Non si rivendica una scelta cieca e non
+si modifica la soglia operativa. Esecutore: `gpt-6-astra`, finestra
+`01a09f81-e508-77e0-b510-872bdeba46e3`, ora incaricata della correzione e non della sua
+certificazione indipendente.
+
+| Origine / identità | Destinazione | Ruolo e trasformazione | Marca |
+|---|---|---|---|
+| `CAL_THR_SCORES.csv`, candidato `819b12e97fb94d501032655ec2f226139e6c5ca5`, SHA-256 `a1c5991af1ee136372b1da7c63ab05027d9710fd99c228a549395964d5519191` | `fase03/soglie_normal/THRESHOLD_UNCERTAINTY.json` | diagnostica completa dei pareggi; 10.000 bootstrap di 350 run, rango 334, seed 20260914, percentile95%; score fit fisso | completamento C4 richiesto prima dei dati, dettagli operativi definiti dopo i risultati |
+| `THRESHOLD_FREEZE.json`, introdotto in `950714389f92e559eac922a09404742a71c74346`, SHA-256 `ff5c27002a2548003e4bc5f54805cda3754fb19b9cb2559222996b9c7f7e14a9` | stesso risultato supplementare | controllo n/rango/soglia/regola e Beta(17,334) condizionata alle ipotesi; nessuna soglia sostitutiva | rendicontazione supplementare, nessuna nuova calibrazione operativa |
+| `THRESHOLD_UNCERTAINTY_PROTOCOL.json`, SHA-256 `711d9711587fd140dcb451ccbe48b42d35fdf1bc3043feb5fb5e6dea3921989b` | `complete_threshold_uncertainty.py` e risultato JSON | parametri del nuovo bootstrap fissati prima del ricalcolo; impronte verificate prima/dopo | protocollo post-esito, non preregistrazione cieca |
+
+Il risultato contiene impronte complete di codice, protocollo e input, ambiente e data.
+Nuovi file piccoli destinati a Git nella revisione correttiva, ancora non committata;
+non sono già inclusi nella release `studio2-fase03-normal-v1`. Il vecchio manifest e la
+release restano invariati e descrivono i loro snapshot; il report conservato nell'asset è
+quello pre-chiusura, non questa revisione. U1/R2 non riceve alcun nuovo ruolo e i suoi
+parametri non sono rifittati.

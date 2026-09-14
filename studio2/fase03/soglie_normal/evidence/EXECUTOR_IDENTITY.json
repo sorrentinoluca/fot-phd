@@ -1,0 +1,29 @@
+{
+  "evidence_type": "derived_minimal_metadata",
+  "purpose": "Identificare il modello e il profilo del turno di correzione senza copiare il rollout integrale nel repository.",
+  "source": {
+    "path": "/Users/luker/.codex/sessions/2026/09/14/rollout-2026-09-14T12-41-25-01a09f81-e508-77e0-b510-872bdeba46e3.jsonl",
+    "sha256": "45c71aca14e2f40818f394c29e7a52f160493c0c8c56759c62976075960f3aad",
+    "session_id_from_filename": "01a09f81-e508-77e0-b510-872bdeba46e3"
+  },
+  "extraction": {
+    "records_selected": "type == turn_context",
+    "turn_context_count": 8,
+    "models": ["gpt-6-astra"],
+    "reasoning_efforts": ["high"],
+    "timestamps_utc": [
+      "2026-09-14T10:41:27.180Z",
+      "2026-09-14T11:03:16.820Z",
+      "2026-09-14T11:03:37.346Z",
+      "2026-09-14T11:12:55.013Z",
+      "2026-09-14T11:14:56.553Z",
+      "2026-09-14T11:16:23.954Z",
+      "2026-09-14T12:15:44.972Z",
+      "2026-09-14T12:16:57.734Z"
+    ]
+  },
+  "limits": [
+    "Il file è una trascrizione minima dei metadati pertinenti, non una attestazione crittografica dell’identità del modello servito.",
+    "Il rollout originale non è copiato nel repository."
+  ]
+}

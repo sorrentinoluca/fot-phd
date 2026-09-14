@@ -1,0 +1,47 @@
+{
+  "mc_counts": {
+    "le_x324": 197,
+    "le_x325": 324,
+    "le_x340": 9763,
+    "le_x341": 9898,
+    "needed_for_linear_upper_eq_x340": 9751
+  },
+  "exact_cdf": {
+    "x324": 0.02094413269435988,
+    "x325": 0.032822510475280925,
+    "x340": 0.9748146733586164,
+    "x341": 0.9898645837130785
+  },
+  "exact_upper_tail": {
+    "P_T_gt_x340": 0.02518532664138362,
+    "P_T_gt_x341": 0.010135416286921495
+  },
+  "exact_lower_tail": {
+    "P_T_lt_x325": 0.02094413269435988,
+    "P_T_le_x325": 0.032822510475280925
+  },
+  "coverage_exact": {
+    "[x325,x340]": 0.9538705406642565,
+    "[x325,x341]": 0.9689204510187186
+  },
+  "P_MC_linear_upper_equals_x340": 0.44421366819779295,
+  "P_MC_linear_upper_ge_x341": 0.5304205762960257,
+  "expected_count_le_x340": 9748.146733586163,
+  "sd_count": 15.668767010633106,
+  "z_observed_count_x340": 0.9479537479724374,
+  "gap_x340_to_x341": 0.19991711629473485,
+  "boot_sha256": "81914f813153745eecc2a71ba00370afe82edb8b16a357fc529d76cfb7132e4d",
+  "far_keys": [
+    "threshold_freeze_sha256",
+    "threshold",
+    "n_runs",
+    "n_windows",
+    "primary",
+    "secondary",
+    "diagnostic_by_position",
+    "score_variant",
+    "far_ver_file_seal_verified",
+    "numeric_validation",
+    "runs"
+  ]
+}

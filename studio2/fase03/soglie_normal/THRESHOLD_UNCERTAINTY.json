@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-09-14T11:06:16.639888+00:00",
+  "source_commit": "819b12e97fb94d501032655ec2f226139e6c5ca5",
+  "analysis_timing": "C4 requirement predates calibration; operational seed, replication count and percentile convention specified after observed results and before this supplementary bootstrap. No blind preregistration claim.",
+  "protocol_sha256": "711d9711587fd140dcb451ccbe48b42d35fdf1bc3043feb5fb5e6dea3921989b",
+  "script_sha256": "5fcbb2ede6f1fcea43e9c7fa6d6c9dc66a530ee9bafb8b2cc91658540ddffe57",
+  "immutable_inputs": {
+    "studio2/fase03/soglie_normal/CAL_THR_SCORES.csv": "a1c5991af1ee136372b1da7c63ab05027d9710fd99c228a549395964d5519191",
+    "studio2/fase03/soglie_normal/THRESHOLD_FREEZE.json": "ff5c27002a2548003e4bc5f54805cda3754fb19b9cb2559222996b9c7f7e14a9",
+    "studio2/fase03/soglie_normal/plans/cal_thr.csv": "fae355fdfd6db17b25e55c72f174ee8c7bb9c8b298facfb9a8012908f921a3ad",
+    "docs/lit_review/DECISIONE_calibrazione_soglie_fase_B.md": "a472d193064615b9a42218844d2cf71bcc7acc06b93cd65f8fa20c1fc0abdfd3"
+  },
+  "environment": {
+    "python": "3.11.5 (v3.11.5:cce6ba91b3, Aug 24 2023, 10:50:31) [Clang 13.0.0 (clang-1300.0.29.30)]",
+    "platform": "macOS-26.6.2-x86_64-i386-64bit",
+    "numpy": "2.4.6",
+    "scipy": "1.17.1"
+  },
+  "n": 350,
+  "rank": 334,
+  "alpha": 0.05,
+  "operational_threshold": 13.623626738268857,
+  "rule": "S > threshold",
+  "operational_threshold_modified": false,
+  "ties": {
+    "distinct_scores": 350,
+    "duplicate_excess": 0,
+    "duplicate_groups": [],
+    "multiplicity_at_threshold": 1
+  },
+  "bootstrap_threshold": {
+    "seed": 20260914,
+    "replicates": 10000,
+    "unit": "calibration run: one fixed score per run",
+    "sample_size": 350,
+    "rank_one_based": 334,
+    "statistic": "334th ascending order statistic, no interpolated calibration quantile",
+    "percentile_confidence": 0.95,
+    "percentile_method": "linear",
+    "standard_error_ddof": 1,
+    "rng": "numpy.random.Generator(PCG64)",
+    "score_fit": "fixed; no baseline refit",
+    "mean": 13.474095477009715,
+    "standard_error": 0.5821769414145996,
+    "percentile_interval": [
+      12.263221096235686,
+      14.208737218829068
+    ],
+    "bootstrap_values_sha256_float64_le": "81914f813153745eecc2a71ba00370afe82edb8b16a357fc529d76cfb7132e4d",
+    "interpretation": "descriptive uncertainty of the fixed-rank empirical threshold; conditional on fitted score; no replacement threshold",
+    "exact_empirical_distribution_check": {
+      "mean": 13.475808174221411,
+      "standard_deviation": 0.5831861335818211,
+      "central_generalized_inverse_interval": [
+        12.263221096235686,
+        14.408654335123803
+      ],
+      "mean_monte_carlo_z": -0.29367934405038054,
+      "max_ecdf_difference": 0.003719070022135715
+    }
+  },
+  "beta_conditional_far": {
+    "shapes": [
+      17,
+      334
+    ],
+    "assumptions": [
+      "fixed score fit independent of calibration and verification",
+      "IID run scores from the uniform mixture of ten positions",
+      "continuous score distribution"
+    ],
+    "calibration_ties_observed": false,
+    "continuity_proven_by_no_ties": false,
+    "interpretation": "distribution of true conditional mixture FAR across repeated calibration samples, conditional on a fixed score fit; not an empirical FAR interval",
+    "status": "reported_conditionally_on_assumptions",
+    "mean": 0.04843304843304843,
+    "standard_deviation": 0.011442455862792805,
+    "confidence": 0.9,
+    "central_interval": [
+      0.031181636130163868,
+      0.06860631795531791
+    ]
+  },
+  "binomial_count_3_through_12": {
+    "0.04843304843304843": 0.9470465065943391,
+    "0.0484": 0.9471050101548655,
+    "0.05": 0.9433302578164797
+  }
+}

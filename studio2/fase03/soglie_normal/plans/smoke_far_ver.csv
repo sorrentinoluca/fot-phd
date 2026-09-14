@@ -1,0 +1,2 @@
+run_id,set_name,stream_id,seed_namespace,seed_digest,J,window_position,burn_in_h,stop_time_h,window_h,use
+smoke_far_ver-001,smoke_far_ver,49901,fot-tep/fase03/soglie_normal/far_ver/position/v1,44415707daea5b1c5fc398d91ef260eea8a4f9a2d35c6458b349f2c253365156,10,9,20,70,5,smoke

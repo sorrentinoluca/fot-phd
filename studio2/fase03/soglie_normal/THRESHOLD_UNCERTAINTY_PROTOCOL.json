@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-09-14T11:04:41.933185+00:00",
+  "source_commit": "819b12e97fb94d501032655ec2f226139e6c5ca5",
+  "authorization": "Author requested execution of corrections after independent review; completion of registry rev19 C4.",
+  "analysis_timing": "C4 requirement predates calibration; operational seed, replication count and percentile convention specified after observed results and before this supplementary bootstrap. No blind preregistration claim.",
+  "bootstrap": {
+    "seed": 20260914,
+    "replicates": 10000,
+    "unit": "calibration run: one fixed score per run",
+    "sample_size": 350,
+    "rank_one_based": 334,
+    "statistic": "334th ascending order statistic, no interpolated calibration quantile",
+    "percentile_confidence": 0.95,
+    "percentile_method": "linear",
+    "standard_error_ddof": 1,
+    "rng": "numpy.random.Generator(PCG64)",
+    "score_fit": "fixed; no baseline refit"
+  },
+  "beta": {
+    "confidence": 0.9,
+    "shapes": [
+      17,
+      334
+    ],
+    "assumptions": [
+      "fixed score fit independent of calibration and verification",
+      "IID run scores from the uniform mixture of ten positions",
+      "continuous score distribution"
+    ],
+    "omit_if_calibration_ties": true
+  },
+  "immutable_inputs": {
+    "studio2/fase03/soglie_normal/CAL_THR_SCORES.csv": "a1c5991af1ee136372b1da7c63ab05027d9710fd99c228a549395964d5519191",
+    "studio2/fase03/soglie_normal/THRESHOLD_FREEZE.json": "ff5c27002a2548003e4bc5f54805cda3754fb19b9cb2559222996b9c7f7e14a9",
+    "studio2/fase03/soglie_normal/plans/cal_thr.csv": "fae355fdfd6db17b25e55c72f174ee8c7bb9c8b298facfb9a8012908f921a3ad",
+    "docs/lit_review/DECISIONE_calibrazione_soglie_fase_B.md": "a472d193064615b9a42218844d2cf71bcc7acc06b93cd65f8fa20c1fc0abdfd3"
+  },
+  "forbidden_actions": [
+    "threshold replacement",
+    "score refitting",
+    "new simulation",
+    "choice of protocol based on bootstrap outcome"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "status": "public_release_verified_by_redownload",
+  "repository": "sorrentinoluca/fot-tep-data",
+  "release_tag": "studio2-fase03-normal-v1",
+  "release_url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-normal-v1",
+  "published_at_utc": "2026-09-13T18:37:44Z",
+  "asset": {
+    "name": "studio2-fase03-normal-v1.tar",
+    "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-normal-v1/studio2-fase03-normal-v1.tar",
+    "bytes": 943793152,
+    "sha256": "bbcfd0c43a5fbda624deba62fea746150dda4a6d649e6372b8e118270277ac1d"
+  },
+  "manifest": {"path": "studio2/fase03/soglie_normal/MANIFEST_CONSERVAZIONE.csv", "rows": 515},
+  "verification": {
+    "method": "release asset downloaded into a separate temporary directory, extracted, then compared file-by-file with the manifest",
+    "archive_sha256_match": true,
+    "files_verified": 515,
+    "mismatches": 0
+  }
+}
