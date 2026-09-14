@@ -1,0 +1,30 @@
+test_all_d1_fault_ids_and_mechanisms (studio2.fase03.schema_insight.test_validator.ContractTests.test_all_d1_fault_ids_and_mechanisms) ... ok
+test_all_fixed_fields_immutable (studio2.fase03.schema_insight.test_validator.ContractTests.test_all_fixed_fields_immutable) ... ok
+test_all_receivers_and_diff (studio2.fase03.schema_insight.test_validator.ContractTests.test_all_receivers_and_diff) ... ok
+test_character_caps (studio2.fase03.schema_insight.test_validator.ContractTests.test_character_caps) ... ok
+test_diff_rejects_second_field_reorder_whitespace_and_bad_mapping (studio2.fase03.schema_insight.test_validator.ContractTests.test_diff_rejects_second_field_reorder_whitespace_and_bad_mapping) ... ok
+test_every_field_missing_wrong_type_and_extra (studio2.fase03.schema_insight.test_validator.ContractTests.test_every_field_missing_wrong_type_and_extra) ... ok
+test_invalid_formats_each_field (studio2.fase03.schema_insight.test_validator.ContractTests.test_invalid_formats_each_field) ... ok
+test_library_integrity (studio2.fase03.schema_insight.test_validator.ContractTests.test_library_integrity) ... ok
+test_malformed_identifiers_alongside_valid_reference (studio2.fase03.schema_insight.test_validator.ContractTests.test_malformed_identifiers_alongside_valid_reference) ... ok
+test_metrics_invalid_log (studio2.fase03.schema_insight.test_validator.ContractTests.test_metrics_invalid_log) ... ok
+test_metrics_retry_failure_truncation_and_request_dedup (studio2.fase03.schema_insight.test_validator.ContractTests.test_metrics_retry_failure_truncation_and_request_dedup) ... ok
+test_missing_tokenizer_fails_closed (studio2.fase03.schema_insight.test_validator.ContractTests.test_missing_tokenizer_fails_closed) ... ok
+test_narrative_references (studio2.fase03.schema_insight.test_validator.ContractTests.test_narrative_references) ... ok
+test_paraphrases (studio2.fase03.schema_insight.test_validator.ContractTests.test_paraphrases) ... ok
+test_qwen_probe_rejects_broken_counters (studio2.fase03.schema_insight.test_validator.ContractTests.test_qwen_probe_rejects_broken_counters) ... ok
+test_real_offline_qwen (studio2.fase03.schema_insight.test_validator.ContractTests.test_real_offline_qwen) ... 
+QWEN_TOKENIZER_QUALIFICATION {"fixture_metrics": [{"evidence_scope_tokens": 4, "insight_id": "S2-INS-001", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-002", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-003", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-004", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-005", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-006", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-007", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-008", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-009", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-010", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-011", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-012", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-013", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-014", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-015", "observed_pattern_tokens": 20, "record_tokens": 84}, {"evidence_scope_tokens": 4, "insight_id": "S2-INS-016", "observed_pattern_tokens": 20, "record_tokens": 84}], "probe_counts": {"": 0, "XMEAS(7)": 6, "a": 1}, "tokenizer": {"expected_revision": "017b9c7af6b5689d5dd426a76e0bc077eb5ca20a", "model": "Qwen/Qwen3.8-27B-FP8", "revision_verified": true, "sha256": {"tokenizer.json": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3", "tokenizer_config.json": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27"}, "snapshot": "/home/luca/fot-exp2/cache/huggingface/hub/models--Qwen--Qwen3.8-27B-FP8/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a"}}
+ok
+test_record_character_cap_with_json_escaping (studio2.fase03.schema_insight.test_validator.ContractTests.test_record_character_cap_with_json_escaping) ... ok
+test_scan_every_field_and_label_neutrality (studio2.fase03.schema_insight.test_validator.ContractTests.test_scan_every_field_and_label_neutrality) ... ok
+test_singular_plural_and_invisible_leakage (studio2.fase03.schema_insight.test_validator.ContractTests.test_singular_plural_and_invisible_leakage) ... ok
+test_strict_json (studio2.fase03.schema_insight.test_validator.ContractTests.test_strict_json) ... ok
+test_token_caps_and_exact_boundary (studio2.fase03.schema_insight.test_validator.ContractTests.test_token_caps_and_exact_boundary) ... ok
+test_valid_schema_and_library (studio2.fase03.schema_insight.test_validator.ContractTests.test_valid_schema_and_library) ... ok
+test_variable_ranges_duplicates_cardinality (studio2.fase03.schema_insight.test_validator.ContractTests.test_variable_ranges_duplicates_cardinality) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 4.065s
+
+OK

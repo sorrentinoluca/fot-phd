@@ -3,7 +3,7 @@
 > **Documento vivo, a scheletro.** Si aggiorna **fase per fase**. Stato al **2026-09-14**:
 > fasi 01 e 02 documentate in §2 e §3; la sotto-fase **criteri di selezione (§6.1)** della
 > Fase 03 è documentata in [§4.1](#criteri-selezione-61); **D1, verificata, congelata e pubblicata**, in [§4.2](#catalogo-d1);
-> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); le **soglie Normal (§6.3)**, calibrate e verificate, in [§4.5](#soglie-normal-63); le **evidence 697-D**, verificate e conservate nella release v2, in [§4.6](#evidence-697-d); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037); `normal_dev` e baseline numerica, verificati ma non ancora congelati efficacemente, in [§4.9](#normal-dev-baseline-039). La Fase 03 resta aperta. La parte restante delle fasi successive
+> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); le **soglie Normal (§6.3)**, calibrate e verificate, in [§4.5](#soglie-normal-63); le **evidence 697-D**, verificate e conservate nella release v2, in [§4.6](#evidence-697-d); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037); `normal_dev` e baseline numerica, verificati ma non ancora congelati efficacemente, in [§4.9](#normal-dev-baseline-039); lo **schema insight R4**, verificato ma non ancora pubblicato, in [§4.12](#schema-insight-0312). La Fase 03 resta aperta. La parte restante delle fasi successive
 > resta a scheletro: per essa **la fonte autorevole è il piano**, non questo file.
 
 | Ruolo | File |
@@ -1312,11 +1312,93 @@ sono completati; la sotto-fase resta aperta. La
 [consegna di integrazione](../studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md)
 riporta commit, prove e dipendenze residue.
 
+<a id="schema-insight-0312"></a>
+
+### 4.12 · Fase 03 — schema degli insight (sotto-fase 03.12)
+
+#### Riassunto e sintesi
+
+La revisione 4 definisce e valida il contratto strutturale degli insight prima della loro
+produzione. Il verificatore indipendente ha dato **OK R4-V** sull'esatto commit
+`3c64390bc4dd58c48cc4e1e388a38989b32b3143`: il contesto usa otto pseudolabel fault opache
+assegnate agli otto agenti e la label separata, letterale e case-sensitive `Normal`. La libreria
+resta di 16 insight, due per ciascun fault; ogni ricevente ne vede 14 dopo il filtro dei propri.
+`Normal` non produce insight e `Unknown` resta soltanto l'astensione.
+
+Questo esito qualifica il contratto R4, non una produzione scientifica: nessun insight è stato
+prodotto o valutato, la capienza dei prompt reali e l'ottimalità dei cap non sono dimostrate. Il
+tag proposto non è stato creato né pubblicato e `SCHEMA_FREEZE.json` conserva correttamente lo
+stato storico `frozen_pending_independent_verification`. La Fase 03 **resta aperta**.
+
+#### Dettaglio
+
+Ogni record ha sei campi obbligatori e vieta proprietà aggiuntive. Cinque campi deterministici
+(`insight_id`, `source_agent`, `pseudolabel`, `evidence_scope`, `variable_ids`) provengono dal
+manifest fidato e sono confrontati esattamente dal validatore; il producer scrive soltanto
+`observed_pattern`. Il record canonico è limitato a 1.400 caratteri e 384 token, la narrativa a
+800 caratteri e 192 token, `evidence_scope` a 240 caratteri e 64 token. Gli ID di variabile sono
+limitati a `XMEAS(1…41)` e `XMV(1…12)`; il controllo lessicale vieta riferimenti a fault,
+meccanismi, nomi fisici e label fuori dal campo previsto. La condizione E viene controllata sui
+byte canonici dopo il filtro peer e può cambiare soltanto `pseudolabel` secondo il derangement
+fornito dalla 03.7.
+
+La suite locale documentata per R4 conta **25 PASS, 0 FAIL e 1 SKIP su 26**: è saltato solo il
+test del tokenizer reale perché lo snapshot pinnato non era disponibile localmente. La
+trascrizione del terminale fornita dall'autore documenta invece sul server **26 PASS su 26,
+senza skip**, con tokenizer Qwen pinnato: 83 token/record per `S2-INS-001`–`006` e `013`–`016`,
+84 per `007`–`012`, 20 token di narrativa e 4 di `evidence_scope` per tutti i record sintetici.
+Il log è una trascrizione fornita dall'autore, copiata byte per byte dall'allegato, **non** un
+file originale scaricato dal server. Questi conteggi qualificano fixture e implementazione;
+non provano capienza dei prompt reali o qualità scientifica.
+
+#### Connessione alla letteratura e alle critiche
+
+EviFDD-Agent in [`letteratura.md` §14.2](letteratura.md) sostiene la separazione fra campi
+deterministici e narrazione tracciabile. ACE (P001) delimita qualunque affermazione sulla
+concisione, Fed-ICL (P041) offre un confronto di budget ma non giustifica il cap 192, e SYNAPSE
+(P065) delimita la novità e il consumer-swap. La sotto-fase mitiga i rischi di mutazione dei
+campi fissi, leakage lessicale e corruzioni ulteriori nella condizione E; non chiude la validità
+semantica degli insight, la copertura universale delle parafrasi, l'EFT o la robustezza del
+producer.
+
+#### Artefatti e riproducibilità
+
+Il [report storico R4](../studio2/fase03/schema_insight/REPORT_SCHEMA_INSIGHT.md), la
+[decisione](../studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md) e il
+[manifest rev. 5](../studio2/fase03/schema_insight/SCHEMA_FREEZE.json) restano byte-identici al
+target verificato. Il manifest misura 12.323 byte, SHA-256
+`d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12`; le sue 18 voci e la
+catena `previous_manifest_sha256` sono state verificate. Il
+[verbale OK R4-V](../studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004.md) misura
+21.288 byte, SHA-256 `d0e69094953cac7966eda9d1f612b81f44cc8e646151fd2339dba0b7ca88ec8e`;
+il [log server](../studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev004.txt) misura 7.459 byte,
+SHA-256 `a653c69ceed8ac10b06d57a98049f7939270f61473adab5ca0dbb901be654972`.
+Il [record di preparazione locale](../studio2/fase03/schema_insight/PREPARAZIONE_INTEGRAZIONE_SCHEMA_INSIGHT_R4.md)
+distingue i controlli già verificati dai passaggi d'integrazione e pubblicazione ancora residui.
+
+L'esecutore R4 è identificato dall'evidenza runtime come Codex/OpenAI `gpt-5.6-sol`, reasoning
+medium, task `01a09f1b-a581-7c41-a1ec-87912c8896ef`; il verificatore indipendente è
+Claude/Anthropic, identificativo configurato `claude-fable-5-1`, sessione
+`session_01Y11UC227qhEvrbQxjzRpzK`, con i limiti d'identificazione dichiarati nel verbale. Il
+[precedente NON OK](../studio2/fase03/schema_insight/VERIFICA_SCHEMA_INSIGHT_rev004_NON_OK_STORICO.md)
+è conservato separatamente e byte-identico, SHA-256
+`5bd196820f74b7fbd5ee6736df2b72afc64afbbfb26459dc69f1fe5e15dafd19`; il verbale OK chiude
+il rilievo sull'indipendenza senza cancellarne la cronologia.
+
+#### Lavoro che resta
+
+La documentazione e la storia R4 sono soltanto preparate su un branch locale dedicato. Restano
+l'integrazione seriale nel `main` corrente, il push esplicitamente autorizzato, la verifica che
+target R4, evidenze e documentazione siano raggiungibili da `origin/main`, quindi la creazione e
+pubblicazione del solo tag annotato sul target esatto `3c64390…`. Un record di pubblicazione potrà
+essere scritto soltanto dopo tali riscontri. In una successiva attività 03.10 andranno aggiornati
+i pin dell'adapter; questo aggiornamento non appartiene alla 03.12 e non è stato eseguito qui.
+
 ### Sintesi per sezione
 
 | § | Fase | Che cos'è | Fonte | Stato |
 | :---: | --- | --- | --- | --- |
-| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.9 `normal_dev` e baseline | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.9 integrata e dati pubblicati, freeze pending |
+| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.9 `normal_dev` e baseline; §4.12 schema insight R4 | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.9 integrata e dati pubblicati, freeze pending; 03.12 R4-V OK, integrazione/tag non pubblicati |
 | 5 | **Produzione degli insight** | Gli 8×2 insight dai dati di sviluppo, più la libreria completa del producer alternativo per il braccio *producer-swap* | piano §7.2 | dopo il pilot |
 | 6 | **Congelamento del protocollo** | Solo dopo il pilot, mai prima | piano §7.3 | dopo il pilot |
 | 7 | **Esecuzione dello studio finale** | Tutte le inferenze A, B-LF, E-LF, più swap, OOD, ablation e canary — circa 2.853/3.555 chiamate con margine, per 6/8 run | piano §7.4 e §8.8 | dopo il congelamento |
@@ -1337,7 +1419,7 @@ Dettaglio dei cantieri ancora previsti dal piano §§6–7:
 7. **§6.7** — Baseline numerica costruita e verificata nella [§4.9](#normal-dev-baseline-039); freeze efficace e integrazione 03.10 pending
 8. **§6.8** — Preparare l'harness API
 9. **§6.9** — Generare e congelare i run finali di test
-10. **§6.10** — Congelare lo schema degli insight
+10. **§6.10** — Schema insight R4 verificato in [§4.12](#schema-insight-0312); integrazione seriale e tag esatto ancora da pubblicare
 11. **§6.11** — Implementare la baseline FedAvg
 12. **§6.12** — Scrivere le sezioni del paper indipendenti dal modello
 13. **§7.1** — Capability pilot su Qwen-2.4T

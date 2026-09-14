@@ -1,0 +1,48 @@
+Revisione 4 — esiti locali effettivi, 2026-09-14
+
+Ambiente valido:
+- Python 3.13.15, x86_64
+- jsonschema 4.26.0
+- venv temporaneo: /tmp/fot-tep-schema-r4-venv
+- QWEN_TOKENIZER_SNAPSHOT: non impostato
+
+Comando:
+/tmp/fot-tep-schema-r4-venv/bin/python -m unittest studio2.fase03.schema_insight.test_validator -v
+
+Esito:
+- run: 26
+- PASS: 25
+- FAIL: 0
+- SKIP: 1
+- elapsed: 3.899 s
+- skip: test_real_offline_qwen — pinned Qwen tokenizer absent; real-budget qualification pending
+
+I 25 PASS includono i tre controlli R4 del contesto reale 03.7, le varianti negative
+di normal_label, owner Normal, il perimetro dello scanner e tutti i test preesistenti.
+
+Primo tentativo non qualificante col Python di sistema:
+- Python 3.11.5, x86_64
+- run: 26
+- FAIL: 46
+- ERROR: 6
+- SKIP: 1
+- causa: estensione rpds installata arm64 e quindi non caricabile dal processo x86_64;
+  i tre test context_check puri erano PASS, gli altri esiti erano fallimenti a cascata
+  del caricamento di jsonschema e non fallimenti del contratto.
+
+Regressioni della fase (harness non modificato):
+
+Comando:
+/tmp/fot-tep-schema-r4-venv/bin/python -m unittest discover -s studio2/fase03/tests -v
+
+Esito:
+- run: 16
+- PASS: 16
+- FAIL: 0
+- SKIP: 0
+- elapsed: 0.035 s
+
+Comando riproducibile sul server con tokenizer pinnato:
+QWEN_TOKENIZER_SNAPSHOT=/percorso/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a /percorso/python -m unittest studio2.fase03.schema_insight.test_validator -v
+
+Nessuna inferenza LLM e nessuna simulazione eseguita.
