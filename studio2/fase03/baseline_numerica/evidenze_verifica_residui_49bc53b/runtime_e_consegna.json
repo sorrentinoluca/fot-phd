@@ -1,0 +1,38 @@
+[
+  {
+    "path": "/Users/luker/.codex/sessions/2026/09/14/rollout-2026-09-14T22-25-54-01a0a199-006e-74c0-841b-f166692301ea.jsonl",
+    "line": 1,
+    "type": "session_meta",
+    "id": "01a0a199-006e-74c0-841b-f166692301ea",
+    "cwd": "/Users/luker/fot-tep",
+    "model_provider": "openai"
+  },
+  {
+    "path": "/Users/luker/.codex/sessions/2026/09/14/rollout-2026-09-14T22-25-54-01a0a199-006e-74c0-841b-f166692301ea.jsonl",
+    "line": 8,
+    "type": "turn_context",
+    "model": "gpt-6-astra",
+    "effort": "high"
+  },
+  {
+    "path": "/Users/luker/.codex/sessions/2026/09/14/rollout-2026-09-14T22-11-56-01a0a18c-3719-7611-a52e-3b4b42ccd180.jsonl",
+    "line": 1,
+    "type": "session_meta",
+    "id": "01a0a18c-3719-7611-a52e-3b4b42ccd180",
+    "cwd": "/Users/luker/fot-tep",
+    "model_provider": "openai"
+  },
+  {
+    "path": "/Users/luker/.codex/sessions/2026/09/14/rollout-2026-09-14T22-11-56-01a0a18c-3719-7611-a52e-3b4b42ccd180.jsonl",
+    "line": 8,
+    "type": "turn_context",
+    "model": "gpt-5.6-sol",
+    "effort": "high"
+  },
+  {
+    "path": "/Users/luker/.codex/sessions/2026/09/14/rollout-2026-09-14T22-11-56-01a0a18c-3719-7611-a52e-3b4b42ccd180.jsonl",
+    "line": 284,
+    "type": "git_delivery",
+    "text": "Preparato il candidato locale di chiusura dei residui 03.9, senza autocertificare né pubblicare il freeze.\n\n| Requisito | Esito |\n| --- | --- |\n| Mapping metriche 03.9→03.10 | Soddisfatto in `origin/main`; 9/9 test PASS |\n| `non_abstained` / `invalid` | Semantica verificata sul codice pubblicato |\n| Sorgenti 03.6 e relativi pin | Raggiungibili; impronte coincidenti |\n| Distanza, pareggi, astensione, fallback | Semantica storica preservata |\n| Conservazione `normal_dev` | Record pubblicati riutilizzati, senza nuovi download |\n| Dipendenza normativa rev.10 | Acquisita byte-identica nel candidato; pending verifica e pubblicazione |\n| Turno 03.12 | Completato; candidato raccordato su `origin/main` `f1746e1e…` |\n| Nuova rev.4 | Preparata, `effective=false` |\n| Tag baseline | Bloccato: nome e target esatti non definiti nelle fonti 03.9 |\n| Verifica del nuovo delta | Pending, necessariamente indipendente |\n\nCandidato:\n\n- Branch: `codex/studio2-baseline-039-residui`\n- Commit: `49bc53b6d4630e7675eb5cf59c6d483d694ab042`\n- Base: `f1746e1e76c5657e5cb74ed765d2f22143f979ce`\n- Worktree pulito: `/Users/luker/fot-tep-baseline-039-residui`\n- Nessun push e nessun tag\n\nDocumenti principali:\n\n- [Matrice e rapporto](/Users/luker/fot-tep-baseline-039-residui/studio2/fase03/baseline_numerica/RAPPORTO_RESIDUI_BASELINE_03_9_2026-09-14.md)\n- [BASELINE_FREEZE_rev004.json](/Users/luker/fot-tep-baseline-039-residui/studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev004.json)\n- [Prompt di verifica indipendente](/Users/luker/fot-tep-baseline-039-residui/studio2/fase03/baseline_numerica/PROMPT_VERIFICA_RESIDUI_BASELINE_03_9.md)\n- [Record di acquisizione rev.10](/Users/luker/fot-tep-baseline-039-residui/studio2/fase03/baseline_numerica/ACQUISIZIONE_DELTA_HARNESS_03_10.json)\n\nLa fonte rev.10 acquisita conserva esattamente blob `780e08ae…` e SHA-256 `e92661fe…55e`. Non è stato importato o congelato l’intero piano 03.8.\n\nControlli eseguiti ora: 19/19 test mirati PASS; guardiano invariato a 35 test, 14 failure storici e 1 skip. Audit, estrazioni, prototipi, riscaricamento e verifiche scientifiche precedenti non sono stati ripetuti.\n\nRestano necessari:\n\n1. OK indipendente sul commit `49bc53b…`;\n2. nome letterale del tag baseline e conferma del target;\n3. pubblicazione dei record su `main`;\n4. creazione del solo tag baseline e verifica object/peeled;\n5. successiva rev.5 `effective=true`.\n\nI residui dell’intero harness 03.10 — pin 03.12, D9, endpoint/122B, input completi e pilot — restano separati e non sono stati dichiarati chiusi."
+  }
+]

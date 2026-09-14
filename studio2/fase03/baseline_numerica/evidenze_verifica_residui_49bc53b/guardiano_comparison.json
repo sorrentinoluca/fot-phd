@@ -1,0 +1,9 @@
+{
+  "same_normalized_log": true,
+  "tests": 35,
+  "failures": 14,
+  "skipped": 1,
+  "errors": 0,
+  "exit_code": 1,
+  "test_suite_19_reexecuted": false
+}

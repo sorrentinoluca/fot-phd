@@ -1,0 +1,64 @@
+{
+  "candidate": "49bc53b6d4630e7675eb5cf59c6d483d694ab042",
+  "base": "f1746e1e76c5657e5cb74ed765d2f22143f979ce",
+  "changes": {
+    "studio2/fase03/baseline_numerica/ACQUISIZIONE_DELTA_HARNESS_03_10.json": {
+      "bytes": 1419,
+      "sha256": "7afdbbb68278cf260824ae5964db08c3a7ff2c84996699192c1ef14b25fb3dbe",
+      "blob": "d8429fba6a8b592d3a41c280ba7b3dac992f02b7"
+    },
+    "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev004.json": {
+      "bytes": 6171,
+      "sha256": "4fa5f52bbb48ab94611a1e6a2208b96a8a15fc78b9a5c2fc7b7d7df2806a2b57",
+      "blob": "011470f3bd34a1922af61a986e1c0def44d36ea2"
+    },
+    "studio2/fase03/baseline_numerica/PROMPT_VERIFICA_RESIDUI_BASELINE_03_9.md": {
+      "bytes": 3462,
+      "sha256": "68aaa70bd511b12097a52452a19a380abff8e299aa630f6e82f9b27b434db70d",
+      "blob": "c62c0ea39dae81fe4c14092a90eef2431feb4049"
+    },
+    "studio2/fase03/baseline_numerica/RAPPORTO_RESIDUI_BASELINE_03_9_2026-09-14.md": {
+      "bytes": 7752,
+      "sha256": "55d6ebf2633aa1952002b163c5c887d759e07f56e6096c8904ad7a86b0bf0d7d",
+      "blob": "521221e7bbea9ef0a3699fa066e19bb9b8e4e979"
+    },
+    "studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md": {
+      "bytes": 7108,
+      "sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e",
+      "blob": "780e08ae9e176a819a745ab2054a2e6ae79a8a9a"
+    }
+  },
+  "ancestry": {
+    "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb": true,
+    "7c99a8318cbe24bf864790566302f72614d963ed": true,
+    "3360867751c66a39e819247f86dab8e936f8cbb3": true,
+    "04dee86140b3ff18882f9d164beef5ab7bf33e00": true,
+    "6aaa5b3eebfed4ba502c25c0443caabd0051af21": false,
+    "49bc53b6d4630e7675eb5cf59c6d483d694ab042": false
+  },
+  "pins": {
+    "studio2/fase03/baseline_numerica/BASELINE_FREEZE.json": "8ac1f1e72b23484395c2955c7d14ac333e61f8743d662dd92b933e37f90547c9",
+    "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev002.json": "b6f455f65640a5bc4353874627d4777fc596aee2b6ddb22757aaef3ab112589b",
+    "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json": "0312f416dfdbaf8984b2063df2c2e9d00e1737321b9a65dd7e32b0295a937ec8",
+    "studio2/fase03/baseline_numerica/SPECIFICA_NORMAL_DEV.md": "6ce0a646e2852bf005635aa24e8eb9d319434c5fb8554894937866ab35fce3a5",
+    "studio2/fase03/baseline_numerica/SPECIFICA_BASELINE_NUMERICA.md": "510b119ca54ac05225a7302dcf1b685cb4a778673a0f18d5a9a0e736078a6143",
+    "studio2/fase03/baseline_numerica/baseline.py": "b1fe2a83b29b25760dd32df00a2178c5235f714273a194feb6cfe8a12ac74f22",
+    "studio2/fase03/baseline_numerica/extract_normal_evidence.py": "8d50bf1466b7b87b303ff742b2e99a5d4eea8b147545ad4fa466b005d9c62c1d",
+    "studio2/fase03/baseline_numerica/verify_prototypes.py": "7e05316681467a2f7f8faafd9fd4a2f7da666b360bd1dbe89e21b32b8983a29d",
+    "studio2/fase03/baseline_numerica/prepare_conservation.py": "9e74969cd279cedbf2e8b4f188db39e759513ed9f0d08e3190910d53cdbacdeb",
+    "studio2/fase03/baseline_numerica/preflight_normal_dev.py": "1cbac6e0ec0896b62943fb568d9895a5371991087781180f63fe433ce60186a7",
+    "studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json": "b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6",
+    "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json": "df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf",
+    "studio2/fase03/evidence/extract_evidence.py": "46b451c2d6d8b1627993828ac9bac39532562f2fa1b27955b8a20f098ba24e97",
+    "studio2/fase03/evidence/leakage.py": "c77ae5b11186c5b0df87b2f1df8800cb45fb25317e248fe8484d3e8283073887",
+    "studio2/fase03/harness/metric_adapter.py": "967f998a6ac11f9afed516a154c4923b9e7b1192d4e04932b38d3344db318030",
+    "studio2/fase03/harness/metrics.py": "97f0427434d3593a87eaf6885e6b997f40ea41be58b011724869358633ef1be7",
+    "studio2/fase03/harness/test_metric_raccordo.py": "4a9586b983327fa4c0d97babc0f946e7d94c84f65c5f4de7f63c9daf9dd324bf",
+    "studio2/fase03/harness/common.py": "691a2614c6f21b50ebd1a5b78d2b038ce9ddbbaccbe33f283953884a0c684dd3",
+    "studio2/fase03/harness/METRIC_INTERFACE_CANDIDATE.json": "8ac6eb594636d9e2e546e74be58ca86f79dc5104e97d9c536dff2f5bcd9c4ac4",
+    "studio2/fase03/baseline_numerica/test_baseline.py": "891e216434f30bf7b80d96dfd54fcff2bd0701f8450d2dc00f50549f2e50680a",
+    "studio2/fase03/baseline_numerica/test_normal_dev_plan.py": "043372bfca8085ef6b0e1094b4389c216181387cef0d0fe05166dce4a8749c6b",
+    "studio2/fase03/baseline_numerica/test_extract_normal_evidence.py": "03241cb63668144a1cda1a08b252d63dc8b690b0f9c225f04a891fc948032bf6"
+  },
+  "all_checks_passed": true
+}
