@@ -3,7 +3,7 @@
 > **Documento vivo, a scheletro.** Si aggiorna **fase per fase**. Stato al **2026-09-14**:
 > fasi 01 e 02 documentate in §2 e §3; la sotto-fase **criteri di selezione (§6.1)** della
 > Fase 03 è documentata in [§4.1](#criteri-selezione-61); **D1, verificata, congelata e pubblicata**, in [§4.2](#catalogo-d1);
-> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); le **soglie Normal (§6.3)**, calibrate e verificate, in [§4.5](#soglie-normal-63); le **evidence 697-D**, verificate e conservate nella release v2, in [§4.6](#evidence-697-d); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037); `normal_dev` e baseline numerica, verificati ma non ancora congelati efficacemente, in [§4.9](#normal-dev-baseline-039); il **raccordo delle metriche 03.9 → 03.10**, verificato sul solo delta, in [§4.10](#harness-raccordo-metriche-0310); lo **schema insight R4**, verificato ma non ancora pubblicato, in [§4.12](#schema-insight-0312); le **sezioni comuni del paper**, aggiornate e verificate ma conservate soltanto nel candidato locale, in [§4.15](#paper-sections-0315). La Fase 03 resta aperta. La parte restante delle fasi successive
+> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); le **soglie Normal (§6.3)**, calibrate e verificate, in [§4.5](#soglie-normal-63); le **evidence 697-D**, verificate e conservate nella release v2, in [§4.6](#evidence-697-d); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037); `normal_dev` e baseline numerica, verificati ma non ancora congelati efficacemente, in [§4.9](#normal-dev-baseline-039); il **raccordo delle metriche 03.9 → 03.10**, verificato sul solo delta, in [§4.10](#harness-raccordo-metriche-0310); lo **schema insight R4**, verificato e congelato con tag pubblicato, in [§4.12](#schema-insight-0312); le **sezioni comuni del paper**, aggiornate e verificate ma conservate soltanto nel candidato locale, in [§4.15](#paper-sections-0315). La Fase 03 resta aperta. La parte restante delle fasi successive
 > resta a scheletro: per essa **la fonte autorevole è il piano**, non questo file.
 
 | Ruolo | File |
@@ -1407,8 +1407,9 @@ resta di 16 insight, due per ciascun fault; ogni ricevente ne vede 14 dopo il fi
 
 Questo esito qualifica il contratto R4, non una produzione scientifica: nessun insight è stato
 prodotto o valutato, la capienza dei prompt reali e l'ottimalità dei cap non sono dimostrate. Il
-tag proposto non è stato creato né pubblicato e `SCHEMA_FREEZE.json` conserva correttamente lo
-stato storico `frozen_pending_independent_verification`. La Fase 03 **resta aperta**.
+tag annotato `studio2-fase03-schema-insight-frozen-001` è stato pubblicato sull'esatto target
+R4; `SCHEMA_FREEZE.json` conserva correttamente lo stato storico
+`frozen_pending_independent_verification`. La Fase 03 **resta aperta**.
 
 #### Dettaglio
 
@@ -1453,8 +1454,11 @@ catena `previous_manifest_sha256` sono state verificate. Il
 21.288 byte, SHA-256 `d0e69094953cac7966eda9d1f612b81f44cc8e646151fd2339dba0b7ca88ec8e`;
 il [log server](../studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev004.txt) misura 7.459 byte,
 SHA-256 `a653c69ceed8ac10b06d57a98049f7939270f61473adab5ca0dbb901be654972`.
-Il [record di preparazione locale](../studio2/fase03/schema_insight/PREPARAZIONE_INTEGRAZIONE_SCHEMA_INSIGHT_R4.md)
-distingue i controlli già verificati dai passaggi d'integrazione e pubblicazione ancora residui.
+Il [record di pubblicazione](../studio2/fase03/schema_insight/PUBBLICAZIONE_SCHEMA_INSIGHT.md)
+registra oggetto tag remoto `4d15c4fb915ea9db9f7425225d231746778f0ba1` e peeled
+`3c64390bc4dd58c48cc4e1e388a38989b32b3143`; il
+[record di preparazione locale](../studio2/fase03/schema_insight/PREPARAZIONE_INTEGRAZIONE_SCHEMA_INSIGHT_R4.md)
+resta la cronologia dei controlli anteriori al freeze.
 
 L'esecutore R4 è identificato dall'evidenza runtime come Codex/OpenAI `gpt-5.6-sol`, reasoning
 medium, task `01a09f1b-a581-7c41-a1ec-87912c8896ef`; il verificatore indipendente è
@@ -1467,12 +1471,11 @@ il rilievo sull'indipendenza senza cancellarne la cronologia.
 
 #### Lavoro che resta
 
-La documentazione e la storia R4 sono soltanto preparate su un branch locale dedicato. Restano
-l'integrazione seriale nel `main` corrente, il push esplicitamente autorizzato, la verifica che
-target R4, evidenze e documentazione siano raggiungibili da `origin/main`, quindi la creazione e
-pubblicazione del solo tag annotato sul target esatto `3c64390…`. Un record di pubblicazione potrà
-essere scritto soltanto dopo tali riscontri. In una successiva attività 03.10 andranno aggiornati
-i pin dell'adapter; questo aggiornamento non appartiene alla 03.12 e non è stato eseguito qui.
+Target R4, evidenze e documentazione sono raggiungibili da `origin/main`; il tag annotato è
+pubblicato e il freeze 03.12 è effettivo. Restano separati la capienza dei prompt reali, il futuro
+pilot e la qualificazione del servizio/modello 122B. In una successiva attività 03.10 andranno
+aggiornati i pin dell'adapter; questo aggiornamento non appartiene alla 03.12 e non è stato
+eseguito qui.
 
 <a id="paper-sections-0315"></a>
 
@@ -1555,7 +1558,7 @@ distinto da ogni futura integrazione in `main`, pubblicazione o congelamento. 03
 
 | § | Fase | Che cos'è | Fonte | Stato |
 | :---: | --- | --- | --- | --- |
-| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.9 `normal_dev` e baseline; §4.12 schema insight R4; §4.15 sezioni comuni del paper | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.9 integrata e dati pubblicati, freeze pending; 03.12 R4-V OK, integrazione/tag non pubblicati; 03.15 verificata e raccordata solo nel candidato locale |
+| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.9 `normal_dev` e baseline; §4.12 schema insight R4; §4.15 sezioni comuni del paper | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.9 integrata e dati pubblicati, freeze pending; 03.12 R4-V OK e tag pubblicato; 03.15 verificata e raccordata solo nel candidato locale |
 | 5 | **Produzione degli insight** | Gli 8×2 insight dai dati di sviluppo, più la libreria completa del producer alternativo per il braccio *producer-swap* | piano §7.2 | dopo il pilot |
 | 6 | **Congelamento del protocollo** | Solo dopo il pilot, mai prima | piano §7.3 | dopo il pilot |
 | 7 | **Esecuzione dello studio finale** | Tutte le inferenze A, B-LF, E-LF, più swap, OOD, ablation e canary — circa 2.853/3.555 chiamate con margine, per 6/8 run | piano §7.4 e §8.8 | dopo il congelamento |
@@ -1576,7 +1579,7 @@ Dettaglio dei cantieri ancora previsti dal piano §§6–7:
 7. **§6.7** — Baseline numerica costruita e verificata nella [§4.9](#normal-dev-baseline-039); freeze efficace e integrazione 03.10 pending
 8. **§6.8** — Preparare l'harness API
 9. **§6.9** — Generare e congelare i run finali di test
-10. **§6.10** — Schema insight R4 verificato in [§4.12](#schema-insight-0312); integrazione seriale e tag esatto ancora da pubblicare
+10. **§6.10** — Schema insight R4 verificato e congelato con tag pubblicato in [§4.12](#schema-insight-0312); pin dell'adapter e qualifica del pilot restano separati
 11. **§6.11** — Implementare la baseline FedAvg
 12. **§6.12** — Sezioni comuni del paper aggiornate e verificate in [§4.15](#paper-sections-0315); candidato soltanto locale, D9 e promozione nel manoscritto ancora aperte
 13. **§7.1** — Capability pilot su Qwen-2.4T
