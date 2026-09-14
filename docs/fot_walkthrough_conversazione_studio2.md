@@ -126,7 +126,8 @@ SHA-256** nelle quattro raccolte `code/tep_cache/`, `tep_cache/`, `tep_heldout/m
 contiene 15 casi; i 17 file held-out restanti sono il suo complemento dentro la stessa raccolta,
 non un'aggiunta al totale. Uno di essi, F6, termina a 17,1333 ore per un trip fisico documentato:
 non sono autorizzati padding, troncamento o rigenerazione selettiva
-([nota di generazione](../tep_heldout_phase_summary.md), §12).
+([report della fase 01](../studio2/fase01/REPORT_FASE01.md), §4.2;
+[verifica indipendente](../studio2/fase01/VERIFICA_FASE01.md)).
 
 N1–N5 sono cinque blocchi consecutivi di 50 ore estratti dalla stessa traiettoria Normal di 500
 ore: rappresentano **250 ore continue, non cinque simulazioni indipendenti**. Il seed dei 17 run
