@@ -104,6 +104,17 @@ Commit già creati:
 Decisione: registrare l’aggiornamento di freeze e report con
 `studio2(fedavg): registra remediation del NON OK` e sottoporre il nuovo HEAD a riverifica.
 
+### Acquisizione della riverifica indipendente
+
+Acquisito `studio2/fase03/fedavg/VERIFICA_FEDAVG.md`, SHA-256
+`57784bf2ff7e8d7d8143bdf7efa29256f44384939a56139b5999f21b0281f11b`, relativo al commit
+verificato `d56354934d2b5f88dace3f9b312fcf64ce3cf42b`. Il verificatore dichiara Codex basato su
+GPT-6. Il verbale chiude R1 e R2 ed esprime OK esclusivamente per specifica, codice, loader,
+test sintetici e smoke su fixture; non attesta training reale, smoke su `normal_dev`, valutazione
+finale, confronto con il braccio LLM o congelamento efficace. Il manifest conserva lo stato
+precedente alla riverifica: il nuovo verbale documenta l’OK del pacchetto, senza rendere efficace
+il freeze e senza chiudere la sotto-fase 03.14.
+
 ## Fonti lette e costo
 
 Letti i prompt operativi, `MAINTENANCE.md` §1/§2/§8, walkthrough studio 2 §0–§12, piano §6.11,
