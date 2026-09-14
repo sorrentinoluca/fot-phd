@@ -21,17 +21,13 @@ confronto col candidato include anche la 03.4 e non va descritto come delta dell
 | Batch 350+150 | script MATLAB/Simulink R2025b ARM; comando fornito all’autore per esecuzione locale | esecutivo-batch; nessuna inferenza LLM nei run |
 | Audit, score, freeze, FAR, conservazione e addendum originale | `gpt-5.6-luna` | stessa finestra; analisi/implementazione |
 | Verifica del candidato 819b12e | `gpt-6-astra` | `01a09f81-e508-77e0-b510-872bdeba46e3`; verifica in finestra distinta, esito NON OK |
-| Presente correzione e completamento C4 | `gpt-6-astra` | stessa finestra del verificatore NON OK, reasoning `high`, ora incaricata dall’autore della correzione; implementazione/analisi, non verifica indipendente di sé stessa |
+| Presente correzione e completamento C4 | `gpt-6-astra` | stessa finestra del verificatore, ora incaricata dall’autore della correzione; implementazione/analisi, non verifica indipendente di sé stessa |
 
 Identità ricostruite dai `turn_context` e dalle esecuzioni registrate, non dalla sola etichetta
 “Codex”. Il rollout esecutore archiviato ha SHA-256
 `3f21bd048089023c500f2393acaa237e328a59c6adc78987e5d582dadcf16e47`.
-I metadati pertinenti della finestra di correzione sono conservati, senza copiare il rollout,
-in [`evidence/EXECUTOR_IDENTITY.json`](evidence/EXECUTOR_IDENTITY.json): otto `turn_context`
-registrano `gpt-6-astra`, effort `high`; il rollout originale ha SHA-256
-`45c71aca14e2f40818f394c29e7a52f160493c0c8c56759c62976075960f3aad`.
-Il verbale originale rimane acquisito byte per byte in
-[`evidence/VERIFICA_SOGLIE_NORMAL_NON_OK_819b12e.md`](evidence/VERIFICA_SOGLIE_NORMAL_NON_OK_819b12e.md);
+Il verbale originale rimane in
+`/Users/luker/fot-tep-verifica-soglie-normal/studio2/fase03/soglie_normal/VERIFICA_SOGLIE_NORMAL.md`;
 metadati e prove sono nel supporto `/Users/luker/verifica-soglie-normal-support-WE8Qqc`.
 Non si attribuisce al terminale umano una registrazione più forte di quella disponibile.
 
@@ -129,27 +125,6 @@ fra score adiacenti: il risultato delle 10.000 repliche non viene sostituito sce
 un altro seed. Il confronto esatto è un controllo del ricampionamento empirico, **non**
 un intervallo di confidenza esatto per il quantile della popolazione.
 
-**Precisazione N1, successiva alla riverifica e concordata con l’autore.** Si mantengono
-entrambi gli intervalli. Nella distribuzione bootstrap empirica, condizionata ai 350 score
-osservati, le probabilità degli intervalli chiusi (estremi inclusi) sono:
-
-| Intervallo della soglia | P(T* nell’intervallo) | P(T* oltre l’estremo superiore) |
-|---|---:|---:|
-| Monte Carlo: [12,2632210962;14,2087372188] | **95,38705407%** | **2,51853266%** |
-| Inversa generalizzata esatta: [12,2632210962;14,4086543351] | **96,89204510%** | **1,01354163%** |
-
-Le probabilità sono calcolate sui valori non arrotondati. La coda inferiore stretta comune
-vale **2,09441327%**. La CDF esatta in 14,2087372188 vale **0,9748146734**, appena sotto
-0,975; il quantile esatto al 97,5% è 14,4086543351. È la stima Monte Carlo dell’estremo
-a variare fra ricampionamenti, mentre l’inversa generalizzata della CDF empirica è definita.
-Queste sono **masse di probabilità nella distribuzione bootstrap empirica**, non coperture
-frequentiste garantite del quantile della popolazione. Nessuna soglia o risultato numerico
-congelato viene sostituito.
-
-Fonte numerica della precisazione: controllo autonomo della riverifica, acquisito in
-[`evidence/mc_vs_exact_container.json`](evidence/mc_vs_exact_container.json);
-verbale e suo perimetro sono identificati nella sezione di consegna sotto.
-
 ## Confronto FAR teorico e osservato — correzione dell’addendum
 
 Si distinguono **α nominale=5%**, **17/351≈4,8433%** come media teorica fra calibrazioni,
@@ -205,11 +180,10 @@ secondario fu corretta prima di 0b2aac5; la soglia non cambiò.
 **Il sigillo prova identità, non mancata lettura.** I log e l’assenza di derivati Git non
 escludono letture umane o da processi non registrati, né file poi rimossi. I file FAR
 erano accessibili prima del freeze: è un limite di segregazione operativa da dichiarare.
-La generazione anticipata non assolve né invalida automaticamente il FAR. Il 2026-09-14
-l’autore ha approvato la decisione registrata in
-[`DECISIONE_AUTORE_FAR.md`](DECISIONE_AUTORE_FAR.md): accetta l’uso dei risultati FAR e
-mantiene invariata la soglia, dichiarando che l’assenza assoluta di consultazioni non
-registrate non è dimostrabile. Questa accettazione resta distinta dalle prove tecniche.
+La generazione anticipata non assolve né invalida automaticamente il FAR. La decisione
+scientifica dell’autore di accettare questo livello di tracciabilità rimane distinta
+dalla presente correzione documentale; non è considerata acquisita dalla richiesta di
+correggere il report.
 
 ## Conservazione, snapshot e provenienza
 
@@ -234,8 +208,7 @@ il CSV congelato; dettagli post-hoc e impronte sono registrati nella nuova §9.1
 
 ## Verifiche della presente correzione e stato di consegna
 
-Comando C4 originariamente eseguito dal worktree
-`/Users/luker/fot-tep-correzione-soglie-normal`:
+Comando C4 eseguito dal worktree `/Users/luker/fot-tep-correzione-soglie-normal`:
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 /Users/luker/verifica-soglie-normal-support-WE8Qqc/venv/bin/python studio2/fase03/soglie_normal/complete_threshold_uncertainty.py --output studio2/fase03/soglie_normal/THRESHOLD_UNCERTAINTY.json
@@ -247,11 +220,6 @@ rifiuta di sovrascrivere un output esistente. Non importa FAR né i workbook e n
 il simulatore o lo score fitting. Tempo e costo: un solo script locale, 3,5 milioni di
 indici di ricampionamento; nessun tool per replica.
 
-La riproduzione non dipende più da quel venv esterno: ambiente e dipendenze sono fissati in
-[`requirements-c4.txt`](requirements-c4.txt) e i comandi che producono un output temporaneo,
-senza sovrascrivere quello registrato, sono in
-[`REPRODUCIBILITY_C4.md`](REPRODUCIBILITY_C4.md).
-
 Test della sotto-fase: **8 PASS** (4 preesistenti, 4 nuovi). I nuovi test confrontano la
 legge esatta con enumerazione esaustiva di un piccolo campione con pareggi, verificano
 la statistica d’ordine, rifiutano input non validi e impronte alterate. Script stdlib PASS.
@@ -261,38 +229,15 @@ Quel test copre documenti storici, non convalida C4. Nessuna coppia MD/HTML tocc
 
 Log, controlli di integrità e diff sono conservati in
 `/Users/luker/correzione-soglie-normal-support-XKCNMN`.
-Il verbale NON OK su 819b12e resta intatto ed è acquisito byte per byte in
-[`evidence/VERIFICA_SOGLIE_NORMAL_NON_OK_819b12e.md`](evidence/VERIFICA_SOGLIE_NORMAL_NON_OK_819b12e.md),
-SHA-256 `ccaec80994522ba5167fdf9ef6f3500d220c19f86977de53afdb2dee7be548bd`.
-La riverifica indipendente ha dato **OK tecnico**
-ai sei file candidati, incluso il report con SHA-256
-`5323438f8f2426f859537e12dee24139c3b8daa0b858b01934b4f7fc23308e32`.
-Il verbale è acquisito byte per byte in
-[`evidence/VERIFICA_CORREZIONI_SOGLIE_NORMAL_OK.md`](evidence/VERIFICA_CORREZIONI_SOGLIE_NORMAL_OK.md),
-SHA-256 `d98a2856647493b0e96fc1198ac32c457510fc10399538511373655e1b6f1c9e`,
-verificatore dichiarato `claude-fable-5-1`, finestra `session_01NfcCmkTeXtdvJZcykoHddT`.
-L’OK riguarda quello snapshot: la presente precisazione N1 e questo aggiornamento di stato
-sono successivi e non vengono attribuiti alla verifica già conclusa. Il report precedente
-resta acquisito in
-[`evidence/REPORT_SOGLIE_NORMAL_SNAPSHOT_OK.md`](evidence/REPORT_SOGLIE_NORMAL_SNAPSHOT_OK.md)
-con la stessa impronta. L’autore ha concordato la presentazione N1 e ha poi approvato la
-distinta decisione sul limite di tracciabilità FAR. Nessuna chiusura della Fase 03 è implicita.
-
-La verifica mirata successiva ha conservato il proprio primo verdetto **NON OK** in
-[`VERIFICA_DELTA_N1_IDENTITA.md`](VERIFICA_DELTA_N1_IDENTITA.md): rilevava un aggiornamento
-non necessario di `PROVENIENZA.md`. Quel file è stato ripristinato byte-identico allo snapshot
-approvato. Le appendici separate
-[`01`](VERIFICA_DELTA_N1_IDENTITA_APPENDICE_01.md) e
-[`02`](VERIFICA_DELTA_N1_IDENTITA_APPENDICE_02.md), svolte da `gpt-5.6-sol`, reasoning `high`,
-sessione `01a0a03d-6daf-7540-947c-6f94ab12b2f5`, hanno dato **OK** rispettivamente sulle
-impronte e sul supporto locale di riproducibilità. L’aggiornamento coordinato del walkthrough
-è stato aperto soltanto dopo questi OK.
+Il verbale NON OK su 819b12e resta intatto. Questa finestra ora ha prodotto le correzioni,
+quindi non le certifica come indipendenti: rimane da effettuare la **riverifica del delta**
+in altra finestra/modello. L’autore conserva la decisione sul limite di processo.
 
 Fuori perimetro: nuove simulazioni, nuova calibrazione operativa, modifica dei dati/score,
-freeze o soglia, pubblicazione della release, interventi sulle sotto-fasi 03.8/03.9 e chiusura
+freeze o soglia, pubblicazione della release, aggiornamento del walkthrough e chiusura
 Fase03. Copia principale e worktree del verbale preservati.
 
-**Commit al momento della redazione:** non ancora eseguito; nessun push/tag/merge. Le modifiche sono pronte da rivedere nel branch
+**Commit:** non eseguito, né push/tag/merge. Le modifiche sono pronte da rivedere nel branch
 `codex/studio2-soglie-normal-correzioni`; dopo riverifica, messaggio proposto:
 `studio2(fase03): completa C4 e corregge il report soglie Normal`.
 
@@ -304,11 +249,6 @@ Fase03. Copia principale e worktree del verbale preservati.
 - `studio2/fase03/soglie_normal/complete_threshold_uncertainty.py`: calcolo C4, controllo di tutti i pareggi, verifica hash e controllo esatto del bootstrap empirico.
 - `studio2/fase03/soglie_normal/THRESHOLD_UNCERTAINTY.json`: risultati supplementari C4 e impronte, senza sovrascrivere risultati congelati.
 - `studio2/fase03/soglie_normal/tests/test_threshold_uncertainty.py`: quattro controlli numerici e di integrità della nuova procedura.
-- `studio2/fase03/soglie_normal/DECISIONE_AUTORE_FAR.md`: accettazione esplicita del limite di tracciabilità, separata dalle prove tecniche.
-- `studio2/fase03/soglie_normal/evidence/`: verbali precedenti e snapshot approvato acquisiti byte per byte, fonte numerica N1 e metadati minimi dell’identità dell’esecutore.
-- `studio2/fase03/soglie_normal/requirements-c4.txt`: versioni Python fissate per ricostruire l’ambiente C4 senza il venv esterno.
-- `studio2/fase03/soglie_normal/REPRODUCIBILITY_C4.md`: procedura locale di riproduzione e confronto, con output temporaneo.
-- `studio2/fase03/soglie_normal/VERIFICA_DELTA_N1_IDENTITA.md` e appendici 01–02: verbale mirato preservato con il primo NON OK e i successivi OK separati.
 
 Letture della correzione: contratto e prompt di processo, registro P0/C4/pareggi, specifica,
 report, provenance e verbale precedente; circa 15 mila token, stima non di fatturazione.
