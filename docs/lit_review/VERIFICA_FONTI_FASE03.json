@@ -1,0 +1,524 @@
+{
+  "date": "2026-09-14",
+  "scope": "supporto bibliografico, non freeze né decisione sperimentale",
+  "base_commit": "a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155",
+  "primary_copies": [
+    {
+      "key": "phm",
+      "path": "papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder.pdf",
+      "url": "https://papers.phmsociety.org/index.php/phmconf/article/download/3578/phmc_23_3578",
+      "sha256": "e11310c44cebca7a6ebc368b3862dc2edc0003a4ee31cb9223feb6d5e0ae7b78",
+      "bytes": 721381,
+      "pages": 10,
+      "read": "Testo primario §§3–4.3, pp. 4–7; tabelle 2–4 e formule a p. 7 controllate visivamente; introduzione e conclusioni."
+    },
+    {
+      "key": "tango",
+      "path": "papers/Equivalence_test_and_confidence_interval_for_the_difference_in_proportions_for_the_paired-sample_design.pdf",
+      "url": "https://www.eiti.uottawa.ca/~nat/Courses/csi5388/Tango.paired.pdf",
+      "sha256": "71dea8eddc08c73f15e2454d69b7f46d8bfa61b550c6246173fdfa4307df7ecd",
+      "bytes": 257783,
+      "pages": 18,
+      "read": "Testo primario §§2–4, pp. 892–897; caso nullo discordante eq. (29) p. 896."
+    },
+    {
+      "key": "clopper",
+      "path": "papers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.pdf",
+      "url": "https://www.barestatistics.nl/uploads/1/1/7/9/11797954/clopper__pearson_1934.pdf",
+      "sha256": "e49da40d3fc184d591ec87681f30eae8077a2fb57b27850856207f54a7116e39",
+      "bytes": 489367,
+      "pages": 11,
+      "read": "Testo primario pp. 404–408, in particolare pp. 406–407 sulla copertura almeno nominale."
+    },
+    {
+      "key": "ich",
+      "path": "papers/Statistical_Principles_for_Clinical_Trials_ICH_E9_1998.pdf",
+      "url": "https://www.ema.europa.eu/system/files/documents/scientific-guideline/wc500002928_en.pdf",
+      "sha256": "6dd74185bb88a6f48a4b3a154893f9d8953b2fa4784c56fedda102e45f410b96",
+      "bytes": 332364,
+      "pages": 37,
+      "read": "Testo ufficiale §§3.3.2 (pp. 17–18), 5.5 (pp. 27–28), 5.6 (p. 28), frontespizio."
+    },
+    {
+      "key": "hoeffding",
+      "path": "papers/Probability_Inequalities_for_Sums_of_Bounded_Random_Variables_1963.pdf",
+      "url": "https://www.cs.rpi.edu/academics/courses/spring06/random/hoefding.pdf",
+      "sha256": "3021bcc097ef23a99a84d0eef8dcce2fd835c71df79a105727d3e03f8f0b8930",
+      "bytes": 1451039,
+      "pages": 19,
+      "read": "Testo primario §§1–2, pp. 13–16; teorema 1 eq. (2.3), teorema 2 eq. (2.6); controllo visivo pp. 14–16."
+    },
+    {
+      "key": "bahadur",
+      "path": "papers/The_Nonexistence_of_Certain_Statistical_Procedures_in_Nonparametric_Problems.pdf",
+      "url": "https://repository.ias.ac.in/27021/1/314.pdf",
+      "sha256": "cc3d6d5b43fa3b136daae5db8831fac12b0e1cbb17326d8087302ffc5139caca",
+      "bytes": 760570,
+      "pages": 8,
+      "read": "Testo primario §2, pp. 1115–1118; ipotesi (i)–(iii), teorema 1 e corollario 1; controllo visivo pp. 1115–1116."
+    },
+    {
+      "key": "mcmahan",
+      "path": "papers/Communication-Efficient_Learning_of_Deep_Networks_from_Decentralized_Data.pdf",
+      "url": "https://proceedings.mlr.press/v54/mcmahan17a/mcmahan17a.pdf",
+      "sha256": "a7a8e2e3e437855c1efb53fe8f35f645eae7735fe9b6ac1f656a62004dbf5146",
+      "bytes": 763853,
+      "pages": 10,
+      "read": "Testo primario §2 e algoritmo 1, p. 1277 (PDF p. 5), discussione privacy e limiti."
+    }
+  ],
+  "metadata": {
+    "phm": {
+      "catalog_url": "https://api.crossref.org/works/10.36001/phmconf.2023.v15i1.3578",
+      "metadata": {
+        "title": [
+          "Fault Detection and Diagnosis in Tennessee Eastman Process with Deep Autoencoder"
+        ],
+        "author": [
+          {
+            "given": "Zhongying",
+            "family": "Xiao",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Arthur",
+            "family": "Kordon",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Subrata",
+            "family": "Sen",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "container-title": [
+          "Annual Conference of the PHM Society"
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2023,
+              10,
+              26
+            ]
+          ]
+        },
+        "volume": "15",
+        "issue": "1",
+        "page": null,
+        "DOI": "10.36001/phmconf.2023.v15i1.3578"
+      }
+    },
+    "yin": {
+      "catalog_url": "https://api.crossref.org/works/10.1016/j.jprocont.2012.06.009",
+      "metadata": {
+        "title": [
+          "A comparison study of basic data-driven fault diagnosis and process monitoring methods on the benchmark Tennessee Eastman process"
+        ],
+        "author": [
+          {
+            "given": "Shen",
+            "family": "Yin",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Steven X.",
+            "family": "Ding",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Adel",
+            "family": "Haghani",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Haiyang",
+            "family": "Hao",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Ping",
+            "family": "Zhang",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "container-title": [
+          "Journal of Process Control"
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2012,
+              10
+            ]
+          ]
+        },
+        "volume": "22",
+        "issue": "9",
+        "page": "1567-1581",
+        "DOI": "10.1016/j.jprocont.2012.06.009"
+      }
+    },
+    "tango": {
+      "catalog_url": "https://api.crossref.org/works/10.1002/(SICI)1097-0258(19980430)17:8<891::AID-SIM780>3.0.CO;2-B",
+      "metadata": {
+        "title": [
+          "Equivalence test and confidence interval for the difference in proportions for the paired-sample design"
+        ],
+        "author": [
+          {
+            "given": "Toshiro",
+            "family": "Tango",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "container-title": [
+          "Statistics in Medicine"
+        ],
+        "published": {
+          "date-parts": [
+            [
+              1998,
+              4,
+              30
+            ]
+          ]
+        },
+        "volume": "17",
+        "issue": "8",
+        "page": "891-908",
+        "DOI": "10.1002/(sici)1097-0258(19980430)17:8<891::aid-sim780>3.0.co;2-b"
+      }
+    },
+    "maurer": {
+      "catalog": "DNB 944101399, frontespizio e indice primari",
+      "source": "https://d-nb.info/944101399/04"
+    },
+    "westfall": {
+      "catalog_url": "https://api.crossref.org/works/10.1016/S0378-3758(01)00077-5",
+      "metadata": {
+        "title": [
+          "Optimally weighted, fixed sequence and gatekeeper multiple testing procedures"
+        ],
+        "author": [
+          {
+            "given": "Peter H.",
+            "family": "Westfall",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Alok",
+            "family": "Krishen",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "container-title": [
+          "Journal of Statistical Planning and Inference"
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2001,
+              11
+            ]
+          ]
+        },
+        "volume": "99",
+        "issue": "1",
+        "page": "25-40",
+        "DOI": "10.1016/s0378-3758(01)00077-5"
+      }
+    },
+    "clopper": {
+      "catalog_url": "https://api.crossref.org/works/10.1093/biomet/26.4.404",
+      "metadata": {
+        "title": [
+          "THE USE OF CONFIDENCE OR FIDUCIAL LIMITS ILLUSTRATED IN THE CASE OF THE BINOMIAL"
+        ],
+        "author": [
+          {
+            "given": "C. J.",
+            "family": "CLOPPER",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "E. S.",
+            "family": "PEARSON",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "container-title": [
+          "Biometrika"
+        ],
+        "published": {
+          "date-parts": [
+            [
+              1934
+            ]
+          ]
+        },
+        "volume": "26",
+        "issue": "4",
+        "page": "404-413",
+        "DOI": "10.1093/biomet/26.4.404"
+      }
+    },
+    "kish": {
+      "catalog": "Google Books; Open Library OL5947497M; Wiley per la sola ristampa",
+      "source": "https://books.google.com/books/about/Survey_sampling.html?id=3xVHAQAAIAAJ"
+    },
+    "ich": {
+      "catalog": "EMA/FDA, fonti ufficiali; nessun DOI attribuito",
+      "source": "https://www.ema.europa.eu/system/files/documents/scientific-guideline/wc500002928_en.pdf"
+    },
+    "hoeffding": {
+      "catalog_url": "https://api.crossref.org/works/10.1080/01621459.1963.10500830",
+      "metadata": {
+        "title": [
+          "Probability Inequalities for Sums of Bounded Random Variables"
+        ],
+        "author": [
+          {
+            "given": "Wassily",
+            "family": "Hoeffding",
+            "sequence": "first",
+            "affiliation": [
+              {
+                "name": "University of North Carolina",
+                "place": [
+                  "USA"
+                ]
+              }
+            ],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "container-title": [
+          "Journal of the American Statistical Association"
+        ],
+        "published": {
+          "date-parts": [
+            [
+              1963,
+              3
+            ]
+          ]
+        },
+        "volume": "58",
+        "issue": "301",
+        "page": "13-30",
+        "DOI": "10.1080/01621459.1963.10500830"
+      }
+    },
+    "bahadur": {
+      "catalog_url": "https://api.crossref.org/works/10.1214/aoms/1177728077",
+      "metadata": {
+        "title": [
+          "The Nonexistence of Certain Statistical Procedures in Nonparametric Problems"
+        ],
+        "author": [
+          {
+            "given": "R. R.",
+            "family": "Bahadur",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Leonard J.",
+            "family": "Savage",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "container-title": [
+          "The Annals of Mathematical Statistics"
+        ],
+        "published": {
+          "date-parts": [
+            [
+              1956,
+              12
+            ]
+          ]
+        },
+        "volume": "27",
+        "issue": "4",
+        "page": "1115-1122",
+        "DOI": "10.1214/aoms/1177728077"
+      }
+    },
+    "mcmahan": {
+      "catalog": "Catalogo PMLR e atti AISTATS 2017",
+      "source": "https://proceedings.mlr.press/v54/mcmahan17a.html"
+    }
+  },
+  "yin_openalex": {
+    "is_oa": false,
+    "oa_status": "closed",
+    "oa_url": null,
+    "any_repository_has_fulltext": false
+  },
+  "protected_before": {
+    "docs/lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md": "d58a7606d69a560a626da44833c065ddbf1aa395ae8b2e523262daf8622231c7",
+    "studio2/fase03/selection/DELIVERY_CHECK.json": "4a92cb231a5437f4a2bd5756a4ad0427505bb0bf13efe0c7ef77bfac196ecb3b",
+    "studio2/fase03/selection/VERIFICA_CRITERI_6_1.md": "0f6147dd0f10338d3215ac069848fbd3d67e7cf621c460119a6501e2c31532fa",
+    "studio2/fase03/selection/REPORT_CRITERI_6_1.md": "9bdbce7892c6a0a8c1c6dd6bdd5faf76fbde9ba06305ec2c12a2911b47fbab52",
+    "studio2/fase03/selection/PROPOSTA_OOD_D11.md": "47c84d937bc01d37c84b81c09691bc5c3ad6d0607bcbfcb8621ea1a6be885046",
+    "studio2/fase03/selection/D1_DELIVERY_CHECK.json": "a3c788515c939fc5fc28e62659a6e9aa3ad05a38a42011241aff9f12203234ba",
+    "studio2/fase03/selection/VERIFICA_CATALOGO_D1_APPENDICE_01.md": "805ee86d7cbd03f239572c9fae0a469c49265808338817781be1422a7c786d5b",
+    "studio2/fase03/selection/VERIFICA_CONSEGNA_D1.md": "4a15e84777d4ec1b6c790e6163c475c5f6d5fb1d8b1f448bc70ec1993d47f3dc",
+    "studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md": "4044ae8f2c571cdfde7a9dd113d0f91bc9a4a1e4e7c2b50f6c98283015d633b5",
+    "studio2/fase03/selection/D1_DRAW_LOG.json": "fa571e89054a004021b08e93cd857ad4b8d41794b8c070260a49d4fb03a08b95",
+    "studio2/fase03/selection/test_draw_d1.py": "5a93e1c908bb3b6a090218e96b7f43300cac30c121479b8ad16219724a330efa",
+    "studio2/fase03/selection/CRITERIA_FREEZE.json": "ecae57172d6a83d8b0943f5a9f47b49a3966b96e2fb47f807a9ff61449755c9b",
+    "studio2/fase03/selection/FEASIBILITY.json": "ca830d054af19e27aa191fcb51f8e80d3c8444bb746dd9da486304490bd59810",
+    "studio2/fase03/selection/VERIFICA_CONSEGNA_6_1.md": "a993ef3a32c9ce7093bab998960f535a517d6f3a228892bdebcbd0d4b0ca5036",
+    "studio2/fase03/selection/D1_REVIEW_CHECK.json": "0ed5ced09ab09013e861d2fcc3e0e9a0735367c8aa39aa2d69235be3a38401f6",
+    "studio2/fase03/selection/draw_d1.py": "60fa97d48ef6899b4e4fe17f12907361461d73ff4d9f14769e1da9e93a6ced6c",
+    "studio2/fase03/selection/SOURCE_CHECK.json": "82c654d142ac0ab13f9b47d9648231bd3f1bfda4c5486a8399f510ff87165372",
+    "studio2/fase03/selection/CRITERIA_FREEZE_rev002.json": "67785912feae29212001f7deb0a21b468d4d768421269e900314bef88ea41d21",
+    "studio2/fase03/selection/CATALOG_FREEZE.json": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+    "studio2/fase03/selection/VERIFICA_CATALOGO_D1.md": "e0227be49d75b8f1e680625f1ab9ba260a3d7e7967426388f2e6c84bb577a455",
+    "studio2/fase03/selection/CATALOG_PUBLICATION.json": "2002f251a011ed75cf02490b18a0f878c5688cfa797793cb595d81f50a4af06b",
+    "studio2/fase03/selection/REPORT_CATALOGO_D1.md": "c078f9b1282fcd06ada3652655c728d4818c49bf248d807ad6a8ed7a7e2b0fad",
+    "studio2/fase03/selection/execution_snapshot/draw_d1.py": "b9fba113ade9729b0f59469b31e412ebb0c4ed0d2bc53ce580b65bd3e536f06b"
+  },
+  "auxiliary_consulted_sources": [
+    {
+      "url": "https://d-nb.info/944101399/04",
+      "kind": "frontespizio/indice, non capitolo",
+      "bytes": 73560,
+      "sha256": "2f5be181cc595285fe9b50731560f4a6449176de93b63db51344d8f4f3691436",
+      "preservation": "Non inserito fra i paper integrali; fonte remota, acquisizione temporanea di verifica."
+    },
+    {
+      "url": "https://hothorn.de/wp-content/uploads/2016/12/CV_2018.pdf",
+      "kind": "CV autore, sola voce Maurer",
+      "bytes": 252423,
+      "sha256": "97e9bbcac8e46c8fe60ad868ad5a9c541df53b7885ba346137be8eb00dc6d064",
+      "preservation": "Non inserito fra i paper integrali; fonte remota, acquisizione temporanea di verifica."
+    },
+    {
+      "url": "https://api.elsevier.com/content/article/PII:S0959152412001503?httpAccept=text/xml",
+      "kind": "solo risposta bibliografica, non full text",
+      "bytes": 1887,
+      "sha256": "1fc5653688728cbd2912530871aaac6de71b60bc4972fa5c0551bdd7d440b8b9",
+      "preservation": "Non inserito fra i paper integrali; fonte remota, acquisizione temporanea di verifica."
+    },
+    {
+      "url": "https://api.elsevier.com/content/article/PII:S0378375801000775?httpAccept=text/xml",
+      "kind": "solo risposta bibliografica, non full text",
+      "bytes": 1855,
+      "sha256": "fc52a92ee0f299725bf61e46a17881761aec781847721ae07100ce4c3ad93b2b",
+      "preservation": "Non inserito fra i paper integrali; fonte remota, acquisizione temporanea di verifica."
+    }
+  ]
+}

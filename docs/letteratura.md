@@ -19,7 +19,7 @@ Questa sezione unifica i materiali di `docs/lit_review`, il workbook bibliografi
 
 Al corpus originario si aggiungono i **venticinque lavori di federazione con modelli linguistici** raccolti in [`papers/archive/fed_fsl_2026-07/`](../papers/archive/fed_fsl_2026-07) e verificati sul testo integrale dall'audit di prior art conservato nella stessa cartella. Di questi, **diciannove** incidono su almeno uno degli assi e compaiono in §14.1; **sei** riguardano federated prompt learning parametrico su benchmark visivi, sono stati esaminati e lasciati fuori perimetro. L'esclusione è documentata in §14.4, non implicita.
 
-**Il corpus si è allargato oltre i quattro assi.** I trentacinque lavori entrati nel settembre 2026 — diagnosi e monitoraggio centralizzati sul Tennessee Eastman, calibrazione conforme, soglie statistiche — **non toccano nessuno degli assi**. Entrano perché condividono il banco di prova e documentano il perimetro consultato. **Nessuno di essi è 🟢**: nessuno incide sul disegno e nessuno vieta un'affermazione di questo documento, quindi nessuno ha una scheda in §14.2.
+**Il corpus si è allargato oltre i quattro assi.** Include anche monitoraggio TEP e fondamenti statistici che incidono sul disegno. L’integrazione del 2026-09-14 aggiunge dieci opere all’indice e vi classifica McMahan, già citato in §14.3/§14.7: undici nuove righe in §14.1, senza duplicare l’opera FedAvg. Il colore descrive la pertinenza; i limiti di accesso al testo primario sono dichiarati nelle schede.
 
 Le schede estese, in §14.2, riguardano soltanto i lavori che **influenzano direttamente il disegno**. Per gli altri, la tabella e i file in `docs/lit_review` sono sufficienti.
 
@@ -33,9 +33,9 @@ La tabella è divisa per categoria: apri quella che ti serve, richiudila con la 
 | 🟡 | **Adiacente** | Condivide un asse — dominio, regime non-IID o payload — ma non cambia le nostre scelte: citazione di contesto |
 | 🔴 | **Distante** | Sfondo del campo: serve a mostrare il perimetro consultato, non richiede discussione |
 
-Complessivamente: **117 lavori**, di cui 34 🟢, 47 🟡, 36 🔴.
+Complessivamente: **128 lavori**, di cui 45 🟢, 47 🟡, 36 🔴.
 
-Autori e anno provengono da fonti già verificate nel repository: l'audit di prior art, la gap analysis e la scansione del related work. Un trattino **—** significa che il dato **non è stato verificato su fonte ufficiale**: è 1 lavoro su 117, e va confermato prima di usarli in bibliografia.
+Autori e anno provengono da fonti già verificate nel repository: l'audit di prior art, la gap analysis e la scansione del related work. Un trattino **—** significa che il dato **non è stato verificato su fonte ufficiale**: è 1 lavoro su 128, e va confermato prima di usarli in bibliografia.
 
 <details>
 <summary><strong>Federazione testuale</strong> · 14 lavori · 🟢 7 · 🟡 5 · 🔴 2</summary>
@@ -208,10 +208,12 @@ Le sette voci 🟡 aggiunte nel 2026-09 calibrano o controllano esplicitamente l
 </details>
 
 <details>
-<summary><strong>Diagnosi e monitoraggio di processo centralizzati su TEP</strong> · 24 lavori · 🟡 15 · 🔴 9</summary>
+<summary><strong>Diagnosi e monitoraggio di processo centralizzati su TEP</strong> · 26 lavori · 🟢 2 · 🟡 15 · 🔴 9</summary>
 
 | Lavoro | Autori, anno | Vicinanza |
 | --- | --- | :---: |
+| Fault Detection and Diagnosis in Tennessee Eastman Process with Deep Autoencoder | Zhongying Xiao, Arthur Kordon e Subrata Sen, 2023 | 🟢 |
+| A comparison study of basic data-driven fault diagnosis and process monitoring methods on the benchmark Tennessee Eastman process | Shen Yin, Steven X. Ding, Adel Haghani, Haiyang Hao e Ping Zhang, 2012 | 🟢 |
 | TopoCausFormer (TCF-STAE): spatio-temporal representation learning per la diagnosi in processi industriali complessi | Peng, Tang, Li, Simani, Dong, 2026 | 🟡 |
 | A novel deep learning based fault diagnosis approach for chemical process with extended deep belief network | Wang, Pan, Yuan, Yang, Gui, 2020 | 🟡 |
 | A novel fault diagnosis method based on CNN and LSTM and its application in fault diagnosis for complex systems | Huang, Zhang, Tang, Zhao, Lu, 2022 | 🟡 |
@@ -237,7 +239,7 @@ Le sette voci 🟡 aggiunte nel 2026-09 calibrano o controllano esplicitamente l
 | DAE-PCA: learnable faster kernel-PCA per il rilevamento non lineare, realizzazione con deep autoencoder | Ren, Jiang, Yang, Tang, Zhang, Yu, 2024 | 🔴 |
 | Odiowei & Cao: CVA con stime di densità kernel per il monitoraggio dinamico non lineare | Odiowei & Cao, 2010 | 🔴 |
 
-Categoria aperta nel 2026-09. **Nessuno di questi lavori è federato e nessuno usa modelli linguistici**: entrano perché condividono il banco di prova, non perché incidano sul disegno. 🟡 quelli che affrontano la **diagnosi multi-classe** su TEP — lo stesso compito delle condizioni A/B/E — o che sono **benchmark comparativi**, e come tali sostengono la lettura di [§9.2](fot_walkthrough_conversazione_v2.md#sez-9-confronti-esterni-e-riferimenti) e [§12.4](fot_walkthrough_conversazione_v2.md#sez-12-che-cosa-il-framework-mostra-e-che-cosa) secondo cui il benchmark è facilmente separabile. 🔴 quelli di **sola rilevazione** o monitoraggio statistico, che restano sfondo del campo. La voce del 2026-09-11 (Khan et al., 2026) è la prima della categoria a riportare **probabilità calibrate, ECE e intervalli bootstrap** sul TEP: rafforza la lettura di §9.2 sulla separabilità del banco — circa 99% di accuratezza con macro-F1 0,93 su split a livello di run — e mostra quale forma di governo della soglia la letteratura centralizzata considera ormai attesa.
+Categoria aperta nel 2026-09. **Le prime 24 voci di questa categoria non sono federate e non usano modelli linguistici**: furono incluse per il banco di prova. Le due voci aggiunte il 2026-09-14 incidono invece sul vincolo bibliografico della selezione OOD. 🟡 quelli che affrontano la **diagnosi multi-classe** su TEP — lo stesso compito delle condizioni A/B/E — o che sono **benchmark comparativi**, e come tali sostengono la lettura di [§9.2](fot_walkthrough_conversazione_v2.md#sez-9-confronti-esterni-e-riferimenti) e [§12.4](fot_walkthrough_conversazione_v2.md#sez-12-che-cosa-il-framework-mostra-e-che-cosa) secondo cui il benchmark è facilmente separabile. 🔴 quelli di **sola rilevazione** o monitoraggio statistico, che restano sfondo del campo. La voce del 2026-09-11 (Khan et al., 2026) è la prima della categoria a riportare **probabilità calibrate, ECE e intervalli bootstrap** sul TEP: rafforza la lettura di §9.2 sulla separabilità del banco — circa 99% di accuratezza con macro-F1 0,93 su split a livello di run — e mostra quale forma di governo della soglia la letteratura centralizzata considera ormai attesa. 🟢 Xiao et al. fornisce la tabella primaria necessaria al vincolo bibliografico OOD. 🟢 Yin et al. delimita un’attribuzione già usata dal disegno; colore pertinente, verifica numerica ancora incompleta.
 
 </details>
 
@@ -258,11 +260,46 @@ Categoria aperta nel 2026-09. Sfondo metodologico su soglie statistiche e rileva
 
 Le stringhe di ricerca che hanno prodotto ciascuna voce sono conservate in [`docs/lit_review`](lit_review), insieme alle schede complete.
 
+<details>
+<summary><strong>Fondamenti statistici e federazione parametrica</strong> · 9 lavori · 🟢 9</summary>
+
+| Lavoro | Autori, anno | Vicinanza |
+| --- | --- | :---: |
+| Equivalence test and confidence interval for the difference in proportions for the paired-sample design | Toshiro Tango, 1998 | 🟢 |
+| Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses | W. Maurer, L. A. Hothorn e W. Lehmacher, 1995 | 🟢 |
+| Optimally weighted, fixed sequence and gatekeeper multiple testing procedures | Peter H. Westfall e Alok Krishen, 2001 | 🟢 |
+| The use of confidence or fiducial limits illustrated in the case of the binomial | C. J. Clopper ed E. S. Pearson, 1934 | 🟢 |
+| Survey Sampling | Leslie Kish, 1965 | 🟢 |
+| Statistical Principles for Clinical Trials | International Conference on Harmonisation (ICH), 1998 | 🟢 |
+| Probability Inequalities for Sums of Bounded Random Variables | Wassily Hoeffding, 1963 | 🟢 |
+| The Nonexistence of Certain Statistical Procedures in Nonparametric Problems | R. R. Bahadur e Leonard J. Savage, 1956 | 🟢 |
+| Communication-Efficient Learning of Deep Networks from Decentralized Data | Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson e Blaise Aguera y Arcas, 2017 | 🟢 |
+
+🟢 Tango delimita validità e interpretazione del test H3.
+
+🟢 Maurer–Hothorn–Lehmacher è richiamato per il disegno gerarchico, con limite di accesso esplicito.
+
+🟢 Westfall–Krishen delimita il claim di controllo FWER.
+
+🟢 Clopper–Pearson delimita gli intervalli proposti per OOD e audit.
+
+🟢 Kish delimita l’uso dell’effetto di disegno nell’analisi di risoluzione.
+
+🟢 ICH E9 delimita l’attribuzione della convenzione sul livello di H3.
+
+🟢 Hoeffding è la fonte della garanzia finita proposta per H1/H2.
+
+🟢 Bahadur–Savage delimita il motivo di non applicabilità già citato nel piano.
+
+🟢 McMahan incide sul comparatore parametrico e sul claim dell’oggetto federato.
+
+</details>
+
 ### 14.2 Schede estese: i lavori che influenzano il disegno
 
 Le schede riguardano i lavori che **influenzano direttamente il disegno**. Stessa modalità di §14.1: apri la categoria che ti serve e richiudila con la **✕** o con il pulsante in fondo.
 
-> **Le schede sono 29, i 🟢 di §14.1 sono 34.** Una scheda riguarda un 🔴 (FedSRD), quindi i vicini con scheda sono 28 e **sei** restano senza: FICAL, DP-FPL, FedDTPT, T2SP, TableTime e la rassegna sui federated reasoning LLM. È un arretrato dichiarato, non una svista. EviFDD-Agent è uscito dall'arretrato nel 2026-09: delimita §8.9–§8.10 del piano sperimentale e non poteva restare senza scheda. FaultExplainer non è mai entrato nell'arretrato: individuato l'11 settembre 2026 come **assente da §14.1** durante la riconciliazione con `papers/`, è stato inserito già con la sua scheda. Lo stesso vale per le tre 🟢 fondazionali sulla predizione conforme, entrate il 2026-09-12 con la scheda contestuale.
+> **Le schede sono 40, i 🟢 di §14.1 sono 45.** Una scheda riguarda un 🔴 (FedSRD), quindi i vicini con scheda sono 39 e **sei** restano senza: FICAL, DP-FPL, FedDTPT, T2SP, TableTime e la rassegna sui federated reasoning LLM. È un arretrato dichiarato, non una svista. EviFDD-Agent è uscito dall'arretrato nel 2026-09: delimita §8.9–§8.10 del piano sperimentale e non poteva restare senza scheda. FaultExplainer non è mai entrato nell'arretrato: individuato l'11 settembre 2026 come **assente da §14.1** durante la riconciliazione con `papers/`, è stato inserito già con la sua scheda. Lo stesso vale per le tre 🟢 fondazionali sulla predizione conforme, entrate il 2026-09-12 con la scheda contestuale.
 
 <details>
 <summary><strong>Federazione testuale</strong> · 7 schede</summary>
@@ -510,6 +547,132 @@ Bian, M. & Barber, R. F., *Electronic Journal of Statistics* (2023). DOI `10.121
 
 </details>
 
+<details>
+<summary><strong>Integrazione Fase 03: fonti primarie e limiti</strong> · 11 schede</summary>
+
+**Fault Detection and Diagnosis in Tennessee Eastman Process with Deep Autoencoder**
+*Zhongying Xiao, Arthur Kordon e Subrata Sen, 2023*
+
+Annual Conference of the PHM Society 15(1), pubblicato 26 ottobre 2023. DOI `10.36001/phmconf.2023.v15i1.3578`. [Fonte primaria o catalogo](https://papers.phmsociety.org/index.php/phmconf/article/download/3578/phmc_23_3578). [PDF](../papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder.pdf) · [MD](../papers/Fault_Detection_and_Diagnosis_in_Tennessee_Eastman_Process_with_Deep_Autoencoder.md).
+
+Confronta DAE dinamico e PCA con statistiche T²/SPE sugli stessi dati TEP. Tabella 2, p. 6: F6 = 100/99/100% e F4 = 100/18/100%, ordine DAE/T²/SPE. FDR significa fault detection rate. Il PDF è identico al SOURCE_CHECK congelato; i metadati PDF interni sono residui del template, non la citazione.
+
+**Verifica:** Testo primario §§3–4.3, pp. 4–7; tabelle 2–4 e formule a p. 7 controllate visivamente; introduzione e conclusioni. Metadati: Crossref e pagina PHM.
+
+**Rapporto con questo lavoro** — *Somiglianza:* Stesso benchmark e numeri esterni richiesti dalla condizione bibliografica OOD. *Differenza:* Rilevazione di anomalia centralizzata su campioni, non diagnosi FoT per run né prova di generabilità nel nostro simulatore. *Implicazione:* F6 ha rilevabilità elevata nei tre rivelatori confrontati; F4 dipende dal metodo. Non seguono prestazioni del nostro modello, una soglia universale o la scelta OOD. L’addendum documenta anche F9–SPE = 5,6% contro 6,6% nel registro, che resta intatto.
+
+**A comparison study of basic data-driven fault diagnosis and process monitoring methods on the benchmark Tennessee Eastman process**
+*Shen Yin, Steven X. Ding, Adel Haghani, Haiyang Hao e Ping Zhang, 2012*
+
+Journal of Process Control 22(9), 1567–1581. DOI `10.1016/j.jprocont.2012.06.009`. [Fonte primaria o catalogo](https://www.sciencedirect.com/science/article/pii/S0959152412001503). PDF e MD integrali non disponibili nel corpus; nessun file segnaposto.
+
+Il confronto riguarda metodi data-driven di monitoraggio e diagnosi sul TEP. La ricerca presso editore e bibliografia istituzionale Duisburg-Essen non ha reso consultabili le tabelle: OpenAlex segnala closed e nessun full text in repository; l’API Elsevier restituisce solo dati bibliografici.
+
+**Verifica:** Metadati Crossref/OpenAlex e abstract editoriale; testo integrale non acquisito. Metadati: Crossref, OpenAlex e pagina Elsevier.
+
+**Rapporto con questo lavoro** — *Somiglianza:* È la fonte già richiamata dal piano per la stratificazione esterna. *Differenza:* Abstract e metadati non permettono di verificare FDR, metodi, righe e condizioni delle tabelle. *Implicazione:* Nessun valore di Yin è certificato da questa verifica; anche «F6 rilevato da tutti i metodi di Yin» resta non verificato. Per la condizione numerica minima si può citare separatamente PHM, senza doppia corroborazione.
+
+**Equivalence test and confidence interval for the difference in proportions for the paired-sample design**
+*Toshiro Tango, 1998*
+
+Statistics in Medicine 17(8), 891–908. DOI `10.1002/(SICI)1097-0258(19980430)17:8<891::AID-SIM780>3.0.CO;2-B`. [Fonte primaria o catalogo](https://www.eiti.uottawa.ca/~nat/Courses/csi5388/Tango.paired.pdf). [PDF](../papers/Equivalence_test_and_confidence_interval_for_the_difference_in_proportions_for_the_paired-sample_design.pdf) · [MD](../papers/Equivalence_test_and_confidence_interval_for_the_difference_in_proportions_for_the_paired-sample_design.md).
+
+Deriva uno score unilaterale per la differenza di proporzioni appaiate; “equivalence” è qui non inferiorità entro un margine. Modello multinomiale da coppie indipendenti con caratteristiche latenti IID (§2). Score e intervalli sono approssimati; a zero discordanti lo score è finito: √(nΔ/(1−Δ)), eq. (29), per 0<Δ<1.
+
+**Verifica:** Testo primario §§2–4, pp. 892–897; caso nullo discordante eq. (29) p. 896. Metadati: Crossref e PubMed PMID 9595618.
+
+**Rapporto con questo lavoro** — *Somiglianza:* Risposte binarie appaiate sullo stesso caso per H3. *Differenza:* Non è un test esatto per campioni piccoli né una giustificazione automatica per coppie eterogenee campionate in strati fissi. *Implicazione:* Il margine aggregato non garantisce non inferiorità per agente. 03.8 deve giustificare il modello di coppie rispetto agli strati: indipendenza da sola non dimostra tutte le ipotesi di Tango. La gerarchia eredita l’approssimazione di H3.
+
+**Multiple comparisons in drug clinical trials and preclinical assays: a-priori ordered hypotheses**
+*W. Maurer, L. A. Hothorn e W. Lehmacher, 1995*
+
+In Joachim Vollmar (a cura di), Biometrie in der chemisch-pharmazeutischen Industrie 6: Testing principles in clinical and preclinical trials, Gustav Fischer, 3–18. DOI non trovato/non assegnato nella fonte consultata. [Fonte primaria o catalogo](https://d-nb.info/944101399/04). PDF e MD integrali non disponibili nel corpus; nessun file segnaposto.
+
+L’indice primario identifica autori, titolo, editore, anno e ordinamento a priori. Il CV dell’autore Hothorn conferma pp. 3–18; il capitolo successivo inizia a p. 19 nell’indice DNB. Alcune citazioni secondarie riportano 3–21, incompatibile con l’indice. DOI del capitolo non trovato; nomi estesi non integrati a memoria.
+
+**Verifica:** Frontespizio e indice primari nel catalogo DNB (3 pagine); voce nel CV pubblico di L. A. Hothorn; non il capitolo. Metadati: DNB 944101399, frontespizio e indice primari.
+
+**Rapporto con questo lavoro** — *Somiglianza:* Riferimento storico della sequenza prefissata. *Differenza:* Non è disponibile il testo del capitolo per attribuirgli una specifica formulazione del teorema. *Implicazione:* La presenza bibliografica è verificata; la verifica sostanziale del capitolo resta aperta. La garanzia della sequenza fissa è dimostrata separatamente nell’analisi e non dipende dall’attribuzione non verificata.
+
+**Optimally weighted, fixed sequence and gatekeeper multiple testing procedures**
+*Peter H. Westfall e Alok Krishen, 2001*
+
+Journal of Statistical Planning and Inference 99(1), 25–40. DOI `10.1016/S0378-3758(01)00077-5`. [Fonte primaria o catalogo](https://www.sciencedirect.com/science/article/pii/S0378375801000775). PDF e MD integrali non disponibili nel corpus; nessun file segnaposto.
+
+Inquadra sequenze fisse e gatekeeper come limiti di procedure chiuse ponderate. La sequenza prefissata si arresta alla prima ipotesi non rifiutata. Ottimalità e dipendenza richiedono le condizioni della specifica procedura: non sono proprietà universali di ogni gatekeeping.
+
+**Verifica:** Abstract, introduzione e sezioni esposte nell’anteprima editoriale; PDF integrale non acquisito. Metadati: Crossref e pagina Elsevier.
+
+**Rapporto con questo lavoro** — *Somiglianza:* Ordine H1→H2→H3 prespecificato. *Differenza:* Il gatekeeping generale con famiglie o combinazioni non equivale alla singola sequenza fissa. *Implicazione:* Con test locali validi per tutta la rispettiva nulla e arresto al primo mancato rifiuto, la sequenza controlla fortemente FWER senza richiedere indipendenza fra test. Non ripara test locali invalidi o approssimati; la prova elementare è nell’analisi, distinta dall’anteprima letta.
+
+**The use of confidence or fiducial limits illustrated in the case of the binomial**
+*C. J. Clopper ed E. S. Pearson, 1934*
+
+Biometrika 26(4), 404–413. DOI `10.1093/biomet/26.4.404`. [Fonte primaria o catalogo](https://www.barestatistics.nl/uploads/1/1/7/9/11797954/clopper__pearson_1934.pdf). [PDF](../papers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.pdf) · [MD](../papers/The_use_of_confidence_or_fiducial_limits_illustrated_in_the_case_of_the_binomial.md).
+
+Costruisce limiti di confidenza tramite code binomiali. La discreteness rende la copertura almeno nominale, non identicamente pari al livello per ogni parametro. La copia è una scansione JSTOR con copertina aggiunta; i nomi sono conservati con le iniziali verificate nel catalogo.
+
+**Verifica:** Testo primario pp. 404–408, in particolare pp. 406–407 sulla copertura almeno nominale. Metadati: Crossref e OUP.
+
+**Rapporto con questo lavoro** — *Somiglianza:* Intervalli descrittivi di proporzioni OOD/audit. *Differenza:* La costruzione binomiale non rende indipendenti risposte sullo stesso run e non vale automaticamente per probabilità diverse fra fault. *Implicazione:* Definire unità Bernoulli indipendenti e probabilità comune prima di chiamare esatto l’intervallo. Un intervallo su risposte correlate di più agenti non è reso esatto dal solo uso di Clopper–Pearson.
+
+**Survey Sampling**
+*Leslie Kish, 1965*
+
+New York: John Wiley & Sons, xvi + 643 pp.; ISBN 047148900X / 9780471489009. DOI non trovato/non assegnato nella fonte consultata. [Fonte primaria o catalogo](https://books.google.com/books/about/Survey_sampling.html?id=3xVHAQAAIAAJ). PDF e MD integrali non disponibili nel corpus; nessun file segnaposto.
+
+Volume sui disegni campionari. L’edizione citata è 1965: la ristampa Wiley Classics 1995 ha ISBN 9780471109495 e conteggio editoriale 664 pagine, quindi non si sostituiscono quei metadati all’originale. Pagina primaria della formula design effect non verificata.
+
+**Verifica:** Cataloghi Google Books/Open Library e descrizione editoriale della ristampa 1995; testo 1965 non acquisito. Metadati: Google Books; Open Library OL5947497M; Wiley per la sola ristampa.
+
+**Rapporto con questo lavoro** — *Somiglianza:* Unità raggruppate e precisione delle medie. *Differenza:* Il fattore 1+(k−1)ρ richiede una struttura specifica; non è una legge universale del clustering. *Implicazione:* Nell’analisi si deriva separatamente la formula per cluster equidimensionali, varianza comune e correlazione intra-cluster comune. È un’approssimazione di scenario, non una garanzia per il nostro disegno né un’attribuzione pagina-per-pagina a Kish.
+
+**Statistical Principles for Clinical Trials**
+*International Conference on Harmonisation (ICH), 1998*
+
+E9; copia EMA Step 5 CPMP/ICH/363/96, settembre 1998, impaginazione © EMEA 2006, 37 pp.. DOI non trovato/non assegnato nella fonte consultata. [Fonte primaria o catalogo](https://www.ema.europa.eu/system/files/documents/scientific-guideline/wc500002928_en.pdf). [PDF](../papers/Statistical_Principles_for_Clinical_Trials_ICH_E9_1998.pdf) · [MD](../papers/Statistical_Principles_for_Clinical_Trials_ICH_E9_1998.md).
+
+La §5.5 preferisce in ambito regolatorio un livello unilaterale pari a metà del convenzionale bilaterale, e richiede una giustificazione prospettica. La §3.3.2 richiede motivazione del margine e distingue non inferiorità ed equivalenza. E9 1998 non è l’addendum E9(R1).
+
+**Verifica:** Testo ufficiale §§3.3.2 (pp. 17–18), 5.5 (pp. 27–28), 5.6 (p. 28), frontespizio. Metadati: EMA/FDA, fonti ufficiali; nessun DOI attribuito.
+
+**Rapporto con questo lavoro** — *Somiglianza:* Prespecificazione, margine e scelta del livello. *Differenza:* È una guida per sperimentazioni cliniche regolatorie, non uno standard obbligatorio per benchmark ML. *Implicazione:* 0,025 segue dalla convenzione quando il bilaterale è 0,05; E9 non prescrive 0,05 unilaterale per FoT e non sceglie m=0,125. Entrambe le decisioni restano all’autore, motivate sul dominio.
+
+**Probability Inequalities for Sums of Bounded Random Variables**
+*Wassily Hoeffding, 1963*
+
+Journal of the American Statistical Association 58(301), 13–30. DOI `10.1080/01621459.1963.10500830`. [Fonte primaria o catalogo](https://www.cs.rpi.edu/academics/courses/spring06/random/hoefding.pdf). [PDF](../papers/Probability_Inequalities_for_Sums_of_Bounded_Random_Variables_1963.pdf) · [MD](../papers/Probability_Inequalities_for_Sums_of_Bounded_Random_Variables_1963.md).
+
+Il teorema 2 limita la coda della media di variabili indipendenti limitate, anche non identicamente distribuite. Per D_c in [−1,1], la specializzazione dà P(media D−E media D≥t)≤exp(−Nt²/2).
+
+**Verifica:** Testo primario §§1–2, pp. 13–16; teorema 1 eq. (2.3), teorema 2 eq. (2.6); controllo visivo pp. 14–16. Metadati: Crossref e pagina Taylor & Francis; copia della rivista, non mimeo 1962.
+
+**Rapporto con questo lavoro** — *Somiglianza:* H1/H2 usano medie di cluster limitate. *Differenza:* La garanzia riguarda il livello con indipendenza fra cluster; non implica potenza utile né indipendenza delle risposte interne al cluster. *Implicazione:* Con nulla E(media D)≤0 e N prefissato, t=√(2 log(1/α)/N) fornisce livello ≤α. Sono deduzioni algebriche dalla fonte, non simulazioni. Non giustifica MDE o potenza approssimata, né validità se cluster dipendono o sono selezionati sui risultati.
+
+**The Nonexistence of Certain Statistical Procedures in Nonparametric Problems**
+*R. R. Bahadur e Leonard J. Savage, 1956*
+
+The Annals of Mathematical Statistics 27(4), 1115–1122. DOI `10.1214/aoms/1177728077`. [Fonte primaria o catalogo](https://repository.ias.ac.in/27021/1/314.pdf). [PDF](../papers/The_Nonexistence_of_Certain_Statistical_Procedures_in_Nonparametric_Problems.pdf) · [MD](../papers/The_Nonexistence_of_Certain_Statistical_Procedures_in_Nonparametric_Problems.md).
+
+Il teorema 1 assume una famiglia convessa di distribuzioni a media finita capace di realizzare ogni media reale. Gli esempi includono distribuzioni ciascuna a supporto finito o limitato: non richiede code illimitate per ogni distribuzione.
+
+**Verifica:** Testo primario §2, pp. 1115–1118; ipotesi (i)–(iii), teorema 1 e corollario 1; controllo visivo pp. 1115–1116. Metadati: Crossref, JSTOR e repository IAS; iniziali non espanse senza verifica.
+
+**Rapporto con questo lavoro** — *Somiglianza:* Chiarisce i limiti delle inferenze non parametriche sulle medie. *Differenza:* Una famiglia con supporto comune noto [−1,1] non soddisfa l’ipotesi di poter realizzare ogni media reale. *Implicazione:* Corretta la non applicabilità a H1/H2 limitate, ma è impreciso motivarla con “riguarda famiglie con code non limitate” senza distinguere limite comune e supporto individuale. La fonte non invalida tutti i test non parametrici della media e non dimostra la validità del sign-flip.
+
+**Communication-Efficient Learning of Deep Networks from Decentralized Data**
+*Brendan McMahan, Eider Moore, Daniel Ramage, Seth Hampson e Blaise Aguera y Arcas, 2017*
+
+AISTATS 2017, Proceedings of Machine Learning Research 54, 1273–1282. DOI non trovato/non assegnato nella fonte consultata. [Fonte primaria o catalogo](https://proceedings.mlr.press/v54/mcmahan17a.html). [PDF](../papers/Communication-Efficient_Learning_of_Deep_Networks_from_Decentralized_Data.pdf) · [MD](../papers/Communication-Efficient_Learning_of_Deep_Networks_from_Decentralized_Data.md).
+
+FedAvg alterna aggiornamenti SGD locali e media dei modelli ponderata per numerosità locale. La voce era già in §14.3 e §14.7: viene completata e resa presente anche nell’indice classificato, senza una seconda opera o una seconda versione. Il PDF è quello degli atti PMLR; DOI degli atti non indicato dalla fonte.
+
+**Verifica:** Testo primario §2 e algoritmo 1, p. 1277 (PDF p. 5), discussione privacy e limiti. Metadati: Catalogo PMLR e atti AISTATS 2017.
+
+**Rapporto con questo lavoro** — *Somiglianza:* È il comparatore parametrico previsto dal blocco FedAvg dello studio 2. *Differenza:* Le impostazioni locali del benchmark (architettura, pesi di loss, tutti i client) non sono prescritte dall’articolo. *Implicazione:* La mancata condivisione dei dati grezzi non è una garanzia formale di privacy; il confronto empirico su altri dati non predice prestazioni FoT o FedAvg sul nostro TEP.
+
+</details>
+
 ### 14.3 Riferimenti metodologici e di dominio
 
 I seguenti riferimenti sostengono affermazioni presenti in questo documento e sono stati verificati su Crossref, OpenAlex, DataCite e PMLR quanto a titolo, autori, anno e sede.
@@ -520,12 +683,14 @@ I seguenti riferimenti sostengono affermazioni presenti in questo documento e so
 | Bathelt, A., Ricker, N.L. & Jelali, M. (2015), *Revision of the Tennessee Eastman Process Model*, IFAC-PapersOnLine. DOI `10.1016/j.ifacol.2015.08.199` | La distinzione fra i 21 guasti standard del processo e i 28 ingressi di disturbo esposti dal simulatore modificato (§2.5) |
 | Rieth, C.A., Amsel, B.D., Tran, R. & Cook, M.B. (2017), *Additional Tennessee Eastman Process Simulation Data for Anomaly Detection Evaluation*, Harvard Dataverse. DOI `10.7910/DVN/6C3JR1` | La prassi consolidata di generare realizzazioni simulate indipendenti, che è ciò che fa la replica di §8 |
 | Chiang, L.H., Russell, E.L. & Braatz, R.D. (2001), *Fault Detection and Diagnosis in Industrial Systems*, Springer. DOI `10.1007/978-1-4471-0347-9` | Il contesto in cui leggere il 36/36 della baseline numerica e i riferimenti centralizzati di §9 |
-| McMahan, B., Moore, E., Ramage, D., Hampson, S. & Agüera y Arcas, B. (2017), *Communication-Efficient Learning of Deep Networks from Decentralized Data*, AISTATS, PMLR 54, 1273–1282 | Il termine di paragone rispetto al quale §12.2 dichiara **non** equivalenza |
+| McMahan, B., Moore, E., Ramage, D., Hampson, S. & Agüera y Arcas, B. (2017), *Communication-Efficient Learning of Deep Networks from Decentralized Data*, AISTATS, PMLR 54, 1273–1282; [atti PMLR](https://proceedings.mlr.press/v54/mcmahan17a.html), algoritmo 1 p. 1277; PDF e MD acquisiti, scheda in §14.2 | Media dei modelli locali ponderata per numerosità; comparatore parametrico dello studio 2 e termine di non equivalenza rispetto a §12.2 |
 | Wang, Z., Dai, Z., Póczos, B. & Carbonell, J. (2019), *Characterizing and Avoiding Negative Transfer*, CVPR. DOI `10.1109/CVPR.2019.01155` | Il quadro in cui collocare la degradazione sui guasti già noti di §8.5 e la variante local-first di §10.3 |
 | Holm, S. (1979), *A Simple Sequentially Rejective Multiple Test Procedure*, Scandinavian Journal of Statistics 6(2), 65–70 | La correzione per confronti multipli usata nel confronto delle rappresentazioni (§10.4) |
 | Field, C.A. & Welsh, A.H. (2007), *Bootstrapping Clustered Data*, JRSS-B. DOI `10.1111/j.1467-9868.2007.00593.x` | Il fondamento del bootstrap appaiato per cluster descritto in §6.5 |
 
 ### 14.4 Perimetro del corpus consultato
+
+**Verifica mirata del 2026-09-14.** Sono state cercate le undici opere del blocco Fase 03, senza una nuova scansione generale: sette testi primari sono ora conservati in PDF/MD. Yin, Maurer–Hothorn–Lehmacher, Westfall–Krishen e Kish hanno limiti di accesso diversi, esplicitati nelle schede. [Analisi e addendum ai criteri congelati](lit_review/VERIFICA_RILEVABILITA_IDV6_IDV4_FASE03.md) registrano fonti, impronte, localizzatori e attribuzioni ancora aperte.
 
 Le ricerche sono state eseguite su OpenAlex, arXiv, Scopus e Crossref, e sono state integrate da un **audit sul testo integrale** dei venticinque lavori raccolti in [`papers/archive/fed_fsl_2026-07/`](../papers/archive/fed_fsl_2026-07).
 
@@ -544,6 +709,8 @@ Questo **delimita il corpus consultato, non prova l'assenza di precedenti**. Sos
 **Esclusioni documentate.** Sei dei venticinque lavori — FedPOB, FedPrompt, pFedPG, pFedMoAP, DP²FL, pFedRAG — sono stati esaminati e lasciati fuori perimetro: aggiornano parametri, scambiano payload numerici (prompt continui, parametri di bandit, pesi di embedding) e in gran parte lavorano su benchmark visivi. Non hanno un corrispettivo testuale con cui confrontarsi.
 
 ### 14.5 I lavori più vicini
+
+**Limiti metodologici aggiunti per Fase 03.** I lavori statistici non sono nuovi concorrenti architetturali: vietano di presentare come esatto il FWER completo con H3 approssimato, come universale l’effetto di disegno o come prescrizione ML una convenzione clinica. PHM documenta rilevazione, non diagnosi FoT né generabilità. McMahan resta un’unica opera già citata, ora completata con l’algoritmo primario.
 
 Cinque lavori sono abbastanza vicini da poter essere scambiati per il nostro. Per ciascuno conta sapere **quale affermazione ci impedisce** e quale resta possibile.
 
@@ -564,6 +731,8 @@ Cinque lavori sono abbastanza vicini da poter essere scambiati per il nostro. Pe
 > **Un ottavo vicino, aggiunto il 2026-09-11.** **FaultExplainer** (Khan, Nahar, Chen, Constante-Flores & Li, 2025) è vicino sull'asse più scomodo: interroga un LLM congelato sulla **causa di un guasto TEP non presente nel repertorio fornito**, sul nostro stesso banco di prova. *Claim che ci vieta:* qualunque formulazione per cui chiedere a un LLM di ragionare sulla causa di un guasto mai visto sul TEP sarebbe un problema aperto o inedito. *Claim che resta:* il regime federato, il trasferimento di insight fra pari con esperienza disgiunta per classe, il controllo B/E e la misura dell'astensione su una popolazione — FaultExplainer è centralizzato, mono-agente, con feature scelte dalla PCA, e valuta la spiegazione in prosa guasto per guasto invece di misurare accuratezza e astensione.
 
 ### 14.6 Tenuta della novità
+
+**Integrazione del 2026-09-14.** Queste fonti non aggiungono una rivendicazione di novità. Impongono di distinguere garanzia finita di Hoeffding, approssimazione di Tango, presupposti binomiali e limiti della federazione parametrica; FDR nel paper PHM è fault detection rate. Nessun risultato esterno permette di anticipare l’esito del nostro modello o firmare la scelta OOD.
 
 **Tentativo di falsificazione.** La ricerca è stata condotta *contro* la nostra tesi, cercando un lavoro che combinasse tutti gli assi insieme. A criteri pieni non ne è emerso alcuno. Rilassando i criteri uno alla volta compaiono i vicini, e mostrano dove la nostra posizione è fragile:
 
@@ -589,6 +758,8 @@ La raccomandazione che ne segue è puntare il paper su **combinazione e valutazi
 Mai *no such method exists*.
 
 ### 14.7 Priorità bibliografica
+
+**Priorità del blocco Fase 03 (2026-09-14).** Citare PHM per i numeri F6/F4, Tango/Hoeffding per i test effettivamente adottati, Westfall–Krishen per l’inquadramento della sequenza, Clopper–Pearson per gli intervalli sotto ipotesi binomiale. Kish, Bahadur–Savage e ICH E9 vanno citati solo con le limitazioni delle rispettive schede. Maurer resta il riferimento storico con capitolo non letto; Yin non sostiene numeri verificati in questa sessione. McMahan era già prioritario e non viene duplicato. Questo aggiornamento bibliografico non recepisce decisioni autore non firmate.
 
 Quindici riferimenti sono obbligatori. Non perché siano i più citati, ma perché ciascuno **delimita** qualcosa che non possiamo rivendicare.
 
