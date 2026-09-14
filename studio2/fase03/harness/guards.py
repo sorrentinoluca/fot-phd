@@ -88,4 +88,3 @@ def assert_ready_for_calls(
     snapshot, token = tokenizer
     verify_tokenizer(snapshot, **token)
     verify_endpoint(endpoint_observed, endpoint_expected)
-

@@ -89,4 +89,3 @@ def evaluate_stability_gate(records: Iterable[dict[str, Any]]) -> dict[str, Any]
         "divergent_prompt_count": len(divergent),
         "t5_temporal_feasibility": "NOT_MEASURED_BY_OFFLINE_EVALUATION",
     }
-

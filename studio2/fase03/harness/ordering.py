@@ -32,5 +32,3 @@ def spearman_against_catalog(
     )
     n = len(left)
     return 1.0 - (6.0 * squared) / (n * (n * n - 1))
-
-

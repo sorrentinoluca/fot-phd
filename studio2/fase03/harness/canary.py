@@ -74,7 +74,6 @@ def compare_run(expectation_path: Path, records: Iterable[dict[str, Any]]) -> di
         "comparison_sha256": sha256_text(canonical_json(details)),
     }
 
-
 def suspension_required(
     daily_reports: Iterable[dict[str, Any]], *, returned_model_changed: bool
 ) -> dict[str, Any]:
@@ -85,4 +84,3 @@ def suspension_required(
         "suspend": bool(marked_days >= 2 or returned_model_changed),
         "rule": "suspend after two marked days or one returned-model ID change",
     }
-

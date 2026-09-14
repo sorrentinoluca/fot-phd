@@ -73,4 +73,3 @@ def select_audit(prompts: Iterable[dict[str, Any]]) -> list[dict[str, Any]]:
         raise HarnessError("audit requires a non-empty nucleus")
     count = math.ceil(len(rows) * 0.10)
     return _balanced_pick(rows, count=count, namespace=AUDIT_NAMESPACE)
-

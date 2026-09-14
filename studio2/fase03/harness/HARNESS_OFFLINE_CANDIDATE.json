@@ -27,16 +27,18 @@
     "evidence_archive_sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf"
   },
   "recovery": {
+    "recovered_byte_identical_from_1ac06eb": [
+      "studio2/fase03/harness/guards.py",
+      "studio2/fase03/harness/logging_v1.py",
+      "studio2/fase03/harness/producer.py",
+      "studio2/fase03/harness/sampling.py"
+    ],
     "adapted_from_1ac06eb": [
       "studio2/fase03/harness/canary.py",
-      "studio2/fase03/harness/guards.py",
       "studio2/fase03/harness/inputs.py",
       "studio2/fase03/harness/insight_adapter.py",
-      "studio2/fase03/harness/logging_v1.py",
       "studio2/fase03/harness/ordering.py",
-      "studio2/fase03/harness/producer.py",
-      "studio2/fase03/harness/render.py",
-      "studio2/fase03/harness/sampling.py"
+      "studio2/fase03/harness/render.py"
     ],
     "new_for_revision_10": [
       "studio2/fase03/harness/ledger.py",
@@ -68,17 +70,17 @@
     {"path": "studio2/fase03/harness/PILOT_INPUT_SOURCES.pending.json", "bytes": 194648, "sha256": "7103482d6c7b8038944b0af63bac58548557c8d0b8f5d24e420346bd93fa304b"},
     {"path": "studio2/fase03/harness/SPECIFICA_HARNESS.md", "bytes": 9075, "sha256": "d4cacc0932a473bca333e1e9a1f57afc0ac104a47fba15806f7ec00f7e3001b9"},
     {"path": "studio2/fase03/harness/DECISIONE_D9_ORDINE_LABEL_PENDING.md", "bytes": 1884, "sha256": "375442948ee41067a52467586fee580be0847e5b17694e1b3a5f69764db6aa47"},
-    {"path": "studio2/fase03/harness/canary.py", "bytes": 3696, "sha256": "c357b6daa51d601ea072f7af8131c15c7af04fab49af71d2fbf2739226db0a06"},
-    {"path": "studio2/fase03/harness/gate_rules.py", "bytes": 3477, "sha256": "0f170c1f5d574c4038e9fd70bf5784b285d72f08e69ee582b86e302d7d94d003"},
-    {"path": "studio2/fase03/harness/guards.py", "bytes": 3047, "sha256": "c41515524b46fbee3ba10f5c9d06c7b5a2605ece724e163770ee26d6003c9c83"},
+    {"path": "studio2/fase03/harness/canary.py", "bytes": 3694, "sha256": "f20718fa62713f2792e1e59a959779b4e5088fc1f9dff0647e366998b0e3e65c"},
+    {"path": "studio2/fase03/harness/gate_rules.py", "bytes": 3476, "sha256": "8e22eba217be861a99b1dd4f78b7592821cd16dc507b7b921032305848cf2d38"},
+    {"path": "studio2/fase03/harness/guards.py", "bytes": 3046, "sha256": "2fed9e166e366b030d9b502d75747bc145706c141264d752a7e32927c3dab75c"},
     {"path": "studio2/fase03/harness/inputs.py", "bytes": 20198, "sha256": "771c5b2ffababff025267f855ccdb1cdb277d649e3fa70a0957ba9d438d274e4"},
     {"path": "studio2/fase03/harness/insight_adapter.py", "bytes": 4720, "sha256": "0f90a1e7341412b58bf38adfb2419a503b9a850768a7abb2c78ba7fe8ef54fcc"},
     {"path": "studio2/fase03/harness/ledger.py", "bytes": 20260, "sha256": "8d9cb2b4bbd77e57e363ab3958c1dd7847005602a6e4b6935f4a6e0bee470ab9"},
-    {"path": "studio2/fase03/harness/logging_v1.py", "bytes": 5801, "sha256": "aea5e967669b843b50ca2c8f94f0545cac1f4f0eb34dc5b25f31aeb6358f4fe6"},
-    {"path": "studio2/fase03/harness/ordering.py", "bytes": 1353, "sha256": "b5ddf3ecfc4e0cd3b60b4e4ae38ddcb310331fc13c24d41d395a6ce86e2f4e1e"},
-    {"path": "studio2/fase03/harness/producer.py", "bytes": 2130, "sha256": "d44525694afd92c4f57445f35439c9603d84ff88c3947b157427c093553a930c"},
+    {"path": "studio2/fase03/harness/logging_v1.py", "bytes": 5800, "sha256": "db054be286abbe5890ea8148c56cb9d64d1efde503c33422c0bf7efd89d269a3"},
+    {"path": "studio2/fase03/harness/ordering.py", "bytes": 1351, "sha256": "93b5cae2feac39b1ad3407c33b4c48470d895fcf4e9d83b3c4a16313070eac13"},
+    {"path": "studio2/fase03/harness/producer.py", "bytes": 2129, "sha256": "c4c08ed6339f7a816c9272fddae78c5dadd0877d438d1953fed7f7fd78a54842"},
     {"path": "studio2/fase03/harness/render.py", "bytes": 2661, "sha256": "bd544be641a52fd0c5f1fcb76b636687534ecde9a8c88f216ed12bf74a2561bf"},
-    {"path": "studio2/fase03/harness/sampling.py", "bytes": 2844, "sha256": "3a805668ebdebbaf897b0a070a4d4e28e91d9905dd0b63559571e24aed1e6182"},
+    {"path": "studio2/fase03/harness/sampling.py", "bytes": 2843, "sha256": "3ad3291f7084a2fa7865351734c6226a9efe0c9b176f241fe1bdbfe8500c6a8f"},
     {"path": "studio2/fase03/harness/test_harness_offline.py", "bytes": 18754, "sha256": "1555db6a1865f4491cc80a7daa126187a1790fe3010f6a19201207435ecd65db"}
   ],
   "preserved_qualified_metric_files": [

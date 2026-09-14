@@ -31,9 +31,10 @@ Dal package preesistente sono stati recuperati e adattati soltanto:
 
 Non sono stati importati i vecchi `HARNESS_FREEZE.json`,
 `INTEGRATION_STATUS.json`, report/consegne, manifest incompleti o documenti
-destinati a sovrascrivere le pubblicazioni correnti. Ogni modulo recuperato è
-stato adattato: nessuno dei vecchi byte è dichiarato qualificato per semplice
-provenienza.
+destinati a sovrascrivere le pubblicazioni correnti. `guards.py`,
+`logging_v1.py`, `producer.py` e `sampling.py` sono recuperati byte-identici;
+gli altri cinque moduli sono adattati. Nessun vecchio byte è dichiarato
+qualificato per la sola provenienza.
 
 Le dipendenze obsolete eliminate dal percorso corrente erano evidence v1,
 schema R3, Normal ancora dichiarati mancanti, modello/server Qwen-27B ereditato,

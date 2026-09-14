@@ -144,4 +144,3 @@ def read_records(path: Path) -> list[CallRecord]:
             except (json.JSONDecodeError, TypeError, HarnessError) as exc:
                 raise HarnessError(f"invalid call log line {number}: {exc}") from exc
     return records
-

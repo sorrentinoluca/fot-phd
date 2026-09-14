@@ -39,4 +39,3 @@ def build_producer_prompt(
         + json.dumps(local_examples, ensure_ascii=False, indent=2)
         + "\n"
     )
-
