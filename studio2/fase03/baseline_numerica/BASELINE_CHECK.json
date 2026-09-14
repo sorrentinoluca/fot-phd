@@ -1,0 +1,20 @@
+{
+  "absolute_tolerance": "0.0000000000000002",
+  "dimensions": 697,
+  "fault_evidence_manifest_sha256": "5111d0c61c2e93fe5071d7a85015673549af0bf9c1dc74e0d940719a8400e020",
+  "fault_signatures_per_class": 40,
+  "global_prototypes_recomputed": 9,
+  "local_examples_03_10": 8,
+  "local_prototypes_recomputed": 16,
+  "maximum_absolute_component_difference": "0",
+  "normal_evidence_manifest_sha256": "cc8d96c2c60169afc99cb811cea194aa553afcc7cc51cad4a0092d44de38fdc1",
+  "normal_signatures_global": 320,
+  "normal_signatures_per_agent": 40,
+  "performance_evaluation_performed": false,
+  "prototype_manifest_sha256": "8309a914d2141da38d1120606897bcead40142829ecd541b6b0423d0d9465751",
+  "prototype_vectors_compared": 25,
+  "prototypes_sha256": "6d0b754065eb8a69d0657638deeef0756de0ec8e93a905c55aea18fadace2cb2",
+  "status": "PASS",
+  "test_data_opened": false,
+  "verification_method": "independent Decimal(precision=50) componentwise recomputation"
+}

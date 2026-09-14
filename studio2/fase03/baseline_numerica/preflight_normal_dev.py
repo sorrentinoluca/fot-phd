@@ -34,7 +34,12 @@ def plan_revision_is_published(repo_root: Path) -> bool:
     return result.returncode == 0
 
 
-def validate_no_collisions(rows: list[dict[str, str]], repo_root: Path) -> None:
+def validate_no_collisions(
+    rows: list[dict[str, str]],
+    repo_root: Path,
+    *,
+    excluded_manifests: set[Path] | None = None,
+) -> None:
     target = {int(row["stream_id"]) for row in rows}
     if target != set(range(60000, 60040)):
         raise ValueError("normal_dev must reserve exactly streams 60000-60039")
@@ -42,8 +47,16 @@ def validate_no_collisions(rows: list[dict[str, str]], repo_root: Path) -> None:
     collision = sorted(target & occupied)
     if collision:
         raise ValueError(f"reserved stream collision: {collision}")
+    excluded = {path.resolve() for path in (excluded_manifests or set())}
     for path in repo_root.glob("studio2/**/*.csv"):
+        # A stream identifier is reserved by an execution plan or by a produced
+        # generation manifest.  Derived evaluator indexes repeat provenance
+        # identifiers and must not be mistaken for a second allocation.
+        if path.parent.name != "plans" and path.name != "generation_manifest.csv":
+            continue
         if path.name == "normal_dev.csv":
+            continue
+        if path.resolve() in excluded:
             continue
         try:
             with path.open(newline="", encoding="utf-8-sig") as handle:

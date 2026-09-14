@@ -1,0 +1,45 @@
+{
+  "archive": {
+    "bytes": 151500800,
+    "format": "uncompressed POSIX ustar",
+    "local_path": "conservation/studio2-fase03-normal-dev-v1.tar",
+    "name": "studio2-fase03-normal-dev-v1.tar",
+    "sha256": "eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03"
+  },
+  "inventory": {
+    "bytes": 150575225,
+    "path": "MANIFEST_CONSERVAZIONE.csv",
+    "rows": 1336,
+    "sha256": "198b572ab1f0e600f34c182c2dba98427a3a3cbc56faf13f146187de4d914283"
+  },
+  "packaging": {
+    "appledouble_entries": 0,
+    "deterministic_metadata": "uid/gid/mtime normalized; regular files only",
+    "members_with_pax_headers": 0,
+    "xattrs_stored": false
+  },
+  "publication_requirements_remaining": [
+    "publish the archive and SHA-256 asset under the proposed tag",
+    "download the published asset into a fresh external directory",
+    "compare archive SHA-256, members, bytes, and every file SHA-256"
+  ],
+  "release": {
+    "proposed_tag": "studio2-fase03-normal-dev-v1",
+    "published_at_utc": null,
+    "redownload_verified": false,
+    "release_url": null,
+    "repository": "sorrentinoluca/fot-tep-data",
+    "status": "local_candidate_not_published_not_redownloaded"
+  },
+  "schema_version": 1,
+  "scope": "normal_dev raw workbooks, runtime, audit history, and Normal evidence",
+  "verification": {
+    "appledouble_entries": 0,
+    "bytes_verified": 150575225,
+    "extra_files": 0,
+    "local_archive_verification": "PASS",
+    "members_with_pax_headers": 0,
+    "mismatches": 0,
+    "regular_files": 1336
+  }
+}

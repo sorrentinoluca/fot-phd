@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import csv
 import tempfile
 import unittest
 from pathlib import Path
@@ -23,7 +24,16 @@ class NormalDevPlanTests(unittest.TestCase):
         source = Path(__file__).with_name("plans") / "normal_dev.csv"
         rows = validate_plan(source)
         repo_root = Path(__file__).resolve().parents[3]
-        validate_no_collisions(rows, repo_root)
+        own_manifest = (
+            Path(__file__).with_name("runs")
+            / "normal_dev_001"
+            / "generation_manifest.csv"
+        )
+        validate_no_collisions(
+            rows,
+            repo_root,
+            excluded_manifests={own_manifest},
+        )
 
     def test_changed_plan_is_rejected(self) -> None:
         source = Path(__file__).with_name("plans") / "normal_dev.csv"
@@ -32,6 +42,24 @@ class NormalDevPlanTests(unittest.TestCase):
             changed.write_bytes(source.read_bytes().replace(b"60000", b"30000", 1))
             with self.assertRaises(ValueError):
                 validate_plan(changed)
+
+    def test_derived_index_is_not_a_stream_allocation(self) -> None:
+        rows = build_rows()
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            derived = root / "studio2" / "fase03" / "evidence" / "EVALUATOR_INDEX.csv"
+            derived.parent.mkdir(parents=True)
+            with derived.open("w", newline="", encoding="utf-8") as handle:
+                writer = csv.DictWriter(handle, fieldnames=("evidence_id", "stream_id"))
+                writer.writeheader()
+                writer.writerow({"evidence_id": "NDEV-EVD-0001", "stream_id": "60000"})
+            validate_no_collisions(rows, root)
+
+            manifest = root / "studio2" / "fase03" / "other" / "generation_manifest.csv"
+            manifest.parent.mkdir(parents=True)
+            manifest.write_text("run_id,stream_id\nother,60000\n", encoding="utf-8")
+            with self.assertRaisesRegex(ValueError, "stream collision"):
+                validate_no_collisions(rows, root)
 
 
 if __name__ == "__main__":
