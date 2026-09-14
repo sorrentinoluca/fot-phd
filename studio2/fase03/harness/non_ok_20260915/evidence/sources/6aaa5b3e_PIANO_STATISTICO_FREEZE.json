@@ -1,0 +1,531 @@
+{
+  "schema_version": 2,
+  "date": "2026-09-14",
+  "scope": "phase03_subphase_03_8_statistical_plan",
+  "status": "revision_10_pending_independent_review",
+  "effective_when": "revision_10_independent_review_OK_and_remaining_statistical_freeze_conditions_resolved_and_commit_reachable_from_origin_main_and_annotated_freeze_tag_published",
+  "freeze_tag": null,
+  "freeze_effective": false,
+  "work_branch": "codex/studio2-piano-statistico-fix",
+  "base_commit_before_revision_7_checkpoint": "dd82cd1753b31c10235de18052f24683306f8751",
+  "verified_revision_7_checkpoint_commit": "7f760b7146cb858f5ef01ab3a1c61aef3a7577b3",
+  "revision_8_candidate_commit": "75bd14898e43f03f849c5d248d6c2481da55e245",
+  "revision_8_review_checkpoint_commit": "f700326a096c7a79efd2feceb93939580f5057dc",
+  "revision_9_candidate_commit": "6015f8fdb1b28e0adad50219466bf13cd988c137",
+  "revision_9_review_checkpoint_commit": "29249a9305c44a44b96e6f49f94e978956ed0ac2",
+  "must_freeze_before": "first test run (subphase 03.11) and any model call on test data",
+  "author_decision_source": {
+    "author": "Luca",
+    "approval_recorded_on": "2026-09-14",
+    "material_signature": "pending",
+    "original_path": "/Users/luker/fot-tep/studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_bozza.md",
+    "package_copy_path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_bozza.md",
+    "sha256": "66e04dd2d8dd00fcf0edf6076a9e3f60bb6fd1fdf8c1e86028a9f80c8754fafb",
+    "bytes": 43136,
+    "copy_byte_identical": true,
+    "note": "Conversation approvals are recorded without adding the author's material signature and without requesting a second approval."
+  },
+  "inputs_read": [
+    {
+      "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+      "role": "catalog_D1_manifest",
+      "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+      "bytes": 6894
+    },
+    {
+      "path": "studio2/fase03/selection/PROPOSTA_OOD_D11.md",
+      "role": "non_binding_OOD_D11_proposal",
+      "sha256": "47c84d937bc01d37c84b81c09691bc5c3ad6d0607bcbfcb8621ea1a6be885046",
+      "bytes": 6960
+    },
+    {
+      "path": "docs/lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+      "role": "criteria_registry_table8_transcription",
+      "sha256": "d58a7606d69a560a626da44833c065ddbf1aa395ae8b2e523262daf8622231c7",
+      "bytes": 11339
+    },
+    {
+      "path": "docs/lit_review/DECISIONE_calibrazione_soglie_fase_B.md",
+      "role": "FAR_calibration_constraint_03_5",
+      "sha256": "a472d193064615b9a42218844d2cf71bcc7acc06b93cd65f8fa20c1fc0abdfd3",
+      "bytes": 48215
+    },
+    {
+      "path": "phase_b/evaluation/bootstrap.py",
+      "role": "HC_pattern_read_only",
+      "sha256": "524751fede48e678ee66b9f783be8fdeaefe7bebe32772e5367ba9be9c3d9df5",
+      "bytes": 5636
+    },
+    {
+      "path": "phase_b/evaluation/metrics.py",
+      "role": "HC_pattern_read_only",
+      "sha256": "9aa8e6d12957c10e3059c95dcb93efa59679e97a7374500aea9e86ad26e9f0cb",
+      "bytes": 8874
+    }
+  ],
+  "imposed_by_plan": [
+    "three endpoint numbers, first primary",
+    "H1 H2 superiority, H3 noninferiority",
+    "cluster = physical run, paired cluster bootstrap adapted to nine classes (stratification by pseudolabel is a project choice from the HC pattern)",
+    "Unknown available in all conditions",
+    "2 OOD faults x 3 runs x 8 agents x 3 conditions",
+    "ablation local-first 8xnx1 + 4x3x7",
+    "stratified reporting continuity/new/aggregate",
+    "R gate on observed divergence, unit = prompt",
+    "three hypotheses each at 0.05; author confirmed the fixed sequence H1->H2->H3"
+  ],
+  "binds_other_subphases": {
+    "03.11": "8 runs per fault, 6 OOD runs, sealed identifiers, 11 spare runs and technical OOD checks; approved B: candidates/criteria/chains frozen before test runs, technical checks afterwards before model calls, no selection on diagnostic performance/separability",
+    "03.10": "bootstrap generalisation to 8 strata x 8 clusters x 7 rows (intervals only), third metric, Hoeffding test on cluster means as the H1/H2 decision, Tango score test as the H3 decision, cluster sign-flip as supplementary, audit/canary logging; implement and verify the unchanged gate/reserve/validity rules before the development pilot, separately from statistical freeze",
+    "03.13": "confirmed gate thresholds, mandatory order, single remediation and shared reserve accounting; approved A: complete accounting and measured temporal feasibility, 20% margin, organizational suspension if infeasible"
+  },
+  "does_not_decide": [
+    "threshold and FAR (03.5)",
+    "insight schema (03.12)",
+    "pseudolabel values and derangement (03.7)",
+    "implementation (03.10)"
+  ],
+  "author_decisions": {
+    "D2_runs_per_fault": {
+      "value": 8,
+      "fault_clusters": 64,
+      "primary_normal_runs": 8,
+      "status": "confirmed",
+      "source": "DECISIONI_AUTORE_03_8_bozza.md table"
+    },
+    "H1_H2_decision_test": {
+      "value": "Hoeffding test on the mean of independent cluster means bounded in [-1,1]",
+      "alpha_one_sided": 0.05,
+      "threshold_48": 0.3533018,
+      "threshold_64": 0.3059684,
+      "guarantee": "finite-sample level under the weak null with independent clusters; arbitrary within-cluster dependence",
+      "limitations": "does not guarantee power or establish actual cluster independence; bootstrap is interval-only and sign-flip supplementary under joint exchangeability",
+      "status": "confirmed"
+    },
+    "noninferiority_H3": {
+      "margin_m": 0.125,
+      "meaning": "maximum declared acceptable average net loss on local-seen accuracy",
+      "decision_test": "Tango 1998 score test at delta0=-m",
+      "primary_alpha_one_sided": 0.05,
+      "sensitivity_alpha_one_sided": 0.025,
+      "sensitivity_can_replace_primary": false,
+      "tango_interval_A2_bis_adopted": false,
+      "individual_guarantee": false,
+      "status": "confirmed"
+    },
+    "test_hierarchy_decision_5": {
+      "value": "fixed sequence H1 -> H2 -> H3; stop at first non-rejection",
+      "alpha_one_sided_each": 0.05,
+      "familywise_control": "finite-sample conservative for H1/H2 and approximate for the Tango component",
+      "status": "confirmed"
+    },
+    "agent_fault_reporting": {
+      "value": "report gained, lost, and net cases by agent/fault; flag net <= -2 of 8",
+      "confirmatory_gate": false,
+      "status": "confirmed"
+    },
+    "OOD_faults": {
+      "value": [
+        "F6",
+        "F4"
+      ],
+      "substitutes": {
+        "F6": [
+          "F5",
+          "F12"
+        ],
+        "F4": [
+          "F11",
+          "F5"
+        ]
+      },
+      "reading": "distinct perturbed variable; if same stream/apparatus, distinct mechanism type",
+      "bibliographic_numeric_condition": "satisfied_within_PHM_2023_scope",
+      "technical_conditions": [
+        "generability",
+        "no trip in the prescribed window",
+        "all section 8 and subphase 03.11 admissibility requirements"
+      ],
+      "substitute_rule": "each substitute requires its own detectability and admissibility verification; the two OOD faults must remain distinct",
+      "status": "confirmed_conditionally",
+      "technical_check_timing": "subphase 03.11, after statistical freeze and before any model call on test data"
+    },
+    "D11_confusable_pairs": {
+      "value": [
+        [
+          "F1",
+          "F2"
+        ],
+        [
+          "F14",
+          "F15"
+        ]
+      ],
+      "runs": "sealed test run indices 1-3",
+      "status": "confirmed"
+    },
+    "R_policy_decision_11": {
+      "value": "do not activate R=3 only because temperature/seed controls are absent; divergence is a change in parsed (abstain,predicted_label) or validity",
+      "audit_fraction": 0.1,
+      "primary_uses_first_repetition": true,
+      "sensitivity_uses_majority": true,
+      "canaries_per_day": 10,
+      "suspend_after_marked_days": 2,
+      "suspend_on_model_id_change": true,
+      "no_midstudy_R_change": true,
+      "status": "confirmed"
+    },
+    "go_no_go_thresholds": {
+      "T3": "at least 114/120 valid first attempts and at least one correctly parsed abstention per condition",
+      "T4": "zero length truncations on 120 gate calls",
+      "T6": "0/40 evaluable divergent prompts -> R=1; at least 1 -> R=3; three invalid responses make that prompt unevaluable and block technical GO",
+      "T9": "16/16 valid insights from 8 conformity calls, subject only to the single remediation procedure",
+      "T11": "at least one A abstention on locally-unseen gate prompts; otherwise OOD still runs as exploratory with validity not established",
+      "status": "confirmed"
+    },
+    "remediation_and_transport": {
+      "mandatory_order": [
+        "producer_conformity",
+        "optional_single_remediation",
+        "budget_probe",
+        "stability_gate_40x3"
+      ],
+      "remediation_scope": "producer prompt only; schema, validator, leakage rules and fixed fields unchanged",
+      "repeat_after_remediation": "all same eight cases with the new frozen template; initial outputs retained but excluded from libraries",
+      "future_written_authorization_on_concrete_diff_required": true,
+      "shared_reserve_calls": 15,
+      "remediation_calls": 8,
+      "transport_calls_remaining_after_remediation_max": 7,
+      "budget_probe_transport_repeat": "full triplet only, documented zero-token transport; no partial triplets",
+      "gate_transport_repeat": "forbidden; invalid responses count in T3",
+      "timeout_without_zero_token_proof": "unresolved technical failure, not prompt remediation",
+      "automatic_retry": false,
+      "counter_reset": false,
+      "alternate_producer_reserve_reuse": false,
+      "max_without_alternate_producer": 152,
+      "max_with_alternate_producer": 160,
+      "pilot_hard_stop_cumulative": 200,
+      "status": "confirmed"
+    },
+    "bootstrap": {
+      "seed": 20260913,
+      "iterations": 10000,
+      "namespace": "studio2-fase03-piano-statistico-v1",
+      "status": "confirmed"
+    },
+    "spare_runs": {
+      "count": 11,
+      "composition": "one for each of eight D1 faults, one Normal, one for each selected OOD fault",
+      "use": "technical substitution only before model calls; spares replace runs and do not add observations",
+      "status": "confirmed"
+    },
+    "planning_cap": {
+      "calls": 3700,
+      "distinct_from_pilot_hard_stop": true,
+      "status": "historical_superseded_by_A",
+      "effective": false,
+      "superseded_on": "2026-09-14"
+    },
+    "resource_planning": {
+      "status": "approved",
+      "source": "APPROVAZIONE_ADDENDUM_03_8.md A",
+      "fixed_study_call_cap": null,
+      "required_accounting": "complete requests by block and actual model, including R, audit, canary, production/reuse, E5, pilot and permitted retries without double counting",
+      "feasibility": "pilot-measured time on actual configuration within operational window with 20% temporal margin",
+      "window_automatically_extended": false,
+      "R_trigger_changed": false,
+      "if_infeasible": "organizational suspension and explicit author decision; no automatic design reduction or scientific failure",
+      "pilot_hard_stop_cumulative": 200
+    },
+    "OOD_order": {
+      "status": "approved",
+      "source": "APPROVAZIONE_ADDENDUM_03_8.md B",
+      "before_first_test_run": "freeze candidates, technical criteria, substitution chains, samples, spares and all statistical choices",
+      "after_freeze_before_test_model_calls": "03.11 technical generability/trip/admissibility checks, each substitute independently verified and two OOD distinct",
+      "prohibited_selection_inputs": [
+        "diagnostic_performance",
+        "separability",
+        "model_results"
+      ],
+      "unresolved_case": "suspend and obtain explicit author decision; no silent protocol change or post-call substitution"
+    }
+  },
+  "bibliographic_evidence": {
+    "status": "independently_verified_OK",
+    "does_not_approve_statistical_or_OOD_decisions": true,
+    "detectability_addendum": {
+      "path": "/Users/luker/fot-tep-letteratura-fase03/docs/lit_review/VERIFICA_RILEVABILITA_IDV6_IDV4_FASE03.md",
+      "sha256": "f2c29416664e27c2ecac7d439939f51f1a3f7313e2aba669bb39db7106cf0b8e",
+      "bytes": 34808
+    },
+    "independent_review": {
+      "path": "/Users/luker/fot-tep-verifica-letteratura-fase03/docs/lit_review/VERIFICA_INDIPENDENTE_LETTERATURA_FASE03.md",
+      "sha256": "551f7da9de20096f3a21f6f9a19d2beecd4b03367bbf6cbe4d083f482637ddaf",
+      "bytes": 30107,
+      "verdict": "OK"
+    },
+    "IDV6_FDR_DAE_T2_SPE_percent": [
+      100,
+      99,
+      100
+    ],
+    "IDV4_FDR_DAE_T2_SPE_percent": [
+      100,
+      18,
+      100
+    ],
+    "F9_SPE_discrepancy": {
+      "primary_source_percent": 5.6,
+      "frozen_registry_percent": 6.6,
+      "action": "cite addendum; do not modify the frozen registry, H, D1 or scientific criteria"
+    },
+    "access_limits": [
+      "Yin 2012: metadata and abstract only",
+      "Maurer 1995: title page/index and author CV; chapter full text not acquired",
+      "Westfall 2001: metadata and publisher preview; full PDF not acquired",
+      "Kish 1965: catalogs; full text not acquired"
+    ],
+    "methodological_references": "eight external references listed in PIANO_STATISTICO.md section 17",
+    "McMahan_role": "additional bibliography/FedAvg reference, not a ninth section-17 methodological reference",
+    "integration_status": "candidate bibliography and review remain external to this branch and are not claimed to be integrated in main"
+  },
+  "remaining_conditions": {
+    "statistical_freeze": {
+      "material_author_signature": "pending",
+      "revision_10_independent_review": "pending",
+      "bibliography_integration": "pending serial acquisition, including review and recoverable ignored PNG preservation",
+      "normative_external_alignments": "pending in general plan/APERTURA; harness delta specified, implementation required before pilot",
+      "walkthrough_and_final_commits": "pending after independent OK, serially coordinated",
+      "publication": "pending; final candidate not reachable from origin/main",
+      "freeze_manifest_and_tag": "pending until statistical freeze requirements satisfied; before first test run"
+    },
+    "before_development_pilot": {
+      "harness_03_10": "pending implementation/verification of 03.8 rules with persistent cumulative budget and mandatory stage order",
+      "scientific_and_technical_inputs": "development-only 03.6/03.7/03.12, frozen schema/mapping/prompts, identity/configuration and context capacity required; not waived by A/B",
+      "execution_authorization": "not granted by this documentary revision"
+    },
+    "before_study_execution": {
+      "D9_model_and_configuration": "pending; no automatic choice",
+      "T5_feasibility": "pending actual pilot-measured times, complete count and calendar including 20% margin",
+      "R3_organizational_branch": "rule A approved, actual feasibility pending; suspend and refer to author if not feasible"
+    },
+    "before_test_model_calls": {
+      "OOD_technical_checks": "pending in 03.11 after statistical freeze: generability/trip/admissibility, separate verified substitutes and distinct OOD",
+      "unresolved_OOD_case": "suspension and explicit decision, no silent rule changes",
+      "other_GO_requirements": "remain mandatory"
+    }
+  },
+  "revision_history": {
+    "revision_7": {
+      "verdict": "OK",
+      "review_path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO.md",
+      "review_sha256": "06c2a45bb13e70d92a6a7fbb1f6df1549ccaf5911e72f9f56066751d2f99abbe",
+      "review_bytes": 8471,
+      "checkpoint_commit": "7f760b7146cb858f5ef01ab3a1c61aef3a7577b3",
+      "historical_manifest_sha256": "c4ad3ca8436bd1c2e74608d3044a9d46e974a83fc4d044f84b4b499bb7d767d8",
+      "historical_manifest_review_mismatch": "revision 7 manifest still fingerprinted the sixth NON OK review; the seventh OK replacement was documented and is preserved without rewriting history"
+    },
+    "revision_8": {
+      "purpose": "record confirmed author decisions and independently verified bibliographic evidence",
+      "candidate_commit": "75bd14898e43f03f849c5d248d6c2481da55e245",
+      "independent_review": "NON_OK",
+      "review_path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV8.md",
+      "review_sha256": "e7b0846e36b9b2328bb073f486921aacbf29e66337bcb53efe8ab1cdec7cdd11",
+      "review_bytes": 32614,
+      "review_checkpoint_commit": "f700326a096c7a79efd2feceb93939580f5057dc",
+      "blocking_finding": "two incorrect DESIGN_RESOLUTION SHA-256 transcriptions in the committed revision 8 report",
+      "freeze": "not effective"
+    },
+    "revision_9": {
+      "purpose": "correct revision 8 report fingerprints and address the five recommended traceability findings without changing scientific decisions or artifacts",
+      "candidate_commit": "6015f8fdb1b28e0adad50219466bf13cd988c137",
+      "independent_review": "OK",
+      "review_scope": "restricted to the complete revision 8 to revision 9 delta, manifest fingerprints and executable checks; scientific merit remains covered by the revision 7 and revision 8 reviews",
+      "review_path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV9.md",
+      "review_sha256": "289a74433d70e2bf911bdea893711ff7a294c75cf74d5e6fa0addbf3ede72a58",
+      "review_bytes": 9845,
+      "review_checkpoint_commit": "29249a9305c44a44b96e6f49f94e978956ed0ac2",
+      "freeze": "not effective",
+      "registered_OK_state_commit": "0f1a9bae8b522f614720fa5efe7bd9d2577609ae",
+      "registered_OK_manifest": {
+        "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE_REV9.json",
+        "role": "historical_manifest_paths_resolve_at_0f1a9ba",
+        "sha256": "2b6ad396307be634428d9355d4aa65144b4956d675ccb9e4b47536e4bdaf8d76",
+        "bytes": 18817
+      }
+    },
+    "revision_10": {
+      "purpose": "receive explicitly approved A/B only",
+      "preparation_commit": "526561feabeb6b4083170b1817b8abdac1a2a4c7",
+      "approval_commit": "f37e7e00cbdd959ef6fdb7cc96ce42ed521075d6",
+      "independent_review": "pending",
+      "candidate_commit_recorded_in": "independent review and delivery record, outside the candidate manifest to avoid self-reference",
+      "freeze": "not effective"
+    }
+  },
+  "files": [
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "role": "statistical_plan_revision_10_pending_independent_review",
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a",
+      "bytes": 81490
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/REPORT_PIANO_STATISTICO.md",
+      "role": "revision_10_receipt_report",
+      "sha256": "909cbe2a30bd517e6f4e100c9fd0794fac353e3d805d356ace1cbf9cb9e87e70",
+      "bytes": 11298
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_bozza.md",
+      "role": "byte_identical_author_decision_source_copy",
+      "sha256": "66e04dd2d8dd00fcf0edf6076a9e3f60bb6fd1fdf8c1e86028a9f80c8754fafb",
+      "bytes": 43136
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO.md",
+      "role": "historical_independent_review_revision_7_OK_preserved_verbatim",
+      "sha256": "06c2a45bb13e70d92a6a7fbb1f6df1549ccaf5911e72f9f56066751d2f99abbe",
+      "bytes": 8471
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV8.md",
+      "role": "historical_independent_review_revision_8_NON_OK_preserved_verbatim",
+      "sha256": "e7b0846e36b9b2328bb073f486921aacbf29e66337bcb53efe8ab1cdec7cdd11",
+      "bytes": 32614
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV9.md",
+      "role": "independent_review_revision_9_OK_restricted_delta",
+      "sha256": "289a74433d70e2bf911bdea893711ff7a294c75cf74d5e6fa0addbf3ede72a58",
+      "bytes": 9845
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/design_resolution.py",
+      "role": "design_resolution_script_revision_7_preserved",
+      "sha256": "25a648b99fcb86f8111eaaf2f712183d6c3e0a0af5960b6b84c424c38fb1e613",
+      "bytes": 31905
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/test_design_resolution.py",
+      "role": "design_resolution_tests_revision_7_preserved",
+      "sha256": "569d63e60a2028958f3e41b92b6fa38628cd8ce3ad5d3546328308eaf39cf06f",
+      "bytes": 18504
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.json",
+      "role": "design_resolution_output_revision_7_preserved",
+      "sha256": "8bf79dc958e045598cf7538b72752caa902d2f8b134f642e54daaf0274fddbde",
+      "bytes": 126303
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.md",
+      "role": "design_resolution_tables_revision_7_preserved",
+      "sha256": "9ed15d15e8a6210e79573c9e4b3d073dfb8d8d9ed680735d83dc7c35358febb7",
+      "bytes": 27356
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/sottofase_3_8.md",
+      "role": "subphase_prompt_preserved",
+      "sha256": "ed6bb7123678b0ee3aec9dbd69ed8576e7988e759cf9e364cc9c23426bec9afc",
+      "bytes": 5942
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/APPROVAZIONE_ADDENDUM_03_8.md",
+      "role": "explicit_approval_record",
+      "sha256": "df2a754d3ad2d2215def012eb4d6e887c77d93ebdcad4a6811c5cbc18786a70a",
+      "bytes": 2830
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ADDENDUM_DECISIONI_RESIDUE_03_8.md",
+      "role": "approved_wording_preserved_verbatim",
+      "sha256": "6035967ceb390de69e63cac9f828b17386ab8a76bb1999db524597770fc782f8",
+      "bytes": 3768
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "role": "revision_10_accounting_annex_not_measured_feasibility",
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887",
+      "bytes": 8528
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE_REV9.json",
+      "role": "historical_manifest_paths_resolve_at_0f1a9ba",
+      "sha256": "2b6ad396307be634428d9355d4aa65144b4956d675ccb9e4b47536e4bdaf8d76",
+      "bytes": 18817
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MANIFEST_PREPARAZIONE_CHIUSURA_03_8.json",
+      "role": "historical_preparation_manifest_paths_resolve_at_526561f",
+      "sha256": "a570c0c91f3a45d4435d318e628cdad37ef7be0dceda17fcb62cf50350dead93",
+      "bytes": 8501
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_DA_SOTTOSCRIVERE_REV10.md",
+      "role": "unsigned_author_document_revision_10",
+      "sha256": "4a0a4e1fc2797ee7a81439110e164d43159c745007136c9dda7bed7759471cc8",
+      "bytes": 4974
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONTROLLI_REV10.json",
+      "role": "local_preparer_checks_not_independent_review",
+      "sha256": "3db626ac41f86e5401d4c6ad006c7f3dfaca045c52b381edf9e7251f4af72757",
+      "bytes": 7988
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PROMPT_VERIFICA_REV10.md",
+      "role": "independent_review_handoff",
+      "sha256": "7c1975299f0ec3001887a73f1c0a805b6a0c2fcc17cfb291d1e6245cdbe0c190",
+      "bytes": 4707
+    }
+  ],
+  "no_real_data_consulted": true,
+  "model_calls": 0,
+  "tep_simulations": 0,
+  "design_resolution_regenerated": false,
+  "design_resolution": {
+    "seed": 20260913,
+    "reps": 400,
+    "boot": 2000,
+    "alpha_one_sided": 0.05,
+    "analytic_rows": 120,
+    "simulated_scenarios": 158,
+    "preserved_from_revision_7_sha256": "8bf79dc958e045598cf7538b72752caa902d2f8b134f642e54daaf0274fddbde"
+  },
+  "independent_review": {
+    "revision_7": "OK",
+    "revision_8": "NON_OK",
+    "revision_9": "OK",
+    "revision_9_scope": "restricted_delta",
+    "revision_9_review_must_be_independent": true,
+    "revision_10": "pending",
+    "revision_10_scope": "full delta from approved preparation 526561f and its explicit approval to revision 10; not certified by revision 9 OK"
+  },
+  "amendment_policy": "Historical manifests and reviews remain preserved; this revision is a new candidate and not frozen. New independent review is required before documentation/closure; after freeze corrections require a new tracked revision.",
+  "revision": 10,
+  "revision_note": "Receives only A and B approved without modifications by Luca on 2026-09-14, referring to the exact addendum at 526561f. A replaces the 3700 planning cap with full per-block/per-model request accounting and pilot-measured temporal feasibility with 20% margin. B freezes OOD candidates/criteria/substitution chains before test runs and performs technical checks after statistical freeze and before model calls on test data. Scientific rules and artifacts, pilot reserve/hard-stop, signature and external requirements remain separate.",
+  "preparation_checkpoint_commit": "526561feabeb6b4083170b1817b8abdac1a2a4c7",
+  "approval_checkpoint_commit": "f37e7e00cbdd959ef6fdb7cc96ce42ed521075d6",
+  "author_addendum_approval": {
+    "author": "Luca",
+    "approved_on": "2026-09-14",
+    "timezone": "Europe/Rome",
+    "decision_record": {
+      "path": "studio2/fase03/piano_statistico/APPROVAZIONE_ADDENDUM_03_8.md",
+      "role": "explicit_author_message_record",
+      "sha256": "df2a754d3ad2d2215def012eb4d6e887c77d93ebdcad4a6811c5cbc18786a70a",
+      "bytes": 2830
+    },
+    "approved_addendum": {
+      "path": "studio2/fase03/piano_statistico/ADDENDUM_DECISIONI_RESIDUE_03_8.md",
+      "role": "exact_approved_A_B_wording",
+      "sha256": "6035967ceb390de69e63cac9f828b17386ab8a76bb1999db524597770fc782f8",
+      "bytes": 3768
+    },
+    "approved_addendum_commit": "526561feabeb6b4083170b1817b8abdac1a2a4c7",
+    "A": "approved_without_modifications",
+    "B": "approved_without_modifications",
+    "material_signature": "pending",
+    "approval_does_not_prove_operational_feasibility": true
+  }
+}

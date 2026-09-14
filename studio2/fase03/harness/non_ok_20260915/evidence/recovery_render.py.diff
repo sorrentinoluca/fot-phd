@@ -1,0 +1,23 @@
+--- 1ac06ebdc92f73d3b630ccca9bf75f413bea170b:studio2/fase03/harness/render.py
++++ 59b6b93cd9c215e8b687e540f7cd579804b7c66a:studio2/fase03/harness/render.py
+@@ -31,7 +31,7 @@
+     if source_inventory.get("presentation", {}).get("author_decision") != "accepted":
+         raise HarnessError("presentation order has not been accepted by the author")
+     value = deepcopy(manifest)
+-    value["label_space"] = presentation_order(value["label_space"])
++    presented_labels = presentation_order(value["label_space"])
+     validate_pilot_input_manifest(value, preflight_config)
+     validate_library(
+         value["insights"],
+@@ -70,5 +70,10 @@
+             schema_dir=schema_dir,
+         )
+     truth = {row["case_id"]: row["fault_label"] for row in value["development_cases"]}
+-    prompts = build_pilot_sample(value, preflight_config, token_count=token_count)
++    prompts = build_pilot_sample(
++        value,
++        preflight_config,
++        token_count=token_count,
++        presentation_label_space=presented_labels,
++    )
+     return [dict(row.to_dict(), true_pseudolabel=truth[row.case_id]) for row in prompts]

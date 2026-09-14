@@ -1,0 +1,1 @@
+{"name": "fixture", "base_url": "https://offline.invalid/v1", "model": "approved-fixture", "temperature": 0, "seed": 1, "max_tokens": 1024, "thinking_token_budget": null, "expected_max_model_len": 100000, "identity_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"}

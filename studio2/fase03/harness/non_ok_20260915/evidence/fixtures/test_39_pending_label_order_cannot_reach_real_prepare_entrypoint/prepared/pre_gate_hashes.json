@@ -1,0 +1,9 @@
+{
+  "artifact_version": "1",
+  "files": {
+    "prepared/pilot_prompts.jsonl": "231ea67bc5ee7c2d4869726f020698b72dd785d489199d16dc8dee585ba6f1a0",
+    "prepared/pre_gate_plan.json": "32209d2a9f8f9ec59b64041579324b16a9996550d779753cd9f8c242eb4015db",
+    "config.json": "559b8cb857e54f428d9724b96e4b0600c4dafcb69773a0c3567909d4e019e549",
+    "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/fixtures/test_39_pending_label_order_cannot_reach_real_prepare_entrypoint/manifest.json": "ba0a77b54ac2916e0f2999bfebd370ca6e6d9093a0a9285d268e15969ed842f6"
+  }
+}

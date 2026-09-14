@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "scope": "EVALUATOR_SIDE_ONLY_never_in_prompts",
+  "namespace": "studio2-fase03-pseudolabel-v1",
+  "catalog_tag": "studio2-fase03-catalogo-D1-frozen-001",
+  "catalog_sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+  "label_by_identifier": {
+    "F1": "S2-CLS-TYFPG",
+    "F2": "S2-CLS-GSX3L",
+    "F3": "S2-CLS-QRCCB",
+    "F8": "S2-CLS-HEW25",
+    "F10": "S2-CLS-MHMU4",
+    "F13": "S2-CLS-FD3GZ",
+    "F14": "S2-CLS-4AMS4",
+    "F15": "S2-CLS-3ZGWQ",
+    "Normal": "Normal"
+  },
+  "idv_by_identifier": {
+    "F1": 1,
+    "F2": 2,
+    "F3": 3,
+    "F8": 8,
+    "F10": 10,
+    "F13": 13,
+    "F14": 14,
+    "F15": 15
+  },
+  "label_space": [
+    "S2-CLS-3ZGWQ",
+    "S2-CLS-4AMS4",
+    "S2-CLS-FD3GZ",
+    "S2-CLS-GSX3L",
+    "S2-CLS-HEW25",
+    "S2-CLS-MHMU4",
+    "S2-CLS-QRCCB",
+    "S2-CLS-TYFPG",
+    "Normal"
+  ],
+  "label_space_order": "eight opaque labels sorted lexicographically (ASCII), then Normal",
+  "unknown": "not a label: abstain=true, predicted_label=null (D10)"
+}
+

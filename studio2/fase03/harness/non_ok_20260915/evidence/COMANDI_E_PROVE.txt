@@ -1,0 +1,8 @@
+Eseguire dalla copia candidate, senza chiamate esterne:
+PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 ../evidence/negative_probes.py
+Esito atteso sul candidato difettoso: exit 1, 50 metodi, 32 metodi non conformi, 34 failure di assertion inclusi sottocasi, 0 errori.
+Il comando rigenera solo evidence/fixtures, negative_probes.log e negative_probes.json; invalida le relative impronte di questa consegna perché include timestamp.
+Le fixture sono dichiarate in FIXTURES_ONLY.md. Non utilizzare alcun file validated/frozen prodotto dalle prove come artefatto scientifico.
+La suite consegnata è riprodotta da run_baseline_checks.py; i comandi puntuali sono nel verbale e in baseline_checks.json.
+check_integrity.py legge il candidato, i blob esatti e l'archivio locale indicato; interroga esclusivamente i ref Git remoti dei tre tag (non servizi modello), poi ricrea reference/ e integrity.json.
+Per verificare la consegna senza rigenerare prove: dalla cartella evidence, shasum -a 256 -c SHA256SUMS.

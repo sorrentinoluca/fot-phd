@@ -1,0 +1,108 @@
+--- 1ac06ebdc92f73d3b630ccca9bf75f413bea170b:studio2/fase03/harness/inputs.py
++++ 59b6b93cd9c215e8b687e540f7cd579804b7c66a:studio2/fase03/harness/inputs.py
+@@ -15,11 +15,18 @@
+ from .ordering import PRESENTATION_NAMESPACE, presentation_order, spearman_against_catalog
+ 
+ 
+-EVIDENCE_COMMIT = "2f6dd8de38b944e61853e605202c4c376a90585d"
+-EVIDENCE_RELEASE = "studio2-fase03-evidence-v1"
+-EVIDENCE_ARCHIVE_SHA256 = "3e1eb87f38ff3fc6dd3346476785d06c2b98944b209f7f58706b3c71c1676999"
++EVIDENCE_COMMIT = "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb"
++EVIDENCE_INTEGRATION_COMMIT = "7c99a8318cbe24bf864790566302f72614d963ed"
++EVIDENCE_RELEASE = "studio2-fase03-evidence-v2"
++EVIDENCE_ARCHIVE_SHA256 = "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf"
+ EVIDENCE_MANIFEST_SHA256 = "5111d0c61c2e93fe5071d7a85015673549af0bf9c1dc74e0d940719a8400e020"
+ EVALUATOR_INDEX_SHA256 = "b966cdd3d579efaf595fd48c4b9baa70747ba584522926520840a1e914dbf69c"
++NORMAL_HANDOFF_SHA256 = "e2409c64ad4e36e0f3b597a5e0b9745d866af72f4da717fc7a128b25753c166a"
++NORMAL_SOURCE_COMMIT = "6372cb3c457a30b39c838e066b613c61313c35db"
++SCHEMA_TARGET_COMMIT = "3c64390bc4dd58c48cc4e1e388a38989b32b3143"
++SCHEMA_MANIFEST_SHA256 = "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12"
++SCHEMA_TAG = "studio2-fase03-schema-insight-frozen-001"
++SCHEMA_TAG_OBJECT = "4d15c4fb915ea9db9f7425225d231746778f0ba1"
+ SELECTION_NAMESPACE = "studio2-fase03-pilot-selection-v1"
+ CATALOG = ("F1", "F2", "F3", "F8", "F10", "F13", "F14", "F15")
+ AGENTS = tuple(f"agent_{index}" for index in range(1, 9))
+@@ -109,12 +116,15 @@
+ def _normal_examples(path: Path | None) -> tuple[dict[str, dict[str, str]], list[str]]:
+     if path is None:
+         return {}, ["normal_dev examples frozen by 03.9"]
++    require_sha256(path, NORMAL_HANDOFF_SHA256, role="03.9 Normal example handoff")
+     value = load_json(path)
+     required = {"status", "source_commit", "selection_rule", "selection_rule_frozen", "examples"}
+     if not isinstance(value, dict) or set(value) != required:
+         raise HarnessError("normal_dev handoff has unexpected fields")
+     if value["status"] != "FROZEN_NORMAL_DEV_EXAMPLES" or value["selection_rule_frozen"] is not True:
+         raise HarnessError("normal_dev selection rule is not frozen")
++    if value["source_commit"] != NORMAL_SOURCE_COMMIT:
++        raise HarnessError("normal_dev handoff source commit differs from the verified 03.9 input")
+     examples = value["examples"]
+     if not isinstance(examples, dict) or tuple(sorted(examples)) != AGENTS:
+         raise HarnessError("normal_dev handoff must contain one example per agent")
+@@ -137,9 +147,9 @@
+     required = {"schema_commit", "schema_manifest_sha256", "library", "library_sha256", "validated"}
+     if not isinstance(value, dict) or set(value) != required:
+         raise HarnessError("insight handoff has unexpected fields")
+-    if value["schema_commit"] != "e058cb07dceeefa8eb4a4b6d1f6fcab5aad483db":
+-        raise HarnessError("insight handoff does not use frozen 03.12 bytes")
+-    if value["schema_manifest_sha256"] != "d6ef52de0f573edf3e5d6eb5ad3530400c5f63e6bcfa6579a93f21fdfb8865b5":
++    if value["schema_commit"] != SCHEMA_TARGET_COMMIT:
++        raise HarnessError("insight handoff does not use the verified R4 target")
++    if value["schema_manifest_sha256"] != SCHEMA_MANIFEST_SHA256:
+         raise HarnessError("insight schema manifest hash mismatch")
+     if value["validated"] is not True or sha256_text(canonical_json(value["library"])) != value["library_sha256"]:
+         raise HarnessError("insight library is not validated or its hash differs")
+@@ -298,25 +308,50 @@
+         "sources": {
+             "evidence": {
+                 "commit": EVIDENCE_COMMIT,
++                "integration_commit": EVIDENCE_INTEGRATION_COMMIT,
+                 "release": EVIDENCE_RELEASE,
+                 "archive_sha256": EVIDENCE_ARCHIVE_SHA256,
+                 "evidence_manifest_sha256": EVIDENCE_MANIFEST_SHA256,
+                 "evaluator_index_sha256": EVALUATOR_INDEX_SHA256,
+             },
+             "pseudolabel": {
+-                "path": str(pseudolabel_path),
++                "path": "studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json",
+                 "sha256": sha256_file(pseudolabel_path),
+             },
+             "agent_assignment": {
+-                "path": str(assignment_path),
++                "path": "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json",
+                 "sha256": sha256_file(assignment_path),
+             },
+             "derangements": {
+-                "path": str(derangement_path),
++                "path": "studio2/fase03/pseudolabel/CONDITION_E_DERANGEMENTS.json",
+                 "sha256": sha256_file(derangement_path),
+             },
+-            "normal_handoff": None if normal_handoff is None else {"path": str(normal_handoff), "sha256": sha256_file(normal_handoff)},
++            "normal_handoff": None if normal_handoff is None else {
++                "path": "studio2/fase03/baseline_numerica/NORMAL_DEV_HANDOFF.json",
++                "sha256": sha256_file(normal_handoff),
++                "source_commit": NORMAL_SOURCE_COMMIT,
++            },
++            "schema_contract": {
++                "revision": 4,
++                "target_commit": SCHEMA_TARGET_COMMIT,
++                "manifest_sha256": SCHEMA_MANIFEST_SHA256,
++                "tag": SCHEMA_TAG,
++                "tag_object": SCHEMA_TAG_OBJECT,
++                "tag_peeled": SCHEMA_TARGET_COMMIT,
++            },
+             "insight_validation": insight_validation,
++        },
++        "input_roles": {
++            "producer_conformance_inputs": "verified development evidence, sixteen fixed contracts and eight Normal examples",
++            "validated_insight_library": "absent until producer conformance succeeds under R4; never synthesized by this inventory",
++            "probe_and_gate_dependency": "requires the resulting validated sixteen-insight library and cannot feed producer conformance",
++        },
++        "producer_conformance_inputs": {
++            "local_examples": local_examples,
++            "fixed_insight_contracts": fixed_contracts,
++            "required_calls": 8,
++            "insights_per_call": 2,
++            "scientific_library_present": False,
+         },
+         "development_cases": [
+             {

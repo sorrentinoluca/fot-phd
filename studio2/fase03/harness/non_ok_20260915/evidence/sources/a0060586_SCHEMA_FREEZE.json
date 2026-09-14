@@ -1,0 +1,321 @@
+{
+  "version": "1.0.0",
+  "status": "frozen_pending_independent_verification",
+  "source_commit": null,
+  "source_commit_note": "The containing commit is reported from Git in delivery and independent verification; omitted here to avoid a circular self-reference.",
+  "revision_base_commit": "a1bcf61f0ccf20d070e92b7e2580dfdce5e9ea87",
+  "base_commit": "d815ce96d928254de79209f02e11a561445764cd",
+  "catalog_tag": "studio2-fase03-catalogo-D1-frozen-001",
+  "catalog_tag_commit": "ab43f0b20f45cdb475c0caf52c6f7afcbae50891",
+  "proposed_tag": "studio2-fase03-schema-insight-frozen-001",
+  "tag_created": false,
+  "files": [
+    {
+      "path": "studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md",
+      "sha256": "6923e8d428f1aee0fa2b8adc3584601ece123894b4c8b6b81ba60c79545c8520",
+      "bytes": 9671
+    },
+    {
+      "path": "studio2/fase03/schema_insight/insight_v1.schema.json",
+      "sha256": "15e0d29e033c1d699d4f1114b5fdf378ad1cea8398c89b133403a92983229de6",
+      "bytes": 1222
+    },
+    {
+      "path": "studio2/fase03/schema_insight/validator.py",
+      "sha256": "cd523d3105e02de99e7cc09bf0c2c4c052c1ae1776c8da37a9b57e869b1aa508",
+      "bytes": 17636
+    },
+    {
+      "path": "studio2/fase03/schema_insight/test_validator.py",
+      "sha256": "b8f6d735fbd2f626e8bb75c36d06432e5d3bc59061bed4a936ffca25393267f7",
+      "bytes": 16516
+    },
+    {
+      "path": "studio2/fase03/schema_insight/leakage_rules_v1.json",
+      "sha256": "1cf035b5d5e7a7f4cc909dc0a04f6f0da6580284d32710f3ee6924533c706a7a",
+      "bytes": 1184
+    },
+    {
+      "path": "studio2/fase03/schema_insight/requirements.txt",
+      "sha256": "1e53672145c42bd48e9e2f8540d89a224be2b6d8665599272ccb7506c238de86",
+      "bytes": 131
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS.txt",
+      "sha256": "9c8c7d51149cb033e584166ced334ee233a27622314d99192b4b8649640ae0b0",
+      "bytes": 3393
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_qwen.txt",
+      "sha256": "7113bf87d758e2dd0bbb3fed5fecfac7aa0a4629825db69c5046ebef5db233e0",
+      "bytes": 2821
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev003.txt",
+      "sha256": "908cb77ee620e60afe42eae20c9723b91715037140f12ea2c75838c1da472a3c",
+      "bytes": 5626
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_rev004.txt",
+      "sha256": "fc3bae8d48aa09ab0478e00a653fedffd366ac5c7a4994f9a7b76fb555b4b93b",
+      "bytes": 1501
+    }
+  ],
+  "source_files": [
+    {
+      "path": "studio2/fase03/schemas/insight.schema.json",
+      "sha256": "9d9de7dc9bd1795aea5f8fe323a2579eb2b5cc52ca8c753c594a292570fab9a1",
+      "bytes": 894
+    },
+    {
+      "path": "studio2/fase03/prepare_gate.py",
+      "sha256": "8ac42c805dd7d425c00f1715a284975c2b76af92139f6792997fcae24491ac04",
+      "bytes": 8659
+    },
+    {
+      "path": "studio2/fase03/config/pilot_preflight.json",
+      "sha256": "6bf50982d2ba8040e18c468999a110c426e3b9be217d5d9be5f272df6515f5f5",
+      "bytes": 11636
+    },
+    {
+      "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+      "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+      "bytes": 6894
+    },
+    {
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "sha256": "8d79b662ecc14358d2a2e29f699f6cab2ec6e41b584415ed2d93247a8df24ce1",
+      "bytes": 161230
+    },
+    {
+      "path": "docs/letteratura.md",
+      "sha256": "a53b265a5df0c45c95d2cdfa7c0ed361af084ebcf5e658bd458814fa05f8c291",
+      "bytes": 70392
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json",
+      "sha256": "b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6",
+      "bytes": 1038,
+      "source_ref": "main at a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155",
+      "frozen_tag": "studio2-fase03-pseudolabel-frozen-001",
+      "frozen_tag_commit": "c16b533016db4617deb1ba96853253f117e8e32b"
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json",
+      "sha256": "df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf",
+      "bytes": 1667,
+      "source_ref": "main at a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155",
+      "frozen_tag": "studio2-fase03-pseudolabel-frozen-001",
+      "frozen_tag_commit": "c16b533016db4617deb1ba96853253f117e8e32b"
+    }
+  ],
+  "unit_tests": {
+    "run": 26,
+    "passed": 25,
+    "skipped": 1,
+    "failed": 0
+  },
+  "harness_regressions_passed": 16,
+  "documentation_failures_before": 14,
+  "documentation_failures_after": 14,
+  "real_tokenizer_qualification": "revision_4_skipped_locally_missing_pinned_snapshot; revision_3 qualification retained as historical only",
+  "independent_verification": "pending_revision_4_independent_verification",
+  "model_calls": 0,
+  "simulations": 0,
+  "freeze_scope": "content hashes of proposed contract; does not authorize production",
+  "excluded_from_self_hash": [
+    "SCHEMA_FREEZE.json",
+    "REPORT_SCHEMA_INSIGHT.md"
+  ],
+  "manifest_revision": 5,
+  "previous_manifest_sha256": "d6ef52de0f573edf3e5d6eb5ad3530400c5f63e6bcfa6579a93f21fdfb8865b5",
+  "initial_local_unit_tests": {
+    "run": 20,
+    "passed": 19,
+    "skipped": 1,
+    "failed": 0
+  },
+  "previous_qwen_qualification": {
+    "status": "passed_pinned_tokenizer_fixture_validation",
+    "provenance": {
+      "executor": "user luca on albireo; original log supplied by user",
+      "checkout": "/home/luca/fot-phd-schema-insight",
+      "tested_commit": "924ec3d446bb6860123b82c8685bbdcbfc8f90a0",
+      "commit_evidence": "user-provided terminal transcript showing bundle checkout at 924ec3d",
+      "python": "/home/luca/fot-exp2/env-vllm/bin/python",
+      "tokenizer_snapshot": "/home/luca/fot-exp2/cache/huggingface/hub/models--Qwen--Qwen3.8-27B-FP8/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+      "elapsed_seconds": 4.107,
+      "original_log_sha256": "7113bf87d758e2dd0bbb3fed5fecfac7aa0a4629825db69c5046ebef5db233e0",
+      "scope": "Real pinned tokenizer validates synthetic library; exact cap boundaries still tested with injected counter. No scientific optimality or real-prompt capacity established."
+    },
+    "tests": {
+      "run": 20,
+      "passed": 20,
+      "skipped": 0,
+      "failed": 0
+    }
+  },
+  "revision_notes": {
+    "delta_from_revision_base": "a1bcf61f0ccf20d070e92b7e2580dfdce5e9ea87",
+    "changes": [
+      "Validate exactly eight opaque owner labels and preserve the eight-agent assignment check",
+      "Require normal_label to be exactly the literal Normal",
+      "Build fixtures from the recorded main commit and verify the frozen 03.7 tag, bytes and fingerprints",
+      "Reject opaque or case/whitespace variants of normal_label and Normal as an owner",
+      "Confirm scanner metadata scope while preserving the narrative ban and excluding Normal insights"
+    ],
+    "schema_and_caps_unchanged": true,
+    "regex_leakage_scanner_and_diff_unchanged": true,
+    "prior_reviews": "VERIFICA_SCHEMA_INSIGHT.md and VERIFICA_SCHEMA_INSIGHT_rev003.md are historical; neither approves revision 4",
+    "prior_qwen_log": "TEST_RESULTS_qwen_rev003.txt is historical and does not qualify revision 4 after implementation/test changes",
+    "current_log": "TEST_RESULTS_rev004.txt records the effective local PASS, FAIL and SKIP counts",
+    "producer_prompt_followup_03_10": "Declare intentionally rejected normal/unknown, valve/valvola, feed, step and A/B wording",
+    "local_validation": {
+      "python": "3.13.15",
+      "jsonschema": "4.26.0",
+      "harness_passed": 16,
+      "documentation_failures_before": 14,
+      "documentation_failures_after": 14
+    },
+    "tokenizer_test_command": "QWEN_TOKENIZER_SNAPSHOT=/path/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a /path/python -m unittest studio2.fase03.schema_insight.test_validator -v"
+  },
+  "contract_revision": 4,
+  "revision_4_local_unit_tests": {
+    "run": 26,
+    "passed": 25,
+    "skipped": 1,
+    "failed": 0,
+    "skip_reason": "Pinned Qwen tokenizer snapshot absent locally"
+  },
+  "revision_3_local_unit_tests": {
+    "run": 23,
+    "passed": 22,
+    "skipped": 1,
+    "failed": 0
+  },
+  "qwen_test_provenance": {
+    "executor": "user luca on albireo; original log supplied by user",
+    "checkout": "/home/luca/fot-phd-schema-insight-rev003",
+    "tested_commit": "44dae2fb40ad5e2d6d587f9581c098290164aaab",
+    "commit_evidence": "user reports running delivered rev003 script, which checks FETCH_HEAD 44dae2f before creating checkout; unittest log does not independently attest Git HEAD",
+    "python": "/home/luca/fot-exp2/env-vllm/bin/python",
+    "elapsed_seconds": 4.065,
+    "original_log_sha256": "908cb77ee620e60afe42eae20c9723b91715037140f12ea2c75838c1da472a3c",
+    "qualification_from_log": {
+      "fixture_metrics": [
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-001",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-002",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-003",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-004",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-005",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-006",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-007",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-008",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-009",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-010",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-011",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-012",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-013",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-014",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-015",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        },
+        {
+          "evidence_scope_tokens": 4,
+          "insight_id": "S2-INS-016",
+          "observed_pattern_tokens": 20,
+          "record_tokens": 84
+        }
+      ],
+      "probe_counts": {
+        "": 0,
+        "XMEAS(7)": 6,
+        "a": 1
+      },
+      "tokenizer": {
+        "expected_revision": "017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+        "model": "Qwen/Qwen3.8-27B-FP8",
+        "revision_verified": true,
+        "sha256": {
+          "tokenizer.json": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+          "tokenizer_config.json": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27"
+        },
+        "snapshot": "/home/luca/fot-exp2/cache/huggingface/hub/models--Qwen--Qwen3.8-27B-FP8/snapshots/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a"
+      }
+    },
+    "scope": "Known probes and all 16 synthetic fixture counts with actual tokenizer hashes logged. Exact cap boundaries still use injected counter. No inference, scientific optimality or real-prompt capacity established."
+  }
+}

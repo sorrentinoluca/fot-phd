@@ -1,0 +1,13 @@
+{
+  "artifact_version": "2",
+  "status": "FAIL",
+  "stage": "producer_conformity",
+  "producer_identity_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "provider_requests": 8,
+  "valid_first_attempts": 7,
+  "records_path": "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/fixtures/test_40_producer_validates_all_pairs_and_writes_only_full_library/results/producer_conformance_fixture_producer_conformity.jsonl",
+  "records_sha256": "56924ce0abebeb39b6438104e6017126a7dc14d547a15d30d713a2807fd8ee7f",
+  "r4_target_commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+  "r4_manifest_sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12",
+  "scope": "R4 producer conformance only; no diagnostic or accuracy claim"
+}

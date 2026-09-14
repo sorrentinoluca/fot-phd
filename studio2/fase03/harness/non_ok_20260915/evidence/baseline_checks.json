@@ -1,0 +1,62 @@
+{
+  "targeted": {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "-v",
+      "studio2.fase03.harness.test_harness_offline",
+      "studio2.fase03.harness.test_metric_raccordo",
+      "studio2.fase03.tests.test_execution_guard",
+      "studio2.fase03.tests.test_protocol"
+    ],
+    "returncode": 0,
+    "seconds": 0.6616462919628248,
+    "tail": "s_locally (studio2.fase03.tests.test_protocol.DiagnosticAndBudgetTests.test_diagnostic_contract_rejects_duplicate_insight_ids_locally) ... ok\ntest_e_changes_only_pseudolabel (studio2.fase03.tests.test_protocol.InsightTests.test_e_changes_only_pseudolabel) ... ok\ntest_producer_cannot_change_fixed_variable_ids (studio2.fase03.tests.test_protocol.InsightTests.test_producer_cannot_change_fixed_variable_ids) ... ok\ntest_producer_narrative_token_cap (studio2.fase03.tests.test_protocol.InsightTests.test_producer_narrative_token_cap) ... ok\ntest_final_test_split_is_rejected (studio2.fase03.tests.test_protocol.ManifestTests.test_final_test_split_is_rejected) ... ok\ntest_manifest_and_exact_sample_shape (studio2.fase03.tests.test_protocol.ManifestTests.test_manifest_and_exact_sample_shape) ... ok\ntest_synthetic_manifest_is_rejected_by_executable_path (studio2.fase03.tests.test_protocol.ManifestTests.test_synthetic_manifest_is_rejected_by_executable_path) ... ok\ntest_transfer_cases_cover_catalog_once (studio2.fase03.tests.test_protocol.ManifestTests.test_transfer_cases_cover_catalog_once) ... ok\n\n----------------------------------------------------------------------\nRan 45 tests in 0.207s\n\nOK\n"
+  },
+  "discovery": {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "studio2/fase03"
+    ],
+    "returncode": 0,
+    "seconds": 2.7268466249806806,
+    "tail": ". ok\ntest_diagnostic_contract_rejects_duplicate_insight_ids_locally (tests.test_protocol.DiagnosticAndBudgetTests.test_diagnostic_contract_rejects_duplicate_insight_ids_locally) ... ok\ntest_e_changes_only_pseudolabel (tests.test_protocol.InsightTests.test_e_changes_only_pseudolabel) ... ok\ntest_producer_cannot_change_fixed_variable_ids (tests.test_protocol.InsightTests.test_producer_cannot_change_fixed_variable_ids) ... ok\ntest_producer_narrative_token_cap (tests.test_protocol.InsightTests.test_producer_narrative_token_cap) ... ok\ntest_final_test_split_is_rejected (tests.test_protocol.ManifestTests.test_final_test_split_is_rejected) ... ok\ntest_manifest_and_exact_sample_shape (tests.test_protocol.ManifestTests.test_manifest_and_exact_sample_shape) ... ok\ntest_synthetic_manifest_is_rejected_by_executable_path (tests.test_protocol.ManifestTests.test_synthetic_manifest_is_rejected_by_executable_path) ... ok\ntest_transfer_cases_cover_catalog_once (tests.test_protocol.ManifestTests.test_transfer_cases_cover_catalog_once) ... ok\n\n----------------------------------------------------------------------\nRan 80 tests in 2.067s\n\nOK\n\n[info] Spearman(catalog order, lexicographic order) = -0.833\n"
+  },
+  "compileall": {
+    "command": [
+      "python3",
+      "-m",
+      "compileall",
+      "-q",
+      "studio2/fase03"
+    ],
+    "returncode": 0,
+    "seconds": 0.11778866697568446,
+    "tail": ""
+  },
+  "diff_check": {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "a00605862f627710347bd63c49f79a6d0a00135f..59b6b93cd9c215e8b687e540f7cd579804b7c66a"
+    ],
+    "returncode": 0,
+    "seconds": 0.027006292017176747,
+    "tail": ""
+  },
+  "documentation": {
+    "command": [
+      "python3",
+      "docs/test_explanation.py"
+    ],
+    "returncode": 1,
+    "seconds": 0.1905600830214098,
+    "tail": "ralit&agrave;.</li>\\n    <li>Gli insight sono stati prodotti con <code>gpt-5.6-terra</code>: non &egrave; una replica end-to-end interamente open-weight.</li>\\n    <li>Sono stati riutilizzati gli stessi held-out case di Experiment 1; il confronto cross-model &egrave; descrittivo.</li>\\n    <li>Le ripetizioni deterministiche byte-identiche rendono <code>R=3</code> inidoneo a misurare variabilit&agrave;.</li>\\n    <li>Il floor strutturale di A e la confusione <code>CLS-OJNSG</code> &harr; <code>CLS-Z3ISU</code> delimitano l&rsquo;interpretazione; la sensitivity analysis riduce il confondimento del reasoning cap, ma non identifica causalmente ogni errore.</li>\\n  </ul>\\n\\n  <p>La conclusione prudente &egrave; che il vantaggio della configurazione federata B persiste su un secondo consumer LLM open-weight nella configurazione frozen esaminata. Il risultato mitiga la critica di dipendenza da un unico consumer proprietario, ma non dimostra portabilit&agrave; universale, generalit&agrave; cross-model o indipendenza end-to-end da un modello proprietario.</p>\\n\\n'\n\n----------------------------------------------------------------------\nRan 35 tests in 0.109s\n\nFAILED (failures=14, skipped=1)\n"
+  }
+}

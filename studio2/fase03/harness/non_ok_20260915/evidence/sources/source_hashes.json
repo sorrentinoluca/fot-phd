@@ -1,0 +1,58 @@
+[
+  {
+    "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+    "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+    "copy": "6aaa5b3e_PIANO_STATISTICO.md",
+    "bytes": 81490,
+    "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a"
+  },
+  {
+    "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+    "path": "studio2/fase03/piano_statistico/MANIFEST_PREPARAZIONE_CHIUSURA_03_8.json",
+    "copy": "6aaa5b3e_MANIFEST_PREPARAZIONE_CHIUSURA_03_8.json",
+    "bytes": 8501,
+    "sha256": "a570c0c91f3a45d4435d318e628cdad37ef7be0dceda17fcb62cf50350dead93"
+  },
+  {
+    "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+    "path": "studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md",
+    "copy": "6aaa5b3e_DELTA_HARNESS_03_10.md",
+    "bytes": 7108,
+    "sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e"
+  },
+  {
+    "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+    "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_HANDOFF_FASE03_2026-09-14_rev02.md",
+    "copy": "a0060586_fonte_esterna_HANDOFF_FASE03_2026-09-14_rev02.md",
+    "bytes": 48244,
+    "sha256": "b7d47c75538e12ab129fa17789c241a54d290ad19746cec18ecb53dc1050abff"
+  },
+  {
+    "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+    "path": "studio2/fase03/schema_insight/SCHEMA_FREEZE.json",
+    "copy": "a0060586_SCHEMA_FREEZE.json",
+    "bytes": 12323,
+    "sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12"
+  },
+  {
+    "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+    "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev005.json",
+    "copy": "a0060586_BASELINE_FREEZE_rev005.json",
+    "bytes": 9364,
+    "sha256": "c52c7231021f52fc7b60b3b55eb67b5205854176395eb809db4d20227978b7cc"
+  },
+  {
+    "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+    "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json",
+    "copy": "a0060586_BASELINE_FREEZE_rev003.json",
+    "bytes": 9168,
+    "sha256": "0312f416dfdbaf8984b2063df2c2e9d00e1737321b9a65dd7e32b0295a937ec8"
+  },
+  {
+    "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+    "path": "studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+    "copy": "a0060586_ARTIFACT_STORAGE.json",
+    "bytes": 4089,
+    "sha256": "c9814cfc750fb34665b6e5b6bc04790a2088a921fe6b1df8a783694b44e58143"
+  }
+]
