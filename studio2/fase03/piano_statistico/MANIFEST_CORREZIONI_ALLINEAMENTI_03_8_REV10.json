@@ -1,0 +1,253 @@
+{
+  "schema_version": 1,
+  "scope": "03.8 allineamenti R1-R4; non nuova revisione statistica",
+  "date": "2026-09-15T00:09:05.099981+02:00",
+  "status": "new_candidate_pending_independent_review",
+  "worktree": "/Users/luker/fot-tep-allineamenti-038-r1-r4",
+  "branch": "codex/studio2-allineamenti-038-r1-r4",
+  "base_commit": "1a21fd260ad2df6a3b04ffb6fa5e2d642a3f63b1",
+  "rejected_candidate": "4503cb6f4fbc9942785c7d1fb74b4caf90cb83b8",
+  "previous_delivery": "2520e7abc1cd68785f2789448b509dea5e55ee7d",
+  "observed_origin_main": "a00605862f627710347bd63c49f79a6d0a00135f",
+  "statistical_candidate": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+  "sources": [
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 81490,
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 25894,
+      "sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 8528,
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_REV10.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 4141,
+      "sha256": "32e2528b327fe9be7f052b7da94375a76c18edc3d98df52bea06d664e36db99c"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV10.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 12478,
+      "sha256": "d269e26d8cb4e23370577e1e193d90d9357d66f7c739e9d0669970edf71b0066"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/COORDINAMENTO_CHIUSURA_03_8.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 10211,
+      "sha256": "b095d5b0e0d40af05d7278f75e07bcf21e021c6c0cb0f40f91467f485088e2f7"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_DA_SOTTOSCRIVERE_REV10.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 4974,
+      "sha256": "4a0a4e1fc2797ee7a81439110e164d43159c745007136c9dda7bed7759471cc8"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 7108,
+      "sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_CANDIDATO_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "2520e7abc1cd68785f2789448b509dea5e55ee7d",
+      "bytes": 5149,
+      "sha256": "0ebf25e444f3092409dd6a055b01e5331c37c7872268a68700c66e011fd3b48b"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MANIFEST_ALLINEAMENTI_03_8_REV10.json",
+      "commit": "2520e7abc1cd68785f2789448b509dea5e55ee7d",
+      "bytes": 4228,
+      "sha256": "f2bfdd86b9e347da93372c9facadf3fb72f236bf7fc540944094ab37651e4d1f"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/REPORT_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "2520e7abc1cd68785f2789448b509dea5e55ee7d",
+      "bytes": 3974,
+      "sha256": "237950fe9658e171efc6d8ebd020d56a2eaf7fd61a71e1f6115751390b38618c"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MATRICE_RESIDUI_CHIUSURA_03_8_REV10.md",
+      "commit": "2520e7abc1cd68785f2789448b509dea5e55ee7d",
+      "bytes": 5223,
+      "sha256": "2b59150d89f1da74a4f18784a0d0c7f0db191e9364c091cc3d3049e45eb17462"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_TECNICA_03_10_DA_REV10.md",
+      "commit": "2520e7abc1cd68785f2789448b509dea5e55ee7d",
+      "bytes": 4255,
+      "sha256": "44e8be9a3647dcfbef3fa0197647a4c39a597e441bb488de334608dfe9b4aa95"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ISTRUZIONI_FIRMA_MATERIALE_REV10.md",
+      "commit": "2520e7abc1cd68785f2789448b509dea5e55ee7d",
+      "bytes": 1456,
+      "sha256": "4d3f3e02c9c5acf6867c8d946ef2cb991138f9a16ead95f5d618062e33414970"
+    },
+    {
+      "path": "docs/MAINTENANCE.md",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "bytes": 20636,
+      "sha256": "77b4768c2b6ae1bc27d2e1aaaa56f9c38626add20b2f5e74f6a426eef7a66ec0"
+    },
+    {
+      "path": "docs/prompts/Prompt_LLM.md",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "bytes": 14586,
+      "sha256": "4c11026ba170667ae9b45bb363a07592499698d7a735302eb36eacf6d963fe20"
+    },
+    {
+      "path": "docs/prompts/Fase_LLM.md",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "bytes": 7224,
+      "sha256": "6dbdcd271d60e35a9066c36a6e1183809d50a11c6ef2bfecc654bf155bcfb981"
+    },
+    {
+      "path": "docs/prompts/Verifica_LLM.md",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "bytes": 4008,
+      "sha256": "1149395ac7d765493524844fc543602e90be88173d2dcda94aaa0cb61279ccae"
+    },
+    {
+      "path": "docs/prompts/Documentazione_LLM.md",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "bytes": 5008,
+      "sha256": "b105e110206fce05d382e26109327148c67971acf583a992968917fceae84b57"
+    },
+    {
+      "path": "docs/prompts/Commit_LLM.md",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "bytes": 2643,
+      "sha256": "5488a915b79aee9d703c17aa628b669db1d5c5eaccaf042e72f375366d107623"
+    },
+    {
+      "path": "docs/fot_walkthrough_conversazione_studio2.md",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "bytes": 111822,
+      "sha256": "05d0cb57d36f8ec3adc69fcbd2c86cad86b4d83d0503ec9948454768fd7a5962"
+    },
+    {
+      "path": "studio2/fase03/schema_insight/PUBBLICAZIONE_SCHEMA_INSIGHT.md",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "bytes": 6205,
+      "sha256": "69c731158259abe49ffc8aeb4f78139f38325f71c736767c3c090132365e6ed4"
+    },
+    {
+      "path": "studio2/fase03/schema_insight/SCHEMA_FREEZE.json",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "bytes": 12323,
+      "sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12"
+    },
+    {
+      "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "bytes": 6894,
+      "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda"
+    },
+    {
+      "path": "studio2/fase03/soglie_normal/INTEGRAZIONE_03_5.md",
+      "commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "bytes": 2529,
+      "sha256": "7b1f70c66f3c03ba44fe0e6ab2d200c171b3bce7d400f1e04709f8e7989858f4"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "1a21fd260ad2df6a3b04ffb6fa5e2d642a3f63b1",
+      "bytes": 22063,
+      "sha256": "52944646527d0e73d6508ae53669f47f5e8661050ff777c75a448ca535ca9c13"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ACQUISIZIONE_NON_OK_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "1a21fd260ad2df6a3b04ffb6fa5e2d642a3f63b1",
+      "bytes": 2545,
+      "sha256": "99cac5b60f9ea737ead0932d9015163a4592edf53bf29754b968c950957b8568"
+    }
+  ],
+  "author_mandate": {
+    "source": "user message in preparatory task, transcribed in report",
+    "external_source_commit": null,
+    "roles_approved": true,
+    "producer_main": "122B",
+    "consumer": "122B",
+    "producer_alternative": "27B",
+    "alternative_library_insights": 16,
+    "swap_consumer_fixed": "122B",
+    "Terra": "internal_historical_descriptive_only",
+    "formal_registry_acquired": false,
+    "technical_qualification": false,
+    "material_signature": false,
+    "label_order_approved": false
+  },
+  "files": [
+    {
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "bytes": 173448,
+      "sha256": "56ba6d42ebddceed1a161b3cf3a54198568fec4f6e79f632250daa6d88c96111"
+    },
+    {
+      "path": "studio2/fase03/APERTURA_SOTTOFASI_FASE03.md",
+      "bytes": 11822,
+      "sha256": "93da783a9f2f335d9cbf9752d1cf82516327dd40706091dcd72e4b62106e3300"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/REPORT_CORREZIONI_ALLINEAMENTI_03_8_REV10.md",
+      "bytes": 12419,
+      "sha256": "19d69fc5cb2d3deee514044ccb47e1e9b61eab2df996c0834e4594d03ac23dc4"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONTROLLI_CORREZIONI_ALLINEAMENTI_03_8_REV10.json",
+      "bytes": 36542,
+      "sha256": "deedf2961ba4a4d1a4a460fc32dff80c54d64208e9b8b8338308920c9a8db93e"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/GUARDIANO_PRIMA_CORREZIONI_03_8_REV10.log",
+      "bytes": 2582134,
+      "sha256": "4619c04e4e0311c8b1b27057ee89933500d0b6d4a36b7385bb9ce75716012063"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/GUARDIANO_DOPO_CORREZIONI_03_8_REV10.log",
+      "bytes": 2582134,
+      "sha256": "aee53378f6e23e9545d69cdaaebf6aa6ef075ea6b56db09869e3db9a22f78581"
+    }
+  ],
+  "preservation": {
+    "statistical_files": 19,
+    "statistical_inputs": 6,
+    "all_existing_statistical_directory_files": 38,
+    "all_byte_identical": true,
+    "old_delta_manifest_report_preserved": true,
+    "non_ok_bytes": 22063,
+    "non_ok_sha256": "52944646527d0e73d6508ae53669f47f5e8661050ff777c75a448ca535ca9c13"
+  },
+  "guardian": {
+    "tests": 35,
+    "failures": 14,
+    "skips": 1,
+    "errors": 0,
+    "status": "unchanged_not_PASS",
+    "ids_and_subtests_identical": true
+  },
+  "freeze_effective": false,
+  "freeze_tag": null,
+  "publication_to_main": false,
+  "author_signature_acquired": false,
+  "independent_review": "pending_new_candidate",
+  "walkthrough_modified": false,
+  "harness_modified": false,
+  "d9_registry_modified": false,
+  "simulations": 0,
+  "inference_calls": 0,
+  "pilot_runs": 0,
+  "note": "Candidate commit and tree recorded in subsequent delivery; this manifest excludes itself. Sources pinned; old manifests remain historical."
+}

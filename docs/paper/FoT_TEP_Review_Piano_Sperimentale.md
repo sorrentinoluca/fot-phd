@@ -14,7 +14,16 @@ questo documento. D2=8, OOD F6/F4 condizionati, D11, margine, alpha, gerarchia e
 politica R sono approvati; il tetto rigido 3.700 non è vigente. La pianificazione
 usa il conteggio completo e la fattibilità temporale misurata con margine 20%.
 Firma materiale, verifica indipendente del presente delta, pubblicazione e freeze
-03.8 restano distinti e pendenti. D9 non è deciso da questo allineamento.
+03.8 restano distinti e pendenti. L'aggiornamento dell'autore nel mandato di
+correzione R1–R4 approva 122B producer principale e consumer, 27B producer
+alternativo con libreria completa di 16 insight e consumer 122B fisso nello
+swap. Terra resta soltanto riferimento storico descrittivo interno, separato
+dalle nuove stime. La provenienza è il mandato, trascritto nel report separato
+`REPORT_CORREZIONI_ALLINEAMENTI_03_8_REV10.md`: il registro D9 è ancora in
+acquisizione nella finestra proprietaria e non è importato qui. Decisione,
+acquisizione documentale e qualificazione tecnica sono stati distinti: identità
+complete, configurazioni e servizi restano da qualificare. Nessuna firma 03.8,
+approvazione dell'ordine label o autorizzazione di esecuzione ne discende.
 
 ---
 
@@ -115,7 +124,7 @@ La revisione precedente lasciava intendere che restasse aperta solo D8. Non è c
 | 6 | Baseline FL | D8, §9 | ✅ **risolta: FedAvg minimale** |
 | 7 | local-first | D6, §8.2 | ✅ risolta: B-LF è il metodo |
 | 8 | R=1 o R=3 | D7, §8.7 | ⏳ subordinata al gate del pilot |
-| 9 | Modello | D9, §7 | ⏳ data limite **17 settembre** |
+| 9 | Modelli e ruoli | D9, §7 | ✅ scelta dell’autore dal mandato R1–R4: 122B principale/consumer, 27B alternativo; ⏳ registro in acquisizione e qualificazione tecnica |
 | 10 | **Schema degli insight**: campi, cardinalità, cap per-elemento, validatore | §8.9, D12 | ✅ **03.12 R4 pubblicata e congelata**; pin nell'harness ancora di competenza 03.10 |
 | 11 | **Politica conservativa su R=3** in assenza di controlli di determinismo dell'API | §8.7, D7 | ✅ **non adottata**; il trigger resta la divergenza osservata della coppia parsata o della validità |
 | 12 | **Ablazione dei descrittori**: effetto minimo (E5-C1), soglia di lunghezza (E5-C2), criterio di successo (E5-C3) | §8.12 | ⬜ parziale — **E5-C1 ✅ (Δ ≥ 0,10)**; **E5-C2 ⏳ provvisoria (≤ 5% per caso)**, si chiude dopo la verifica di fattibilità; **E5-C3** aperta, dipende dalla 1, dalla 2 e dalle altre due |
@@ -131,7 +140,7 @@ Le prime cinque non dipendono dalla disponibilità del modello. La dipendenza
 storica D1→OOD/D11 è stata rispettata: D1 è congelata e pubblicata, poi 03.8 ha
 confermato F6/F4 e le coppie D11 senza consultare risultati per-fault. Le decisioni
 1–5 sono ora assunte; non vanno riaperte dopo i run. Restano separati la firma e
-il freeze 03.8, i controlli tecnici OOD 03.11 e la futura decisione D9.
+il freeze 03.8, i controlli tecnici OOD 03.11 e l’acquisizione/qualificazione D9. La scelta dei ruoli è approvata nel mandato, non una decisione da ripetere.
 
 ---
 
@@ -154,11 +163,11 @@ Restano rischi scientifici aperti — lo scope FL (CF1/CF5), la scala (G2), la v
 
 ## 2 · Problemi e confondenti del piano originale
 
-### 2.1 Dipendenza da un modello non ancora disponibile
+### 2.1 Disponibilità dichiarata e qualificazione dei servizi
 
-Tutto il piano ruota attorno a Qwen3.8-2.4T-A95B, che non è ancora accessibile via API. Non sappiamo se il modello sarà stabile, se il formato delle risposte sarà compatibile con il parser esistente, se i token di ragionamento saranno sufficienti, né se il comportamento con 14 insight simultanei sarà accettabile. Nessuna pianificazione dettagliata può sostituire il capability pilot.
+**Rischio storico della proposta originaria, superato quanto ai ruoli.** La proposta assumeva Qwen3.8-2.4T-A95B non ancora accessibile. Le prescrizioni correnti usano producer principale, consumer e alternativo secondo il mandato riportato in §0.1/D9. Restano da qualificare identità completa, parsing, capienza, stabilità e latenza dei servizi effettivi: la scelta dell’autore non sostituisce il capability pilot.
 
-**Rischio:** se il modello si rivela inadatto (parsing instabile, troncamento del ragionamento, latenza proibitiva, cambiamenti del modello durante l'esperimento), l'intero piano finale crolla. Il piano B è ora esplicito e datato: D9 in §10.
+**Rischio:** se il modello si rivela inadatto (parsing instabile, troncamento del ragionamento, latenza proibitiva, cambiamenti del modello durante l'esperimento), l'intero piano finale crolla. Per i ruoli approvati e gli impedimenti operativi vale D9 in §10; nessun fallback automatico.
 
 ### 2.2 Selezione post-hoc dei fault
 
@@ -234,7 +243,7 @@ Il confronto resta utile come descrizione fattuale — "nella configurazione a 8
 
 ### 4.3 Decisione
 
-**Q4 è eliminato come studio formale.** Q8 da solo è lo studio completo. I 4 fault di continuità permettono un confronto descrittivo con l'esplorativo Terra, dichiarato come tale.
+**Q4 è eliminato come studio formale.** Q8 da solo è lo studio completo. I 4 fault di continuità permettono soltanto un confronto storico descrittivo interno con Terra, separato dalle nuove stime.
 
 Un vero esperimento sulla dimensione della federazione richiederebbe stessi agenti, stessi fault, stesso contesto, e sottoinsiemi crescenti di insight per ricevente (2, 6, 10, 14). Questo isolerebbe l'effetto della quantità di informazione. È future work, non parte del piano minimo.
 
@@ -245,8 +254,8 @@ Un vero esperimento sulla dimensione della federazione richiederebbe stessi agen
 | ID critica | Descrizione breve | Effetto del piano consolidato | Nota |
 | --- | --- | --- | --- |
 | **G1** | Baseline numerica superiore (100% vs 86.1%) | **Mitiga** | La baseline numerica è nel finale sugli stessi dati e protocollo. Se con 8 fault e un modello diverso la distanza si riduce, l'argomento migliora; se il numerico vince ancora nettamente, il problema resta identico. |
-| **G2** | Scala troppo piccola | **Mitiga moderatamente** | 8 agenti, 8 fault, ≥6 run per fault: scala doppia rispetto all'esplorativo, 48 cluster contro 12. Il confronto con i sei lavori esaminati — 3 client in P041, P030 e P031, 5 in P042 e negli esperimenti principali di P065 — serve a collocare il numero, non a legittimarlo: otto agenti restano pochi, e non rendono lo studio scalabile né Big Data. ⚠️ Il confronto va però fatto con precisione: **P065 pubblica anche una tabella di scalabilità fino a 500 client**, con dimensione del compendio limitata e p95 sotto i 500 ms. Non è una federazione reale — resta simulazione senza rete né nodi offline — ma citare P065 come «5 client» è smontabile in una riga, ed è proprio la riga che deve reggere contro CF2/C18. La critica è attenuata, non risolta, e il paper non deve presentare il confronto come se lo fosse. |
-| **G5** | Unico producer | **Mitiga — identificabile** | *Corretto rispetto alla revisione 1, che dichiarava "Risolve".* Lo studio finale ha producer = consumer = Qwen, quindi la molteplicità di modelli resta tra i due studi. Il braccio producer-swap (§8.4) rende però l'effetto del producer **misurabile su dati vergini**, con libreria di insight completa dal producer alternativo. G5 passa da non verificata a stimata, non a risolta. Va inoltre notato che producer = consumer introduce un confondente nuovo (possibile vantaggio del modello nel leggere il proprio fraseggio): il producer-swap è anche il controllo di quel confondente. |
+| **G2** | Scala troppo piccola | **Mitiga moderatamente** | 8 agenti, 8 fault, 8 run per fault: 64 cluster fault primari. Il confronto storico con l’esplorativo resta descrittivo interno, non un braccio delle nuove stime. Il confronto con i sei lavori esaminati — 3 client in P041, P030 e P031, 5 in P042 e negli esperimenti principali di P065 — serve a collocare il numero, non a legittimarlo: otto agenti restano pochi, e non rendono lo studio scalabile né Big Data. ⚠️ Il confronto va però fatto con precisione: **P065 pubblica anche una tabella di scalabilità fino a 500 client**, con dimensione del compendio limitata e p95 sotto i 500 ms. Non è una federazione reale — resta simulazione senza rete né nodi offline — ma citare P065 come «5 client» è smontabile in una riga, ed è proprio la riga che deve reggere contro CF2/C18. La critica è attenuata, non risolta, e il paper non deve presentare il confronto come se lo fosse. |
+| **G5** | Unico producer | **Mitiga — identificabile** | *Corretto rispetto alla revisione 1, che dichiarava "Risolve".* Il mandato assegna producer principale e consumer al 122B e producer alternativo al 27B; Terra resta storico interno separato dalle nuove stime. Il braccio producer-swap (§8.4) rende però l'effetto del producer **misurabile su dati vergini**, con libreria di insight completa dal producer alternativo. G5 passa da non verificata a stimata, non a risolta. Va inoltre notato che producer = consumer introduce un confondente nuovo (possibile vantaggio del modello nel leggere il proprio fraseggio): il producer-swap è anche il controllo di quel confondente. |
 | **C06** | Degradazione local-seen in B | **Replica prospettica con protocollo congelato** | *Riclassificata.* Non è un endpoint esplorativo: `B_LOCAL_FIRST_V1` è già congelato e già eseguito sull'intera replica (§10.3 del walkthrough), con 23/24 local-seen contro 19/24 di B e local-unseen invariati a 68/72. Nel nuovo studio è la replica di un effetto misurato, con protocollo ed endpoint congiunto fissati prima dell'apertura dei run. Il congelamento è **interno**, non una registrazione pubblica: il termine «pre-registrata» non va usato. Resta un esito atteso, non acquisito. |
 | **C07** | Reasoning cap e parsing | **Mitiga e controlla, se il pilot passa** | Il capability pilot stabilisce i parametri prima del congelamento ed è un gate bloccante, non una previsione. Ma un pilot superato riduce il rischio di parsing e di budget di ragionamento; non garantisce che nessun errore compaia nello studio completo, che gira su un volume due ordini di grandezza maggiore. Per questo il controllo non finisce con il pilot: proseguono il logging di conformità e il set canary (§8.7). |
 | **G6** | Fault fuori catalogo / astensione | **Mitiga parzialmente** | *Aggiornata: la revisione 1 diceva "Non affronta".* Il test OOD (§8.6) su 2 fault fuori catalogo × 3 run × 8 agenti × 3 condizioni misura l'astensione in mondo aperto. Ma sono 6 eventi OOD: è una prima sonda, non una caratterizzazione. G6 resta parzialmente aperta e va dichiarata tale. |
@@ -283,9 +292,9 @@ La differenza rispetto alla revisione 1 è che **G5 e G6, le due sole critiche n
 
 ---
 
-## 6 · Attività che si possono iniziare subito
+## 6 · Attività indipendenti dal modello e relative precedenze
 
-Queste attività non richiedono Qwen-2.4T e non rischiano di contaminare il test finale, a condizione di rispettare le regole indicate. Sono, oggi, il cammino critico reale: ogni ora spesa qui è tempo sottratto al collo di bottiglia di §7.
+Queste attività non richiedono chiamate ai servizi dei modelli scelti e non rischiano di contaminare il test finale, a condizione di rispettare le regole indicate. Le attività già chiuse non si ripetono; la generazione 03.11 di §6.9 attende il freeze statistico e non è avviabile subito.
 
 **6.1 — Definire i criteri di selezione degli 8 fault**
 
@@ -336,19 +345,19 @@ Popolazione primaria, endpoint (§8.5), contrasti, criteri di successo, δ, meto
 Prototipi per classe dai dati di sviluppo (vettori medi 697-D), regola di classificazione congelata (distanza L1 minima). Indipendente dal modello linguistico.
 
 **6.8 — Preparare l'harness API**
-Aggiornare l'inferenza per 8 agenti, 14 insight, 9 pseudolabel con astensione disponibile (D10), logging esteso (§8.7) e set canary. Testare con Qwen-27B come surrogato.
+Aggiornare l'inferenza per 8 agenti, 14 insight, 9 pseudolabel con astensione disponibile (D10), logging esteso (§8.7) e set canary. Verificare offline; conformità e pilot dei ruoli effettivi seguono D9 e la catena 03.10→03.13. Nessun ruolo di consumer surrogato è assegnato al 27B.
 
 **6.9 — Generare e congelare i run finali di test**
-Almeno 6 run per fault × 8 fault, più Normal: **54 simulazioni** con 6 run, **72** con 8. Vanno aggiunti i **6 run OOD** di §8.6 (2 fault × 3 run), che sono simulazioni come le altre. Generare adesso e sigillare. Regola cruciale: **nessuna decisione di progettazione dopo aver osservato questi run.** Se serve ispezionarli per integrità tecnica, l'ispezione va loggata e non deve includere analisi delle distribuzioni dei sensori.
+**8 run per ciascuno degli 8 fault e 8 Normal: 72 primari (64+8), più 6 OOD e 11 scorte tecniche = 89 run del lotto**, per i due OOD selezionati. Le undici scorte sono una per ciascun fault D1, una Normal e una per ciascuno dei due OOD; identificativi sigillati e stream separati. Sostituiscono soltanto run tecnicamente non validi secondo criteri pre-specificati, prima di qualsiasi chiamata al modello su quel run; non aggiungono osservazioni o cluster. Nessuna sostituzione dopo la prima chiamata e nessuna scelta su prestazioni. I sostituti di fault OOD sono distinti dalle scorte di run e richiedono le proprie verifiche (§8.6). Sequenza: **freeze statistico 03.8 → generazione e controlli tecnici 03.11 → chiamate sui test dopo gli altri GO** (piano rev.10 §§7.4 e 16, B approvata). Nessuna generazione anticipata del lotto di test: prima si fissano criteri, candidati e catene. L'ispezione tecnica è tracciata e non orienta il disegno.
 
-**6.10 — Congelare lo schema degli insight (§8.9)**
-Campi, tipi, cardinalità, cap di lunghezza per elemento, validatore eseguibile. Non dipende dal modello, non consuma chiamate, e **deve precedere la produzione degli insight** di entrambi i producer: è ciò che rende il braccio producer-swap una manipolazione a fattore singolo invece di un confronto fra stili di scrittura.
+**6.10 — Schema degli insight: 03.12 R4 pubblicata e congelata (§8.9, D12)**
+Campi, tipi, cardinalità, cap e validatore sono fissati dal contratto 03.12 R4 pubblicato. Il pin nell’adapter appartiene alla 03.10; conformità dei due producer e capienza dei prompt reali restano da verificare prima della produzione degli insight. Il freeze dello schema non qualifica servizi o librerie future (D12).
 
 **6.11 — Implementare la baseline FedAvg (§9)**
 Non consuma chiamate API e non attende Qwen: è l'unico componente sperimentale interamente eseguibile oggi. Insieme a FedAvg vanno prodotti il pavimento locale e il soffitto centralizzato (§9.3). Specifica congelata prima di guardare il test.
 
 **6.12 — Scrivere le sezioni del paper indipendenti dal modello**
-Related work, descrizione del metodo, verbalizzatore, threats to validity. Sono circa il 60% del testo e sono **identiche** nella versione Q8 e nella versione Terra-only del piano B. Scriverle ora è l'unica assicurazione reale sull'opzione 3 di D9, e non sottrae tempo all'opzione 1.
+Related work, metodo, verbalizzatore e threats to validity restano sezioni indipendenti dalla qualificazione dei servizi. Terra è solo riferimento storico descrittivo interno: nessuna versione Terra-only costituisce un’alternativa operativa approvata dal mandato corrente e nessun esito storico entra nelle nuove stime. Riuso e descrizione nel paper seguono MAINTENANCE §8.2.
 
 ⚠️ **Attenzione su 6.2–6.4 e 6.9:** i run di sviluppo vanno generati con seed documentati e **diversi** dai seed dei run di test. La separazione deve essere dimostrabile con hash e timestamp.
 
@@ -356,11 +365,11 @@ Related work, descrizione del metodo, verbalizzatore, threats to validity. Sono 
 
 ## 7 · Attività bloccate e cronologia critica
 
-**7.1 — Capability pilot su Qwen-2.4T.** È il gatekeeper. Deve rispondere a: il modello risponde? il JSON è compatibile con il parser? il reasoning budget basta con 14 insight? la latenza è accettabile? e il test di stabilità di §8.7.
+**7.1 — Capability pilot sui ruoli effettivi di producer e consumer.** È il gatekeeper. Deve rispondere a: il modello risponde? il JSON è compatibile con il parser? il reasoning budget basta con 14 insight? la latenza è accettabile? e il test di stabilità di §8.7.
 
-**7.2 — Produzione insight con Qwen-2.4T.** Gli 8×2 insight dai dati di sviluppo, più la libreria completa dal producer alternativo per il braccio swap (§8.4).
+**7.2 — Produzione insight con producer principale e alternativo.** Gli 8×2 insight dai dati di sviluppo, più la libreria completa dal producer alternativo per il braccio swap (§8.4).
 
-**7.3 — Congelamento del protocollo finale.** Solo dopo il pilot.
+**7.3 — Congelamento della configurazione operativa finale.** Segue la catena del pilot rev.10. È distinto dal freeze statistico 03.8, che precede il primo run 03.11 e non attende i controlli tecnici OOD.
 
 **7.4 — Esecuzione dello studio finale.** Tutte le inferenze A, B-LF, E-LF, più swap, OOD, ablation e canary.
 
@@ -368,48 +377,48 @@ Related work, descrizione del metodo, verbalizzatore, threats to validity. Sono 
 
 ### Cronologia critica — aggiornata a R=1
 
-Con R=1 l'esecuzione scende da ~7 giorni a 2–3. Il vincolo non è più il volume di chiamate ma **la data della decisione sul modello**.
+Il nucleo costa **1.728 chiamate a R=1 e 5.184 a R=3**; il totale comprende tutti i blocchi di §8.8. La fattibilità richiede latenze misurate sulla configurazione effettiva e **1,20×T≤W**, includendo attese e calendario coerente. Non è disponibile una durata misurata: nessuna previsione di giorni né margine residuo si deduce dal solo R o dalla scelta del modello. La seguente è una **finestra candidata storicamente proposta, da verificare**, non un calendario validato.
 
 | Giorno | Attività |
 | --- | --- |
-| entro 14 set | API Qwen-2.4T disponibile |
+| entro 14 set, ipotesi storica | disponibilità dei servizi dei ruoli scelti: dichiarazione distinta dalla qualifica |
 | 15–16 set | capability pilot, incluso test di stabilità |
 | **17 set** | **decisione GO/NO-GO sul modello — data limite** |
-| 18 set | congelamento protocollo, produzione insight |
+| 18 set | ipotesi di configurazione operativa e produzione insight; freeze statistico distinto e precedente ai run 03.11 |
 | 19–21 set | finestra candidata dello studio finale; fattibilità da provare con conteggio completo, tempi misurati e margine 20% |
 | 22–25 set | analisi dei risultati |
 | 25–29 set | redazione |
 | 30 set | deadline |
 
-Il margine è di circa tre giorni. **Oltre il 17 settembre l'opzione 1 del piano B non è più praticabile**, indipendentemente dal fatto che l'API diventi disponibile: non perché manchino le chiamate, ma perché analisi e redazione non comprimibili occupano gli ultimi nove giorni.
+La data del 17 settembre resta il vincolo organizzativo indicato dal piano, non una prova di fattibilità. Se il calendario candidato non soddisfa 1,20×T≤W, si sospende e si richiede una decisione organizzativa all’autore; nessuna estensione automatica della finestra, riduzione del disegno o promozione delle vecchie opzioni D9.
 
 ---
 
 ## 8 · Piano consolidato
 
-Questa è la versione definitiva dello studio finale. Sostituisce integralmente la "proposta minima" della revisione 1.
+Questo è il disegno corrente dello studio finale, con approvazioni, qualificazioni e freeze distinti come in §0.1. Sostituisce integralmente la "proposta minima" della revisione 1.
 
 ### 8.1 Disegno
 
-- **Studio unico:** Q8 — 8 agenti, 8 fault, Qwen-2.4T come producer e consumer
+- **Studio unico:** Q8 — 8 agenti, 8 fault; producer principale e consumer secondo D9, con producer alternativo per lo swap (§8.4)
 - **Tre condizioni**, non quattro:
   - **A** — sola conoscenza locale
   - **B-LF** — conoscenza locale + insight corretti + politica local-first
   - **E-LF** — conoscenza locale + insight permutati + la stessa politica local-first
-- **Run di test:** ≥6 per fault (48 cluster), preferibilmente 8 (64 cluster)
+- **Run di test:** 8 per fault, 64 cluster fault + 8 Normal = 72 primari; +6 OOD +11 scorte tecniche =89 run del lotto (§6.9), con uso soltanto sostitutivo delle scorte
 - **Run di sviluppo:** ≥5 per fault, per calibrazione soglie e produzione insight
-- **Run Normal:** ≥6 per il test; **40 per lo sviluppo** (`normal_dev`, 5 per agente, §6.2), disgiunti da baseline, calibrazione, verifica e test
+- **Run Normal:** 8 per il test; **40 per lo sviluppo** (`normal_dev`, 5 per agente, §6.2), disgiunti da baseline, calibrazione, verifica e test
 - **Baseline numerica:** prototipi condivisi, stessi dati, stesso protocollo
 - **`Unknown` disponibile in tutte le condizioni** (§8.6)
 - **Schema degli insight congelato, tipizzato, con cap di lunghezza per elemento** (§8.9), identico per entrambi i producer
 - **E-LF ottenuta modificando esclusivamente il campo pseudolabel**, con diff verificabile (§8.9)
 - **Bootstrap:** cluster appaiato, un cluster = un run simulato
-- **Congelamento:** tutto prima del primo run di test
+- **Congelamento:** freeze statistico prima del primo run 03.11; controlli tecnici OOD dopo il freeze e prima delle chiamate; configurazione e pilot seguono la propria catena rev.10
 - **Eliminati:** studio ponte, confronto Q4, condizione A+, condizione C centralizzata, ablation delle rappresentazioni (già disponibile dall'esplorativo)
 
 ### 8.2 Perché local-first entra nella definizione di B
 
-`B_LOCAL_FIRST_V1` non è una variante da testare: è già congelata e già eseguita sull'intera replica dell'esplorativo. §10.3 del walkthrough riporta 23/24 sui local-seen contro 19/24 di B originale, a **parità esatta** di local-unseen (68/72 in entrambi) e Normal (24/24), con zero errori di parsing e soglie fissate prima dell'esecuzione.
+**Record storico interno, non fonte del disegno corrente né un braccio Terra dello studio 2.** `B_LOCAL_FIRST_V1` non è una variante da testare: è già congelata e già eseguita sull'intera replica dell'esplorativo. §10.3 del walkthrough riporta 23/24 sui local-seen contro 19/24 di B originale, a **parità esatta** di local-unseen (68/72 in entrambi) e Normal (24/24), con zero errori di parsing e soglie fissate prima dell'esecuzione.
 
 Ne segue che local-first è la versione matura del metodo, non un braccio sperimentale. Trattarla come quarta condizione costerebbe ~430 chiamate per misurare una differenza già misurata.
 
@@ -419,19 +428,19 @@ Ne segue che local-first è la versione matura del metodo, non un braccio sperim
 
 Se local-first entra nella definizione del metodo, un reviewer chiederà se il numero di testa dipende da un accorgimento di prompt engineering. **Quell'ablation è l'unica risposta possibile**, quindi va pianificata come parte del disegno, non come residuo.
 
-Vincolo di disegno: il sottoinsieme va scelto **strutturalmente e dichiarato prima**. In §10.3 i 5 miglioramenti e l'unica regressione cadono tutti nella confusione F8/F13, cioè in una coppia specifica. Con 8 fault le coppie confondibili saranno altre e vanno identificate su base meccanica — fault che condividono variabile perturbata o meccanismo secondo Downs & Vogel — non dopo aver visto le confusioni del test.
+Vincolo di disegno: il sottoinsieme va scelto **strutturalmente e dichiarato prima**. In §10.3 i 5 miglioramenti e l'unica regressione cadono tutti nella confusione F8/F13, cioè in una coppia specifica. Nel catalogo corrente sono confermate **{F1,F2} e {F14,F15}**, su base meccanica, prima delle confusioni del test: run di indice 1–3 del lotto sigillato secondo l’ordine degli identificativi 03.11 (D11; piano rev.10 §9).
 
-| Componente dell'ablation | Calcolo | Chiamate |
-| --- | --- | ---: |
-| local-seen su tutti gli 8 fault | 8 × 6 × 1 | 48 |
-| local-unseen sulle coppie confondibili dichiarate | 4 × 3 × 7 | 84 |
-| **Totale** | | **132** |
+| Componente dell'ablation | Calcolo | R=1 | R=3 |
+| --- | --- | ---: | ---: |
+| local-seen su tutti gli 8 fault | 8 × 8 × 1 × R | 64 | 192 |
+| local-unseen sulle coppie D11, run 1–3 | 4 × 3 × 7 × R | 84 | 252 |
+| **Totale** | (64 + 84) × R | **148** | **444** |
 
-**Nota sulla simmetria** *(revisione 4)*. L'ablation esiste per B e non per E. Non è un buco del contrasto causale: local-first è tenuto **costante** fra B-LF ed E-LF, quindi B−E isola l'informazione e non la politica, ed è questo che va scritto nel paper. Non va invece affermato che la politica renda il contrasto *conservativo*: non è dimostrato, e local-first può spostare errori e astensioni in entrambe le direzioni. Se si volesse chiudere anche la simmetria, E-senza-LF sullo stesso sottoinsieme dichiarato costerebbe 4 × 3 × 7 = 84 chiamate, +3,4% del budget. Non è necessaria al claim.
+**Nota sulla simmetria** *(revisione 4)*. L'ablation esiste per B e non per E. Non è un buco del contrasto causale: local-first è tenuto **costante** fra B-LF ed E-LF, quindi B−E isola l'informazione e non la politica, ed è questo che va scritto nel paper. Non va invece affermato che la politica renda il contrasto *conservativo*: non è dimostrato, e local-first può spostare errori e astensioni in entrambe le direzioni. Se si volesse chiudere anche la simmetria, E-senza-LF sullo stesso sottoinsieme dichiarato costerebbe 4 × 3 × 7 × R = 84/252 chiamate a R=1/R=3, senza percentuale fissa del ledger completo. È una possibilità storica non adottata, non un nuovo braccio autorizzato. Non è necessaria al claim.
 
 ### 8.4 Braccio producer-swap
 
-Affronta G5 su dati vergini. La manipolazione è a fattore singolo: **libreria di insight interamente dal producer alternativo** contro libreria interamente da Qwen-2.4T, stesso consumer, stessi run di test, stessa condizione B-LF.
+Affronta G5 su dati vergini. La manipolazione è a fattore singolo: **libreria di insight interamente dal producer alternativo** contro libreria interamente dal producer principale, stesso consumer, stessi run di test, stessa condizione B-LF.
 
 Generare insight solo per i fault confrontati produrrebbe un prompt a provenienza mista (4 swapped + 10 originali) e il confronto isolerebbe "libreria mista vs omogenea" invece dell'effetto del producer. Quindi: **il producer alternativo genera tutti gli 8×2 insight**, e la misura si limita a 4 fault per contenere le chiamate.
 
@@ -443,11 +452,9 @@ Generare insight solo per i fault confrontati produrrebbe un prompt a provenienz
 | --- | --- | ---: |
 | Generazione libreria completa dal producer alternativo | 8 richieste / 16 insight; zero richieste aggiuntive se gli output conformi sono riusabili | **0 o 8** |
 | Misura su 4 fault, condizione B-LF, R=1 | 4 × 8 × 7 | **224** |
-| **Totale corrente** | generazione senza doppio conteggio + misura | **224 o 232** |
+| **Totale corrente a R=1** | generazione senza doppio conteggio + misura | **224 o 232** |
 
-Producer principale, consumer e alternativo sono ruoli; D9 ne fisserà le identità
-effettive. Questo documento non sceglie alcun modello e non duplica le richieste
-quando due ruoli coincidono.
+Producer principale, consumer e alternativo sono ruoli. Il mandato dell’autore assegna **122B a principale e consumer, 27B ad alternativo**: lo swap usa tutti i **16 insight** alternativi e mantiene **122B consumer fisso**. Non si sommano due volte richieste coincidenti. Acquisizione del registro D9 e qualificazione delle identità/configurazioni restano separate e pendenti; Terra non è un producer o consumer dello studio 2.
 
 ### 8.5 Endpoint
 
@@ -465,10 +472,10 @@ Il metodo conserva ciò che l'agente conosce (H3) e trasferisce ciò che non con
 
 **Il margine non sparisce, cambia giustificazione.** Un test di non inferiorità richiede comunque un margine *m* pre-specificato: la formulazione elimina il δ′ arbitrario ma non la decisione. Le due giustificazioni ammissibili sono entrambe esterne ai risultati:
 
-- **operativa** — quale degradazione sui fault già noti renderebbe il metodo inaccettabile in esercizio. Con 48 cluster local-seen, "più di un caso su otto perso" è una soglia esprimibile e discutibile con un ingegnere di processo;
-- **di risoluzione del disegno** — la differenza minima che 48 cluster permettono di distinguere dal rumore, come controllo di sanità: un margine più stretto della risoluzione del disegno rende il test non informativo per costruzione.
+- **operativa** — quale degradazione sui fault già noti renderebbe il metodo inaccettabile in esercizio. Con 64 cluster local-seen, "più di un caso su otto perso" è una soglia esprimibile e discutibile con un ingegnere di processo;
+- **di risoluzione del disegno** — la differenza minima che 64 cluster permettono di distinguere dal rumore, come controllo di sanità: un margine più stretto della risoluzione del disegno rende il test non informativo per costruzione.
 
-Si sceglie la giustificazione operativa e si usa la seconda come verifica. Il dato di §10.3 (perdita zero su 72 casi) **non** va usato per fissare *m*: può essere citato come attesa, non come calibrazione.
+La giustificazione operativa è già approvata con m=0,125; risoluzione e limiti sono quelli della rev.10 §§5 e 7, senza nuova scelta del margine. Il dato di §10.3 (perdita zero su 72 casi) **non** va usato per fissare *m*: può essere citato come attesa, non come calibrazione.
 
 **Gerarchia di test, per non gonfiare l'errore di primo tipo.** Tre ipotesi su una stessa popolazione richiedono un ordine di gatekeeping, congelato prima: H1, poi H2, poi H3, ciascuna a 0,05, procedendo solo se la precedente passa. Senza gerarchia, tre test indipendenti portano l'errore complessivo oltre il 14%.
 
@@ -492,7 +499,7 @@ Eseguirlo solo in B non permetterebbe di capire se gli insight migliorano o pegg
 
 | Calcolo | Chiamate |
 | --- | ---: |
-| 2 fault × 3 run × 8 agenti × 3 condizioni | 144 |
+| 2 fault × 3 run × 8 agenti × 3 condizioni × R | 144 a R=1; 432 a R=3 |
 
 **Condizione di validità:** il test misura qualcosa solo se il prompt offre effettivamente l'astensione. L'astensione va quindi disponibile in **tutte** le condizioni dall'inizio, non aggiunta per il solo test OOD — altrimenti il tasso di falsi positivi non ha comparatore in-catalogo. Costo aggiuntivo in chiamate: zero.
 
@@ -509,19 +516,19 @@ Se ne leggono tre fatti. L'astensione era **offerta e usata** — 14 casi su 36 
 
 Ne segue che, nella forma congelata in D10, il confronto descrittivo con l'esplorativo **non è indebolito dallo spazio delle etichette**. Resta indebolito da tutto il resto — otto fault contro quattro, un modello diverso, un contesto più lungo — e questo va comunque dichiarato.
 
-**Che cosa resta da osservare, e non da ereditare.** Che l'astensione fosse praticabile con 4 insight e 5 classi non dimostra che lo sia con **14 insight e 9 classi**. La condizione di validità di questa sezione va quindi verificata nel capability pilot, misurando il tasso di astensione in-catalogo delle tre condizioni prima di aprire i run di test. Un tasso che collassa a zero renderebbe il test OOD non informativo, e andrebbe saputo prima e non dopo.
+**Che cosa resta da osservare, e non da ereditare.** Che l'astensione fosse praticabile con 4 insight e 5 classi non dimostra che lo sia con **14 insight e 9 classi**. La condizione di validità di questa sezione va quindi verificata nel capability pilot, misurando il tasso di astensione in-catalogo delle tre condizioni prima di aprire i run di test. La regola corrente T11 distingue l’assenza di astensione A local-unseen: lascia OOD esplorativa con validità non stabilita, senza nuovo blocco tecnico automatico; T3 resta un controllo distinto.
 
-**Scelta dei due fault OOD.** Devono essere meccanicamente distinti da **tutti** gli 8 in catalogo. F2 e F5, proposti nella revisione 1, non sono adatti se in catalogo c'è F1: F1 è uno step sul rapporto A/C in alimentazione, F2 uno step sulla composizione di B, e un agente che etichetta F2 come F1 non sta sbagliando in modo interessante. Il "falso positivo" sarebbe comportamento ragionevole e il test non discriminerebbe.
+**Motivazione storica della scelta OOD, precisata nella rev.10 §8.1.** Nella proposta originaria dovevano essere meccanicamente distinti da **tutti** gli 8 in catalogo. F2 e F5, proposti nella revisione 1, non sono adatti se in catalogo c'è F1: F1 è uno step sul rapporto A/C in alimentazione, F2 uno step sulla composizione di B, e un agente che etichetta F2 come F1 non sta sbagliando in modo interessante. Il "falso positivo" sarebbe comportamento ragionevole e il test non discriminerebbe.
 
 **Secondo vincolo, aggiunto nella revisione 4: la rilevabilità.** La distinzione meccanica non basta. §12.1 documenta che F3, F9 e F15 sono compensati dagli anelli di controllo e producono evidence quasi vuota. Un fault OOD scelto in quel gruppo farebbe astenere l'agente per **assenza di segnale**, non per riconoscimento di novità, e il test misurerebbe il verbalizzatore invece dell'agente. I due fault vanno quindi scelti fuori dal gruppo a fallimento concorde, oppure accompagnati da un criterio esterno di rilevabilità dichiarato prima.
 
-⚠️ **La scelta dipende da quali 8 fault entrano in catalogo.** «Meccanicamente distinto da *tutti* gli 8» non è valutabile finché gli 8 non sono fissati: S13 dipende da S1, e quindi da §6.1 e da D1. È bloccante ma **non lavorabile oggi**, e va contato così nella cronologia di §7 (§0.1, §11).
+**Stato corrente OOD (piano rev.10 §§8 e 16).** D1 è pubblicata e congelata; **F6/F4 sono confermati condizionatamente**, con condizione bibliografica numerica soddisfatta. Catene preservate: **F6→F5→F12** e **F4→F11→F5**. Il freeze statistico fissa candidati, criteri e catene prima dei run; la 03.11 verifica dopo il freeze generabilità, trip nella finestra prescritta e ammissibilità, prima delle chiamate sui test. Ogni sostituto richiede proprie verifiche di rilevabilità e ammissibilità; i due OOD devono restare distinti. Convergenza su F5 o caso non risolto impongono sospensione e decisione esplicita dell’autore, senza promozione automatica né selezione su prestazioni. Non si attende una nuova D1 e non si richiede 03.11 prima del freeze 03.8.
 
 **Limite da dichiarare.** 2 fault × 3 run sono 6 eventi OOD: una dimostrazione di esistenza, non una caratterizzazione del comportamento open-set. Nel paper va come *prima sonda*, con G6 dichiarata parzialmente aperta.
 
 ### 8.7 R=1, gate di stabilità e rilevamento del cambio di modello
 
-**R=1 è il lever principale sul costo e sulla fattibilità**: porta il nucleo da 5.184 a 1.296 chiamate e comprime l'esecuzione da ~7 giorni a 2–3.
+**Costo del nucleo corrente (D2=8): 1.728 a R=1 e 5.184 a R=3.** Questi sono soltanto il nucleo. Il conteggio completo segue §8.8 e BUDGET_RISORSE_REV10; la durata richiede misure della configurazione effettiva e **1,20×T≤W**. Non è derivabile una previsione in giorni dal solo R.
 
 **Va però presentato per ciò che è: un compromesso operativo, non un'equivalenza statistica a R=3.** Due precisazioni che il paper deve fare esplicitamente, perché un reviewer attento le farebbe comunque:
 
@@ -537,7 +544,7 @@ Ne segue che **l'audit a R=3 e il set canary non sono rifiniture ma i due strume
 - **nessuna divergenza osservata nel pilot → R=1 con audit continuo**
 - divergenze osservate → R=3 sull'intero studio, e il non-determinismo entra nel modello di varianza e nel reporting
 
-Il caveat tecnico è sostanziale: Qwen-27B è un modello denso, un 2.4T-A95B è MoE, e nei MoE il routing può dipendere dalla composizione del batch. A T=0 la riproducibilità bit-a-bit **non è garantita** e il determinismo di Qwen-27B non si trasferisce per analogia.
+Il caveat tecnico riguarda ogni servizio effettivo: le capacità di determinismo e la stabilità vanno registrate e misurate per configurazione. Né il nome nominale del modello né prove su un precedente servizio trasferiscono una qualificazione al producer o consumer scelto. La sola assenza di temperatura/seed resta un limite, non il trigger di R=3.
 
 **Audit continuo.** Sottoinsieme del 10% campionato su tutti i fault, agenti e condizioni, congelato prima, eseguito a R=3 e distribuito nel tempo. Per ogni chiamata dello studio va registrato:
 
@@ -629,7 +636,7 @@ indicativa finché la mappa famiglia–meccanismo (E5-C3) è aperta.
 **FULL è una voce aggiuntiva solo se non risulta riusabile da B-LF** (§8.12): in quel caso vale
 **R n |∪_F S_F|**, cioè con R = 1 al massimo **48 a 6 run e 64 a 8**. Mantenendo l'accantonamento
 prudenziale e senza riuso di FULL, i totali comprensivi del 10% diventano circa **2.906 / 3.626**,
-entro i tetti scelti.
+entro i tetti storici allora scelti; confronto non vigente, senza autorizzazione a retry o riparsing come nuove richieste.
 
 **L'audit R=3 del 10% è calcolato sul nucleo e non copre E5**, che gira a R = 1: **la stabilità dei
 contrasti di E5 rispetto alle ripetizioni dell'inferenza non è verificata**, ed è un limite da
@@ -643,9 +650,9 @@ a 3.555: **+702 chiamate, +24,6%**; prima del retry l'aumento è **+638**
 (2.594→3.232). D2 è confermata a 8; il confronto a 6 resta storico. La
 baseline FL (§9.1) non consuma chiamate API.
 
-**Il budget in chiamate non è l'unico budget** *(revisione 5)*. Il piano prescrive la generazione dei run in §6.2 e §6.9 ma non ne ha mai totalizzato il costo, e questo ha fatto sembrare la generazione dati un preliminare invece di una voce del cammino critico:
+**Ricostruzione storica del budget di generazione, non residuo corrente** *(revisione 5)*. Il piano prescrive la generazione dei run in §6.2 e §6.9 ma non ne ha mai totalizzato il costo, e questo ha fatto sembrare la generazione dati un preliminare invece di una voce del cammino critico:
 
-| Blocco di simulazione | 6 run | 8 run |
+| Blocco di simulazione storico, senza le scorte rev.10 | 6 run | 8 run |
 | --- | ---: | ---: |
 | Qualifica generatore e R2 — completata in Fase 02 | 150 | 150 |
 | Sviluppo fault — 8 fault × 5 (§6.2) | 40 | 40 |
@@ -665,23 +672,15 @@ R1 non riduce le 40 simulazioni fault; R2 elimina soltanto i cinque Normal del v
 riduce i 500 nuovi run conformal; la revisione 7 aggiunge i 40 `normal_dev`, con ruolo distinto da
 calibrazione e verifica.
 
-Ne segue una correzione alla lettura del collo di bottiglia data in §7: la data della decisione sul
-modello resta il vincolo per l'**esecuzione**, ma la generazione dei run è un secondo percorso,
-indipendente da Qwen e attivabile subito. Va pianificato in parallelo alla settimana del pilot.
+La tabella precedente conserva la fotografia storica, senza le undici scorte introdotte dalla rev.10; 640/658 non sono residui correnti. Il lotto futuro 03.11 è **72 primari +6 OOD +11 scorte tecniche =89 run** (§6.9). Generazione e chiamate hanno cammini temporali distinti: anche la generazione richiede pianificazione misurata, rispettando il freeze statistico prima del primo run. Non si rigenerano lotti chiusi per ricostruire un totale storico.
 
-**Ordine di generazione, identico a §8.12** *(sostituisce la prescrizione precedente, per cui la
-generazione doveva chiudersi prima del congelamento).* Le simulazioni possono essere anticipate
-rispetto al congelamento del protocollo, ma i run restano **sigillati**: nessuna ispezione di segnali,
-feature o risultati del test per decisioni progettuali; ammesse le sole verifiche tecniche
-predefinite che non orientano tali decisioni. Mappe donatore–ricevente e assegnazioni degli agenti si
-costruiscono e si congelano **prima** del freeze, sui soli identificativi; l'applicazione
-all'evidenza e la generazione di omissioni e prompt vengono **dopo**.
+**Ordine vigente, B approvata (rev.10 §16).** Il freeze statistico 03.8 precede il primo run del lotto 03.11. Mappe e assegnazioni E5 si pre-specificano sui soli identificativi prima del relativo freeze E5; applicazione alle evidence, omissioni e prompt seguono quel freeze. Questo non autorizza ad anticipare run fisici rispetto al freeze statistico. I controlli tecnici OOD avvengono dopo quest’ultimo e prima delle chiamate; niente uso di segnali o risultati del test per il disegno.
 
-Per confronto, il piano originale costava 5.184 chiamate di **solo nucleo** e oltre 6.000 con tutto incluso. Un budget quotato come stima puntuale si esaurisce sempre: va chiesto come tetto.
+Per confronto, il piano originale costava 5.184 chiamate di **solo nucleo** e oltre 6.000 con tutto incluso. Il confronto è storico: la regola corrente è il ledger completo e 1,20×T≤W, non un tetto rigido.
 
 ### 8.9 Schema degli insight, parità fra producer, conformità
 
-Questa sottosezione è nuova nella revisione 3 e nasce da una lacuna comune a tutti i lavori esaminati, non da un'idea presa in prestito da essi.
+Questa sottosezione conserva la motivazione progettuale della revisione 3. Lo schema vigente è **03.12 R4 pubblicato e congelato** (D12); le formulazioni progettuali seguenti non ne riaprono campi, cap o validatore. Pin adapter, conformità dei producer e capienza reale sono verifiche future distinte.
 
 **Il problema.** Il prior art federato rivendica artefatti testuali strutturati ma non ne pubblica lo schema e non ne misura la conformità:
 
@@ -721,12 +720,12 @@ parametrica della rev.10 in §8.8, senza stime ~30/~20 né doppio conteggio.
 
 ### 8.10 Che cosa va nel paper
 
-1. **Esplorativo Terra come motivazione:** uno studio con 4 agenti e 4 fault ha mostrato che il meccanismo funziona (B = 86,1%, replica 94,4%); lo studio finale verifica la generalizzazione a scala doppia con un modello indipendente.
+1. **Perimetro del paper:** il disegno dello studio 2 viene descritto dalle sue fonti correnti. Terra resta riferimento storico descrittivo interno, separato dalle nuove stime; nessuna motivazione del disegno attribuita al primo studio. Riuso documentato internamente e descritto secondo MAINTENANCE §8.2.
 2. **Studio finale Q8:** tutti i risultati, baseline numerica inclusa, con reporting stratificato (§8.5).
 3. **Producer-swap:** l'effetto del producer su dati vergini, con parità strutturale (§8.4). Il prior art più vicino, P065, fa solo consumer-swap.
 4. **Test fuori catalogo:** prima sonda sul comportamento open-set.
 5. **Ablation local-first:** difesa del metodo principale.
-6. **Confronto descrittivo con l'esplorativo** sui 4 fault di continuità, dichiarato come descrittivo e non causale.
+6. **Terra:** solo riferimento storico descrittivo interno, fuori dalle nuove stime e dai bracci dello studio 2; gli esiti storici restano conservati nei rispettivi artefatti.
 7. **Conformità allo schema:** validità, retry, troncamenti e token per producer (§8.9). È una tabella piccola. ⚠️ **Non va presentata come «l'unica del suo genere fra i lavori comparabili»**: EviFDD-Agent pubblica sul TEP una tabella di conformità con intervalli di Wilson. La formulazione sostenibile è che fra i sei lavori esaminati — cinque federati e ACE, che è mono-agente — nessuno riporta congiuntamente validità dello schema **lato producer**, retry, troncamenti e token, mentre EviFDD riporta una grandezza diversa e complementare, la conformità evidence-traceable del reporter (§8.9).
 8. **Related work obbligatoria:** P042, P041, P031, P030, P065, P001, FaultExplainer ed **EviFDD-Agent** (§12.6). L'omissione di uno qualsiasi è oggi un rischio concreto in revisione. EviFDD entra per due ragioni indipendenti: è LLM applicato alla diagnosi sul TEP, e delimita direttamente il punto 7.
 
@@ -1020,20 +1019,14 @@ dopo `exp5-protocol-frozen` la soglia non si tocca più, qualunque cosa mostri l
 
 **Costo.** Bracci corrotti: **2n · Σ_F (m_F + c_F)**, con n run per fault, m_F fault bersaglio e
 c_F = 1 controllo. FULL: **n · |∪_F S_F| ≤ 8n**. Scenario a 3 fault per famiglia, R = 1, un ricevente
-per caso, **FULL riusato da B-LF**: **144** chiamate a 6 run, **192** a 8 — circa il **6%** dello
-studio. Perimetro pieno, per confronto: **lordo 3.024 / 4.032**; **aggiuntivo con FULL riusato
+per caso, **FULL riusato da B-LF**: **192** chiamate a 8 run, scenario S=12 a R E5=1; **144 a 6 run è solo confronto storico**, senza una percentuale fissa del ledger completo. Perimetro pieno non adottato, confronto storico 6/8 run: **lordo 3.024 / 4.032**; **aggiuntivo con FULL riusato
 2.688 / 3.584**.
 
 **Molteplicità.** Tutti gli esiti sono **descrittivi**: non si applica correzione per molteplicità
 perché non si eseguono test. Unità = *physical run*, bootstrap clusterizzato per gli intervalli
 esplorativi; mai trattare le osservazioni agent-case come indipendenti.
 
-**Ordine di generazione e congelamento.** I **run fisici possono essere simulati prima del freeze ma
-restano sigillati**. *Sigillato* significa: **nessuna ispezione di segnali, feature o risultati del
-test per decisioni progettuali**; sono ammesse le verifiche tecniche predefinite che non orientano
-tali decisioni. **Prima del freeze** si costruiscono e si congelano, **sui soli identificativi**, le
-mappe donatore–ricevente e le assegnazioni degli agenti. **Dopo il freeze** si applicano le mappe
-all'evidenza e si producono omissioni e prompt.
+**Ordine di generazione e congelamento.** I run fisici 03.11 si generano **dopo il freeze statistico 03.8** e restano sigillati: nessuna ispezione di segnali, feature o risultati del test per decisioni progettuali. I controlli tecnici pre-specificati sono tracciati prima delle chiamate. Sui soli identificativi si costruiscono e congelano mappe donatore–ricevente e assegnazioni prima del freeze E5; dopo quel freeze si applicano le mappe all’evidenza e si producono omissioni e prompt. Il freeze E5 non autorizza generazione prima del freeze statistico (B approvata).
 
 E5-C1 va fissata **prima** di conoscere la potenza disponibile, altrimenti l'effetto minimo finisce
 adattato al campione.
@@ -1139,7 +1132,7 @@ I 4 fault di continuità (F1, F8, F10, F13) sono dichiarati come tali. I 4 nuovi
 ### D2 — Run per fault nel test *(confermata: 8)*
 
 Il disegno confermato usa **8 run per ciascuno degli 8 fault**, quindi 64 cluster
-fault, più 8 run Normal primari. Il confronto a 6 run/48 cluster resta storico.
+fault, più 8 run Normal primari: **72 primari +6 OOD +11 scorte tecniche =89 run** del lotto. Le scorte sono sostitutive, senza osservazioni aggiuntive, con regole e ordine freeze statistico→03.11 di §6.9. Il confronto a 6 run/48 cluster resta storico.
 
 Il confronto storico ricalcolato è +702 chiamate (+24,6%) con retry e +638
 prima del retry. Non ne segue alcuna durata: volume, identità del modello,
@@ -1150,7 +1143,7 @@ stimata a R=1.
 
 ### D3 — Tutti e 7 i riceventi o un sottoinsieme?
 
-Tutti e 7. Il costo è lineare, la potenza statistica dipende dai cluster (48 o 64) e non dalle coppie (336 o 448), e la scomposizione per agente è un'analisi descrittiva gratuita.
+Tutti e 7. Il costo è lineare, la risoluzione statistica dipende dai 64 cluster fault e non dalle 448 coppie agent-run; 48/336 è soltanto il confronto storico a sei run, e la scomposizione per agente è un'analisi descrittiva gratuita.
 
 ### D4 — A+ sì o no?
 
@@ -1182,21 +1175,35 @@ Specifica minima, da congelare prima di guardare il test: rete molto semplice co
 
 Vedi §9.1 per la specifica completa e per i due numeri di contorno che rendono il risultato difendibile.
 
-### D12 — Schema degli insight *(aperta, lavorabile oggi)*
+### D12 — Schema degli insight *(03.12 R4 pubblicata e congelata)*
 
-Campi, tipi, cardinalità fissa, cap di lunghezza per singolo insight, validatore eseguibile (§8.9). Va congelata **prima della produzione degli insight**, non prima dei run di test, perché vincola il modo in cui entrambi i producer generano. Non dipende dalla disponibilità del modello e non consuma budget.
+Campi, tipi, cardinalità, cap e validatore sono fissati dal contratto R4 al commit `3c64390bc4dd58c48cc4e1e388a38989b32b3143`, tag annotato pubblicato `studio2-fase03-schema-insight-frozen-001`. Fonte di stato: `studio2/fase03/schema_insight/PUBBLICAZIONE_SCHEMA_INSIGHT.md` nella base main `a00605862f627710347bd63c49f79a6d0a00135f`. Il freeze precede la produzione degli insight; restano pin adapter 03.10, conformità dei due producer e capienza dei prompt reali. Il tag R4 non qualifica il servizio 122B o 27B e non approva l’ordine label.
 
-Tre vincoli che la decisione deve soddisfare: lo schema è identico per i due producer; E si ottiene permutando soltanto il campo pseudolabel; validità, retry, troncamenti e token sono loggati per producer e condizione.
+Tre vincoli che le future librerie devono rispettare nel contratto vigente: lo schema è identico per i due producer; E si ottiene permutando soltanto il campo pseudolabel; validità, retry, troncamenti e token sono loggati per producer e condizione.
 
-**Due indicazioni della revisione 4, da EviFDD-Agent (§8.9).** Il validatore va costruito sulla modalità di fallimento documentata — la parafrasi degli **identificatori di variabile**, non l'errore numerico. E va valutata la separazione fra campi serializzati deterministicamente dal verbalizzatore e parte narrativa lasciata al producer: nelle condizioni in cui i campi critici non passano dal modello, EviFDD ottiene URR = 0.
+**Motivazione storica della revisione 4.** Le indicazioni di EviFDD-Agent sulla parafrasi degli identificatori e sulla separazione dei campi deterministici restano documentate in §8.9; non sono una riapertura di D12. La conformità va provata sugli input e sulle configurazioni effettivi senza modificare il contratto congelato.
 
-### D9 — Piano B, con date
+### D9 — Ruoli approvati; acquisizione documentale e qualifica tecnica distinte
 
-1. **Qwen-2.4T** se disponibile e se supera il pilot **entro il 17 settembre** (§7).
-2. **Altrimenti Qwen-27B** come producer e consumer dello studio finale, dopo un pilot breve. Configurazione degradata ma non compromessa: il braccio producer-swap resta intatto usando Terra come producer alternativo, quindi **G5 resta coperta**. Va scritto esplicitamente nel paper che il modello non è "nuovo".
-3. Se anche Qwen-27B non supera parsing, stabilità e lunghezza del contesto: **fermare l'espansione** e scegliere tra paper Terra-only e conferenza successiva.
+**Stato corrente dal mandato dell’autore per le correzioni R1–R4:** 122B producer
+principale e consumer; 27B producer alternativo con libreria completa di **16 insight**;
+**122B consumer fisso** nel producer-swap. Terra soltanto riferimento storico
+descrittivo interno, separato dalle nuove stime. Non occorre ripetere questa scelta.
 
-La copertura dell'opzione 3 va costruita adesso, non quando serve: le sezioni condivise tra le due versioni del paper sono circa il 60% del testo (§6.12).
+La registrazione formale è in acquisizione nella finestra proprietaria D9;
+nessun file non committato di quella finestra è importato. Identità complete,
+revisioni, configurazioni, tokenizer, capienza e servizi restano da qualificare.
+La dichiarazione di operatività del 122B non è qualifica tecnica. Questa scelta
+non firma materialmente 03.8, non approva l’ordine label e non autorizza pilot.
+In caso di impedimento tecnico o temporale, sospendere e rinviare all’autore:
+nessuno scambio automatico dei ruoli o fallback Terra.
+
+**Piano B storico superato quanto alle assegnazioni — non prescrittivo.** Le
+precedenti opzioni Qwen-2.4T entro il 17 settembre, 27B principale con Terra
+alternativo, oppure Terra-only/conferenza successiva restano recuperabili nel
+commit `2520e7abc1cd68785f2789448b509dea5e55ee7d` (§10 D9). Non sono autorizzazioni
+correnti né nuove decisioni alternative. Proposta e registro D9 restano fuori
+dal perimetro di questo allineamento.
 
 ### D10 — `Unknown` nello spazio delle etichette *(risolta nella revisione 5: `Unknown` è il nome dell'astensione esistente)*
 
@@ -1215,7 +1222,7 @@ La seconda strada tocca i percorsi che governano derangement ed E, cioè il cont
 
 ### D11 — Sottoinsieme dell'ablation local-first
 
-Le coppie di fault confondibili vanno identificate su base meccanica — variabile perturbata o meccanismo condivisi secondo Downs & Vogel — e **dichiarate prima** di osservare le confusioni del test (§8.3).
+**Confermate {F1,F2} e {F14,F15}**, su base meccanica, prima delle confusioni del test (piano rev.10 §9). Local-unseen: run di indice **1, 2 e 3** del lotto sigillato secondo gli identificativi 03.11, tutti i sette agenti non proprietari. Local-seen: tutti gli otto fault × otto run × proprietario. Ablation B-senza-LF: **148×R**, quindi 148/444 (§8.3); nessuna riselezione sulle prestazioni.
 
 ---
 
@@ -1244,7 +1251,7 @@ Le coppie di fault confondibili vanno identificate su base meccanica — variabi
 | S1 | 8 fault selezionati con criteri documentati e congelati, senza criteri di separabilità | ✅ | **SÌ** |
 | S2 | Run di sviluppo generati per tutti gli 8 fault + Normal | ⬜ | **SÌ** |
 | S3 | Run di test generati, congelati e hashati, con seed distinti da quelli di sviluppo | ⬜ | **SÌ** |
-| S4 | Soglie calibrate sui soli Normal di sviluppo | ⬜ | **SÌ** |
+| S4 | 03.5 chiusa: soglia e decisioni FAR registrate sui lotti dedicati cal_thr/far_ver, distinti da normal_dev | ✅ | **SÌ** |
 | S5 | Insight prodotti e congelati, **per entrambi i producer** (libreria completa) | ⬜ | **SÌ** |
 | S6 | Piano statistico rev.10 scritto e verificato; firma, allineamento verificato, pubblicazione e tag ancora pendenti | ⏳ | **SÌ** |
 | S7 | Le 9 pseudolabel, la forma dell'astensione (D10) e la permutazione E congelate | ✅ | **SÌ** |
@@ -1266,21 +1273,21 @@ Le coppie di fault confondibili vanno identificate su base meccanica — variabi
 
 | Requisito | Dipende da | Perché |
 | --- | --- | --- |
-| S3, S4 | S1, S2 | run di test e soglie si generano per gli 8 fault già scelti |
+| S3 | freeze statistico 03.8; catalogo e criteri fissati | 03.11 genera il lotto e verifica gli OOD prima delle chiamate; S4 è già chiusa in 03.5 |
 | S12 | S1 | «coppia confondibile» è definita rispetto al catalogo |
 | S13 | S1 | «meccanicamente distinto da tutto il catalogo» è definito rispetto al catalogo |
 | S5 | S17 | lo schema vincola il modo in cui entrambi i producer generano (§6.10, D12) |
 | S18, S19 | S5, S17 | si verificano su insight già prodotti e congelati |
 
-Conseguenza da riportare in §7: **S13 è bloccante e indipendente dal modello, ma non è lavorabile oggi.** Il suo cammino passa da §6.1 e da D1. Lo stesso vale per S12. Contarli fra le attività immediatamente avviabili rende la cronologia critica più ottimistica di quanto sia.
+**Stato delle precedenze.** D1 è già pubblicata e S12/D11 confermata; la scelta condizionata S13 è fissata. Per S13 restano i controlli tecnici 03.11 **dopo il freeze statistico** e prima delle chiamate, con verifiche proprie dei sostituti. Non si attende una nuova selezione di catalogo e non si crea il ciclo 03.8→03.11→03.8. S17/D12 è pubblicata: adapter, conformità e librerie future restano verifiche distinte.
 
 ### Prerequisiti organizzativi
 
 | # | Requisito | Stato | Bloccante? |
 | --- | --- | --- | --- |
-| O1 | Piano B definito e datato (D9) | ⬜ | **SÌ** |
+| O1 | Ruoli D9 approvati nel mandato; registro in acquisizione; impedimenti non risolti rinviati all’autore | ⏳ acquisizione/qualifica | **SÌ** prima dell’esecuzione |
 | O2 | Conteggio completo per blocco/modello e fattibilità temporale misurata con margine 20%; nessun tetto rigido 3.700 vigente | ⏳ misure/calendario | **SÌ** |
-| O3 | Decisione sul modello presa entro il 17 settembre | ⬜ | **SÌ** |
+| O3 | Scelta dei ruoli approvata; qualifica tecnica e calendario compatibile con il vincolo organizzativo del 17 settembre | ⏳ qualifica/calendario | **SÌ** prima dell’esecuzione |
 | O4 | Decisione su baseline FL | ✅ | risolta: FedAvg minimale (D8, §9) |
 | O6 | Decisioni A/B, D2, D11, OOD condizionati, margine, alpha, gerarchia e politica R approvate e recepite; firma/freeze separati | ⏳ | **SÌ** |
 | O5 | Sezioni del paper indipendenti dal modello iniziate (§6.12) | ⬜ | No, ma è l'unica copertura reale |
@@ -1290,13 +1297,13 @@ Conseguenza da riportare in §7: **S13 è bloccante e indipendente dal modello, 
 **GO** se e solo se tutti i requisiti bloccanti sono soddisfatti.
 
 **NO-GO** se almeno uno non lo è. In quel caso:
-- blocco T1 → attivare D9 opzione 2
-- blocco T2–T8 → valutare se è risolvibile in 24 ore; oltre, D9 opzione 2
+- blocco T1 → sospendere e rinviare all’autore l’impedimento tecnico; nessun fallback automatico D9
+- blocco T2–T8 → documentare l’impedimento e applicare solo la remediation autorizzata dalla rev.10, quando pertinente; se irrisolto sospendere, senza cambio automatico dei ruoli
 - blocco T6 con divergenza → ramo R=3; prima dell'esecuzione servono conteggio
   completo e T5 con margine 20%. Se non fattibile: sospensione organizzativa e
   decisione dell'autore, non riduzione automatica o NO-GO scientifico
 - blocco S1–S14 → completare il prerequisito, non procedere
-- blocco O3 → D9 opzione 3
+- blocco O3 → sospensione organizzativa e decisione esplicita dell’autore, senza attivare il piano B storico
 
 ---
 
@@ -1462,10 +1469,10 @@ Parzialmente, e su dati di sviluppo. Distingue bene l'effetto consumer, debolmen
 No, non causalmente: sei variabili cambiano insieme. **Eliminato.**
 
 **4. Quali dati possono essere riutilizzati e quali devono essere nuovi?**
-I 12+24 run dell'esplorativo restano risultati dell'esplorativo. I nuovi dati di sviluppo servono per soglie e insight. I run di test devono essere nuovi, generati e congelati prima di qualsiasi decisione di progettazione.
+I 12+24 run dell'esplorativo restano risultati dell'esplorativo. I nuovi dati di sviluppo servono per soglie e insight. I run di test devono essere nuovi e generati soltanto dopo il freeze statistico 03.8, con il disegno fissato prima dei run e controlli tecnici 03.11 prima delle chiamate.
 
 **5. Come impedire contaminazione o leakage?**
-Generare i run di test, hasharli, non usarli per nessuna decisione. Congelare soglie, insight, prompt, condizioni, endpoint e δ prima dell'apertura. Seed di sviluppo e di test distinti e documentati. Ogni ispezione tecnica loggata.
+Dopo il freeze statistico generare i run di test, hasharli e sigillarli, senza usarli per decisioni progettuali. Congelare soglie, insight, prompt, condizioni, endpoint e δ prima dell'apertura. Seed di sviluppo e di test distinti e documentati. Ogni ispezione tecnica loggata.
 
 **6. Quanti run indipendenti servono per fault?**
 **Otto**, come confermato in D2: 64 cluster fault e 8 run Normal primari.
@@ -1557,7 +1564,7 @@ L'incompatibilità è strutturale, non tecnica. Cinque ragioni, ciascuna suffici
 
 **1 — Le anomalie sono di natura diversa.** FoT è progettato per la diagnosi di guasti di processo: un agente sa come appare F1 (step nella composizione dell'alimentazione) e condivide una descrizione testuale di quel pattern. SWaT contiene intrusioni: "qualcuno ha forzato la valvola MV-101", "qualcuno ha falsificato LIT-101". Non è fault diagnosis, è intrusion detection. FoT assume che ogni agente osservi un'anomalia con profilo fisico caratteristico e **ripetibile**; un attacco cyber-fisico ha un profilo che dipende dalla strategia dell'attaccante, non dalla fisica. Due attacchi sullo stesso sensore possono avere firme completamente diverse.
 
-**2 — Il dataset è fisso, non generabile.** L'impianto statistico di FoT-TEP si fonda sulla generazione di run indipendenti: 6 per fault, ciascuno un cluster per il bootstrap. SWaT ha una sola registrazione. Qualunque tentativo di creare repliche via finestre temporali o bootstrap sui campioni viola l'indipendenza tra cluster e rende inapplicabile il protocollo inferenziale.
+**2 — Il dataset è fisso, non generabile.** L'impianto statistico di FoT-TEP si fonda sulla generazione di run indipendenti: 8 per fault nel disegno corrente D2, ciascuno un cluster per il bootstrap. SWaT ha una sola registrazione. Qualunque tentativo di creare repliche via finestre temporali o bootstrap sui campioni viola l'indipendenza tra cluster e rende inapplicabile il protocollo inferenziale.
 
 **3 — La struttura delle classi non è compatibile con il class-disjoint.** In FoT-TEP ogni agente conosce Normal + 1 fault. In SWaT gli attacchi non sono classi: sono eventi con inizio, fine e una manipolazione specifica. Alcuni durano 3 minuti, altri quasi 10 ore (attacco 28). Alcuni non hanno effetto misurabile. Trasformarli in classi richiede scelte arbitrarie — per componente? per stadio? per tipo di manipolazione? — e nessuna tassonomia è canonica.
 

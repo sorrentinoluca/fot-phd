@@ -1,0 +1,601 @@
+{
+  "scope": "preparer_documentary_checks_not_independent_review",
+  "guardian_before": {
+    "tests": 35,
+    "failures": [
+      "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ],
+    "errors": [],
+    "skips": [
+      "setUpClass (__main__.TutorialChecks) ... skipped 'legacy part-1 walkthrough is not present in this checkout'"
+    ],
+    "exit_code": 1
+  },
+  "guardian_after": {
+    "tests": 35,
+    "failures": [
+      "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ],
+    "errors": [],
+    "skips": [
+      "setUpClass (__main__.TutorialChecks) ... skipped 'legacy part-1 walkthrough is not present in this checkout'"
+    ],
+    "exit_code": 1
+  },
+  "guardian_identical_including_subtests": true,
+  "guardian_status": "INVARIATO_CON_FALLIMENTI_STORICI_NON_PASS",
+  "statistical_manifest_files": 19,
+  "statistical_inputs": 6,
+  "statistical_byte_checks": [
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "role": "statistical_plan_revision_10_pending_independent_review",
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a",
+      "bytes": 81490,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/REPORT_PIANO_STATISTICO.md",
+      "role": "revision_10_receipt_report",
+      "sha256": "909cbe2a30bd517e6f4e100c9fd0794fac353e3d805d356ace1cbf9cb9e87e70",
+      "bytes": 11298,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_bozza.md",
+      "role": "byte_identical_author_decision_source_copy",
+      "sha256": "66e04dd2d8dd00fcf0edf6076a9e3f60bb6fd1fdf8c1e86028a9f80c8754fafb",
+      "bytes": 43136,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO.md",
+      "role": "historical_independent_review_revision_7_OK_preserved_verbatim",
+      "sha256": "06c2a45bb13e70d92a6a7fbb1f6df1549ccaf5911e72f9f56066751d2f99abbe",
+      "bytes": 8471,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV8.md",
+      "role": "historical_independent_review_revision_8_NON_OK_preserved_verbatim",
+      "sha256": "e7b0846e36b9b2328bb073f486921aacbf29e66337bcb53efe8ab1cdec7cdd11",
+      "bytes": 32614,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV9.md",
+      "role": "independent_review_revision_9_OK_restricted_delta",
+      "sha256": "289a74433d70e2bf911bdea893711ff7a294c75cf74d5e6fa0addbf3ede72a58",
+      "bytes": 9845,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/design_resolution.py",
+      "role": "design_resolution_script_revision_7_preserved",
+      "sha256": "25a648b99fcb86f8111eaaf2f712183d6c3e0a0af5960b6b84c424c38fb1e613",
+      "bytes": 31905,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/test_design_resolution.py",
+      "role": "design_resolution_tests_revision_7_preserved",
+      "sha256": "569d63e60a2028958f3e41b92b6fa38628cd8ce3ad5d3546328308eaf39cf06f",
+      "bytes": 18504,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.json",
+      "role": "design_resolution_output_revision_7_preserved",
+      "sha256": "8bf79dc958e045598cf7538b72752caa902d2f8b134f642e54daaf0274fddbde",
+      "bytes": 126303,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.md",
+      "role": "design_resolution_tables_revision_7_preserved",
+      "sha256": "9ed15d15e8a6210e79573c9e4b3d073dfb8d8d9ed680735d83dc7c35358febb7",
+      "bytes": 27356,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/sottofase_3_8.md",
+      "role": "subphase_prompt_preserved",
+      "sha256": "ed6bb7123678b0ee3aec9dbd69ed8576e7988e759cf9e364cc9c23426bec9afc",
+      "bytes": 5942,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/APPROVAZIONE_ADDENDUM_03_8.md",
+      "role": "explicit_approval_record",
+      "sha256": "df2a754d3ad2d2215def012eb4d6e887c77d93ebdcad4a6811c5cbc18786a70a",
+      "bytes": 2830,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ADDENDUM_DECISIONI_RESIDUE_03_8.md",
+      "role": "approved_wording_preserved_verbatim",
+      "sha256": "6035967ceb390de69e63cac9f828b17386ab8a76bb1999db524597770fc782f8",
+      "bytes": 3768,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "role": "revision_10_accounting_annex_not_measured_feasibility",
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887",
+      "bytes": 8528,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE_REV9.json",
+      "role": "historical_manifest_paths_resolve_at_0f1a9ba",
+      "sha256": "2b6ad396307be634428d9355d4aa65144b4956d675ccb9e4b47536e4bdaf8d76",
+      "bytes": 18817,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MANIFEST_PREPARAZIONE_CHIUSURA_03_8.json",
+      "role": "historical_preparation_manifest_paths_resolve_at_526561f",
+      "sha256": "a570c0c91f3a45d4435d318e628cdad37ef7be0dceda17fcb62cf50350dead93",
+      "bytes": 8501,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_DA_SOTTOSCRIVERE_REV10.md",
+      "role": "unsigned_author_document_revision_10",
+      "sha256": "4a0a4e1fc2797ee7a81439110e164d43159c745007136c9dda7bed7759471cc8",
+      "bytes": 4974,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONTROLLI_REV10.json",
+      "role": "local_preparer_checks_not_independent_review",
+      "sha256": "3db626ac41f86e5401d4c6ad006c7f3dfaca045c52b381edf9e7251f4af72757",
+      "bytes": 7988,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PROMPT_VERIFICA_REV10.md",
+      "role": "independent_review_handoff",
+      "sha256": "7c1975299f0ec3001887a73f1c0a805b6a0c2fcc17cfb291d1e6245cdbe0c190",
+      "bytes": 4707,
+      "group": "files",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+      "role": "catalog_D1_manifest",
+      "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+      "bytes": 6894,
+      "group": "inputs_read",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "studio2/fase03/selection/PROPOSTA_OOD_D11.md",
+      "role": "non_binding_OOD_D11_proposal",
+      "sha256": "47c84d937bc01d37c84b81c09691bc5c3ad6d0607bcbfcb8621ea1a6be885046",
+      "bytes": 6960,
+      "group": "inputs_read",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "docs/lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+      "role": "criteria_registry_table8_transcription",
+      "sha256": "d58a7606d69a560a626da44833c065ddbf1aa395ae8b2e523262daf8622231c7",
+      "bytes": 11339,
+      "group": "inputs_read",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "docs/lit_review/DECISIONE_calibrazione_soglie_fase_B.md",
+      "role": "FAR_calibration_constraint_03_5",
+      "sha256": "a472d193064615b9a42218844d2cf71bcc7acc06b93cd65f8fa20c1fc0abdfd3",
+      "bytes": 48215,
+      "group": "inputs_read",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "phase_b/evaluation/bootstrap.py",
+      "role": "HC_pattern_read_only",
+      "sha256": "524751fede48e678ee66b9f783be8fdeaefe7bebe32772e5367ba9be9c3d9df5",
+      "bytes": 5636,
+      "group": "inputs_read",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    },
+    {
+      "path": "phase_b/evaluation/metrics.py",
+      "role": "HC_pattern_read_only",
+      "sha256": "9aa8e6d12957c10e3059c95dcb93efa59679e97a7374500aea9e86ad26e9f0cb",
+      "bytes": 8874,
+      "group": "inputs_read",
+      "source_commit": "51782e8c40069c0a2310afafc36907a61d517ff6"
+    }
+  ],
+  "preexisting_statistical_directory_files_unchanged": [
+    "studio2/fase03/piano_statistico/ACQUISIZIONE_LETTERATURA_03_8.json",
+    "studio2/fase03/piano_statistico/ADDENDUM_DECISIONI_RESIDUE_03_8.md",
+    "studio2/fase03/piano_statistico/APPROVAZIONE_ADDENDUM_03_8.md",
+    "studio2/fase03/piano_statistico/BUDGET_RISORSE_03_8.md",
+    "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+    "studio2/fase03/piano_statistico/CONSEGNA_CANDIDATO_ALLINEAMENTI_03_8_REV10.md",
+    "studio2/fase03/piano_statistico/CONSEGNA_REV10.md",
+    "studio2/fase03/piano_statistico/CONSEGNA_TECNICA_03_10_DA_REV10.md",
+    "studio2/fase03/piano_statistico/CONTROLLI_PREPARAZIONE_03_8.json",
+    "studio2/fase03/piano_statistico/CONTROLLI_REV10.json",
+    "studio2/fase03/piano_statistico/COORDINAMENTO_CHIUSURA_03_8.md",
+    "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_DA_SOTTOSCRIVERE.md",
+    "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_DA_SOTTOSCRIVERE_REV10.md",
+    "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_bozza.md",
+    "studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md",
+    "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.json",
+    "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.md",
+    "studio2/fase03/piano_statistico/ISTRUZIONI_FIRMA_MATERIALE_REV10.md",
+    "studio2/fase03/piano_statistico/MANIFEST_ALLINEAMENTI_03_8_REV10.json",
+    "studio2/fase03/piano_statistico/MANIFEST_PREPARAZIONE_CHIUSURA_03_8.json",
+    "studio2/fase03/piano_statistico/MATRICE_RESIDUI_CHIUSURA_03_8_REV10.md",
+    "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+    "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json",
+    "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE_REV9.json",
+    "studio2/fase03/piano_statistico/PROMPT_VERIFICA_ALLINEAMENTI_03_8_REV10.md",
+    "studio2/fase03/piano_statistico/PROMPT_VERIFICA_DELTA_03_8.md",
+    "studio2/fase03/piano_statistico/PROMPT_VERIFICA_REV10.md",
+    "studio2/fase03/piano_statistico/REPORT_ALLINEAMENTI_03_8_REV10.md",
+    "studio2/fase03/piano_statistico/REPORT_PIANO_STATISTICO.md",
+    "studio2/fase03/piano_statistico/REPORT_PREPARAZIONE_CHIUSURA_03_8.md",
+    "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO.md",
+    "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV10.md",
+    "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV8.md",
+    "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV9.md",
+    "studio2/fase03/piano_statistico/check_preparazione_chiusura.py",
+    "studio2/fase03/piano_statistico/design_resolution.py",
+    "studio2/fase03/piano_statistico/sottofase_3_8.md",
+    "studio2/fase03/piano_statistico/test_design_resolution.py"
+  ],
+  "arithmetic": {
+    "nucleus_R1": 1728,
+    "nucleus_R3": 5184,
+    "ablation_R1": 148,
+    "ablation_R3": 444,
+    "primary_runs": 72,
+    "lot_total": 89,
+    "four_measure_blocks_R1": 2244
+  },
+  "no_scientific_tests_rerun": true,
+  "no_inference_simulation_API": true,
+  "executed_at": "2026-09-15T00:09:05.054200+02:00",
+  "guardian_logs": [
+    {
+      "path": "studio2/fase03/piano_statistico/GUARDIANO_PRIMA_CORREZIONI_03_8_REV10.log",
+      "bytes": 2582134,
+      "sha256": "4619c04e4e0311c8b1b27057ee89933500d0b6d4a36b7385bb9ce75716012063"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/GUARDIANO_DOPO_CORREZIONI_03_8_REV10.log",
+      "bytes": 2582134,
+      "sha256": "aee53378f6e23e9545d69cdaaebf6aa6ef075ea6b56db09869e3db9a22f78581"
+    }
+  ],
+  "local_markdown_links": [
+    {
+      "source": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "target": "../lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+      "resolved": "/Users/luker/fot-tep-allineamenti-038-r1-r4/docs/lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md"
+    },
+    {
+      "source": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "target": "../../studio2/fase03/selection/D1_DRAW_LOG.json",
+      "resolved": "/Users/luker/fot-tep-allineamenti-038-r1-r4/studio2/fase03/selection/D1_DRAW_LOG.json"
+    },
+    {
+      "source": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "target": "../../studio2/fase03/selection/CATALOG_FREEZE.json",
+      "resolved": "/Users/luker/fot-tep-allineamenti-038-r1-r4/studio2/fase03/selection/CATALOG_FREEZE.json"
+    },
+    {
+      "source": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "target": "../../studio2/fase03/selection/VERIFICA_CATALOGO_D1.md",
+      "resolved": "/Users/luker/fot-tep-allineamenti-038-r1-r4/studio2/fase03/selection/VERIFICA_CATALOGO_D1.md"
+    },
+    {
+      "source": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "target": "../../studio2/fase03/selection/CATALOG_PUBLICATION.json",
+      "resolved": "/Users/luker/fot-tep-allineamenti-038-r1-r4/studio2/fase03/selection/CATALOG_PUBLICATION.json"
+    },
+    {
+      "source": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "target": "../lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+      "resolved": "/Users/luker/fot-tep-allineamenti-038-r1-r4/docs/lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md"
+    }
+  ],
+  "new_section_references_checked": [
+    "general_plan §0.1, §6.9, §8.3, §8.4, §8.6, §8.7, §8.8, §8.9, §8.12, D2, D9, D11, D12, §11",
+    "statistical_plan §§5,7.2,7.4,8,9,10.2,16"
+  ],
+  "residual_occurrence_inventory": {
+    "old_model": [
+      {
+        "line": 168,
+        "text": "**Rischio storico della proposta originaria, superato quanto ai ruoli.** La proposta assumeva Qwen3.8-2.4T-A95B non ancora accessibile. Le prescrizioni correnti usano producer principale, consumer e alternativo secondo il mandato riportato in §0.1/D9. Restano da qualificare identità completa, parsing, capienza, stabilità e latenza dei servizi effettivi: la scelta dell’autore non sostituisce il capability pilot."
+      },
+      {
+        "line": 215,
+        "text": "| Terra | Qwen-2.4T | da eseguire |"
+      },
+      {
+        "line": 216,
+        "text": "| Qwen-2.4T | Qwen-2.4T | da eseguire |"
+      },
+      {
+        "line": 220,
+        "text": "Con producer Terra fisso e tre consumer, il ponte stimava ragionevolmente l'**effetto del consumer**: tre punti sulla stessa curva, stessi insight in ingresso. Con consumer Qwen-2.4T fisso e due producer, otteneva un confronto descrittivo tra producer su due punti, senza replicazione."
+      },
+      {
+        "line": 1202,
+        "text": "precedenti opzioni Qwen-2.4T entro il 17 settembre, 27B principale con Terra"
+      }
+    ],
+    "old_run_counts": [
+      {
+        "line": 86,
+        "text": "| 36 | **Il carico di simulazione è riconciliato col disegno conformal** (§8.8): 750 run con 6 per fault, 768 con 8, inclusi 150 run di qualifica già completati; il residuo è 600/618. Non consuma chiamate API ma è un secondo percorso critico indipendente da Qwen. | verifica dati |"
+      },
+      {
+        "line": 109,
+        "text": "| 47 | **§8.1 e §8.8 riconciliati:** «5 per lo sviluppo» diventa «40 per lo sviluppo (`normal_dev`)»; la tabella di simulazione passa a **790 run con 6 per fault, 808 con 8** (residuo dopo la Fase 02: 640/658). Lo sbilanciamento 320 finestre Normal contro 40 per fault nell'aggregato va trattato nella ricetta FedAvg (§9.2) **prima** dell'addestramento; la regola di selezione degli esempi locali Normal è fissata prima di osservare i nuovi dati. | autore |"
+      },
+      {
+        "line": 192,
+        "text": "La prima stesura conteneva un'incoerenza interna: §2.5 contava quattro condizioni, §8 tre. Il conteggio corretto del piano originale (A, B, local-first, E come quattro condizioni distinte, R=3, 6 run per fault, 7 riceventi) è:"
+      },
+      {
+        "line": 606,
+        "text": "| Blocco | 6 run (48 cluster) | 8 run (64 cluster) |"
+      },
+      {
+        "line": 611,
+        "text": "| **Nucleo** | **1.296** | **1.728** |"
+      },
+      {
+        "line": 614,
+        "text": "| Ablation B-senza-LF (§8.3) | 132 | 148 |"
+      },
+      {
+        "line": 632,
+        "text": "Con tre fault per ciascuna delle altre tre famiglie e due per slope il costo è **132/176** — anch'esso uno **scenario**, non il costo definitivo finché la mappa famiglia–meccanismo resta aperta. I 144/192 restano"
+      },
+      {
+        "line": 637,
+        "text": "**R n |∪_F S_F|**, cioè con R = 1 al massimo **48 a 6 run e 64 a 8**. Mantenendo l'accantonamento"
+      },
+      {
+        "line": 645,
+        "text": "I tetti storici di **3.000 a 6 run e 3.700 a 8** sono conservati per"
+      },
+      {
+        "line": 655,
+        "text": "| Blocco di simulazione storico, senza le scorte rev.10 | 6 run | 8 run |"
+      },
+      {
+        "line": 662,
+        "text": "| Test — 8 fault × *n* + *n* Normal (§6.9) | 54 | 72 |"
+      },
+      {
+        "line": 1022,
+        "text": "per caso, **FULL riusato da B-LF**: **192** chiamate a 8 run, scenario S=12 a R E5=1; **144 a 6 run è solo confronto storico**, senza una percentuale fissa del ledger completo. Perimetro pieno non adottato, confronto storico 6/8 run: **lordo 3.024 / 4.032**; **aggiuntivo con FULL riusato"
+      },
+      {
+        "line": 1135,
+        "text": "fault, più 8 run Normal primari: **72 primari +6 OOD +11 scorte tecniche =89 run** del lotto. Le scorte sono sostitutive, senza osservazioni aggiuntive, con regole e ordine freeze statistico→03.11 di §6.9. Il confronto a 6 run/48 cluster resta storico."
+      },
+      {
+        "line": 1146,
+        "text": "Tutti e 7. Il costo è lineare, la risoluzione statistica dipende dai 64 cluster fault e non dalle 448 coppie agent-run; 48/336 è soltanto il confronto storico a sei run, e la scomposizione per agente è un'analisi descrittiva gratuita."
+      },
+      {
+        "line": 1180,
+        "text": "Campi, tipi, cardinalità, cap e validatore sono fissati dal contratto R4 al commit `3c64390bc4dd58c48cc4e1e388a38989b32b3143`, tag annotato pubblicato `studio2-fase03-schema-insight-frozen-001`. Fonte di stato: `studio2/fase03/schema_insight/PUBBLICAZIONE_SCHEMA_INSIGHT.md` nella base main `a00605862f627710347bd63c49f79a6d0a00135f`. Il freeze precede la produzione degli insight; restano pin adapter 03.10, conformità dei due producer e capienza dei prompt reali. Il tag R4 non qualifica il servizio 122B o 27B e non approva l’ordine label."
+      },
+      {
+        "line": 1448,
+        "text": "2. **Spazio di etichette realmente disgiunto, con misura sulla classe mai vista localmente.** P041 e P030 partizionano con Dirichlet uno spazio di etichette **condiviso**: nessun client deve mai produrre una classe che non conosce. P042 ha toolset disgiunti ma non separa mai le prestazioni sui tool posseduti da quelle sui tool noti solo attraverso il compendio altrui. P031 assegna task diversi ai client ma riporta solo la media fra task, senza scomposizione per client. ⚠️ **P065 è il caso più vicino e va nominato** *(revisione 4)*: riporta un pavimento Local-Only — 0,46 su GSM8k, 0,191 su τ-bench retail — contro il federato, e attribuisce il divario al fatto che «∼54% of queries require scenarios unseen locally». È però un'accuratezza **globale** più una percentuale di copertura, non un'accuratezza stratificata su quel sottoinsieme, e non esiste uno spazio di etichette chiuso in cui la risposta corretta sia una classe mai osservata localmente. **La formulazione difendibile è quindi: nessuno dei sei misura l'accuratezza per-classe su una classe che il client non ha mai osservato, dentro uno spazio di etichette chiuso e disgiunto.** «Nessuno pubblica un numero» è troppo forte e cade su P065."
+      }
+    ],
+    "freeze_order": [
+      {
+        "line": 98,
+        "text": "| 43 | **E5-C2 fissata in via provvisoria: scarto relativo ≤ 5% per caso** sul prompt completo, tokenizer del modello usato, zero differenze di troncamento; una sola violazione declassa il contrasto della famiglia. Soglia operativa, non statistica. Richiede una **verifica di fattibilità sui dati di sviluppo prima del freeze**, perché la regola è a scatto singolo e non rimediabile dopo. | autore |"
+      },
+      {
+        "line": 351,
+        "text": "**8 run per ciascuno degli 8 fault e 8 Normal: 72 primari (64+8), più 6 OOD e 11 scorte tecniche = 89 run del lotto**, per i due OOD selezionati. Le undici scorte sono una per ciascun fault D1, una Normal e una per ciascuno dei due OOD; identificativi sigillati e stream separati. Sostituiscono soltanto run tecnicamente non validi secondo criteri pre-specificati, prima di qualsiasi chiamata al modello su quel run; non aggiungono osservazioni o cluster. Nessuna sostituzione dopo la prima chiamata e nessuna scelta su prestazioni. I sostituti di fault OOD sono distinti dalle scorte di run e richiedono le proprie verifiche (§8.6). Sequenza: **freeze statistico 03.8 → generazione e controlli tecnici 03.11 → chiamate sui test dopo gli altri GO** (piano rev.10 §§7.4 e 16, B approvata). Nessuna generazione anticipata del lotto di test: prima si fissano criteri, candidati e catene. L'ispezione tecnica è tracciata e non orienta il disegno."
+      },
+      {
+        "line": 525,
+        "text": "**Stato corrente OOD (piano rev.10 §§8 e 16).** D1 è pubblicata e congelata; **F6/F4 sono confermati condizionatamente**, con condizione bibliografica numerica soddisfatta. Catene preservate: **F6→F5→F12** e **F4→F11→F5**. Il freeze statistico fissa candidati, criteri e catene prima dei run; la 03.11 verifica dopo il freeze generabilità, trip nella finestra prescritta e ammissibilità, prima delle chiamate sui test. Ogni sostituto richiede proprie verifiche di rilevabilità e ammissibilità; i due OOD devono restare distinti. Convergenza su F5 o caso non risolto impongono sospensione e decisione esplicita dell’autore, senza promozione automatica né selezione su prestazioni. Non si attende una nuova D1 e non si richiede 03.11 prima del freeze 03.8."
+      },
+      {
+        "line": 774,
+        "text": "verifica del decoding va fatta prima del freeze."
+      },
+      {
+        "line": 788,
+        "text": "bersaglio** più **un fault di controllo fuori meccanismo**, fissati prima del freeze e riportati nella"
+      },
+      {
+        "line": 803,
+        "text": "documentato e congelato**. Le mappe donatore–ricevente sono costruite e congelate **prima del freeze,"
+      },
+      {
+        "line": 958,
+        "text": "  Restano da fissare prima del freeze: **mappa famiglia–meccanismo**; **regola di aggregazione** (per"
+      },
+      {
+        "line": 984,
+        "text": "⚠️ **Verifica di fattibilità, da fare prima del freeze e non dopo.** La regola è a scatto singolo: un"
+      },
+      {
+        "line": 998,
+        "text": "proteggere. Ogni revisione va **registrata qui con la sua misura e la sua data, prima del freeze**;"
+      },
+      {
+        "line": 1029,
+        "text": "**Ordine di generazione e congelamento.** I run fisici 03.11 si generano **dopo il freeze statistico 03.8** e restano sigillati: nessuna ispezione di segnali, feature o risultati del test per decisioni progettuali. I controlli tecnici pre-specificati sono tracciati prima delle chiamate. Sui soli identificativi si costruiscono e congelano mappe donatore–ricevente e assegnazioni prima del freeze E5; dopo quel freeze si applicano le mappe all’evidenza e si producono omissioni e prompt. Il freeze E5 non autorizza generazione prima del freeze statistico (B approvata)."
+      },
+      {
+        "line": 1282,
+        "text": "**Stato delle precedenze.** D1 è già pubblicata e S12/D11 confermata; la scelta condizionata S13 è fissata. Per S13 restano i controlli tecnici 03.11 **dopo il freeze statistico** e prima delle chiamate, con verifiche proprie dei sostituti. Non si attende una nuova selezione di catalogo e non si crea il ciclo 03.8→03.11→03.8. S17/D12 è pubblicata: adapter, conformità e librerie future restano verifiche distinte."
+      },
+      {
+        "line": 1472,
+        "text": "I 12+24 run dell'esplorativo restano risultati dell'esplorativo. I nuovi dati di sviluppo servono per soglie e insight. I run di test devono essere nuovi e generati soltanto dopo il freeze statistico 03.8, con il disegno fissato prima dei run e controlli tecnici 03.11 prima delle chiamate."
+      }
+    ],
+    "legacy_terra": [
+      {
+        "line": 20,
+        "text": "swap. Terra resta soltanto riferimento storico descrittivo interno, separato"
+      },
+      {
+        "line": 149,
+        "text": "Il piano originale era ambizioso e affrontava con serietà le debolezze più gravi dello studio esplorativo Terra: scala ridotta (G2), unico producer (G5), degradazione dei local-seen (C06) e dipendenza delle conclusioni da un solo modello. La struttura a tre blocchi — esplorativo, ponte, finale — era logicamente corretta ma sovradimensionata: decine di condizioni, oltre cinquemila chiamate e un modello non ancora disponibile, con deadline al 30 settembre."
+      },
+      {
+        "line": 213,
+        "text": "| Terra | Terra | già eseguito |"
+      },
+      {
+        "line": 214,
+        "text": "| Terra | Qwen-27B | già eseguito |"
+      },
+      {
+        "line": 215,
+        "text": "| Terra | Qwen-2.4T | da eseguire |"
+      },
+      {
+        "line": 220,
+        "text": "Con producer Terra fisso e tre consumer, il ponte stimava ragionevolmente l'**effetto del consumer**: tre punti sulla stessa curva, stessi insight in ingresso. Con consumer Qwen-2.4T fisso e due producer, otteneva un confronto descrittivo tra producer su due punti, senza replicazione."
+      },
+      {
+        "line": 246,
+        "text": "**Q4 è eliminato come studio formale.** Q8 da solo è lo studio completo. I 4 fault di continuità permettono soltanto un confronto storico descrittivo interno con Terra, separato dalle nuove stime."
+      },
+      {
+        "line": 258,
+        "text": "| **G5** | Unico producer | **Mitiga — identificabile** | *Corretto rispetto alla revisione 1, che dichiarava \"Risolve\".* Il mandato assegna producer principale e consumer al 122B e producer alternativo al 27B; Terra resta storico interno separato dalle nuove stime. Il braccio producer-swap (§8.4) rende però l'effetto del producer **misurabile su dati vergini**, con libreria di insight completa dal producer alternativo. G5 passa da non verificata a stimata, non a risolta. Va inoltre notato che producer = consumer introduce un confondente nuovo (possibile vantaggio del modello nel leggere il proprio fraseggio): il producer-swap è anche il controllo di quel confondente. |"
+      },
+      {
+        "line": 360,
+        "text": "Related work, metodo, verbalizzatore e threats to validity restano sezioni indipendenti dalla qualificazione dei servizi. Terra è solo riferimento storico descrittivo interno: nessuna versione Terra-only costituisce un’alternativa operativa approvata dal mandato corrente e nessun esito storico entra nelle nuove stime. Riuso e descrizione nel paper seguono MAINTENANCE §8.2."
+      },
+      {
+        "line": 421,
+        "text": "**Record storico interno, non fonte del disegno corrente né un braccio Terra dello studio 2.** `B_LOCAL_FIRST_V1` non è una variante da testare: è già congelata e già eseguita sull'intera replica dell'esplorativo. §10.3 del walkthrough riporta 23/24 sui local-seen contro 19/24 di B originale, a **parità esatta** di local-unseen (68/72 in entrambi) e Normal (24/24), con zero errori di parsing e soglie fissate prima dell'esecuzione."
+      },
+      {
+        "line": 457,
+        "text": "Producer principale, consumer e alternativo sono ruoli. Il mandato dell’autore assegna **122B a principale e consumer, 27B ad alternativo**: lo swap usa tutti i **16 insight** alternativi e mantiene **122B consumer fisso**. Non si sommano due volte richieste coincidenti. Acquisizione del registro D9 e qualificazione delle identità/configurazioni restano separate e pendenti; Terra non è un producer o consumer dello studio 2."
+      },
+      {
+        "line": 723,
+        "text": "1. **Perimetro del paper:** il disegno dello studio 2 viene descritto dalle sue fonti correnti. Terra resta riferimento storico descrittivo interno, separato dalle nuove stime; nessuna motivazione del disegno attribuita al primo studio. Riuso documentato internamente e descritto secondo MAINTENANCE §8.2."
+      },
+      {
+        "line": 728,
+        "text": "6. **Terra:** solo riferimento storico descrittivo interno, fuori dalle nuove stime e dai bracci dello studio 2; gli esiti storici restano conservati nei rispettivi artefatti."
+      },
+      {
+        "line": 1190,
+        "text": "**122B consumer fisso** nel producer-swap. Terra soltanto riferimento storico"
+      },
+      {
+        "line": 1199,
+        "text": "nessuno scambio automatico dei ruoli o fallback Terra."
+      },
+      {
+        "line": 1202,
+        "text": "precedenti opzioni Qwen-2.4T entro il 17 settembre, 27B principale con Terra"
+      },
+      {
+        "line": 1203,
+        "text": "alternativo, oppure Terra-only/conferenza successiva restano recuperabili nel"
+      }
+    ]
+  },
+  "obsolete_operational_phrases_absent": true,
+  "residual_inventory_interpretation": "Manual inspection: obsolete assignments/counts retained only as explicit history/comparisons; matches also include current 6-run OOD statements and hexadecimal identifiers, not obsolete D2. E5 freeze-before requirements concern development/maps on identifiers, not permission to generate tests before statistical freeze.",
+  "unchanged_historical_reviews": true,
+  "git_diff_check": {
+    "scope": "full new delta, after normalizing three trailing spaces per guardian log",
+    "exit_code": 0,
+    "output": ""
+  },
+  "method": "Python standard library byte comparison to git show exact commits, SHA-256 and sizes; raw guardian stdout+stderr; regex inventory and local link resolution; independent review pending.",
+  "guardian_log_serialization": {
+    "format": "stdout+stderr, with three unittest trailing spaces removed per log; no other change",
+    "raw_stdout_stderr": [
+      {
+        "path": "studio2/fase03/piano_statistico/GUARDIANO_PRIMA_CORREZIONI_03_8_REV10.log",
+        "bytes": 2582137,
+        "sha256": "988bd10990492076fcfc85c5e9d37b2fcd16c3ea099a4d7f0ab71bac3f2d0bae",
+        "removed_one_trailing_space_at_lines": [
+          34,
+          41,
+          52
+        ]
+      },
+      {
+        "path": "studio2/fase03/piano_statistico/GUARDIANO_DOPO_CORREZIONI_03_8_REV10.log",
+        "bytes": 2582137,
+        "sha256": "47857d3eaf37d3df90b02ce1fc2c4d0a35bee3ff591e77444f00681ab444bf43",
+        "removed_one_trailing_space_at_lines": [
+          34,
+          41,
+          52
+        ]
+      }
+    ]
+  }
+}

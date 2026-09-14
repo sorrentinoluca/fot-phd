@@ -12,7 +12,14 @@ formulazioni storiche della proposta: 03.5 e 03.9 sono chiuse; 03.12 R4 è
 pubblicata e congelata. Il piano statistico rev.10 al candidato
 `6aaa5b3eebfed4ba502c25c0443caabd0051af21` ha verifica indipendente OK, ma
 03.8 resta aperta per firma materiale, verifica di questo delta, documentazione,
-pubblicazione e freeze. D9 resta affidata alla finestra parallela.
+pubblicazione e freeze. Il delta respinto `4503cb6` è seguito dalle correzioni
+R1–R4, ancora da verificare indipendentemente. Dal mandato dell’autore:
+**122B producer principale e consumer; 27B producer alternativo con tutti i
+16 insight; consumer 122B fisso nello swap; Terra solo storico descrittivo
+interno separato dalle nuove stime**. Il registro D9 è in acquisizione nella
+finestra proprietaria; non sono importati suoi file non committati. Decisione,
+acquisizione e qualifica tecnica restano distinte: nessuna firma 03.8,
+approvazione dell’ordine label o qualificazione dei servizi discende dal mandato.
 
 **Decisioni confermate dall'autore il 2026-09-13.** Il perimetro della Fase 03 è l'opzione A:
 cantieri §6.1–§6.12 più §7.1 fino al GO/NO-GO. La sotto-fase 03.4 ha inoltre chiuso il blocco sul
@@ -63,12 +70,12 @@ cosa non può slittare.
 | 03.7 | **§6.5 Nove pseudolabel opache (8 fault + Normal; `Unknown` = astensione, D10) e derangement zero-fixed-point di E** | I (combinatorio) con freeze | modello capace, ragionamento medio; basta un test che dimostri assenza di punti fissi e opacità; la sola scelta da congelare (seed, namespace) è mini-decisionale | 03.4, catalogo D1 | P | sì: freeze con seed → report breve + verifica |
 | 03.8 | **APERTA.** Rev.10 verificata: D2=8; D11={F1,F2}/{F14,F15}; F6/F4 condizionati; m=0,125, alpha, gerarchia, A/B e politica R approvati. Restano firma materiale, verifica del delta normativo, documentazione, pubblicazione e tag | D | allineamento e chiusura documentale; nessuna esecuzione | 03.2; letteratura già pubblicata; 03.9 e 03.12 congelate | —; regole per il pilot consegnate a 03.10 | freeze solo dopo i residui espliciti |
 | 03.9 | **CHIUSA, pubblicata e congelata.** Baseline numerica con tag `studio2-fase03-baseline-numerica-frozen-001` | I | verifiche e record di efficacia pubblicati | 03.4, 03.6 | — | completato nel proprio perimetro |
-| 03.10 | **§6.8 Harness API**: 8 agenti, 14 insight, 9 pseudolabel con astensione, logging §8.7, set canary; già in gran parte in `studio2/fase03/` (`protocol.py`, `run_pilot.py`, `prepare_gate.py`, 16 test offline) — resta da collegare agli input reali e alla regola 03.4 | I (+ B minimo) | modello capace, ragionamento medio, test offline eseguiti; le poche chiamate di prova su Qwen-27B surrogato vanno contate e autorizzate a parte | 03.4, 03.6, 03.7, 03.12 | P | report di sotto-fase; verifica sul gate 40×3 (03.13) |
+| 03.10 | **§6.8 Harness API**: 8 agenti, 14 insight, 9 pseudolabel con astensione, logging §8.7, set canary; già in gran parte in `studio2/fase03/` (`protocol.py`, `run_pilot.py`, `prepare_gate.py`, 16 test offline) — resta da collegare agli input reali e alla regola 03.4 | I (+ B minimo) | modello capace, ragionamento medio, test offline eseguiti; le eventuali chiamate sui ruoli effettivi vanno contate e autorizzate a parte, dopo configurazione e qualificazioni pertinenti | 03.4, 03.6, 03.7, 03.12 | P | report di sotto-fase; verifica sul gate 40×3 (03.13) |
 | 03.11 | **§6.9 Run finali di test**: 72 primari (64 fault +8 Normal) +6 OOD +11 scorte tecniche =89 run del lotto; scorte senza nuove osservazioni. Dopo il freeze 03.8 e prima di chiamate sui test: generabilità, trip e ammissibilità F6/F4 e sostituti, senza selezione su prestazioni | B (spec I breve) | esecuzione non autorizzata qui | 03.8 congelata per criteri/catene; 03.3 | — | lotto sigillato futuro; nessun risultato 03.11 è prerequisito del tag 03.8 |
 | 03.12 | **CHIUSA, R4 pubblicata e congelata.** Contratto schema insight taggato `studio2-fase03-schema-insight-frozen-001`; il pin nell'adapter resta 03.10 | D + I | ciclo R4 e pubblicazione completati | 03.2 | P | completato nel proprio perimetro |
 | 03.13 | **Capability pilot, modello/i determinati da D9** — input/schema congelati → conformità (8 richieste/16 insight) → eventuale unica remediation autorizzata sul diff → prompt/capienza offline → sonda 3–9 → freeze configurazione → unico gate 40×3 → T3/T4/T6/T11 e latenza → T5 e altri bloccanti → GO/NO-GO | I → B → A → D | nessuna chiamata autorizzata da questo aggiornamento | 03.6, 03.7, 03.10, 03.12; D9 | P | massimi 152/160 con riserva inclusa; hard stop 200 |
 | 03.14 | **§6.11 Baseline FedAvg** + pavimento locale e soffitto centralizzato (§9.3), specifica congelata prima di guardare il test | I (spec D breve) | specifica §9.2: capace, esteso; implementazione e run: capace, medio, test eseguiti; l'addestramento è CPU/GPU locale, non chiamate | 03.6 (evidence), 03.11 solo per l'esecuzione finale | — | sì: specifica congelata → report + verifica |
-| 03.15 | **§6.12 Sezioni del paper indipendenti dal modello**: related work, metodo, verbalizzatore, threats to validity (≈60% del testo, comuni a Q8 e Terra-only) | D (redazione) | modello capace, ragionamento esteso; `letteratura.md` come unica fonte bibliografica | 03.2, 03.3, 03.12; `letteratura.md` | — | report di sotto-fase; verifica documentale |
+| 03.15 | **§6.12 Sezioni del paper indipendenti dal modello**: related work, metodo, verbalizzatore, threats to validity (comuni e indipendenti dalla qualificazione dei servizi; Terra resta storico interno) | D (redazione) | modello capace, ragionamento esteso; `letteratura.md` come unica fonte bibliografica | 03.2, 03.3, 03.12; `letteratura.md` | — | report di sotto-fase; verifica documentale |
 
 Due record storici che non costituiscono una scelta D9 corrente:
 
@@ -79,8 +86,9 @@ Due record storici che non costituiscono una scelta D9 corrente:
    su di esso come 03.13b, con endpoint e fingerprint propri. Il GO/NO-GO vale solo per la
    combinazione effettivamente verificata (PREFLIGHT, «Perimetro dell'eventuale GO»).
 2. **Producer alternativo.** La nota storica associava Terra a una sola opzione.
-   Producer, consumer e alternativo non sono scelti qui: le 8 richieste di
-   conformità dell'alternativo restano differite finché D9 non lo configura.
+   Il mandato corrente assegna i ruoli come sopra; le 8 richieste di
+   conformità dell’alternativo restano differite fino alla configurazione
+   effettiva e ai prerequisiti, senza assegnare Terra allo studio 2.
 
 ## 4. Solo per l'opzione B non adottata (Fasi 04–07 nell'opzione A)
 
