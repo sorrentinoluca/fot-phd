@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "scope": "normal_dev Variable Time Delay warnings",
+  "inspection_kind": "static_model_and_log_inspection_no_simulation",
+  "model": {
+    "path": "studio2/fase02/simulator/matlab/MultiLoop_mode1.mdl",
+    "sha256": "c58826748edd306b723da2f0199a0fb2dc193a51dc5c28dbde8ac821e39dfafd",
+    "freeze_match": true,
+    "block_path": "MultiLoop_mode1/Variable Time Delay",
+    "block_type": "VariableTransportDelay",
+    "variable_delay_type": "Variable time delay",
+    "maximum_delay": "20",
+    "initial_buffer_points": 1024,
+    "fixed_buffer": false,
+    "simulation_mode": "normal",
+    "solver_type": "Variable-step",
+    "solver": "ode45"
+  },
+  "generator": {
+    "qualified_path": "studio2/fase02/simulator/matlab/generate_normal_runs.m",
+    "qualified_sha256": "923d657608f5bbf30869c8cdf2772dd5cacd2a98b4ef62dc85540dc812eda837",
+    "qualified_commit": "dec201092b6404c7a2d83cdcfa5ed13cc03f7775",
+    "wrapper_path": "studio2/fase03/baseline_numerica/generate_normal_dev_runs.m",
+    "wrapper_sha256": "ec169e76b05694d3ea038fd3eedcc2f92b28f56ac18c2cf383d85d37911b47ee",
+    "overrides": {
+      "solver": "ode45",
+      "stop_function": "disabled for the run",
+      "stop_time": "65 h from the plan",
+      "simulation_mode": "no override; normal mode inherited from the model",
+      "delay_block": "no override"
+    },
+    "code_generation_invoked": false
+  },
+  "successful_log": {
+    "path": "studio2/fase03/baseline_numerica/runtime/normal_dev_001/matlab.log",
+    "sha256": "983d4f3e54395078820df7b44d094823e99f2f856c47bb5d8a87df0ade2fb31d",
+    "variable_time_delay_warnings": 40,
+    "temporary_buffer_sizes_points": [63488, 64512],
+    "directory_access_warnings": 1,
+    "java_x11_warnings": 2,
+    "errors": 0,
+    "approximation_or_clipping_messages": 0,
+    "generated_40_runs_marker": 1
+  },
+  "mathworks_documentation": [
+    {
+      "url": "https://www.mathworks.com/help/simulink/slref/variabletransportdelay.html",
+      "supports": "the block stores time/input pairs; with FixedBuffer off it allocates additional memory when the initial buffer is insufficient; fixed-buffer operation can use linear extrapolation when history is overwritten; ERT/GRT code generation uses a fixed-size buffer"
+    },
+    {
+      "url": "https://www.mathworks.com/help/simulink/slref/variabletimedelay.html",
+      "supports": "Variable Time Delay and Variable Transport Delay are the same Simulink block with different VariableDelayType settings"
+    }
+  ],
+  "conclusion": {
+    "status": "ACCEPTABLE_FOR_THIS_NORMAL_MODE_SIMULATION_LOT",
+    "reason": "the observed warning records dynamic growth of a non-fixed runtime buffer; the log contains no buffer-overwrite, extrapolation, clipping, approximation, trip, or simulation error signal",
+    "limits": [
+      "this is not acceptance for ERT/GRT or embedded code generation",
+      "the inspection does not prove scientific validity beyond the audited model, generator, mode, and hashes",
+      "ordinary interpolation is intrinsic to the documented continuous delay block and is not a warning-induced approximation",
+      "no replay was run because the static evidence is sufficient for the scoped conclusion"
+    ]
+  }
+}

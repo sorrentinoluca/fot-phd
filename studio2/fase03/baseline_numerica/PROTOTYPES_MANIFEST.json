@@ -1,0 +1,20 @@
+{
+  "agent_assignment_sha256": "df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf",
+  "baseline_code_sha256": "b1fe2a83b29b25760dd32df00a2178c5235f714273a194feb6cfe8a12ac74f22",
+  "baseline_specification_sha256": "510b119ca54ac05225a7302dcf1b685cb4a778673a0f18d5a9a0e736078a6143",
+  "dimensions": 697,
+  "fault_evidence_manifest_sha256": "5111d0c61c2e93fe5071d7a85015673549af0bf9c1dc74e0d940719a8400e020",
+  "fault_signatures_per_class": [
+    40
+  ],
+  "normal_evidence_manifest_sha256": "cc8d96c2c60169afc99cb811cea194aa553afcc7cc51cad4a0092d44de38fdc1",
+  "normal_signatures_global": 320,
+  "normal_signatures_per_agent": [
+    40
+  ],
+  "prototypes_sha256": "6d0b754065eb8a69d0657638deeef0756de0ec8e93a905c55aea18fadace2cb2",
+  "pseudolabel_map_sha256": "b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6",
+  "r2_dependency": "required; regenerate Normal evidence if R2 fails",
+  "schema_version": 1,
+  "status": "PROTOTYPES_BUILT_NOT_INDEPENDENTLY_VERIFIED"
+}
