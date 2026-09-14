@@ -48,10 +48,11 @@ simulatore e non è servito un replay per questa conclusione circoscritta.
 
 ## 3. Evidence Normal e baseline
 
-`extract_normal_evidence.py` verifica prima dell'uso gli hash dell'estrattore e del controllo
-leakage della 03.6. La destinazione riuscita `evidence/normal_dev_002` è nuova: due tentativi
-parziali, falliti per risoluzione dei path/import, sono stati rimossi senza alterare input o
-risultati. L'output riuscito comprende 320 evidence da 697 componenti e un indice evaluator-side;
+`extract_normal_evidence.py` verifica prima dell'uso gli hash di `extract_evidence.py` e
+`leakage.py` della 03.6. La destinazione riuscita `evidence/normal_dev_002` è nuova. Note di
+sessione menzionano due tentativi parziali rimossi, ma non ne resta un log primario: questa storia
+non è verificabile e non è usata per sostenere l'esito. L'output riuscito comprende 320 evidence da
+697 componenti e un indice evaluator-side;
 gli otto esempi locali sono `NDEV-EVD-0001`, `0041`, `0081`, `0121`, `0161`, `0201`, `0241` e
 `0281`, sempre run locale 1 e finestra `[25,30)`.
 
