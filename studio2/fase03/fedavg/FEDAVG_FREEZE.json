@@ -2,12 +2,12 @@
   "schema_version": 1,
   "date": "2026-09-14",
   "scope": "phase03_subphase_03_14_fedavg_local_floor_and_centralized_ceiling",
-  "status": "frozen_spec_and_code_pending_normal_dev_and_independent_verification",
+  "status": "frozen_spec_and_code_pending_normal_dev_and_independent_reverification",
   "effective": false,
   "work_branch": "codex/studio2-fedavg",
   "base_commit": "46c0b623f55154684f326a8523521fb28991fb09",
   "specification_commit": "deed792ba467826018a20907144e5577fbfbd85c",
-  "implementation_commit": "ab6ee5c57b17acec009fad8942d6d2b7b10bece2",
+  "implementation_commit": "e5d5a51c87d54561750e5217215d6ed19dcd7cb7",
   "real_training_performed": false,
   "test_data_accessed": false,
   "recipe": {
@@ -53,19 +53,34 @@
   },
   "files": [
     {"path": "studio2/fase03/fedavg/SPECIFICA_FEDAVG.md", "sha256": "62509115b60776c46ea803f131f2ea1a4aba5fe9fbc93b72f55975bfdff4f1e2"},
-    {"path": "studio2/fase03/fedavg/fedavg.py", "sha256": "96885a030627baf2eebe1537d7d358ca32f217ea8e3f0bc2c2877ced00ebf112"},
+    {"path": "studio2/fase03/fedavg/fedavg.py", "sha256": "57b580ec41f3b9f9591ae35cd34d1d68d2b29051b6e5b806d8b902325babed92"},
     {"path": "studio2/fase03/fedavg/requirements.txt", "sha256": "7bd6b8946940b79948c548c8048e545684b91c8edc9444d8dfc0c8f76a97c0a7"},
     {"path": "studio2/fase03/fedavg/smoke_fedavg.py", "sha256": "6d601bd869b185f61d808921b72208bf5b4320e5c43f76dc9a9cd56884a615e6"},
-    {"path": "studio2/fase03/fedavg/test_fedavg.py", "sha256": "1d4ee6bee686a82c6df6457ba20f92d09c3c7be4071628def7dda1c708f3b264"},
+    {"path": "studio2/fase03/fedavg/test_fedavg.py", "sha256": "ef25d3f56512971b75e0a1513c01e8bd49ff8943a4c2ea7efa21abf5ef4755f3"},
     {"path": "studio2/fase03/fedavg/smoke_fixture/cluster_metrics.csv", "sha256": "1840ca6c5023d037f6797737f02f6ae425ef1756ffd3577597e219d716c37f1d"},
     {"path": "studio2/fase03/fedavg/smoke_fixture/weight_hashes.json", "sha256": "7927b73afeb044f981b49627e9173c01d3228a9a633bd59231502a01019be2e5"},
     {"path": "studio2/fase03/fedavg/smoke_fixture/SMOKE_SUMMARY.json", "sha256": "fcda9d12b3454bfc19cd56b252055e101a89862de07604718922fd052ab1b044"}
   ],
   "verification": {
-    "unit_tests": {"status": "PASS", "tests": 8, "numpy_version": "2.3.5"},
+    "unit_tests": {"status": "PASS", "tests": 11, "numpy_version": "2.3.5"},
     "fault_bundle_loader": {"status": "PASS", "signatures": 320, "clusters": 40},
     "fixture_smoke": {"status": "PASS", "byte_identical_repeat": true},
-    "independent_review": "pending"
+    "independent_review": "pending_reverification_after_remediation",
+    "review_history": [
+      {
+        "commit": "b39b723e059ba195240afad2c0b553d537f93298",
+        "verdict": "NON_OK",
+        "findings": [
+          "R1: physical run could cross training and validation folds",
+          "R2: symlinks could bypass loader path guards"
+        ]
+      }
+    ],
+    "remediation": {
+      "commit": "e5d5a51c87d54561750e5217215d6ed19dcd7cb7",
+      "R1": "Dataset enforces run-to-batch uniqueness and split checks zero run-id overlap",
+      "R2": "manifest, evaluator index and signatures must be regular non-symlink files resolving inside the bundle before first open"
+    }
   },
   "becomes_effective_when": [
     "normal_dev 03.9 is published with manifest and hashes",

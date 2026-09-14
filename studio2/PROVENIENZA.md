@@ -504,4 +504,7 @@ La dipendenza indiretta U3 delle firme 03.6 resta quella registrata dalla loro s
 baseline N1–N5 esclusivamente per normalizzazione/flag del verbalizzatore, valida solo finché passa
 la guardia R2. La baseline FedAvg non usa N1–N5 come osservazioni Normal. Il file
 `fase03/fedavg/FEDAVG_FREEZE.json` registra ricetta, impronte e stato
-`frozen_spec_and_code_pending_normal_dev_and_independent_verification`.
+`frozen_spec_and_code_pending_normal_dev_and_independent_reverification`. La prima verifica
+indipendente sul commit `b39b723` ha dato NON OK per due guardie mancanti, entrambe corrette nel
+commit `e5d5a51`: unicità run→batch/disgiunzione dei fold e rifiuto dei symlink con confinamento
+dei tre tipi di input nel bundle. Ricetta, fonti e ruoli dei dati non sono cambiati.

@@ -17,16 +17,19 @@ cluster col ricevente `shared` per FedAvg e centralizzato.
 
 Il codice NumPy verifica SHA-256 dei due manifest, SHA-256 di ogni firma, dimensionalità 697,
 finitudine, join uno-a-uno con l’indice evaluator-side e percorsi relativi sicuri. Una guardia
-fail-closed rifiuta directory con componenti riservate a test o held-out. Il digest dei pesi usa
-ordine, dtype e byte canonici.
+fail-closed rifiuta directory con componenti riservate a test o held-out, symlink per manifest,
+indice o firme e ogni risoluzione fuori dalla radice del bundle. Ogni `run_id` deve appartenere a
+un solo batch; lo split verifica inoltre che l’intersezione dei run fra training e validazione sia
+vuota. Il digest dei pesi usa ordine, dtype e byte canonici.
 
 Il loader è stato inoltre esercitato in sola lettura sull’intero bundle fault 03.6: 320/320 firme
 verificate, forma `(320, 697)`, 40 cluster e gli otto client attesi. Non è seguito alcun training
 reale, perché senza `normal_dev` ciascun client non avrebbe entrambe le classi prespecificate.
 
-Otto test sintetici passano con `numpy==2.3.5`: apprendimento della fixture separabile, caso nullo
-inferiore, determinismo, aggregazione pesata, maschera delle sette classi assenti, tre metriche,
-verifica delle impronte e guardia contro i dati di test.
+Undici test sintetici passano con `numpy==2.3.5`: apprendimento della fixture separabile, caso
+nullo inferiore, determinismo, aggregazione pesata, maschera delle sette classi assenti, tre
+metriche, verifica delle impronte, guardia contro i dati di test, run non attraversabili fra fold
+e regressioni sui symlink di manifest, indice e directory delle firme.
 
 Lo smoke leave-one-batch-out con la ricetta congelata è stato eseguito soltanto sulla fixture,
 perché `normal_dev` non è ancora pubblicato. Esito tecnico: 128 campioni di training, 32 di
@@ -35,6 +38,14 @@ astensione 0. Una seconda esecuzione ha prodotto tre file byte-identici. Questi 
 solo che il codice apprende un caso costruito e riproducibile: non stimano la prestazione sul TEP
 e non sono confrontati col braccio LLM.
 
+### Correzione dopo la prima verifica indipendente
+
+La verifica del commit `b39b723` ha dato **NON OK** su due fixture avversarie: un `run_id` poteva
+comparire in batch diversi e un symlink poteva aggirare il confinamento dei percorsi. Il commit
+`e5d5a51` chiude entrambi i rilievi senza cambiare ricetta o artefatti dello smoke. Il loader reale
+resta 320×697/40 cluster e i tre output dello smoke restano byte-identici. Il freeze rimane non
+efficace e richiede una nuova verifica indipendente.
+
 ## 2. File toccati
 
 - `studio2/fase03/fedavg/SPECIFICA_FEDAVG.md` — ricetta pre-addestramento, tre modalità, fold e dipendenze.
@@ -42,7 +53,7 @@ e non sono confrontati col braccio LLM.
 - `studio2/fase03/fedavg/requirements.txt` — pin `numpy==2.3.5`.
 - `studio2/fase03/fedavg/fedavg.py` — loader verificato, MLP, training, aggregazione, valutazione e hash.
 - `studio2/fase03/fedavg/smoke_fedavg.py` — smoke LOBO su fixture o, quando disponibili, sui due bundle reali verificati.
-- `studio2/fase03/fedavg/test_fedavg.py` — otto test unitari e end-to-end.
+- `studio2/fase03/fedavg/test_fedavg.py` — undici test unitari, avversari ed end-to-end.
 - `studio2/fase03/fedavg/smoke_fixture/cluster_metrics.csv` — tre metriche per cluster dello smoke sintetico.
 - `studio2/fase03/fedavg/smoke_fixture/weight_hashes.json` — digest canonici dei modelli dello smoke.
 - `studio2/fase03/fedavg/smoke_fixture/SMOKE_SUMMARY.json` — esito machine-readable dello smoke.
@@ -88,9 +99,10 @@ Commit già creati:
 
 - `deed792` — `studio2(fedavg): congela la ricetta minimale`;
 - `ab6ee5c` — `studio2(fedavg): implementa le tre modalita e i test`.
+- `e5d5a51` — `studio2(fedavg): chiude guardie fold e symlink`.
 
-Decisione: committare smoke, freeze, provenienza e report con
-`studio2(fedavg): registra smoke e freeze pending`.
+Decisione: registrare l’aggiornamento di freeze e report con
+`studio2(fedavg): registra remediation del NON OK` e sottoporre il nuovo HEAD a riverifica.
 
 ## Fonti lette e costo
 
