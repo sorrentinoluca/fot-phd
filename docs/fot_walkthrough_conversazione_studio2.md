@@ -1410,9 +1410,10 @@ Sono tre riferimenti distinti: nessun verdetto è esteso a un futuro raccordo o 
 pubblicato.
 
 Il pacchetto `d35b684` è stato raccordato localmente sulla base comune esatta
-`e82b5a08bf642ad45f77e71832958207beb1181c`. Questa operazione rende storia, fonti, bozze e
-verbali raggiungibili da un candidato locale, ma non li integra in `main`, non li pubblica e non
-chiude né 03.15 né la Fase 03.
+`e82b5a08bf642ad45f77e71832958207beb1181c`. Nell'ascendenza del candidato locale sono
+raggiungibili storia, bozze, verbali e **44 delle 54 fonti** registrate; delle restanti, **8**
+rimangono su commit esterni non antenati e **2** sono fonti locali senza commit. Il raccordo non
+integra il pacchetto in `main`, non lo pubblica e non chiude né 03.15 né la Fase 03.
 
 #### Dettaglio
 
@@ -1450,10 +1451,11 @@ documenta la copia byte-identica. Il [verbale storico](../studio2/fase03/paper_s
 su `cf79e81` resta separato, 13.949 byte e SHA-256
 `8faca80c87071d87bf66d97848c290a5724f6569be6f6040cfb6568bad022cb1`.
 
-La [consegna operativa 03.15](../studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md)
-è stata acquisita byte-identica in un commit locale distinto dal merge. Il raccordo ha mantenuto
-la cartella `paper_sections/` identica a `d35b684`, salvo questa consegna aggiunta dopo il
-pacchetto; `FONTI_DELTA_0315.json`, report improntato, bozze e verbali non sono stati riscritti.
+I **17 file del pacchetto** sotto `paper_sections/` sono invariati rispetto a `d35b684`. Dopo il
+pacchetto sono state aggiunte due consegne: la [consegna operativa 03.15](../studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md),
+acquisita byte-identica in un commit locale distinto dal merge, e la
+[consegna dell'integrazione locale](../studio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md).
+`FONTI_DELTA_0315.json`, report improntato, bozze e verbali non sono stati riscritti.
 
 #### Lavoro che resta
 
