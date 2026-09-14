@@ -1,0 +1,115 @@
+{
+  "utc": "2026-09-14T19:36:54.183609+00:00",
+  "python": "/usr/local/bin/python3",
+  "version": "3.11.5 (v3.11.5:cce6ba91b3, Aug 24 2023, 10:50:31) [Clang 13.0.0 (clang-1300.0.29.30)]",
+  "archive_root": "/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/fot-tep-verifica-04dee86-ntlif_gx",
+  "archives": [
+    {
+      "role": "candidate",
+      "ref": "04dee86140b3ff18882f9d164beef5ab7bf33e00",
+      "directory": "/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/fot-tep-verifica-04dee86-ntlif_gx/candidate",
+      "archive_bytes": 318576640,
+      "archive_sha256": "bf868323454f77030aaf723a14c22983e8584c13677ca3a5626a4dc80ad5fc7b",
+      "git_dir_absent": true,
+      "symlinks": 0
+    },
+    {
+      "role": "base",
+      "ref": "e82b5a08bf642ad45f77e71832958207beb1181c",
+      "directory": "/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/fot-tep-verifica-04dee86-ntlif_gx/base",
+      "archive_bytes": 306411520,
+      "archive_sha256": "42e3a511a5711c019f9c897b1059ffe8bc3d196f8db643594ed61b1b826ab750",
+      "git_dir_absent": true,
+      "symlinks": 0
+    }
+  ],
+  "checks": [
+    {
+      "name": "metriche",
+      "cwd": "/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/fot-tep-verifica-04dee86-ntlif_gx/candidate",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "studio2.fase03.harness.test_metric_raccordo",
+        "-v"
+      ],
+      "exit": 0,
+      "summary": [
+        "Ran 9 tests in 0.004s",
+        "OK"
+      ]
+    },
+    {
+      "name": "lint",
+      "cwd": "/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/fot-tep-verifica-04dee86-ntlif_gx/candidate",
+      "command": [
+        "python3",
+        "studio2/fase03/paper_sections/lint_paper_sections.py",
+        "--corpus",
+        "docs/letteratura.md"
+      ],
+      "exit": 0,
+      "summary": [
+        "Lint paper sections: 5 file, 0 segnalazioni"
+      ]
+    },
+    {
+      "name": "guardiano_candidate",
+      "cwd": "/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/fot-tep-verifica-04dee86-ntlif_gx/candidate",
+      "command": [
+        "python3",
+        "docs/test_explanation.py"
+      ],
+      "exit": 1,
+      "summary": [
+        "setUpClass (__main__.TutorialChecks) ... skipped 'legacy part-1 walkthrough is not present in this checkout'",
+        "FAIL: test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+        "FAIL: test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+        "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+        "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+        "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)",
+        "Ran 35 tests in 0.108s",
+        "FAILED (failures=14, skipped=1)"
+      ]
+    },
+    {
+      "name": "guardiano_base",
+      "cwd": "/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/fot-tep-verifica-04dee86-ntlif_gx/base",
+      "command": [
+        "python3",
+        "docs/test_explanation.py"
+      ],
+      "exit": 1,
+      "summary": [
+        "setUpClass (__main__.TutorialChecks) ... skipped 'legacy part-1 walkthrough is not present in this checkout'",
+        "FAIL: test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+        "FAIL: test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+        "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+        "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+        "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+        "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)",
+        "Ran 35 tests in 0.108s",
+        "FAILED (failures=14, skipped=1)"
+      ]
+    }
+  ],
+  "guardian_identifiers_equal": true
+}

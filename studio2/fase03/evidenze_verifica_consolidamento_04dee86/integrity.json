@@ -1,0 +1,1943 @@
+{
+  "ancestors": {
+    "e82b5a08bf642ad45f77e71832958207beb1181c": true,
+    "10582798eb5a4b52672bfbcb1cc028adcb73e9f1": true,
+    "d35b684acbfd1f357bc34f3a21cebb18e8a6bea0": true,
+    "3360867751c66a39e819247f86dab8e936f8cbb3": true,
+    "4ba2ad6e4a298411b4f0f7572ad3ef8e55948015": true
+  },
+  "merge_parents": [
+    "10582798eb5a4b52672bfbcb1cc028adcb73e9f1",
+    "3360867751c66a39e819247f86dab8e936f8cbb3"
+  ],
+  "history": "04dee86140b3ff18882f9d164beef5ab7bf33e00 73dc4e50718aedc43da70956ac9fb799831f6a2e studio2(documentazione): riallinea la parita del walkthrough consolidato\n73dc4e50718aedc43da70956ac9fb799831f6a2e d3bc506558dd1a26192ce6ab84552a20ecc73d0f studio2(fase03): registra identita runtime del raccordo\nd3bc506558dd1a26192ce6ab84552a20ecc73d0f 8a99df01a0f2bd7781e713a4aee7e22f9a7b2998 studio2(fase03): acquisisce il report d'integrazione metriche\n8a99df01a0f2bd7781e713a4aee7e22f9a7b2998 1e4afa8c6c069cacc3702481e4de5f5794adda61 studio2(fase03): acquisisce le consegne esterne successive\n1e4afa8c6c069cacc3702481e4de5f5794adda61 4ba2ad6e4a298411b4f0f7572ad3ef8e55948015 studio2(fase03): acquisisce verbali ed evidenze del raccordo\n4ba2ad6e4a298411b4f0f7572ad3ef8e55948015 10582798eb5a4b52672bfbcb1cc028adcb73e9f1 3360867751c66a39e819247f86dab8e936f8cbb3 studio2(fase03): consolida 03.15 e raccordo metriche\n3360867751c66a39e819247f86dab8e936f8cbb3 f890a3d691258be5f2abd3bb34d8e327346cedac studio2(walkthrough): documenta il raccordo metriche 03.9->03.10 (§4.10)\nf890a3d691258be5f2abd3bb34d8e327346cedac f4bca454bcbc84ab66a432140a9b2e9a5cc42f11 studio2(harness): aggiunge test mirati del raccordo metriche\nf4bca454bcbc84ab66a432140a9b2e9a5cc42f11 fae8ae82a8ed295feb79ebc554190cc046166d74 studio2(harness): acquisisce verbale, consegne e registro OK del raccordo\nfae8ae82a8ed295feb79ebc554190cc046166d74 e82b5a08bf642ad45f77e71832958207beb1181c studio2(harness): importa il raccordo metriche 03.9->03.10 sulla base e82b5a0\n",
+  "delta_names": [
+    "M\tdocs/fot_walkthrough_conversazione_studio2.html",
+    "M\tdocs/fot_walkthrough_conversazione_studio2.md",
+    "M\tstudio2/PROVENIENZA.md",
+    "A\tstudio2/fase03/ACQUISIZIONE_IDENTITA_RUNTIME_CONSOLIDAMENTO_2026-09-14.md",
+    "M\tstudio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md",
+    "A\tstudio2/fase03/VERIFICA_RACCORDO_DOCUMENTALE_036_0312_LETTERATURA.md",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/CONSEGNA_ESTERNA_B.md",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/CONSEGNA_GIT_A.md",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/MANIFEST_EVIDENZE.json",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/acquisizione.json",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/check_documents.py",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/check_integrity.py",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/check_parity.py",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/check_supplement.py",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/delta_A.patch",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/delta_A_names.txt",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/delta_B.patch",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/diff_check.log",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/documents.json",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/documents_summary.log",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/esecutore_metadata.json",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/final_preservation.json",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/guardiano_A.log",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/guardiano_base.log",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/integrity.json",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/main_final_refs.txt",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/parity.json",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/parity_summary.log",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/runtime_metadata.json",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/shared_removed_lines.txt",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/source_final_status.txt",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/source_status_initial.txt",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/supplement.json",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/verification_status.txt",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/worktrees_initial.txt",
+    "A\tstudio2/fase03/evidenze_verifica_raccordo/write_report.py",
+    "A\tstudio2/fase03/harness/CONSEGNA_ACQUISIZIONE_OK_RACCORDO_METRICHE.md",
+    "A\tstudio2/fase03/harness/CONSEGNA_RACCORDO_METRICHE_03_10.md",
+    "A\tstudio2/fase03/harness/CONSEGNA_VERIFICA_RACCORDO_METRICHE.md",
+    "A\tstudio2/fase03/harness/CONTRATTO_RACCORDO_METRICHE.md",
+    "A\tstudio2/fase03/harness/METRIC_INTERFACE_CANDIDATE.json",
+    "A\tstudio2/fase03/harness/PROMPT_VERIFICA_RACCORDO_METRICHE.md",
+    "A\tstudio2/fase03/harness/REGISTRO_OK_RACCORDO_METRICHE.md",
+    "A\tstudio2/fase03/harness/REPORT_INTEGRAZIONE_RACCORDO_METRICHE.md",
+    "A\tstudio2/fase03/harness/REPORT_RACCORDO_METRICHE.md",
+    "A\tstudio2/fase03/harness/SPECIFICA_HARNESS.md",
+    "A\tstudio2/fase03/harness/VERIFICA_INTEGRAZIONE_RACCORDO_METRICHE_ESECUTORE.md",
+    "A\tstudio2/fase03/harness/VERIFICA_INTEGRAZIONE_RACCORDO_METRICHE_INDIPENDENTE.md",
+    "A\tstudio2/fase03/harness/VERIFICA_RACCORDO_METRICHE.md",
+    "A\tstudio2/fase03/harness/__init__.py",
+    "A\tstudio2/fase03/harness/common.py",
+    "A\tstudio2/fase03/harness/metric_adapter.py",
+    "A\tstudio2/fase03/harness/metrics.py",
+    "A\tstudio2/fase03/harness/test_metric_raccordo.py",
+    "A\tstudio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_DELTA_0315.md",
+    "A\tstudio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md",
+    "A\tstudio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+    "A\tstudio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md",
+    "A\tstudio2/fase03/paper_sections/CONTROLLI_DELTA_0315.json",
+    "A\tstudio2/fase03/paper_sections/FONTI_DELTA_0315.json",
+    "A\tstudio2/fase03/paper_sections/PIANO_SEZIONI.md",
+    "A\tstudio2/fase03/paper_sections/PROMPT_VERIFICA_DELTA_0315.md",
+    "A\tstudio2/fase03/paper_sections/REPORT_ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md",
+    "A\tstudio2/fase03/paper_sections/REPORT_DELTA_0315.md",
+    "A\tstudio2/fase03/paper_sections/REPORT_PAPER_SECTIONS.md",
+    "A\tstudio2/fase03/paper_sections/VERIFICA_DELTA_0315.md",
+    "A\tstudio2/fase03/paper_sections/VERIFICA_DELTA_RACCORDO_0315.md",
+    "A\tstudio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md",
+    "A\tstudio2/fase03/paper_sections/VERIFICA_RACCORDO_DOCUMENTALE_0315.md",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_ESTERNA_B.md",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_GIT_A.md",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/MANIFEST_EVIDENZE.json",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/VERIFICA_BASE_e82b5a0.md",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/acquisizione.json",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_documents.py",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_integrity.py",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_A_names.txt",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_B.patch",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_shared.patch",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_all_delta.log",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_documentation.log",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/documents.json",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/final_preservation.json",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_HANDOFF_FASE03_2026-09-14_rev02.md",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_sottofase_3_15.md",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_A.log",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_base.log",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/integrity.json",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/lint.log",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/local_tags_containing_91a880b.txt",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/metadata_runtime.json",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/preflight_sorgente.txt",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_refs_final.txt",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_tags_final.txt",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/supplement.json",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/worktrees.txt",
+    "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/write_report.py",
+    "A\tstudio2/fase03/paper_sections/lint_paper_sections.py",
+    "A\tstudio2/fase03/paper_sections/method.md",
+    "A\tstudio2/fase03/paper_sections/protocol.md",
+    "A\tstudio2/fase03/paper_sections/related_work.md",
+    "A\tstudio2/fase03/paper_sections/threats.md",
+    "A\tstudio2/fase03/paper_sections/verbalizer.md"
+  ],
+  "packages": {
+    "paper_sections": {
+      "files": [
+        {
+          "path": "studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_DELTA_0315.md",
+          "blob": "7a16fe8e8b1ca68586ae3135627500e285363abc",
+          "bytes": 6764,
+          "sha256": "debb9e19bb08062ea8091d593b2eddd3d56c5f717675c5e2c411b70e601a489d",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md",
+          "blob": "63c7f654c6413a731e5629961c33f4d612dc4957",
+          "bytes": 6546,
+          "sha256": "808f75b57500bacf48369a4892ee0416a7c9beffae436a4aa79bf4c85aacdb9e",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/CONTROLLI_DELTA_0315.json",
+          "blob": "dbb20845814987e3548fd211b603420042bf870f",
+          "bytes": 14284,
+          "sha256": "13bd666acfab1d11cb3ea655df5d3bdac0e636d33df68346ee3057f74974e63f",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/FONTI_DELTA_0315.json",
+          "blob": "acc3884cbb561eb7b1b603edd452d0bd75368ecd",
+          "bytes": 15039,
+          "sha256": "dc01cd71e1b7bae0b65a56de0de50c6db8ac2db426cb471b5110fc7a8d694610",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/PIANO_SEZIONI.md",
+          "blob": "28cc6a5a1c77c821c8d897d0e5aad539ab062d7b",
+          "bytes": 8853,
+          "sha256": "a7deb8fe2c9643626e47c111ed0f7dfd24f5b6f4db4a42de09b372983c1ed6a8",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/PROMPT_VERIFICA_DELTA_0315.md",
+          "blob": "11de22c5a59a03775b69ce9d837195369c85625f",
+          "bytes": 10564,
+          "sha256": "cc6a13cea07fe72a02269b3ebf8ba0e96e0a1273b9ba2a3d9b6b2ee5745b79ab",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/REPORT_ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md",
+          "blob": "68d161d3bd52fc9c529ffcc3b8fda80bd4e8aebe",
+          "bytes": 2360,
+          "sha256": "6b0800fd8b8359e839b799b0a95be5de04406d2509f56352ea27cc56d3bd1f89",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/REPORT_DELTA_0315.md",
+          "blob": "e4c3d63494b507db950f0dec348b64a561ad3ee2",
+          "bytes": 15498,
+          "sha256": "1f59eabf8070f1f4b7b77d89564d4e3593308469e8d8aee56676c93dbabd40f1",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/REPORT_PAPER_SECTIONS.md",
+          "blob": "0aca5c4fe3ac291dd2a2942872b2b6b6d71ca3c3",
+          "bytes": 10005,
+          "sha256": "a15387ffcc237f001c0c8692f1b19edfdf2cd04fa1803a58a79920c403488b3d",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/VERIFICA_DELTA_0315.md",
+          "blob": "9bdb285a4d25394a833e977d971a98b21c533879",
+          "bytes": 12311,
+          "sha256": "00553079e88a58a68762ba9a3400c04cb22b91f6a99f37f191b67cfd12ca9770",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md",
+          "blob": "00511c40f2a0aae1a5ed82205b5aa3adae561950",
+          "bytes": 13949,
+          "sha256": "8faca80c87071d87bf66d97848c290a5724f6569be6f6040cfb6568bad022cb1",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/lint_paper_sections.py",
+          "blob": "95e5ee367bc56bead75656e5d5d27d28c21de5e9",
+          "bytes": 4771,
+          "sha256": "514782cffb66db518997102be32b5b55e09ef6c2da1be54d3edd43f830304905",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/method.md",
+          "blob": "0789e729194340a4432ff49c42f0afc2d31cb816",
+          "bytes": 7557,
+          "sha256": "db697de1d124150bf8e754154c21a2d07cfaa0a79034bf32d3a6c5a449331938",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/protocol.md",
+          "blob": "6f1f8917ecb29b4f7c96702eb2be9e8d6d43cab4",
+          "bytes": 17418,
+          "sha256": "ddcaf1c2790d7e3fe966ed80bb91d3ae7316090d4b9dc554b85f8dd030ca5468",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/related_work.md",
+          "blob": "3f5bd108f3b1130a3810a08532067c55f70fd2f2",
+          "bytes": 8052,
+          "sha256": "52e0e9ba81948a7f26392884a518682ea5a9f25eaa6a49a5ce3d70a29236f842",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/threats.md",
+          "blob": "6b8b3ca269d4307edbea0879031673f33274b153",
+          "bytes": 9221,
+          "sha256": "915b7484ee3bff65c2633405db027c3e797d927bc56548238da2d631c06b2c35",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/verbalizer.md",
+          "blob": "9ba757c4042abf14865d6831cf12a2d2cdfe8235",
+          "bytes": 7227,
+          "sha256": "1b48085cd90e8dda183a482be333169a382d3c8a0e3f32cc433cec7eb01118f0",
+          "same": true
+        }
+      ],
+      "additional_paths": [
+        "studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md",
+        "studio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md",
+        "studio2/fase03/paper_sections/VERIFICA_DELTA_RACCORDO_0315.md",
+        "studio2/fase03/paper_sections/VERIFICA_RACCORDO_DOCUMENTALE_0315.md",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_ESTERNA_B.md",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_GIT_A.md",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/MANIFEST_EVIDENZE.json",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/VERIFICA_BASE_e82b5a0.md",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/acquisizione.json",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_documents.py",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_integrity.py",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_A_names.txt",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_B.patch",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_shared.patch",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_all_delta.log",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_documentation.log",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/documents.json",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/final_preservation.json",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_HANDOFF_FASE03_2026-09-14_rev02.md",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_sottofase_3_15.md",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_A.log",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_base.log",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/integrity.json",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/lint.log",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/local_tags_containing_91a880b.txt",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/metadata_runtime.json",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/preflight_sorgente.txt",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_refs_final.txt",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_tags_final.txt",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/supplement.json",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/worktrees.txt",
+        "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/write_report.py"
+      ]
+    },
+    "harness": {
+      "files": [
+        {
+          "path": "studio2/fase03/harness/CONSEGNA_RACCORDO_METRICHE_03_10.md",
+          "blob": "9e5d16fe0f9678cf22088826a12e76489fab110b",
+          "bytes": 8524,
+          "sha256": "3945e9c646e5f1512c0421c823c96c81b9ab06414fdad54b0d57aee4517de9d7",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/CONSEGNA_VERIFICA_RACCORDO_METRICHE.md",
+          "blob": "9d661cacc12f82013577d4b514479f195d718c5e",
+          "bytes": 8970,
+          "sha256": "9c8e01a3d7a3fdeef0f2da48c3813d713334a7b97619ddd803fce6d7ede3f79e",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/CONTRATTO_RACCORDO_METRICHE.md",
+          "blob": "c2a2481ebec938c5341a32587439572c8e4e6640",
+          "bytes": 4679,
+          "sha256": "5c81586f30ddfe8f39f99b313a30e2dad84346821750e93c11f4d5eecc1e7480",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/METRIC_INTERFACE_CANDIDATE.json",
+          "blob": "95b42a99129dcf0f062c962c0f42e9d8014476a7",
+          "bytes": 3417,
+          "sha256": "8ac6eb594636d9e2e546e74be58ca86f79dc5104e97d9c536dff2f5bcd9c4ac4",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/PROMPT_VERIFICA_RACCORDO_METRICHE.md",
+          "blob": "150f4f221cab87e1b685ef4b794d90e5d21a426f",
+          "bytes": 4024,
+          "sha256": "6645e122b0764a19d0af8d682271adf12b7d988425a943a221d1eea0e095cad0",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/REGISTRO_OK_RACCORDO_METRICHE.md",
+          "blob": "8f6d197a796e7969ea9949e4a634080f352ef66f",
+          "bytes": 6522,
+          "sha256": "ef46e227ae72988de8265edf05b762a08e5a35ed0590830539b5dc9bfb24f07f",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/REPORT_RACCORDO_METRICHE.md",
+          "blob": "c93e723e5c0b35175f018aeccef3862bdc7dac4e",
+          "bytes": 6118,
+          "sha256": "8ab3ac62b9fc066259fb00afb1b8d96a6954d8355a4af1e40559d56b7d201c2e",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/SPECIFICA_HARNESS.md",
+          "blob": "14e5b5c71ee8afc3aea692a7b8902b5d0406b9e0",
+          "bytes": 10572,
+          "sha256": "f50fb290d2aaa89473da4ff10eddb7f275b541bae57cf98bb07328946999890d",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/VERIFICA_RACCORDO_METRICHE.md",
+          "blob": "dc3c835e72e4d0200fcdf5a300e20f3aab3c3d5d",
+          "bytes": 12487,
+          "sha256": "0d90779981871b8c9ceaf2a729f97b371abb7297fb804dc4335ddf0f1bec0e80",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/__init__.py",
+          "blob": "6917befee2c60c9dcb275ec4e28626fc57605c8d",
+          "bytes": 56,
+          "sha256": "55b70488f5d4e69286e904225dc8bf9b358f9adb0214dae42d42d936895e3f0c",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/common.py",
+          "blob": "0c5626e639d0f34aecef072eeea9a45b431b5443",
+          "bytes": 1410,
+          "sha256": "691a2614c6f21b50ebd1a5b78d2b038ce9ddbbaccbe33f283953884a0c684dd3",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/metric_adapter.py",
+          "blob": "891a488fde4216dbaad9a58cea766f4ed5a5daec",
+          "bytes": 7958,
+          "sha256": "967f998a6ac11f9afed516a154c4923b9e7b1192d4e04932b38d3344db318030",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/metrics.py",
+          "blob": "08a39f4a1176bf0963d06101fded8d9bdf121ec0",
+          "bytes": 13929,
+          "sha256": "97f0427434d3593a87eaf6885e6b997f40ea41be58b011724869358633ef1be7",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/harness/test_metric_raccordo.py",
+          "blob": "cdfa504392c40fc65ed07648d0c67ca48d234b9e",
+          "bytes": 12132,
+          "sha256": "4a9586b983327fa4c0d97babc0f946e7d94c84f65c5f4de7f63c9daf9dd324bf",
+          "same": true
+        }
+      ],
+      "additional_paths": [
+        "studio2/fase03/harness/CONSEGNA_ACQUISIZIONE_OK_RACCORDO_METRICHE.md",
+        "studio2/fase03/harness/REPORT_INTEGRAZIONE_RACCORDO_METRICHE.md",
+        "studio2/fase03/harness/VERIFICA_INTEGRAZIONE_RACCORDO_METRICHE_ESECUTORE.md",
+        "studio2/fase03/harness/VERIFICA_INTEGRAZIONE_RACCORDO_METRICHE_INDIPENDENTE.md"
+      ]
+    }
+  },
+  "evidence_tree": {
+    "e82b5a08bf642ad45f77e71832958207beb1181c": "504976f7502ba979799ff8be88ff2ae5a190b410",
+    "04dee86140b3ff18882f9d164beef5ab7bf33e00": "504976f7502ba979799ff8be88ff2ae5a190b410"
+  },
+  "provenienza": {
+    "same_as_10582798": true,
+    "bytes": 52821,
+    "sha256": "af9491a4e2064280b8a3d860910d1a5b00e3966b262f6207f7d0ed1fad63435b"
+  },
+  "R4": [
+    {
+      "path": "studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md",
+      "sha256": "6923e8d428f1aee0fa2b8adc3584601ece123894b4c8b6b81ba60c79545c8520",
+      "bytes": 9671,
+      "checked_ref": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "category": "files",
+      "historical_match": true,
+      "candidate_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/insight_v1.schema.json",
+      "sha256": "15e0d29e033c1d699d4f1114b5fdf378ad1cea8398c89b133403a92983229de6",
+      "bytes": 1222,
+      "checked_ref": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "category": "files",
+      "historical_match": true,
+      "candidate_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/validator.py",
+      "sha256": "cd523d3105e02de99e7cc09bf0c2c4c052c1ae1776c8da37a9b57e869b1aa508",
+      "bytes": 17636,
+      "checked_ref": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "category": "files",
+      "historical_match": true,
+      "candidate_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/test_validator.py",
+      "sha256": "b8f6d735fbd2f626e8bb75c36d06432e5d3bc59061bed4a936ffca25393267f7",
+      "bytes": 16516,
+      "checked_ref": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "category": "files",
+      "historical_match": true,
+      "candidate_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/leakage_rules_v1.json",
+      "sha256": "1cf035b5d5e7a7f4cc909dc0a04f6f0da6580284d32710f3ee6924533c706a7a",
+      "bytes": 1184,
+      "checked_ref": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "category": "files",
+      "historical_match": true,
+      "candidate_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/requirements.txt",
+      "sha256": "1e53672145c42bd48e9e2f8540d89a224be2b6d8665599272ccb7506c238de86",
+      "bytes": 131,
+      "checked_ref": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "category": "files",
+      "historical_match": true,
+      "candidate_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS.txt",
+      "sha256": "9c8c7d51149cb033e584166ced334ee233a27622314d99192b4b8649640ae0b0",
+      "bytes": 3393,
+      "checked_ref": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "category": "files",
+      "historical_match": true,
+      "candidate_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_qwen.txt",
+      "sha256": "7113bf87d758e2dd0bbb3fed5fecfac7aa0a4629825db69c5046ebef5db233e0",
+      "bytes": 2821,
+      "checked_ref": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "category": "files",
+      "historical_match": true,
+      "candidate_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_qwen_rev003.txt",
+      "sha256": "908cb77ee620e60afe42eae20c9723b91715037140f12ea2c75838c1da472a3c",
+      "bytes": 5626,
+      "checked_ref": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "category": "files",
+      "historical_match": true,
+      "candidate_same": true
+    },
+    {
+      "path": "studio2/fase03/schema_insight/TEST_RESULTS_rev004.txt",
+      "sha256": "fc3bae8d48aa09ab0478e00a653fedffd366ac5c7a4994f9a7b76fb555b4b93b",
+      "bytes": 1501,
+      "checked_ref": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "category": "files",
+      "historical_match": true,
+      "candidate_same": true
+    },
+    {
+      "path": "studio2/fase03/schemas/insight.schema.json",
+      "sha256": "9d9de7dc9bd1795aea5f8fe323a2579eb2b5cc52ca8c753c594a292570fab9a1",
+      "bytes": 894,
+      "checked_ref": "d815ce96d928254de79209f02e11a561445764cd",
+      "category": "source_files",
+      "historical_match": true
+    },
+    {
+      "path": "studio2/fase03/prepare_gate.py",
+      "sha256": "8ac42c805dd7d425c00f1715a284975c2b76af92139f6792997fcae24491ac04",
+      "bytes": 8659,
+      "checked_ref": "d815ce96d928254de79209f02e11a561445764cd",
+      "category": "source_files",
+      "historical_match": true
+    },
+    {
+      "path": "studio2/fase03/config/pilot_preflight.json",
+      "sha256": "6bf50982d2ba8040e18c468999a110c426e3b9be217d5d9be5f272df6515f5f5",
+      "bytes": 11636,
+      "checked_ref": "d815ce96d928254de79209f02e11a561445764cd",
+      "category": "source_files",
+      "historical_match": true
+    },
+    {
+      "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+      "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+      "bytes": 6894,
+      "checked_ref": "d815ce96d928254de79209f02e11a561445764cd",
+      "category": "source_files",
+      "historical_match": true
+    },
+    {
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "sha256": "8d79b662ecc14358d2a2e29f699f6cab2ec6e41b584415ed2d93247a8df24ce1",
+      "bytes": 161230,
+      "checked_ref": "d815ce96d928254de79209f02e11a561445764cd",
+      "category": "source_files",
+      "historical_match": true
+    },
+    {
+      "path": "docs/letteratura.md",
+      "sha256": "a53b265a5df0c45c95d2cdfa7c0ed361af084ebcf5e658bd458814fa05f8c291",
+      "bytes": 70392,
+      "checked_ref": "d815ce96d928254de79209f02e11a561445764cd",
+      "category": "source_files",
+      "historical_match": true
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json",
+      "sha256": "b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6",
+      "bytes": 1038,
+      "source_ref": "main at a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155",
+      "frozen_tag": "studio2-fase03-pseudolabel-frozen-001",
+      "frozen_tag_commit": "c16b533016db4617deb1ba96853253f117e8e32b",
+      "checked_ref": "a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155",
+      "category": "source_files",
+      "historical_match": true
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json",
+      "sha256": "df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf",
+      "bytes": 1667,
+      "source_ref": "main at a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155",
+      "frozen_tag": "studio2-fase03-pseudolabel-frozen-001",
+      "frozen_tag_commit": "c16b533016db4617deb1ba96853253f117e8e32b",
+      "checked_ref": "a572d1c8a9a1cecc7bf7a6abfe814a93ca19c155",
+      "category": "source_files",
+      "historical_match": true
+    }
+  ],
+  "pinned_039": [
+    {
+      "path": "studio2/fase03/baseline_numerica/baseline.py",
+      "bytes": 21019,
+      "sha256": "b1fe2a83b29b25760dd32df00a2178c5235f714273a194feb6cfe8a12ac74f22",
+      "declared": "b1fe2a83b29b25760dd32df00a2178c5235f714273a194feb6cfe8a12ac74f22",
+      "same": true,
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/SPECIFICA_BASELINE_NUMERICA.md",
+      "bytes": 5678,
+      "sha256": "510b119ca54ac05225a7302dcf1b685cb4a778673a0f18d5a9a0e736078a6143",
+      "declared": "510b119ca54ac05225a7302dcf1b685cb4a778673a0f18d5a9a0e736078a6143",
+      "same": true,
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/INTERFACE_CHECK.json",
+      "bytes": 2025,
+      "sha256": "77cf4d8d3620bc739f58f48782e6846345d922463d4d93e34d281ea85d62a4f9",
+      "declared": "77cf4d8d3620bc739f58f48782e6846345d922463d4d93e34d281ea85d62a4f9",
+      "same": true,
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json",
+      "bytes": 9168,
+      "sha256": "0312f416dfdbaf8984b2063df2c2e9d00e1737321b9a65dd7e32b0295a937ec8",
+      "declared": "0312f416dfdbaf8984b2063df2c2e9d00e1737321b9a65dd7e32b0295a937ec8",
+      "same": true,
+      "match": true
+    }
+  ],
+  "pinned_036": [
+    {
+      "path": "studio2/fase03/evidence/extract_evidence.py",
+      "bytes": 18138,
+      "sha256": "46b451c2d6d8b1627993828ac9bac39532562f2fa1b27955b8a20f098ba24e97",
+      "declared": "46b451c2d6d8b1627993828ac9bac39532562f2fa1b27955b8a20f098ba24e97",
+      "match": true
+    },
+    {
+      "path": "studio2/fase03/evidence/leakage.py",
+      "bytes": 2396,
+      "sha256": "c77ae5b11186c5b0df87b2f1df8800cb45fb25317e248fe8484d3e8283073887",
+      "declared": "c77ae5b11186c5b0df87b2f1df8800cb45fb25317e248fe8484d3e8283073887",
+      "match": true
+    }
+  ],
+  "sources_0315": [
+    {
+      "source": "S05",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/soglie_normal/INTEGRAZIONE_03_5.md",
+      "bytes": 2529,
+      "sha256": "7b1f70c66f3c03ba44fe0e6ab2d200c171b3bce7d400f1e04709f8e7989858f4",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S05",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/soglie_normal/THRESHOLD_FREEZE.json",
+      "bytes": 37326,
+      "sha256": "ff5c27002a2548003e4bc5f54805cda3754fb19b9cb2559222996b9c7f7e14a9",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S05",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/soglie_normal/FAR_VERIFICATION.json",
+      "bytes": 73873,
+      "sha256": "458ded0f4300fea8ab77a962cb9ef6d38f903ff4241fada563029765521f82f8",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S05",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/soglie_normal/FAR_VERIFICATION.md",
+      "bytes": 813,
+      "sha256": "a6433f3f450d6540a3298109cfa59a6f3a88ee682d5964007949b956515f12a8",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S05",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/soglie_normal/DECISIONE_AUTORE_FAR.md",
+      "bytes": 1104,
+      "sha256": "84520c63e75d49a4855ce02421df59c5a641612cafa9d82fdfc2e127ebcce58e",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S05",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/soglie_normal/evidence/VERIFICA_CORREZIONI_SOGLIE_NORMAL_OK.md",
+      "bytes": 29331,
+      "sha256": "d98a2856647493b0e96fc1198ac32c457510fc10399538511373655e1b6f1c9e",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/SPECIFICA_NORMAL_DEV.md",
+      "bytes": 4643,
+      "sha256": "6ce0a646e2852bf005635aa24e8eb9d319434c5fb8554894937866ab35fce3a5",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/SPECIFICA_BASELINE_NUMERICA.md",
+      "bytes": 5678,
+      "sha256": "510b119ca54ac05225a7302dcf1b685cb4a778673a0f18d5a9a0e736078a6143",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/REPORT_BASELINE_NUMERICA.md",
+      "bytes": 9758,
+      "sha256": "6df1774775507a75b98e429a8dd0fd6918310f39245fea57c7ad955fff79cf48",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md",
+      "bytes": 3275,
+      "sha256": "356eaccce2695e63133a9756b115241f6b5cdcfae5336f652f74411d255bd311",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/DECISIONE_ACCETTAZIONE_NORMAL_DEV.md",
+      "bytes": 3763,
+      "sha256": "1e1b3759b76f77b0a6a72f36a3d4017bf0b46c12f9b0f4a3ba4c4342140584b0",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/PROTOTYPES.json",
+      "bytes": 278727,
+      "sha256": "6d0b754065eb8a69d0657638deeef0756de0ec8e93a905c55aea18fadace2cb2",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/PROTOTYPES_MANIFEST.json",
+      "bytes": 995,
+      "sha256": "8309a914d2141da38d1120606897bcead40142829ecd541b6b0423d0d9465751",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json",
+      "bytes": 9168,
+      "sha256": "0312f416dfdbaf8984b2063df2c2e9d00e1737321b9a65dd7e32b0295a937ec8",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/BASELINE_CHECK.json",
+      "bytes": 948,
+      "sha256": "e806b1761aa5c7451a2fe46812640b1d552a9817a986a56e2eac140a6fff8178",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/AUDIT_NORMAL_DEV.json",
+      "bytes": 238199,
+      "sha256": "fb44c26ceaf3b045fe16902296bc3e01219acff7f7fac969c106369c7b48937f",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/NORMAL_DEV_HANDOFF.json",
+      "bytes": 5750,
+      "sha256": "e2409c64ad4e36e0f3b597a5e0b9745d866af72f4da717fc7a128b25753c166a",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/plans/normal_dev.csv",
+      "bytes": 6796,
+      "sha256": "66382b3ecedd8be417656e56e97d38fc4815d0c857d2c6dd302d58d80a512a97",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/VERIFICA_RISCARICAMENTO_NORMAL_DEV.json",
+      "bytes": 2110,
+      "sha256": "ce9aa338eb76c8058d9d5ddd23349fec4f72511914e95e3e6f6e29c1eec59227",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S09",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md",
+      "bytes": 12342,
+      "sha256": "8129dbbb919bce62d42d663552f1400f3e7c2ca51966db42d6c7928e9fda24f8",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "bytes": 81490,
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a",
+      "match": true,
+      "at_P": "external_commit",
+      "at_A": "external_commit"
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json",
+      "bytes": 25894,
+      "sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8",
+      "match": true,
+      "at_P": "external_commit",
+      "at_A": "external_commit"
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "bytes": 8528,
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887",
+      "match": true,
+      "at_P": "external_commit",
+      "at_A": "external_commit"
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_DA_SOTTOSCRIVERE_REV10.md",
+      "bytes": 4974,
+      "sha256": "4a0a4e1fc2797ee7a81439110e164d43159c745007136c9dda7bed7759471cc8",
+      "match": true,
+      "at_P": "external_commit",
+      "at_A": "external_commit"
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/APPROVAZIONE_ADDENDUM_03_8.md",
+      "bytes": 2830,
+      "sha256": "df2a754d3ad2d2215def012eb4d6e887c77d93ebdcad4a6811c5cbc18786a70a",
+      "match": true,
+      "at_P": "external_commit",
+      "at_A": "external_commit"
+    },
+    {
+      "source": "S08",
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/ADDENDUM_DECISIONI_RESIDUE_03_8.md",
+      "bytes": 3768,
+      "sha256": "6035967ceb390de69e63cac9f828b17386ab8a76bb1999db524597770fc782f8",
+      "match": true,
+      "at_P": "external_commit",
+      "at_A": "external_commit"
+    },
+    {
+      "source": "S08-consegna",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_REV10.md",
+      "bytes": 4141,
+      "sha256": "32e2528b327fe9be7f052b7da94375a76c18edc3d98df52bea06d664e36db99c",
+      "match": true,
+      "at_P": "external_commit",
+      "at_A": "external_commit"
+    },
+    {
+      "source": "S08-consegna",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV10.md",
+      "bytes": 12478,
+      "sha256": "d269e26d8cb4e23370577e1e193d90d9357d66f7c739e9d0669970edf71b0066",
+      "match": true,
+      "at_P": "external_commit",
+      "at_A": "external_commit"
+    },
+    {
+      "source": "S06",
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "path": "studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md",
+      "bytes": 5373,
+      "sha256": "b485edea5de1a037f4d2cd9e186e7bb4feeb8cf7df451e50a5f36868778d7baf",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S06",
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "path": "studio2/fase03/evidence/REPORT_EVIDENCE.md",
+      "bytes": 4855,
+      "sha256": "24d861ab0506161786b4e8456e084fb8c12dd447dfc8ca74c337b9b81db52822",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S06",
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "path": "studio2/fase03/evidence/PACKAGING_V2_CHECK.json",
+      "bytes": 1035,
+      "sha256": "cbffa1f331462455e50e8c55caf0eea944bf514b10af991f6ee635fa9d993add",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S06",
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "path": "studio2/fase03/evidence/extract_evidence.py",
+      "bytes": 18138,
+      "sha256": "46b451c2d6d8b1627993828ac9bac39532562f2fa1b27955b8a20f098ba24e97",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S06",
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "path": "studio2/fase03/evidence/leakage.py",
+      "bytes": 2396,
+      "sha256": "c77ae5b11186c5b0df87b2f1df8800cb45fb25317e248fe8484d3e8283073887",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S06",
+      "commit": "c66bd8dddf8e2af9dd0665ee30afd36c248b93fb",
+      "path": "studio2/PROVENIENZA.md",
+      "bytes": 30138,
+      "sha256": "561cfddf12ad2ec21a6b67cabd69ec1435bb1828956e69617eab6714d97d101b",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S12",
+      "commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "path": "studio2/fase03/schema_insight/DECISIONE_SCHEMA_INSIGHT.md",
+      "bytes": 9671,
+      "sha256": "6923e8d428f1aee0fa2b8adc3584601ece123894b4c8b6b81ba60c79545c8520",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S12",
+      "commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "path": "studio2/fase03/schema_insight/insight_v1.schema.json",
+      "bytes": 1222,
+      "sha256": "15e0d29e033c1d699d4f1114b5fdf378ad1cea8398c89b133403a92983229de6",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "S12",
+      "commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "path": "studio2/fase03/schema_insight/SCHEMA_FREEZE.json",
+      "bytes": 12323,
+      "sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "L",
+      "commit": "40911d0e3e7b75960e6973f3fd8f609e65ab6e05",
+      "path": "docs/letteratura.md",
+      "bytes": 90911,
+      "sha256": "d4048e7f6ae14fb853315ab3f61bdaada0818f31d0e8ff1532e8dbeae7e1974f",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "L",
+      "commit": "40911d0e3e7b75960e6973f3fd8f609e65ab6e05",
+      "path": "docs/lit_review/VERIFICA_RILEVABILITA_IDV6_IDV4_FASE03.md",
+      "bytes": 34808,
+      "sha256": "f2c29416664e27c2ecac7d439939f51f1a3f7313e2aba669bb39db7106cf0b8e",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "L",
+      "commit": "40911d0e3e7b75960e6973f3fd8f609e65ab6e05",
+      "path": "docs/lit_review/VERIFICA_INDIPENDENTE_LETTERATURA_FASE03.md",
+      "bytes": 30107,
+      "sha256": "551f7da9de20096f3a21f6f9a19d2beecd4b03367bbf6cbe4d083f482637ddaf",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/MAINTENANCE.md",
+      "bytes": 20636,
+      "sha256": "77b4768c2b6ae1bc27d2e1aaaa56f9c38626add20b2f5e74f6a426eef7a66ec0",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/prompts/Prompt_LLM.md",
+      "bytes": 14586,
+      "sha256": "4c11026ba170667ae9b45bb363a07592499698d7a735302eb36eacf6d963fe20",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/prompts/Fase_LLM.md",
+      "bytes": 7224,
+      "sha256": "6dbdcd271d60e35a9066c36a6e1183809d50a11c6ef2bfecc654bf155bcfb981",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/prompts/Verifica_LLM.md",
+      "bytes": 4008,
+      "sha256": "1149395ac7d765493524844fc543602e90be88173d2dcda94aaa0cb61279ccae",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/prompts/Documentazione_LLM.md",
+      "bytes": 5008,
+      "sha256": "b105e110206fce05d382e26109327148c67971acf583a992968917fceae84b57",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/prompts/Commit_LLM.md",
+      "bytes": 2643,
+      "sha256": "5488a915b79aee9d703c17aa628b669db1d5c5eaccaf042e72f375366d107623",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md",
+      "bytes": 6546,
+      "sha256": "808f75b57500bacf48369a4892ee0416a7c9beffae436a4aa79bf4c85aacdb9e",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "studio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md",
+      "bytes": 13949,
+      "sha256": "8faca80c87071d87bf66d97848c290a5724f6569be6f6040cfb6568bad022cb1",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "studio2/fase03/paper_sections/REPORT_PAPER_SECTIONS.md",
+      "bytes": 10005,
+      "sha256": "a15387ffcc237f001c0c8692f1b19edfdf2cd04fa1803a58a79920c403488b3d",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "studio2/PROVENIENZA.md",
+      "bytes": 30708,
+      "sha256": "7fd71f1f21d492a01e5e4cffc43fcef012ee5c3224f29d00288b1e65ff2eddbc",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "BASE",
+      "commit": "1d480fd62ff72c4bc5e60df6ffb46ee36f58151a",
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "bytes": 161230,
+      "sha256": "8d79b662ecc14358d2a2e29f699f6cab2ec6e41b584415ed2d93247a8df24ce1",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "MAIN-provenienza",
+      "commit": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1",
+      "path": "studio2/PROVENIENZA.md",
+      "bytes": 40732,
+      "sha256": "a95e65f4f09942d2306a248e56ee49bda991b7bb806739a9e66366d25d89738a",
+      "match": true,
+      "at_P": "ancestor",
+      "at_A": "ancestor"
+    },
+    {
+      "source": "H",
+      "commit": null,
+      "path": "/Users/luker/fot-tep/studio2/fase03/HANDOFF_FASE03_2026-09-14_rev02.md",
+      "bytes": 48244,
+      "sha256": "b7d47c75538e12ab129fa17789c241a54d290ad19746cec18ecb53dc1050abff",
+      "status": "file esterno non tracciato; snapshot per impronta, non HEAD implicito",
+      "match": true,
+      "at_P": "local_uncommitted",
+      "at_A": "local_uncommitted"
+    },
+    {
+      "source": "PROMPT-0315",
+      "commit": null,
+      "path": "/Users/luker/fot-tep/studio2/fase03/paper_sections/sottofase_3_15.md",
+      "bytes": 6783,
+      "sha256": "1eca10539849c85530f6c7cbd4abb572e26d5d40b5f26fde0bb71cfc65780ac1",
+      "status": "file esterno non tracciato; snapshot per impronta, non HEAD implicito",
+      "match": true,
+      "at_P": "local_uncommitted",
+      "at_A": "local_uncommitted"
+    }
+  ],
+  "sources_counts": {
+    "at_P": {
+      "ancestor": 44,
+      "external_commit": 8,
+      "local_uncommitted": 2
+    },
+    "at_A": {
+      "ancestor": 44,
+      "external_commit": 8,
+      "local_uncommitted": 2
+    }
+  },
+  "runtime_files": [
+    {
+      "path": "studio2/fase03/harness/__init__.py",
+      "imports": [],
+      "absolute_or_url_literals": []
+    },
+    {
+      "path": "studio2/fase03/harness/common.py",
+      "imports": [
+        "__future__",
+        "hashlib",
+        "json",
+        "pathlib",
+        "typing"
+      ],
+      "absolute_or_url_literals": []
+    },
+    {
+      "path": "studio2/fase03/harness/metric_adapter.py",
+      "imports": [
+        "__future__",
+        "math",
+        "pathlib",
+        "typing",
+        ".common"
+      ],
+      "absolute_or_url_literals": [
+        "/"
+      ]
+    },
+    {
+      "path": "studio2/fase03/harness/metrics.py",
+      "imports": [
+        "__future__",
+        "collections",
+        "math",
+        "random",
+        "statistics",
+        "typing",
+        ".common"
+      ],
+      "absolute_or_url_literals": [
+        "/"
+      ]
+    },
+    {
+      "path": "studio2/fase03/harness/test_metric_raccordo.py",
+      "imports": [
+        "__future__",
+        "collections",
+        "json",
+        "pathlib",
+        "tempfile",
+        "unittest",
+        "studio2.fase03.harness.common",
+        "studio2.fase03.harness.metric_adapter",
+        "studio2.fase03.harness.metrics"
+      ],
+      "absolute_or_url_literals": []
+    }
+  ],
+  "acquisitions": [
+    {
+      "source": "/Users/luker/fot-tep-verifica-raccordo-e82b5a0/studio2/fase03/VERIFICA_RACCORDO_DOCUMENTALE_036_0312_LETTERATURA.md",
+      "destination": "studio2/fase03/VERIFICA_RACCORDO_DOCUMENTALE_036_0312_LETTERATURA.md",
+      "bytes": 21639,
+      "sha256": "7c1d6ebf90ccb29d2b3f418b0b6740b62435626db8e9a6b7f6abdd8512a27511",
+      "source_worktree_blob_equal": true
+    },
+    {
+      "source": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/VERIFICA_RACCORDO_DOCUMENTALE_0315.md",
+      "destination": "studio2/fase03/paper_sections/VERIFICA_RACCORDO_DOCUMENTALE_0315.md",
+      "bytes": 24282,
+      "sha256": "1b6125541df01b1172af3bfa5639cd0ff200657820d977dadcf277f5b399d7d3",
+      "source_worktree_blob_equal": true
+    },
+    {
+      "source": "/Users/luker/fot-tep/.worktrees/verifica-delta-raccordo-0315-10582798/studio2/fase03/paper_sections/VERIFICA_DELTA_RACCORDO_0315.md",
+      "destination": "studio2/fase03/paper_sections/VERIFICA_DELTA_RACCORDO_0315.md",
+      "bytes": 7415,
+      "sha256": "efd16ffb46dbcef940e326e51d319a4f33ca7f64cf4f4a230bf548aba0ac0129",
+      "source_worktree_blob_equal": true
+    },
+    {
+      "source": "/Users/luker/fot-tep/Claude outputs/VERIFICA_INTEGRAZIONE_RACCORDO_METRICHE.md",
+      "destination": "studio2/fase03/harness/VERIFICA_INTEGRAZIONE_RACCORDO_METRICHE_ESECUTORE.md",
+      "bytes": 7975,
+      "sha256": "d8b9c34f7af69de3ef749efe21e9e645c828bbf942086671311d094422883862",
+      "source_worktree_blob_equal": true
+    },
+    {
+      "source": "/Users/luker/fot-tep/.worktrees/integrazione-raccordo-metriche/_delivery/VERIFICA_INTEGRAZIONE_RACCORDO_METRICHE.md",
+      "destination": "studio2/fase03/harness/VERIFICA_INTEGRAZIONE_RACCORDO_METRICHE_INDIPENDENTE.md",
+      "bytes": 7351,
+      "sha256": "0c1b760368b38e842df3f73196286e83995974cf25efc0dedd571e17276e4d98",
+      "source_worktree_blob_equal": true
+    },
+    {
+      "source": "/Users/luker/fot-tep-raccordo-036-0312-letteratura/studio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md",
+      "destination": "studio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md",
+      "bytes": 17597,
+      "sha256": "46185e3d15867253e98f5c9f08df5ab8ed8a6a6643a15d5011079341045514e6",
+      "source_worktree_blob_equal": true
+    },
+    {
+      "source": "/Users/luker/fot-tep-raccordo-0315-local/studio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md",
+      "destination": "studio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md",
+      "bytes": 11801,
+      "sha256": "8f2c1082606eea5554f0213d66a0f8dac5d66adc5ade4d35bca0a832bb4bdb71",
+      "source_worktree_blob_equal": true
+    },
+    {
+      "source": "/Users/luker/fot-tep/.worktrees/acquisizione-raccordo-ok/studio2/fase03/harness/CONSEGNA_ACQUISIZIONE_OK_RACCORDO_METRICHE.md",
+      "destination": "studio2/fase03/harness/CONSEGNA_ACQUISIZIONE_OK_RACCORDO_METRICHE.md",
+      "bytes": 10164,
+      "sha256": "d3294a90ebd46c0e2892ee4c33ecc2ddd7ce5bfdea0d7fad205745f9ad101972",
+      "source_worktree_blob_equal": true
+    },
+    {
+      "source": "/Users/luker/fot-tep/.worktrees/integrazione-raccordo-metriche/_delivery/REPORT_INTEGRAZIONE_RACCORDO_METRICHE.md",
+      "destination": "studio2/fase03/harness/REPORT_INTEGRAZIONE_RACCORDO_METRICHE.md",
+      "bytes": 8871,
+      "sha256": "96f9867e06a8060fd2383416592564ba1d09c40128b08715509e339f07b2e7c9",
+      "source_worktree_blob_equal": true
+    }
+  ],
+  "bundles": [
+    {
+      "folder": "studio2/fase03/evidenze_verifica_raccordo",
+      "files": [
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/CONSEGNA_ESTERNA_B.md",
+          "bytes": 17597,
+          "sha256": "46185e3d15867253e98f5c9f08df5ab8ed8a6a6643a15d5011079341045514e6",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/CONSEGNA_GIT_A.md",
+          "bytes": 10245,
+          "sha256": "10c322b27b2c562bccd5e4ff4b89b8e79a2a5c29b434d7f28d51f0966b77b2f4",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/MANIFEST_EVIDENZE.json",
+          "bytes": 5566,
+          "sha256": "6512effee4adcb1d4407cc29689228ac28514f54a60bc647f8c0f3dcc7a8860d",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/acquisizione.json",
+          "bytes": 499,
+          "sha256": "3784b03d55f7a012acb724915b9e6f37d31db723680b4b73662c7af4b45353eb",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/check_documents.py",
+          "bytes": 6918,
+          "sha256": "e8760db23bc9e51f4509044a818f71a249cffa54c209f6dd0ba2020c19c36c1b",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/check_integrity.py",
+          "bytes": 6151,
+          "sha256": "aaa55cec39c2209962f4bfb457dee5e7f97a5709a2aca0b0780c2974e53b1615",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/check_parity.py",
+          "bytes": 4181,
+          "sha256": "d814d0b480b3f495b54ee2d8d33734c886719a0a923bbeb1cf67c275dc243c2e",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/check_supplement.py",
+          "bytes": 4173,
+          "sha256": "84b8dcd3342de6309dd93f48d81803d6832c5d17d6ba6647d19d5716fdbe54e1",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/delta_A.patch",
+          "bytes": 65380,
+          "sha256": "9b308b3c18d694a37bfdd95d0faf67d2a4dabde03cc331914e966bf26c449c35",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/delta_A_names.txt",
+          "bytes": 3942,
+          "sha256": "e0ac3aa6f7f671e42455d152189df2a89bd4c758da37d4f5123e34e5f6ee01e7",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/delta_B.patch",
+          "bytes": 8063,
+          "sha256": "e8bff6f50379551b789cfa855ee718444749dde666011f10f5b67df411e03c3f",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/diff_check.log",
+          "bytes": 523617,
+          "sha256": "724be7be04dc43f7269321c0ab455ff47f99f53b3be29b7dd53f80014c947bcd",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/documents.json",
+          "bytes": 217682,
+          "sha256": "7f852e29863eb67f06aaf5714c48a857e84898436ff2a10402819821d9dca9eb",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/documents_summary.log",
+          "bytes": 3945,
+          "sha256": "e8718fe09baf89ab2de077d2c054d0bef95ff30b7b2465061be718a409fd773a",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/esecutore_metadata.json",
+          "bytes": 865,
+          "sha256": "1a25528154da89bb441381851e48d6e15ccfbff0c289714f247b324d61e2f836",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/final_preservation.json",
+          "bytes": 518,
+          "sha256": "37024d6f4b353ce49849272a159c8c12961a99f3ed330be25b075414597b2ed0",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/guardiano_A.log",
+          "bytes": 2582179,
+          "sha256": "aa51dee98af7507eb55826014cbb457483eff6b8e9cd1cf2e5c8921be3147b5b",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/guardiano_base.log",
+          "bytes": 2582249,
+          "sha256": "3652ba8bc2ea3a1a57a105632d651cebd6156f508db3aa30159c4416663a5dfd",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/integrity.json",
+          "bytes": 43827,
+          "sha256": "49151291e78abe9b92f0f250e07d2e830a6897176a080795a1acd1ea039c9e35",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/main_final_refs.txt",
+          "bytes": 57,
+          "sha256": "2851a07a74e0461d5b5d467397a4c07fb29ee3fe6d2ff4ad9fdc8cdc1f0915a0",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/parity.json",
+          "bytes": 544,
+          "sha256": "c2d8d388b614260832b57550a3a9c9070622ab7b8e3fd708d3291e62d6013013",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/parity_summary.log",
+          "bytes": 385,
+          "sha256": "610fe796ef86da69f6e62bddd3c0a145eff2099cdd50a3082415efc7c1fce470",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/runtime_metadata.json",
+          "bytes": 742,
+          "sha256": "580e1951daa1f2dacf8b73b0f43dfee922c6b9c741246e93ac9974fd91972e42",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/shared_removed_lines.txt",
+          "bytes": 4951,
+          "sha256": "9af425c279191618d15609fbd111e779c9aee413aa2394ac47372a7e0f865fb6",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/source_final_status.txt",
+          "bytes": 73,
+          "sha256": "8fbcd1dd1619f66ee0e491095cb5f2d46ca85b8ba927715318f56ab33319b85d",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/source_status_initial.txt",
+          "bytes": 73,
+          "sha256": "8fbcd1dd1619f66ee0e491095cb5f2d46ca85b8ba927715318f56ab33319b85d",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/supplement.json",
+          "bytes": 6922,
+          "sha256": "c603923bbba04ab4b66dd369cdc958fbfe351dfeb58be7e4d5a7b96e52bb704f",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/verification_status.txt",
+          "bytes": 46,
+          "sha256": "ca209d24c3c68a2048a38d69ca3bd2e969ee8277abfda4ab3771cab6e298fd27",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/worktrees_initial.txt",
+          "bytes": 4640,
+          "sha256": "1de2282e68b79622202521a6b948ff846c84fff731e7f93300575bfd61799c14",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/evidenze_verifica_raccordo/write_report.py",
+          "bytes": 19528,
+          "sha256": "8191e556eedbf77f446509cc4da571dc3073c5882918ab9eb007233875de2045",
+          "same": true
+        }
+      ],
+      "manifest_validation": [
+        {
+          "original_path": "studio2/fase03/VERIFICA_RACCORDO_DOCUMENTALE_036_0312_LETTERATURA.md",
+          "mapped_relative_path": "studio2/fase03/VERIFICA_RACCORDO_DOCUMENTALE_036_0312_LETTERATURA.md",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/CONSEGNA_ESTERNA_B.md",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/CONSEGNA_ESTERNA_B.md",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/CONSEGNA_GIT_A.md",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/CONSEGNA_GIT_A.md",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/acquisizione.json",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/acquisizione.json",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/check_documents.py",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/check_documents.py",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/check_integrity.py",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/check_integrity.py",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/check_parity.py",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/check_parity.py",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/check_supplement.py",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/check_supplement.py",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/delta_A.patch",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/delta_A.patch",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/delta_A_names.txt",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/delta_A_names.txt",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/delta_B.patch",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/delta_B.patch",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/diff_check.log",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/diff_check.log",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/documents.json",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/documents.json",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/documents_summary.log",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/documents_summary.log",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/esecutore_metadata.json",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/esecutore_metadata.json",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/final_preservation.json",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/final_preservation.json",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/guardiano_A.log",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/guardiano_A.log",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/guardiano_base.log",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/guardiano_base.log",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/integrity.json",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/integrity.json",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/main_final_refs.txt",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/main_final_refs.txt",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/parity.json",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/parity.json",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/parity_summary.log",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/parity_summary.log",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/runtime_metadata.json",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/runtime_metadata.json",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/shared_removed_lines.txt",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/shared_removed_lines.txt",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/source_final_status.txt",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/source_final_status.txt",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/source_status_initial.txt",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/source_status_initial.txt",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/supplement.json",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/supplement.json",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/verification_status.txt",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/verification_status.txt",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/worktrees_initial.txt",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/worktrees_initial.txt",
+          "match": true
+        },
+        {
+          "original_path": "studio2/fase03/evidenze_verifica_raccordo/write_report.py",
+          "mapped_relative_path": "studio2/fase03/evidenze_verifica_raccordo/write_report.py",
+          "match": true
+        }
+      ]
+    },
+    {
+      "folder": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315",
+      "files": [
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_ESTERNA_B.md",
+          "bytes": 11046,
+          "sha256": "b7398a24f57f18b59be4cd77e40785a286805e619f76eb65d8642f0d941ba607",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_GIT_A.md",
+          "bytes": 5484,
+          "sha256": "11143a5a3304370c23845b6a7b571aabe05fa48d6aa98027634c892fb5aa632d",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/MANIFEST_EVIDENZE.json",
+          "bytes": 7753,
+          "sha256": "44ed2a0bd01472b1d6ccafb6f0b3adc4e63d26a825b2bf627170e086af0bc04d",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/VERIFICA_BASE_e82b5a0.md",
+          "bytes": 21639,
+          "sha256": "7c1d6ebf90ccb29d2b3f418b0b6740b62435626db8e9a6b7f6abdd8512a27511",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/acquisizione.json",
+          "bytes": 486,
+          "sha256": "4575a771df550a9d36f5c3ec94d104bb1072ad94eb6b618e86554dea5efce48f",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_documents.py",
+          "bytes": 5398,
+          "sha256": "83a47041e8668356309ad2831d0154a0d0ef8c02888fc4d111a5ff51ea11f3e7",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_integrity.py",
+          "bytes": 5269,
+          "sha256": "4cc3428773fbfac6d33647047b48ce45410e6c3fdfd70f7440b5f48e3534fec5",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_A_names.txt",
+          "bytes": 1207,
+          "sha256": "77737e5946ca622c90a77f3650833da1305a3ffb758f89579113763889a18f32",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_B.patch",
+          "bytes": 7338,
+          "sha256": "dcc522366c98ae907f7f8ec3d7a61ee62380540e2d28299dce12b56e99441de6",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_shared.patch",
+          "bytes": 28227,
+          "sha256": "76a77aeb5cf5565a05523abbc89e4f36950ec4ac6e73dd929d1f745a135f1e2b",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_all_delta.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_documentation.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/documents.json",
+          "bytes": 148013,
+          "sha256": "c6373dbc01ffc60178ef9d635411e0801b2a715f5f2942e6b6297c4ae23551fb",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/final_preservation.json",
+          "bytes": 1505,
+          "sha256": "793ee30bb5d2dddd4262758f9a014587fbf9141714e64108f3194c76e8ef1189",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_HANDOFF_FASE03_2026-09-14_rev02.md",
+          "bytes": 48244,
+          "sha256": "b7d47c75538e12ab129fa17789c241a54d290ad19746cec18ecb53dc1050abff",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_sottofase_3_15.md",
+          "bytes": 6783,
+          "sha256": "1eca10539849c85530f6c7cbd4abb572e26d5d40b5f26fde0bb71cfc65780ac1",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_A.log",
+          "bytes": 2582249,
+          "sha256": "32d7c79bf2cc6c4d3e551ff40ca0d0184a12a8c9b239c01bcf2a96b9eb7a9bd4",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_base.log",
+          "bytes": 2582179,
+          "sha256": "aa51dee98af7507eb55826014cbb457483eff6b8e9cd1cf2e5c8921be3147b5b",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/integrity.json",
+          "bytes": 35831,
+          "sha256": "5f6bf3cf179fa9eda75e7a96eb24a42dbe28f53c64aa18393bdd0d5041f6eed8",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/lint.log",
+          "bytes": 44,
+          "sha256": "7863036d3116bda1194afa539cbb041d486d3a4771b68cd51b58001e95b3485f",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/local_tags_containing_91a880b.txt",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/metadata_runtime.json",
+          "bytes": 1460,
+          "sha256": "43b1f21276d4e4a929904e1002eccff76dc91e27d096508e0877425721ba7bea",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/preflight_sorgente.txt",
+          "bytes": 81,
+          "sha256": "1a64722c783e88fc8acbca0f73588d297b2282b6dfbf7ae3867ba5eacd3afeb5",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_refs_final.txt",
+          "bytes": 57,
+          "sha256": "2851a07a74e0461d5b5d467397a4c07fb29ee3fe6d2ff4ad9fdc8cdc1f0915a0",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_tags_final.txt",
+          "bytes": 6396,
+          "sha256": "f086f4d2f6dfb68370c5f1c60725c9f921b792c71731226657eb54cea0d260cd",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/supplement.json",
+          "bytes": 5424,
+          "sha256": "6721fd891c7246b4b1620b607b3f3884862e4a0d7449c16454f7ec77e617cca0",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/worktrees.txt",
+          "bytes": 5238,
+          "sha256": "7815e2855a20d0e8027c55e5987da3f403fdea78e4935b9b7a9a1e64eb1a992e",
+          "same": true
+        },
+        {
+          "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/write_report.py",
+          "bytes": 20002,
+          "sha256": "9501c6f91722f84c8cfa6d8ace23f519dd399668a9eeb2616542031e266e5be7",
+          "same": true
+        }
+      ],
+      "manifest_validation": [
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_ESTERNA_B.md",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_ESTERNA_B.md",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_GIT_A.md",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_GIT_A.md",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/VERIFICA_BASE_e82b5a0.md",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/VERIFICA_BASE_e82b5a0.md",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/acquisizione.json",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/acquisizione.json",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_documents.py",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_documents.py",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_integrity.py",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_integrity.py",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_A_names.txt",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_A_names.txt",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_B.patch",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_B.patch",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_shared.patch",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_shared.patch",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_all_delta.log",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_all_delta.log",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_documentation.log",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_documentation.log",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/documents.json",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/documents.json",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/final_preservation.json",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/final_preservation.json",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_HANDOFF_FASE03_2026-09-14_rev02.md",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_HANDOFF_FASE03_2026-09-14_rev02.md",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_sottofase_3_15.md",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_sottofase_3_15.md",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_A.log",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_A.log",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_base.log",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_base.log",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/integrity.json",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/integrity.json",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/lint.log",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/lint.log",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/local_tags_containing_91a880b.txt",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/local_tags_containing_91a880b.txt",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/metadata_runtime.json",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/metadata_runtime.json",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/preflight_sorgente.txt",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/preflight_sorgente.txt",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_refs_final.txt",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_refs_final.txt",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_tags_final.txt",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_tags_final.txt",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/supplement.json",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/supplement.json",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/worktrees.txt",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/worktrees.txt",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/write_report.py",
+          "mapped_relative_path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/write_report.py",
+          "match": true
+        },
+        {
+          "original_path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/VERIFICA_RACCORDO_DOCUMENTALE_0315.md",
+          "mapped_relative_path": "studio2/fase03/paper_sections/VERIFICA_RACCORDO_DOCUMENTALE_0315.md",
+          "match": true
+        }
+      ]
+    }
+  ]
+}

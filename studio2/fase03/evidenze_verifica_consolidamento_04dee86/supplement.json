@@ -1,0 +1,243 @@
+{
+  "diff_check_pair": {
+    "utc": "2026-09-14T19:42:11.688819+00:00",
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "4ba2ad6",
+      "04dee86",
+      "--",
+      "docs/fot_walkthrough_conversazione_studio2.md",
+      "docs/fot_walkthrough_conversazione_studio2.html"
+    ],
+    "exit": 0,
+    "output": ""
+  },
+  "diff_check_new_record": {
+    "utc": "2026-09-14T19:42:11.711316+00:00",
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "4ba2ad6",
+      "04dee86",
+      "--",
+      "studio2/fase03/ACQUISIZIONE_IDENTITA_RUNTIME_CONSOLIDAMENTO_2026-09-14.md"
+    ],
+    "exit": 2,
+    "output": "studio2/fase03/ACQUISIZIONE_IDENTITA_RUNTIME_CONSOLIDAMENTO_2026-09-14.md:3: trailing whitespace.\n+**Data:** 2026-09-14, Europe/Rome  \nstudio2/fase03/ACQUISIZIONE_IDENTITA_RUNTIME_CONSOLIDAMENTO_2026-09-14.md:5: trailing whitespace.\n+metriche 03.9→03.10.  \n"
+  },
+  "remote_final": {
+    "utc": "2026-09-14T19:42:12.236408+00:00",
+    "command": [
+      "git",
+      "ls-remote",
+      "origin",
+      "refs/heads/main",
+      "refs/heads/codex/studio2-consolidamento-0315-metriche",
+      "refs/tags/studio2-fase03-schema-insight-frozen-001",
+      "refs/tags/studio2-fase03-schema-insight-frozen-001^{}"
+    ],
+    "exit": 0,
+    "output": "c486eee95fe24c1e7bf4135ed7cebf01ac2962f1\trefs/heads/main\n"
+  },
+  "guardian_base": {
+    "failure_ids": [
+      "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ],
+    "error_ids": [],
+    "skip_lines": [
+      "setUpClass (__main__.TutorialChecks) ... skipped 'legacy part-1 walkthrough is not present in this checkout'",
+      "FAILED (failures=14, skipped=1)"
+    ],
+    "tests": "35"
+  },
+  "guardian_candidate": {
+    "failure_ids": [
+      "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ],
+    "error_ids": [],
+    "skip_lines": [
+      "setUpClass (__main__.TutorialChecks) ... skipped 'legacy part-1 walkthrough is not present in this checkout'",
+      "FAILED (failures=14, skipped=1)"
+    ],
+    "tests": "35"
+  },
+  "guardian_fail_subtest_skip_equal": {
+    "failure_ids": true,
+    "error_ids": true,
+    "skip_lines": true,
+    "tests": true
+  },
+  "slash_metric_adapter.py": [
+    {
+      "line": 164,
+      "text": "                    f\"03.9 summary metric is not an object for {condition}/{population}\"",
+      "classification": "f-string diagnostic separator; not a filesystem path"
+    }
+  ],
+  "slash_metrics.py": [
+    {
+      "line": 71,
+      "text": "                    f\"{label}/{case_id} has {len(rows)} rows; expected {expected_rows_per_cluster}\"",
+      "classification": "f-string diagnostic separator; not a filesystem path"
+    }
+  ],
+  "audit_attempts": [
+    "First document-script attempt assumed three single space insertions from prompt prose and stopped at assertion. Actual diff adds two spaces at each of three arrows (six U+0020).",
+    "Second attempt applied the arrow selector to the entire HTML (six sites, including other sections); stopped before document results were saved. Selector restricted to section 4.10; no candidate file edited.",
+    "Diagnostic whole-file SequenceMatcher completed and confirmed six individual U+0020 insertions, all adjacent to the three mapping arrows. No candidate error."
+  ],
+  "post_merge_commits": [
+    {
+      "commit": "1e4afa8c6c069cacc3702481e4de5f5794adda61",
+      "parents": [
+        "4ba2ad6e4a298411b4f0f7572ad3ef8e55948015"
+      ],
+      "changes": [
+        "A\tstudio2/fase03/VERIFICA_RACCORDO_DOCUMENTALE_036_0312_LETTERATURA.md",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/CONSEGNA_ESTERNA_B.md",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/CONSEGNA_GIT_A.md",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/MANIFEST_EVIDENZE.json",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/acquisizione.json",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/check_documents.py",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/check_integrity.py",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/check_parity.py",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/check_supplement.py",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/delta_A.patch",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/delta_A_names.txt",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/delta_B.patch",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/diff_check.log",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/documents.json",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/documents_summary.log",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/esecutore_metadata.json",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/final_preservation.json",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/guardiano_A.log",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/guardiano_base.log",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/integrity.json",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/main_final_refs.txt",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/parity.json",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/parity_summary.log",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/runtime_metadata.json",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/shared_removed_lines.txt",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/source_final_status.txt",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/source_status_initial.txt",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/supplement.json",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/verification_status.txt",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/worktrees_initial.txt",
+        "A\tstudio2/fase03/evidenze_verifica_raccordo/write_report.py",
+        "A\tstudio2/fase03/harness/VERIFICA_INTEGRAZIONE_RACCORDO_METRICHE_ESECUTORE.md",
+        "A\tstudio2/fase03/harness/VERIFICA_INTEGRAZIONE_RACCORDO_METRICHE_INDIPENDENTE.md",
+        "A\tstudio2/fase03/paper_sections/VERIFICA_DELTA_RACCORDO_0315.md",
+        "A\tstudio2/fase03/paper_sections/VERIFICA_RACCORDO_DOCUMENTALE_0315.md",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_ESTERNA_B.md",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/CONSEGNA_GIT_A.md",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/MANIFEST_EVIDENZE.json",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/VERIFICA_BASE_e82b5a0.md",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/acquisizione.json",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_documents.py",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_integrity.py",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_A_names.txt",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_B.patch",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/delta_shared.patch",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_all_delta.log",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/diff_check_documentation.log",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/documents.json",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/final_preservation.json",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_HANDOFF_FASE03_2026-09-14_rev02.md",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/fonte_esterna_sottofase_3_15.md",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_A.log",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/guardiano_base.log",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/integrity.json",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/lint.log",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/local_tags_containing_91a880b.txt",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/metadata_runtime.json",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/preflight_sorgente.txt",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_refs_final.txt",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/remote_tags_final.txt",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/supplement.json",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/worktrees.txt",
+        "A\tstudio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/write_report.py"
+      ]
+    },
+    {
+      "commit": "8a99df01a0f2bd7781e713a4aee7e22f9a7b2998",
+      "parents": [
+        "1e4afa8c6c069cacc3702481e4de5f5794adda61"
+      ],
+      "changes": [
+        "M\tstudio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md",
+        "A\tstudio2/fase03/harness/CONSEGNA_ACQUISIZIONE_OK_RACCORDO_METRICHE.md",
+        "M\tstudio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md"
+      ]
+    },
+    {
+      "commit": "d3bc506558dd1a26192ce6ab84552a20ecc73d0f",
+      "parents": [
+        "8a99df01a0f2bd7781e713a4aee7e22f9a7b2998"
+      ],
+      "changes": [
+        "A\tstudio2/fase03/harness/REPORT_INTEGRAZIONE_RACCORDO_METRICHE.md"
+      ]
+    },
+    {
+      "commit": "73dc4e50718aedc43da70956ac9fb799831f6a2e",
+      "parents": [
+        "d3bc506558dd1a26192ce6ab84552a20ecc73d0f"
+      ],
+      "changes": [
+        "A\tstudio2/fase03/ACQUISIZIONE_IDENTITA_RUNTIME_CONSOLIDAMENTO_2026-09-14.md"
+      ]
+    },
+    {
+      "commit": "04dee86140b3ff18882f9d164beef5ab7bf33e00",
+      "parents": [
+        "73dc4e50718aedc43da70956ac9fb799831f6a2e"
+      ],
+      "changes": [
+        "M\tdocs/fot_walkthrough_conversazione_studio2.html"
+      ]
+    }
+  ],
+  "preparer_working_copies": {
+    "count": 67,
+    "all_equal_isolated_candidate": true
+  },
+  "preparation_commit": {
+    "hash": "380d162390048e8a7e9e9884b4e932867e63a821",
+    "parents": [
+      "04dee86140b3ff18882f9d164beef5ab7bf33e00"
+    ],
+    "delta_after_technical_candidate": [
+      "A\tstudio2/fase03/CONSEGNA_CONSOLIDAMENTO_0315_METRICHE_2026-09-14.md",
+      "A\tstudio2/fase03/PROMPT_VERIFICA_CONSOLIDAMENTO_0315_METRICHE.md"
+    ]
+  }
+}

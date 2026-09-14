@@ -1,0 +1,132 @@
+{
+  "utc": "2026-09-14T19:48:54.109445+00:00",
+  "candidate": "04dee86140b3ff18882f9d164beef5ab7bf33e00",
+  "scope": "Final report and all files in this evidence directory; this manifest is excluded from its own inventory. Historical acquired manifests and reports are unmodified Git content. Temporary git archives are separately fingerprinted in checks.json.",
+  "files": [
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/CONSEGNA_CONSOLIDAMENTO_0315_METRICHE_2026-09-14.md",
+      "bytes": 14350,
+      "sha256": "279da29644a4109321064548bf3ea41c1984a2034be6dcb8f18714a9d117ace8"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/PROMPT_VERIFICA_CONSOLIDAMENTO_0315_METRICHE.md",
+      "bytes": 6436,
+      "sha256": "162e8538a7a82f35f8d18ceab1551f2c3972a7dc378cfa8b3010bb750e459161"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/check_documents.py",
+      "bytes": 5986,
+      "sha256": "7eab99f8307dbc51eb594da088f6ce49d38b9e6c20969db71c72b7f4c4f19132"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/check_integrity.py",
+      "bytes": 8225,
+      "sha256": "37e46589b09625fcf05dff84c4f853922aa1e191883e64bb72ac26aa6661af71"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/check_metadata.py",
+      "bytes": 2365,
+      "sha256": "b0a9b0975ab555df0fd8869798d27d323da7b44cff8dc85d442c4df3a19118e0"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/checks.json",
+      "bytes": 7535,
+      "sha256": "3dd0b97f49e1b2355ca45d1fb82f055f9518de1725fee6a4469707be344c5a33"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/delta_M.patch",
+      "bytes": 24089,
+      "sha256": "d6486aa6aa97dc74f0edb8060b7d502f749783a7c300241bef2589024bfc7f34"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/delta_P.patch",
+      "bytes": 19904,
+      "sha256": "1c19fa87ef809f910c1c45e00d2a10197069347ecb74b21cfb671d1e60e370b9"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/diff_check_new_record.log",
+      "bytes": 259,
+      "sha256": "e3ff592ab0e2f501f3ac8d8bd6d6ccb8c9ccf78c3cbd94a99102b51746e82a59"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/diff_check_pair.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/documents.json",
+      "bytes": 77659,
+      "sha256": "7db3e760e6e814e45ac80d997ee83edb1e36e87b0be6c77036819823dcddf079"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/final_preservation.json",
+      "bytes": 2973,
+      "sha256": "36f21df512a8fd39b1d97b769c5a129dc1db9ee95bd9be9b40164bed08e70128"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/guardiano_base.log",
+      "bytes": 2582865,
+      "sha256": "e1e1abbe911fa88384259c630d1412ccd1f94f471767971eef31bc87e72a6d5c"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/guardiano_candidate.log",
+      "bytes": 2582935,
+      "sha256": "4b8439b726314a921ea31142b167205f280c378906416687bbd56ff704267c16"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/integrity.json",
+      "bytes": 85581,
+      "sha256": "6a2f811ce123ca58e0aefaa6837d8c90cea4c6f34eaff9cac6ac463d39b610c1"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/lint.log",
+      "bytes": 44,
+      "sha256": "7863036d3116bda1194afa539cbb041d486d3a4771b68cd51b58001e95b3485f"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/metadata.json",
+      "bytes": 10250,
+      "sha256": "cc537e1ebc86dccbb2ee4d241778965798293d41b4b95e6e8ebd466314b4c996"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/metriche.log",
+      "bytes": 1671,
+      "sha256": "0e6ee7321688459b98f29d1da4d31268d57cb829d8cc9acb7ae7fe341e97890a"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/preflight.json",
+      "bytes": 7400,
+      "sha256": "55bb012659ad304cda5b02d7af8d4c77cd94484347663cb3b3a5569dcadd28ae"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/remote_final.log",
+      "bytes": 57,
+      "sha256": "2851a07a74e0461d5b5d467397a4c07fb29ee3fe6d2ff4ad9fdc8cdc1f0915a0"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/run_checks.py",
+      "bytes": 2359,
+      "sha256": "47ddce50261c400a76c63b184ea01db01f99548ab601d79e9808d522f00cb6a6"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/supplement.json",
+      "bytes": 14848,
+      "sha256": "0f0a5244965e9af280cafd14ef23949ad954529ad9efcc1eebe2d29566ce221c"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/typography.patch",
+      "bytes": 1277,
+      "sha256": "38c969ad6370b8950c56052ab6266ed1e042906783729cc2b0fac03b21036918"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/evidenze_verifica_consolidamento_04dee86/write_report.py",
+      "bytes": 20532,
+      "sha256": "6b157e5467f7727875fe8b1fe0eb392d0a3ae3e8cf04abb0f35a30cd4498aa41"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/VERIFICA_CONSOLIDAMENTO_0315_METRICHE.md",
+      "bytes": 23510,
+      "sha256": "253563fdaa10bb812af33500611251507146e362da2d753a0802d884fed21adc"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "utc": "2026-09-14T19:48:53.899842+00:00",
+  "source_head": "380d162390048e8a7e9e9884b4e932867e63a821",
+  "source_status": "",
+  "verifier_head": "04dee86140b3ff18882f9d164beef5ab7bf33e00",
+  "verifier_status": "?? studio2/fase03/VERIFICA_CONSOLIDAMENTO_0315_METRICHE.md\n?? studio2/fase03/evidenze_verifica_consolidamento_04dee86/\n",
+  "tracked_and_staged_diffs": "empty",
+  "final_source_acquisition_fingerprints": [
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-e82b5a0/studio2/fase03/VERIFICA_RACCORDO_DOCUMENTALE_036_0312_LETTERATURA.md",
+      "bytes": 21639,
+      "sha256": "7c1d6ebf90ccb29d2b3f418b0b6740b62435626db8e9a6b7f6abdd8512a27511"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64/studio2/fase03/paper_sections/VERIFICA_RACCORDO_DOCUMENTALE_0315.md",
+      "bytes": 24282,
+      "sha256": "1b6125541df01b1172af3bfa5639cd0ff200657820d977dadcf277f5b399d7d3"
+    },
+    {
+      "path": "/Users/luker/fot-tep/.worktrees/verifica-delta-raccordo-0315-10582798/studio2/fase03/paper_sections/VERIFICA_DELTA_RACCORDO_0315.md",
+      "bytes": 7415,
+      "sha256": "efd16ffb46dbcef940e326e51d319a4f33ca7f64cf4f4a230bf548aba0ac0129"
+    },
+    {
+      "path": "/Users/luker/fot-tep/Claude outputs/VERIFICA_INTEGRAZIONE_RACCORDO_METRICHE.md",
+      "bytes": 7975,
+      "sha256": "d8b9c34f7af69de3ef749efe21e9e645c828bbf942086671311d094422883862"
+    },
+    {
+      "path": "/Users/luker/fot-tep/.worktrees/integrazione-raccordo-metriche/_delivery/VERIFICA_INTEGRAZIONE_RACCORDO_METRICHE.md",
+      "bytes": 7351,
+      "sha256": "0c1b760368b38e842df3f73196286e83995974cf25efc0dedd571e17276e4d98"
+    },
+    {
+      "path": "/Users/luker/fot-tep-raccordo-036-0312-letteratura/studio2/fase03/CONSEGNA_RACCORDO_03_6_03_12_LETTERATURA_2026-09-14.md",
+      "bytes": 17597,
+      "sha256": "46185e3d15867253e98f5c9f08df5ab8ed8a6a6643a15d5011079341045514e6"
+    },
+    {
+      "path": "/Users/luker/fot-tep-raccordo-0315-local/studio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md",
+      "bytes": 11801,
+      "sha256": "8f2c1082606eea5554f0213d66a0f8dac5d66adc5ade4d35bca0a832bb4bdb71"
+    },
+    {
+      "path": "/Users/luker/fot-tep/.worktrees/acquisizione-raccordo-ok/studio2/fase03/harness/CONSEGNA_ACQUISIZIONE_OK_RACCORDO_METRICHE.md",
+      "bytes": 10164,
+      "sha256": "d3294a90ebd46c0e2892ee4c33ecc2ddd7ce5bfdea0d7fad205745f9ad101972"
+    },
+    {
+      "path": "/Users/luker/fot-tep/.worktrees/integrazione-raccordo-metriche/_delivery/REPORT_INTEGRAZIONE_RACCORDO_METRICHE.md",
+      "bytes": 8871,
+      "sha256": "96f9867e06a8060fd2383416592564ba1d09c40128b08715509e339f07b2e7c9"
+    }
+  ],
+  "checks": "all final assertions satisfied",
+  "report": {
+    "path": "/Users/luker/fot-tep-verifica-consolidamento-04dee86/studio2/fase03/VERIFICA_CONSOLIDAMENTO_0315_METRICHE.md",
+    "bytes": 23510,
+    "sha256": "253563fdaa10bb812af33500611251507146e362da2d753a0802d884fed21adc"
+  }
+}

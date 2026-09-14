@@ -1,0 +1,198 @@
+diff --git a/docs/fot_walkthrough_conversazione_studio2.html b/docs/fot_walkthrough_conversazione_studio2.html
+index 615a6eb..3182fa0 100644
+--- a/docs/fot_walkthrough_conversazione_studio2.html
++++ b/docs/fot_walkthrough_conversazione_studio2.html
+@@ -91,6 +91,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+ <li><a href="#evidence-697-d"><span class="n">4.6</span>Evidence 697-D (03.6)</a></li>
+ <li><a href="#pseudolabel-037"><span class="n">4.7</span>Pseudolabel e derangement di E</a></li>
+ <li><a href="#normal-dev-baseline-039"><span class="n">4.9</span><code>normal_dev</code> e baseline numerica</a></li>
++<li><a href="#harness-raccordo-metriche-0310"><span class="n">4.10</span>raccordo metriche 03.9 → 03.10</a></li>
+ <li><a href="#schema-insight-0312"><span class="n">4.12</span>Schema degli insight R4</a></li>
+ <li><a href="#paper-sections-0315"><span class="n">4.15</span>Sezioni comuni del paper</a></li>
+ <li><a href="#sez-13-conferenza"><span class="n">13</span>Conferenza</a></li>
+@@ -106,7 +107,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
+ <p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>. Stato al <strong>2026-09-14</strong>:
+ fasi 01 e 02 documentate in §2 e §3; la sotto-fase <strong>criteri di selezione (§6.1)</strong> della
+ Fase 03 è documentata in <a href="#criteri-selezione-61">§4.1</a>; <strong>D1, verificata, congelata e pubblicata</strong>, in <a href="#catalogo-d1">§4.2</a>;
+-i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; il <strong>perimetro del codice Q8</strong>, chiuso, in <a href="#perimetro-codice-q8">§4.4</a>; le <strong>soglie Normal (§6.3)</strong>, calibrate e verificate, in <a href="#soglie-normal-63">§4.5</a>; le <strong>evidence 697-D</strong>, verificate e conservate nella release v2, in <a href="#evidence-697-d">§4.6</a>; pseudolabel e derangement, verificati, in <a href="#pseudolabel-037">§4.7</a>; <code>normal_dev</code> e baseline numerica, verificati ma non ancora congelati efficacemente, in <a href="#normal-dev-baseline-039">§4.9</a>; lo <strong>schema insight R4</strong>, verificato ma non ancora pubblicato, in <a href="#schema-insight-0312">§4.12</a>; le <strong>sezioni comuni del paper</strong>, aggiornate e verificate ma conservate soltanto nel candidato locale, in <a href="#paper-sections-0315">§4.15</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
++i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; il <strong>perimetro del codice Q8</strong>, chiuso, in <a href="#perimetro-codice-q8">§4.4</a>; le <strong>soglie Normal (§6.3)</strong>, calibrate e verificate, in <a href="#soglie-normal-63">§4.5</a>; le <strong>evidence 697-D</strong>, verificate e conservate nella release v2, in <a href="#evidence-697-d">§4.6</a>; pseudolabel e derangement, verificati, in <a href="#pseudolabel-037">§4.7</a>; <code>normal_dev</code> e baseline numerica, verificati ma non ancora congelati efficacemente, in <a href="#normal-dev-baseline-039">§4.9</a>; il <strong>raccordo delle metriche 03.9 → 03.10</strong>, verificato sul solo delta, in <a href="#harness-raccordo-metriche-0310">§4.10</a>; lo <strong>schema insight R4</strong>, verificato ma non ancora pubblicato, in <a href="#schema-insight-0312">§4.12</a>; le <strong>sezioni comuni del paper</strong>, aggiornate e verificate ma conservate soltanto nel candidato locale, in <a href="#paper-sections-0315">§4.15</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
+ resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, non questo file.</p>
+ </blockquote>
+ </div>
+@@ -1018,6 +1019,76 @@ da Git e sono legati agli inventari tracciati.</p>
+ <h4>Lavoro che resta</h4>
+ <p>Integrare e testare il mapping dei nomi nella 03.10 e rendere raggiungibili da <code>origin/main</code> i sorgenti riusati della 03.6. Solo dopo, creare e registrare il tag della baseline in una nuova revisione del freeze. Pubblicazione, riscaricamento e integrazione del pacchetto 03.9 sono completati; la sotto-fase resta aperta. La <a href="../studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md">consegna di integrazione</a> riporta commit, prove e dipendenze residue.</p>
+ </section>
++<section id="harness-raccordo-metriche-0310">
++<h3>4.10 · Fase 03 — harness: raccordo delle metriche 03.9 → 03.10 (sotto-fase 03.10)</h3>
++<p><em>Questa sotto-sezione documenta <strong>soltanto</strong> il raccordo (adattamento offline)
++delle metriche fra la baseline numerica 03.9 e l'harness 03.10, delta <code>5116087..caf5bfb</code>.
++<strong>Non</strong> documenta l'intero harness 03.10, che resta aperto, e non chiude 03.9 né 03.10.
++La Fase 03 <strong>non è chiusa</strong>.</em></p>
++<p><strong>Stato d'integrazione (candidato locale su <code>e82b5a0</code>).</strong> Il <em>delta metriche</em> <code>5116087..caf5bfb</code> è già verificato <strong>OK</strong> in modo indipendente (verbale acquisito). Il presente <em>candidato d'integrazione</em> è invece <strong>nuovo lavoro non ancora verificato indipendentemente</strong>: importa il raccordo sulla base comune <code>e82b5a0</code> (che non conteneva <code>studio2/fase03/harness/</code>), con la sola chiusura minima di dipendenze (<code>common.py</code>) e un test mirato <code>test_metric_raccordo.py</code> (MetricTests estratti dal test verificato). <code>common.py</code> è codice di supporto preesistente <strong>non coperto</strong> dall'OK del solo delta; il test mirato e l'import completo vanno sottoposti a verifica indipendente del nuovo delta d'integrazione.</p>
++<h4>Riassunto e sintesi</h4>
++<p>Il delta aggiunge un adattatore offline, hash-pinned e fail-closed, che legge il documento
++<code>metrics.json</code> della baseline numerica 03.9 e ne rinomina i campi verso il contratto a
++tre numeri dell'harness 03.10 <strong>senza ricalcolare</strong> i valori. La verifica indipendente
++sul solo delta è <strong>OK</strong> (verbale <code>VERIFICA_RACCORDO_METRICHE.md</code>, prima riga
++<code>VERDETTO: OK</code>). L'OK vale per il commit e il perimetro indicati, non per l'intero
++harness: restano aperti input reali, pin 03.12, ordine delle label, qualificazione dell'endpoint e
++collegamento ai run finali.</p>
++<h4>Dettaglio — mapping, conteggi e denominatori</h4>
++<p>Il mapping dei nomi è <code>accuracy</code> → <code>accuracy_all</code>, <code>n</code> → <code>total</code>,
++<code>abstentions</code> → <code>abstained</code>; <code>non_abstained</code> è preservato dopo la
++verifica <code>non_abstained = total − abstained</code>. Il campo <code>invalid</code> è assente
++nella sorgente 03.9 e viene emesso come <code>invalid = 0</code> <strong>solo</strong> perché la
++baseline 03.9 è valid-only (ogni riga ha <code>valid=true</code> e un input non valido arresta
++l'esecuzione); un campo <code>invalid</code> inatteso, o conteggi/rapporti incoerenti, fanno fallire
++l'adattatore (fonti: <code>CONTRATTO_RACCORDO_METRICHE.md</code>, <code>metric_adapter.py</code>).</p>
++<p>I denominatori sono <code>accuracy_all = correct / total</code>, <code>abstention_rate = abstained / total</code>
++e <code>accuracy_non_abstained = correct / non_abstained</code>, con <code>non_abstained = total − abstained</code>.
++Nel calcolo generale dell'harness un invalido non è corretto e non è un'astensione, ma <strong>resta
++nel denominatore</strong> di <code>accuracy_non_abstained</code>; con denominatore zero il valore è
++<code>null</code> (fonti: <code>metrics.py</code>, <code>SPECIFICA_HARNESS.md</code> §8, e la rev. 10
++del piano statistico per la categoria autonoma dell'invalidità). I tre valori dei rapporti sono
++copiati per identità dall'oggetto sorgente, senza arrotondamento (verificato su 12.341 configurazioni
++valid-only). L'ambito del diff è 5 file, +484 / −1 riga, <code>git diff --check</code> pulito.</p>
++<h4>Connessione alla letteratura e alle critiche</h4>
++<p>Il raccordo è un passaggio interno di interfaccia e non introduce claim bibliografici nuovi:
++rende adottabile in 03.10 la baseline deterministica documentata in
++<a href="#normal-dev-baseline-039">§4.9</a> senza alterarne i numeri. Mitiga il rischio di
++disallineamento semantico fra produttore 03.9 e consumatore 03.10; non dimostra accuratezza,
++robustezza o indipendenza statistica.</p>
++<h4>Limiti</h4>
++<p>L'OK è <strong>limitato al delta <code>5116087..caf5bfb</code></strong>: non è un OK dell'intero
++harness, non chiude 03.9 / 03.10, non rende efficace <code>HARNESS_FREEZE.json</code> e non
++autorizza chiamate, simulazioni o analisi sui run finali. La verifica indipendente registra due
++<strong>skip</strong> (checkout esterni non montati nella sandbox: test dell'adapter 03.12 e
++inventario release 03.6), da tenere distinti dal risultato locale dell'esecutore, che riporta invece
++<strong>1 errore preesistente</strong> nel test del vecchio pin 03.12 (il checkout 03.12 corrente
++non coincide con l'hash pinnato). Il <strong>problema del pin 03.12 resta aperto e fuori
++perimetro</strong>: non è stato convertito in PASS né corretto. La semantica invalidità/astensione
++dipende normativamente da <code>DELTA_HARNESS_03_10.md</code> della rev. 10, non ancora integrata nel
++branch harness.</p>
++<h4>Artefatti e riproducibilità</h4>
++<p>Delta verificato: commit <code>caf5bfb0ff9b4fc974608f9bc432e0430d90b7ae</code>; base
++<code>51160872906feaa63c1fda5e9cf6e0fe8538fb16</code>; sorgente 03.9
++<code>c486eee95fe24c1e7bf4135ed7cebf01ac2962f1</code>. Report e manifest del candidato sono nel
++commit successivo <code>1ac06eb</code>: il
++<a href="../studio2/fase03/harness/REPORT_RACCORDO_METRICHE.md">report</a> (SHA-256 <code>8ab3ac62…</code>),
++il <a href="../studio2/fase03/harness/CONTRATTO_RACCORDO_METRICHE.md">contratto</a>
++(SHA-256 <code>5c81586f…</code>) e il manifest <code>METRIC_INTERFACE_CANDIDATE.json</code> (stato
++<code>independent_verification: PENDING</code> conservato). Il
++<a href="../studio2/fase03/harness/VERIFICA_RACCORDO_METRICHE.md">verbale indipendente</a> ha
++SHA-256 <code>0d90779981871b8c9ceaf2a729f97b371abb7297fb804dc4335ddf0f1bec0e80</code>; l'OK è
++registrato in
++<a href="../studio2/fase03/harness/REGISTRO_OK_RACCORDO_METRICHE.md">REGISTRO_OK_RACCORDO_METRICHE.md</a>.
++Dipendenza normativa rev. 10: <code>studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md</code> al
++riferimento Git stabile <code>6aaa5b3eebfed4ba502c25c0443caabd0051af21</code> (blob <code>780e08ae…</code>,
++contenuto SHA-256 <code>e92661fe…</code>).</p>
++<h4>Lavoro che resta</h4>
++<p>Collegare l'adapter agli artefatti reali dell'harness e agli input verificati; integrare la
++rev. 10 nel branch harness; completare pin 03.12, ordine delle label, endpoint e qualificazione dei
++modelli. Solo con i sorgenti 03.6 raggiungibili da <code>origin/main</code> e i controlli previsti si
++potrà completare il record di freeze 03.9 e il relativo tag. La sotto-fase 03.10 resta aperta.</p>
++</section>
+ <section id="schema-insight-0312">
+ <h3>4.12 · Fase 03 — schema degli insight (sotto-fase 03.12)</h3>
+ <h4>Riassunto e sintesi</h4>
+diff --git a/docs/fot_walkthrough_conversazione_studio2.md b/docs/fot_walkthrough_conversazione_studio2.md
+index 0c60e9a..6e0d52e 100644
+--- a/docs/fot_walkthrough_conversazione_studio2.md
++++ b/docs/fot_walkthrough_conversazione_studio2.md
+@@ -3,7 +3,7 @@
+ > **Documento vivo, a scheletro.** Si aggiorna **fase per fase**. Stato al **2026-09-14**:
+ > fasi 01 e 02 documentate in §2 e §3; la sotto-fase **criteri di selezione (§6.1)** della
+ > Fase 03 è documentata in [§4.1](#criteri-selezione-61); **D1, verificata, congelata e pubblicata**, in [§4.2](#catalogo-d1);
+-> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); le **soglie Normal (§6.3)**, calibrate e verificate, in [§4.5](#soglie-normal-63); le **evidence 697-D**, verificate e conservate nella release v2, in [§4.6](#evidence-697-d); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037); `normal_dev` e baseline numerica, verificati ma non ancora congelati efficacemente, in [§4.9](#normal-dev-baseline-039); lo **schema insight R4**, verificato ma non ancora pubblicato, in [§4.12](#schema-insight-0312); le **sezioni comuni del paper**, aggiornate e verificate ma conservate soltanto nel candidato locale, in [§4.15](#paper-sections-0315). La Fase 03 resta aperta. La parte restante delle fasi successive
++> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); le **soglie Normal (§6.3)**, calibrate e verificate, in [§4.5](#soglie-normal-63); le **evidence 697-D**, verificate e conservate nella release v2, in [§4.6](#evidence-697-d); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037); `normal_dev` e baseline numerica, verificati ma non ancora congelati efficacemente, in [§4.9](#normal-dev-baseline-039); il **raccordo delle metriche 03.9 → 03.10**, verificato sul solo delta, in [§4.10](#harness-raccordo-metriche-0310); lo **schema insight R4**, verificato ma non ancora pubblicato, in [§4.12](#schema-insight-0312); le **sezioni comuni del paper**, aggiornate e verificate ma conservate soltanto nel candidato locale, in [§4.15](#paper-sections-0315). La Fase 03 resta aperta. La parte restante delle fasi successive
+ > resta a scheletro: per essa **la fonte autorevole è il piano**, non questo file.
+ 
+ | Ruolo | File |
+@@ -1312,6 +1312,86 @@ sono completati; la sotto-fase resta aperta. La
+ [consegna di integrazione](../studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md)
+ riporta commit, prove e dipendenze residue.
+ 
++<a id="harness-raccordo-metriche-0310"></a>
++
++### 4.10 · Fase 03 — harness: raccordo delle metriche 03.9 → 03.10 (sotto-fase 03.10)
++
++> Questa sotto-sezione documenta **soltanto** il raccordo (adattamento offline) delle metriche
++> fra la baseline numerica 03.9 e l'harness 03.10, delta `5116087..caf5bfb`. **Non** documenta
++> l'intero harness 03.10, che resta aperto, e non chiude 03.9 né 03.10. La Fase 03 **non è chiusa**.
++
++>
++> **Stato d'integrazione (candidato locale su `e82b5a0`).** Il *delta metriche* `5116087..caf5bfb` è già verificato **OK** in modo indipendente (verbale acquisito). Il presente *candidato d'integrazione* è invece **nuovo lavoro non ancora verificato indipendentemente**: importa il raccordo sulla base comune `e82b5a0` (che non conteneva `studio2/fase03/harness/`), con la sola chiusura minima di dipendenze (`common.py`) e un test mirato `test_metric_raccordo.py` (MetricTests estratti dal test verificato). `common.py` è codice di supporto preesistente **non coperto** dall'OK del solo delta; il test mirato e l'import completo vanno sottoposti a verifica indipendente del nuovo delta d'integrazione.
++
++#### Riassunto e sintesi
++
++Il delta aggiunge un adattatore offline, hash-pinned e fail-closed, che legge il documento
++`metrics.json` della baseline numerica 03.9 e ne rinomina i campi verso il contratto a tre numeri
++dell'harness 03.10 **senza ricalcolare** i valori. La verifica indipendente sul solo delta è
++**OK** (verbale `VERIFICA_RACCORDO_METRICHE.md`, prima riga `VERDETTO: OK`). L'OK vale per il
++commit e il perimetro indicati, non per l'intero harness: restano aperti input reali, pin 03.12,
++ordine delle label, qualificazione dell'endpoint e collegamento ai run finali.
++
++#### Dettaglio — mapping, conteggi e denominatori
++
++Il mapping dei nomi è `accuracy` → `accuracy_all`, `n` → `total`, `abstentions` → `abstained`;
++`non_abstained` è preservato dopo la verifica `non_abstained = total − abstained`. Il campo
++`invalid` è assente nella sorgente 03.9 e viene emesso come `invalid = 0` **solo** perché la
++baseline 03.9 è valid-only (ogni riga ha `valid=true` e un input non valido arresta l'esecuzione);
++un campo `invalid` inatteso, o conteggi/rapporti incoerenti, fanno fallire l'adattatore (fonti:
++`CONTRATTO_RACCORDO_METRICHE.md`, `metric_adapter.py`).
++
++I denominatori sono `accuracy_all = correct / total`, `abstention_rate = abstained / total` e
++`accuracy_non_abstained = correct / non_abstained`, con `non_abstained = total − abstained`. Nel
++calcolo generale dell'harness un invalido non è corretto e non è un'astensione, ma **resta nel
++denominatore** di `accuracy_non_abstained`; con denominatore zero il valore è `null` (fonti:
++`metrics.py`, `SPECIFICA_HARNESS.md` §8, e la rev. 10 del piano statistico per la categoria
++autonoma dell'invalidità). I tre valori dei rapporti sono copiati per identità dall'oggetto
++sorgente, senza arrotondamento (verificato su 12.341 configurazioni valid-only). L'ambito del diff
++è 5 file, +484 / −1 riga, `git diff --check` pulito.
++
++#### Connessione alla letteratura e alle critiche
++
++Il raccordo è un passaggio interno di interfaccia e non introduce claim bibliografici nuovi: rende
++adottabile in 03.10 la baseline deterministica documentata in [§4.9](#normal-dev-baseline-039)
++senza alterarne i numeri. Mitiga il rischio di disallineamento semantico fra produttore 03.9 e
++consumatore 03.10; non dimostra accuratezza, robustezza o indipendenza statistica.
++
++#### Limiti
++
++L'OK è **limitato al delta `5116087..caf5bfb`**: non è un OK dell'intero harness, non chiude
++03.9 / 03.10, non rende efficace `HARNESS_FREEZE.json` e non autorizza chiamate, simulazioni o
++analisi sui run finali. La verifica indipendente registra due **skip** (checkout esterni non
++montati nella sandbox: test dell'adapter 03.12 e inventario release 03.6), da tenere distinti dal
++risultato locale dell'esecutore, che riporta invece **1 errore preesistente** nel test del vecchio
++pin 03.12 (il checkout 03.12 corrente non coincide con l'hash pinnato). Il **problema del pin 03.12
++resta aperto e fuori perimetro**: non è stato convertito in PASS né corretto. La semantica
++invalidità/astensione dipende normativamente da `DELTA_HARNESS_03_10.md` della rev. 10, non ancora
++integrata nel branch harness.
++
++#### Artefatti e riproducibilità
++
++Delta verificato: commit `caf5bfb0ff9b4fc974608f9bc432e0430d90b7ae`; base
++`51160872906feaa63c1fda5e9cf6e0fe8538fb16`; sorgente 03.9
++`c486eee95fe24c1e7bf4135ed7cebf01ac2962f1`. Report e manifest del candidato sono nel commit
++successivo `1ac06eb`: il [report](../studio2/fase03/harness/REPORT_RACCORDO_METRICHE.md)
++(SHA-256 `8ab3ac62…`), il [contratto](../studio2/fase03/harness/CONTRATTO_RACCORDO_METRICHE.md)
++(SHA-256 `5c81586f…`) e il manifest `METRIC_INTERFACE_CANDIDATE.json` (stato
++`independent_verification: PENDING` conservato). Il
++[verbale indipendente](../studio2/fase03/harness/VERIFICA_RACCORDO_METRICHE.md) ha SHA-256
++`0d90779981871b8c9ceaf2a729f97b371abb7297fb804dc4335ddf0f1bec0e80`; l'OK è registrato in
++[REGISTRO_OK_RACCORDO_METRICHE.md](../studio2/fase03/harness/REGISTRO_OK_RACCORDO_METRICHE.md).
++Dipendenza normativa rev. 10: `studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md` al
++riferimento Git stabile `6aaa5b3eebfed4ba502c25c0443caabd0051af21` (blob `780e08ae…`, contenuto
++SHA-256 `e92661fe…`).
++
++#### Lavoro che resta
++
++Collegare l'adapter agli artefatti reali dell'harness e agli input verificati; integrare la
++rev. 10 nel branch harness; completare pin 03.12, ordine delle label, endpoint e qualificazione dei
++modelli. Solo con i sorgenti 03.6 raggiungibili da `origin/main` e i controlli previsti si potrà
++completare il record di freeze 03.9 e il relativo tag. La sotto-fase 03.10 resta aperta.
++
+ <a id="schema-insight-0312"></a>
+ 
+ ### 4.12 · Fase 03 — schema degli insight (sotto-fase 03.12)
