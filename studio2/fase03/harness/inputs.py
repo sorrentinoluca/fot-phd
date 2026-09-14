@@ -27,7 +27,12 @@ SCHEMA_TARGET_COMMIT = "3c64390bc4dd58c48cc4e1e388a38989b32b3143"
 SCHEMA_MANIFEST_SHA256 = "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12"
 SCHEMA_TAG = "studio2-fase03-schema-insight-frozen-001"
 SCHEMA_TAG_OBJECT = "4d15c4fb915ea9db9f7425225d231746778f0ba1"
+CANONICAL_INPUT_ROOT = Path(__file__).resolve().parents[1]
 SELECTION_NAMESPACE = "studio2-fase03-pilot-selection-v1"
+PSEUDOLABEL_SHA256 = "b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6"
+ASSIGNMENT_SHA256 = "df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf"
+DERANGEMENT_SHA256 = "34350c7e49b11d29b885da128d4b34ce3df31cd41df7c521cb66421aa1b9d001"
+PENDING_INVENTORY_SHA256 = "7103482d6c7b8038944b0af63bac58548557c8d0b8f5d24e420346bd93fa304b"
 CATALOG = ("F1", "F2", "F3", "F8", "F10", "F13", "F14", "F15")
 AGENTS = tuple(f"agent_{index}" for index in range(1, 9))
 VARIABLE = re.compile(r"^X(MEAS|MV)-(\d+)$")
@@ -60,6 +65,7 @@ def _load_evidence(root: Path) -> tuple[list[dict[str, Any]], dict[str, dict[str
         private = index_by_id[evidence_id]
         if private["fault"] not in CATALOG or private["window_ordinal"] != public["window_ordinal"]:
             raise HarnessError(f"invalid evaluator metadata for {evidence_id}")
+        require_sha256(root / public["json_path"], public["json_sha256"], role=f"evidence JSON {evidence_id}")
         text_path = root / public["text_path"]
         require_sha256(text_path, public["text_sha256"], role=f"neutral text {evidence_id}")
         neutral = text_path.read_text(encoding="utf-8").strip()
@@ -140,22 +146,55 @@ def _normal_examples(path: Path | None) -> tuple[dict[str, dict[str, str]], list
     return result, []
 
 
-def _insights(path: Path | None) -> tuple[list[dict[str, Any]], list[str], dict[str, Any] | None]:
+def verified_pending_inventory():
+    path = Path(__file__).with_name('PILOT_INPUT_SOURCES.pending.json')
+    require_sha256(path, PENDING_INVENTORY_SHA256, role='authenticated producer source inventory')
+    return load_json(path)
+
+
+def verify_conformance_inventory(inventory):
+    for relative, pin in [('pseudolabel/PSEUDOLABEL_MAP.json', PSEUDOLABEL_SHA256),
+                          ('pseudolabel/AGENT_ASSIGNMENT.json', ASSIGNMENT_SHA256),
+                          ('pseudolabel/CONDITION_E_DERANGEMENTS.json', DERANGEMENT_SHA256),
+                          ('baseline_numerica/NORMAL_DEV_HANDOFF.json', NORMAL_HANDOFF_SHA256)]:
+        require_sha256(CANONICAL_INPUT_ROOT/relative, pin, role='canonical development source')
+    expected = verified_pending_inventory()
+    if inventory != expected:
+        raise HarnessError('producer inventory differs from authenticated development sources/contracts')
+    return expected
+
+
+def _insights(path, *, ledger=None, token_count=None, schema_dir=None):
     if path is None:
-        return [], ["16 real schema-valid producer insights"], None
+        return [], ['16 real schema-valid producer insights'], None
+    if ledger is None or token_count is None or schema_dir is None:
+        raise HarnessError('insight handoff requires durable producer ledger and R4 validation')
+    from .insight_adapter import validate_library
+    from .ledger import digest
     value = load_json(path)
-    required = {"schema_commit", "schema_manifest_sha256", "library", "library_sha256", "validated"}
-    if not isinstance(value, dict) or set(value) != required:
-        raise HarnessError("insight handoff has unexpected fields")
-    if value["schema_commit"] != SCHEMA_TARGET_COMMIT:
-        raise HarnessError("insight handoff does not use the verified R4 target")
-    if value["schema_manifest_sha256"] != SCHEMA_MANIFEST_SHA256:
-        raise HarnessError("insight schema manifest hash mismatch")
-    if value["validated"] is not True or sha256_text(canonical_json(value["library"])) != value["library_sha256"]:
-        raise HarnessError("insight library is not validated or its hash differs")
-    if not isinstance(value["library"], list) or len(value["library"]) != 16:
-        raise HarnessError("insight library must contain sixteen records")
-    return value["library"], [], {key: value[key] for key in required - {"library"}}
+    stage = 'producer_remediation' if ledger.event('remediation_authorized') else 'producer_conformity'
+    outcome = ledger.event('outcome:' + stage)
+    ledger.verify_stage_success(stage)
+    binding = ledger.binding(stage)
+    records = ledger.stage_records(stage)
+    if not outcome or outcome['outcome'] != 'PASS' or any(e.startswith('suspended:') for e in ledger.snapshot()['events']):
+        raise HarnessError('handoff requires successful active producer cycle')
+    library = []
+    for row in records:
+        raw = ledger.response(row['request_id'])['raw']
+        try:
+            library.extend(json.loads(raw['choices'][0]['message']['content'])['insights'])
+        except (KeyError, TypeError, IndexError, ValueError) as exc:
+            raise HarnessError('handoff raw response cannot reproduce library') from exc
+    library.sort(key=lambda x: x['insight_id'])
+    expected = dict(schema_commit=SCHEMA_TARGET_COMMIT, schema_manifest_sha256=SCHEMA_MANIFEST_SHA256,
+                    library=library, library_sha256=digest(library), validated=True,
+                    pilot_id=ledger.pilot_id, stage=stage, binding_sha256=digest(binding),
+                    records_sha256=digest(records))
+    if value != expected or binding.get('inventory_sha256') != digest(verified_pending_inventory()):
+        raise HarnessError('insight handoff provenance does not match active producer records')
+    validate_library(library, inventory=verified_pending_inventory(), token_count=token_count, schema_dir=schema_dir)
+    return library, [], {k: v for k, v in expected.items() if k != 'library'}
 
 
 def _dominant_variable_ids(evidence_json: Path) -> list[str]:
@@ -197,9 +236,12 @@ def build_inventory(
     assembly_base_commit: str,
     normal_handoff: Path | None = None,
     insight_handoff: Path | None = None,
+    ledger=None, token_count=None, schema_dir=None, presentation_approval=None,
 ) -> tuple[dict[str, Any], dict[str, Any] | None]:
     if not re.fullmatch(r"[0-9a-f]{40}", assembly_base_commit):
         raise HarnessError("assembly_base_commit must be a full Git object ID")
+    for path, pin in ((pseudolabel_path, PSEUDOLABEL_SHA256), (assignment_path, ASSIGNMENT_SHA256), (derangement_path, DERANGEMENT_SHA256)):
+        require_sha256(path, pin, role='frozen 03.7 input')
     cases, public_by_id = _load_evidence(evidence_root)
     labels = load_json(pseudolabel_path)
     assignment_value = load_json(assignment_path)
@@ -214,7 +256,7 @@ def build_inventory(
     transfer_faults = _fault_assignment(owners)
     transfer_cases = _select_transfer_cases(cases, transfer_faults)
     normal, missing_normal = _normal_examples(normal_handoff)
-    insights, missing_insights, insight_validation = _insights(insight_handoff)
+    insights, missing_insights, insight_validation = _insights(insight_handoff, ledger=ledger, token_count=token_count, schema_dir=schema_dir)
     missing = [*missing_normal, *missing_insights]
 
     prompt_cases = [
@@ -371,15 +413,19 @@ def build_inventory(
         "local_example_provenance": provenance_examples,
         "fixed_insight_contracts": fixed_contracts,
     }
+    if presentation_approval is not None:
+        from .guards import require_presentation
+        inventory['presentation']['author_decision'] = 'accepted'
+        require_presentation(inventory, presentation_approval)
     executable = None
     if not missing:
         executable = {
             "artifact_version": "1",
-            "status": "FROZEN_FOR_PHASE03_PRE_GATE",
+            "status": "FROZEN_FOR_PHASE03_PRE_GATE" if presentation_approval else "PENDING_PRESENTATION_APPROVAL",
             "provenance_kind": "study2_scientific",
             "source_commit": assembly_base_commit,
             "catalog_id": labels["namespace"],
-            "label_space": displayed,
+            "label_space": labels["label_space"],
             "agents": agents,
             "development_cases": prompt_cases,
             "local_examples": local_examples,
@@ -398,12 +444,31 @@ def main() -> int:
     parser.add_argument("--normal-handoff", type=Path)
     parser.add_argument("--insight-handoff", type=Path)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--ledger", type=Path)
+    parser.add_argument("--pilot-id")
+    parser.add_argument("--model-snapshot", type=Path)
     parser.add_argument("--executable-output", type=Path)
     parser.add_argument("--pseudolabel", type=Path, default=root / "studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json")
     parser.add_argument("--assignment", type=Path, default=root / "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json")
     parser.add_argument("--derangements", type=Path, default=root / "studio2/fase03/pseudolabel/CONDITION_E_DERANGEMENTS.json")
     args = parser.parse_args()
+    execution = {}
+    if args.insight_handoff is not None:
+        from .ledger import PilotLedger
+        from .guards import require_execution, require_pilot_ledger, verify_tokenizer
+        from studio2.fase03.prepare_gate import offline_token_counter
+        from studio2.fase03.protocol import PREFLIGHT_CONFIG_PATH
+        config = load_json(PREFLIGHT_CONFIG_PATH)
+        require_execution(config)
+        if args.ledger is None or args.pilot_id is None or args.model_snapshot is None:
+            raise HarnessError('insight handoff requires shared ledger, pilot id and pinned tokenizer snapshot')
+        ledger = PilotLedger(args.ledger, pilot_id=args.pilot_id)
+        require_pilot_ledger(config, ledger)
+        verify_tokenizer(args.model_snapshot, **config['tokenizer'])
+        execution = dict(ledger=ledger, token_count=offline_token_counter(args.model_snapshot, chat_template=False),
+                         schema_dir=root/'studio2/fase03/schema_insight', presentation_approval=config['presentation_approval'])
     inventory, executable = build_inventory(
+        **execution,
         evidence_root=args.evidence_root,
         pseudolabel_path=args.pseudolabel,
         assignment_path=args.assignment,

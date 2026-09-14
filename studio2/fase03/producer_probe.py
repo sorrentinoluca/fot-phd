@@ -63,7 +63,7 @@ def provider_config(path: Path | None) -> dict[str, Any]:
         raise HarnessError("execution requires a separately frozen provider config after D9; the historical 27B record is not a default")
     value = load_json(path)
     required = {"name", "base_url", "model", "temperature", "seed", "max_tokens",
-                "thinking_token_budget", "expected_max_model_len", "identity_sha256"}
+                "thinking_token_budget", "expected_max_model_len", "identity_sha256", "expected_response", "tokenizer"}
     if not isinstance(value, dict) or set(value) != required:
         raise HarnessError(f"producer provider config keys must be {sorted(required)}")
     if not isinstance(value["identity_sha256"], str) or len(value["identity_sha256"]) != 64:
@@ -85,119 +85,111 @@ def _conformance_inputs(inventory: dict[str, Any]) -> tuple[dict[str, Any], list
     examples, contracts = inputs.get("local_examples"), inputs.get("fixed_insight_contracts")
     if not isinstance(examples, dict) or not isinstance(contracts, list) or len(contracts) != 16:
         raise HarnessError("producer conformance inputs are incomplete")
+    from studio2.fase03.harness.inputs import verify_conformance_inventory
+    verify_conformance_inventory(inventory)
     return examples, contracts
 
 
 def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snapshot: Path,
-        schema_dir: Path, ledger: PilotLedger, stage: str) -> dict[str, Any]:
-    try:
-        from openai import OpenAI
-    except ImportError as exc:
-        raise RuntimeError("openai SDK is required in the future qualified runtime") from exc
-    if stage not in {"producer_conformity", "producer_remediation", "alternate_conformity"}:
-        raise HarnessError("invalid producer conformance stage")
+        schema_dir: Path, ledger: PilotLedger, stage: str, resume=False, retry_requests=(),
+        template_path: Path | None = None, diagnosis: str | None = None) -> dict[str, Any]:
+    from studio2.fase03.harness.guards import require_execution, verify_tokenizer, require_pilot_ledger, response_identity_valid
+    from studio2.fase03.harness.insight_adapter import load_validator, context_from_inventory, assert_context_compatible
+    from studio2.fase03.harness.ledger import digest
+    from studio2.fase03.harness.runtime import execute_request, durable_write
     preflight = load_json(PREFLIGHT_CONFIG_PATH)
+    require_execution(preflight)
+    require_pilot_ledger(preflight, ledger)
     inventory = load_json(source_inventory)
     examples, contracts = _conformance_inputs(inventory)
-    owners = sorted(row["source_agent"] for row in contracts)
-    if owners != sorted(f"agent_{index}" for index in range(1, 9) for _ in range(2)):
-        raise HarnessError("fixed contracts must assign exactly two insights to every agent")
     provider = provider_config(provider_path)
+    response_identity_valid({}, provider['expected_response'])
+    if sha256_file(provider_path) not in preflight.get('approved_producer_config_sha256', []):
+        raise HarnessError('producer config is not covered by execution approval')
+    verify_tokenizer(snapshot, **provider['tokenizer'])
+    validator = load_validator(schema_dir)
+    assert_context_compatible(validator, context_from_inventory(inventory))
     count = offline_token_counter(snapshot, chat_template=False)
-    prepared = []
-    for index in range(1, 9):
-        agent_id = f"agent_{index}"
-        prompt = build_producer_prompt(agent_id=agent_id, local_examples=examples[agent_id], fixed_contracts=contracts)
-        fixed = sorted((row for row in contracts if row["source_agent"] == agent_id), key=lambda row: row["insight_id"])
-        input_tokens = count(prompt)
-        margin = provider["expected_max_model_len"] - input_tokens - provider["max_tokens"]
-        if margin < preflight["generation_budget"]["context_safety_margin_tokens"]:
-            raise HarnessError(f"producer prompt does not fit the frozen context for {agent_id}")
-        prepared.append((agent_id, prompt, fixed, input_tokens, margin))
-
-    client = OpenAI(api_key=os.environ.get("STUDIO2_PRODUCER_API_KEY", "local-vllm"),
-                    base_url=provider["base_url"], max_retries=0, timeout=600.0)
-    stage_run = f"{stage}:{sha256_file(source_inventory)}:{provider['identity_sha256']}"
-    records, library = [], []
-    for agent_id, prompt, fixed, input_tokens, margin in prepared:
-        logical_id, request_id = f"{stage}:{agent_id}", f"{stage_run}:{agent_id}"
-        reservation = {"request_id": request_id, "logical_id": logical_id, "model": provider["model"],
-                       "producer": provider["name"], "stage_run": stage_run}
-        if stage == "producer_remediation":
-            ledger.reserve_remediation_request(**reservation)
-        else:
-            ledger.reserve_request(stage=stage, **reservation)
-        kwargs: dict[str, Any] = {
-            "model": provider["model"], "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": provider["max_tokens"],
-            "response_format": {"type": "json_schema", "json_schema": {
-                "name": "study2_insight_pair", "strict": True, "schema": response_schema(fixed, preflight)}},
-        }
-        if provider["temperature"] is not None:
-            kwargs["temperature"] = provider["temperature"]
-        if provider["seed"] is not None:
-            kwargs["seed"] = provider["seed"]
-        if provider["thinking_token_budget"] is not None:
-            kwargs["extra_body"] = {"thinking_token_budget": provider["thinking_token_budget"]}
-        begin = time.monotonic()
-        try:
+    chat_count = offline_token_counter(snapshot, chat_template=True)
+    from studio2.fase03.harness.producer import PRODUCER_TEMPLATE
+    template = PRODUCER_TEMPLATE if template_path is None else template_path.read_bytes().decode('utf-8')
+    if stage != 'producer_remediation' and template != PRODUCER_TEMPLATE:
+        raise HarnessError('only authorized remediation may change producer template')
+    prepared, specs = [], []
+    for i in range(1, 9):
+        agent_id = f'agent_{i}'
+        prompt = build_producer_prompt(agent_id=agent_id, local_examples=examples[agent_id], fixed_contracts=contracts, template=template)
+        fixed = sorted((r for r in contracts if r['source_agent'] == agent_id), key=lambda r: r['insight_id'])
+        margin = provider['expected_max_model_len'] - chat_count(prompt) - provider['max_tokens']
+        if margin < preflight['generation_budget']['context_safety_margin_tokens']:
+            raise HarnessError('producer prompt does not fit frozen context')
+        spec = dict(logical_id=agent_id, model=provider['model'], producer=provider['name'],
+                    prompt_sha256=sha256_text(prompt), case_sha256=digest(examples[agent_id]),
+                    contract_sha256=digest(fixed), condition='producer', group=agent_id, repetition=1)
+        specs.append(spec)
+        prepared.append((spec, prompt, fixed))
+    binding = dict(requests=specs, template_text=template, inventory_sha256=digest(inventory),
+                   provider=provider, tokenizer=provider['tokenizer'], schema_manifest_sha256=SCHEMA_MANIFEST_SHA256)
+    ledger.bind_stage(stage, binding)
+    # Reject any uncertain restart before constructing a client or sending later requests.
+    from openai import OpenAI
+    client = OpenAI(api_key=os.environ.get('STUDIO2_PRODUCER_API_KEY', 'local-vllm'),
+                    base_url=provider['base_url'], max_retries=0, timeout=600.0)
+    records = []
+    journal = results_dir / f'producer_{stage}_journal.jsonl'
+    for spec, prompt, fixed in prepared:
+        require_execution(preflight)
+        verify_tokenizer(snapshot, **provider['tokenizer'])
+        load_validator(schema_dir)
+        _conformance_inputs(load_json(source_inventory))
+        if provider_config(provider_path) != provider:
+            raise HarnessError('producer provider config changed during stage')
+        kwargs = dict(model=provider['model'], messages=[dict(role='user', content=prompt)], max_tokens=provider['max_tokens'],
+                      response_format={'type': 'json_schema', 'json_schema': {'name': 'study2_insight_pair', 'strict': True, 'schema': response_schema(fixed, preflight)}})
+        for k in ('temperature','seed'):
+            if provider[k] is not None:
+                kwargs[k] = provider[k]
+        if provider['thinking_token_budget'] is not None:
+            kwargs['extra_body'] = {'thinking_token_budget': provider['thinking_token_budget']}
+        def transport():
             response = client.chat.completions.create(**kwargs)
-        except Exception as exc:
-            ledger.complete_request(request_id, status="FAILED", latency_ms=(time.monotonic() - begin) * 1000,
-                                    detail={"error_type": type(exc).__name__, "message": str(exc)})
-            raise RuntimeError("producer transport failed and was recorded; retry requires independent zero-token proof") from exc
-        latency = time.monotonic() - begin
-        if len(response.choices) != 1:
-            ledger.complete_request(request_id, status="FAILED", latency_ms=latency * 1000, detail={"error": "choice_count"})
-            raise RuntimeError("provider must return exactly one choice")
-        content = response.choices[0].message.content or ""
-        validation_error, pair = None, []
-        try:
-            parsed = strict_json_loads(content)
-            if not isinstance(parsed, dict) or set(parsed) != {"insights"}:
-                raise HarnessError("producer response must contain only insights")
-            pair = parsed["insights"]
-            validate_produced_pair(pair, inventory=inventory, agent_id=agent_id, token_count=count, schema_dir=schema_dir)
-        except Exception as exc:
-            validation_error = str(exc)
-        usage = response.usage
-        prompt_tokens, completion_tokens = getattr(usage, "prompt_tokens", None), getattr(usage, "completion_tokens", None)
-        total_tokens = getattr(usage, "total_tokens", None)
-        ledger.complete_request(request_id, status="COMPLETED", prompt_tokens=prompt_tokens,
-                                completion_tokens=completion_tokens, total_tokens=total_tokens,
-                                latency_ms=latency * 1000,
-                                detail={"response_id": response.id, "schema_valid_first_attempt": validation_error is None})
-        if validation_error is None:
-            library.extend(pair)
-        records.append({
-            "timestamp": datetime.now(timezone.utc).isoformat(), "producer": provider["name"], "agent_id": agent_id,
-            "prompt_sha256": sha256_text(prompt), "input_tokens_offline": input_tokens, "context_margin_tokens": margin,
-            "returned_model": response.model, "response_id": response.id,
-            "system_fingerprint": getattr(response, "system_fingerprint", None),
-            "finish_reason": response.choices[0].finish_reason, "latency_seconds": latency,
-            "raw_output": content, "raw_output_sha256": sha256_text(content),
-            "schema_valid_first_attempt": validation_error is None, "validation_error": validation_error,
-            "retry_count": 0, "response_raw": response.model_dump(mode="json"),
-        })
-    output = results_dir / f"producer_conformance_{provider['name']}_{stage}.jsonl"
-    write_atomic(output, "".join(canonical_json(item) + "\n" for item in records))
-    passed = len(library) == 16 and all(item["schema_valid_first_attempt"] for item in records)
-    summary = {"artifact_version": "2", "status": "PASS" if passed else "FAIL", "stage": stage,
-               "producer_identity_sha256": provider["identity_sha256"], "provider_requests": len(records),
-               "valid_first_attempts": sum(item["schema_valid_first_attempt"] for item in records),
-               "records_path": str(output.resolve()), "records_sha256": sha256_file(output),
-               "r4_target_commit": SCHEMA_TARGET_COMMIT, "r4_manifest_sha256": SCHEMA_MANIFEST_SHA256,
-               "scope": "R4 producer conformance only; no diagnostic or accuracy claim"}
-    summary_path = results_dir / f"producer_conformance_{provider['name']}_{stage}_summary.json"
-    write_atomic(summary_path, json.dumps(summary, indent=2, ensure_ascii=False) + "\n")
-    if stage in {"producer_conformity", "producer_remediation"}:
-        ledger.record_stage_outcome(stage, outcome=summary["status"], artifact_sha256=sha256_file(summary_path))
+            return response.model_dump(mode='json')
+        def evaluate(raw):
+            choices = raw.get('choices', [])
+            content = choices[0].get('message', {}).get('content') if len(choices) == 1 else None
+            error, error_class = None, None
+            try:
+                parsed = strict_json_loads(content)
+                if not isinstance(parsed, dict) or set(parsed) != {'insights'}:
+                    raise HarnessError('producer response must contain only insights')
+                validate_produced_pair(parsed['insights'], inventory=inventory, agent_id=spec['logical_id'], token_count=count, schema_dir=schema_dir)
+            except Exception as exc:
+                error = str(exc)
+                code = getattr(exc, 'code', None)
+                error_class = {'cap':'cap','leakage':'leakage','fixed':'identifiers','variable':'identifiers','schema':'structure','json':'structure','cardinality':'structure'}.get(code)
+                if code is None and isinstance(exc, (ValueError, TypeError)):
+                    error_class = 'structure'
+            usage = raw.get('usage') or {}
+            return dict(agent_id=spec['logical_id'], returned_model=raw.get('model'), system_fingerprint=raw.get('system_fingerprint'),
+                        response_id=raw.get('id'), raw_output=content, schema_valid_first_attempt=error is None,
+                        validation_error=error, validation_class=error_class, finish_reason=choices[0].get('finish_reason') if len(choices)==1 else None,
+                        **{k: usage.get(k) for k in ('prompt_tokens','completion_tokens','total_tokens')})
+        records.append(execute_request(ledger=ledger, stage=stage, spec=spec, transport=transport, evaluate=evaluate,
+                                      expected_identity=provider['expected_response'], journal_path=journal,
+                                      resume=resume, retry_requests=retry_requests))
+    passed = all(r['schema_valid_first_attempt'] for r in records)
+    summary = dict(artifact_version='3', status='PASS' if passed else 'FAIL', stage=stage,
+                   producer_identity_sha256=digest(provider), provider_requests=len(records),
+                   valid_first_attempts=sum(r['schema_valid_first_attempt'] for r in records), records_sha256=digest(records),
+                   binding_sha256=digest(binding), r4_target_commit=SCHEMA_TARGET_COMMIT)
+    ledger.record_stage_outcome(stage, outcome=summary['status'], artifact_sha256=digest(summary), artifact=summary, diagnosis=diagnosis)
+    durable_write(results_dir / f'producer_conformance_{provider["name"]}_{stage}_summary.json', json.dumps(summary, indent=2)+'\n')
     if passed:
-        ordered = sorted(library, key=lambda row: row["insight_id"])
-        handoff = {"schema_commit": SCHEMA_TARGET_COMMIT, "schema_manifest_sha256": SCHEMA_MANIFEST_SHA256,
-                   "library": ordered, "library_sha256": sha256_text(canonical_json(ordered)), "validated": True}
-        write_atomic(results_dir / f"validated_insight_library_{provider['name']}_{stage}.json",
-                     json.dumps(handoff, indent=2, ensure_ascii=False) + "\n")
+        library = sorted([x for r in records for x in json.loads(r['raw_output'])['insights']], key=lambda r: r['insight_id'])
+        handoff = dict(schema_commit=SCHEMA_TARGET_COMMIT, schema_manifest_sha256=SCHEMA_MANIFEST_SHA256,
+                       library=library, library_sha256=digest(library), validated=True, pilot_id=ledger.pilot_id,
+                       stage=stage, binding_sha256=digest(binding), records_sha256=digest(records))
+        durable_write(results_dir / f'validated_insight_library_{provider["name"]}_{stage}.json', json.dumps(handoff, indent=2)+'\n')
     return summary
 
 
@@ -225,6 +217,10 @@ def main() -> int:
     parser.add_argument("--stage", choices=("producer_conformity", "producer_remediation", "alternate_conformity"), default="producer_conformity")
     parser.add_argument("--ledger", type=Path)
     parser.add_argument("--pilot-id")
+    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--retry-request", action="append", default=[])
+    parser.add_argument("--template", type=Path)
+    parser.add_argument("--diagnosis", choices=("structure", "identifiers", "cap", "leakage"))
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--acknowledge")
     args = parser.parse_args()
@@ -239,7 +235,7 @@ def main() -> int:
     ledger = PilotLedger(args.ledger, pilot_id=args.pilot_id)
     summary = run(source_inventory=args.source_inventory, results_dir=args.results_dir,
                   provider_path=args.provider_config, snapshot=args.model_snapshot, schema_dir=args.schema_dir,
-                  ledger=ledger, stage=args.stage)
+                  ledger=ledger, stage=args.stage, resume=args.resume, retry_requests=args.retry_request, template_path=args.template, diagnosis=args.diagnosis)
     print(canonical_json(summary))
     return 0 if summary["status"] == "PASS" else 2
 

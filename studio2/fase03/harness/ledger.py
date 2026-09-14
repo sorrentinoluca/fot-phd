@@ -1,459 +1,483 @@
-"""Persistent, process-safe accounting for every Phase 03 pilot request.
+"""Durable, fail-closed pilot state machine. All decisions use one SQLite transaction.
 
-An INTENT row is committed before transport starts and counts permanently, even
-after a crash.  The SQLite file must be an absolute, shared path so changing the
-checkout, results directory, runner, or producer cannot reset the budget.
+A new ledger must be shared by all runners of one pilot. Legacy ledgers are
+read-only evidence: migration requires an independently reviewed reconciliation.
+No uncertain request is ever resent implicitly.
 """
-
 from __future__ import annotations
 
 from contextlib import closing, contextmanager
 from datetime import datetime, timezone
+import difflib
 import json
 from pathlib import Path
 import re
 import sqlite3
 from typing import Any, Iterable
 
-from .common import HarnessError, canonical_json
-
+from .common import HarnessError, canonical_json, sha256_text, sha256_file, load_json
 
 HASH = re.compile(r"^[0-9a-f]{64}$")
-STAGES = {
-    "producer_conformity",
-    "producer_remediation",
-    "alternate_conformity",
-    "budget_probe",
-    "stability_gate",
-}
-BASE_LIMITS = {
-    "producer_conformity": 8,
-    "producer_remediation": 8,
-    "alternate_conformity": 8,
-    "budget_probe": 9,
-    "stability_gate": 120,
-}
+STAGES = {"producer_conformity", "producer_remediation", "alternate_conformity", "budget_probe", "stability_gate"}
+BASE_LIMITS = dict(producer_conformity=8, producer_remediation=8, alternate_conformity=8, budget_probe=9, stability_gate=120)
+DIAGNOSES = {"structure", "identifiers", "cap", "leakage"}
 
 
-def _utc_now() -> str:
+def digest(value):
+    return sha256_text(canonical_json(value))
+
+
+def _utc_now():
     return datetime.now(timezone.utc).isoformat()
 
 
 class PilotLedger:
-    """Single source of truth for cumulative request and reserve accounting."""
-
-    def __init__(self, path: Path, *, pilot_id: str) -> None:
+    def __init__(self, path: Path, *, pilot_id: str):
         if not path.is_absolute():
             raise HarnessError("pilot ledger path must be absolute and shared across worktrees")
         if not re.fullmatch(r"[A-Za-z0-9_.-]{8,120}", pilot_id):
             raise HarnessError("invalid pilot_id")
-        self.path = path
-        self.pilot_id = pilot_id
+        self.path, self.pilot_id = path.resolve(), pilot_id
         path.parent.mkdir(parents=True, exist_ok=True)
-        with closing(self._connect()) as connection:
-            connection.executescript(
-                """
+        with closing(self._connect()) as c:
+            version = c.execute("PRAGMA user_version").fetchone()[0]
+            if version not in {0, 2}:
+                raise HarnessError("unsupported ledger version")
+            if version == 0 and c.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchone():
+                raise HarnessError("legacy ledger requires explicit reviewed migration; preserved without changes")
+            c.executescript('''
                 PRAGMA journal_mode=WAL;
-                PRAGMA synchronous=FULL;
+                CREATE TABLE IF NOT EXISTS pilot (id TEXT PRIMARY KEY);
+                CREATE TABLE IF NOT EXISTS stages (
+                    stage TEXT PRIMARY KEY, binding_json TEXT NOT NULL, binding_sha256 TEXT NOT NULL);
                 CREATE TABLE IF NOT EXISTS requests (
-                    pilot_id TEXT NOT NULL,
-                    request_id TEXT NOT NULL,
-                    logical_id TEXT NOT NULL,
-                    model TEXT NOT NULL,
-                    producer TEXT NOT NULL,
-                    stage TEXT NOT NULL,
-                    stage_run TEXT NOT NULL,
-                    quota_kind TEXT NOT NULL,
-                    retry_of TEXT,
-                    status TEXT NOT NULL,
-                    intent_utc TEXT NOT NULL,
-                    completed_utc TEXT,
-                    prompt_tokens INTEGER,
-                    completion_tokens INTEGER,
-                    total_tokens INTEGER,
-                    latency_ms REAL,
-                    proof_sha256 TEXT,
-                    detail_json TEXT,
-                    PRIMARY KEY (pilot_id, request_id)
-                );
-                CREATE UNIQUE INDEX IF NOT EXISTS request_logical_once
-                    ON requests(pilot_id, logical_id, quota_kind, stage_run);
+                    request_id TEXT PRIMARY KEY, logical_id TEXT NOT NULL, stage TEXT NOT NULL,
+                    stage_run TEXT NOT NULL, model TEXT NOT NULL, producer TEXT NOT NULL,
+                    quota_kind TEXT NOT NULL, retry_of TEXT UNIQUE, identity_json TEXT NOT NULL,
+                    status TEXT NOT NULL, intent_utc TEXT NOT NULL, completed_utc TEXT,
+                    prompt_tokens INTEGER, completion_tokens INTEGER, total_tokens INTEGER,
+                    latency_ms REAL, proof_sha256 TEXT, detail_json TEXT);
+                CREATE UNIQUE INDEX IF NOT EXISTS base_once ON requests(stage,logical_id)
+                    WHERE retry_of IS NULL;
                 CREATE TABLE IF NOT EXISTS events (
-                    pilot_id TEXT NOT NULL,
-                    event TEXT NOT NULL,
-                    created_utc TEXT NOT NULL,
-                    artifact_sha256 TEXT NOT NULL,
-                    detail_json TEXT NOT NULL,
-                    PRIMARY KEY (pilot_id, event)
-                );
-                """
-            )
+                    event TEXT PRIMARY KEY, created_utc TEXT NOT NULL,
+                    artifact_sha256 TEXT NOT NULL, detail_json TEXT NOT NULL);
+                CREATE TABLE IF NOT EXISTS responses (
+                    request_id TEXT PRIMARY KEY, raw_json TEXT NOT NULL, raw_sha256 TEXT NOT NULL,
+                    record_json TEXT, record_sha256 TEXT);
+                CREATE TABLE IF NOT EXISTS receipts (request_id TEXT PRIMARY KEY, capture_json TEXT NOT NULL);
+                PRAGMA user_version=2;
+            ''')
+        with self._transaction() as c:
+            c.execute("INSERT OR IGNORE INTO pilot VALUES (?)", (pilot_id,))
+            if [r[0] for r in c.execute("SELECT id FROM pilot")] != [pilot_id]:
+                raise HarnessError("ledger belongs to a different pilot; counters cannot be reset by renaming")
+
+    def _connect(self):
+        c = sqlite3.connect(self.path, timeout=30)
+        c.row_factory = sqlite3.Row
+        c.execute("PRAGMA synchronous=FULL")
+        return c
 
     @contextmanager
     def _transaction(self):
-        connection = self._connect()
+        c = self._connect()
         try:
-            connection.execute("BEGIN IMMEDIATE")
-            yield connection
-            connection.commit()
-        except Exception:
-            connection.rollback()
+            c.execute("BEGIN IMMEDIATE")
+            yield c
+            c.commit()
+        except BaseException:
+            c.rollback()
             raise
         finally:
-            connection.close()
+            c.close()
 
-    def _connect(self) -> sqlite3.Connection:
-        connection = sqlite3.connect(self.path, timeout=30.0)
-        connection.row_factory = sqlite3.Row
-        return connection
+    def _rows(self, c):
+        return list(c.execute("SELECT * FROM requests ORDER BY rowid"))
 
-    def _rows(self, connection: sqlite3.Connection) -> list[sqlite3.Row]:
-        return list(
-            connection.execute(
-                "SELECT * FROM requests WHERE pilot_id=? ORDER BY intent_utc, request_id",
-                (self.pilot_id,),
-            )
-        )
-
-    def _events(self, connection: sqlite3.Connection) -> dict[str, sqlite3.Row]:
-        return {
-            row["event"]: row
-            for row in connection.execute(
-                "SELECT * FROM events WHERE pilot_id=?", (self.pilot_id,)
-            )
-        }
+    def _events(self, c):
+        return {r['event']: r for r in c.execute("SELECT * FROM events")}
 
     @staticmethod
-    def _require_hash(value: str, role: str) -> None:
-        if not HASH.fullmatch(value):
+    def _require_hash(value, role):
+        if not isinstance(value, str) or not HASH.fullmatch(value):
             raise HarnessError(f"{role} must be a lowercase SHA-256")
 
-    def record_event(self, event: str, *, artifact_sha256: str, detail: dict[str, Any]) -> None:
-        self._require_hash(artifact_sha256, "event artifact")
-        with self._transaction() as connection:
-            try:
-                connection.execute(
-                    "INSERT INTO events VALUES (?,?,?,?,?)",
-                    (self.pilot_id, event, _utc_now(), artifact_sha256, canonical_json(detail)),
-                )
-            except sqlite3.IntegrityError as exc:
-                raise HarnessError(f"event is create-once: {event}") from exc
-
-    def authorize_remediation(
-        self, *, diff_sha256: str, approval_sha256: str, template_sha256: str
-    ) -> None:
-        for value, role in (
-            (diff_sha256, "remediation diff"),
-            (approval_sha256, "author approval"),
-            (template_sha256, "remediated template"),
-        ):
-            self._require_hash(value, role)
-        with closing(self._connect()) as connection:
-            rows = self._rows(connection)
-            events = self._events(connection)
-            if any(row["stage"] in {"budget_probe", "stability_gate"} for row in rows):
-                raise HarnessError("remediation is forbidden after probe or gate start")
-            outcome = events.get("outcome:producer_conformity")
-            if outcome is None or json.loads(outcome["detail_json"])["outcome"] != "FAIL":
-                raise HarnessError("remediation requires a recorded failed conformity stage")
-        self.record_event(
-            "remediation_authorized",
-            artifact_sha256=approval_sha256,
-            detail={"diff_sha256": diff_sha256, "template_sha256": template_sha256},
-        )
-
-    def waive_remediation(self, *, approval_sha256: str) -> None:
-        """Explicitly close remediation before spending transport calls 8..15."""
-        self.record_event(
-            "remediation_waived",
-            artifact_sha256=approval_sha256,
-            detail={"effect": "no later producer remediation is admissible"},
-        )
-
-    def record_stage_outcome(self, stage: str, *, outcome: str, artifact_sha256: str) -> None:
-        if stage not in {
-            "producer_conformity",
-            "producer_remediation",
-            "alternate_conformity",
-            "budget_probe",
-        }:
-            raise HarnessError("unsupported stage outcome")
-        if outcome not in {"PASS", "FAIL", "BLOCKED"}:
-            raise HarnessError("unsupported stage outcome value")
-        with closing(self._connect()) as connection:
-            rows = [row for row in self._rows(connection) if row["stage"] == stage]
-        if stage in {"producer_conformity", "alternate_conformity"}:
-            base = sum(row["quota_kind"] == "base" for row in rows)
-            if base != 8:
-                raise HarnessError(f"{stage} outcome requires exactly 8 base requests")
-        if stage == "producer_remediation":
-            remediation = sum(row["quota_kind"] == "remediation" for row in rows)
-            if remediation != 8:
-                raise HarnessError("producer_remediation outcome requires exactly 8 remediation requests")
-        if stage == "budget_probe":
-            base = sum(row["quota_kind"] == "base" for row in rows)
-            if base not in {3, 6, 9}:
-                raise HarnessError("budget probe outcome requires 3, 6 or 9 base requests")
-        if any(row["status"] == "INTENT" for row in rows):
-            raise HarnessError("stage outcome cannot hide unresolved request intents")
-        self.record_event(
-            f"outcome:{stage}", artifact_sha256=artifact_sha256, detail={"outcome": outcome}
-        )
-
-    def _insert_intent(
-        self,
-        connection: sqlite3.Connection,
-        *,
-        request_id: str,
-        logical_id: str,
-        model: str,
-        producer: str,
-        stage: str,
-        stage_run: str,
-        quota_kind: str,
-        retry_of: str | None,
-    ) -> None:
-        if stage not in STAGES or quota_kind not in {"base", "remediation", "transport"}:
-            raise HarnessError("invalid stage or quota kind")
-        if not all(isinstance(value, str) and value.strip() for value in (
-            request_id, logical_id, model, producer, stage_run
-        )):
-            raise HarnessError("request identity fields must be non-empty")
-        rows = self._rows(connection)
-        events = self._events(connection)
-        total_after = len(rows) + 1
-        if total_after > 200:
-            raise HarnessError("pilot cumulative hard stop 200 reached")
-
-        alternate_used = stage == "alternate_conformity" or any(
-            row["stage"] == "alternate_conformity" for row in rows
-        )
-        planned_max = 160 if alternate_used else 152
-        if total_after > planned_max:
-            raise HarnessError(f"planned request maximum {planned_max} reached before hard stop 200")
-
-        if stage == "producer_remediation":
-            if "remediation_authorized" not in events or "remediation_waived" in events:
-                raise HarnessError("producer remediation lacks the required written authorization")
-            if any(row["stage"] in {"budget_probe", "stability_gate"} for row in rows):
-                raise HarnessError("producer remediation is forbidden after probe or gate")
-            if quota_kind == "base":
-                raise HarnessError("producer remediation requests must use remediation quota")
-        elif quota_kind == "remediation":
-            raise HarnessError("remediation quota is exclusive to producer_remediation")
-
-        if stage in {"producer_conformity", "alternate_conformity"} and any(
-            row["stage"] in {"budget_probe", "stability_gate"} for row in rows
-        ):
-            raise HarnessError("producer conformity must precede probe and gate")
-
-        if stage == "budget_probe":
-            if any(row["stage"] == "stability_gate" for row in rows):
-                raise HarnessError("budget probe cannot run after the gate has started")
-            source = "producer_remediation" if "remediation_authorized" in events else "producer_conformity"
-            outcome = events.get(f"outcome:{source}")
-            if outcome is None or json.loads(outcome["detail_json"])["outcome"] != "PASS":
-                raise HarnessError("budget probe requires successful producer conformity/remediation")
-        if stage == "stability_gate":
-            outcome = events.get("outcome:budget_probe")
-            if outcome is None or json.loads(outcome["detail_json"])["outcome"] != "PASS":
-                raise HarnessError("stability gate requires a successful frozen budget probe")
-            runs = {row["stage_run"] for row in rows if row["stage"] == "stability_gate"}
-            if runs and runs != {stage_run}:
-                raise HarnessError("the stability gate is create-once and cannot be repeated")
-            if quota_kind != "base":
-                raise HarnessError("the stability gate has no retry or remediation path")
-
-        stage_base = sum(
-            row["stage"] == stage and row["quota_kind"] == "base" for row in rows
-        )
-        if quota_kind == "base" and stage_base >= BASE_LIMITS[stage]:
-            raise HarnessError(f"base request limit reached for {stage}")
-
-        remediation_calls = sum(row["quota_kind"] == "remediation" for row in rows)
-        transport_calls = sum(row["quota_kind"] == "transport" for row in rows)
-        if quota_kind == "remediation":
-            remediation_calls += 1
-        if quota_kind == "transport":
-            transport_calls += 1
-            if stage == "stability_gate":
-                raise HarnessError("gate requests are never repeatable")
-        if remediation_calls not in range(0, 9):
-            raise HarnessError("remediation requires at most one complete set of eight")
-        if 8 * int(remediation_calls > 0) + transport_calls > 15:
-            raise HarnessError("shared reserve constraint 8r+t<=15 violated")
-        if stage == "budget_probe" and transport_calls > 7:
-            raise HarnessError("budget-probe transport is capped at seven cumulative calls")
-        if transport_calls > 7 and "remediation_waived" not in events:
-            raise HarnessError("transport beyond seven requires explicit waiver of remediation")
-
+    def _event(self, c, event, artifact_sha256, detail):
+        self._require_hash(artifact_sha256, 'event artifact')
         try:
-            connection.execute(
-                "INSERT INTO requests VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                (
-                    self.pilot_id, request_id, logical_id, model, producer, stage,
-                    stage_run, quota_kind, retry_of, "INTENT", _utc_now(), None,
-                    None, None, None, None, None, None,
-                ),
-            )
+            c.execute("INSERT INTO events VALUES (?,?,?,?)", (event, _utc_now(), artifact_sha256, canonical_json(detail)))
+        except sqlite3.IntegrityError as exc:
+            raise HarnessError(f"event is create-once: {event}") from exc
+
+    def record_event(self, event, *, artifact_sha256, detail):
+        if not event.startswith('note:'):
+            raise HarnessError("public events may only be non-normative notes")
+        with self._transaction() as c:
+            self._event(c, event, artifact_sha256, detail)
+
+    def event(self, name):
+        with closing(self._connect()) as c:
+            row = self._events(c).get(name)
+            return None if row is None else dict(artifact_sha256=row['artifact_sha256'], **json.loads(row['detail_json']))
+
+    def _binding(self, c, stage):
+        row = c.execute("SELECT * FROM stages WHERE stage=?", (stage,)).fetchone()
+        if row is None:
+            raise HarnessError(f"stage {stage} requires an immutable request plan")
+        value = json.loads(row['binding_json'])
+        if digest(value) != row['binding_sha256']:
+            raise HarnessError("stage binding corrupted")
+        return value
+
+    def binding(self, stage):
+        with closing(self._connect()) as c:
+            return self._binding(c, stage)
+
+    def bind_stage(self, stage, binding):
+        """Freeze exact requests, provider, prompts, inputs and template before reservation."""
+        if stage not in STAGES:
+            raise HarnessError("invalid stage")
+        specs = binding.get('requests', [])
+        required = {'logical_id', 'model', 'producer', 'prompt_sha256', 'case_sha256', 'contract_sha256', 'condition', 'group', 'repetition'}
+        if not isinstance(specs, list) or len({s.get('logical_id') for s in specs}) != len(specs):
+            raise HarnessError("request plan requires unique logical identities")
+        expected = BASE_LIMITS[stage]
+        if (stage == 'budget_probe' and len(specs) not in {3, 6, 9}) or (stage != 'budget_probe' and len(specs) != expected):
+            raise HarnessError("request plan has wrong coverage")
+        for s in specs:
+            if set(s) != required or not all(isinstance(s[k], str) and s[k] for k in ('logical_id', 'model', 'producer', 'group')):
+                raise HarnessError("incomplete request identity")
+            for k in ('prompt_sha256', 'case_sha256', 'contract_sha256'):
+                self._require_hash(s[k], k)
+        if stage == 'budget_probe':
+            groups = {}
+            for s in specs:
+                groups.setdefault(s['group'], []).append(s)
+            if any(len(g) != 3 or {s['condition'] for s in g} != {'A', 'B-LF', 'E-LF'} for g in groups.values()):
+                raise HarnessError("probe plan requires distinct complete condition triplets")
+        with self._transaction() as c:
+            old = c.execute("SELECT binding_sha256 FROM stages WHERE stage=?", (stage,)).fetchone()
+            if old:
+                if old[0] != digest(binding):
+                    raise HarnessError("stage inputs changed across alias, directory or restart")
+                return
+            self._ready(c, stage)
+            if stage == 'producer_remediation':
+                auth = self._events(c).get('remediation_authorized')
+                if auth is None:
+                    raise HarnessError("remediation lacks written approval")
+                detail = json.loads(auth['detail_json'])
+                first = self._binding(c, 'producer_conformity')
+                coverage = lambda b: sorted((s['logical_id'], s['case_sha256'], s['contract_sha256'], s['model'], s['producer']) for s in b['requests'])
+                if coverage(first) != coverage(binding) or binding.get('template_text') != detail['template_text']:
+                    raise HarnessError("remediation must use approved template and the same eight cases/contracts/provider")
+                # Only the producer template may differ.
+                for key in set(first) - {'requests', 'template_text'}:
+                    if binding.get(key) != first[key]:
+                        raise HarnessError("remediation changed a non-template contract")
+            c.execute("INSERT INTO stages VALUES (?,?,?)", (stage, canonical_json(binding), digest(binding)))
+
+    def _chain_leaves(self, rows):
+        children = {r['retry_of']: r for r in rows if r['retry_of']}
+        leaves = []
+        for base in (r for r in rows if not r['retry_of']):
+            row = base
+            visited = set()
+            while row['request_id'] in children:
+                if row['request_id'] in visited or row['status'] != 'ZERO_TOKEN_PROVEN':
+                    raise HarnessError("invalid retry chain")
+                visited.add(row['request_id'])
+                nxt = children[row['request_id']]
+                if nxt['identity_json'] != row['identity_json']:
+                    raise HarnessError("retry changed complete request identity")
+                row = nxt
+            leaves.append(row)
+        return leaves
+
+    def _successful(self, c, stage):
+        event = self._events(c).get('outcome:' + stage)
+        if event is None or json.loads(event['detail_json'])['outcome'] != 'PASS':
+            raise HarnessError(f"{stage} has no successful closed outcome")
+        rows = [r for r in self._rows(c) if r['stage'] == stage]
+        if not rows or any(r['status'] != 'COMPLETED' for r in self._chain_leaves(rows)):
+            raise HarnessError("closed stage contains unresolved or failed requests")
+
+    def verify_stage_success(self, stage):
+        with closing(self._connect()) as c:
+            self._successful(c, stage)
+
+    def _ready(self, c, stage):
+        events, rows = self._events(c), self._rows(c)
+        if any(k.startswith('suspended:') for k in events):
+            raise HarnessError("pilot suspended; requires a new reviewed disposition")
+        if 'outcome:' + stage in events:
+            raise HarnessError("closed stage cannot be reopened")
+        if stage in {'producer_conformity', 'producer_remediation', 'alternate_conformity'}:
+            if any(r['stage'] in {'budget_probe', 'stability_gate'} for r in rows):
+                raise HarnessError("producer stages must precede probe/gate")
+        if stage == 'producer_remediation' and ('remediation_authorized' not in events or 'remediation_waived' in events):
+            raise HarnessError("remediation is not authorized")
+        if stage == 'budget_probe':
+            if any(r['stage'] == 'stability_gate' for r in rows):
+                raise HarnessError("probe cannot follow gate")
+            self._successful(c, 'producer_remediation' if 'remediation_authorized' in events else 'producer_conformity')
+        if stage == 'stability_gate':
+            self._successful(c, 'budget_probe')
+            if 'frozen_gate' not in events:
+                raise HarnessError("gate configuration is not authenticated by the probe")
+
+    def _insert_intent(self, c, *, request_id, logical_id, model, producer, stage, stage_run, quota_kind, retry_of):
+        rows = self._rows(c)
+        if len(rows) >= 200:
+            raise HarnessError("pilot cumulative hard stop 200 reached")
+        max_calls = 160 if stage == 'alternate_conformity' or any(r['stage'] == 'alternate_conformity' for r in rows) else 152
+        if len(rows) >= max_calls:
+            raise HarnessError(f"planned request maximum {max_calls} reached")
+        self._ready(c, stage)
+        binding = self._binding(c, stage)
+        if stage_run != digest(binding):
+            raise HarnessError("stage_run must identify the exact immutable request plan")
+        specs = [s for s in binding['requests'] if s['logical_id'] == logical_id]
+        if len(specs) != 1 or (model, producer) != (specs[0]['model'], specs[0]['producer']):
+            raise HarnessError("request differs from complete frozen identity")
+        identity = canonical_json(specs[0])
+        if not retry_of:
+            base_rows = [r for r in rows if r['stage'] == stage and r['retry_of'] is None]
+            if len(base_rows) >= len(binding['requests']) or binding['requests'][len(base_rows)]['logical_id'] != logical_id:
+                raise HarnessError('duplicate or out-of-order logical base')
+        if retry_of:
+            original = next((r for r in rows if r['request_id'] == retry_of), None)
+            if original is None or original['status'] != 'ZERO_TOKEN_PROVEN' or original['stage'] != stage or original['identity_json'] != identity:
+                raise HarnessError("retry requires matching original and documented zero-token proof")
+            if any(r['retry_of'] == retry_of for r in rows):
+                raise HarnessError("original already has a retry; retry only the proven zero-token leaf")
+            if stage == 'stability_gate':
+                raise HarnessError("gate requests are never repeatable")
+        elif any(r['stage'] == stage and r['logical_id'] == logical_id for r in rows):
+            raise HarnessError("duplicate logical base across restart/alias/directory")
+        remediation = sum(r['quota_kind'] == 'remediation' for r in rows) + (quota_kind == 'remediation')
+        transport = sum(r['quota_kind'] == 'transport' for r in rows) + (quota_kind == 'transport')
+        if remediation > 8 or 8 * int(remediation > 0) + transport > 15:
+            raise HarnessError("shared reserve constraint 8r+t<=15 violated")
+        events = self._events(c)
+        if transport > 7 and (stage == 'budget_probe' or 'remediation_waived' not in events):
+            raise HarnessError("transport beyond seven requires waiver and is never available to probe")
+        if quota_kind == 'remediation' and stage != 'producer_remediation':
+            raise HarnessError("remediation quota is exclusive")
+        if stage == 'producer_remediation' and quota_kind == 'base':
+            raise HarnessError("remediation cannot use base quota")
+        if not isinstance(request_id, str) or not request_id:
+            raise HarnessError("request id required")
+        try:
+            c.execute("INSERT INTO requests VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", (request_id, logical_id, stage, stage_run, model, producer, quota_kind, retry_of, identity, 'INTENT', _utc_now(), None, None, None, None, None, None, None))
         except sqlite3.IntegrityError as exc:
             raise HarnessError("duplicate request or logical attempt") from exc
 
-    def reserve_request(
-        self,
-        *,
-        request_id: str,
-        logical_id: str,
-        model: str,
-        producer: str,
-        stage: str,
-        stage_run: str,
-    ) -> None:
-        with self._transaction() as connection:
-            self._insert_intent(
-                connection,
-                request_id=request_id,
-                logical_id=logical_id,
-                model=model,
-                producer=producer,
-                stage=stage,
-                stage_run=stage_run,
-                quota_kind="base",
-                retry_of=None,
-            )
+    def reserve_request(self, **value):
+        with self._transaction() as c:
+            self._insert_intent(c, quota_kind='base', retry_of=None, **value)
 
-    def reserve_transport_retry(
-        self,
-        *,
-        request_id: str,
-        logical_id: str,
-        model: str,
-        producer: str,
-        stage: str,
-        stage_run: str,
-        retry_of: str,
-    ) -> None:
-        if stage == "budget_probe":
-            raise HarnessError("budget-probe transport must reserve a complete triplet atomically")
-        with self._transaction() as connection:
-            original = connection.execute(
-                "SELECT * FROM requests WHERE pilot_id=? AND request_id=?",
-                (self.pilot_id, retry_of),
-            ).fetchone()
-            if original is None or original["status"] != "ZERO_TOKEN_PROVEN":
-                raise HarnessError("transport retry requires documented zero-token proof")
-            if original["stage"] != stage:
-                raise HarnessError("transport retry must remain in the original stage")
-            self._insert_intent(
-                connection,
-                request_id=request_id,
-                logical_id=logical_id,
-                model=model,
-                producer=producer,
-                stage=stage,
-                stage_run=stage_run,
-                quota_kind="transport",
-                retry_of=retry_of,
-            )
+    def reserve_remediation_request(self, **value):
+        with self._transaction() as c:
+            self._insert_intent(c, stage='producer_remediation', quota_kind='remediation', retry_of=None, **value)
 
-    def reserve_probe_transport_triplet(self, requests: Iterable[dict[str, str]]) -> None:
+    def reserve_transport_retry(self, **value):
+        if value['stage'] == 'budget_probe':
+            raise HarnessError("probe retries require an atomic complete triplet")
+        with self._transaction() as c:
+            self._insert_intent(c, quota_kind='transport', **value)
+
+    def reserve_probe_transport_triplet(self, requests: Iterable[dict[str, str]]):
         values = list(requests)
-        if len(values) != 3 or len({row.get("logical_id") for row in values}) != 3:
-            raise HarnessError("probe transport retry requires exactly one complete A/B-LF/E-LF triplet")
-        if {row.get("condition") for row in values} != {"A", "B-LF", "E-LF"}:
-            raise HarnessError("probe transport retry must contain A, B-LF and E-LF")
-        with self._transaction() as connection:
-            for row in values:
-                original = connection.execute(
-                    "SELECT * FROM requests WHERE pilot_id=? AND request_id=?",
-                    (self.pilot_id, row["retry_of"]),
-                ).fetchone()
-                if original is None or original["stage"] != "budget_probe" or original["status"] != "ZERO_TOKEN_PROVEN":
-                    raise HarnessError("every repeated probe member requires zero-token proof")
-            for row in values:
-                self._insert_intent(
-                    connection,
-                    request_id=row["request_id"],
-                    logical_id=row["logical_id"],
-                    model=row["model"],
-                    producer=row["producer"],
-                    stage="budget_probe",
-                    stage_run=row["stage_run"],
-                    quota_kind="transport",
-                    retry_of=row["retry_of"],
-                )
+        if len(values) != 3 or len({v['retry_of'] for v in values}) != 3 or {v['condition'] for v in values} != {'A', 'B-LF', 'E-LF'}:
+            raise HarnessError("probe retry requires three distinct original A/B-LF/E-LF requests")
+        with self._transaction() as c:
+            originals = []
+            for v in values:
+                r = c.execute("SELECT * FROM requests WHERE request_id=?", (v['retry_of'],)).fetchone()
+                if r is None or json.loads(r['identity_json'])['condition'] != v['condition']:
+                    raise HarnessError("probe original condition mismatch")
+                originals.append(json.loads(r['identity_json']))
+            if len({r['group'] for r in originals}) != 1:
+                raise HarnessError("probe retry must preserve one original budget group")
+            for v in values:
+                self._insert_intent(c, stage='budget_probe', quota_kind='transport', **{k: v[k] for k in ('request_id','logical_id','model','producer','stage_run','retry_of')})
 
-    def reserve_remediation_request(self, **value: str) -> None:
-        with self._transaction() as connection:
-            self._insert_intent(
-                connection, stage="producer_remediation", quota_kind="remediation",
-                retry_of=None, **value
-            )
+    def request(self, request_id):
+        with closing(self._connect()) as c:
+            r = c.execute("SELECT * FROM requests WHERE request_id=?", (request_id,)).fetchone()
+            return dict(r) if r else None
 
-    def complete_request(
-        self,
-        request_id: str,
-        *,
-        status: str,
-        prompt_tokens: int | None = None,
-        completion_tokens: int | None = None,
-        total_tokens: int | None = None,
-        latency_ms: float | None = None,
-        proof_sha256: str | None = None,
-        detail: dict[str, Any] | None = None,
-    ) -> None:
-        if status not in {"COMPLETED", "FAILED", "ZERO_TOKEN_PROVEN"}:
-            raise HarnessError("invalid terminal request status")
-        if status == "ZERO_TOKEN_PROVEN":
-            if proof_sha256 is None:
-                raise HarnessError("zero-token status requires a proof artifact hash")
-            self._require_hash(proof_sha256, "zero-token proof")
-            if completion_tokens not in {0, None} or total_tokens not in {0, None}:
-                raise HarnessError("zero-token proof conflicts with positive token counts")
+    def leaf(self, stage, logical_id):
+        with closing(self._connect()) as c:
+            rows = [r for r in self._rows(c) if r['stage'] == stage and r['logical_id'] == logical_id]
+            leaves = self._chain_leaves(rows)
+            return dict(leaves[0]) if leaves else None
+
+    def save_raw(self, request_id, raw, *, latency_ms=None):
+        """First operation after transport returns; commits raw before parsing/identity checks."""
+        text = canonical_json(raw)
+        with self._transaction() as c:
+            r = c.execute("SELECT status FROM requests WHERE request_id=?", (request_id,)).fetchone()
+            if r is None or r[0] != 'INTENT':
+                raise HarnessError("raw response needs unresolved intent")
+            old = c.execute("SELECT raw_json FROM responses WHERE request_id=?", (request_id,)).fetchone()
+            if old and old[0] != text:
+                raise HarnessError("raw response cannot be overwritten")
+            c.execute("INSERT OR IGNORE INTO responses VALUES (?,?,?,?,?)", (request_id, text, sha256_text(text), None, None))
+            c.execute("INSERT OR IGNORE INTO receipts VALUES (?,?)", (request_id, canonical_json({'received_utc': _utc_now(), 'latency_ms': latency_ms})))
+
+    def response(self, request_id):
+        with closing(self._connect()) as c:
+            row = c.execute("SELECT * FROM responses WHERE request_id=?", (request_id,)).fetchone()
+            if row is None:
+                return None
+            if sha256_text(row['raw_json']) != row['raw_sha256'] or (row['record_json'] and sha256_text(row['record_json']) != row['record_sha256']):
+                raise HarnessError("persisted response hash mismatch")
+            return {'raw': json.loads(row['raw_json']), 'record': json.loads(row['record_json']) if row['record_json'] else None, 'capture': json.loads(c.execute('SELECT capture_json FROM receipts WHERE request_id=?', (request_id,)).fetchone()[0])}
+
+    def complete_request(self, request_id, *, status, prompt_tokens=None, completion_tokens=None, total_tokens=None, latency_ms=None, proof_sha256=None, detail=None, record=None):
+        if status not in {'COMPLETED', 'FAILED'}:
+            raise HarnessError("zero-token status requires explicit reconcile_zero_token evidence")
         values = (prompt_tokens, completion_tokens, total_tokens)
-        if any(value is not None and (type(value) is not int or value < 0) for value in values):
-            raise HarnessError("token counts must be non-negative integers or null")
-        if total_tokens is not None and prompt_tokens is not None and completion_tokens is not None:
-            if total_tokens != prompt_tokens + completion_tokens:
-                raise HarnessError("inconsistent token accounting")
-        with self._transaction() as connection:
-            row = connection.execute(
-                "SELECT status FROM requests WHERE pilot_id=? AND request_id=?",
-                (self.pilot_id, request_id),
-            ).fetchone()
-            if row is None or row["status"] != "INTENT":
-                raise HarnessError("request completion requires one unresolved intent")
-            connection.execute(
-                """UPDATE requests SET status=?,completed_utc=?,prompt_tokens=?,
-                   completion_tokens=?,total_tokens=?,latency_ms=?,proof_sha256=?,detail_json=?
-                   WHERE pilot_id=? AND request_id=?""",
-                (
-                    status, _utc_now(), prompt_tokens, completion_tokens, total_tokens,
-                    latency_ms, proof_sha256,
-                    None if detail is None else canonical_json(detail),
-                    self.pilot_id, request_id,
-                ),
-            )
+        if any(x is not None and (type(x) is not int or x < 0) for x in values) or (all(x is not None for x in values) and total_tokens != prompt_tokens + completion_tokens):
+            raise HarnessError("inconsistent token accounting")
+        with self._transaction() as c:
+            row = c.execute("SELECT * FROM requests WHERE request_id=?", (request_id,)).fetchone()
+            raw = c.execute("SELECT * FROM responses WHERE request_id=?", (request_id,)).fetchone()
+            if row is None or row['status'] != 'INTENT':
+                raise HarnessError("completion requires unresolved intent")
+            if status == 'COMPLETED' and (raw is None or record is None):
+                raise HarnessError("completed request requires durable raw and evaluated record")
+            if record is not None:
+                identity = json.loads(row['identity_json'])
+                if record.get('request_id') != request_id or record.get('prompt_sha256') != identity['prompt_sha256']:
+                    raise HarnessError("response record identity mismatch")
+                text = canonical_json(record)
+                c.execute("UPDATE responses SET record_json=?,record_sha256=? WHERE request_id=?", (text, sha256_text(text), request_id))
+            c.execute("UPDATE requests SET status=?,completed_utc=?,prompt_tokens=?,completion_tokens=?,total_tokens=?,latency_ms=?,proof_sha256=?,detail_json=? WHERE request_id=?", (status, _utc_now(), *values, latency_ms, proof_sha256, canonical_json(detail or {}), request_id))
+            if record and record.get('identity_valid') is not True:
+                self._event(c, 'suspended:' + request_id, digest(record), {'reason': 'response identity missing or changed'})
 
-    def snapshot(self) -> dict[str, Any]:
-        with closing(self._connect()) as connection:
-            rows = self._rows(connection)
-            events = self._events(connection)
-        by_stage = {stage: sum(row["stage"] == stage for row in rows) for stage in sorted(STAGES)}
-        remediation = sum(row["quota_kind"] == "remediation" for row in rows)
-        transport = sum(row["quota_kind"] == "transport" for row in rows)
-        alternate = by_stage["alternate_conformity"] > 0
-        return {
-            "pilot_id": self.pilot_id,
-            "ledger_path": str(self.path),
-            "requests_cumulative": len(rows),
-            "requests_by_stage": by_stage,
-            "unresolved_intents": sum(row["status"] == "INTENT" for row in rows),
-            "remediation_calls": remediation,
-            "transport_calls": transport,
-            "reserve_equation_value": 8 * int(remediation > 0) + transport,
-            "reserve_limit": 15,
-            "planned_maximum": 160 if alternate else 152,
-            "hard_stop": 200,
-            "events": sorted(events),
-        }
+    def reconcile_zero_token(self, request_id, *, evidence_path: Path, approval_path: Path):
+        evidence, approval = load_json(evidence_path), load_json(approval_path)
+        with self._transaction() as c:
+            row = c.execute("SELECT * FROM requests WHERE request_id=?", (request_id,)).fetchone()
+            if row is None or row['status'] not in {'INTENT', 'FAILED'}:
+                raise HarnessError("reconciliation requires uncertain intent/failure")
+            if c.execute("SELECT 1 FROM responses WHERE request_id=?", (request_id,)).fetchone():
+                raise HarnessError("raw response exists; zero-token reconciliation forbidden")
+            if evidence.get('request_id') != request_id or evidence.get('request_identity_sha256') != sha256_text(row['identity_json']) or evidence.get('disposition') != 'not_generated' or not evidence.get('provider_request_id') or not evidence.get('provider_evidence') or any(type(evidence.get(k)) is not int or evidence[k] != 0 for k in ('prompt_tokens','completion_tokens','total_tokens')):
+                raise HarnessError("zero-token reconciliation needs provider evidence and complete request identity")
+            if approval.get('decision') != 'accepted' or approval.get('evidence_sha256') != sha256_file(evidence_path) or not approval.get('author'):
+                raise HarnessError("reconciliation requires written approval of exact evidence")
+            self._event(c, 'reconciled:' + request_id, sha256_file(evidence_path), {'evidence': evidence, 'approval': approval, 'approval_sha256': sha256_file(approval_path), 'previous_status': row['status']})
+            c.execute("UPDATE requests SET status='ZERO_TOKEN_PROVEN',proof_sha256=?,completed_utc=? WHERE request_id=?", (sha256_file(evidence_path), _utc_now(), request_id))
+
+    def stage_records(self, stage):
+        with closing(self._connect()) as c:
+            rows = self._chain_leaves([r for r in self._rows(c) if r['stage'] == stage])
+        result = []
+        for r in rows:
+            response = self.response(r['request_id'])
+            if response and response['record']:
+                result.append(response['record'])
+        return result
+
+    def record_stage_outcome(self, stage, *, outcome, artifact_sha256, artifact=None, diagnosis=None, frozen=None):
+        if stage not in STAGES or outcome not in {'PASS','FAIL','BLOCKED'}:
+            raise HarnessError("unsupported stage outcome")
+        self._require_hash(artifact_sha256, 'outcome artifact')
+        with self._transaction() as c:
+            previous = self._events(c).get('outcome:' + stage)
+            if previous and previous['artifact_sha256'] == artifact_sha256 and json.loads(previous['detail_json'])['outcome'] == outcome:
+                # Exact replay may regenerate materialized files after a crash after commit.
+                return
+            self._ready(c, stage)
+            binding = self._binding(c, stage)
+            rows = [r for r in self._rows(c) if r['stage'] == stage]
+            bases = [r for r in rows if not r['retry_of']]
+            n = len(bases)
+            if (stage == 'budget_probe' and n not in {3,6,9}) or (stage != 'budget_probe' and n != BASE_LIMITS[stage]):
+                raise HarnessError("stage outcome requires complete distinct base coverage")
+            if [r['logical_id'] for r in bases] != [s['logical_id'] for s in binding['requests'][:n]]:
+                raise HarnessError("stage does not match frozen request order/coverage")
+            leaves = self._chain_leaves(rows)
+            if any(r['status'] == 'INTENT' for r in leaves):
+                raise HarnessError("stage cannot hide unresolved intents")
+            records = []
+            for r in leaves:
+                raw = c.execute("SELECT * FROM responses WHERE request_id=?", (r['request_id'],)).fetchone()
+                if raw and raw['record_json']:
+                    if sha256_text(raw['record_json']) != raw['record_sha256'] or sha256_text(raw['raw_json']) != raw['raw_sha256']:
+                        raise HarnessError("raw/record corruption")
+                    records.append(json.loads(raw['record_json']))
+            if outcome == 'PASS':
+                if any(r['status'] != 'COMPLETED' for r in leaves) or len(records) != n or any(r.get('identity_valid') is not True for r in records):
+                    raise HarnessError("PASS requires resolved authenticated responses")
+                if stage in {'producer_conformity','producer_remediation','alternate_conformity'} and not all(r.get('schema_valid_first_attempt') is True for r in records):
+                    raise HarnessError("producer PASS requires all R4-valid pairs")
+                if stage == 'stability_gate':
+                    from .gate_rules import evaluate_stability_gate
+                    frozen_event = json.loads(self._events(c)['frozen_gate']['detail_json'])['frozen']
+                    gate = evaluate_stability_gate(records, expected_prompts=frozen_event['prompt_sample'])
+                    if not all(gate[k] for k in ('t3_pass','t4_pass','t6_evaluable')):
+                        raise HarnessError('gate outcome contradicts durable records')
+                if stage == 'budget_probe':
+                    if any(all(r.get('parse_valid_first_attempt') is True and r.get('finish_reason') == 'stop' for r in records[i:i+3]) for i in range(0,len(records)-3,3)):
+                        raise HarnessError('probe must select the first successful budget triplet')
+                    if frozen is None or frozen.get('generation') != records[-1].get('generation') or not all(r.get('generation') == frozen['generation'] and r.get('parse_valid_first_attempt') is True and r.get('finish_reason') == 'stop' for r in records[-3:]):
+                        raise HarnessError("probe PASS must authenticate selected budget and complete successful triplet")
+            if artifact is None or digest(artifact) != artifact_sha256 or artifact.get('records_sha256') != digest(records):
+                raise HarnessError("outcome artifact must bind durable stage records")
+            if diagnosis is not None and diagnosis not in DIAGNOSES:
+                raise HarnessError("inadmissible producer remediation diagnosis")
+            self._event(c, 'outcome:' + stage, artifact_sha256, {'outcome': outcome, 'diagnosis': diagnosis, 'records_sha256': digest(records), 'artifact': artifact})
+            if stage == 'budget_probe' and outcome == 'PASS':
+                self._event(c, 'frozen_gate', digest(frozen), {'frozen': frozen})
+
+    def authenticate_frozen(self, frozen):
+        event = self.event('frozen_gate')
+        if event is None or event['artifact_sha256'] != digest(frozen):
+            raise HarnessError("gate configuration differs from authenticated probe result")
+
+    def authorize_remediation(self, *, diff_sha256=None, approval_sha256=None, template_sha256=None, diff_path=None, approval_path=None, template_path=None):
+        if any(p is None for p in (diff_path, approval_path, template_path)):
+            raise HarnessError("remediation requires concrete diff, approval and template bytes")
+        diff, template, approval = Path(diff_path).read_bytes().decode('utf-8'), Path(template_path).read_bytes().decode('utf-8'), load_json(Path(approval_path))
+        for p, expected in ((diff_path,diff_sha256),(approval_path,approval_sha256),(template_path,template_sha256)):
+            if expected is not None and sha256_file(Path(p)) != expected:
+                raise HarnessError("remediation artifact hash mismatch")
+        with self._transaction() as c:
+            events = self._events(c)
+            if any(r['stage'] in {'budget_probe','stability_gate'} for r in self._rows(c)) or 'remediation_waived' in events:
+                raise HarnessError("remediation forbidden after probe/gate or waiver")
+            failed = events.get('outcome:producer_conformity')
+            detail = json.loads(failed['detail_json']) if failed else {}
+            rows = [r for r in self._rows(c) if r['stage'] == 'producer_conformity']
+            failed_records = [self.response(r['request_id'])['record'] for r in self._chain_leaves(rows) if r['status'] == 'COMPLETED']
+            if not any(r.get('schema_valid_first_attempt') is False and r.get('validation_class') == detail.get('diagnosis') for r in failed_records):
+                raise HarnessError('remediation diagnosis must match a recorded producer validation defect')
+            if detail.get('outcome') != 'FAIL' or detail.get('diagnosis') not in DIAGNOSES or any(r['status'] != 'COMPLETED' for r in self._chain_leaves(rows)):
+                raise HarnessError("remediation requires diagnosed prompt defect; unresolved timeout is not admissible")
+            binding = self._binding(c, 'producer_conformity')
+            expected_diff = ''.join(difflib.unified_diff(binding['template_text'].splitlines(True), template.splitlines(True), fromfile='before', tofile='after'))
+            if not expected_diff or diff != expected_diff or approval.get('decision') != 'accepted' or not approval.get('author') or approval.get('diff_sha256') != sha256_text(diff) or approval.get('template_sha256') != sha256_text(template) or approval.get('initial_binding_sha256') != digest(binding) or approval.get('diagnosis') != detail['diagnosis']:
+                raise HarnessError("approval must bind exact diff, template, diagnosis and original eight-case plan")
+            self._event(c, 'remediation_authorized', sha256_file(Path(approval_path)), {'diff_sha256': sha256_text(diff), 'template_sha256': sha256_text(template), 'template_text': template, 'approval': approval})
+
+    def waive_remediation(self, *, approval_sha256):
+        with self._transaction() as c:
+            if 'remediation_authorized' in self._events(c):
+                raise HarnessError("remediation already authorized")
+            self._event(c, 'remediation_waived', approval_sha256, {'effect': 'no later remediation'})
+
+    def snapshot(self):
+        with closing(self._connect()) as c:
+            rows, events = self._rows(c), self._events(c)
+            raw_count = c.execute("SELECT count(*) FROM responses").fetchone()[0]
+        by_stage = {s: sum(r['stage'] == s for r in rows) for s in sorted(STAGES)}
+        remediation = sum(r['quota_kind'] == 'remediation' for r in rows)
+        transport = sum(r['quota_kind'] == 'transport' for r in rows)
+        return dict(pilot_id=self.pilot_id, ledger_path=str(self.path), requests_cumulative=len(rows), requests_by_stage=by_stage, unresolved_intents=sum(r['status'] == 'INTENT' for r in rows), remediation_calls=remediation, transport_calls=transport, reserve_equation_value=8*int(remediation>0)+transport, reserve_limit=15, planned_maximum=160 if by_stage['alternate_conformity'] else 152, hard_stop=200, durable_responses=raw_count, events=sorted(events))

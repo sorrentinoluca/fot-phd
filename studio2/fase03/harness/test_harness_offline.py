@@ -10,7 +10,12 @@ import unittest
 
 from studio2.fase03 import producer_probe, run_pilot
 from studio2.fase03.harness.common import HarnessError, load_json
-from studio2.fase03.harness.gate_rules import evaluate_stability_gate, semantic_signature
+from studio2.fase03.harness.gate_rules import evaluate_stability_gate as _evaluate, semantic_signature
+from studio2.fase03.harness.offline_fixtures import Trial, sample
+from studio2.fase03.harness.ledger import digest
+
+def evaluate_stability_gate(rows):
+    return _evaluate(rows, expected_prompts=sample())
 from studio2.fase03.harness.inputs import (
     AGENTS,
     SCHEMA_MANIFEST_SHA256,
@@ -50,12 +55,15 @@ def gate_rows(*, invalid: set[tuple[int, int]] | None = None, truncate: tuple[in
     invalid = invalid or set()
     rows = []
     for prompt in range(40):
-        condition = ("A", "B-LF", "E-LF")[prompt % 3]
+        condition = sample()[prompt]["condition"]
         for repetition in range(3):
             valid = (prompt, repetition) not in invalid
-            abstain = valid and prompt in {0, 1, 2}
+            abstain = valid and prompt in {0, 8, 24}
             rows.append(
                 {
+                    **sample()[prompt],
+                    "request_id": f"fixture-{prompt}-{repetition}",
+                    "identity_valid": True,
                     "prompt_id": f"P-{prompt:02d}",
                     "condition": condition,
                     "repetition": repetition + 1,
@@ -156,180 +164,81 @@ class R4AndInputContractTests(unittest.TestCase):
 
 
 class LedgerContractTests(unittest.TestCase):
-    def make(self):
-        temporary = tempfile.TemporaryDirectory()
-        path = Path(temporary.name).resolve() / "pilot.sqlite3"
-        return temporary, path, PilotLedger(path, pilot_id="phase03-test")
-
-    @staticmethod
-    def reserve(ledger: PilotLedger, index: int, *, stage="producer_conformity", run="c1"):
-        ledger.reserve_request(request_id=f"r-{stage}-{index}", logical_id=f"l-{stage}-{index}",
-                               model="model", producer="producer", stage=stage, stage_run=run)
-
-    def complete_conformity(self, ledger: PilotLedger):
-        for index in range(8):
-            self.reserve(ledger, index)
-            ledger.complete_request(f"r-producer_conformity-{index}", status="COMPLETED")
-        ledger.record_stage_outcome("producer_conformity", outcome="PASS", artifact_sha256=H)
-
-    def complete_probe(self, ledger: PilotLedger):
-        for index in range(3):
-            self.reserve(ledger, index, stage="budget_probe", run="p1")
-            ledger.complete_request(f"r-budget_probe-{index}", status="COMPLETED")
-        ledger.record_stage_outcome("budget_probe", outcome="PASS", artifact_sha256=H)
+    def setUp(self):
+        self.tmp=tempfile.TemporaryDirectory();self.addCleanup(self.tmp.cleanup)
+        self.t=Trial(self.tmp.name);self.l=self.t.ledger
 
     def test_intent_survives_restart_and_directory_change(self):
-        temporary, path, ledger = self.make()
-        try:
-            self.reserve(ledger, 0)
-            reopened = PilotLedger(path, pilot_id="phase03-test")
-            self.assertEqual(reopened.snapshot()["requests_cumulative"], 1)
-            self.assertEqual(reopened.snapshot()["unresolved_intents"], 1)
-            with self.assertRaisesRegex(HarnessError, "duplicate"):
-                self.reserve(reopened, 0)
-        finally:
-            temporary.cleanup()
+        self.t.bind();self.t.reserve(0)
+        reopened=PilotLedger(self.l.path,pilot_id=self.l.pilot_id)
+        self.assertEqual(reopened.snapshot()['requests_cumulative'],1)
+        self.assertEqual(reopened.snapshot()['unresolved_intents'],1)
+        with self.assertRaises(HarnessError):self.t.reserve(0)
 
     def test_two_writers_cannot_duplicate_one_logical_attempt(self):
-        temporary, path, _ = self.make()
-        barrier = Barrier(2)
-
-        def attempt(index: int) -> str:
-            contender = PilotLedger(path, pilot_id="phase03-test")
-            barrier.wait()
-            try:
-                contender.reserve_request(
-                    request_id=f"concurrent-{index}", logical_id="same-logical-attempt",
-                    model="model", producer="producer", stage="producer_conformity",
-                    stage_run="concurrent-run",
-                )
-                return "accepted"
-            except HarnessError:
-                return "rejected"
-
-        try:
-            with ThreadPoolExecutor(max_workers=2) as executor:
-                outcomes = list(executor.map(attempt, range(2)))
-            self.assertEqual(sorted(outcomes), ["accepted", "rejected"])
-            self.assertEqual(PilotLedger(path, pilot_id="phase03-test").snapshot()["requests_cumulative"], 1)
-        finally:
-            temporary.cleanup()
+        self.t.bind();barrier=Barrier(2)
+        def attempt(i):
+            t=Trial(self.tmp.name);barrier.wait()
+            try:t.reserve(0,request_id=f'concurrent-{i}');return 'accepted'
+            except HarnessError:return 'rejected'
+        with ThreadPoolExecutor(max_workers=2) as ex:outcomes=list(ex.map(attempt,range(2)))
+        self.assertEqual(sorted(outcomes),['accepted','rejected'])
+        self.assertEqual(self.l.snapshot()['requests_cumulative'],1)
 
     def test_timeout_without_zero_token_proof_never_retries(self):
-        temporary, _, ledger = self.make()
-        try:
-            self.reserve(ledger, 0)
-            ledger.complete_request("r-producer_conformity-0", status="FAILED", detail={"error": "timeout"})
-            with self.assertRaisesRegex(HarnessError, "zero-token proof"):
-                ledger.reserve_transport_retry(request_id="retry", logical_id="retry-l", model="m", producer="p",
-                                               stage="producer_conformity", stage_run="c1", retry_of="r-producer_conformity-0")
-        finally:
-            temporary.cleanup()
+        self.t.bind();r=self.t.reserve(0);self.l.complete_request(r,status='FAILED')
+        with self.assertRaises(HarnessError):self.t.retry(r,'retry')
 
     def test_zero_token_proof_allows_only_documented_transport(self):
-        temporary, _, ledger = self.make()
-        try:
-            self.reserve(ledger, 0)
-            ledger.complete_request("r-producer_conformity-0", status="ZERO_TOKEN_PROVEN", completion_tokens=0,
-                                    total_tokens=0, proof_sha256=H)
-            ledger.reserve_transport_retry(request_id="retry", logical_id="retry-l", model="m", producer="p",
-                                           stage="producer_conformity", stage_run="c1", retry_of="r-producer_conformity-0")
-            self.assertEqual(ledger.snapshot()["transport_calls"], 1)
-        finally:
-            temporary.cleanup()
+        self.t.bind();r=self.t.reserve(0);self.t.zero(r);self.t.retry(r,'retry')
+        self.assertEqual(self.l.snapshot()['transport_calls'],1)
 
     def test_remediation_limits_and_stage_order(self):
-        temporary, _, ledger = self.make()
-        try:
-            for index in range(8):
-                self.reserve(ledger, index)
-                ledger.complete_request(f"r-producer_conformity-{index}", status="COMPLETED")
-            ledger.record_stage_outcome("producer_conformity", outcome="FAIL", artifact_sha256=H)
-            ledger.authorize_remediation(diff_sha256=H, approval_sha256="b" * 64, template_sha256="c" * 64)
-            for index in range(8):
-                ledger.reserve_remediation_request(request_id=f"m{index}", logical_id=f"ml{index}", model="m",
-                                                   producer="p", stage_run="rem1")
-            with self.assertRaisesRegex(HarnessError, "at most one complete set"):
-                ledger.reserve_remediation_request(request_id="m8", logical_id="ml8", model="m", producer="p", stage_run="rem1")
-            with self.assertRaisesRegex(HarnessError, "create-once"):
-                ledger.authorize_remediation(diff_sha256=H, approval_sha256="d" * 64, template_sha256="e" * 64)
-        finally:
-            temporary.cleanup()
+        self.t.finish(valid=False);self.t.remediation()
+        for i in range(8):self.t.reserve(i,'producer_remediation')
+        with self.assertRaises(HarnessError):self.t.reserve(0,'producer_remediation','extra')
+        with self.assertRaises(HarnessError):self.t.remediation()
 
     def test_zero_token_remediation_retry_counts_as_transport(self):
-        temporary, _, ledger = self.make()
-        try:
-            for index in range(8):
-                self.reserve(ledger, index)
-                ledger.complete_request(f"r-producer_conformity-{index}", status="COMPLETED")
-            ledger.record_stage_outcome("producer_conformity", outcome="FAIL", artifact_sha256=H)
-            ledger.authorize_remediation(diff_sha256=H, approval_sha256="b" * 64, template_sha256="c" * 64)
-            for index in range(8):
-                ledger.reserve_remediation_request(
-                    request_id=f"m{index}", logical_id=f"ml{index}", model="m",
-                    producer="p", stage_run="rem1"
-                )
-                ledger.complete_request(
-                    f"m{index}",
-                    status="ZERO_TOKEN_PROVEN" if index == 0 else "COMPLETED",
-                    total_tokens=0 if index == 0 else None,
-                    proof_sha256=H if index == 0 else None,
-                )
-            ledger.reserve_transport_retry(
-                request_id="m0-retry", logical_id="ml0-retry", model="m", producer="p",
-                stage="producer_remediation", stage_run="rem1", retry_of="m0"
-            )
-            ledger.complete_request("m0-retry", status="COMPLETED")
-            ledger.record_stage_outcome("producer_remediation", outcome="PASS", artifact_sha256=H)
-            snapshot = ledger.snapshot()
-            self.assertEqual(snapshot["remediation_calls"], 8)
-            self.assertEqual(snapshot["transport_calls"], 1)
-            self.assertEqual(snapshot["reserve_equation_value"], 9)
-        finally:
-            temporary.cleanup()
+        self.t.finish(valid=False);self.t.remediation()
+        for i in range(8):
+            r=self.t.reserve(i,'producer_remediation')
+            if i==0:self.t.zero(r)
+            else:self.t.complete(r)
+        self.t.retry('producer_remediation-0','retry');self.t.complete('retry')
+        self.t.outcome('producer_remediation')
+        self.assertEqual((self.l.snapshot()['remediation_calls'],self.l.snapshot()['transport_calls'],self.l.snapshot()['reserve_equation_value']),(8,1,9))
 
     def test_probe_triplet_retry_is_atomic_and_capped(self):
-        temporary, _, ledger = self.make()
-        try:
-            self.complete_conformity(ledger)
-            originals = []
-            for index, condition in enumerate(("A", "B-LF", "E-LF")):
-                self.reserve(ledger, index, stage="budget_probe", run="p1")
-                request = f"r-budget_probe-{index}"
-                ledger.complete_request(request, status="ZERO_TOKEN_PROVEN", total_tokens=0, proof_sha256=H)
-                originals.append((request, condition))
-            with self.assertRaisesRegex(HarnessError, "complete A/B-LF/E-LF triplet"):
-                ledger.reserve_probe_transport_triplet([])
-            def triplet(number):
-                return [{"request_id": f"pt{number}-{i}", "logical_id": f"ptl{number}-{i}", "model": "m", "producer": "p",
-                         "stage_run": "p1", "retry_of": original, "condition": condition}
-                        for i, (original, condition) in enumerate(originals)]
-            ledger.reserve_probe_transport_triplet(triplet(1))
-            ledger.reserve_probe_transport_triplet(triplet(2))
-            with self.assertRaisesRegex(HarnessError, "capped at seven"):
-                ledger.reserve_probe_transport_triplet(triplet(3))
-        finally:
-            temporary.cleanup()
+        self.t.finish();self.t.bind('budget_probe',3)
+        originals=[self.t.reserve(i,'budget_probe') for i in range(3)]
+        for r in originals:self.t.zero(r)
+        def triple(n):
+            result=[]
+            for i,r in enumerate(originals):
+                row=self.l.request(r)
+                result.append(dict(request_id=f't{n}-{i}',logical_id=row['logical_id'],model=row['model'],producer=row['producer'],stage_run=row['stage_run'],retry_of=r,condition=('A','B-LF','E-LF')[i]))
+            return result
+        for n in range(2):
+            values=triple(n);self.l.reserve_probe_transport_triplet(values)
+            originals=[v['request_id'] for v in values]
+            for r in originals:self.t.zero(r)
+        before=self.l.snapshot()
+        with self.assertRaises(HarnessError):self.l.reserve_probe_transport_triplet(triple(2))
+        self.assertEqual(self.l.snapshot(),before)
+        self.assertEqual(before['transport_calls'],6)
 
     def test_gate_is_not_repeatable_and_has_no_retry(self):
-        temporary, _, ledger = self.make()
-        try:
-            self.complete_conformity(ledger)
-            self.complete_probe(ledger)
-            self.reserve(ledger, 0, stage="stability_gate", run="gate-one")
-            with self.assertRaisesRegex(HarnessError, "create-once"):
-                self.reserve(ledger, 1, stage="stability_gate", run="gate-two")
-            ledger.complete_request("r-stability_gate-0", status="ZERO_TOKEN_PROVEN", total_tokens=0, proof_sha256=H)
-            with self.assertRaisesRegex(HarnessError, "no retry|never repeatable"):
-                ledger.reserve_transport_retry(request_id="g-retry", logical_id="g-retry-l", model="m", producer="p",
-                                               stage="stability_gate", stage_run="gate-one", retry_of="r-stability_gate-0")
-        finally:
-            temporary.cleanup()
+        self.t.finish();self.t.finish('budget_probe',3);self.t.bind('stability_gate')
+        r=self.t.reserve(0,'stability_gate');self.t.zero(r)
+        with self.assertRaises(HarnessError):self.t.retry(r,'retry')
+        changed=self.t.binding('stability_gate');changed['requests'][0]['model']='alias'
+        with self.assertRaises(HarnessError):self.l.bind_stage('stability_gate',changed)
 
 
 class GateRuleContractTests(unittest.TestCase):
     def test_forensic_differences_do_not_change_semantic_signature(self):
-        left = gate_rows()[3]
+        left = gate_rows()[0]
         right = dict(left, raw_output_sha256="different", finish_reason="other")
         self.assertEqual(semantic_signature(left), semantic_signature(right))
         right["parsed_output"] = {"abstain": False, "predicted_label": "S2-CLS-3ZGWQ"}

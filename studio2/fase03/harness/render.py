@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from studio2.fase03.protocol import (
-    build_pilot_sample,
+    _build_pilot_sample as build_pilot_sample,
     peer_insights,
     validate_insight_library,
     validate_pilot_input_manifest,
@@ -25,18 +25,21 @@ def build_real_pilot_sample(
     token_count: Callable[[str], int],
     schema_dir: Path,
     source_inventory: dict[str, Any],
+    insight_token_count=None,
 ) -> list[dict[str, Any]]:
     if source_inventory.get("status") != "COMPLETE_READY_TO_FREEZE":
         raise HarnessError("source inventory is incomplete")
     if source_inventory.get("presentation", {}).get("author_decision") != "accepted":
         raise HarnessError("presentation order has not been accepted by the author")
+    from .guards import require_presentation
+    require_presentation(source_inventory, preflight_config.get("presentation_approval", {}))
     value = deepcopy(manifest)
     presented_labels = presentation_order(value["label_space"])
     validate_pilot_input_manifest(value, preflight_config)
     validate_library(
         value["insights"],
         inventory=source_inventory,
-        token_count=token_count,
+        token_count=insight_token_count or token_count,
         schema_dir=schema_dir,
     )
     parsed = validate_insight_library(
@@ -66,7 +69,7 @@ def build_real_pilot_sample(
             mapping=value["derangements"][agent_id],
             agent_id=agent_id,
             inventory=source_inventory,
-            token_count=token_count,
+            token_count=insight_token_count or token_count,
             schema_dir=schema_dir,
         )
     truth = {row["case_id"]: row["fault_label"] for row in value["development_cases"]}

@@ -88,3 +88,46 @@ def assert_ready_for_calls(
     snapshot, token = tokenizer
     verify_tokenizer(snapshot, **token)
     verify_endpoint(endpoint_observed, endpoint_expected)
+
+
+def require_execution(config: dict[str, Any]) -> None:
+    """Historical preflight can never authorize transport, even via direct entrypoints."""
+    from .common import canonical_json
+    if config.get('study_model_decision') != 'APPROVED' or config.get('status') != 'APPROVED_FOR_PHASE03_EXECUTION':
+        raise HarnessError('execution suspended: approved model decision and executable preflight required after D9')
+    approval_ref = config.get('execution_authorization', {})
+    path = Path(approval_ref.get('path', ''))
+    require_sha256(path, approval_ref.get('sha256', ''), role='execution approval')
+    approval = load_json(path)
+    payload = {k: v for k, v in config.items() if k != 'execution_authorization'}
+    if approval.get('decision') != 'accepted' or not approval.get('author') or approval.get('configuration_sha256') != sha256_text(canonical_json(payload)):
+        raise HarnessError('execution approval does not cover this exact configuration')
+
+
+def response_identity_valid(record: dict[str, Any], expected: dict[str, Any]) -> bool:
+    # Null fingerprint is admissible only when explicitly recorded as unavailable.
+    if not isinstance(expected.get('returned_model'), str) or not expected['returned_model']:
+        raise HarnessError('expected returned model is missing')
+    if 'system_fingerprint' not in expected or (expected['system_fingerprint'] is not None and (not isinstance(expected['system_fingerprint'], str) or not expected['system_fingerprint'])):
+        raise HarnessError('expected fingerprint must be explicit, including unavailable/null')
+    return all(key in record and record[key] == expected[key] for key in ('returned_model', 'system_fingerprint'))
+
+
+def require_presentation(inventory: dict[str, Any], approval_ref: dict[str, Any]) -> None:
+    from .common import canonical_json
+    from .ordering import presentation_order
+    presentation = inventory.get('presentation', {})
+    if presentation.get('author_decision') != 'accepted':
+        raise HarnessError('presentation order has not been accepted by the author')
+    ordered = presentation_order(presentation.get('ordered_labels', []))
+    path = Path(approval_ref.get('path', ''))
+    require_sha256(path, approval_ref.get('sha256', ''), role='presentation approval')
+    approval = load_json(path)
+    if approval.get('decision') != 'accepted' or not approval.get('author') or approval.get('ordered_labels_sha256') != sha256_text(canonical_json(ordered)):
+        raise HarnessError('presentation approval does not bind the exact order')
+
+
+def require_pilot_ledger(config, ledger):
+    expected = config.get('pilot_ledger', {})
+    if expected.get('pilot_id') != ledger.pilot_id or not expected.get('path') or Path(expected['path']).resolve() != ledger.path:
+        raise HarnessError('pilot ledger identity/path is not covered by execution approval')

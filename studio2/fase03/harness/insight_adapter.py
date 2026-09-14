@@ -26,6 +26,13 @@ FIXED = ("insight_id", "source_agent", "pseudolabel", "evidence_scope", "variabl
 def load_validator(schema_dir: Path) -> ModuleType:
     for name, digest in EXPECTED.items():
         require_sha256(schema_dir / name, digest, role=f"03.12 {name}")
+    # Resolve the actual R4 dependency before any provider request, including ABI errors.
+    try:
+        from jsonschema import Draft202012Validator
+        import json
+        Draft202012Validator.check_schema(json.loads((schema_dir / 'insight_v1.schema.json').read_bytes()))
+    except Exception as exc:
+        raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
     spec = importlib.util.spec_from_file_location("studio2_schema_insight_v1", schema_dir / "validator.py")
     if spec is None or spec.loader is None:
         raise HarnessError("cannot construct the 03.12 validator module")

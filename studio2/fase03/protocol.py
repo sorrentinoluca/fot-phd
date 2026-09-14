@@ -535,7 +535,7 @@ def render_diagnostic_prompt(
     )
 
 
-def build_pilot_sample(
+def _build_pilot_sample(
     manifest: dict[str, Any],
     config: dict[str, Any],
     *,
@@ -696,3 +696,16 @@ def parse_diagnostic_output(
     if not isinstance(reasoning, str) or not reasoning.strip() or len(reasoning) > 1200:
         raise ContractError("reasoning_summary must contain 1..1200 characters")
     return value
+
+
+def build_pilot_sample(manifest, config, *, token_count, allow_synthetic=False,
+                       presentation_label_space=None, source_inventory=None, schema_dir=None):
+    """Public ordinary entrypoint enforces the real renderer's approval and R4 checks."""
+    if allow_synthetic:
+        return _build_pilot_sample(manifest, config, token_count=token_count, allow_synthetic=True,
+                                   presentation_label_space=presentation_label_space)
+    if source_inventory is None or schema_dir is None:
+        raise ContractError('real prompts require approved inventory and R4 renderer')
+    from studio2.fase03.harness.render import build_real_pilot_sample
+    return build_real_pilot_sample(manifest, config, token_count=token_count,
+                                   schema_dir=schema_dir, source_inventory=source_inventory)

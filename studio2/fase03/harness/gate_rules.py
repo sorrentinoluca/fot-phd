@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import Any, Iterable
 
-from .common import HarnessError
+from .common import HarnessError, sha256_text
 
 
 CONDITIONS = ("A", "B-LF", "E-LF")
@@ -28,7 +28,7 @@ def semantic_signature(record: dict[str, Any]) -> tuple[Any, ...]:
     return (True, abstain, predicted)
 
 
-def evaluate_stability_gate(records: Iterable[dict[str, Any]]) -> dict[str, Any]:
+def evaluate_stability_gate(records: Iterable[dict[str, Any]], *, expected_prompts=None) -> dict[str, Any]:
     rows = list(records)
     if len(rows) != 120:
         raise HarnessError("the stability gate requires exactly 120 first attempts")
@@ -40,6 +40,38 @@ def evaluate_stability_gate(records: Iterable[dict[str, Any]]) -> dict[str, Any]
         grouped[prompt_id].append(row)
     if len(grouped) != 40 or any(len(group) != 3 for group in grouped.values()):
         raise HarnessError("the stability gate requires forty complete triplets")
+
+    if expected_prompts is None:
+        raise HarnessError('gate requires the authenticated frozen prompt sample')
+    expected = {p['prompt_id']: p for p in expected_prompts}
+    if len(expected_prompts) != 40 or len(expected) != 40 or set(expected) != set(grouped):
+        raise HarnessError('gate differs from the forty frozen prompts')
+    if {c: sum(p['condition']==c for p in expected.values()) for c in CONDITIONS} != {'A':8,'B-LF':16,'E-LF':16}:
+        raise HarnessError('frozen gate condition distribution must be 8/16/16')
+    if len({p.get('prompt_sha256') for p in expected.values()}) != 40:
+        raise HarnessError('frozen sample must contain forty distinct prompt hashes')
+    agents = {p.get('agent_id') for p in expected.values()}
+    if agents != {f'agent_{i}' for i in range(1,9)}:
+        raise HarnessError('frozen gate must cover all eight agents')
+    for agent in agents:
+        group = [p for p in expected.values() if p['agent_id']==agent]
+        transfer = [p for p in group if p.get('sample_role')=='matched_transfer']
+        stress = [p for p in group if p.get('sample_role')=='context_stress']
+        if len(transfer)!=3 or {p['condition'] for p in transfer}!=set(CONDITIONS) or len({p['case_id'] for p in transfer})!=1 or len(stress)!=2 or {p['condition'] for p in stress}!={'B-LF','E-LF'} or len({p['case_id'] for p in stress})!=1 or transfer[0]['case_id']==stress[0]['case_id']:
+            raise HarnessError('frozen matched-transfer/context-stress distribution differs')
+    if len({r.get('request_id') for r in rows}) != 120 or any(not r.get('request_id') for r in rows):
+        raise HarnessError('gate request identities must be unique')
+    for prompt_id, group in grouped.items():
+        p = expected[prompt_id]
+        if 'text' not in p or p.get('prompt_sha256') != sha256_text(p['text']):
+            raise HarnessError('frozen prompt text hash mismatch')
+        if {r.get('repetition') for r in group} != {1,2,3} or any(type(r.get('repetition')) is not int for r in group):
+            raise HarnessError('gate triplet requires exact repetitions 1, 2, 3')
+        for r in group:
+            if any(r.get(k) != p.get(k) or p.get(k) is None for k in ('prompt_sha256','condition','agent_id','case_id','sample_role')):
+                raise HarnessError('gate triplet prompt identity/condition differs from frozen sample')
+            if r.get('retry_count', 0) != 0 or r.get('identity_valid') is not True:
+                raise HarnessError('gate requires first attempts and verified response identity')
 
     valid = sum(row.get("parse_valid_first_attempt") is True for row in rows)
     truncations = sum(

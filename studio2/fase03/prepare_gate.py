@@ -83,8 +83,8 @@ def offline_token_counter(snapshot: Path, *, chat_template: bool = True):
                     tokenize=True,
                     add_generation_prompt=True,
                 )
-            except (TypeError, ValueError):
-                tokens = tokenizer.encode(prompt, add_special_tokens=True)
+            except (TypeError, ValueError) as exc:
+                raise RuntimeError("pinned chat template failed; raw-token fallback forbidden") from exc
         else:
             tokens = tokenizer.encode(prompt, add_special_tokens=False)
         # transformers 5 returns BatchEncoding here, whereas older releases
@@ -103,23 +103,44 @@ def prepare(
     output_dir: Path,
     *,
     allow_synthetic: bool = False,
+    source_inventory_path: Path | None = None, insight_handoff: Path | None = None, ledger=None,
+    schema_dir: Path = ROOT / "studio2/fase03/schema_insight",
 ) -> dict[str, Any]:
+    from studio2.fase03.harness.guards import require_execution, verify_tokenizer
+    from studio2.fase03.harness.preparation import authenticate
+    from studio2.fase03.harness.render import build_real_pilot_sample
     config = load_json(PREFLIGHT_CONFIG_PATH)
     manifest = load_json(input_manifest_path)
+    if not allow_synthetic:
+        require_execution(config)
+        verify_tokenizer(snapshot, **config['tokenizer'])
     token_count = offline_token_counter(snapshot)
-    prompts = build_pilot_sample(
-        manifest,
-        config,
-        token_count=token_count,
-        allow_synthetic=allow_synthetic,
-    )
+    if allow_synthetic:
+        prompts = build_pilot_sample(manifest, config, token_count=token_count, allow_synthetic=True)
+        prompt_rows = [p.to_dict() for p in prompts]
+    else:
+        if source_inventory_path is None or insight_handoff is None or ledger is None:
+            raise RuntimeError('real preparation requires inventory, authenticated insight handoff and shared ledger')
+        inventory = load_json(source_inventory_path)
+        raw_count = offline_token_counter(snapshot, chat_template=False)
+        authenticate(manifest, inventory, config=config, ledger=ledger, handoff=insight_handoff,
+                     schema_dir=schema_dir, snapshot=snapshot, token_count=raw_count)
+        prompt_rows = build_real_pilot_sample(manifest, config, token_count=token_count, insight_token_count=raw_count,
+                                             schema_dir=schema_dir, source_inventory=inventory)
+        # The feasibility contract uses attributes; preserve the renderer's exact prompt bytes.
+        from types import SimpleNamespace
+        prompts = [SimpleNamespace(**r) for r in prompt_rows]
     feasibility = context_feasibility(prompts, config)
     prompt_path = output_dir / "pilot_prompts.jsonl"
-    prompt_lines = "".join(canonical_json(item.to_dict()) + "\n" for item in prompts)
+    prompt_lines = "".join(canonical_json(item) + "\n" for item in prompt_rows)
     write_atomic(prompt_path, prompt_lines)
 
     plan = {
-        "artifact_version": "1",
+        "artifact_version": "2",
+        "source_inventory": str(source_inventory_path.resolve()) if source_inventory_path else None,
+        "insight_handoff": str(insight_handoff.resolve()) if insight_handoff else None,
+        "pilot_id": ledger.pilot_id if ledger else None,
+        "schema_dir": str(schema_dir.resolve()),
         "status": (
             (
                 "READY_FOR_PROVISIONAL_STRESS_BUDGET_PROBE"
@@ -160,9 +181,9 @@ def prepare(
     hashes = {
         "artifact_version": "1",
         "files": {
-            str(prompt_path.relative_to(ROOT)): sha256_file(prompt_path),
-            str(plan_path.relative_to(ROOT)): sha256_file(plan_path),
-            str(PREFLIGHT_CONFIG_PATH.relative_to(ROOT)): sha256_file(PREFLIGHT_CONFIG_PATH),
+            str(prompt_path.resolve()): sha256_file(prompt_path),
+            str(plan_path.resolve()): sha256_file(plan_path),
+            str(PREFLIGHT_CONFIG_PATH.resolve()): sha256_file(PREFLIGHT_CONFIG_PATH),
             str(input_manifest_path.resolve()): sha256_file(input_manifest_path),
         },
     }
@@ -190,6 +211,10 @@ def inventory() -> dict[str, Any]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-manifest", type=Path)
+    parser.add_argument("--source-inventory", type=Path)
+    parser.add_argument("--insight-handoff", type=Path)
+    parser.add_argument("--ledger", type=Path)
+    parser.add_argument("--pilot-id")
     parser.add_argument("--synthetic-profile", choices=("cap_stress",))
     parser.add_argument("--model-snapshot", type=Path, default=DEFAULT_SNAPSHOT)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
@@ -223,7 +248,9 @@ def main() -> int:
     if args.input_manifest is None:
         print(json.dumps(inventory(), indent=2, ensure_ascii=False))
         return 3
-    result = prepare(args.input_manifest, args.model_snapshot, args.output_dir)
+    from studio2.fase03.harness.ledger import PilotLedger
+    ledger = PilotLedger(args.ledger, pilot_id=args.pilot_id) if args.ledger and args.pilot_id else None
+    result = prepare(args.input_manifest, args.model_snapshot, args.output_dir, source_inventory_path=args.source_inventory, insight_handoff=args.insight_handoff, ledger=ledger)
     print(canonical_json(result))
     return 0 if result["status"] == "READY_FOR_PRE_GATE_GENERATION_PROBE" else 2
 
