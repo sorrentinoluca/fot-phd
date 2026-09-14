@@ -14,7 +14,7 @@ verbalizzatore/evidence, protocollo e threats. Le differenze di modello sono con
 | Sezione | Stato | Aperture residue |
 | --- | --- | --- |
 | Related work | scritta | conversione futura alle citazioni IEEE; nessun risultato |
-| Metodo | scritta | gate D9, identità/configurazione del modello e producer alternativo solo nel ramo D9.2 |
+| Metodo | scritta | gate D9, identità/configurazione del modello; producer alternativo aperto in D9.1 e Terra in D9.2 |
 | Verbalizzatore/evidence | scritta sulla base disponibile | soglia numerica e FAR omessi; risultati di conformità assenti; integrazione `normal_dev` dopo 03.9 |
 | Protocollo | scritto nella parte congelata alla base | D2, statistica, OOD, D11, politica R, modello, endpoint osservati e ruoli di `normal_dev` dopo 03.9 |
 | Threats | scritta | impatto empirico del modello, audit e canary come segnaposto |
@@ -47,9 +47,17 @@ della sessione. È un'attività decisionale/redazionale con ragionamento esteso.
 Git sono attività implementative locali; non sono stati delegati a modelli esterni.
 
 La verifica preliminare è stata svolta in una finestra distinta ma ancora con `gpt-5.6-sol` e ha
-emesso `NON OK`. Le correzioni richieste sono state applicate, ma una conclusione indipendente
-richiede una nuova verifica del commit corretto con un modello diverso da `gpt-5.6-sol`.
+emesso `NON OK`. Le correzioni richieste sono state applicate e il verbale ha richiesto una nuova
+verifica del commit corretto con un modello diverso da `gpt-5.6-sol`.
 [Fonte: `VERIFICA_PAPER_SECTIONS.md`, verifica preliminare del commit `c63864b`]
+
+Il commit `e2f9aea` è stato poi verificato in sola lettura da `claude-fable-5-1`, sessione
+`session_01HR1jHUUpSs8pMD5WcyjTRH`, quindi con indipendenza di modello ammissibile. Il verdetto è
+stato `NON OK` per due rilievi circoscritti: spazio delle label e identità aperta del producer
+alternativo in D9.1. Entrambi sono corretti nel cambiamento successivo; serve un nuovo passaggio del
+verificatore sul commit aggiornato per l'eventuale `OK`.
+[Fonte: verifica indipendente esterna di `e2f9aea` in
+`/Users/luker/fot-tep/.worktrees/verifica-paper-sections-esterna/studio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md`]
 
 ## 4. Fuori perimetro
 
@@ -90,8 +98,9 @@ che la specifica 03.9 deve attestare.
 ## 5. Decisioni ancora necessarie
 
 1. Conservare Q8 come nome dello scenario e chiudere il gate D9: Qwen-2.4T se disponibile e promosso
-   dal pilot; altrimenti Qwen-27B dopo pilot positivo con Terra alternativo solo nel producer-swap;
-   se anche Qwen-27B fallisce, scegliere fra Terra-only e una submission successiva.
+   dal pilot, con identità del producer alternativo ancora da decidere; altrimenti Qwen-27B dopo
+   pilot positivo con Terra alternativo solo nel producer-swap; se anche Qwen-27B fallisce, scegliere
+   fra Terra-only e una submission successiva.
 2. Confermare o modificare le proposte 03.8: D2, margine *m*, α, gerarchia, test locali, OOD, D11,
    politica R, seed e soglie GO/NO-GO.
 3. Completare la verifica indipendente di 03.5 prima di inserire valore della soglia e FAR.
@@ -121,15 +130,17 @@ interni da risolvere e non creano coppie `.md`/`.html`; la coppia letteratura è
 
 ## 7. Commit
 
-Il commit sottoposto alla verifica preliminare era `c63864b`, preceduto dalla seguente sequenza:
+La sequenza dei cinque commit fino al pacchetto sottoposto alla verifica indipendente esterna è:
 
 1. `2baf2e3` — `studio2(paper): pianifica le sezioni comuni del manoscritto`;
 2. `1590581` — `studio2(paper): redige le sezioni comuni senza risultati`;
 3. `283532f` — `studio2(paper): aggiunge lint e report delle sezioni comuni`;
-4. `c63864b` — `studio2(paper): registra il residuo normal_dev`.
+4. `c63864b` — `studio2(paper): registra il residuo normal_dev della revisione 7`;
+5. `e2f9aea` — `studio2(paper): corregge varianti D9 e limite privacy`.
 
-Le correzioni conseguenti al verbale preliminare — varianti D9, FedDTPT, audit del report e righe
-vuote finali — formano un nuovo commit, il cui hash va registrato dopo la creazione.
+Le correzioni conseguenti alla verifica indipendente esterna di `e2f9aea` formano il commit
+successivo, identificato nella consegna operativa perché un commit non può auto-citare il proprio
+hash.
 
 ## Fonti lette e costo
 

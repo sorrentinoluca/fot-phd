@@ -107,16 +107,18 @@ il ramo D9 effettivamente attivato.
 [Fonte: piano §8.1, §8.7 e D9]
 
 > **VARIANTE D9.1 — Qwen-2.4T.** Se questo ramo supera il gate, dichiarare capacità dell'API,
-> modello restituito e instabilità osservate; non attribuirgli un producer alternativo non
-> configurato. `[RISULTATO: audit e canary]`.
+> modello restituito e instabilità osservate. Il braccio producer-swap resta previsto, ma l'identità
+> del producer alternativo è aperta. `[DECISIONE: producer alternativo del ramo D9.1]`;
+> `[RISULTATO: audit e canary]`.
 >
-> [Fonte: piano revisione 7, D9 opzione 1]
+> [Fonte: piano §8.4, §8.10 punto 3 e D9 opzione 1]
 
 > **VARIANTE D9.2 — Qwen-27B + Terra.** Dopo un pilot positivo, dichiarare capacità e instabilità
-> di Qwen-27B e, nel producer-swap, di Terra. Il pilot Qwen-27B FP8 locale dell'handoff 03.13 non è
-> ancora un esito GO/NO-GO. `[RISULTATO: audit e canary]`.
+> di Qwen-27B e, nel producer-swap, di Terra, precisando che Qwen-27B non è un modello «nuovo». Il
+> pilot 03.13, non ancora avviato, è previsto su Qwen-27B FP8 locale e non costituisce un esito
+> GO/NO-GO. `[RISULTATO: audit e canary]`.
 >
-> [Fonte: piano revisione 7, D9 opzione 2; handoff 03.13]
+> [Fonte: piano D9 opzione 2; handoff di fase 03.13]
 
 > **VARIANTE D9.3 — arresto dell'espansione.** Se Qwen-27B fallisce, dichiarare la ragione
 > operativa e la scelta dell'autore. L'eventuale Terra-only non costituisce verifica cross-model e

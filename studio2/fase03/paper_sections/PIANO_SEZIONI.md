@@ -82,17 +82,20 @@ pilot.
 [Fonte: piano §8.1 e D9]
 
 > **VARIANTE D9.1 — Qwen-2.4T.** Inserire soltanto se Qwen-2.4T diventa disponibile e supera il
-> pilot entro la data prevista. Qwen-2.4T è producer principale e consumer; D9 non configura un
-> producer alternativo per questo ramo. `[DECISIONE: disponibilità, pilot, versione/API]`.
+> pilot entro la data prevista. Qwen-2.4T è producer principale e consumer; il braccio
+> producer-swap resta nel disegno, mentre D9 non nomina il producer alternativo per questo ramo.
+> `[DECISIONE: disponibilità, pilot, versione/API e producer alternativo del ramo D9.1]`.
 >
-> [Fonte: piano revisione 7, D9 opzione 1]
+> [Fonte: piano §8.4, §8.10 punto 3 e D9 opzione 1]
 
 > **VARIANTE D9.2 — Qwen-27B con producer alternativo Terra.** Inserire soltanto dopo esito positivo
 > del pilot Qwen-27B: Qwen-27B è producer principale e consumer, mentre Terra è producer alternativo
-> nel solo braccio producer-swap. L'handoff 03.13 registra Qwen-27B FP8 locale come combinazione in
-> prova e Qwen-2.4T come non disponibile; non anticipa il GO/NO-GO.
+> nel solo braccio producer-swap. Il testo finale deve dichiarare esplicitamente che Qwen-27B non è
+> un modello «nuovo». Il pilot 03.13, non ancora avviato, è previsto sul solo modello disponibile,
+> Qwen-27B FP8 locale; Qwen-2.4T risulta non disponibile alla data dell'handoff e non si anticipa il
+> GO/NO-GO.
 >
-> [Fonte: piano revisione 7, D9 opzione 2; handoff 03.13]
+> [Fonte: piano D9 opzione 2; handoff di fase 03.13]
 
 > **VARIANTE D9.3 — arresto dell'espansione.** Se anche Qwen-27B fallisce i criteri di parsing,
 > stabilità o contesto, l'espansione si arresta e l'autore sceglie fra Terra-only e una submission

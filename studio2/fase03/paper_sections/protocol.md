@@ -110,16 +110,19 @@ determinismo sono registrati separatamente nel ramo D9 effettivamente attivato.
 [Fonte: piano §8.1, §8.7 e D9]
 
 > **VARIANTE D9.1 — Qwen-2.4T.** Attivare soltanto se disponibile e promosso dal pilot entro la data
-> prevista. Registrare versione/API e controlli effettivi; il producer alternativo non è configurato
-> da D9 in questo ramo. `[DECISIONE: esito del gate]`.
+> prevista. Registrare versione/API e controlli effettivi. Il braccio producer-swap resta nel
+> protocollo, ma D9 non nomina il producer alternativo per questo ramo. `[DECISIONE: esito del gate
+> e producer alternativo del ramo D9.1]`.
 >
-> [Fonte: piano revisione 7, D9 opzione 1]
+> [Fonte: piano §8.4, §8.10 punto 3 e D9 opzione 1]
 
 > **VARIANTE D9.2 — Qwen-27B + Terra.** Attivare soltanto dopo pilot positivo. Qwen-27B è producer
-> principale e consumer; Terra è producer alternativo esclusivamente nel braccio swap. L'handoff
-> 03.13 documenta il pilot Qwen-27B FP8 locale e l'indisponibilità di Qwen-2.4T, non un GO/NO-GO.
+> principale e consumer; Terra è producer alternativo esclusivamente nel braccio swap. Registrare
+> esplicitamente che Qwen-27B non è un modello «nuovo». Il pilot 03.13, non ancora avviato, è previsto
+> su Qwen-27B FP8 locale; Qwen-2.4T risulta non disponibile alla data dell'handoff. Non si anticipa
+> un GO/NO-GO.
 >
-> [Fonte: piano revisione 7, D9 opzione 2; handoff 03.13]
+> [Fonte: piano D9 opzione 2; handoff di fase 03.13]
 
 > **VARIANTE D9.3 — arresto dell'espansione.** Se Qwen-27B fallisce parsing, stabilità o contesto,
 > arrestare l'espansione e lasciare all'autore la scelta fra Terra-only e una submission successiva.

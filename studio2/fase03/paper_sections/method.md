@@ -5,7 +5,8 @@
 Consideriamo otto agenti logici che osservano lo stesso processo simulato ma possiedono esperienza
 locale disgiunta: ciascun agente conosce il funzionamento Normal e una sola classe di fault. La
 classe corretta di un caso remoto non è stata osservata localmente dal ricevente; il compito è
-scegliere una delle etichette opache del catalogo oppure astenersi con `Unknown`.
+scegliere fra le otto etichette opache di fault, l'etichetta letterale `Normal` oppure astenersi con
+`Unknown` (`abstain=true`, `predicted_label=null`).
 [Fonte: piano §8.1, §8.5–§8.6; 03.7 `SPECIFICA_PSEUDOLABEL.md`]
 
 Gli agenti sono processi logici, non nodi distribuiti su una rete reale. Le osservazioni grezze,
@@ -16,11 +17,11 @@ flusso informativo, ma non costituisce una garanzia di privacy.
 
 ## Oggetto federato e ciclo a colpo singolo
 
-Ogni owner usa evidence di sviluppo per produrre due insight relativi alla propria classe locale.
-La libreria omogenea contiene sedici record; un ricevente vede i quattordici record dei sette peer,
-mentre i propri due record restano esclusi. Gli insight sono prodotti una volta, congelati e
-riutilizzati: non vi sono aggregazione lato server, aggiornamento di parametri o raffinamento
-multi-round.
+Ogni owner usa evidence di sviluppo per produrre due insight relativi alla propria classe fault
+locale. La libreria omogenea contiene sedici record per le sole otto classi fault; `Normal` non ha
+insight. Un ricevente vede i quattordici record dei sette peer, mentre i propri due record restano
+esclusi. Gli insight sono prodotti una volta, congelati e riutilizzati: non vi sono aggregazione
+lato server, aggiornamento di parametri o raffinamento multi-round.
 [Fonte: piano §8.1, §8.4, §8.9; 03.12 `DECISIONE_SCHEMA_INSIGHT.md`]
 
 L'assenza di aggregazione è una scelta di perimetro. Mantiene origine e contenuto di ciascun record
@@ -34,7 +35,7 @@ Nella condizione A il ricevente usa soltanto esempi e conoscenza locali. Nella c
 la stessa conoscenza locale più i record corretti dei peer. Nella condizione E-LF riceve lo stesso
 insieme di record di B-LF, ma l'associazione fra pattern e pseudolabel è corrotta mediante un
 derangement evaluator-side. `Unknown` è disponibile in tutte le condizioni e conta come astensione,
-non come nona classe di fault.
+non come label o classe; la nona e ultima label dello spazio è `Normal`.
 [Fonte: piano §8.1, §8.5–§8.6; 03.7 `SPECIFICA_PSEUDOLABEL.md` §5]
 
 B-LF ed E-LF condividono la politica local-first: prima di usare gli insight peer, il reasoner deve
@@ -45,9 +46,10 @@ parte del metodo maturo e viene tenuta costante nel contrasto B-LF−E-LF; l'abl
 
 ## Pseudolabel opache e controllo E
 
-Le etichette operative sono stringhe opache derivate deterministicamente con SHA-256 e assegnate in
-biiezione agli agenti; la mappa verso le identità fisiche resta evaluator-side. Per ogni agente, E
-usa una permutazione senza punti fissi e biiettiva delle sole etichette peer. Il sorteggio è
+Le otto etichette di fault sono stringhe opache derivate deterministicamente con SHA-256 e assegnate
+in biiezione agli agenti; `Normal` resta letterale e occupa la nona posizione dello spazio delle
+label. La mappa verso le identità fisiche resta evaluator-side. Per ogni agente, E usa una
+permutazione senza punti fissi e biiettiva delle sole etichette fault dei peer. Il sorteggio è
 riproducibile da namespace e seed, ma ciò non prova segretezza o indipendenza statistica.
 [Fonte: 03.7 `SPECIFICA_PSEUDOLABEL.md` §3–§7; `REPORT_PSEUDOLABEL.md`]
 
@@ -81,16 +83,18 @@ Q8 indica il disegno comune con otto agenti e otto fault, non l'identità del mo
 [Fonte: piano §8.1]
 
 > **VARIANTE D9.1 — Qwen-2.4T.** Se disponibile e promosso dal pilot entro la data prevista,
-> Qwen-2.4T è producer principale e consumer. In questo ramo il producer alternativo non è
-> configurato. `[DECISIONE: esito del gate e versione/API]`.
+> Qwen-2.4T è producer principale e consumer. Il braccio producer-swap resta nel disegno; D9 non
+> nomina il producer alternativo per questo ramo. `[DECISIONE: esito del gate, versione/API e
+> producer alternativo del ramo D9.1]`.
 >
-> [Fonte: piano revisione 7, D9 opzione 1]
+> [Fonte: piano §8.4, §8.10 punto 3 e D9 opzione 1]
 
 > **VARIANTE D9.2 — Qwen-27B + Terra.** Soltanto dopo un pilot positivo, Qwen-27B è producer
-> principale e consumer e Terra è producer alternativo nel braccio swap. Il pilot 03.13 prova
-> Qwen-27B FP8 locale; il suo GO/NO-GO non è ancora anticipato in questa bozza.
+> principale e consumer e Terra è producer alternativo nel braccio swap. Il paper dichiara
+> esplicitamente che Qwen-27B non è un modello «nuovo». Il pilot 03.13, non ancora avviato, è
+> previsto su Qwen-27B FP8 locale; il suo GO/NO-GO non è anticipato in questa bozza.
 >
-> [Fonte: piano revisione 7, §8.4 e D9 opzione 2; handoff 03.13]
+> [Fonte: piano §8.4 e D9 opzione 2; handoff di fase 03.13]
 
 > **VARIANTE D9.3 — arresto dell'espansione.** Se Qwen-27B fallisce i criteri operativi, l'autore
 > sceglie fra Terra-only e una submission successiva. L'eventuale Terra-only usa il medesimo metodo,
