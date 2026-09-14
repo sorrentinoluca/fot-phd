@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-09-14T20:53:04Z",
+  "scope": "phase03_subphase_03_9_numeric_baseline_tag_publication",
+  "remote": "origin",
+  "tag_name": "studio2-fase03-baseline-numerica-frozen-001",
+  "target_commit": "38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e",
+  "verified_residual_candidate": "49bc53b6d4630e7675eb5cf59c6d483d694ab042",
+  "ok_acquisition_commit": "9370346c61d6edfdb0521aea812003a5f013748d",
+  "decision_record_commit": "38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e",
+  "verdict_sha256": "2131277d6d8840e767e73e3b0ab9e421f4b27acaa39a18faa770f19a69dd536a",
+  "remote_main_before_publication": "f1746e1e76c5657e5cb74ed765d2f22143f979ce",
+  "remote_main_after_candidate_publication": "38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e",
+  "local_tag": {
+    "object_type": "tag",
+    "annotated_object": "124262f5a6172a20965d019f220ff93954284922",
+    "peeled_commit": "38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e"
+  },
+  "remote_tag_output": [
+    "124262f5a6172a20965d019f220ff93954284922\trefs/tags/studio2-fase03-baseline-numerica-frozen-001",
+    "38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e\trefs/tags/studio2-fase03-baseline-numerica-frozen-001^{}"
+  ],
+  "remote_tag": {
+    "annotated_object": "124262f5a6172a20965d019f220ff93954284922",
+    "peeled_commit": "38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e"
+  },
+  "target_reachable_from_remote_main": true,
+  "target_tree": {
+    "contains_verified_candidate": true,
+    "contains_acquired_ok": true,
+    "contains_author_tag_decision": true,
+    "contains_required_published_prerequisites": true,
+    "contains_preparazione_efficacia_03_9": false,
+    "contains_BASELINE_FREEZE_rev005_json": false
+  },
+  "tag_inventory": {
+    "before_ref_lines": 78,
+    "before_sha256": "eb95f783b0fb17339c75233e6486dfac81047c8bce6c26c41721af5dd6766f10",
+    "after_ref_lines": 80,
+    "after_sha256": "32f3a868af6227f54cfdf848fe1cb94be3cdae8f9d47b0f9cde360b923d86343",
+    "after_removing_new_tag_matches_before_byte_for_byte": true,
+    "only_new_tag": "studio2-fase03-baseline-numerica-frozen-001"
+  },
+  "schema_03_12_tag": {
+    "name": "studio2-fase03-schema-insight-frozen-001",
+    "remote_object": "4d15c4fb915ea9db9f7425225d231746778f0ba1",
+    "remote_peeled": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+    "unchanged": true
+  },
+  "checks": {
+    "candidate_main_push_fast_forward_only": true,
+    "tag_was_absent_locally_and_remotely_before_creation": true,
+    "tag_push_refspec_only": "refs/tags/studio2-fase03-baseline-numerica-frozen-001:refs/tags/studio2-fase03-baseline-numerica-frozen-001",
+    "no_force_all_or_tags_push": true,
+    "local_and_remote_annotated_objects_match": true,
+    "local_and_remote_peeled_commits_match_target": true,
+    "data_release_tag_not_used_as_baseline_tag": true
+  }
+}

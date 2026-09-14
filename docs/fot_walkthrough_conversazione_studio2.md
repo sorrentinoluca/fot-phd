@@ -3,7 +3,7 @@
 > **Documento vivo, a scheletro.** Si aggiorna **fase per fase**. Stato al **2026-09-14**:
 > fasi 01 e 02 documentate in §2 e §3; la sotto-fase **criteri di selezione (§6.1)** della
 > Fase 03 è documentata in [§4.1](#criteri-selezione-61); **D1, verificata, congelata e pubblicata**, in [§4.2](#catalogo-d1);
-> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); le **soglie Normal (§6.3)**, calibrate e verificate, in [§4.5](#soglie-normal-63); le **evidence 697-D**, verificate e conservate nella release v2, in [§4.6](#evidence-697-d); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037); `normal_dev` e baseline numerica, verificati ma non ancora congelati efficacemente, in [§4.9](#normal-dev-baseline-039); il **raccordo delle metriche 03.9 → 03.10**, verificato sul solo delta, in [§4.10](#harness-raccordo-metriche-0310); lo **schema insight R4**, verificato e congelato con tag pubblicato, in [§4.12](#schema-insight-0312); le **sezioni comuni del paper**, aggiornate e verificate ma conservate soltanto nel candidato locale, in [§4.15](#paper-sections-0315). La Fase 03 resta aperta. La parte restante delle fasi successive
+> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); le **soglie Normal (§6.3)**, calibrate e verificate, in [§4.5](#soglie-normal-63); le **evidence 697-D**, verificate e conservate nella release v2, in [§4.6](#evidence-697-d); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037); `normal_dev` e baseline numerica, verificati, con baseline congelata e rev.5 di efficacia registrata, in [§4.9](#normal-dev-baseline-039); il **raccordo delle metriche 03.9 → 03.10**, verificato sul solo delta, in [§4.10](#harness-raccordo-metriche-0310); lo **schema insight R4**, verificato e congelato con tag pubblicato, in [§4.12](#schema-insight-0312); le **sezioni comuni del paper**, aggiornate e verificate ma conservate soltanto nel candidato locale, in [§4.15](#paper-sections-0315). La Fase 03 resta aperta. La parte restante delle fasi successive
 > resta a scheletro: per essa **la fonte autorevole è il piano**, non questo file.
 
 | Ruolo | File |
@@ -1244,10 +1244,7 @@ componenti e costruiti **nove prototipi globali e sedici locali**. Il ricalcolo 
 25 vettori ha differenza massima zero. Non sono stati aperti dati di test, calcolate accuratezze o
 scelte soglie sulle prestazioni.
 
-La verifica separata è **OK**, dopo due candidati NON OK per errori di provenienza poi corretti.
-Il pacchetto è integrato in `origin/main` e il lotto è pubblicato e verificato per riscaricamento.
-L'OK non rende efficace il freeze: restano il mapping dei nomi nella 03.10, l'integrazione dei
-sorgenti riusati di 03.6 e il tag della baseline. La Fase 03 **non è chiusa**.
+La verifica scientifica storica è **OK**, dopo due candidati NON OK per errori di provenienza poi corretti. Il lotto Normal è già pubblicato e verificato per riscaricamento; mapping e sorgenti 03.6 sono integrati. L'OK di chiusura residui riguarda separatamente il candidato `49bc53b6d4630e7675eb5cf59c6d483d694ab042` ed è acquisito nel commit `9370346c61d6edfdb0521aea812003a5f013748d`. Il tag annotato `studio2-fase03-baseline-numerica-frozen-001` è pubblicato sul commit `38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e`; la successiva rev.5 registra l'efficacia. La sotto-fase 03.9 è chiusa nel suo perimetro; 03.10, piano 03.8 e Fase 03 restano aperti.
 
 #### Dettaglio
 
@@ -1273,10 +1270,7 @@ v1. La baseline usa 40 firme per fault, 320 Normal globali e 40 Normal per agent
 prototipo è una media aritmetica 697-D e la classificazione usa L1 media, con pareggio entro
 `1e-12` che produce astensione e senza nuova soglia di distanza o fallback globale.
 
-Gli otto esempi Normal locali seguono la regola pre-specificata run locale 1, finestra `[25,30)`.
-Il parser reale del harness 03.10 li accetta 8/8. Le righe evaluator-side sono compatibili con la
-03.8; resta però da adottare in 03.10 il mapping `accuracy`→`accuracy_all`, `n`→`total` e
-`abstentions`→`abstained`, con il conteggio `invalid` aggiuntivo nel harness.
+Gli otto esempi Normal locali seguono la regola pre-specificata run locale 1, finestra `[25,30)`. Il parser storico del harness 03.10 li accetta 8/8. Il raccordo minimo pubblicato adotta `accuracy`→`accuracy_all`, `n`→`total` e `abstentions`→`abstained`; conserva `non_abstained=total-abstained`. L'adapter emette `invalid=0` soltanto per la sorgente 03.9 valid-only; nell'harness generale gli invalidi restano non corretti, non astenuti e inclusi in `non_abstained`. Le prove del raccordo sono storiche e non sono state rieseguite durante la pubblicazione.
 
 #### Connessione alla letteratura e alle critiche
 
@@ -1288,12 +1282,7 @@ fra 320 firme Normal e 40 per fault resta un vincolo da trattare nella ricetta F
 
 #### Artefatti e riproducibilità
 
-Il [report](../studio2/fase03/baseline_numerica/REPORT_BASELINE_NUMERICA.md) indicizza specifiche,
-audit, decisione, controllo del warning, evidence, prototipi e controllo d'interfaccia. La
-[verifica indipendente](../studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md) registra
-l'OK sul commit `ba1a206e1fe31c062d5491b4fb821ff925149982` e la cronologia dei due NON OK. Il
-[freeze revisionato](../studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json) resta
-`effective=false`; i manifest storico e rev. 2 non sono stati sovrascritti.
+Il [report](../studio2/fase03/baseline_numerica/REPORT_BASELINE_NUMERICA.md) e la [verifica scientifica storica](../studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md) restano le fonti di `normal_dev` e prototipi, con OK su `ba1a206e1fe31c062d5491b4fb821ff925149982`. Il [rapporto residui](../studio2/fase03/baseline_numerica/RAPPORTO_RESIDUI_BASELINE_03_9_2026-09-14.md) identifica il successivo delta `49bc53b6d4630e7675eb5cf59c6d483d694ab042`; il relativo verbale OK acquisito ha SHA-256 `2131277d6d8840e767e73e3b0ab9e421f4b27acaa39a18faa770f19a69dd536a`. Il [record di pubblicazione 03.9](../studio2/fase03/baseline_numerica/PUBBLICAZIONE_BASELINE_03_9.md) documenta acquisizione, commit pubblicato, oggetto annotato `124262f5a6172a20965d019f220ff93954284922`, peeled `38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e` e riscontro remoto `2026-09-14T20:53:04Z`. La [rev.5 di efficacia](../studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev005.json) è registrata dopo il target del tag. Le revisioni 1–4 restano intatte; il raccordo metriche conserva il pin storico della rev.3.
 
 `PROTOTYPES.json` ha SHA-256 `6d0b754065eb8a69d0657638deeef0756de0ec8e93a905c55aea18fadace2cb2`;
 il manifest dei prototipi `8309a914d2141da38d1120606897bcead40142829ecd541b6b0423d0d9465751`;
@@ -1305,12 +1294,7 @@ da Git e sono legati agli inventari tracciati.
 
 #### Lavoro che resta
 
-Integrare e testare il mapping dei nomi nella 03.10 e rendere raggiungibili da `origin/main`
-i sorgenti riusati della 03.6. Solo dopo, creare e registrare il tag della baseline in una
-nuova revisione del freeze. Pubblicazione, riscaricamento e integrazione del pacchetto 03.9
-sono completati; la sotto-fase resta aperta. La
-[consegna di integrazione](../studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md)
-riporta commit, prove e dipendenze residue.
+Il freeze baseline non qualifica l'harness completo né il pilot. Restano separati D9, servizio 122B, collegamento ai run finali e chiusura del piano 03.8. Lo schema insight 03.12 resta congelato come documentato in [§4.12](#schema-insight-0312); l'adeguamento del suo pin nell'adapter 03.10 resta un lavoro distinto. La [consegna storica di integrazione](../studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md) conserva lo stato precedente, superato per i soli residui baseline dal record di pubblicazione 03.9.
 
 <a id="harness-raccordo-metriche-0310"></a>
 
@@ -1320,8 +1304,7 @@ riporta commit, prove e dipendenze residue.
 > fra la baseline numerica 03.9 e l'harness 03.10, delta `5116087..caf5bfb`. **Non** documenta
 > l'intero harness 03.10, che resta aperto, e non chiude 03.9 né 03.10. La Fase 03 **non è chiusa**.
 
->
-> **Stato d'integrazione (candidato locale su `e82b5a0`).** Il *delta metriche* `5116087..caf5bfb` è già verificato **OK** in modo indipendente (verbale acquisito). Il presente *candidato d'integrazione* è invece **nuovo lavoro non ancora verificato indipendentemente**: importa il raccordo sulla base comune `e82b5a0` (che non conteneva `studio2/fase03/harness/`), con la sola chiusura minima di dipendenze (`common.py`) e un test mirato `test_metric_raccordo.py` (MetricTests estratti dal test verificato). `common.py` è codice di supporto preesistente **non coperto** dall'OK del solo delta; il test mirato e l'import completo vanno sottoposti a verifica indipendente del nuovo delta d'integrazione.
+**Stato d'integrazione pubblicato.** Il raccordo minimo `3360867751c66a39e819247f86dab8e936f8cbb3`, inclusi `common.py` e il test mirato, è verificato; il consolidamento qualificato `04dee86140b3ff18882f9d164beef5ab7bf33e00` e la relativa acquisizione sono pubblicati. Il [registro del consolidamento](../studio2/fase03/REGISTRO_PUBBLICAZIONE_CONSOLIDAMENTO_0315_METRICHE_2026-09-14.md) documenta l'integrazione. Questo stato supera il precedente candidato locale su `e82b5a0` senza estendere l'OK all'intero harness.
 
 #### Riassunto e sintesi
 
@@ -1359,15 +1342,7 @@ consumatore 03.10; non dimostra accuratezza, robustezza o indipendenza statistic
 
 #### Limiti
 
-L'OK è **limitato al delta `5116087..caf5bfb`**: non è un OK dell'intero harness, non chiude
-03.9 / 03.10, non rende efficace `HARNESS_FREEZE.json` e non autorizza chiamate, simulazioni o
-analisi sui run finali. La verifica indipendente registra due **skip** (checkout esterni non
-montati nella sandbox: test dell'adapter 03.12 e inventario release 03.6), da tenere distinti dal
-risultato locale dell'esecutore, che riporta invece **1 errore preesistente** nel test del vecchio
-pin 03.12 (il checkout 03.12 corrente non coincide con l'hash pinnato). Il **problema del pin 03.12
-resta aperto e fuori perimetro**: non è stato convertito in PASS né corretto. La semantica
-invalidità/astensione dipende normativamente da `DELTA_HARNESS_03_10.md` della rev. 10, non ancora
-integrata nel branch harness.
+L'OK storico è **limitato al delta `5116087..caf5bfb`**; gli OK successivi riguardano la sua integrazione minima e il consolidamento, non l'intero harness. Non rendono efficace `HARNESS_FREEZE.json` e non autorizzano chiamate, simulazioni o analisi sui run finali. Restano distinti i due skip storici del verificatore e l'errore preesistente dell'esecutore sul vecchio pin 03.12. Lo schema R4 è congelato, ma l'adeguamento del pin nell'adapter resta fuori perimetro. La fonte normativa `DELTA_HARNESS_03_10.md` della rev.10 è ora acquisita byte-identica nella storia pubblicata attraverso il candidato residui 03.9: ciò non approva né congela l'intero piano 03.8.
 
 #### Artefatti e riproducibilità
 
@@ -1387,10 +1362,7 @@ SHA-256 `e92661fe…`).
 
 #### Lavoro che resta
 
-Collegare l'adapter agli artefatti reali dell'harness e agli input verificati; integrare la
-rev. 10 nel branch harness; completare pin 03.12, ordine delle label, endpoint e qualificazione dei
-modelli. Solo con i sorgenti 03.6 raggiungibili da `origin/main` e i controlli previsti si potrà
-completare il record di freeze 03.9 e il relativo tag. La sotto-fase 03.10 resta aperta.
+Collegare l'adapter agli artefatti reali dell'harness e agli input verificati; completare l'attuazione del delta rev.10 nel perimetro 03.10, pin 03.12, ordine delle label, endpoint e qualificazione dei modelli. La disponibilità della fonte normativa nella storia integrata non equivale all'implementazione dell'intero delta. Il freeze baseline è documentato separatamente in [§4.9](#normal-dev-baseline-039). La sotto-fase 03.10, il piano 03.8 e la Fase 03 restano aperti.
 
 <a id="schema-insight-0312"></a>
 
@@ -1558,7 +1530,7 @@ distinto da ogni futura integrazione in `main`, pubblicazione o congelamento. 03
 
 | § | Fase | Che cos'è | Fonte | Stato |
 | :---: | --- | --- | --- | --- |
-| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.9 `normal_dev` e baseline; §4.12 schema insight R4; §4.15 sezioni comuni del paper | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.9 integrata e dati pubblicati, freeze pending; 03.12 R4-V OK e tag pubblicato; 03.15 verificata e raccordata solo nel candidato locale |
+| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.9 `normal_dev` e baseline; §4.12 schema insight R4; §4.15 sezioni comuni del paper | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.9 chiusa, tag baseline pubblicato e rev.5 di efficacia registrata; 03.12 R4-V OK e tag pubblicato; 03.15 verificata e raccordata solo nel candidato locale |
 | 5 | **Produzione degli insight** | Gli 8×2 insight dai dati di sviluppo, più la libreria completa del producer alternativo per il braccio *producer-swap* | piano §7.2 | dopo il pilot |
 | 6 | **Congelamento del protocollo** | Solo dopo il pilot, mai prima | piano §7.3 | dopo il pilot |
 | 7 | **Esecuzione dello studio finale** | Tutte le inferenze A, B-LF, E-LF, più swap, OOD, ablation e canary — circa 2.853/3.555 chiamate con margine, per 6/8 run | piano §7.4 e §8.8 | dopo il congelamento |
@@ -1576,7 +1548,7 @@ Dettaglio dei cantieri ancora previsti dal piano §§6–7:
 4. **§6.4** — Dati strutturati, testi neutrali e firme di sviluppo prodotti e verificati nella sotto-fase 03.6 descritta in [§4.6](#evidence-697-d); le evidence `normal_dev` sono documentate separatamente in [§4.9](#normal-dev-baseline-039)
 5. **§6.5** — Pseudolabel e derangement v1 verificati in [§4.7](#pseudolabel-037); interfaccia finale con 03.12 ancora aperta
 6. **§6.6** — Scrivere il piano statistico completo
-7. **§6.7** — Baseline numerica costruita e verificata nella [§4.9](#normal-dev-baseline-039); freeze efficace e integrazione 03.10 pending
+7. **§6.7** — Baseline numerica costruita e verificata nella [§4.9](#normal-dev-baseline-039); tag baseline pubblicato e rev.5 di efficacia registrata; harness completo 03.10 aperto
 8. **§6.8** — Preparare l'harness API
 9. **§6.9** — Generare e congelare i run finali di test
 10. **§6.10** — Schema insight R4 verificato e congelato con tag pubblicato in [§4.12](#schema-insight-0312); pin dell'adapter e qualifica del pilot restano separati
