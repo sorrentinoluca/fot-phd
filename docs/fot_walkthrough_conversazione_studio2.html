@@ -87,6 +87,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <li><a href="#catalogo-d1"><span class="n">4.2</span>Catalogo D1 congelato</a></li>
 <li><a href="#run-fault-62"><span class="n">4.3</span>Run fault di sviluppo (§6.2)</a></li>
 <li><a href="#perimetro-codice-q8"><span class="n">4.4</span>Perimetro del codice Q8</a></li>
+<li><a href="#evidence-697-d"><span class="n">4.5</span>Evidence 697-D (03.6)</a></li>
 <li><a href="#sez-13-conferenza"><span class="n">13</span>Conferenza</a></li>
 <li><a href="#sez-14-letteratura"><span class="n">14</span>Letteratura</a></li>
 </ol>
@@ -97,10 +98,10 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <h1>Studio 2 &mdash; walkthrough</h1>
 
 <div class="warn"><blockquote>
-<p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>. Stato al <strong>2026-09-13</strong>:
+<p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>. Stato al <strong>2026-09-14</strong>:
 fasi 01 e 02 documentate in §2 e §3; la sotto-fase <strong>criteri di selezione (§6.1)</strong> della
 Fase 03 è documentata in <a href="#criteri-selezione-61">§4.1</a>; <strong>D1, verificata, congelata e pubblicata</strong>, in <a href="#catalogo-d1">§4.2</a>;
-i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; il <strong>perimetro del codice Q8</strong>, chiuso, in <a href="#perimetro-codice-q8">§4.4</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
+i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; il <strong>perimetro del codice Q8</strong>, chiuso, in <a href="#perimetro-codice-q8">§4.4</a>; le <strong>evidence 697-D</strong>, verificate e conservate nella release v2, in <a href="#evidence-697-d">§4.5</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
 resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, non questo file.</p>
 </blockquote>
 </div>
@@ -141,7 +142,7 @@ resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, no
 
 <section id="sez-0-1-punti-aperti">
 <p class="kicker"><span class="num">0.1</span></p><h2>Punti aperti &mdash; da risolvere, non da aggirare</h2>
-<p>Restano qui le decisioni che una fase non pu&ograve; chiudere da sola. Il precedente punto sul riuso dei dati del primo studio &egrave; stato chiuso dalla fase 02: R1 &egrave; respinto come sostituzione di nuovi run fault e R2 &egrave; autorizzato soltanto come <code>baseline_fit</code> condizionata (<a href="#sez-3-generazione-riuso">§3</a>). Il punto sul perimetro del codice della Q8, registrato il 2026-09-12, &egrave; stato chiuso dalla sotto-fase 03.4 senza aprire un nuovo perimetro: la terza metrica di §8.5, il cap dello schema, l'estensione a 8 agenti e il derangement a 7 peer sono codice nuovo in <code>studio2/</code> secondo <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.2, che ora disciplina il riuso a livello di funzione; <code>phase_b/</code> e il nucleo di <code>code/</code> restano congelati per impronta (<a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §1).</p>
+<p>Restano qui le decisioni che una fase non pu&ograve; chiudere da sola. Il precedente punto sul riuso dei dati del primo studio &egrave; stato chiuso dalla fase 02: R1 &egrave; respinto come sostituzione di nuovi run fault e R2 &egrave; autorizzato come <code>baseline_fit</code> condizionata (<a href="#sez-3-generazione-riuso">§3</a>). La decisione U3 del 2026-09-13 ne ha esteso l'uso, in modo circoscritto, alla normalizzazione e ai flag del verbalizzatore V2 delle evidence 03.6, senza autorizzare calibrazione, verifica o test su N1&ndash;N5 (<a href="#evidence-697-d">§4.5</a>). Il punto sul perimetro del codice della Q8, registrato il 2026-09-12, &egrave; stato chiuso dalla sotto-fase 03.4 senza aprire un nuovo perimetro: la terza metrica di §8.5, il cap dello schema, l'estensione a 8 agenti e il derangement a 7 peer sono codice nuovo in <code>studio2/</code> secondo <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.2, che ora disciplina il riuso a livello di funzione; <code>phase_b/</code> e il nucleo di <code>code/</code> restano congelati per impronta (<a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §1).</p>
 <div class="tablewrap"><table>
 <thead><tr><th>#</th><th>Punto aperto</th><th>Perch&eacute; blocca</th><th>Chi decide</th><th>Registrato</th><th>Decisione da chiudere in</th></tr></thead>
 <tbody>
@@ -275,7 +276,7 @@ resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, no
 </ul>
 
 <h3>3.6 &middot; Lavoro che resta</h3>
-<p>Restano la selezione e generazione dei nuovi fault, <code>cal_thr</code> e <code>far_ver</code>, la produzione delle feature/evidence e dei prototipi, le decisioni di catalogo, il capability pilot e tutte le inferenze LLM. Prima di dichiarare definitivo il congelamento della fase 02 resta la riverifica indipendente finale delle impronte del freeze rigenerato.</p>
+<p>La selezione del catalogo, i nuovi run fault e le relative evidence sono ora documentati in <a href="#sez-fasi-successive">§4.1&ndash;§4.5</a>. Restano <code>cal_thr</code> e <code>far_ver</code>, la produzione dei prototipi, le decisioni di catalogo successive, il capability pilot e tutte le inferenze LLM. Prima di dichiarare definitivo il congelamento della fase 02 resta la riverifica indipendente finale delle impronte del freeze rigenerato.</p>
 </section>
 
 <section id="sez-fasi-successive">
@@ -342,7 +343,8 @@ sospeso il gate reale. La sonda sintetica provvisoria non fonda la scelta dei cr
 <p>Alla chiusura di §6.1 restava da eseguire D1. L'estrazione e la sua verifica sono ora
 registrate in <a href="#catalogo-d1">§4.2</a>; il catalogo è ora congelato e pubblicato.
 D11 e la scelta OOD sono ora lavorabili ma restano aperte. Restano inoltre D2, producer
-alternativo, nuovi run ed evidence reali, sonda sui prompt reali e gate 40×3.
+alternativo, sonda sui prompt reali e gate 40×3; i nuovi run e le loro evidence sono ora
+documentati in <a href="#run-fault-62">§4.3</a> e <a href="#evidence-697-d">§4.5</a>.
 La sola chiusura di §6.1 non chiude S1 e non autorizza esecuzioni.</p>
 </section>
 <section id="catalogo-d1">
@@ -464,8 +466,8 @@ Il <a href="../studio2/fase03/selection/PUBBLICAZIONE_CATALOGO_D1.md">resoconto 
 commit, controlli documentali e attività rimaste aperte. Il tag non è stato spostato e gli
 artefatti congelati non sono stati riscritti.</p>
 <h4>Passaggi ancora aperti</h4>
-<p>Restano D2, producer alternativo, specifica di generazione,
-nuovi run/evidence e gate reale 03.0. OOD e D11 sono ora lavorabili: la
+<p>Restano D2, producer alternativo, gate reale 03.0 e le sotto-fasi successive; specifica, nuovi run
+ed evidence sono ora documentati in <a href="#run-fault-62">§4.3</a> e <a href="#evidence-697-d">§4.5</a>. OOD e D11 sono ora lavorabili: la
 <a href="../studio2/fase03/selection/PROPOSTA_OOD_D11.md">nota di proposta</a> resta non vincolante e
 <strong>fuori dal congelamento D1</strong>. Questa consegna non sceglie il secondo fault OOD, non approva
 coppie D11 e non chiude la Fase 03.</p>
@@ -485,9 +487,10 @@ condizioni</strong> documentali e di conservazione; il replay MATLAB, unica prov
 al momento del verdetto, è stato poi eseguito dall'autore e riverificato dal verificatore sugli
 artefatti (Appendice A). Il <a href="../studio2/fase03/fault_runs/REPORT_RUN_FAULT.md">report di chiusura</a>
 è l'indice della sotto-fase; i numeri di questa sezione vengono dagli artefatti che esso elenca.</p>
-<p>Questa consegna chiude la sotto-fase dei run fault di sviluppo, <strong>non la macro-Fase 03</strong>. I 40 run
-sono materiale di sviluppo, non di valutazione: da essi non sono ancora state estratte feature,
-evidence o verbalizzazioni; non esistono insight, prototipi, soglie o score; nessuna chiamata a
+<p>Questa consegna chiude la sotto-fase dei run fault di sviluppo, <strong>non la macro-Fase 03</strong>. Alla sua
+chiusura i 40 run erano materiale di sviluppo, non di valutazione, e non ne erano ancora state
+estratte feature, evidence o verbalizzazioni; l'estrazione successiva è documentata in
+<a href="#evidence-697-d">§4.5</a>. Non esistono ancora insight o prototipi, né risultati di accuracy; nessuna chiamata a
 modelli linguistici è stata effettuata durante generazione, audit, prove di equivalenza,
 conservazione o documentazione. Per scelta, questa sezione non riporta alcuna osservazione sul
 segnale diagnostico dei run: leggerla non anticipa nulla sulle fasi successive.</p>
@@ -736,8 +739,9 @@ con <code>MANIFEST_CONSERVAZIONE_rev002.csv</code> e <code>ARTIFACT_STORAGE.json
 Restano non recuperabili, e dichiarati assenti, gli script MATLAB delle due prove di equivalenza
 e del replay (secondo punto sopra, solo la parte degli script).</li>
 </ul>
-<p>Restano inoltre le dipendenze del report §7: estrazione pre-specificata di feature ed evidence dai
-40 run; insight e prototipi delle sotto-fasi successive; manifest scientifico autonomo dei veri
+<p>L'estrazione pre-specificata di feature ed evidence dai 40 run è ora chiusa in
+<a href="#evidence-697-d">§4.5</a>. Restano le altre dipendenze del report §7: insight e prototipi delle
+sotto-fasi successive; manifest scientifico autonomo dei veri
 input del pilot; nuovo controllo di capienza e autorizzazione esplicita prima di qualunque gate
 LLM; decisioni D2, D11, OOD e producer alternativo; integrazione in <code>main</code> solo su richiesta
 dell'autore. La macro-Fase 03 resta aperta.</p>
@@ -753,13 +757,69 @@ dell'autore. La macro-Fase 03 resta aperta.</p>
 <h4>Artefatti e riproducibilit&agrave;</h4>
 <p>La traccia &egrave; in <a href="../studio2/fase03/perimetro_q8/PROPOSTA_PERIMETRO_Q8.md"><code>PROPOSTA_PERIMETRO_Q8.md</code></a>, <a href="../studio2/fase03/perimetro_q8/REPORT_PERIMETRO_Q8.md"><code>REPORT_PERIMETRO_Q8.md</code></a>, nei tre verbali <a href="../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md"><code>VERIFICA_PERIMETRO_Q8.md</code></a>, <a href="../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8_rev002.md"><code>rev002</code></a> e <a href="../studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8_rev003.md"><code>rev003</code></a>, concluso con <strong>OK</strong>, e in <a href="../studio2/fase03/perimetro_q8/DECISIONE_PERIMETRO_Q8.md"><code>DECISIONE_PERIMETRO_Q8.md</code></a>. La riga U2 di <a href="../studio2/PROVENIENZA.md"><code>PROVENIENZA.md</code></a> registra tardivamente la copia byte-identica di <code>tep_features.py</code> usata nella Fase 02, senza modificarla. Nessun tag &egrave; stato creato.</p>
 <h4>Lavoro che resta</h4>
-<p>Le sotto-fasi 03.6 e 03.9 devono applicare la regola function-level alle funzioni effettivamente usate e rendere espliciti i parametri. Resta all'autore la scelta se proteggere <code>code/tep_analysis_v2/</code> a HEAD oppure lasciarla fuori da §1 e affidarsi ai tag Phase A; questa sotto-fase non decide il punto. Restano inoltre aperte l'integrazione del branch e la chiusura della macro-Fase 03.</p>
+<p>La sotto-fase 03.6 ha applicato la regola function-level alle funzioni effettivamente usate e ha reso espliciti i parametri; la 03.9 dovr&agrave; fare lo stesso nel proprio perimetro. Resta all'autore la scelta se proteggere <code>code/tep_analysis_v2/</code> a HEAD oppure lasciarla fuori da §1 e affidarsi ai tag Phase A; questa sotto-fase non decide il punto. Restano inoltre aperte l'integrazione del branch e la chiusura della macro-Fase 03.</p>
+</section>
+<section id="evidence-697-d">
+<h3>4.5 &middot; Fase 03 &mdash; sotto-fase 03.6 &mdash; evidence 697-D</h3>
+<h4>Riassunto e sintesi</h4>
+<p>La sotto-fase 03.6 ha trasformato i 40 run fault di sviluppo gi&agrave; conservati in unit&agrave; evidence deterministiche: per ciascuna finestra produce una tabella di feature, un JSON strutturato, un testo neutrale e una firma lunga 697 componenti. Fault, batch, stream e provenienza del run restano in un indice evaluator-side separato dai payload destinati al consumer. La <a href="../studio2/fase03/evidence/VERIFICA_EVIDENCE.md">verifica indipendente</a>, riferita al pacchetto scientifico fino al commit <code>2f6dd8d</code>, ha dato <strong>OK</strong>; il verbale &egrave; entrato nella storia con <code>54bbd0c</code>. Il commit successivo <code>bb6d9e7</code> non cambia alcun file scientifico: registra la release preferita <code>studio2-fase03-evidence-v2</code>, nuovo packaging degli stessi 1.283 file. La Fase 03 <strong>non &egrave; chiusa</strong> e questo branch non &egrave; ancora integrato in <code>main</code>.</p>
+
+<h4>Dettaglio</h4>
+<h5>Guardia, baseline e soglie</h5>
+<p>Prima di aggiungere <code>code/</code> al percorso di importazione, l'estrattore verifica contro <a href="../phase_b/PHASE_B_PROTOCOL_HASHES.json"><code>PHASE_B_PROTOCOL_HASHES.json</code></a> le impronte dei quattro sorgenti congelati effettivamente riusati: <code>tep_features.py</code>, <code>tep_verbalize_v2.py</code>, <code>verbalizer_config_v2.json</code> ed <code>evaluate_verbalizer_v2.py</code>. Solo dopo il superamento della guardia carica le funzioni; un singolo mismatch arresta l'esecuzione. I passaggi e gli effetti di caricamento sono dichiarati in <a href="../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md"><code>DIPENDENZE_EVIDENCE.md</code></a> §1 e registrati function-level in <a href="../studio2/PROVENIENZA.md"><code>PROVENIENZA.md</code></a> §9.</p>
+<p>U3 estende U1/R2 per un solo scopo: i cinque blocchi Normal N1&ndash;N5 in <code>[0,250 h)</code> forniscono la baseline di normalizzazione e i flag del verbalizzatore. Restano accoppiati alle quattro soglie V2 congelate &mdash; <code>abs_shift_sigma=1.9695333234149084</code>, <code>abs_slope_sigma_h=0.7468621213669596</code>, <code>residual_std_ratio=1.3681613543196571</code> e <code>diff_std_ratio=1.4051245046201666</code> &mdash; senza ricalibrazione (<a href="../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md"><code>DIPENDENZE_EVIDENCE.md</code></a> §§2&ndash;3). Il recheck R2 richiesto &egrave; <code>PASS</code> al commit <code>d09e7ed</code>, con record SHA-256 <code>7df0cef2d7854c689b79eb911fa01d1ede1625e22f0d3636c0ea5d678c9f33f8</code>: <code>guard_pass</code>, <code>parameters_and_code_current</code> e <code>r2_guard_result_independent_byte_identical</code> sono veri, come ricontrollato dal verbale §3. U3 non autorizza calibrazione, scelta di soglia, verifica o test su N1&ndash;N5; la soglia dello score dipende dai nuovi Normal della 03.5. Se R2 decade o la baseline passa a <code>baseline_fit_new</code>, l'intero lotto evidence diventa invalido e deve essere rigenerato, senza sostituzione automatica della baseline.</p>
+
+<h5>Trasformazione e conteggi</h5>
+<p>L'onset non eredita il default legacy a 10 h: &egrave; passato esplicitamente come <strong>25 h</strong>. Ogni run &egrave; diviso nelle otto finestre half-open da 5 h di <code>[25,65)</code>; per ciascuna l'estrattore calcola 41 righe XMEAS, le verbalizza in JSON e testo neutrali e ricava dal JSON la firma <code>41 &times; 17 = 697-D</code>. La seguente contabilit&agrave; &egrave; ricostruita dall'indice e dal manifest, non dalla formulazione ambigua del verbale:</p>
+<div class="tablewrap"><table>
+<thead><tr><th>Quantit&agrave;</th><th>Valore ricostruito</th><th>Fonte precisa</th></tr></thead>
+<tbody>
+<tr><td>Run complessivi</td><td>40: 8 fault &times; 5 run</td><td>40 <code>run_id</code> distinti in <code>output/EVALUATOR_INDEX.csv</code>, riepilogati in <a href="../studio2/fase03/evidence/OUTPUT_CHECK.json"><code>OUTPUT_CHECK.json</code></a></td></tr>
+<tr><td>Finestre per run</td><td>8 in <code>[25,65)</code></td><td><code>windows_per_run</code>, <code>onset_h</code>, <code>end_h</code> e <code>window_h</code> in <code>output/EXTRACTION_SUMMARY.json</code>, la cui impronta &egrave; in <a href="../studio2/fase03/evidence/OUTPUT_CHECK.json"><code>OUTPUT_CHECK.json</code></a></td></tr>
+<tr><td>Unit&agrave; evidence</td><td>320: 40 &times; 8</td><td>320 righe di <code>output/EVALUATOR_INDEX.csv</code> e <code>evidence_unit_count</code> in <code>output/EXTRACTION_SUMMARY.json</code></td></tr>
+<tr><td>Unit&agrave; per fault</td><td>40 finestre, <strong>non 40 run</strong></td><td>conteggi evaluator-side per F1/F2/F3/F8/F10/F13/F14/F15 in <a href="../studio2/fase03/evidence/OUTPUT_CHECK.json"><code>OUTPUT_CHECK.json</code></a>; l'indice mostra 5 run per fault &times; 8 finestre</td></tr>
+<tr><td>Componenti per firma</td><td>697: 41 &times; 17</td><td><code>signature_dimension</code> in <a href="../studio2/fase03/evidence/OUTPUT_CHECK.json"><code>OUTPUT_CHECK.json</code></a> e costruzione verificata nel verbale §5</td></tr>
+<tr><td>File unitari</td><td>1.280: 320 &times; 4</td><td>320 file per ciascun suffisso <code>.features.csv</code>, <code>.evidence.json</code>, <code>.txt</code>, <code>.signature.csv</code> in <a href="../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv"><code>MANIFEST_CONSERVAZIONE.csv</code></a></td></tr>
+<tr><td>File scientifici e payload</td><td>1.283 e 61.208.618 byte</td><td>1.280 unitari + <code>EVALUATOR_INDEX.csv</code>, <code>EVIDENCE_MANIFEST.csv</code>, <code>EXTRACTION_SUMMARY.json</code>; righe e somma <code>bytes</code> di <a href="../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv"><code>MANIFEST_CONSERVAZIONE.csv</code></a>, confermate da <a href="../studio2/fase03/evidence/OUTPUT_CHECK.json"><code>OUTPUT_CHECK.json</code></a></td></tr>
+</tbody>
+</table></div>
+
+<h5>Leakage: significato e limiti</h5>
+<p>Il controllo anti-leakage &egrave; <code>PASS</code> sui 320 JSON e sui 320 testi consumer-facing; il test positivo mostra inoltre che lo scanner intercetta ID di fault/IDV, nomi dei meccanismi e marche di origine vietate. La separazione dell'indice impedisce che fault, batch e stream vengano copiati nei payload. Questo controllo dimostra l'assenza dei pattern espliciti coperti dallo scanner nei due formati testuali verificati; <strong>non</strong> dimostra assenza di ogni correlato indiretto o leakage semantico, privacy formale, separabilit&agrave; dei fault, correttezza diagnostica o utilit&agrave; della rappresentazione. La firma e le feature sono trasformazioni deterministiche, non una misura di validit&agrave; scientifica.</p>
+
+<h4>Connessione alla letteratura</h4>
+<p>La scelta segue il filone segnale &rarr; descrizione &rarr; reasoning e la separazione fra evidence deterministica e inferenza discussi nelle schede di <a href="letteratura.html"><code>letteratura.html</code></a> §14.2. I lavori su verbalizzazione deterministica e reporting evidence-traceable sostengono l'esigenza di un'interfaccia verificabile, ma non convalidano questa istanza n&eacute; il suo uso federato. I lavori centralizzati sul fault diagnosis delimitano inoltre il claim: produrre testo da serie industriali non &egrave; di per s&eacute; il contributo. Non nasce qui un nuovo claim bibliografico; §§14.5&ndash;14.6 restano il luogo unico per novit&agrave; e confronti, senza duplicare il corpus nel walkthrough.</p>
+
+<h4>Connessione alle critiche e limiti</h4>
+<p>La guardia prima dell'import, la provenienza U3 e la separazione evaluator-side <strong>mitigano</strong> il riuso opaco e il leakage esplicito; non chiudono le critiche scientifiche. In particolare:</p>
+<ul>
+<li>il determinismo byte-identico &egrave; verificato entro l'ambiente dichiarato. Nel diverso ambiente del verificatore, testo e firma sono rimasti byte-identici, mentre feature e JSON hanno mostrato soli scarti floating-point dell'ordine di <code>10⁻¹³</code>; la rigenerazione bit-per-bit cross-ambiente richiede quindi versioni di libreria fissate o un confronto a tolleranza sui numerici grezzi;</li>
+<li>non sono state misurate accuracy, separabilit&agrave;, rilevabilit&agrave;, intensit&agrave; del segnale, astensione o validit&agrave; diagnostica;</li>
+<li>le otto finestre dello stesso run non sono otto run indipendenti;</li>
+<li>le evidence <code>normal_dev</code> non fanno parte di questo pacchetto;</li>
+<li>il lotto &egrave; condizionato a R2 e alla baseline attuale: il decadimento di R2 o il passaggio a <code>baseline_fit_new</code> lo invalida;</li>
+<li>la sotto-fase &egrave; verificata, ma la Fase 03 resta aperta e il branch non &egrave; integrato in <code>main</code>.</li>
+</ul>
+
+<h4>Artefatti e riproducibilit&agrave;</h4>
+<p>Il <a href="../studio2/fase03/evidence/REPORT_EVIDENCE.md">report storico</a> conserva correttamente la frase «in attesa di verifica» e il riferimento alla v1 perch&eacute; fotografa lo stato alla propria chiusura. Lo stato successivo si ricostruisce senza riscriverlo: <a href="../studio2/fase03/evidence/VERIFICA_EVIDENCE.md">il verbale indipendente</a>, acquisito da <code>54bbd0c</code>, attesta il pacchetto scientifico fino a <code>2f6dd8d</code>; il controllo separato <a href="../studio2/fase03/evidence/PACKAGING_V2_CHECK.json"><code>PACKAGING_V2_CHECK.json</code></a>, introdotto da <code>bb6d9e7</code>, attesta il packaging v2. Non si attribuisce quindi al verificatore originario un controllo svolto dopo il suo verbale.</p>
+<p>La release preferita &egrave; <code>studio2-fase03-evidence-v2</code>. Il suo archivio misura <strong>62.185.472 byte</strong> e ha SHA-256 <code>6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf</code>; non va confusa la dimensione del contenitore tar con la somma dei payload scientifici, <strong>61.208.618 byte</strong>. Il riscaricamento registrato in <a href="../studio2/fase03/evidence/ARTIFACT_STORAGE.json"><code>ARTIFACT_STORAGE.json</code></a> e nel controllo v2 verifica <strong>1.283/1.283</strong> file per percorso, byte e SHA-256, con zero mismatch, zero extra e zero AppleDouble; i metadati riportano inoltre zero membri con header PAX e zero metadati xattr. La v1 resta pubblicata e immutata: v2 &egrave; soltanto un nuovo packaging AppleDouble-free degli stessi 1.283 file scientifici, con percorsi, byte e hash invariati.</p>
+<p>I riferimenti riproducibili sono:</p>
+<ul>
+<li>dipendenze e condizioni U3: <a href="../studio2/fase03/evidence/DIPENDENZE_EVIDENCE.md"><code>DIPENDENZE_EVIDENCE.md</code></a>;</li>
+<li>esito machine-readable: <a href="../studio2/fase03/evidence/OUTPUT_CHECK.json"><code>OUTPUT_CHECK.json</code></a>;</li>
+<li>manifest scientifico: <a href="../studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv"><code>MANIFEST_CONSERVAZIONE.csv</code></a>;</li>
+<li>storage e release: <a href="../studio2/fase03/evidence/ARTIFACT_STORAGE.json"><code>ARTIFACT_STORAGE.json</code></a> e <a href="../studio2/fase03/evidence/PACKAGING_V2_CHECK.json"><code>PACKAGING_V2_CHECK.json</code></a>;</li>
+<li>provenienza function-level e U3: <a href="../studio2/PROVENIENZA.md"><code>PROVENIENZA.md</code></a> §9;</li>
+<li>implementazione verificata: <a href="../studio2/fase03/evidence/extract_evidence.py"><code>extract_evidence.py</code></a>, <a href="../studio2/fase03/evidence/leakage.py"><code>leakage.py</code></a> e <a href="../studio2/fase03/evidence/verify_output.py"><code>verify_output.py</code></a>.</li>
+</ul>
+<p>Il controllo documentale generale resta al baseline di <strong>35 test, 14 fallimenti preesistenti e 1 skipped</strong>; non misura la correttezza scientifica di questa sezione.</p>
 </section>
 <p><strong>Sintesi per sezione.</strong></p>
 <div class="tablewrap"><table>
 <thead><tr><th>§</th><th>Fase</th><th>Che cos'&egrave;</th><th>Fonte</th><th>Stato</th></tr></thead>
 <tbody>
-<tr><td style="text-align:center">4</td><td><strong>Preparazione e capability pilot &mdash; Fase 03</strong></td><td>Cantieri §6.1&ndash;§6.12 e gate §7.1; §4.1&ndash;§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice</td><td>piano §§6&ndash;7.1 e artefatti delle sotto-fasi</td><td>aperta; 03.1&ndash;03.4 chiuse</td></tr>
+<tr><td style="text-align:center">4</td><td><strong>Preparazione e capability pilot &mdash; Fase 03</strong></td><td>Cantieri §6.1&ndash;§6.12 e gate §7.1; §4.1&ndash;§4.5 documentano criteri, catalogo D1, run fault, perimetro del codice ed evidence 697-D</td><td>piano §§6&ndash;7.1 e artefatti delle sotto-fasi</td><td>aperta; sotto-fasi documentate 03.1&ndash;03.4 e 03.6 chiuse</td></tr>
 <tr><td style="text-align:center">5</td><td><strong>Produzione degli insight</strong></td><td>Gli 8&times;2 insight dai dati di sviluppo, pi&ugrave; la libreria completa del producer alternativo per il braccio <em>producer-swap</em></td><td>piano §7.2</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">6</td><td><strong>Congelamento del protocollo</strong></td><td>Solo dopo il pilot, mai prima</td><td>piano §7.3</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">7</td><td><strong>Esecuzione dello studio finale</strong></td><td>Tutte le inferenze A, B-LF, E-LF, pi&ugrave; swap, OOD, ablation e canary &mdash; circa 2.853/3.555 chiamate con margine, per 6/8 run</td><td>piano §7.4 e §8.8</td><td>dopo il congelamento</td></tr>
@@ -773,7 +833,7 @@ dell'autore. La macro-Fase 03 resta aperta.</p>
 <li><strong>§6.2</strong> — Run fault di sviluppo eseguiti, verificati e conservati nella sotto-fase descritta in <a href="#run-fault-62">§4.3</a>: 40 run, catalogo D1, stream 30000–30039, release <code>studio2-fase03-fault-dev-v1</code>; la generazione Normal e R1/R2 erano gi&agrave; qualificate in §3</li>
 <li><strong>Blocco 03.4</strong> — Perimetro del codice Q8 chiuso nella sotto-fase descritta in <a href="#perimetro-codice-q8">§4.4</a>: nessun nuovo perimetro, riuso function-level secondo MAINTENANCE §8.2</li>
 <li><strong>§6.3</strong> — Calibrare soglie sui Normal di sviluppo</li>
-<li><strong>§6.4</strong> — Produrre dati strutturati e verbalizzazioni di sviluppo</li>
+<li><strong>§6.4</strong> — Dati strutturati, testi neutrali e firme di sviluppo prodotti e verificati nella sotto-fase 03.6 descritta in <a href="#evidence-697-d">§4.5</a>; le evidence <code>normal_dev</code> restano escluse</li>
 <li><strong>§6.5</strong> — Definire pseudolabel e permutazioni di E</li>
 <li><strong>§6.6</strong> — Scrivere il piano statistico completo</li>
 <li><strong>§6.7</strong> — Preparare la baseline numerica</li>
