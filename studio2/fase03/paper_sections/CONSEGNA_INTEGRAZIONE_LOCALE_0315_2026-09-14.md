@@ -1,7 +1,11 @@
 # Consegna dell'integrazione locale e della documentazione 03.15
 
+**ID della sotto-fase:** `S2-F03-0315` — Fase 03, sotto-fase 03.15
 **Data:** 2026-09-14, Europe/Rome
-**Stato:** candidato locale committato; nessun merge in `main`, push, tag o freeze.
+**Attività svolta:** integrazione locale della storia verificata 03.15 sulla base comune,
+acquisizione byte-identica della consegna operativa e documentazione coordinata MD/HTML.
+**Esito:** candidato locale corretto e committato; delta correttivo MD/HTML in attesa di
+riverifica indipendente; nessun merge in `main`, push, tag o freeze.
 **Perimetro:** sotto-fase 03.15 e Fase 03 ancora aperte.
 
 Questo record documenta un raccordo Git e documentale successivo all'OK indipendente. Non è un
@@ -19,11 +23,14 @@ nuovo verbale scientifico e non estende gli OK esistenti al merge o al walkthrou
 | Merge locale del pacchetto sulla base comune | `18aa3bbf1284a41e20bdc4fc521c98c315ca9614` |
 | Acquisizione distinta della consegna 03.15 | `705f1c4ca61375d51bb69f20e0de613cfb39bf1a` |
 | Walkthrough MD/HTML 03.15 | `532cc77bc3d5d046161b6334e1a7b24ac1e7019f` |
+| Correzioni R1/R2 da riverificare | `10582798eb5a4b52672bfbcb1cc028adcb73e9f1` |
 
 Worktree dedicato: `/Users/luker/fot-tep-raccordo-0315-local`; branch
 `codex/studio2-raccordo-0315-local`. Il merge `18aa3bb` ha esattamente due genitori, nell'ordine
 `e82b5a0` e `d35b684`. I worktree del raccordo seriale precedente, dell'harness e proprietario
-paper-sections non sono stati modificati.
+paper-sections non sono stati modificati. Il commit di riferimento corrente del candidato locale
+è `10582798eb5a4b52672bfbcb1cc028adcb73e9f1`; la sua base correttiva immediata è
+`9b6bd64c3e23f03d09272dda43c1a043305add50`.
 
 ## 2. Conflitto risolto e contenuti preservati
 
@@ -60,10 +67,12 @@ insieme indice/stato, sezione lunga, tabella riassuntiva e voce §6.12 in:
 La sintesi divulgativa non è stata modificata: 03.15 è un passaggio redazionale interno e non
 produce un esito da sintetizzare. Le bozze non sono state promosse in `docs/paper/`.
 
-**Delta documentale per il prossimo raccordo seriale:**
-`705f1c4ca61375d51bb69f20e0de613cfb39bf1a..532cc77bc3d5d046161b6334e1a7b24ac1e7019f`.
-Va riesaminato per coerenza, parità, link, anchor e numerazione. Questa review documentale non
-deve ripetere la review scientifica già conclusa sul candidato `91a880b`.
+**Solo delta correttivo da riverificare:**
+`9b6bd64c3e23f03d09272dda43c1a043305add50..10582798eb5a4b52672bfbcb1cc028adcb73e9f1`.
+R1 precisa la ripartizione delle 54 fonti in 44 raggiungibili nell'ascendenza, 8 su commit esterni
+e 2 locali senza commit. R2 precisa che i 17 file del pacchetto sono invariati e che dopo il
+pacchetto sono state aggiunte due consegne. La riverifica deve controllare soltanto questo delta
+MD/HTML; non deve ripetere la review scientifica già conclusa sul candidato `91a880b`.
 
 ## 4. Controlli
 
@@ -77,6 +86,10 @@ deve ripetere la review scientifica già conclusa sul candidato `91a880b`.
   coincidono con `CONTROLLI_DELTA_0315.json`. Python 3.11.5.
 - Ascendenze: `e82b5a0` e `d35b684` sono genitori del merge; `91a880b`, `cf79e81` e le storie
   03.6/03.12/letteratura restano raggiungibili dal candidato locale.
+- Riscontro R1 sulla matrice delle fonti: 44 voci con commit antenato del candidato, 8 voci su
+  commit esterni non antenati, 2 fonti locali senza commit.
+- Riscontro R2 sulla storia: 17 file del pacchetto `paper_sections/` invariati al merge; due file
+  di consegna aggiunti dopo `d35b684`.
 
 Il guardiano è un controllo di regressione documentale e non una prova del merito scientifico.
 Non sono stati rieseguiti calcoli, bootstrap, simulazioni, inferenze o chiamate API.
@@ -93,3 +106,94 @@ servizio, firma materiale e freeze statistico della 03.8, fattibilità T5, ledge
 raccordi 03.10 e controlli tecnici OOD della 03.11. FAR e A/B non sono stati riaperti. Non sono
 stati prodotti risultati diagnostici, abstract o conclusioni. Il candidato locale resta distinto
 da una futura integrazione in `main`, pubblicazione o congelamento.
+
+## 6. File creati o modificati e documenti pertinenti
+
+Percorsi modificati rispetto alla base comune `e82b5a0`:
+
+| Stato | Percorso |
+| --- | --- |
+| M | `docs/fot_walkthrough_conversazione_studio2.md` |
+| M | `docs/fot_walkthrough_conversazione_studio2.html` |
+| M | `studio2/PROVENIENZA.md` |
+| A | `studio2/fase03/paper_sections/PIANO_SEZIONI.md` |
+| A | `studio2/fase03/paper_sections/related_work.md` |
+| A | `studio2/fase03/paper_sections/method.md` |
+| A | `studio2/fase03/paper_sections/verbalizer.md` |
+| A | `studio2/fase03/paper_sections/protocol.md` |
+| A | `studio2/fase03/paper_sections/threats.md` |
+| A | `studio2/fase03/paper_sections/lint_paper_sections.py` |
+| A | `studio2/fase03/paper_sections/FONTI_DELTA_0315.json` |
+| A | `studio2/fase03/paper_sections/CONTROLLI_DELTA_0315.json` |
+| A | `studio2/fase03/paper_sections/PROMPT_VERIFICA_DELTA_0315.md` |
+| A | `studio2/fase03/paper_sections/REPORT_PAPER_SECTIONS.md` |
+| A | `studio2/fase03/paper_sections/REPORT_ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md` |
+| A | `studio2/fase03/paper_sections/REPORT_DELTA_0315.md` |
+| A | `studio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md` |
+| A | `studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md` |
+| A | `studio2/fase03/paper_sections/VERIFICA_DELTA_0315.md` |
+| A | `studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_DELTA_0315.md` |
+| A | `studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md` |
+| A | `studio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md` |
+
+Report, verbali e record da leggere, con percorsi assoluti:
+
+- report storico:
+  `/Users/luker/fot-tep-raccordo-0315-local/studio2/fase03/paper_sections/REPORT_PAPER_SECTIONS.md`;
+- verbale storico su `cf79e81`:
+  `/Users/luker/fot-tep-raccordo-0315-local/studio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md`;
+- acquisizione del verbale storico:
+  `/Users/luker/fot-tep-raccordo-0315-local/studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_PAPER_SECTIONS.md`;
+- report del nuovo delta:
+  `/Users/luker/fot-tep-raccordo-0315-local/studio2/fase03/paper_sections/REPORT_DELTA_0315.md`;
+- verbale indipendente sul candidato `91a880b`:
+  `/Users/luker/fot-tep-raccordo-0315-local/studio2/fase03/paper_sections/VERIFICA_DELTA_0315.md`;
+- acquisizione del nuovo verbale:
+  `/Users/luker/fot-tep-raccordo-0315-local/studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_DELTA_0315.md`;
+- consegna operativa acquisita:
+  `/Users/luker/fot-tep-raccordo-0315-local/studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md`;
+- presente consegna aggiornata:
+  `/Users/luker/fot-tep-raccordo-0315-local/studio2/fase03/paper_sections/CONSEGNA_INTEGRAZIONE_LOCALE_0315_2026-09-14.md`.
+
+## 7. Stato Git finale della presente richiesta
+
+- **HEAD e commit di riferimento:** `10582798eb5a4b52672bfbcb1cc028adcb73e9f1`.
+- **Branch:** `codex/studio2-raccordo-0315-local`.
+- **File committati:** i 22 percorsi della tabella in §6 sono raggiungibili dal commit di
+  riferimento; il presente report è stato creato e committato in `9b6bd64`; la sola coppia
+  walkthrough è stata corretta nel commit `1058279`.
+- **File tracciati modificati e non committati:** soltanto il presente report, aggiornato da
+  questa richiesta per completezza.
+- **File staged:** nessuno.
+- **File non tracciati:** nessuno.
+- Nessun altro file del worktree è stato modificato per questa richiesta.
+- Nessun commit, merge, push o tag è stato eseguito per questo solo aggiornamento del report.
+
+## 8. Integrazione, pubblicazione e congelamento effettivi
+
+| Oggetto | Stato effettivo |
+| --- | --- |
+| Delta scientifico `bcb462d..91a880b` | OK indipendente acquisito; perimetro limitato al candidato verificato |
+| Pacchetto `d35b684` | storia e verbale preservati nel candidato locale |
+| Raccordo su `e82b5a0` | completato soltanto nel branch locale tramite merge `18aa3bb` |
+| Walkthrough 03.15 | MD/HTML committati in `532cc77`; correzioni R1/R2 in `1058279`, da riverificare |
+| Integrazione in `main` | non eseguita; `origin/main` e main remoto restano a `c486eee` |
+| Pubblicazione | nessun push; candidato disponibile soltanto nel repository locale |
+| Congelamento | nessun tag o freeze creato; nessun OK esteso al merge o al walkthrough |
+| Promozione in `docs/paper/` | non eseguita |
+| Chiusura 03.15 / Fase 03 | entrambe aperte |
+
+## 9. Dipendenze, decisioni e prossimo passo
+
+Dipendenze ancora operative: firma e freeze statistico 03.8; raccordi e ledger 03.10;
+controlli OOD 03.11; identità, tokenizer, configurazione e qualificazione del servizio; verifica
+della fattibilità T5 e del calendario. D9 richiede ancora una decisione dell'autore sui ruoli di
+producer principale, consumer e alternativo. Non vanno riaperte FAR o le decisioni A/B già
+registrate.
+
+Il prossimo passo è una review del solo delta correttivo
+`9b6bd64c3e23f03d09272dda43c1a043305add50..10582798eb5a4b52672bfbcb1cc028adcb73e9f1`,
+controllando R1/R2, parità MD/HTML, link, anchor e coerenza con i cantieri concorrenti. Non va
+ripetuta la review scientifica su `91a880b`.
+Soltanto dopo tale raccordo e una futura autorizzazione potranno essere valutati integrazione in
+`main` e pubblicazione; il congelamento resta separato e subordinato ai propri prerequisiti.
