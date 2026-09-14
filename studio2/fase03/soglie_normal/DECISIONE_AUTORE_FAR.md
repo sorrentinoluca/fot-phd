@@ -14,3 +14,4 @@ L’autore ha approvato questo testo concreto rispondendo «ok» nel task Codex 
 - La soglia congelata, gli score e i dati della release esistente restano invariati.
 - La decisione non costituisce una prova tecnica di mancato accesso ai file prima del freeze.
 - La decisione non approva nuovamente metodo, soglia o scelte già confermate e non chiude la Fase 03.
+
