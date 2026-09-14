@@ -82,38 +82,7 @@ class FedAvgTests(unittest.TestCase):
 
     def test_loader_verifies_hashes_and_one_to_one_join(self) -> None:
         with tempfile.TemporaryDirectory(prefix="fedavg_fixture_dev_") as temp:
-            root = Path(temp) / "development_bundle"
-            units = root / "units"
-            units.mkdir(parents=True)
-            signature = units / "EVD-0001.signature.csv"
-            with signature.open("w", newline="", encoding="utf-8") as handle:
-                writer = csv.writer(handle, lineterminator="\n")
-                writer.writerow(("component", "value"))
-                writer.writerows((index, float(index == 0)) for index in range(DIMENSION))
-            signature_hash = _sha(signature)
-            manifest = root / "EVIDENCE_MANIFEST.csv"
-            with manifest.open("w", newline="", encoding="utf-8") as handle:
-                writer = csv.DictWriter(handle, fieldnames=(
-                    "evidence_id", "signature_dimension", "leakage_pass", "signature_path",
-                    "signature_sha256",
-                ), lineterminator="\n")
-                writer.writeheader()
-                writer.writerow({
-                    "evidence_id": "EVD-0001", "signature_dimension": DIMENSION,
-                    "leakage_pass": "true", "signature_path": "units/EVD-0001.signature.csv",
-                    "signature_sha256": signature_hash,
-                })
-            index = root / "EVALUATOR_INDEX.csv"
-            with index.open("w", newline="", encoding="utf-8") as handle:
-                writer = csv.DictWriter(
-                    handle, fieldnames=("evidence_id", "run_id", "fault", "batch"),
-                    lineterminator="\n",
-                )
-                writer.writeheader()
-                writer.writerow({
-                    "evidence_id": "EVD-0001", "run_id": "fault-dev-F1-b01",
-                    "fault": "F1", "batch": 1,
-                })
+            root, manifest, index, _signature = _write_bundle(Path(temp))
             loaded = load_evidence_bundle(
                 root, expected_manifest_sha256=_sha(manifest), expected_index_sha256=_sha(index)
             )
@@ -121,6 +90,49 @@ class FedAvgTests(unittest.TestCase):
             with self.assertRaises(RuntimeError):
                 load_evidence_bundle(
                     root, expected_manifest_sha256="0" * 64, expected_index_sha256=_sha(index)
+                )
+
+    def test_run_cannot_cross_training_and_validation_folds(self) -> None:
+        clusters = self.separable.clusters.copy()
+        clusters[np.flatnonzero(self.separable.batches == "5")[0]] = clusters[0]
+        with self.assertRaisesRegex(ValueError, "physical run must map to one batch"):
+            type(self.separable)(
+                self.separable.x, self.separable.y, self.separable.clients, clusters,
+                self.separable.batches,
+            )
+
+    def test_manifest_and_index_symlinks_are_rejected_before_reading(self) -> None:
+        for filename in ("EVIDENCE_MANIFEST.csv", "EVALUATOR_INDEX.csv"):
+            with self.subTest(filename=filename), tempfile.TemporaryDirectory(
+                prefix="fedavg_fixture_dev_"
+            ) as temp:
+                base = Path(temp)
+                root, manifest, index, _signature = _write_bundle(base)
+                expected_manifest, expected_index = _sha(manifest), _sha(index)
+                original = root / filename
+                external = base / f"external-{filename}"
+                original.rename(external)
+                original.symlink_to(external)
+                with self.assertRaisesRegex(ValueError, "symlink rejected"):
+                    load_evidence_bundle(
+                        root,
+                        expected_manifest_sha256=expected_manifest,
+                        expected_index_sha256=expected_index,
+                    )
+
+    def test_signature_directory_symlink_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory(prefix="fedavg_fixture_dev_") as temp:
+            base = Path(temp)
+            root, manifest, index, signature = _write_bundle(base)
+            expected_manifest, expected_index = _sha(manifest), _sha(index)
+            external = base / "external-units"
+            signature.parent.rename(external)
+            signature.parent.symlink_to(external, target_is_directory=True)
+            with self.assertRaisesRegex(ValueError, "symlink rejected"):
+                load_evidence_bundle(
+                    root,
+                    expected_manifest_sha256=expected_manifest,
+                    expected_index_sha256=expected_index,
                 )
 
     def test_test_directory_guard_is_fail_closed(self) -> None:
@@ -134,6 +146,41 @@ class FedAvgTests(unittest.TestCase):
 
 def _sha(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _write_bundle(base: Path) -> tuple[Path, Path, Path, Path]:
+    root = base / "development_bundle"
+    units = root / "units"
+    units.mkdir(parents=True)
+    signature = units / "EVD-0001.signature.csv"
+    with signature.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.writer(handle, lineterminator="\n")
+        writer.writerow(("component", "value"))
+        writer.writerows((index, float(index == 0)) for index in range(DIMENSION))
+    manifest = root / "EVIDENCE_MANIFEST.csv"
+    with manifest.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=(
+            "evidence_id", "signature_dimension", "leakage_pass", "signature_path",
+            "signature_sha256",
+        ), lineterminator="\n")
+        writer.writeheader()
+        writer.writerow({
+            "evidence_id": "EVD-0001", "signature_dimension": DIMENSION,
+            "leakage_pass": "true", "signature_path": "units/EVD-0001.signature.csv",
+            "signature_sha256": _sha(signature),
+        })
+    index = root / "EVALUATOR_INDEX.csv"
+    with index.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(
+            handle, fieldnames=("evidence_id", "run_id", "fault", "batch"),
+            lineterminator="\n",
+        )
+        writer.writeheader()
+        writer.writerow({
+            "evidence_id": "EVD-0001", "run_id": "fault-dev-F1-b01",
+            "fault": "F1", "batch": 1,
+        })
+    return root, manifest, index, signature
 
 
 if __name__ == "__main__":

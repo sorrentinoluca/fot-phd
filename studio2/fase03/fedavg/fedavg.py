@@ -55,6 +55,14 @@ class Dataset:
             raise ValueError("dataset contains an unknown label index")
         if not np.isin(self.clients, np.asarray(CLIENTS)).all():
             raise ValueError("dataset contains an unknown client")
+        cluster_batches: dict[str, set[str]] = {}
+        for cluster, batch in zip(self.clusters, self.batches, strict=True):
+            cluster_batches.setdefault(str(cluster), set()).add(str(batch))
+        inconsistent = sorted(
+            cluster for cluster, batches in cluster_batches.items() if len(batches) != 1
+        )
+        if inconsistent:
+            raise ValueError(f"each physical run must map to one batch: {inconsistent}")
 
 
 @dataclass(frozen=True)
@@ -87,6 +95,28 @@ def assert_development_path(path: Path) -> None:
     blocked = sorted(lowered.intersection(FORBIDDEN_PARTS))
     if blocked:
         raise ValueError(f"test/held-out path rejected by design: {resolved} ({blocked})")
+
+
+def _confined_regular_file(path: Path, bundle_root: Path, role: str) -> Path:
+    """Resolve one input before opening it and reject every symlink below the bundle root."""
+    try:
+        relative = path.relative_to(bundle_root)
+    except ValueError as exc:
+        raise ValueError(f"{role} is outside the evidence bundle: {path}") from exc
+    current = bundle_root
+    for component in relative.parts:
+        current = current / component
+        if current.is_symlink():
+            raise ValueError(f"{role} symlink rejected by design: {current}")
+    try:
+        resolved = path.resolve(strict=True)
+        resolved.relative_to(bundle_root)
+    except (FileNotFoundError, ValueError) as exc:
+        raise ValueError(f"{role} must resolve inside the evidence bundle: {path}") from exc
+    assert_development_path(resolved)
+    if not resolved.is_file():
+        raise ValueError(f"{role} is not a regular file: {resolved}")
+    return resolved
 
 
 def _verified_digest(path: Path, expected: str, role: str) -> None:
@@ -129,8 +159,20 @@ def load_evidence_bundle(
 ) -> Dataset:
     """Load one published development bundle, verifying both indices and every signature."""
     assert_development_path(root)
-    manifest_path = root / "EVIDENCE_MANIFEST.csv"
-    index_path = root / "EVALUATOR_INDEX.csv"
+    if root.is_symlink():
+        raise ValueError(f"evidence bundle root symlink rejected by design: {root}")
+    try:
+        bundle_root = root.resolve(strict=True)
+    except FileNotFoundError as exc:
+        raise ValueError(f"evidence bundle does not exist: {root}") from exc
+    if not bundle_root.is_dir():
+        raise ValueError(f"evidence bundle root is not a directory: {bundle_root}")
+    manifest_path = _confined_regular_file(
+        bundle_root / "EVIDENCE_MANIFEST.csv", bundle_root, "evidence manifest"
+    )
+    index_path = _confined_regular_file(
+        bundle_root / "EVALUATOR_INDEX.csv", bundle_root, "evaluator index"
+    )
     _verified_digest(manifest_path, expected_manifest_sha256, "evidence manifest")
     _verified_digest(index_path, expected_index_sha256, "evaluator index")
     with manifest_path.open(newline="", encoding="utf-8") as handle:
@@ -162,8 +204,9 @@ def load_evidence_bundle(
         relative = Path(artifact["signature_path"])
         if relative.is_absolute() or ".." in relative.parts:
             raise ValueError(f"{evidence_id}: unsafe signature_path")
-        signature_path = root / relative
-        assert_development_path(signature_path)
+        signature_path = _confined_regular_file(
+            bundle_root / relative, bundle_root, f"{evidence_id} signature"
+        )
         xs.append(_read_signature(signature_path, artifact["signature_sha256"]))
         ys.append(LABELS.index(label))
         clients.append(_client_from_index(meta, label))
@@ -195,7 +238,12 @@ def split_leave_one_batch_out(dataset: Dataset, held_out_batch: str) -> tuple[Da
     held_out = dataset.batches == str(held_out_batch)
     if not held_out.any() or held_out.all():
         raise ValueError("held-out batch must create two non-empty folds")
-    return _subset(dataset, ~held_out), _subset(dataset, held_out)
+    training = _subset(dataset, ~held_out)
+    validation = _subset(dataset, held_out)
+    overlap = sorted(set(training.clusters.tolist()).intersection(validation.clusters.tolist()))
+    if overlap:
+        raise ValueError(f"physical runs cross training/validation folds: {overlap}")
+    return training, validation
 
 
 def _subset(dataset: Dataset, mask: np.ndarray) -> Dataset:
