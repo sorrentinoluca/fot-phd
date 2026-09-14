@@ -1,8 +1,8 @@
 # Prompt — verifica indipendente del delta harness offline 03.10
 
 Verifica esclusivamente il candidato
-`8185d79e3b744c18e18223bed4d9d349af44747f` (tree
-`7c736f8a069821e5971c2a881bf6318bef6e6e48`) contro la base
+`59b6b93cd9c215e8b687e540f7cd579804b7c66a` (tree
+`cf08c14a8deb18145189afbe9722d7da46bc2f82`) contro la base
 `a00605862f627710347bd63c49f79a6d0a00135f`. Lavora in copia detached o
 worktree isolato e pulito. Non modificare il candidato, non chiamare servizi,
 non eseguire inferenze o simulazioni e non aggiornare walkthrough, piano 03.8 o
@@ -34,7 +34,7 @@ sorgente. Non fondere né promuovere in blocco i suoi documenti e freeze.
 
 - confermare commit, tree e parent del candidato;
 - verificare `HARNESS_OFFLINE_CANDIDATE.json`: 21 hash/dimensioni e SHA-256 del
-  manifest `078fcebbbfa03d25936df07a3f73770c1860ba279668985a9356a74c2fe13e9e`;
+  manifest `751b95a8bce62c4f8acbf907ba1cbfcf01850538711ae9dfe6928f62ebd430d3`;
 - verificare che il delta non tocchi `metric_adapter.py`, `metrics.py`,
   `test_metric_raccordo.py`, piano 03.8, APERTURA o walkthrough;
 - confrontare i nove moduli recuperati col commit `1ac06eb...` e accertare che
@@ -103,7 +103,7 @@ python3 -m unittest -v \
 
 /opt/anaconda3/bin/python3 -m unittest discover -v studio2/fase03
 python3 -m compileall -q studio2/fase03
-git diff --check a00605862f627710347bd63c49f79a6d0a00135f..8185d79e3b744c18e18223bed4d9d349af44747f
+git diff --check a00605862f627710347bd63c49f79a6d0a00135f..59b6b93cd9c215e8b687e540f7cd579804b7c66a
 ```
 
 Attesi dal preparatore: 45/45 mirati e 80/80 discovery. Non limitarsi a

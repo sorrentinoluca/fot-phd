@@ -9,9 +9,9 @@ indipendentemente**. 03.10 e Fase 03 restano aperte; nessun GO del pilot.
 | --- | --- |
 | Base `origin/main` osservata | `a00605862f627710347bd63c49f79a6d0a00135f` |
 | Branch dedicato | `codex/studio2-harness-0310-offline` |
-| Candidato implementativo | `8185d79e3b744c18e18223bed4d9d349af44747f` |
-| Tree candidato | `7c736f8a069821e5971c2a881bf6318bef6e6e48` |
-| Manifest candidato | `HARNESS_OFFLINE_CANDIDATE.json`, 6.959 byte, SHA-256 `078fcebbbfa03d25936df07a3f73770c1860ba279668985a9356a74c2fe13e9e` |
+| Candidato offline assestato | `59b6b93cd9c215e8b687e540f7cd579804b7c66a` |
+| Tree candidato | `cf08c14a8deb18145189afbe9722d7da46bc2f82` |
+| Manifest candidato | `HARNESS_OFFLINE_CANDIDATE.json`, SHA-256 `751b95a8bce62c4f8acbf907ba1cbfcf01850538711ae9dfe6928f62ebd430d3` |
 | Sorgente harness confrontata | `codex/studio2-harness` a `1ac06ebdc92f73d3b630ccca9bf75f413bea170b` |
 | Effetti esterni | zero push, tag, chiamate API, inferenze e simulazioni |
 
