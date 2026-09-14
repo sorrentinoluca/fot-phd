@@ -289,3 +289,22 @@ verifica indipendente.
 Le fonti bibliografiche sono state lette esclusivamente in `docs/letteratura.md` §14.1–§14.6.
 Nessun nuovo riferimento è stato inserito nel corpus: i riferimenti metodologici esterni richiesti
 da 03.8 e il riferimento FedAvg restano segnalazioni per il ciclo `Letteratura_LLM`.
+
+## Fase 03 — delta di allineamento 03.15 del 2026-09-14
+
+Questa voce integra, senza riscriverla, la precedente provenienza 03.15. È un riuso
+redazionale di specifiche e artefatti già prodotti, non una nuova analisi o importazione
+operativa. Le impronte complete dei documenti letti sono in
+[fase03/paper_sections/FONTI_DELTA_0315.json](fase03/paper_sections/FONTI_DELTA_0315.json).
+
+| Origine identificata | Destinazione e modifica | Ruolo e marca |
+| --- | --- | --- |
+| U3 in `studio2/PROVENIENZA.md` e `DIPENDENZE_EVIDENCE.md`, commit `c66bd8dddf8e2af9dd0665ee30afd36c248b93fb`; workbook `code/tep_cache/mode1_normal_500.xlsx`, snapshot dichiarato `309b944f35ac440ff0c70616947ffe723c766e14`, SHA-256 `79883dd0aabbd034c15337b0be1ffca37e59ea7b32443a15d560b7feda2b2e6a`; configurazione V2 SHA-256 `552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519` | `paper_sections/verbalizer.md`: dipendenza dei blocchi Mode 1 N1–N5 `[0,250 h)` e delle soglie V2, seed/data mancanti, rigenerazione se R2 decade | U3 pre-specificato rispetto all'estrazione, basato su dati già disponibili; raccordo redazionale post-esecuzione. Nessuna nuova lettura del workbook o calibrazione in questa sessione |
+| Nuova destinazione U3 già registrata nella provenienza §11 a `c486eee95fe24c1e7bf4135ed7cebf01ac2962f1`; manifest evidence Normal SHA-256 `cc8d96c2c60169afc99cb811cea194aa553afcc7cc51cad4a0092d44de38fdc1`; prototipi SHA-256 `6d0b754065eb8a69d0657638deeef0756de0ec8e93a905c55aea18fadace2cb2` | `paper_sections/protocol.md`, `verbalizer.md`: `normal_dev` reale, esempi e prototipi; descrizione del metodo della specifica 03.9 | Il disegno 03.9 è pre-specificato, lotto/estrazione e raccordo sono post-esecuzione. N1–N5 non diventano osservazioni Normal di sviluppo; nessun dato o esito diagnostico del primo studio è riusato |
+| Codice deterministico già registrato da U3/03.6, commit `3fd960a192bafacbaabce9471e3c3614d6b2d2db`, impronte nella fonte S06; pattern C02B già registrato dalla 03.9 §11 a `c486eee` | Descrizione per funzione in `verbalizer.md`, senza modificare/importare codice originale, ricostruire firme o ricalcolare prototipi | Provenienza implementativa interna conservata; nessuna attribuzione al primo studio dell'origine del nuovo disegno |
+
+I due numeri storici Terra restano recuperabili nella storia Git e nei report storici
+03.15: nel nuovo testo non motivano causalmente il disegno e non diventano un braccio
+controllato. Non è stata prodotta un'analisi post-hoc: è aggiornata la descrizione di usi
+pre-specificati e di limiti già registrati. Firma/freeze statistico, D9 e verifica
+indipendente del nuovo delta restano pendenti; sotto-fase 03.15 e Fase 03 aperte.

@@ -65,7 +65,7 @@ Ogni insight contiene sei campi obbligatori: `insight_id`, `source_agent`, `pseu
 `evidence_scope`, `variable_ids` e `observed_pattern`. I primi cinque provengono dal percorso
 deterministico e sono confrontati con un manifest fidato; il producer può scrivere soltanto la
 narrativa `observed_pattern`. Proprietà ulteriori e riparazioni silenziose sono vietate.
-[Fonte: 03.12 `DECISIONE_SCHEMA_INSIGHT.md`; `insight_v1.schema.json` a `e058cb0`]
+[Fonte: 03.12 `DECISIONE_SCHEMA_INSIGHT.md`; S12 `insight_v1.schema.json` a `3c64390bc4dd58c48cc4e1e388a38989b32b3143`]
 
 Lo schema impone cardinalità fissa, cap per campo e per record, identificatori di variabile
 letterali e serializzazione canonica. Lo stesso contratto vale per producer principale e
@@ -82,6 +82,19 @@ libreria mista confonderebbe identità del producer e composizione del prompt e 
 Q8 indica il disegno comune con otto agenti e otto fault, non l'identità del modello.
 [Fonte: piano §8.1]
 
+> **VARIANTE D9 — stato aperto, inventario al 14 settembre 2026.** Il servizio 122B è
+> dichiarato operativo dall'autore, alias API `qwen3.5-122b`, contesto 131.072 e output
+> massimo 16.384; il parametro temperatura va omesso secondo la comunicazione ricevuta.
+> Il 27B resta sull'altro server. Identità completa di pesi/revisione/quantizzazione,
+> tokenizer/template, serving, capienza e qualificazione del servizio restano da verificare.
+> Questi dati comunicati non assegnano ruoli sperimentali a 27B, 122B o Terra. Il 2.4T
+> risulta non ospitabile dalla macchina; le opzioni storiche sotto non sono rami attivati.
+> `[DECISIONE: D9, producer principale, consumer, producer alternativo e configurazione]`.
+> Il producer-swap resta nel disegno e la decisione sull'alternativo D9.1 resta mancante.
+> I risultati storici Terra non costituiscono un braccio controllato dello studio 2.
+>
+> [Fonte: H §§4.9, 5, impronta in `FONTI_DELTA_0315.json`; piano D9; S08-consegna `CONSEGNA_REV10.md`]
+
 > **VARIANTE D9.1 — Qwen-2.4T.** Se disponibile e promosso dal pilot entro la data prevista,
 > Qwen-2.4T è producer principale e consumer. Il braccio producer-swap resta nel disegno; D9 non
 > nomina il producer alternativo per questo ramo. `[DECISIONE: esito del gate, versione/API e
@@ -89,15 +102,16 @@ Q8 indica il disegno comune con otto agenti e otto fault, non l'identità del mo
 >
 > [Fonte: piano §8.4, §8.10 punto 3 e D9 opzione 1]
 
-> **VARIANTE D9.2 — Qwen-27B + Terra.** Soltanto dopo un pilot positivo, Qwen-27B è producer
-> principale e consumer e Terra è producer alternativo nel braccio swap. Il paper dichiara
-> esplicitamente che Qwen-27B non è un modello «nuovo». Il pilot 03.13, non ancora avviato, è
-> previsto su Qwen-27B FP8 locale; il suo GO/NO-GO non è anticipato in questa bozza.
+> **VARIANTE D9.2 — opzione storica Qwen-27B + Terra.** Il piano prevede, solo se
+> l'autore attiva questo ramo e dopo pilot positivo, Qwen-27B come producer principale
+> e consumer e Terra come producer alternativo nel solo swap. Qwen-27B non è un modello
+> «nuovo». Il pilot 03.13 non è avviato; la disponibilità dichiarata del 122B richiede
+> una decisione D9 esplicita e non sostituisce automaticamente il candidato storico.
 >
-> [Fonte: piano §8.4 e D9 opzione 2; handoff di fase 03.13]
+> [Fonte: piano D9 opzione 2; H §§4.9, 5]
 
 > **VARIANTE D9.3 — arresto dell'espansione.** Se Qwen-27B fallisce i criteri operativi, l'autore
 > sceglie fra Terra-only e una submission successiva. L'eventuale Terra-only usa il medesimo metodo,
 > non è presentato come replica cross-model e non eredita automaticamente un producer alternativo.
 >
-> [Fonte: piano revisione 7, D9 opzione 3; prompt 03.15]
+> [Fonte: piano D9 opzione 3; prompt 03.15]

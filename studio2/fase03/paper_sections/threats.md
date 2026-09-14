@@ -13,10 +13,12 @@ intra-cluster ignota; trattare le righe come indipendenti produrrebbe incertezza
 [Fonte: 03.8 §2, §6, §14 punto 2]
 
 H3 dispone di una sola osservazione local-seen per run e può avere poche coppie discordanti. Il test
-score proposto evita di usare il percentile bootstrap come decisione, mentre un esito senza
-discordanze deve essere riportato letteralmente. Per H1/H2 il test proposto è valido ma conservativo
-e può non confermare effetti moderati pur stimandoli.
-[Fonte: 03.8 §4, §7, §14 punto 3]
+score di Tango approvato evita di usare il percentile bootstrap come decisione, mentre un esito senza
+discordanze deve essere riportato letteralmente. Per H1/H2 il test di Hoeffding ha garanzia finita sul livello sotto indipendenza dei cluster, ma è conservativo
+e può non confermare effetti moderati pur stimandoli. L'applicabilità di Tango a coppie
+eterogenee in strati fissi non è dimostrata dalla sola indipendenza: resta un limite
+dichiarato del modello inferenziale, con controllo complessivo della gerarchia approssimato.
+[Fonte: S08 `PIANO_STATISTICO.md` §§4, 7, 14 punto 3; L `docs/letteratura.md` §14.2, Tango]
 
 L'astensione conta come errore nell'endpoint primario in-catalogo. Questa scelta penalizza una
 condizione che si astiene spesso, ma evita di premiare una diagnosi mancata; tasso di astensione e
@@ -29,9 +31,10 @@ l'effetto su un sottoinsieme pre-specificato senza dimostrarne innocuità genera
 [Fonte: piano §8.2–§8.3; 03.8 §14 punto 5]
 
 Le molte viste per fault, agente, strato e analisi accessorie sono descrittive. Soltanto H1–H3,
-se la gerarchia viene approvata e congelata, possono sostenere dichiarazioni confermative; nessuna
+secondo la gerarchia approvata, dopo il congelamento ancora pendente e i gate previsti,
+possono sostenere dichiarazioni confermative; nessuna
 stima secondaria viene promossa dopo l'osservazione.
-[Fonte: 03.8 §13–§14 punto 11]
+[Fonte: S08 `PIANO_STATISTICO.md` §§13–16; S08-consegna `CONSEGNA_REV10.md`]
 
 ## Costrutto e misurazione
 
@@ -62,8 +65,7 @@ Questo controlla il riuso dei run ma non dimostra trasferimento a impianti reali
 drift operativo, rumore di sensori non modellato o altri processi industriali.
 [Fonte: 03.8 §14 punto 9; piano §5 e §12.3]
 
-Il catalogo copre otto classi e lo studio usa otto agenti logici. La scala è maggiore di quella
-esplorativa ma resta piccola; non misura throughput di rete, nodi offline, latenza distribuita,
+Il catalogo copre otto classi e lo studio usa otto agenti logici. La scala resta piccola; non misura throughput di rete, nodi offline, latenza distribuita,
 streaming o comportamento con decine o centinaia di partecipanti.
 [Fonte: piano §5 G2, G3, CF2/C18; P065 in `docs/letteratura.md` §14.2]
 
@@ -106,6 +108,19 @@ Q8 è una proprietà dello scenario, non del modello; la minaccia di dipendenza 
 il ramo D9 effettivamente attivato.
 [Fonte: piano §8.1, §8.7 e D9]
 
+> **VARIANTE D9 — stato aperto, inventario al 14 settembre 2026.** Il servizio 122B è
+> dichiarato operativo dall'autore, alias API `qwen3.5-122b`, contesto 131.072 e output
+> massimo 16.384; il parametro temperatura va omesso secondo la comunicazione ricevuta.
+> Il 27B resta sull'altro server. Identità completa di pesi/revisione/quantizzazione,
+> tokenizer/template, serving, capienza e qualificazione del servizio restano da verificare.
+> Questi dati comunicati non assegnano ruoli sperimentali a 27B, 122B o Terra. Il 2.4T
+> risulta non ospitabile dalla macchina; le opzioni storiche sotto non sono rami attivati.
+> `[DECISIONE: D9, producer principale, consumer, producer alternativo e configurazione]`.
+> Il producer-swap resta nel disegno e la decisione sull'alternativo D9.1 resta mancante.
+> I risultati storici Terra non costituiscono un braccio controllato dello studio 2.
+>
+> [Fonte: H §§4.9, 5, impronta in `FONTI_DELTA_0315.json`; piano D9; S08-consegna `CONSEGNA_REV10.md`]
+
 > **VARIANTE D9.1 — Qwen-2.4T.** Se questo ramo supera il gate, dichiarare capacità dell'API,
 > modello restituito e instabilità osservate. Il braccio producer-swap resta previsto, ma l'identità
 > del producer alternativo è aperta. `[DECISIONE: producer alternativo del ramo D9.1]`;
@@ -113,15 +128,16 @@ il ramo D9 effettivamente attivato.
 >
 > [Fonte: piano §8.4, §8.10 punto 3 e D9 opzione 1]
 
-> **VARIANTE D9.2 — Qwen-27B + Terra.** Dopo un pilot positivo, dichiarare capacità e instabilità
-> di Qwen-27B e, nel producer-swap, di Terra, precisando che Qwen-27B non è un modello «nuovo». Il
-> pilot 03.13, non ancora avviato, è previsto su Qwen-27B FP8 locale e non costituisce un esito
-> GO/NO-GO. `[RISULTATO: audit e canary]`.
+> **VARIANTE D9.2 — opzione storica Qwen-27B + Terra.** Il piano prevede, solo se
+> l'autore attiva questo ramo e dopo pilot positivo, Qwen-27B come producer principale
+> e consumer e Terra come producer alternativo nel solo swap. Qwen-27B non è un modello
+> «nuovo». Il pilot 03.13 non è avviato; la disponibilità dichiarata del 122B richiede
+> una decisione D9 esplicita e non sostituisce automaticamente il candidato storico.
 >
-> [Fonte: piano D9 opzione 2; handoff di fase 03.13]
+> [Fonte: piano D9 opzione 2; H §§4.9, 5]
 
 > **VARIANTE D9.3 — arresto dell'espansione.** Se Qwen-27B fallisce, dichiarare la ragione
 > operativa e la scelta dell'autore. L'eventuale Terra-only non costituisce verifica cross-model e
 > non implica automaticamente un producer-swap. `[RISULTATO: audit e canary]`.
 >
-> [Fonte: piano revisione 7, D9 opzione 3; prompt 03.15]
+> [Fonte: piano D9 opzione 3; prompt 03.15]

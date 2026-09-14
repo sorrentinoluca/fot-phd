@@ -7,7 +7,7 @@ successivi hanno spostato l'oggetto condiviso verso logit e prototipi. Questo
 studio occupa un'estremità diversa della stessa traiettoria: non aggrega pesi e usa record testuali
 ispezionabili come interfaccia fra agenti. La distinzione è architetturale, non implica superiorità
 né equivalenza empirica con FedAvg, FedMD o FedProto.
-[Fonte bibliografica: FedMD e FedProto, `docs/letteratura.md` §14.1–§14.2; fonte di disegno: piano §9; riferimento FedAvg da integrare tramite Letteratura_LLM]
+[Fonte bibliografica: FedMD e FedProto, `docs/letteratura.md` §14.1–§14.2; fonte di disegno: piano §9; L `docs/letteratura.md` §14.1–§14.2, McMahan, candidato esterno identificato in `FONTI_DELTA_0315.json`]
 
 Time-FFM combina foundation model e federazione parametrica per il forecasting di serie temporali.
 La sua esistenza impedisce di presentare l'accostamento fra federazione, modelli linguistici e serie

@@ -2,8 +2,8 @@
 
 Stato: bozza redazionale indipendente dal modello. Le sezioni qui mappate descrivono lo scenario
 Q8 — otto agenti e otto fault — e devono poter essere riusate nei diversi rami di modello previsti
-da D9; le sole differenze ammesse sono raccolte nei blocchi «VARIANTE» sotto. Nessun risultato del
-nuovo studio è disponibile.
+da D9; le sole differenze ammesse sono raccolte nei blocchi «VARIANTE» sotto. Nessun risultato diagnostico del
+nuovo studio è disponibile; soglia e FAR della 03.5 sono già verificati e recepiti.
 [Fonte: prompt 03.15; piano §0.1, §8.10; blueprint §C]
 
 ## Convenzioni editoriali
@@ -15,10 +15,13 @@ citazioni saranno convertite nello stile bibliografico finale. «Pre-specificato
 protocollo fissato internamente prima dell'apertura del test; non si usa «preregistrato».
 [Fonte: piano §5 C06, §8.1, §8.5; Fase_LLM]
 
-I soli numeri storici ammessi come motivazione sono quelli autorizzati dal piano: B = 86,1% nello
-studio esplorativo e B = 94,4% nella replica, sempre accompagnati dalla formula «dichiarato
-descrittivo». Non entrano altri numeri di esito, né del primo studio né del nuovo.
-[Fonte: piano §8.10 punto 1; walkthrough v2 §7.3 e §8.3]
+Il delta recepisce i soli riscontri già prodotti su sviluppo e calibrazione. I numeri
+storici Terra restano nei record interni e non sono usati per raccontare l'origine del
+disegno nel paper o per costruire un nuovo braccio controllato. Risultati diagnostici,
+abstract e conclusioni restano esclusi. Fonti del delta: sigle H, S05, S09, S08,
+S08-consegna, S06, S12 e L risolte a commit/path/SHA-256 in `FONTI_DELTA_0315.json`.
+Le fonti di lavoro ereditate non toccate conservano il perimetro dell'OK su `cf79e81`.
+[Fonte: mandato delta 03.15; MAINTENANCE §8.2; H §5]
 
 ## Mappa
 
@@ -26,13 +29,13 @@ descrittivo». Non entrano altri numeri di esito, né del primo studio né del n
 | --- | --- | --- | --- | --- |
 | Related work | `related_work.md` | scrivibile | letteratura §14.1–§14.6; piano §12.5–§12.9; blueprint §E | eventuali metadati non verificati; nessun risultato |
 | Metodo FoT-TEP | `method.md` | scrivibile, salvo identità del modello | piano §8.1–§8.4, §8.6, §8.9; 03.7; 03.12 | `[DECISIONE: modello]`; identità del producer alternativo |
-| Verbalizzatore ed evidence | `verbalizer.md` | scrivibile | 03.6; codice congelato del primo studio; MAINTENANCE §8.2; letteratura §14.2 | soglia numerica e FAR non riportati; esiti di conformità come `[RISULTATO]` |
-| Protocollo | `protocol.md` | disegno scritto, scelte aperte marcate | D1; run fault; 03.5; 03.7; 03.8 proposto; piano §8.5–§9 | run per fault, *m*, α/gerarchia/test, OOD/D11, politica R, modello; tutti gli endpoint osservati |
+| Verbalizzatore ed evidence | `verbalizer.md` | scrivibile | 03.6; codice congelato del primo studio; MAINTENANCE §8.2; letteratura §14.2 | normal_dev e soglia/FAR recepiti; prestazioni e conformità restano `[RISULTATO]` |
+| Protocollo | `protocol.md` | disegno scritto, scelte aperte marcate | D1; run fault; 03.5; 03.7; 03.8 rev. 10 approvata, non congelata; piano §8.5–§9 | firma/freeze, fattibilità, OOD tecnici, D9; tutti gli endpoint diagnostici osservati |
 | Threats to validity | `threats.md` | scrivibile | 03.8 §14; piano §2, §5, §8.6–§8.9, §12 | dipendenza effettiva dal modello e impatto delle decisioni ancora aperte |
 | Controllo redazionale | `lint_paper_sections.py` | da eseguire dopo le bozze | prompt 03.15 | nessuno |
-| Chiusura | `REPORT_PAPER_SECTIONS.md` | da compilare dopo lint e test | Fase_LLM punti 1–7 | collocazione futura in `docs/paper/`; decisioni dell'autore |
+| Chiusura | `REPORT_DELTA_0315.md` | nuovo delta da verificare; report storico preservato | Fase_LLM punti 1–7 | collocazione futura in `docs/paper/`; decisioni dell'autore |
 
-[Fonte: prompt 03.15; piano §0.1, §8.10; 03.8 `PIANO_STATISTICO.md` stato proposto]
+[Fonte: prompt 03.15; piano §0.1, §8.10; S08 `PIANO_STATISTICO.md` rev. 10; S08-consegna `CONSEGNA_REV10.md`]
 
 ## Contenuto già scrivibile
 
@@ -49,24 +52,24 @@ schema a sei campi, la parità fra producer e il diff B→E limitato al campo ps
 del modello non è parte della definizione comune.
 [Fonte: piano §8.1–§8.4, §8.9; 03.7; 03.12]
 
-Il verbalizzatore può descrivere la catena deterministica serie → feature per finestra → JSON →
-testo neutrale → firma 697-D, la baseline N1–N5 usata solo per normalizzazione sotto U3 e le guardie
-anti-leakage. La soglia dello score Normal si descrive solo nella forma economica di calibrazione e
-nella regola stretta `S > soglia`; valore e FAR restano esclusi finché la verifica indipendente di
-03.5 non è OK.
-[Fonte: 03.6 `DIPENDENZE_EVIDENCE.md`, `REPORT_EVIDENCE.md`; 03.5 a `9507143`; MAINTENANCE §8.2]
+Il verbalizzatore descrive la catena deterministica, le evidence fault e Normal reali,
+i prototipi, la dipendenza N1–N5/soglie V2 sotto U3 e la guardia R2. La 03.5 è chiusa:
+valore della soglia e FAR primario/secondario sono recepiti con i loro limiti; la 03.9
+è integrata e pubblicata ma il freeze della baseline resta inefficace nello snapshot S09.
+[Fonte: S05, S09, S06; `FONTI_DELTA_0315.json`; MAINTENANCE §8.2]
 
-Il protocollo può descrivere catalogo e criteri congelati, quaranta run fault di sviluppo, innesco,
-orizzonte, finestre, Philox, separazione dei seed, pseudolabel e endpoint. Le proposte di 03.8 sono
-riportate come pre-specificazioni pendenti e mai come decisioni congelate.
-[Fonte: tag catalogo D1; `fault_runs/SPECIFICA_RUN_FAULT.md` e `REPORT_RUN_FAULT.md`; 03.8]
+Il protocollo recepisce D2, test, margine, alpha, gerarchia, reporting, D11, politica R e
+A/B della rev. 10 come approvati. Firma, freeze e requisiti operativi restano distinti:
+conteggio completo e fattibilità misurata, OOD tecnici dopo il freeze statistico e prima
+delle chiamate, D9 aperta. Non si producono nuovi esiti né si riaprono le approvazioni.
+[Fonte: S08 `PIANO_STATISTICO.md`, `BUDGET_RISORSE_REV10.md`; S08-consegna `CONSEGNA_REV10.md`]
 
 ## Segnaposto e dipendenze
 
 - `[DECISIONE: modello e data di attivazione del piano B]` nella descrizione della configurazione.
-- `[DECISIONE: D2 — sei oppure otto run di test per fault]` e conseguente numero di cluster.
-- `[DECISIONE: margine m, livello unilaterale, gerarchia H1→H2→H3 e test locali]`.
-- `[DECISIONE: fault OOD, coppie D11 e politica R in assenza di controlli API]`.
+- Firma materiale e freeze statistico rev. 10, senza nuova approvazione di D2, m, α, gerarchia, D11, R o A/B.
+- Fattibilità temporale T5, requisiti operativi e controlli tecnici OOD nella 03.11.
+- Casi non risolti dalle catene OOD: sospensione e decisione esplicita, se si presentano.
 - `[RISULTATO: H1, H2, H3 e intervalli]`, `[RISULTATO: astensione e accuratezza condizionata]`.
 - `[RISULTATO: baseline numerica, FedAvg, pavimento e soffitto]`.
 - `[RISULTATO: producer-swap, conformità, retry, troncamenti e token]`.
@@ -81,6 +84,19 @@ scenario resta comune ai rami seguenti, che sono condizionati dalla decisione D9
 pilot.
 [Fonte: piano §8.1 e D9]
 
+> **VARIANTE D9 — stato aperto, inventario al 14 settembre 2026.** Il servizio 122B è
+> dichiarato operativo dall'autore, alias API `qwen3.5-122b`, contesto 131.072 e output
+> massimo 16.384; il parametro temperatura va omesso secondo la comunicazione ricevuta.
+> Il 27B resta sull'altro server. Identità completa di pesi/revisione/quantizzazione,
+> tokenizer/template, serving, capienza e qualificazione del servizio restano da verificare.
+> Questi dati comunicati non assegnano ruoli sperimentali a 27B, 122B o Terra. Il 2.4T
+> risulta non ospitabile dalla macchina; le opzioni storiche sotto non sono rami attivati.
+> `[DECISIONE: D9, producer principale, consumer, producer alternativo e configurazione]`.
+> Il producer-swap resta nel disegno e la decisione sull'alternativo D9.1 resta mancante.
+> I risultati storici Terra non costituiscono un braccio controllato dello studio 2.
+>
+> [Fonte: H §§4.9, 5, impronta in `FONTI_DELTA_0315.json`; piano D9; S08-consegna `CONSEGNA_REV10.md`]
+
 > **VARIANTE D9.1 — Qwen-2.4T.** Inserire soltanto se Qwen-2.4T diventa disponibile e supera il
 > pilot entro la data prevista. Qwen-2.4T è producer principale e consumer; il braccio
 > producer-swap resta nel disegno, mentre D9 non nomina il producer alternativo per questo ramo.
@@ -88,21 +104,20 @@ pilot.
 >
 > [Fonte: piano §8.4, §8.10 punto 3 e D9 opzione 1]
 
-> **VARIANTE D9.2 — Qwen-27B con producer alternativo Terra.** Inserire soltanto dopo esito positivo
-> del pilot Qwen-27B: Qwen-27B è producer principale e consumer, mentre Terra è producer alternativo
-> nel solo braccio producer-swap. Il testo finale deve dichiarare esplicitamente che Qwen-27B non è
-> un modello «nuovo». Il pilot 03.13, non ancora avviato, è previsto sul solo modello disponibile,
-> Qwen-27B FP8 locale; Qwen-2.4T risulta non disponibile alla data dell'handoff e non si anticipa il
-> GO/NO-GO.
+> **VARIANTE D9.2 — opzione storica Qwen-27B + Terra.** Il piano prevede, solo se
+> l'autore attiva questo ramo e dopo pilot positivo, Qwen-27B come producer principale
+> e consumer e Terra come producer alternativo nel solo swap. Qwen-27B non è un modello
+> «nuovo». Il pilot 03.13 non è avviato; la disponibilità dichiarata del 122B richiede
+> una decisione D9 esplicita e non sostituisce automaticamente il candidato storico.
 >
-> [Fonte: piano D9 opzione 2; handoff di fase 03.13]
+> [Fonte: piano D9 opzione 2; H §§4.9, 5]
 
 > **VARIANTE D9.3 — arresto dell'espansione.** Se anche Qwen-27B fallisce i criteri di parsing,
 > stabilità o contesto, l'espansione si arresta e l'autore sceglie fra Terra-only e una submission
 > successiva. Terra-only non è automaticamente attivo, non è una replica cross-model e il ruolo
 > del producer-swap va qualificato secondo la configurazione effettivamente approvata.
 >
-> [Fonte: piano revisione 7, D9 opzione 3; prompt 03.15]
+> [Fonte: piano D9 opzione 3; prompt 03.15]
 
 Fuori da questi blocchi non devono comparire frasi specifiche del modello. In particolare, related
 work, definizione di A/B-LF/E-LF, verbalizzatore, pseudolabel, schema, endpoint e threats strutturali
