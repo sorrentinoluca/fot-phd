@@ -92,6 +92,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <li><a href="#pseudolabel-037"><span class="n">4.7</span>Pseudolabel e derangement di E</a></li>
 <li><a href="#normal-dev-baseline-039"><span class="n">4.9</span><code>normal_dev</code> e baseline numerica</a></li>
 <li><a href="#schema-insight-0312"><span class="n">4.12</span>Schema degli insight R4</a></li>
+<li><a href="#paper-sections-0315"><span class="n">4.15</span>Sezioni comuni del paper</a></li>
 <li><a href="#sez-13-conferenza"><span class="n">13</span>Conferenza</a></li>
 <li><a href="#sez-14-letteratura"><span class="n">14</span>Letteratura</a></li>
 </ol>
@@ -105,7 +106,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>. Stato al <strong>2026-09-14</strong>:
 fasi 01 e 02 documentate in §2 e §3; la sotto-fase <strong>criteri di selezione (§6.1)</strong> della
 Fase 03 è documentata in <a href="#criteri-selezione-61">§4.1</a>; <strong>D1, verificata, congelata e pubblicata</strong>, in <a href="#catalogo-d1">§4.2</a>;
-i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; il <strong>perimetro del codice Q8</strong>, chiuso, in <a href="#perimetro-codice-q8">§4.4</a>; le <strong>soglie Normal (§6.3)</strong>, calibrate e verificate, in <a href="#soglie-normal-63">§4.5</a>; le <strong>evidence 697-D</strong>, verificate e conservate nella release v2, in <a href="#evidence-697-d">§4.6</a>; pseudolabel e derangement, verificati, in <a href="#pseudolabel-037">§4.7</a>; <code>normal_dev</code> e baseline numerica, verificati ma non ancora congelati efficacemente, in <a href="#normal-dev-baseline-039">§4.9</a>; lo <strong>schema insight R4</strong>, verificato ma non ancora pubblicato, in <a href="#schema-insight-0312">§4.12</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
+i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; il <strong>perimetro del codice Q8</strong>, chiuso, in <a href="#perimetro-codice-q8">§4.4</a>; le <strong>soglie Normal (§6.3)</strong>, calibrate e verificate, in <a href="#soglie-normal-63">§4.5</a>; le <strong>evidence 697-D</strong>, verificate e conservate nella release v2, in <a href="#evidence-697-d">§4.6</a>; pseudolabel e derangement, verificati, in <a href="#pseudolabel-037">§4.7</a>; <code>normal_dev</code> e baseline numerica, verificati ma non ancora congelati efficacemente, in <a href="#normal-dev-baseline-039">§4.9</a>; lo <strong>schema insight R4</strong>, verificato ma non ancora pubblicato, in <a href="#schema-insight-0312">§4.12</a>; le <strong>sezioni comuni del paper</strong>, aggiornate e verificate ma conservate soltanto nel candidato locale, in <a href="#paper-sections-0315">§4.15</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
 resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, non questo file.</p>
 </blockquote>
 </div>
@@ -1085,11 +1086,71 @@ pubblicazione del solo tag annotato sul target esatto <code>3c64390…</code>. U
 essere scritto soltanto dopo tali riscontri. In una successiva attività 03.10 andranno aggiornati
 i pin dell'adapter; questo aggiornamento non appartiene alla 03.12 e non è stato eseguito qui.</p>
 </section>
+<section id="paper-sections-0315">
+<h3>4.15 · Fase 03 — sezioni comuni del paper (sotto-fase 03.15)</h3>
+<h4>Riassunto e sintesi</h4>
+<p>La sotto-fase 03.15 ha preparato, senza promuoverle nel manoscritto, cinque bozze comuni e una
+mappa editoriale in <code>studio2/fase03/paper_sections/</code>. Il pacchetto storico sul candidato
+<code>cf79e81f917c7969dfd375e38db54315c28d4c07</code> conserva il proprio OK; il successivo delta
+scientifico <code>bcb462d..91a880b136dee5d805b54040f5e32345be361eb2</code> ha ricevuto un <strong>nuovo OK
+indipendente</strong>, limitato alle modifiche e alla coerenza risultante delle cinque sezioni. Il verbale
+del nuovo OK è stato acquisito byte-identico nel pacchetto <code>d35b684acbfd1f357bc34f3a21cebb18e8a6bea0</code>.
+Sono tre riferimenti distinti: nessun verdetto è esteso a un futuro raccordo o a un manoscritto
+pubblicato.</p>
+<p>Il pacchetto <code>d35b684</code> è stato raccordato localmente sulla base comune esatta
+<code>e82b5a08bf642ad45f77e71832958207beb1181c</code>. Questa operazione rende storia, fonti, bozze e
+verbali raggiungibili da un candidato locale, ma non li integra in <code>main</code>, non li pubblica e non
+chiude né 03.15 né la Fase 03.</p>
+<h4>Dettaglio</h4>
+<p>Il delta verificato allinea soprattutto <code>protocol.md</code> e <code>verbalizer.md</code> alle fonti già maturate:
+<code>normal_dev</code> reale e baseline numerica della 03.9, soglia e FAR della 03.5 ormai chiusa, decisioni
+statistiche della revisione 10 e regole A/B. Raccordi circoscritti mantengono coerenti
+<code>method.md</code>, <code>threats.md</code>, <code>related_work.md</code> e <code>PIANO_SEZIONI.md</code>. Restano invariati lo spazio
+delle label — otto fault opachi, <code>Normal</code> letterale e <code>Unknown</code> solo come astensione — e il
+producer-swap previsto. Le bozze non contengono nuovi risultati diagnostici, abstract o
+conclusioni e non trasformano lo storico Terra in un braccio controllato.</p>
+<p>Il solo conflitto effettivo dell'integrazione locale riguardava <code>studio2/PROVENIENZA.md</code>.
+Le sezioni 1–13 del raccordo precedente sono state conservate e la 03.15 ha ricevuto il primo
+numero libero reale, §14, con il delta successivo in §14.1. Nessuna bozza scientifica, fonte
+improntata o verifica è stata modificata durante la risoluzione.</p>
+<h4>Connessione alla letteratura e alle critiche</h4>
+<p>La sotto-fase usa il corpus unico in <a href="letteratura.html"><code>letteratura.md</code> §§14.1–14.6</a> per delimitare
+i riferimenti su federazione, verbalizzazione, calibrazione e statistica; non crea un secondo
+corpus e non formula un claim bibliografico nuovo. La redazione rende espliciti limiti già
+registrati — dipendenza U3 da N1–N5 e soglie V2, indipendenza effettiva dei cluster,
+applicabilità asintotica di Tango, tracciabilità di FAR e <code>normal_dev</code> — ma non li risolve.
+Il guardiano documentale controlla struttura e riferimenti storici: non è prova del merito
+scientifico delle bozze.</p>
+<h4>Artefatti e riproducibilità</h4>
+<p>Il <a href="../studio2/fase03/paper_sections/REPORT_DELTA_0315.md">report del delta</a> identifica le 54 fonti
+nel relativo <a href="../studio2/fase03/paper_sections/FONTI_DELTA_0315.json">registro con commit, byte e SHA-256</a>.
+Il <a href="../studio2/fase03/paper_sections/VERIFICA_DELTA_0315.md">verbale del nuovo OK</a> misura 12.311
+byte, SHA-256 <code>00553079e88a58a68762ba9a3400c04cb22b91f6a99f37f191b67cfd12ca9770</code>;
+il <a href="../studio2/fase03/paper_sections/ACQUISIZIONE_VERIFICA_DELTA_0315.md">record di acquisizione</a>
+documenta la copia byte-identica. Il <a href="../studio2/fase03/paper_sections/VERIFICA_PAPER_SECTIONS.md">verbale storico</a>
+su <code>cf79e81</code> resta separato, 13.949 byte e SHA-256
+<code>8faca80c87071d87bf66d97848c290a5724f6569be6f6040cfb6568bad022cb1</code>.</p>
+<p>La <a href="../studio2/fase03/paper_sections/CONSEGNA_0315_2026-09-14.md">consegna operativa 03.15</a>
+è stata acquisita byte-identica in un commit locale distinto dal merge. Il raccordo ha mantenuto
+la cartella <code>paper_sections/</code> identica a <code>d35b684</code>, salvo questa consegna aggiunta dopo il
+pacchetto; <code>FONTI_DELTA_0315.json</code>, report improntato, bozze e verbali non sono stati riscritti.</p>
+<h4>Lavoro che resta</h4>
+<p>La decisione D9 sui ruoli dei modelli, l'identità completa e la qualificazione del servizio
+restano aperte. Restano inoltre la firma materiale e il freeze statistico della 03.8, la
+fattibilità T5, ledger e calendario, gli allineamenti dell'harness 03.10 e i controlli tecnici
+OOD della 03.11. FAR e A/B non sono stati riaperti. Le bozze non sono state promosse in
+<code>docs/paper/</code>.</p>
+<p>Il presente aggiornamento MD/HTML è un <strong>nuovo delta documentale di raccordo</strong>: deve essere
+riesaminato nel successivo passaggio seriale per coerenza, link, anchor, numerazione e parità,
+senza riaprire la review scientifica già conclusa su <code>91a880b</code>. Il candidato resta locale e
+distinto da ogni futura integrazione in <code>main</code>, pubblicazione o congelamento. 03.15 e la Fase 03
+<strong>restano aperte</strong>.</p>
+</section>
 <p><strong>Sintesi per sezione.</strong></p>
 <div class="tablewrap"><table>
 <thead><tr><th>§</th><th>Fase</th><th>Che cos'&egrave;</th><th>Fonte</th><th>Stato</th></tr></thead>
 <tbody>
-<tr><td style="text-align:center">4</td><td><strong>Preparazione e capability pilot &mdash; Fase 03</strong></td><td>Cantieri §6.1&ndash;§6.12 e gate §7.1; §4.1&ndash;§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.9 <code>normal_dev</code> e baseline; §4.12 schema insight R4</td><td>piano §§6&ndash;7.1 e artefatti delle sotto-fasi</td><td>aperta; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.9 integrata e dati pubblicati, freeze pending; 03.12 R4-V OK, integrazione/tag non pubblicati</td></tr>
+<tr><td style="text-align:center">4</td><td><strong>Preparazione e capability pilot &mdash; Fase 03</strong></td><td>Cantieri §6.1&ndash;§6.12 e gate §7.1; §4.1&ndash;§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.9 <code>normal_dev</code> e baseline; §4.12 schema insight R4; §4.15 sezioni comuni del paper</td><td>piano §§6&ndash;7.1 e artefatti delle sotto-fasi</td><td>aperta; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.9 integrata e dati pubblicati, freeze pending; 03.12 R4-V OK, integrazione/tag non pubblicati; 03.15 verificata e raccordata solo nel candidato locale</td></tr>
 <tr><td style="text-align:center">5</td><td><strong>Produzione degli insight</strong></td><td>Gli 8&times;2 insight dai dati di sviluppo, pi&ugrave; la libreria completa del producer alternativo per il braccio <em>producer-swap</em></td><td>piano §7.2</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">6</td><td><strong>Congelamento del protocollo</strong></td><td>Solo dopo il pilot, mai prima</td><td>piano §7.3</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">7</td><td><strong>Esecuzione dello studio finale</strong></td><td>Tutte le inferenze A, B-LF, E-LF, pi&ugrave; swap, OOD, ablation e canary &mdash; circa 2.853/3.555 chiamate con margine, per 6/8 run</td><td>piano §7.4 e §8.8</td><td>dopo il congelamento</td></tr>
@@ -1111,7 +1172,7 @@ i pin dell'adapter; questo aggiornamento non appartiene alla 03.12 e non è stat
 <li><strong>§6.9</strong> — Generare e congelare i run finali di test</li>
 <li><strong>§6.10</strong> — Schema insight R4 verificato in <a href="#schema-insight-0312">§4.12</a>; integrazione seriale e tag esatto ancora da pubblicare</li>
 <li><strong>§6.11</strong> — Implementare la baseline FedAvg</li>
-<li><strong>§6.12</strong> — Scrivere le sezioni del paper indipendenti dal modello</li>
+<li><strong>§6.12</strong> — Sezioni comuni del paper aggiornate e verificate in <a href="#paper-sections-0315">§4.15</a>; candidato soltanto locale, D9 e promozione nel manoscritto ancora aperte</li>
 <li><strong>§7.1</strong> — Capability pilot su Qwen-2.4T</li>
 <li><strong>§7.2</strong> — Produzione insight con Qwen-2.4T</li>
 <li><strong>§7.3</strong> — Congelamento protocollo finale</li>
