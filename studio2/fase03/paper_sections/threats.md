@@ -1,0 +1,143 @@
+# Threats to validity
+
+## Validità interna e inferenza
+
+Con R=1 la variabilità della risposta del modello alla stessa richiesta non è stimata sul campione
+completo. Il pilot, l'audit ripetuto su un sottoinsieme e il canary possono rilevare instabilità,
+ma non rendono il singolo output equivalente a una media su repliche.
+[Fonte: piano §8.7; 03.8 §14 punto 1]
+
+Le sette decisioni agente-caso derivate dallo stesso run condividono l'evidence e sono correlate.
+Il ricampionamento mantiene il run come cluster, ma la potenza dipende dalla correlazione
+intra-cluster ignota; trattare le righe come indipendenti produrrebbe incertezza troppo ottimista.
+[Fonte: 03.8 §2, §6, §14 punto 2]
+
+H3 dispone di una sola osservazione local-seen per run e può avere poche coppie discordanti. Il test
+score di Tango approvato evita di usare il percentile bootstrap come decisione, mentre un esito senza
+discordanze deve essere riportato letteralmente. Per H1/H2 il test di Hoeffding ha garanzia finita sul livello sotto indipendenza dei cluster, ma è conservativo
+e può non confermare effetti moderati pur stimandoli. L'applicabilità di Tango a coppie
+eterogenee in strati fissi non è dimostrata dalla sola indipendenza: resta un limite
+dichiarato del modello inferenziale, con controllo complessivo della gerarchia approssimato.
+[Fonte: S08 `PIANO_STATISTICO.md` §§4, 7, 14 punto 3; L `docs/letteratura.md` §14.2, Tango]
+
+L'astensione conta come errore nell'endpoint primario in-catalogo. Questa scelta penalizza una
+condizione che si astiene spesso, ma evita di premiare una diagnosi mancata; tasso di astensione e
+accuratezza condizionata ai non astenuti devono sempre accompagnare il primario.
+[Fonte: piano §8.5; 03.8 §3, §14 punto 4]
+
+La politica local-first può spostare errori e astensioni in entrambe le direzioni. Tenerla costante
+fra B-LF ed E-LF isola informazione e politica nel contrasto principale, mentre l'ablazione ne misura
+l'effetto su un sottoinsieme pre-specificato senza dimostrarne innocuità generale.
+[Fonte: piano §8.2–§8.3; 03.8 §14 punto 5]
+
+Le molte viste per fault, agente, strato e analisi accessorie sono descrittive. Soltanto H1–H3,
+secondo la gerarchia approvata, dopo il congelamento ancora pendente e i gate previsti,
+possono sostenere dichiarazioni confermative; nessuna
+stima secondaria viene promossa dopo l'osservazione.
+[Fonte: S08 `PIANO_STATISTICO.md` §§13–16; S08-consegna `CONSEGNA_REV10.md`]
+
+## Costrutto e misurazione
+
+Il verbalizzatore è deterministico ma comprime la traiettoria in feature, flag, JSON e testo. La
+neutralità lessicale e la conformità allo schema non provano completezza semantica: un meccanismo
+può non emergere nelle feature e una narrativa valida può non essere scientificamente fedele.
+[Fonte: 03.6 `DIPENDENZE_EVIDENCE.md` §4; 03.12 `DECISIONE_SCHEMA_INSIGHT.md`; FaultExplainer in `docs/letteratura.md` §14.2]
+
+Le pseudolabel sono opache rispetto alle guardie implementate, ma derivazione e mapping sono
+riproducibili e non segreti. L'opacità riduce leakage nominale; non dimostra indipendenza statistica,
+assenza di correlazioni accidentali o impossibilità di ricostruzione evaluator-side.
+[Fonte: 03.7 `REPORT_PSEUDOLABEL.md` §1, «Osservazione e limite del controllo»]
+
+Il controllo E modifica soltanto il campo di associazione nel file canonico, ma il suo effetto
+dipende dal particolare derangement congelato. Un singolo sorteggio misura quella corruzione
+realizzata e non la media su tutte le associazioni errate possibili.
+[Fonte: 03.7 `SPECIFICA_PSEUDOLABEL.md` §5; piano §8.9; limite analogo in piano §8.12]
+
+La conformità producer-side non coincide con la tracciabilità reporter-side di EviFDD-Agent e non
+misura l'accuratezza diagnostica. Validità, retry, troncamenti e token devono restare metriche
+operative separate dagli endpoint clinici o di processo.
+[Fonte bibliografica: EviFDD-Agent, `docs/letteratura.md` §14.2; fonte di disegno: piano §8.9–§8.10]
+
+## Validità esterna e scope federato
+
+Sviluppo e test provengono dallo stesso simulatore TEP con configurazione invariata e seed disgiunti.
+Questo controlla il riuso dei run ma non dimostra trasferimento a impianti reali, simulatori diversi,
+drift operativo, rumore di sensori non modellato o altri processi industriali.
+[Fonte: 03.8 §14 punto 9; piano §5 e §12.3]
+
+Il catalogo copre otto classi e lo studio usa otto agenti logici. La scala resta piccola; non misura throughput di rete, nodi offline, latenza distribuita,
+streaming o comportamento con decine o centinaia di partecipanti.
+[Fonte: piano §5 G2, G3, CF2/C18; P065 in `docs/letteratura.md` §14.2]
+
+La sonda OOD comprende due classi e tre run per classe. Può mostrare che l'astensione avviene in
+alcuni eventi, ma non caratterizza copertura open-set, tasso di falsi positivi su una popolazione
+ampia o generalizzazione a fault non catalogati.
+[Fonte: piano §8.6; 03.8 §14 punto 6]
+
+La difficoltà H è ereditata da tassi di rilevazione PCA pubblicati e non da diagnosi verbalizzate.
+È adatta alla stratificazione descrittiva, non a prevedere quali classi saranno difficili per il
+reasoner o a spiegare a posteriori un risultato.
+[Fonte: piano §12.1–§12.4; 03.8 §14 punto 10]
+
+Alcuni meccanismi hanno poche istanze nel catalogo; in particolare il drift lento è rappresentato
+da una sola classe. Le conclusioni per quel meccanismo restano relative alla classe osservata e non
+si estendono automaticamente alla famiglia intera.
+[Fonte: piano §8.12; 03.8 §14 punto 7]
+
+Lo studio simula una federazione di agenti senza server di aggregazione, rete o secure aggregation.
+Che i raw non siano scambiati è una proprietà del protocollo, non una garanzia di privacy; CF1/CF5
+sullo scope FL e G7 sulla privacy restano aperte. DP-FPL e FedDTPT mostrano inoltre che la
+letteratura sul prompt learning federato tratta esplicitamente privacy e prompt discreti per LLM
+black-box; qui sono precedenti che alzano l'onere del confronto, non evidenza di una garanzia del
+protocollo FoT-TEP.
+[Fonte: piano §5 G3/G7/CF1/CF5, §12.8; DP-FPL, FedDTPT e P065 in `docs/letteratura.md` §14.1–§14.2]
+
+## Dipendenza dal modello e stabilità operativa
+
+Un singolo modello principale può legare gli esiti alla sua tokenizzazione, istruzione, capacità di
+seguire lo schema e stile di ragionamento. Il producer-swap stima soltanto una componente di questa
+dipendenza; non dimostra portabilità end-to-end o generalità fra famiglie di modelli.
+[Fonte: piano §5 G5, §8.4; P065/SYNAPSE in `docs/letteratura.md` §14.2]
+
+Un provider può cambiare silenziosamente backend o comportamento durante l'esecuzione. ID restituito,
+request ID, fingerprint, hash, timestamp e canary migliorano la ricostruzione forense e il rilevamento,
+ma non impediscono il cambio né ne identificano sempre la causa.
+[Fonte: piano §8.7; 03.8 §10, §14 punto 8]
+
+Q8 è una proprietà dello scenario, non del modello; la minaccia di dipendenza va rendicontata per
+il ramo D9 effettivamente attivato.
+[Fonte: piano §8.1, §8.7 e D9]
+
+> **VARIANTE D9 — stato aperto, inventario al 14 settembre 2026.** Il servizio 122B è
+> dichiarato operativo dall'autore, alias API `qwen3.5-122b`, contesto 131.072 e output
+> massimo 16.384; il parametro temperatura va omesso secondo la comunicazione ricevuta.
+> Il 27B resta sull'altro server. Identità completa di pesi/revisione/quantizzazione,
+> tokenizer/template, serving, capienza e qualificazione del servizio restano da verificare.
+> Questi dati comunicati non assegnano ruoli sperimentali a 27B, 122B o Terra. Il 2.4T
+> risulta non ospitabile dalla macchina; le opzioni storiche sotto non sono rami attivati.
+> `[DECISIONE: D9, producer principale, consumer, producer alternativo e configurazione]`.
+> Il producer-swap resta nel disegno e la decisione sull'alternativo D9.1 resta mancante.
+> I risultati storici Terra non costituiscono un braccio controllato dello studio 2.
+>
+> [Fonte: H §§4.9, 5, impronta in `FONTI_DELTA_0315.json`; piano D9; S08-consegna `CONSEGNA_REV10.md`]
+
+> **VARIANTE D9.1 — Qwen-2.4T.** Se questo ramo supera il gate, dichiarare capacità dell'API,
+> modello restituito e instabilità osservate. Il braccio producer-swap resta previsto, ma l'identità
+> del producer alternativo è aperta. `[DECISIONE: producer alternativo del ramo D9.1]`;
+> `[RISULTATO: audit e canary]`.
+>
+> [Fonte: piano §8.4, §8.10 punto 3 e D9 opzione 1]
+
+> **VARIANTE D9.2 — opzione storica Qwen-27B + Terra.** Il piano prevede, solo se
+> l'autore attiva questo ramo e dopo pilot positivo, Qwen-27B come producer principale
+> e consumer e Terra come producer alternativo nel solo swap. Qwen-27B non è un modello
+> «nuovo». Il pilot 03.13 non è avviato; la disponibilità dichiarata del 122B richiede
+> una decisione D9 esplicita e non sostituisce automaticamente il candidato storico.
+>
+> [Fonte: piano D9 opzione 2; H §§4.9, 5]
+
+> **VARIANTE D9.3 — arresto dell'espansione.** Se Qwen-27B fallisce, dichiarare la ragione
+> operativa e la scelta dell'autore. L'eventuale Terra-only non costituisce verifica cross-model e
+> non implica automaticamente un producer-swap. `[RISULTATO: audit e canary]`.
+>
+> [Fonte: piano D9 opzione 3; prompt 03.15]
