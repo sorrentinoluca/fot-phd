@@ -13,13 +13,20 @@ pubblicata e congelata. Il piano statistico rev.10 al candidato
 `6aaa5b3eebfed4ba502c25c0443caabd0051af21` ha verifica indipendente OK, ma
 03.8 resta aperta per firma materiale, verifica di questo delta, documentazione,
 pubblicazione e freeze. Il delta respinto `4503cb6` è seguito dalle correzioni
-R1–R4, ancora da verificare indipendentemente. Dal mandato dell’autore:
+R1–R4 a `9a56d12`, ora con OK indipendente acquisito. Il nuovo recepimento
+D9 del 2026-09-15 richiede una review distinta. Dal record dell’autore:
 **122B producer principale e consumer; 27B producer alternativo con tutti i
 16 insight; consumer 122B fisso nello swap; Terra solo storico descrittivo
-interno separato dalle nuove stime**. Il registro D9 è in acquisizione nella
-finestra proprietaria; non sono importati suoi file non committati. Decisione,
-acquisizione e qualifica tecnica restano distinte: nessuna firma 03.8,
-approvazione dell’ordine label o qualificazione dei servizi discende dal mandato.
+interno separato dalle nuove stime, senza nuove chiamate Terra**. Il
+[record D9](DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md) e i due allegati sono
+acquisiti byte-identici dal commit `aaba893dff8c62f9f9281eec7423eee020235e03`.
+Ruoli approvati, record acquisito e recepimento documentale locale sono completati;
+recepimento eseguibile nell'harness, identità/configurazioni, qualifiche e
+fattibilità restano pendenti. Nessun 27B consumer fallback è approvato. Firma
+materiale 03.8, ordine label **1a** e autorizzazione alle chiamate restano separati.
+La [matrice corrente](piano_statistico/MATRICE_RESIDUI_03_8_DOPO_D9.md) e la
+[consegna tecnica successiva](piano_statistico/CONSEGNA_TECNICA_03_8_D9_PER_03_10.md)
+aggiornano lo stato senza riscrivere le consegne già improntate.
 
 **Decisioni confermate dall'autore il 2026-09-13.** Il perimetro della Fase 03 è l'opzione A:
 cantieri §6.1–§6.12 più §7.1 fino al GO/NO-GO. La sotto-fase 03.4 ha inoltre chiuso il blocco sul

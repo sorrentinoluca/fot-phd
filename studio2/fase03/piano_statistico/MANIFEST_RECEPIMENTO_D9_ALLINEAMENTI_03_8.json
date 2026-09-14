@@ -1,0 +1,579 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-15",
+  "scope": "03.8 documentary D9 reception",
+  "initial_delivery_commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+  "verified_R1_R4_candidate": "9a56d12d0633a0c9790c48792182f26fc6eb424a",
+  "OK_acquisition_commit": "5b784219b08de1249636536ac98e9a546b4d4577",
+  "D9_acquisition_commit": "dc4d6560af73579300e33a0a81fc9c3b4316722d",
+  "base_commit": "dc4d6560af73579300e33a0a81fc9c3b4316722d",
+  "D9_source_commit": "aaba893dff8c62f9f9281eec7423eee020235e03",
+  "candidate_reference": "Exact commit/tree in subsequent CONSEGNA_RECEPIMENTO_D9_ALLINEAMENTI_03_8.md; no self hash",
+  "artifacts": [
+    {
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "bytes": 174468,
+      "sha256": "558889a88fea6ca261cce963e2052a3e45efc9db2735553af1177007503d9241"
+    },
+    {
+      "path": "studio2/fase03/APERTURA_SOTTOFASI_FASE03.md",
+      "bytes": 12362,
+      "sha256": "1f929d8a94213606049836fdd03fe40bfa3f93859c873644cc19e081527ce627"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MATRICE_RESIDUI_03_8_DOPO_D9.md",
+      "bytes": 4020,
+      "sha256": "77cc77b2c94743a4ea450377dd49ab8c703272ef4e625cd0b7a211d76ea8beed"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_TECNICA_03_8_D9_PER_03_10.md",
+      "bytes": 3150,
+      "sha256": "e49f178c84f3dca5857011c577edcbd79ca9bba471dac4b0b14e391a93d7101c"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/REPORT_RECEPIMENTO_D9_ALLINEAMENTI_03_8.md",
+      "bytes": 10773,
+      "sha256": "97564d55fa400980b4c0a8106ab8074c226df7d4f0d9d09544956fb7f0856308"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONTROLLI_RECEPIMENTO_D9_ALLINEAMENTI_03_8.json",
+      "bytes": 32478,
+      "sha256": "2f81b3d9d4da1864a485726f6a10ff9dcf3afd4213580197d0c34a8b795ee897"
+    }
+  ],
+  "sources": [
+    {
+      "path": "studio2/fase03/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md",
+      "commit": "aaba893dff8c62f9f9281eec7423eee020235e03",
+      "bytes": 9083,
+      "sha256": "fcb113636de80cc87709905324436555e0ba103bd46de3ac079ce0ef7f60f1b8"
+    },
+    {
+      "path": "studio2/fase03/CONSEGNA_RECEPIMENTO_D9_2026-09-14.md",
+      "commit": "aaba893dff8c62f9f9281eec7423eee020235e03",
+      "bytes": 13282,
+      "sha256": "3ea739065f1011ed2fd17bface11231f8857dc3f5256d26eff7abcc1d1ef2c77"
+    },
+    {
+      "path": "studio2/fase03/IMPRONTE_DECISIONE_D9_2026-09-14.json",
+      "commit": "aaba893dff8c62f9f9281eec7423eee020235e03",
+      "bytes": 11169,
+      "sha256": "3b95d17ab3b467bebe5d0bda5fa84d8ab63f3ee13f87397e02caf396654af77b"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_CORREZIONI_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "5b784219b08de1249636536ac98e9a546b4d4577",
+      "bytes": 20816,
+      "sha256": "9248c42572a20388ddf5af976840e68fdc908e545312a63234167778ce53a256"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ACQUISIZIONE_OK_CORREZIONI_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "5b784219b08de1249636536ac98e9a546b4d4577",
+      "bytes": 3249,
+      "sha256": "28d58774b9c120afba2c0d38dae1970e6e074c91dbb2a104a22284aeea9fc905"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ACQUISIZIONE_D9_ALLINEAMENTI_03_8.md",
+      "commit": "dc4d6560af73579300e33a0a81fc9c3b4316722d",
+      "bytes": 3576,
+      "sha256": "ebc15f205979bc3984f5c5f4d3f6f64240edc92168a996d5ec31db5606a12981"
+    },
+    {
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 173448,
+      "sha256": "56ba6d42ebddceed1a161b3cf3a54198568fec4f6e79f632250daa6d88c96111"
+    },
+    {
+      "path": "studio2/fase03/APERTURA_SOTTOFASI_FASE03.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 11822,
+      "sha256": "93da783a9f2f335d9cbf9752d1cf82516327dd40706091dcd72e4b62106e3300"
+    },
+    {
+      "path": "docs/MAINTENANCE.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 20636,
+      "sha256": "77b4768c2b6ae1bc27d2e1aaaa56f9c38626add20b2f5e74f6a426eef7a66ec0"
+    },
+    {
+      "path": "docs/prompts/Prompt_LLM.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 14586,
+      "sha256": "4c11026ba170667ae9b45bb363a07592499698d7a735302eb36eacf6d963fe20"
+    },
+    {
+      "path": "docs/prompts/Fase_LLM.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 7224,
+      "sha256": "6dbdcd271d60e35a9066c36a6e1183809d50a11c6ef2bfecc654bf155bcfb981"
+    },
+    {
+      "path": "docs/prompts/Verifica_LLM.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 4008,
+      "sha256": "1149395ac7d765493524844fc543602e90be88173d2dcda94aaa0cb61279ccae"
+    },
+    {
+      "path": "docs/prompts/Documentazione_LLM.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 5008,
+      "sha256": "b105e110206fce05d382e26109327148c67971acf583a992968917fceae84b57"
+    },
+    {
+      "path": "docs/prompts/Commit_LLM.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 2643,
+      "sha256": "5488a915b79aee9d703c17aa628b669db1d5c5eaccaf042e72f375366d107623"
+    }
+  ],
+  "preserved_sources": [
+    {
+      "path": "studio2/fase03/piano_statistico/ACQUISIZIONE_LETTERATURA_03_8.json",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 13055,
+      "sha256": "5b79eb4bb7db32226e27a18c0db5e1955d07e921a2c2a2b77a14939f7fdac755"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ACQUISIZIONE_NON_OK_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 2545,
+      "sha256": "99cac5b60f9ea737ead0932d9015163a4592edf53bf29754b968c950957b8568"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ADDENDUM_DECISIONI_RESIDUE_03_8.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 3768,
+      "sha256": "6035967ceb390de69e63cac9f828b17386ab8a76bb1999db524597770fc782f8"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/APPROVAZIONE_ADDENDUM_03_8.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 2830,
+      "sha256": "df2a754d3ad2d2215def012eb4d6e887c77d93ebdcad4a6811c5cbc18786a70a"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_03_8.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 8200,
+      "sha256": "22d78d102c7b9d9de903be51cd27b78c384163f81a76ffb16ba48a27f52b6532"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 8528,
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_CANDIDATO_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 5149,
+      "sha256": "0ebf25e444f3092409dd6a055b01e5331c37c7872268a68700c66e011fd3b48b"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_CORREZIONI_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 6313,
+      "sha256": "93821d633ca1b429a50770c5de56878e218c9c39204f472cc5b2f8db28339673"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 4141,
+      "sha256": "32e2528b327fe9be7f052b7da94375a76c18edc3d98df52bea06d664e36db99c"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_TECNICA_03_10_DA_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 4255,
+      "sha256": "44e8be9a3647dcfbef3fa0197647a4c39a597e441bb488de334608dfe9b4aa95"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONTROLLI_CORREZIONI_ALLINEAMENTI_03_8_REV10.json",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 36542,
+      "sha256": "deedf2961ba4a4d1a4a460fc32dff80c54d64208e9b8b8338308920c9a8db93e"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONTROLLI_PREPARAZIONE_03_8.json",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 5153,
+      "sha256": "52f2a0a5dc8f110cef973b8d286c4382308f50e8ea458d8d3e202d7fd06d7316"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONTROLLI_REV10.json",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 7988,
+      "sha256": "3db626ac41f86e5401d4c6ad006c7f3dfaca045c52b381edf9e7251f4af72757"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/COORDINAMENTO_CHIUSURA_03_8.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 10211,
+      "sha256": "b095d5b0e0d40af05d7278f75e07bcf21e021c6c0cb0f40f91467f485088e2f7"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_DA_SOTTOSCRIVERE.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 4593,
+      "sha256": "d3b8f7c561144040d5cbdcf0b22f1df5f576370cef966d5071cf998eb36c0909"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_DA_SOTTOSCRIVERE_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 4974,
+      "sha256": "4a0a4e1fc2797ee7a81439110e164d43159c745007136c9dda7bed7759471cc8"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_bozza.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 43136,
+      "sha256": "66e04dd2d8dd00fcf0edf6076a9e3f60bb6fd1fdf8c1e86028a9f80c8754fafb"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 7108,
+      "sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.json",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 126303,
+      "sha256": "8bf79dc958e045598cf7538b72752caa902d2f8b134f642e54daaf0274fddbde"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 27356,
+      "sha256": "9ed15d15e8a6210e79573c9e4b3d073dfb8d8d9ed680735d83dc7c35358febb7"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/GUARDIANO_DOPO_CORREZIONI_03_8_REV10.log",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 2582134,
+      "sha256": "aee53378f6e23e9545d69cdaaebf6aa6ef075ea6b56db09869e3db9a22f78581"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/GUARDIANO_PRIMA_CORREZIONI_03_8_REV10.log",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 2582134,
+      "sha256": "4619c04e4e0311c8b1b27057ee89933500d0b6d4a36b7385bb9ce75716012063"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ISTRUZIONI_FIRMA_MATERIALE_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 1456,
+      "sha256": "4d3f3e02c9c5acf6867c8d946ef2cb991138f9a16ead95f5d618062e33414970"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MANIFEST_ALLINEAMENTI_03_8_REV10.json",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 4228,
+      "sha256": "f2bfdd86b9e347da93372c9facadf3fb72f236bf7fc540944094ab37651e4d1f"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MANIFEST_CORREZIONI_ALLINEAMENTI_03_8_REV10.json",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 10112,
+      "sha256": "d422279aa15c94cbafe5afb0a1b61fb105967804709762d7942a9cef53b55303"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MANIFEST_PREPARAZIONE_CHIUSURA_03_8.json",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 8501,
+      "sha256": "a570c0c91f3a45d4435d318e628cdad37ef7be0dceda17fcb62cf50350dead93"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MATRICE_RESIDUI_CHIUSURA_03_8_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 5223,
+      "sha256": "2b59150d89f1da74a4f18784a0d0c7f0db191e9364c091cc3d3049e45eb17462"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 81490,
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 25894,
+      "sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE_REV9.json",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 18817,
+      "sha256": "2b6ad396307be634428d9355d4aa65144b4956d675ccb9e4b47536e4bdaf8d76"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PROMPT_VERIFICA_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 5955,
+      "sha256": "04401004d2bcc0196725faca22d8c4ff2cc97e2903e833399628bffb0d7a33e5"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PROMPT_VERIFICA_CORREZIONI_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 8674,
+      "sha256": "1c51a17295c0a3038b7183e75bdda542daa26d4c8d73769c6b404d9cebcff23d"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PROMPT_VERIFICA_DELTA_03_8.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 5707,
+      "sha256": "88f2fdb8437d2d5915d1a425f17f60e35ca715502d1cd19c580534f83dfefd8a"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PROMPT_VERIFICA_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 4707,
+      "sha256": "7c1975299f0ec3001887a73f1c0a805b6a0c2fcc17cfb291d1e6245cdbe0c190"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/REPORT_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 3974,
+      "sha256": "237950fe9658e171efc6d8ebd020d56a2eaf7fd61a71e1f6115751390b38618c"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/REPORT_CORREZIONI_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 12419,
+      "sha256": "19d69fc5cb2d3deee514044ccb47e1e9b61eab2df996c0834e4594d03ac23dc4"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/REPORT_PIANO_STATISTICO.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 11298,
+      "sha256": "909cbe2a30bd517e6f4e100c9fd0794fac353e3d805d356ace1cbf9cb9e87e70"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/REPORT_PREPARAZIONE_CHIUSURA_03_8.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 9789,
+      "sha256": "4e4ba10ae2d4326be47351407b04262840a8d3b0430013cdad8c8f650d718cd0"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_ALLINEAMENTI_03_8_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 22063,
+      "sha256": "52944646527d0e73d6508ae53669f47f5e8661050ff777c75a448ca535ca9c13"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 8471,
+      "sha256": "06c2a45bb13e70d92a6a7fbb1f6df1549ccaf5911e72f9f56066751d2f99abbe"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV10.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 12478,
+      "sha256": "d269e26d8cb4e23370577e1e193d90d9357d66f7c739e9d0669970edf71b0066"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV8.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 32614,
+      "sha256": "e7b0846e36b9b2328bb073f486921aacbf29e66337bcb53efe8ab1cdec7cdd11"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV9.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 9845,
+      "sha256": "289a74433d70e2bf911bdea893711ff7a294c75cf74d5e6fa0addbf3ede72a58"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/check_preparazione_chiusura.py",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 4097,
+      "sha256": "ff6451c2e54bddc855f8a5cb202cb494c8eef06e8cab3213e33ef4083b50cb80"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/design_resolution.py",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 31905,
+      "sha256": "25a648b99fcb86f8111eaaf2f712183d6c3e0a0af5960b6b84c424c38fb1e613"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/sottofase_3_8.md",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 5942,
+      "sha256": "ed6bb7123678b0ee3aec9dbd69ed8576e7988e759cf9e364cc9c23426bec9afc"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/test_design_resolution.py",
+      "commit": "16f227439357b07b7dc945f67ab5a4368c12b684",
+      "bytes": 18504,
+      "sha256": "569d63e60a2028958f3e41b92b6fa38628cd8ce3ad5d3546328308eaf39cf06f"
+    }
+  ],
+  "statistical_sources": [
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 81490,
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/REPORT_PIANO_STATISTICO.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 11298,
+      "sha256": "909cbe2a30bd517e6f4e100c9fd0794fac353e3d805d356ace1cbf9cb9e87e70"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_bozza.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 43136,
+      "sha256": "66e04dd2d8dd00fcf0edf6076a9e3f60bb6fd1fdf8c1e86028a9f80c8754fafb"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 8471,
+      "sha256": "06c2a45bb13e70d92a6a7fbb1f6df1549ccaf5911e72f9f56066751d2f99abbe"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV8.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 32614,
+      "sha256": "e7b0846e36b9b2328bb073f486921aacbf29e66337bcb53efe8ab1cdec7cdd11"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV9.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 9845,
+      "sha256": "289a74433d70e2bf911bdea893711ff7a294c75cf74d5e6fa0addbf3ede72a58"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/design_resolution.py",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 31905,
+      "sha256": "25a648b99fcb86f8111eaaf2f712183d6c3e0a0af5960b6b84c424c38fb1e613"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/test_design_resolution.py",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 18504,
+      "sha256": "569d63e60a2028958f3e41b92b6fa38628cd8ce3ad5d3546328308eaf39cf06f"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.json",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 126303,
+      "sha256": "8bf79dc958e045598cf7538b72752caa902d2f8b134f642e54daaf0274fddbde"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 27356,
+      "sha256": "9ed15d15e8a6210e79573c9e4b3d073dfb8d8d9ed680735d83dc7c35358febb7"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/sottofase_3_8.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 5942,
+      "sha256": "ed6bb7123678b0ee3aec9dbd69ed8576e7988e759cf9e364cc9c23426bec9afc"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/APPROVAZIONE_ADDENDUM_03_8.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 2830,
+      "sha256": "df2a754d3ad2d2215def012eb4d6e887c77d93ebdcad4a6811c5cbc18786a70a"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ADDENDUM_DECISIONI_RESIDUE_03_8.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 3768,
+      "sha256": "6035967ceb390de69e63cac9f828b17386ab8a76bb1999db524597770fc782f8"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 8528,
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE_REV9.json",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 18817,
+      "sha256": "2b6ad396307be634428d9355d4aa65144b4956d675ccb9e4b47536e4bdaf8d76"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MANIFEST_PREPARAZIONE_CHIUSURA_03_8.json",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 8501,
+      "sha256": "a570c0c91f3a45d4435d318e628cdad37ef7be0dceda17fcb62cf50350dead93"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_DA_SOTTOSCRIVERE_REV10.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 4974,
+      "sha256": "4a0a4e1fc2797ee7a81439110e164d43159c745007136c9dda7bed7759471cc8"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONTROLLI_REV10.json",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 7988,
+      "sha256": "3db626ac41f86e5401d4c6ad006c7f3dfaca045c52b381edf9e7251f4af72757"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PROMPT_VERIFICA_REV10.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 4707,
+      "sha256": "7c1975299f0ec3001887a73f1c0a805b6a0c2fcc17cfb291d1e6245cdbe0c190"
+    },
+    {
+      "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 6894,
+      "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda"
+    },
+    {
+      "path": "studio2/fase03/selection/PROPOSTA_OOD_D11.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 6960,
+      "sha256": "47c84d937bc01d37c84b81c09691bc5c3ad6d0607bcbfcb8621ea1a6be885046"
+    },
+    {
+      "path": "docs/lit_review/DECISIONE_CRITERI_SELEZIONE_FAULT_STUDIO2.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 11339,
+      "sha256": "d58a7606d69a560a626da44833c065ddbf1aa395ae8b2e523262daf8622231c7"
+    },
+    {
+      "path": "docs/lit_review/DECISIONE_calibrazione_soglie_fase_B.md",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 48215,
+      "sha256": "a472d193064615b9a42218844d2cf71bcc7acc06b93cd65f8fa20c1fc0abdfd3"
+    },
+    {
+      "path": "phase_b/evaluation/bootstrap.py",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 5636,
+      "sha256": "524751fede48e678ee66b9f783be8fdeaefe7bebe32772e5367ba9be9c3d9df5"
+    },
+    {
+      "path": "phase_b/evaluation/metrics.py",
+      "commit": "51782e8c40069c0a2310afafc36907a61d517ff6",
+      "bytes": 8874,
+      "sha256": "9aa8e6d12957c10e3059c95dcb93efa59679e97a7374500aea9e86ad26e9f0cb"
+    }
+  ],
+  "states": {
+    "roles": "approved",
+    "record": "acquired",
+    "documentary_reception": "prepared locally; independent review pending",
+    "executable_harness_reception": "pending, not assessed here",
+    "identity_configuration_qualification_feasibility": "pending technical documentation/measures",
+    "label_order_1a": "not approved",
+    "material_signature_03_8": "not acquired"
+  },
+  "independent_review": "pending for new acquisitions and D9 delta; historical R1-R4 OK preserved",
+  "freeze_effective": false,
+  "integration_publication": "local only; no push, merge on main or tag",
+  "inference_simulation_API": false
+}

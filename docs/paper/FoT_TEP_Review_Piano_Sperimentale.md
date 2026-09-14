@@ -18,11 +18,15 @@ Firma materiale, verifica indipendente del presente delta, pubblicazione e freez
 correzione R1–R4 approva 122B producer principale e consumer, 27B producer
 alternativo con libreria completa di 16 insight e consumer 122B fisso nello
 swap. Terra resta soltanto riferimento storico descrittivo interno, separato
-dalle nuove stime. La provenienza è il mandato, trascritto nel report separato
-`REPORT_CORREZIONI_ALLINEAMENTI_03_8_REV10.md`: il registro D9 è ancora in
-acquisizione nella finestra proprietaria e non è importato qui. Decisione,
-acquisizione documentale e qualificazione tecnica sono stati distinti: identità
-complete, configurazioni e servizi restano da qualificare. Nessuna firma 03.8,
+dalle nuove stime, senza nuove chiamate Terra. **Recepimento documentale locale
+D9 (2026-09-15):** il [record dell'autore](../../studio2/fase03/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md),
+al commit sorgente `aaba893dff8c62f9f9281eec7423eee020235e03`, è acquisito
+byte-identico nel ramo 03.8 con consegna e impronte. La scelta è approvata, il
+record è acquisito e il presente testo lo recepisce localmente. Recepimento
+eseguibile nell'harness, identità complete, configurazioni, qualificazioni e
+fattibilità restano pendenti: non sono effetti dell'acquisizione. Le correzioni
+R1–R4 a `9a56d12` hanno OK indipendente; questo nuovo delta D9 richiede una review
+propria. Stato corrente nella [matrice successiva](../../studio2/fase03/piano_statistico/MATRICE_RESIDUI_03_8_DOPO_D9.md). Nessuna firma 03.8,
 approvazione dell'ordine label o autorizzazione di esecuzione ne discende.
 
 ---
@@ -124,7 +128,7 @@ La revisione precedente lasciava intendere che restasse aperta solo D8. Non è c
 | 6 | Baseline FL | D8, §9 | ✅ **risolta: FedAvg minimale** |
 | 7 | local-first | D6, §8.2 | ✅ risolta: B-LF è il metodo |
 | 8 | R=1 o R=3 | D7, §8.7 | ⏳ subordinata al gate del pilot |
-| 9 | Modelli e ruoli | D9, §7 | ✅ scelta dell’autore dal mandato R1–R4: 122B principale/consumer, 27B alternativo; ⏳ registro in acquisizione e qualificazione tecnica |
+| 9 | Modelli e ruoli | D9, §7 | ✅ ruoli approvati, record D9 acquisito da aaba893 e recepito documentalmente: 122B principale/consumer, 27B alternativo; ⏳ harness eseguibile, configurazioni e qualifica |
 | 10 | **Schema degli insight**: campi, cardinalità, cap per-elemento, validatore | §8.9, D12 | ✅ **03.12 R4 pubblicata e congelata**; pin nell'harness ancora di competenza 03.10 |
 | 11 | **Politica conservativa su R=3** in assenza di controlli di determinismo dell'API | §8.7, D7 | ✅ **non adottata**; il trigger resta la divergenza osservata della coppia parsata o della validità |
 | 12 | **Ablazione dei descrittori**: effetto minimo (E5-C1), soglia di lunghezza (E5-C2), criterio di successo (E5-C3) | §8.12 | ⬜ parziale — **E5-C1 ✅ (Δ ≥ 0,10)**; **E5-C2 ⏳ provvisoria (≤ 5% per caso)**, si chiude dopo la verifica di fattibilità; **E5-C3** aperta, dipende dalla 1, dalla 2 e dalle altre due |
@@ -140,7 +144,7 @@ Le prime cinque non dipendono dalla disponibilità del modello. La dipendenza
 storica D1→OOD/D11 è stata rispettata: D1 è congelata e pubblicata, poi 03.8 ha
 confermato F6/F4 e le coppie D11 senza consultare risultati per-fault. Le decisioni
 1–5 sono ora assunte; non vanno riaperte dopo i run. Restano separati la firma e
-il freeze 03.8, i controlli tecnici OOD 03.11 e l’acquisizione/qualificazione D9. La scelta dei ruoli è approvata nel mandato, non una decisione da ripetere.
+il freeze 03.8, i controlli tecnici OOD 03.11 e le qualificazioni D9. La scelta dei ruoli è approvata, acquisita e recepita documentalmente: non è una decisione da ripetere.
 
 ---
 
@@ -454,7 +458,7 @@ Generare insight solo per i fault confrontati produrrebbe un prompt a provenienz
 | Misura su 4 fault, condizione B-LF, R=1 | 4 × 8 × 7 | **224** |
 | **Totale corrente a R=1** | generazione senza doppio conteggio + misura | **224 o 232** |
 
-Producer principale, consumer e alternativo sono ruoli. Il mandato dell’autore assegna **122B a principale e consumer, 27B ad alternativo**: lo swap usa tutti i **16 insight** alternativi e mantiene **122B consumer fisso**. Non si sommano due volte richieste coincidenti. Acquisizione del registro D9 e qualificazione delle identità/configurazioni restano separate e pendenti; Terra non è un producer o consumer dello studio 2.
+Producer principale, consumer e alternativo sono ruoli. Il mandato dell’autore assegna **122B a principale e consumer, 27B ad alternativo**: lo swap usa tutti i **16 insight** alternativi e mantiene **122B consumer fisso**. Non si sommano due volte richieste coincidenti. Il record D9 di aaba893 è acquisito e qui recepito documentalmente; recepimento eseguibile e qualificazione delle identità/configurazioni restano pendenti. Nessuna nuova chiamata Terra e nessun 27B consumer fallback sono autorizzati.
 
 ### 8.5 Endpoint
 
@@ -1185,16 +1189,21 @@ Tre vincoli che le future librerie devono rispettare nel contratto vigente: lo s
 
 ### D9 — Ruoli approvati; acquisizione documentale e qualifica tecnica distinte
 
-**Stato corrente dal mandato dell’autore per le correzioni R1–R4:** 122B producer
+**Stato corrente dal record dell’autore acquisito (aaba893, §1–§2):** 122B producer
 principale e consumer; 27B producer alternativo con libreria completa di **16 insight**;
 **122B consumer fisso** nel producer-swap. Terra soltanto riferimento storico
 descrittivo interno, separato dalle nuove stime. Non occorre ripetere questa scelta.
 
-La registrazione formale è in acquisizione nella finestra proprietaria D9;
-nessun file non committato di quella finestra è importato. Identità complete,
-revisioni, configurazioni, tokenizer, capienza e servizi restano da qualificare.
+La registrazione formale è acquisita localmente dai tre artefatti committati in
+`aaba893dff8c62f9f9281eec7423eee020235e03`; il record ha SHA-256
+`fcb113636de80cc87709905324436555e0ba103bd46de3ac079ce0ef7f60f1b8`.
+Il presente piano e APERTURA ne completano il recepimento documentale locale;
+la verifica del nuovo delta è pendente. Il recepimento eseguibile appartiene
+alla finestra harness e non è attestato qui. Identità esatte, revisioni,
+configurazioni, tokenizer, capienza, qualificazione e fattibilità restano da
+documentare o misurare. Nessun parametro operativo aggiuntivo è approvato.
 La dichiarazione di operatività del 122B non è qualifica tecnica. Questa scelta
-non firma materialmente 03.8, non approva l’ordine label e non autorizza pilot.
+non firma materialmente 03.8, non approva l’ordine label **1a**, ancora pendente, e non autorizza chiamate o pilot.
 In caso di impedimento tecnico o temporale, sospendere e rinviare all’autore:
 nessuno scambio automatico dei ruoli o fallback Terra.
 
@@ -1202,8 +1211,8 @@ nessuno scambio automatico dei ruoli o fallback Terra.
 precedenti opzioni Qwen-2.4T entro il 17 settembre, 27B principale con Terra
 alternativo, oppure Terra-only/conferenza successiva restano recuperabili nel
 commit `2520e7abc1cd68785f2789448b509dea5e55ee7d` (§10 D9). Non sono autorizzazioni
-correnti né nuove decisioni alternative. Proposta e registro D9 restano fuori
-dal perimetro di questo allineamento.
+correnti né nuove decisioni alternative. La proposta storica resta intatta nel
+suo branch; il record approvato è acquisito senza importare l’intero branch D9.
 
 ### D10 — `Unknown` nello spazio delle etichette *(risolta nella revisione 5: `Unknown` è il nome dell'astensione esistente)*
 
@@ -1285,7 +1294,7 @@ La seconda strada tocca i percorsi che governano derangement ed E, cioè il cont
 
 | # | Requisito | Stato | Bloccante? |
 | --- | --- | --- | --- |
-| O1 | Ruoli D9 approvati nel mandato; registro in acquisizione; impedimenti non risolti rinviati all’autore | ⏳ acquisizione/qualifica | **SÌ** prima dell’esecuzione |
+| O1 | Ruoli D9 approvati, record acquisito e recepimento documentale locale completato; impedimenti non risolti rinviati all’autore | ⏳ recepimento eseguibile/qualifica | **SÌ** prima dell’esecuzione |
 | O2 | Conteggio completo per blocco/modello e fattibilità temporale misurata con margine 20%; nessun tetto rigido 3.700 vigente | ⏳ misure/calendario | **SÌ** |
 | O3 | Scelta dei ruoli approvata; qualifica tecnica e calendario compatibile con il vincolo organizzativo del 17 settembre | ⏳ qualifica/calendario | **SÌ** prima dell’esecuzione |
 | O4 | Decisione su baseline FL | ✅ | risolta: FedAvg minimale (D8, §9) |
