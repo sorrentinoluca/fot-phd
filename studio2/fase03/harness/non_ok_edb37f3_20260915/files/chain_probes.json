@@ -1,0 +1,480 @@
+{
+  "tests": 5,
+  "failures": [
+    {
+      "test": "test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation (__main__.Chain.test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation)",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/chain_probes.py\", line 41, in test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation\n    self.assertTrue(all(x['error'] for r in observations for x in r['checks']),'Normative confirmation must reject corrupted predecessor raw, not merely retain COMPLETED/PASS flags')\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true : Normative confirmation must reject corrupted predecessor raw, not merely retain COMPLETED/PASS flags\n"
+    },
+    {
+      "test": "test_Z02_missing_predecessor_coverage_is_not_a_successful_chain (__main__.Chain.test_Z02_missing_predecessor_coverage_is_not_a_successful_chain)",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/chain_probes.py\", line 52, in test_Z02_missing_predecessor_coverage_is_not_a_successful_chain\n    self.assertTrue(all(r['error'] for r in checks),'Seven surviving COMPLETED alternate requests must not reconfirm an eight-case predecessor')\n    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: False is not true : Seven surviving COMPLETED alternate requests must not reconfirm an eight-case predecessor\n"
+    },
+    {
+      "test": "test_Z03_real_runner_rejects_corrupted_alternate_predecessor (__main__.Chain.test_Z03_real_runner_rejects_corrupted_alternate_predecessor)",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/chain_probes.py\", line 65, in test_Z03_real_runner_rejects_corrupted_alternate_predecessor\n    self.assertIsNotNone(error,'Ordinary gate resume must reject corrupted raw from its alternate predecessor')\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: unexpectedly None : Ordinary gate resume must reject corrupted raw from its alternate predecessor\n"
+    }
+  ],
+  "errors": [],
+  "observations": {
+    "test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation": {
+      "observations": [
+        {
+          "stage": "producer_conformity",
+          "checks": [
+            {
+              "entry": "binding",
+              "error": null
+            },
+            {
+              "entry": "success",
+              "error": null
+            },
+            {
+              "entry": "outcome",
+              "error": null
+            },
+            {
+              "entry": "frozen",
+              "error": null
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/chain_fixtures/test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation/producer_conformity/pilot.sqlite3",
+            "requests_cumulative": 139,
+            "requests_by_stage": {
+              "alternate_conformity": 8,
+              "budget_probe": 3,
+              "producer_conformity": 8,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 0,
+            "reserve_equation_value": 0,
+            "reserve_limit": 15,
+            "planned_maximum": 160,
+            "hard_stop": 200,
+            "durable_responses": 139,
+            "events": [
+              "frozen_gate",
+              "outcome:alternate_conformity",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate"
+            ]
+          }
+        },
+        {
+          "stage": "alternate_conformity",
+          "checks": [
+            {
+              "entry": "binding",
+              "error": null
+            },
+            {
+              "entry": "success",
+              "error": null
+            },
+            {
+              "entry": "outcome",
+              "error": null
+            },
+            {
+              "entry": "frozen",
+              "error": null
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/chain_fixtures/test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation/alternate_conformity/pilot.sqlite3",
+            "requests_cumulative": 139,
+            "requests_by_stage": {
+              "alternate_conformity": 8,
+              "budget_probe": 3,
+              "producer_conformity": 8,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 0,
+            "reserve_equation_value": 0,
+            "reserve_limit": 15,
+            "planned_maximum": 160,
+            "hard_stop": 200,
+            "durable_responses": 139,
+            "events": [
+              "frozen_gate",
+              "outcome:alternate_conformity",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate"
+            ]
+          }
+        },
+        {
+          "stage": "budget_probe",
+          "checks": [
+            {
+              "entry": "binding",
+              "error": null
+            },
+            {
+              "entry": "success",
+              "error": null
+            },
+            {
+              "entry": "outcome",
+              "error": null
+            },
+            {
+              "entry": "frozen",
+              "error": null
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/chain_fixtures/test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation/budget_probe/pilot.sqlite3",
+            "requests_cumulative": 139,
+            "requests_by_stage": {
+              "alternate_conformity": 8,
+              "budget_probe": 3,
+              "producer_conformity": 8,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 0,
+            "reserve_equation_value": 0,
+            "reserve_limit": 15,
+            "planned_maximum": 160,
+            "hard_stop": 200,
+            "durable_responses": 139,
+            "events": [
+              "frozen_gate",
+              "outcome:alternate_conformity",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate"
+            ]
+          }
+        }
+      ]
+    },
+    "test_Z02_missing_predecessor_coverage_is_not_a_successful_chain": {
+      "checks": [
+        {
+          "entry": "binding",
+          "error": null
+        },
+        {
+          "entry": "success",
+          "error": null
+        },
+        {
+          "entry": "outcome",
+          "error": null
+        },
+        {
+          "entry": "frozen",
+          "error": null
+        }
+      ],
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/chain_fixtures/test_Z02_missing_predecessor_coverage_is_not_a_successful_chain/missing/pilot.sqlite3",
+        "requests_cumulative": 138,
+        "requests_by_stage": {
+          "alternate_conformity": 7,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 160,
+        "hard_stop": 200,
+        "durable_responses": 139,
+        "events": [
+          "frozen_gate",
+          "outcome:alternate_conformity",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate"
+        ]
+      }
+    },
+    "test_Z03_real_runner_rejects_corrupted_alternate_predecessor": {
+      "error": null,
+      "result": {
+        "artifact_version": "2",
+        "status": "PASS_R1_PENDING_T5_AND_OTHER_PREREQUISITES",
+        "go_final": false,
+        "provider_requests": 120,
+        "valid_first_attempts": 120,
+        "invalid_first_attempts": 0,
+        "t3_pass": true,
+        "abstention_coverage": {
+          "A": true,
+          "B-LF": true,
+          "E-LF": true
+        },
+        "length_truncations": 0,
+        "t4_pass": true,
+        "t6_evaluable": true,
+        "all_invalid_prompt_ids": [],
+        "divergent_prompt_ids": [],
+        "divergent_prompt_count": 0,
+        "t5_temporal_feasibility": "NOT_MEASURED_BY_OFFLINE_EVALUATION",
+        "records_sha256": "184b36fb989b6c1a17fc42623fa67b59d43a9de5de06ae47448bcc85a1b0ce6a",
+        "frozen_gate_config_sha256": "155739433b14effaaff8ec266dc100e5446cea3a1428922f45031de6ceccee05"
+      },
+      "same_as_valid_result": true,
+      "new_sends": 0,
+      "corrupted_request": "b9a6169588e94f02277e9f6c7b75c71dc4a3653465c1af67a86de469e5a0ef99",
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpus6ufwsy/pilot.sqlite3",
+        "requests_cumulative": 139,
+        "requests_by_stage": {
+          "alternate_conformity": 8,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 160,
+        "hard_stop": 200,
+        "durable_responses": 139,
+        "events": [
+          "frozen_gate",
+          "outcome:alternate_conformity",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate"
+        ]
+      }
+    },
+    "test_Z04_each_confirmation_holds_a_real_write_lock_for_all_predecessor_reads": {
+      "observations": [
+        {
+          "entry": "binding",
+          "during": [
+            {
+              "blocked": true,
+              "error": "database is locked"
+            }
+          ],
+          "after": {
+            "blocked": false
+          }
+        },
+        {
+          "entry": "success",
+          "during": [
+            {
+              "blocked": true,
+              "error": "database is locked"
+            }
+          ],
+          "after": {
+            "blocked": false
+          }
+        },
+        {
+          "entry": "outcome",
+          "during": [
+            {
+              "blocked": true,
+              "error": "database is locked"
+            }
+          ],
+          "after": {
+            "blocked": false
+          }
+        },
+        {
+          "entry": "frozen",
+          "during": [
+            {
+              "blocked": true,
+              "error": "database is locked"
+            }
+          ],
+          "after": {
+            "blocked": false
+          }
+        }
+      ]
+    },
+    "test_Z05_closed_failed_gate_replays_without_promoting_outcome": {
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/chain_fixtures/test_Z05_closed_failed_gate_replays_without_promoting_outcome/invalid/pilot.sqlite3",
+        "requests_cumulative": 131,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 11,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate",
+          "transport_invalidity:stability_gate-0",
+          "transport_invalidity:stability_gate-1",
+          "transport_invalidity:stability_gate-10",
+          "transport_invalidity:stability_gate-100",
+          "transport_invalidity:stability_gate-101",
+          "transport_invalidity:stability_gate-102",
+          "transport_invalidity:stability_gate-103",
+          "transport_invalidity:stability_gate-104",
+          "transport_invalidity:stability_gate-105",
+          "transport_invalidity:stability_gate-106",
+          "transport_invalidity:stability_gate-107",
+          "transport_invalidity:stability_gate-108",
+          "transport_invalidity:stability_gate-109",
+          "transport_invalidity:stability_gate-11",
+          "transport_invalidity:stability_gate-110",
+          "transport_invalidity:stability_gate-111",
+          "transport_invalidity:stability_gate-112",
+          "transport_invalidity:stability_gate-113",
+          "transport_invalidity:stability_gate-114",
+          "transport_invalidity:stability_gate-115",
+          "transport_invalidity:stability_gate-116",
+          "transport_invalidity:stability_gate-117",
+          "transport_invalidity:stability_gate-118",
+          "transport_invalidity:stability_gate-119",
+          "transport_invalidity:stability_gate-12",
+          "transport_invalidity:stability_gate-13",
+          "transport_invalidity:stability_gate-14",
+          "transport_invalidity:stability_gate-15",
+          "transport_invalidity:stability_gate-16",
+          "transport_invalidity:stability_gate-17",
+          "transport_invalidity:stability_gate-18",
+          "transport_invalidity:stability_gate-19",
+          "transport_invalidity:stability_gate-2",
+          "transport_invalidity:stability_gate-20",
+          "transport_invalidity:stability_gate-21",
+          "transport_invalidity:stability_gate-22",
+          "transport_invalidity:stability_gate-23",
+          "transport_invalidity:stability_gate-24",
+          "transport_invalidity:stability_gate-25",
+          "transport_invalidity:stability_gate-26",
+          "transport_invalidity:stability_gate-27",
+          "transport_invalidity:stability_gate-28",
+          "transport_invalidity:stability_gate-29",
+          "transport_invalidity:stability_gate-3",
+          "transport_invalidity:stability_gate-30",
+          "transport_invalidity:stability_gate-31",
+          "transport_invalidity:stability_gate-32",
+          "transport_invalidity:stability_gate-33",
+          "transport_invalidity:stability_gate-34",
+          "transport_invalidity:stability_gate-35",
+          "transport_invalidity:stability_gate-36",
+          "transport_invalidity:stability_gate-37",
+          "transport_invalidity:stability_gate-38",
+          "transport_invalidity:stability_gate-39",
+          "transport_invalidity:stability_gate-4",
+          "transport_invalidity:stability_gate-40",
+          "transport_invalidity:stability_gate-41",
+          "transport_invalidity:stability_gate-42",
+          "transport_invalidity:stability_gate-43",
+          "transport_invalidity:stability_gate-44",
+          "transport_invalidity:stability_gate-45",
+          "transport_invalidity:stability_gate-46",
+          "transport_invalidity:stability_gate-47",
+          "transport_invalidity:stability_gate-48",
+          "transport_invalidity:stability_gate-49",
+          "transport_invalidity:stability_gate-5",
+          "transport_invalidity:stability_gate-50",
+          "transport_invalidity:stability_gate-51",
+          "transport_invalidity:stability_gate-52",
+          "transport_invalidity:stability_gate-53",
+          "transport_invalidity:stability_gate-54",
+          "transport_invalidity:stability_gate-55",
+          "transport_invalidity:stability_gate-56",
+          "transport_invalidity:stability_gate-57",
+          "transport_invalidity:stability_gate-58",
+          "transport_invalidity:stability_gate-59",
+          "transport_invalidity:stability_gate-6",
+          "transport_invalidity:stability_gate-60",
+          "transport_invalidity:stability_gate-61",
+          "transport_invalidity:stability_gate-62",
+          "transport_invalidity:stability_gate-63",
+          "transport_invalidity:stability_gate-64",
+          "transport_invalidity:stability_gate-65",
+          "transport_invalidity:stability_gate-66",
+          "transport_invalidity:stability_gate-67",
+          "transport_invalidity:stability_gate-68",
+          "transport_invalidity:stability_gate-69",
+          "transport_invalidity:stability_gate-7",
+          "transport_invalidity:stability_gate-70",
+          "transport_invalidity:stability_gate-71",
+          "transport_invalidity:stability_gate-72",
+          "transport_invalidity:stability_gate-73",
+          "transport_invalidity:stability_gate-74",
+          "transport_invalidity:stability_gate-75",
+          "transport_invalidity:stability_gate-76",
+          "transport_invalidity:stability_gate-77",
+          "transport_invalidity:stability_gate-78",
+          "transport_invalidity:stability_gate-79",
+          "transport_invalidity:stability_gate-8",
+          "transport_invalidity:stability_gate-80",
+          "transport_invalidity:stability_gate-81",
+          "transport_invalidity:stability_gate-82",
+          "transport_invalidity:stability_gate-83",
+          "transport_invalidity:stability_gate-84",
+          "transport_invalidity:stability_gate-85",
+          "transport_invalidity:stability_gate-86",
+          "transport_invalidity:stability_gate-87",
+          "transport_invalidity:stability_gate-88",
+          "transport_invalidity:stability_gate-89",
+          "transport_invalidity:stability_gate-9",
+          "transport_invalidity:stability_gate-90",
+          "transport_invalidity:stability_gate-91",
+          "transport_invalidity:stability_gate-92",
+          "transport_invalidity:stability_gate-93",
+          "transport_invalidity:stability_gate-94",
+          "transport_invalidity:stability_gate-95",
+          "transport_invalidity:stability_gate-96",
+          "transport_invalidity:stability_gate-97",
+          "transport_invalidity:stability_gate-98",
+          "transport_invalidity:stability_gate-99"
+        ]
+      },
+      "outcome": {
+        "artifact_sha256": "1975fa254036e55fa96fd6584317da8f134a11d5f5a0be368ae3efaf62ea0cc3",
+        "artifact": {
+          "records_sha256": "49065251e7b04faed88bcc6c26f9ef356dd8465181562107147d6fff434d04b7"
+        },
+        "diagnosis": null,
+        "outcome": "FAIL",
+        "records_sha256": "49065251e7b04faed88bcc6c26f9ef356dd8465181562107147d6fff434d04b7"
+      }
+    }
+  }
+}

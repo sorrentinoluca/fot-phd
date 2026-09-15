@@ -1,0 +1,194 @@
+[
+  {
+    "number": 1,
+    "name": "test_X01_incomplete_alternate_blocks_probe",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 33,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 2,
+    "name": "test_X02_failed_alternate_blocks_real_consumer",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 41,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 3,
+    "name": "test_X03_gate_transport_invalidity_remains_in_T3_T6",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 49,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 4,
+    "name": "test_X04_late_retry_is_rejected_before_and_after_restart",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 65,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 5,
+    "name": "test_X05_interrupted_primary_cannot_be_closed_or_skipped",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 74,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 6,
+    "name": "test_X06_real_concurrent_base_reservation_12_writers",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 83,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 7,
+    "name": "test_X07_outcome_transaction_excludes_writer_while_closing",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 95,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 8,
+    "name": "test_X08_retry_triplet_rollback_after_one_insertion_at_quota",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 124,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 9,
+    "name": "test_X09_zero_token_proof_rejects_positive_tokens_wrong_identity_missing_author",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 140,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 10,
+    "name": "test_X10_remediation_concrete_diff_diagnosis_template_coverage",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 150,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 11,
+    "name": "test_X11_gate_boolean_repetitions_bad_roles_and_frozen_text",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 158,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 12,
+    "name": "test_X12_r4_rechecked_mid_producer_before_next_send",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 170,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 13,
+    "name": "test_X13_changed_fingerprint_preserves_tokens_and_suspends",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 179,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 14,
+    "name": "test_X14_corrupted_durable_record_cannot_resume_or_pass",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 189,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 15,
+    "name": "test_X15_producer_summary_counts_retry_provider_requests",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 196,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 16,
+    "name": "test_X16_gate_raw_crash_and_closed_file_resume",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 202,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 17,
+    "name": "test_X17_approval_hash_and_presentation_order_binding",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 216,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 18,
+    "name": "test_X18_frozen_reformatted_bytes_rejected_without_call",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py",
+    "line": 225,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 19,
+    "name": "test_X19_alternate_base_quota_cannot_fund_transport",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/additional_edges.py",
+    "line": 12,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 20,
+    "name": "test_X20_first_remediation_binding_rejects_changed_cases_and_contract",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/additional_edges.py",
+    "line": 25,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 21,
+    "name": "test_X21_cli_reconciliation_and_real_restart_use_same_intent",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/additional_edges.py",
+    "line": 35,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 22,
+    "name": "test_X22_identity_mismatch_in_budget_blocks_whole_pilot",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/additional_edges.py",
+    "line": 46,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  },
+  {
+    "number": 23,
+    "name": "test_X23_failed_gate_resume_and_zero_token_do_not_erase_failure",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/additional_edges.py",
+    "line": 52,
+    "literal": "FAIL: vecchia attesa di interruzione",
+    "current": "PASS adattato"
+  },
+  {
+    "number": 24,
+    "name": "test_X24_primary_structure_envelope_defect_is_remediable",
+    "source": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/additional_edges.py",
+    "line": 64,
+    "literal": "PASS",
+    "current": "PASS letterale"
+  }
+]
