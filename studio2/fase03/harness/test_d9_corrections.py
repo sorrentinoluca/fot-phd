@@ -61,6 +61,7 @@ class D9Corrections(unittest.TestCase):
 
     def split_snapshots(self):
         self.canonical = self.t.snapshot
+        (self.canonical / 'chat_template.jinja').write_text('FIXTURE TEMPLATE')
         self.chat = self.t.home / 'service-tokenizer' / self.canonical.name
         shutil.copytree(self.canonical, self.chat)
         self.t.snapshot = self.chat
@@ -88,7 +89,8 @@ class D9Corrections(unittest.TestCase):
         for snapshot in (self.canonical, self.chat):
             for filename in ('tokenizer.json', 'tokenizer_config.json', 'chat_template.jinja'):
                 p = snapshot / filename; original = p.read_bytes()
-                for mutation in ('missing', 'changed'):
+                # A missing .jinja with the pinned inline template is valid by contract.
+                for mutation in (('changed',) if filename == 'chat_template.jinja' else ('missing', 'changed')):
                     for restart in (False, True):
                         with self.subTest(snapshot=snapshot.parent.name, file=filename, mutation=mutation, restart=restart):
                             if mutation == 'missing': p.unlink()
@@ -133,6 +135,13 @@ class D9Corrections(unittest.TestCase):
         self.t.producer(); self.t.producer(stage='alternate_conformity')
         (self.chat / 'tokenizer.json').unlink()
         self.no_effect(lambda: self.t.ledger.binding('alternate_conformity'))
+
+    def test_11_missing_template_file_keeps_valid_inline_fallback(self):
+        b = self.binding()
+        for snapshot in (self.canonical, self.chat):
+            (snapshot / 'chat_template.jinja').unlink()
+        self.reserve(b)
+        self.assertEqual(self.t.ledger.snapshot()['requests_cumulative'], 9)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
