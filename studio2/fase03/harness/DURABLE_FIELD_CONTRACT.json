@@ -1,0 +1,788 @@
+{
+  "version": 1,
+  "default": "DA_COPRIRE",
+  "classes": {
+    "N": "normative: inconsistent content/binding must refuse normative reuse",
+    "F": "forensic/descriptive: changes may preserve normative reuse"
+  },
+  "sql_tables": {
+    "pilot": {
+      "id": "N"
+    },
+    "stages": {
+      "stage": "N",
+      "binding_json": "N",
+      "binding_sha256": "N"
+    },
+    "requests": {
+      "request_id": "N",
+      "logical_id": "N",
+      "stage": "N",
+      "stage_run": "N",
+      "model": "N",
+      "producer": "N",
+      "quota_kind": "N",
+      "retry_of": "N",
+      "identity_json": "N",
+      "status": "N",
+      "proof_sha256": "N",
+      "intent_utc": "F",
+      "completed_utc": "F",
+      "prompt_tokens": "F",
+      "completion_tokens": "F",
+      "total_tokens": "F",
+      "latency_ms": "F",
+      "detail_json": "F"
+    },
+    "events": {
+      "event": "N",
+      "created_utc": "F",
+      "artifact_sha256": "N",
+      "detail_json": "N"
+    },
+    "responses": {
+      "request_id": "N",
+      "raw_json": "N",
+      "raw_sha256": "N",
+      "record_json": "N",
+      "record_sha256": "N"
+    },
+    "receipts": {
+      "request_id": "F",
+      "capture_json": "F"
+    }
+  },
+  "event_payloads": {
+    "reconciled": {
+      "evidence": "N",
+      "approval": "N",
+      "approval_sha256": "N",
+      "previous_status": "N",
+      "evidence_content_sha256": "N",
+      "approval_content_sha256": "N"
+    },
+    "reconciled_integrity": {
+      "request_id": "N",
+      "evidence_file_sha256": "N",
+      "approval_file_sha256": "N",
+      "evidence_content_sha256": "N",
+      "approval_content_sha256": "N",
+      "previous_status": "N"
+    },
+    "outcome": {
+      "outcome": "N",
+      "diagnosis": "N",
+      "records_sha256": "N",
+      "artifact": "N"
+    },
+    "frozen_gate": {
+      "frozen": "N"
+    },
+    "transport_invalidity": {
+      "record": "N"
+    },
+    "remediation_authorized": {
+      "diff_sha256": "N",
+      "template_sha256": "N",
+      "template_text": "N",
+      "approval": "N"
+    },
+    "remediation_waived": {
+      "effect": "N"
+    },
+    "suspended": {
+      "reason": "N"
+    },
+    "note": {
+      "*": "F"
+    }
+  },
+  "fields": [
+    {
+      "path": "pilot.id",
+      "kind": "N",
+      "scope": "sql",
+      "table": "pilot",
+      "column": "id",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "stages.stage",
+      "kind": "N",
+      "scope": "sql",
+      "table": "stages",
+      "column": "stage",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "stages.binding_json",
+      "kind": "N",
+      "scope": "sql",
+      "table": "stages",
+      "column": "binding_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "stages.binding_sha256",
+      "kind": "N",
+      "scope": "sql",
+      "table": "stages",
+      "column": "binding_sha256",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "requests.request_id",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "request_id",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "requests.logical_id",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "logical_id",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "requests.stage",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "stage",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "requests.stage_run",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "stage_run",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "requests.model",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "model",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "requests.producer",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "producer",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "requests.quota_kind",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "quota_kind",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "requests.retry_of",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "retry_of",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "requests.identity_json",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "identity_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "requests.status",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "status",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "requests.proof_sha256",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "proof_sha256",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "requests.intent_utc",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "intent_utc",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence"
+    },
+    {
+      "path": "requests.completed_utc",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "completed_utc",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence"
+    },
+    {
+      "path": "requests.prompt_tokens",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "prompt_tokens",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence"
+    },
+    {
+      "path": "requests.completion_tokens",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "completion_tokens",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence"
+    },
+    {
+      "path": "requests.total_tokens",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "total_tokens",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence"
+    },
+    {
+      "path": "requests.latency_ms",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "latency_ms",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence"
+    },
+    {
+      "path": "requests.detail_json",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "detail_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence"
+    },
+    {
+      "path": "events.event",
+      "kind": "N",
+      "scope": "sql",
+      "table": "events",
+      "column": "event",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "events.created_utc",
+      "kind": "F",
+      "scope": "sql",
+      "table": "events",
+      "column": "created_utc",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence"
+    },
+    {
+      "path": "events.artifact_sha256",
+      "kind": "N",
+      "scope": "sql",
+      "table": "events",
+      "column": "artifact_sha256",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "events.detail_json",
+      "kind": "N",
+      "scope": "sql",
+      "table": "events",
+      "column": "detail_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "responses.request_id",
+      "kind": "N",
+      "scope": "sql",
+      "table": "responses",
+      "column": "request_id",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "responses.raw_json",
+      "kind": "N",
+      "scope": "sql",
+      "table": "responses",
+      "column": "raw_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "responses.raw_sha256",
+      "kind": "N",
+      "scope": "sql",
+      "table": "responses",
+      "column": "raw_sha256",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "responses.record_json",
+      "kind": "N",
+      "scope": "sql",
+      "table": "responses",
+      "column": "record_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "responses.record_sha256",
+      "kind": "N",
+      "scope": "sql",
+      "table": "responses",
+      "column": "record_sha256",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact"
+    },
+    {
+      "path": "receipts.request_id",
+      "kind": "F",
+      "scope": "sql",
+      "table": "receipts",
+      "column": "request_id",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence"
+    },
+    {
+      "path": "receipts.capture_json",
+      "kind": "F",
+      "scope": "sql",
+      "table": "receipts",
+      "column": "capture_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence"
+    },
+    {
+      "path": "reconciled.evidence.request_id",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "request_id",
+      "rule": "identity",
+      "mutations": [
+        "missing",
+        "wrong_text"
+      ],
+      "coverage": "generated_symmetric_matrix"
+    },
+    {
+      "path": "reconciled.evidence.request_identity_sha256",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "request_identity_sha256",
+      "rule": "identity",
+      "mutations": [
+        "missing",
+        "wrong_hash"
+      ],
+      "coverage": "generated_symmetric_matrix"
+    },
+    {
+      "path": "reconciled.evidence.disposition",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "disposition",
+      "rule": "disposition",
+      "mutations": [
+        "missing",
+        "wrong_text"
+      ],
+      "coverage": "generated_symmetric_matrix"
+    },
+    {
+      "path": "reconciled.evidence.provider_request_id",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "provider_request_id",
+      "rule": "provider_receipt",
+      "mutations": [
+        "missing",
+        "empty",
+        "null",
+        "false"
+      ],
+      "coverage": "generated_symmetric_matrix"
+    },
+    {
+      "path": "reconciled.evidence.provider_evidence",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "provider_evidence",
+      "rule": "provider_evidence",
+      "mutations": [
+        "missing",
+        "empty",
+        "null",
+        "false"
+      ],
+      "coverage": "generated_symmetric_matrix"
+    },
+    {
+      "path": "reconciled.evidence.prompt_tokens",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "prompt_tokens",
+      "rule": "integer_zero",
+      "mutations": [
+        "missing",
+        "positive",
+        "negative",
+        "false",
+        "string_zero"
+      ],
+      "coverage": "generated_symmetric_matrix"
+    },
+    {
+      "path": "reconciled.evidence.completion_tokens",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "completion_tokens",
+      "rule": "integer_zero",
+      "mutations": [
+        "missing",
+        "positive",
+        "negative",
+        "false",
+        "string_zero"
+      ],
+      "coverage": "generated_symmetric_matrix"
+    },
+    {
+      "path": "reconciled.evidence.total_tokens",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "total_tokens",
+      "rule": "integer_zero",
+      "mutations": [
+        "missing",
+        "positive",
+        "negative",
+        "false",
+        "string_zero"
+      ],
+      "coverage": "generated_symmetric_matrix"
+    },
+    {
+      "path": "reconciled.approval.author",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "approval",
+      "field": "author",
+      "rule": "author",
+      "mutations": [
+        "missing",
+        "empty",
+        "null",
+        "false"
+      ],
+      "coverage": "generated_symmetric_matrix"
+    },
+    {
+      "path": "reconciled.approval.decision",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "approval",
+      "field": "decision",
+      "rule": "accepted",
+      "mutations": [
+        "missing",
+        "wrong_text"
+      ],
+      "coverage": "generated_symmetric_matrix"
+    },
+    {
+      "path": "reconciled.approval.evidence_sha256",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "approval",
+      "field": "evidence_sha256",
+      "rule": "file_binding",
+      "mutations": [
+        "missing",
+        "wrong_hash"
+      ],
+      "coverage": "generated_symmetric_matrix"
+    },
+    {
+      "path": "reconciled.evidence",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled",
+      "field": "evidence",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "reconciled.approval",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled",
+      "field": "approval",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "reconciled.approval_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled",
+      "field": "approval_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "reconciled.previous_status",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled",
+      "field": "previous_status",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "reconciled.evidence_content_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled",
+      "field": "evidence_content_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "reconciled.approval_content_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled",
+      "field": "approval_content_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "reconciled_integrity.request_id",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled_integrity",
+      "field": "request_id",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "reconciled_integrity.evidence_file_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled_integrity",
+      "field": "evidence_file_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "reconciled_integrity.approval_file_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled_integrity",
+      "field": "approval_file_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "reconciled_integrity.evidence_content_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled_integrity",
+      "field": "evidence_content_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "reconciled_integrity.approval_content_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled_integrity",
+      "field": "approval_content_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "reconciled_integrity.previous_status",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled_integrity",
+      "field": "previous_status",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "outcome.outcome",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "outcome",
+      "field": "outcome",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "outcome.diagnosis",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "outcome",
+      "field": "diagnosis",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "outcome.records_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "outcome",
+      "field": "records_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "outcome.artifact",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "outcome",
+      "field": "artifact",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "frozen_gate.frozen",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "frozen_gate",
+      "field": "frozen",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "transport_invalidity.record",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "transport_invalidity",
+      "field": "record",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "remediation_authorized.diff_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "remediation_authorized",
+      "field": "diff_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "remediation_authorized.template_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "remediation_authorized",
+      "field": "template_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "remediation_authorized.template_text",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "remediation_authorized",
+      "field": "template_text",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "remediation_authorized.approval",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "remediation_authorized",
+      "field": "approval",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "remediation_waived.effect",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "remediation_waived",
+      "field": "effect",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "suspended.reason",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "suspended",
+      "field": "reason",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    },
+    {
+      "path": "note.*",
+      "kind": "F",
+      "scope": "event_payload",
+      "event": "note",
+      "field": "*",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic"
+    }
+  ],
+  "opaque_json_policy": "binding_json, raw_json, record_json and normative payload objects are atomic sealed values: all nested fields inherit N, including embedded timestamps. A new SQL column or named event field defaults to DA_COPRIRE; not silently ignored. Top-level events.created_utc and request/capture timestamps are F.",
+  "notes": [
+    "events.event/artifact_sha256/detail_json refer to normative events; note:* is wholly F and cannot authorize work.",
+    "requests token/latency/detail columns retain observed transport bookkeeping; the normative content is the sealed evaluated response or reconciled evidence, including explicit integer-zero counters. No usage is inferred from modifying those forensic duplicates.",
+    "No requirement of semantic equivalence of transport-state preconditions: content contract is common in acquisition, retry ancestor, reconciled gate."
+  ]
+}

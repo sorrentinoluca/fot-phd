@@ -1,0 +1,15 @@
+# Contratto D03 fissato prima del runtime
+
+La prova e l’approvazione condividono tutti i controlli di contenuto nell’acquisizione, nella riconferma dell’antenato retry e nel gate riconciliato. I chiamanti mantengono i propri controlli di stato. Nessun server/stub viene interrogato durante una ripresa prima di validare le prove già persistite.
+
+L’inventario macchina [DURABLE_FIELD_CONTRACT.json](DURABLE_FIELD_CONTRACT.json) classifica tutte le colonne e tutti i tipi di evento noti. N significa normativo; F forense. I contenitori JSON improntati sono atomici: tutti i discendenti sono N per integrità dell’artefatto, anche quando il singolo dato è descrittivo. Sono invece F le colonne temporali/di cattura non usate per decidere, i duplicati di bookkeeping dei token nelle requests e le note. Le quantità normative rimangono nel record valutato o nell’evidence riconciliata. Il default di un nuovo campo strutturale è DA_COPRIRE e il test di inventario deve fallire.
+
+La matrice delle alterazioni deriva da questo inventario, non da un secondo elenco di test. Contiene controlli simmetrici per ogni campo prova/approvazione, integrità dei contenitori e mutazioni SQL N/F. La matrice amplia la copertura e non prova l’assenza di ogni difetto futuro.
+
+Acquisizione: leggere una volta i byte dei due file, conservare le impronte originali, aggiungere evidence_content_sha256 e approval_content_sha256 ricalcolabili. Formula richiesta: digest(canonical_json(value)); digest nel ledger canonizza già il suo argomento, quindi la formula è applicata letteralmente anche nella verifica, senza confonderla con l’hash dei byte originali. Un evento separato reconciled_integrity: lega i digest di contenuto, quelli dei file, request_id e previous_status, senza cambiare lo schema SQLite. Alterare un solo evento deve essere rilevato.
+
+Storico: un evento reconciled: privo dei nuovi digest/legame viene rifiutato in riconferma, assegnazione retry e gate riconciliato. Nessun backfill, migrazione automatica, riscrittura o ricalcolo che autentichi a posteriori dati ignoti. Sblocco soltanto tramite riconciliazione revisionata separata già prevista dal contratto legacy, non implementata né autorizzata qui. Le catene storiche senza riconciliazioni restano valide se soddisfano gli altri requisiti. Le prove storiche positive che dipendono da riconciliazioni prive di digest cambiano aspettativa esplicitamente.
+
+Preservare gate INVALID, FAIL/BLOCKED, retry multipli autorizzati, contatori e letture forensi. Confine: guasti locali, perdita di contenuto, valori obbligatori non conformi e alterazione di un campo/contenitore con impronte precedenti sono in scope. Nessuna promessa contro una riscrittura arbitraria coerente dell’intera catena e delle impronte.
+
+Uscita: test simmetrici e matrice rossi su a219bd4, verdi sul nuovo codice; D01/D02/W01–W04 integralmente rieseguiti, più suite pertinenti. Guardiano 35/stessi 14/1 skip, NON PASS non bloccante. Nessun freeze, GO, D9 eseguibile, ordine label reale, T5 o pilot.
