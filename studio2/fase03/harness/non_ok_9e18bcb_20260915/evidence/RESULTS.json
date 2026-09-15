@@ -1,0 +1,61 @@
+{
+  "candidate": "9e18bcbd06fa2c54202c8eeda079c112dbfcefcd",
+  "verdict": "NON OK",
+  "open_findings": [
+    "D01: residual C01/R04"
+  ],
+  "closed_corrections": [
+    "C02",
+    "C03"
+  ],
+  "targeted": {
+    "tests": 96,
+    "failures": 0,
+    "errors": 0
+  },
+  "discovery": {
+    "tests": 131,
+    "failures": 0,
+    "errors": 0
+  },
+  "applicable": {
+    "tests": 14,
+    "literal": 12,
+    "fixture_adapted": [
+      20,
+      21
+    ],
+    "failures": 0,
+    "errors": 0
+  },
+  "extensions": {
+    "distinct": 24,
+    "literal_pass": 23,
+    "literal_fail": [
+      "X23 obsolete expected interruption"
+    ],
+    "adapted_pass": [
+      "X23"
+    ]
+  },
+  "new_independent": {
+    "tests": 7,
+    "pass_count": 5,
+    "failures": [
+      "Y01",
+      "Y02"
+    ],
+    "errors": 0
+  },
+  "documentation": {
+    "tests": 35,
+    "historical_failures": 14,
+    "skips": 1,
+    "status": "NON PASS"
+  },
+  "scripts_sha256": {
+    "extended_probes.py": "8253c371c960c2b11ce58057101920a6d4bd1b5df57e77a0e0a7ac407de1966f",
+    "additional_edges.py": "8925826a7cdd368c52238899936461fe8a5cc3f82707e13078a8ee86aa54b5d7"
+  },
+  "originals_mapped": 50
+}

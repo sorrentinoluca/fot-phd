@@ -1,0 +1,25 @@
+{
+  "artifact_version": "2",
+  "status": "R3_REQUIRED_PENDING_FEASIBILITY",
+  "go_final": false,
+  "provider_requests": 120,
+  "valid_first_attempts": 119,
+  "invalid_first_attempts": 1,
+  "t3_pass": true,
+  "abstention_coverage": {
+    "A": true,
+    "B-LF": true,
+    "E-LF": true
+  },
+  "length_truncations": 0,
+  "t4_pass": true,
+  "t6_evaluable": true,
+  "all_invalid_prompt_ids": [],
+  "divergent_prompt_ids": [
+    "S2-P03-001"
+  ],
+  "divergent_prompt_count": 1,
+  "t5_temporal_feasibility": "NOT_MEASURED_BY_OFFLINE_EVALUATION",
+  "records_sha256": "687b7be6b4167492b8618ba9a002a73f9789b47b449f6bd7f9ad7b987b76fa3d",
+  "frozen_gate_config_sha256": "99c4a791a681a2a0c81dbf561ef746d0402cc9ff25b5cc438611957af06ef336"
+}

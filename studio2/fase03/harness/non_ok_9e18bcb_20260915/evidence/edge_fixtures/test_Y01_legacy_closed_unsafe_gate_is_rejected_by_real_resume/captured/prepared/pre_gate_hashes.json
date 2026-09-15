@@ -1,0 +1,9 @@
+{
+  "artifact_version": "1",
+  "files": {
+    "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/edge_fixtures/test_Y01_legacy_closed_unsafe_gate_is_rejected_by_real_resume/tmp4q71lfw6/prepared/pilot_prompts.jsonl": "673269892b671cf38d4cef0c22cff4ca59f62e38d6ac9fae4a49d77a865e5b21",
+    "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/edge_fixtures/test_Y01_legacy_closed_unsafe_gate_is_rejected_by_real_resume/tmp4q71lfw6/prepared/pre_gate_plan.json": "81fea910a32e6fd1fbd7682ad81c33e6fc3bc039351834f9cd0390a6951962db",
+    "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/edge_fixtures/test_Y01_legacy_closed_unsafe_gate_is_rejected_by_real_resume/tmp4q71lfw6/config.json": "26dfff96090c77d3d7cb25c1090ac6816a3f4a7837d2ad25e1a7437dd4cee79f",
+    "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/edge_fixtures/test_Y01_legacy_closed_unsafe_gate_is_rejected_by_real_resume/tmp4q71lfw6/manifest.json": "25c3d7ff84dce83bc1cbd563a7d7a57fa43f786fa5a67a4de598de5a1fc1546d"
+  }
+}

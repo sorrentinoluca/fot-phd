@@ -1,0 +1,30 @@
+test_Y01_legacy_closed_unsafe_gate_is_rejected_by_real_resume (__main__.Edges.test_Y01_legacy_closed_unsafe_gate_is_rejected_by_real_resume) ... FAIL
+test_Y02_legacy_closed_unsafe_gate_verification_is_rejected (__main__.Edges.test_Y02_legacy_closed_unsafe_gate_verification_is_rejected) ... FAIL
+test_Y03_raw_identity_cannot_be_reclassified_as_absent (__main__.Edges.test_Y03_raw_identity_cannot_be_reclassified_as_absent) ... ok
+test_Y04_journal_io_failure_after_invalidity_commit_recovers (__main__.Edges.test_Y04_journal_io_failure_after_invalidity_commit_recovers) ... ok
+test_Y05_guard_failure_is_not_converted_to_gate_invalidity (__main__.Edges.test_Y05_guard_failure_is_not_converted_to_gate_invalidity) ... ok
+test_Y06_gate_invalidity_same_identity_cannot_be_retried (__main__.Edges.test_Y06_gate_invalidity_same_identity_cannot_be_retried) ... ok
+test_Y07_alternate_summary_restart_preserves_stage_not_pilot_denominator (__main__.Edges.test_Y07_alternate_summary_restart_preserves_stage_not_pilot_denominator) ... ok
+
+======================================================================
+FAIL: test_Y01_legacy_closed_unsafe_gate_is_rejected_by_real_resume (__main__.Edges.test_Y01_legacy_closed_unsafe_gate_is_rejected_by_real_resume)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/edge_probes.py", line 46, in test_Y01_legacy_closed_unsafe_gate_is_rejected_by_real_resume
+    self.assertIsNotNone(error,'Unsafe legacy outcome must not be reconfirmed with failed alternate')
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: unexpectedly None : Unsafe legacy outcome must not be reconfirmed with failed alternate
+
+======================================================================
+FAIL: test_Y02_legacy_closed_unsafe_gate_verification_is_rejected (__main__.Edges.test_Y02_legacy_closed_unsafe_gate_verification_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/edge_probes.py", line 59, in test_Y02_legacy_closed_unsafe_gate_verification_is_rejected
+    self.note(checks=errors,snapshot=t.ledger.snapshot());self.assertTrue(all(e for _,e in errors),'Both success verification and outcome replay must reject unresolved alternate')
+                                                          ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : Both success verification and outcome replay must reject unresolved alternate
+
+----------------------------------------------------------------------
+Ran 7 tests in 81.345s
+
+FAILED (failures=2)
