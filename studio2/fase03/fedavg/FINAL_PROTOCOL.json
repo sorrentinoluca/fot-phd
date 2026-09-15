@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "recorded_before_final_signature_extraction": true,
+  "author_decision_date": "2026-09-15",
+  "scope": "FedAvg 03.14 final evaluation",
+  "primary_evaluation": {
+    "runs": 72,
+    "fault_runs": 64,
+    "normal_runs": 8,
+    "windows_per_run": 8,
+    "models": [
+      "local",
+      "fedavg",
+      "centralized"
+    ],
+    "metrics": [
+      "accuracy",
+      "abstention_rate",
+      "accuracy_non_abstained"
+    ]
+  },
+  "ood_evaluation": {
+    "runs": 6,
+    "separate_from_primary_metrics": true,
+    "forced_attribution_labels": [
+      "Normal",
+      "F1",
+      "F2",
+      "F3",
+      "F8",
+      "F10",
+      "F13",
+      "F14",
+      "F15"
+    ],
+    "reported_fields": [
+      "forced_attribution_distribution",
+      "structural_abstention_rate",
+      "count_by_class_and_model"
+    ],
+    "structural_abstention_rate": 0.0,
+    "accuracy_defined": false,
+    "direct_comparison_with_llm_abstention": false,
+    "included_in_primary_metrics": false
+  },
+  "technical_spares": {
+    "generated": 11,
+    "activated": 0,
+    "included": false
+  },
+  "prohibitions": [
+    "no OOD accuracy",
+    "no direct comparison with LLM abstention",
+    "no OOD observations in primary metrics",
+    "no tuning or rerun driven by final performance"
+  ]
+}

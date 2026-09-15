@@ -1,0 +1,8 @@
+{
+  "evaluation_attempt": 1,
+  "final_summary_sha256": "7ef542e806968346f3c38194f04d73f780b77c6972aa77e123272226628f9db1",
+  "rerun_allowed": false,
+  "schema_version": 1,
+  "status": "completed",
+  "training_attempt": 1
+}

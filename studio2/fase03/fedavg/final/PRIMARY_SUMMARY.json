@@ -1,0 +1,37 @@
+{
+  "cluster_metrics_sha256": "f31d66c9f79689b398c94beca46d0cf14527bdaffc4348bc684b09e3bcb485de",
+  "metrics": {
+    "centralized": {
+      "abstention_rate": 0.0,
+      "abstentions": 0,
+      "accuracy": 0.7690972222222222,
+      "accuracy_non_abstained": 0.7690972222222222,
+      "attempts": 576,
+      "correct": 443,
+      "non_abstained": 576
+    },
+    "fedavg": {
+      "abstention_rate": 0.0,
+      "abstentions": 0,
+      "accuracy": 0.7534722222222222,
+      "accuracy_non_abstained": 0.7534722222222222,
+      "attempts": 576,
+      "correct": 434,
+      "non_abstained": 576
+    },
+    "local": {
+      "abstention_rate": 0.0,
+      "abstentions": 0,
+      "accuracy": 0.19466145833333334,
+      "accuracy_non_abstained": 0.19466145833333334,
+      "attempts": 4608,
+      "correct": 897,
+      "non_abstained": 4608
+    }
+  },
+  "ood_included": false,
+  "runs": 72,
+  "schema_version": 1,
+  "scope": "72 sealed in-catalog primary runs only",
+  "windows": 576
+}

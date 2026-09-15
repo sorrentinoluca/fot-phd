@@ -174,3 +174,62 @@ Letti i prompt operativi, `MAINTENANCE.md` §1/§2/§8, walkthrough studio 2 §0
 §8.5, §9 e D8, `letteratura.md` §14.1/§14.2 per P030/P041/P065 e i due comparatori TEP, il piano
 statistico 03.8, gli indici e i manifest 03.6 e il prompt/spec in formazione di 03.9. Costo
 approssimativo: 25–35 mila token di documentazione e codice; test e smoke sotto due secondi ciascuno.
+
+## 8. Esecuzione finale sui test sigillati
+
+Il 15 settembre 2026, prima dell'accesso alle firme finali e del training, l'autore ha risolto il
+trattamento dei sei run OOD: analisi separata delle sole attribuzioni forzate sulle nove classi,
+astensione strutturale zero e numerosità per classe/modello; nessuna accuratezza OOD, nessun
+confronto diretto con l'astensione LLM e nessuna inclusione nelle metriche primarie. La decisione
+è stata materializzata prima dell'esecuzione in `FINAL_PROTOCOL.json`, SHA-256
+`5eaa041852b6573314f07ee0bf39f20d1e78c5b260d476676fe911452c476f9a`.
+
+Il preflight fail-closed ha verificato il pacchetto 03.14 a commit `546edd7a1544beae06b3544a9de2eb659dcedbee`
+e tree `07cab1de0e282a841ce70a4b777545eae2746d71`, gli otto file di
+`FEDAVG_FREEZE.json`, la review 03.11 `09994cf7…16f`, il sigillo, l'audit, il piano, il manifest,
+gli eventi, il log e l'archivio `ac1e7c0c…a55`. Il checkout 03.11 era avanzato a `349ead3`, ma il
+delta dal commit verificato `fd41fcf05aa6374d01b45b26b0881e2ffcc98062` contiene soltanto i
+due documenti di acquisizione dell'OK; lotto, sigillo e input scientifici sono invariati.
+
+Sono stati ricalcolati gli hash dei CSV di tutti gli 89 run. Il manifest finale, SHA-256
+`34a860e015c41411038eb1e8d05dad1e7a79aab505b9b42017a8e81674456122`, seleziona 72 run
+primari — 64 fault e 8 Normal — e 6 OOD, tutti con otto finestre complete. Le undici scorte non
+attivate restano escluse. Il confronto evaluator-side non trova duplicati, sovrapposizioni di
+`run_id` o di hash sorgente fra sviluppo e test.
+
+La trasformazione usa senza adattamenti scientifici l'estrattore 03.6
+`46b451c2…4e97`, `leakage.py` `c77ae5b1…3887`, i quattro sorgenti congelati, la baseline N1–N5
+`79883dd0…e6a` e la guardia R2 `7df0cef2…3f8`. Sono state persistite 624 firme finite ×697:
+576 primarie e 48 OOD. Il manifest delle firme ha SHA-256
+`7bf857192a296ee8e21f60fa7379e221bbdb2d962b5eea7707c72561c918d58e`; ogni firma vi è
+registrata con byte e SHA-256.
+
+Training e normalizzazione hanno usato esclusivamente i 640 esempi di sviluppo già congelati
+di 03.6/03.9, 80 run e cinque batch. Con Python 3.13.9 e NumPy 2.3.5 è stato effettuato un solo
+training completo, senza tuning, e una sola valutazione finale. Le metriche primarie sono:
+
+| Modalità | Corretti / tentativi | Accuratezza | Astensioni |
+| --- | ---: | ---: | ---: |
+| Local, otto ricevitori | 897 / 4608 | 0,19466145833333334 | 0 |
+| FedAvg | 434 / 576 | 0,7534722222222222 | 0 |
+| Centralizzato | 443 / 576 | 0,7690972222222222 | 0 |
+
+L'accuratezza sui non astenuti coincide con l'accuratezza perché l'astensione è assente per
+costruzione. Le 720 righe per cluster/modalità sono in `primary_cluster_metrics.csv`, SHA-256
+`f31d66c9f79689b398c94beca46d0cf14527bdaffc4348bc684b09e3bcb485de`.
+
+L'output OOD contiene 180 righe, cioè tutte le nove classi per 20 combinazioni
+modello/ricevitore × fault OOD; ogni combinazione somma a 24 predizioni. Per FedAvg: F4 → Normal
+21, F14 3; F5 → Normal 24. Per il centralizzato: F4 → Normal 17, F3 2, F14 3, F15 2; F5 →
+Normal 20, F3 1, F15 3. Aggregando soltanto per compattezza gli otto modelli Local: F4 → Normal
+178, F3 6, F14 3, F15 5; F5 → Normal 186, F3 3, F15 3. Questi sono conteggi di attribuzioni
+forzate, non accuratezze. `ood_forced_attributions.csv`, SHA-256
+`804ce4c1b9c15fb5096477631771487c4544dd072dbeaff4fc00ba2c1be8f7fb`, non contiene campi
+`accuracy` o `correct`.
+
+Gli hash canonici dei dieci modelli sono in `weight_hashes.json`, SHA-256
+`50af2a8f145009038c0c1cd8ef1530cb4bb5817059a77fbcf76b1618091fefd3`. Lo stato persistito
+registra `training_attempt=1`, `evaluation_attempt=1` e `rerun_allowed=false`. Non sono stati
+eseguiti bootstrap, confronti con Qwen/LLM, simulazioni aggiuntive, interpretazioni per il paper,
+push, merge, rebase, tag o aggiornamenti del walkthrough. Questo è un candidato locale di
+esecuzione finale: la chiusura formale di 03.14 resta subordinata alla verifica indipendente.
