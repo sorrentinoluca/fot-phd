@@ -1,0 +1,37 @@
+test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation (__main__.Chain.test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation) ... FAIL
+test_Z02_missing_predecessor_coverage_is_not_a_successful_chain (__main__.Chain.test_Z02_missing_predecessor_coverage_is_not_a_successful_chain) ... FAIL
+test_Z03_real_runner_rejects_corrupted_alternate_predecessor (__main__.Chain.test_Z03_real_runner_rejects_corrupted_alternate_predecessor) ... FAIL
+test_Z04_each_confirmation_holds_a_real_write_lock_for_all_predecessor_reads (__main__.Chain.test_Z04_each_confirmation_holds_a_real_write_lock_for_all_predecessor_reads) ... ok
+test_Z05_closed_failed_gate_replays_without_promoting_outcome (__main__.Chain.test_Z05_closed_failed_gate_replays_without_promoting_outcome) ... ok
+
+======================================================================
+FAIL: test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation (__main__.Chain.test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-0310-d02-checks/before/evidence/chain_probes.py", line 41, in test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation
+    self.assertTrue(all(x['error'] for r in observations for x in r['checks']),'Normative confirmation must reject corrupted predecessor raw, not merely retain COMPLETED/PASS flags')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : Normative confirmation must reject corrupted predecessor raw, not merely retain COMPLETED/PASS flags
+
+======================================================================
+FAIL: test_Z02_missing_predecessor_coverage_is_not_a_successful_chain (__main__.Chain.test_Z02_missing_predecessor_coverage_is_not_a_successful_chain)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-0310-d02-checks/before/evidence/chain_probes.py", line 52, in test_Z02_missing_predecessor_coverage_is_not_a_successful_chain
+    self.assertTrue(all(r['error'] for r in checks),'Seven surviving COMPLETED alternate requests must not reconfirm an eight-case predecessor')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : Seven surviving COMPLETED alternate requests must not reconfirm an eight-case predecessor
+
+======================================================================
+FAIL: test_Z03_real_runner_rejects_corrupted_alternate_predecessor (__main__.Chain.test_Z03_real_runner_rejects_corrupted_alternate_predecessor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-0310-d02-checks/before/evidence/chain_probes.py", line 65, in test_Z03_real_runner_rejects_corrupted_alternate_predecessor
+    self.assertIsNotNone(error,'Ordinary gate resume must reject corrupted raw from its alternate predecessor')
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: unexpectedly None : Ordinary gate resume must reject corrupted raw from its alternate predecessor
+
+----------------------------------------------------------------------
+Ran 5 tests in 50.075s
+
+FAILED (failures=3)

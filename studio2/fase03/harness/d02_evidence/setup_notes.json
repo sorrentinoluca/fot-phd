@@ -1,0 +1,9 @@
+{
+  "notes": [
+    "Initial acquisition script expected size_bytes; previous manifest uses bytes. Corrected before worktree creation or writes; all 62 source members subsequently verified.",
+    "Initial D02 module run included eight new tests and 21 imported RunnerRevisions methods (29/29). Changed import to module alias before final targeted/discovery; no runtime fix involved.",
+    "First X23 adapted invocation lacked sibling extended_probes.py. Preserved ModuleNotFoundError log, copied byte-identical dependency, reran unchanged adapted script in fresh still-unused fixture directory.",
+    "git diff --check on byte-identical acquisition reports existing whitespace in original logs/docs/diff. Those bytes deliberately preserved; live implementation/docs checked separately."
+  ],
+  "classification": "setup/provenance notes, not new candidate failures"
+}

@@ -162,6 +162,8 @@ class PilotLedger:
                 if old[0] != digest(binding):
                     raise HarnessError("stage inputs changed across alias, directory or restart")
                 self._prerequisites(c, stage)
+                if 'outcome:' + stage in self._events(c):
+                    self._closed_outcome(c, stage)
                 return
             self._ready(c, stage)
             if stage == 'producer_remediation':
@@ -196,26 +198,40 @@ class PilotLedger:
             leaves.append(row)
         return leaves
 
+    def _frozen(self, c):
+        event = self._events(c).get('frozen_gate')
+        frozen = None if event is None else json.loads(event['detail_json']).get('frozen')
+        if not isinstance(frozen, dict) or digest(frozen) != event['artifact_sha256']:
+            raise HarnessError('persisted probe freeze is missing or corrupted')
+        return frozen
+
+    def _closed_outcome(self, c, stage):
+        """Authenticate stored closure with the same validator used to create it.
+
+        The caller validates prerequisites in this transaction. Raw event()/snapshot()
+        remain forensic reads; a stored PASS is never sufficient for confirmation.
+        """
+        event = self._events(c).get('outcome:' + stage)
+        if event is None:
+            raise HarnessError(f'{stage} has no closed outcome')
+        detail = json.loads(event['detail_json'])
+        outcome = detail.get('outcome')
+        if outcome not in {'PASS', 'FAIL', 'BLOCKED'}:
+            raise HarnessError('persisted stage outcome is invalid')
+        frozen = self._frozen(c) if stage == 'budget_probe' and outcome == 'PASS' else None
+        records = self._validate_outcome(c, stage, outcome=outcome,
+            artifact_sha256=event['artifact_sha256'], artifact=detail.get('artifact'),
+            diagnosis=detail.get('diagnosis'), frozen=frozen)
+        if detail.get('records_sha256') != digest(records):
+            raise HarnessError('persisted outcome records digest mismatch')
+        return detail
+
     def _successful(self, c, stage):
         self._prerequisites(c, stage)
         event = self._events(c).get('outcome:' + stage)
-        if event is None or json.loads(event['detail_json'])['outcome'] != 'PASS':
+        if event is None or json.loads(event['detail_json']).get('outcome') != 'PASS':
             raise HarnessError(f"{stage} has no successful closed outcome")
-        rows = [r for r in self._rows(c) if r['stage'] == stage]
-        leaves = self._chain_leaves(rows)
-        if stage == 'stability_gate':
-            from .gate_rules import evaluate_stability_gate
-            if len(leaves) != 120 or any(r['status'] != 'COMPLETED' and self._gate_transport_record(c, r) is None for r in leaves):
-                raise HarnessError('closed gate has unaccounted attempts')
-            records = [self._evaluated_record(c, r) for r in leaves]
-            if any(r is None for r in records):
-                raise HarnessError('closed gate has missing records')
-            frozen = json.loads(self._events(c)['frozen_gate']['detail_json'])['frozen']
-            gate = evaluate_stability_gate(records, expected_prompts=frozen['prompt_sample'])
-            if not all(gate[k] for k in ('t3_pass', 't4_pass', 't6_evaluable')):
-                raise HarnessError('closed gate contradicts its technical outcome')
-        elif not rows or any(r['status'] != 'COMPLETED' for r in leaves):
-            raise HarnessError("closed stage contains unresolved or failed requests")
+        self._closed_outcome(c, stage)
 
     def verify_stage_success(self, stage):
         with self._transaction() as c:
@@ -461,7 +477,11 @@ class PilotLedger:
                 raise HarnessError('a received response cannot be relabeled as transport invalidity')
             if sha256_text(raw['record_json']) != raw['record_sha256'] or sha256_text(raw['raw_json']) != raw['raw_sha256']:
                 raise HarnessError('raw/record corruption')
-            return json.loads(raw['record_json'])
+            record = json.loads(raw['record_json'])
+            identity = json.loads(row['identity_json'])
+            if record.get('request_id') != row['request_id'] or record.get('prompt_sha256') != identity['prompt_sha256']:
+                raise HarnessError('persisted record identity mismatch')
+            return record
         return self._gate_transport_record(c, row)
 
     def reconcile_zero_token(self, request_id, *, evidence_path: Path, approval_path: Path):
@@ -486,6 +506,89 @@ class PilotLedger:
             rows = self._chain_leaves([r for r in self._rows(c) if r['stage'] == stage])
             return [record for row in rows if (record := self._evaluated_record(c, row)) is not None]
 
+    def _validate_attempts(self, c, binding, rows):
+        """Check every attempt against its plan, including non-leaf retry ancestors."""
+        specs = {s['logical_id']: s for s in binding['requests']}
+        by_id = {r['request_id']: r for r in rows}
+        children = {r['retry_of']: r for r in rows if r['retry_of']}
+        events = self._events(c)
+        for row in rows:
+            spec = specs.get(row['logical_id'])
+            if (spec is None or row['identity_json'] != canonical_json(spec)
+                    or row['stage_run'] != digest(binding)
+                    or (row['model'], row['producer']) != (spec['model'], spec['producer'])):
+                raise HarnessError('persisted request differs from immutable plan')
+            if row['retry_of']:
+                parent = by_id.get(row['retry_of'])
+                if (parent is None or parent['status'] != 'ZERO_TOKEN_PROVEN'
+                        or parent['identity_json'] != row['identity_json']
+                        or row['quota_kind'] != 'transport'):
+                    raise HarnessError('orphan or inconsistent retry attempt')
+            if row['request_id'] in children:
+                event = events.get('reconciled:' + row['request_id'])
+                detail = {} if event is None else json.loads(event['detail_json'])
+                evidence, approval = detail.get('evidence', {}), detail.get('approval', {})
+                if (event is None or row['proof_sha256'] != event['artifact_sha256']
+                        or evidence.get('request_id') != row['request_id']
+                        or evidence.get('request_identity_sha256') != sha256_text(row['identity_json'])
+                        or evidence.get('disposition') != 'not_generated'
+                        or approval.get('decision') != 'accepted'
+                        or approval.get('evidence_sha256') != event['artifact_sha256']
+                        or c.execute('SELECT 1 FROM responses WHERE request_id=?', (row['request_id'],)).fetchone()):
+                    raise HarnessError('retry ancestor lacks its durable zero-token evidence')
+        # _chain_leaves checks cycles reachable from bases; account for disconnected cycles too.
+        reached = set()
+        for row in (r for r in rows if not r['retry_of']):
+            while row['request_id'] not in reached:
+                reached.add(row['request_id'])
+                row = children.get(row['request_id'])
+                if row is None:
+                    break
+        if reached != set(by_id):
+            raise HarnessError('retry attempts are disconnected from base coverage')
+
+    def _validate_outcome(self, c, stage, *, outcome, artifact_sha256, artifact, diagnosis, frozen):
+        """Shared closure/reconfirmation validation, without writes or nested connections."""
+        binding = self._binding(c, stage)
+        rows = [r for r in self._rows(c) if r['stage'] == stage]
+        bases = [r for r in rows if not r['retry_of']]
+        n = len(bases)
+        if (stage == 'budget_probe' and n not in {3,6,9}) or (stage != 'budget_probe' and n != BASE_LIMITS[stage]):
+            raise HarnessError("stage outcome requires complete distinct base coverage")
+        if [r['logical_id'] for r in bases] != [s['logical_id'] for s in binding['requests'][:n]]:
+            raise HarnessError("stage does not match frozen request order/coverage")
+        self._validate_attempts(c, binding, rows)
+        leaves = self._chain_leaves(rows)
+        if any(r['status'] == 'INTENT' for r in leaves):
+            raise HarnessError("stage cannot hide unresolved intents")
+        records = [record for row in leaves if (record := self._evaluated_record(c, row)) is not None]
+        if stage == 'stability_gate':
+            if len(records) != n or any(r['status'] != 'COMPLETED' and self._gate_transport_record(c, r) is None for r in leaves):
+                raise HarnessError('gate requires a response or durable transport invalidity for every attempt')
+        if outcome == 'PASS':
+            if len(records) != n or (stage != 'stability_gate' and (
+                    any(r['status'] != 'COMPLETED' for r in leaves)
+                    or any(r.get('identity_valid') is not True for r in records))):
+                raise HarnessError("PASS requires resolved authenticated responses")
+            if stage in {'producer_conformity','producer_remediation','alternate_conformity'} and not all(r.get('schema_valid_first_attempt') is True for r in records):
+                raise HarnessError("producer PASS requires all R4-valid pairs")
+            if stage == 'stability_gate':
+                from .gate_rules import evaluate_stability_gate
+                frozen_event = self._frozen(c)
+                gate = evaluate_stability_gate(records, expected_prompts=frozen_event['prompt_sample'])
+                if not all(gate[k] for k in ('t3_pass','t4_pass','t6_evaluable')):
+                    raise HarnessError('gate outcome contradicts durable records')
+            if stage == 'budget_probe':
+                if any(all(r.get('parse_valid_first_attempt') is True and r.get('finish_reason') == 'stop' for r in records[i:i+3]) for i in range(0,len(records)-3,3)):
+                    raise HarnessError('probe must select the first successful budget triplet')
+                if frozen is None or frozen.get('generation') != records[-1].get('generation') or not all(r.get('generation') == frozen['generation'] and r.get('parse_valid_first_attempt') is True and r.get('finish_reason') == 'stop' for r in records[-3:]):
+                    raise HarnessError("probe PASS must authenticate selected budget and complete successful triplet")
+        if not isinstance(artifact, dict) or digest(artifact) != artifact_sha256 or artifact.get('records_sha256') != digest(records):
+            raise HarnessError("outcome artifact must bind durable stage records")
+        if diagnosis is not None and diagnosis not in DIAGNOSES:
+            raise HarnessError("inadmissible producer remediation diagnosis")
+        return records
+
     def record_stage_outcome(self, stage, *, outcome, artifact_sha256, artifact=None, diagnosis=None, frozen=None):
         if stage not in STAGES or outcome not in {'PASS','FAIL','BLOCKED'}:
             raise HarnessError("unsupported stage outcome")
@@ -497,43 +600,10 @@ class PilotLedger:
                 self._prerequisites(c, stage)
             else:
                 self._ready(c, stage)
-            binding = self._binding(c, stage)
-            rows = [r for r in self._rows(c) if r['stage'] == stage]
-            bases = [r for r in rows if not r['retry_of']]
-            n = len(bases)
-            if (stage == 'budget_probe' and n not in {3,6,9}) or (stage != 'budget_probe' and n != BASE_LIMITS[stage]):
-                raise HarnessError("stage outcome requires complete distinct base coverage")
-            if [r['logical_id'] for r in bases] != [s['logical_id'] for s in binding['requests'][:n]]:
-                raise HarnessError("stage does not match frozen request order/coverage")
-            leaves = self._chain_leaves(rows)
-            if any(r['status'] == 'INTENT' for r in leaves):
-                raise HarnessError("stage cannot hide unresolved intents")
-            records = [record for row in leaves if (record := self._evaluated_record(c, row)) is not None]
-            if stage == 'stability_gate':
-                if len(records) != n or any(r['status'] != 'COMPLETED' and self._gate_transport_record(c, r) is None for r in leaves):
-                    raise HarnessError('gate requires a response or durable transport invalidity for every attempt')
-            if outcome == 'PASS':
-                if len(records) != n or (stage != 'stability_gate' and (
-                        any(r['status'] != 'COMPLETED' for r in leaves)
-                        or any(r.get('identity_valid') is not True for r in records))):
-                    raise HarnessError("PASS requires resolved authenticated responses")
-                if stage in {'producer_conformity','producer_remediation','alternate_conformity'} and not all(r.get('schema_valid_first_attempt') is True for r in records):
-                    raise HarnessError("producer PASS requires all R4-valid pairs")
-                if stage == 'stability_gate':
-                    from .gate_rules import evaluate_stability_gate
-                    frozen_event = json.loads(self._events(c)['frozen_gate']['detail_json'])['frozen']
-                    gate = evaluate_stability_gate(records, expected_prompts=frozen_event['prompt_sample'])
-                    if not all(gate[k] for k in ('t3_pass','t4_pass','t6_evaluable')):
-                        raise HarnessError('gate outcome contradicts durable records')
-                if stage == 'budget_probe':
-                    if any(all(r.get('parse_valid_first_attempt') is True and r.get('finish_reason') == 'stop' for r in records[i:i+3]) for i in range(0,len(records)-3,3)):
-                        raise HarnessError('probe must select the first successful budget triplet')
-                    if frozen is None or frozen.get('generation') != records[-1].get('generation') or not all(r.get('generation') == frozen['generation'] and r.get('parse_valid_first_attempt') is True and r.get('finish_reason') == 'stop' for r in records[-3:]):
-                        raise HarnessError("probe PASS must authenticate selected budget and complete successful triplet")
-            if artifact is None or digest(artifact) != artifact_sha256 or artifact.get('records_sha256') != digest(records):
-                raise HarnessError("outcome artifact must bind durable stage records")
-            if diagnosis is not None and diagnosis not in DIAGNOSES:
-                raise HarnessError("inadmissible producer remediation diagnosis")
+            if replay:
+                self._closed_outcome(c, stage)
+            records = self._validate_outcome(c, stage, outcome=outcome,
+                artifact_sha256=artifact_sha256, artifact=artifact, diagnosis=diagnosis, frozen=frozen)
             if replay:
                 # Revalidate predecessors, coverage and durable records before rematerializing.
                 # A replay must not insert events or reopen requests.

@@ -1,8 +1,9 @@
-# Contratto eseguibile R01–R10 — residuo D01 / C01 / R04
+# Contratto eseguibile R01–R10 — D02 / R04 / R08
 
 15 settembre 2026. Implementazione offline da sottoporre a nuova verifica indipendente.
-Questo documento descrive il delta successivo al terzo NON OK (9e18bcb): non ne cambia il verdetto.
-C02/C03 risultano chiusi nella review acquisita; D01 riguarda la riconferma di esiti storici C01 non conformi.
+Questo documento descrive il delta successivo al quarto NON OK (edb37f3): non ne cambia il verdetto.
+D01 originario e C02/C03 risultano chiusi nella review acquisita. D02 riguarda l’autenticazione
+delle prove durevoli e della copertura dei predecessori che conservano PASS/COMPLETED.
 La formulazione precedente su N48 era errata: il piano rev.10 §§11–11.1 richiede le invalidità di trasporto in T3/T6.
 La specifica e i report del candidato 59b6b93 restano storia, incluse le formulazioni D9
 superate. La decisione D9 del record aaba893 è già acquisita (122B producer principale
@@ -105,6 +106,34 @@ Il replay di una catena valida, anche storica, resta disponibile; conserva conta
 raw e invalidità C02. Nessuna migrazione di schema o riscrittura automatica degli esiti.
 Le prove generano ledger storici con il codice esatto 0c8157f in processi separati;
 nessun SQL alterato viene usato per costruire il difetto di precedenza.
+
+## Prove durevoli dei predecessori — D02
+
+`_successful` non si limita ai flag: applica `_closed_outcome` a ciascun predecessore.
+`_validate_outcome` è il validatore unico per nuova chiusura e riconferma: rilegge il
+binding, la copertura delle basi nell’ordine previsto, tutti i tentativi e le catene di
+retry, gli hash raw/record, l’identità dei record e i criteri di PASS dello stadio.
+L’artefatto di chiusura deve coincidere con la propria impronta e con il digest dei record
+attuali; anche `records_sha256` nell’evento deve corrispondere. Per la sonda si autenticano
+i byte del freeze persistito e la prima tripletta riuscita. Rimane legittimo fermarsi al
+primo gruppo riuscito di un piano a 3/6/9 richieste; eliminare un gruppo dopo la chiusura
+non può essere legittimato da un conteggio ancora ammesso.
+
+Il retry conserva identità, collegamento all’originale e prova zero-token registrata;
+nessun tentativo orfano può sparire dalla verifica delle foglie. La riconferma di un
+binding già chiuso verifica anche il proprio esito, oltre ai predecessori. FAIL/BLOCKED
+possono essere riletti con gli stessi requisiti della loro chiusura, senza promozione a
+PASS. Le 120 invalidità C02 rimangono record di tentativi, mai risposte inventate.
+
+Tutti questi controlli usano la connessione e il `BEGIN IMMEDIATE` dell’ingresso;
+nessuna connessione separata e nessuna cache valida fra transazioni. Il lock comprende
+anche la lettura effettiva dei raw dei predecessori. Le letture forensi e la storia
+rimangono disponibili; non vengono riparati dati, riscritti hash o azzerati contatori.
+
+Le regressioni D02 iniettano guasti SQL espliciti in copie sacrificabili dopo una catena
+valida: raw/record alterati, dati assenti, artefatti incoerenti, copertura ridotta e prova
+di retry perduta. Non sono la costruzione di D01 né input scientifici. Non si rivendica
+resistenza contro chi riscrive coerentemente l’intero database e tutte le impronte.
 
 ## Persistenza e punti di crash
 
