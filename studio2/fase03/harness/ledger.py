@@ -21,6 +21,7 @@ HASH = re.compile(r"^[0-9a-f]{64}$")
 STAGES = {"producer_conformity", "producer_remediation", "alternate_conformity", "budget_probe", "stability_gate"}
 BASE_LIMITS = dict(producer_conformity=8, producer_remediation=8, alternate_conformity=8, budget_probe=9, stability_gate=120)
 DIAGNOSES = {"structure", "identifiers", "cap", "leakage"}
+TOKENIZER_ACCOUNTING_SNAPSHOT = "Qwen/Qwen3.5-122B-A10B-FP8@a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9"
 
 
 def digest(value):
@@ -29,6 +30,33 @@ def digest(value):
 
 def _utc_now():
     return datetime.now(timezone.utc).isoformat()
+
+
+class TokenizerAccountingGuard:
+    """The one 122B accounting rule, deliberately bound to its frozen client snapshot."""
+
+    def __init__(self, local_tokenizer, *, snapshot=TOKENIZER_ACCOUNTING_SNAPSHOT):
+        if snapshot != TOKENIZER_ACCOUNTING_SNAPSHOT:
+            raise HarnessError("FATAL_ACCOUNTING_ERROR: tokenizer snapshot is not the frozen 122B client")
+        self.tokenizer = local_tokenizer
+        self.snapshot = snapshot
+
+    def validate_producer_response(self, messages, api_response):
+        if not isinstance(messages, list):
+            raise HarnessError("FATAL_ACCOUNTING_ERROR: messages transmitted to provider are not a list")
+        local = self.tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True)
+        local_prompt_tokens = len(local)
+        usage = api_response.get("usage") if isinstance(api_response, dict) else None
+        if not isinstance(usage, dict):
+            raise HarnessError("FATAL_ACCOUNTING_ERROR: campo usage assente o non oggetto")
+        server_prompt_tokens = usage.get("prompt_tokens")
+        if type(server_prompt_tokens) is not int or server_prompt_tokens < 0:
+            raise HarnessError("FATAL_ACCOUNTING_ERROR: usage.prompt_tokens assente, non intero o negativo")
+        if local_prompt_tokens != server_prompt_tokens:
+            raise HarnessError(
+                "FATAL_ACCOUNTING_ERROR: Mismatch contabilità token: "
+                f"locale={local_prompt_tokens}, server={server_prompt_tokens}")
+        return {"local_prompt_tokens": local_prompt_tokens, "server_prompt_tokens": server_prompt_tokens}
 
 
 class PilotLedger:
@@ -198,6 +226,89 @@ class PilotLedger:
     def _events(self, c):
         return {r['event']: r for r in c.execute("SELECT * FROM events")}
 
+    def _tokenizer_accounting_stop(self, c):
+        return self._events(c).get('stop:tokenizer_accounting')
+
+    def _require_no_tokenizer_accounting_stop(self, c):
+        stop = self._tokenizer_accounting_stop(c)
+        if stop is not None:
+            detail = json.loads(stop['detail_json'])
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: durable STOP blocks probes, gates, retries and new requests: '
+                               + detail['reason'])
+
+    def account_producer_response(self, request_id, *, messages, guard):
+        """Persist and bind 122B accounting before parsing or materializing output.
+
+        The raw response has already been durably captured by ``save_raw``.  Both
+        pass and failure evidence are create-once events; failure also writes a
+        durable global STOP in this same transaction.
+        """
+        failure = None
+        with self._transaction() as c:
+            self._require_no_tokenizer_accounting_stop(c)
+            response = c.execute('SELECT raw_json,raw_sha256 FROM responses WHERE request_id=?',
+                                 (request_id,)).fetchone()
+            if response is None or sha256_text(response['raw_json']) != response['raw_sha256']:
+                raise HarnessError('FATAL_ACCOUNTING_ERROR: raw response missing or hash mismatch')
+            request = c.execute('SELECT stage,status FROM requests WHERE request_id=?', (request_id,)).fetchone()
+            if request is None or request['stage'] not in {'producer_conformity', 'producer_remediation', 'alternate_conformity'}:
+                raise HarnessError('FATAL_ACCOUNTING_ERROR: accounting only accepts a persisted producer request')
+            if request['status'] != 'INTENT':
+                raise HarnessError('FATAL_ACCOUNTING_ERROR: accounting must precede request completion')
+            try:
+                raw = json.loads(response['raw_json'])
+                counts = guard.validate_producer_response(messages, raw)
+                outcome, reason = 'PASS', None
+            except HarnessError as exc:
+                counts, outcome, reason = {}, 'FATAL_ACCOUNTING_ERROR', str(exc)
+            detail = {
+                'request_id': request_id,
+                'messages': messages,
+                'messages_sha256': sha256_text(canonical_json(messages)),
+                'snapshot': guard.snapshot,
+                'raw_response_sha256': response['raw_sha256'],
+                'local_prompt_tokens': counts.get('local_prompt_tokens'),
+                'server_prompt_tokens': counts.get('server_prompt_tokens'),
+                'outcome': outcome,
+                'reason': reason,
+            }
+            self._event(c, 'tokenizer_accounting:' + request_id, response['raw_sha256'], detail)
+            if outcome != 'PASS':
+                self._event(c, 'stop:tokenizer_accounting', response['raw_sha256'],
+                            {'reason': reason, 'request_id': request_id,
+                             'accounting_event': 'tokenizer_accounting:' + request_id})
+                failure = reason
+        if failure is not None:
+            raise HarnessError(failure)
+        return detail
+
+    def validate_tokenizer_accounting_evidence(self, guard, *, expected_messages=None):
+        """Recompute all persisted accounting links before evidence is reused."""
+        with self._transaction() as c:
+            for name, row in self._events(c).items():
+                if not name.startswith('tokenizer_accounting:'):
+                    continue
+                detail = json.loads(row['detail_json'])
+                request_id = detail.get('request_id')
+                response = c.execute('SELECT raw_json,raw_sha256 FROM responses WHERE request_id=?',
+                                     (request_id,)).fetchone()
+                if (response is None or row['artifact_sha256'] != response['raw_sha256']
+                        or sha256_text(response['raw_json']) != response['raw_sha256']
+                        or detail.get('raw_response_sha256') != response['raw_sha256']
+                        or detail.get('snapshot') != guard.snapshot
+                        or detail.get('messages_sha256') != sha256_text(canonical_json(detail.get('messages')))):
+                    raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting evidence binding is corrupted')
+                if expected_messages is not None:
+                    logical = c.execute('SELECT logical_id FROM requests WHERE request_id=?', (request_id,)).fetchone()
+                    expected = expected_messages.get(logical['logical_id']) if logical else None
+                    if expected is not None and expected != detail['messages']:
+                        raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting messages differ from the request')
+                counts = guard.validate_producer_response(detail['messages'], json.loads(response['raw_json']))
+                if (detail.get('outcome') != 'PASS' or detail.get('local_prompt_tokens') != counts['local_prompt_tokens']
+                        or detail.get('server_prompt_tokens') != counts['server_prompt_tokens']):
+                    raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting result cannot be reused')
+            self._require_no_tokenizer_accounting_stop(c)
+
     @staticmethod
     def _require_hash(value, role):
         if not isinstance(value, str) or not HASH.fullmatch(value):
@@ -259,6 +370,7 @@ class PilotLedger:
             if any(len(g) != 3 or {s['condition'] for s in g} != {'A', 'B-LF', 'E-LF'} for g in groups.values()):
                 raise HarnessError("probe plan requires distinct complete condition triplets")
         with self._transaction() as c:
+            self._require_no_tokenizer_accounting_stop(c)
             from .d9 import validate_binding
             validate_binding(binding, stage, self, c)
             old = c.execute("SELECT binding_sha256 FROM stages WHERE stage=?", (stage,)).fetchone()
@@ -366,6 +478,7 @@ class PilotLedger:
                 raise HarnessError("gate configuration is not authenticated by the probe")
 
     def _ready(self, c, stage):
+        self._require_no_tokenizer_accounting_stop(c)
         self._prerequisites(c, stage)
         events, rows = self._events(c), self._rows(c)
         if 'outcome:' + stage in events:

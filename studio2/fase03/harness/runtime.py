@@ -38,7 +38,8 @@ def export_journal(ledger, stage, path):
     durable_write(path, ''.join(canonical_json(r) + '\n' for r in rows))
 
 
-def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identity, journal_path, resume=False, retry_requests=(), pre_reserved=()):
+def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identity, journal_path,
+                    messages=None, accounting_guard=None, resume=False, retry_requests=(), pre_reserved=()):
     binding = ledger.binding(stage)
     stage_run = digest(binding)
     leaf = ledger.leaf(stage, spec['logical_id'])
@@ -92,6 +93,10 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
         export_journal(ledger, stage, journal_path)
     else:
         raw = stored['raw']
+    if accounting_guard is not None:
+        if messages is None:
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: producer accounting lacks transmitted messages')
+        ledger.account_producer_response(request_id, messages=messages, guard=accounting_guard)
     capture = ledger.response(request_id)['capture']
     record = evaluate(raw)
     record['received_utc'] = capture['received_utc']
