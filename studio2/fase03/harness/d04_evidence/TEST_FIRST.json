@@ -1,0 +1,35 @@
+{
+  "runtime_unchanged_from": "23859a29225ccd9cd6f47e4a0b6e36258831dbab",
+  "runtime_sha256": "2dd95090eafd1e1d0395c45205ff66c5dcaf6f563d11de4862711bf229bf4add",
+  "test_and_contract_files": [
+    {
+      "path": "studio2/fase03/harness/CONTRATTO_D04_PRIMA_DEL_CODICE.md",
+      "sha256": "7f064b2ce5f40e8c23d731977323ff18780cd2f20efd8ac98793103585847cc8"
+    },
+    {
+      "path": "studio2/fase03/harness/D04_DECISION_CONTRACT.json",
+      "sha256": "a1f9c7dddbf52ba5ee158c0d7cfa4b6213cb483bc5ed5c430bc5e8cca8811665"
+    },
+    {
+      "path": "studio2/fase03/harness/test_d04_open_quota.py",
+      "sha256": "fbf9bc637f3922425b718620c9f60c2a1c6f4114f8115bf9c7348d538cba725e"
+    }
+  ],
+  "red": {
+    "tests": 8,
+    "failures": 240,
+    "errors": 0,
+    "affected_methods": 6
+  },
+  "red_proofs": [
+    {
+      "path": "studio2/fase03/harness/d04_evidence/red_contract.log",
+      "sha256": "0273116e8f4e5ebe81097b3d77405f87fdaa50e3b1bebae74dd81a65cbbcdf34"
+    },
+    {
+      "path": "studio2/fase03/harness/d04_evidence/red_contract.json",
+      "sha256": "12c4f5cd1f4bbd35b599e6b3019ad07bf65b5359a32b040c2a2017e53187f5c3"
+    }
+  ],
+  "notes": "All tests and observations precede first runtime modification. Failures include generated subcases, not 240 distinct defects."
+}
