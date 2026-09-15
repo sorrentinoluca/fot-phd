@@ -1,0 +1,15 @@
+{
+  "artifact_version": "1",
+  "author": "Luca Sorrentino",
+  "decision": "IMPORT_AUTHORIZED",
+  "package_sha256": "98608abe9831707254208ed29e493f92d29c06313a219d238ceec933f064d53c",
+  "pilot_ledger": {
+    "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3",
+    "pilot_id": "studio2-fase03-d9-pilot-001"
+  },
+  "source": {
+    "completed_inferences": 3,
+    "reported_requests": 4,
+    "sha256": "c9adf2a8f07d9058257cc2c51a00064662874611875a715c716a1f1ea4828368"
+  }
+}
