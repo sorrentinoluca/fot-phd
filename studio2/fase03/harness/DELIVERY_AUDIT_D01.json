@@ -1,0 +1,173 @@
+{
+  "technical_candidate": "edb37f359f29c461c5a507c1027c4bf411654130",
+  "technical_tree": "56d98666e1d18c7958ac8d3631ae6d5b8ec04bf9",
+  "manifest_files_verified": 62,
+  "proof_manifest_members_verified": 43,
+  "document_hashes_verified": true,
+  "new_markdown_links_verified": [
+    {
+      "file": "REPORT_CORREZIONE_D01.md",
+      "target": "non_ok_9e18bcb_20260915/evidence/VERIFICA_C01_C03.md"
+    },
+    {
+      "file": "REPORT_CORREZIONE_D01.md",
+      "target": "non_ok_9e18bcb_20260915/ACQUISITION_INVENTORY.json"
+    },
+    {
+      "file": "REPORT_CORREZIONE_D01.md",
+      "target": "MATRICE_R01_R10_D01.md"
+    },
+    {
+      "file": "REPORT_CORREZIONE_D01.md",
+      "target": "d01_evidence/COMANDI.md"
+    },
+    {
+      "file": "REPORT_CORREZIONE_D01.md",
+      "target": "PROMPT_VERIFICA_D01.md"
+    },
+    {
+      "file": "MATRICE_R01_R10_D01.md",
+      "target": "non_ok_9e18bcb_20260915/evidence/MATRICE_50_METODI.md"
+    }
+  ],
+  "technical_changed_paths": [
+    "studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md",
+    "studio2/fase03/harness/HARNESS_OFFLINE_CANDIDATE.json",
+    "studio2/fase03/harness/MATRICE_R01_R10_D01.md",
+    "studio2/fase03/harness/d01_evidence/COMANDI.md",
+    "studio2/fase03/harness/d01_evidence/REPRODUCTION_INVENTORY.json",
+    "studio2/fase03/harness/d01_evidence/RESULTS.json",
+    "studio2/fase03/harness/d01_evidence/SHA256SUMS",
+    "studio2/fase03/harness/d01_evidence/acquire.py",
+    "studio2/fase03/harness/d01_evidence/after/console.log",
+    "studio2/fase03/harness/d01_evidence/after/evidence/edge_probes.json",
+    "studio2/fase03/harness/d01_evidence/after/evidence/edge_probes.log",
+    "studio2/fase03/harness/d01_evidence/after/evidence/edge_probes.py",
+    "studio2/fase03/harness/d01_evidence/applicable/applicable.json",
+    "studio2/fase03/harness/d01_evidence/applicable/applicable.log",
+    "studio2/fase03/harness/d01_evidence/applicable/evidence/negative_probes.py",
+    "studio2/fase03/harness/d01_evidence/applicable_console.log",
+    "studio2/fase03/harness/d01_evidence/before/console.log",
+    "studio2/fase03/harness/d01_evidence/before/evidence/edge_probes.json",
+    "studio2/fase03/harness/d01_evidence/before/evidence/edge_probes.log",
+    "studio2/fase03/harness/d01_evidence/before/evidence/edge_probes.py",
+    "studio2/fase03/harness/d01_evidence/compile.json",
+    "studio2/fase03/harness/d01_evidence/d01.log",
+    "studio2/fase03/harness/d01_evidence/discovery.log",
+    "studio2/fase03/harness/d01_evidence/documentation_after.log",
+    "studio2/fase03/harness/d01_evidence/documentation_before.log",
+    "studio2/fase03/harness/d01_evidence/documentation_comparison.json",
+    "studio2/fase03/harness/d01_evidence/literal/additional_console.log",
+    "studio2/fase03/harness/d01_evidence/literal/evidence/additional_edges.py",
+    "studio2/fase03/harness/d01_evidence/literal/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d01_evidence/literal/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d01_evidence/literal/evidence/extended.json",
+    "studio2/fase03/harness/d01_evidence/literal/evidence/extended.log",
+    "studio2/fase03/harness/d01_evidence/literal/evidence/extended_probes.py",
+    "studio2/fase03/harness/d01_evidence/literal/extended_console.log",
+    "studio2/fase03/harness/d01_evidence/package_evidence.py",
+    "studio2/fase03/harness/d01_evidence/runtime.json",
+    "studio2/fase03/harness/d01_evidence/scope.json",
+    "studio2/fase03/harness/d01_evidence/scope_audit.py",
+    "studio2/fase03/harness/d01_evidence/scope_initial_issue.json",
+    "studio2/fase03/harness/d01_evidence/targeted.log",
+    "studio2/fase03/harness/d01_evidence/update_manifest.py",
+    "studio2/fase03/harness/d01_evidence/worktrees_before.txt",
+    "studio2/fase03/harness/d01_evidence/x23_adapted/console.log",
+    "studio2/fase03/harness/d01_evidence/x23_adapted/evidence/additional_edges.py",
+    "studio2/fase03/harness/d01_evidence/x23_adapted/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d01_evidence/x23_adapted/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d01_evidence/x23_adapted/evidence/extended_probes.py",
+    "studio2/fase03/harness/ledger.py",
+    "studio2/fase03/harness/test_d01_replay.py"
+  ],
+  "sources_preserved": {
+    "/Users/luker/fot-tep": {
+      "head": "819b12e97fb94d501032655ec2f226139e6c5ca5\n",
+      "tree": "5022e36b3a7457e78a7bcb505f2bc66dffa5dc6d\n",
+      "status": "?? \"Claude outputs/\"\n?? studio2/fase03/APERTURA_SOTTOFASI_FASE03.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14_rev02.md\n?? studio2/fase03/baseline_numerica/\n?? studio2/fase03/evidence/\n?? studio2/fase03/fedavg/\n?? studio2/fase03/harness/\n?? studio2/fase03/paper_sections/\n?? studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md\n?? studio2/fase03/perimetro_q8/sottofase_3_4_verifica_e_attuazione.md\n?? studio2/fase03/piano_statistico/\n?? studio2/fase03/pseudolabel/\n?? studio2/fase03/schema_insight/\n?? studio2/fase03/soglie_normal/analisi_3_5_prompt.md\n?? studio2/fase03/soglie_normal/runs/normal_001/\n?? studio2/fase03/soglie_normal/runtime/batch_launch/\n?? studio2/fase03/soglie_normal/sottofase_3_5.md\n?? studio2/fase03/soglie_normal/verifica_3_5_prompt.md\n",
+      "branch": "codex/studio2-soglie-normal\n"
+    },
+    "/Users/luker/fot-tep-harness-0310-c01-c03": {
+      "head": "52e13e1ed540e1ad076474398bf850445c9a4a00\n",
+      "tree": "cac5612a777b595aca53219491f1c686f39b24d6\n",
+      "status": "",
+      "branch": "codex/studio2-harness-0310-c01-c03\n"
+    },
+    "/Users/luker/fot-tep-harness-0310-correzioni": {
+      "head": "6268437b8b64288b50ad5f7c924e1fcab85b27d3\n",
+      "tree": "a0c406a8d15411cd175428b7984254c771138d91\n",
+      "status": "",
+      "branch": "codex/studio2-harness-0310-correzioni\n"
+    },
+    "/Users/luker/fot-tep-harness-0310-offline": {
+      "head": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69\n",
+      "tree": "833c10f98f79b203cec385ff1aec0437b679bcc5\n",
+      "status": "",
+      "branch": "codex/studio2-harness-0310-offline\n"
+    },
+    "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate": {
+      "head": "9e18bcbd06fa2c54202c8eeda079c112dbfcefcd\n",
+      "tree": "5d1fd7924c4e1e46346f367590e6aa1977a6ba75\n",
+      "status": "",
+      "branch": ""
+    },
+    "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate": {
+      "head": "0c8157f23bee49a3a5a2df648525c34706da29d7\n",
+      "tree": "a1573b49615a875f24ee97f9f1cd4bab399be93d\n",
+      "status": "",
+      "branch": ""
+    },
+    "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate": {
+      "head": "59b6b93cd9c215e8b687e540f7cd579804b7c66a\n",
+      "tree": "cf08c14a8deb18145189afbe9722d7da46bc2f82\n",
+      "status": "",
+      "branch": ""
+    }
+  },
+  "remote_main": "a00605862f627710347bd63c49f79a6d0a00135f\trefs/heads/main",
+  "preparer_runtime_observed_after_technical_commit": {
+    "source": "/Users/luker/.codex/sessions/2026/09/15/rollout-2026-09-15T00-23-30-01a0a204-abda-7a00-8466-f52f5bc84812.jsonl",
+    "selected_metadata": [
+      {
+        "type": "session_meta",
+        "id": "01a0a204-abda-7a00-8466-f52f5bc84812",
+        "timestamp": "2026-09-14T22:23:30.776Z"
+      },
+      {
+        "type": "turn_context",
+        "model": "gpt-6-astra",
+        "effort": "xhigh",
+        "timestamp": "2026-09-14T22:23:31.744Z"
+      },
+      {
+        "type": "turn_context",
+        "model": "gpt-6-astra",
+        "effort": "xhigh",
+        "timestamp": "2026-09-15T07:08:15.911Z"
+      },
+      {
+        "type": "turn_context",
+        "model": "gpt-6-astra",
+        "effort": "xhigh",
+        "timestamp": "2026-09-15T07:12:11.724Z"
+      },
+      {
+        "type": "turn_context",
+        "model": "gpt-6-astra",
+        "effort": "xhigh",
+        "timestamp": "2026-09-15T08:02:02.625Z"
+      }
+    ]
+  },
+  "expected_documentary_files": [
+    "REPORT_CORREZIONE_D01.md",
+    "PROMPT_VERIFICA_D01.md",
+    "CONSEGNA_D01.json",
+    "DELIVERY_AUDIT_D01.json"
+  ],
+  "worktree_head_at_audit": "edb37f359f29c461c5a507c1027c4bf411654130",
+  "self_reference_policy": "Audit before documentary commit; final HEAD/clean state verified after commit in tool output",
+  "push_merge_tag_freeze_go": false,
+  "scientific_execution": false
+}
