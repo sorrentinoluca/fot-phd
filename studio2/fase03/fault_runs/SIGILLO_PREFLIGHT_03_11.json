@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "sealed_at_utc": "2026-09-15T20:19:22Z",
+  "scope": "subphase_03_11_technical_OOD_preflight_only",
+  "status": "sealed_local_blocked_before_batch",
+  "pre_run_commit": "3618e424748fe02d745f09542ce15d30da032492",
+  "pre_run_tree": "28e87bbd346e3ffa614626b2f2a7db8c7fa878bf",
+  "origin_main_base": "15e56a89b0f377e6d90eef28ed941d4d54b5b00c",
+  "statistical_freeze_tag": "studio2-fase03-piano-statistico-frozen-001",
+  "statistical_freeze_peeled_commit": "11f504b2bf45a39c1bc4746952f50d58c5022743",
+  "matlab_version": "25.2.0.3312555 (R2025b) Update 6",
+  "platform": "MACA64",
+  "qualified_instrumented_mex_sha256": "834e2361915249402a1ec9074a4be04f22a6404deb841e5134bf34347dfde544",
+  "audit": {
+    "path": "studio2/fase03/fault_runs/PREFLIGHT_AUDIT_03_11.json",
+    "sha256": "748bf307eabc39c13f80618dc96ccbf551b03c97fea68a49de3cdde92a24fa03",
+    "status": "BLOCKED_UNRESOLVED_SUBSTITUTE"
+  },
+  "local_archive": {
+    "path": "studio2/fase03/fault_runs/ood_preflight/ood_preflight_001.tar",
+    "bytes": 7426560,
+    "sha256": "16acf7c1e18923b606a47fe3fb0efaa83b99e8ee19024f11f4d8f3fd675929df",
+    "external_publication": null,
+    "recoverability_note": "Present in the dedicated worktree; not yet published to fot-tep-data."
+  },
+  "evidence": [
+    {
+      "path": "studio2/fase03/fault_runs/ood_preflight/ood_preflight_001/preflight-F6-001.manifest.json",
+      "bytes": 7199,
+      "sha256": "cfcb4080406caef2ed931569c3111cd1a724fa1d158c19e164d2ae8fa855428e"
+    },
+    {
+      "path": "studio2/fase03/fault_runs/ood_preflight/ood_preflight_001/preflight-F4-001.manifest.json",
+      "bytes": 7149,
+      "sha256": "bf1155399c2c832b2a211dab610594db2054aba03e119bef0925fff5e47c1654"
+    },
+    {
+      "path": "studio2/fase03/fault_runs/ood_preflight/ood_preflight_001/generation_manifest.csv",
+      "bytes": 11720,
+      "sha256": "d8e169d3ccb14e1e09191ff90c3aaf047990b4a02516ddb001b7596929fac72b"
+    },
+    {
+      "path": "studio2/fase03/fault_runs/ood_preflight/ood_preflight_001/events.jsonl",
+      "bytes": 894,
+      "sha256": "c28e36e8d4e8aec0a1b6eb174537e413b71dba743a46631ff685bf5286c3f0f7"
+    },
+    {
+      "path": "studio2/fase03/fault_runs/runtime/ood_preflight_03_11/matlab.log",
+      "bytes": 1302,
+      "sha256": "aadb31af37e7f33b47e1cbbfe6d11dd6a41b6af0a584d0fbb41483ab2c903f5a"
+    }
+  ],
+  "test_batch_expected_runs": 89,
+  "test_batch_started_runs": 0,
+  "qwen_calls": 0,
+  "scientific_model_calls": 0
+}
