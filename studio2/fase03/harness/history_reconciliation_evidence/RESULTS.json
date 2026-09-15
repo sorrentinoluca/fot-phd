@@ -1,0 +1,53 @@
+{
+  "artifact_version": "1",
+  "scope": "OFFLINE_IMPLEMENTATION_ONLY",
+  "base_commit": "8fbbfa01820d00562188594123182982939187b2",
+  "base_tree": "965d317985bbcef39bc7358022144fd3bd109e0a",
+  "test_file": {
+    "path": "studio2/fase03/harness/test_history_reconciliation.py",
+    "sha256": "ebbe59d6d230f5052d4d8cd4beb5492e23452824aca0fb01111648565409e88c"
+  },
+  "red_green_same_test_bytes": true,
+  "red": {
+    "runtime": "git archive of base commit 8fbbfa01820d00562188594123182982939187b2",
+    "exit_code": 1,
+    "tests_run": 10,
+    "failures": 1,
+    "errors": 15,
+    "log": "red.log",
+    "bytes": 16222,
+    "sha256": "2564a0a437d80e8ec72195d7449263f1c24807d1763ad55e8b9500112ffabd51"
+  },
+  "green": {
+    "runtime": "candidate working tree",
+    "exit_code": 0,
+    "tests_run": 10,
+    "failures": 0,
+    "errors": 0,
+    "log": "green.log",
+    "bytes": 3385,
+    "sha256": "97dd4671d5afb930181eb43a4e055214d546e7bbebe92c1e2055b7134bb9f76e"
+  },
+  "dependent_regressions": [
+    {"module": "studio2.fase03.harness.test_d9", "tests": 17, "result": "OK"},
+    {"module": "studio2.fase03.harness.test_d9_corrections", "tests": 11, "result": "OK"},
+    {"module": "studio2.fase03.harness.test_d04_open_quota", "tests": 8, "result": "OK"},
+    {"module": "studio2.fase03.harness.test_revisions", "tests": 37, "result": "OK"}
+  ],
+  "guardian": {
+    "result": "NON_PASS_HISTORICAL_UNCHANGED",
+    "tests": 35,
+    "failures": 14,
+    "skipped": 1,
+    "errors": 0
+  },
+  "repository_source_bytes_exercised_on_fixture_ledger": true,
+  "real_ledger_mutated": false,
+  "provider_calls": 0,
+  "external_calls": false,
+  "pilot_go": false,
+  "freeze": false,
+  "model": "Codex agent based on GPT-6",
+  "reasoning_effective": "NOT_EXPOSED_TO_SESSION",
+  "suggested_model_not_assumed": "Astra, reasoning high"
+}

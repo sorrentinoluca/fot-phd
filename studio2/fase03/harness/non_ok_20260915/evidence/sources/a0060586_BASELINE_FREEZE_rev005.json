@@ -1,0 +1,195 @@
+{
+  "schema_version": 3,
+  "revision": 5,
+  "document_role": "CANONICAL_EFFECTIVENESS_RECORD",
+  "status": "EFFECTIVE_AFTER_VERIFIED_REMOTE_TAG_PUBLICATION",
+  "effective": true,
+  "date": "2026-09-14",
+  "scope": "phase03_subphase_03_9_normal_dev_and_numeric_baseline_residual_closure",
+  "supersedes": "BASELINE_FREEZE_rev004.json",
+  "previous_manifest_path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev004.json",
+  "previous_manifest_sha256": "4fa5f52bbb48ab94611a1e6a2208b96a8a15fc78b9a5c2fc7b7d7df2806a2b57",
+  "revision_chain": [
+    {
+      "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE.json",
+      "sha256": "8ac1f1e72b23484395c2955c7d14ac333e61f8743d662dd92b933e37f90547c9"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev002.json",
+      "sha256": "b6f455f65640a5bc4353874627d4777fc596aee2b6ddb22757aaef3ab112589b"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json",
+      "sha256": "0312f416dfdbaf8984b2063df2c2e9d00e1737321b9a65dd7e32b0295a937ec8"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev004.json",
+      "sha256": "4fa5f52bbb48ab94611a1e6a2208b96a8a15fc78b9a5c2fc7b7d7df2806a2b57"
+    }
+  ],
+  "verified_residual_candidate": "49bc53b6d4630e7675eb5cf59c6d483d694ab042",
+  "observed_published_prerequisite_commit": "f1746e1e76c5657e5cb74ed765d2f22143f979ce",
+  "effectiveness_commit_resolution": "Resolve the first commit containing this canonical record from Git history; no self-referential Git hash is stored here.",
+  "scientific_record": {
+    "source": {
+      "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev003.json",
+      "sha256": "0312f416dfdbaf8984b2063df2c2e9d00e1737321b9a65dd7e32b0295a937ec8"
+    },
+    "verification": {
+      "status": "OK_REUSED",
+      "reviewed_commit": "ba1a206e1fe31c062d5491b4fb821ff925149982",
+      "review_session": "/root/verifica_039",
+      "record": "studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md",
+      "previous_non_ok_candidates": [
+        "fc927a663395fd88edecf69dc3f594c47c7b663e",
+        "4970134c319107b3058e084c263bc890a06838cc"
+      ],
+      "new_scientific_review_performed_for_effectiveness": false
+    },
+    "conservation": {
+      "status": "PUBLISHED_AND_REDOWNLOAD_VERIFIED_REUSED",
+      "archive_name": "studio2-fase03-normal-dev-v1.tar",
+      "archive_sha256": "eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03",
+      "archive_bytes": 151500800,
+      "inventory_sha256": "198b572ab1f0e600f34c182c2dba98427a3a3cbc56faf13f146187de4d914283",
+      "inventory_rows": 1336,
+      "release_tag": "studio2-fase03-normal-dev-v1",
+      "release_url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-normal-dev-v1",
+      "redownload_verified": true,
+      "published_at_utc": "2026-09-14T15:18:38Z",
+      "verification_record": "studio2/fase03/baseline_numerica/VERIFICA_RISCARICAMENTO_NORMAL_DEV.json",
+      "new_download_performed_for_effectiveness": false
+    }
+  },
+  "frozen_method_preserved": {
+    "prototype": "componentwise arithmetic mean of all fixed development windows",
+    "distance": "mean absolute L1",
+    "tie_tolerance_absolute": "0.000000000001",
+    "distance_abstention_threshold": null,
+    "local_absent_class_policy": "not_a_candidate_no_global_fallback",
+    "metric_denominators_changed": false
+  },
+  "source_files": [
+    {
+      "path": "studio2/fase03/baseline_numerica/SPECIFICA_NORMAL_DEV.md",
+      "sha256": "6ce0a646e2852bf005635aa24e8eb9d319434c5fb8554894937866ab35fce3a5"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/SPECIFICA_BASELINE_NUMERICA.md",
+      "sha256": "510b119ca54ac05225a7302dcf1b685cb4a778673a0f18d5a9a0e736078a6143"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/baseline.py",
+      "sha256": "b1fe2a83b29b25760dd32df00a2178c5235f714273a194feb6cfe8a12ac74f22"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/extract_normal_evidence.py",
+      "sha256": "8d50bf1466b7b87b303ff742b2e99a5d4eea8b147545ad4fa466b005d9c62c1d"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/verify_prototypes.py",
+      "sha256": "7e05316681467a2f7f8faafd9fd4a2f7da666b360bd1dbe89e21b32b8983a29d"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/prepare_conservation.py",
+      "sha256": "9e74969cd279cedbf2e8b4f188db39e759513ed9f0d08e3190910d53cdbacdeb"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/preflight_normal_dev.py",
+      "sha256": "1cbac6e0ec0896b62943fb568d9895a5371991087781180f63fe433ce60186a7"
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json",
+      "sha256": "b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6"
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json",
+      "sha256": "df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf"
+    }
+  ],
+  "published_evidence": [
+    {
+      "path": "studio2/fase03/REGISTRO_PUBBLICAZIONE_CONSOLIDAMENTO_0315_METRICHE_2026-09-14.md",
+      "sha256": "154a5f7fd02b24f4f2909e3f72782f19035b0862d2d5c6538b4693a7aa024a69"
+    },
+    {
+      "path": "studio2/fase03/schema_insight/PUBBLICAZIONE_SCHEMA_INSIGHT.md",
+      "sha256": "69c731158259abe49ffc8aeb4f78139f38325f71c736767c3c090132365e6ed4"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md",
+      "sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e"
+    },
+    {
+      "path": "studio2/fase03/harness/METRIC_INTERFACE_CANDIDATE.json",
+      "sha256": "8ac6eb594636d9e2e546e74be58ca86f79dc5104e97d9c536dff2f5bcd9c4ac4"
+    }
+  ],
+  "residual_ok": {
+    "status": "SATISFIED_ACQUIRED_PUBLISHED",
+    "verdict": "OK",
+    "reviewed_commit": "49bc53b6d4630e7675eb5cf59c6d483d694ab042",
+    "reviewer_model": "gpt-6-astra",
+    "reviewer_reasoning": "high",
+    "review_session": "01a0a199-006e-74c0-841b-f166692301ea",
+    "acquired_record_path": "studio2/fase03/baseline_numerica/evidenze_verifica_residui_49bc53b/VERIFICA_RESIDUI_BASELINE_03_9_2026-09-14.md",
+    "sha256": "2131277d6d8840e767e73e3b0ab9e421f4b27acaa39a18faa770f19a69dd536a",
+    "bytes": 12169,
+    "acquisition_commit": "9370346c61d6edfdb0521aea812003a5f013748d",
+    "acquisition_record_path": "studio2/fase03/baseline_numerica/REGISTRO_OK_E_DECISIONE_TAG_BASELINE_03_9_2026-09-14.md",
+    "acquisition_record_sha256": "6caa9f27cfb669db14ca8d0a1572412195f3d4e83265a0c7378831271fb35fd6",
+    "acquired_byte_identical": true,
+    "acquisition_reachable_from_remote_main": true
+  },
+  "author_tag_decision": {
+    "status": "SATISFIED_PUBLISHED",
+    "tag_name": "studio2-fase03-baseline-numerica-frozen-001",
+    "target_rule": "Published commit containing the verified candidate, acquired OK and all prerequisites, preceding the rev.5 effectiveness record.",
+    "published_decision_record_path": "studio2/fase03/baseline_numerica/REGISTRO_OK_E_DECISIONE_TAG_BASELINE_03_9_2026-09-14.md",
+    "published_decision_record_sha256": "6caa9f27cfb669db14ca8d0a1572412195f3d4e83265a0c7378831271fb35fd6"
+  },
+  "requirements": {
+    "historical_scientific_verification": "SATISFIED_REUSED",
+    "normal_dev_conservation": "SATISFIED_REUSED_PUBLISHED_REDOWNLOAD_RECORD",
+    "metric_mapping": "SATISFIED_PUBLISHED_3360867_04dee86",
+    "phase03_6_sources": "SATISFIED_PUBLISHED_C66BD8D_7C99A83",
+    "phase03_12_publication": "SATISFIED_PUBLISHED_F1746E1",
+    "independent_residual_ok": "SATISFIED_ACQUIRED_PUBLISHED",
+    "exact_tag_name_and_target_rule": "SATISFIED_PUBLISHED_USER_DECISION",
+    "residual_candidate_and_ok_publication": "SATISFIED_TARGET_38CB5F5",
+    "annotated_baseline_tag_remote_verification": "SATISFIED_OBJECT_AND_PEELED",
+    "subsequent_effectiveness_record": "RECORDED_HERE"
+  },
+  "publication": {
+    "published_commit": "38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e",
+    "tag_target_commit": "38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e",
+    "tag_name": "studio2-fase03-baseline-numerica-frozen-001",
+    "annotated_tag_object": "124262f5a6172a20965d019f220ff93954284922",
+    "remote_tag_object": "124262f5a6172a20965d019f220ff93954284922",
+    "remote_peeled_commit": "38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e",
+    "remote_main_commit_at_check": "38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e",
+    "remote_checked_at_utc": "2026-09-14T20:53:04Z",
+    "remote_evidence_path": "studio2/fase03/baseline_numerica/PROVA_REMOTA_FREEZE_BASELINE_03_9_2026-09-14.json",
+    "remote_evidence_sha256": "1d49faf2c0eb04c98e0051810039cf4b21a9fd7868e539e8f314388544821303",
+    "target_reachable_from_remote_main": true,
+    "prerequisites_and_hashes_match_at_target": true,
+    "baseline_tag_published": true
+  },
+  "subphase_status": {
+    "phase03_9": "CLOSED_IN_SCOPE",
+    "phase03_10": "OPEN",
+    "phase03_8": "OPEN",
+    "phase03_15": "OPEN",
+    "phase03": "OPEN"
+  },
+  "out_of_scope": [
+    "D9",
+    "qualification 122B",
+    "signature or freeze of phase03_8",
+    "complete phase03_8 statistical plan integration",
+    "complete phase03_10 harness",
+    "pilot execution or final runs",
+    "phase03 closure"
+  ],
+  "amendment_policy": "Keep BASELINE_FREEZE.json through BASELINE_FREEZE_rev005.json immutable. Any later correction requires a new revision and, if it changes frozen content, a newly reviewed freeze procedure."
+}

@@ -1,0 +1,2093 @@
+{
+  "tests": 8,
+  "failures": [],
+  "errors": [],
+  "observations": {
+    "eighth": [
+      {
+        "restart": false,
+        "entry": "bind",
+        "refused": true
+      },
+      {
+        "restart": false,
+        "entry": "retry",
+        "refused": true
+      },
+      {
+        "restart": true,
+        "entry": "bind",
+        "refused": true
+      },
+      {
+        "restart": true,
+        "entry": "retry",
+        "refused": true
+      }
+    ],
+    "waiver": {
+      "transport_calls": 15,
+      "sixteenth_refused": true
+    },
+    "quota_matrix": [
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_conformity",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "remediation",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "producer_remediation",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "alternate_conformity",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "base",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "budget_probe",
+        "role": "transport",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "INTENT",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "FAILED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "ZERO_TOKEN_PROVEN",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "bind_stage",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "transport",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "stage": "stability_gate",
+        "role": "base",
+        "status": "COMPLETED",
+        "entry": "reserve_base_or_remediation",
+        "mutation": "UNKNOWN",
+        "refused": true,
+        "unchanged": true
+      }
+    ],
+    "triplet": {
+      "legal_transport": 6,
+      "corrupt_refused": true,
+      "over_seven_refused_atomically": true
+    },
+    "role_dependencies": [
+      {
+        "field": "logical_id",
+        "entry": "bind_stage",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "logical_id",
+        "entry": "reserve_base_or_remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "stage_run",
+        "entry": "bind_stage",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "stage_run",
+        "entry": "reserve_base_or_remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "model",
+        "entry": "bind_stage",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "model",
+        "entry": "reserve_base_or_remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "producer",
+        "entry": "bind_stage",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "producer",
+        "entry": "reserve_base_or_remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "identity_json",
+        "entry": "bind_stage",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "identity_json",
+        "entry": "reserve_base_or_remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "retry_of",
+        "entry": "bind_stage",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "retry_of",
+        "entry": "reserve_base_or_remediation",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "stage",
+        "entry": "bind_stage",
+        "refused": true,
+        "unchanged": true
+      },
+      {
+        "field": "stage",
+        "entry": "reserve_base_or_remediation",
+        "refused": true,
+        "unchanged": true
+      }
+    ],
+    "runner": [
+      {
+        "cli": false,
+        "client_calls": 0,
+        "server_calls": 0,
+        "new_sends": 0,
+        "unchanged": true
+      },
+      {
+        "cli": true,
+        "client_calls": 0,
+        "server_calls": 0,
+        "new_sends": 0,
+        "unchanged": true
+      }
+    ],
+    "shared": {
+      "stages": [
+        "producer_conformity",
+        "alternate_conformity"
+      ],
+      "real_writer_blocked": true
+    }
+  }
+}

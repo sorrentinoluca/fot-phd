@@ -1,0 +1,73 @@
+--- 1ac06ebdc92f73d3b630ccca9bf75f413bea170b:studio2/fase03/harness/insight_adapter.py
++++ 59b6b93cd9c215e8b687e540f7cd579804b7c66a:studio2/fase03/harness/insight_adapter.py
+@@ -10,12 +10,15 @@
+ from .common import HarnessError, canonical_json, require_sha256
+ 
+ 
+-SCHEMA_COMMIT = "e058cb07dceeefa8eb4a4b6d1f6fcab5aad483db"
+-SCHEMA_MANIFEST_SHA256 = "d6ef52de0f573edf3e5d6eb5ad3530400c5f63e6bcfa6579a93f21fdfb8865b5"
++SCHEMA_COMMIT = "3c64390bc4dd58c48cc4e1e388a38989b32b3143"
++SCHEMA_MANIFEST_SHA256 = "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12"
++SCHEMA_TAG = "studio2-fase03-schema-insight-frozen-001"
++SCHEMA_TAG_OBJECT = "4d15c4fb915ea9db9f7425225d231746778f0ba1"
+ EXPECTED = {
+-    "validator.py": "ec24159b50dc745963ccf820ccbb8ae2ce05c3894d005239aaf5c960ad9f1228",
++    "validator.py": "cd523d3105e02de99e7cc09bf0c2c4c052c1ae1776c8da37a9b57e869b1aa508",
+     "insight_v1.schema.json": "15e0d29e033c1d699d4f1114b5fdf378ad1cea8398c89b133403a92983229de6",
+     "leakage_rules_v1.json": "1cf035b5d5e7a7f4cc909dc0a04f6f0da6580284d32710f3ee6924533c706a7a",
++    "SCHEMA_FREEZE.json": SCHEMA_MANIFEST_SHA256,
+ }
+ FIXED = ("insight_id", "source_agent", "pseudolabel", "evidence_scope", "variable_ids")
+ 
+@@ -51,12 +54,9 @@
+     try:
+         module.context_check(context)
+     except Exception as exc:
+-        if context.get("normal_label") == "Normal":
+-            raise HarnessError(
+-                "03.12 validator at e058cb0 rejects the 03.7 literal Normal as normal_label; "
+-                "a reviewed 03.12 revision is required before producer or pilot execution"
+-            ) from exc
+-        raise HarnessError(f"03.12 context validation failed: {exc}") from exc
++        raise HarnessError(
++            f"03.12 R4 context validation failed at {SCHEMA_COMMIT}: {exc}"
++        ) from exc
+ 
+ 
+ def validate_library(
+@@ -70,6 +70,35 @@
+     context = context_from_inventory(inventory)
+     assert_context_compatible(validator, context)
+     return validator.validate_library(values, context=context, count=token_count)
++
++
++def validate_produced_pair(
++    values: list[dict[str, Any]],
++    *,
++    inventory: dict[str, Any],
++    agent_id: str,
++    token_count: Callable[[str], int],
++    schema_dir: Path,
++) -> list[dict[str, Any]]:
++    """Validate one producer response without pretending the 16-item library exists."""
++    if not isinstance(values, list) or len(values) != 2:
++        raise HarnessError("producer conformance response must contain exactly two insights")
++    validator = load_validator(schema_dir)
++    context = context_from_inventory(inventory)
++    fixed = validator.context_check(context)
++    expected = sorted(
++        (row for row in fixed.values() if row["source_agent"] == agent_id),
++        key=lambda row: row["insight_id"],
++    )
++    if len(expected) != 2:
++        raise HarnessError(f"{agent_id} must own exactly two fixed insight contracts")
++    ordered = sorted(values, key=lambda row: row.get("insight_id", ""))
++    if [row.get("insight_id") for row in ordered] != [row["insight_id"] for row in expected]:
++        raise HarnessError("producer response does not match the two fixed insight IDs")
++    return [
++        validator.validate(value, fixed=fixed[value["insight_id"]], count=token_count)
++        for value in ordered
++    ]
+ 
+ 
+ def validate_be_diff(

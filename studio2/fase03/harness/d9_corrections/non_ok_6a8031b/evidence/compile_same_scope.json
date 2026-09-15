@@ -1,0 +1,394 @@
+[
+  {
+    "path": "studio2/fase03/__init__.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/__init__.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/audit_normal_dev.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/baseline.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/build_normal_dev_plan.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/extract_normal_evidence.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/preflight_normal_dev.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/prepare_conservation.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/test_baseline.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/test_extract_normal_evidence.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/test_normal_dev_plan.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/verify_prototypes.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_consolidamento_04dee86/check_documents.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_consolidamento_04dee86/check_integrity.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_consolidamento_04dee86/check_metadata.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_consolidamento_04dee86/run_checks.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_consolidamento_04dee86/write_report.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_raccordo/check_documents.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_raccordo/check_integrity.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_raccordo/check_parity.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_raccordo/check_supplement.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_raccordo/write_report.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/fault_runs/build_generation_plan.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/fault_runs/fault_protocol.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/fault_runs/prepare_simulator.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/fault_runs/tests/test_fault_runs.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/fault_runs/verify_smoke.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/__init__.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/acquire.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/add_crash_test.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/edit.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/package_evidence.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/update_manifest.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/canary.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/common.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/correzioni_evidence/RUN_APPLICABLE_ORIGINAL.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/d9.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/d9_offline_fixtures.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/gate_rules.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/guards.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/inputs.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/insight_adapter.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/ledger.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/ledger_cli.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/logging_v1.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/metric_adapter.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/metrics.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/offline_fixtures.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/ordering.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/preparation.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/producer.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/render.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/runtime.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/sampling.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/test_c01_c03.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/test_d01_replay.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/test_d02_predecessors.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/test_d03_contract.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/test_d04_open_quota.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/test_d9.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/test_harness_offline.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/test_metric_raccordo.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/harness/test_revisions.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/offline_verify.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_documents.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_integrity.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/write_report.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/paper_sections/lint_paper_sections.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/prepare_gate.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/producer_probe.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/protocol.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/pseudolabel/__init__.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/pseudolabel/pseudolabel_draw.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/pseudolabel/test_pseudolabel.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/run_pilot.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/schema_insight/test_validator.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/schema_insight/validator.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/selection/draw_d1.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/selection/execution_snapshot/draw_d1.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/selection/test_draw_d1.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/analyze_far_ver.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/audit_lot.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/build_generation_plan.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/complete_threshold_uncertainty.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/conserve_normal.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/freeze_threshold.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/preflight.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/recheck_r2_guard.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/score_cal_thr.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/tests/test_generation_plan.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/tests/test_generation_plan_stdlib.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/tests/test_r2_guard_recheck.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/tests/test_threshold_uncertainty.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/verify_smoke.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/synthetic_fixture.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/tests/__init__.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/tests/test_execution_guard.py",
+    "error": null
+  },
+  {
+    "path": "studio2/fase03/tests/test_protocol.py",
+    "error": null
+  }
+]

@@ -1,0 +1,10 @@
+test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation (__main__.Chain.test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation) ... ok
+test_Z02_missing_predecessor_coverage_is_not_a_successful_chain (__main__.Chain.test_Z02_missing_predecessor_coverage_is_not_a_successful_chain) ... ok
+test_Z03_real_runner_rejects_corrupted_alternate_predecessor (__main__.Chain.test_Z03_real_runner_rejects_corrupted_alternate_predecessor) ... ok
+test_Z04_each_confirmation_holds_a_real_write_lock_for_all_predecessor_reads (__main__.Chain.test_Z04_each_confirmation_holds_a_real_write_lock_for_all_predecessor_reads) ... ok
+test_Z05_closed_failed_gate_replays_without_promoting_outcome (__main__.Chain.test_Z05_closed_failed_gate_replays_without_promoting_outcome) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 97.011s
+
+OK

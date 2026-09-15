@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/opt/anaconda3/bin/python3",
+    "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/independent_probes.py"
+  ],
+  "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate",
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-original_U_red",
+    "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate"
+  },
+  "extra_environment": {
+    "PROBE_OUTPUT": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/fixtures_U_red"
+  },
+  "started_epoch": 1789487967.341461,
+  "exit_code": 1,
+  "elapsed_seconds": 8.402760982513428,
+  "summary": "Ran 8 tests in 8.258s\n\nFAILED (failures=3)"
+}

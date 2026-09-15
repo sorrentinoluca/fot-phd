@@ -1,0 +1,36 @@
+{
+  "mode": "compile in memory; no inference or service call",
+  "files": [
+    {
+      "path": "studio2/fase03/harness/d9.py",
+      "bytes": 15740,
+      "sha256": "1a13ae7fc346c4a6b0daaaf8a3b77d5016f152bbd64def4efa0772ed53f0df2b"
+    },
+    {
+      "path": "studio2/fase03/harness/ledger.py",
+      "bytes": 49006,
+      "sha256": "8a5bd8410d612a5aa009fa088a9c676b26867fb1a86dd9381f6fca84c33a0aea"
+    },
+    {
+      "path": "studio2/fase03/producer_probe.py",
+      "bytes": 17049,
+      "sha256": "d1804b36beb0f46880166c0f4cffa72971e9aaa6045786c3bcbe1a8255301991"
+    },
+    {
+      "path": "studio2/fase03/run_pilot.py",
+      "bytes": 28991,
+      "sha256": "be8d3dec662f4da46ad7742eac82d524e36f55270c28668eeab61361409e5637"
+    },
+    {
+      "path": "studio2/fase03/harness/test_d9_corrections.py",
+      "bytes": 7716,
+      "sha256": "77c4249db7889c0948fa02baa3d465d2e348541162b2098a95880a5b2117dd06"
+    },
+    {
+      "path": "studio2/fase03/harness/d9_corrections/transport_boundary_regression.py",
+      "bytes": 3530,
+      "sha256": "01cfedbba184b01dba1066658ba3d339f1843bb8b051fc6e71c7801dd676c6f0"
+    }
+  ],
+  "errors": 0
+}

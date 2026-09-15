@@ -1,0 +1,5 @@
+{
+  "source_and_documentation": "git diff --cached --check -- *.py *.md: PASS",
+  "full_staged_diff": "warnings confined to preserved raw test logs and intentionally corrupted fixtures; bytes not normalized",
+  "warning_log": "diff_check_raw_evidence.log"
+}

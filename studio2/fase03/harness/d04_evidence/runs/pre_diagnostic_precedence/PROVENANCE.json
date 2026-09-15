@@ -1,0 +1,14 @@
+{
+  "ledger_sha256": "b809ff5a1673690e5aff078c1e7c051b9522685417a40afb8902ee7317ec553b",
+  "targeted": {
+    "tests": 128,
+    "failures": 3,
+    "errors": 0
+  },
+  "discovery": {
+    "tests": 163,
+    "failures": 3,
+    "errors": 0
+  },
+  "reason": "Refusals occurred earlier but changed historical diagnostic precedence: hard stop 200 and alternate prerequisite; tests remain unchanged."
+}

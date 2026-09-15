@@ -1,0 +1,691 @@
+test_20_thresholds_and_missing_abstention (__main__.GateProbes.test_20_thresholds_and_missing_abstention) ... ERROR
+test_21_forensic_vs_semantic_truncation_all_invalid (__main__.GateProbes.test_21_forensic_vs_semantic_truncation_all_invalid) ... ERROR
+test_22_duplicate_repetitions_are_not_three_first_attempts (__main__.GateProbes.test_22_duplicate_repetitions_are_not_three_first_attempts) ... ok
+test_23_triplet_cannot_mix_conditions (__main__.GateProbes.test_23_triplet_cannot_mix_conditions) ... ok
+test_24_gate_condition_sample_must_match_8_16_16 (__main__.GateProbes.test_24_gate_condition_sample_must_match_8_16_16) ... ok
+test_30_all_four_r4_byte_tamper_rejected (__main__.InputProbes.test_30_all_four_r4_byte_tamper_rejected) ... ok
+test_31_r4_pair_ids_fields_caps_leakage (__main__.InputProbes.test_31_r4_pair_ids_fields_caps_leakage) ... ok
+test_32_producer_inventory_cannot_accept_changed_source_text (__main__.InputProbes.test_32_producer_inventory_cannot_accept_changed_source_text) ... ok
+test_33_insight_handoff_self_declared_valid_is_insufficient (__main__.InputProbes.test_33_insight_handoff_self_declared_valid_is_insufficient) ... ok
+test_34_renderer_refuses_pending_label_order (__main__.InputProbes.test_34_renderer_refuses_pending_label_order) ... ok
+test_35_builder_preserves_canonical_label_space (__main__.InputProbes.test_35_builder_preserves_canonical_label_space) ... ERROR
+test_36_endpoint_and_tokenizer_guards_reject_tampering (__main__.InputProbes.test_36_endpoint_and_tokenizer_guards_reject_tampering) ... ok
+test_37_frozen_pseudolabel_assignment_derangement_bytes_are_enforced (__main__.InputProbes.test_37_frozen_pseudolabel_assignment_derangement_bytes_are_enforced) ... ok
+test_38_evidence_json_hash_is_verified_before_contract_extraction (__main__.InputProbes.test_38_evidence_json_hash_is_verified_before_contract_extraction) ... ok
+test_39_pending_label_order_cannot_reach_real_prepare_entrypoint (__main__.InputProbes.test_39_pending_label_order_cannot_reach_real_prepare_entrypoint) ... ERROR
+test_01_crash_intent_survives_real_process_exit (__main__.LedgerProbes.test_01_crash_intent_survives_real_process_exit) ... FAIL
+test_02_two_processes_same_logical_request (__main__.LedgerProbes.test_02_two_processes_same_logical_request) ... FAIL
+test_03_restart_changed_stage_run_cannot_duplicate_logical_request (__main__.LedgerProbes.test_03_restart_changed_stage_run_cannot_duplicate_logical_request) ... ERROR
+test_04_failed_transport_cannot_be_promoted_to_pass (__main__.LedgerProbes.test_04_failed_transport_cannot_be_promoted_to_pass) ... ERROR
+test_05_zero_token_original_without_successful_retry_cannot_pass (__main__.LedgerProbes.test_05_zero_token_original_without_successful_retry_cannot_pass) ... ERROR
+test_06_closed_stage_cannot_acquire_new_retry (__main__.LedgerProbes.test_06_closed_stage_cannot_acquire_new_retry) ... ERROR
+test_07_pending_late_retry_blocks_next_stage_after_restart (__main__.LedgerProbes.test_07_pending_late_retry_blocks_next_stage_after_restart) ... ERROR
+test_08_public_event_api_cannot_forge_gate_prerequisite (__main__.LedgerProbes.test_08_public_event_api_cannot_forge_gate_prerequisite) ... ERROR
+test_09_remediation_cannot_replace_eight_cases_by_one_case (__main__.LedgerProbes.test_09_remediation_cannot_replace_eight_cases_by_one_case) ... ERROR
+test_10_unknown_timeout_cannot_authorize_prompt_remediation (__main__.LedgerProbes.test_10_unknown_timeout_cannot_authorize_prompt_remediation) ... ERROR
+test_11_same_original_cannot_fund_concurrent_retries (__main__.LedgerProbes.test_11_same_original_cannot_fund_concurrent_retries) ... ERROR
+test_12_probe_triplet_cannot_reuse_one_original_three_times (__main__.LedgerProbes.test_12_probe_triplet_cannot_reuse_one_original_three_times) ... ERROR
+test_13_probe_triplet_rollback_at_quota_boundary (__main__.LedgerProbes.test_13_probe_triplet_rollback_at_quota_boundary) ... ERROR
+test_14_waiver_boundary_15_and_no_alternate_quota_theft (__main__.LedgerProbes.test_14_waiver_boundary_15_and_no_alternate_quota_theft) ... ERROR
+test_15_gate_create_once_no_retry_and_no_return_to_probe (__main__.LedgerProbes.test_15_gate_create_once_no_retry_and_no_return_to_probe) ... ERROR
+test_16_planned_maxima_152_160_with_valid_quota_chain (__main__.LedgerProbes.test_16_planned_maxima_152_160_with_valid_quota_chain) ... ERROR
+test_17_hard_200_separate_for_imported_historical_fixture (__main__.LedgerProbes.test_17_hard_200_separate_for_imported_historical_fixture) ... ERROR
+test_18_outcome_validation_and_write_are_atomic (__main__.LedgerProbes.test_18_outcome_validation_and_write_are_atomic) ... ERROR
+test_60_sampling_and_canary_forensic_separation (__main__.RecoveredModuleProbes.test_60_sampling_and_canary_forensic_separation) ... ok
+test_61_recovered_logger_persists_and_detects_tamper (__main__.RecoveredModuleProbes.test_61_recovered_logger_persists_and_detects_tamper) ... ok
+test_62_tokenizer_byte_guards (__main__.RecoveredModuleProbes.test_62_tokenizer_byte_guards) ... ok
+test_40_producer_validates_all_pairs_and_writes_only_full_library (__main__.RunnerProbes.test_40_producer_validates_all_pairs_and_writes_only_full_library) ... ERROR
+test_41_r4_tamper_must_block_before_any_transport (__main__.RunnerProbes.test_41_r4_tamper_must_block_before_any_transport) ... ok
+test_42_producer_changed_identity_suspends (__main__.RunnerProbes.test_42_producer_changed_identity_suspends) ... ERROR
+test_43_producer_failure_preserves_completed_raw_before_restart (__main__.RunnerProbes.test_43_producer_failure_preserves_completed_raw_before_restart) ... ERROR
+test_44_producer_resume_skips_completed_requests (__main__.RunnerProbes.test_44_producer_resume_skips_completed_requests) ... ERROR
+test_45_remediation_must_bind_approved_template_hash (__main__.RunnerProbes.test_45_remediation_must_bind_approved_template_hash) ... ERROR
+test_46_consumer_rejects_undecided_before_historical_server_contact (__main__.RunnerProbes.test_46_consumer_rejects_undecided_before_historical_server_contact) ... ok
+test_47_load_prepared_checks_source_manifest_hash (__main__.RunnerProbes.test_47_load_prepared_checks_source_manifest_hash) ... ERROR
+test_48_tracked_transport_failure_remains_invalid_in_denominator (__main__.RunnerProbes.test_48_tracked_transport_failure_remains_invalid_in_denominator) ... ERROR
+test_49_changed_producer_input_cannot_become_validated_library (__main__.RunnerProbes.test_49_changed_producer_input_cannot_become_validated_library) ... ERROR
+test_50_budget_crash_preserves_partial_raw_and_stage_count (__main__.RunnerProbes.test_50_budget_crash_preserves_partial_raw_and_stage_count) ... ERROR
+test_51_gate_crash_preserves_raw_without_duplicate_on_restart (__main__.RunnerProbes.test_51_gate_crash_preserves_raw_without_duplicate_on_restart) ... ERROR
+test_52_gate_rejects_frozen_generation_changed_after_probe (__main__.RunnerProbes.test_52_gate_rejects_frozen_generation_changed_after_probe) ... ERROR
+test_53_gate_rejects_changed_returned_model (__main__.RunnerProbes.test_53_gate_rejects_changed_returned_model) ... ERROR
+
+======================================================================
+ERROR: test_20_thresholds_and_missing_abstention (__main__.GateProbes.test_20_thresholds_and_missing_abstention)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 218, in test_20_thresholds_and_missing_abstention
+    self.assertTrue(evaluate_stability_gate(v)['t3_pass'])
+                    ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/gate_rules.py", line 45, in evaluate_stability_gate
+    raise HarnessError('gate requires the authenticated frozen prompt sample')
+studio2.fase03.harness.common.HarnessError: gate requires the authenticated frozen prompt sample
+
+======================================================================
+ERROR: test_21_forensic_vs_semantic_truncation_all_invalid (__main__.GateProbes.test_21_forensic_vs_semantic_truncation_all_invalid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 229, in test_21_forensic_vs_semantic_truncation_all_invalid
+    self.assertEqual(evaluate_stability_gate(v)['divergent_prompt_count'],0)
+                     ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/gate_rules.py", line 45, in evaluate_stability_gate
+    raise HarnessError('gate requires the authenticated frozen prompt sample')
+studio2.fase03.harness.common.HarnessError: gate requires the authenticated frozen prompt sample
+
+======================================================================
+ERROR: test_35_builder_preserves_canonical_label_space (__main__.InputProbes.test_35_builder_preserves_canonical_label_space)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 292, in test_35_builder_preserves_canonical_label_space
+    _,executable=inputs.build_inventory(evidence_root=(OUT/'reference/studio2/fase03/evidence/output'),pseudolabel_path=ROOT/'studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json',assignment_path=ROOT/'studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json',derangement_path=ROOT/'studio2/fase03/pseudolabel/CONDITION_E_DERANGEMENTS.json',normal_handoff=ROOT/'studio2/fase03/baseline_numerica/NORMAL_DEV_HANDOFF.json',insight_handoff=handoff,assembly_base_commit='a00605862f627710347bd63c49f79a6d0a00135f')
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/inputs.py", line 259, in build_inventory
+    insights, missing_insights, insight_validation = _insights(insight_handoff, ledger=ledger, token_count=token_count, schema_dir=schema_dir)
+                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/inputs.py", line 171, in _insights
+    raise HarnessError('insight handoff requires durable producer ledger and R4 validation')
+studio2.fase03.harness.common.HarnessError: insight handoff requires durable producer ledger and R4 validation
+
+======================================================================
+ERROR: test_39_pending_label_order_cannot_reach_real_prepare_entrypoint (__main__.InputProbes.test_39_pending_label_order_cannot_reach_real_prepare_entrypoint)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 323, in test_39_pending_label_order_cannot_reach_real_prepare_entrypoint
+    inventory,executable=inputs.build_inventory(**args)
+                         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/inputs.py", line 259, in build_inventory
+    insights, missing_insights, insight_validation = _insights(insight_handoff, ledger=ledger, token_count=token_count, schema_dir=schema_dir)
+                                                     ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/inputs.py", line 171, in _insights
+    raise HarnessError('insight handoff requires durable producer ledger and R4 validation')
+studio2.fase03.harness.common.HarnessError: insight handoff requires durable producer ledger and R4 validation
+
+======================================================================
+ERROR: test_03_restart_changed_stage_run_cannot_duplicate_logical_request (__main__.LedgerProbes.test_03_restart_changed_stage_run_cannot_duplicate_logical_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 92, in test_03_restart_changed_stage_run_cannot_duplicate_logical_request
+    self.reserve(0)
+    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_04_failed_transport_cannot_be_promoted_to_pass (__main__.LedgerProbes.test_04_failed_transport_cannot_be_promoted_to_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 98, in test_04_failed_transport_cannot_be_promoted_to_pass
+    for i in range(8):self.complete(self.reserve(i),'FAILED' if i==0 else 'COMPLETED')
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_05_zero_token_original_without_successful_retry_cannot_pass (__main__.LedgerProbes.test_05_zero_token_original_without_successful_retry_cannot_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 102, in test_05_zero_token_original_without_successful_retry_cannot_pass
+    for i in range(8):self.complete(self.reserve(i),'ZERO_TOKEN_PROVEN' if i==0 else 'COMPLETED')
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_06_closed_stage_cannot_acquire_new_retry (__main__.LedgerProbes.test_06_closed_stage_cannot_acquire_new_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 106, in test_06_closed_stage_cannot_acquire_new_retry
+    for i in range(8):self.complete(self.reserve(i),'ZERO_TOKEN_PROVEN' if i==0 else 'COMPLETED')
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_07_pending_late_retry_blocks_next_stage_after_restart (__main__.LedgerProbes.test_07_pending_late_retry_blocks_next_stage_after_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 112, in test_07_pending_late_retry_blocks_next_stage_after_restart
+    for i in range(8):self.complete(self.reserve(i),'ZERO_TOKEN_PROVEN' if i==0 else 'COMPLETED')
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_08_public_event_api_cannot_forge_gate_prerequisite (__main__.LedgerProbes.test_08_public_event_api_cannot_forge_gate_prerequisite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 121, in test_08_public_event_api_cannot_forge_gate_prerequisite
+    self.ledger.record_event('outcome:budget_probe',artifact_sha256=H,detail={'outcome':'PASS'})
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 115, in record_event
+    raise HarnessError("public events may only be non-normative notes")
+studio2.fase03.harness.common.HarnessError: public events may only be non-normative notes
+
+======================================================================
+ERROR: test_09_remediation_cannot_replace_eight_cases_by_one_case (__main__.LedgerProbes.test_09_remediation_cannot_replace_eight_cases_by_one_case)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 125, in test_09_remediation_cannot_replace_eight_cases_by_one_case
+    self.conformity('FAIL');self.ledger.authorize_remediation(diff_sha256=H,approval_sha256=H,template_sha256=H)
+    ~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 51, in conformity
+    for i in range(8):self.complete(self.reserve(i),status)
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_10_unknown_timeout_cannot_authorize_prompt_remediation (__main__.LedgerProbes.test_10_unknown_timeout_cannot_authorize_prompt_remediation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 131, in test_10_unknown_timeout_cannot_authorize_prompt_remediation
+    for i in range(8):self.complete(self.reserve(i),'FAILED' if i==0 else 'COMPLETED')
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_11_same_original_cannot_fund_concurrent_retries (__main__.LedgerProbes.test_11_same_original_cannot_fund_concurrent_retries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 136, in test_11_same_original_cannot_fund_concurrent_retries
+    self.complete(self.reserve(0),'ZERO_TOKEN_PROVEN');self.retry(0,'producer_conformity-0')
+                  ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_12_probe_triplet_cannot_reuse_one_original_three_times (__main__.LedgerProbes.test_12_probe_triplet_cannot_reuse_one_original_three_times)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 140, in test_12_probe_triplet_cannot_reuse_one_original_three_times
+    self.conformity();self.complete(self.reserve(0,'budget_probe'),'ZERO_TOKEN_PROVEN')
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 51, in conformity
+    for i in range(8):self.complete(self.reserve(i),status)
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_13_probe_triplet_rollback_at_quota_boundary (__main__.LedgerProbes.test_13_probe_triplet_rollback_at_quota_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 145, in test_13_probe_triplet_rollback_at_quota_boundary
+    self.conformity()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 51, in conformity
+    for i in range(8):self.complete(self.reserve(i),status)
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_14_waiver_boundary_15_and_no_alternate_quota_theft (__main__.LedgerProbes.test_14_waiver_boundary_15_and_no_alternate_quota_theft)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 154, in test_14_waiver_boundary_15_and_no_alternate_quota_theft
+    self.complete(self.reserve(0),'ZERO_TOKEN_PROVEN');original='producer_conformity-0'
+                  ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_15_gate_create_once_no_retry_and_no_return_to_probe (__main__.LedgerProbes.test_15_gate_create_once_no_retry_and_no_return_to_probe)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 166, in test_15_gate_create_once_no_retry_and_no_return_to_probe
+    self.probe();self.complete(self.reserve(0,'stability_gate'),'ZERO_TOKEN_PROVEN')
+    ~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 54, in probe
+    self.conformity()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 51, in conformity
+    for i in range(8):self.complete(self.reserve(i),status)
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_16_planned_maxima_152_160_with_valid_quota_chain (__main__.LedgerProbes.test_16_planned_maxima_152_160_with_valid_quota_chain)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 176, in test_16_planned_maxima_152_160_with_valid_quota_chain
+    self.conformity('FAIL');self.ledger.authorize_remediation(diff_sha256=H,approval_sha256=H,template_sha256=H)
+    ~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 51, in conformity
+    for i in range(8):self.complete(self.reserve(i),status)
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_17_hard_200_separate_for_imported_historical_fixture (__main__.LedgerProbes.test_17_hard_200_separate_for_imported_historical_fixture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 195, in test_17_hard_200_separate_for_imported_historical_fixture
+    self.reserve(0)
+    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_18_outcome_validation_and_write_are_atomic (__main__.LedgerProbes.test_18_outcome_validation_and_write_are_atomic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 205, in test_18_outcome_validation_and_write_are_atomic
+    for i in range(8):self.complete(self.reserve(i),'ZERO_TOKEN_PROVEN' if i==0 else 'COMPLETED')
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_40_producer_validates_all_pairs_and_writes_only_full_library (__main__.RunnerProbes.test_40_producer_validates_all_pairs_and_writes_only_full_library)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 364, in test_40_producer_validates_all_pairs_and_writes_only_full_library
+    self.setup_producer(malformed_at=3);result=self.run_producer()
+                                               ~~~~~~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 361, in run_producer
+    return pp.run(**self.run_kwargs,stage=self.producer_stage)
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/producer_probe.py", line 101, in run
+    require_execution(preflight)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/guards.py", line 97, in require_execution
+    raise HarnessError('execution suspended: approved model decision and executable preflight required after D9')
+studio2.fase03.harness.common.HarnessError: execution suspended: approved model decision and executable preflight required after D9
+
+======================================================================
+ERROR: test_42_producer_changed_identity_suspends (__main__.RunnerProbes.test_42_producer_changed_identity_suspends)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 379, in test_42_producer_changed_identity_suspends
+    self.setup_producer();result=self.run_producer()
+                                 ~~~~~~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 361, in run_producer
+    return pp.run(**self.run_kwargs,stage=self.producer_stage)
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/producer_probe.py", line 101, in run
+    require_execution(preflight)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/guards.py", line 97, in require_execution
+    raise HarnessError('execution suspended: approved model decision and executable preflight required after D9')
+studio2.fase03.harness.common.HarnessError: execution suspended: approved model decision and executable preflight required after D9
+
+======================================================================
+ERROR: test_43_producer_failure_preserves_completed_raw_before_restart (__main__.RunnerProbes.test_43_producer_failure_preserves_completed_raw_before_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 385, in test_43_producer_failure_preserves_completed_raw_before_restart
+    with self.assertRaises(RuntimeError):self.run_producer()
+                                         ~~~~~~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 361, in run_producer
+    return pp.run(**self.run_kwargs,stage=self.producer_stage)
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/producer_probe.py", line 101, in run
+    require_execution(preflight)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/guards.py", line 97, in require_execution
+    raise HarnessError('execution suspended: approved model decision and executable preflight required after D9')
+studio2.fase03.harness.common.HarnessError: execution suspended: approved model decision and executable preflight required after D9
+
+======================================================================
+ERROR: test_44_producer_resume_skips_completed_requests (__main__.RunnerProbes.test_44_producer_resume_skips_completed_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 393, in test_44_producer_resume_skips_completed_requests
+    with self.assertRaises(RuntimeError):self.run_producer()
+                                         ~~~~~~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 361, in run_producer
+    return pp.run(**self.run_kwargs,stage=self.producer_stage)
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/producer_probe.py", line 101, in run
+    require_execution(preflight)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/guards.py", line 97, in require_execution
+    raise HarnessError('execution suspended: approved model decision and executable preflight required after D9')
+studio2.fase03.harness.common.HarnessError: execution suspended: approved model decision and executable preflight required after D9
+
+======================================================================
+ERROR: test_45_remediation_must_bind_approved_template_hash (__main__.RunnerProbes.test_45_remediation_must_bind_approved_template_hash)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 401, in test_45_remediation_must_bind_approved_template_hash
+    self.conformity('FAIL');self.ledger.authorize_remediation(diff_sha256='b'*64,approval_sha256='c'*64,template_sha256='0'*64)
+    ~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 51, in conformity
+    for i in range(8):self.complete(self.reserve(i),status)
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_47_load_prepared_checks_source_manifest_hash (__main__.RunnerProbes.test_47_load_prepared_checks_source_manifest_hash)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 425, in test_47_load_prepared_checks_source_manifest_hash
+    with self.assertRaises(RuntimeError):rp.load_prepared(self.home)
+                                         ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/run_pilot.py", line 295, in load_prepared
+    require_execution(config)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/guards.py", line 97, in require_execution
+    raise HarnessError('execution suspended: approved model decision and executable preflight required after D9')
+studio2.fase03.harness.common.HarnessError: execution suspended: approved model decision and executable preflight required after D9
+
+======================================================================
+ERROR: test_48_tracked_transport_failure_remains_invalid_in_denominator (__main__.RunnerProbes.test_48_tracked_transport_failure_remains_invalid_in_denominator)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 428, in test_48_tracked_transport_failure_remains_invalid_in_denominator
+    self.probe()
+    ~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 54, in probe
+    self.conformity()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 51, in conformity
+    for i in range(8):self.complete(self.reserve(i),status)
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_49_changed_producer_input_cannot_become_validated_library (__main__.RunnerProbes.test_49_changed_producer_input_cannot_become_validated_library)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 440, in test_49_changed_producer_input_cannot_become_validated_library
+    result=self.run_producer();self.observe(summary=result,altered_text_sent=any('UNVERIFIED OOD/TEST FIXTURE' in x['messages'][0]['content'] for x in self.calls))
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 361, in run_producer
+    return pp.run(**self.run_kwargs,stage=self.producer_stage)
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/producer_probe.py", line 101, in run
+    require_execution(preflight)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/guards.py", line 97, in require_execution
+    raise HarnessError('execution suspended: approved model decision and executable preflight required after D9')
+studio2.fase03.harness.common.HarnessError: execution suspended: approved model decision and executable preflight required after D9
+
+======================================================================
+ERROR: test_50_budget_crash_preserves_partial_raw_and_stage_count (__main__.RunnerProbes.test_50_budget_crash_preserves_partial_raw_and_stage_count)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 464, in test_50_budget_crash_preserves_partial_raw_and_stage_count
+    self.conformity();self.setup_consumer(fail_at=2)
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 51, in conformity
+    for i in range(8):self.complete(self.reserve(i),status)
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_51_gate_crash_preserves_raw_without_duplicate_on_restart (__main__.RunnerProbes.test_51_gate_crash_preserves_raw_without_duplicate_on_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 472, in test_51_gate_crash_preserves_raw_without_duplicate_on_restart
+    self.probe();self.setup_consumer(fail_at=2)
+    ~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 54, in probe
+    self.conformity()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 51, in conformity
+    for i in range(8):self.complete(self.reserve(i),status)
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_52_gate_rejects_frozen_generation_changed_after_probe (__main__.RunnerProbes.test_52_gate_rejects_frozen_generation_changed_after_probe)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 482, in test_52_gate_rejects_frozen_generation_changed_after_probe
+    self.conformity();self.setup_consumer()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 51, in conformity
+    for i in range(8):self.complete(self.reserve(i),status)
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+ERROR: test_53_gate_rejects_changed_returned_model (__main__.RunnerProbes.test_53_gate_rejects_changed_returned_model)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 492, in test_53_gate_rejects_changed_returned_model
+    self.conformity();self.setup_consumer()
+    ~~~~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 51, in conformity
+    for i in range(8):self.complete(self.reserve(i),status)
+                                    ~~~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 46, in reserve
+    (ledger or self.ledger).reserve_request(request_id=f'{stage}-{i}',logical_id=f'{stage}-{i}',model='fixture-model',producer='fixture-producer',stage=stage,stage_run=run)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+
+======================================================================
+FAIL: test_01_crash_intent_survives_real_process_exit (__main__.LedgerProbes.test_01_crash_intent_survives_real_process_exit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 74, in test_01_crash_intent_survives_real_process_exit
+    self.assertEqual((p.returncode,snap['requests_cumulative'],snap['unresolved_intents']),(23,1,1))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (1, 0, 0) != (23, 1, 1)
+
+First differing element 0:
+1
+23
+
+- (1, 0, 0)
++ (23, 1, 1)
+
+======================================================================
+FAIL: test_02_two_processes_same_logical_request (__main__.LedgerProbes.test_02_two_processes_same_logical_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/evidence/negative_probes.py", line 89, in test_02_two_processes_same_logical_request
+    self.assertEqual(exits,[0,17]);self.assertEqual(self.ledger.snapshot()['requests_cumulative'],1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: Lists differ: [17, 17] != [0, 17]
+
+First differing element 0:
+17
+0
+
+- [17, 17]
+?  ^^
+
++ [0, 17]
+?  ^
+
+
+----------------------------------------------------------------------
+Ran 50 tests in 1.232s
+
+FAILED (failures=2, errors=32)

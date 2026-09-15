@@ -1,0 +1,18 @@
+{
+  "contract_first_commit": "567881abf06572812c00ccc0ed817d169b68fee6",
+  "test_path": "studio2/fase03/harness/test_d03_contract.py",
+  "final_test_sha256": "28d0a19fa18b2d83b74a4eb99e6640cb13e73e7f3388fb9ae34bf5dd042e7582",
+  "red_result": {
+    "tests": 9,
+    "failures": 8,
+    "errors": 0,
+    "observations": "see full red_contract.json"
+  },
+  "green_result": {
+    "tests": 9,
+    "failures": 0,
+    "errors": 0,
+    "observations": "see full green_contract.json"
+  },
+  "only_refinement_after_first_runtime": "inventory guard covers new named nested proof/approval fields; no expectation weakened"
+}

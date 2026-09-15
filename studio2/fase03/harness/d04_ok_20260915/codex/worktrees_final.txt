@@ -1,0 +1,4 @@
+worktree /Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/candidate
+HEAD aae29a908356e4a4842a214fdc3db9bff26ec3ca
+detached
+

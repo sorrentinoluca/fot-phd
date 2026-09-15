@@ -1,0 +1,16 @@
+======================================================================
+ERROR: test_direct_consumer_transport_requires_reservation (studio2.fase03.harness.test_d9.D9Runners.test_direct_consumer_transport_requires_reservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_d9.py", line 138, in test_direct_consumer_transport_requires_reservation
+    provider.call(prompt={'text':'fixture'},schema={},generation={'max_tokens':10})
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/run_pilot.py", line 217, in call
+    raise HarnessError('D9: direct transport requires a reserved durable request')
+          ^^^^^^^^^^^^
+NameError: name 'HarnessError' is not defined
+
+----------------------------------------------------------------------
+Ran 12 tests in 2.921s
+
+FAILED (errors=1)

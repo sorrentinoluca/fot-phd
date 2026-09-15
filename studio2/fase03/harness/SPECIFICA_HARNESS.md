@@ -1,39 +1,90 @@
-# Specifica della sotto-fase 03.10 — harness API e input reali del pilot
+# Specifica della sotto-fase 03.10 — candidato harness offline
 
-Data: **2026-09-14**. Profilo: **implementativo**. Base: `origin/main` a
-`46c0b623f55154684f326a8523521fb28991fb09`. Nessuna chiamata a modelli e nessuna simulazione
-sono autorizzate in questa sotto-fase. Gli artefatti eseguibili restano `pending` finché non sono
-disponibili esempi Normal da `normal_dev`, sedici insight reali validi e il tokenizer pinnato sul
-server.
+Data: **2026-09-14**. Base di assemblaggio: `origin/main`
+`a00605862f627710347bd63c49f79a6d0a00135f`. Stato: **candidato offline da
+verificare indipendentemente**. Nessuna chiamata API, inferenza o simulazione è
+stata eseguita. Il raccordo metriche già qualificato resta invariato e il suo OK
+non è esteso all'harness completo.
 
-## 1. Contratti e dipendenze
+## 1. Fonti e perimetro di recupero
 
-L'harness estende i moduli esistenti senza modificarli. Usa:
+Il package preesistente è stato letto dal worktree
+`/Users/luker/fot-tep/.worktrees/studio2-harness`, branch
+`codex/studio2-harness`, commit
+`1ac06ebdc92f73d3b630ccca9bf75f413bea170b`. È una fonte di codice, non un
+ramo da fondere. Sono stati recuperati e adattati i moduli `canary.py`,
+`guards.py`, `inputs.py`, `insight_adapter.py`, `logging_v1.py`, `ordering.py`,
+`producer.py`, `render.py` e `sampling.py`. Non sono stati recuperati i vecchi
+freeze, report, manifest di stato o documenti sopra le pubblicazioni correnti.
 
-- pseudolabel, owner e derangement congelati in `origin/main`, tag
-  `studio2-fase03-pseudolabel-frozen-001`;
-- evidence 03.6 dal commit `2f6dd8de38b944e61853e605202c4c376a90585d` e dalla release
-  `studio2-fase03-evidence-v1`, archivio SHA-256
-  `3e1eb87f38ff3fc6dd3346476785d06c2b98944b209f7f58706b3c71c1676999`;
-- schema insight 03.12 esclusivamente nei byte del commit
-  `e058cb07dceeefa8eb4a4b6d1f6fcab5aad483db`, manifest SHA-256
-  `d6ef52de0f573edf3e5d6eb5ad3530400c5f63e6bcfa6579a93f21fdfb8865b5`;
-- piano statistico 03.8 dal branch `codex/studio2-piano-statistico` come specifica
-  **proposta**, non congelata;
-- `normal_dev` della 03.9 quando sarà specificato, prodotto e conservato. N1–N5, `cal_thr`,
-  `far_ver` e i dieci Normal del pilot non sono esempi locali.
+Sono nuovi in questo delta `ledger.py`, `gate_rules.py` e
+`test_harness_offline.py`. Sono adattati anche `protocol.py`, `run_pilot.py`,
+`producer_probe.py`, `config/pilot_preflight.json` e i test delle guardie. I
+moduli qualificati `metric_adapter.py`, `metrics.py` e
+`test_metric_raccordo.py` non sono modificati.
 
-Ogni dipendenza è controllata per SHA-256 prima dell'uso. Un mismatch, un'origine non
-scientifica, un input di test/OOD o una dipendenza mancante causa un arresto fail-closed.
+## 2. Dipendenze effettive e pin
 
-## 2. Ordine di presentazione delle label — proposta 1a
+L'harness usa i riferimenti completi, non il solo nome dei tag:
 
-Il mapping e il `label_space` evaluator-side di 03.7 non cambiano. Soltanto la presentazione nel
-prompt usa l'ordine crescente di:
+- base di assemblaggio `a00605862f627710347bd63c49f79a6d0a00135f`;
+- evidence 03.6: sorgente `c66bd8dddf8e2af9dd0665ee30afd36c248b93fb`,
+  integrazione `7c99a8318cbe24bf864790566302f72614d963ed`, release v2 e
+  archivio SHA-256
+  `6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf`;
+- schema insight R4: target
+  `3c64390bc4dd58c48cc4e1e388a38989b32b3143`, manifest
+  `SCHEMA_FREEZE.json` SHA-256
+  `d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12`,
+  tag annotato `studio2-fase03-schema-insight-frozen-001`, oggetto
+  `4d15c4fb915ea9db9f7425225d231746778f0ba1`, peeled sul target R4;
+- validatore R4 SHA-256
+  `cd523d3105e02de99e7cc09bf0c2c4c052c1ae1776c8da37a9b57e869b1aa508`;
+- handoff Normal 03.9: sorgente
+  `6372cb3c457a30b39c838e066b613c61313c35db`, file
+  `NORMAL_DEV_HANDOFF.json` SHA-256
+  `e2409c64ad4e36e0f3b597a5e0b9745d866af72f4da717fc7a128b25753c166a`;
+- piano statistico rev.10: candidato
+  `6aaa5b3eebfed4ba502c25c0443caabd0051af21`, tree
+  `24847ce0cc4ff7b6defea4d65f3f41cb9ccd1c1a`, piano SHA-256
+  `675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a`,
+  manifest SHA-256
+  `a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8`;
+- `DELTA_HARNESS_03_10.md` al candidato rev.10, blob Git
+  `780e08ae9e176a819a745ab2054a2e6ae79a8a9a`, SHA-256
+  `e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e`.
 
-`SHA-256("studio2-fase03-presentation-v1|" + label)`.
+Ogni dipendenza scientifica è verificata per impronta prima dell'uso; mismatch,
+input final/test/OOD, provenienza sintetica o requisito mancante causano un
+arresto fail-closed.
 
-L'ordine risultante, estratto una sola volta, è:
+## 3. Input reali e separazione producer/libreria
+
+`PILOT_INPUT_SOURCES.pending.json` collega 320 finestre fault di sviluppo, due
+esempi fault per ciascuno degli otto agenti, gli otto esempi Normal verificati
+da 03.9 e sedici contratti fissi per gli insight. Gli esempi Normal sono il primo
+run assegnato e la prima finestra `[25,30)` per agente, come congelato
+dall'handoff; N1–N5, `cal_thr`, `far_ver` e i casi del pilot non sono
+riclassificati come esempi locali.
+
+Gli input di conformità del producer sono evidence, esempi locali e contratti
+fissi. La libreria di sedici insight R4 è invece l'output futuro delle otto
+richieste di conformità. Il manifest resta `INCOMPLETE`, manca soltanto
+`16 real schema-valid producer insights`, e non viene promosso a manifest
+scientifico eseguibile. Questo evita di assumere insight conformi e di creare
+una dipendenza circolare.
+
+Il validatore R4 controlla i byte di schema, regole, validatore e manifest e
+valida separatamente ciascuna coppia prodotta. Solo 16/16 insight validi al
+primo tentativo possono costruire la libreria; non sono ammesse riparazioni o
+tagli nascosti.
+
+## 4. Ordine delle label e D9
+
+`label_space`, mapping, owner, assignment e derangement congelati in 03.7 non
+cambiano. L'ordine prompt-facing è un parametro separato e non può mutare il
+manifest evaluator-side. La proposta 1a, calcolata una sola volta col namespace
+`studio2-fase03-presentation-v1`, resta:
 
 1. `S2-CLS-MHMU4`
 2. `S2-CLS-HEW25`
@@ -43,146 +94,91 @@ L'ordine risultante, estratto una sola volta, è:
 6. `S2-CLS-4AMS4`
 7. `S2-CLS-TYFPG`
 8. `S2-CLS-QRCCB`
+9. `Normal`
 
-`Normal` è aggiunta in ultima posizione dove il contratto la impone. Rispetto all'ordine di
-catalogo F1, F2, F3, F8, F10, F13, F14, F15, la correlazione di Spearman sulle otto label di fault
-è **−0,38095238095238093** (`sum(d²)=116`). È un controllo descrittivo, non un criterio di
-accettazione; non si rilancia il namespace per ottenere un'altra correlazione. L'autore deve
-accettare o respingere questa proposta prima del freeze dei prompt.
+La correlazione di Spearman sugli otto fault è
+`-0.38095238095238093`, descrittiva. Non si ripete il sorteggio 03.7 e non si
+cerca un namespace più favorevole. Il renderer rifiuta l'uso finché
+`author_decision` non vale `accepted` e verifica che l'ordine sia una
+permutazione esatta con `Normal` ultimo.
 
-## 3. Esempi locali
+D9 resta `UNDECIDED`: il codice non assegna ruoli ai modelli e non eredita il
+vecchio Qwen-27B come scelta corrente. Identità, revisione, ruolo, endpoint,
+tokenizer, chat template, limiti e fingerprint devono essere congelati dopo una
+decisione esplicita e qualificati sul servizio reale.
 
-Per ogni agente il pacchetto contiene:
+## 5. Sequenza e contabilità rev.10
 
-- due esempi del fault posseduto: **batch 1, finestra 1** e **batch 2, finestra 1** del lotto
-  `fault_dev_001`;
-- un esempio Normal dal lotto `normal_dev`, scelto con la regola congelata da 03.9. Finché quella
-  specifica non è disponibile, la proposta di interfaccia è «primo run assegnato all'agente,
-  finestra 1», ma 03.10 non la promuove a decisione.
+L'ordine obbligatorio è: **conformità producer → eventuale remediation → sonda
+budget → unico gate 40×3**. L'alternativa producer è un blocco di conformità
+separato e non finanzia retry.
 
-Le scelte usano solo indici e metadati pre-specificati, mai il contenuto. Il testo è il `.txt`
-neutrale di 03.6 o la sua estensione a `normal_dev`; nessun numero di fault, IDV o meccanismo entra
-nei campi prompt-facing. Gli identificativi reali restano nel sidecar evaluator-side.
+Il ledger SQLite richiede un percorso assoluto condiviso, usa WAL e
+`synchronous=FULL`, isola ogni `pilot_id` e registra in transazione l'intento
+prima di invocare il trasporto. Conserva richieste e risultati attraverso stadi,
+processi, riavvii e directory; richieste logiche duplicate, intenti irrisolti e
+sequenze fuori ordine bloccano lo stadio successivo.
 
-## 4. Insight del pilot e ordine producer → gate — proposta 1c
+La riserva unica applica `8 × remediation + transport <= 15`, con
+`remediation ∈ {0,1}`. Finché si preserva la remediation, il trasporto
+cumulativo è al massimo 7. Dopo l'ottava richiesta di trasporto nella
+conformità serve un waiver esplicito che rinuncia alla remediation. Una sola
+remediation completa di otto richieste è autorizzabile dopo un esito di
+conformità `FAIL`, con hash di diff, approvazione e template; nessuna seconda
+remediation è possibile.
 
-B-LF ed E-LF richiedono una libreria scientifica completa di **16 insight**, due per owner; ogni
-ricevente vede i 14 peer. Non è possibile costruire i prompt reali con placeholder e chiamarli
-scientifici.
+Non esistono retry automatici. Un timeout è ripetibile soltanto con prova
+persistita di zero token e nei casi documentati. Nella sonda budget si ripete
+solo l'intera tripletta A/B-LF/E-LF, mai una parte, e le sette richieste residue
+consentono al massimo due triplette. Il gate non è ripetibile neppure con prova
+di zero token.
 
-Proposta all'autore: anticipare nella 03.13 le **8 chiamate della sonda di conformità del producer
-Qwen** prima della sonda di budget. L'ordine diventa:
+I conteggi base sono 131–137 senza producer alternativo e 139–145 con
+alternativo. Con remediation completa diventano 139–145 e 147–153; con le
+sette richieste di trasporto residue i massimi pianificati sono 152 e 160. Il
+limite cumulativo 200 è un hard stop distinto, non un budget pianificato.
 
-1. assemblaggio offline di evidence, esempi e cinque campi fissi;
-2. 8 chiamate producer Qwen, zero retry automatici;
-3. validazione integrale della libreria e diff B↔E con il validatore 03.12;
-4. rendering e conteggio offline dei 40 prompt;
-5. sonda di budget A/B-LF/E-LF, poi gate 40×3.
+## 6. Gate e risultati non validi
 
-Le chiamate totali non cambiano. Senza questa inversione, la sonda di budget non può usare i 14
-insight reali richiesti dal PREFLIGHT. La decisione resta dell'autore; questa finestra non esegue
-alcuna delle otto chiamate.
+Il gate richiede esattamente 120 record, tre per ognuno dei 40 prompt. La
+divergenza usa solo la validità e la coppia parsata
+`(abstain, predicted_label)`. JSON equivalente o differente, finish reason,
+testo libero e hash raw restano forensi ma non cambiano la divergenza.
 
-Il prompt producer mostra i cinque campi serializzati dal verbalizzatore e permette di scrivere
-solo `observed_pattern`. Elenca esplicitamente i falsi positivi conservativi accolti da 03.12:
-`normal`, `unknown`, `valve`, `valvola`, `feed`, `step`, `A/B`, e qualunque sequenza `x` + spazi +
-`mv`/`meas`, anche dentro parole comuni come `six MV values` ed `exmv`. Prima dell'accettazione si
-applica il validatore 03.12 senza riparazioni, tagli o retry nascosti.
+- T3: almeno 114/120 valide al primo tentativo e almeno un'astensione valida in
+  ciascuna condizione;
+- T4: zero troncamenti per lunghezza su 120;
+- T6: una tripletta con validità mista diverge; una tripletta tutta invalida è
+  non valutabile e impedisce il GO tecnico;
+- una o più triplette divergenti richiedono R=3, subordinato alla fattibilità;
+- T5 non è misurabile offline: latenza, stabilità e margine temporale del 20%
+  richiedono il servizio e la configurazione effettivi.
 
-`variable_ids` è derivato senza giudizio manuale dal JSON evidence della finestra sorgente: per
-ogni XMEAS si prende il massimo, sulle finestre disponibili, dei valori assoluti di shift e slope
-divisi per le rispettive soglie e dei rapporti residual/diff divisi per le rispettive soglie; si
-conservano gli otto ID col punteggio maggiore, tie-break numerico sull'ID. La regola resta definita
-anche quando `dominant_variables` è vuoto e non usa il numero del fault.
+L'evaluatore offline non emette mai un GO finale. I tre endpoint e i conteggi
+grezzi usano il raccordo metriche qualificato già in `main`; l'harness non
+ridefinisce tale semantica.
 
-## 5. Selezione deterministica dei 40 prompt
+## 7. Capienza, log e guardie
 
-Namespace: `studio2-fase03-pilot-selection-v1`; nessun seed pseudo-casuale e nessun rilancio.
+Capienza e tokenizer non sono qualificati offline. Solo dopo D9 il server deve
+fornire revisione reale del modello, tokenizer, chat template, context limit,
+configurazione, vLLM/provider e fingerprint. Il conteggio usa quei byte reali e
+il prompt finale; stime per caratteri o la vecchia fixture non congelano nulla.
 
-1. Fra le biiezioni agente→fault senza punti fissi rispetto all'owner locale, si sceglie quella
-   con il minore SHA-256 del JSON canonico preceduto dal namespace.
-2. Per ogni coppia agente/fault così fissata, il caso di trasferimento è il minimo SHA-256 di
-   `namespace|transfer|agent_id|evidence_id`, fra tutte le finestre di sviluppo di quel fault.
-3. Quel caso entra in A, B-LF ed E-LF.
-4. Fra gli altri casi fault di sviluppo localmente unseen per l'agente, si sceglie quello col
-   maggior conteggio token del prompt B-LF completo. Pareggio: `case_id` lessicograficamente
-   maggiore, coerente col selettore 03.0. Entra in B-LF ed E-LF.
+Ogni tentativo conserva identificativi, modello richiesto e restituito,
+fingerprint/versione, configurazione, hash e byte di prompt/risposta, tempi,
+token, finish reason, troncamento, validità ed errore. Il JSONL è append-only con
+`flush` e `fsync`; il ledger è la fonte contabile cumulativa, non la directory
+dei risultati.
 
-Il risultato deve avere 8 A, 16 B-LF, 16 E-LF, 40 prompt distinti, tutti gli agenti bilanciati e
-gli otto fault coperti una volta nelle triplette. Il manifest eseguibile conserva il formato dello
-schema esistente; un sidecar autonomo conserva, per ogni testo/esempio/insight, origine, commit,
-release, percorso e SHA-256. Nessun manifest incompleto riceve lo stato
-`FROZEN_FOR_PHASE03_PRE_GATE`.
+## 8. Stato
 
-## 6. Logging §8.7
+Sono verificabili offline: import controllato, pin e incompatibilità R4,
+inventario input, separazione producer/libreria, rendering parametrico,
+contabilità persistente, ordine degli stadi, riserva/remediation/retry, regole
+T3/T4/T6 e regressione del raccordo metriche.
 
-Un record JSONL per tentativo contiene almeno: prompt/agente/caso/condizione/ripetizione,
-timestamp UTC, provider e modello richiesto, **modello restituito**, request ID, system
-fingerprint/versione, capacità dichiarate di temperatura e seed, configurazione di generazione,
-SHA-256 e byte di prompt e risposta raw, latenza, token prompt/completion/total, finish reason,
-troncamento, validità del parsing e dello schema, errore strutturato, numero di tentativo e retry.
-La risposta raw è conservata. I record sono validati prima dell'append e la scrittura è protetta
-da flush + `fsync`; non si sovrascrive un log esistente.
-
-## 7. Canary e audit
-
-Il set canary contiene 10 prompt: **2 A, 4 B-LF, 4 E-LF**. Il selettore deterministico minimizza,
-in ordine, lo sbilanciamento marginale già accumulato su agente e fault e usa come tie-break
-SHA-256 di `studio2-fase03-canary-v1|prompt_sha256`. L'output atteso, congelato al primo run,
-contiene coppia (`abstain`, `predicted_label`) e hash raw. Cambia il comportamento solo la coppia;
-l'hash raw è forense. Il file di aspettative è create-once.
-
-L'audit prende `ceil(10% × N)` prompt del nucleo, con selezione deterministica bilanciata su fault,
-agente e condizione e tie-break SHA-256 di `studio2-fase03-audit-v1|prompt_id`. È eseguito a R=3 e
-distribuito nel tempo. L'analisi primaria usa sempre la prima ripetizione; la maggioranza R=3 è
-una sensibilità separata. Nessun cambio a R=3 avviene a studio già iniziato.
-
-## 8. Metriche e inferenza statistica
-
-Per ogni condizione, popolazione e strato si producono:
-
-1. `accuracy_all = correct / total`, con astensione e risposta non valida non corrette;
-2. `abstention_rate = abstained / total`, senza trasformare i non validi in astensioni;
-3. `accuracy_non_abstained = correct / (total - abstained)`, inclusi i non validi nel
-   denominatore perché non sono astensioni; `null` soltanto con denominatore zero;
-4. conteggi grezzi `correct`, `abstained`, `non_abstained`, `invalid`, `total`.
-
-Il raccordo con `metrics.json` della baseline numerica 03.9 è un adapter fail-closed, non una
-seconda definizione degli endpoint. Rinomina `accuracy` in `accuracy_all`, `n` in `total` e
-`abstentions` in `abstained`; preserva `non_abstained` soltanto dopo aver verificato
-`non_abstained = n - abstentions`. La 03.9 arresta l'esecuzione sugli input non validi e scrive
-righe valutate con `valid=true`: solo dopo aver verificato l'intero contratto valid-only
-l'adapter espone esplicitamente `invalid=0`. Un campo `invalid` inatteso, conteggi o rapporti
-incoerenti e denominatori nulli rappresentati diversamente da `null` causano un arresto. Nessun
-invalido viene convertito in astensione o predizione valida e i tre valori numerici sorgente sono
-copiati, non ricalcolati.
-
-Il bootstrap ricampiona con reinserimento i cluster fisici **dentro ciascuna delle otto
-pseudolabel**, mantiene insieme le 7 righe local-unseen o la singola riga local-seen, usa 10.000
-repliche, seed 20260913 e namespace `studio2-fase03-piano-statistico-v1`, e riporta percentile
-2,5/97,5%, q05, repliche a denominatore nullo e `independence_claim=false`.
-
-Come implementazione `pending` della proposta 03.8: H1/H2 usano la soglia di Hoeffding sulle
-medie di cluster; H3 usa il test score di Tango con margine 0,125; il sign-flip è soltanto
-supplementare. Questi risultati non diventano confermativi finché l'autore non congela piano,
-gerarchia, livello e margine.
-
-## 9. Guardie e capienza
-
-Prima di qualunque chiamata si verificano insieme: impronte di pseudolabel/assignment/E, schema e
-validatore 03.12, manifest evidence, manifest scientifico, tokenizer (`tokenizer.json`,
-`tokenizer_config.json`, chat template/revisione) ed endpoint (modello/revisione, comando,
-ambiente, vLLM e fingerprint). Un solo mismatch arresta tutto.
-
-Sul server, per ogni prompt e candidato deve valere:
-
-`input_tokens + thinking_token_budget + 512 + 256 <= 16384`.
-
-Il conteggio usa il tokenizer pinnato e il chat template reale. Nessun conteggio per caratteri o
-tokenizer sostitutivo può congelare la capienza.
-
-## 10. Stato di questa specifica
-
-Le proposte 1a e 1c richiedono decisione dell'autore. Le regole statistiche ereditate da 03.8
-restano `pending`. Il manifest reale resta incompleto finché mancano `normal_dev` e la libreria di
-16 insight; codice e fixture possono essere verificati offline senza attenuare queste guardie.
+Restano aperti: approvazione ordine label, D9, sedici insight reali, tokenizer e
+capienza, qualificazione producer e consumer, fingerprint, sonda budget,
+stabilità, latenza e fattibilità temporale. Non c'è freeze dell'harness, non c'è
+GO del pilot; 03.10 e Fase 03 restano aperte.

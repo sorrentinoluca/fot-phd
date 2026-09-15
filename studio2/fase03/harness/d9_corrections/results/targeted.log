@@ -1,0 +1,374 @@
+test_C01_all_started_alternate_states_block_probe_until_pass (studio2.fase03.harness.test_c01_c03.AlternatePrecedence.test_C01_all_started_alternate_states_block_probe_until_pass) ... ok
+test_C01_alternate_started_after_probe_binding_blocks_reservation (studio2.fase03.harness.test_c01_c03.AlternatePrecedence.test_C01_alternate_started_after_probe_binding_blocks_reservation) ... ok
+test_C01_real_process_race_alternate_binding_and_probe_reservation (studio2.fase03.harness.test_c01_c03.AlternatePrecedence.test_C01_real_process_race_alternate_binding_and_probe_reservation) ... ok
+test_C01_failed_alternate_blocks_cli_probe_without_consumer_sends (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C01_failed_alternate_blocks_cli_probe_without_consumer_sends) ... ok
+test_C02_N48_single_timeout_is_119_of_120_and_replays_without_sends (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_N48_single_timeout_is_119_of_120_and_replays_without_sends) ... ok
+test_C02_cli_all_timeouts_are_120_invalid_first_attempts (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_cli_all_timeouts_are_120_invalid_first_attempts) ... ok
+test_C02_crash_INTENT_blocks_until_proof_then_enters_T3_without_retry (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_crash_INTENT_blocks_until_proof_then_enters_T3_without_retry) ... ok
+test_C02_failure_event_and_status_are_atomic_and_resume_after_journal_crash (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_failure_event_and_status_are_atomic_and_resume_after_journal_crash) ... ok
+test_C02_real_process_death_after_failure_commit_and_new_process_resume (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_real_process_death_after_failure_commit_and_new_process_resume) ... ok
+test_C02_response_identity_mismatch_cannot_be_masked_as_transport (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_response_identity_mismatch_cannot_be_masked_as_transport) ... ok
+test_C02_seven_scattered_timeouts_fail_T3 (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_seven_scattered_timeouts_fail_T3) ... ok
+test_C02_three_timeouts_same_prompt_make_T6_unevaluable (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_three_timeouts_same_prompt_make_T6_unevaluable) ... ok
+test_C02_transport_event_tamper_or_unobserved_FAILURE_cannot_pass (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_transport_event_tamper_or_unobserved_FAILURE_cannot_pass) ... ok
+test_C03_retry_summary_counts_attempts_separately_and_survives_restart (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C03_retry_summary_counts_attempts_separately_and_survives_restart) ... ok
+test_D01_confirmation_transaction_excludes_concurrent_writer (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_confirmation_transaction_excludes_concurrent_writer) ... ok
+test_D01_current_remediation_and_C02_invalidity_survive_checked_replay (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_current_remediation_and_C02_invalidity_survive_checked_replay) ... ok
+test_D01_legacy_nonpass_alternate_rejected_by_all_confirmation_entries (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_legacy_nonpass_alternate_rejected_by_all_confirmation_entries) ... ok
+test_D01_matching_outcome_hash_does_not_skip_durable_record_validation (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_matching_outcome_hash_does_not_skip_durable_record_validation) ... ok
+test_D01_real_legacy_D9_blocks_rematerialization_without_rewriting (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_real_legacy_D9_blocks_rematerialization_without_rewriting) ... ok
+test_D01_real_legacy_runner_and_cli_refuse_before_server_or_file_writes (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_real_legacy_runner_and_cli_refuse_before_server_or_file_writes) ... ok
+test_D01_valid_legacy_chain_replays_after_gate_without_reopening (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_valid_legacy_chain_replays_after_gate_without_reopening) ... ok
+test_D02_durable_predecessor_reads_hold_the_confirmation_lock (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors.test_D02_durable_predecessor_reads_hold_the_confirmation_lock) ... ok
+test_D02_missing_coverage_raw_or_evaluation_rejects_predecessors (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors.test_D02_missing_coverage_raw_or_evaluation_rejects_predecessors) ... ok
+test_D02_probe_cannot_shrink_to_an_allowed_prefix_after_closure (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors.test_D02_probe_cannot_shrink_to_an_allowed_prefix_after_closure) ... ok
+test_D02_raw_and_record_hash_faults_reject_all_confirmation_entries (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors.test_D02_raw_and_record_hash_faults_reject_all_confirmation_entries) ... ok
+test_D02_record_digest_binding_and_frozen_evidence_are_reauthenticated (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors.test_D02_record_digest_binding_and_frozen_evidence_are_reauthenticated) ... ok
+test_D02_remediation_and_new_probe_validate_durable_active_producer (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors.test_D02_remediation_and_new_probe_validate_durable_active_producer) ... ok
+test_D02_retry_replay_preserves_nine_attempts_and_rejects_missing_ancestor (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors.test_D02_retry_replay_preserves_nine_attempts_and_rejects_missing_ancestor) ... ok
+test_D02_runner_and_CLI_resume_refuse_before_server_calls_or_output_writes (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors.test_D02_runner_and_CLI_resume_refuse_before_server_calls_or_output_writes) ... ok
+test_D03_content_digests_and_independent_link_reject_valid_looking_changes (studio2.fase03.harness.test_d03_contract.ProofContract.test_D03_content_digests_and_independent_link_reject_valid_looking_changes) ... ok
+test_D03_generated_reconciliation_envelope_matrix (studio2.fase03.harness.test_d03_contract.ProofContract.test_D03_generated_reconciliation_envelope_matrix) ... ok
+test_D03_generated_sql_field_matrix_and_forensic_positive_controls (studio2.fase03.harness.test_d03_contract.ProofContract.test_D03_generated_sql_field_matrix_and_forensic_positive_controls) ... ok
+test_D03_generated_symmetric_content_matrix (studio2.fase03.harness.test_d03_contract.ProofContract.test_D03_generated_symmetric_content_matrix) ... ok
+test_D03_inventory_covers_schema_and_new_fields_default_to_uncovered (studio2.fase03.harness.test_d03_contract.ProofContract.test_D03_inventory_covers_schema_and_new_fields_default_to_uncovered) ... ok
+test_D03_missing_digest_is_fail_closed_without_backfill_even_before_retry (studio2.fase03.harness.test_d03_contract.ProofContract.test_D03_missing_digest_is_fail_closed_without_backfill_even_before_retry) ... ok
+test_D03_real_legacy_proofs_rejected_without_rewriting_history (studio2.fase03.harness.test_d03_contract.ProofContract.test_D03_real_legacy_proofs_rejected_without_rewriting_history) ... ok
+test_D03_real_runner_and_CLI_refuse_before_stub_and_preserve_outputs (studio2.fase03.harness.test_d03_contract.ProofContract.test_D03_real_runner_and_CLI_refuse_before_stub_and_preserve_outputs) ... ok
+test_D03_three_paths_invoke_the_same_content_control_set (studio2.fase03.harness.test_d03_contract.ProofContract.test_D03_three_paths_invoke_the_same_content_control_set) ... ok
+test_D04_eighth_retry_and_new_fault_after_previous_success (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract.test_D04_eighth_retry_and_new_fault_after_previous_success) ... ok
+test_D04_explicit_waiver_preserves_valid_eighth_and_limit_fifteen (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract.test_D04_explicit_waiver_preserves_valid_eighth_and_limit_fifteen) ... ok
+test_D04_generated_quota_matrix_open_stages_states_and_entries (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract.test_D04_generated_quota_matrix_open_stages_states_and_entries) ... ok
+test_D04_inventory_covers_stages_roles_and_normative_dependencies (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract.test_D04_inventory_covers_stages_roles_and_normative_dependencies) ... ok
+test_D04_probe_triplet_refuses_atomically_then_accepts_legal_retry (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract.test_D04_probe_triplet_refuses_atomically_then_accepts_legal_retry) ... ok
+test_D04_role_dependencies_are_validated_before_new_reservation (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract.test_D04_role_dependencies_are_validated_before_new_reservation) ... ok
+test_D04_runner_and_CLI_refuse_before_client_server_send_and_outputs (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract.test_D04_runner_and_CLI_refuse_before_client_server_send_and_outputs) ... ok
+test_D04_shared_attempt_validation_covers_other_open_stage_and_holds_lock (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract.test_D04_shared_attempt_validation_covers_other_open_stage_and_holds_lock) ... ok
+test_fixed_roles_and_pending_configuration (studio2.fase03.harness.test_d9.D9Contract.test_fixed_roles_and_pending_configuration) ... ok
+test_legacy_nominal_approval_is_not_d9 (studio2.fase03.harness.test_d9.D9Contract.test_legacy_nominal_approval_is_not_d9) ... ok
+test_payload_122b_omits_temperature_and_preserves_controls (studio2.fase03.harness.test_d9.D9Contract.test_payload_122b_omits_temperature_and_preserves_controls) ... ok
+test_role_stage_mapping_rejects_extra_arms (studio2.fase03.harness.test_d9.D9Contract.test_role_stage_mapping_rejects_extra_arms) ... ok
+test_122b_temperature_is_rejected_before_any_send (studio2.fase03.harness.test_d9.D9PriorBehavior.test_122b_temperature_is_rejected_before_any_send) ... ok
+test_primary_provider_cannot_execute_alternate_role (studio2.fase03.harness.test_d9.D9PriorBehavior.test_primary_provider_cannot_execute_alternate_role) ... ok
+test_alternate_pilot_full_library_and_same_case_swap (studio2.fase03.harness.test_d9.D9Runners.test_alternate_pilot_full_library_and_same_case_swap) ... ok
+test_configuration_mutations_refuse_before_client_and_intent (studio2.fase03.harness.test_d9.D9Runners.test_configuration_mutations_refuse_before_client_and_intent) ... ok
+test_direct_consumer_transport_requires_reservation (studio2.fase03.harness.test_d9.D9Runners.test_direct_consumer_transport_requires_reservation) ... ok
+test_document_changes_after_binding_block_resume_without_sends (studio2.fase03.harness.test_d9.D9Runners.test_document_changes_after_binding_block_resume_without_sends) ... ok
+test_history_mapping_cannot_reset_consumption (studio2.fase03.harness.test_d9.D9Runners.test_history_mapping_cannot_reset_consumption) ... ok
+test_pending_cli_does_not_create_ledger (studio2.fase03.harness.test_d9.D9Runners.test_pending_cli_does_not_create_ledger) ... ok
+test_persisted_provider_mutation_and_direct_reservation (studio2.fase03.harness.test_d9.D9Runners.test_persisted_provider_mutation_and_direct_reservation) ... ok
+test_r4_counter_distinct_from_service_counter (studio2.fase03.harness.test_d9.D9Runners.test_r4_counter_distinct_from_service_counter) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107f045e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_resume_counts_once_by_role_and_model (studio2.fase03.harness.test_d9.D9Runners.test_resume_counts_once_by_role_and_model) ... ok
+test_service_output_limit_rejects_before_client (studio2.fase03.harness.test_d9.D9Runners.test_service_output_limit_rejects_before_client) ... ok
+test_swapped_provider_or_unapproved_alternate_is_rejected (studio2.fase03.harness.test_d9.D9Runners.test_swapped_provider_or_unapproved_alternate_is_rejected) ... ok
+test_01_whitespace_sentinels_prevent_client_and_intents (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) ... ok
+test_02_valid_metadata_and_resume_preserve_outputs (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_02_valid_metadata_and_resume_preserve_outputs) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107f05300>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x120e96110>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1222f9e40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1050ced40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1050cee30>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1050ceb60>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1050ccd60>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1078423e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10738b2e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10738bc40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10738a890>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x121064c70>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1218204f0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_03_distinct_snapshots_positive_direct_reserve (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_03_distinct_snapshots_positive_direct_reserve) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1218227a0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_04_missing_or_changed_files_direct_and_restart (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) ... ok
+test_05_success_then_new_fault_same_instance (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_05_success_then_new_fault_same_instance) ... /opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10548d030>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x121296f20>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1053057b0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105304040>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12180a110>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12180b1f0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1218098a0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107841c60>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107840a90>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1078425c0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1207c9f30>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1207c9990>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1207c9d50>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107bc9d50>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1207c8e50>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107388b80>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216ef6a0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216eca90>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216ec6d0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216ef790>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216ee980>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216ef5b0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216ec9a0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216ee890>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216eea70>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216eee30>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216ef3d0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216eec50>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216ee3e0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10775bc40>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1076256c0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1216efc40>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x121754130>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1217553f0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1217567a0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1217555d0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x121757880>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x121755f30>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x121756c50>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1217575b0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_06_rebind_and_binding_reuse_require_current_files (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_06_rebind_and_binding_reuse_require_current_files) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1207cad40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1210f1f30>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_07_execute_request_no_transport_or_journal_after_loss (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_07_execute_request_no_transport_or_journal_after_loss) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x120229d50>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1210f27a0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1210f15d0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1214508b0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_08_closed_producer_reuse_requires_recoverable_tokenizer (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_08_closed_producer_reuse_requires_recoverable_tokenizer) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12137c130>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x121ef7010>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_09_missing_service_snapshot_binding_fails_closed (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_09_missing_service_snapshot_binding_fails_closed) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x121ef5990>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12140b010>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12140a6b0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1050cdb70>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_10_alternate_producer_reuse_checks_its_chat_snapshot (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_10_alternate_producer_reuse_checks_its_chat_snapshot) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1219d2f20>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x121e305e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_11_missing_template_file_keeps_valid_inline_fallback (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_11_missing_template_file_keeps_valid_inline_fallback) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x121e324d0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x122acad40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_114_valid_pass_t3_but_113_does_not (studio2.fase03.harness.test_harness_offline.GateRuleContractTests.test_114_valid_pass_t3_but_113_does_not) ... ok
+test_all_invalid_triplet_makes_t6_not_evaluable (studio2.fase03.harness.test_harness_offline.GateRuleContractTests.test_all_invalid_triplet_makes_t6_not_evaluable) ... ok
+test_forensic_differences_do_not_change_semantic_signature (studio2.fase03.harness.test_harness_offline.GateRuleContractTests.test_forensic_differences_do_not_change_semantic_signature) ... ok
+test_length_truncation_fails_t4_separately (studio2.fase03.harness.test_harness_offline.GateRuleContractTests.test_length_truncation_fails_t4_separately) ... ok
+test_mixed_validity_is_divergence_not_automatic_no_go (studio2.fase03.harness.test_harness_offline.GateRuleContractTests.test_mixed_validity_is_divergence_not_automatic_no_go) ... ok
+test_gate_is_not_repeatable_and_has_no_retry (studio2.fase03.harness.test_harness_offline.LedgerContractTests.test_gate_is_not_repeatable_and_has_no_retry) ... ok
+test_intent_survives_restart_and_directory_change (studio2.fase03.harness.test_harness_offline.LedgerContractTests.test_intent_survives_restart_and_directory_change) ... ok
+test_probe_triplet_retry_is_atomic_and_capped (studio2.fase03.harness.test_harness_offline.LedgerContractTests.test_probe_triplet_retry_is_atomic_and_capped) ... ok
+test_remediation_limits_and_stage_order (studio2.fase03.harness.test_harness_offline.LedgerContractTests.test_remediation_limits_and_stage_order) ... ok
+test_timeout_without_zero_token_proof_never_retries (studio2.fase03.harness.test_harness_offline.LedgerContractTests.test_timeout_without_zero_token_proof_never_retries) ... ok
+test_two_writers_cannot_duplicate_one_logical_attempt (studio2.fase03.harness.test_harness_offline.LedgerContractTests.test_two_writers_cannot_duplicate_one_logical_attempt) ... ok
+test_zero_token_proof_allows_only_documented_transport (studio2.fase03.harness.test_harness_offline.LedgerContractTests.test_zero_token_proof_allows_only_documented_transport) ... ok
+test_zero_token_remediation_retry_counts_as_transport (studio2.fase03.harness.test_harness_offline.LedgerContractTests.test_zero_token_remediation_retry_counts_as_transport) ... ok
+test_plan_reports_rev10_without_claiming_d9_or_time (studio2.fase03.harness.test_harness_offline.PlanOnlyTests.test_plan_reports_rev10_without_claiming_d9_or_time) ... ok
+test_execution_never_defaults_to_historical_model (studio2.fase03.harness.test_harness_offline.R4AndInputContractTests.test_execution_never_defaults_to_historical_model) ... ok
+test_missing_normal_or_extra_missing_dependency_is_rejected (studio2.fase03.harness.test_harness_offline.R4AndInputContractTests.test_missing_normal_or_extra_missing_dependency_is_rejected) ... ok
+test_presentation_order_does_not_mutate_canonical_label_space (studio2.fase03.harness.test_harness_offline.R4AndInputContractTests.test_presentation_order_does_not_mutate_canonical_label_space) ... ok
+test_published_r4_pin_and_literal_normal_context (studio2.fase03.harness.test_harness_offline.R4AndInputContractTests.test_published_r4_pin_and_literal_normal_context) ... ok
+test_real_inventory_connects_inputs_without_inventing_library (studio2.fase03.harness.test_harness_offline.R4AndInputContractTests.test_real_inventory_connects_inputs_without_inventing_library) ... ok
+test_schema_byte_incompatibility_fails_closed (studio2.fase03.harness.test_harness_offline.R4AndInputContractTests.test_schema_byte_incompatibility_fails_closed) ... ok
+test_baseline_metric_adapter_all_abstained_and_empty (studio2.fase03.harness.test_metric_raccordo.MetricTests.test_baseline_metric_adapter_all_abstained_and_empty) ... ok
+test_baseline_metric_adapter_rejects_invalid_or_inconsistent_source (studio2.fase03.harness.test_metric_raccordo.MetricTests.test_baseline_metric_adapter_rejects_invalid_or_inconsistent_source) ... ok
+test_baseline_metric_adapter_renames_without_numeric_changes (studio2.fase03.harness.test_metric_raccordo.MetricTests.test_baseline_metric_adapter_renames_without_numeric_changes) ... ok
+test_cluster_bootstrap_and_tests (studio2.fase03.harness.test_metric_raccordo.MetricTests.test_cluster_bootstrap_and_tests) ... ok
+test_divergence_ignores_raw_only_difference (studio2.fase03.harness.test_metric_raccordo.MetricTests.test_divergence_ignores_raw_only_difference) ... ok
+test_load_baseline_metrics_adapts_every_consumer_leaf (studio2.fase03.harness.test_metric_raccordo.MetricTests.test_load_baseline_metrics_adapts_every_consumer_leaf) ... ok
+test_three_numbers_empty_and_all_valid_abstained_edges (studio2.fase03.harness.test_metric_raccordo.MetricTests.test_three_numbers_empty_and_all_valid_abstained_edges) ... ok
+test_three_numbers_keep_invalid_in_nonabstained_denominator (studio2.fase03.harness.test_metric_raccordo.MetricTests.test_three_numbers_keep_invalid_in_nonabstained_denominator) ... ok
+test_three_numbers_never_turns_invalid_into_abstention_or_correct (studio2.fase03.harness.test_metric_raccordo.MetricTests.test_three_numbers_never_turns_invalid_into_abstention_or_correct) ... ok
+test_R10_repetition_condition_hash_uniqueness_and_distribution (studio2.fase03.harness.test_revisions.GateRevisions.test_R10_repetition_condition_hash_uniqueness_and_distribution) ... ok
+test_R04_closed_stage_cannot_reopen_retry (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R04_closed_stage_cannot_reopen_retry) ... ok
+test_R04_failed_and_zero_token_cannot_pass (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R04_failed_and_zero_token_cannot_pass) ... ok
+test_R04_outcome_atomic_with_real_concurrent_writer (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R04_outcome_atomic_with_real_concurrent_writer) ... ok
+test_R04_public_normative_event_forbidden (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R04_public_normative_event_forbidden) ... ok
+test_R05_changed_alias_run_pilot_id_and_duplicate_original (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R05_changed_alias_run_pilot_id_and_duplicate_original) ... ok
+test_R05_triplet_cannot_reuse_original_or_mix_budget (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R05_triplet_cannot_reuse_original_or_mix_budget) ... ok
+test_R05_two_processes_reserve_one_original_once (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R05_two_processes_reserve_one_original_once) ... ok
+test_R06_same_case_cannot_replace_eight_and_non_template_contracts_immutable (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R06_same_case_cannot_replace_eight_and_non_template_contracts_immutable) ... ok
+test_R06_timeout_and_missing_concrete_approval_cannot_remediate (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R06_timeout_and_missing_concrete_approval_cannot_remediate) ... ok
+test_R07_legacy_ledger_is_preserved_not_reset (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R07_legacy_ledger_is_preserved_not_reset) ... ok
+test_R07_real_crashes_intent_raw_and_completed_restart (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R07_real_crashes_intent_raw_and_completed_restart) ... ok
+test_R07_reconciliation_requires_matching_evidence_preserves_counts (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R07_reconciliation_requires_matching_evidence_preserves_counts) ... ok
+test_R08_arbitrary_freeze_is_not_authenticated (studio2.fase03.harness.test_revisions.LedgerRevisions.test_R08_arbitrary_freeze_is_not_authenticated) ... ok
+test_hard_200_on_explicit_imported_fixture (studio2.fase03.harness.test_revisions.LedgerRevisions.test_hard_200_on_explicit_imported_fixture) ... ok
+test_reserve_15_waiver_and_maxima_152_160 (studio2.fase03.harness.test_revisions.LedgerRevisions.test_reserve_15_waiver_and_maxima_152_160) ... ok
+test_R01_CLI_with_transport_stub_rejects_historical_preflight (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R01_CLI_with_transport_stub_rejects_historical_preflight) ... ok
+test_R01_changed_ledger_directory_cannot_reset_pilot (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R01_changed_ledger_directory_cannot_reset_pilot) ... ok
+test_R01_undecided_and_suspended_all_entries_zero_sends (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R01_undecided_and_suspended_all_entries_zero_sends) ... ok
+test_R02_dependency_failure_is_pretransport_and_not_prompt_diagnosis (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R02_dependency_failure_is_pretransport_and_not_prompt_diagnosis) ... ok
+test_R02_frozen_037_and_evidence_json_tamper (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R02_frozen_037_and_evidence_json_tamper) ... ok
+test_R02_handoff_cannot_self_certify_or_change_library (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R02_handoff_cannot_self_certify_or_change_library) ... ok
+test_R02_inventory_tamper_r4_and_tokenizer_zero_sends (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R02_inventory_tamper_r4_and_tokenizer_zero_sends) ... ok
+test_R02_source_manifest_and_prompt_rehash_cannot_bypass (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R02_source_manifest_and_prompt_rehash_cannot_bypass) ... ok
+test_R03_real_pipeline_labels_preserved_and_pending_rejected (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R03_real_pipeline_labels_preserved_and_pending_rejected) ... ok
+test_R06_real_runner_remediation_approved_bytes_and_old_handoff (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R06_real_runner_remediation_approved_bytes_and_old_handoff) ... ok
+test_R07_cli_successful_producer_and_budget_use_shared_ledger (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_cli_successful_producer_and_budget_use_shared_ledger) ... ok
+test_R07_consumer_budget_crash_and_resume_preserve_raw (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_consumer_budget_crash_and_resume_preserve_raw) ... ok
+test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume) ... ok
+test_R07_probe_explicit_zero_token_triplet_retry (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_probe_explicit_zero_token_triplet_retry) ... ok
+test_R07_producer_and_consumer_real_process_crashes (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_producer_and_consumer_real_process_crashes) ... ok
+test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation) ... ok
+test_R07_resume_saved_raw_and_closed_artifact_without_new_sends (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_resume_saved_raw_and_closed_artifact_without_new_sends) ... ok
+test_R08_frozen_budget_tamper_first_gate_zero_additional_calls (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R08_frozen_budget_tamper_first_gate_zero_additional_calls) ... ok
+test_R09_consumer_identity_change_during_gate_suspends (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R09_consumer_identity_change_during_gate_suspends) ... ok
+test_R09_producer_identity_mismatch_preserves_raw_and_suspends (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R09_producer_identity_mismatch_preserves_raw_and_suspends) ... ok
+test_ordinary_complete_producer_prepare_probe_gate_offline (studio2.fase03.harness.test_revisions.RunnerRevisions.test_ordinary_complete_producer_prepare_probe_gate_offline) ... ok
+test_inventory_is_blocked_and_has_no_calls (studio2.fase03.tests.test_execution_guard.ExecutionGuardTests.test_inventory_is_blocked_and_has_no_calls) ... ok
+test_plan_only_reports_zero_execution_status (studio2.fase03.tests.test_execution_guard.ExecutionGuardTests.test_plan_only_reports_zero_execution_status) ... ok
+test_producer_probe_defaults_to_plan_only (studio2.fase03.tests.test_execution_guard.ExecutionGuardTests.test_producer_probe_defaults_to_plan_only) ... ok
+test_vllm_schema_adapter_preserves_canonical_uniqueness_contract (studio2.fase03.tests.test_execution_guard.ExecutionGuardTests.test_vllm_schema_adapter_preserves_canonical_uniqueness_contract) ... ok
+test_abstention_contract (studio2.fase03.tests.test_protocol.DiagnosticAndBudgetTests.test_abstention_contract) ... ok
+test_batch_encoding_counts_input_ids_not_mapping_keys (studio2.fase03.tests.test_protocol.DiagnosticAndBudgetTests.test_batch_encoding_counts_input_ids_not_mapping_keys) ... ok
+test_context_gate_requires_margin_and_does_not_freeze (studio2.fase03.tests.test_protocol.DiagnosticAndBudgetTests.test_context_gate_requires_margin_and_does_not_freeze) ... ok
+test_d11_is_not_determinism_decision_11 (studio2.fase03.tests.test_protocol.DiagnosticAndBudgetTests.test_d11_is_not_determinism_decision_11) ... ok
+test_diagnostic_contract_rejects_duplicate_insight_ids_locally (studio2.fase03.tests.test_protocol.DiagnosticAndBudgetTests.test_diagnostic_contract_rejects_duplicate_insight_ids_locally) ... ok
+test_e_changes_only_pseudolabel (studio2.fase03.tests.test_protocol.InsightTests.test_e_changes_only_pseudolabel) ... ok
+test_producer_cannot_change_fixed_variable_ids (studio2.fase03.tests.test_protocol.InsightTests.test_producer_cannot_change_fixed_variable_ids) ... ok
+test_producer_narrative_token_cap (studio2.fase03.tests.test_protocol.InsightTests.test_producer_narrative_token_cap) ... ok
+test_final_test_split_is_rejected (studio2.fase03.tests.test_protocol.ManifestTests.test_final_test_split_is_rejected) ... ok
+test_manifest_and_exact_sample_shape (studio2.fase03.tests.test_protocol.ManifestTests.test_manifest_and_exact_sample_shape) ... ok
+test_synthetic_manifest_is_rejected_by_executable_path (studio2.fase03.tests.test_protocol.ManifestTests.test_synthetic_manifest_is_rejected_by_executable_path) ... ok
+test_transfer_cases_cover_catalog_once (studio2.fase03.tests.test_protocol.ManifestTests.test_transfer_cases_cover_catalog_once) ... ok
+
+----------------------------------------------------------------------
+Ran 156 tests in 455.424s
+
+OK

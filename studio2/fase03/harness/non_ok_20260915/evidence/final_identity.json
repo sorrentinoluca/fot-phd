@@ -1,0 +1,39 @@
+{
+  "main": {
+    "path": "/Users/luker/fot-tep",
+    "status": "## codex/studio2-soglie-normal\n?? \"Claude outputs/\"\n?? studio2/fase03/APERTURA_SOTTOFASI_FASE03.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14_rev02.md\n?? studio2/fase03/baseline_numerica/\n?? studio2/fase03/evidence/\n?? studio2/fase03/fedavg/\n?? studio2/fase03/harness/\n?? studio2/fase03/paper_sections/\n?? studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md\n?? studio2/fase03/perimetro_q8/sottofase_3_4_verifica_e_attuazione.md\n?? studio2/fase03/piano_statistico/\n?? studio2/fase03/pseudolabel/\n?? studio2/fase03/schema_insight/\n?? studio2/fase03/soglie_normal/analisi_3_5_prompt.md\n?? studio2/fase03/soglie_normal/runs/normal_001/\n?? studio2/fase03/soglie_normal/runtime/batch_launch/\n?? studio2/fase03/soglie_normal/sottofase_3_5.md\n?? studio2/fase03/soglie_normal/verifica_3_5_prompt.md\n",
+    "identity": "819b12e97fb94d501032655ec2f226139e6c5ca5\n5022e36b3a7457e78a7bcb505f2bc66dffa5dc6d\n",
+    "remotes": "origin\thttps://github.com/sorrentinoluca/fot-phd.git (fetch)\norigin\thttps://github.com/sorrentinoluca/fot-phd.git (push)\n",
+    "status_same_as_initial": true
+  },
+  "delivery": {
+    "path": "/Users/luker/fot-tep-harness-0310-offline",
+    "status": "## codex/studio2-harness-0310-offline\n",
+    "identity": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69\n833c10f98f79b203cec385ff1aec0437b679bcc5\n",
+    "remotes": "origin\thttps://github.com/sorrentinoluca/fot-phd.git (fetch)\norigin\thttps://github.com/sorrentinoluca/fot-phd.git (push)\n",
+    "status_same_as_initial": true
+  },
+  "source": {
+    "path": "/Users/luker/fot-tep/.worktrees/studio2-harness",
+    "status": "## codex/studio2-harness...origin/main [ahead 8, behind 95]\n?? studio2/fase03/harness/CONSEGNA_RACCORDO_METRICHE_03_10.md\n",
+    "identity": "1ac06ebdc92f73d3b630ccca9bf75f413bea170b\nb656dacd7ae9b16964f43cf5799a475f24481949\n",
+    "remotes": "origin\thttps://github.com/sorrentinoluca/fot-phd.git (fetch)\norigin\thttps://github.com/sorrentinoluca/fot-phd.git (push)\n",
+    "status_same_as_initial": true
+  },
+  "candidate": {
+    "path": "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate",
+    "status": "## HEAD (no branch)\n",
+    "identity": "59b6b93cd9c215e8b687e540f7cd579804b7c66a\ncf08c14a8deb18145189afbe9722d7da46bc2f82\n",
+    "remotes": "origin\t/Users/luker/fot-tep (fetch)\norigin\t/Users/luker/fot-tep (push)\n"
+  },
+  "remote_main": "a00605862f627710347bd63c49f79a6d0a00135f\trefs/heads/main\n",
+  "utc": "2026-09-14T22:12:44.738368+00:00",
+  "python_system": {
+    "version": "3.11.5",
+    "executable": "/usr/local/bin/python3",
+    "sqlite": "3.42.0"
+  },
+  "python_anaconda": "3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:11:29) [Clang 20.1.8 ]\n/opt/anaconda3/bin/python3\narm64\n3.51.0\n",
+  "head": "59b6b93cd9c215e8b687e540f7cd579804b7c66a cf08c14a8deb18145189afbe9722d7da46bc2f82 f2f5c5c13edb8251b8dc4fc764bd098d2206b7b8\n",
+  "cloned_origin_main": "4f98a2973d2e1ca7932f19c34e9dd4c0498b8b43\n"
+}

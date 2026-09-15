@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/opt/anaconda3/bin/python3",
+    "docs/test_explanation.py"
+  ],
+  "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate",
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-guardian_corrected",
+    "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate"
+  },
+  "extra_environment": {},
+  "started_epoch": 1789488006.3552482,
+  "exit_code": 1,
+  "elapsed_seconds": 0.11848878860473633,
+  "summary": "Ran 35 tests in 0.076s\n\nFAILED (failures=14, skipped=1)"
+}

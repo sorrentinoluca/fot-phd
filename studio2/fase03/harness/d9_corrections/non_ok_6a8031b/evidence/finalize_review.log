@@ -1,0 +1,84 @@
+{
+  "results": {
+    "targeted": {
+      "tests": 145,
+      "seconds": 458.029,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "summary": "OK",
+      "log": "targeted.log"
+    },
+    "discovery": {
+      "tests": 180,
+      "seconds": 465.88,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "summary": "OK",
+      "log": "discovery.log"
+    },
+    "d9": {
+      "tests": 17,
+      "seconds": 7.143,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "summary": "OK",
+      "log": "d9.log"
+    },
+    "antecedent": {
+      "tests": 17,
+      "seconds": 1.318,
+      "failures": 3,
+      "errors": 14,
+      "skipped": 0,
+      "summary": "FAILED (failures=3, errors=14)",
+      "log": "antecedent.log"
+    },
+    "guardian": {
+      "tests": 35,
+      "seconds": 0.078,
+      "failures": 14,
+      "errors": 0,
+      "skipped": 1,
+      "summary": "FAILED (failures=14, skipped=1)",
+      "log": "guardian.log"
+    },
+    "independent_probes": {
+      "tests": 8,
+      "seconds": 8.862,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "summary": "FAILED (failures=3)",
+      "log": "independent_probes.log"
+    },
+    "independent_probes_antecedent": {
+      "tests": 4,
+      "seconds": 5.374,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "summary": "FAILED (failures=2)",
+      "log": "independent_probes_antecedent.log"
+    }
+  },
+  "preserved": {
+    "/Users/luker/fot-tep-harness-d9": {
+      "files_compared": 5378,
+      "mismatches": [],
+      "status": "",
+      "head": "08670fb4793ecec99754a73c6a91a51c1c372960"
+    },
+    "/Users/luker/fot-tep-harness-0310-d04": {
+      "files_compared": 5332,
+      "mismatches": [],
+      "status": "",
+      "head": "5886c6f9d078ee624deaec08763e04c14e96e4f0"
+    },
+    "review_thread_id": "01a0a579-3fd7-7461-8c26-5449bd3d2b7a",
+    "remote_was_not_contacted": true
+  },
+  "report_bytes": 18659
+}

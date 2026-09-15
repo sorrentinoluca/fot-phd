@@ -1,0 +1,50 @@
+{
+  "tests": 35,
+  "failures": 14,
+  "skips": 1,
+  "errors": 0,
+  "verdict": "HISTORICAL_FAILURES_UNCHANGED_NOT_PASS",
+  "failure_ids": [
+    "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+    "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+    "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+    "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+    "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+    "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+    "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+    "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1\u2013C4: 4/4 PASS')",
+    "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+    "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+    "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+    "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)",
+    "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+    "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')"
+  ],
+  "compared_with": "original NON OK documentation.log and pre-edit worktree run",
+  "external_files": [
+    {
+      "path": "/Users/luker/fot-tep-harness-0310-correzioni-checks/documentation_before.log",
+      "bytes": 2582761,
+      "sha256": "a1875702d8c318b32ed0f9e5f3e2ee5d742f779da6a6f200a8382395031a0982",
+      "reason": "Complete working log/script retained externally; summary and result evidence committed"
+    },
+    {
+      "path": "/Users/luker/fot-tep-harness-0310-correzioni-checks/documentation_after.log",
+      "bytes": 2582761,
+      "sha256": "4b8d25baa168ab6ec35946628c88c5abf423aa68a01e2a35c5c9776adf9592c3",
+      "reason": "Complete working log/script retained externally; summary and result evidence committed"
+    },
+    {
+      "path": "/Users/luker/fot-tep-harness-0310-correzioni-checks/reproduction/evidence/negative_probes.py",
+      "bytes": 40598,
+      "sha256": "69d53547ab0e799b6110534b1016914780554a434e5f88fd0b6d97fc66c3907c",
+      "reason": "Complete working log/script retained externally; summary and result evidence committed"
+    },
+    {
+      "path": "/Users/luker/fot-tep-harness-0310-correzioni-checks/reproduction/console.log",
+      "bytes": 109,
+      "sha256": "8a980d54397421fd54a28a34796a93da2bb2a7ab9966714fa0e73f7328627e6e",
+      "reason": "Complete working log/script retained externally; summary and result evidence committed"
+    }
+  ]
+}

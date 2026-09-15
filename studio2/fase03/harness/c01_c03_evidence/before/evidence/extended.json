@@ -1,0 +1,540 @@
+{
+  "tests": 18,
+  "failures": [
+    {
+      "id": "__main__.Extended.test_X01_incomplete_alternate_blocks_probe",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_probes.py\", line 40, in test_X01_incomplete_alternate_blocks_probe\n    self.assertIsNotNone(caught,'budget PASS must not strand an unresolved producer stage')\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: unexpectedly None : budget PASS must not strand an unresolved producer stage\n"
+    },
+    {
+      "id": "__main__.Extended.test_X02_failed_alternate_blocks_real_consumer",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_probes.py\", line 48, in test_X02_failed_alternate_blocks_real_consumer\n    self.assertEqual(t.consumer_calls,[],'an unresolved alternate attempt must block transition')\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['S2-P03-036', 'S2-P03-004', 'S2-P03-005'] != []\n\nFirst list contains 3 additional elements.\nFirst extra element 0:\n'S2-P03-036'\n\n- ['S2-P03-036', 'S2-P03-004', 'S2-P03-005']\n+ [] : an unresolved alternate attempt must block transition\n"
+    },
+    {
+      "id": "__main__.Extended.test_X03_gate_transport_invalidity_remains_in_T3_T6",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_probes.py\", line 62, in test_X03_gate_transport_invalidity_remains_in_T3_T6\n    self.assertIsNotNone(result,'N48 normative invalidity must remain in a 120-attempt T3/T6 evaluation')\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: unexpectedly None : N48 normative invalidity must remain in a 120-attempt T3/T6 evaluation\n"
+    },
+    {
+      "id": "__main__.Extended.test_X15_producer_summary_counts_retry_provider_requests",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_probes.py\", line 201, in test_X15_producer_summary_counts_retry_provider_requests\n    self.assertEqual(result['provider_requests'],9,'provider_requests must retain the separate call denominator after retry')\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 8 != 9 : provider_requests must retain the separate call denominator after retry\n"
+    }
+  ],
+  "errors": [],
+  "observations": {
+    "test_X01_incomplete_alternate_blocks_probe": {
+      "error": null,
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_fixtures/test_X01_incomplete_alternate_blocks_probe/pilot.sqlite3",
+        "requests_cumulative": 12,
+        "requests_by_stage": {
+          "alternate_conformity": 1,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 1,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 160,
+        "hard_stop": 200,
+        "durable_responses": 11,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity"
+        ]
+      }
+    },
+    "test_X02_failed_alternate_blocks_real_consumer": {
+      "error": null,
+      "budget_status": "FROZEN_FOR_STABILITY_GATE",
+      "calls": 3,
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmphy10brfc/pilot.sqlite3",
+        "requests_cumulative": 12,
+        "requests_by_stage": {
+          "alternate_conformity": 1,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 160,
+        "hard_stop": 200,
+        "durable_responses": 11,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity"
+        ]
+      }
+    },
+    "test_X03_gate_transport_invalidity_remains_in_T3_T6": {
+      "error": "transport failed; uncertain outcome needs explicit reconciliation",
+      "result": null,
+      "calls": 5,
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpj4pjk97v/pilot.sqlite3",
+        "requests_cumulative": 13,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 2
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 12,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity"
+        ]
+      },
+      "records": [
+        {
+          "agent_id": "agent_1",
+          "case_id": "EVD-0186",
+          "completion_tokens": null,
+          "condition": "A",
+          "finish_reason": "stop",
+          "generation": {
+            "max_tokens": 2560,
+            "seed": 20260829,
+            "temperature": 0.0,
+            "thinking_token_budget": 2048
+          },
+          "identity_valid": true,
+          "latency_seconds": 1.200009137392044e-05,
+          "parse_error": null,
+          "parse_valid_first_attempt": true,
+          "parsed_output": {
+            "abstain": true,
+            "predicted_label": null,
+            "reasoning_summary": "Fixture.",
+            "used_insight_ids": []
+          },
+          "prompt_id": "S2-P03-001",
+          "prompt_sha256": "5f465e300c41e1b3b1218f464f3f1a97e1082c07e1e1da85c81dfe2c9985819e",
+          "prompt_tokens": null,
+          "raw_output": "{\"predicted_label\": null, \"abstain\": true, \"used_insight_ids\": [], \"reasoning_summary\": \"Fixture.\"}",
+          "raw_output_sha256": "d695af1cdcd26a4fbbc78ef84fd7b21790ba873a271bdbdfbf2f0d638f2d72ae",
+          "received_utc": "2026-09-15T07:14:59.801220+00:00",
+          "repetition": 1,
+          "request_id": "1e778fd7b9f22ebe0e001ff80e65e289719a9e88919802de48166eea163bc9d0",
+          "response_id": "consumer-4",
+          "retry_count": 0,
+          "returned_model": "fixture-model",
+          "sample_role": "matched_transfer",
+          "system_fingerprint": null,
+          "total_tokens": null
+        }
+      ]
+    },
+    "test_X04_late_retry_is_rejected_before_and_after_restart": {
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_fixtures/test_X04_late_retry_is_rejected_before_and_after_restart/pilot.sqlite3",
+        "requests_cumulative": 12,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 9,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 1,
+        "reserve_equation_value": 1,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 11,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "reconciled:producer_conformity-0"
+        ]
+      }
+    },
+    "test_X05_interrupted_primary_cannot_be_closed_or_skipped": {
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_fixtures/test_X05_interrupted_primary_cannot_be_closed_or_skipped/pilot.sqlite3",
+        "requests_cumulative": 8,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 0,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 1,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 7,
+        "events": []
+      }
+    },
+    "test_X06_real_concurrent_base_reservation_12_writers": {
+      "returncodes": [
+        0,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17
+      ],
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_fixtures/test_X06_real_concurrent_base_reservation_12_writers/pilot.sqlite3",
+        "requests_cumulative": 1,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 0,
+          "producer_conformity": 1,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 1,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 0,
+        "events": []
+      }
+    },
+    "test_X07_outcome_transaction_excludes_writer_while_closing": {
+      "writer_saw_committed_outcome": "1"
+    },
+    "test_X08_retry_triplet_rollback_after_one_insertion_at_quota": {
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_fixtures/test_X08_retry_triplet_rollback_after_one_insertion_at_quota/pilot.sqlite3",
+        "requests_cumulative": 17,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 14,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 6,
+        "reserve_equation_value": 6,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 8,
+        "events": [
+          "outcome:producer_conformity",
+          "reconciled:budget_probe-0",
+          "reconciled:budget_probe-1",
+          "reconciled:budget_probe-2",
+          "reconciled:producer-retry-0",
+          "reconciled:producer-retry-1",
+          "reconciled:producer-retry-2",
+          "reconciled:producer-retry-3",
+          "reconciled:producer-retry-4",
+          "reconciled:producer_conformity-0"
+        ]
+      },
+      "rollback": "all three absent"
+    },
+    "test_X09_zero_token_proof_rejects_positive_tokens_wrong_identity_missing_author": {
+      "rejected_variants": 6
+    },
+    "test_X10_remediation_concrete_diff_diagnosis_template_coverage": {
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_fixtures/test_X10_remediation_concrete_diff_diagnosis_template_coverage/pilot.sqlite3",
+        "requests_cumulative": 8,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 0,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 8,
+        "events": [
+          "outcome:producer_conformity",
+          "remediation_authorized"
+        ]
+      },
+      "rejected_changes": 4
+    },
+    "test_X11_gate_boolean_repetitions_bad_roles_and_frozen_text": {
+      "rejected_variants": 6
+    },
+    "test_X12_r4_rechecked_mid_producer_before_next_send": {
+      "calls": 1,
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpi92hnchv/pilot.sqlite3",
+        "requests_cumulative": 1,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 0,
+          "producer_conformity": 1,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 1,
+        "events": []
+      }
+    },
+    "test_X13_changed_fingerprint_preserves_tokens_and_suspends": {
+      "request": {
+        "request_id": "4bf385437a5ac68687a63c9807d3699dc65749841dc5f5ec36893755af5d00f0",
+        "logical_id": "agent_1",
+        "stage": "producer_conformity",
+        "stage_run": "8bca3a2524609ae478af6cc68fa2598d463c075b7a500ebf946d7e2627c42a95",
+        "model": "fixture-model",
+        "producer": "fixture",
+        "quota_kind": "base",
+        "retry_of": null,
+        "identity_json": "{\"case_sha256\":\"ca14433577ff35854f98a56ee283a8cb516f717ea7a422bc15a02d6b9cb292bd\",\"condition\":\"producer\",\"contract_sha256\":\"71f61a89283d653dc4d54235b35c0843485949b1957f6b33edad9c8e8d88e0b2\",\"group\":\"agent_1\",\"logical_id\":\"agent_1\",\"model\":\"fixture-model\",\"producer\":\"fixture\",\"prompt_sha256\":\"ffebfd052f4a12a1ab04442c3fbbe9a04669c9db803c91460ad24faeb770aba7\",\"repetition\":1}",
+        "status": "COMPLETED",
+        "intent_utc": "2026-09-15T07:15:01.133194+00:00",
+        "completed_utc": "2026-09-15T07:15:01.142108+00:00",
+        "prompt_tokens": 2,
+        "completion_tokens": 3,
+        "total_tokens": 5,
+        "latency_ms": 0.012999982573091984,
+        "proof_sha256": null,
+        "detail_json": "{}"
+      },
+      "raw": {
+        "raw": {
+          "choices": [
+            {
+              "finish_reason": "stop",
+              "message": {
+                "content": "{\"insights\": [{\"insight_id\": \"S2-INS-001\", \"source_agent\": \"agent_1\", \"pseudolabel\": \"S2-CLS-MHMU4\", \"evidence_scope\": \"one 5 h development window\", \"variable_ids\": [\"XMEAS(18)\", \"XMEAS(38)\", \"XMEAS(23)\", \"XMEAS(37)\", \"XMEAS(14)\", \"XMEAS(33)\", \"XMEAS(35)\", \"XMEAS(20)\"], \"observed_pattern\": \"XMEAS(18) remains elevated.\"}, {\"insight_id\": \"S2-INS-002\", \"source_agent\": \"agent_1\", \"pseudolabel\": \"S2-CLS-MHMU4\", \"evidence_scope\": \"one 5 h development window\", \"variable_ids\": [\"XMEAS(18)\", \"XMEAS(26)\", \"XMEAS(24)\", \"XMEAS(29)\", \"XMEAS(40)\", \"XMEAS(37)\", \"XMEAS(27)\", \"XMEAS(11)\"], \"observed_pattern\": \"XMEAS(18) remains elevated.\"}]}"
+              }
+            }
+          ],
+          "id": "fixture-1",
+          "model": "fixture-model",
+          "system_fingerprint": null,
+          "usage": {
+            "completion_tokens": 3,
+            "prompt_tokens": 2,
+            "total_tokens": 5
+          }
+        },
+        "record": {
+          "agent_id": "agent_1",
+          "completion_tokens": 3,
+          "finish_reason": "stop",
+          "identity_valid": false,
+          "latency_seconds": 1.2999982573091984e-05,
+          "prompt_sha256": "ffebfd052f4a12a1ab04442c3fbbe9a04669c9db803c91460ad24faeb770aba7",
+          "prompt_tokens": 2,
+          "raw_output": "{\"insights\": [{\"insight_id\": \"S2-INS-001\", \"source_agent\": \"agent_1\", \"pseudolabel\": \"S2-CLS-MHMU4\", \"evidence_scope\": \"one 5 h development window\", \"variable_ids\": [\"XMEAS(18)\", \"XMEAS(38)\", \"XMEAS(23)\", \"XMEAS(37)\", \"XMEAS(14)\", \"XMEAS(33)\", \"XMEAS(35)\", \"XMEAS(20)\"], \"observed_pattern\": \"XMEAS(18) remains elevated.\"}, {\"insight_id\": \"S2-INS-002\", \"source_agent\": \"agent_1\", \"pseudolabel\": \"S2-CLS-MHMU4\", \"evidence_scope\": \"one 5 h development window\", \"variable_ids\": [\"XMEAS(18)\", \"XMEAS(26)\", \"XMEAS(24)\", \"XMEAS(29)\", \"XMEAS(40)\", \"XMEAS(37)\", \"XMEAS(27)\", \"XMEAS(11)\"], \"observed_pattern\": \"XMEAS(18) remains elevated.\"}]}",
+          "received_utc": "2026-09-15T07:15:01.134284+00:00",
+          "request_id": "4bf385437a5ac68687a63c9807d3699dc65749841dc5f5ec36893755af5d00f0",
+          "response_id": "fixture-1",
+          "returned_model": "fixture-model",
+          "schema_valid_first_attempt": true,
+          "system_fingerprint": null,
+          "total_tokens": 5,
+          "validation_class": null,
+          "validation_error": null
+        },
+        "capture": {
+          "latency_ms": 0.012999982573091984,
+          "received_utc": "2026-09-15T07:15:01.134284+00:00"
+        }
+      },
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpremuxin0/pilot.sqlite3",
+        "requests_cumulative": 1,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 0,
+          "producer_conformity": 1,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 1,
+        "events": [
+          "suspended:4bf385437a5ac68687a63c9807d3699dc65749841dc5f5ec36893755af5d00f0"
+        ]
+      }
+    },
+    "test_X14_corrupted_durable_record_cannot_resume_or_pass": {
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_fixtures/test_X14_corrupted_durable_record_cannot_resume_or_pass/pilot.sqlite3",
+        "requests_cumulative": 8,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 0,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 8,
+        "events": []
+      }
+    },
+    "test_X15_producer_summary_counts_retry_provider_requests": {
+      "summary": {
+        "artifact_version": "3",
+        "status": "PASS",
+        "stage": "producer_conformity",
+        "producer_identity_sha256": "b351643c9043c8c2d9db04feddad2277fbeb5442ece5b68cbeb163ff62a35897",
+        "provider_requests": 8,
+        "valid_first_attempts": 8,
+        "records_sha256": "a0b15d88d1edd1133f6bdc1f8157c2ae7c3e06f93407af8b8b18258dd7b562cc",
+        "binding_sha256": "381aee4cc2b21ea225e5b22e4f9de78a9c368da151d8ad680ce539bcb0ac15b3",
+        "r4_target_commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143"
+      },
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmp0q2q0zhp/pilot.sqlite3",
+        "requests_cumulative": 9,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 0,
+          "producer_conformity": 9,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 1,
+        "reserve_equation_value": 1,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 8,
+        "events": [
+          "outcome:producer_conformity",
+          "reconciled:16d9845d0f683b39a1340d7b145330bee65245f8805c9775b74c8e14e103e49b"
+        ]
+      },
+      "stub_calls": 9
+    },
+    "test_X16_gate_raw_crash_and_closed_file_resume": {
+      "summary": {
+        "artifact_version": "2",
+        "status": "PASS_R1_PENDING_T5_AND_OTHER_PREREQUISITES",
+        "go_final": false,
+        "provider_requests": 120,
+        "valid_first_attempts": 120,
+        "invalid_first_attempts": 0,
+        "t3_pass": true,
+        "abstention_coverage": {
+          "A": true,
+          "B-LF": true,
+          "E-LF": true
+        },
+        "length_truncations": 0,
+        "t4_pass": true,
+        "t6_evaluable": true,
+        "all_invalid_prompt_ids": [],
+        "divergent_prompt_ids": [],
+        "divergent_prompt_count": 0,
+        "t5_temporal_feasibility": "NOT_MEASURED_BY_OFFLINE_EVALUATION",
+        "records_sha256": "1b29d629d889d960a89353dca1c04be64e2cc67d22bdd046e668aa18b47dbc90",
+        "frozen_gate_config_sha256": "7303fa917fb7b706512f7f6225cb34c6d8132194f3bfb06c1c02c67034edaab2"
+      },
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpim3k2zhn/pilot.sqlite3",
+        "requests_cumulative": 131,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 131,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate"
+        ]
+      }
+    },
+    "test_X17_approval_hash_and_presentation_order_binding": {
+      "consumer_calls": []
+    },
+    "test_X18_frozen_reformatted_bytes_rejected_without_call": {
+      "calls": 3
+    }
+  }
+}

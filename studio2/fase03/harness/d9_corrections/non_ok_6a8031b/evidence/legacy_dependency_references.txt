@@ -1,0 +1,4 @@
+OLD = Path(os.environ.get('FOT_HARNESS_LEGACY_CANDIDATE', '/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate'))
+LEGACY_LEDGER = '''import sys
+LEGACY_RUNNER = '''import sys,os,tempfile,json
+        proc = subprocess.run([sys.executable, '-c', LEGACY_RUNNER if runner else LEGACY_LEDGER, str(home), state],

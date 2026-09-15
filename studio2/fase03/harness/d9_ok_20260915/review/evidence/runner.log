@@ -1,0 +1,32 @@
+targeted Ran 156 tests in 466.682s
+
+OK
+discovery Ran 191 tests in 471.118s
+
+OK
+
+[info] Spearman(catalog order, lexicographic order) = -0.833
+corrections_red Ran 11 tests in 12.867s
+
+FAILED (failures=32)
+original_U_red Ran 8 tests in 8.258s
+
+FAILED (failures=3)
+transport_red Ran 3 tests in 4.845s
+
+FAILED (failures=2)
+corrections_green Ran 11 tests in 12.257s
+
+OK
+original_U_green Ran 8 tests in 7.888s
+
+OK
+transport_green Ran 3 tests in 4.912s
+
+OK
+guardian_rejected Ran 35 tests in 0.076s
+
+FAILED (failures=14, skipped=1)
+guardian_corrected Ran 35 tests in 0.076s
+
+FAILED (failures=14, skipped=1)

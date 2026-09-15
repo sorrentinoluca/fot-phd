@@ -1,0 +1,19 @@
+test_20_thresholds_and_missing_abstention (original_probes.GateProbes.test_20_thresholds_and_missing_abstention) ... ok
+test_21_forensic_vs_semantic_truncation_all_invalid (original_probes.GateProbes.test_21_forensic_vs_semantic_truncation_all_invalid) ... ok
+test_30_all_four_r4_byte_tamper_rejected (original_probes.InputProbes.test_30_all_four_r4_byte_tamper_rejected) ... ok
+test_31_r4_pair_ids_fields_caps_leakage (original_probes.InputProbes.test_31_r4_pair_ids_fields_caps_leakage) ... ok
+test_32_producer_inventory_cannot_accept_changed_source_text (original_probes.InputProbes.test_32_producer_inventory_cannot_accept_changed_source_text) ... ok
+test_33_insight_handoff_self_declared_valid_is_insufficient (original_probes.InputProbes.test_33_insight_handoff_self_declared_valid_is_insufficient) ... ok
+test_34_renderer_refuses_pending_label_order (original_probes.InputProbes.test_34_renderer_refuses_pending_label_order) ... ok
+test_36_endpoint_and_tokenizer_guards_reject_tampering (original_probes.InputProbes.test_36_endpoint_and_tokenizer_guards_reject_tampering) ... ok
+test_37_frozen_pseudolabel_assignment_derangement_bytes_are_enforced (original_probes.InputProbes.test_37_frozen_pseudolabel_assignment_derangement_bytes_are_enforced) ... ok
+test_38_evidence_json_hash_is_verified_before_contract_extraction (original_probes.InputProbes.test_38_evidence_json_hash_is_verified_before_contract_extraction) ... ok
+test_46_consumer_rejects_undecided_before_historical_server_contact (original_probes.RunnerProbes.test_46_consumer_rejects_undecided_before_historical_server_contact) ... ok
+test_60_sampling_and_canary_forensic_separation (original_probes.RecoveredModuleProbes.test_60_sampling_and_canary_forensic_separation) ... ok
+test_61_recovered_logger_persists_and_detects_tamper (original_probes.RecoveredModuleProbes.test_61_recovered_logger_persists_and_detects_tamper) ... ok
+test_62_tokenizer_byte_guards (original_probes.RecoveredModuleProbes.test_62_tokenizer_byte_guards) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 2.352s
+
+OK

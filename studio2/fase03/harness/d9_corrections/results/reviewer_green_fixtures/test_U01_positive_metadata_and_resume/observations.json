@@ -1,0 +1,27 @@
+{
+  "producer_stub_calls": 8,
+  "consumer_stub_calls": 0,
+  "snapshot": {
+    "pilot_id": "runner-fixture",
+    "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmp2zxy__wv/pilot.sqlite3",
+    "requests_cumulative": 8,
+    "requests_by_stage": {
+      "alternate_conformity": 0,
+      "budget_probe": 0,
+      "producer_conformity": 8,
+      "producer_remediation": 0,
+      "stability_gate": 0
+    },
+    "unresolved_intents": 0,
+    "remediation_calls": 0,
+    "transport_calls": 0,
+    "reserve_equation_value": 0,
+    "reserve_limit": 15,
+    "planned_maximum": 152,
+    "hard_stop": 200,
+    "durable_responses": 8,
+    "events": [
+      "outcome:producer_conformity"
+    ]
+  }
+}

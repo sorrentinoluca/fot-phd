@@ -1,0 +1,155 @@
+{
+  "checked_at": "2026-09-15T18:13:07.045763+02:00",
+  "scope": "Controlli acquisizione; risultati harness attribuiti al revisore, non rieseguiti.",
+  "source_and_preserved_locations_verified": 448,
+  "review_manifest_members": 446,
+  "candidate_manifest_members_separate_scope": 1062,
+  "old_review_members_verified_each_location": 591,
+  "candidate_manifest_unchanged": true,
+  "existing_tracked_files_unchanged": true,
+  "D04_record_and_original_worktrees_preserved": true,
+  "review_summaries_match_logs_and_exit_codes": true,
+  "review_test_script_hashes_match": true,
+  "guardian_acquisition": {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "docs/test_explanation.py"
+    ],
+    "cwd": "/Users/luker/fot-tep-harness-d9-correzioni",
+    "environment_overrides": {
+      "PYTHONDONTWRITEBYTECODE": "1"
+    },
+    "before_exit_code": 1,
+    "after_exit_code": 1,
+    "tests": 35,
+    "failures": 14,
+    "errors": 0,
+    "skips": 1,
+    "verdict": "NON PASS storico invariato",
+    "failure_identifiers_before_after_and_review": [
+      "FAIL: test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "FAIL: test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "FAIL: test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "FAIL: test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ],
+    "before": {
+      "bytes": 2582733,
+      "sha256": "d0668bd4af68a61012d701a840a9daa8e1d822ed3078b39e5729ac8a8c7f61a6"
+    },
+    "after": {
+      "bytes": 2582733,
+      "sha256": "d0668bd4af68a61012d701a840a9daa8e1d822ed3078b39e5729ac8a8c7f61a6"
+    }
+  },
+  "no_harness_suites_or_review_scripts_executed": true,
+  "new_record_links": [
+    {
+      "label": "inventario",
+      "target": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_ok_20260915/ACQUISITION_INVENTORY.json",
+      "exists": true
+    },
+    {
+      "label": "Verbale",
+      "target": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_ok_20260915/review/VERIFICA_CORREZIONI_D9.md",
+      "exists": true
+    },
+    {
+      "label": "Manifest della review",
+      "target": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_ok_20260915/review/MANIFEST.json",
+      "exists": true
+    },
+    {
+      "label": "consegna originale",
+      "target": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_ok_20260915/review/CONSEGNA.json",
+      "exists": true
+    },
+    {
+      "label": "manifest del candidato corretto",
+      "target": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_corrections/CANDIDATO_CORREZIONI_D9.json",
+      "exists": true
+    },
+    {
+      "label": "risultati verificati dal revisore",
+      "target": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_ok_20260915/review/evidence/RESULTS_VERIFIED.json",
+      "exists": true
+    },
+    {
+      "label": "archivio tecnico conservato",
+      "target": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/candidate_16c98f3.tar.gz",
+      "exists": true
+    },
+    {
+      "label": "copia già acquisita",
+      "target": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_corrections/non_ok_6a8031b/VERIFICA_D9.md",
+      "exists": true
+    },
+    {
+      "label": "acquisizioni D04",
+      "target": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/ACQUISIZIONE_OK_D04.md",
+      "exists": true
+    },
+    {
+      "label": "Precontrolli",
+      "target": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_ok_20260915/PRECHECKS.json",
+      "exists": true
+    },
+    {
+      "label": "controlli finali",
+      "target": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_ok_20260915/ACQUISITION_CHECKS.json",
+      "exists": true
+    }
+  ],
+  "original_report_links_without_rewriting": [
+    {
+      "target": "evidence/run_review_tests.py",
+      "resolved_location": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_ok_20260915/review/evidence/run_review_tests.py",
+      "mode": "local_copy"
+    },
+    {
+      "target": "evidence/guardian_comparison.json",
+      "resolved_location": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_ok_20260915/review/evidence/guardian_comparison.json",
+      "mode": "local_copy"
+    },
+    {
+      "target": "evidence/source_audit.json",
+      "resolved_location": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_ok_20260915/review/evidence/source_audit.json",
+      "mode": "local_copy"
+    },
+    {
+      "target": "candidate_16c98f3.tar.gz",
+      "resolved_location": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/candidate_16c98f3.tar.gz",
+      "mode": "inventory_external_source"
+    },
+    {
+      "target": "MANIFEST.json",
+      "resolved_location": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_ok_20260915/review/MANIFEST.json",
+      "mode": "local_copy"
+    },
+    {
+      "target": "CONSEGNA.json",
+      "resolved_location": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_ok_20260915/review/CONSEGNA.json",
+      "mode": "local_copy"
+    }
+  ],
+  "diff_check": {
+    "integral_exit_code": 2,
+    "raw_log": "diff_check_raw.log",
+    "raw_log_fingerprint": {
+      "bytes": 2638,
+      "sha256": "9172ea8807453e3ff62add816e28f4d0c2152afa5c76e1b037aeada9bdeebaf1"
+    },
+    "new_records_exit_code": 0,
+    "note": "Segnalazioni integrali preservate nei byte originali dei log grezzi; nessuna normalizzazione. Il precedente controllo integrale del delta tecnico include anche fixture deliberatamente corrotte, conservate.",
+    "capture_scope": "Staging dei 61 file acquisiti/record/log del guardiano, prima di aggiungere il log grezzo di questo stesso diff."
+  }
+}

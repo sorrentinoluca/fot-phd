@@ -1,0 +1,284 @@
+{
+  "schema_commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+  "schema_manifest_sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12",
+  "library": [
+    {
+      "insight_id": "S2-INS-001",
+      "source_agent": "agent_1",
+      "pseudolabel": "S2-CLS-MHMU4",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(18)",
+        "XMEAS(38)",
+        "XMEAS(23)",
+        "XMEAS(37)",
+        "XMEAS(14)",
+        "XMEAS(33)",
+        "XMEAS(35)",
+        "XMEAS(20)"
+      ],
+      "observed_pattern": "XMEAS(18) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-002",
+      "source_agent": "agent_1",
+      "pseudolabel": "S2-CLS-MHMU4",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(18)",
+        "XMEAS(26)",
+        "XMEAS(24)",
+        "XMEAS(29)",
+        "XMEAS(40)",
+        "XMEAS(37)",
+        "XMEAS(27)",
+        "XMEAS(11)"
+      ],
+      "observed_pattern": "XMEAS(18) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-003",
+      "source_agent": "agent_2",
+      "pseudolabel": "S2-CLS-QRCCB",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(41)",
+        "XMEAS(39)",
+        "XMEAS(29)",
+        "XMEAS(2)",
+        "XMEAS(14)",
+        "XMEAS(28)",
+        "XMEAS(37)",
+        "XMEAS(18)"
+      ],
+      "observed_pattern": "XMEAS(41) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-004",
+      "source_agent": "agent_2",
+      "pseudolabel": "S2-CLS-QRCCB",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(37)",
+        "XMEAS(27)",
+        "XMEAS(25)",
+        "XMEAS(41)",
+        "XMEAS(39)",
+        "XMEAS(15)",
+        "XMEAS(30)",
+        "XMEAS(34)"
+      ],
+      "observed_pattern": "XMEAS(37) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-005",
+      "source_agent": "agent_3",
+      "pseudolabel": "S2-CLS-GSX3L",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(10)",
+        "XMEAS(34)",
+        "XMEAS(28)",
+        "XMEAS(30)",
+        "XMEAS(20)",
+        "XMEAS(15)",
+        "XMEAS(24)",
+        "XMEAS(1)"
+      ],
+      "observed_pattern": "XMEAS(10) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-006",
+      "source_agent": "agent_3",
+      "pseudolabel": "S2-CLS-GSX3L",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(10)",
+        "XMEAS(34)",
+        "XMEAS(28)",
+        "XMEAS(30)",
+        "XMEAS(20)",
+        "XMEAS(24)",
+        "XMEAS(15)",
+        "XMEAS(1)"
+      ],
+      "observed_pattern": "XMEAS(10) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-007",
+      "source_agent": "agent_4",
+      "pseudolabel": "S2-CLS-HEW25",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(20)",
+        "XMEAS(1)",
+        "XMEAS(31)",
+        "XMEAS(29)",
+        "XMEAS(16)",
+        "XMEAS(10)",
+        "XMEAS(18)",
+        "XMEAS(7)"
+      ],
+      "observed_pattern": "XMEAS(20) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-008",
+      "source_agent": "agent_4",
+      "pseudolabel": "S2-CLS-HEW25",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(1)",
+        "XMEAS(20)",
+        "XMEAS(29)",
+        "XMEAS(31)",
+        "XMEAS(11)",
+        "XMEAS(18)",
+        "XMEAS(22)",
+        "XMEAS(23)"
+      ],
+      "observed_pattern": "XMEAS(1) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-009",
+      "source_agent": "agent_5",
+      "pseudolabel": "S2-CLS-FD3GZ",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(7)",
+        "XMEAS(16)",
+        "XMEAS(13)",
+        "XMEAS(10)",
+        "XMEAS(21)",
+        "XMEAS(11)",
+        "XMEAS(30)",
+        "XMEAS(18)"
+      ],
+      "observed_pattern": "XMEAS(7) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-010",
+      "source_agent": "agent_5",
+      "pseudolabel": "S2-CLS-FD3GZ",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(10)",
+        "XMEAS(30)",
+        "XMEAS(34)",
+        "XMEAS(24)",
+        "XMEAS(21)",
+        "XMEAS(28)",
+        "XMEAS(7)",
+        "XMEAS(15)"
+      ],
+      "observed_pattern": "XMEAS(10) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-011",
+      "source_agent": "agent_6",
+      "pseudolabel": "S2-CLS-3ZGWQ",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(36)",
+        "XMEAS(41)",
+        "XMEAS(37)",
+        "XMEAS(26)",
+        "XMEAS(10)",
+        "XMEAS(24)",
+        "XMEAS(40)",
+        "XMEAS(22)"
+      ],
+      "observed_pattern": "XMEAS(36) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-012",
+      "source_agent": "agent_6",
+      "pseudolabel": "S2-CLS-3ZGWQ",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(1)",
+        "XMEAS(40)",
+        "XMEAS(38)",
+        "XMEAS(32)",
+        "XMEAS(39)",
+        "XMEAS(35)",
+        "XMEAS(29)",
+        "XMEAS(22)"
+      ],
+      "observed_pattern": "XMEAS(1) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-013",
+      "source_agent": "agent_7",
+      "pseudolabel": "S2-CLS-4AMS4",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(21)",
+        "XMEAS(9)",
+        "XMEAS(7)",
+        "XMEAS(16)",
+        "XMEAS(13)",
+        "XMEAS(20)",
+        "XMEAS(26)",
+        "XMEAS(11)"
+      ],
+      "observed_pattern": "XMEAS(21) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-014",
+      "source_agent": "agent_7",
+      "pseudolabel": "S2-CLS-4AMS4",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(21)",
+        "XMEAS(9)",
+        "XMEAS(7)",
+        "XMEAS(16)",
+        "XMEAS(13)",
+        "XMEAS(38)",
+        "XMEAS(20)",
+        "XMEAS(41)"
+      ],
+      "observed_pattern": "XMEAS(21) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-015",
+      "source_agent": "agent_8",
+      "pseudolabel": "S2-CLS-TYFPG",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(1)",
+        "XMEAS(20)",
+        "XMEAS(10)",
+        "XMEAS(11)",
+        "XMEAS(31)",
+        "XMEAS(16)",
+        "XMEAS(13)",
+        "XMEAS(7)"
+      ],
+      "observed_pattern": "XMEAS(1) remains elevated."
+    },
+    {
+      "insight_id": "S2-INS-016",
+      "source_agent": "agent_8",
+      "pseudolabel": "S2-CLS-TYFPG",
+      "evidence_scope": "one 5 h development window",
+      "variable_ids": [
+        "XMEAS(1)",
+        "XMEAS(20)",
+        "XMEAS(10)",
+        "XMEAS(11)",
+        "XMEAS(16)",
+        "XMEAS(13)",
+        "XMEAS(7)",
+        "XMEAS(31)"
+      ],
+      "observed_pattern": "XMEAS(1) remains elevated."
+    }
+  ],
+  "library_sha256": "914233d098e635c3cbd533f3e36e3e2e33d3c6fed8198e159073ba99bff8503a",
+  "validated": true,
+  "pilot_id": "runner-fixture",
+  "stage": "producer_conformity",
+  "binding_sha256": "381aee4cc2b21ea225e5b22e4f9de78a9c368da151d8ad680ce539bcb0ac15b3",
+  "records_sha256": "799ae97fe0df2b224c8b7a674e02dd0ac0a82a59ba4834c58ca64f2e4304a584"
+}

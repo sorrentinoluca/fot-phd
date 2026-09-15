@@ -1,0 +1,44 @@
+test_missing_canonical_before_tracked_call (__main__.TransportBoundary.test_missing_canonical_before_tracked_call) ... FAIL
+test_missing_service_before_tracked_call (__main__.TransportBoundary.test_missing_service_before_tracked_call) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1047f14e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10611d300>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+FAIL
+test_positive_real_adapter_fake_sdk (__main__.TransportBoundary.test_positive_real_adapter_fake_sdk) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1067a71f0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106162a70>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+
+======================================================================
+FAIL: test_missing_canonical_before_tracked_call (__main__.TransportBoundary.test_missing_canonical_before_tracked_call)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/transport_boundary_regression.py", line 45, in test_missing_canonical_before_tracked_call
+    def test_missing_canonical_before_tracked_call(self):self.scenario('R4')
+                                                         ~~~~~~~~~~~~~^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/transport_boundary_regression.py", line 37, in scenario
+    with self.assertRaisesRegex(HarnessError,'tokenizer'):call()
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_missing_service_before_tracked_call (__main__.TransportBoundary.test_missing_service_before_tracked_call)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/transport_boundary_regression.py", line 46, in test_missing_service_before_tracked_call
+    def test_missing_service_before_tracked_call(self):self.scenario('chat')
+                                                       ~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/transport_boundary_regression.py", line 37, in scenario
+    with self.assertRaisesRegex(HarnessError,'tokenizer'):call()
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 4.845s
+
+FAILED (failures=2)

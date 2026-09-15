@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "default": "DA_COPRIRE",
+  "field_inventory": "DURABLE_FIELD_CONTRACT.json",
+  "normative_field": "requests.quota_kind",
+  "stages": {
+    "producer_conformity": ["base", "transport"],
+    "producer_remediation": ["remediation", "transport"],
+    "alternate_conformity": ["base", "transport"],
+    "budget_probe": ["base", "transport"],
+    "stability_gate": ["base"]
+  },
+  "statuses": ["INTENT", "FAILED", "ZERO_TOKEN_PROVEN", "COMPLETED"],
+  "quota_values": ["base", "remediation", "transport", "UNKNOWN"],
+  "entry_points": ["bind_stage", "reserve_base_or_remediation"],
+  "role_dependencies": {
+    "logical_id": "UNKNOWN",
+    "stage_run": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "model": "UNKNOWN",
+    "producer": "UNKNOWN",
+    "identity_json": "{}",
+    "retry_of": "MISSING_PARENT",
+    "stage": "UNKNOWN"
+  },
+  "limits": {"transport_without_waiver": 7, "transport_with_waiver": 15, "probe_transport": 7, "reserve": 15, "remediation": 8},
+  "coverage_limit": "Finite single-field faults at listed states/entries; historical closed-stage and content checks remain separate."
+}

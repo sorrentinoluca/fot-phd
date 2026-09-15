@@ -1,0 +1,13 @@
+test_D04_eighth_retry_and_new_fault_after_previous_success (__main__.OpenQuotaContract.test_D04_eighth_retry_and_new_fault_after_previous_success) ... ok
+test_D04_explicit_waiver_preserves_valid_eighth_and_limit_fifteen (__main__.OpenQuotaContract.test_D04_explicit_waiver_preserves_valid_eighth_and_limit_fifteen) ... ok
+test_D04_generated_quota_matrix_open_stages_states_and_entries (__main__.OpenQuotaContract.test_D04_generated_quota_matrix_open_stages_states_and_entries) ... ok
+test_D04_inventory_covers_stages_roles_and_normative_dependencies (__main__.OpenQuotaContract.test_D04_inventory_covers_stages_roles_and_normative_dependencies) ... ok
+test_D04_probe_triplet_refuses_atomically_then_accepts_legal_retry (__main__.OpenQuotaContract.test_D04_probe_triplet_refuses_atomically_then_accepts_legal_retry) ... ok
+test_D04_role_dependencies_are_validated_before_new_reservation (__main__.OpenQuotaContract.test_D04_role_dependencies_are_validated_before_new_reservation) ... ok
+test_D04_runner_and_CLI_refuse_before_client_server_send_and_outputs (__main__.OpenQuotaContract.test_D04_runner_and_CLI_refuse_before_client_server_send_and_outputs) ... ok
+test_D04_shared_attempt_validation_covers_other_open_stage_and_holds_lock (__main__.OpenQuotaContract.test_D04_shared_attempt_validation_covers_other_open_stage_and_holds_lock) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 3.409s
+
+OK

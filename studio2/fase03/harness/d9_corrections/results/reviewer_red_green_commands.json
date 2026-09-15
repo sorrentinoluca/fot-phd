@@ -1,0 +1,16 @@
+[
+  {
+    "name": "reviewer_red",
+    "pid": 7533,
+    "target": "/Users/luker/fot-tep-harness-d9",
+    "script_sha256": "cb102f6961c8ab16ac9086bdd8f21d74e61f98967eac210f0dcce21a194fa037",
+    "exit_code": 1
+  },
+  {
+    "name": "reviewer_green",
+    "pid": 7534,
+    "target": "/Users/luker/fot-tep-harness-d9-correzioni",
+    "script_sha256": "cb102f6961c8ab16ac9086bdd8f21d74e61f98967eac210f0dcce21a194fa037",
+    "exit_code": 0
+  }
+]

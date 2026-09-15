@@ -1,0 +1,136 @@
+{
+  "artifact_version": "1",
+  "status": "RECONNAISSANCE_COMPLETE_RECONCILIATION_PENDING",
+  "effective_date": "2026-09-15",
+  "timezone": "Europe/Rome",
+  "base_commit": "a5ffc5e555df998431c615a97a2d9ff2ed087d7f",
+  "base_tree": "5200def66e5084a22ca719544d4c108cdde12701",
+  "model": {
+    "effective": "Codex agent based on GPT-5",
+    "reasoning_effective": "NOT_EXPOSED_TO_SESSION",
+    "suggested_not_assumed": "Sol, reasoning high"
+  },
+  "sources": [
+    {
+      "path": "studio2/fase03/results/provisional_cap_stress/provisional_stress_probe_summary.json",
+      "bytes": 4375,
+      "sha256": "c9adf2a8f07d9058257cc2c51a00064662874611875a715c716a1f1ea4828368",
+      "origin_commit": "6a029270a7c29122bd7c56ee2b34ac236f359839"
+    },
+    {
+      "path": "studio2/fase03/results/provisional_cap_stress/provisional_stress_probe_attempts.jsonl",
+      "bytes": 275,
+      "sha256": "cc3a21d8a045598b844372b04af4a68a4ac6702c05c5428a457eed098f03c382",
+      "origin_commit": "4691acbbf486fcbf205fec374ae614eed5fa5605"
+    },
+    {
+      "path": "studio2/fase03/results/provisional_cap_stress/provisional_stress_probe_records.jsonl",
+      "bytes": 20221,
+      "sha256": "825b649e409e462b953da263fd01d11b9d92563fd930747da17e36f93d94b158",
+      "origin_commit": "6a029270a7c29122bd7c56ee2b34ac236f359839"
+    },
+    {
+      "path": "studio2/fase03/harness/HISTORICAL_S_SOURCE_INVENTORY_2026-09-15.json",
+      "bytes": 3595,
+      "sha256": "ae8b89f23fc38344aa777037edf71f9dcf5e504c1e35e85482089d57c6a7682f",
+      "origin_commit": "3180aeaacbec25a5907d556e8ca2aa7060a04865"
+    },
+    {
+      "path": "studio2/fase03/harness/REGISTRO_DECISIONI_AUTORIALI_D9_2026-09-15.md",
+      "bytes": 2611,
+      "sha256": "feea9dcbaf2e9810e6a4c6a72d0336c236313a98f595ff0cf876141987cef0c0",
+      "origin_commit": "af50d54f1efea2c489b04f54e16cd99778f20c31"
+    },
+    {
+      "path": "studio2/fase03/config/pilot_d9_decisions_received.json",
+      "bytes": 2456,
+      "sha256": "9d3870b659f28f24ee2b275acc76ca90e67191a59d481643f429e87851a46367",
+      "origin_commit": "3180aeaacbec25a5907d556e8ca2aa7060a04865"
+    }
+  ],
+  "attempts": [
+    {
+      "ordinal": "S1",
+      "source": "provisional_stress_probe_attempts.jsonl:1",
+      "outcome": {"classification": "DECLARED_NOT_SEMANTICALLY_VERIFIED", "value": "REJECTED_BEFORE_INFERENCE"},
+      "observed_at": {"classification": "FOUND_AND_VERIFIED", "value": "2026-09-13T00:39:31+00:00"},
+      "http_error": {"classification": "FOUND_AND_VERIFIED", "code": 400, "message": "Grammar error: Unimplemented keys: [\"uniqueItems\"]"},
+      "prompt_id": {"classification": "NOT_AVAILABLE_IN_EXAMINED_SOURCES"},
+      "provider_response_id": {"classification": "NOT_AVAILABLE_IN_EXAMINED_SOURCES"},
+      "usage": {"classification": "NOT_AVAILABLE_IN_EXAMINED_SOURCES"},
+      "zero_token_proof": {"classification": "NOT_ESTABLISHED", "reason": "HTTP 400 and inference_completed=false do not satisfy the D03 semantic durable-evidence contract"}
+    },
+    {
+      "ordinal": "S2",
+      "source": "provisional_stress_probe_records.jsonl:1",
+      "outcome": {"classification": "FOUND_AND_VERIFIED", "value": "COMPLETED"},
+      "observed_at": "2026-09-13T00:40:14.133715+00:00",
+      "condition": "A",
+      "prompt_id": "S2-P03-031",
+      "prompt_sha256": "bf5bc383472092fdd262ee08becc8b20d6e2656aa21678fe05851a1c704f1df5",
+      "provider_response_id": "chatcmpl-a2c8b987009e9048",
+      "usage": {"prompt_tokens": 6579, "completion_tokens": 409, "total_tokens": 6988},
+      "finish_reason": "stop",
+      "raw_output_sha256": "61666e0305bd7c9cb6d476b0dcd9e3627b90a7fbe1f8e865a861e2cf7eb58aa4",
+      "returned_model": "fot-exp2-consumer",
+      "system_fingerprint": "vllm-0.28.0-5fc21ed4"
+    },
+    {
+      "ordinal": "S3",
+      "source": "provisional_stress_probe_records.jsonl:2",
+      "outcome": {"classification": "FOUND_AND_VERIFIED", "value": "COMPLETED"},
+      "observed_at": "2026-09-13T00:40:46.960150+00:00",
+      "condition": "B-LF",
+      "prompt_id": "S2-P03-004",
+      "prompt_sha256": "073fda4269027701f83550ec1513f6fc0d21ceff53dd3ae69f432bf7b0bdb6cd",
+      "provider_response_id": "chatcmpl-b0321b315d5b2d64",
+      "usage": {"prompt_tokens": 9875, "completion_tokens": 2174, "total_tokens": 12049},
+      "finish_reason": "stop",
+      "raw_output_sha256": "b573b0ebf52c4a9a74e0d5b0d7e1557f6e8db4baeea239ae8f1f6639c23825bf",
+      "returned_model": "fot-exp2-consumer",
+      "system_fingerprint": "vllm-0.28.0-5fc21ed4"
+    },
+    {
+      "ordinal": "S4",
+      "source": "provisional_stress_probe_records.jsonl:3",
+      "outcome": {"classification": "FOUND_AND_VERIFIED", "value": "COMPLETED"},
+      "observed_at": "2026-09-13T00:43:19.495953+00:00",
+      "condition": "E-LF",
+      "prompt_id": "S2-P03-005",
+      "prompt_sha256": "85d063eb2b4f57400f3bd5f422fc67c2ca9fa51533347e22fcd847c2b00712ae",
+      "provider_response_id": "chatcmpl-8e6fdbca7d5ac3c4",
+      "usage": {"prompt_tokens": 9875, "completion_tokens": 835, "total_tokens": 10710},
+      "finish_reason": "stop",
+      "raw_output_sha256": "5049a49b668ac5740d37868c58f312432fbc34b471a7d2da99d2dc293fe937b5",
+      "returned_model": "fot-exp2-consumer",
+      "system_fingerprint": "vllm-0.28.0-5fc21ed4"
+    }
+  ],
+  "shared_missing": {
+    "authorized_ledger_absolute_path": "NOT_AVAILABLE_IN_EXAMINED_SOURCES",
+    "pilot_id": "NOT_AVAILABLE_IN_EXAMINED_SOURCES",
+    "four_request_ids": "NOT_AVAILABLE_IN_EXAMINED_SOURCES",
+    "four_request_identity_sha256": "NOT_AVAILABLE_IN_EXAMINED_SOURCES",
+    "reviewed_ledger_to_source_binding": "NOT_AVAILABLE_IN_EXAMINED_SOURCES"
+  },
+  "semantic_checks": {
+    "json_and_jsonl_formats": "PASS",
+    "summary_to_attempts_and_records_digests": "PASS",
+    "raw_output_digest_recomputed": "3_OF_3_PASS",
+    "response_envelope_and_usage_consistency": "3_OF_3_PASS",
+    "source_bytes_equal_origin_git_blobs": "3_OF_3_PRIMARY_FILES_PASS"
+  },
+  "accounting": {
+    "author_approved_prudential_charge": 4,
+    "charge_once": true,
+    "completed_responses_subset": 3,
+    "additional_charge_for_completed_responses": 0,
+    "durably_reconciled": false
+  },
+  "proposal": "studio2/fase03/harness/PROPOSTA_RICONCILIAZIONE_STORICO_S_ESTERNO_2026-09-15.md",
+  "runtime_modified": false,
+  "ledger_modified": false,
+  "configuration_modified": false,
+  "external_calls": false,
+  "go": false
+}

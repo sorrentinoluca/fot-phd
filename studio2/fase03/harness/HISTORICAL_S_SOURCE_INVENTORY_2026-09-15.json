@@ -1,0 +1,95 @@
+{
+  "artifact_version": "1",
+  "status": "SOURCE_INVENTORIED_PENDING_DURABLE_LEDGER_LINK_AND_REVIEW",
+  "effective_date": "2026-09-15",
+  "timezone": "Europe/Rome",
+  "source": {
+    "summary_sha256": "c9adf2a8f07d9058257cc2c51a00064662874611875a715c716a1f1ea4828368",
+    "reported_requests": 4,
+    "completed_inferences": 3
+  },
+  "quota_charge": {
+    "decision": "AUTHOR_APPROVED_PRUDENTIAL_CHARGE",
+    "provider_requests": 4,
+    "charge_once": true,
+    "completed_inferences_are_subset_not_additional_charge": true,
+    "cumulative_hard_stop": 200
+  },
+  "candidate_correspondences": [
+    {
+      "historical_ordinal": 1,
+      "outcome": "REJECTED_BEFORE_INFERENCE",
+      "observed_at": "2026-09-13T00:39:31+00:00",
+      "condition": null,
+      "prompt_id": null,
+      "provider_response_id": null,
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "evidence": "provisional_stress_probe_attempts.jsonl line 1"
+    },
+    {
+      "historical_ordinal": 2,
+      "outcome": "COMPLETED",
+      "observed_at": "2026-09-13T00:40:14.133715+00:00",
+      "condition": "A",
+      "prompt_id": "S2-P03-031",
+      "provider_response_id": "chatcmpl-a2c8b987009e9048",
+      "prompt_tokens": 6579,
+      "completion_tokens": 409,
+      "raw_output_sha256": "61666e0305bd7c9cb6d476b0dcd9e3627b90a7fbe1f8e865a861e2cf7eb58aa4",
+      "evidence": "provisional_stress_probe_records.jsonl line 1"
+    },
+    {
+      "historical_ordinal": 3,
+      "outcome": "COMPLETED",
+      "observed_at": "2026-09-13T00:40:46.960150+00:00",
+      "condition": "B-LF",
+      "prompt_id": "S2-P03-004",
+      "provider_response_id": "chatcmpl-b0321b315d5b2d64",
+      "prompt_tokens": 9875,
+      "completion_tokens": 2174,
+      "raw_output_sha256": "b573b0ebf52c4a9a74e0d5b0d7e1557f6e8db4baeea239ae8f1f6639c23825bf",
+      "evidence": "provisional_stress_probe_records.jsonl line 2"
+    },
+    {
+      "historical_ordinal": 4,
+      "outcome": "COMPLETED",
+      "observed_at": "2026-09-13T00:43:19.495953+00:00",
+      "condition": "E-LF",
+      "prompt_id": "S2-P03-005",
+      "provider_response_id": "chatcmpl-8e6fdbca7d5ac3c4",
+      "prompt_tokens": 9875,
+      "completion_tokens": 835,
+      "raw_output_sha256": "5049a49b668ac5740d37868c58f312432fbc34b471a7d2da99d2dc293fe937b5",
+      "evidence": "provisional_stress_probe_records.jsonl line 3"
+    }
+  ],
+  "source_files": {
+    "summary": {
+      "path": "studio2/fase03/results/provisional_cap_stress/provisional_stress_probe_summary.json",
+      "sha256": "c9adf2a8f07d9058257cc2c51a00064662874611875a715c716a1f1ea4828368"
+    },
+    "attempts": {
+      "path": "studio2/fase03/results/provisional_cap_stress/provisional_stress_probe_attempts.jsonl",
+      "sha256": "cc3a21d8a045598b844372b04af4a68a4ac6702c05c5428a457eed098f03c382"
+    },
+    "records": {
+      "path": "studio2/fase03/results/provisional_cap_stress/provisional_stress_probe_records.jsonl",
+      "sha256": "825b649e409e462b953da263fd01d11b9d92563fd930747da17e36f93d94b158"
+    }
+  },
+  "pilot_ledger": null,
+  "request_identities": null,
+  "reviewer": null,
+  "missing_for_reconciliation": [
+    "authorized pilot ledger absolute path and pilot_id",
+    "four existing ledger request_id values and their durable identity hashes",
+    "review of the exact ledger-to-source mapping",
+    "for any retry claim on ordinal 1, valid historical zero-token evidence and approval"
+  ],
+  "zero_token_proof_for_rejected_request": "NOT_ESTABLISHED",
+  "ledger_mutated": false,
+  "backfill_performed": false,
+  "reset_performed": false,
+  "execution_authorized": false
+}

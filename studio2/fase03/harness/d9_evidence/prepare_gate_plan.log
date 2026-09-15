@@ -1,0 +1,10 @@
+{
+  "status": "SUSPENDED_D9_PREREQUISITES",
+  "model_calls": 0,
+  "dependencies": [],
+  "implementation_status": "D9 offline delta pending independent review",
+  "subordinated_checks": [],
+  "next_command_requires_independently_frozen_study2_pilot_inputs": true,
+  "provisional_cap_stress_path_requires_separate_acknowledgement": true,
+  "provisional_cap_stress_never_authorizes_stability_gate": true
+}

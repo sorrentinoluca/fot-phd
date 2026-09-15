@@ -1,0 +1,41 @@
+{
+  "version": "D9-1",
+  "base_durable_contract": "../DURABLE_FIELD_CONTRACT.json",
+  "sql_schema_changes": [],
+  "new_event_kinds": [],
+  "classification": {
+    "stages.binding_json.execution_config": "N: entire approved configuration, including all nested values and references",
+    "stages.binding_json.provider_reference": "N: exact original provider file path/hash; parsed bytes must equal persisted provider",
+    "stages.binding_json.provider_file_sha256": "N: binds provider to the stage-specific D9 pin",
+    "execution_config.d9.roles": "N: exact producer=consumer=122B, alternate=27B",
+    "execution_config.d9.services": "N: both nominal services and complete document references; no implicit backend inheritance",
+    "execution_config.d9.producer_configs": "N: separate file hash for each producer role",
+    "execution_config.d9.alternate_placement": "N: explicit pilot/deferred; PENDING blocks; deferred never opens a later stage",
+    "execution_config.d9.presentation_order": "N: independent exact author approval, not canonical label_space order",
+    "execution_config.d9.r4_tokenizer": "N: fixed canonical R4 pins, separate from service chat tokens",
+    "execution_config.d9.r4_snapshot": "N: local recoverable canonical tokenizer files",
+    "execution_config.d9.history_reconciliation": "N: reviewed source inventory and request identity mapping read in decision transaction",
+    "execution_config.d9.status": "N: documented for authorized stage is not qualified",
+    "execution_config.d9.missing_requirements": "N: any missing requirement blocks",
+    "server.scope": "N: DOCUMENTED_NOT_LIVE_VERIFIED; never a live observation",
+    "accounting.by_role": "derived: each validated durable intent exactly once",
+    "accounting.by_nominal_model": "derived: sum producer and consumer at 122B; alternate at 27B",
+    "raw/capture fields": "unchanged D03/D04 contract; no missing token converted to zero"
+  },
+  "decisions": [
+    "require_execution before producer/consumer/client and CLI ledger construction",
+    "require_pilot_ledger and history mapping before runner use",
+    "bind_stage inside BEGIN IMMEDIATE",
+    "_binding on reread, including every contributor through _validated_attempt_inventory before reserve",
+    "public binding read inside BEGIN IMMEDIATE",
+    "provider payload generation and mandatory durable intent before consumer transport",
+    "canonical R4 and service token counters before library production/reuse",
+    "primary and alternative library authentication before same-case swap"
+  ],
+  "limits": [
+    "Finite tests; no proof of all interleavings or coordinated rewrite of all approved sources",
+    "No historical consumption import/migration implemented; missing mapped history blocks",
+    "Generic v2 ledger remains an offline/forensic mechanism and cannot authorize a real D9 provider",
+    "No final-study transport runner, deferred alternate stage, GO or service qualification created"
+  ]
+}

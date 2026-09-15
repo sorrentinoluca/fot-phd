@@ -1,0 +1,10 @@
+test_U01_every_decision_reuses_validator_under_real_lock (__main__.Edges.test_U01_every_decision_reuses_validator_under_real_lock) ... ok
+test_U02_mid_triplet_fault_rolls_back_all_then_legal_retry_succeeds (__main__.Edges.test_U02_mid_triplet_fault_rolls_back_all_then_legal_retry_succeeds) ... ok
+test_U03_two_processes_compete_for_last_shared_waived_transport (__main__.Edges.test_U03_two_processes_compete_for_last_shared_waived_transport) ... ok
+test_U04_other_open_stage_orphan_unknown_stage_or_missing_proof_refused (__main__.Edges.test_U04_other_open_stage_orphan_unknown_stage_or_missing_proof_refused) ... ok
+test_U05_execute_request_without_prior_rebind_rejects_cross_stage_quota (__main__.Edges.test_U05_execute_request_without_prior_rebind_rejects_cross_stage_quota) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.500s
+
+OK

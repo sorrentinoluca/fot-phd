@@ -1,0 +1,10 @@
+{
+  "python": "3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:11:29) [Clang 20.1.8 ]",
+  "executable": "/opt/anaconda3/bin/python3",
+  "sqlite": "3.51.0",
+  "platform": "macOS-26.6.2-arm64-i386-64bit-Mach-O",
+  "machine": "arm64",
+  "network": "fixture transport; socket forbidden in RunnerRevisions",
+  "session": "01a0a53e-927d-7493-a50a-34617bbac13f",
+  "role": "implementation, not independent reviewer"
+}

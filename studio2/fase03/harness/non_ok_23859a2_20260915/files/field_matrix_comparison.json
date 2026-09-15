@@ -1,0 +1,8 @@
+{
+  "candidate_comparison": {
+    "MATRICE_D03_CAMPI.json": true,
+    "MATRICE_D03_CAMPI.md": true
+  },
+  "stdout": "Generated 69 entries; 56 new field entries; 13 historical\n",
+  "meaning": "Generated from this review red/green observations; not inherited PASS"
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "source": "/Users/luker/.codex/skills/fot-tep-harness-lessons/SKILL.md",
+    "copy": "review_instructions/SKILL.md",
+    "sha256": "284799c7df5e71d8db5e759780b5f65573dd1d0de821575aeaeb701f660b0044"
+  },
+  {
+    "source": "/Users/luker/.codex/skills/fot-tep-harness-lessons/references/lessons-and-evidence.md",
+    "copy": "review_instructions/lessons-and-evidence.md",
+    "sha256": "6e64a55aa0e2c7663bf8729a6089e6421b1c76110de821b21ee16db9a2a027b5"
+  },
+  {
+    "source": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate/docs/MAINTENANCE.md",
+    "copy": "review_instructions/MAINTENANCE.md",
+    "sha256": "77b4768c2b6ae1bc27d2e1aaaa56f9c38626add20b2f5e74f6a426eef7a66ec0"
+  },
+  {
+    "source": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate/studio2/fase03/harness/CONTRATTO_D9_PRIMA_DEL_CODICE.md",
+    "copy": "review_instructions/CONTRATTO_D9_PRIMA_DEL_CODICE.md",
+    "sha256": "95a3566102b92811aeac44e2fd95af0fa5344c44a8418f17c1f0956c89763bb0"
+  }
+]

@@ -1,0 +1,28 @@
+{
+  "acquired_members": 591,
+  "source_and_copy_unchanged": true,
+  "documentary_successor_delta": [
+    "A\tstudio2/fase03/harness/CONSEGNA_D9.json",
+    "A\tstudio2/fase03/harness/PROMPT_VERIFICA_D9.md",
+    "A\tstudio2/fase03/harness/REPORT_D9.md",
+    "A\tstudio2/fase03/harness/d9_delivery/CHECKS.json",
+    "A\tstudio2/fase03/harness/d9_delivery/guardian.log"
+  ],
+  "preserved_worktrees": [
+    {
+      "path": "/Users/luker/fot-tep-harness-d9",
+      "head": "08670fb4793ecec99754a73c6a91a51c1c372960",
+      "clean": true
+    },
+    {
+      "path": "/Users/luker/fot-tep-harness-0310-d04",
+      "head": "5886c6f9d078ee624deaec08763e04c14e96e4f0",
+      "clean": true
+    },
+    {
+      "path": "/Users/luker/fot-tep-proposta-d9",
+      "head": "b65834d954b48c7daae748c80c3e7e7c568f8d47",
+      "clean": true
+    }
+  ]
+}

@@ -1,0 +1,497 @@
+{
+  "tests": 5,
+  "failures": [],
+  "errors": [],
+  "observations": {
+    "test_U01_every_decision_reuses_validator_under_real_lock": [
+      {
+        "route": "new_binding",
+        "checks": [
+          {
+            "stages": [
+              "producer_conformity"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          }
+        ],
+        "writer_after": "ACQUIRED",
+        "snapshot": {
+          "pilot_id": "offline-fixture",
+          "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/decision_edge_fixtures/test_U01_every_decision_reuses_validator_under_real_lock/new_binding/pilot.sqlite3",
+          "requests_cumulative": 1,
+          "requests_by_stage": {
+            "alternate_conformity": 0,
+            "budget_probe": 0,
+            "producer_conformity": 1,
+            "producer_remediation": 0,
+            "stability_gate": 0
+          },
+          "unresolved_intents": 1,
+          "remediation_calls": 0,
+          "transport_calls": 0,
+          "reserve_equation_value": 0,
+          "reserve_limit": 15,
+          "planned_maximum": 152,
+          "hard_stop": 200,
+          "durable_responses": 0,
+          "events": []
+        }
+      },
+      {
+        "route": "resume_binding",
+        "checks": [
+          {
+            "stages": [
+              "producer_conformity"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          }
+        ],
+        "writer_after": "ACQUIRED",
+        "snapshot": {
+          "pilot_id": "offline-fixture",
+          "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/decision_edge_fixtures/test_U01_every_decision_reuses_validator_under_real_lock/resume_binding/pilot.sqlite3",
+          "requests_cumulative": 1,
+          "requests_by_stage": {
+            "alternate_conformity": 0,
+            "budget_probe": 0,
+            "producer_conformity": 1,
+            "producer_remediation": 0,
+            "stability_gate": 0
+          },
+          "unresolved_intents": 1,
+          "remediation_calls": 0,
+          "transport_calls": 0,
+          "reserve_equation_value": 0,
+          "reserve_limit": 15,
+          "planned_maximum": 152,
+          "hard_stop": 200,
+          "durable_responses": 0,
+          "events": []
+        }
+      },
+      {
+        "route": "base",
+        "checks": [
+          {
+            "stages": [
+              "producer_conformity"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          }
+        ],
+        "writer_after": "ACQUIRED",
+        "snapshot": {
+          "pilot_id": "offline-fixture",
+          "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/decision_edge_fixtures/test_U01_every_decision_reuses_validator_under_real_lock/base/pilot.sqlite3",
+          "requests_cumulative": 2,
+          "requests_by_stage": {
+            "alternate_conformity": 0,
+            "budget_probe": 0,
+            "producer_conformity": 2,
+            "producer_remediation": 0,
+            "stability_gate": 0
+          },
+          "unresolved_intents": 2,
+          "remediation_calls": 0,
+          "transport_calls": 0,
+          "reserve_equation_value": 0,
+          "reserve_limit": 15,
+          "planned_maximum": 152,
+          "hard_stop": 200,
+          "durable_responses": 0,
+          "events": []
+        }
+      },
+      {
+        "route": "retry",
+        "checks": [
+          {
+            "stages": [
+              "producer_conformity"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          }
+        ],
+        "writer_after": "ACQUIRED",
+        "snapshot": {
+          "pilot_id": "offline-fixture",
+          "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/decision_edge_fixtures/test_U01_every_decision_reuses_validator_under_real_lock/retry/pilot.sqlite3",
+          "requests_cumulative": 2,
+          "requests_by_stage": {
+            "alternate_conformity": 0,
+            "budget_probe": 0,
+            "producer_conformity": 2,
+            "producer_remediation": 0,
+            "stability_gate": 0
+          },
+          "unresolved_intents": 1,
+          "remediation_calls": 0,
+          "transport_calls": 1,
+          "reserve_equation_value": 1,
+          "reserve_limit": 15,
+          "planned_maximum": 152,
+          "hard_stop": 200,
+          "durable_responses": 0,
+          "events": [
+            "reconciled:producer_conformity-0",
+            "reconciled_integrity:producer_conformity-0"
+          ]
+        }
+      },
+      {
+        "route": "remediation",
+        "checks": [
+          {
+            "stages": [
+              "producer_conformity"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          }
+        ],
+        "writer_after": "ACQUIRED",
+        "snapshot": {
+          "pilot_id": "offline-fixture",
+          "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/decision_edge_fixtures/test_U01_every_decision_reuses_validator_under_real_lock/remediation/pilot.sqlite3",
+          "requests_cumulative": 9,
+          "requests_by_stage": {
+            "alternate_conformity": 0,
+            "budget_probe": 0,
+            "producer_conformity": 8,
+            "producer_remediation": 1,
+            "stability_gate": 0
+          },
+          "unresolved_intents": 1,
+          "remediation_calls": 1,
+          "transport_calls": 0,
+          "reserve_equation_value": 8,
+          "reserve_limit": 15,
+          "planned_maximum": 152,
+          "hard_stop": 200,
+          "durable_responses": 8,
+          "events": [
+            "outcome:producer_conformity",
+            "remediation_authorized"
+          ]
+        }
+      },
+      {
+        "route": "triplet",
+        "checks": [
+          {
+            "stages": [
+              "producer_conformity"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          },
+          {
+            "stages": [
+              "budget_probe"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          },
+          {
+            "stages": [
+              "producer_conformity"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          },
+          {
+            "stages": [
+              "producer_conformity"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          },
+          {
+            "stages": [
+              "budget_probe"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          },
+          {
+            "stages": [
+              "producer_conformity"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          },
+          {
+            "stages": [
+              "producer_conformity"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          },
+          {
+            "stages": [
+              "budget_probe"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          },
+          {
+            "stages": [
+              "producer_conformity"
+            ],
+            "transaction": true,
+            "writer": "LOCKED"
+          }
+        ],
+        "writer_after": "ACQUIRED",
+        "snapshot": {
+          "pilot_id": "offline-fixture",
+          "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/decision_edge_fixtures/test_U01_every_decision_reuses_validator_under_real_lock/triplet/pilot.sqlite3",
+          "requests_cumulative": 14,
+          "requests_by_stage": {
+            "alternate_conformity": 0,
+            "budget_probe": 6,
+            "producer_conformity": 8,
+            "producer_remediation": 0,
+            "stability_gate": 0
+          },
+          "unresolved_intents": 3,
+          "remediation_calls": 0,
+          "transport_calls": 3,
+          "reserve_equation_value": 3,
+          "reserve_limit": 15,
+          "planned_maximum": 152,
+          "hard_stop": 200,
+          "durable_responses": 8,
+          "events": [
+            "outcome:producer_conformity",
+            "reconciled:budget_probe-0",
+            "reconciled:budget_probe-1",
+            "reconciled:budget_probe-2",
+            "reconciled_integrity:budget_probe-0",
+            "reconciled_integrity:budget_probe-1",
+            "reconciled_integrity:budget_probe-2"
+          ]
+        }
+      }
+    ],
+    "test_U02_mid_triplet_fault_rolls_back_all_then_legal_retry_succeeds": {
+      "injected_after": [
+        "retry-0",
+        "retry-1"
+      ],
+      "rollback": true,
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/decision_edge_fixtures/test_U02_mid_triplet_fault_rolls_back_all_then_legal_retry_succeeds/triplet/pilot.sqlite3",
+        "requests_cumulative": 14,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 6,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 3,
+        "remediation_calls": 0,
+        "transport_calls": 3,
+        "reserve_equation_value": 3,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 8,
+        "events": [
+          "outcome:producer_conformity",
+          "reconciled:budget_probe-0",
+          "reconciled:budget_probe-1",
+          "reconciled:budget_probe-2",
+          "reconciled_integrity:budget_probe-0",
+          "reconciled_integrity:budget_probe-1",
+          "reconciled_integrity:budget_probe-2"
+        ]
+      }
+    },
+    "test_U03_two_processes_compete_for_last_shared_waived_transport": {
+      "processes": [
+        {
+          "accepted": false,
+          "error": "shared reserve constraint 8r+t<=15 violated"
+        },
+        {
+          "accepted": true
+        }
+      ],
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/decision_edge_fixtures/test_U03_two_processes_compete_for_last_shared_waived_transport/shared/pilot.sqlite3",
+        "requests_cumulative": 17,
+        "requests_by_stage": {
+          "alternate_conformity": 9,
+          "budget_probe": 0,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 1,
+        "remediation_calls": 0,
+        "transport_calls": 15,
+        "reserve_equation_value": 15,
+        "reserve_limit": 15,
+        "planned_maximum": 160,
+        "hard_stop": 200,
+        "durable_responses": 0,
+        "events": [
+          "reconciled:alternate_conformity-0",
+          "reconciled:alternate_conformity-retry-0",
+          "reconciled:alternate_conformity-retry-1",
+          "reconciled:alternate_conformity-retry-2",
+          "reconciled:alternate_conformity-retry-3",
+          "reconciled:alternate_conformity-retry-4",
+          "reconciled:alternate_conformity-retry-5",
+          "reconciled:alternate_conformity-retry-6",
+          "reconciled:producer_conformity-0",
+          "reconciled:producer_conformity-retry-0",
+          "reconciled:producer_conformity-retry-1",
+          "reconciled:producer_conformity-retry-2",
+          "reconciled:producer_conformity-retry-3",
+          "reconciled:producer_conformity-retry-4",
+          "reconciled:producer_conformity-retry-5",
+          "reconciled:producer_conformity-retry-6",
+          "reconciled_integrity:alternate_conformity-0",
+          "reconciled_integrity:alternate_conformity-retry-0",
+          "reconciled_integrity:alternate_conformity-retry-1",
+          "reconciled_integrity:alternate_conformity-retry-2",
+          "reconciled_integrity:alternate_conformity-retry-3",
+          "reconciled_integrity:alternate_conformity-retry-4",
+          "reconciled_integrity:alternate_conformity-retry-5",
+          "reconciled_integrity:alternate_conformity-retry-6",
+          "reconciled_integrity:producer_conformity-0",
+          "reconciled_integrity:producer_conformity-retry-0",
+          "reconciled_integrity:producer_conformity-retry-1",
+          "reconciled_integrity:producer_conformity-retry-2",
+          "reconciled_integrity:producer_conformity-retry-3",
+          "reconciled_integrity:producer_conformity-retry-4",
+          "reconciled_integrity:producer_conformity-retry-5",
+          "reconciled_integrity:producer_conformity-retry-6",
+          "remediation_waived"
+        ]
+      }
+    },
+    "test_U04_other_open_stage_orphan_unknown_stage_or_missing_proof_refused": [
+      {
+        "fault": "unknown_stage",
+        "refused_before_and_after_restart": true,
+        "snapshot": {
+          "pilot_id": "offline-fixture",
+          "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/decision_edge_fixtures/test_U04_other_open_stage_orphan_unknown_stage_or_missing_proof_refused/unknown_stage/pilot.sqlite3",
+          "requests_cumulative": 4,
+          "requests_by_stage": {
+            "alternate_conformity": 1,
+            "budget_probe": 0,
+            "producer_conformity": 2,
+            "producer_remediation": 0,
+            "stability_gate": 0
+          },
+          "unresolved_intents": 3,
+          "remediation_calls": 0,
+          "transport_calls": 1,
+          "reserve_equation_value": 1,
+          "reserve_limit": 15,
+          "planned_maximum": 160,
+          "hard_stop": 200,
+          "durable_responses": 0,
+          "events": [
+            "reconciled:alternate_conformity-0",
+            "reconciled_integrity:alternate_conformity-0"
+          ]
+        }
+      },
+      {
+        "fault": "missing_parent",
+        "refused_before_and_after_restart": true,
+        "snapshot": {
+          "pilot_id": "offline-fixture",
+          "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/decision_edge_fixtures/test_U04_other_open_stage_orphan_unknown_stage_or_missing_proof_refused/missing_parent/pilot.sqlite3",
+          "requests_cumulative": 4,
+          "requests_by_stage": {
+            "alternate_conformity": 2,
+            "budget_probe": 0,
+            "producer_conformity": 2,
+            "producer_remediation": 0,
+            "stability_gate": 0
+          },
+          "unresolved_intents": 3,
+          "remediation_calls": 0,
+          "transport_calls": 1,
+          "reserve_equation_value": 1,
+          "reserve_limit": 15,
+          "planned_maximum": 160,
+          "hard_stop": 200,
+          "durable_responses": 0,
+          "events": [
+            "reconciled:alternate_conformity-0",
+            "reconciled_integrity:alternate_conformity-0"
+          ]
+        }
+      },
+      {
+        "fault": "missing_proof",
+        "refused_before_and_after_restart": true,
+        "snapshot": {
+          "pilot_id": "offline-fixture",
+          "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/decision_edge_fixtures/test_U04_other_open_stage_orphan_unknown_stage_or_missing_proof_refused/missing_proof/pilot.sqlite3",
+          "requests_cumulative": 4,
+          "requests_by_stage": {
+            "alternate_conformity": 2,
+            "budget_probe": 0,
+            "producer_conformity": 2,
+            "producer_remediation": 0,
+            "stability_gate": 0
+          },
+          "unresolved_intents": 3,
+          "remediation_calls": 0,
+          "transport_calls": 1,
+          "reserve_equation_value": 1,
+          "reserve_limit": 15,
+          "planned_maximum": 160,
+          "hard_stop": 200,
+          "durable_responses": 0,
+          "events": [
+            "reconciled:alternate_conformity-0"
+          ]
+        }
+      }
+    ],
+    "test_U05_execute_request_without_prior_rebind_rejects_cross_stage_quota": {
+      "new_sends": 0,
+      "journal_created": false,
+      "diagnostic_snapshot_not_used": true,
+      "unchanged": true,
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/decision_edge_fixtures/test_U05_execute_request_without_prior_rebind_rejects_cross_stage_quota/runtime/pilot.sqlite3",
+        "requests_cumulative": 2,
+        "requests_by_stage": {
+          "alternate_conformity": 1,
+          "budget_probe": 0,
+          "producer_conformity": 1,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 2,
+        "remediation_calls": 0,
+        "transport_calls": 1,
+        "reserve_equation_value": 1,
+        "reserve_limit": 15,
+        "planned_maximum": 160,
+        "hard_stop": 200,
+        "durable_responses": 0,
+        "events": []
+      }
+    }
+  }
+}

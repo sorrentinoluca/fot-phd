@@ -1,0 +1,30 @@
+{
+  "artifact_version": "1",
+  "status": "PASS_R1_PENDING_T5_AND_OTHER_PREREQUISITES",
+  "go_final": false,
+  "provider_requests": 120,
+  "valid_first_attempts": 120,
+  "invalid_first_attempts": 0,
+  "t3_pass": true,
+  "abstention_coverage": {
+    "A": true,
+    "B-LF": true,
+    "E-LF": true
+  },
+  "length_truncations": 0,
+  "t4_pass": true,
+  "t6_evaluable": true,
+  "all_invalid_prompt_ids": [],
+  "divergent_prompt_ids": [],
+  "divergent_prompt_count": 0,
+  "t5_temporal_feasibility": "NOT_MEASURED_BY_OFFLINE_EVALUATION",
+  "scope": "Only this model root, model revision, server contract, prompt sample, schemas and generation configuration. No claim about a definitive Study 2 model, diagnostic performance, other endpoints, other budgets, the final catalog, OOD behavior, or an alternate producer.",
+  "completed_at": "2026-09-14T22:11:35.357297+00:00",
+  "unique_prompts": 40,
+  "stability_records_sha256": "94e4115ca3579f380b6df6360feb4c79759f6ecf44e30cf06ad2de1584b17ca8",
+  "frozen_gate_config_sha256": "fdb65d85197670cba083e1441db041af22a7c0a109254d8212a4cf5d3646a65b",
+  "rule_of_three_upper_bound_note": "With zero divergent prompts, 3/40 is approximately 7.5%; this is a technical gate and does not demonstrate determinism or instability below 1%.",
+  "accuracy_calculated": false,
+  "ground_truth_accessed": false,
+  "final_test_accessed": false
+}

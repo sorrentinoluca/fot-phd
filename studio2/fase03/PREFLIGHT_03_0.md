@@ -1,5 +1,38 @@
 # Fase 03.0 — preflight del pilot preliminare Qwen-27B
 
+## Addendum operativo 03.10 allineato alla rev.10 (2026-09-14)
+
+La configurazione Qwen-27B descritta sotto è un record storico della 03.0, non
+la decisione D9 corrente. Per l'harness 03.10 `study_model_decision` resta
+`UNDECIDED`; nessuna esecuzione può ereditare quel modello, endpoint o tokenizer
+come default. Prima di contattare un servizio servono D9 esplicita e freeze di
+identità/revisione, ruolo, tokenizer, chat template, limiti, configurazione e
+fingerprint effettivi.
+
+Il candidato offline 03.10 collega i 320 input fault di sviluppo e gli otto
+esempi Normal verificati. Distingue quegli input della conformità producer dalla
+libreria di sedici insight R4 che le otto richieste di conformità dovranno
+produrre: la libreria non esiste ancora e il manifest resta incompleto.
+
+L'ordine rev.10 è vincolante: **conformità producer → eventuale unica
+remediation → sonda budget → unico gate 40×3**. Un ledger persistente e
+condiviso registra l'intento prima di ogni trasporto e conserva i conteggi fra
+stadi, riavvii e directory. La riserva unica è
+`8 × remediation + transport <= 15`; preservare la remediation lascia al
+massimo sette richieste di trasporto. Non ci sono retry automatici; un timeout è
+ripetibile soltanto con prova di zero token nei casi documentati, la sonda
+budget ripete solo triplette A/B-LF/E-LF complete e il gate non si ripete.
+Massimi pianificati: 152 senza producer alternativo, 160 con alternativo; 200 è
+un hard stop cumulativo distinto.
+
+La divergenza dipende dalla validità e dalla coppia
+`(abstain, predicted_label)`, non da JSON/finish reason/testo/hash raw. T3
+richiede almeno 114/120 valide e un'astensione valida per condizione; T4 zero
+troncamenti; una tripletta tutta invalida rende T6 non valutabile e impedisce il
+GO tecnico. Tokenizer/capienza, comportamento, stabilità, latenza e fattibilità
+temporale T5 non sono attestabili offline. Questo addendum non modifica il
+freeze del piano generale 03.8, non chiude 03.10 o Fase 03 e non concede GO.
+
 Stato: **envelope tecnico 8001@16384 congelato e sonda sintetica provvisoria completata;
 esecuzione scientifica sospesa sul catalogo definitivo, sui suoi input derivati e sul producer
 alternativo**.

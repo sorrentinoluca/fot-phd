@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/opt/anaconda3/bin/python3",
+    "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/transport_boundary_regression.py"
+  ],
+  "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate",
+  "environment_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-transport_red",
+    "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate"
+  },
+  "extra_environment": {
+    "TRANSPORT_RESULTS": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/transport_red"
+  },
+  "started_epoch": 1789487975.7446349,
+  "exit_code": 1,
+  "elapsed_seconds": 4.972858190536499,
+  "summary": "Ran 3 tests in 4.845s\n\nFAILED (failures=2)"
+}

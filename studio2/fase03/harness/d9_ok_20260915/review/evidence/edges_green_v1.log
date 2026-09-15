@@ -1,0 +1,20 @@
+test_distinct_role_pins_closed_rebind_and_mutation (__main__.Edges.test_distinct_role_pins_closed_rebind_and_mutation) ... FAIL
+test_persisted_legacy_missing_field_no_backfill_restart (__main__.Edges.test_persisted_legacy_missing_field_no_backfill_restart) ... ok
+
+======================================================================
+FAIL: test_distinct_role_pins_closed_rebind_and_mutation (__main__.Edges.test_distinct_role_pins_closed_rebind_and_mutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/independent_correction_edges.py", line 43, in test_distinct_role_pins_closed_rebind_and_mutation
+    b=t.ledger.binding(stage);self.assertEqual(b['tokenizer_snapshot'],str(self.paths[role]))
+                              ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '/private/var/folders/70/_hlqlsnj2_j8v8m0k1[46 chars]122B' != '/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh400[38 chars]122B'
+- /private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpagv3__96/chat-122B/revision-122B
+? --------
++ /var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpagv3__96/chat-122B/revision-122B
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.112s
+
+FAILED (failures=1)

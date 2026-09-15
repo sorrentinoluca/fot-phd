@@ -1,0 +1,25 @@
+test_all_d1_fault_ids_and_mechanisms (studio2.fase03.schema_insight.test_validator.ContractTests.test_all_d1_fault_ids_and_mechanisms) ... ok
+test_all_fixed_fields_immutable (studio2.fase03.schema_insight.test_validator.ContractTests.test_all_fixed_fields_immutable) ... ok
+test_all_receivers_and_diff (studio2.fase03.schema_insight.test_validator.ContractTests.test_all_receivers_and_diff) ... ok
+test_character_caps (studio2.fase03.schema_insight.test_validator.ContractTests.test_character_caps) ... ok
+test_diff_rejects_second_field_reorder_whitespace_and_bad_mapping (studio2.fase03.schema_insight.test_validator.ContractTests.test_diff_rejects_second_field_reorder_whitespace_and_bad_mapping) ... ok
+test_every_field_missing_wrong_type_and_extra (studio2.fase03.schema_insight.test_validator.ContractTests.test_every_field_missing_wrong_type_and_extra) ... ok
+test_invalid_formats_each_field (studio2.fase03.schema_insight.test_validator.ContractTests.test_invalid_formats_each_field) ... ok
+test_library_integrity (studio2.fase03.schema_insight.test_validator.ContractTests.test_library_integrity) ... ok
+test_metrics_invalid_log (studio2.fase03.schema_insight.test_validator.ContractTests.test_metrics_invalid_log) ... ok
+test_metrics_retry_failure_truncation_and_request_dedup (studio2.fase03.schema_insight.test_validator.ContractTests.test_metrics_retry_failure_truncation_and_request_dedup) ... ok
+test_missing_tokenizer_fails_closed (studio2.fase03.schema_insight.test_validator.ContractTests.test_missing_tokenizer_fails_closed) ... ok
+test_narrative_references (studio2.fase03.schema_insight.test_validator.ContractTests.test_narrative_references) ... ok
+test_paraphrases (studio2.fase03.schema_insight.test_validator.ContractTests.test_paraphrases) ... ok
+test_real_offline_qwen (studio2.fase03.schema_insight.test_validator.ContractTests.test_real_offline_qwen) ... ok
+test_record_character_cap_with_json_escaping (studio2.fase03.schema_insight.test_validator.ContractTests.test_record_character_cap_with_json_escaping) ... ok
+test_scan_every_field_and_label_neutrality (studio2.fase03.schema_insight.test_validator.ContractTests.test_scan_every_field_and_label_neutrality) ... ok
+test_strict_json (studio2.fase03.schema_insight.test_validator.ContractTests.test_strict_json) ... ok
+test_token_caps_and_exact_boundary (studio2.fase03.schema_insight.test_validator.ContractTests.test_token_caps_and_exact_boundary) ... ok
+test_valid_schema_and_library (studio2.fase03.schema_insight.test_validator.ContractTests.test_valid_schema_and_library) ... ok
+test_variable_ranges_duplicates_cardinality (studio2.fase03.schema_insight.test_validator.ContractTests.test_variable_ranges_duplicates_cardinality) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 4.107s
+
+OK

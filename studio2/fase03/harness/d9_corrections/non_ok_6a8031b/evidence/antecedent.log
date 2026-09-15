@@ -1,0 +1,179 @@
+test_fixed_roles_and_pending_configuration (__main__.D9Contract.test_fixed_roles_and_pending_configuration) ... ERROR
+test_legacy_nominal_approval_is_not_d9 (__main__.D9Contract.test_legacy_nominal_approval_is_not_d9) ... FAIL
+test_payload_122b_omits_temperature_and_preserves_controls (__main__.D9Contract.test_payload_122b_omits_temperature_and_preserves_controls) ... ERROR
+test_role_stage_mapping_rejects_extra_arms (__main__.D9Contract.test_role_stage_mapping_rejects_extra_arms) ... ERROR
+test_122b_temperature_is_rejected_before_any_send (__main__.D9PriorBehavior.test_122b_temperature_is_rejected_before_any_send) ... FAIL
+test_primary_provider_cannot_execute_alternate_role (__main__.D9PriorBehavior.test_primary_provider_cannot_execute_alternate_role) ... FAIL
+test_alternate_pilot_full_library_and_same_case_swap (__main__.D9Runners.test_alternate_pilot_full_library_and_same_case_swap) ... ERROR
+test_configuration_mutations_refuse_before_client_and_intent (__main__.D9Runners.test_configuration_mutations_refuse_before_client_and_intent) ... ERROR
+test_direct_consumer_transport_requires_reservation (__main__.D9Runners.test_direct_consumer_transport_requires_reservation) ... ERROR
+test_document_changes_after_binding_block_resume_without_sends (__main__.D9Runners.test_document_changes_after_binding_block_resume_without_sends) ... ERROR
+test_history_mapping_cannot_reset_consumption (__main__.D9Runners.test_history_mapping_cannot_reset_consumption) ... ERROR
+test_pending_cli_does_not_create_ledger (__main__.D9Runners.test_pending_cli_does_not_create_ledger) ... ERROR
+test_persisted_provider_mutation_and_direct_reservation (__main__.D9Runners.test_persisted_provider_mutation_and_direct_reservation) ... ERROR
+test_r4_counter_distinct_from_service_counter (__main__.D9Runners.test_r4_counter_distinct_from_service_counter) ... ERROR
+test_resume_counts_once_by_role_and_model (__main__.D9Runners.test_resume_counts_once_by_role_and_model) ... ERROR
+test_service_output_limit_rejects_before_client (__main__.D9Runners.test_service_output_limit_rejects_before_client) ... ERROR
+test_swapped_provider_or_unapproved_alternate_is_rejected (__main__.D9Runners.test_swapped_provider_or_unapproved_alternate_is_rejected) ... ERROR
+
+======================================================================
+ERROR: test_fixed_roles_and_pending_configuration (__main__.D9Contract.test_fixed_roles_and_pending_configuration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 37, in test_fixed_roles_and_pending_configuration
+    d9=importlib.import_module('studio2.fase03.harness.d9')
+  File "/opt/anaconda3/lib/python3.13/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'studio2.fase03.harness.d9'
+
+======================================================================
+ERROR: test_payload_122b_omits_temperature_and_preserves_controls (__main__.D9Contract.test_payload_122b_omits_temperature_and_preserves_controls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 46, in test_payload_122b_omits_temperature_and_preserves_controls
+    d9=importlib.import_module('studio2.fase03.harness.d9')
+  File "/opt/anaconda3/lib/python3.13/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'studio2.fase03.harness.d9'
+
+======================================================================
+ERROR: test_role_stage_mapping_rejects_extra_arms (__main__.D9Contract.test_role_stage_mapping_rejects_extra_arms)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 56, in test_role_stage_mapping_rejects_extra_arms
+    d9=importlib.import_module('studio2.fase03.harness.d9')
+  File "/opt/anaconda3/lib/python3.13/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1324, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'studio2.fase03.harness.d9'
+
+======================================================================
+ERROR: test_alternate_pilot_full_library_and_same_case_swap (__main__.D9Runners.test_alternate_pilot_full_library_and_same_case_swap)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 68, in setUp
+    from studio2.fase03.harness import d9
+ImportError: cannot import name 'd9' from 'studio2.fase03.harness' (/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/antecedent/studio2/fase03/harness/__init__.py)
+
+======================================================================
+ERROR: test_configuration_mutations_refuse_before_client_and_intent (__main__.D9Runners.test_configuration_mutations_refuse_before_client_and_intent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 68, in setUp
+    from studio2.fase03.harness import d9
+ImportError: cannot import name 'd9' from 'studio2.fase03.harness' (/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/antecedent/studio2/fase03/harness/__init__.py)
+
+======================================================================
+ERROR: test_direct_consumer_transport_requires_reservation (__main__.D9Runners.test_direct_consumer_transport_requires_reservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 68, in setUp
+    from studio2.fase03.harness import d9
+ImportError: cannot import name 'd9' from 'studio2.fase03.harness' (/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/antecedent/studio2/fase03/harness/__init__.py)
+
+======================================================================
+ERROR: test_document_changes_after_binding_block_resume_without_sends (__main__.D9Runners.test_document_changes_after_binding_block_resume_without_sends)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 68, in setUp
+    from studio2.fase03.harness import d9
+ImportError: cannot import name 'd9' from 'studio2.fase03.harness' (/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/antecedent/studio2/fase03/harness/__init__.py)
+
+======================================================================
+ERROR: test_history_mapping_cannot_reset_consumption (__main__.D9Runners.test_history_mapping_cannot_reset_consumption)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 68, in setUp
+    from studio2.fase03.harness import d9
+ImportError: cannot import name 'd9' from 'studio2.fase03.harness' (/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/antecedent/studio2/fase03/harness/__init__.py)
+
+======================================================================
+ERROR: test_pending_cli_does_not_create_ledger (__main__.D9Runners.test_pending_cli_does_not_create_ledger)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 68, in setUp
+    from studio2.fase03.harness import d9
+ImportError: cannot import name 'd9' from 'studio2.fase03.harness' (/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/antecedent/studio2/fase03/harness/__init__.py)
+
+======================================================================
+ERROR: test_persisted_provider_mutation_and_direct_reservation (__main__.D9Runners.test_persisted_provider_mutation_and_direct_reservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 68, in setUp
+    from studio2.fase03.harness import d9
+ImportError: cannot import name 'd9' from 'studio2.fase03.harness' (/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/antecedent/studio2/fase03/harness/__init__.py)
+
+======================================================================
+ERROR: test_r4_counter_distinct_from_service_counter (__main__.D9Runners.test_r4_counter_distinct_from_service_counter)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 68, in setUp
+    from studio2.fase03.harness import d9
+ImportError: cannot import name 'd9' from 'studio2.fase03.harness' (/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/antecedent/studio2/fase03/harness/__init__.py)
+
+======================================================================
+ERROR: test_resume_counts_once_by_role_and_model (__main__.D9Runners.test_resume_counts_once_by_role_and_model)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 68, in setUp
+    from studio2.fase03.harness import d9
+ImportError: cannot import name 'd9' from 'studio2.fase03.harness' (/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/antecedent/studio2/fase03/harness/__init__.py)
+
+======================================================================
+ERROR: test_service_output_limit_rejects_before_client (__main__.D9Runners.test_service_output_limit_rejects_before_client)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 68, in setUp
+    from studio2.fase03.harness import d9
+ImportError: cannot import name 'd9' from 'studio2.fase03.harness' (/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/antecedent/studio2/fase03/harness/__init__.py)
+
+======================================================================
+ERROR: test_swapped_provider_or_unapproved_alternate_is_rejected (__main__.D9Runners.test_swapped_provider_or_unapproved_alternate_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 68, in setUp
+    from studio2.fase03.harness import d9
+ImportError: cannot import name 'd9' from 'studio2.fase03.harness' (/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/antecedent/studio2/fase03/harness/__init__.py)
+
+======================================================================
+FAIL: test_legacy_nominal_approval_is_not_d9 (__main__.D9Contract.test_legacy_nominal_approval_is_not_d9)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 33, in test_legacy_nominal_approval_is_not_d9
+    with self.assertRaisesRegex(HarnessError,'D9'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_122b_temperature_is_rejected_before_any_send (__main__.D9PriorBehavior.test_122b_temperature_is_rejected_before_any_send)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 236, in test_122b_temperature_is_rejected_before_any_send
+    with self.assertRaises(HarnessError):t.producer()
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_primary_provider_cannot_execute_alternate_role (__main__.D9PriorBehavior.test_primary_provider_cannot_execute_alternate_role)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py", line 242, in test_primary_provider_cannot_execute_alternate_role
+    with self.assertRaises(HarnessError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+----------------------------------------------------------------------
+Ran 17 tests in 1.318s
+
+FAILED (failures=3, errors=14)

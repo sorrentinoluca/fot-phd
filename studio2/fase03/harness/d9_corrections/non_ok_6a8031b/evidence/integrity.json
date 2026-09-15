@@ -1,0 +1,627 @@
+{
+  "manifest_sha256": "356e87d29028a80488a6acfde66b7551bacde94481eba3389922e04124625668",
+  "members": [
+    {
+      "path": "studio2/fase03/PREFLIGHT_03_0.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/config/pilot_d9_pending.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/config/pilot_preflight.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/ACQUISIZIONE_OK_D04.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/CONSEGNA_D04.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/CONTRATTO_D03_PRIMA_DEL_CODICE.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/CONTRATTO_D04_PRIMA_DEL_CODICE.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/CONTRATTO_D9_PRIMA_DEL_CODICE.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/D04_DECISION_CONTRACT.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/DECISIONE_D9_ORDINE_LABEL_PENDING.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/DURABLE_FIELD_CONTRACT.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/HARNESS_OFFLINE_CANDIDATE.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/MAPPA_RIPRODUZIONI_R01_R10.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_D03_CAMPI.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_D03_CAMPI.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_D04_DECISIONI.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_D04_DECISIONI.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_R01_R10_C01_C03.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_R01_R10_D01.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_R01_R10_D02.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_R01_R10_D03.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_R01_R10_D04.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/PILOT_INPUT_SOURCES.pending.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/PROMPT_VERIFICA_CORREZIONI_HARNESS_03_10.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/REPORT_CORREZIONI_HARNESS_03_10.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/SPECIFICA_HARNESS.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/__init__.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/c01_c03_evidence/COMANDI.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/c01_c03_evidence/REPRODUCTION_INVENTORY.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/c01_c03_evidence/RESULTS.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/c01_c03_evidence/SHA256SUMS",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/canary.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/common.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/correzioni_evidence/COMMANDS.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/correzioni_evidence/DOCUMENTATION_COMPARISON.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/correzioni_evidence/PROVENANCE_AND_SCOPE.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/correzioni_evidence/RUN_APPLICABLE_ORIGINAL.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/correzioni_evidence/applicable_original.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/correzioni_evidence/applicable_original.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/correzioni_evidence/discovery.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/correzioni_evidence/reproduced_non_ok.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/correzioni_evidence/reproduced_non_ok.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/correzioni_evidence/targeted.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d01_evidence/COMANDI.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d01_evidence/REPRODUCTION_INVENTORY.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d01_evidence/RESULTS.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d01_evidence/SHA256SUMS",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d02_evidence/COMANDI.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d02_evidence/REPRODUCTION_INVENTORY.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d02_evidence/RESULTS.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d02_evidence/SHA256SUMS",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d03_evidence/REPRODUCTION_INVENTORY.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d03_evidence/RESULTS.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d03_evidence/SHA256SUMS",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d03_evidence/TEST_FIRST.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d03_evidence/runs/COMANDI.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d04_evidence/REPRODUCTION_INVENTORY.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d04_evidence/RESULTS.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d04_evidence/SHA256SUMS",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d04_evidence/TEST_FIRST.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d04_evidence/runs/COMANDI.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/ADATTAMENTI_E_LIMITI.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/COMANDI.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/D9_FIELD_CONTRACT.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/RESULTS.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/SOURCES.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/TESTED_BYTES.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/cli_plans.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/compile.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/d02_fixture_check.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/d9_final.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/discovery.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/final_test_on_aae29a9.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/guardian_after.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/guardian_before.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/guardian_comparison.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/intermediate_d9.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/intermediate_d9_2.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/intermediate_runners.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/intermediate_system_python_env_failure.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/intermediate_targeted.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/intermediate_targeted_145.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/prepare_gate_plan.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/preservation_checks.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/producer_probe_plan.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/run_pilot_plan.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/runtime.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/sources/BUDGET_RISORSE_REV10.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/sources/CHECKLIST_QUALIFICAZIONE_D9_2026-09-15.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/sources/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/sources/DELTA_HARNESS_03_10.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/sources/INVENTARIO_SERVIZI_D9_2026-09-15.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/sources/PIANO_STATISTICO.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/sources/RICHIESTA_METADATI_QWEN_DA_INOLTRARE_2026-09-15.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/targeted.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_evidence/test_first_red.log",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/d9_offline_fixtures.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/gate_rules.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/guards.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/inputs.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/insight_adapter.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/ledger.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/ledger_cli.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/logging_v1.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/metric_adapter.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/metrics.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/ACQUISITION_INVENTORY.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/PROVENIENZA.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_23859a2_20260915/ACQUISITION_INVENTORY.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_23859a2_20260915/CLAUDE_PROVENIENZA.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_23859a2_20260915/PROVENIENZA.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_23859a2_20260915/VERIFICA_D03_CLAUDE.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/ACQUISITION_INVENTORY.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/PROVENIENZA.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/ACQUISITION_INVENTORY.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/PROVENIENZA.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/ACQUISITION_INVENTORY.json",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/PROVENIENZA.md",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/offline_fixtures.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/ordering.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/preparation.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/producer.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/render.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/runtime.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/sampling.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/test_c01_c03.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/test_d01_replay.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/test_d02_predecessors.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/test_d03_contract.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/test_d04_open_quota.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/test_d9.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/test_harness_offline.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/test_metric_raccordo.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/test_revisions.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/prepare_gate.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/producer_probe.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/protocol.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/run_pilot.py",
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/tests/test_execution_guard.py",
+      "ok": true
+    }
+  ],
+  "sources": [
+    {
+      "commit": "aaba893dff8c62f9f9281eec7423eee020235e03",
+      "path": "studio2/fase03/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md",
+      "bytes": 9083,
+      "sha256": "fcb113636de80cc87709905324436555e0ba103bd46de3ac079ce0ef7f60f1b8",
+      "ok": true
+    },
+    {
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/PIANO_STATISTICO.md",
+      "bytes": 81490,
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a",
+      "ok": true
+    },
+    {
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/BUDGET_RISORSE_REV10.md",
+      "bytes": 8528,
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887",
+      "ok": true
+    },
+    {
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/DELTA_HARNESS_03_10.md",
+      "bytes": 7108,
+      "sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e",
+      "ok": true
+    },
+    {
+      "commit": "b65834d954b48c7daae748c80c3e7e7c568f8d47",
+      "path": "studio2/fase03/INVENTARIO_SERVIZI_D9_2026-09-15.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/INVENTARIO_SERVIZI_D9_2026-09-15.md",
+      "bytes": 30613,
+      "sha256": "9fb04c3ff5950ca8a0d82b34585bb1a4a492e8bb26684174433ee5b615a840e7",
+      "ok": true
+    },
+    {
+      "commit": "b65834d954b48c7daae748c80c3e7e7c568f8d47",
+      "path": "studio2/fase03/CHECKLIST_QUALIFICAZIONE_D9_2026-09-15.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/CHECKLIST_QUALIFICAZIONE_D9_2026-09-15.md",
+      "bytes": 12952,
+      "sha256": "7b35f6cbb5575e7a3c23b7df88539c99ae0161885bf8115352be9c5de8c80acc",
+      "ok": true
+    },
+    {
+      "commit": "b65834d954b48c7daae748c80c3e7e7c568f8d47",
+      "path": "studio2/fase03/RICHIESTA_METADATI_QWEN_DA_INOLTRARE_2026-09-15.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/RICHIESTA_METADATI_QWEN_DA_INOLTRARE_2026-09-15.md",
+      "bytes": 2820,
+      "sha256": "8aa7d3f4ac51ef6e78e4be9cbf2bebdfed0dbb58685471019fdbc565cf466993",
+      "ok": true
+    }
+  ]
+}

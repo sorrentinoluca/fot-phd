@@ -1,0 +1,10 @@
+--- 1ac06ebdc92f73d3b630ccca9bf75f413bea170b:studio2/fase03/harness/canary.py
++++ 59b6b93cd9c215e8b687e540f7cd579804b7c66a:studio2/fase03/harness/canary.py
+@@ -74,7 +74,6 @@
+         "comparison_sha256": sha256_text(canonical_json(details)),
+     }
+ 
+-
+ def suspension_required(
+     daily_reports: Iterable[dict[str, Any]], *, returned_model_changed: bool
+ ) -> dict[str, Any]:

@@ -1,0 +1,22 @@
+{
+  "studio2/fase03/harness/d04_ok_20260915/codex/VERIFICA_D04.md": {
+    "bytes": 21340,
+    "sha256": "2fc9ed8e3303a779833f1b1dced7f9a70022603118d985280722bed0156a8fef",
+    "unchanged_from_base": true
+  },
+  "studio2/fase03/harness/d04_ok_20260915/claude/VERIFICA_D04.md": {
+    "bytes": 11864,
+    "sha256": "0ce2cb9485e5047c5e87eed6f69d0f8ddd3e1b09a2c4a005f0a42e92ef4dc83c",
+    "unchanged_from_base": true
+  },
+  "test_first_python_delta": [
+    "studio2/fase03/harness/test_d9.py"
+  ],
+  "technical_to_documentary_delta": [
+    "studio2/fase03/harness/CONSEGNA_D9.json",
+    "studio2/fase03/harness/PROMPT_VERIFICA_D9.md",
+    "studio2/fase03/harness/REPORT_D9.md",
+    "studio2/fase03/harness/d9_delivery/CHECKS.json",
+    "studio2/fase03/harness/d9_delivery/guardian.log"
+  ]
+}

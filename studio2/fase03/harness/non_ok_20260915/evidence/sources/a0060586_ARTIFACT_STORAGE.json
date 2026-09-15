@@ -1,0 +1,79 @@
+{
+  "schema_version": 2,
+  "archive_root": "studio2/fase03/evidence/output/",
+  "note": "schema_version 2 preserves evidence-v1 and adds evidence-v2 as an AppleDouble-free repackaging of the same 1283 scientific files. No evidence, manifest, U3 decision, or scientific hash changed.",
+  "preferred_release_tag": "studio2-fase03-evidence-v2",
+  "conditional_validity": {
+    "authorization": "U3 extension of U1/R2, author decision 2026-09-13",
+    "r2_guard_recheck_sha256": "7df0cef2d7854c689b79eb911fa01d1ede1625e22f0d3636c0ea5d678c9f33f8",
+    "rule": "if R2 fails or phase 03.5 switches to baseline_fit_new, both evidence releases are invalid and the evidence must be regenerated"
+  },
+  "releases": [
+    {
+      "status": "public_release_preserved_with_packaging_observation",
+      "repository": "sorrentinoluca/fot-tep-data",
+      "repository_url": "https://github.com/sorrentinoluca/fot-tep-data",
+      "release_tag": "studio2-fase03-evidence-v1",
+      "release_id": 387982362,
+      "release_url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-evidence-v1",
+      "release_commit": "6d238929285e57c6c70f4d563ef7e30b59da6ac5",
+      "published_at_utc": "2026-09-13T17:50:50Z",
+      "packaging_observation": "independent verification found non-scientific AppleDouble ._* members not listed in MANIFEST_CONSERVAZIONE.csv; all 1283 scientific files still matched",
+      "assets": [
+        {
+          "name": "studio2-fase03-evidence-v1.tar",
+          "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-evidence-v1/studio2-fase03-evidence-v1.tar",
+          "bytes": 64817152,
+          "sha256": "3e1eb87f38ff3fc6dd3346476785d06c2b98944b209f7f58706b3c71c1676999",
+          "contents": "1283 verified scientific files plus the AppleDouble packaging members observed by the independent verifier"
+        }
+      ]
+    },
+    {
+      "status": "public_release_verified_by_redownload_appledouble_free",
+      "repository": "sorrentinoluca/fot-tep-data",
+      "repository_url": "https://github.com/sorrentinoluca/fot-tep-data",
+      "release_tag": "studio2-fase03-evidence-v2",
+      "release_id": 388257324,
+      "release_url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-evidence-v2",
+      "release_commit": "6d238929285e57c6c70f4d563ef7e30b59da6ac5",
+      "published_at_utc": "2026-09-14T08:53:46Z",
+      "scientific_content_identity": {
+        "manifest": "studio2/fase03/evidence/MANIFEST_CONSERVAZIONE.csv",
+        "manifest_rows": 1283,
+        "files_unchanged_from_v1": 1283,
+        "bytes_unchanged_from_v1": 61208618,
+        "mismatches": 0
+      },
+      "packaging": {
+        "command_policy": "COPYFILE_DISABLE=1; tar --no-mac-metadata --no-xattrs",
+        "tar_members": 1285,
+        "directory_members": 2,
+        "regular_files": 1283,
+        "appledouble_entries": 0,
+        "members_with_pax_headers": 0
+      },
+      "verification": {
+        "method": "downloaded the v2 release asset into a new temporary directory outside the repository; verified archive SHA-256 and tar member hygiene; extracted with COPYFILE_DISABLE=1; compared all paths, byte counts, and SHA-256 values with MANIFEST_CONSERVAZIONE.csv",
+        "temporary_directory": "/tmp/fot-tep-evidence-v2-redownload-curl-001",
+        "archive_sha256_match": true,
+        "manifest_rows": 1283,
+        "extracted_files": 1283,
+        "files_verified": 1283,
+        "bytes_verified": 61208618,
+        "appledouble_files": 0,
+        "mismatches": 0,
+        "extra_files": 0
+      },
+      "assets": [
+        {
+          "name": "studio2-fase03-evidence-v2.tar",
+          "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-evidence-v2/studio2-fase03-evidence-v2.tar",
+          "bytes": 62185472,
+          "sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf",
+          "contents": "the same 1283 scientific files as evidence-v1, without AppleDouble or extended-attribute metadata"
+        }
+      ]
+    }
+  ]
+}

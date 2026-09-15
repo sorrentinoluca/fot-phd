@@ -1,0 +1,22 @@
+{
+  "verdict": "NON OK con rilievi sul solo delta offline",
+  "findings": [
+    "R-D9-01 P2: placeholder con spazi accettato",
+    "R-D9-02 P2: tokenizer non riconfermato alla riserva D9; comportamento diretto preesistente"
+  ],
+  "report": {
+    "path": "VERIFICA_D9.md",
+    "bytes": 18659,
+    "sha256": "9e1de541cdebef75eac560aa9eb6261db3da5e3f04484e9fee006dd748e65b45"
+  },
+  "manifest": {
+    "path": "MANIFEST.json",
+    "bytes": 135294,
+    "sha256": "269bfc69e1d1028b4466768d801d21bbf6e31b96266434ce53f16f9e03d0b435"
+  },
+  "manifest_members": 591,
+  "model_declared": "Codex, based on GPT-6; backend variant not attested",
+  "thread_id": "01a0a579-3fd7-7461-8c26-5449bd3d2b7a",
+  "scientific_go": false,
+  "original_worktrees_unchanged": true
+}

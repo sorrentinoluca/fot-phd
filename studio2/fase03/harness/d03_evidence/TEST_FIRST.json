@@ -1,0 +1,39 @@
+{
+  "runtime_unchanged_from": "a219bd469bbd280f56b7fa9cb56cda115b0975ed",
+  "runtime_sha256": "872a47c057711bee9f3a7e46ee4264aefb9deb09583c03d2ade7a8c76c05ec9f",
+  "test_and_contract_files": [
+    {
+      "path": "studio2/fase03/harness/CONTRATTO_D03_PRIMA_DEL_CODICE.md",
+      "sha256": "00434cc2aef7138cf2fc1c1e04dfb3feb825631ba9c0dbbc4cbe9fd9ab77ab7d"
+    },
+    {
+      "path": "studio2/fase03/harness/DURABLE_FIELD_CONTRACT.json",
+      "sha256": "9405052dbc4a4e28b18adefc962211186327f4679623541ed8931baa2bb40d95"
+    },
+    {
+      "path": "studio2/fase03/harness/test_d03_contract.py",
+      "sha256": "02c93b4c31e93d7d9b75ba440fab23a7f6a1839505d43723473850e7933f6682"
+    }
+  ],
+  "red": {
+    "tests": 9,
+    "failures": 8,
+    "errors": 0
+  },
+  "red_proofs": [
+    {
+      "path": "studio2/fase03/harness/d03_evidence/red_contract.log",
+      "sha256": "3f06445ef54ceaf84bc70b915237d05e0c4a8f789392a7aa82dcde064b3118fc"
+    },
+    {
+      "path": "studio2/fase03/harness/d03_evidence/red_contract.json",
+      "sha256": "b552a7af08db5cca2d461dbbe50ecb79b4d0f1457749d7b57d9c25066e80fb59"
+    }
+  ],
+  "expected_red_reasons": [
+    "D03 divergent content checks",
+    "missing content digests/link and fail-closed legacy requirement",
+    "quota_kind consistency discovered by generated SQL matrix"
+  ],
+  "notes": "All these artifacts and red run precede the first runtime edit."
+}

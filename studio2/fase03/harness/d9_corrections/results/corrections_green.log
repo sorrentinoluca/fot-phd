@@ -1,0 +1,279 @@
+test_01_whitespace_sentinels_prevent_client_and_intents (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) ... ok
+test_02_valid_metadata_and_resume_preserve_outputs (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_02_valid_metadata_and_resume_preserve_outputs) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd5030>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd5210>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd53f0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd55d0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd57b0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd5990>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd5c60>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd5e40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd6020>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd6200>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd5b70>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd64d0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd6110>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_03_distinct_snapshots_positive_direct_reserve (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_03_distinct_snapshots_positive_direct_reserve) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107df47c0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_04_missing_or_changed_files_direct_and_restart (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) ... 
+  test_04_missing_or_changed_files_direct_and_restart (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpcplso19a', file='chat_template.jinja', mutation='changed', restart=False) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpcplso19a', file='chat_template.jinja', mutation='changed', restart=True) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='chat_template.jinja', mutation='changed', restart=False) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='chat_template.jinja', mutation='changed', restart=True) ... FAIL
+test_05_success_then_new_fault_same_instance (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_05_success_then_new_fault_same_instance) ... /opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106f218a0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106dd2020>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106dd2d40>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3f1f0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3ee30>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3dd50>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3fa60>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3df30>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3f970>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3fc40>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3d990>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3d4e0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3ed40>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3c310>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3d5d0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3d030>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3c5e0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3d8a0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3d7b0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3d300>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3cd60>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3ca90>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c2b60>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c3f10>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c09a0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c0f40>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c1210>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c1990>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c13f0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c2020>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c1c60>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c24d0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c1a80>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c3880>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c3d30>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1077c2200>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_06_rebind_and_binding_reuse_require_current_files (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_06_rebind_and_binding_reuse_require_current_files) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x110559f30>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3e980>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_07_execute_request_no_transport_or_journal_after_loss (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_07_execute_request_no_transport_or_journal_after_loss) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x106e3f100>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1105589a0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x11055a6b0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x110558d60>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_08_closed_producer_reuse_requires_recoverable_tokenizer (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_08_closed_producer_reuse_requires_recoverable_tokenizer) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1105593f0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1104bb3d0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_09_missing_service_snapshot_binding_fails_closed (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_09_missing_service_snapshot_binding_fails_closed) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1071bd030>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1071be110>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1071bd8a0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1071bce50>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_10_alternate_producer_reuse_checks_its_chat_snapshot (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_10_alternate_producer_reuse_checks_its_chat_snapshot) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1071bcd60>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105fd65c0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_11_missing_template_file_keeps_valid_inline_fallback (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_11_missing_template_file_keeps_valid_inline_fallback) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107288f40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpcplso19a', file='chat_template.jinja', mutation='changed', restart=False)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: chat_template.jinja SHA-256 mismatch: expected 40f09f77a9ce55e8ee4e89bdb6952e83d1197abfa7031131258675f995d88e40, got 2d547d4d4bb3855d54ec55fed44085249e3415b9c7bc3358c2be5cdec34fe6d3
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat template" does not match "chat_template.jinja SHA-256 mismatch: expected 40f09f77a9ce55e8ee4e89bdb6952e83d1197abfa7031131258675f995d88e40, got 2d547d4d4bb3855d54ec55fed44085249e3415b9c7bc3358c2be5cdec34fe6d3"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpcplso19a', file='chat_template.jinja', mutation='changed', restart=True)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: chat_template.jinja SHA-256 mismatch: expected 40f09f77a9ce55e8ee4e89bdb6952e83d1197abfa7031131258675f995d88e40, got 2d547d4d4bb3855d54ec55fed44085249e3415b9c7bc3358c2be5cdec34fe6d3
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat template" does not match "chat_template.jinja SHA-256 mismatch: expected 40f09f77a9ce55e8ee4e89bdb6952e83d1197abfa7031131258675f995d88e40, got 2d547d4d4bb3855d54ec55fed44085249e3415b9c7bc3358c2be5cdec34fe6d3"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='chat_template.jinja', mutation='changed', restart=False)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: chat_template.jinja SHA-256 mismatch: expected 40f09f77a9ce55e8ee4e89bdb6952e83d1197abfa7031131258675f995d88e40, got 2d547d4d4bb3855d54ec55fed44085249e3415b9c7bc3358c2be5cdec34fe6d3
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat template" does not match "chat_template.jinja SHA-256 mismatch: expected 40f09f77a9ce55e8ee4e89bdb6952e83d1197abfa7031131258675f995d88e40, got 2d547d4d4bb3855d54ec55fed44085249e3415b9c7bc3358c2be5cdec34fe6d3"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (studio2.fase03.harness.test_d9_corrections.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='chat_template.jinja', mutation='changed', restart=True)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: chat_template.jinja SHA-256 mismatch: expected 40f09f77a9ce55e8ee4e89bdb6952e83d1197abfa7031131258675f995d88e40, got 2d547d4d4bb3855d54ec55fed44085249e3415b9c7bc3358c2be5cdec34fe6d3
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat template" does not match "chat_template.jinja SHA-256 mismatch: expected 40f09f77a9ce55e8ee4e89bdb6952e83d1197abfa7031131258675f995d88e40, got 2d547d4d4bb3855d54ec55fed44085249e3415b9c7bc3358c2be5cdec34fe6d3"
+
+----------------------------------------------------------------------
+Ran 11 tests in 12.090s
+
+FAILED (failures=4)

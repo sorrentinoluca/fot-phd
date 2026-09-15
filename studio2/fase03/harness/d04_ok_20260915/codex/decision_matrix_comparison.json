@@ -1,0 +1,8 @@
+{
+  "candidate_comparison": {
+    "MATRICE_D04_DECISIONI.json": true,
+    "MATRICE_D04_DECISIONI.md": true
+  },
+  "stdout": "{\"quota_cases\": 216, \"role_dependencies\": 14, \"tests\": 8, \"red_failures\": 240, \"green_failures\": 0}\n",
+  "source": "Independent red/green runs on exact candidates; no inherited PASS"
+}

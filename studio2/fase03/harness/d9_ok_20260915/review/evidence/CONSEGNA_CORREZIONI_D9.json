@@ -1,0 +1,119 @@
+{
+  "status": "LOCAL_CORRECTED_D9_PENDING_INDEPENDENT_REVIEW",
+  "technical_candidate": "16c98f39c044d812458705234b1a3f8ee4940b34",
+  "technical_tree": "1dd8f84d991190d9d8316e6c56899bc115232716",
+  "worktree": "/Users/luker/fot-tep-harness-d9-correzioni",
+  "branch": "codex/studio2-harness-d9-correzioni",
+  "rejected_candidate": "6a8031b25aa1208047d79cc7f030bf9cf7841e67",
+  "review_thread": "01a0a579-3fd7-7461-8c26-5449bd3d2b7a",
+  "manifest": {
+    "path": "studio2/fase03/harness/d9_corrections/CANDIDATO_CORREZIONI_D9.json",
+    "bytes": 282272,
+    "sha256": "a2fbabcaa997831446c4c2775d62fa6fc2078229a4c71187337be30a9ae7e4e1",
+    "members": 1062
+  },
+  "results": {
+    "targeted": {
+      "tests": 156,
+      "seconds": 455.424,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "result": "OK",
+      "log": "targeted.log"
+    },
+    "discovery": {
+      "tests": 191,
+      "seconds": 455.275,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "result": "OK",
+      "log": "discovery.log"
+    },
+    "corrections_red_final_v2": {
+      "tests": 11,
+      "seconds": 13.734,
+      "failures": 32,
+      "errors": 0,
+      "skipped": 0,
+      "result": "FAILED (failures=32)",
+      "log": "corrections_red_final_v2.log"
+    },
+    "corrections_green_final": {
+      "tests": 11,
+      "seconds": 13.056,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "result": "OK",
+      "log": "corrections_green_final.log"
+    },
+    "reviewer_red": {
+      "tests": 8,
+      "seconds": 8.781,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "result": "FAILED (failures=3)",
+      "log": "reviewer_red.log"
+    },
+    "reviewer_green": {
+      "tests": 8,
+      "seconds": 8.14,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "result": "OK",
+      "log": "reviewer_green.log"
+    },
+    "transport_red": {
+      "tests": 3,
+      "seconds": 6.34,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "result": "FAILED (failures=2)",
+      "log": "transport_red.log"
+    },
+    "transport_green": {
+      "tests": 3,
+      "seconds": 6.348,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "result": "OK",
+      "log": "transport_green.log"
+    },
+    "guardian_before": {
+      "tests": 35,
+      "seconds": 0.073,
+      "failures": 14,
+      "errors": 0,
+      "skipped": 1,
+      "result": "FAILED (failures=14, skipped=1)",
+      "log": "guardian_before.log"
+    },
+    "guardian_after": {
+      "tests": 35,
+      "seconds": 0.081,
+      "failures": 14,
+      "errors": 0,
+      "skipped": 1,
+      "result": "FAILED (failures=14, skipped=1)",
+      "log": "guardian_after.log"
+    }
+  },
+  "documentary_successor": "commit adding this delivery and review prompt; not part of technical candidate",
+  "original_non_ok_and_evidence_preserved": true,
+  "large_archive": "local copy/original retained; excluded from Git and not published, exact path/hash in acquisition record",
+  "runtime_changed_files": [
+    "studio2/fase03/harness/d9.py",
+    "studio2/fase03/producer_probe.py",
+    "studio2/fase03/run_pilot.py"
+  ],
+  "scientific_execution": false,
+  "service_qualification": false,
+  "go": false,
+  "push_merge_tag": false
+}

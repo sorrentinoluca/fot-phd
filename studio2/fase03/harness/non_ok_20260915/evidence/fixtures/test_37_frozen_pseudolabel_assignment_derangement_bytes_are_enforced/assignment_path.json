@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "scope": "EVALUATOR_SIDE_ONLY_never_in_prompts",
+  "namespace": "studio2-fase03-pseudolabel-v1",
+  "rule": "faults sorted by sha256(namespace|assignment|identifier); k-th fault is local to agent_k",
+  "assignment": {
+    "agent_1": {
+      "identifier": "F10",
+      "idv": 10,
+      "local_fault_label": "S2-CLS-MHMU4"
+    },
+    "agent_2": {
+      "identifier": "F3",
+      "idv": 3,
+      "local_fault_label": "S2-CLS-QRCCB"
+    },
+    "agent_3": {
+      "identifier": "F2",
+      "idv": 2,
+      "local_fault_label": "S2-CLS-GSX3L"
+    },
+    "agent_4": {
+      "identifier": "F8",
+      "idv": 8,
+      "local_fault_label": "S2-CLS-HEW25"
+    },
+    "agent_5": {
+      "identifier": "F13",
+      "idv": 13,
+      "local_fault_label": "S2-CLS-FD3GZ"
+    },
+    "agent_6": {
+      "identifier": "F15",
+      "idv": 15,
+      "local_fault_label": "S2-CLS-3ZGWQ"
+    },
+    "agent_7": {
+      "identifier": "F14",
+      "idv": 14,
+      "local_fault_label": "S2-CLS-4AMS4"
+    },
+    "agent_8": {
+      "identifier": "F1",
+      "idv": 1,
+      "local_fault_label": "S2-CLS-TYFPG"
+    }
+  },
+  "agents": {
+    "agent_1": {
+      "local_fault_label": "S2-CLS-MHMU4"
+    },
+    "agent_2": {
+      "local_fault_label": "S2-CLS-QRCCB"
+    },
+    "agent_3": {
+      "local_fault_label": "S2-CLS-GSX3L"
+    },
+    "agent_4": {
+      "local_fault_label": "S2-CLS-HEW25"
+    },
+    "agent_5": {
+      "local_fault_label": "S2-CLS-FD3GZ"
+    },
+    "agent_6": {
+      "local_fault_label": "S2-CLS-3ZGWQ"
+    },
+    "agent_7": {
+      "local_fault_label": "S2-CLS-4AMS4"
+    },
+    "agent_8": {
+      "local_fault_label": "S2-CLS-TYFPG"
+    }
+  }
+}
+

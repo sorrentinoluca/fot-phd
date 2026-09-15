@@ -1,0 +1,9 @@
+{
+  "checks": 5655,
+  "failures": [],
+  "acquisition": {
+    "acquired": 1471,
+    "external": 1283
+  },
+  "methods": 50
+}

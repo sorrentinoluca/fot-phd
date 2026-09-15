@@ -1,0 +1,27 @@
+test_U04_positive_direct_reserve (__main__.Independent.test_U04_positive_direct_reserve) ... ok
+test_U05_missing_r4_snapshot_direct_reserve_must_refuse (__main__.Independent.test_U05_missing_r4_snapshot_direct_reserve_must_refuse) ... FAIL
+test_U06_missing_r4_snapshot_restart_reserve_must_refuse (__main__.Independent.test_U06_missing_r4_snapshot_restart_reserve_must_refuse) ... FAIL
+test_U07_missing_snapshot_ordinary_runner_refuses (__main__.Independent.test_U07_missing_snapshot_ordinary_runner_refuses) ... ok
+
+======================================================================
+FAIL: test_U05_missing_r4_snapshot_direct_reserve_must_refuse (__main__.Independent.test_U05_missing_r4_snapshot_direct_reserve_must_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-review/evidence/independent_probes.py", line 46, in test_U05_missing_r4_snapshot_direct_reserve_must_refuse
+    with self.assertRaisesRegex(HarnessError,'tokenizer'):self.reserve(b)
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_U06_missing_r4_snapshot_restart_reserve_must_refuse (__main__.Independent.test_U06_missing_r4_snapshot_restart_reserve_must_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-review/evidence/independent_probes.py", line 50, in test_U06_missing_r4_snapshot_restart_reserve_must_refuse
+    with self.assertRaisesRegex(HarnessError,'tokenizer'):self.reserve(b,l)
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 5.374s
+
+FAILED (failures=2)

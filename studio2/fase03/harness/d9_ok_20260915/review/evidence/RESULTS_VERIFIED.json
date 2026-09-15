@@ -1,0 +1,258 @@
+{
+  "targeted": {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "-m",
+      "unittest",
+      "-v",
+      "studio2.fase03.harness.test_c01_c03",
+      "studio2.fase03.harness.test_d01_replay",
+      "studio2.fase03.harness.test_d02_predecessors",
+      "studio2.fase03.harness.test_d03_contract",
+      "studio2.fase03.harness.test_d04_open_quota",
+      "studio2.fase03.harness.test_d9",
+      "studio2.fase03.harness.test_d9_corrections",
+      "studio2.fase03.harness.test_harness_offline",
+      "studio2.fase03.harness.test_metric_raccordo",
+      "studio2.fase03.harness.test_revisions",
+      "studio2.fase03.tests.test_execution_guard",
+      "studio2.fase03.tests.test_protocol"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate",
+    "environment_overrides": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-targeted",
+      "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate"
+    },
+    "extra_environment": {},
+    "started_epoch": 1789487015.5942929,
+    "exit_code": 0,
+    "elapsed_seconds": 467.04616618156433,
+    "summary": "Ran 156 tests in 466.682s\n\nOK",
+    "counts": [
+      156,
+      0,
+      0,
+      0
+    ]
+  },
+  "discovery": {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-v",
+      "studio2/fase03"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate",
+    "environment_overrides": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-discovery",
+      "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate"
+    },
+    "extra_environment": {},
+    "started_epoch": 1789487482.6416142,
+    "exit_code": 0,
+    "elapsed_seconds": 471.65032386779785,
+    "summary": "Ran 191 tests in 471.118s\n\nOK\n\n[info] Spearman(catalog order, lexicographic order) = -0.833",
+    "counts": [
+      191,
+      0,
+      0,
+      0
+    ]
+  },
+  "corrections_red": {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate",
+    "environment_overrides": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-corrections_red",
+      "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate"
+    },
+    "extra_environment": {},
+    "started_epoch": 1789487954.292447,
+    "exit_code": 1,
+    "elapsed_seconds": 13.048630952835083,
+    "summary": "Ran 11 tests in 12.867s\n\nFAILED (failures=32)",
+    "counts": [
+      11,
+      32,
+      0,
+      0
+    ]
+  },
+  "original_U_red": {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/independent_probes.py"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate",
+    "environment_overrides": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-original_U_red",
+      "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate"
+    },
+    "extra_environment": {
+      "PROBE_OUTPUT": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/fixtures_U_red"
+    },
+    "started_epoch": 1789487967.341461,
+    "exit_code": 1,
+    "elapsed_seconds": 8.402760982513428,
+    "summary": "Ran 8 tests in 8.258s\n\nFAILED (failures=3)",
+    "counts": [
+      8,
+      3,
+      0,
+      0
+    ]
+  },
+  "transport_red": {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/transport_boundary_regression.py"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate",
+    "environment_overrides": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-transport_red",
+      "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate"
+    },
+    "extra_environment": {
+      "TRANSPORT_RESULTS": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/transport_red"
+    },
+    "started_epoch": 1789487975.7446349,
+    "exit_code": 1,
+    "elapsed_seconds": 4.972858190536499,
+    "summary": "Ran 3 tests in 4.845s\n\nFAILED (failures=2)",
+    "counts": [
+      3,
+      2,
+      0,
+      0
+    ]
+  },
+  "corrections_green": {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate",
+    "environment_overrides": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-corrections_green",
+      "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate"
+    },
+    "extra_environment": {},
+    "started_epoch": 1789487980.7178931,
+    "exit_code": 0,
+    "elapsed_seconds": 12.425189971923828,
+    "summary": "Ran 11 tests in 12.257s\n\nOK",
+    "counts": [
+      11,
+      0,
+      0,
+      0
+    ]
+  },
+  "original_U_green": {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/independent_probes.py"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate",
+    "environment_overrides": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-original_U_green",
+      "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate"
+    },
+    "extra_environment": {
+      "PROBE_OUTPUT": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/fixtures_U_green"
+    },
+    "started_epoch": 1789487993.1434429,
+    "exit_code": 0,
+    "elapsed_seconds": 8.0424063205719,
+    "summary": "Ran 8 tests in 7.888s\n\nOK",
+    "counts": [
+      8,
+      0,
+      0,
+      0
+    ]
+  },
+  "transport_green": {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/transport_boundary_regression.py"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate",
+    "environment_overrides": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-transport_green",
+      "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate"
+    },
+    "extra_environment": {
+      "TRANSPORT_RESULTS": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/transport_green"
+    },
+    "started_epoch": 1789488001.186365,
+    "exit_code": 0,
+    "elapsed_seconds": 5.047973155975342,
+    "summary": "Ran 3 tests in 4.912s\n\nOK",
+    "counts": [
+      3,
+      0,
+      0,
+      0
+    ]
+  },
+  "guardian_rejected": {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "docs/test_explanation.py"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate",
+    "environment_overrides": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-guardian_rejected",
+      "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate"
+    },
+    "extra_environment": {},
+    "started_epoch": 1789488006.2347221,
+    "exit_code": 1,
+    "elapsed_seconds": 0.12002396583557129,
+    "summary": "Ran 35 tests in 0.076s\n\nFAILED (failures=14, skipped=1)",
+    "counts": [
+      35,
+      14,
+      0,
+      1
+    ]
+  },
+  "guardian_corrected": {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "docs/test_explanation.py"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate",
+    "environment_overrides": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/tmp-correction-guardian_corrected",
+      "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate"
+    },
+    "extra_environment": {},
+    "started_epoch": 1789488006.3552482,
+    "exit_code": 1,
+    "elapsed_seconds": 0.11848878860473633,
+    "summary": "Ran 35 tests in 0.076s\n\nFAILED (failures=14, skipped=1)",
+    "counts": [
+      35,
+      14,
+      0,
+      1
+    ]
+  }
+}

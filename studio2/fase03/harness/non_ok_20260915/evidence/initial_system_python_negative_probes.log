@@ -1,0 +1,337 @@
+test_20_thresholds_and_missing_abstention (__main__.GateProbes.test_20_thresholds_and_missing_abstention) ... ok
+test_21_forensic_vs_semantic_truncation_all_invalid (__main__.GateProbes.test_21_forensic_vs_semantic_truncation_all_invalid) ... ok
+test_22_duplicate_repetitions_are_not_three_first_attempts (__main__.GateProbes.test_22_duplicate_repetitions_are_not_three_first_attempts) ... FAIL
+test_23_triplet_cannot_mix_conditions (__main__.GateProbes.test_23_triplet_cannot_mix_conditions) ... FAIL
+test_24_gate_condition_sample_must_match_8_16_16 (__main__.GateProbes.test_24_gate_condition_sample_must_match_8_16_16) ... FAIL
+test_30_all_four_r4_byte_tamper_rejected (__main__.InputProbes.test_30_all_four_r4_byte_tamper_rejected) ... ok
+test_31_r4_pair_ids_fields_caps_leakage (__main__.InputProbes.test_31_r4_pair_ids_fields_caps_leakage) ... ERROR
+test_32_producer_inventory_cannot_accept_changed_source_text (__main__.InputProbes.test_32_producer_inventory_cannot_accept_changed_source_text) ... FAIL
+test_33_insight_handoff_self_declared_valid_is_insufficient (__main__.InputProbes.test_33_insight_handoff_self_declared_valid_is_insufficient) ... FAIL
+test_34_renderer_refuses_pending_label_order (__main__.InputProbes.test_34_renderer_refuses_pending_label_order) ... ok
+test_35_builder_preserves_canonical_label_space (__main__.InputProbes.test_35_builder_preserves_canonical_label_space) ... FAIL
+test_36_endpoint_and_tokenizer_guards_reject_tampering (__main__.InputProbes.test_36_endpoint_and_tokenizer_guards_reject_tampering) ... ok
+test_01_crash_intent_survives_real_process_exit (__main__.LedgerProbes.test_01_crash_intent_survives_real_process_exit) ... ok
+test_02_two_processes_same_logical_request (__main__.LedgerProbes.test_02_two_processes_same_logical_request) ... ok
+test_03_restart_changed_stage_run_cannot_duplicate_logical_request (__main__.LedgerProbes.test_03_restart_changed_stage_run_cannot_duplicate_logical_request) ... FAIL
+test_04_failed_transport_cannot_be_promoted_to_pass (__main__.LedgerProbes.test_04_failed_transport_cannot_be_promoted_to_pass) ... FAIL
+test_05_zero_token_original_without_successful_retry_cannot_pass (__main__.LedgerProbes.test_05_zero_token_original_without_successful_retry_cannot_pass) ... FAIL
+test_06_closed_stage_cannot_acquire_new_retry (__main__.LedgerProbes.test_06_closed_stage_cannot_acquire_new_retry) ... FAIL
+test_07_pending_late_retry_blocks_next_stage_after_restart (__main__.LedgerProbes.test_07_pending_late_retry_blocks_next_stage_after_restart) ... FAIL
+test_08_public_event_api_cannot_forge_gate_prerequisite (__main__.LedgerProbes.test_08_public_event_api_cannot_forge_gate_prerequisite) ... FAIL
+test_09_remediation_cannot_replace_eight_cases_by_one_case (__main__.LedgerProbes.test_09_remediation_cannot_replace_eight_cases_by_one_case) ... FAIL
+test_10_unknown_timeout_cannot_authorize_prompt_remediation (__main__.LedgerProbes.test_10_unknown_timeout_cannot_authorize_prompt_remediation) ... FAIL
+test_11_same_original_cannot_fund_concurrent_retries (__main__.LedgerProbes.test_11_same_original_cannot_fund_concurrent_retries) ... FAIL
+test_12_probe_triplet_cannot_reuse_one_original_three_times (__main__.LedgerProbes.test_12_probe_triplet_cannot_reuse_one_original_three_times) ... FAIL
+test_13_probe_triplet_rollback_at_quota_boundary (__main__.LedgerProbes.test_13_probe_triplet_rollback_at_quota_boundary) ... ok
+test_14_waiver_boundary_15_and_no_alternate_quota_theft (__main__.LedgerProbes.test_14_waiver_boundary_15_and_no_alternate_quota_theft) ... ok
+test_15_gate_create_once_no_retry_and_no_return_to_probe (__main__.LedgerProbes.test_15_gate_create_once_no_retry_and_no_return_to_probe) ... ok
+test_16_planned_maxima_152_160_with_valid_quota_chain (__main__.LedgerProbes.test_16_planned_maxima_152_160_with_valid_quota_chain) ... ok
+test_17_hard_200_separate_for_imported_historical_fixture (__main__.LedgerProbes.test_17_hard_200_separate_for_imported_historical_fixture) ... ok
+test_18_outcome_validation_and_write_are_atomic (__main__.LedgerProbes.test_18_outcome_validation_and_write_are_atomic) ... FAIL
+test_40_producer_validates_all_pairs_and_writes_only_full_library (__main__.RunnerProbes.test_40_producer_validates_all_pairs_and_writes_only_full_library) ... FAIL
+test_41_r4_tamper_must_block_before_any_transport (__main__.RunnerProbes.test_41_r4_tamper_must_block_before_any_transport) ... FAIL
+test_42_producer_changed_identity_suspends (__main__.RunnerProbes.test_42_producer_changed_identity_suspends) ... ok
+test_43_producer_failure_preserves_completed_raw_before_restart (__main__.RunnerProbes.test_43_producer_failure_preserves_completed_raw_before_restart) ... FAIL
+test_44_producer_resume_skips_completed_requests (__main__.RunnerProbes.test_44_producer_resume_skips_completed_requests) ... FAIL
+test_45_remediation_must_bind_approved_template_hash (__main__.RunnerProbes.test_45_remediation_must_bind_approved_template_hash) ... ok
+test_46_consumer_rejects_undecided_before_historical_server_contact (__main__.RunnerProbes.test_46_consumer_rejects_undecided_before_historical_server_contact) ... FAIL
+test_47_load_prepared_checks_source_manifest_hash (__main__.RunnerProbes.test_47_load_prepared_checks_source_manifest_hash) ... FAIL
+test_48_tracked_transport_failure_remains_invalid_in_denominator (__main__.RunnerProbes.test_48_tracked_transport_failure_remains_invalid_in_denominator) ... ok
+
+======================================================================
+ERROR: test_31_r4_pair_ids_fields_caps_leakage (__main__.InputProbes.test_31_r4_pair_ids_fields_caps_leakage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/studio2/fase03/schema_insight/validator.py", line 104, in validate
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 263, in test_31_r4_pair_ids_fields_caps_leakage
+    self.assertEqual(len(valid(pair)),2)
+                         ^^^^^^^^^^^
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 262, in valid
+    def valid(p):return validate_produced_pair(p,inventory=INVENTORY,agent_id='agent_1',token_count=lambda s:len(s.split()),schema_dir=SCHEMA)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/studio2/fase03/harness/insight_adapter.py", line 98, in validate_produced_pair
+    return [
+           ^
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/studio2/fase03/harness/insight_adapter.py", line 99, in <listcomp>
+    validator.validate(value, fixed=fixed[value["insight_id"]], count=token_count)
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/studio2/fase03/schema_insight/validator.py", line 106, in validate
+    fail('dependency', '', 'jsonschema is required')
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/studio2/fase03/schema_insight/validator.py", line 28, in fail
+    raise ContractError(code, field, message)
+studio2_schema_insight_v1.ContractError: jsonschema is required
+
+======================================================================
+FAIL: test_22_duplicate_repetitions_are_not_three_first_attempts (__main__.GateProbes.test_22_duplicate_repetitions_are_not_three_first_attempts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 239, in test_22_duplicate_repetitions_are_not_three_first_attempts
+    with self.assertRaises(HarnessError):evaluate_stability_gate(v)
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_23_triplet_cannot_mix_conditions (__main__.GateProbes.test_23_triplet_cannot_mix_conditions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 243, in test_23_triplet_cannot_mix_conditions
+    with self.assertRaises(HarnessError):evaluate_stability_gate(v)
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_24_gate_condition_sample_must_match_8_16_16 (__main__.GateProbes.test_24_gate_condition_sample_must_match_8_16_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 249, in test_24_gate_condition_sample_must_match_8_16_16
+    with self.assertRaises(HarnessError):evaluate_stability_gate(v)
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_32_producer_inventory_cannot_accept_changed_source_text (__main__.InputProbes.test_32_producer_inventory_cannot_accept_changed_source_text)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 270, in test_32_producer_inventory_cannot_accept_changed_source_text
+    with self.assertRaises(HarnessError):pp._conformance_inputs(inv)
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_33_insight_handoff_self_declared_valid_is_insufficient (__main__.InputProbes.test_33_insight_handoff_self_declared_valid_is_insufficient)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 276, in test_33_insight_handoff_self_declared_valid_is_insufficient
+    with self.assertRaises(HarnessError):inputs._insights(p)
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_35_builder_preserves_canonical_label_space (__main__.InputProbes.test_35_builder_preserves_canonical_label_space)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 293, in test_35_builder_preserves_canonical_label_space
+    self.assertEqual(executable['label_space'],canonical)
+AssertionError: Lists differ: ['S2-CLS-MHMU4', 'S2-CLS-HEW25', 'S2-CLS-FD3GZ', '[83 chars]mal'] != ['S2-CLS-3ZGWQ', 'S2-CLS-4AMS4', 'S2-CLS-FD3GZ', '[83 chars]mal']
+
+First differing element 0:
+'S2-CLS-MHMU4'
+'S2-CLS-3ZGWQ'
+
++ ['S2-CLS-3ZGWQ',
+- ['S2-CLS-MHMU4',
+? ^         ^^^
+
++  'S2-CLS-4AMS4',
+? ^        ++ ^
+
++  'S2-CLS-FD3GZ',
++  'S2-CLS-GSX3L',
+   'S2-CLS-HEW25',
+-  'S2-CLS-FD3GZ',
+-  'S2-CLS-3ZGWQ',
+-  'S2-CLS-GSX3L',
+-  'S2-CLS-4AMS4',
+?          -- ^
+
++  'S2-CLS-MHMU4',
+?           ^^^
+
++  'S2-CLS-QRCCB',
+   'S2-CLS-TYFPG',
+-  'S2-CLS-QRCCB',
+   'Normal']
+
+======================================================================
+FAIL: test_03_restart_changed_stage_run_cannot_duplicate_logical_request (__main__.LedgerProbes.test_03_restart_changed_stage_run_cannot_duplicate_logical_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 94, in test_03_restart_changed_stage_run_cannot_duplicate_logical_request
+    with self.assertRaises(HarnessError):
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_04_failed_transport_cannot_be_promoted_to_pass (__main__.LedgerProbes.test_04_failed_transport_cannot_be_promoted_to_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 99, in test_04_failed_transport_cannot_be_promoted_to_pass
+    with self.assertRaises(HarnessError): self.ledger.record_stage_outcome('producer_conformity',outcome='PASS',artifact_sha256=H)
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_05_zero_token_original_without_successful_retry_cannot_pass (__main__.LedgerProbes.test_05_zero_token_original_without_successful_retry_cannot_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 103, in test_05_zero_token_original_without_successful_retry_cannot_pass
+    with self.assertRaises(HarnessError):self.ledger.record_stage_outcome('producer_conformity',outcome='PASS',artifact_sha256=H)
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_06_closed_stage_cannot_acquire_new_retry (__main__.LedgerProbes.test_06_closed_stage_cannot_acquire_new_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 109, in test_06_closed_stage_cannot_acquire_new_retry
+    with self.assertRaises(HarnessError):self.retry(1,'producer_conformity-0')
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_07_pending_late_retry_blocks_next_stage_after_restart (__main__.LedgerProbes.test_07_pending_late_retry_blocks_next_stage_after_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 118, in test_07_pending_late_retry_blocks_next_stage_after_restart
+    with self.assertRaises(HarnessError):self.reserve(0,'budget_probe')
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_08_public_event_api_cannot_forge_gate_prerequisite (__main__.LedgerProbes.test_08_public_event_api_cannot_forge_gate_prerequisite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 122, in test_08_public_event_api_cannot_forge_gate_prerequisite
+    with self.assertRaises(HarnessError):self.reserve(0,'stability_gate')
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_09_remediation_cannot_replace_eight_cases_by_one_case (__main__.LedgerProbes.test_09_remediation_cannot_replace_eight_cases_by_one_case)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 128, in test_09_remediation_cannot_replace_eight_cases_by_one_case
+    with self.assertRaises(HarnessError):self.ledger.record_stage_outcome('producer_remediation',outcome='PASS',artifact_sha256=H)
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_10_unknown_timeout_cannot_authorize_prompt_remediation (__main__.LedgerProbes.test_10_unknown_timeout_cannot_authorize_prompt_remediation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 133, in test_10_unknown_timeout_cannot_authorize_prompt_remediation
+    with self.assertRaises(HarnessError):self.ledger.authorize_remediation(diff_sha256=H,approval_sha256=H,template_sha256=H)
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_11_same_original_cannot_fund_concurrent_retries (__main__.LedgerProbes.test_11_same_original_cannot_fund_concurrent_retries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 137, in test_11_same_original_cannot_fund_concurrent_retries
+    with self.assertRaises(HarnessError):self.retry(1,'producer_conformity-0')
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_12_probe_triplet_cannot_reuse_one_original_three_times (__main__.LedgerProbes.test_12_probe_triplet_cannot_reuse_one_original_three_times)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 142, in test_12_probe_triplet_cannot_reuse_one_original_three_times
+    with self.assertRaises(HarnessError):self.ledger.reserve_probe_transport_triplet(values)
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_18_outcome_validation_and_write_are_atomic (__main__.LedgerProbes.test_18_outcome_validation_and_write_are_atomic)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 212, in test_18_outcome_validation_and_write_are_atomic
+    with self.assertRaises(HarnessError):self.ledger.record_stage_outcome('producer_conformity',outcome='PASS',artifact_sha256=H)
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_40_producer_validates_all_pairs_and_writes_only_full_library (__main__.RunnerProbes.test_40_producer_validates_all_pairs_and_writes_only_full_library)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 333, in test_40_producer_validates_all_pairs_and_writes_only_full_library
+    self.assertEqual((len(self.calls),result['status'],result['valid_first_attempts']),(8,'FAIL',7))
+AssertionError: Tuples differ: (8, 'FAIL', 0) != (8, 'FAIL', 7)
+
+First differing element 2:
+0
+7
+
+- (8, 'FAIL', 0)
+?             ^
+
++ (8, 'FAIL', 7)
+?             ^
+
+
+======================================================================
+FAIL: test_41_r4_tamper_must_block_before_any_transport (__main__.RunnerProbes.test_41_r4_tamper_must_block_before_any_transport)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 344, in test_41_r4_tamper_must_block_before_any_transport
+    self.assertEqual(len(self.calls),0)
+AssertionError: 8 != 0
+
+======================================================================
+FAIL: test_43_producer_failure_preserves_completed_raw_before_restart (__main__.RunnerProbes.test_43_producer_failure_preserves_completed_raw_before_restart)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 357, in test_43_producer_failure_preserves_completed_raw_before_restart
+    self.assertTrue(any('fixture-1' in p.read_text() for p in files),'successful raw response lost on later transport failure')
+AssertionError: False is not true : successful raw response lost on later transport failure
+
+======================================================================
+FAIL: test_44_producer_resume_skips_completed_requests (__main__.RunnerProbes.test_44_producer_resume_skips_completed_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/studio2/fase03/harness/ledger.py", line 291, in _insert_intent
+    connection.execute(
+sqlite3.IntegrityError: UNIQUE constraint failed: requests.pilot_id, requests.logical_id, requests.quota_kind, requests.stage_run
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 363, in test_44_producer_resume_skips_completed_requests
+    try:self.run_producer()
+        ^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 329, in run_producer
+    return pp.run(**self.run_kwargs,stage=self.producer_stage)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/studio2/fase03/producer_probe.py", line 129, in run
+    ledger.reserve_request(stage=stage, **reservation)
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/studio2/fase03/harness/ledger.py", line 313, in reserve_request
+    self._insert_intent(
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/studio2/fase03/harness/ledger.py", line 300, in _insert_intent
+    raise HarnessError("duplicate request or logical attempt") from exc
+studio2.fase03.harness.common.HarnessError: duplicate request or logical attempt
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 366, in test_44_producer_resume_skips_completed_requests
+    self.assertNotIn('duplicate',str(e),'restart re-enters first already-completed request')
+AssertionError: 'duplicate' unexpectedly found in 'duplicate request or logical attempt' : restart re-enters first already-completed request
+
+======================================================================
+FAIL: test_46_consumer_rejects_undecided_before_historical_server_contact (__main__.RunnerProbes.test_46_consumer_rejects_undecided_before_historical_server_contact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 382, in test_46_consumer_rejects_undecided_before_historical_server_contact
+    self.assertEqual(touched,[],'UNDECIDED still reaches historical 27B endpoint')
+AssertionError: Lists differ: [{'provider': 'local_vllm_openai_compatibl[2076 chars]ue}}] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+{'provider': 'local_vllm_openai_compatible', 'base_url': 'http://127.0.0.1:8001/v1', 'api_family': 'Chat Completions', 'endpoint': '/v1/chat/completions', 'requested_model': 'fot-exp2-consumer', 'expected_model_root': 'Qwen/Qwen3.8-27B-FP8', 'expected_model_revision': '017b9c7af6b5689d5dd426a76e0bc077eb5ca20a', 'expected_vllm_version': '0.28.0', 'expected_max_model_len': 16384, 'concurrency': 1, 'stateless': True, 'expected_process': {'api_server_pid': 690460, 'engine_core_pid': 690661, 'command': '/home/luca/fot-exp2/env-vllm/bin/python3 /home/luca/fot-exp2/env-vllm/bin/vllm serve Qwen/Qwen3.8-27B-FP8 --revision 017b9c7af6b5689d5dd426a76e0bc077eb5ca20a --served-model-name fot-exp2-consumer --host 127.0.0.1 --port 8001 --tensor-parallel-size 1 --max-model-len 16384 --max-num-seqs 1 --gpu-memory-utilization 0.97 --language-model-only --reasoning-parser qwen3 --seed 20260829 --generation-config vllm --enforce-eager --no-enable-prefix-caching --kernel-config {"enable_flashinfer_autotune":false,"enable_jit_warmup":false,"enable_cutedsl_warmup":false}', 'command_sha256': 'b1560330f54807c5396e03360e7938748a1e4c41bf63f427ff74b6661de499d7', 'environment': {'CUDA_VISIBLE_DEVICES': '0', 'VLLM_USE_FLASHINFER_SAMPLER': '0'}, 'environment_sha256': 'de6e5d641edcdc8542fddadf5abfbbeae9054e08aa099cb2998150d274816793', 'vllm_version': '0.28.0', 'fingerprint_sha256': '39b59324e643e892bfdd05beac763aa9ca80092941f28ce01f582f0f3a593017'}, 'runtime_record': {'path': 'studio2/fase03/env/ENDPOINT_8001_16384_RECORD.md', 'sha256': '6424d416d3228898a4e9313b800162441b530bcadd1d7fe2e1b83ee096a2af21'}, 'launch_script': {'path': 'studio2/fase03/env/start_vllm_8001_16384.sh', 'sha256': 'fca8ea1c48bd640f28a944ae038e70cf896c3de7b231198e7c3474c374ffa36f'}, 'gpu_kv_cache': {'observed_tokens': 34133, 'maximum_concurrency_at_16384': 2.08, 'comparison_key': False, 'reason': 'Derived from --max-model-len; recorded operationally but excluded from the process fingerprint.'}, 'supersedes': {'endpoint_configuration': '8001@7168', 'api_server_pid': 636846, 'status': 'SUPERSEDED_NOT_AVAILABLE', 'preserve_historical_records': True}}
+
+Diff is 3147 characters long. Set self.maxDiff to None to see it. : UNDECIDED still reaches historical 27B endpoint
+
+======================================================================
+FAIL: test_47_load_prepared_checks_source_manifest_hash (__main__.RunnerProbes.test_47_load_prepared_checks_source_manifest_hash)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate/../evidence/negative_probes.py", line 393, in test_47_load_prepared_checks_source_manifest_hash
+    with self.assertRaises(RuntimeError):rp.load_prepared(self.home)
+AssertionError: RuntimeError not raised
+
+----------------------------------------------------------------------
+Ran 39 tests in 1.105s
+
+FAILED (failures=23, errors=1)

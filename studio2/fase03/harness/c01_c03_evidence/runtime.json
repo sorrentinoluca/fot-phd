@@ -1,0 +1,8 @@
+{
+  "utc": "2026-09-15T07:26:06.707375+00:00",
+  "python": "3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:11:29) [Clang 20.1.8 ]",
+  "sqlite": "3.51.0",
+  "thread_id": "01a0a204-abda-7a00-8466-f52f5bc84812",
+  "model_and_effort": "not exposed by environment; previous preparer runtime gpt-6-astra/xhigh and reviewer gpt-6-astra/high are documented in acquired review only",
+  "role": "implementation, same preparation window; no independent review claimed"
+}

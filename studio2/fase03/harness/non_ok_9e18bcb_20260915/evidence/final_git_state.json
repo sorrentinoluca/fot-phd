@@ -1,0 +1,32 @@
+{
+  "utc": "2026-09-15T07:58:56.200023+00:00",
+  "repositories": {
+    "/Users/luker/fot-tep": {
+      "identity": "819b12e97fb94d501032655ec2f226139e6c5ca5\n5022e36b3a7457e78a7bcb505f2bc66dffa5dc6d\n",
+      "status": "## codex/studio2-soglie-normal\n?? \"Claude outputs/\"\n?? studio2/fase03/APERTURA_SOTTOFASI_FASE03.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14_rev02.md\n?? studio2/fase03/baseline_numerica/\n?? studio2/fase03/evidence/\n?? studio2/fase03/fedavg/\n?? studio2/fase03/harness/\n?? studio2/fase03/paper_sections/\n?? studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md\n?? studio2/fase03/perimetro_q8/sottofase_3_4_verifica_e_attuazione.md\n?? studio2/fase03/piano_statistico/\n?? studio2/fase03/pseudolabel/\n?? studio2/fase03/schema_insight/\n?? studio2/fase03/soglie_normal/analisi_3_5_prompt.md\n?? studio2/fase03/soglie_normal/runs/normal_001/\n?? studio2/fase03/soglie_normal/runtime/batch_launch/\n?? studio2/fase03/soglie_normal/sottofase_3_5.md\n?? studio2/fase03/soglie_normal/verifica_3_5_prompt.md\n",
+      "unchanged_from_initial": true
+    },
+    "/Users/luker/fot-tep-harness-0310-c01-c03": {
+      "identity": "52e13e1ed540e1ad076474398bf850445c9a4a00\ncac5612a777b595aca53219491f1c686f39b24d6\n",
+      "status": "## codex/studio2-harness-0310-c01-c03\n",
+      "unchanged_from_initial": true
+    },
+    "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate": {
+      "identity": "0c8157f23bee49a3a5a2df648525c34706da29d7\na1573b49615a875f24ee97f9f1cd4bab399be93d\n",
+      "status": "## HEAD (no branch)\n",
+      "unchanged_from_initial": true
+    },
+    "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate": {
+      "identity": "59b6b93cd9c215e8b687e540f7cd579804b7c66a\ncf08c14a8deb18145189afbe9722d7da46bc2f82\n",
+      "status": "## HEAD (no branch)\n",
+      "unchanged_from_initial": true
+    }
+  },
+  "candidate": {
+    "identity": "9e18bcbd06fa2c54202c8eeda079c112dbfcefcd\n5d1fd7924c4e1e46346f367590e6aa1977a6ba75\n",
+    "status": "## HEAD (no branch)\n",
+    "remote": "origin\t/Users/luker/fot-tep-harness-0310-c01-c03 (fetch)\norigin\t/Users/luker/fot-tep-harness-0310-c01-c03 (push)\n"
+  },
+  "remote_main": "a00605862f627710347bd63c49f79a6d0a00135f\trefs/heads/main\n",
+  "mutations": "Only isolated clone and sibling evidence; no candidate edit/commit/tag/push/merge"
+}

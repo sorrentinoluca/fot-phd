@@ -1,0 +1,7 @@
+test_X06_real_concurrent_base_reservation_12_writers (extended_probes.Extended.test_X06_real_concurrent_base_reservation_12_writers) ... ok
+test_X07_outcome_transaction_excludes_writer_while_closing (extended_probes.Extended.test_X07_outcome_transaction_excludes_writer_while_closing) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.176s
+
+OK

@@ -1,0 +1,1802 @@
+[
+  {
+    "number": 1,
+    "original": "test_01_crash_intent_survives_real_process_exit",
+    "original_line": 62,
+    "old_failed": false,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R07_real_crashes_intent_raw_and_completed_restart",
+    "proof_link": "[test_R07_real_crashes_intent_raw_and_completed_restart](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:133)",
+    "rationale": "Piano immutabile prima della riserva e tabella v2; stesso os._exit e verifica su processo nuovo. Esteso a raw/completed e runner reali.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Piano immutabile prima della riserva e tabella v2; stesso os._exit e verifica su processo nuovo. Esteso a raw/completed e runner reali.",
+      "proof_link": "[test_R07_real_crashes_intent_raw_and_completed_restart](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:133)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Piano immutabile prima della riserva e tabella v2; stesso os._exit e verifica su processo nuovo. Esteso a raw/completed e runner reali.",
+      "proof_link": "[test_R07_real_crashes_intent_raw_and_completed_restart](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:133)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Piano immutabile prima della riserva e tabella v2; stesso os._exit e verifica su processo nuovo. Esteso a raw/completed e runner reali.",
+      "proof_link": "[test_R07_real_crashes_intent_raw_and_completed_restart](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:133)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS del caso originario; validazione complessiva della prova di retry limitata da D03/W01/W02",
+      "rationale": "Piano immutabile prima della riserva e tabella v2; stesso os._exit e verifica su processo nuovo. Esteso a raw/completed e runner reali.",
+      "proof_link": "[test_R07_real_crashes_intent_raw_and_completed_restart](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:133)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 2,
+    "original": "test_02_two_processes_same_logical_request",
+    "original_line": 77,
+    "old_failed": false,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_X06_real_concurrent_base_reservation_12_writers",
+    "proof_link": "[test_X06_real_concurrent_base_reservation_12_writers](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/literal/evidence/extended_probes.py:83)",
+    "rationale": "Nuovo piano; 12 processi sul medesimo originale: un solo vincitore, undici rifiuti, contatore 1. X06 letterale corrente usa già il cwd corretto, 12 processi reali.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Nuovo piano; 12 processi sul medesimo originale: un solo vincitore, undici rifiuti, contatore 1. X06 valido nel rerun con cwd corretto.",
+      "proof_link": "[test_X06_real_concurrent_base_reservation_12_writers](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/extended_probes.py:83)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/literal/evidence/extended.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Nuovo piano; 12 processi sul medesimo originale: un solo vincitore, undici rifiuti, contatore 1. X06 letterale corrente usa già il cwd corretto, 12 processi reali.",
+      "proof_link": "[test_X06_real_concurrent_base_reservation_12_writers](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/literal/evidence/extended_probes.py:83)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/literal/evidence/extended.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Nuovo piano; 12 processi sul medesimo originale: un solo vincitore, undici rifiuti, contatore 1. X06 letterale corrente usa già il cwd corretto, 12 processi reali.",
+      "proof_link": "[test_X06_real_concurrent_base_reservation_12_writers](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py:83)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Nuovo piano; 12 processi sul medesimo originale: un solo vincitore, undici rifiuti, contatore 1. X06 letterale corrente usa già il cwd corretto, 12 processi reali.",
+      "proof_link": "[test_X06_real_concurrent_base_reservation_12_writers](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/literal/evidence/extended_probes.py:83)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/literal/evidence/extended.log"
+    }
+  },
+  {
+    "number": 3,
+    "original": "test_03_restart_changed_stage_run_cannot_duplicate_logical_request",
+    "original_line": 91,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R05_changed_alias_run_pilot_id_and_duplicate_original",
+    "proof_link": "[test_R05_changed_alias_run_pilot_id_and_duplicate_original](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:84)",
+    "rationale": "stage_run è digest del binding, non spazio di quota. Accorpati cambio alias, pilot-id e duplicato; distinta prova directory R01 e stato dopo restart X04.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "stage_run è digest del binding, non spazio di quota. Accorpati cambio alias, pilot-id e duplicato; distinta prova directory R01 e stato dopo restart X04.",
+      "proof_link": "[test_R05_changed_alias_run_pilot_id_and_duplicate_original](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:84)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "stage_run è digest del binding, non spazio di quota. Accorpati cambio alias, pilot-id e duplicato; distinta prova directory R01 e stato dopo restart X04.",
+      "proof_link": "[test_R05_changed_alias_run_pilot_id_and_duplicate_original](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:84)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "stage_run è digest del binding, non spazio di quota. Accorpati cambio alias, pilot-id e duplicato; distinta prova directory R01 e stato dopo restart X04.",
+      "proof_link": "[test_R05_changed_alias_run_pilot_id_and_duplicate_original](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:84)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "stage_run è digest del binding, non spazio di quota. Accorpati cambio alias, pilot-id e duplicato; distinta prova directory R01 e stato dopo restart X04.",
+      "proof_link": "[test_R05_changed_alias_run_pilot_id_and_duplicate_original](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:84)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 4,
+    "original": "test_04_failed_transport_cannot_be_promoted_to_pass",
+    "original_line": 97,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R04_failed_and_zero_token_cannot_pass",
+    "proof_link": "[test_R04_failed_and_zero_token_cannot_pass](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:41)",
+    "rationale": "Registrati sette successi con raw e un FAILED nel piano completo. PASS rifiutato; fixture nuova necessaria per raggiungere il controllo.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Registrati sette successi con raw e un FAILED nel piano completo. PASS rifiutato; fixture nuova necessaria per raggiungere il controllo.",
+      "proof_link": "[test_R04_failed_and_zero_token_cannot_pass](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:41)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Registrati sette successi con raw e un FAILED nel piano completo. PASS rifiutato; fixture nuova necessaria per raggiungere il controllo.",
+      "proof_link": "[test_R04_failed_and_zero_token_cannot_pass](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:41)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Registrati sette successi con raw e un FAILED nel piano completo. PASS rifiutato; fixture nuova necessaria per raggiungere il controllo.",
+      "proof_link": "[test_R04_failed_and_zero_token_cannot_pass](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:41)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Registrati sette successi con raw e un FAILED nel piano completo. PASS rifiutato; fixture nuova necessaria per raggiungere il controllo.",
+      "proof_link": "[test_R04_failed_and_zero_token_cannot_pass](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:41)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 5,
+    "original": "test_05_zero_token_original_without_successful_retry_cannot_pass",
+    "original_line": 101,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R04_failed_and_zero_token_cannot_pass",
+    "proof_link": "[test_R04_failed_and_zero_token_cannot_pass](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:41)",
+    "rationale": "Stesso caso di N04 poi riconciliazione concreta a ZERO_TOKEN_PROVEN senza retry riuscito: PASS ancora rifiutato. Accorpamento conserva i due assert.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Stesso caso di N04 poi riconciliazione concreta a ZERO_TOKEN_PROVEN senza retry riuscito: PASS ancora rifiutato. Accorpamento conserva i due assert.",
+      "proof_link": "[test_R04_failed_and_zero_token_cannot_pass](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:41)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Stesso caso di N04 poi riconciliazione concreta a ZERO_TOKEN_PROVEN senza retry riuscito: PASS ancora rifiutato. Accorpamento conserva i due assert.",
+      "proof_link": "[test_R04_failed_and_zero_token_cannot_pass](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:41)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Stesso caso di N04 poi riconciliazione concreta a ZERO_TOKEN_PROVEN senza retry riuscito: PASS ancora rifiutato. Accorpamento conserva i due assert.",
+      "proof_link": "[test_R04_failed_and_zero_token_cannot_pass](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:41)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Stesso caso di N04 poi riconciliazione concreta a ZERO_TOKEN_PROVEN senza retry riuscito: PASS ancora rifiutato. Accorpamento conserva i due assert.",
+      "proof_link": "[test_R04_failed_and_zero_token_cannot_pass](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:41)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 6,
+    "original": "test_06_closed_stage_cannot_acquire_new_retry",
+    "original_line": 105,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_X04_late_retry_is_rejected_before_and_after_restart",
+    "proof_link": "[test_X04_late_retry_is_rejected_before_and_after_restart](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/literal/evidence/extended_probes.py:65)",
+    "rationale": "Catena lecita riconciliata e completata, stadio chiuso; rifiuto anticipato della riserva tardiva. Non si pretende di creare un intento ora vietato.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Catena lecita riconciliata e completata, stadio chiuso; rifiuto anticipato della riserva tardiva. Non si pretende di creare un intento ora vietato.",
+      "proof_link": "[test_X04_late_retry_is_rejected_before_and_after_restart](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/extended_probes.py:65)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/literal/evidence/extended.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Catena lecita riconciliata e completata, stadio chiuso; rifiuto anticipato della riserva tardiva. Non si pretende di creare un intento ora vietato.",
+      "proof_link": "[test_X04_late_retry_is_rejected_before_and_after_restart](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/literal/evidence/extended_probes.py:65)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/literal/evidence/extended.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Catena lecita riconciliata e completata, stadio chiuso; rifiuto anticipato della riserva tardiva. Non si pretende di creare un intento ora vietato.",
+      "proof_link": "[test_X04_late_retry_is_rejected_before_and_after_restart](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py:65)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Catena lecita riconciliata e completata, stadio chiuso; rifiuto anticipato della riserva tardiva. Non si pretende di creare un intento ora vietato.",
+      "proof_link": "[test_X04_late_retry_is_rejected_before_and_after_restart](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/literal/evidence/extended_probes.py:65)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/literal/evidence/extended.log"
+    }
+  },
+  {
+    "number": 7,
+    "original": "test_07_pending_late_retry_blocks_next_stage_after_restart",
+    "original_line": 111,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_X04_late_retry_is_rejected_before_and_after_restart",
+    "proof_link": "[test_X04_late_retry_is_rejected_before_and_after_restart](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/literal/evidence/extended_probes.py:65)",
+    "rationale": "Nuovo piano immutabile e prerequisiti completi; riserva tardiva rifiutata, primario/alternativo incompleto rifiutati anche nelle catene legacy. Y/Z/W passano; nuovo requisito storico D03 blocca soltanto prove prive di digest/legame, senza backfill.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Nuova istanza ledger dopo chiusura e rifiuto tardivo; sonda soltanto senza intenti primari pendenti. X05 copre primario incompleto; X01/X02 scoprono il residuo alternativo C01.",
+      "proof_link": "[test_X04_late_retry_is_rejected_before_and_after_restart](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/extended_probes.py:65)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/literal/evidence/extended.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS del caso primario e dei nuovi stati; R04 ancora PARZIALE: D01/Y01/Y02",
+      "rationale": "Nuova istanza ledger dopo chiusura e rifiuto tardivo; sonda soltanto senza intenti primari pendenti. X05 copre primario incompleto; X01/X02 ora bloccano i nuovi stati alternativi. Y01/Y02 mostrano il residuo C01 nei gate v2 storici già chiusi.",
+      "proof_link": "[test_X04_late_retry_is_rejected_before_and_after_restart](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/literal/evidence/extended_probes.py:65)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/literal/evidence/extended.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS dei casi originari e D01; R04 ancora limitata da D02",
+      "rationale": "La riserva tardiva illegale è rifiutata prima e dopo riapertura; X05 controlla il primario incompleto. X01/X02 e tutte le Y ora passano anche per alternativo irrisolto e vecchi gate chiusi. Il difetto di precedenza D01 è chiuso; il diverso controllo della integrità/copertura dei predecessori resta incompleto in Z01–Z03/D02.",
+      "proof_link": "[test_X04_late_retry_is_rejected_before_and_after_restart](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py:65)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "La riserva tardiva è rifiutata prima/dopo restart; X05 verifica il primario incompleto. X01/X02 e Y01/Y02 verificano gli stati alternativi irrisolti, anche nei vecchi gate. Z01–Z03 ora passano per integrità/copertura dei predecessori. D03 è un diverso limite della prova zero-token persistita.",
+      "proof_link": "[test_X04_late_retry_is_rejected_before_and_after_restart](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/literal/evidence/extended_probes.py:65)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/literal/evidence/extended.log"
+    }
+  },
+  {
+    "number": 8,
+    "original": "test_08_public_event_api_cannot_forge_gate_prerequisite",
+    "original_line": 120,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R04_public_normative_event_forbidden",
+    "proof_link": "[test_R04_public_normative_event_forbidden](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:51)",
+    "rationale": "Rifiuto anticipato di outcome:budget_probe, remediation_authorized e frozen_gate nella API record_event; eventi vuoti. Non occorre arrivare al gate dopo una falsificazione rifiutata.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Rifiuto anticipato di outcome:budget_probe, remediation_authorized e frozen_gate nella API record_event; eventi vuoti. Non occorre arrivare al gate dopo una falsificazione rifiutata.",
+      "proof_link": "[test_R04_public_normative_event_forbidden](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:51)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Rifiuto anticipato di outcome:budget_probe, remediation_authorized e frozen_gate nella API record_event; eventi vuoti. Non occorre arrivare al gate dopo una falsificazione rifiutata.",
+      "proof_link": "[test_R04_public_normative_event_forbidden](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:51)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Rifiuto anticipato di outcome:budget_probe, remediation_authorized e frozen_gate nella API record_event; eventi vuoti. Non occorre arrivare al gate dopo una falsificazione rifiutata.",
+      "proof_link": "[test_R04_public_normative_event_forbidden](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:51)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Rifiuto anticipato di outcome:budget_probe, remediation_authorized e frozen_gate nella API record_event; eventi vuoti. Non occorre arrivare al gate dopo una falsificazione rifiutata.",
+      "proof_link": "[test_R04_public_normative_event_forbidden](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:51)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 9,
+    "original": "test_09_remediation_cannot_replace_eight_cases_by_one_case",
+    "original_line": 124,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R06_same_case_cannot_replace_eight_and_non_template_contracts_immutable",
+    "proof_link": "[test_R06_same_case_cannot_replace_eight_and_non_template_contracts_immutable](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:126)",
+    "rationale": "Diff e autorizzazione di fixture concreti; il secondo originale dello stesso caso è rifiutato. X20 controlla anche il primo binding remediation, evitando un test vacuo sul binding già congelato.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Diff e autorizzazione di fixture concreti; il secondo originale dello stesso caso è rifiutato. X20 controlla anche il primo binding remediation, evitando un test vacuo sul binding già congelato.",
+      "proof_link": "[test_R06_same_case_cannot_replace_eight_and_non_template_contracts_immutable](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:126)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Diff e autorizzazione di fixture concreti; il secondo originale dello stesso caso è rifiutato. X20 controlla anche il primo binding remediation, evitando un test vacuo sul binding già congelato.",
+      "proof_link": "[test_R06_same_case_cannot_replace_eight_and_non_template_contracts_immutable](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:126)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Diff e autorizzazione di fixture concreti; il secondo originale dello stesso caso è rifiutato. X20 controlla anche il primo binding remediation, evitando un test vacuo sul binding già congelato.",
+      "proof_link": "[test_R06_same_case_cannot_replace_eight_and_non_template_contracts_immutable](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:126)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Diff e autorizzazione di fixture concreti; il secondo originale dello stesso caso è rifiutato. X20 controlla anche il primo binding remediation, evitando un test vacuo sul binding già congelato.",
+      "proof_link": "[test_R06_same_case_cannot_replace_eight_and_non_template_contracts_immutable](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:126)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 10,
+    "original": "test_10_unknown_timeout_cannot_authorize_prompt_remediation",
+    "original_line": 130,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R06_timeout_and_missing_concrete_approval_cannot_remediate",
+    "proof_link": "[test_R06_timeout_and_missing_concrete_approval_cannot_remediate](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:116)",
+    "rationale": "Otto originali, uno FAILED: una diagnosi structure dichiarata non converte il timeout in difetto R4. Approvazione/template solo hash sono respinti.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Otto originali, uno FAILED: una diagnosi structure dichiarata non converte il timeout in difetto R4. Approvazione/template solo hash sono respinti.",
+      "proof_link": "[test_R06_timeout_and_missing_concrete_approval_cannot_remediate](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:116)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Otto originali, uno FAILED: una diagnosi structure dichiarata non converte il timeout in difetto R4. Approvazione/template solo hash sono respinti.",
+      "proof_link": "[test_R06_timeout_and_missing_concrete_approval_cannot_remediate](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:116)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Otto originali, uno FAILED: una diagnosi structure dichiarata non converte il timeout in difetto R4. Approvazione/template solo hash sono respinti.",
+      "proof_link": "[test_R06_timeout_and_missing_concrete_approval_cannot_remediate](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:116)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Otto originali, uno FAILED: una diagnosi structure dichiarata non converte il timeout in difetto R4. Approvazione/template solo hash sono respinti.",
+      "proof_link": "[test_R06_timeout_and_missing_concrete_approval_cannot_remediate](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:116)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 11,
+    "original": "test_11_same_original_cannot_fund_concurrent_retries",
+    "original_line": 135,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R05_two_processes_reserve_one_original_once",
+    "proof_link": "[test_R05_two_processes_reserve_one_original_once](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:93)",
+    "rationale": "Prova zero-token concreta prima del retry; due processi sull’identico originale, un solo figlio. Nessun riuso dell’originale aperto.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Prova zero-token concreta prima del retry; due processi sull’identico originale, un solo figlio. Nessun riuso dell’originale aperto.",
+      "proof_link": "[test_R05_two_processes_reserve_one_original_once](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:93)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS del caso storico; copertura delle quote negli stadi aperti limitata da D04/V05/V06",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Prova zero-token concreta prima del retry; due processi sull’identico originale, un solo figlio. Nessun riuso dell’originale aperto.",
+      "proof_link": "[test_R05_two_processes_reserve_one_original_once](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:93)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Prova zero-token concreta prima del retry; due processi sull’identico originale, un solo figlio. Nessun riuso dell’originale aperto.",
+      "proof_link": "[test_R05_two_processes_reserve_one_original_once](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:93)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS del caso originario; validazione complessiva della prova di retry limitata da D03/W01/W02",
+      "rationale": "Prova zero-token concreta prima del retry; due processi sull’identico originale, un solo figlio. Nessun riuso dell’originale aperto.",
+      "proof_link": "[test_R05_two_processes_reserve_one_original_once](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:93)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 12,
+    "original": "test_12_probe_triplet_cannot_reuse_one_original_three_times",
+    "original_line": 139,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R05_triplet_cannot_reuse_original_or_mix_budget",
+    "proof_link": "[test_R05_triplet_cannot_reuse_original_or_mix_budget](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:106)",
+    "rationale": "Piano budget e prove concrete; rifiutati tre riferimenti al medesimo originale e tre originali di gruppi diversi. Quota resta zero.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Piano budget e prove concrete; rifiutati tre riferimenti al medesimo originale e tre originali di gruppi diversi. Quota resta zero.",
+      "proof_link": "[test_R05_triplet_cannot_reuse_original_or_mix_budget](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:106)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS del caso storico; copertura delle quote negli stadi aperti limitata da D04/V05/V06",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Piano budget e prove concrete; rifiutati tre riferimenti al medesimo originale e tre originali di gruppi diversi. Quota resta zero.",
+      "proof_link": "[test_R05_triplet_cannot_reuse_original_or_mix_budget](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:106)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Piano budget e prove concrete; rifiutati tre riferimenti al medesimo originale e tre originali di gruppi diversi. Quota resta zero.",
+      "proof_link": "[test_R05_triplet_cannot_reuse_original_or_mix_budget](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:106)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Piano budget e prove concrete; rifiutati tre riferimenti al medesimo originale e tre originali di gruppi diversi. Quota resta zero.",
+      "proof_link": "[test_R05_triplet_cannot_reuse_original_or_mix_budget](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:106)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 13,
+    "original": "test_13_probe_triplet_rollback_at_quota_boundary",
+    "original_line": 144,
+    "old_failed": false,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_probe_triplet_retry_is_atomic_and_capped",
+    "proof_link": "[test_probe_triplet_retry_is_atomic_and_capped](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_harness_offline.py:212)",
+    "rationale": "Seconda tripletta riferita alle foglie riconciliate della prima; terza rifiutata a quota 6. X08 prova anche rollback dopo prima possibile inserzione (quota globale 6→7→8).",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Seconda tripletta riferita alle foglie riconciliate della prima; terza rifiutata a quota 6. X08 prova anche rollback dopo prima possibile inserzione (quota globale 6→7→8).",
+      "proof_link": "[test_probe_triplet_retry_is_atomic_and_capped](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_harness_offline.py:212)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS del caso storico; copertura delle quote negli stadi aperti limitata da D04/V05/V06",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Seconda tripletta riferita alle foglie riconciliate della prima; terza rifiutata a quota 6. X08 prova anche rollback dopo prima possibile inserzione (quota globale 6→7→8).",
+      "proof_link": "[test_probe_triplet_retry_is_atomic_and_capped](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_harness_offline.py:212)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Seconda tripletta riferita alle foglie riconciliate della prima; terza rifiutata a quota 6. X08 prova anche rollback dopo prima possibile inserzione (quota globale 6→7→8).",
+      "proof_link": "[test_probe_triplet_retry_is_atomic_and_capped](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_harness_offline.py:212)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Seconda tripletta riferita alle foglie riconciliate della prima; terza rifiutata a quota 6. X08 prova anche rollback dopo prima possibile inserzione (quota globale 6→7→8).",
+      "proof_link": "[test_probe_triplet_retry_is_atomic_and_capped](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_harness_offline.py:212)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 14,
+    "original": "test_14_waiver_boundary_15_and_no_alternate_quota_theft",
+    "original_line": 153,
+    "old_failed": false,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_reserve_15_waiver_and_maxima_152_160",
+    "proof_link": "[test_reserve_15_waiver_and_maxima_152_160](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:182)",
+    "rationale": "Catena di foglie, waiver e rifiuto oltre 15; X19 prova esplicitamente che gli originali dell’alternativo non finanzino il sedicesimo trasporto.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Catena di foglie, waiver e rifiuto oltre 15; X19 prova esplicitamente che gli originali dell’alternativo non finanzino il sedicesimo trasporto.",
+      "proof_link": "[test_reserve_15_waiver_and_maxima_152_160](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:182)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS del caso storico; copertura delle quote negli stadi aperti limitata da D04/V05/V06",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Catena di foglie, waiver e rifiuto oltre 15; X19 prova esplicitamente che gli originali dell’alternativo non finanzino il sedicesimo trasporto.",
+      "proof_link": "[test_reserve_15_waiver_and_maxima_152_160](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:182)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Catena di foglie, waiver e rifiuto oltre 15; X19 prova esplicitamente che gli originali dell’alternativo non finanzino il sedicesimo trasporto.",
+      "proof_link": "[test_reserve_15_waiver_and_maxima_152_160](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:182)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Catena di foglie, waiver e rifiuto oltre 15; X19 prova esplicitamente che gli originali dell’alternativo non finanzino il sedicesimo trasporto.",
+      "proof_link": "[test_reserve_15_waiver_and_maxima_152_160](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:182)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 15,
+    "original": "test_15_gate_create_once_no_retry_and_no_return_to_probe",
+    "original_line": 165,
+    "old_failed": false,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_gate_is_not_repeatable_and_has_no_retry",
+    "proof_link": "[test_gate_is_not_repeatable_and_has_no_retry](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_harness_offline.py:231)",
+    "rationale": "Predecessori con raw/record e sonda congelata; gate non ripetibile, nessun ritorno sonda. X16 ammette soltanto ricostruzione file a consumo invariato.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Predecessori con raw/record e sonda congelata; gate non ripetibile, nessun ritorno sonda. X16 ammette soltanto ricostruzione file a consumo invariato.",
+      "proof_link": "[test_gate_is_not_repeatable_and_has_no_retry](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_harness_offline.py:231)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS del caso storico; copertura delle quote negli stadi aperti limitata da D04/V05/V06",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Predecessori con raw/record e sonda congelata; gate non ripetibile, nessun ritorno sonda. X16 ammette soltanto ricostruzione file a consumo invariato.",
+      "proof_link": "[test_gate_is_not_repeatable_and_has_no_retry](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_harness_offline.py:231)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Predecessori con raw/record e sonda congelata; gate non ripetibile, nessun ritorno sonda. X16 ammette soltanto ricostruzione file a consumo invariato.",
+      "proof_link": "[test_gate_is_not_repeatable_and_has_no_retry](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_harness_offline.py:231)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Predecessori con raw/record e sonda congelata; gate non ripetibile, nessun ritorno sonda. X16 ammette soltanto ricostruzione file a consumo invariato.",
+      "proof_link": "[test_gate_is_not_repeatable_and_has_no_retry](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_harness_offline.py:231)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 16,
+    "original": "test_16_planned_maxima_152_160_with_valid_quota_chain",
+    "original_line": 172,
+    "old_failed": false,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_reserve_15_waiver_and_maxima_152_160",
+    "proof_link": "[test_reserve_15_waiver_and_maxima_152_160](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:182)",
+    "rationale": "Remediation 8 + retry 7 + budget 9 (primi due gruppi troncati) + gate 120; 152 senza e 160 con alternativo. Non si usa un PASS fittizio sui primi budget.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Remediation 8 + retry 7 + budget 9 (primi due gruppi troncati) + gate 120; 152 senza e 160 con alternativo. Non si usa un PASS fittizio sui primi budget.",
+      "proof_link": "[test_reserve_15_waiver_and_maxima_152_160](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:182)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS del caso storico; copertura delle quote negli stadi aperti limitata da D04/V05/V06",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Remediation 8 + retry 7 + budget 9 (primi due gruppi troncati) + gate 120; 152 senza e 160 con alternativo. Non si usa un PASS fittizio sui primi budget.",
+      "proof_link": "[test_reserve_15_waiver_and_maxima_152_160](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:182)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Remediation 8 + retry 7 + budget 9 (primi due gruppi troncati) + gate 120; 152 senza e 160 con alternativo. Non si usa un PASS fittizio sui primi budget.",
+      "proof_link": "[test_reserve_15_waiver_and_maxima_152_160](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:182)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Remediation 8 + retry 7 + budget 9 (primi due gruppi troncati) + gate 120; 152 senza e 160 con alternativo. Non si usa un PASS fittizio sui primi budget.",
+      "proof_link": "[test_reserve_15_waiver_and_maxima_152_160](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:182)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 17,
+    "original": "test_17_hard_200_separate_for_imported_historical_fixture",
+    "original_line": 194,
+    "old_failed": false,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_hard_200_on_explicit_imported_fixture",
+    "proof_link": "[test_hard_200_on_explicit_imported_fixture](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:208)",
+    "rationale": "Prepopolazione SQLite sacrificabile nel formato v2 per separare hard stop 200 dai massimi ordinari. Non è una migrazione o permesso di consumare 200.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Prepopolazione SQLite sacrificabile nel formato v2 per separare hard stop 200 dai massimi ordinari. Non è una migrazione o permesso di consumare 200.",
+      "proof_link": "[test_hard_200_on_explicit_imported_fixture](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:208)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS del caso storico; copertura delle quote negli stadi aperti limitata da D04/V05/V06",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Prepopolazione SQLite sacrificabile nel formato v2 per separare hard stop 200 dai massimi ordinari. Non è una migrazione o permesso di consumare 200.",
+      "proof_link": "[test_hard_200_on_explicit_imported_fixture](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:208)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Prepopolazione SQLite sacrificabile nel formato v2 per separare hard stop 200 dai massimi ordinari. Non è una migrazione o permesso di consumare 200.",
+      "proof_link": "[test_hard_200_on_explicit_imported_fixture](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:208)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Prepopolazione SQLite sacrificabile nel formato v2 per separare hard stop 200 dai massimi ordinari. Non è una migrazione o permesso di consumare 200.",
+      "proof_link": "[test_hard_200_on_explicit_imported_fixture](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:208)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 18,
+    "original": "test_18_outcome_validation_and_write_are_atomic",
+    "original_line": 204,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_X07_outcome_transaction_excludes_writer_while_closing",
+    "proof_link": "[test_X07_outcome_transaction_excludes_writer_while_closing](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/literal/evidence/extended_probes.py:95)",
+    "rationale": "Hook immediatamente prima dell’evento nel vero BEGIN IMMEDIATE: writer distinto bloccato fino al commit e vede outcome completo. Estende il test consegnato, il cui retry tardivo sarebbe comunque illecito.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Hook immediatamente prima dell’evento nel vero BEGIN IMMEDIATE: writer distinto bloccato fino al commit e vede outcome completo. Estende il test consegnato, il cui retry tardivo sarebbe comunque illecito.",
+      "proof_link": "[test_X07_outcome_transaction_excludes_writer_while_closing](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/extended_probes.py:95)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/literal/evidence/extended.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Hook immediatamente prima dell’evento nel vero BEGIN IMMEDIATE: writer distinto bloccato fino al commit e vede outcome completo. Estende il test consegnato, il cui retry tardivo sarebbe comunque illecito.",
+      "proof_link": "[test_X07_outcome_transaction_excludes_writer_while_closing](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/literal/evidence/extended_probes.py:95)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/literal/evidence/extended.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Hook immediatamente prima dell’evento nel vero BEGIN IMMEDIATE: writer distinto bloccato fino al commit e vede outcome completo. Estende il test consegnato, il cui retry tardivo sarebbe comunque illecito.",
+      "proof_link": "[test_X07_outcome_transaction_excludes_writer_while_closing](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py:95)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Hook immediatamente prima dell’evento nel vero BEGIN IMMEDIATE: writer distinto bloccato fino al commit e vede outcome completo. Estende il test consegnato, il cui retry tardivo sarebbe comunque illecito.",
+      "proof_link": "[test_X07_outcome_transaction_excludes_writer_while_closing](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/literal/evidence/extended_probes.py:95)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/literal/evidence/extended.log"
+    }
+  },
+  {
+    "number": 20,
+    "original": "test_20_thresholds_and_missing_abstention",
+    "original_line": 215,
+    "old_failed": false,
+    "unadapted_failed": true,
+    "mode": "sola fixture/argomento",
+    "proof_method": null,
+    "proof_link": "[N20 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:215)",
+    "rationale": "Metodo/assertion originali invariati; rows aggiunge campione autentico di fixture, request_id e identity_valid; evaluate riceve expected_prompts. Nessuna soglia o firma semantica modificata.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo/assertion originali invariati; rows aggiunge campione autentico di fixture, request_id e identity_valid; evaluate riceve expected_prompts. Nessuna soglia o firma semantica modificata.",
+      "proof_link": "[N20 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:215)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo/assertion originali invariati; rows aggiunge campione autentico di fixture, request_id e identity_valid; evaluate riceve expected_prompts. Nessuna soglia o firma semantica modificata.",
+      "proof_link": "[N20 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:215)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo/assertion originali invariati; rows aggiunge campione autentico di fixture, request_id e identity_valid; evaluate riceve expected_prompts. Nessuna soglia o firma semantica modificata.",
+      "proof_link": "[N20 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:215)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo/assertion originali invariati; rows aggiunge campione autentico di fixture, request_id e identity_valid; evaluate riceve expected_prompts. Nessuna soglia o firma semantica modificata.",
+      "proof_link": "[N20 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:215)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 21,
+    "original": "test_21_forensic_vs_semantic_truncation_all_invalid",
+    "original_line": 226,
+    "old_failed": false,
+    "unadapted_failed": true,
+    "mode": "sola fixture/argomento",
+    "proof_method": null,
+    "proof_link": "[N21 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:226)",
+    "rationale": "Metodo/assertion originali invariati; rows aggiunge campione autentico di fixture, request_id e identity_valid; evaluate riceve expected_prompts. Nessuna soglia o firma semantica modificata.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo/assertion originali invariati; rows aggiunge campione autentico di fixture, request_id e identity_valid; evaluate riceve expected_prompts. Nessuna soglia o firma semantica modificata.",
+      "proof_link": "[N21 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:226)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo/assertion originali invariati; rows aggiunge campione autentico di fixture, request_id e identity_valid; evaluate riceve expected_prompts. Nessuna soglia o firma semantica modificata.",
+      "proof_link": "[N21 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:226)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo/assertion originali invariati; rows aggiunge campione autentico di fixture, request_id e identity_valid; evaluate riceve expected_prompts. Nessuna soglia o firma semantica modificata.",
+      "proof_link": "[N21 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:226)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo/assertion originali invariati; rows aggiunge campione autentico di fixture, request_id e identity_valid; evaluate riceve expected_prompts. Nessuna soglia o firma semantica modificata.",
+      "proof_link": "[N21 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:226)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 22,
+    "original": "test_22_duplicate_repetitions_are_not_three_first_attempts",
+    "original_line": 236,
+    "old_failed": true,
+    "unadapted_failed": false,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R10_repetition_condition_hash_uniqueness_and_distribution",
+    "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)",
+    "rationale": "Campione e identità inizialmente validi; duplicata solo repetition. L’assenza di expected_prompts nel vecchio test darebbe un falso verde.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Campione e identità inizialmente validi; duplicata solo repetition. L’assenza di expected_prompts nel vecchio test darebbe un falso verde.",
+      "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Campione e identità inizialmente validi; duplicata solo repetition. L’assenza di expected_prompts nel vecchio test darebbe un falso verde.",
+      "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Campione e identità inizialmente validi; duplicata solo repetition. L’assenza di expected_prompts nel vecchio test darebbe un falso verde.",
+      "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Campione e identità inizialmente validi; duplicata solo repetition. L’assenza di expected_prompts nel vecchio test darebbe un falso verde.",
+      "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 23,
+    "original": "test_23_triplet_cannot_mix_conditions",
+    "original_line": 241,
+    "old_failed": true,
+    "unadapted_failed": false,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R10_repetition_condition_hash_uniqueness_and_distribution",
+    "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)",
+    "rationale": "Campione valido, alterata la condizione di una sola risposta. Stessa invalidità mirata; non si conta il rifiuto per campione mancante.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Campione valido, alterata la condizione di una sola risposta. Stessa invalidità mirata; non si conta il rifiuto per campione mancante.",
+      "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Campione valido, alterata la condizione di una sola risposta. Stessa invalidità mirata; non si conta il rifiuto per campione mancante.",
+      "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Campione valido, alterata la condizione di una sola risposta. Stessa invalidità mirata; non si conta il rifiuto per campione mancante.",
+      "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Campione valido, alterata la condizione di una sola risposta. Stessa invalidità mirata; non si conta il rifiuto per campione mancante.",
+      "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 24,
+    "original": "test_24_gate_condition_sample_must_match_8_16_16",
+    "original_line": 245,
+    "old_failed": true,
+    "unadapted_failed": false,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R10_repetition_condition_hash_uniqueness_and_distribution",
+    "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)",
+    "rationale": "Campione e record modificati insieme da 8/16/16 a 7/17/16: rifiuto della distribuzione, non mero mismatch di una risposta. X11 aggiunge ruoli/agenti/testo/ripetizione bool.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Campione e record modificati insieme da 8/16/16 a 7/17/16: rifiuto della distribuzione, non mero mismatch di una risposta. X11 aggiunge ruoli/agenti/testo/ripetizione bool.",
+      "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Campione e record modificati insieme da 8/16/16 a 7/17/16: rifiuto della distribuzione, non mero mismatch di una risposta. X11 aggiunge ruoli/agenti/testo/ripetizione bool.",
+      "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Campione e record modificati insieme da 8/16/16 a 7/17/16: rifiuto della distribuzione, non mero mismatch di una risposta. X11 aggiunge ruoli/agenti/testo/ripetizione bool.",
+      "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Campione e record modificati insieme da 8/16/16 a 7/17/16: rifiuto della distribuzione, non mero mismatch di una risposta. X11 aggiunge ruoli/agenti/testo/ripetizione bool.",
+      "proof_link": "[test_R10_repetition_condition_hash_uniqueness_and_distribution](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:223)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 30,
+    "original": "test_30_all_four_r4_byte_tamper_rejected",
+    "original_line": 254,
+    "old_failed": false,
+    "unadapted_failed": false,
+    "mode": "invariato",
+    "proof_method": null,
+    "proof_link": "[N30 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:254)",
+    "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N30 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:254)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N30 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:254)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N30 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:254)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N30 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:254)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 31,
+    "original": "test_31_r4_pair_ids_fields_caps_leakage",
+    "original_line": 261,
+    "old_failed": false,
+    "unadapted_failed": false,
+    "mode": "invariato",
+    "proof_method": null,
+    "proof_link": "[N31 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:261)",
+    "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N31 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:261)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N31 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:261)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N31 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:261)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N31 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:261)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 32,
+    "original": "test_32_producer_inventory_cannot_accept_changed_source_text",
+    "original_line": 270,
+    "old_failed": true,
+    "unadapted_failed": false,
+    "mode": "invariato",
+    "proof_method": null,
+    "proof_link": "[N32 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:270)",
+    "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N32 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:270)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N32 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:270)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N32 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:270)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N32 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:270)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 33,
+    "original": "test_33_insight_handoff_self_declared_valid_is_insufficient",
+    "original_line": 274,
+    "old_failed": true,
+    "unadapted_failed": false,
+    "mode": "invariato",
+    "proof_method": null,
+    "proof_link": "[N33 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:274)",
+    "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N33 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:274)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N33 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:274)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N33 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:274)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N33 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:274)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 34,
+    "original": "test_34_renderer_refuses_pending_label_order",
+    "original_line": 280,
+    "old_failed": false,
+    "unadapted_failed": false,
+    "mode": "invariato",
+    "proof_method": null,
+    "proof_link": "[N34 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:280)",
+    "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N34 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:280)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N34 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:280)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N34 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:280)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N34 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:280)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 35,
+    "original": "test_35_builder_preserves_canonical_label_space",
+    "original_line": 288,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R03_real_pipeline_labels_preserved_and_pending_rejected",
+    "proof_link": "[test_R03_real_pipeline_labels_preserved_and_pending_rejected](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:364)",
+    "rationale": "Handoff ora prodotto da otto coppie stub validate/persistite; builder autentico conserva label_space canonico e ordine diverso in presentation. Vecchio handoff autocertificato non è più fixture positiva lecita.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Handoff ora prodotto da otto coppie stub validate/persistite; builder autentico conserva label_space canonico e ordine diverso in presentation. Vecchio handoff autocertificato non è più fixture positiva lecita.",
+      "proof_link": "[test_R03_real_pipeline_labels_preserved_and_pending_rejected](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:364)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Handoff ora prodotto da otto coppie stub validate/persistite; builder autentico conserva label_space canonico e ordine diverso in presentation. Vecchio handoff autocertificato non è più fixture positiva lecita.",
+      "proof_link": "[test_R03_real_pipeline_labels_preserved_and_pending_rejected](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:364)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Handoff ora prodotto da otto coppie stub validate/persistite; builder autentico conserva label_space canonico e ordine diverso in presentation. Vecchio handoff autocertificato non è più fixture positiva lecita.",
+      "proof_link": "[test_R03_real_pipeline_labels_preserved_and_pending_rejected](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:364)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Handoff ora prodotto da otto coppie stub validate/persistite; builder autentico conserva label_space canonico e ordine diverso in presentation. Vecchio handoff autocertificato non è più fixture positiva lecita.",
+      "proof_link": "[test_R03_real_pipeline_labels_preserved_and_pending_rejected](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:364)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 36,
+    "original": "test_36_endpoint_and_tokenizer_guards_reject_tampering",
+    "original_line": 297,
+    "old_failed": false,
+    "unadapted_failed": false,
+    "mode": "invariato",
+    "proof_method": null,
+    "proof_link": "[N36 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:297)",
+    "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N36 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:297)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N36 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:297)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N36 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:297)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N36 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:297)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 37,
+    "original": "test_37_frozen_pseudolabel_assignment_derangement_bytes_are_enforced",
+    "original_line": 303,
+    "old_failed": true,
+    "unadapted_failed": false,
+    "mode": "invariato",
+    "proof_method": null,
+    "proof_link": "[N37 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:303)",
+    "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N37 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:303)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N37 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:303)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N37 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:303)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N37 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:303)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 38,
+    "original": "test_38_evidence_json_hash_is_verified_before_contract_extraction",
+    "original_line": 309,
+    "old_failed": true,
+    "unadapted_failed": false,
+    "mode": "invariato",
+    "proof_method": null,
+    "proof_link": "[N38 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:309)",
+    "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N38 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:309)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N38 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:309)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N38 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:309)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N38 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:309)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 39,
+    "original": "test_39_pending_label_order_cannot_reach_real_prepare_entrypoint",
+    "original_line": 319,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R03_real_pipeline_labels_preserved_and_pending_rejected",
+    "proof_link": "[test_R03_real_pipeline_labels_preserved_and_pending_rejected](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:364)",
+    "rationale": "Dopo pipeline autentica si rimette pending nell’inventario. Sia prepare sia load_prepared rifiutano; API protocol ordinaria pure. Fixture completa necessaria per isolare la barriera label.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Dopo pipeline autentica si rimette pending nell’inventario. Sia prepare sia load_prepared rifiutano; API protocol ordinaria pure. Fixture completa necessaria per isolare la barriera label.",
+      "proof_link": "[test_R03_real_pipeline_labels_preserved_and_pending_rejected](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:364)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Dopo pipeline autentica si rimette pending nell’inventario. Sia prepare sia load_prepared rifiutano; API protocol ordinaria pure. Fixture completa necessaria per isolare la barriera label.",
+      "proof_link": "[test_R03_real_pipeline_labels_preserved_and_pending_rejected](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:364)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Dopo pipeline autentica si rimette pending nell’inventario. Sia prepare sia load_prepared rifiutano; API protocol ordinaria pure. Fixture completa necessaria per isolare la barriera label.",
+      "proof_link": "[test_R03_real_pipeline_labels_preserved_and_pending_rejected](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:364)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Dopo pipeline autentica si rimette pending nell’inventario. Sia prepare sia load_prepared rifiutano; API protocol ordinaria pure. Fixture completa necessaria per isolare la barriera label.",
+      "proof_link": "[test_R03_real_pipeline_labels_preserved_and_pending_rejected](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:364)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 40,
+    "original": "test_40_producer_validates_all_pairs_and_writes_only_full_library",
+    "original_line": 363,
+    "old_failed": false,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R06_real_runner_remediation_approved_bytes_and_old_handoff",
+    "proof_link": "[test_R06_real_runner_remediation_approved_bytes_and_old_handoff](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:403)",
+    "rationale": "Otto risposte, una malformata, sette valide: nessuna libreria parziale; poi otto richieste remediation autorizzate. X24 replica con JSON valido ma envelope errato.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Otto risposte, una malformata, sette valide: nessuna libreria parziale; poi otto richieste remediation autorizzate. X24 replica con JSON valido ma envelope errato.",
+      "proof_link": "[test_R06_real_runner_remediation_approved_bytes_and_old_handoff](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:403)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Otto risposte, una malformata, sette valide: nessuna libreria parziale; poi otto richieste remediation autorizzate. X24 replica con JSON valido ma envelope errato.",
+      "proof_link": "[test_R06_real_runner_remediation_approved_bytes_and_old_handoff](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:403)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Otto risposte, una malformata, sette valide: nessuna libreria parziale; poi otto richieste remediation autorizzate. X24 replica con JSON valido ma envelope errato.",
+      "proof_link": "[test_R06_real_runner_remediation_approved_bytes_and_old_handoff](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:403)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Otto risposte, una malformata, sette valide: nessuna libreria parziale; poi otto richieste remediation autorizzate. X24 replica con JSON valido ma envelope errato.",
+      "proof_link": "[test_R06_real_runner_remediation_approved_bytes_and_old_handoff](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:403)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 41,
+    "original": "test_41_r4_tamper_must_block_before_any_transport",
+    "original_line": 368,
+    "old_failed": true,
+    "unadapted_failed": false,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R02_inventory_tamper_r4_and_tokenizer_zero_sends",
+    "proof_link": "[test_R02_inventory_tamper_r4_and_tokenizer_zero_sends](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:327)",
+    "rationale": "Preflight di fixture autorizzato per raggiungere R4; alterati i quattro file, nessun intento/invio. Test dependency pretransport e X12 estendono dipendenza e mutazione durante il ciclo.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Preflight di fixture autorizzato per raggiungere R4; alterati i quattro file, nessun intento/invio. Test dependency pretransport e X12 estendono dipendenza e mutazione durante il ciclo.",
+      "proof_link": "[test_R02_inventory_tamper_r4_and_tokenizer_zero_sends](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:327)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Preflight di fixture autorizzato per raggiungere R4; alterati i quattro file, nessun intento/invio. Test dependency pretransport e X12 estendono dipendenza e mutazione durante il ciclo.",
+      "proof_link": "[test_R02_inventory_tamper_r4_and_tokenizer_zero_sends](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:327)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Preflight di fixture autorizzato per raggiungere R4; alterati i quattro file, nessun intento/invio. Test dependency pretransport e X12 estendono dipendenza e mutazione durante il ciclo.",
+      "proof_link": "[test_R02_inventory_tamper_r4_and_tokenizer_zero_sends](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:327)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Preflight di fixture autorizzato per raggiungere R4; alterati i quattro file, nessun intento/invio. Test dependency pretransport e X12 estendono dipendenza e mutazione durante il ciclo.",
+      "proof_link": "[test_R02_inventory_tamper_r4_and_tokenizer_zero_sends](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:327)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 42,
+    "original": "test_42_producer_changed_identity_suspends",
+    "original_line": 378,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R09_producer_identity_mismatch_preserves_raw_and_suspends",
+    "proof_link": "[test_R09_producer_identity_mismatch_preserves_raw_and_suspends](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:383)",
+    "rationale": "Attesa identità dichiarata nella fixture; modello errato alla prima risposta, raw durevole e sospensione. X13 verifica fingerprint e conservazione token=5.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Attesa identità dichiarata nella fixture; modello errato alla prima risposta, raw durevole e sospensione. X13 verifica fingerprint e conservazione token=5.",
+      "proof_link": "[test_R09_producer_identity_mismatch_preserves_raw_and_suspends](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:383)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Attesa identità dichiarata nella fixture; modello errato alla prima risposta, raw durevole e sospensione. X13 verifica fingerprint e conservazione token=5.",
+      "proof_link": "[test_R09_producer_identity_mismatch_preserves_raw_and_suspends](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:383)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Attesa identità dichiarata nella fixture; modello errato alla prima risposta, raw durevole e sospensione. X13 verifica fingerprint e conservazione token=5.",
+      "proof_link": "[test_R09_producer_identity_mismatch_preserves_raw_and_suspends](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:383)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Attesa identità dichiarata nella fixture; modello errato alla prima risposta, raw durevole e sospensione. X13 verifica fingerprint e conservazione token=5.",
+      "proof_link": "[test_R09_producer_identity_mismatch_preserves_raw_and_suspends](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:383)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 43,
+    "original": "test_43_producer_failure_preserves_completed_raw_before_restart",
+    "original_line": 383,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation",
+    "proof_link": "[test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:390)",
+    "rationale": "Timeout alla seconda richiesta: prima raw/record e secondo FAILED conservati; resume incerto non invia. Estensione processi reali nella suite, senza pretendere di recuperare raw mai arrivati su disco.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Timeout alla seconda richiesta: prima raw/record e secondo FAILED conservati; resume incerto non invia. Estensione processi reali nella suite, senza pretendere di recuperare raw mai arrivati su disco.",
+      "proof_link": "[test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:390)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Timeout alla seconda richiesta: prima raw/record e secondo FAILED conservati; resume incerto non invia. Estensione processi reali nella suite, senza pretendere di recuperare raw mai arrivati su disco.",
+      "proof_link": "[test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:390)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Timeout alla seconda richiesta: prima raw/record e secondo FAILED conservati; resume incerto non invia. Estensione processi reali nella suite, senza pretendere di recuperare raw mai arrivati su disco.",
+      "proof_link": "[test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:390)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS del caso originario; validazione complessiva della prova di retry limitata da D03/W01/W02",
+      "rationale": "Timeout alla seconda richiesta: prima raw/record e secondo FAILED conservati; resume incerto non invia. Estensione processi reali nella suite, senza pretendere di recuperare raw mai arrivati su disco.",
+      "proof_link": "[test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:390)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 44,
+    "original": "test_44_producer_resume_skips_completed_requests",
+    "original_line": 391,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation",
+    "proof_link": "[test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:390)",
+    "rationale": "Dopo prova zero-token riferita all’esatto tentativo, --resume e retry selezionato saltano la prima risposta e completano con consumo 9. X15 ora verifica anche summary=9; Y07 conferma 9 nello stadio alternativo contro 17 cumulativi pilot.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Dopo prova zero-token riferita all’esatto tentativo, --resume e retry selezionato saltano la prima risposta e completano con consumo 9. X15 rileva separatamente il riepilogo errato C03.",
+      "proof_link": "[test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:390)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Dopo prova zero-token riferita all’esatto tentativo, --resume e retry selezionato saltano la prima risposta e completano con consumo 9. X15 ora verifica anche summary=9; Y07 conferma 9 nello stadio alternativo contro 17 cumulativi pilot.",
+      "proof_link": "[test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:390)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Dopo prova zero-token riferita all’esatto tentativo, --resume e retry selezionato saltano la prima risposta e completano con consumo 9. X15 ora verifica anche summary=9; Y07 conferma 9 nello stadio alternativo contro 17 cumulativi pilot.",
+      "proof_link": "[test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:390)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS del caso originario; validazione complessiva della prova di retry limitata da D03/W01/W02",
+      "rationale": "Dopo prova zero-token riferita all’esatto tentativo, --resume e retry selezionato saltano la prima risposta e completano con consumo 9. X15 ora verifica anche summary=9; Y07 conferma 9 nello stadio alternativo contro 17 cumulativi pilot.",
+      "proof_link": "[test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:390)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 45,
+    "original": "test_45_remediation_must_bind_approved_template_hash",
+    "original_line": 400,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R06_real_runner_remediation_approved_bytes_and_old_handoff",
+    "proof_link": "[test_R06_real_runner_remediation_approved_bytes_and_old_handoff](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:403)",
+    "rationale": "Diff, template e approvazione concreti sostituiscono hash arbitrari. Template diverso respinto senza invii; il template approvato completa stessi otto. X20 isola ogni invariante prima del binding.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Diff, template e approvazione concreti sostituiscono hash arbitrari. Template diverso respinto senza invii; il template approvato completa stessi otto. X20 isola ogni invariante prima del binding.",
+      "proof_link": "[test_R06_real_runner_remediation_approved_bytes_and_old_handoff](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:403)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Diff, template e approvazione concreti sostituiscono hash arbitrari. Template diverso respinto senza invii; il template approvato completa stessi otto. X20 isola ogni invariante prima del binding.",
+      "proof_link": "[test_R06_real_runner_remediation_approved_bytes_and_old_handoff](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:403)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Diff, template e approvazione concreti sostituiscono hash arbitrari. Template diverso respinto senza invii; il template approvato completa stessi otto. X20 isola ogni invariante prima del binding.",
+      "proof_link": "[test_R06_real_runner_remediation_approved_bytes_and_old_handoff](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:403)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Diff, template e approvazione concreti sostituiscono hash arbitrari. Template diverso respinto senza invii; il template approvato completa stessi otto. X20 isola ogni invariante prima del binding.",
+      "proof_link": "[test_R06_real_runner_remediation_approved_bytes_and_old_handoff](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:403)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 46,
+    "original": "test_46_consumer_rejects_undecided_before_historical_server_contact",
+    "original_line": 406,
+    "old_failed": true,
+    "unadapted_failed": false,
+    "mode": "invariato",
+    "proof_method": null,
+    "proof_link": "[N46 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:406)",
+    "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N46 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:406)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N46 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:406)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N46 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:406)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N46 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:406)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 47,
+    "original": "test_47_load_prepared_checks_source_manifest_hash",
+    "original_line": 416,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R02_source_manifest_and_prompt_rehash_cannot_bypass",
+    "proof_link": "[test_R02_source_manifest_and_prompt_rehash_cannot_bypass](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:375)",
+    "rationale": "Fixture prepared autentica; alterazione source e ricalcolo dei riferimenti/sidecar non superano rigenerazione da sorgenti canoniche. X17 verifica anche approvazione esatta.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Fixture prepared autentica; alterazione source e ricalcolo dei riferimenti/sidecar non superano rigenerazione da sorgenti canoniche. X17 verifica anche approvazione esatta.",
+      "proof_link": "[test_R02_source_manifest_and_prompt_rehash_cannot_bypass](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:375)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Fixture prepared autentica; alterazione source e ricalcolo dei riferimenti/sidecar non superano rigenerazione da sorgenti canoniche. X17 verifica anche approvazione esatta.",
+      "proof_link": "[test_R02_source_manifest_and_prompt_rehash_cannot_bypass](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:375)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Fixture prepared autentica; alterazione source e ricalcolo dei riferimenti/sidecar non superano rigenerazione da sorgenti canoniche. X17 verifica anche approvazione esatta.",
+      "proof_link": "[test_R02_source_manifest_and_prompt_rehash_cannot_bypass](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:375)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Fixture prepared autentica; alterazione source e ricalcolo dei riferimenti/sidecar non superano rigenerazione da sorgenti canoniche. X17 verifica anche approvazione esatta.",
+      "proof_link": "[test_R02_source_manifest_and_prompt_rehash_cannot_bypass](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:375)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 48,
+    "original": "test_48_tracked_transport_failure_remains_invalid_in_denominator",
+    "original_line": 427,
+    "old_failed": false,
+    "unadapted_failed": true,
+    "mode": "sostituzione API/fixture equivalente al requisito, verificata end-to-end",
+    "proof_method": "test_X03_gate_transport_invalidity_remains_in_T3_T6",
+    "proof_link": "[test_X03_gate_transport_invalidity_remains_in_T3_T6](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/literal/evidence/extended_probes.py:49)",
+    "rationale": "La firma privata return_error_record è rimossa: la regola è obbligatoria nel gate. X03 passa con 120 primi tentativi, 119 validi, INVALID senza raw, tripletta divergente e R3. test_C02_N48_single_timeout_is_119_of_120_and_replays_without_sends verifica replay/prova successiva; Y04 copre errore journal, X23 adattato 120 invalidi. La precedente sostituzione NON equivalente è superata da queste prove, non cancellata dalla storia.",
+    "historical_evaluation_0c8157f": {
+      "result": "NON EQUIVALENTE / NON OK",
+      "rationale": "NON EQUIVALENTE: i sostituti dichiarati provano FAILED contabile e assenza retry, non il record invalido né l’ingresso in T3/T6. X03 fallisce e X23 conferma gate definitivamente incompleto. C02; nessuna esclusione scientifica approvata.",
+      "proof_link": "[test_X03_gate_transport_invalidity_remains_in_T3_T6](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/extended_probes.py:49)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/literal/evidence/extended.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "La firma privata return_error_record è rimossa: la regola è obbligatoria nel gate. X03 passa con 120 primi tentativi, 119 validi, INVALID senza raw, tripletta divergente e R3. test_C02_N48_single_timeout_is_119_of_120_and_replays_without_sends verifica replay/prova successiva; Y04 copre errore journal, X23 adattato 120 invalidi. La precedente sostituzione NON equivalente è superata da queste prove, non cancellata dalla storia.",
+      "proof_link": "[test_X03_gate_transport_invalidity_remains_in_T3_T6](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/literal/evidence/extended_probes.py:49)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/literal/evidence/extended.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "La firma privata return_error_record è rimossa: la regola è obbligatoria nel gate. X03 passa con 120 primi tentativi, 119 validi, INVALID senza raw, tripletta divergente e R3. test_C02_N48_single_timeout_is_119_of_120_and_replays_without_sends verifica replay/prova successiva; Y04 copre errore journal, X23 adattato 120 invalidi. La precedente sostituzione NON equivalente è superata da queste prove, non cancellata dalla storia.",
+      "proof_link": "[test_X03_gate_transport_invalidity_remains_in_T3_T6](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended_probes.py:49)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/literal/evidence/extended.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "La firma privata return_error_record è rimossa: la regola è obbligatoria nel gate. X03 passa con 120 primi tentativi, 119 validi, INVALID senza raw, tripletta divergente e R3. test_C02_N48_single_timeout_is_119_of_120_and_replays_without_sends verifica replay/prova successiva; Y04 copre errore journal, X23 adattato 120 invalidi. La precedente sostituzione NON equivalente è superata da queste prove, non cancellata dalla storia.",
+      "proof_link": "[test_X03_gate_transport_invalidity_remains_in_T3_T6](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/literal/evidence/extended_probes.py:49)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/literal/evidence/extended.log"
+    }
+  },
+  {
+    "number": 49,
+    "original": "test_49_changed_producer_input_cannot_become_validated_library",
+    "original_line": 437,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R02_inventory_tamper_r4_and_tokenizer_zero_sends",
+    "proof_link": "[test_R02_inventory_tamper_r4_and_tokenizer_zero_sends](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:327)",
+    "rationale": "Testo inventory alterato in fixture altrimenti ammessa: rifiuto prima di trasporto. Handoff modificato e ri-hashato provato separatamente da test_R02_handoff_cannot_self_certify_or_change_library.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Testo inventory alterato in fixture altrimenti ammessa: rifiuto prima di trasporto. Handoff modificato e ri-hashato provato separatamente da test_R02_handoff_cannot_self_certify_or_change_library.",
+      "proof_link": "[test_R02_inventory_tamper_r4_and_tokenizer_zero_sends](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:327)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Testo inventory alterato in fixture altrimenti ammessa: rifiuto prima di trasporto. Handoff modificato e ri-hashato provato separatamente da test_R02_handoff_cannot_self_certify_or_change_library.",
+      "proof_link": "[test_R02_inventory_tamper_r4_and_tokenizer_zero_sends](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:327)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Testo inventory alterato in fixture altrimenti ammessa: rifiuto prima di trasporto. Handoff modificato e ri-hashato provato separatamente da test_R02_handoff_cannot_self_certify_or_change_library.",
+      "proof_link": "[test_R02_inventory_tamper_r4_and_tokenizer_zero_sends](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:327)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Testo inventory alterato in fixture altrimenti ammessa: rifiuto prima di trasporto. Handoff modificato e ri-hashato provato separatamente da test_R02_handoff_cannot_self_certify_or_change_library.",
+      "proof_link": "[test_R02_inventory_tamper_r4_and_tokenizer_zero_sends](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:327)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 50,
+    "original": "test_50_budget_crash_preserves_partial_raw_and_stage_count",
+    "original_line": 463,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R07_consumer_budget_crash_and_resume_preserve_raw",
+    "proof_link": "[test_R07_consumer_budget_crash_and_resume_preserve_raw](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:418)",
+    "rationale": "Budget autentico; crash seconda richiesta, prima raw durevole e due intenti contati; resume non reinvia. os._exit nei processi reali e test raw-before-record/closed artifact completano il lifecycle.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Budget autentico; crash seconda richiesta, prima raw durevole e due intenti contati; resume non reinvia. os._exit nei processi reali e test raw-before-record/closed artifact completano il lifecycle.",
+      "proof_link": "[test_R07_consumer_budget_crash_and_resume_preserve_raw](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:418)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Budget autentico; crash seconda richiesta, prima raw durevole e due intenti contati; resume non reinvia. os._exit nei processi reali e test raw-before-record/closed artifact completano il lifecycle.",
+      "proof_link": "[test_R07_consumer_budget_crash_and_resume_preserve_raw](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:418)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Budget autentico; crash seconda richiesta, prima raw durevole e due intenti contati; resume non reinvia. os._exit nei processi reali e test raw-before-record/closed artifact completano il lifecycle.",
+      "proof_link": "[test_R07_consumer_budget_crash_and_resume_preserve_raw](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:418)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Budget autentico; crash seconda richiesta, prima raw durevole e due intenti contati; resume non reinvia. os._exit nei processi reali e test raw-before-record/closed artifact completano il lifecycle.",
+      "proof_link": "[test_R07_consumer_budget_crash_and_resume_preserve_raw](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:418)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 51,
+    "original": "test_51_gate_crash_preserves_raw_without_duplicate_on_restart",
+    "original_line": 471,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume",
+    "proof_link": "[test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:426)",
+    "rationale": "Gate dopo sonda autentica; seconda chiamata interrompe senza perdita della prima raw. Test processo reale e X16 coprono ripresa da raw e dopo outcome/file cancellato senza nuovi invii. C02 aggiunge INVALID durevoli e arresto reale dopo commit, ripresa in nuovo processo con 118 invii; Y04 controlla errore I/O journal.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Gate dopo sonda autentica; seconda chiamata interrompe senza perdita della prima raw. Test processo reale e X16 coprono ripresa da raw e dopo outcome/file cancellato senza nuovi invii.",
+      "proof_link": "[test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:426)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Gate dopo sonda autentica; seconda chiamata interrompe senza perdita della prima raw. Test processo reale e X16 coprono ripresa da raw e dopo outcome/file cancellato senza nuovi invii. C02 aggiunge INVALID durevoli e arresto reale dopo commit, ripresa in nuovo processo con 118 invii; Y04 controlla errore I/O journal.",
+      "proof_link": "[test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:426)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Gate dopo sonda autentica; seconda chiamata interrompe senza perdita della prima raw. Test processo reale e X16 coprono ripresa da raw e dopo outcome/file cancellato senza nuovi invii. C02 aggiunge INVALID durevoli e arresto reale dopo commit, ripresa in nuovo processo con 118 invii; Y04 controlla errore I/O journal.",
+      "proof_link": "[test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:426)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Gate dopo sonda autentica; seconda chiamata interrompe senza perdita della prima raw. Test processo reale e X16 coprono ripresa da raw e dopo outcome/file cancellato senza nuovi invii. C02 aggiunge INVALID durevoli e arresto reale dopo commit, ripresa in nuovo processo con 118 invii; Y04 controlla errore I/O journal.",
+      "proof_link": "[test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:426)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 52,
+    "original": "test_52_gate_rejects_frozen_generation_changed_after_probe",
+    "original_line": 481,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R08_frozen_budget_tamper_first_gate_zero_additional_calls",
+    "proof_link": "[test_R08_frozen_budget_tamper_first_gate_zero_additional_calls](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:434)",
+    "rationale": "Freeze deriva da sonda e ledger reali con stub; max_tokens alterato prima del primo gate: zero invii aggiuntivi. X18 altera soltanto serializzazione; rifiuto byte esatti.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Freeze deriva da sonda e ledger reali con stub; max_tokens alterato prima del primo gate: zero invii aggiuntivi. X18 altera soltanto serializzazione; rifiuto byte esatti.",
+      "proof_link": "[test_R08_frozen_budget_tamper_first_gate_zero_additional_calls](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:434)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Freeze deriva da sonda e ledger reali con stub; max_tokens alterato prima del primo gate: zero invii aggiuntivi. X18 altera soltanto serializzazione; rifiuto byte esatti.",
+      "proof_link": "[test_R08_frozen_budget_tamper_first_gate_zero_additional_calls](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:434)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Freeze deriva da sonda e ledger reali con stub; max_tokens alterato prima del primo gate: zero invii aggiuntivi. X18 altera soltanto serializzazione; rifiuto byte esatti.",
+      "proof_link": "[test_R08_frozen_budget_tamper_first_gate_zero_additional_calls](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:434)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Freeze deriva da sonda e ledger reali con stub; max_tokens alterato prima del primo gate: zero invii aggiuntivi. X18 altera soltanto serializzazione; rifiuto byte esatti.",
+      "proof_link": "[test_R08_frozen_budget_tamper_first_gate_zero_additional_calls](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:434)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 53,
+    "original": "test_53_gate_rejects_changed_returned_model",
+    "original_line": 491,
+    "old_failed": true,
+    "unadapted_failed": true,
+    "mode": "adattato / accorpato esplicito",
+    "proof_method": "test_R09_consumer_identity_change_during_gate_suspends",
+    "proof_link": "[test_R09_consumer_identity_change_during_gate_suspends](/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:440)",
+    "rationale": "Modello errato in una risposta gate: sospensione con raw, quota e identità. X22 prova medesimo controllo nella sonda.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Modello errato in una risposta gate: sospensione con raw, quota e identità. X22 prova medesimo controllo nella sonda.",
+      "proof_link": "[test_R09_consumer_identity_change_during_gate_suspends](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:440)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/targeted.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Modello errato in una risposta gate: sospensione con raw, quota e identità. X22 prova medesimo controllo nella sonda.",
+      "proof_link": "[test_R09_consumer_identity_change_during_gate_suspends](/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:440)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Modello errato in una risposta gate: sospensione con raw, quota e identità. X22 prova medesimo controllo nella sonda.",
+      "proof_link": "[test_R09_consumer_identity_change_during_gate_suspends](/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:440)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/targeted.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Modello errato in una risposta gate: sospensione con raw, quota e identità. X22 prova medesimo controllo nella sonda.",
+      "proof_link": "[test_R09_consumer_identity_change_during_gate_suspends](/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate/studio2/fase03/harness/test_revisions.py:440)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/targeted.log"
+    }
+  },
+  {
+    "number": 60,
+    "original": "test_60_sampling_and_canary_forensic_separation",
+    "original_line": 499,
+    "old_failed": false,
+    "unadapted_failed": false,
+    "mode": "invariato",
+    "proof_method": null,
+    "proof_link": "[N60 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:499)",
+    "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N60 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:499)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N60 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:499)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N60 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:499)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N60 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:499)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 61,
+    "original": "test_61_recovered_logger_persists_and_detects_tamper",
+    "original_line": 514,
+    "old_failed": false,
+    "unadapted_failed": false,
+    "mode": "invariato",
+    "proof_method": null,
+    "proof_link": "[N61 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:514)",
+    "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N61 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:514)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N61 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:514)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N61 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:514)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N61 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:514)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  },
+  {
+    "number": 62,
+    "original": "test_62_tokenizer_byte_guards",
+    "original_line": 522,
+    "old_failed": false,
+    "unadapted_failed": false,
+    "mode": "invariato",
+    "proof_method": null,
+    "proof_link": "[N62 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:522)",
+    "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+    "historical_evaluation_0c8157f": {
+      "result": "requisito originario riscontrato; vedere limiti R04/R07",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N62 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:522)"
+    },
+    "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/applicable/applicable.log",
+    "result": "PASS della prova nominata, nel suo perimetro offline",
+    "historical_evaluation_9e18bcb": {
+      "result": "PASS della prova indicata sul candidato 9e18bcb; perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N62 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:522)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_edb37f3": {
+      "result": "PASS della prova indicata, entro il suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N62 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:522)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/evidence/applicable/applicable.log"
+    },
+    "historical_evaluation_a219bd4": {
+      "result": "PASS della prova indicata, nel suo perimetro offline",
+      "rationale": "Metodo originale invariato eseguito dal wrapper; prerequisiti e assertion originali conservati. Il risultato non qualifica dati reali o servizi.",
+      "proof_link": "[N62 originale](/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/applicable/evidence/negative_probes.py:522)",
+      "current_pass_log": "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/evidence/applicable/applicable.log"
+    }
+  }
+]

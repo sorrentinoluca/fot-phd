@@ -1,0 +1,14 @@
+test_D03_content_digests_and_independent_link_reject_valid_looking_changes (__main__.ProofContract.test_D03_content_digests_and_independent_link_reject_valid_looking_changes) ... ok
+test_D03_generated_reconciliation_envelope_matrix (__main__.ProofContract.test_D03_generated_reconciliation_envelope_matrix) ... ok
+test_D03_generated_sql_field_matrix_and_forensic_positive_controls (__main__.ProofContract.test_D03_generated_sql_field_matrix_and_forensic_positive_controls) ... ok
+test_D03_generated_symmetric_content_matrix (__main__.ProofContract.test_D03_generated_symmetric_content_matrix) ... ok
+test_D03_inventory_covers_schema_and_new_fields_default_to_uncovered (__main__.ProofContract.test_D03_inventory_covers_schema_and_new_fields_default_to_uncovered) ... ok
+test_D03_missing_digest_is_fail_closed_without_backfill_even_before_retry (__main__.ProofContract.test_D03_missing_digest_is_fail_closed_without_backfill_even_before_retry) ... ok
+test_D03_real_legacy_proofs_rejected_without_rewriting_history (__main__.ProofContract.test_D03_real_legacy_proofs_rejected_without_rewriting_history) ... ok
+test_D03_real_runner_and_CLI_refuse_before_stub_and_preserve_outputs (__main__.ProofContract.test_D03_real_runner_and_CLI_refuse_before_stub_and_preserve_outputs) ... ok
+test_D03_three_paths_invoke_the_same_content_control_set (__main__.ProofContract.test_D03_three_paths_invoke_the_same_content_control_set) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 98.066s
+
+OK

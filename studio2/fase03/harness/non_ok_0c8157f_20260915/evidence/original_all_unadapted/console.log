@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "<string>", line 5, in <module>
+    l.reserve_request(request_id='crash',logical_id='crash',model='m',producer='p',stage='producer_conformity',stage_run='run1')
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 279, in reserve_request
+    self._insert_intent(c, quota_kind='base', retry_of=None, **value)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 238, in _insert_intent
+    binding = self._binding(c, stage)
+  File "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/original_all_unadapted/candidate/studio2/fase03/harness/ledger.py", line 127, in _binding
+    raise HarnessError(f"stage {stage} requires an immutable request plan")
+studio2.fase03.harness.common.HarnessError: stage producer_conformity requires an immutable request plan
+{
+  "tests": 50,
+  "failures": 2,
+  "errors": 32,
+  "failed_method_count": 34,
+  "passed_method_count": 16
+}

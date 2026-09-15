@@ -1,0 +1,22 @@
+{
+  "status": "ACQUIRED_NON_OK_NO_RUNTIME_CHANGE",
+  "rejected_candidate": "6a8031b25aa1208047d79cc7f030bf9cf7841e67",
+  "rejected_tree": "bb3872d8fc1cbddebb4b055a8edad372e5aad430",
+  "review_thread": "01a0a579-3fd7-7461-8c26-5449bd3d2b7a",
+  "acquiring_thread": "01a0a1c2-a5fd-7621-a360-ce326c026188",
+  "source_directory": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-review",
+  "acquired_directory": "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/d9_corrections/non_ok_6a8031b",
+  "original_manifest_members_verified": 591,
+  "source_review_date": "2026-09-15",
+  "original_manifest_sha256": "269bfc69e1d1028b4466768d801d21bbf6e31b96266434ce53f16f9e03d0b435",
+  "original_report_sha256": "9e1de541cdebef75eac560aa9eb6261db3da5e3f04484e9fee006dd748e65b45",
+  "large_archive": {
+    "path": "candidate_6a8031b.tar.gz",
+    "bytes": 244633206,
+    "sha256": "04b5da4a382e8a79f4337eac91819cb8990b8781e099022224aa326c8ed2b787"
+  },
+  "large_archive_storage": "byte-identical local acquired copy at acquired_directory; original also retained; excluded from Git due to size, not published; candidate independently recoverable from exact Git commit",
+  "integrity_scope": "all local source and destination bytes verified against supplied manifest; not cryptographic authentication of reviewer identity",
+  "remote_main": "a00605862f627710347bd63c49f79a6d0a00135f",
+  "base_before_acquisition": "08670fb4793ecec99754a73c6a91a51c1c372960"
+}

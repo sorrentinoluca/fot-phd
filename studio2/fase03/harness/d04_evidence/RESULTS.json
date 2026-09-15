@@ -1,0 +1,105 @@
+{
+  "targeted": {
+    "tests": 128,
+    "failures": 0,
+    "errors": 0
+  },
+  "discovery": {
+    "tests": 163,
+    "failures": 0,
+    "errors": 0
+  },
+  "new_D04": {
+    "tests": 8,
+    "failures": 0,
+    "errors": 0
+  },
+  "red_D04": {
+    "tests": 8,
+    "failures": 240,
+    "errors": 0
+  },
+  "before_V": {
+    "tests": 6,
+    "failures": 2,
+    "errors": 0
+  },
+  "after_V": {
+    "tests": 6,
+    "failures": 0,
+    "errors": 0
+  },
+  "W": {
+    "tests": 4,
+    "failures": 0,
+    "errors": 0
+  },
+  "Y": {
+    "tests": 7,
+    "failures": 0,
+    "errors": 0
+  },
+  "Z": {
+    "tests": 5,
+    "failures": 0,
+    "errors": 0
+  },
+  "X01_X18": {
+    "tests": 18,
+    "failures": 0,
+    "errors": 0
+  },
+  "X19_X24_literal": {
+    "tests": 6,
+    "failures": 1,
+    "errors": 0
+  },
+  "X23_previous_adaptation": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0
+  },
+  "applicable": {
+    "tests": 14,
+    "failures": 0,
+    "errors": 0
+  },
+  "documentation": {
+    "status": "NON PASS",
+    "tests": 35,
+    "failures": 14,
+    "skipped": 1,
+    "errors": 0,
+    "identical_failure_ids": true,
+    "failure_ids": [
+      "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1\u2013C4: 4/4 PASS')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')"
+    ]
+  },
+  "compile": {
+    "live_files": 94,
+    "syntax_errors": 0,
+    "exclusions": "forensic acquisitions and evidence folders"
+  },
+  "D01_methods": 7,
+  "D02_methods": 8,
+  "D03_methods": 9,
+  "original_historical_tests_modified": false,
+  "legacy_zero_token_policy": "no content digest/link => fail-closed; no backfill; reviewed reconciliation separately required",
+  "independent_review": "pending; no autonomous closure of NON OK",
+  "scientific_execution": false,
+  "copied_files": 98,
+  "external_files": 3752
+}

@@ -1,0 +1,20 @@
+test_X19_alternate_base_quota_cannot_fund_transport (__main__.Edges.test_X19_alternate_base_quota_cannot_fund_transport) ... ok
+test_X20_first_remediation_binding_rejects_changed_cases_and_contract (__main__.Edges.test_X20_first_remediation_binding_rejects_changed_cases_and_contract) ... ok
+test_X21_cli_reconciliation_and_real_restart_use_same_intent (__main__.Edges.test_X21_cli_reconciliation_and_real_restart_use_same_intent) ... ok
+test_X22_identity_mismatch_in_budget_blocks_whole_pilot (__main__.Edges.test_X22_identity_mismatch_in_budget_blocks_whole_pilot) ... ok
+test_X23_failed_gate_resume_and_zero_token_do_not_erase_failure (__main__.Edges.test_X23_failed_gate_resume_and_zero_token_do_not_erase_failure) ... FAIL
+test_X24_primary_structure_envelope_defect_is_remediable (__main__.Edges.test_X24_primary_structure_envelope_defect_is_remediable) ... ok
+
+======================================================================
+FAIL: test_X23_failed_gate_resume_and_zero_token_do_not_erase_failure (__main__.Edges.test_X23_failed_gate_resume_and_zero_token_do_not_erase_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-0310-d03-checks/literal/evidence/additional_edges.py", line 57, in test_X23_failed_gate_resume_and_zero_token_do_not_erase_failure
+    with patch.object(m.rp,'Provider',Fail),self.assertRaises(m.HarnessError):m.rp.run_stability_stage(t.prepared,t.results,ledger=t.ledger)
+                                            ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+----------------------------------------------------------------------
+Ran 6 tests in 45.717s
+
+FAILED (failures=1)

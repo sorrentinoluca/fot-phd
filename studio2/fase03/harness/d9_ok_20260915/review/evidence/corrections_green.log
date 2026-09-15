@@ -1,0 +1,222 @@
+test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) ... /opt/anaconda3/lib/python3.13/sqlite3/dump.py:85: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1025054e0>
+  "','".join(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/sqlite3/dump.py:85: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1025056c0>
+  "','".join(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/sqlite3/dump.py:85: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1025058a0>
+  "','".join(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/sqlite3/dump.py:85: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102505a80>
+  "','".join(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/sqlite3/dump.py:85: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102505c60>
+  "','".join(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/sqlite3/dump.py:85: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102505e40>
+  "','".join(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_02_valid_metadata_and_resume_preserve_outputs (__main__.D9Corrections.test_02_valid_metadata_and_resume_preserve_outputs) ... /opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x101e94a90>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10237e7a0>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102505e40>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10237eb60>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:799: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102505d50>
+  def __setattr__(self, name, value):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+<frozen importlib._bootstrap_external>:785: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102506110>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10237eb60>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_03_distinct_snapshots_positive_direct_reserve (__main__.D9Corrections.test_03_distinct_snapshots_positive_direct_reserve) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1042d46d0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) ... ok
+test_05_success_then_new_fault_same_instance (__main__.D9Corrections.test_05_success_then_new_fault_same_instance) ... /opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1041da890>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10326ba60>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10326b6a0>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103268f40>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10326be20>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1032695d0>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10326a890>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10326a980>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103269d50>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10326a3e0>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103269a80>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103269b70>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103268c70>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10326b3d0>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10326bc40>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339d030>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339f2e0>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339e020>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339e3e0>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339de40>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339f6a0>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339da80>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339ee30>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339ce50>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339f5b0>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339d8a0>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339fc40>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339dc60>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339ef20>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339cd60>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339f880>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339d300>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339f3d0>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339fb50>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339e110>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339d120>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10339c6d0>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103d647c0>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103d67a60>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:463: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103d67c40>
+  def __init__(
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_06_rebind_and_binding_reuse_require_current_files (__main__.D9Corrections.test_06_rebind_and_binding_reuse_require_current_files) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1024acb80>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1048dc5e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_07_execute_request_no_transport_or_journal_after_loss (__main__.D9Corrections.test_07_execute_request_no_transport_or_journal_after_loss) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1048df3d0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1041db2e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1041db1f0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1041d9b70>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_08_closed_producer_reuse_requires_recoverable_tokenizer (__main__.D9Corrections.test_08_closed_producer_reuse_requires_recoverable_tokenizer) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103f7a200>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103d663e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_09_missing_service_snapshot_binding_fails_closed (__main__.D9Corrections.test_09_missing_service_snapshot_binding_fails_closed) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1054a6980>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1054a5e40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1054a6f20>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1054a7010>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_10_alternate_producer_reuse_checks_its_chat_snapshot (__main__.D9Corrections.test_10_alternate_producer_reuse_checks_its_chat_snapshot) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102da4b80>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_11_missing_template_file_keeps_valid_inline_fallback (__main__.D9Corrections.test_11_missing_template_file_keeps_valid_inline_fallback) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105c5a4d0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105c58f40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 12.257s
+
+OK

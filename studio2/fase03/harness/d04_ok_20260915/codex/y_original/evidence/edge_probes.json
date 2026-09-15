@@ -1,0 +1,310 @@
+{
+  "tests": 7,
+  "failures": [],
+  "errors": [],
+  "observations": {
+    "test_Y01_legacy_closed_unsafe_gate_is_rejected_by_real_resume": {
+      "error": "alternate_conformity has no successful closed outcome",
+      "result": null,
+      "new_sends": 0,
+      "alternate": {
+        "request_id": "b9a6169588e94f02277e9f6c7b75c71dc4a3653465c1af67a86de469e5a0ef99",
+        "logical_id": "agent_1",
+        "stage": "alternate_conformity",
+        "stage_run": "381aee4cc2b21ea225e5b22e4f9de78a9c368da151d8ad680ce539bcb0ac15b3",
+        "model": "fixture-model",
+        "producer": "fixture",
+        "quota_kind": "base",
+        "retry_of": null,
+        "identity_json": "{\"case_sha256\":\"ca14433577ff35854f98a56ee283a8cb516f717ea7a422bc15a02d6b9cb292bd\",\"condition\":\"producer\",\"contract_sha256\":\"71f61a89283d653dc4d54235b35c0843485949b1957f6b33edad9c8e8d88e0b2\",\"group\":\"agent_1\",\"logical_id\":\"agent_1\",\"model\":\"fixture-model\",\"producer\":\"fixture\",\"prompt_sha256\":\"ffebfd052f4a12a1ab04442c3fbbe9a04669c9db803c91460ad24faeb770aba7\",\"repetition\":1}",
+        "status": "FAILED",
+        "intent_utc": "2026-09-15T12:34:36.552859+00:00",
+        "completed_utc": "2026-09-15T12:34:36.554594+00:00",
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "latency_ms": 0.00825000461190939,
+        "proof_sha256": null,
+        "detail_json": "{\"error_type\":\"TimeoutError\",\"message\":\"FIXTURE timeout\"}"
+      },
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/y_original/evidence/edge_fixtures/test_Y01_legacy_closed_unsafe_gate_is_rejected_by_real_resume/tmp8m6n7msf/pilot.sqlite3",
+        "requests_cumulative": 132,
+        "requests_by_stage": {
+          "alternate_conformity": 1,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 160,
+        "hard_stop": 200,
+        "durable_responses": 131,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate"
+        ]
+      }
+    },
+    "test_Y02_legacy_closed_unsafe_gate_verification_is_rejected": {
+      "checks": [
+        [
+          "verify_success",
+          "alternate_conformity has no successful closed outcome"
+        ],
+        [
+          "replay_outcome",
+          "alternate_conformity has no successful closed outcome"
+        ]
+      ],
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/y_original/evidence/edge_fixtures/test_Y02_legacy_closed_unsafe_gate_verification_is_rejected/pilot.sqlite3",
+        "requests_cumulative": 132,
+        "requests_by_stage": {
+          "alternate_conformity": 1,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 1,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 160,
+        "hard_stop": 200,
+        "durable_responses": 131,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate"
+        ]
+      }
+    },
+    "test_Y03_raw_identity_cannot_be_reclassified_as_absent": {
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/y_original/evidence/edge_fixtures/test_Y03_raw_identity_cannot_be_reclassified_as_absent/pilot.sqlite3",
+        "requests_cumulative": 12,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 1
+        },
+        "unresolved_intents": 1,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 12,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity"
+        ]
+      }
+    },
+    "test_Y04_journal_io_failure_after_invalidity_commit_recovers": {
+      "result": {
+        "artifact_version": "2",
+        "status": "R3_REQUIRED_PENDING_FEASIBILITY",
+        "go_final": false,
+        "provider_requests": 120,
+        "valid_first_attempts": 119,
+        "invalid_first_attempts": 1,
+        "t3_pass": true,
+        "abstention_coverage": {
+          "A": true,
+          "B-LF": true,
+          "E-LF": true
+        },
+        "length_truncations": 0,
+        "t4_pass": true,
+        "t6_evaluable": true,
+        "all_invalid_prompt_ids": [],
+        "divergent_prompt_ids": [
+          "S2-P03-001"
+        ],
+        "divergent_prompt_count": 1,
+        "t5_temporal_feasibility": "NOT_MEASURED_BY_OFFLINE_EVALUATION",
+        "records_sha256": "b12a6d2092975d3c3c12414dac4d7f05b51e753afe675b91a7432e9ad48ceb80",
+        "frozen_gate_config_sha256": "6f4592830ba1ca8c04b3063a90eea892d84c4fb8aa7085c09dde6149fb7054d3"
+      },
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpyeez21bt/pilot.sqlite3",
+        "requests_cumulative": 131,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 130,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate",
+          "transport_invalidity:1e778fd7b9f22ebe0e001ff80e65e289719a9e88919802de48166eea163bc9d0"
+        ]
+      }
+    },
+    "test_Y05_guard_failure_is_not_converted_to_gate_invalidity": {
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpp8hr36db/pilot.sqlite3",
+        "requests_cumulative": 12,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 1
+        },
+        "unresolved_intents": 1,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 11,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity"
+        ]
+      }
+    },
+    "test_Y06_gate_invalidity_same_identity_cannot_be_retried": {
+      "record": {
+        "agent_id": "agent_1",
+        "case_id": "case-0-transfer",
+        "completion_tokens": null,
+        "condition": "A",
+        "finish_reason": null,
+        "generation": {
+          "max_tokens": 2560
+        },
+        "identity_valid": null,
+        "latency_seconds": null,
+        "observed_utc": "2026-09-15T12:36:16.542091+00:00",
+        "parse_valid_first_attempt": false,
+        "parsed_output": null,
+        "prompt_id": "P-00",
+        "prompt_sha256": "46d5fa247d23ff5a201f6b6fd6d2fba4eb2b93713ffddb444af4c74ce22e9607",
+        "prompt_tokens": null,
+        "raw_output": null,
+        "raw_output_sha256": null,
+        "received_utc": null,
+        "reconciliation_sha256": null,
+        "record_kind": "transport_invalidity",
+        "repetition": 1,
+        "request_id": "stability_gate-0",
+        "request_identity_sha256": "fd382506f1960c746e92da3aff9485eb32e139e75536eda5fa1e02c299e775d5",
+        "response_id": null,
+        "response_received": false,
+        "retry_count": 0,
+        "returned_model": null,
+        "sample_role": "matched_transfer",
+        "system_fingerprint": null,
+        "total_tokens": null,
+        "transport_error": {
+          "error_type": "TimeoutError"
+        }
+      },
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-riverifica-harness-aae29a9-01a0a1ec/evidence/y_original/evidence/edge_fixtures/test_Y06_gate_invalidity_same_identity_cannot_be_retried/pilot.sqlite3",
+        "requests_cumulative": 12,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 1
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 11,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "reconciled:stability_gate-0",
+          "reconciled_integrity:stability_gate-0",
+          "transport_invalidity:stability_gate-0"
+        ]
+      }
+    },
+    "test_Y07_alternate_summary_restart_preserves_stage_not_pilot_denominator": {
+      "summary": {
+        "artifact_version": "4",
+        "status": "PASS",
+        "stage": "alternate_conformity",
+        "producer_identity_sha256": "b351643c9043c8c2d9db04feddad2277fbeb5442ece5b68cbeb163ff62a35897",
+        "provider_requests": 9,
+        "evaluable_calls": 8,
+        "valid_first_attempts": 8,
+        "records_sha256": "e767b2d4ea8859ebdc183347ea7670cfb11e9e44200c46b93666c75e86529468",
+        "binding_sha256": "381aee4cc2b21ea225e5b22e4f9de78a9c368da151d8ad680ce539bcb0ac15b3",
+        "r4_target_commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143"
+      },
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpe3iszpj0/pilot.sqlite3",
+        "requests_cumulative": 17,
+        "requests_by_stage": {
+          "alternate_conformity": 9,
+          "budget_probe": 0,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 1,
+        "reserve_equation_value": 1,
+        "reserve_limit": 15,
+        "planned_maximum": 160,
+        "hard_stop": 200,
+        "durable_responses": 16,
+        "events": [
+          "outcome:alternate_conformity",
+          "outcome:producer_conformity",
+          "reconciled:5aca1d922f6437765764556ef7c7d9cb9bd9335c6b8078e342c70abf05ecad08",
+          "reconciled_integrity:5aca1d922f6437765764556ef7c7d9cb9bd9335c6b8078e342c70abf05ecad08"
+        ]
+      }
+    }
+  }
+}

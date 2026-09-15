@@ -1,0 +1,92 @@
+{
+  "targeted": {
+    "tests": 156,
+    "seconds": 455.424,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "result": "OK",
+    "log": "targeted.log"
+  },
+  "discovery": {
+    "tests": 191,
+    "seconds": 455.275,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "result": "OK",
+    "log": "discovery.log"
+  },
+  "corrections_red_final_v2": {
+    "tests": 11,
+    "seconds": 13.734,
+    "failures": 32,
+    "errors": 0,
+    "skipped": 0,
+    "result": "FAILED (failures=32)",
+    "log": "corrections_red_final_v2.log"
+  },
+  "corrections_green_final": {
+    "tests": 11,
+    "seconds": 13.056,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "result": "OK",
+    "log": "corrections_green_final.log"
+  },
+  "reviewer_red": {
+    "tests": 8,
+    "seconds": 8.781,
+    "failures": 3,
+    "errors": 0,
+    "skipped": 0,
+    "result": "FAILED (failures=3)",
+    "log": "reviewer_red.log"
+  },
+  "reviewer_green": {
+    "tests": 8,
+    "seconds": 8.14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "result": "OK",
+    "log": "reviewer_green.log"
+  },
+  "transport_red": {
+    "tests": 3,
+    "seconds": 6.34,
+    "failures": 2,
+    "errors": 0,
+    "skipped": 0,
+    "result": "FAILED (failures=2)",
+    "log": "transport_red.log"
+  },
+  "transport_green": {
+    "tests": 3,
+    "seconds": 6.348,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "result": "OK",
+    "log": "transport_green.log"
+  },
+  "guardian_before": {
+    "tests": 35,
+    "seconds": 0.073,
+    "failures": 14,
+    "errors": 0,
+    "skipped": 1,
+    "result": "FAILED (failures=14, skipped=1)",
+    "log": "guardian_before.log"
+  },
+  "guardian_after": {
+    "tests": 35,
+    "seconds": 0.081,
+    "failures": 14,
+    "errors": 0,
+    "skipped": 1,
+    "result": "FAILED (failures=14, skipped=1)",
+    "log": "guardian_after.log"
+  }
+}

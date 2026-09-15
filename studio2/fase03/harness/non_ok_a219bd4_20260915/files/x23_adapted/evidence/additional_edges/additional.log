@@ -1,0 +1,6 @@
+test_X23_failed_gate_resume_and_zero_token_do_not_erase_failure (__main__.Edges.test_X23_failed_gate_resume_and_zero_token_do_not_erase_failure) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 81.397s
+
+OK

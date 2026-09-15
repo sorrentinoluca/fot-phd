@@ -1,0 +1,23 @@
+{
+  "baseline_provenance": {
+    "authorization": "U3 extension of U1/R2, author decision 2026-09-13",
+    "baseline_sha256": "79883dd0aabbd034c15337b0be1ffca37e59ea7b32443a15d560b7feda2b2e6a",
+    "r2_guard_required": true,
+    "r2_guard_sha256": "7df0cef2d7854c689b79eb911fa01d1ede1625e22f0d3636c0ea5d678c9f33f8",
+    "role": "normalization and frozen V2 verbalizer flags only",
+    "score_threshold_source": "new Normal runs from phase 03.5; not this baseline",
+    "verbalizer_config_sha256": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519"
+  },
+  "consumer_visible_json_text_leakage": "PASS",
+  "end_h": 65.0,
+  "evaluator_index_sha256": "b966cdd3d579efaf595fd48c4b9baa70747ba584522926520840a1e914dbf69c",
+  "evidence_manifest_sha256": "5111d0c61c2e93fe5071d7a85015673549af0bf9c1dc74e0d940719a8400e020",
+  "evidence_unit_count": 320,
+  "files_per_unit": 4,
+  "onset_h": 25.0,
+  "regeneration_rule": "All evidence is invalid and must be regenerated if the R2 guard fails or the study switches to baseline_fit_new.",
+  "run_count": 40,
+  "signature_dimension": 697,
+  "window_h": 5.0,
+  "windows_per_run": 8
+}

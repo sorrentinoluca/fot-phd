@@ -1,0 +1,52 @@
+{
+  "checked_utc": "2026-09-14T23:00:28.138928+00:00",
+  "remote": "https://github.com/sorrentinoluca/fot-phd.git",
+  "remote_main": "a00605862f627710347bd63c49f79a6d0a00135f",
+  "delivery_base": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69",
+  "acquisition_commit": "ec012911444de6baf1751ae4bf4aee8e9c24adbb",
+  "branch": "codex/studio2-harness-0310-correzioni",
+  "preserved_worktrees": [
+    {
+      "path": "/Users/luker/fot-tep",
+      "git_head_and_status_unchanged": true,
+      "snapshot": "## codex/studio2-soglie-normal\n?? \"Claude outputs/\"\n?? studio2/fase03/APERTURA_SOTTOFASI_FASE03.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14_rev02.md\n?? studio2/fase03/baseline_numerica/\n?? studio2/fase03/evidence/\n?? studio2/fase03/fedavg/\n?? studio2/fase03/harness/\n?? studio2/fase03/paper_sections/\n?? studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md\n?? studio2/fase03/perimetro_q8/sottofase_3_4_verifica_e_attuazione.md\n?? studio2/fase03/piano_statistico/\n?? studio2/fase03/pseudolabel/\n?? studio2/fase03/schema_insight/\n?? studio2/fase03/soglie_normal/analisi_3_5_prompt.md\n?? studio2/fase03/soglie_normal/runs/normal_001/\n?? studio2/fase03/soglie_normal/runtime/batch_launch/\n?? studio2/fase03/soglie_normal/sottofase_3_5.md\n?? studio2/fase03/soglie_normal/verifica_3_5_prompt.md\n819b12e97fb94d501032655ec2f226139e6c5ca5\n"
+    },
+    {
+      "path": "/Users/luker/fot-tep-harness-0310-offline",
+      "git_head_and_status_unchanged": true,
+      "snapshot": "## codex/studio2-harness-0310-offline\n288dc1926bfd7ab4ce43bb4377a9a0064313ad69\n"
+    },
+    {
+      "path": "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate",
+      "git_head_and_status_unchanged": true,
+      "snapshot": "## HEAD (no branch)\n59b6b93cd9c215e8b687e540f7cd579804b7c66a\n"
+    }
+  ],
+  "protected_paths_unchanged": [
+    "studio2/fase03/harness/metric_adapter.py",
+    "studio2/fase03/harness/metrics.py",
+    "studio2/fase03/harness/test_metric_raccordo.py",
+    "studio2/fase03/piano_statistico",
+    "studio2/fase03/baseline_numerica",
+    "studio2/fase03/schema_insight",
+    "studio2/fase03/pseudolabel",
+    "studio2/fase03/APERTURA_SOTTOFASI_FASE03.md",
+    "docs/fot_walkthrough_conversazione_studio2.md",
+    "docs/fot_walkthrough_conversazione_studio2.html",
+    "docs/paper",
+    "studio2/fase03/config/pilot_preflight.json"
+  ],
+  "verified_original_evidence_members": 2754,
+  "verified_acquired_members": 1471,
+  "verified_external_members": 1283,
+  "reproduced_original_counts": {
+    "methods": 50,
+    "failed_methods": 32,
+    "assertion_failures": 34,
+    "errors": 0
+  },
+  "provider_calls": 0,
+  "inferences": 0,
+  "scientific_simulations": 0,
+  "network_use": "git ls-remote only, no model service contact"
+}

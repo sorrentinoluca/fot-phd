@@ -1,0 +1,39 @@
+{
+  "runtime": {
+    "python": "/opt/anaconda3/bin/python3",
+    "version": "3.13.9",
+    "architecture": "arm64",
+    "sqlite": "3.51.0"
+  },
+  "commands": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest -v studio2.fase03.harness.test_harness_offline studio2.fase03.harness.test_metric_raccordo studio2.fase03.tests.test_execution_guard studio2.fase03.tests.test_protocol studio2.fase03.harness.test_revisions",
+      "exit_code": 0,
+      "tests": 82,
+      "log": "targeted.log"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 -m unittest discover -v studio2/fase03",
+      "exit_code": 0,
+      "tests": 117,
+      "log": "discovery.log"
+    },
+    {
+      "command": "PYTHONPYCACHEPREFIX=CHECKS/pycache /opt/anaconda3/bin/python3 -m compileall -q studio2/fase03",
+      "exit_code": 0
+    },
+    {
+      "command": "git diff --cached --check -- . ':!studio2/fase03/harness/correzioni_evidence/reproduced_non_ok.log'",
+      "exit_code": 0,
+      "scope": "Implementation and documentation; original acquisition and reproduced NON OK log keep byte-identical historical unittest whitespace"
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 /opt/anaconda3/bin/python3 docs/test_explanation.py",
+      "exit_code": 1,
+      "tests": 35,
+      "failures": 14,
+      "skips": 1,
+      "comparison": "DOCUMENTATION_COMPARISON.json"
+    }
+  ]
+}

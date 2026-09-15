@@ -1,0 +1,460 @@
+diff --git a/studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md b/studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md
+index cf1ba91..081bc43 100644
+--- a/studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md
++++ b/studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md
+@@ -1,8 +1,9 @@
+-# Contratto eseguibile R01–R10 — residuo D01 / C01 / R04
++# Contratto eseguibile R01–R10 — D02 / R04 / R08
+ 
+ 15 settembre 2026. Implementazione offline da sottoporre a nuova verifica indipendente.
+-Questo documento descrive il delta successivo al terzo NON OK (9e18bcb): non ne cambia il verdetto.
+-C02/C03 risultano chiusi nella review acquisita; D01 riguarda la riconferma di esiti storici C01 non conformi.
++Questo documento descrive il delta successivo al quarto NON OK (edb37f3): non ne cambia il verdetto.
++D01 originario e C02/C03 risultano chiusi nella review acquisita. D02 riguarda l’autenticazione
++delle prove durevoli e della copertura dei predecessori che conservano PASS/COMPLETED.
+ La formulazione precedente su N48 era errata: il piano rev.10 §§11–11.1 richiede le invalidità di trasporto in T3/T6.
+ La specifica e i report del candidato 59b6b93 restano storia, incluse le formulazioni D9
+ superate. La decisione D9 del record aaba893 è già acquisita (122B producer principale
+@@ -106,6 +107,34 @@ raw e invalidità C02. Nessuna migrazione di schema o riscrittura automatica deg
+ Le prove generano ledger storici con il codice esatto 0c8157f in processi separati;
+ nessun SQL alterato viene usato per costruire il difetto di precedenza.
+ 
++## Prove durevoli dei predecessori — D02
++
++`_successful` non si limita ai flag: applica `_closed_outcome` a ciascun predecessore.
++`_validate_outcome` è il validatore unico per nuova chiusura e riconferma: rilegge il
++binding, la copertura delle basi nell’ordine previsto, tutti i tentativi e le catene di
++retry, gli hash raw/record, l’identità dei record e i criteri di PASS dello stadio.
++L’artefatto di chiusura deve coincidere con la propria impronta e con il digest dei record
++attuali; anche `records_sha256` nell’evento deve corrispondere. Per la sonda si autenticano
++i byte del freeze persistito e la prima tripletta riuscita. Rimane legittimo fermarsi al
++primo gruppo riuscito di un piano a 3/6/9 richieste; eliminare un gruppo dopo la chiusura
++non può essere legittimato da un conteggio ancora ammesso.
++
++Il retry conserva identità, collegamento all’originale e prova zero-token registrata;
++nessun tentativo orfano può sparire dalla verifica delle foglie. La riconferma di un
++binding già chiuso verifica anche il proprio esito, oltre ai predecessori. FAIL/BLOCKED
++possono essere riletti con gli stessi requisiti della loro chiusura, senza promozione a
++PASS. Le 120 invalidità C02 rimangono record di tentativi, mai risposte inventate.
++
++Tutti questi controlli usano la connessione e il `BEGIN IMMEDIATE` dell’ingresso;
++nessuna connessione separata e nessuna cache valida fra transazioni. Il lock comprende
++anche la lettura effettiva dei raw dei predecessori. Le letture forensi e la storia
++rimangono disponibili; non vengono riparati dati, riscritti hash o azzerati contatori.
++
++Le regressioni D02 iniettano guasti SQL espliciti in copie sacrificabili dopo una catena
++valida: raw/record alterati, dati assenti, artefatti incoerenti, copertura ridotta e prova
++di retry perduta. Non sono la costruzione di D01 né input scientifici. Non si rivendica
++resistenza contro chi riscrive coerentemente l’intero database e tutte le impronte.
++
+ ## Persistenza e punti di crash
+ 
+ SQLite con synchronous=FULL conserva l'intento prima del trasporto. Al ritorno dal trasporto,
+diff --git a/studio2/fase03/harness/ledger.py b/studio2/fase03/harness/ledger.py
+index a16d070..5b2d8f4 100644
+--- a/studio2/fase03/harness/ledger.py
++++ b/studio2/fase03/harness/ledger.py
+@@ -162,6 +162,8 @@ class PilotLedger:
+                 if old[0] != digest(binding):
+                     raise HarnessError("stage inputs changed across alias, directory or restart")
+                 self._prerequisites(c, stage)
++                if 'outcome:' + stage in self._events(c):
++                    self._closed_outcome(c, stage)
+                 return
+             self._ready(c, stage)
+             if stage == 'producer_remediation':
+@@ -196,26 +198,40 @@ class PilotLedger:
+             leaves.append(row)
+         return leaves
+ 
++    def _frozen(self, c):
++        event = self._events(c).get('frozen_gate')
++        frozen = None if event is None else json.loads(event['detail_json']).get('frozen')
++        if not isinstance(frozen, dict) or digest(frozen) != event['artifact_sha256']:
++            raise HarnessError('persisted probe freeze is missing or corrupted')
++        return frozen
++
++    def _closed_outcome(self, c, stage):
++        """Authenticate stored closure with the same validator used to create it.
++
++        The caller validates prerequisites in this transaction. Raw event()/snapshot()
++        remain forensic reads; a stored PASS is never sufficient for confirmation.
++        """
++        event = self._events(c).get('outcome:' + stage)
++        if event is None:
++            raise HarnessError(f'{stage} has no closed outcome')
++        detail = json.loads(event['detail_json'])
++        outcome = detail.get('outcome')
++        if outcome not in {'PASS', 'FAIL', 'BLOCKED'}:
++            raise HarnessError('persisted stage outcome is invalid')
++        frozen = self._frozen(c) if stage == 'budget_probe' and outcome == 'PASS' else None
++        records = self._validate_outcome(c, stage, outcome=outcome,
++            artifact_sha256=event['artifact_sha256'], artifact=detail.get('artifact'),
++            diagnosis=detail.get('diagnosis'), frozen=frozen)
++        if detail.get('records_sha256') != digest(records):
++            raise HarnessError('persisted outcome records digest mismatch')
++        return detail
++
+     def _successful(self, c, stage):
+         self._prerequisites(c, stage)
+         event = self._events(c).get('outcome:' + stage)
+-        if event is None or json.loads(event['detail_json'])['outcome'] != 'PASS':
++        if event is None or json.loads(event['detail_json']).get('outcome') != 'PASS':
+             raise HarnessError(f"{stage} has no successful closed outcome")
+-        rows = [r for r in self._rows(c) if r['stage'] == stage]
+-        leaves = self._chain_leaves(rows)
+-        if stage == 'stability_gate':
+-            from .gate_rules import evaluate_stability_gate
+-            if len(leaves) != 120 or any(r['status'] != 'COMPLETED' and self._gate_transport_record(c, r) is None for r in leaves):
+-                raise HarnessError('closed gate has unaccounted attempts')
+-            records = [self._evaluated_record(c, r) for r in leaves]
+-            if any(r is None for r in records):
+-                raise HarnessError('closed gate has missing records')
+-            frozen = json.loads(self._events(c)['frozen_gate']['detail_json'])['frozen']
+-            gate = evaluate_stability_gate(records, expected_prompts=frozen['prompt_sample'])
+-            if not all(gate[k] for k in ('t3_pass', 't4_pass', 't6_evaluable')):
+-                raise HarnessError('closed gate contradicts its technical outcome')
+-        elif not rows or any(r['status'] != 'COMPLETED' for r in leaves):
+-            raise HarnessError("closed stage contains unresolved or failed requests")
++        self._closed_outcome(c, stage)
+ 
+     def verify_stage_success(self, stage):
+         with self._transaction() as c:
+@@ -461,7 +477,11 @@ class PilotLedger:
+                 raise HarnessError('a received response cannot be relabeled as transport invalidity')
+             if sha256_text(raw['record_json']) != raw['record_sha256'] or sha256_text(raw['raw_json']) != raw['raw_sha256']:
+                 raise HarnessError('raw/record corruption')
+-            return json.loads(raw['record_json'])
++            record = json.loads(raw['record_json'])
++            identity = json.loads(row['identity_json'])
++            if record.get('request_id') != row['request_id'] or record.get('prompt_sha256') != identity['prompt_sha256']:
++                raise HarnessError('persisted record identity mismatch')
++            return record
+         return self._gate_transport_record(c, row)
+ 
+     def reconcile_zero_token(self, request_id, *, evidence_path: Path, approval_path: Path):
+@@ -486,6 +506,89 @@ class PilotLedger:
+             rows = self._chain_leaves([r for r in self._rows(c) if r['stage'] == stage])
+             return [record for row in rows if (record := self._evaluated_record(c, row)) is not None]
+ 
++    def _validate_attempts(self, c, binding, rows):
++        """Check every attempt against its plan, including non-leaf retry ancestors."""
++        specs = {s['logical_id']: s for s in binding['requests']}
++        by_id = {r['request_id']: r for r in rows}
++        children = {r['retry_of']: r for r in rows if r['retry_of']}
++        events = self._events(c)
++        for row in rows:
++            spec = specs.get(row['logical_id'])
++            if (spec is None or row['identity_json'] != canonical_json(spec)
++                    or row['stage_run'] != digest(binding)
++                    or (row['model'], row['producer']) != (spec['model'], spec['producer'])):
++                raise HarnessError('persisted request differs from immutable plan')
++            if row['retry_of']:
++                parent = by_id.get(row['retry_of'])
++                if (parent is None or parent['status'] != 'ZERO_TOKEN_PROVEN'
++                        or parent['identity_json'] != row['identity_json']
++                        or row['quota_kind'] != 'transport'):
++                    raise HarnessError('orphan or inconsistent retry attempt')
++            if row['request_id'] in children:
++                event = events.get('reconciled:' + row['request_id'])
++                detail = {} if event is None else json.loads(event['detail_json'])
++                evidence, approval = detail.get('evidence', {}), detail.get('approval', {})
++                if (event is None or row['proof_sha256'] != event['artifact_sha256']
++                        or evidence.get('request_id') != row['request_id']
++                        or evidence.get('request_identity_sha256') != sha256_text(row['identity_json'])
++                        or evidence.get('disposition') != 'not_generated'
++                        or approval.get('decision') != 'accepted'
++                        or approval.get('evidence_sha256') != event['artifact_sha256']
++                        or c.execute('SELECT 1 FROM responses WHERE request_id=?', (row['request_id'],)).fetchone()):
++                    raise HarnessError('retry ancestor lacks its durable zero-token evidence')
++        # _chain_leaves checks cycles reachable from bases; account for disconnected cycles too.
++        reached = set()
++        for row in (r for r in rows if not r['retry_of']):
++            while row['request_id'] not in reached:
++                reached.add(row['request_id'])
++                row = children.get(row['request_id'])
++                if row is None:
++                    break
++        if reached != set(by_id):
++            raise HarnessError('retry attempts are disconnected from base coverage')
++
++    def _validate_outcome(self, c, stage, *, outcome, artifact_sha256, artifact, diagnosis, frozen):
++        """Shared closure/reconfirmation validation, without writes or nested connections."""
++        binding = self._binding(c, stage)
++        rows = [r for r in self._rows(c) if r['stage'] == stage]
++        bases = [r for r in rows if not r['retry_of']]
++        n = len(bases)
++        if (stage == 'budget_probe' and n not in {3,6,9}) or (stage != 'budget_probe' and n != BASE_LIMITS[stage]):
++            raise HarnessError("stage outcome requires complete distinct base coverage")
++        if [r['logical_id'] for r in bases] != [s['logical_id'] for s in binding['requests'][:n]]:
++            raise HarnessError("stage does not match frozen request order/coverage")
++        self._validate_attempts(c, binding, rows)
++        leaves = self._chain_leaves(rows)
++        if any(r['status'] == 'INTENT' for r in leaves):
++            raise HarnessError("stage cannot hide unresolved intents")
++        records = [record for row in leaves if (record := self._evaluated_record(c, row)) is not None]
++        if stage == 'stability_gate':
++            if len(records) != n or any(r['status'] != 'COMPLETED' and self._gate_transport_record(c, r) is None for r in leaves):
++                raise HarnessError('gate requires a response or durable transport invalidity for every attempt')
++        if outcome == 'PASS':
++            if len(records) != n or (stage != 'stability_gate' and (
++                    any(r['status'] != 'COMPLETED' for r in leaves)
++                    or any(r.get('identity_valid') is not True for r in records))):
++                raise HarnessError("PASS requires resolved authenticated responses")
++            if stage in {'producer_conformity','producer_remediation','alternate_conformity'} and not all(r.get('schema_valid_first_attempt') is True for r in records):
++                raise HarnessError("producer PASS requires all R4-valid pairs")
++            if stage == 'stability_gate':
++                from .gate_rules import evaluate_stability_gate
++                frozen_event = self._frozen(c)
++                gate = evaluate_stability_gate(records, expected_prompts=frozen_event['prompt_sample'])
++                if not all(gate[k] for k in ('t3_pass','t4_pass','t6_evaluable')):
++                    raise HarnessError('gate outcome contradicts durable records')
++            if stage == 'budget_probe':
++                if any(all(r.get('parse_valid_first_attempt') is True and r.get('finish_reason') == 'stop' for r in records[i:i+3]) for i in range(0,len(records)-3,3)):
++                    raise HarnessError('probe must select the first successful budget triplet')
++                if frozen is None or frozen.get('generation') != records[-1].get('generation') or not all(r.get('generation') == frozen['generation'] and r.get('parse_valid_first_attempt') is True and r.get('finish_reason') == 'stop' for r in records[-3:]):
++                    raise HarnessError("probe PASS must authenticate selected budget and complete successful triplet")
++        if not isinstance(artifact, dict) or digest(artifact) != artifact_sha256 or artifact.get('records_sha256') != digest(records):
++            raise HarnessError("outcome artifact must bind durable stage records")
++        if diagnosis is not None and diagnosis not in DIAGNOSES:
++            raise HarnessError("inadmissible producer remediation diagnosis")
++        return records
++
+     def record_stage_outcome(self, stage, *, outcome, artifact_sha256, artifact=None, diagnosis=None, frozen=None):
+         if stage not in STAGES or outcome not in {'PASS','FAIL','BLOCKED'}:
+             raise HarnessError("unsupported stage outcome")
+@@ -497,43 +600,10 @@ class PilotLedger:
+                 self._prerequisites(c, stage)
+             else:
+                 self._ready(c, stage)
+-            binding = self._binding(c, stage)
+-            rows = [r for r in self._rows(c) if r['stage'] == stage]
+-            bases = [r for r in rows if not r['retry_of']]
+-            n = len(bases)
+-            if (stage == 'budget_probe' and n not in {3,6,9}) or (stage != 'budget_probe' and n != BASE_LIMITS[stage]):
+-                raise HarnessError("stage outcome requires complete distinct base coverage")
+-            if [r['logical_id'] for r in bases] != [s['logical_id'] for s in binding['requests'][:n]]:
+-                raise HarnessError("stage does not match frozen request order/coverage")
+-            leaves = self._chain_leaves(rows)
+-            if any(r['status'] == 'INTENT' for r in leaves):
+-                raise HarnessError("stage cannot hide unresolved intents")
+-            records = [record for row in leaves if (record := self._evaluated_record(c, row)) is not None]
+-            if stage == 'stability_gate':
+-                if len(records) != n or any(r['status'] != 'COMPLETED' and self._gate_transport_record(c, r) is None for r in leaves):
+-                    raise HarnessError('gate requires a response or durable transport invalidity for every attempt')
+-            if outcome == 'PASS':
+-                if len(records) != n or (stage != 'stability_gate' and (
+-                        any(r['status'] != 'COMPLETED' for r in leaves)
+-                        or any(r.get('identity_valid') is not True for r in records))):
+-                    raise HarnessError("PASS requires resolved authenticated responses")
+-                if stage in {'producer_conformity','producer_remediation','alternate_conformity'} and not all(r.get('schema_valid_first_attempt') is True for r in records):
+-                    raise HarnessError("producer PASS requires all R4-valid pairs")
+-                if stage == 'stability_gate':
+-                    from .gate_rules import evaluate_stability_gate
+-                    frozen_event = json.loads(self._events(c)['frozen_gate']['detail_json'])['frozen']
+-                    gate = evaluate_stability_gate(records, expected_prompts=frozen_event['prompt_sample'])
+-                    if not all(gate[k] for k in ('t3_pass','t4_pass','t6_evaluable')):
+-                        raise HarnessError('gate outcome contradicts durable records')
+-                if stage == 'budget_probe':
+-                    if any(all(r.get('parse_valid_first_attempt') is True and r.get('finish_reason') == 'stop' for r in records[i:i+3]) for i in range(0,len(records)-3,3)):
+-                        raise HarnessError('probe must select the first successful budget triplet')
+-                    if frozen is None or frozen.get('generation') != records[-1].get('generation') or not all(r.get('generation') == frozen['generation'] and r.get('parse_valid_first_attempt') is True and r.get('finish_reason') == 'stop' for r in records[-3:]):
+-                        raise HarnessError("probe PASS must authenticate selected budget and complete successful triplet")
+-            if artifact is None or digest(artifact) != artifact_sha256 or artifact.get('records_sha256') != digest(records):
+-                raise HarnessError("outcome artifact must bind durable stage records")
+-            if diagnosis is not None and diagnosis not in DIAGNOSES:
+-                raise HarnessError("inadmissible producer remediation diagnosis")
++            if replay:
++                self._closed_outcome(c, stage)
++            records = self._validate_outcome(c, stage, outcome=outcome,
++                artifact_sha256=artifact_sha256, artifact=artifact, diagnosis=diagnosis, frozen=frozen)
+             if replay:
+                 # Revalidate predecessors, coverage and durable records before rematerializing.
+                 # A replay must not insert events or reopen requests.
+diff --git a/studio2/fase03/harness/test_d02_predecessors.py b/studio2/fase03/harness/test_d02_predecessors.py
+new file mode 100644
+index 0000000..66cd9f9
+--- /dev/null
++++ b/studio2/fase03/harness/test_d02_predecessors.py
+@@ -0,0 +1,181 @@
++"""D02: deliberate database faults in sacrificial offline fixtures, never scientific inputs."""
++from contextlib import closing
++import json
++from pathlib import Path
++import sqlite3
++import subprocess
++import sys
++import tempfile
++import unittest
++from unittest.mock import patch
++
++from studio2.fase03.harness.common import HarnessError, canonical_json, sha256_text
++from studio2.fase03.harness.ledger import PilotLedger, digest
++from studio2.fase03.harness.offline_fixtures import Trial
++from studio2.fase03.harness.test_d01_replay import logical_database
++from studio2.fase03.harness import test_revisions as fixtures
++
++rp = fixtures.rp
++
++
++class DurablePredecessors(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.tmp = tempfile.TemporaryDirectory()
++        cls.addClassCleanup(cls.tmp.cleanup)
++        cls.source = Trial(Path(cls.tmp.name)/'valid')
++        cls.source.finish(); cls.source.finish('alternate_conformity')
++        cls.source.finish('budget_probe', 9); cls.source.finish('stability_gate')
++
++    def setUp(self):
++        self.tmp_case = tempfile.TemporaryDirectory(); self.addCleanup(self.tmp_case.cleanup)
++        self.home = Path(self.tmp_case.name)
++        self.serial = 0
++
++    def copy(self):
++        self.serial += 1
++        t = Trial(self.home/str(self.serial))
++        with closing(sqlite3.connect(self.source.ledger.path)) as src, closing(sqlite3.connect(t.ledger.path)) as dst:
++            src.backup(dst)
++        return t
++
++    def fault(self, ledger, sql, params=()):
++        with closing(sqlite3.connect(ledger.path)) as c, c:
++            c.execute(sql, params)
++        return PilotLedger(ledger.path, pilot_id=ledger.pilot_id)
++
++    def entries(self, ledger, stage):
++        binding = ledger.binding(stage); outcome = ledger.event('outcome:'+stage)
++        frozen = ledger.event('frozen_gate')['frozen'] if stage == 'budget_probe' else None
++        return [(stage+'/binding', lambda: ledger.bind_stage(stage, binding)),
++                (stage+'/success', lambda: ledger.verify_stage_success(stage)),
++                (stage+'/outcome', lambda: ledger.record_stage_outcome(stage, outcome=outcome['outcome'],
++                    artifact_sha256=outcome['artifact_sha256'], artifact=outcome['artifact'], frozen=frozen))]
++
++    def rejected(self, ledger, own_stage=None):
++        checks = self.entries(ledger, 'stability_gate')
++        checks.append(('freeze', lambda: ledger.authenticate_frozen(ledger.event('frozen_gate')['frozen'])))
++        if own_stage: checks += self.entries(ledger, own_stage)
++        before = logical_database(ledger)
++        for name, call in checks:
++            with self.subTest(entry=name), self.assertRaises(HarnessError): call()
++            self.assertEqual(logical_database(ledger), before)
++        # Normative refusal preserves the stored event and the forensic counters.
++        self.assertEqual(ledger.event('outcome:stability_gate')['outcome'], 'PASS')
++
++    def test_D02_raw_and_record_hash_faults_reject_all_confirmation_entries(self):
++        for stage in ('producer_conformity','alternate_conformity','budget_probe'):
++            for column in ('raw_json','record_json'):
++                with self.subTest(stage=stage, column=column):
++                    t = self.copy()
++                    for _, call in self.entries(t.ledger, 'stability_gate'): call()
++                    ledger = self.fault(t.ledger, f"UPDATE responses SET {column}='{{}}' WHERE request_id=?", (stage+'-0',))
++                    with self.assertRaises(HarnessError): ledger.response(stage+'-0')
++                    self.rejected(ledger, stage)
++
++    def test_D02_missing_coverage_raw_or_evaluation_rejects_predecessors(self):
++        for stage in ('producer_conformity','alternate_conformity','budget_probe'):
++            for sql in ('DELETE FROM requests WHERE request_id=?', 'DELETE FROM responses WHERE request_id=?',
++                        'UPDATE responses SET record_json=NULL,record_sha256=NULL WHERE request_id=?'):
++                with self.subTest(stage=stage, fault=sql):
++                    t = self.copy(); ledger = self.fault(t.ledger, sql, (stage+'-0',))
++                    self.rejected(ledger, stage)
++
++    def test_D02_probe_cannot_shrink_to_an_allowed_prefix_after_closure(self):
++        t = self.copy()
++        # Six remaining bases are a legal *new* probe size, but not this closed nine-case result.
++        ledger = self.fault(t.ledger, "DELETE FROM requests WHERE stage='budget_probe' AND logical_id IN ('case-6','case-7','case-8')")
++        self.assertEqual(ledger.snapshot()['requests_by_stage']['budget_probe'], 6)
++        self.rejected(ledger, 'budget_probe')
++
++    def test_D02_record_digest_binding_and_frozen_evidence_are_reauthenticated(self):
++        for stage in ('producer_conformity','alternate_conformity','budget_probe'):
++            t = self.copy(); record = t.ledger.response(stage+'-0')['record']
++            record['raw_output'] = 'CORRUPTED FIXTURE WITH RECOMPUTED RECORD HASH'
++            text = canonical_json(record)
++            ledger = self.fault(t.ledger, 'UPDATE responses SET record_json=?,record_sha256=? WHERE request_id=?',
++                                (text, sha256_text(text), stage+'-0'))
++            self.rejected(ledger, stage)  # Old closure digest still binds the original record.
++        for event, key, replacement in [('outcome:alternate_conformity','records_sha256','f'*64),
++                                        ('outcome:producer_conformity','artifact',{}),
++                                        ('frozen_gate','frozen',{'generation':{'max_tokens':999}})]:
++            t = self.copy()
++            with closing(sqlite3.connect(t.ledger.path)) as c:
++                detail = json.loads(c.execute('SELECT detail_json FROM events WHERE event=?',(event,)).fetchone()[0])
++            detail[key] = replacement
++            self.rejected(self.fault(t.ledger, 'UPDATE events SET detail_json=? WHERE event=?', (canonical_json(detail),event)))
++        t = self.copy()
++        self.rejected(self.fault(t.ledger, "UPDATE requests SET identity_json='{}' WHERE request_id='alternate_conformity-0'"))
++
++    def test_D02_retry_replay_preserves_nine_attempts_and_rejects_missing_ancestor(self):
++        t = Trial(self.home/'retry'); t.bind()
++        r = t.reserve(0); t.zero(r); t.complete(t.retry(r, 'retry-0'))
++        for i in range(1,8): t.complete(t.reserve(i))
++        t.outcome('producer_conformity'); t.finish('budget_probe',3); t.finish('stability_gate')
++        before = logical_database(t.ledger)
++        for stage in ('producer_conformity','budget_probe','stability_gate'):
++            for _, call in self.entries(t.ledger, stage): call()
++        self.assertEqual(logical_database(t.ledger), before)
++        self.assertEqual(t.ledger.snapshot()['requests_by_stage']['producer_conformity'], 9)
++        ledger = self.fault(t.ledger, 'DELETE FROM events WHERE event=?', ('reconciled:'+r,))
++        self.rejected(ledger, 'producer_conformity')
++
++    def test_D02_remediation_and_new_probe_validate_durable_active_producer(self):
++        t = Trial(self.home/'remediation'); t.finish(valid=False); t.remediation()
++        for i in range(8): t.complete(t.reserve(i,'producer_remediation'))
++        t.outcome('producer_remediation'); t.finish('budget_probe',3); t.finish('stability_gate')
++        self.rejected(self.fault(t.ledger, "UPDATE responses SET raw_json='{}' WHERE request_id='producer_remediation-0'"), 'producer_remediation')
++        # A new probe cannot proceed through the same corrupted predecessor either.
++        t = Trial(self.home/'new-probe'); t.finish()
++        t.ledger = self.fault(t.ledger, "UPDATE responses SET raw_json='{}' WHERE request_id='producer_conformity-0'")
++        before = logical_database(t.ledger)
++        with self.assertRaisesRegex(HarnessError, 'corruption'): t.bind('budget_probe',3)
++        self.assertEqual(logical_database(t.ledger), before)
++
++    def test_D02_runner_and_CLI_resume_refuse_before_server_calls_or_output_writes(self):
++        t = fixtures.RunnerRevisions(); t.setUp(); self.addCleanup(t.doCleanups)
++        t.prepare(); t.producer(stage='alternate_conformity')
++        rp.run_budget_stage(t.prepared,t.results,ledger=t.ledger)
++        rp.run_stability_stage(t.prepared,t.results,ledger=t.ledger)
++        request = t.ledger.leaf('alternate_conformity','agent_1')['request_id']
++        t.ledger = self.fault(t.ledger, "UPDATE responses SET raw_json='{}' WHERE request_id=?", (request,))
++        before = logical_database(t.ledger)
++        files = {p:p.read_bytes() for p in t.results.rglob('*') if p.is_file()}
++        calls = len(t.consumer_calls); t.server_mock.reset_mock()
++        for stage, run in [('budget',rp.run_budget_stage),('stability',rp.run_stability_stage)]:
++            with self.subTest(entry=stage+'/runner'), self.assertRaisesRegex(HarnessError,'corruption'):
++                run(t.prepared,t.results,ledger=t.ledger,resume=True)
++            argv = ['fixture','--execute','--acknowledge',rp.ACK,'--stage',stage,'--resume',
++                    '--prepared-dir',str(t.prepared),'--results-dir',str(t.results),
++                    '--ledger',str(t.ledger.path),'--pilot-id',t.ledger.pilot_id]
++            with self.subTest(entry=stage+'/CLI'), patch.object(sys,'argv',argv), self.assertRaisesRegex(HarnessError,'corruption'):
++                rp.main()
++        self.assertEqual(len(t.consumer_calls), calls); t.server_mock.assert_not_called()
++        self.assertEqual(logical_database(t.ledger), before)
++        self.assertEqual({p:p.read_bytes() for p in t.results.rglob('*') if p.is_file()}, files)
++        self.assertEqual(t.ledger.snapshot()['requests_cumulative'],139)
++
++    def test_D02_durable_predecessor_reads_hold_the_confirmation_lock(self):
++        ledger = self.copy().ledger
++        code = '''import sqlite3,sys
++c=sqlite3.connect(sys.argv[1],timeout=.1)
++try:c.execute('BEGIN IMMEDIATE');c.rollback();print('unlocked')
++except sqlite3.OperationalError as e:print(str(e))
++finally:c.close()
++'''
++        for name, call in self.entries(ledger,'stability_gate') + [('freeze', lambda:ledger.authenticate_frozen(ledger.event('frozen_gate')['frozen']))]:
++            before = logical_database(ledger); seen = []
++            original = ledger._evaluated_record
++            def read(c, row):
++                if not seen and row['stage'] == 'alternate_conformity':
++                    self.assertTrue(c.in_transaction)
++                    p = subprocess.run([sys.executable,'-c',code,str(ledger.path)],capture_output=True,text=True,timeout=5)
++                    self.assertEqual(p.returncode,0,p.stderr); self.assertIn('locked',p.stdout); self.assertNotIn('unlocked',p.stdout); seen.append(True)
++                return original(c,row)
++            with self.subTest(entry=name), patch.object(ledger,'_evaluated_record',side_effect=read): call()
++            self.assertTrue(seen); self.assertEqual(logical_database(ledger),before)
++            p = subprocess.run([sys.executable,'-c',code,str(ledger.path)],capture_output=True,text=True,timeout=5)
++            self.assertEqual(p.stdout.strip(),'unlocked')
++
++
++if __name__ == '__main__': unittest.main()

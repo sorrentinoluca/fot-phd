@@ -33,6 +33,14 @@ from studio2.fase03.protocol import (  # noqa: E402
     sha256_file,
     sha256_text,
 )
+from studio2.fase03.harness.gate_rules import (  # noqa: E402
+    evaluate_stability_gate,
+    semantic_signature,
+)
+from studio2.fase03.harness.ledger import PilotLedger, digest
+from studio2.fase03.harness.common import HarnessError
+from studio2.fase03.harness.guards import require_execution, response_identity_valid, require_pilot_ledger
+from studio2.fase03.harness.runtime import execute_request, durable_write  # noqa: E402
 
 
 ACK = "EXECUTE_PHASE03_PRELIMINARY_PILOT"
@@ -163,49 +171,20 @@ def process_provenance(config: dict[str, Any], vllm_version: str) -> dict[str, A
 
 
 def server_contract(config: dict[str, Any]) -> dict[str, Any]:
-    candidate = config["candidate"]
-    origin = candidate["base_url"].removesuffix("/v1")
-    version = http_json(f"{origin}/version")
-    models = http_json(f"{candidate['base_url']}/models")
-    openapi = http_json(f"{origin}/openapi.json")
-    found = [
-        item
-        for item in models.get("data", [])
-        if item.get("id") == candidate["requested_model"]
-    ]
-    if len(found) != 1:
-        raise RuntimeError("requested model alias is missing or ambiguous")
-    model = found[0]
-    props = (
-        openapi.get("components", {})
-        .get("schemas", {})
-        .get("ChatCompletionRequest", {})
-        .get("properties", {})
-    )
-    observed = {
-        "vllm_version": version.get("version"),
-        "model_id": model.get("id"),
-        "model_root": model.get("root"),
-        "max_model_len": model.get("max_model_len"),
-        "temperature_advertised": "temperature" in props,
-        "seed_advertised": "seed" in props,
-        "thinking_token_budget_advertised": "thinking_token_budget" in props,
-        "reasoning_effort_advertised": "reasoning_effort" in props,
-    }
-    expected = {
-        "vllm_version": candidate["expected_vllm_version"],
-        "model_id": candidate["requested_model"],
-        "model_root": candidate["expected_model_root"],
-        "max_model_len": candidate["expected_max_model_len"],
-    }
-    if any(observed[key] != value for key, value in expected.items()):
-        raise RuntimeError(f"server contract mismatch: observed={observed}, expected={expected}")
-    observed["process"] = process_provenance(config, observed["vllm_version"])
-    return observed
+    require_execution(config)
+    # D9 metadata is checked offline. No local PID, /version or /openapi assumption
+    # applies to the remote service. This is documentary provenance, not a live qualification.
+    service = config['d9']['services']['122B']
+    from studio2.fase03.harness.d9 import read_reference
+    document = read_reference(service['documentation'], '122B documentation')
+    return {'scope': 'DOCUMENTED_NOT_LIVE_VERIFIED', 'service': service,
+            'document': document, 'documented_identity_sha256': service['identity_sha256']}
 
 
 class Provider:
     def __init__(self, config: dict[str, Any]) -> None:
+        require_execution(config)
+        self.config = config
         try:
             import openai
             from openai import OpenAI
@@ -217,7 +196,7 @@ class Provider:
         self.sdk_version = openai.__version__
         self.model = candidate["requested_model"]
         self.client = OpenAI(
-            api_key="local-vllm",
+            api_key=os.environ.get("STUDIO2_CONSUMER_API_KEY", "local-vllm"),
             base_url=candidate["base_url"],
             max_retries=0,
             timeout=600.0,
@@ -231,7 +210,23 @@ class Provider:
         prompt: dict[str, Any],
         schema: dict[str, Any],
         generation: dict[str, Any],
+        ledger=None, stage=None, spec=None,
     ) -> dict[str, Any]:
+        require_execution(self.config)
+        from studio2.fase03.harness.d9 import generation_kwargs
+        if ledger is None or stage not in {'budget_probe','stability_gate'} or spec is None:
+            raise HarnessError('D9: direct transport requires a reserved durable request')
+        require_pilot_ledger(self.config, ledger)
+        binding = ledger.binding(stage)
+        ledger.bind_stage(stage, binding)
+        leaf = ledger.leaf(stage, spec['logical_id'])
+        if leaf is None or leaf['status'] != 'INTENT' or spec not in binding['requests']:
+            raise HarnessError('D9: no matching durable intent for transport')
+        if binding.get('execution_config') != self.config or spec['prompt_sha256'] != sha256_text(prompt['text']) or spec['contract_sha256'] != digest(generation):
+            raise HarnessError('D9: transport differs from durable configuration/prompt')
+        options = generation_kwargs(generation, model_role='122B')
+        if options['max_tokens'] > self.config['d9']['services']['122B']['max_output_tokens']:
+            raise HarnessError('D9: consumer output exceeds documented limit')
         if self.requests >= self.hard_stop:
             raise RuntimeError("hard provider-request stop reached")
         self.requests += 1
@@ -240,10 +235,7 @@ class Provider:
         response = self.client.chat.completions.create(
             model=self.model,
             messages=[{"role": "user", "content": prompt["text"]}],
-            temperature=generation["temperature"],
-            seed=generation["seed"],
-            max_tokens=generation["max_tokens"],
-            extra_body={"thinking_token_budget": generation["thinking_token_budget"]},
+            **options,
             response_format={
                 "type": "json_schema",
                 "json_schema": {
@@ -253,349 +245,224 @@ class Provider:
                 },
             },
         )
-        latency = time.monotonic() - begin
-        raw = response.model_dump(mode="json")
-        if len(response.choices) != 1:
-            raise RuntimeError("provider must return exactly one choice")
-        choice = response.choices[0]
-        content = choice.message.content if isinstance(choice.message.content, str) else ""
-        parse_error = None
-        parsed = None
-        try:
-            parsed = parse_diagnostic_output(
-                content,
-                label_space=prompt["label_space"],
-                allowed_insight_ids=prompt["available_insight_ids"],
-            )
-        except ContractError as exc:
-            parse_error = str(exc)
-        usage = response.usage
-        return {
-            "timestamp": started_at,
-            "prompt_id": prompt["prompt_id"],
-            "prompt_sha256": prompt["prompt_sha256"],
-            "agent_id": prompt["agent_id"],
-            "case_id": prompt["case_id"],
-            "condition": prompt["condition"],
-            "sample_role": prompt["sample_role"],
-            "generation": generation,
-            "returned_model": response.model,
-            "response_id": response.id,
-            "system_fingerprint": getattr(response, "system_fingerprint", None),
-            "finish_reason": choice.finish_reason,
-            "latency_seconds": latency,
-            "prompt_tokens": getattr(usage, "prompt_tokens", None),
-            "completion_tokens": getattr(usage, "completion_tokens", None),
-            "total_tokens": getattr(usage, "total_tokens", None),
-            "raw_output": content,
-            "raw_output_sha256": sha256_text(content),
-            "parsed_output": parsed,
-            "parse_valid_first_attempt": parse_error is None,
-            "parse_error": parse_error,
-            "retry_count": 0,
-            "response_raw": raw,
-            "sdk_version": self.sdk_version,
-        }
+        return response.model_dump(mode="json")
 
 
-def load_prepared(
-    prepared_dir: Path,
-    *,
-    expected_status: str = "READY_FOR_PRE_GATE_GENERATION_PROBE",
-) -> tuple[dict[str, Any], list[dict[str, Any]]]:
-    plan_path = prepared_dir / "pre_gate_plan.json"
-    prompt_path = prepared_dir / "pilot_prompts.jsonl"
-    hashes = load_json(prepared_dir / "pre_gate_hashes.json")["files"]
+def consumer_record(raw, prompt, generation):
+    choices = raw.get('choices', [])
+    choice = choices[0] if len(choices) == 1 else {}
+    content = choice.get('message', {}).get('content') or ''
+    parsed, error = None, None
+    try:
+        if len(choices) != 1:
+            raise ContractError('provider must return exactly one choice')
+        parsed = parse_diagnostic_output(content, label_space=prompt['label_space'], allowed_insight_ids=prompt['available_insight_ids'])
+    except ContractError as exc:
+        error = str(exc)
+    usage = raw.get('usage') or {}
+    return dict(**{k: prompt[k] for k in ('prompt_id','agent_id','case_id','condition','sample_role','prompt_sha256')},
+                generation=generation, returned_model=raw.get('model'), system_fingerprint=raw.get('system_fingerprint'),
+                response_id=raw.get('id'), finish_reason=choice.get('finish_reason'), raw_output=content,
+                raw_output_sha256=sha256_text(content), parsed_output=parsed, parse_valid_first_attempt=error is None,
+                parse_error=error, retry_count=0, **{k: usage.get(k) for k in ('prompt_tokens','completion_tokens','total_tokens')})
+
+
+def load_prepared(prepared_dir: Path, *, expected_status='READY_FOR_PRE_GATE_GENERATION_PROBE', ledger=None):
+    from studio2.fase03.harness.preparation import authenticate
+    from studio2.fase03.prepare_gate import offline_token_counter
+    from studio2.fase03.harness.render import build_real_pilot_sample
+    from studio2.fase03.harness.guards import verify_tokenizer
+    config = load_json(PREFLIGHT_CONFIG_PATH)
+    require_execution(config)
+    plan_path, prompt_path = prepared_dir/'pre_gate_plan.json', prepared_dir/'pilot_prompts.jsonl'
+    hashes = load_json(prepared_dir/'pre_gate_hashes.json')['files']
     for path in (plan_path, prompt_path, PREFLIGHT_CONFIG_PATH):
-        key = str(path.relative_to(ROOT))
-        if hashes.get(key) != sha256_file(path):
-            raise RuntimeError(f"prepared hash mismatch: {key}")
+        if hashes.get(str(path.resolve())) != sha256_file(path):
+            raise RuntimeError('prepared hash mismatch: ' + str(path))
     plan = load_json(plan_path)
-    if plan["status"] != expected_status:
-        raise RuntimeError("static context preparation did not pass")
+    source = Path(plan['source_manifest'])
+    if sha256_file(source) != plan['source_manifest_sha256'] or hashes.get(str(source.resolve())) != sha256_file(source):
+        raise RuntimeError('source manifest hash mismatch')
+    if plan['status'] != expected_status or ledger is None or plan.get('pilot_id') != ledger.pilot_id:
+        raise RuntimeError('prepared plan is not approved for this pilot')
+    snapshot = Path(plan['tokenizer_snapshot'])
+    verify_tokenizer(snapshot, **config['tokenizer'])
+    counter = offline_token_counter(snapshot)
+    from studio2.fase03.harness.d9 import r4_counter
+    raw_counter = r4_counter(config, offline_token_counter)
+    inventory, manifest = load_json(Path(plan['source_inventory'])), load_json(source)
+    authenticate(manifest, inventory, config=config, ledger=ledger, handoff=Path(plan['insight_handoff']),
+                 schema_dir=Path(plan['schema_dir']), snapshot=snapshot, token_count=raw_counter)
+    regenerated = build_real_pilot_sample(manifest, config, token_count=counter, insight_token_count=raw_counter,
+                                         schema_dir=Path(plan['schema_dir']), source_inventory=inventory)
     prompts = read_jsonl(prompt_path)
-    if len(prompts) != 40:
-        raise RuntimeError("prepared pilot must contain forty prompts")
-    label_space = load_json(Path(plan["source_manifest"]))["label_space"]
+    if prompts != regenerated:
+        raise RuntimeError('prepared prompts differ from authenticated renderer output')
+    from studio2.fase03.protocol import context_feasibility
+    from types import SimpleNamespace
+    if plan['context_feasibility'] != context_feasibility([SimpleNamespace(**r) for r in regenerated], config):
+        raise RuntimeError('prepared generation budgets changed')
     for prompt in prompts:
-        prompt["label_space"] = label_space
+        prompt['label_space'] = manifest['label_space']
     return plan, prompts
 
 
-def run_budget_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]:
+def request_spec(prompt, generation, *, config, logical_id, group, repetition):
+    return dict(logical_id=logical_id, model=config['candidate']['requested_model'], producer='consumer',
+                prompt_sha256=prompt['prompt_sha256'], case_sha256=digest([prompt['agent_id'],prompt['case_id']]),
+                contract_sha256=digest(generation), condition=prompt['condition'], group=group, repetition=repetition)
+
+
+def _tracked_call(provider, ledger, *, prompt, schema, generation, stage, stage_run, logical_id,
+                  request_id=None, config=None, journal_path=None,
+                  resume=False, retry_requests=(), repetition=1, pre_reserved=()):
+    config = load_json(PREFLIGHT_CONFIG_PATH) if config is None else config
+    require_execution(config)
+    require_pilot_ledger(config, ledger)
+    binding = ledger.binding(stage)
+    if stage_run != digest(binding):
+        raise RuntimeError('tracked call binding mismatch')
+    spec = next(s for s in binding['requests'] if s['logical_id'] == logical_id)
+    if spec['prompt_sha256'] != sha256_text(prompt['text']) or spec['contract_sha256'] != digest(generation):
+        raise RuntimeError('tracked prompt/generation bytes changed')
+    def evaluate(raw):
+        return dict(consumer_record(raw, prompt, generation), repetition=repetition)
+    return execute_request(ledger=ledger, stage=stage, spec=spec,
+                           transport=lambda: provider.call(prompt=prompt, schema=schema, generation=generation, ledger=ledger, stage=stage, spec=spec),
+                           evaluate=evaluate, expected_identity=config['expected_response'],
+                           journal_path=journal_path or ledger.path.with_suffix('.journal.jsonl'),
+                           resume=resume, retry_requests=retry_requests, pre_reserved=pre_reserved)
+
+
+def _probe_retry(ledger, stage, retry_requests):
+    selected = []
+    for request_id in retry_requests:
+        row = ledger.request(request_id)
+        if row is None or row['stage'] != stage or row['status'] != 'ZERO_TOKEN_PROVEN':
+            raise RuntimeError('explicit probe retry is not a proven zero-token original')
+        spec = json.loads(row['identity_json'])
+        selected.append(dict(request_id=digest([ledger.pilot_id, stage, spec['logical_id'], request_id]),
+                             logical_id=spec['logical_id'], model=spec['model'], producer=spec['producer'],
+                             stage_run=row['stage_run'], retry_of=request_id, condition=spec['condition']))
+    if selected:
+        ledger.reserve_probe_transport_triplet(selected)
+    return [r['request_id'] for r in selected]
+
+
+def run_budget_stage(prepared_dir: Path, results_dir: Path, *, ledger: PilotLedger, resume=False, retry_requests=()):
     config = load_json(PREFLIGHT_CONFIG_PATH)
-    plan, prompts = load_prepared(prepared_dir)
+    require_execution(config)
+    require_pilot_ledger(config, ledger)
+    response_identity_valid({}, config.get('expected_response', {}))
+    plan, prompts = load_prepared(prepared_dir, ledger=ledger)
+    schema = vllm_grammar_schema(load_json(DIAGNOSTIC_SCHEMA_PATH))
+    stress = {condition: max((p for p in prompts if p['condition']==condition), key=lambda p:p['input_tokens']) for condition in ('A','B-LF','E-LF')}
+    specs, jobs = [], []
+    for candidate in plan['context_feasibility']['feasible_candidates']:
+        generation = {k:config['generation_budget'][k] for k in ('seed',) if k in config['generation_budget']}
+        generation.update({k:candidate[k] for k in ('thinking_token_budget','max_tokens')})
+        from studio2.fase03.harness.d9 import generation_kwargs
+        generation_kwargs(generation, model_role='122B')
+        group = str(candidate['thinking_token_budget'])
+        for condition in ('A','B-LF','E-LF'):
+            logical = f'budget:{group}:{condition}'
+            spec = request_spec(stress[condition], generation, config=config, logical_id=logical, group=group, repetition=1)
+            specs.append(spec); jobs.append((spec,stress[condition],generation))
+    binding = dict(requests=specs, config_sha256=digest(config), prompts_sha256=digest(prompts), schema_sha256=digest(schema), execution_config=config,
+                   tokenizer_snapshot=str(Path(plan['tokenizer_snapshot']).resolve()))
+    ledger.bind_stage('budget_probe', binding)
+    reserved = _probe_retry(ledger, 'budget_probe', retry_requests) if resume else []
     server = server_contract(config)
-    schema = load_json(DIAGNOSTIC_SCHEMA_PATH)
-    grammar_schema = vllm_grammar_schema(schema)
     provider = Provider(config)
-    stress: dict[str, dict[str, Any]] = {}
-    for condition in ("A", "B-LF", "E-LF"):
-        candidates = [item for item in prompts if item["condition"] == condition]
-        stress[condition] = max(candidates, key=lambda item: item["input_tokens"])
-    records: list[dict[str, Any]] = []
-    selected = None
-    for candidate in plan["context_feasibility"]["feasible_candidates"]:
-        generation = {
-            "temperature": config["generation_budget"]["temperature"],
-            "seed": config["generation_budget"]["seed"],
-            "thinking_token_budget": candidate["thinking_token_budget"],
-            "max_tokens": candidate["max_tokens"],
-        }
-        batch = [
-            provider.call(
-                prompt=stress[condition], schema=grammar_schema, generation=generation
-            )
-            for condition in ("A", "B-LF", "E-LF")
-        ]
-        records.extend(batch)
-        if all(
-            item["finish_reason"] == "stop" and item["parse_valid_first_attempt"]
-            for item in batch
-        ):
-            selected = generation
+    records, selected = [], None
+    for offset in range(0,len(jobs),3):
+        transport_failures = []
+        for spec, prompt, generation in jobs[offset:offset+3]:
+            try:
+                records.append(_tracked_call(provider, ledger, prompt=prompt, schema=schema, generation=generation,
+                                             stage='budget_probe', stage_run=digest(binding), logical_id=spec['logical_id'],
+                                             config=config, journal_path=results_dir/'budget_probe_journal.jsonl',
+                                             resume=resume, retry_requests=retry_requests, pre_reserved=reserved))
+            except Exception:
+                leaf = ledger.leaf('budget_probe', spec['logical_id'])
+                if not resume and leaf and leaf['status'] == 'FAILED':
+                    # Finish only the remaining original members of this planned triplet.
+                    # No request is resent and no following budget group is started.
+                    transport_failures.append(leaf['request_id'])
+                else:
+                    raise
+        if transport_failures:
+            raise RuntimeError('probe transport triplet unresolved; explicit evidence/retry triplet required: ' + ','.join(transport_failures))
+        if all(r['finish_reason']=='stop' and r['parse_valid_first_attempt'] for r in records[-3:]):
+            selected = jobs[offset][2]
             break
-    write_atomic(
-        results_dir / "budget_probe_records.jsonl",
-        "".join(canonical_json(item) + "\n" for item in records),
-    )
-    frozen = {
-        "artifact_version": "1",
-        "status": "FROZEN_FOR_STABILITY_GATE" if selected else "NO_GO_GENERATION_BUDGET",
-        "scope": "PRELIMINARY_QWEN27B_CONFIGURATION_ONLY",
-        "frozen_at": utc_now(),
-        "study_model_decision": "UNDECIDED",
-        "candidate": config["candidate"],
-        "server": server,
-        "generation": selected,
-        "determinism_policy": config["determinism_policy"],
-        "prompt_file_sha256": sha256_file(prepared_dir / "pilot_prompts.jsonl"),
-        "pre_gate_plan_sha256": sha256_file(prepared_dir / "pre_gate_plan.json"),
-        "diagnostic_schema_sha256": sha256_file(DIAGNOSTIC_SCHEMA_PATH),
-        "vllm_grammar_schema_sha256": sha256_text(canonical_json(grammar_schema)),
-        "vllm_grammar_schema_compatibility": (
-            "uniqueItems removed from the server grammar only; duplicate IDs remain "
-            "forbidden by parse_diagnostic_output"
-        ),
-        "budget_probe_records_sha256": sha256_file(results_dir / "budget_probe_records.jsonl"),
-        "budget_probe_provider_requests": provider.requests,
-        "stability_gate_provider_requests": 120,
-        "go_scope": (
-            "Only this model root, model revision, server contract, prompt sample, "
-            "schemas and generation configuration. No claim about a definitive Study 2 "
-            "model, diagnostic performance, other endpoints, other budgets, the final "
-            "catalog, OOD behavior, or an alternate producer."
-        ),
-    }
-    write_atomic(
-        results_dir / "frozen_gate_config.json",
-        json.dumps(frozen, indent=2, ensure_ascii=False) + "\n",
-    )
+    frozen = dict(artifact_version='2', status='FROZEN_FOR_STABILITY_GATE' if selected else 'NO_GO_GENERATION_BUDGET',
+                  generation=selected, candidate=config['candidate'], config_sha256=digest(config), server=server,
+                  prompt_file_sha256=sha256_file(prepared_dir/'pilot_prompts.jsonl'),
+                  pre_gate_plan_sha256=sha256_file(prepared_dir/'pre_gate_plan.json'), schema_sha256=digest(schema),
+                  records_sha256=digest(records), prompt_sample=prompts, pilot_id=ledger.pilot_id,
+                  go_scope='Only authenticated configuration; no pilot GO or scientific qualification')
+    summary = dict(records_sha256=digest(records), frozen_sha256=digest(frozen))
+    ledger.record_stage_outcome('budget_probe', outcome='PASS' if selected else 'FAIL', artifact_sha256=digest(summary), artifact=summary, frozen=frozen)
+    durable_write(results_dir/'budget_probe_records.jsonl', ''.join(canonical_json(r)+'\n' for r in records))
+    durable_write(results_dir/'frozen_gate_config.json', json.dumps(frozen,indent=2,ensure_ascii=False)+'\n')
     return frozen
 
 
 def run_provisional_stress_budget_stage(
     prepared_dir: Path, results_dir: Path
 ) -> dict[str, Any]:
-    """Probe the synthetic cap-stress fixture without producing a gate-valid freeze."""
-    config = load_json(PREFLIGHT_CONFIG_PATH)
-    plan, prompts = load_prepared(
-        prepared_dir,
-        expected_status="READY_FOR_PROVISIONAL_STRESS_BUDGET_PROBE",
-    )
-    if not plan.get("provisional_synthetic") or not plan.get("real_prompt_repeat_required"):
-        raise RuntimeError("provisional probe requires an explicitly synthetic prepared plan")
-    server = server_contract(config)
-    schema = load_json(DIAGNOSTIC_SCHEMA_PATH)
-    grammar_schema = vllm_grammar_schema(schema)
-    provider = Provider(config)
-    attempt_journal_path = results_dir / "provisional_stress_probe_attempts.jsonl"
-    prior_attempts = read_jsonl(attempt_journal_path) if attempt_journal_path.exists() else []
-    prior_provider_requests = len(prior_attempts)
-    maximum_provider_requests = 9
-    stress: dict[str, dict[str, Any]] = {}
-    for condition in ("A", "B-LF", "E-LF"):
-        candidates = [item for item in prompts if item["condition"] == condition]
-        stress[condition] = max(candidates, key=lambda item: item["input_tokens"])
-    records: list[dict[str, Any]] = []
-    selected = None
-    for candidate in plan["context_feasibility"]["feasible_candidates"]:
-        if prior_provider_requests + provider.requests + 3 > maximum_provider_requests:
-            break
-        generation = {
-            "temperature": config["generation_budget"]["temperature"],
-            "seed": config["generation_budget"]["seed"],
-            "thinking_token_budget": candidate["thinking_token_budget"],
-            "max_tokens": candidate["max_tokens"],
-        }
-        batch = [
-            provider.call(
-                prompt=stress[condition], schema=grammar_schema, generation=generation
-            )
-            for condition in ("A", "B-LF", "E-LF")
-        ]
-        records.extend(batch)
-        if all(
-            item["finish_reason"] == "stop" and item["parse_valid_first_attempt"]
-            for item in batch
-        ):
-            selected = generation
-            break
-    record_path = results_dir / "provisional_stress_probe_records.jsonl"
-    write_atomic(record_path, "".join(canonical_json(item) + "\n" for item in records))
-    summary = {
-        "artifact_version": "1",
-        "status": (
-            "PROVISIONAL_TECHNICAL_PASS_REQUIRES_REAL_PROMPT_REPEAT"
-            if selected
-            else "NO_GO_PROVISIONAL_TECHNICAL_REQUIRES_REAL_PROMPT_REPEAT"
-        ),
-        "scope": "SYNTHETIC_CAP_STRESS_FIXTURE_ONLY_NOT_A_GATE",
-        "completed_at": utc_now(),
-        "provider_requests_this_run": provider.requests,
-        "prior_rejected_provider_requests": prior_provider_requests,
-        "provider_requests_total": prior_provider_requests + provider.requests,
-        "maximum_provider_requests_authorized": maximum_provider_requests,
-        "selected_generation_provisional": selected,
-        "generation_budget_frozen": False,
-        "stability_gate_authorized": False,
-        "mandatory_next_step": (
-            "Repeat the budget probe on the independently frozen forty real Study 2 prompts; "
-            "only that real-input run may write frozen_gate_config.json."
-        ),
-        "source_plan_sha256": sha256_file(prepared_dir / "pre_gate_plan.json"),
-        "prompt_file_sha256": sha256_file(prepared_dir / "pilot_prompts.jsonl"),
-        "diagnostic_schema_sha256": sha256_file(DIAGNOSTIC_SCHEMA_PATH),
-        "vllm_grammar_schema_sha256": sha256_text(canonical_json(grammar_schema)),
-        "vllm_grammar_schema_compatibility": (
-            "uniqueItems removed from the server grammar only; duplicate IDs remain "
-            "forbidden by parse_diagnostic_output"
-        ),
-        "records_sha256": sha256_file(record_path),
-        "attempt_journal_sha256": (
-            sha256_file(attempt_journal_path) if attempt_journal_path.exists() else None
-        ),
-        "server": server,
-        "results": [
-            {
-                "condition": item["condition"],
-                "prompt_id": item["prompt_id"],
-                "input_tokens": next(
-                    prompt["input_tokens"]
-                    for prompt in stress.values()
-                    if prompt["prompt_id"] == item["prompt_id"]
-                ),
-                "thinking_token_budget": item["generation"]["thinking_token_budget"],
-                "max_tokens": item["generation"]["max_tokens"],
-                "finish_reason": item["finish_reason"],
-                "parse_valid_first_attempt": item["parse_valid_first_attempt"],
-                "prompt_tokens_reported": item["prompt_tokens"],
-                "completion_tokens_reported": item["completion_tokens"],
-                "latency_seconds": item["latency_seconds"],
-                "raw_output_sha256": item["raw_output_sha256"],
-            }
-            for item in records
-        ],
-        "completed_model_inferences": provider.requests,
-        "api_requests_counter_after_probe": prior_provider_requests + provider.requests,
-        "scientific_claims_authorized": False,
-    }
-    write_atomic(
-        results_dir / "provisional_stress_probe_summary.json",
-        json.dumps(summary, indent=2, ensure_ascii=False) + "\n",
-    )
-    return summary
+    """Historical path disabled, including direct Python callers."""
+    raise RuntimeError('historical synthetic stress transport is disabled')
 
 
 def divergence_signature(record: dict[str, Any]) -> str:
-    fields = {
-        "abstain": (record["parsed_output"] or {}).get("abstain"),
-        "predicted_label": (record["parsed_output"] or {}).get("predicted_label"),
-        "parsed_output": record["parsed_output"],
-        "finish_reason": record["finish_reason"],
-        "parse_valid_first_attempt": record["parse_valid_first_attempt"],
-        "raw_output_sha256": record["raw_output_sha256"],
-    }
-    return sha256_text(canonical_json(fields))
+    return sha256_text(canonical_json(semantic_signature(record)))
 
 
-def run_stability_stage(prepared_dir: Path, results_dir: Path) -> dict[str, Any]:
+def run_stability_stage(prepared_dir: Path, results_dir: Path, *, ledger: PilotLedger, resume=False):
     config = load_json(PREFLIGHT_CONFIG_PATH)
-    plan, prompts = load_prepared(prepared_dir)
-    frozen_path = results_dir / "frozen_gate_config.json"
-    frozen = load_json(frozen_path)
-    if frozen["status"] != "FROZEN_FOR_STABILITY_GATE" or not frozen["generation"]:
-        raise RuntimeError("generation configuration is not frozen for the stability gate")
-    if frozen["prompt_file_sha256"] != sha256_file(prepared_dir / "pilot_prompts.jsonl"):
-        raise RuntimeError("pilot prompts changed after generation-budget freeze")
-    if frozen["candidate"] != config["candidate"]:
-        raise RuntimeError("candidate configuration changed after freeze")
+    require_execution(config)
+    require_pilot_ledger(config, ledger)
+    response_identity_valid({}, config.get('expected_response', {}))
+    plan, prompts = load_prepared(prepared_dir, ledger=ledger)
+    path = results_dir/'frozen_gate_config.json'
+    frozen = load_json(path)
+    ledger.authenticate_frozen(frozen)
+    if path.read_bytes() != (json.dumps(frozen,indent=2,ensure_ascii=False)+'\n').encode():
+        raise RuntimeError('frozen configuration bytes changed')
+    schema = vllm_grammar_schema(load_json(DIAGNOSTIC_SCHEMA_PATH))
+    if frozen['status'] != 'FROZEN_FOR_STABILITY_GATE' or frozen['config_sha256'] != digest(config) or frozen['prompt_sample'] != prompts or frozen['schema_sha256'] != digest(schema) or frozen['pre_gate_plan_sha256'] != sha256_file(prepared_dir/'pre_gate_plan.json'):
+        raise RuntimeError('frozen gate provenance mismatch')
+    specs = [request_spec(p, frozen['generation'], config=config, logical_id=f"{p['prompt_id']}:r{r}", group=p['prompt_id'], repetition=r) for p in prompts for r in (1,2,3)]
+    binding = dict(requests=specs, frozen_sha256=digest(frozen), config_sha256=digest(config), execution_config=config,
+                   tokenizer_snapshot=str(Path(plan['tokenizer_snapshot']).resolve()))
+    ledger.bind_stage('stability_gate', binding)
     server = server_contract(config)
-    if server["process"]["fingerprint_sha256"] != frozen["server"]["process"]["fingerprint_sha256"]:
-        raise RuntimeError("server process configuration changed after freeze")
-    schema = load_json(DIAGNOSTIC_SCHEMA_PATH)
-    grammar_schema = vllm_grammar_schema(schema)
-    if frozen.get("vllm_grammar_schema_sha256") != sha256_text(
-        canonical_json(grammar_schema)
-    ):
-        raise RuntimeError("vLLM grammar schema changed after generation-budget freeze")
+    if server != frozen['server']:
+        raise RuntimeError('server identity changed since probe')
     provider = Provider(config)
-    records: list[dict[str, Any]] = []
-    for prompt in prompts:
-        for repetition in range(1, 4):
-            record = provider.call(
-                prompt=prompt,
-                schema=grammar_schema,
-                generation=frozen["generation"],
-            )
-            record["repetition"] = repetition
-            records.append(record)
-    if provider.requests != 120:
-        raise AssertionError(f"stability gate made {provider.requests} requests, expected 120")
-    record_path = results_dir / "stability_records.jsonl"
-    write_atomic(record_path, "".join(canonical_json(item) + "\n" for item in records))
-    grouped: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    for record in records:
-        grouped[record["prompt_id"]].append(record)
-    divergent = sorted(
-        prompt_id
-        for prompt_id, group in grouped.items()
-        if len({divergence_signature(item) for item in group}) != 1
-    )
-    invalid = sum(not item["parse_valid_first_attempt"] for item in records)
-    truncated = sum(item["finish_reason"] == "length" for item in records)
-    status = "PASS_R1_WITH_CONTINUOUS_AUDIT" if not divergent else "PASS_SWITCH_TO_R3"
-    if invalid or truncated:
-        status = "NO_GO_CONFIGURATION"
-    summary = {
-        "artifact_version": "1",
-        "status": status,
-        "scope": frozen["go_scope"],
-        "completed_at": utc_now(),
-        "unique_prompts": len(grouped),
-        "provider_requests": provider.requests,
-        "divergent_prompt_count": len(divergent),
-        "divergent_prompt_ids": divergent,
-        "invalid_first_attempts": invalid,
-        "length_truncations": truncated,
-        "stability_records_sha256": sha256_file(record_path),
-        "frozen_gate_config_sha256": sha256_file(frozen_path),
-        "rule_of_three_upper_bound_note": (
-            "With zero divergent prompts, 3/40 is approximately 7.5%; this is a "
-            "technical gate and does not demonstrate determinism or instability below 1%."
-        ),
-        "accuracy_calculated": False,
-        "ground_truth_accessed": False,
-        "final_test_accessed": False,
-    }
-    write_atomic(
-        results_dir / "stability_summary.json",
-        json.dumps(summary, indent=2, ensure_ascii=False) + "\n",
-    )
+    records = []
+    for spec in specs:
+        prompt = next(p for p in prompts if p['prompt_id'] == spec['group'])
+        records.append(_tracked_call(provider, ledger, prompt=prompt, schema=schema, generation=frozen['generation'],
+                                     stage='stability_gate', stage_run=digest(binding), logical_id=spec['logical_id'], config=config,
+                                     repetition=spec['repetition'], journal_path=results_dir/'stability_journal.jsonl', resume=resume))
+    gate = evaluate_stability_gate(records, expected_prompts=frozen['prompt_sample'])
+    summary = dict(artifact_version='2', **gate, records_sha256=digest(records), frozen_gate_config_sha256=digest(frozen))
+    ledger.record_stage_outcome('stability_gate', outcome='PASS' if gate['t3_pass'] and gate['t4_pass'] and gate['t6_evaluable'] else 'FAIL', artifact_sha256=digest(summary), artifact=summary)
+    durable_write(results_dir/'stability_records.jsonl', ''.join(canonical_json(r)+'\n' for r in records))
+    durable_write(results_dir/'stability_summary.json',json.dumps(summary,indent=2)+'\n')
     return summary
 
 
 def print_plan(config: dict[str, Any]) -> None:
+    if 'd9' in config:
+        print(json.dumps({'status':'PLAN_ONLY_NO_PROVIDER_CALLS', 'roles':config['d9']['roles'],
+                          'alternate_placement':config['d9']['alternate_placement'],
+                          'missing_requirements':config['d9']['missing_requirements'],
+                          'pilot_go':False}, indent=2))
+        return
     calls = config["call_budget"]
     print(
         json.dumps(
@@ -623,28 +490,15 @@ def print_plan(config: dict[str, Any]) -> None:
                 "alternate_producer_calls_deferred": calls[
                     "alternate_producer_conformance_deferred"
                 ],
-                "planned_total_with_both_producers": calls[
-                    "planned_total_with_both_producers"
-                ],
-                "planned_total_with_retry_reserve": (
-                    calls["planned_total_with_both_producers"] + calls["retry_reserve"]
-                ),
-                "retry_reserve_authorized": calls["retry_reserve_authorized"],
+                "base_total_without_alternate_range": calls["base_total_without_alternate_range"],
+                "base_total_with_alternate_range": calls["base_total_with_alternate_range"],
+                "shared_reserve": calls["shared_reserve"],
+                "planned_max_without_alternate": calls["planned_max_without_alternate"],
+                "planned_max_with_alternate": calls["planned_max_with_alternate"],
                 "hard_stop_provider_requests": calls["hard_stop_provider_requests"],
-                "duration_estimate_basis": (
-                    "Only sequential 8001@16384 is verified. Extrapolation from 49.4 s/call "
-                    "at thinking=1024, scaled linearly by the selected thinking cap with a "
-                    "25% planning allowance for prompts up to 9875 input tokens."
-                ),
-                "estimated_budget_probe_wall_time": "25-40 minutes for the nine-call maximum",
-                "estimated_stability_gate_wall_time_by_budget": {
-                    "2048": "4-5 hours",
-                    "3072": "6-7.5 hours",
-                    "4096": "8-10 hours",
-                },
-                "estimated_probe_plus_gate_wall_time": "approximately 4.5-10.7 hours sequential",
-                "direct_local_api_cost": "EUR 0; electricity/opportunity cost not priced",
-                "alternate_producer_cost": "unknown until provider, model and tariff are frozen",
+                "persistent_ledger": calls["persistent_ledger"],
+                "temporal_feasibility": "NOT_VERIFIED_OFFLINE; measure on the D9-selected and qualified configuration with 20% margin",
+                "d9_model_roles": "UNDECIDED",
             },
             indent=2,
             ensure_ascii=False,
@@ -653,6 +507,7 @@ def print_plan(config: dict[str, Any]) -> None:
 
 
 def main() -> int:
+    global PREFLIGHT_CONFIG_PATH
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--stage",
@@ -660,9 +515,16 @@ def main() -> int:
     )
     parser.add_argument("--prepared-dir", type=Path, default=DEFAULT_PREPARED)
     parser.add_argument("--results-dir", type=Path, default=DEFAULT_RESULTS)
+    parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--retry-request", action="append", default=[])
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--acknowledge")
+    parser.add_argument("--ledger", type=Path)
+    parser.add_argument("--pilot-id")
+    parser.add_argument("--config", type=Path, help="Explicit D9 execution configuration; historical default remains suspended")
     args = parser.parse_args()
+    if args.config is not None:
+        PREFLIGHT_CONFIG_PATH = args.config.resolve()
     config = load_json(PREFLIGHT_CONFIG_PATH)
     if not args.execute:
         print_plan(config)
@@ -678,12 +540,20 @@ def main() -> int:
     )
     if args.acknowledge != required_ack:
         raise SystemExit(f"execution requires --acknowledge {required_ack}")
+    if args.stage == "provisional-stress-budget":
+        raise SystemExit(
+            "the historical synthetic stress execution path is disabled; rev.10 requires real frozen prompts and cumulative accounting"
+        )
+    if args.ledger is None or args.pilot_id is None:
+        raise SystemExit("execution requires --ledger ABSOLUTE_PATH and --pilot-id")
+    require_execution(load_json(PREFLIGHT_CONFIG_PATH))
+    ledger = PilotLedger(args.ledger, pilot_id=args.pilot_id)
     if args.stage == "budget":
-        result = run_budget_stage(args.prepared_dir, args.results_dir)
+        result = run_budget_stage(args.prepared_dir, args.results_dir, ledger=ledger, resume=args.resume, retry_requests=args.retry_request)
     elif args.stage == "stability":
-        result = run_stability_stage(args.prepared_dir, args.results_dir)
-    else:
-        result = run_provisional_stress_budget_stage(args.prepared_dir, args.results_dir)
+        result = run_stability_stage(args.prepared_dir, args.results_dir, ledger=ledger, resume=args.resume)
+    else:  # unreachable: retained only so historical artifacts remain readable
+        raise AssertionError("disabled provisional stage")
     print(canonical_json(result))
     return 0 if not result["status"].startswith("NO_GO") else 2
 

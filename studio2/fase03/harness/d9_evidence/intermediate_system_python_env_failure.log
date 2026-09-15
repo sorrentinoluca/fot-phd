@@ -1,0 +1,523 @@
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 9, in <module>
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 299, in producer
+    return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+======================================================================
+ERROR: test_R02_handoff_cannot_self_certify_or_change_library (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R02_handoff_cannot_self_certify_or_change_library)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 363, in test_R02_handoff_cannot_self_certify_or_change_library
+    self.producer();path=self.home/'results/validated_insight_library_fixture_producer_conformity.json'
+    ^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 299, in producer
+    return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+======================================================================
+ERROR: test_R02_source_manifest_and_prompt_rehash_cannot_bypass (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R02_source_manifest_and_prompt_rehash_cannot_bypass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 379, in test_R02_source_manifest_and_prompt_rehash_cannot_bypass
+    self.prepare();value=json.loads(self.manifest.read_text());value['label_space'].reverse();self.manifest.write_text(json.dumps(value))
+    ^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 305, in prepare
+    if producer:self.producer()
+                ^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 299, in producer
+    return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+======================================================================
+ERROR: test_R03_real_pipeline_labels_preserved_and_pending_rejected (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R03_real_pipeline_labels_preserved_and_pending_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 368, in test_R03_real_pipeline_labels_preserved_and_pending_rejected
+    self.prepare();manifest=json.loads(self.manifest.read_text())
+    ^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 305, in prepare
+    if producer:self.producer()
+                ^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 299, in producer
+    return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+======================================================================
+ERROR: test_R06_real_runner_remediation_approved_bytes_and_old_handoff (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R06_real_runner_remediation_approved_bytes_and_old_handoff)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 407, in test_R06_real_runner_remediation_approved_bytes_and_old_handoff
+    self.bad_at=2;result=self.producer(diagnosis='structure');self.assertEqual(result['valid_first_attempts'],7)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 299, in producer
+    return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+======================================================================
+ERROR: test_R07_cli_successful_producer_and_budget_use_shared_ledger (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_cli_successful_producer_and_budget_use_shared_ledger)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 465, in test_R07_cli_successful_producer_and_budget_use_shared_ledger
+    with patch.object(sys,'argv',argv),redirect_stdout(io.StringIO()):self.assertEqual(pp.main(),0)
+                                                                                       ^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 244, in main
+    summary = run(source_inventory=args.source_inventory, results_dir=args.results_dir,
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+======================================================================
+ERROR: test_R07_consumer_budget_crash_and_resume_preserve_raw (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_consumer_budget_crash_and_resume_preserve_raw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 422, in test_R07_consumer_budget_crash_and_resume_preserve_raw
+    self.prepare();self.consumer_fail=2
+    ^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 305, in prepare
+    if producer:self.producer()
+                ^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 299, in producer
+    return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+======================================================================
+ERROR: test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 430, in test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume
+    self.prepare();rp.run_budget_stage(self.prepared,self.results,ledger=self.ledger);self.consumer_fail=5
+    ^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 305, in prepare
+    if producer:self.producer()
+                ^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 299, in producer
+    return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+======================================================================
+ERROR: test_R07_probe_explicit_zero_token_triplet_retry (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_probe_explicit_zero_token_triplet_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 489, in test_R07_probe_explicit_zero_token_triplet_retry
+    self.prepare()
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 305, in prepare
+    if producer:self.producer()
+                ^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 299, in producer
+    return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+======================================================================
+ERROR: test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 397, in test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation
+    self.assertIn('fixture-1',journal.read_text());self.assertEqual(self.ledger.snapshot()['requests_cumulative'],2)
+                              ^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpc5p8opgx/results/producer_producer_conformity_journal.jsonl'
+
+======================================================================
+ERROR: test_R07_resume_saved_raw_and_closed_artifact_without_new_sends (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_resume_saved_raw_and_closed_artifact_without_new_sends)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 474, in test_R07_resume_saved_raw_and_closed_artifact_without_new_sends
+    self.prepare()
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 305, in prepare
+    if producer:self.producer()
+                ^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 299, in producer
+    return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+======================================================================
+ERROR: test_R08_frozen_budget_tamper_first_gate_zero_additional_calls (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R08_frozen_budget_tamper_first_gate_zero_additional_calls)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 438, in test_R08_frozen_budget_tamper_first_gate_zero_additional_calls
+    self.prepare();rp.run_budget_stage(self.prepared,self.results,ledger=self.ledger)
+    ^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 305, in prepare
+    if producer:self.producer()
+                ^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 299, in producer
+    return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+======================================================================
+ERROR: test_R09_consumer_identity_change_during_gate_suspends (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R09_consumer_identity_change_during_gate_suspends)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 444, in test_R09_consumer_identity_change_during_gate_suspends
+    self.prepare();rp.run_budget_stage(self.prepared,self.results,ledger=self.ledger);self.consumer_identity=5
+    ^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 305, in prepare
+    if producer:self.producer()
+                ^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 299, in producer
+    return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+======================================================================
+ERROR: test_ordinary_complete_producer_prepare_probe_gate_offline (studio2.fase03.harness.test_revisions.RunnerRevisions.test_ordinary_complete_producer_prepare_probe_gate_offline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 31, in load_validator
+    from jsonschema import Draft202012Validator
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/__init__.py", line 13, in <module>
+    from jsonschema._format import FormatChecker
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/_format.py", line 11, in <module>
+    from jsonschema.exceptions import FormatError
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/jsonschema/exceptions.py", line 15, in <module>
+    from referencing.exceptions import Unresolvable as _Unresolvable
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/__init__.py", line 5, in <module>
+    from referencing._core import Anchor, Registry, Resource, Specification
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/referencing/_core.py", line 9, in <module>
+    from rpds import HashTrieMap, HashTrieSet, List
+  File "/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/__init__.py", line 1, in <module>
+    from .rpds import *
+ImportError: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 450, in test_ordinary_complete_producer_prepare_probe_gate_offline
+    self.prepare();rp.run_budget_stage(self.prepared,self.results,ledger=self.ledger)
+    ^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 305, in prepare
+    if producer:self.producer()
+                ^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 299, in producer
+    return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/producer_probe.py", line 112, in run
+    validator = load_validator(schema_dir)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/insight_adapter.py", line 35, in load_validator
+    raise HarnessError(f'R4 validator runtime dependency unavailable or incompatible: {exc}') from exc
+studio2.fase03.harness.common.HarnessError: R4 validator runtime dependency unavailable or incompatible: dlopen(/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so, 0x0002): tried: '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64')), '/System/Volumes/Preboot/Cryptexes/OS/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (no such file), '/Users/luker/Library/Python/3.11/lib/python/site-packages/rpds/rpds.cpython-311-darwin.so' (mach-o file, but is an incompatible architecture (have 'arm64', need 'x86_64'))
+
+======================================================================
+FAIL: test_R07_producer_and_consumer_real_process_crashes (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R07_producer_and_consumer_real_process_crashes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 525, in test_R07_producer_and_consumer_real_process_crashes
+    self.assertEqual(result.returncode,23)
+AssertionError: 1 != 23
+
+======================================================================
+FAIL: test_R09_producer_identity_mismatch_preserves_raw_and_suspends (studio2.fase03.harness.test_revisions.RunnerRevisions.test_R09_producer_identity_mismatch_preserves_raw_and_suspends)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9/studio2/fase03/harness/test_revisions.py", line 389, in test_R09_producer_identity_mismatch_preserves_raw_and_suspends
+    self.assertEqual(len(self.calls),1);self.assertEqual(self.ledger.snapshot()['durable_responses'],1)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.954s
+
+FAILED (failures=2, errors=13)

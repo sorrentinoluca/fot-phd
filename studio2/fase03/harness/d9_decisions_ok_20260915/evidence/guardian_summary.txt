@@ -1,0 +1,4 @@
+docs/test_explanation.py (contract guardian) on base af50d54 and candidate 3180aea:
+  BASE: Ran 35 tests -> FAILED (failures=14, skipped=1)  [NON PASS]
+  CAND: Ran 35 tests -> FAILED (failures=14, skipped=1)  [NON PASS]
+  per-test result streams: IDENTICAL (no regression). Not classified PASS.

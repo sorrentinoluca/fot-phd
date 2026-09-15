@@ -1,0 +1,2237 @@
+{
+  "inventory": "DURABLE_FIELD_CONTRACT.json",
+  "entries": 69,
+  "new_generated_field_entries": 56,
+  "historical_contract_entries": 13,
+  "default": "DA_COPRIRE",
+  "symmetry": {
+    "fields": 11,
+    "variants": 37,
+    "routes": 3,
+    "controls": {
+      "acquisition": [
+        "approval.author",
+        "approval.decision",
+        "approval.evidence_sha256",
+        "evidence.completion_tokens",
+        "evidence.disposition",
+        "evidence.prompt_tokens",
+        "evidence.provider_evidence",
+        "evidence.provider_request_id",
+        "evidence.request_id",
+        "evidence.request_identity_sha256",
+        "evidence.total_tokens"
+      ],
+      "retry": [
+        "approval.author",
+        "approval.decision",
+        "approval.evidence_sha256",
+        "evidence.completion_tokens",
+        "evidence.disposition",
+        "evidence.prompt_tokens",
+        "evidence.provider_evidence",
+        "evidence.provider_request_id",
+        "evidence.request_id",
+        "evidence.request_identity_sha256",
+        "evidence.total_tokens"
+      ],
+      "gate": [
+        "approval.author",
+        "approval.decision",
+        "approval.evidence_sha256",
+        "evidence.completion_tokens",
+        "evidence.disposition",
+        "evidence.prompt_tokens",
+        "evidence.provider_evidence",
+        "evidence.provider_request_id",
+        "evidence.request_id",
+        "evidence.request_identity_sha256",
+        "evidence.total_tokens"
+      ]
+    }
+  },
+  "rows": [
+    {
+      "path": "pilot.id",
+      "kind": "N",
+      "scope": "sql",
+      "table": "pilot",
+      "column": "id",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "pilot.id",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "pilot.id",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "stages.stage",
+      "kind": "N",
+      "scope": "sql",
+      "table": "stages",
+      "column": "stage",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "stages.stage",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "stages.stage",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "stages.binding_json",
+      "kind": "N",
+      "scope": "sql",
+      "table": "stages",
+      "column": "binding_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "stages.binding_json",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "stages.binding_json",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "stages.binding_sha256",
+      "kind": "N",
+      "scope": "sql",
+      "table": "stages",
+      "column": "binding_sha256",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "stages.binding_sha256",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "stages.binding_sha256",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.request_id",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "request_id",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "requests.request_id",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.request_id",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.logical_id",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "logical_id",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "requests.logical_id",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.logical_id",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.stage",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "stage",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "requests.stage",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.stage",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.stage_run",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "stage_run",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "requests.stage_run",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.stage_run",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.model",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "model",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "requests.model",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.model",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.producer",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "producer",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "requests.producer",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.producer",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.quota_kind",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "quota_kind",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "requests.quota_kind",
+          "classification": "N",
+          "refused": false,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.quota_kind",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.retry_of",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "retry_of",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "requests.retry_of",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.retry_of",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.identity_json",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "identity_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "requests.identity_json",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.identity_json",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.status",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "status",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "requests.status",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.status",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.proof_sha256",
+      "kind": "N",
+      "scope": "sql",
+      "table": "requests",
+      "column": "proof_sha256",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "requests.proof_sha256",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.proof_sha256",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.intent_utc",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "intent_utc",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence",
+      "red": [
+        {
+          "field": "requests.intent_utc",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.intent_utc",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.completed_utc",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "completed_utc",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence",
+      "red": [
+        {
+          "field": "requests.completed_utc",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.completed_utc",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.prompt_tokens",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "prompt_tokens",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence",
+      "red": [
+        {
+          "field": "requests.prompt_tokens",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.prompt_tokens",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.completion_tokens",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "completion_tokens",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence",
+      "red": [
+        {
+          "field": "requests.completion_tokens",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.completion_tokens",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.total_tokens",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "total_tokens",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence",
+      "red": [
+        {
+          "field": "requests.total_tokens",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.total_tokens",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.latency_ms",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "latency_ms",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence",
+      "red": [
+        {
+          "field": "requests.latency_ms",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.latency_ms",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "requests.detail_json",
+      "kind": "F",
+      "scope": "sql",
+      "table": "requests",
+      "column": "detail_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence",
+      "red": [
+        {
+          "field": "requests.detail_json",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "green": [
+        {
+          "field": "requests.detail_json",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "events.event",
+      "kind": "N",
+      "scope": "sql",
+      "table": "events",
+      "column": "event",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "events.event",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "events.event",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "events.created_utc",
+      "kind": "F",
+      "scope": "sql",
+      "table": "events",
+      "column": "created_utc",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence",
+      "red": [
+        {
+          "field": "events.created_utc",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "green": [
+        {
+          "field": "events.created_utc",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "events.artifact_sha256",
+      "kind": "N",
+      "scope": "sql",
+      "table": "events",
+      "column": "artifact_sha256",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "events.artifact_sha256",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "events.artifact_sha256",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "events.detail_json",
+      "kind": "N",
+      "scope": "sql",
+      "table": "events",
+      "column": "detail_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "events.detail_json",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "events.detail_json",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "responses.request_id",
+      "kind": "N",
+      "scope": "sql",
+      "table": "responses",
+      "column": "request_id",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "responses.request_id",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "responses.request_id",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "responses.raw_json",
+      "kind": "N",
+      "scope": "sql",
+      "table": "responses",
+      "column": "raw_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "responses.raw_json",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "responses.raw_json",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "responses.raw_sha256",
+      "kind": "N",
+      "scope": "sql",
+      "table": "responses",
+      "column": "raw_sha256",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "responses.raw_sha256",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "responses.raw_sha256",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "responses.record_json",
+      "kind": "N",
+      "scope": "sql",
+      "table": "responses",
+      "column": "record_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "responses.record_json",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "responses.record_json",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "responses.record_sha256",
+      "kind": "N",
+      "scope": "sql",
+      "table": "responses",
+      "column": "record_sha256",
+      "coverage": "generated_sql_matrix",
+      "reason": "Decision identity, proof, coverage or sealed artifact",
+      "red": [
+        {
+          "field": "responses.record_sha256",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "green": [
+        {
+          "field": "responses.record_sha256",
+          "classification": "N",
+          "refused": true,
+          "expected_refusal": true
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "receipts.request_id",
+      "kind": "F",
+      "scope": "sql",
+      "table": "receipts",
+      "column": "request_id",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence",
+      "red": [
+        {
+          "field": "receipts.request_id",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "green": [
+        {
+          "field": "receipts.request_id",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "receipts.capture_json",
+      "kind": "F",
+      "scope": "sql",
+      "table": "receipts",
+      "column": "capture_json",
+      "coverage": "generated_sql_matrix",
+      "reason": "Forensic capture metadata; authoritative evaluation/usage is in sealed response record or reconciliation evidence",
+      "red": [
+        {
+          "field": "receipts.capture_json",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "green": [
+        {
+          "field": "receipts.capture_json",
+          "classification": "F",
+          "refused": false,
+          "expected_refusal": false
+        }
+      ],
+      "verification": "generated SQL field mutation"
+    },
+    {
+      "path": "reconciled.evidence.request_id",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "request_id",
+      "rule": "identity",
+      "mutations": [
+        "missing",
+        "wrong_text"
+      ],
+      "coverage": "generated_symmetric_matrix",
+      "red": [
+        {
+          "field": "reconciled.evidence.request_id",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.request_id",
+          "mutation": "wrong_text",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": false
+          }
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.evidence.request_id",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.request_id",
+          "mutation": "wrong_text",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        }
+      ],
+      "verification": "generated field variants across acquisition/retry/gate"
+    },
+    {
+      "path": "reconciled.evidence.request_identity_sha256",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "request_identity_sha256",
+      "rule": "identity",
+      "mutations": [
+        "missing",
+        "wrong_hash"
+      ],
+      "coverage": "generated_symmetric_matrix",
+      "red": [
+        {
+          "field": "reconciled.evidence.request_identity_sha256",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.request_identity_sha256",
+          "mutation": "wrong_hash",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": false
+          }
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.evidence.request_identity_sha256",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.request_identity_sha256",
+          "mutation": "wrong_hash",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        }
+      ],
+      "verification": "generated field variants across acquisition/retry/gate"
+    },
+    {
+      "path": "reconciled.evidence.disposition",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "disposition",
+      "rule": "disposition",
+      "mutations": [
+        "missing",
+        "wrong_text"
+      ],
+      "coverage": "generated_symmetric_matrix",
+      "red": [
+        {
+          "field": "reconciled.evidence.disposition",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.disposition",
+          "mutation": "wrong_text",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": false
+          }
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.evidence.disposition",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.disposition",
+          "mutation": "wrong_text",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        }
+      ],
+      "verification": "generated field variants across acquisition/retry/gate"
+    },
+    {
+      "path": "reconciled.evidence.provider_request_id",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "provider_request_id",
+      "rule": "provider_receipt",
+      "mutations": [
+        "missing",
+        "empty",
+        "null",
+        "false"
+      ],
+      "coverage": "generated_symmetric_matrix",
+      "red": [
+        {
+          "field": "reconciled.evidence.provider_request_id",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.provider_request_id",
+          "mutation": "empty",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.provider_request_id",
+          "mutation": "null",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.provider_request_id",
+          "mutation": "false",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.evidence.provider_request_id",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.provider_request_id",
+          "mutation": "empty",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.provider_request_id",
+          "mutation": "null",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.provider_request_id",
+          "mutation": "false",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        }
+      ],
+      "verification": "generated field variants across acquisition/retry/gate"
+    },
+    {
+      "path": "reconciled.evidence.provider_evidence",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "provider_evidence",
+      "rule": "provider_evidence",
+      "mutations": [
+        "missing",
+        "empty",
+        "null",
+        "false"
+      ],
+      "coverage": "generated_symmetric_matrix",
+      "red": [
+        {
+          "field": "reconciled.evidence.provider_evidence",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.provider_evidence",
+          "mutation": "empty",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.provider_evidence",
+          "mutation": "null",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.provider_evidence",
+          "mutation": "false",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.evidence.provider_evidence",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.provider_evidence",
+          "mutation": "empty",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.provider_evidence",
+          "mutation": "null",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.provider_evidence",
+          "mutation": "false",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        }
+      ],
+      "verification": "generated field variants across acquisition/retry/gate"
+    },
+    {
+      "path": "reconciled.evidence.prompt_tokens",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "prompt_tokens",
+      "rule": "integer_zero",
+      "mutations": [
+        "missing",
+        "positive",
+        "negative",
+        "false",
+        "string_zero"
+      ],
+      "coverage": "generated_symmetric_matrix",
+      "red": [
+        {
+          "field": "reconciled.evidence.prompt_tokens",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.prompt_tokens",
+          "mutation": "positive",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.prompt_tokens",
+          "mutation": "negative",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.prompt_tokens",
+          "mutation": "false",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.prompt_tokens",
+          "mutation": "string_zero",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.evidence.prompt_tokens",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.prompt_tokens",
+          "mutation": "positive",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.prompt_tokens",
+          "mutation": "negative",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.prompt_tokens",
+          "mutation": "false",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.prompt_tokens",
+          "mutation": "string_zero",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        }
+      ],
+      "verification": "generated field variants across acquisition/retry/gate"
+    },
+    {
+      "path": "reconciled.evidence.completion_tokens",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "completion_tokens",
+      "rule": "integer_zero",
+      "mutations": [
+        "missing",
+        "positive",
+        "negative",
+        "false",
+        "string_zero"
+      ],
+      "coverage": "generated_symmetric_matrix",
+      "red": [
+        {
+          "field": "reconciled.evidence.completion_tokens",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.completion_tokens",
+          "mutation": "positive",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.completion_tokens",
+          "mutation": "negative",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.completion_tokens",
+          "mutation": "false",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.completion_tokens",
+          "mutation": "string_zero",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.evidence.completion_tokens",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.completion_tokens",
+          "mutation": "positive",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.completion_tokens",
+          "mutation": "negative",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.completion_tokens",
+          "mutation": "false",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.completion_tokens",
+          "mutation": "string_zero",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        }
+      ],
+      "verification": "generated field variants across acquisition/retry/gate"
+    },
+    {
+      "path": "reconciled.evidence.total_tokens",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "evidence",
+      "field": "total_tokens",
+      "rule": "integer_zero",
+      "mutations": [
+        "missing",
+        "positive",
+        "negative",
+        "false",
+        "string_zero"
+      ],
+      "coverage": "generated_symmetric_matrix",
+      "red": [
+        {
+          "field": "reconciled.evidence.total_tokens",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.total_tokens",
+          "mutation": "positive",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.total_tokens",
+          "mutation": "negative",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.total_tokens",
+          "mutation": "false",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.evidence.total_tokens",
+          "mutation": "string_zero",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.evidence.total_tokens",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.total_tokens",
+          "mutation": "positive",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.total_tokens",
+          "mutation": "negative",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.total_tokens",
+          "mutation": "false",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.evidence.total_tokens",
+          "mutation": "string_zero",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        }
+      ],
+      "verification": "generated field variants across acquisition/retry/gate"
+    },
+    {
+      "path": "reconciled.approval.author",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "approval",
+      "field": "author",
+      "rule": "author",
+      "mutations": [
+        "missing",
+        "empty",
+        "null",
+        "false"
+      ],
+      "coverage": "generated_symmetric_matrix",
+      "red": [
+        {
+          "field": "reconciled.approval.author",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.approval.author",
+          "mutation": "empty",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.approval.author",
+          "mutation": "null",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.approval.author",
+          "mutation": "false",
+          "routes": {
+            "acquisition": true,
+            "retry": false,
+            "gate": false
+          }
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.approval.author",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.approval.author",
+          "mutation": "empty",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.approval.author",
+          "mutation": "null",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.approval.author",
+          "mutation": "false",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        }
+      ],
+      "verification": "generated field variants across acquisition/retry/gate"
+    },
+    {
+      "path": "reconciled.approval.decision",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "approval",
+      "field": "decision",
+      "rule": "accepted",
+      "mutations": [
+        "missing",
+        "wrong_text"
+      ],
+      "coverage": "generated_symmetric_matrix",
+      "red": [
+        {
+          "field": "reconciled.approval.decision",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.approval.decision",
+          "mutation": "wrong_text",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": false
+          }
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.approval.decision",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.approval.decision",
+          "mutation": "wrong_text",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        }
+      ],
+      "verification": "generated field variants across acquisition/retry/gate"
+    },
+    {
+      "path": "reconciled.approval.evidence_sha256",
+      "kind": "N",
+      "scope": "zero_token",
+      "section": "approval",
+      "field": "evidence_sha256",
+      "rule": "file_binding",
+      "mutations": [
+        "missing",
+        "wrong_hash"
+      ],
+      "coverage": "generated_symmetric_matrix",
+      "red": [
+        {
+          "field": "reconciled.approval.evidence_sha256",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": false
+          }
+        },
+        {
+          "field": "reconciled.approval.evidence_sha256",
+          "mutation": "wrong_hash",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": false
+          }
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.approval.evidence_sha256",
+          "mutation": "missing",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        },
+        {
+          "field": "reconciled.approval.evidence_sha256",
+          "mutation": "wrong_hash",
+          "routes": {
+            "acquisition": true,
+            "retry": true,
+            "gate": true
+          }
+        }
+      ],
+      "verification": "generated field variants across acquisition/retry/gate"
+    },
+    {
+      "path": "reconciled.evidence",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled",
+      "field": "evidence",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "red": [
+        {
+          "field": "reconciled.evidence",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.evidence",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "verification": "generated envelope field deletion"
+    },
+    {
+      "path": "reconciled.approval",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled",
+      "field": "approval",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "red": [
+        {
+          "field": "reconciled.approval",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.approval",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "verification": "generated envelope field deletion"
+    },
+    {
+      "path": "reconciled.approval_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled",
+      "field": "approval_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "red": [
+        {
+          "field": "reconciled.approval_sha256",
+          "present": true,
+          "refused": false
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.approval_sha256",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "verification": "generated envelope field deletion"
+    },
+    {
+      "path": "reconciled.previous_status",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled",
+      "field": "previous_status",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "red": [
+        {
+          "field": "reconciled.previous_status",
+          "present": true,
+          "refused": false
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.previous_status",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "verification": "generated envelope field deletion"
+    },
+    {
+      "path": "reconciled.evidence_content_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled",
+      "field": "evidence_content_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "red": [
+        {
+          "field": "reconciled.evidence_content_sha256",
+          "present": true,
+          "refused": false
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.evidence_content_sha256",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "verification": "generated envelope field deletion"
+    },
+    {
+      "path": "reconciled.approval_content_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled",
+      "field": "approval_content_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "red": [
+        {
+          "field": "reconciled.approval_content_sha256",
+          "present": true,
+          "refused": false
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled.approval_content_sha256",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "verification": "generated envelope field deletion"
+    },
+    {
+      "path": "reconciled_integrity.request_id",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled_integrity",
+      "field": "request_id",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "red": [
+        {
+          "field": "reconciled_integrity.request_id",
+          "present": false,
+          "refused": false
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled_integrity.request_id",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "verification": "generated envelope field deletion"
+    },
+    {
+      "path": "reconciled_integrity.evidence_file_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled_integrity",
+      "field": "evidence_file_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "red": [
+        {
+          "field": "reconciled_integrity.evidence_file_sha256",
+          "present": false,
+          "refused": false
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled_integrity.evidence_file_sha256",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "verification": "generated envelope field deletion"
+    },
+    {
+      "path": "reconciled_integrity.approval_file_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled_integrity",
+      "field": "approval_file_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "red": [
+        {
+          "field": "reconciled_integrity.approval_file_sha256",
+          "present": false,
+          "refused": false
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled_integrity.approval_file_sha256",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "verification": "generated envelope field deletion"
+    },
+    {
+      "path": "reconciled_integrity.evidence_content_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled_integrity",
+      "field": "evidence_content_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "red": [
+        {
+          "field": "reconciled_integrity.evidence_content_sha256",
+          "present": false,
+          "refused": false
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled_integrity.evidence_content_sha256",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "verification": "generated envelope field deletion"
+    },
+    {
+      "path": "reconciled_integrity.approval_content_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled_integrity",
+      "field": "approval_content_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "red": [
+        {
+          "field": "reconciled_integrity.approval_content_sha256",
+          "present": false,
+          "refused": false
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled_integrity.approval_content_sha256",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "verification": "generated envelope field deletion"
+    },
+    {
+      "path": "reconciled_integrity.previous_status",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "reconciled_integrity",
+      "field": "previous_status",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "red": [
+        {
+          "field": "reconciled_integrity.previous_status",
+          "present": false,
+          "refused": false
+        }
+      ],
+      "green": [
+        {
+          "field": "reconciled_integrity.previous_status",
+          "present": true,
+          "refused": true
+        }
+      ],
+      "verification": "generated envelope field deletion"
+    },
+    {
+      "path": "outcome.outcome",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "outcome",
+      "field": "outcome",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "test_D02_record_digest_binding_and_frozen_evidence_are_reauthenticated / X01,X02,X04"
+    },
+    {
+      "path": "outcome.diagnosis",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "outcome",
+      "field": "diagnosis",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "test_D02_record_digest_binding_and_frozen_evidence_are_reauthenticated / X01,X02,X04"
+    },
+    {
+      "path": "outcome.records_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "outcome",
+      "field": "records_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "test_D02_record_digest_binding_and_frozen_evidence_are_reauthenticated / X01,X02,X04"
+    },
+    {
+      "path": "outcome.artifact",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "outcome",
+      "field": "artifact",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "test_D02_record_digest_binding_and_frozen_evidence_are_reauthenticated / X01,X02,X04"
+    },
+    {
+      "path": "frozen_gate.frozen",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "frozen_gate",
+      "field": "frozen",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "test_R08_* / X18 / D02"
+    },
+    {
+      "path": "transport_invalidity.record",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "transport_invalidity",
+      "field": "record",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "test_C02_* / Z05 / X23 adapted"
+    },
+    {
+      "path": "remediation_authorized.diff_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "remediation_authorized",
+      "field": "diff_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "test_R06_* / X10,X20,X24"
+    },
+    {
+      "path": "remediation_authorized.template_sha256",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "remediation_authorized",
+      "field": "template_sha256",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "test_R06_* / X10,X20,X24"
+    },
+    {
+      "path": "remediation_authorized.template_text",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "remediation_authorized",
+      "field": "template_text",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "test_R06_* / X10,X20,X24"
+    },
+    {
+      "path": "remediation_authorized.approval",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "remediation_authorized",
+      "field": "approval",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "test_R06_* / X10,X20,X24"
+    },
+    {
+      "path": "remediation_waived.effect",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "remediation_waived",
+      "field": "effect",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "test_R05_* / X09"
+    },
+    {
+      "path": "suspended.reason",
+      "kind": "N",
+      "scope": "event_payload",
+      "event": "suspended",
+      "field": "reason",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "test_R01_* / test_R09_* / Y03,Y05"
+    },
+    {
+      "path": "note.*",
+      "kind": "F",
+      "scope": "event_payload",
+      "event": "note",
+      "field": "*",
+      "coverage": "sealed_payload_or_existing_contract",
+      "reason": "Opaque JSON containers classify every descendant by the enclosing sealed artifact; note payload is forensic",
+      "verification": "historical contract tests; no new per-field mutation claim",
+      "reference": "non_ok_a219bd4_20260915/files/MATRICE_50_METODI.md",
+      "tests": "D03 SQL matrix forensic positive control"
+    }
+  ],
+  "limits": "Field classifications are complete for named structures; opaque sealed JSON subtrees inherit N. This finite matrix does not enumerate every value or combined fault; historical per-field mutation is not claimed."
+}

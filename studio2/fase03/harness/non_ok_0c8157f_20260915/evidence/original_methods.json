@@ -1,0 +1,302 @@
+[
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_01_crash_intent_survives_real_process_exit",
+    "number": 1,
+    "line": 62
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_02_two_processes_same_logical_request",
+    "number": 2,
+    "line": 77
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_03_restart_changed_stage_run_cannot_duplicate_logical_request",
+    "number": 3,
+    "line": 91
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_04_failed_transport_cannot_be_promoted_to_pass",
+    "number": 4,
+    "line": 97
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_05_zero_token_original_without_successful_retry_cannot_pass",
+    "number": 5,
+    "line": 101
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_06_closed_stage_cannot_acquire_new_retry",
+    "number": 6,
+    "line": 105
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_07_pending_late_retry_blocks_next_stage_after_restart",
+    "number": 7,
+    "line": 111
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_08_public_event_api_cannot_forge_gate_prerequisite",
+    "number": 8,
+    "line": 120
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_09_remediation_cannot_replace_eight_cases_by_one_case",
+    "number": 9,
+    "line": 124
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_10_unknown_timeout_cannot_authorize_prompt_remediation",
+    "number": 10,
+    "line": 130
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_11_same_original_cannot_fund_concurrent_retries",
+    "number": 11,
+    "line": 135
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_12_probe_triplet_cannot_reuse_one_original_three_times",
+    "number": 12,
+    "line": 139
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_13_probe_triplet_rollback_at_quota_boundary",
+    "number": 13,
+    "line": 144
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_14_waiver_boundary_15_and_no_alternate_quota_theft",
+    "number": 14,
+    "line": 153
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_15_gate_create_once_no_retry_and_no_return_to_probe",
+    "number": 15,
+    "line": 165
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_16_planned_maxima_152_160_with_valid_quota_chain",
+    "number": 16,
+    "line": 172
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_17_hard_200_separate_for_imported_historical_fixture",
+    "number": 17,
+    "line": 194
+  },
+  {
+    "class_name": "LedgerProbes",
+    "name": "test_18_outcome_validation_and_write_are_atomic",
+    "number": 18,
+    "line": 204
+  },
+  {
+    "class_name": "GateProbes",
+    "name": "test_20_thresholds_and_missing_abstention",
+    "number": 20,
+    "line": 215
+  },
+  {
+    "class_name": "GateProbes",
+    "name": "test_21_forensic_vs_semantic_truncation_all_invalid",
+    "number": 21,
+    "line": 226
+  },
+  {
+    "class_name": "GateProbes",
+    "name": "test_22_duplicate_repetitions_are_not_three_first_attempts",
+    "number": 22,
+    "line": 236
+  },
+  {
+    "class_name": "GateProbes",
+    "name": "test_23_triplet_cannot_mix_conditions",
+    "number": 23,
+    "line": 241
+  },
+  {
+    "class_name": "GateProbes",
+    "name": "test_24_gate_condition_sample_must_match_8_16_16",
+    "number": 24,
+    "line": 245
+  },
+  {
+    "class_name": "InputProbes",
+    "name": "test_30_all_four_r4_byte_tamper_rejected",
+    "number": 30,
+    "line": 254
+  },
+  {
+    "class_name": "InputProbes",
+    "name": "test_31_r4_pair_ids_fields_caps_leakage",
+    "number": 31,
+    "line": 261
+  },
+  {
+    "class_name": "InputProbes",
+    "name": "test_32_producer_inventory_cannot_accept_changed_source_text",
+    "number": 32,
+    "line": 270
+  },
+  {
+    "class_name": "InputProbes",
+    "name": "test_33_insight_handoff_self_declared_valid_is_insufficient",
+    "number": 33,
+    "line": 274
+  },
+  {
+    "class_name": "InputProbes",
+    "name": "test_34_renderer_refuses_pending_label_order",
+    "number": 34,
+    "line": 280
+  },
+  {
+    "class_name": "InputProbes",
+    "name": "test_35_builder_preserves_canonical_label_space",
+    "number": 35,
+    "line": 288
+  },
+  {
+    "class_name": "InputProbes",
+    "name": "test_36_endpoint_and_tokenizer_guards_reject_tampering",
+    "number": 36,
+    "line": 297
+  },
+  {
+    "class_name": "InputProbes",
+    "name": "test_37_frozen_pseudolabel_assignment_derangement_bytes_are_enforced",
+    "number": 37,
+    "line": 303
+  },
+  {
+    "class_name": "InputProbes",
+    "name": "test_38_evidence_json_hash_is_verified_before_contract_extraction",
+    "number": 38,
+    "line": 309
+  },
+  {
+    "class_name": "InputProbes",
+    "name": "test_39_pending_label_order_cannot_reach_real_prepare_entrypoint",
+    "number": 39,
+    "line": 319
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_40_producer_validates_all_pairs_and_writes_only_full_library",
+    "number": 40,
+    "line": 363
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_41_r4_tamper_must_block_before_any_transport",
+    "number": 41,
+    "line": 368
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_42_producer_changed_identity_suspends",
+    "number": 42,
+    "line": 378
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_43_producer_failure_preserves_completed_raw_before_restart",
+    "number": 43,
+    "line": 383
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_44_producer_resume_skips_completed_requests",
+    "number": 44,
+    "line": 391
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_45_remediation_must_bind_approved_template_hash",
+    "number": 45,
+    "line": 400
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_46_consumer_rejects_undecided_before_historical_server_contact",
+    "number": 46,
+    "line": 406
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_47_load_prepared_checks_source_manifest_hash",
+    "number": 47,
+    "line": 416
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_48_tracked_transport_failure_remains_invalid_in_denominator",
+    "number": 48,
+    "line": 427
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_49_changed_producer_input_cannot_become_validated_library",
+    "number": 49,
+    "line": 437
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_50_budget_crash_preserves_partial_raw_and_stage_count",
+    "number": 50,
+    "line": 463
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_51_gate_crash_preserves_raw_without_duplicate_on_restart",
+    "number": 51,
+    "line": 471
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_52_gate_rejects_frozen_generation_changed_after_probe",
+    "number": 52,
+    "line": 481
+  },
+  {
+    "class_name": "RunnerProbes",
+    "name": "test_53_gate_rejects_changed_returned_model",
+    "number": 53,
+    "line": 491
+  },
+  {
+    "class_name": "RecoveredModuleProbes",
+    "name": "test_60_sampling_and_canary_forensic_separation",
+    "number": 60,
+    "line": 499
+  },
+  {
+    "class_name": "RecoveredModuleProbes",
+    "name": "test_61_recovered_logger_persists_and_detects_tamper",
+    "number": 61,
+    "line": 514
+  },
+  {
+    "class_name": "RecoveredModuleProbes",
+    "name": "test_62_tokenizer_byte_guards",
+    "number": 62,
+    "line": 522
+  }
+]

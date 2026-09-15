@@ -1,0 +1,70 @@
+{
+  "scope": "Documentary acquisition only; no harness test execution",
+  "source_and_copy_checks": {
+    "entries": 1965,
+    "copies": 80,
+    "external_verified": 1885,
+    "mismatches": 0
+  },
+  "guardian": {
+    "command": "python3 docs/test_explanation.py",
+    "status": "NON PASS",
+    "before_and_after": {
+      "tests": 35,
+      "failures": 14,
+      "skipped": 1,
+      "errors": 0
+    },
+    "same_ids_and_subtests_before_after_and_codex_review": true,
+    "failed_ids": [
+      "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ]
+  },
+  "new_record_links": {
+    "count": 6,
+    "missing": []
+  },
+  "previous_tracked_files_changed": [],
+  "preserved_certified_files": [
+    {
+      "path": "studio2/fase03/harness/CONSEGNA_D04.json",
+      "bytes": 24869,
+      "sha256": "6ba214fd8cd9ddc6ab83ca2525b863963f6a677234c20156d6f8afe387ab2bc3",
+      "identical_to_documentary_base": true
+    },
+    {
+      "path": "studio2/fase03/harness/HARNESS_OFFLINE_CANDIDATE.json",
+      "bytes": 24151,
+      "sha256": "9fbad8c036075605a9bbdfdac84078259428b679fc33341ed98f21050a07efd6",
+      "identical_to_documentary_base": true
+    },
+    {
+      "path": "studio2/fase03/harness/DELIVERY_AUDIT_D04.json",
+      "bytes": 28499,
+      "sha256": "ed9441bd6699925d4097241d24e72c63a8d6c1c4e9a1b3994e6419247339f023",
+      "identical_to_documentary_base": true
+    }
+  ],
+  "staged_scope": {
+    "new_files": 86,
+    "modified_previous_files": 0
+  },
+  "diff_check": {
+    "all_files_exit": 2,
+    "reason": "Whitespace in byte-identical acquired evidence and raw guardian logs retained intentionally",
+    "new_records_exit": 0
+  }
+}

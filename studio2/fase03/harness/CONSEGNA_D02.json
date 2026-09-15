@@ -1,0 +1,172 @@
+{
+  "status": "LOCAL_CANDIDATE_PENDING_INDEPENDENT_REVIEW",
+  "branch": "codex/studio2-harness-0310-d02",
+  "worktree": "/Users/luker/fot-tep-harness-0310-d02",
+  "base_documentary_commit": "7afbf41632aa8117c85274b5f471abca0a655462",
+  "acquisition_commit": "5b45cdcabe40aa64b0aecd1b5fe9d09c92ce5bb4",
+  "technical_candidate": "a219bd469bbd280f56b7fa9cb56cda115b0975ed",
+  "technical_tree": "3fb8e50c189b85b447503b8a1ac99c1741904a5b",
+  "manifest": {
+    "path": "/Users/luker/fot-tep-harness-0310-d02/studio2/fase03/harness/HARNESS_OFFLINE_CANDIDATE.json",
+    "sha256": "fb8474c6e71d63fbb54b83d46e63ae4238a7fb4b20d6c988866e27085d8db9a9",
+    "bytes": 17729,
+    "members": 70
+  },
+  "report": {
+    "path": "/Users/luker/fot-tep-harness-0310-d02/studio2/fase03/harness/REPORT_CORREZIONE_D02.md",
+    "sha256": "676cc25825fefe2075ead0da76be26973adc588c2d57740bd0fe423f50cb1831"
+  },
+  "prompt": {
+    "path": "/Users/luker/fot-tep-harness-0310-d02/studio2/fase03/harness/PROMPT_VERIFICA_D02.md",
+    "sha256": "85c735161804a5b0dce6fdfb1dfcfcf49c25c636f5f2e9176a0ffdd1528262f9"
+  },
+  "results": {
+    "targeted": {
+      "tests": 111,
+      "failures": 0,
+      "errors": 0
+    },
+    "discovery": {
+      "tests": 146,
+      "failures": 0,
+      "errors": 0
+    },
+    "new_regressions": 8,
+    "initial_module_run": {
+      "tests": 29,
+      "failures": 0,
+      "errors": 0,
+      "note": "8 new methods plus 21 imported fixture methods; import changed to module alias before final suites"
+    },
+    "before_Z": {
+      "tests": 5,
+      "failures": 3,
+      "errors": 0
+    },
+    "after_Z": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0
+    },
+    "Y": {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0
+    },
+    "X19_X24_literal": {
+      "tests": 6,
+      "failures": 1,
+      "errors": 0
+    },
+    "X23_previous_adaptation": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0
+    },
+    "X01_X18_literal": {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0
+    },
+    "applicable": {
+      "tests": 14,
+      "failures": 0,
+      "errors": 0
+    },
+    "documentation": {
+      "tests": 35,
+      "failures": 14,
+      "skipped": 1,
+      "errors": 0,
+      "same_failure_identifiers": true,
+      "failure_identifiers": [
+        "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+        "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1\u2013C4: 4/4 PASS')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+        "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+        "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+        "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+      ],
+      "status": "NON PASS"
+    },
+    "compile": {
+      "live_files": 92,
+      "syntax_errors": 0,
+      "exclusions": "forensic acquisitions and evidence folders"
+    },
+    "independent_review": "pending; no autonomous closure of NON OK",
+    "scientific_execution": false,
+    "copied_files": 44,
+    "external_files": 1797
+  },
+  "technical_paths": [
+    "studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md",
+    "studio2/fase03/harness/HARNESS_OFFLINE_CANDIDATE.json",
+    "studio2/fase03/harness/MATRICE_R01_R10_D02.md",
+    "studio2/fase03/harness/d02_evidence/COMANDI.md",
+    "studio2/fase03/harness/d02_evidence/REPRODUCTION_INVENTORY.json",
+    "studio2/fase03/harness/d02_evidence/RESULTS.json",
+    "studio2/fase03/harness/d02_evidence/SHA256SUMS",
+    "studio2/fase03/harness/d02_evidence/after/console.log",
+    "studio2/fase03/harness/d02_evidence/after/evidence/chain_probes.json",
+    "studio2/fase03/harness/d02_evidence/after/evidence/chain_probes.log",
+    "studio2/fase03/harness/d02_evidence/after/evidence/chain_probes.py",
+    "studio2/fase03/harness/d02_evidence/applicable.console.log",
+    "studio2/fase03/harness/d02_evidence/applicable/applicable.json",
+    "studio2/fase03/harness/d02_evidence/applicable/applicable.log",
+    "studio2/fase03/harness/d02_evidence/applicable/evidence/negative_probes.py",
+    "studio2/fase03/harness/d02_evidence/before/console.log",
+    "studio2/fase03/harness/d02_evidence/before/evidence/chain_probes.json",
+    "studio2/fase03/harness/d02_evidence/before/evidence/chain_probes.log",
+    "studio2/fase03/harness/d02_evidence/before/evidence/chain_probes.py",
+    "studio2/fase03/harness/d02_evidence/compile.json",
+    "studio2/fase03/harness/d02_evidence/d02.log",
+    "studio2/fase03/harness/d02_evidence/discovery.log",
+    "studio2/fase03/harness/d02_evidence/documentation_after.log",
+    "studio2/fase03/harness/d02_evidence/documentation_before.log",
+    "studio2/fase03/harness/d02_evidence/documentation_comparison.json",
+    "studio2/fase03/harness/d02_evidence/extension_commands.json",
+    "studio2/fase03/harness/d02_evidence/literal/additional_edges.py.console.log",
+    "studio2/fase03/harness/d02_evidence/literal/evidence/additional_edges.py",
+    "studio2/fase03/harness/d02_evidence/literal/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d02_evidence/literal/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d02_evidence/literal/evidence/extended.json",
+    "studio2/fase03/harness/d02_evidence/literal/evidence/extended.log",
+    "studio2/fase03/harness/d02_evidence/literal/evidence/extended_probes.py",
+    "studio2/fase03/harness/d02_evidence/literal/extended_probes.py.console.log",
+    "studio2/fase03/harness/d02_evidence/run_extensions.py",
+    "studio2/fase03/harness/d02_evidence/runtime.json",
+    "studio2/fase03/harness/d02_evidence/scope.json",
+    "studio2/fase03/harness/d02_evidence/scope_audit.py",
+    "studio2/fase03/harness/d02_evidence/setup_notes.json",
+    "studio2/fase03/harness/d02_evidence/targeted.log",
+    "studio2/fase03/harness/d02_evidence/x23_adapted/additional_edges.py.console.log",
+    "studio2/fase03/harness/d02_evidence/x23_adapted/evidence/additional_edges.py",
+    "studio2/fase03/harness/d02_evidence/x23_adapted/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d02_evidence/x23_adapted/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d02_evidence/x23_adapted/evidence/extended_probes.py",
+    "studio2/fase03/harness/d02_evidence/x23_adapted/setup_missing_dependency.log",
+    "studio2/fase03/harness/d02_evidence/y_original/edge_probes.py.console.log",
+    "studio2/fase03/harness/d02_evidence/y_original/evidence/edge_probes.json",
+    "studio2/fase03/harness/d02_evidence/y_original/evidence/edge_probes.log",
+    "studio2/fase03/harness/d02_evidence/y_original/evidence/edge_probes.py",
+    "studio2/fase03/harness/ledger.py",
+    "studio2/fase03/harness/test_d02_predecessors.py"
+  ],
+  "documentary_successor_files": [
+    "REPORT_CORREZIONE_D02.md",
+    "PROMPT_VERIFICA_D02.md",
+    "CONSEGNA_D02.json",
+    "DELIVERY_AUDIT_D02.json"
+  ],
+  "freeze": false,
+  "go": false
+}

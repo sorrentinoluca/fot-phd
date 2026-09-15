@@ -1,0 +1,83 @@
+{
+  "status": "LOCAL_TECHNICAL_CANDIDATE_PENDING_INDEPENDENT_REVIEW",
+  "branch": "codex/studio2-harness-0310-d01",
+  "worktree": "/Users/luker/fot-tep-harness-0310-d01",
+  "published_base": "a00605862f627710347bd63c49f79a6d0a00135f",
+  "delivery_base": "52e13e1ed540e1ad076474398bf850445c9a4a00",
+  "acquisition_commit": "89b016a728bdbf5d2d8b438416e6133b050683da",
+  "technical_candidate": "edb37f359f29c461c5a507c1027c4bf411654130",
+  "technical_tree": "56d98666e1d18c7958ac8d3631ae6d5b8ec04bf9",
+  "documentary_successor": "The commit containing this file, not the technical candidate; self-hash omitted",
+  "files": {
+    "HARNESS_OFFLINE_CANDIDATE.json": {
+      "sha256": "c823cb669fb408080b46311e6c753be4b5243764d76e88ed67273f3c213c4fd8",
+      "bytes": 15815
+    },
+    "REPORT_CORREZIONE_D01.md": {
+      "sha256": "4191b10e44dfe60bc873d2b8a26c8089ecd0e70348c2fe26cb46d82ad44d3636",
+      "bytes": 13836
+    },
+    "PROMPT_VERIFICA_D01.md": {
+      "sha256": "9b288b4312cf6e4594d20ff04d93b6e78c595c9d660e822ba78653a31047ccc7",
+      "bytes": 7106
+    },
+    "MATRICE_R01_R10_D01.md": {
+      "sha256": "83483edbcefbc9f537d6a47033e6b538b26371c260757063150f9e4d2147512f",
+      "bytes": 6201
+    }
+  },
+  "technical_changed_paths": [
+    "studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md",
+    "studio2/fase03/harness/HARNESS_OFFLINE_CANDIDATE.json",
+    "studio2/fase03/harness/MATRICE_R01_R10_D01.md",
+    "studio2/fase03/harness/d01_evidence/COMANDI.md",
+    "studio2/fase03/harness/d01_evidence/REPRODUCTION_INVENTORY.json",
+    "studio2/fase03/harness/d01_evidence/RESULTS.json",
+    "studio2/fase03/harness/d01_evidence/SHA256SUMS",
+    "studio2/fase03/harness/d01_evidence/acquire.py",
+    "studio2/fase03/harness/d01_evidence/after/console.log",
+    "studio2/fase03/harness/d01_evidence/after/evidence/edge_probes.json",
+    "studio2/fase03/harness/d01_evidence/after/evidence/edge_probes.log",
+    "studio2/fase03/harness/d01_evidence/after/evidence/edge_probes.py",
+    "studio2/fase03/harness/d01_evidence/applicable/applicable.json",
+    "studio2/fase03/harness/d01_evidence/applicable/applicable.log",
+    "studio2/fase03/harness/d01_evidence/applicable/evidence/negative_probes.py",
+    "studio2/fase03/harness/d01_evidence/applicable_console.log",
+    "studio2/fase03/harness/d01_evidence/before/console.log",
+    "studio2/fase03/harness/d01_evidence/before/evidence/edge_probes.json",
+    "studio2/fase03/harness/d01_evidence/before/evidence/edge_probes.log",
+    "studio2/fase03/harness/d01_evidence/before/evidence/edge_probes.py",
+    "studio2/fase03/harness/d01_evidence/compile.json",
+    "studio2/fase03/harness/d01_evidence/d01.log",
+    "studio2/fase03/harness/d01_evidence/discovery.log",
+    "studio2/fase03/harness/d01_evidence/documentation_after.log",
+    "studio2/fase03/harness/d01_evidence/documentation_before.log",
+    "studio2/fase03/harness/d01_evidence/documentation_comparison.json",
+    "studio2/fase03/harness/d01_evidence/literal/additional_console.log",
+    "studio2/fase03/harness/d01_evidence/literal/evidence/additional_edges.py",
+    "studio2/fase03/harness/d01_evidence/literal/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d01_evidence/literal/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d01_evidence/literal/evidence/extended.json",
+    "studio2/fase03/harness/d01_evidence/literal/evidence/extended.log",
+    "studio2/fase03/harness/d01_evidence/literal/evidence/extended_probes.py",
+    "studio2/fase03/harness/d01_evidence/literal/extended_console.log",
+    "studio2/fase03/harness/d01_evidence/package_evidence.py",
+    "studio2/fase03/harness/d01_evidence/runtime.json",
+    "studio2/fase03/harness/d01_evidence/scope.json",
+    "studio2/fase03/harness/d01_evidence/scope_audit.py",
+    "studio2/fase03/harness/d01_evidence/scope_initial_issue.json",
+    "studio2/fase03/harness/d01_evidence/targeted.log",
+    "studio2/fase03/harness/d01_evidence/update_manifest.py",
+    "studio2/fase03/harness/d01_evidence/worktrees_before.txt",
+    "studio2/fase03/harness/d01_evidence/x23_adapted/console.log",
+    "studio2/fase03/harness/d01_evidence/x23_adapted/evidence/additional_edges.py",
+    "studio2/fase03/harness/d01_evidence/x23_adapted/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d01_evidence/x23_adapted/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d01_evidence/x23_adapted/evidence/extended_probes.py",
+    "studio2/fase03/harness/ledger.py",
+    "studio2/fase03/harness/test_d01_replay.py"
+  ],
+  "no_go": true,
+  "no_freeze": true,
+  "no_push": true
+}

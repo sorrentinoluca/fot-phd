@@ -1,0 +1,2 @@
+[as-is] fail-closed: D9: prerequisites remain incomplete
+[prereqs-forced] fail-closed: D9: canonical R4 tokenizer must remain separate and pinned

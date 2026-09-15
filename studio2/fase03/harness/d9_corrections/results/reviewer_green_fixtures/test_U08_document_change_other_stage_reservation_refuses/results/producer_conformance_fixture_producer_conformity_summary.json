@@ -1,0 +1,12 @@
+{
+  "artifact_version": "4",
+  "status": "PASS",
+  "stage": "producer_conformity",
+  "producer_identity_sha256": "4cb0b14e9572deb7d06e75bd183864f8f49cd52955c33ba8858588c0985f7357",
+  "provider_requests": 8,
+  "evaluable_calls": 8,
+  "valid_first_attempts": 8,
+  "records_sha256": "6f4af02ceb04e57ce466d0ef7919ebc652e0478568e0c12b59dec873413ee57e",
+  "binding_sha256": "c48871fd78952d583256968f7564a931d9f20c6fc79472db7591e2c15bdf574d",
+  "r4_target_commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143"
+}

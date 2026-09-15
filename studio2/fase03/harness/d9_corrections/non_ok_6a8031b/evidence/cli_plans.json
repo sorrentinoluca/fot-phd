@@ -1,0 +1,35 @@
+[
+  {
+    "argv": [
+      "/opt/anaconda3/bin/python3",
+      "-m",
+      "studio2.fase03.run_pilot",
+      "--config",
+      "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/config/pilot_d9_pending.json"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate",
+    "exit": 0
+  },
+  {
+    "argv": [
+      "/opt/anaconda3/bin/python3",
+      "-m",
+      "studio2.fase03.producer_probe",
+      "--config",
+      "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/config/pilot_d9_pending.json"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate",
+    "exit": 0
+  },
+  {
+    "argv": [
+      "/opt/anaconda3/bin/python3",
+      "-m",
+      "studio2.fase03.prepare_gate",
+      "--config",
+      "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/config/pilot_d9_pending.json"
+    ],
+    "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate",
+    "exit": 3
+  }
+]

@@ -1,0 +1,119 @@
+{
+  "candidate": "23859a29225ccd9cd6f47e4a0b6e36258831dbab",
+  "tree": "fe66025f4925e27676b0be16428475e3fcaee060",
+  "verdict": "NON OK",
+  "original_D01": "CLOSED for documented original reproductions",
+  "original_D02": "CLOSED for documented original reproductions",
+  "original_D03": "CLOSED for documented original reproductions",
+  "residual": "D04: open-stage quota_kind fault permits eighth retry without waiver and reaches stub transport",
+  "tests": {
+    "targeted": {
+      "tests": 120,
+      "failures": 0,
+      "errors": 0
+    },
+    "discovery": {
+      "tests": 155,
+      "failures": 0,
+      "errors": 0
+    },
+    "Y": {
+      "tests": 7,
+      "failures": 0,
+      "errors": 0,
+      "source": "y_original/evidence/edge_probes.json"
+    },
+    "X01_X18": {
+      "tests": 18,
+      "failures": 0,
+      "errors": 0,
+      "source": "literal/evidence/extended.json"
+    },
+    "X19_X24_literal": {
+      "tests": 6,
+      "failures": 1,
+      "errors": 0,
+      "source": "literal/evidence/additional_edges/additional.json"
+    },
+    "X23_adapted": {
+      "tests": 1,
+      "failures": 0,
+      "errors": 0,
+      "source": "x23_adapted/evidence/additional_edges/additional.json"
+    },
+    "Z": {
+      "tests": 5,
+      "failures": 0,
+      "errors": 0,
+      "source": "z_original/evidence/chain_probes.json"
+    },
+    "W": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "source": "w_original/evidence/retry_proof_probes.json"
+    },
+    "V": {
+      "tests": 6,
+      "failures": 2,
+      "errors": 0,
+      "source": "independent_d03_probes.json"
+    },
+    "applicable": {
+      "tests": 14,
+      "literal": 12,
+      "fixture_adapted": [
+        20,
+        21
+      ],
+      "failures": 0,
+      "errors": 0
+    },
+    "documentation": {
+      "tests": 35,
+      "failures": 14,
+      "errors": 0,
+      "skips": 1,
+      "status": "NON PASS",
+      "same_ids": true,
+      "failed_ids": [
+        "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+        "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1\u2013C4: 4/4 PASS')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+        "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+        "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)",
+        "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+        "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')"
+      ],
+      "comparison_note": "Compare identifiers as sets/sorted lists; first checker used list order and failed despite identical identifiers. Candidate test output unchanged."
+    },
+    "red_contract": {
+      "tests": 9,
+      "failures": 8,
+      "errors": 0
+    },
+    "green_contract": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0
+    }
+  },
+  "scripts_sha256": {
+    "w_original/evidence/retry_proof_probes.py": "43745de1afca7585d5d7563cfab78ed12660f5488d554d638af6e51aaf6a434d",
+    "z_original/evidence/chain_probes.py": "30284e7ec025dbdf1651ab6d35fde35f4ad2791676284fca562fc64e58e84341",
+    "y_original/evidence/edge_probes.py": "a4dae7b278cd17422dcb180d384477b5fc3ece4fb68cea91be0dee192a2f1308",
+    "literal/evidence/extended_probes.py": "8253c371c960c2b11ce58057101920a6d4bd1b5df57e77a0e0a7ac407de1966f",
+    "literal/evidence/additional_edges.py": "8925826a7cdd368c52238899936461fe8a5cc3f82707e13078a8ee86aa54b5d7",
+    "x23_adapted/evidence/extended_probes.py": "8253c371c960c2b11ce58057101920a6d4bd1b5df57e77a0e0a7ac407de1966f",
+    "x23_adapted/evidence/additional_edges.py": "815e3658dba6caa47c26e119c3a24c9a266218db0a33c3072b47fae0e840e2e5"
+  },
+  "originals_mapped": 50,
+  "no_tests_sum": true
+}

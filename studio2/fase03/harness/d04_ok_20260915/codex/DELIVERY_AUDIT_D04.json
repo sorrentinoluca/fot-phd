@@ -1,0 +1,459 @@
+{
+  "audited_at_utc": "2026-09-15T12:10:27.184714+00:00",
+  "technical_candidate": "aae29a908356e4a4842a214fdc3db9bff26ec3ca",
+  "technical_tree": "4e1f7f043725d64fb16b7d1c921c619bce8d1bb3",
+  "documentary_base": "aae29a908356e4a4842a214fdc3db9bff26ec3ca",
+  "preserved_repositories": {
+    "/Users/luker/fot-tep": {
+      "head": "819b12e97fb94d501032655ec2f226139e6c5ca5",
+      "tree": "5022e36b3a7457e78a7bcb505f2bc66dffa5dc6d",
+      "branch": "codex/studio2-soglie-normal",
+      "status": "?? \"Claude outputs/\"\n?? studio2/fase03/APERTURA_SOTTOFASI_FASE03.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14_rev02.md\n?? studio2/fase03/baseline_numerica/\n?? studio2/fase03/evidence/\n?? studio2/fase03/fedavg/\n?? studio2/fase03/harness/\n?? studio2/fase03/paper_sections/\n?? studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md\n?? studio2/fase03/perimetro_q8/sottofase_3_4_verifica_e_attuazione.md\n?? studio2/fase03/piano_statistico/\n?? studio2/fase03/pseudolabel/\n?? studio2/fase03/schema_insight/\n?? studio2/fase03/soglie_normal/analisi_3_5_prompt.md\n?? studio2/fase03/soglie_normal/runs/normal_001/\n?? studio2/fase03/soglie_normal/runtime/batch_launch/\n?? studio2/fase03/soglie_normal/sottofase_3_5.md\n?? studio2/fase03/soglie_normal/verifica_3_5_prompt.md"
+    },
+    "/Users/luker/fot-tep-harness-0310-d01": {
+      "head": "7afbf41632aa8117c85274b5f471abca0a655462",
+      "tree": "3be5225c283fb323946279d854e3ba6958ea20a6",
+      "branch": "codex/studio2-harness-0310-d01",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-harness-0310-c01-c03": {
+      "head": "52e13e1ed540e1ad076474398bf850445c9a4a00",
+      "tree": "cac5612a777b595aca53219491f1c686f39b24d6",
+      "branch": "codex/studio2-harness-0310-c01-c03",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-harness-0310-correzioni": {
+      "head": "6268437b8b64288b50ad5f7c924e1fcab85b27d3",
+      "tree": "a0c406a8d15411cd175428b7984254c771138d91",
+      "branch": "codex/studio2-harness-0310-correzioni",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-harness-0310-offline": {
+      "head": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69",
+      "tree": "833c10f98f79b203cec385ff1aec0437b679bcc5",
+      "branch": "codex/studio2-harness-0310-offline",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate": {
+      "head": "edb37f359f29c461c5a507c1027c4bf411654130",
+      "tree": "56d98666e1d18c7958ac8d3631ae6d5b8ec04bf9",
+      "branch": "",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate": {
+      "head": "9e18bcbd06fa2c54202c8eeda079c112dbfcefcd",
+      "tree": "5d1fd7924c4e1e46346f367590e6aa1977a6ba75",
+      "branch": "",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate": {
+      "head": "0c8157f23bee49a3a5a2df648525c34706da29d7",
+      "tree": "a1573b49615a875f24ee97f9f1cd4bab399be93d",
+      "branch": "",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate": {
+      "head": "59b6b93cd9c215e8b687e540f7cd579804b7c66a",
+      "tree": "cf08c14a8deb18145189afbe9722d7da46bc2f82",
+      "branch": "",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-harness-0310-d02": {
+      "head": "e9b60c5db77edfd3c06a29857e6ba5f61ebe139a",
+      "tree": "5460dad38b8321ea0d820937fb2b506580e6e3c1",
+      "branch": "codex/studio2-harness-0310-d02",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate": {
+      "head": "a219bd469bbd280f56b7fa9cb56cda115b0975ed",
+      "tree": "3fb8e50c189b85b447503b8a1ac99c1741904a5b",
+      "branch": "",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-harness-0310-d03": {
+      "head": "97868f9d6ef281c2dd4ab1c6ffb67e2477ee5715",
+      "tree": "30af2de32f357eee0e983f82cf529cbe58cdd617",
+      "branch": "codex/studio2-harness-0310-d03",
+      "status": "?? VERIFICA_D03.md"
+    },
+    "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate": {
+      "head": "23859a29225ccd9cd6f47e4a0b6e36258831dbab",
+      "tree": "fe66025f4925e27676b0be16428475e3fcaee060",
+      "branch": "",
+      "status": ""
+    }
+  },
+  "remote_main": "a00605862f627710347bd63c49f79a6d0a00135f\trefs/heads/main",
+  "verified_manifest_members": 98,
+  "verified_proof_members": 103,
+  "verified_inventories": {
+    "d04_evidence/REPRODUCTION_INVENTORY.json": {
+      "files": 3850,
+      "copies": 98,
+      "external": 3752
+    },
+    "non_ok_23859a2_20260915/ACQUISITION_INVENTORY.json": {
+      "files": 1930,
+      "copies": 133,
+      "external": 1797
+    }
+  },
+  "verified_links": [
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "non_ok_23859a2_20260915/VERIFICA_D03_CLAUDE.md"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "non_ok_23859a2_20260915/files/VERIFICA_D03.md"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "non_ok_23859a2_20260915/ACQUISITION_INVENTORY.json"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "non_ok_23859a2_20260915/PROVENIENZA.md"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "CONTRATTO_D04_PRIMA_DEL_CODICE.md"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "CONTRATTO_ESECUZIONE_E_RIPRESA.md"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "D04_DECISION_CONTRACT.json"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "MATRICE_D04_DECISIONI.md"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "MATRICE_D04_DECISIONI.json"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "MATRICE_R01_R10_D04.md"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "non_ok_23859a2_20260915/files/MATRICE_50_METODI.md"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "d04_evidence/RESULTS.json"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "d04_evidence/runs/COMANDI.md"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "d04_evidence/REPRODUCTION_INVENTORY.json"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "d04_evidence/SHA256SUMS"
+    },
+    {
+      "source": "REPORT_CORREZIONE_D04.md",
+      "target": "d04_evidence/runs/runtime.json"
+    },
+    {
+      "source": "PROMPT_VERIFICA_D04.md",
+      "target": "REPORT_CORREZIONE_D04.md"
+    },
+    {
+      "source": "PROMPT_VERIFICA_D04.md",
+      "target": "d04_evidence/runs/COMANDI.md"
+    },
+    {
+      "source": "MATRICE_R01_R10_D04.md",
+      "target": "DURABLE_FIELD_CONTRACT.json"
+    },
+    {
+      "source": "MATRICE_R01_R10_D04.md",
+      "target": "MATRICE_D04_DECISIONI.md"
+    },
+    {
+      "source": "MATRICE_R01_R10_D04.md",
+      "target": "non_ok_23859a2_20260915/files/MATRICE_50_METODI.md"
+    },
+    {
+      "source": "MATRICE_R01_R10_D04.md",
+      "target": "d04_evidence/RESULTS.json"
+    }
+  ],
+  "test_first": {
+    "commit": "bf7774f2d153ecc50f27ba095f77b612933b4d26",
+    "runtime_unchanged": true,
+    "initial_blob_hashes_verified": true,
+    "final_test_sha256": "fbf9bc637f3922425b718620c9f60c2a1c6f4114f8115bf9c7348d538cba725e"
+  },
+  "technical_paths": [
+    "studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md",
+    "studio2/fase03/harness/HARNESS_OFFLINE_CANDIDATE.json",
+    "studio2/fase03/harness/MATRICE_D04_DECISIONI.json",
+    "studio2/fase03/harness/MATRICE_D04_DECISIONI.md",
+    "studio2/fase03/harness/MATRICE_R01_R10_D04.md",
+    "studio2/fase03/harness/d04_evidence/REPRODUCTION_INVENTORY.json",
+    "studio2/fase03/harness/d04_evidence/RESULTS.json",
+    "studio2/fase03/harness/d04_evidence/SHA256SUMS",
+    "studio2/fase03/harness/d04_evidence/runs/COMANDI.md",
+    "studio2/fase03/harness/d04_evidence/runs/after/console.log",
+    "studio2/fase03/harness/d04_evidence/runs/after/evidence/independent_d03_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/after/evidence/independent_d03_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/after/evidence/independent_d03_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/applicable.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/applicable/applicable.json",
+    "studio2/fase03/harness/d04_evidence/runs/applicable/applicable.log",
+    "studio2/fase03/harness/d04_evidence/runs/applicable/evidence/negative_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/before/console.log",
+    "studio2/fase03/harness/d04_evidence/runs/before/evidence/independent_d03_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/before/evidence/independent_d03_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/before/evidence/independent_d03_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/compile.json",
+    "studio2/fase03/harness/d04_evidence/runs/diagnostic_precedence.log",
+    "studio2/fase03/harness/d04_evidence/runs/discovery.log",
+    "studio2/fase03/harness/d04_evidence/runs/documentation_after.log",
+    "studio2/fase03/harness/d04_evidence/runs/documentation_before.log",
+    "studio2/fase03/harness/d04_evidence/runs/documentation_comparison.json",
+    "studio2/fase03/harness/d04_evidence/runs/extension_commands.json",
+    "studio2/fase03/harness/d04_evidence/runs/extensions.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/generate_decision_matrix.py",
+    "studio2/fase03/harness/d04_evidence/runs/green_contract.json",
+    "studio2/fase03/harness/d04_evidence/runs/green_contract.log",
+    "studio2/fase03/harness/d04_evidence/runs/literal/additional_edges.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/literal/evidence/additional_edges.py",
+    "studio2/fase03/harness/d04_evidence/runs/literal/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d04_evidence/runs/literal/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d04_evidence/runs/literal/evidence/extended.json",
+    "studio2/fase03/harness/d04_evidence/runs/literal/evidence/extended.log",
+    "studio2/fase03/harness/d04_evidence/runs/literal/evidence/extended_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/literal/extended_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/PROVENANCE.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/after/console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/after/evidence/independent_d03_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/after/evidence/independent_d03_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/after/evidence/independent_d03_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/applicable.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/applicable/applicable.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/applicable/applicable.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/applicable/evidence/negative_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/discovery.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/extension_commands.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/extensions.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/green_contract.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/green_contract.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/additional_edges.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/evidence/additional_edges.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/evidence/extended.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/evidence/extended.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/evidence/extended_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/extended_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/runtime_delta.diff",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/targeted.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/w_original/evidence/retry_proof_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/w_original/evidence/retry_proof_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/w_original/evidence/retry_proof_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/w_original/retry_proof_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/x23_adapted/additional_edges.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/x23_adapted/evidence/additional_edges.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/x23_adapted/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/x23_adapted/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/x23_adapted/evidence/extended_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/y_original/edge_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/y_original/evidence/edge_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/y_original/evidence/edge_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/y_original/evidence/edge_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/z_original/chain_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/z_original/evidence/chain_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/z_original/evidence/chain_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/z_original/evidence/chain_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/red_contract.json",
+    "studio2/fase03/harness/d04_evidence/runs/red_contract.log",
+    "studio2/fase03/harness/d04_evidence/runs/run_extensions.py",
+    "studio2/fase03/harness/d04_evidence/runs/runtime.json",
+    "studio2/fase03/harness/d04_evidence/runs/scope.json",
+    "studio2/fase03/harness/d04_evidence/runs/scope_audit.py",
+    "studio2/fase03/harness/d04_evidence/runs/setup_notes.json",
+    "studio2/fase03/harness/d04_evidence/runs/targeted.log",
+    "studio2/fase03/harness/d04_evidence/runs/w_original/evidence/retry_proof_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/w_original/evidence/retry_proof_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/w_original/evidence/retry_proof_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/w_original/retry_proof_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/x23_adapted/additional_edges.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/x23_adapted/evidence/additional_edges.py",
+    "studio2/fase03/harness/d04_evidence/runs/x23_adapted/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d04_evidence/runs/x23_adapted/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d04_evidence/runs/x23_adapted/evidence/extended_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/y_original/edge_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/y_original/evidence/edge_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/y_original/evidence/edge_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/y_original/evidence/edge_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/z_original/chain_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/z_original/evidence/chain_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/z_original/evidence/chain_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/z_original/evidence/chain_probes.py",
+    "studio2/fase03/harness/ledger.py"
+  ],
+  "full_delta_after_acquisition": [
+    "studio2/fase03/harness/CONTRATTO_D04_PRIMA_DEL_CODICE.md",
+    "studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md",
+    "studio2/fase03/harness/D04_DECISION_CONTRACT.json",
+    "studio2/fase03/harness/HARNESS_OFFLINE_CANDIDATE.json",
+    "studio2/fase03/harness/MATRICE_D04_DECISIONI.json",
+    "studio2/fase03/harness/MATRICE_D04_DECISIONI.md",
+    "studio2/fase03/harness/MATRICE_R01_R10_D04.md",
+    "studio2/fase03/harness/d04_evidence/REPRODUCTION_INVENTORY.json",
+    "studio2/fase03/harness/d04_evidence/RESULTS.json",
+    "studio2/fase03/harness/d04_evidence/SHA256SUMS",
+    "studio2/fase03/harness/d04_evidence/TEST_FIRST.json",
+    "studio2/fase03/harness/d04_evidence/red_contract.json",
+    "studio2/fase03/harness/d04_evidence/red_contract.log",
+    "studio2/fase03/harness/d04_evidence/runs/COMANDI.md",
+    "studio2/fase03/harness/d04_evidence/runs/after/console.log",
+    "studio2/fase03/harness/d04_evidence/runs/after/evidence/independent_d03_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/after/evidence/independent_d03_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/after/evidence/independent_d03_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/applicable.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/applicable/applicable.json",
+    "studio2/fase03/harness/d04_evidence/runs/applicable/applicable.log",
+    "studio2/fase03/harness/d04_evidence/runs/applicable/evidence/negative_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/before/console.log",
+    "studio2/fase03/harness/d04_evidence/runs/before/evidence/independent_d03_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/before/evidence/independent_d03_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/before/evidence/independent_d03_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/compile.json",
+    "studio2/fase03/harness/d04_evidence/runs/diagnostic_precedence.log",
+    "studio2/fase03/harness/d04_evidence/runs/discovery.log",
+    "studio2/fase03/harness/d04_evidence/runs/documentation_after.log",
+    "studio2/fase03/harness/d04_evidence/runs/documentation_before.log",
+    "studio2/fase03/harness/d04_evidence/runs/documentation_comparison.json",
+    "studio2/fase03/harness/d04_evidence/runs/extension_commands.json",
+    "studio2/fase03/harness/d04_evidence/runs/extensions.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/generate_decision_matrix.py",
+    "studio2/fase03/harness/d04_evidence/runs/green_contract.json",
+    "studio2/fase03/harness/d04_evidence/runs/green_contract.log",
+    "studio2/fase03/harness/d04_evidence/runs/literal/additional_edges.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/literal/evidence/additional_edges.py",
+    "studio2/fase03/harness/d04_evidence/runs/literal/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d04_evidence/runs/literal/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d04_evidence/runs/literal/evidence/extended.json",
+    "studio2/fase03/harness/d04_evidence/runs/literal/evidence/extended.log",
+    "studio2/fase03/harness/d04_evidence/runs/literal/evidence/extended_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/literal/extended_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/PROVENANCE.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/after/console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/after/evidence/independent_d03_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/after/evidence/independent_d03_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/after/evidence/independent_d03_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/applicable.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/applicable/applicable.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/applicable/applicable.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/applicable/evidence/negative_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/discovery.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/extension_commands.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/extensions.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/green_contract.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/green_contract.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/additional_edges.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/evidence/additional_edges.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/evidence/extended.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/evidence/extended.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/evidence/extended_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/literal/extended_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/runtime_delta.diff",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/targeted.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/w_original/evidence/retry_proof_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/w_original/evidence/retry_proof_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/w_original/evidence/retry_proof_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/w_original/retry_proof_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/x23_adapted/additional_edges.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/x23_adapted/evidence/additional_edges.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/x23_adapted/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/x23_adapted/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/x23_adapted/evidence/extended_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/y_original/edge_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/y_original/evidence/edge_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/y_original/evidence/edge_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/y_original/evidence/edge_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/z_original/chain_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/z_original/evidence/chain_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/z_original/evidence/chain_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/pre_diagnostic_precedence/z_original/evidence/chain_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/red_contract.json",
+    "studio2/fase03/harness/d04_evidence/runs/red_contract.log",
+    "studio2/fase03/harness/d04_evidence/runs/run_extensions.py",
+    "studio2/fase03/harness/d04_evidence/runs/runtime.json",
+    "studio2/fase03/harness/d04_evidence/runs/scope.json",
+    "studio2/fase03/harness/d04_evidence/runs/scope_audit.py",
+    "studio2/fase03/harness/d04_evidence/runs/setup_notes.json",
+    "studio2/fase03/harness/d04_evidence/runs/targeted.log",
+    "studio2/fase03/harness/d04_evidence/runs/w_original/evidence/retry_proof_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/w_original/evidence/retry_proof_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/w_original/evidence/retry_proof_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/w_original/retry_proof_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/x23_adapted/additional_edges.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/x23_adapted/evidence/additional_edges.py",
+    "studio2/fase03/harness/d04_evidence/runs/x23_adapted/evidence/additional_edges/additional.json",
+    "studio2/fase03/harness/d04_evidence/runs/x23_adapted/evidence/additional_edges/additional.log",
+    "studio2/fase03/harness/d04_evidence/runs/x23_adapted/evidence/extended_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/y_original/edge_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/y_original/evidence/edge_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/y_original/evidence/edge_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/y_original/evidence/edge_probes.py",
+    "studio2/fase03/harness/d04_evidence/runs/z_original/chain_probes.py.console.log",
+    "studio2/fase03/harness/d04_evidence/runs/z_original/evidence/chain_probes.json",
+    "studio2/fase03/harness/d04_evidence/runs/z_original/evidence/chain_probes.log",
+    "studio2/fase03/harness/d04_evidence/runs/z_original/evidence/chain_probes.py",
+    "studio2/fase03/harness/ledger.py",
+    "studio2/fase03/harness/test_d04_open_quota.py"
+  ],
+  "only_live_runtime_change": "studio2/fase03/harness/ledger.py",
+  "runtime": {
+    "utc": "2026-09-15T12:01:59.019297+00:00",
+    "python": "3.13.9 | packaged by Anaconda, Inc. | (main, Oct 21 2025, 19:11:29) [Clang 20.1.8 ]",
+    "sqlite": "3.51.0",
+    "thread_id": "01a0a204-abda-7a00-8466-f52f5bc84812",
+    "role": "implementation, not independent review",
+    "rollout": "/Users/luker/.codex/sessions/2026/09/15/rollout-2026-09-15T00-23-30-01a0a204-abda-7a00-8466-f52f5bc84812.jsonl",
+    "last_turn_context": {
+      "timestamp": "2026-09-15T11:40:12.709Z",
+      "model": "gpt-6-astra",
+      "effort": "xhigh"
+    },
+    "prior_reviewer": "01a0a1ec-35a4-7870-9c39-9bf922d36c85 / gpt-6-astra / high",
+    "model_diversity_in_this_implementation": false,
+    "prior_claude_review": "user-supplied Claude family review limited to D03; runtime family declared by reviewer"
+  },
+  "documentary_files": [
+    {
+      "path": "/Users/luker/fot-tep-harness-0310-d04/studio2/fase03/harness/REPORT_CORREZIONE_D04.md",
+      "sha256": "38611ab8333c8d4334c44448f9adb1f74ac240f19c6748707e11610bffda67d9",
+      "bytes": 19809
+    },
+    {
+      "path": "/Users/luker/fot-tep-harness-0310-d04/studio2/fase03/harness/PROMPT_VERIFICA_D04.md",
+      "sha256": "21d0c2d1613fc3a850b274fd8b2e8239871a9a29f4f45ef5959d091dce1e8c1d",
+      "bytes": 6127
+    },
+    {
+      "path": "/Users/luker/fot-tep-harness-0310-d04/studio2/fase03/harness/CONSEGNA_D04.json",
+      "sha256": "6ba214fd8cd9ddc6ab83ca2525b863963f6a677234c20156d6f8afe387ab2bc3",
+      "bytes": 24869
+    }
+  ],
+  "self_reference_policy": "Audit excludes its own hash and the documentary commit ID; verify those from Git.",
+  "independent_review_pending": true,
+  "freeze": false,
+  "go": false
+}

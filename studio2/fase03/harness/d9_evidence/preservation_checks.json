@@ -1,0 +1,84 @@
+{
+  "base": "5886c6f9d078ee624deaec08763e04c14e96e4f0",
+  "sources_verified": [
+    {
+      "commit": "aaba893dff8c62f9f9281eec7423eee020235e03",
+      "path": "studio2/fase03/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md",
+      "bytes": 9083,
+      "sha256": "fcb113636de80cc87709905324436555e0ba103bd46de3ac079ce0ef7f60f1b8"
+    },
+    {
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/PIANO_STATISTICO.md",
+      "bytes": 81490,
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a"
+    },
+    {
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/BUDGET_RISORSE_REV10.md",
+      "bytes": 8528,
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887"
+    },
+    {
+      "commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "path": "studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/DELTA_HARNESS_03_10.md",
+      "bytes": 7108,
+      "sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e"
+    },
+    {
+      "commit": "b65834d954b48c7daae748c80c3e7e7c568f8d47",
+      "path": "studio2/fase03/INVENTARIO_SERVIZI_D9_2026-09-15.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/INVENTARIO_SERVIZI_D9_2026-09-15.md",
+      "bytes": 30613,
+      "sha256": "9fb04c3ff5950ca8a0d82b34585bb1a4a492e8bb26684174433ee5b615a840e7"
+    },
+    {
+      "commit": "b65834d954b48c7daae748c80c3e7e7c568f8d47",
+      "path": "studio2/fase03/CHECKLIST_QUALIFICAZIONE_D9_2026-09-15.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/CHECKLIST_QUALIFICAZIONE_D9_2026-09-15.md",
+      "bytes": 12952,
+      "sha256": "7b35f6cbb5575e7a3c23b7df88539c99ae0161885bf8115352be9c5de8c80acc"
+    },
+    {
+      "commit": "b65834d954b48c7daae748c80c3e7e7c568f8d47",
+      "path": "studio2/fase03/RICHIESTA_METADATI_QWEN_DA_INOLTRARE_2026-09-15.md",
+      "copy": "studio2/fase03/harness/d9_evidence/sources/RICHIESTA_METADATI_QWEN_DA_INOLTRARE_2026-09-15.md",
+      "bytes": 2820,
+      "sha256": "8aa7d3f4ac51ef6e78e4be9cbf2bebdfed0dbb58685471019fdbc565cf466993"
+    }
+  ],
+  "unchanged_base_harness_files_checked": 2822,
+  "changed_paths": [
+    "studio2/fase03/harness/CONTRATTO_D9_PRIMA_DEL_CODICE.md",
+    "studio2/fase03/harness/d9_evidence/SOURCES.json",
+    "studio2/fase03/harness/d9_evidence/guardian_before.log",
+    "studio2/fase03/harness/d9_evidence/sources/BUDGET_RISORSE_REV10.md",
+    "studio2/fase03/harness/d9_evidence/sources/CHECKLIST_QUALIFICAZIONE_D9_2026-09-15.md",
+    "studio2/fase03/harness/d9_evidence/sources/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md",
+    "studio2/fase03/harness/d9_evidence/sources/DELTA_HARNESS_03_10.md",
+    "studio2/fase03/harness/d9_evidence/sources/INVENTARIO_SERVIZI_D9_2026-09-15.md",
+    "studio2/fase03/harness/d9_evidence/sources/PIANO_STATISTICO.md",
+    "studio2/fase03/harness/d9_evidence/sources/RICHIESTA_METADATI_QWEN_DA_INOLTRARE_2026-09-15.md",
+    "studio2/fase03/harness/d9_evidence/test_first_red.log",
+    "studio2/fase03/harness/guards.py",
+    "studio2/fase03/harness/inputs.py",
+    "studio2/fase03/harness/ledger.py",
+    "studio2/fase03/harness/preparation.py",
+    "studio2/fase03/harness/test_c01_c03.py",
+    "studio2/fase03/harness/test_d01_replay.py",
+    "studio2/fase03/harness/test_d02_predecessors.py",
+    "studio2/fase03/harness/test_d9.py",
+    "studio2/fase03/harness/test_revisions.py",
+    "studio2/fase03/prepare_gate.py",
+    "studio2/fase03/producer_probe.py",
+    "studio2/fase03/protocol.py",
+    "studio2/fase03/run_pilot.py"
+  ],
+  "D04_reviews_byte_identical": true,
+  "shared_docs_modified": false,
+  "note": "comparison against base blobs; no scientific ledger imported, backfilled or modified"
+}

@@ -1,0 +1,64 @@
+{
+  "status": "ACQUIRED_OK_LIMITED_OFFLINE",
+  "recorded_at": "2026-09-15T18:13:54.717668+02:00",
+  "technical_candidate": "16c98f39c044d812458705234b1a3f8ee4940b34",
+  "technical_tree": "1dd8f84d991190d9d8316e6c56899bc115232716",
+  "previous_documentary_head": "cf763333b7951b4cf711e1286657f6afc6a9df87",
+  "branch": "codex/studio2-harness-d9-correzioni",
+  "acquisition_commit": "Commit che introduce ACQUISIZIONE_OK_CORREZIONI_D9.md; identificabile con git log --diff-filter=A, non autocitazione del commit in costruzione.",
+  "review_manifest_members": 446,
+  "candidate_manifest_members_separate_scope": 1062,
+  "copied_files": 55,
+  "external_files_verified": 393,
+  "files": [
+    {
+      "path": "studio2/fase03/harness/ACQUISIZIONE_OK_CORREZIONI_D9.md",
+      "bytes": 10432,
+      "sha256": "fe4bd52ff088b5365ae4eaac9cc935007b85d4d91513a26bfffda819c38bc26a"
+    },
+    {
+      "path": "studio2/fase03/harness/d9_ok_20260915/ACQUISITION_INVENTORY.json",
+      "bytes": 323284,
+      "sha256": "34e53bcd763501c7d737c00833f603f054c015173d5cbea704f97590e2962262"
+    },
+    {
+      "path": "studio2/fase03/harness/d9_ok_20260915/ACQUISITION_CHECKS.json",
+      "bytes": 7954,
+      "sha256": "536ece59adc9eef44e021b0e4fe2e2d76479413158078b3364e2e57fe1ef2564"
+    },
+    {
+      "path": "studio2/fase03/harness/d9_ok_20260915/PRECHECKS.json",
+      "bytes": 12782,
+      "sha256": "298ba6bda987ad3e90a3c149b1413fa2db6589aadcabea0533c707ecf5464cb1"
+    },
+    {
+      "path": "studio2/fase03/harness/d9_ok_20260915/review/VERIFICA_CORREZIONI_D9.md",
+      "bytes": 13627,
+      "sha256": "55331f43053a8daeb36bc0af7771f3d4c099b6524d998d53109da5c9b18b9f32"
+    },
+    {
+      "path": "studio2/fase03/harness/d9_ok_20260915/review/MANIFEST.json",
+      "bytes": 101057,
+      "sha256": "7f83eb38458011fdd4cc70221b1070193dcd630d6392e3110a4e5fee07ef105d"
+    },
+    {
+      "path": "studio2/fase03/harness/d9_ok_20260915/review/CONSEGNA.json",
+      "bytes": 744,
+      "sha256": "48625167273c08c162ab7b50d41c7103e66d49b3b22aab0106f8267cfe68ce37"
+    }
+  ],
+  "review_results_attributed_not_rerun": true,
+  "operational_residuals": [
+    "metadati/qualificazioni servizi",
+    "ordine label 1a",
+    "collocazione operativa alternativo",
+    "riconciliazione S4/3",
+    "autorizzazioni",
+    "insight reali",
+    "capienza",
+    "T5"
+  ],
+  "go": false,
+  "freeze": false,
+  "remote_publication": false
+}

@@ -1,0 +1,8 @@
+{
+  "notes": [
+    "Initial direct green test invocation omitted the candidate import path; ModuleNotFoundError log retained. Corrected invocation supplies FOT_HARNESS_TARGET, without runtime/test weakening.",
+    "The contract-first commit includes the initial 9-method red matrix before runtime edits. After the first green run, the inventory guard was strengthened for new named fields nested inside evidence/approval. Initial logs retained in pre_inventory_guard, and the final test bytes rerun on rejected a219bd4 and corrected runtime, plus full suites restarted.",
+    "Byte-identical acquired files and unittest logs retain original whitespace. No cleanup of forensic bytes."
+  ],
+  "classification": "setup and test-strengthening history; not extra candidate defects"
+}
