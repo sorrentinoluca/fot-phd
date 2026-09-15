@@ -1,0 +1,14 @@
+[
+  {
+    "name": "transport_red",
+    "target": "/Users/luker/fot-tep-harness-d9",
+    "script_sha256": "01cfedbba184b01dba1066658ba3d339f1843bb8b051fc6e71c7801dd676c6f0",
+    "exit_code": 1
+  },
+  {
+    "name": "transport_green",
+    "target": "/Users/luker/fot-tep-harness-d9-correzioni",
+    "script_sha256": "01cfedbba184b01dba1066658ba3d339f1843bb8b051fc6e71c7801dd676c6f0",
+    "exit_code": 0
+  }
+]

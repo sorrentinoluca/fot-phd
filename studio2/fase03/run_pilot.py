@@ -368,7 +368,8 @@ def run_budget_stage(prepared_dir: Path, results_dir: Path, *, ledger: PilotLedg
             logical = f'budget:{group}:{condition}'
             spec = request_spec(stress[condition], generation, config=config, logical_id=logical, group=group, repetition=1)
             specs.append(spec); jobs.append((spec,stress[condition],generation))
-    binding = dict(requests=specs, config_sha256=digest(config), prompts_sha256=digest(prompts), schema_sha256=digest(schema), execution_config=config)
+    binding = dict(requests=specs, config_sha256=digest(config), prompts_sha256=digest(prompts), schema_sha256=digest(schema), execution_config=config,
+                   tokenizer_snapshot=str(Path(plan['tokenizer_snapshot']).resolve()))
     ledger.bind_stage('budget_probe', binding)
     reserved = _probe_retry(ledger, 'budget_probe', retry_requests) if resume else []
     server = server_contract(config)
@@ -434,7 +435,8 @@ def run_stability_stage(prepared_dir: Path, results_dir: Path, *, ledger: PilotL
     if frozen['status'] != 'FROZEN_FOR_STABILITY_GATE' or frozen['config_sha256'] != digest(config) or frozen['prompt_sample'] != prompts or frozen['schema_sha256'] != digest(schema) or frozen['pre_gate_plan_sha256'] != sha256_file(prepared_dir/'pre_gate_plan.json'):
         raise RuntimeError('frozen gate provenance mismatch')
     specs = [request_spec(p, frozen['generation'], config=config, logical_id=f"{p['prompt_id']}:r{r}", group=p['prompt_id'], repetition=r) for p in prompts for r in (1,2,3)]
-    binding = dict(requests=specs, frozen_sha256=digest(frozen), config_sha256=digest(config), execution_config=config)
+    binding = dict(requests=specs, frozen_sha256=digest(frozen), config_sha256=digest(config), execution_config=config,
+                   tokenizer_snapshot=str(Path(plan['tokenizer_snapshot']).resolve()))
     ledger.bind_stage('stability_gate', binding)
     server = server_contract(config)
     if server != frozen['server']:

@@ -32,7 +32,7 @@ def model_for_stage(stage):
 
 
 def _text(value):
-    return isinstance(value, str) and bool(value.strip()) and value.upper() not in {'PENDING', 'UNDECIDED', 'UNKNOWN'}
+    return isinstance(value, str) and bool(value.strip()) and value.strip().upper() not in {'PENDING', 'UNDECIDED', 'UNKNOWN'}
 
 
 def _hash(value):
@@ -213,6 +213,15 @@ def validate_binding(binding, stage, ledger, connection):
             fail('producer request role differs from provider binding')
         # The runner carries the exact file hash as well as parsed content.
         validate_provider(config, provider, stage, file_sha256=binding.get('provider_file_sha256'))
+    # Reconfirm recoverable bytes at each decision, including direct reservations,
+    # restart and reuse. Neither declared pins nor a previously created counter suffice.
+    # Use the same file/template contract as the runner; R4 and service chat are distinct.
+    from .guards import verify_tokenizer
+    verify_tokenizer(Path(d['r4_snapshot']), **R4_TOKENIZER)
+    chat_snapshot = binding.get('tokenizer_snapshot')
+    if not isinstance(chat_snapshot, str) or not Path(chat_snapshot).is_absolute():
+        fail('binding lacks its recoverable service tokenizer snapshot')
+    verify_tokenizer(Path(chat_snapshot), **service['tokenizer'])
     for row in connection.execute('SELECT stage,binding_json FROM stages'):
         other=json.loads(row['binding_json'])
         if 'execution_config' in other and other['execution_config'] != config:

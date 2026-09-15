@@ -31,7 +31,7 @@ class D9Corrections(unittest.TestCase):
                 for folder in ('results', 'consumer_results', 'prepared')
                 for p in (self.t.home / folder).rglob('*') if p.is_file()}
 
-    def no_effect(self, operation, pattern='tokenizer|chat template'):
+    def no_effect(self, operation, pattern='tokenizer|chat[_ ]template'):
         before = self.database(), self.artifacts(), len(self.t.calls), len(self.t.consumer_calls)
         with self.assertRaisesRegex(HarnessError, pattern):
             operation()

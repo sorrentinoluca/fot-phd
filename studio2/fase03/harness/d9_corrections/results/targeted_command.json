@@ -1,0 +1,23 @@
+{
+  "command": [
+    "/opt/anaconda3/bin/python3",
+    "-m",
+    "unittest",
+    "-v",
+    "studio2.fase03.harness.test_c01_c03",
+    "studio2.fase03.harness.test_d01_replay",
+    "studio2.fase03.harness.test_d02_predecessors",
+    "studio2.fase03.harness.test_d03_contract",
+    "studio2.fase03.harness.test_d04_open_quota",
+    "studio2.fase03.harness.test_d9",
+    "studio2.fase03.harness.test_d9_corrections",
+    "studio2.fase03.harness.test_harness_offline",
+    "studio2.fase03.harness.test_metric_raccordo",
+    "studio2.fase03.harness.test_revisions",
+    "studio2.fase03.tests.test_execution_guard",
+    "studio2.fase03.tests.test_protocol"
+  ],
+  "cwd": "/Users/luker/fot-tep-harness-d9-correzioni",
+  "exit_code": 0,
+  "elapsed_seconds": 455.9508457919583
+}

@@ -132,7 +132,8 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
         prepared.append((spec, prompt, fixed))
     binding = dict(requests=specs, template_text=template, inventory_sha256=digest(inventory),
                    provider=provider, tokenizer=provider['tokenizer'], schema_manifest_sha256=SCHEMA_MANIFEST_SHA256,
-                   execution_config=preflight, provider_file_sha256=sha256_file(provider_path),
+                   execution_config=preflight, tokenizer_snapshot=str(snapshot.resolve()),
+                   provider_file_sha256=sha256_file(provider_path),
                    provider_reference={'path':str(provider_path.resolve()),'sha256':sha256_file(provider_path)})
     ledger.bind_stage(stage, binding)
     # Reject any uncertain restart before constructing a client or sending later requests.

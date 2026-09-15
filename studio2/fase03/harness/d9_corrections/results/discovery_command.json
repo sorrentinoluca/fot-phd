@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/opt/anaconda3/bin/python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-v",
+    "studio2/fase03"
+  ],
+  "cwd": "/Users/luker/fot-tep-harness-d9-correzioni",
+  "exit_code": 0,
+  "elapsed_seconds": 456.01823216699995
+}
