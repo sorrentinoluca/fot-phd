@@ -13,8 +13,10 @@ prevale sui valori ancora presentati come correnti nelle revisioni storiche di
 questo documento. D2=8, OOD F6/F4 condizionati, D11, margine, alpha, gerarchia e
 politica R sono approvati; il tetto rigido 3.700 non è vigente. La pianificazione
 usa il conteggio completo e la fattibilità temporale misurata con margine 20%.
-Firma materiale, verifica indipendente del presente delta, pubblicazione e freeze
-03.8 restano distinti e pendenti. L'aggiornamento dell'autore nel mandato di
+L'approvazione documentata dell'autore è sufficiente per 03.8 e non è richiesta
+firma materiale, secondo la decisione procedurale del 2026-09-15; verifica
+indipendente del nuovo delta, pubblicazione e freeze restano distinti e pendenti.
+L'aggiornamento dell'autore nel mandato di
 correzione R1–R4 approva 122B producer principale e consumer, 27B producer
 alternativo con libreria completa di 16 insight e consumer 122B fisso nello
 swap. Terra resta soltanto riferimento storico descrittivo interno, separato
@@ -25,9 +27,11 @@ byte-identico nel ramo 03.8 con consegna e impronte. La scelta è approvata, il
 record è acquisito e il presente testo lo recepisce localmente. Recepimento
 eseguibile nell'harness, identità complete, configurazioni, qualificazioni e
 fattibilità restano pendenti: non sono effetti dell'acquisizione. Le correzioni
-R1–R4 a `9a56d12` hanno OK indipendente; questo nuovo delta D9 richiede una review
-propria. Stato corrente nella [matrice successiva](../../studio2/fase03/piano_statistico/MATRICE_RESIDUI_03_8_DOPO_D9.md). Nessuna firma 03.8,
-approvazione dell'ordine label o autorizzazione di esecuzione ne discende.
+R1–R4 a `9a56d12` e il recepimento D9 a `8a20c12` hanno OK indipendenti acquisiti.
+Stato corrente e fonte della nuova regola nella
+[matrice successiva](../../studio2/fase03/piano_statistico/MATRICE_RESIDUI_03_8_DOPO_D9.md).
+La sufficienza dell'approvazione documentata non approva l'ordine label e non
+autorizza esecuzioni.
 
 ---
 

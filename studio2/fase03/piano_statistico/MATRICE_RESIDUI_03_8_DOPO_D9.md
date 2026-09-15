@@ -1,25 +1,30 @@
-# Matrice corrente dei residui 03.8 dopo acquisizione D9
+# Matrice corrente dei residui 03.8 dopo D9 e decisione sull'approvazione
 
-Data: 2026-09-15. **03.8 e Fase 03 aperte; nuovo delta D9 da verificare**.
+Data: 2026-09-15. **03.8 e Fase 03 aperte; nuovo delta normativo da verificare**.
 Successore documentale della [matrice rev.10](MATRICE_RESIDUI_CHIUSURA_03_8_REV10.md),
 che resta byte-identica e descrive il suo checkpoint, non lo stato corrente D9.
 Fonte decisionale: [record D9](../DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md),
 commit sorgente `aaba893dff8c62f9f9281eec7423eee020235e03`, SHA-256
 `fcb113636de80cc87709905324436555e0ba103bd46de3ac079ce0ef7f60f1b8`.
+Per il requisito procedurale di approvazione prevale la
+[decisione dell'autore del 2026-09-15](DECISIONE_AUTORE_APPROVAZIONE_DOCUMENTATA_03_8_2026-09-15.md):
+l'approvazione documentata è sufficiente e non è richiesta firma materiale.
 
 | Stato distinto | Evidenza | Esito locale e residuo |
 | --- | --- | --- |
 | 1. Scelta dei ruoli | record D9 §§1–2 | **Approvata:** P=C=122B, P_alt=27B, libreria alternativa completa 16 insight, consumer 122B fisso nello swap; Terra solo storico interno separato, senza nuove chiamate. Nessuna riapprovazione richiesta |
 | 2. Acquisizione del record | ACQUISIZIONE_D9_ALLINEAMENTI_03_8.md; tre blob aaba893 | **Completata** byte per byte nel ramo 03.8, con provenienza |
-| 3. Recepimento documentale | piano generale, APERTURA, questa matrice e consegna tecnica successiva | **Preparato localmente, review del nuovo delta pending**; non eredita l’OK precedente |
+| 3. Recepimento documentale D9 | piano generale, APERTURA, questa matrice e consegna tecnica successiva; `VERIFICA_RECEPIMENTO_D9_ALLINEAMENTI_03_8.md`; acquisizione `8a3f7ba` | **Completato e verificato OK** sul candidato `8a20c12`; verbale acquisito byte-identico. Non estende l'OK ai delta successivi |
 | 4. Recepimento eseguibile | finestra proprietaria delle correzioni harness R01–R10 | **Pendente/non attestato da questa consegna**; nessun suo file o candidato importato |
 | 5. Identità, configurazioni, qualifica e fattibilità | record D9 §§4–5; rev.10 e budget preservati | **Da documentare/verificare/misurare** sui servizi effettivi; nomi nominali e operatività dichiarata non sono qualifica |
+| 6. Approvazione dell'autore | approvazioni già registrate; decisione procedurale del 2026-09-15 | **Documentata e sufficiente**; nessuna sottoscrizione materiale richiesta. Il raccordo che registra la nuova regola attende review indipendente |
 
 ## Vincoli e residui separati
 
 - **Ordine label 1a:** ancora non approvato; non deriva dalla scelta dei ruoli.
-- **Firma materiale 03.8:** atto personale ancora da acquisire; non è sostituita
-  dal record D9 o dall'OK indipendente.
+- **Approvazione 03.8:** l'autore ha stabilito che l'approvazione documentata è
+  sufficiente. Il pacchetto firma verificato resta storico; non va compilato e
+  non deve essere prodotto un artefatto sottoscritto.
 - **Qualifica e autorizzazione:** nessun GO, pilot o chiamata autorizzata da questa
   acquisizione; nessuna configurazione, revisione o metadato tecnico inventati.
 - **Contabilità:** P e C sono 122B; richieste distinte aggregate per modello
@@ -41,8 +46,8 @@ successivi, per cui è richiesto un nuovo esito indipendente.
 L'OK statistico rev.10 e tutti i byte verificati sono preservati. A/B, FAR,
 U3, 03.5, 03.9 e 03.12 non sono riaperti; nessun test scientifico ripetuto.
 
-Prima del freeze statistico restano firma materiale, verifica indipendente dei
-nuovi delta, documentazione pertinente, integrazione/pubblicazione autorizzata
+Prima del freeze statistico restano verifica indipendente del nuovo delta
+normativo, documentazione pertinente, integrazione/pubblicazione autorizzata
 su main effettivo e manifest/tag finali secondo la procedura. Nessuno di questi
 passaggi è compiuto o autorizzato dalla sola D9.
 Il recepimento harness e le condizioni operative restano necessari prima dei
@@ -51,6 +56,6 @@ rispettivi stadi, senza diventare una dipendenza circolare del freeze statistico
 T5 e tutti gli altri GO.** Le verifiche OOD restano dopo freeze e prima delle
 chiamate, con catene e criteri rev.10 intatti.
 
-Prossimo passo: review indipendente limitata alle due acquisizioni e al nuovo
-delta D9. Harness, paper 03.15 e walkthrough sono passi distinti e non sono
-modificati da questa consegna. Nessun push, merge su main, tag o esecuzione.
+Prossimo passo: review indipendente limitata alla decisione procedurale e ai
+raccordi correnti, senza ripetere gli audit rev.10, R1-R4, D9 o del pacchetto
+firma. Nessun push, merge su main, tag o esecuzione.

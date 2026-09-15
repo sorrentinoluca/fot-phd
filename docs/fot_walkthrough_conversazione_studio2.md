@@ -1514,11 +1514,12 @@ acquisita byte-identica in un commit locale distinto dal merge, e la
 
 #### Lavoro che resta
 
-La decisione D9 sui ruoli dei modelli, l'identità completa e la qualificazione del servizio
-restano aperte. Restano inoltre la firma materiale e il freeze statistico della 03.8, la
-fattibilità T5, ledger e calendario, gli allineamenti dell'harness 03.10 e i controlli tecnici
-OOD della 03.11. FAR e A/B non sono stati riaperti. Le bozze non sono state promosse in
-`docs/paper/`.
+I ruoli D9 sono approvati e il recepimento documentale ha un OK indipendente acquisito;
+identità completa e qualificazione dei servizi restano aperte. Per 03.8 l'autore ha stabilito
+che l'approvazione documentata è sufficiente: non è richiesta firma materiale. Restano il
+freeze statistico, la review del nuovo raccordo normativo, la fattibilità T5, ledger e
+calendario, gli allineamenti dell'harness 03.10 e i controlli tecnici OOD della 03.11. FAR e A/B
+non sono stati riaperti. Le bozze non sono state promosse in `docs/paper/`.
 
 Il presente aggiornamento MD/HTML è un **nuovo delta documentale di raccordo**: deve essere
 riesaminato nel successivo passaggio seriale per coerenza, link, anchor, numerazione e parità,

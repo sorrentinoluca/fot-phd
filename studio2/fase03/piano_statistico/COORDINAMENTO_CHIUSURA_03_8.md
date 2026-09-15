@@ -4,6 +4,14 @@ Data: 2026-09-14. **Preparazione locale, integrazioni non eseguite**.
 Questo documento definisce il delta; non è una nuova fonte del disegno.
 Fonte delle regole: piano statistico, con le sole nuove decisioni A/B se approvate.
 
+> **Aggiornamento procedurale 2026-09-15.** L'autore ha stabilito che per 03.8
+> l'approvazione documentata è sufficiente e non è richiesta una firma materiale.
+> La [decisione corrente](DECISIONE_AUTORE_APPROVAZIONE_DOCUMENTATA_03_8_2026-09-15.md)
+> sostituisce il solo residuo procedurale «firma» dopo verifica indipendente del
+> nuovo delta. Piano rev.10, pacchetto firma e relativi verbali restano
+> byte-identici; i record anteriori che indicano la firma come pending conservano
+> il proprio significato storico.
+
 ## 1. Acquisizione del candidato bibliografico verificato
 
 Sorgente: `/Users/luker/fot-tep-letteratura-fase03`, branch
@@ -52,7 +60,7 @@ base statistica `0f1a9ba`; cercare per sezione nel target aggiornato.
 
 | Punto | Testo sostitutivo / intervento concreto |
 | --- | --- |
-| §0.1, decisione 2 | «**8 run per fault confermati**: 64 cluster fault e 8 Normal primari; +638 prima del retry e +702 (+24,6%) fra le stime arrotondate storiche di §8.8. Approvazione registrata in 03.8; firma materiale e congelamento pending.» |
+| §0.1, decisione 2 | «**8 run per fault confermati**: 64 cluster fault e 8 Normal primari; +638 prima del retry e +702 (+24,6%) fra le stime arrotondate storiche di §8.8. Approvazione documentata sufficiente; review del nuovo delta e congelamento pending.» |
 | D2, titolo e primi due paragrafi | «**D2 — 8 run per fault confermati.** Il disegno comprende 64 run fault +8 Normal, 72 primari; 6 OOD separati e 11 scorte tecniche, 89 run complessivi del lotto con due OOD selezionati. Le scorte non aggiungono osservazioni. Il confronto 6/8 e la risoluzione restano documentati nel piano statistico §7. I totali storici sono ~2.853/~3.555 con retry, differenza +702 (+24,6%), e ~2.594/~3.232 pre-retry, differenza +638. Il calendario richiede verifica della generazione e dei tempi API, non segue dalla sola data D9.» |
 | §8.8 introduzione | D2 è confermata a 8; la colonna 6 è confronto storico, non opzione ancora aperta; vecchie stime arrotondate distinte dal ledger completo |
 | §8.8 frase «+590, +24%» | sostituire con «+702, +24,6% con retry; +638 prima del retry, differenze tra stime arrotondate» |
@@ -76,7 +84,7 @@ Target `studio2/fase03/APERTURA_SOTTOFASI_FASE03.md`:
 
 | Punto | Formulazione concreta da recepire |
 | --- | --- |
-| 03.8 | «D2=8 e D11 confermati; OOD F6/F4 condizionati; politica R confermata. Firma, revisione del delta e congelamento pending. Le nuove regole A/B valgono solo dopo approvazione.» |
+| 03.8 | «D2=8 e D11 confermati; OOD F6/F4 condizionati; politica R confermata. Approvazione documentata sufficiente, senza firma materiale; review del nuovo delta e congelamento pending.» |
 | 03.11, numerosità | «72 run primari (64 fault +8 Normal) +6 OOD +11 scorte tecniche =89 run del lotto, a candidati OOD selezionati; stream/seed disgiunti, identificativi sigillati, nessuna osservazione aggiunta dalle scorte.» |
 | 03.13, catena | «input di sviluppo e schema congelati → conformità producer (8 richieste/16 insight) → eventuale unica remediation autorizzata sul diff → prompt definitivi e capienza offline → sonda budget 3–9 → freeze configurazione → unico gate 40×3 → T3/T4/T6/T11 e latenza → verifica organizzativa T5 e altri bloccanti → decisione GO/NO-GO. Conformità alternativa solo con D9 configurata, quota 8 separata.» |
 | 03.13, risorse | massimi 152/160 con riserva inclusa, hard stop 200; durata nuova API pending; distinguere evidenza vecchio 27B FP8 e nuovo alias non identificato |
@@ -90,7 +98,7 @@ di dipendenze del §16 rev. 9 resta un blocco dichiarato: non omettere la verifi
 tecnica per far sembrare congelabile il piano.
 
 La sequenza proposta con B non è circolare: decisioni A/B → candidato nuovo →
-verifica indipendente → firma e allineamenti delle regole → documentazione e
+verifica indipendente → approvazione documentata e allineamenti delle regole → documentazione e
 integrazione seriali → manifest/tag del disegno → 03.11 controlli tecnici →
 chiamate sui test dopo gli altri GO. Il pilot di sviluppo ha la propria catena
 03.6/03.7/03.12→03.10 conforme→03.13 e non richiede risultati dei test OOD.
@@ -120,5 +128,6 @@ Target futuri da presentare **prima** di agire: repository remoto `origin`
 Il SHA del commit finale è pending; non si propone oggi un push/merge/tag eseguibile.
 Per gli asset ignorati concordare sede di conservazione concreta prima della
 pubblicazione. La raggiungibilità locale non è raggiungibilità in origin/main.
-Firma, verifica nuova, condizioni approvate e raggiungibilità prevista devono
-essere provate prima del tag; il manifest non contiene la propria impronta.
+Decisione documentata dell'autore, verifica nuova, condizioni approvate e
+raggiungibilità prevista devono essere provate prima del tag; il manifest non
+contiene la propria impronta.
