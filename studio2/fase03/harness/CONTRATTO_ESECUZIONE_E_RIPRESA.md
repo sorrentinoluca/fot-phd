@@ -301,3 +301,21 @@ stabilità reale o latenza del servizio. Autenticazione qui significa confronto 
 locale approvato e con gli artefatti conservati, non attestazione remota dei pesi del modello.
 D9 eseguibile, ordine 1a, insight reali, servizi e identità osservate, tokenizzazione reale,
 T5 con margine 20%, prerequisiti e pilot restano fuori da questa consegna.
+
+
+## D04 — validazione prima delle decisioni negli stadi aperti
+
+Binding e ogni riserva, incluse le triplette atomiche, riusano `_validate_attempts`
+attraverso `_validated_attempt_inventory` sotto la transazione chiamante. Tutte le righe
+che contribuiscono alla quota cumulativa sono validate contro piano, ruolo e catena,
+anche negli altri stadi ancora aperti. La copertura può essere parziale: completezza e
+outcome sono condizioni distinte della chiusura. Quota incoerente → rifiuto, nessuna
+riclassificazione o correzione automatica. Il binding precede client/server dei runner.
+
+Nessun cambio a quote, rinuncia, triplette, digest D03 o legacy/no-backfill. `snapshot`
+resta diagnostico sulle righe persistite: non certifica né autorizza il riuso di un DB
+corrotto. La validazione normativa precede sempre le riserve che usano quelle righe.
+
+Contratto test-first: CONTRATTO_D04_PRIMA_DEL_CODICE.md; matrice di decisione:
+D04_DECISION_CONTRACT.json e MATRICE_D04_DECISIONI.json/md. I test incrociano campo/stadio/
+ruolo/stato/ingresso e mantengono separati i controlli storici sugli outcome chiusi.

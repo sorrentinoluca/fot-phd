@@ -1,0 +1,177 @@
+{
+  "tests": 6,
+  "failures": [
+    {
+      "id": "__main__.Edges.test_X23_failed_gate_resume_and_zero_token_do_not_erase_failure",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/luker/fot-tep-harness-0310-d04-checks/literal/evidence/additional_edges.py\", line 57, in test_X23_failed_gate_resume_and_zero_token_do_not_erase_failure\n    with patch.object(m.rp,'Provider',Fail),self.assertRaises(m.HarnessError):m.rp.run_stability_stage(t.prepared,t.results,ledger=t.ledger)\n                                            ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\nAssertionError: HarnessError not raised\n"
+    }
+  ],
+  "errors": [],
+  "observations": {
+    "test_X19_alternate_base_quota_cannot_fund_transport": {
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-d04-checks/literal/evidence/additional_edges/extended_fixtures/test_X19_alternate_base_quota_cannot_fund_transport/pilot.sqlite3",
+        "requests_cumulative": 24,
+        "requests_by_stage": {
+          "alternate_conformity": 1,
+          "budget_probe": 0,
+          "producer_conformity": 23,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 15,
+        "reserve_equation_value": 15,
+        "reserve_limit": 15,
+        "planned_maximum": 160,
+        "hard_stop": 200,
+        "durable_responses": 8,
+        "events": [
+          "outcome:producer_conformity",
+          "reconciled:alternate_conformity-0",
+          "reconciled:producer_conformity-0",
+          "reconciled:transport-0",
+          "reconciled:transport-1",
+          "reconciled:transport-10",
+          "reconciled:transport-11",
+          "reconciled:transport-12",
+          "reconciled:transport-13",
+          "reconciled:transport-2",
+          "reconciled:transport-3",
+          "reconciled:transport-4",
+          "reconciled:transport-5",
+          "reconciled:transport-6",
+          "reconciled:transport-7",
+          "reconciled:transport-8",
+          "reconciled:transport-9",
+          "reconciled_integrity:alternate_conformity-0",
+          "reconciled_integrity:producer_conformity-0",
+          "reconciled_integrity:transport-0",
+          "reconciled_integrity:transport-1",
+          "reconciled_integrity:transport-10",
+          "reconciled_integrity:transport-11",
+          "reconciled_integrity:transport-12",
+          "reconciled_integrity:transport-13",
+          "reconciled_integrity:transport-2",
+          "reconciled_integrity:transport-3",
+          "reconciled_integrity:transport-4",
+          "reconciled_integrity:transport-5",
+          "reconciled_integrity:transport-6",
+          "reconciled_integrity:transport-7",
+          "reconciled_integrity:transport-8",
+          "reconciled_integrity:transport-9",
+          "remediation_waived"
+        ]
+      }
+    },
+    "test_X20_first_remediation_binding_rejects_changed_cases_and_contract": {
+      "rejected_first_bindings": 6
+    },
+    "test_X21_cli_reconciliation_and_real_restart_use_same_intent": {
+      "returncode": 0,
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-d04-checks/literal/evidence/additional_edges/extended_fixtures/test_X21_cli_reconciliation_and_real_restart_use_same_intent/pilot.sqlite3",
+        "requests_cumulative": 2,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 0,
+          "producer_conformity": 2,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 1,
+        "reserve_equation_value": 1,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 1,
+        "events": [
+          "reconciled:producer_conformity-0",
+          "reconciled_integrity:producer_conformity-0"
+        ]
+      }
+    },
+    "test_X22_identity_mismatch_in_budget_blocks_whole_pilot": {
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmp4iqf0fg_/pilot.sqlite3",
+        "requests_cumulative": 9,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 1,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 9,
+        "events": [
+          "outcome:producer_conformity",
+          "suspended:3c84ee9dbe55af8dbd66abdc6c74dc446553c2dbb416be4f81514d6685046387"
+        ]
+      }
+    },
+    "test_X24_primary_structure_envelope_defect_is_remediable": {
+      "first": {
+        "artifact_version": "4",
+        "status": "FAIL",
+        "stage": "producer_conformity",
+        "producer_identity_sha256": "b351643c9043c8c2d9db04feddad2277fbeb5442ece5b68cbeb163ff62a35897",
+        "provider_requests": 8,
+        "evaluable_calls": 8,
+        "valid_first_attempts": 7,
+        "records_sha256": "3f853d3dc63b1ad0bfa4c49e6b6b6fbb9d587de704c1e172843d76e4b190e55b",
+        "binding_sha256": "381aee4cc2b21ea225e5b22e4f9de78a9c368da151d8ad680ce539bcb0ac15b3",
+        "r4_target_commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143"
+      },
+      "remediation": {
+        "artifact_version": "4",
+        "status": "PASS",
+        "stage": "producer_remediation",
+        "producer_identity_sha256": "b351643c9043c8c2d9db04feddad2277fbeb5442ece5b68cbeb163ff62a35897",
+        "provider_requests": 8,
+        "evaluable_calls": 8,
+        "valid_first_attempts": 8,
+        "records_sha256": "bce63a481d1cadf050fd6e81168e9f0a4668570ca0178b1bdf58af5039307d38",
+        "binding_sha256": "fb6ea8f54259f01a9152aaad53b6a73da48bbb20568f90506b05c4ec0e0574f0",
+        "r4_target_commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143"
+      },
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpr2lt3hjk/pilot.sqlite3",
+        "requests_cumulative": 16,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 0,
+          "producer_conformity": 8,
+          "producer_remediation": 8,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 8,
+        "transport_calls": 0,
+        "reserve_equation_value": 8,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 16,
+        "events": [
+          "outcome:producer_conformity",
+          "outcome:producer_remediation",
+          "remediation_authorized"
+        ]
+      }
+    }
+  }
+}

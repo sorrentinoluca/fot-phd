@@ -1,0 +1,839 @@
+{
+  "tests": 4,
+  "failures": [],
+  "errors": [],
+  "observations": {
+    "test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain": {
+      "checks": [
+        {
+          "fault": "positive_prompt_tokens",
+          "proof": {
+            "artifact_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516",
+            "before": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 0
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            },
+            "after": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 1,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 0
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            }
+          },
+          "checks": [
+            {
+              "entry": "gate_binding",
+              "error": "zero-token content contract: evidence.prompt_tokens"
+            },
+            {
+              "entry": "gate_success",
+              "error": "zero-token content contract: evidence.prompt_tokens"
+            },
+            {
+              "entry": "gate_outcome",
+              "error": "zero-token content contract: evidence.prompt_tokens"
+            },
+            {
+              "entry": "frozen",
+              "error": "zero-token content contract: evidence.prompt_tokens"
+            },
+            {
+              "entry": "own_producer_binding",
+              "error": "zero-token content contract: evidence.prompt_tokens"
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-harness-0310-d04-checks/w_original/evidence/retry_proof_fixtures/test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain/positive_prompt_tokens/pilot.sqlite3",
+            "requests_cumulative": 132,
+            "requests_by_stage": {
+              "alternate_conformity": 0,
+              "budget_probe": 3,
+              "producer_conformity": 9,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 1,
+            "reserve_equation_value": 1,
+            "reserve_limit": 15,
+            "planned_maximum": 152,
+            "hard_stop": 200,
+            "durable_responses": 131,
+            "events": [
+              "frozen_gate",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate",
+              "reconciled:producer_conformity-0",
+              "reconciled_integrity:producer_conformity-0"
+            ]
+          }
+        },
+        {
+          "fault": "positive_total_tokens",
+          "proof": {
+            "artifact_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516",
+            "before": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 0
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            },
+            "after": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 1
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            }
+          },
+          "checks": [
+            {
+              "entry": "gate_binding",
+              "error": "zero-token content contract: evidence.total_tokens"
+            },
+            {
+              "entry": "gate_success",
+              "error": "zero-token content contract: evidence.total_tokens"
+            },
+            {
+              "entry": "gate_outcome",
+              "error": "zero-token content contract: evidence.total_tokens"
+            },
+            {
+              "entry": "frozen",
+              "error": "zero-token content contract: evidence.total_tokens"
+            },
+            {
+              "entry": "own_producer_binding",
+              "error": "zero-token content contract: evidence.total_tokens"
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-harness-0310-d04-checks/w_original/evidence/retry_proof_fixtures/test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain/positive_total_tokens/pilot.sqlite3",
+            "requests_cumulative": 132,
+            "requests_by_stage": {
+              "alternate_conformity": 0,
+              "budget_probe": 3,
+              "producer_conformity": 9,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 1,
+            "reserve_equation_value": 1,
+            "reserve_limit": 15,
+            "planned_maximum": 152,
+            "hard_stop": 200,
+            "durable_responses": 131,
+            "events": [
+              "frozen_gate",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate",
+              "reconciled:producer_conformity-0",
+              "reconciled_integrity:producer_conformity-0"
+            ]
+          }
+        },
+        {
+          "fault": "missing_completion_tokens",
+          "proof": {
+            "artifact_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516",
+            "before": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 0
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            },
+            "after": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 0
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            }
+          },
+          "checks": [
+            {
+              "entry": "gate_binding",
+              "error": "zero-token content contract: evidence.completion_tokens"
+            },
+            {
+              "entry": "gate_success",
+              "error": "zero-token content contract: evidence.completion_tokens"
+            },
+            {
+              "entry": "gate_outcome",
+              "error": "zero-token content contract: evidence.completion_tokens"
+            },
+            {
+              "entry": "frozen",
+              "error": "zero-token content contract: evidence.completion_tokens"
+            },
+            {
+              "entry": "own_producer_binding",
+              "error": "zero-token content contract: evidence.completion_tokens"
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-harness-0310-d04-checks/w_original/evidence/retry_proof_fixtures/test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain/missing_completion_tokens/pilot.sqlite3",
+            "requests_cumulative": 132,
+            "requests_by_stage": {
+              "alternate_conformity": 0,
+              "budget_probe": 3,
+              "producer_conformity": 9,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 1,
+            "reserve_equation_value": 1,
+            "reserve_limit": 15,
+            "planned_maximum": 152,
+            "hard_stop": 200,
+            "durable_responses": 131,
+            "events": [
+              "frozen_gate",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate",
+              "reconciled:producer_conformity-0",
+              "reconciled_integrity:producer_conformity-0"
+            ]
+          }
+        },
+        {
+          "fault": "boolean_zero_tokens",
+          "proof": {
+            "artifact_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516",
+            "before": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 0
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            },
+            "after": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": false
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            }
+          },
+          "checks": [
+            {
+              "entry": "gate_binding",
+              "error": "zero-token content contract: evidence.total_tokens"
+            },
+            {
+              "entry": "gate_success",
+              "error": "zero-token content contract: evidence.total_tokens"
+            },
+            {
+              "entry": "gate_outcome",
+              "error": "zero-token content contract: evidence.total_tokens"
+            },
+            {
+              "entry": "frozen",
+              "error": "zero-token content contract: evidence.total_tokens"
+            },
+            {
+              "entry": "own_producer_binding",
+              "error": "zero-token content contract: evidence.total_tokens"
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-harness-0310-d04-checks/w_original/evidence/retry_proof_fixtures/test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain/boolean_zero_tokens/pilot.sqlite3",
+            "requests_cumulative": 132,
+            "requests_by_stage": {
+              "alternate_conformity": 0,
+              "budget_probe": 3,
+              "producer_conformity": 9,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 1,
+            "reserve_equation_value": 1,
+            "reserve_limit": 15,
+            "planned_maximum": 152,
+            "hard_stop": 200,
+            "durable_responses": 131,
+            "events": [
+              "frozen_gate",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate",
+              "reconciled:producer_conformity-0",
+              "reconciled_integrity:producer_conformity-0"
+            ]
+          }
+        },
+        {
+          "fault": "missing_provider_receipt",
+          "proof": {
+            "artifact_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516",
+            "before": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 0
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            },
+            "after": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 0
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            }
+          },
+          "checks": [
+            {
+              "entry": "gate_binding",
+              "error": "zero-token content contract: evidence.provider_request_id"
+            },
+            {
+              "entry": "gate_success",
+              "error": "zero-token content contract: evidence.provider_request_id"
+            },
+            {
+              "entry": "gate_outcome",
+              "error": "zero-token content contract: evidence.provider_request_id"
+            },
+            {
+              "entry": "frozen",
+              "error": "zero-token content contract: evidence.provider_request_id"
+            },
+            {
+              "entry": "own_producer_binding",
+              "error": "zero-token content contract: evidence.provider_request_id"
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-harness-0310-d04-checks/w_original/evidence/retry_proof_fixtures/test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain/missing_provider_receipt/pilot.sqlite3",
+            "requests_cumulative": 132,
+            "requests_by_stage": {
+              "alternate_conformity": 0,
+              "budget_probe": 3,
+              "producer_conformity": 9,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 1,
+            "reserve_equation_value": 1,
+            "reserve_limit": 15,
+            "planned_maximum": 152,
+            "hard_stop": 200,
+            "durable_responses": 131,
+            "events": [
+              "frozen_gate",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate",
+              "reconciled:producer_conformity-0",
+              "reconciled_integrity:producer_conformity-0"
+            ]
+          }
+        },
+        {
+          "fault": "missing_provider_evidence",
+          "proof": {
+            "artifact_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516",
+            "before": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 0
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            },
+            "after": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 0
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            }
+          },
+          "checks": [
+            {
+              "entry": "gate_binding",
+              "error": "zero-token content contract: evidence.provider_evidence"
+            },
+            {
+              "entry": "gate_success",
+              "error": "zero-token content contract: evidence.provider_evidence"
+            },
+            {
+              "entry": "gate_outcome",
+              "error": "zero-token content contract: evidence.provider_evidence"
+            },
+            {
+              "entry": "frozen",
+              "error": "zero-token content contract: evidence.provider_evidence"
+            },
+            {
+              "entry": "own_producer_binding",
+              "error": "zero-token content contract: evidence.provider_evidence"
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-harness-0310-d04-checks/w_original/evidence/retry_proof_fixtures/test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain/missing_provider_evidence/pilot.sqlite3",
+            "requests_cumulative": 132,
+            "requests_by_stage": {
+              "alternate_conformity": 0,
+              "budget_probe": 3,
+              "producer_conformity": 9,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 1,
+            "reserve_equation_value": 1,
+            "reserve_limit": 15,
+            "planned_maximum": 152,
+            "hard_stop": 200,
+            "durable_responses": 131,
+            "events": [
+              "frozen_gate",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate",
+              "reconciled:producer_conformity-0",
+              "reconciled_integrity:producer_conformity-0"
+            ]
+          }
+        },
+        {
+          "fault": "missing_approval_author",
+          "proof": {
+            "artifact_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516",
+            "before": {
+              "approval": {
+                "author": "FIXTURE ONLY",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 0
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            },
+            "after": {
+              "approval": {
+                "author": "",
+                "decision": "accepted",
+                "evidence_sha256": "209013cb11cbb0f466d2385fe940e145ab2aba6a99688a41cb31636d7fa25516"
+              },
+              "approval_content_sha256": "6bc2787bd91fe3e3414fa9788cf086340e31647385e85d4b3eeea4823192f5fa",
+              "approval_sha256": "ab9f2f15440d59e8deb4bf3310408d8298adb207c491049cc2fe72f54bddb354",
+              "evidence": {
+                "completion_tokens": 0,
+                "disposition": "not_generated",
+                "prompt_tokens": 0,
+                "provider_evidence": "SACRIFICIAL STUB REPORT",
+                "provider_request_id": "FIXTURE-producer_conformity-0",
+                "request_id": "producer_conformity-0",
+                "request_identity_sha256": "bd07e6b7291e13d6275426f8cc79052b9a6e1724faf149a27ba5a4e6a81a9f6a",
+                "total_tokens": 0
+              },
+              "evidence_content_sha256": "3c273ade588d20d485ae890f62aeb5dcab78aff301d3225d2e3ef85cc77872a1",
+              "previous_status": "INTENT"
+            }
+          },
+          "checks": [
+            {
+              "entry": "gate_binding",
+              "error": "zero-token content contract: approval.author"
+            },
+            {
+              "entry": "gate_success",
+              "error": "zero-token content contract: approval.author"
+            },
+            {
+              "entry": "gate_outcome",
+              "error": "zero-token content contract: approval.author"
+            },
+            {
+              "entry": "frozen",
+              "error": "zero-token content contract: approval.author"
+            },
+            {
+              "entry": "own_producer_binding",
+              "error": "zero-token content contract: approval.author"
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-harness-0310-d04-checks/w_original/evidence/retry_proof_fixtures/test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain/missing_approval_author/pilot.sqlite3",
+            "requests_cumulative": 132,
+            "requests_by_stage": {
+              "alternate_conformity": 0,
+              "budget_probe": 3,
+              "producer_conformity": 9,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 1,
+            "reserve_equation_value": 1,
+            "reserve_limit": 15,
+            "planned_maximum": 152,
+            "hard_stop": 200,
+            "durable_responses": 131,
+            "events": [
+              "frozen_gate",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate",
+              "reconciled:producer_conformity-0",
+              "reconciled_integrity:producer_conformity-0"
+            ]
+          }
+        }
+      ]
+    },
+    "test_W02_real_runner_rejects_positive_tokens_in_durable_retry_proof": {
+      "error": "zero-token content contract: evidence.prompt_tokens",
+      "result": null,
+      "unchanged_valid_result": false,
+      "proof": {
+        "artifact_sha256": "7f943e7aa0ec49965a6f49c306e73da4143623beb0fc35aac5278e72af2ba20a",
+        "before": {
+          "approval": {
+            "author": "FIXTURE ONLY",
+            "decision": "accepted",
+            "evidence_sha256": "7f943e7aa0ec49965a6f49c306e73da4143623beb0fc35aac5278e72af2ba20a"
+          },
+          "approval_content_sha256": "9ad79cb8d104588938f4b8e088f8824d49aa04bba62fe8db68dd51d91257b7ed",
+          "approval_sha256": "c32aad10e6ecf3af526af0ec8d678c333c9ff198380ceb0323e97d924cc34701",
+          "evidence": {
+            "completion_tokens": 0,
+            "disposition": "not_generated",
+            "prompt_tokens": 0,
+            "provider_evidence": "SACRIFICIAL STUB REPORT",
+            "provider_request_id": "FIXTURE-16d9845d0f683b39a1340d7b145330bee65245f8805c9775b74c8e14e103e49b",
+            "request_id": "16d9845d0f683b39a1340d7b145330bee65245f8805c9775b74c8e14e103e49b",
+            "request_identity_sha256": "4d5b7e99a73370f43bcf0c7f1e0808ab092615ddb504727f0215225f27e19069",
+            "total_tokens": 0
+          },
+          "evidence_content_sha256": "e15c91632fa1c1e944e27ba209d9290e95c7828c9952d89a5aec99a9270f3373",
+          "previous_status": "FAILED"
+        },
+        "after": {
+          "approval": {
+            "author": "FIXTURE ONLY",
+            "decision": "accepted",
+            "evidence_sha256": "7f943e7aa0ec49965a6f49c306e73da4143623beb0fc35aac5278e72af2ba20a"
+          },
+          "approval_content_sha256": "9ad79cb8d104588938f4b8e088f8824d49aa04bba62fe8db68dd51d91257b7ed",
+          "approval_sha256": "c32aad10e6ecf3af526af0ec8d678c333c9ff198380ceb0323e97d924cc34701",
+          "evidence": {
+            "completion_tokens": 0,
+            "disposition": "not_generated",
+            "prompt_tokens": 1,
+            "provider_evidence": "SACRIFICIAL STUB REPORT",
+            "provider_request_id": "FIXTURE-16d9845d0f683b39a1340d7b145330bee65245f8805c9775b74c8e14e103e49b",
+            "request_id": "16d9845d0f683b39a1340d7b145330bee65245f8805c9775b74c8e14e103e49b",
+            "request_identity_sha256": "4d5b7e99a73370f43bcf0c7f1e0808ab092615ddb504727f0215225f27e19069",
+            "total_tokens": 1
+          },
+          "evidence_content_sha256": "e15c91632fa1c1e944e27ba209d9290e95c7828c9952d89a5aec99a9270f3373",
+          "previous_status": "FAILED"
+        }
+      },
+      "new_sends": 0,
+      "server_calls": 0,
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpafomr_11/pilot.sqlite3",
+        "requests_cumulative": 132,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 9,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 1,
+        "reserve_equation_value": 1,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 131,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate",
+          "reconciled:16d9845d0f683b39a1340d7b145330bee65245f8805c9775b74c8e14e103e49b",
+          "reconciled_integrity:16d9845d0f683b39a1340d7b145330bee65245f8805c9775b74c8e14e103e49b"
+        ]
+      }
+    },
+    "test_W03_multihop_retry_valid_then_missing_proof_rejected_same_instance": {
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-d04-checks/w_original/evidence/retry_proof_fixtures/test_W03_multihop_retry_valid_then_missing_proof_rejected_same_instance/multi/pilot.sqlite3",
+        "requests_cumulative": 133,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 10,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 2,
+        "reserve_equation_value": 2,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 131,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate",
+          "reconciled:producer_conformity-0",
+          "reconciled_integrity:producer_conformity-0",
+          "reconciled_integrity:retry-0"
+        ]
+      },
+      "same_instance_rejected": true
+    },
+    "test_W04_same_instance_does_not_cache_predecessor_validation": {
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-d04-checks/w_original/evidence/retry_proof_fixtures/test_W04_same_instance_does_not_cache_predecessor_validation/cache/pilot.sqlite3",
+        "requests_cumulative": 132,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 9,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 1,
+        "reserve_equation_value": 1,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 131,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate",
+          "reconciled:producer_conformity-0",
+          "reconciled_integrity:producer_conformity-0"
+        ]
+      },
+      "same_instance_rejected": true
+    }
+  }
+}

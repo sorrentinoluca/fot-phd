@@ -95,6 +95,21 @@ class PilotLedger:
     def _rows(self, c):
         return list(c.execute("SELECT * FROM requests ORDER BY rowid"))
 
+    def _validated_attempt_inventory(self, c):
+        """Validate every quota contributor before reuse or reservation, including open stages.
+
+        This checks partial attempt chains without requiring a closed outcome or complete
+        coverage. All stages contribute to the shared reserve, not only the requested one.
+        The caller holds the transaction through its decision and any insertion.
+        """
+        rows = self._rows(c)
+        for stage in sorted({row['stage'] for row in rows}):
+            if stage not in STAGES:
+                raise HarnessError('persisted attempt has an unknown stage')
+            self._validate_attempts(c, self._binding(c, stage),
+                                    [row for row in rows if row['stage'] == stage])
+        return rows
+
     def _events(self, c):
         return {r['event']: r for r in c.execute("SELECT * FROM events")}
 
@@ -162,13 +177,12 @@ class PilotLedger:
                 if old[0] != digest(binding):
                     raise HarnessError("stage inputs changed across alias, directory or restart")
                 self._prerequisites(c, stage)
-                for row in self._rows(c):
-                    if row['stage'] == stage and row['status'] == 'ZERO_TOKEN_PROVEN':
-                        self._validated_reconciliation(c, row)
+                self._validated_attempt_inventory(c)
                 if 'outcome:' + stage in self._events(c):
                     self._closed_outcome(c, stage)
                 return
             self._ready(c, stage)
+            self._validated_attempt_inventory(c)
             if stage == 'producer_remediation':
                 auth = self._events(c).get('remediation_authorized')
                 if auth is None:
@@ -281,6 +295,7 @@ class PilotLedger:
         if len(rows) >= max_calls:
             raise HarnessError(f"planned request maximum {max_calls} reached")
         self._ready(c, stage)
+        rows = self._validated_attempt_inventory(c)
         binding = self._binding(c, stage)
         if stage_run != digest(binding):
             raise HarnessError("stage_run must identify the exact immutable request plan")

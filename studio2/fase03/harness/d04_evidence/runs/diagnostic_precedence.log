@@ -1,0 +1,7 @@
+test_hard_200_on_explicit_imported_fixture (studio2.fase03.harness.test_revisions.LedgerRevisions.test_hard_200_on_explicit_imported_fixture) ... ok
+test_D01_legacy_nonpass_alternate_rejected_by_all_confirmation_entries (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_legacy_nonpass_alternate_rejected_by_all_confirmation_entries) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.209s
+
+OK
