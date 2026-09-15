@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-0310-d03/studio2/fase03/harness/test_d03_contract.py", line 17, in <module>
+    from studio2.fase03.harness.common import HarnessError, canonical_json, sha256_text, sha256_file
+ModuleNotFoundError: No module named 'studio2'

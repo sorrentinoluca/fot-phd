@@ -191,13 +191,23 @@ class ProofContract(unittest.TestCase):
                 for event,payload in c.execute('SELECT event,detail_json FROM events'):
                     kind=event.split(':')[0];spec=CONTRACT['event_payloads'].get(kind,{})
                     if '*' not in spec:
-                        missing += [kind+'.'+key for key in json.loads(payload) if key not in spec]
+                        detail=json.loads(payload)
+                        missing += [kind+'.'+key for key in detail if key not in spec]
+                        if kind=='reconciled':
+                            for section in ('evidence','approval'):
+                                known={f['field'] for f in FIELDS if f['section']==section}
+                                missing += ['reconciled.'+section+'.'+key for key in detail.get(section,{}) if key not in known]
             return missing
         self.assertEqual(uncovered(),[])
         self.execute(t.ledger,'ALTER TABLE requests ADD COLUMN future_field TEXT')
         self.assertIn('requests.future_field',uncovered())
         d=self.detail(t.ledger,'producer_conformity-0');d['future_proof_field']='unknown';self.write_detail(t.ledger,'producer_conformity-0',d)
-        self.assertIn('reconciled.future_proof_field',uncovered());self.assertEqual(CONTRACT['default'],'DA_COPRIRE')
+        self.assertIn('reconciled.future_proof_field',uncovered())
+        d['evidence']['future_evidence_field']='unknown';d['approval']['future_approval_field']='unknown'
+        self.write_detail(t.ledger,'producer_conformity-0',d)
+        self.assertIn('reconciled.evidence.future_evidence_field',uncovered())
+        self.assertIn('reconciled.approval.future_approval_field',uncovered())
+        self.assertEqual(CONTRACT['default'],'DA_COPRIRE')
 
     def test_D03_missing_digest_is_fail_closed_without_backfill_even_before_retry(self):
         results=[]

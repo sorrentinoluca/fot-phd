@@ -1,0 +1,445 @@
+{
+  "tests": 5,
+  "failures": [],
+  "errors": [],
+  "observations": {
+    "test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation": {
+      "observations": [
+        {
+          "stage": "producer_conformity",
+          "checks": [
+            {
+              "entry": "binding",
+              "error": "raw/record corruption"
+            },
+            {
+              "entry": "success",
+              "error": "raw/record corruption"
+            },
+            {
+              "entry": "outcome",
+              "error": "raw/record corruption"
+            },
+            {
+              "entry": "frozen",
+              "error": "raw/record corruption"
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-harness-0310-d03-checks/z_original/evidence/chain_fixtures/test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation/producer_conformity/pilot.sqlite3",
+            "requests_cumulative": 139,
+            "requests_by_stage": {
+              "alternate_conformity": 8,
+              "budget_probe": 3,
+              "producer_conformity": 8,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 0,
+            "reserve_equation_value": 0,
+            "reserve_limit": 15,
+            "planned_maximum": 160,
+            "hard_stop": 200,
+            "durable_responses": 139,
+            "events": [
+              "frozen_gate",
+              "outcome:alternate_conformity",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate"
+            ]
+          }
+        },
+        {
+          "stage": "alternate_conformity",
+          "checks": [
+            {
+              "entry": "binding",
+              "error": "raw/record corruption"
+            },
+            {
+              "entry": "success",
+              "error": "raw/record corruption"
+            },
+            {
+              "entry": "outcome",
+              "error": "raw/record corruption"
+            },
+            {
+              "entry": "frozen",
+              "error": "raw/record corruption"
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-harness-0310-d03-checks/z_original/evidence/chain_fixtures/test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation/alternate_conformity/pilot.sqlite3",
+            "requests_cumulative": 139,
+            "requests_by_stage": {
+              "alternate_conformity": 8,
+              "budget_probe": 3,
+              "producer_conformity": 8,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 0,
+            "reserve_equation_value": 0,
+            "reserve_limit": 15,
+            "planned_maximum": 160,
+            "hard_stop": 200,
+            "durable_responses": 139,
+            "events": [
+              "frozen_gate",
+              "outcome:alternate_conformity",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate"
+            ]
+          }
+        },
+        {
+          "stage": "budget_probe",
+          "checks": [
+            {
+              "entry": "binding",
+              "error": "raw/record corruption"
+            },
+            {
+              "entry": "success",
+              "error": "raw/record corruption"
+            },
+            {
+              "entry": "outcome",
+              "error": "raw/record corruption"
+            },
+            {
+              "entry": "frozen",
+              "error": "raw/record corruption"
+            }
+          ],
+          "snapshot": {
+            "pilot_id": "offline-fixture",
+            "ledger_path": "/Users/luker/fot-tep-harness-0310-d03-checks/z_original/evidence/chain_fixtures/test_Z01_corrupted_predecessor_raw_blocks_normative_confirmation/budget_probe/pilot.sqlite3",
+            "requests_cumulative": 139,
+            "requests_by_stage": {
+              "alternate_conformity": 8,
+              "budget_probe": 3,
+              "producer_conformity": 8,
+              "producer_remediation": 0,
+              "stability_gate": 120
+            },
+            "unresolved_intents": 0,
+            "remediation_calls": 0,
+            "transport_calls": 0,
+            "reserve_equation_value": 0,
+            "reserve_limit": 15,
+            "planned_maximum": 160,
+            "hard_stop": 200,
+            "durable_responses": 139,
+            "events": [
+              "frozen_gate",
+              "outcome:alternate_conformity",
+              "outcome:budget_probe",
+              "outcome:producer_conformity",
+              "outcome:stability_gate"
+            ]
+          }
+        }
+      ]
+    },
+    "test_Z02_missing_predecessor_coverage_is_not_a_successful_chain": {
+      "checks": [
+        {
+          "entry": "binding",
+          "error": "stage outcome requires complete distinct base coverage"
+        },
+        {
+          "entry": "success",
+          "error": "stage outcome requires complete distinct base coverage"
+        },
+        {
+          "entry": "outcome",
+          "error": "stage outcome requires complete distinct base coverage"
+        },
+        {
+          "entry": "frozen",
+          "error": "stage outcome requires complete distinct base coverage"
+        }
+      ],
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-d03-checks/z_original/evidence/chain_fixtures/test_Z02_missing_predecessor_coverage_is_not_a_successful_chain/missing/pilot.sqlite3",
+        "requests_cumulative": 138,
+        "requests_by_stage": {
+          "alternate_conformity": 7,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 160,
+        "hard_stop": 200,
+        "durable_responses": 139,
+        "events": [
+          "frozen_gate",
+          "outcome:alternate_conformity",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate"
+        ]
+      }
+    },
+    "test_Z03_real_runner_rejects_corrupted_alternate_predecessor": {
+      "error": "raw/record corruption",
+      "result": null,
+      "same_as_valid_result": false,
+      "new_sends": 0,
+      "corrupted_request": "b9a6169588e94f02277e9f6c7b75c71dc4a3653465c1af67a86de469e5a0ef99",
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpwclpho_m/pilot.sqlite3",
+        "requests_cumulative": 139,
+        "requests_by_stage": {
+          "alternate_conformity": 8,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 160,
+        "hard_stop": 200,
+        "durable_responses": 139,
+        "events": [
+          "frozen_gate",
+          "outcome:alternate_conformity",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate"
+        ]
+      }
+    },
+    "test_Z04_each_confirmation_holds_a_real_write_lock_for_all_predecessor_reads": {
+      "observations": [
+        {
+          "entry": "binding",
+          "during": [
+            {
+              "blocked": true,
+              "error": "database is locked"
+            }
+          ],
+          "after": {
+            "blocked": false
+          }
+        },
+        {
+          "entry": "success",
+          "during": [
+            {
+              "blocked": true,
+              "error": "database is locked"
+            }
+          ],
+          "after": {
+            "blocked": false
+          }
+        },
+        {
+          "entry": "outcome",
+          "during": [
+            {
+              "blocked": true,
+              "error": "database is locked"
+            }
+          ],
+          "after": {
+            "blocked": false
+          }
+        },
+        {
+          "entry": "frozen",
+          "during": [
+            {
+              "blocked": true,
+              "error": "database is locked"
+            }
+          ],
+          "after": {
+            "blocked": false
+          }
+        }
+      ]
+    },
+    "test_Z05_closed_failed_gate_replays_without_promoting_outcome": {
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-harness-0310-d03-checks/z_original/evidence/chain_fixtures/test_Z05_closed_failed_gate_replays_without_promoting_outcome/invalid/pilot.sqlite3",
+        "requests_cumulative": 131,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 8,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 11,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate",
+          "transport_invalidity:stability_gate-0",
+          "transport_invalidity:stability_gate-1",
+          "transport_invalidity:stability_gate-10",
+          "transport_invalidity:stability_gate-100",
+          "transport_invalidity:stability_gate-101",
+          "transport_invalidity:stability_gate-102",
+          "transport_invalidity:stability_gate-103",
+          "transport_invalidity:stability_gate-104",
+          "transport_invalidity:stability_gate-105",
+          "transport_invalidity:stability_gate-106",
+          "transport_invalidity:stability_gate-107",
+          "transport_invalidity:stability_gate-108",
+          "transport_invalidity:stability_gate-109",
+          "transport_invalidity:stability_gate-11",
+          "transport_invalidity:stability_gate-110",
+          "transport_invalidity:stability_gate-111",
+          "transport_invalidity:stability_gate-112",
+          "transport_invalidity:stability_gate-113",
+          "transport_invalidity:stability_gate-114",
+          "transport_invalidity:stability_gate-115",
+          "transport_invalidity:stability_gate-116",
+          "transport_invalidity:stability_gate-117",
+          "transport_invalidity:stability_gate-118",
+          "transport_invalidity:stability_gate-119",
+          "transport_invalidity:stability_gate-12",
+          "transport_invalidity:stability_gate-13",
+          "transport_invalidity:stability_gate-14",
+          "transport_invalidity:stability_gate-15",
+          "transport_invalidity:stability_gate-16",
+          "transport_invalidity:stability_gate-17",
+          "transport_invalidity:stability_gate-18",
+          "transport_invalidity:stability_gate-19",
+          "transport_invalidity:stability_gate-2",
+          "transport_invalidity:stability_gate-20",
+          "transport_invalidity:stability_gate-21",
+          "transport_invalidity:stability_gate-22",
+          "transport_invalidity:stability_gate-23",
+          "transport_invalidity:stability_gate-24",
+          "transport_invalidity:stability_gate-25",
+          "transport_invalidity:stability_gate-26",
+          "transport_invalidity:stability_gate-27",
+          "transport_invalidity:stability_gate-28",
+          "transport_invalidity:stability_gate-29",
+          "transport_invalidity:stability_gate-3",
+          "transport_invalidity:stability_gate-30",
+          "transport_invalidity:stability_gate-31",
+          "transport_invalidity:stability_gate-32",
+          "transport_invalidity:stability_gate-33",
+          "transport_invalidity:stability_gate-34",
+          "transport_invalidity:stability_gate-35",
+          "transport_invalidity:stability_gate-36",
+          "transport_invalidity:stability_gate-37",
+          "transport_invalidity:stability_gate-38",
+          "transport_invalidity:stability_gate-39",
+          "transport_invalidity:stability_gate-4",
+          "transport_invalidity:stability_gate-40",
+          "transport_invalidity:stability_gate-41",
+          "transport_invalidity:stability_gate-42",
+          "transport_invalidity:stability_gate-43",
+          "transport_invalidity:stability_gate-44",
+          "transport_invalidity:stability_gate-45",
+          "transport_invalidity:stability_gate-46",
+          "transport_invalidity:stability_gate-47",
+          "transport_invalidity:stability_gate-48",
+          "transport_invalidity:stability_gate-49",
+          "transport_invalidity:stability_gate-5",
+          "transport_invalidity:stability_gate-50",
+          "transport_invalidity:stability_gate-51",
+          "transport_invalidity:stability_gate-52",
+          "transport_invalidity:stability_gate-53",
+          "transport_invalidity:stability_gate-54",
+          "transport_invalidity:stability_gate-55",
+          "transport_invalidity:stability_gate-56",
+          "transport_invalidity:stability_gate-57",
+          "transport_invalidity:stability_gate-58",
+          "transport_invalidity:stability_gate-59",
+          "transport_invalidity:stability_gate-6",
+          "transport_invalidity:stability_gate-60",
+          "transport_invalidity:stability_gate-61",
+          "transport_invalidity:stability_gate-62",
+          "transport_invalidity:stability_gate-63",
+          "transport_invalidity:stability_gate-64",
+          "transport_invalidity:stability_gate-65",
+          "transport_invalidity:stability_gate-66",
+          "transport_invalidity:stability_gate-67",
+          "transport_invalidity:stability_gate-68",
+          "transport_invalidity:stability_gate-69",
+          "transport_invalidity:stability_gate-7",
+          "transport_invalidity:stability_gate-70",
+          "transport_invalidity:stability_gate-71",
+          "transport_invalidity:stability_gate-72",
+          "transport_invalidity:stability_gate-73",
+          "transport_invalidity:stability_gate-74",
+          "transport_invalidity:stability_gate-75",
+          "transport_invalidity:stability_gate-76",
+          "transport_invalidity:stability_gate-77",
+          "transport_invalidity:stability_gate-78",
+          "transport_invalidity:stability_gate-79",
+          "transport_invalidity:stability_gate-8",
+          "transport_invalidity:stability_gate-80",
+          "transport_invalidity:stability_gate-81",
+          "transport_invalidity:stability_gate-82",
+          "transport_invalidity:stability_gate-83",
+          "transport_invalidity:stability_gate-84",
+          "transport_invalidity:stability_gate-85",
+          "transport_invalidity:stability_gate-86",
+          "transport_invalidity:stability_gate-87",
+          "transport_invalidity:stability_gate-88",
+          "transport_invalidity:stability_gate-89",
+          "transport_invalidity:stability_gate-9",
+          "transport_invalidity:stability_gate-90",
+          "transport_invalidity:stability_gate-91",
+          "transport_invalidity:stability_gate-92",
+          "transport_invalidity:stability_gate-93",
+          "transport_invalidity:stability_gate-94",
+          "transport_invalidity:stability_gate-95",
+          "transport_invalidity:stability_gate-96",
+          "transport_invalidity:stability_gate-97",
+          "transport_invalidity:stability_gate-98",
+          "transport_invalidity:stability_gate-99"
+        ]
+      },
+      "outcome": {
+        "artifact_sha256": "b936c77e9c319fb810cd3b0479187406b324e252b20100042b8a74c671bd8f8f",
+        "artifact": {
+          "records_sha256": "73d8319f91b0c3cd097406824f695fe336d4b69adc984c02086905935d1f47b1"
+        },
+        "diagnosis": null,
+        "outcome": "FAIL",
+        "records_sha256": "73d8319f91b0c3cd097406824f695fe336d4b69adc984c02086905935d1f47b1"
+      }
+    }
+  }
+}

@@ -15,7 +15,7 @@ import re
 import sqlite3
 from typing import Any, Iterable
 
-from .common import HarnessError, canonical_json, sha256_text, sha256_file, load_json
+from .common import HarnessError, canonical_json, sha256_text, sha256_file, sha256_bytes, load_json
 
 HASH = re.compile(r"^[0-9a-f]{64}$")
 STAGES = {"producer_conformity", "producer_remediation", "alternate_conformity", "budget_probe", "stability_gate"}
@@ -162,6 +162,9 @@ class PilotLedger:
                 if old[0] != digest(binding):
                     raise HarnessError("stage inputs changed across alias, directory or restart")
                 self._prerequisites(c, stage)
+                for row in self._rows(c):
+                    if row['stage'] == stage and row['status'] == 'ZERO_TOKEN_PROVEN':
+                        self._validated_reconciliation(c, row)
                 if 'outcome:' + stage in self._events(c):
                     self._closed_outcome(c, stage)
                 return
@@ -293,6 +296,7 @@ class PilotLedger:
             original = next((r for r in rows if r['request_id'] == retry_of), None)
             if original is None or original['status'] != 'ZERO_TOKEN_PROVEN' or original['stage'] != stage or original['identity_json'] != identity:
                 raise HarnessError("retry requires matching original and documented zero-token proof")
+            self._validated_reconciliation(c, original)
             if any(r['retry_of'] == retry_of for r in rows):
                 raise HarnessError("original already has a retry; retry only the proven zero-token leaf")
             if stage == 'stability_gate':
@@ -449,6 +453,8 @@ class PilotLedger:
         self._event(c, 'transport_invalidity:' + request_id, digest(record), {'record': record})
 
     def _gate_transport_record(self, c, row):
+        if row['status'] == 'ZERO_TOKEN_PROVEN':
+            self._validated_reconciliation(c, row)
         event = self._events(c).get('transport_invalidity:' + row['request_id'])
         if event is None:
             return None
@@ -466,7 +472,7 @@ class PilotLedger:
         return record
 
     def gate_transport_record(self, request_id):
-        with closing(self._connect()) as c:
+        with self._transaction() as c:
             row = c.execute('SELECT * FROM requests WHERE request_id=?', (request_id,)).fetchone()
             return None if row is None else self._gate_transport_record(c, row)
 
@@ -484,20 +490,100 @@ class PilotLedger:
             return record
         return self._gate_transport_record(c, row)
 
+    @staticmethod
+    def _validate_zero_token_evidence(evidence, approval, row):
+        """One content contract for acquisition, retry ancestors and reconciled gate.
+
+        State eligibility belongs to callers. The returned IDs are an audit of checks
+        actually passed, used by the contract guard; no caller supplies a subset.
+        """
+        if not isinstance(evidence, dict) or not isinstance(approval, dict):
+            raise HarnessError('zero-token evidence and approval must be objects')
+        checked = set()
+        def require(field, condition):
+            if not condition:
+                raise HarnessError('zero-token content contract: ' + field)
+            checked.add(field)
+        nonempty_text = lambda value: isinstance(value, str) and bool(value.strip())
+        require('evidence.request_id', evidence.get('request_id') == row['request_id'])
+        require('evidence.request_identity_sha256', evidence.get('request_identity_sha256') == sha256_text(row['identity_json']))
+        require('evidence.disposition', evidence.get('disposition') == 'not_generated')
+        require('evidence.provider_request_id', nonempty_text(evidence.get('provider_request_id')))
+        provider_evidence = evidence.get('provider_evidence')
+        require('evidence.provider_evidence', nonempty_text(provider_evidence) or isinstance(provider_evidence, dict) and bool(provider_evidence))
+        for field in ('prompt_tokens', 'completion_tokens', 'total_tokens'):
+            require('evidence.' + field, type(evidence.get(field)) is int and evidence[field] == 0)
+        require('approval.author', nonempty_text(approval.get('author')))
+        require('approval.decision', approval.get('decision') == 'accepted')
+        require('approval.evidence_sha256', approval.get('evidence_sha256') == row['proof_sha256'])
+        return frozenset(checked)
+
+    @staticmethod
+    def _zero_token_content_digest(value):
+        # Literal contract formula; distinct from the original file's byte hash.
+        return digest(canonical_json(value))
+
+    def _reconciliation_link(self, detail, row):
+        return dict(request_id=row['request_id'], evidence_file_sha256=row['proof_sha256'],
+                    approval_file_sha256=detail['approval_sha256'],
+                    evidence_content_sha256=detail['evidence_content_sha256'],
+                    approval_content_sha256=detail['approval_content_sha256'],
+                    previous_status=detail['previous_status'])
+
+    def _validated_reconciliation(self, c, row):
+        events = self._events(c)
+        event = events.get('reconciled:' + row['request_id'])
+        marker = events.get('reconciled_integrity:' + row['request_id'])
+        if row['status'] != 'ZERO_TOKEN_PROVEN' or event is None or marker is None:
+            raise HarnessError('zero-token proof lacks durable content binding; reviewed reconciliation required')
+        try:
+            detail = json.loads(event['detail_json'])
+            stored_link = json.loads(marker['detail_json'])
+        except (ValueError, TypeError) as exc:
+            raise HarnessError('zero-token persisted proof is not valid JSON') from exc
+        required = {'evidence','approval','approval_sha256','previous_status',
+                    'evidence_content_sha256','approval_content_sha256'}
+        if not isinstance(detail, dict) or not required <= detail.keys():
+            raise HarnessError('zero-token proof lacks durable content binding; reviewed reconciliation required')
+        self._validate_zero_token_evidence(detail['evidence'], detail['approval'], row)
+        for value in (row['proof_sha256'], detail['approval_sha256']):
+            self._require_hash(value, 'zero-token original file')
+        if (event['artifact_sha256'] != row['proof_sha256']
+                or detail['previous_status'] not in {'INTENT','FAILED'}
+                or c.execute('SELECT 1 FROM responses WHERE request_id=?', (row['request_id'],)).fetchone()):
+            raise HarnessError('zero-token proof does not bind the recorded attempt')
+        for key in ('evidence','approval'):
+            if detail[key + '_content_sha256'] != self._zero_token_content_digest(detail[key]):
+                raise HarnessError('zero-token persisted content digest mismatch')
+        link = self._reconciliation_link(detail, row)
+        if stored_link != link or marker['artifact_sha256'] != digest(link):
+            raise HarnessError('zero-token durable integrity link mismatch')
+        return detail
+
     def reconcile_zero_token(self, request_id, *, evidence_path: Path, approval_path: Path):
-        evidence, approval = load_json(evidence_path), load_json(approval_path)
+        # Hash and parse the same bytes; never reopen a file between those operations.
+        try:
+            evidence_bytes, approval_bytes = evidence_path.read_bytes(), approval_path.read_bytes()
+            evidence, approval = json.loads(evidence_bytes), json.loads(approval_bytes)
+        except (OSError, UnicodeError, ValueError) as exc:
+            raise HarnessError('cannot read zero-token evidence/approval') from exc
+        evidence_hash, approval_hash = sha256_bytes(evidence_bytes), sha256_bytes(approval_bytes)
         with self._transaction() as c:
             row = c.execute("SELECT * FROM requests WHERE request_id=?", (request_id,)).fetchone()
             if row is None or row['status'] not in {'INTENT', 'FAILED'}:
                 raise HarnessError("reconciliation requires uncertain intent/failure")
             if c.execute("SELECT 1 FROM responses WHERE request_id=?", (request_id,)).fetchone():
                 raise HarnessError("raw response exists; zero-token reconciliation forbidden")
-            if evidence.get('request_id') != request_id or evidence.get('request_identity_sha256') != sha256_text(row['identity_json']) or evidence.get('disposition') != 'not_generated' or not evidence.get('provider_request_id') or not evidence.get('provider_evidence') or any(type(evidence.get(k)) is not int or evidence[k] != 0 for k in ('prompt_tokens','completion_tokens','total_tokens')):
-                raise HarnessError("zero-token reconciliation needs provider evidence and complete request identity")
-            if approval.get('decision') != 'accepted' or approval.get('evidence_sha256') != sha256_file(evidence_path) or not approval.get('author'):
-                raise HarnessError("reconciliation requires written approval of exact evidence")
-            self._event(c, 'reconciled:' + request_id, sha256_file(evidence_path), {'evidence': evidence, 'approval': approval, 'approval_sha256': sha256_file(approval_path), 'previous_status': row['status']})
-            c.execute("UPDATE requests SET status='ZERO_TOKEN_PROVEN',proof_sha256=?,completed_utc=? WHERE request_id=?", (sha256_file(evidence_path), _utc_now(), request_id))
+            proof_row = dict(row, proof_sha256=evidence_hash)
+            self._validate_zero_token_evidence(evidence, approval, proof_row)
+            detail = dict(evidence=evidence, approval=approval, approval_sha256=approval_hash,
+                          previous_status=row['status'],
+                          evidence_content_sha256=self._zero_token_content_digest(evidence),
+                          approval_content_sha256=self._zero_token_content_digest(approval))
+            link = self._reconciliation_link(detail, proof_row)
+            self._event(c, 'reconciled:' + request_id, evidence_hash, detail)
+            self._event(c, 'reconciled_integrity:' + request_id, digest(link), link)
+            c.execute("UPDATE requests SET status='ZERO_TOKEN_PROVEN',proof_sha256=?,completed_utc=? WHERE request_id=?", (evidence_hash, _utc_now(), request_id))
             if row['stage'] == 'stability_gate':
                 self._save_gate_transport_record(c, request_id)
 
@@ -511,31 +597,23 @@ class PilotLedger:
         specs = {s['logical_id']: s for s in binding['requests']}
         by_id = {r['request_id']: r for r in rows}
         children = {r['retry_of']: r for r in rows if r['retry_of']}
-        events = self._events(c)
         for row in rows:
             spec = specs.get(row['logical_id'])
             if (spec is None or row['identity_json'] != canonical_json(spec)
                     or row['stage_run'] != digest(binding)
                     or (row['model'], row['producer']) != (spec['model'], spec['producer'])):
                 raise HarnessError('persisted request differs from immutable plan')
+            expected_quota = 'transport' if row['retry_of'] else 'remediation' if row['stage'] == 'producer_remediation' else 'base'
+            if row['quota_kind'] != expected_quota:
+                raise HarnessError('persisted attempt quota differs from its role')
             if row['retry_of']:
                 parent = by_id.get(row['retry_of'])
                 if (parent is None or parent['status'] != 'ZERO_TOKEN_PROVEN'
                         or parent['identity_json'] != row['identity_json']
                         or row['quota_kind'] != 'transport'):
                     raise HarnessError('orphan or inconsistent retry attempt')
-            if row['request_id'] in children:
-                event = events.get('reconciled:' + row['request_id'])
-                detail = {} if event is None else json.loads(event['detail_json'])
-                evidence, approval = detail.get('evidence', {}), detail.get('approval', {})
-                if (event is None or row['proof_sha256'] != event['artifact_sha256']
-                        or evidence.get('request_id') != row['request_id']
-                        or evidence.get('request_identity_sha256') != sha256_text(row['identity_json'])
-                        or evidence.get('disposition') != 'not_generated'
-                        or approval.get('decision') != 'accepted'
-                        or approval.get('evidence_sha256') != event['artifact_sha256']
-                        or c.execute('SELECT 1 FROM responses WHERE request_id=?', (row['request_id'],)).fetchone()):
-                    raise HarnessError('retry ancestor lacks its durable zero-token evidence')
+            if row['status'] == 'ZERO_TOKEN_PROVEN':
+                self._validated_reconciliation(c, row)
         # _chain_leaves checks cycles reachable from bases; account for disconnected cycles too.
         reached = set()
         for row in (r for r in rows if not r['retry_of']):

@@ -1,9 +1,9 @@
-# Contratto eseguibile R01–R10 — D02 / R04 / R08
+# Contratto eseguibile R01–R10 — D03 / prove zero-token
 
 15 settembre 2026. Implementazione offline da sottoporre a nuova verifica indipendente.
-Questo documento descrive il delta successivo al quarto NON OK (edb37f3): non ne cambia il verdetto.
-D01 originario e C02/C03 risultano chiusi nella review acquisita. D02 riguarda l’autenticazione
-delle prove durevoli e della copertura dei predecessori che conservano PASS/COMPLETED.
+Questo documento descrive il delta successivo al quinto NON OK (a219bd4): non ne cambia il verdetto.
+D01/D02 originari e C02/C03 risultano chiusi nella review acquisita. D03 riguarda i contenuti
+obbligatori e il legame durevole della prova zero-token durante il riuso.
 La formulazione precedente su N48 era errata: il piano rev.10 §§11–11.1 richiede le invalidità di trasporto in T3/T6.
 La specifica e i report del candidato 59b6b93 restano storia, incluse le formulazioni D9
 superate. La decisione D9 del record aaba893 è già acquisita (122B producer principale
@@ -134,6 +134,61 @@ Le regressioni D02 iniettano guasti SQL espliciti in copie sacrificabili dopo un
 valida: raw/record alterati, dati assenti, artefatti incoerenti, copertura ridotta e prova
 di retry perduta. Non sono la costruzione di D01 né input scientifici. Non si rivendica
 resistenza contro chi riscrive coerentemente l’intero database e tutte le impronte.
+
+## Prove zero-token e inventario dei campi — D03
+
+Il [contratto D03 scritto prima del codice](CONTRATTO_D03_PRIMA_DEL_CODICE.md) e
+[DURABLE_FIELD_CONTRACT.json](DURABLE_FIELD_CONTRACT.json) fissano invariante, classificazione
+N/F dei campi e aspettative dei test. Sono inventariate tutte le colonne SQLite e le chiavi
+nominate dei payload degli eventi. I contenitori JSON improntati sono valori atomici: tutti
+i campi annidati ereditano l’integrità normativa, compresi i timestamp inclusi nel raw/record.
+Sono forensi le colonne di cattura/timestamp esterne a questi artefatti e le note pubbliche.
+I duplicati dei token nelle requests non autorizzano nulla: la prova normativa è l’evidence
+zero-token o il record valutato e improntato. Nessun dato di consumo viene dedotto da tali
+duplicati. Colonne nuove e chiavi di evento non inventariate sono DA_COPRIRE, non ammesse
+implicitamente dal controllo di inventario.
+
+`_validate_zero_token_evidence(evidence, approval, row)` è il solo validatore dei contenuti:
+identità completa, disposition=not_generated, ricevuta provider non vuota, evidenza provider
+non vuota, tre contatori di tipo int (non bool) uguali a zero, autore non vuoto, decisione
+accepted e approvazione dell’hash del file esatto. Restituisce gli identificatori dei controlli
+superati per la guardia di simmetria. Ricevuta/author sono stringhe non bianche; l’evidenza
+provider è testo non bianco oppure un oggetto non vuoto. Nessuna qualificazione remota deriva
+dalle stringhe delle fixture. Le precondizioni di stato restano ai chiamanti.
+
+Acquisizione, riconferma degli antenati retry e gate riconciliato invocano lo stesso validatore.
+L’acquisizione legge una volta i byte dei due file e usa quei byte per parsing e hash, senza
+riletture tra le due operazioni. Conserva le impronte dei file e aggiunge i digest dei contenuti
+prova/approvazione, calcolati secondo la formula esplicita del contratto D03. L’evento separato
+`reconciled_integrity:<request_id>` lega digest di contenuto, hash dei file, richiesta e stato
+precedente. La riconferma ricalcola e confronta entrambi i contenuti e il legame. Il nuovo evento
+è normativo e non può essere scritto con record_event pubblico. Nessuna modifica di schema
+SQLite v2 o migrazione viene eseguita; la creazione dei due eventi e il cambio di stato sono
+atomici. Non si aggiorna la prova originaria quando cambia un suo campo.
+
+Il controllo si applica anche prima di riservare un nuovo retry e nel binding di uno stadio
+aperto ripreso, prima di server_contract, trasporto, journal o summary. Nel gate vale anche
+quando un FAILED già rappresentato da INVALID viene successivamente riconciliato: l’INVALID
+originale rimane immutabile ma la prova successiva deve restare conforme. L’ingresso pubblico
+gate_transport_record usa una transazione unica per le letture della prova e del record.
+
+**Requisito storico esplicito:** prove riconciliate senza nuovi digest o legame durevole vengono
+rifiutate, senza backfill. Non si rende autentico il passato calcolando un hash oggi. Gli eventi
+restano leggibili a fini forensi. Lo sblocco richiede la riconciliazione revisionata separata
+prevista per il legacy, non implementata in questo delta. Le catene legacy prive di prove
+zero-token non cambiano aspettativa. Una nuova regressione genera con il vecchio 0c8157f una
+catena allora lecita con retry e verifica il nuovo rifiuto senza riscrivere i 132 intenti.
+
+La matrice deriva dall’inventario: campi di evidence/approval × alterazioni × tre percorsi,
+contenitori di riconciliazione/legame, colonne SQLite N/F e controlli positivi forensi. Le
+alterazioni con digest locali riallineati verificano la semantica obbligatoria, non pretendono
+resistenza crittografica alla riscrittura coerente dell’intera catena. La copertura resta
+finita: l’inventario strutturale e le prove precedenti non equivalgono a esplorare ogni possibile
+valore dei payload opachi o ogni combinazione di guasti.
+
+La matrice ha rilevato anche quota_kind persistito incoerente: la riconferma richiede base
+per gli originali ordinari, remediation per quelli di remediation, transport per i retry.
+Le quantità e le politiche di quota restano invariate. Nessun nuovo invio, GO o freeze.
 
 ## Persistenza e punti di crash
 

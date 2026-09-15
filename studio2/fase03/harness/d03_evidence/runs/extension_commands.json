@@ -1,0 +1,64 @@
+[
+  {
+    "cwd": "/Users/luker/fot-tep-harness-0310-d03",
+    "argv": [
+      "/opt/anaconda3/bin/python3",
+      "/Users/luker/fot-tep-harness-0310-d03-checks/y_original/evidence/edge_probes.py"
+    ],
+    "log": "/Users/luker/fot-tep-harness-0310-d03-checks/y_original/edge_probes.py.console.log",
+    "exit_code": 0
+  },
+  {
+    "cwd": "/Users/luker/fot-tep-harness-0310-d03",
+    "argv": [
+      "/opt/anaconda3/bin/python3",
+      "/Users/luker/fot-tep-harness-0310-d03-checks/z_original/evidence/chain_probes.py"
+    ],
+    "log": "/Users/luker/fot-tep-harness-0310-d03-checks/z_original/chain_probes.py.console.log",
+    "exit_code": 0
+  },
+  {
+    "cwd": "/Users/luker/fot-tep-harness-0310-d03",
+    "argv": [
+      "/opt/anaconda3/bin/python3",
+      "/Users/luker/fot-tep-harness-0310-d03-checks/literal/evidence/extended_probes.py"
+    ],
+    "log": "/Users/luker/fot-tep-harness-0310-d03-checks/literal/extended_probes.py.console.log",
+    "exit_code": 0
+  },
+  {
+    "cwd": "/Users/luker/fot-tep-harness-0310-d03",
+    "argv": [
+      "/opt/anaconda3/bin/python3",
+      "/Users/luker/fot-tep-harness-0310-d03-checks/literal/evidence/additional_edges.py"
+    ],
+    "log": "/Users/luker/fot-tep-harness-0310-d03-checks/literal/additional_edges.py.console.log",
+    "exit_code": 0
+  },
+  {
+    "cwd": "/Users/luker/fot-tep-harness-0310-d03",
+    "argv": [
+      "/opt/anaconda3/bin/python3",
+      "/Users/luker/fot-tep-harness-0310-d03-checks/x23_adapted/evidence/additional_edges.py"
+    ],
+    "log": "/Users/luker/fot-tep-harness-0310-d03-checks/x23_adapted/additional_edges.py.console.log",
+    "exit_code": 0
+  },
+  {
+    "cwd": "/Users/luker/fot-tep-harness-0310-d03",
+    "argv": [
+      "/opt/anaconda3/bin/python3",
+      "/Users/luker/fot-tep-harness-0310-d03/studio2/fase03/harness/correzioni_evidence/RUN_APPLICABLE_ORIGINAL.py",
+      "--candidate",
+      "/Users/luker/fot-tep-harness-0310-d03",
+      "--original",
+      "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/negative_probes.py",
+      "--reference",
+      "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference",
+      "--sandbox",
+      "/Users/luker/fot-tep-harness-0310-d03-checks/applicable"
+    ],
+    "log": "/Users/luker/fot-tep-harness-0310-d03-checks/applicable.console.log",
+    "exit_code": 0
+  }
+]

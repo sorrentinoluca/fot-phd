@@ -1,0 +1,769 @@
+{
+  "tests": 9,
+  "failures": 0,
+  "errors": 0,
+  "observations": {
+    "digest_matrix": [
+      {
+        "route": "retry",
+        "field": "provider_request_id",
+        "refused": true
+      },
+      {
+        "route": "retry",
+        "field": "provider_evidence",
+        "refused": true
+      },
+      {
+        "route": "retry",
+        "field": "author",
+        "refused": true
+      },
+      {
+        "route": "retry",
+        "field": "evidence_content_sha256",
+        "refused": true
+      },
+      {
+        "route": "retry",
+        "field": "approval_content_sha256",
+        "refused": true
+      },
+      {
+        "route": "retry",
+        "field": "previous_status",
+        "refused": true
+      },
+      {
+        "route": "retry",
+        "field": "approval_sha256",
+        "refused": true
+      },
+      {
+        "route": "gate",
+        "field": "provider_request_id",
+        "refused": true
+      },
+      {
+        "route": "gate",
+        "field": "provider_evidence",
+        "refused": true
+      },
+      {
+        "route": "gate",
+        "field": "author",
+        "refused": true
+      },
+      {
+        "route": "gate",
+        "field": "evidence_content_sha256",
+        "refused": true
+      },
+      {
+        "route": "gate",
+        "field": "approval_content_sha256",
+        "refused": true
+      },
+      {
+        "route": "gate",
+        "field": "previous_status",
+        "refused": true
+      },
+      {
+        "route": "gate",
+        "field": "approval_sha256",
+        "refused": true
+      }
+    ],
+    "envelope_matrix": [
+      {
+        "field": "reconciled.evidence",
+        "present": true,
+        "refused": true
+      },
+      {
+        "field": "reconciled.approval",
+        "present": true,
+        "refused": true
+      },
+      {
+        "field": "reconciled.approval_sha256",
+        "present": true,
+        "refused": true
+      },
+      {
+        "field": "reconciled.previous_status",
+        "present": true,
+        "refused": true
+      },
+      {
+        "field": "reconciled.evidence_content_sha256",
+        "present": true,
+        "refused": true
+      },
+      {
+        "field": "reconciled.approval_content_sha256",
+        "present": true,
+        "refused": true
+      },
+      {
+        "field": "reconciled_integrity.request_id",
+        "present": true,
+        "refused": true
+      },
+      {
+        "field": "reconciled_integrity.evidence_file_sha256",
+        "present": true,
+        "refused": true
+      },
+      {
+        "field": "reconciled_integrity.approval_file_sha256",
+        "present": true,
+        "refused": true
+      },
+      {
+        "field": "reconciled_integrity.evidence_content_sha256",
+        "present": true,
+        "refused": true
+      },
+      {
+        "field": "reconciled_integrity.approval_content_sha256",
+        "present": true,
+        "refused": true
+      },
+      {
+        "field": "reconciled_integrity.previous_status",
+        "present": true,
+        "refused": true
+      }
+    ],
+    "sql_matrix": [
+      {
+        "field": "pilot.id",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "stages.stage",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "stages.binding_json",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "stages.binding_sha256",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "requests.request_id",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "requests.logical_id",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "requests.stage",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "requests.stage_run",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "requests.model",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "requests.producer",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "requests.quota_kind",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "requests.retry_of",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "requests.identity_json",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "requests.status",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "requests.proof_sha256",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "requests.intent_utc",
+        "classification": "F",
+        "refused": false,
+        "expected_refusal": false
+      },
+      {
+        "field": "requests.completed_utc",
+        "classification": "F",
+        "refused": false,
+        "expected_refusal": false
+      },
+      {
+        "field": "requests.prompt_tokens",
+        "classification": "F",
+        "refused": false,
+        "expected_refusal": false
+      },
+      {
+        "field": "requests.completion_tokens",
+        "classification": "F",
+        "refused": false,
+        "expected_refusal": false
+      },
+      {
+        "field": "requests.total_tokens",
+        "classification": "F",
+        "refused": false,
+        "expected_refusal": false
+      },
+      {
+        "field": "requests.latency_ms",
+        "classification": "F",
+        "refused": false,
+        "expected_refusal": false
+      },
+      {
+        "field": "requests.detail_json",
+        "classification": "F",
+        "refused": false,
+        "expected_refusal": false
+      },
+      {
+        "field": "events.event",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "events.created_utc",
+        "classification": "F",
+        "refused": false,
+        "expected_refusal": false
+      },
+      {
+        "field": "events.artifact_sha256",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "events.detail_json",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "responses.request_id",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "responses.raw_json",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "responses.raw_sha256",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "responses.record_json",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "responses.record_sha256",
+        "classification": "N",
+        "refused": true,
+        "expected_refusal": true
+      },
+      {
+        "field": "receipts.request_id",
+        "classification": "F",
+        "refused": false,
+        "expected_refusal": false
+      },
+      {
+        "field": "receipts.capture_json",
+        "classification": "F",
+        "refused": false,
+        "expected_refusal": false
+      }
+    ],
+    "symmetric": [
+      {
+        "field": "reconciled.evidence.request_id",
+        "mutation": "missing",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.request_id",
+        "mutation": "wrong_text",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.request_identity_sha256",
+        "mutation": "missing",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.request_identity_sha256",
+        "mutation": "wrong_hash",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.disposition",
+        "mutation": "missing",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.disposition",
+        "mutation": "wrong_text",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.provider_request_id",
+        "mutation": "missing",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.provider_request_id",
+        "mutation": "empty",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.provider_request_id",
+        "mutation": "null",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.provider_request_id",
+        "mutation": "false",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.provider_evidence",
+        "mutation": "missing",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.provider_evidence",
+        "mutation": "empty",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.provider_evidence",
+        "mutation": "null",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.provider_evidence",
+        "mutation": "false",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.prompt_tokens",
+        "mutation": "missing",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.prompt_tokens",
+        "mutation": "positive",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.prompt_tokens",
+        "mutation": "negative",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.prompt_tokens",
+        "mutation": "false",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.prompt_tokens",
+        "mutation": "string_zero",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.completion_tokens",
+        "mutation": "missing",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.completion_tokens",
+        "mutation": "positive",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.completion_tokens",
+        "mutation": "negative",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.completion_tokens",
+        "mutation": "false",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.completion_tokens",
+        "mutation": "string_zero",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.total_tokens",
+        "mutation": "missing",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.total_tokens",
+        "mutation": "positive",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.total_tokens",
+        "mutation": "negative",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.total_tokens",
+        "mutation": "false",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.evidence.total_tokens",
+        "mutation": "string_zero",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.approval.author",
+        "mutation": "missing",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.approval.author",
+        "mutation": "empty",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.approval.author",
+        "mutation": "null",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.approval.author",
+        "mutation": "false",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.approval.decision",
+        "mutation": "missing",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.approval.decision",
+        "mutation": "wrong_text",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.approval.evidence_sha256",
+        "mutation": "missing",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      },
+      {
+        "field": "reconciled.approval.evidence_sha256",
+        "mutation": "wrong_hash",
+        "routes": {
+          "acquisition": true,
+          "retry": true,
+          "gate": true
+        }
+      }
+    ],
+    "legacy_policy": [
+      {
+        "route": "retry",
+        "refused": true
+      },
+      {
+        "route": "gate",
+        "refused": true
+      },
+      {
+        "route": "new_retry",
+        "refused": true
+      }
+    ],
+    "runner": {
+      "refused": [
+        "budget/runner",
+        "budget/CLI",
+        "stability/runner",
+        "stability/CLI"
+      ],
+      "server_calls": 0,
+      "new_sends": 0,
+      "snapshot": {
+        "pilot_id": "runner-fixture",
+        "ledger_path": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmphge1nff0/pilot.sqlite3",
+        "requests_cumulative": 132,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 3,
+          "producer_conformity": 9,
+          "producer_remediation": 0,
+          "stability_gate": 120
+        },
+        "unresolved_intents": 0,
+        "remediation_calls": 0,
+        "transport_calls": 1,
+        "reserve_equation_value": 1,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 131,
+        "events": [
+          "frozen_gate",
+          "outcome:budget_probe",
+          "outcome:producer_conformity",
+          "outcome:stability_gate",
+          "reconciled:16d9845d0f683b39a1340d7b145330bee65245f8805c9775b74c8e14e103e49b",
+          "reconciled_integrity:16d9845d0f683b39a1340d7b145330bee65245f8805c9775b74c8e14e103e49b"
+        ]
+      }
+    },
+    "shared_controls": {
+      "acquisition": [
+        "approval.author",
+        "approval.decision",
+        "approval.evidence_sha256",
+        "evidence.completion_tokens",
+        "evidence.disposition",
+        "evidence.prompt_tokens",
+        "evidence.provider_evidence",
+        "evidence.provider_request_id",
+        "evidence.request_id",
+        "evidence.request_identity_sha256",
+        "evidence.total_tokens"
+      ],
+      "retry": [
+        "approval.author",
+        "approval.decision",
+        "approval.evidence_sha256",
+        "evidence.completion_tokens",
+        "evidence.disposition",
+        "evidence.prompt_tokens",
+        "evidence.provider_evidence",
+        "evidence.provider_request_id",
+        "evidence.request_id",
+        "evidence.request_identity_sha256",
+        "evidence.total_tokens"
+      ],
+      "gate": [
+        "approval.author",
+        "approval.decision",
+        "approval.evidence_sha256",
+        "evidence.completion_tokens",
+        "evidence.disposition",
+        "evidence.prompt_tokens",
+        "evidence.provider_evidence",
+        "evidence.provider_request_id",
+        "evidence.request_id",
+        "evidence.request_identity_sha256",
+        "evidence.total_tokens"
+      ]
+    }
+  }
+}

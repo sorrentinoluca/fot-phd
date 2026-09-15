@@ -1,13 +1,13 @@
 {
-  "artifact_version": "5",
+  "artifact_version": "6",
   "status": "LOCAL_CORRECTION_CANDIDATE_PENDING_NEW_INDEPENDENT_REVIEW",
   "assembly_base_commit": "a00605862f627710347bd63c49f79a6d0a00135f",
-  "delivery_base_commit": "7afbf41632aa8117c85274b5f471abca0a655462",
-  "rejected_candidate": "edb37f359f29c461c5a507c1027c4bf411654130",
-  "rejected_tree": "56d98666e1d18c7958ac8d3631ae6d5b8ec04bf9",
-  "acquisition_commit": "5b45cdcabe40aa64b0aecd1b5fe9d09c92ce5bb4",
-  "non_ok_report_sha256": "2806ce5c15d51c917e3e19cc77a935c37ffe09134b485fa257401f6b85ad2fd6",
-  "non_ok_manifest_sha256": "dceb4ae6bd4c177002c0bbc1c942333590f114218d1499ebab0ae6475459dffd",
+  "delivery_base_commit": "e9b60c5db77edfd3c06a29857e6ba5f61ebe139a",
+  "rejected_candidate": "a219bd469bbd280f56b7fa9cb56cda115b0975ed",
+  "rejected_tree": "3fb8e50c189b85b447503b8a1ac99c1741904a5b",
+  "acquisition_commit": "efa9f6f94194985104047d831c0b087dc460532d",
+  "non_ok_report_sha256": "b88f046592ac9d1b0f784c1d127f83ea3cc609c93bd547bbc91c7541cfd0223f",
+  "non_ok_manifest_sha256": "4ed360ee40d521e989e38fa2a2a68d5a5c461a5a6397c94dd34a598300141776",
   "normative_sources": {
     "statistical_plan_revision_10_commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
     "statistical_plan_tree": "24847ce0cc4ff7b6defea4d65f3f41cb9ccd1c1a",
@@ -26,7 +26,7 @@
     "evidence_archive_sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf"
   },
   "current_contract": "CONTRATTO_ESECUZIONE_E_RIPRESA.md",
-  "matrix": "MATRICE_R01_R10_D02.md",
+  "matrix": "MATRICE_R01_R10_D03.md",
   "historical_documents_superseded_for_this_delta": [
     "SPECIFICA_HARNESS.md",
     "REPORT_HARNESS_OFFLINE_03_10.md",
@@ -41,7 +41,11 @@
     "REPORT_CORREZIONE_D01.md",
     "PROMPT_VERIFICA_D01.md",
     "CONSEGNA_D01.json",
-    "DELIVERY_AUDIT_D01.json"
+    "DELIVERY_AUDIT_D01.json",
+    "REPORT_CORREZIONE_D02.md",
+    "PROMPT_VERIFICA_D02.md",
+    "CONSEGNA_D02.json",
+    "DELIVERY_AUDIT_D02.json"
   ],
   "files": [
     {
@@ -55,9 +59,14 @@
       "sha256": "559b8cb857e54f428d9724b96e4b0600c4dafcb69773a0c3567909d4e019e549"
     },
     {
+      "path": "studio2/fase03/harness/CONTRATTO_D03_PRIMA_DEL_CODICE.md",
+      "bytes": 3046,
+      "sha256": "00434cc2aef7138cf2fc1c1e04dfb3feb825631ba9c0dbbc4cbe9fd9ab77ab7d"
+    },
+    {
       "path": "studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md",
-      "bytes": 18181,
-      "sha256": "91b15f8fcb10b495e6f8010597673de903163fa10a8bc2be67fe6005271b087d"
+      "bytes": 22411,
+      "sha256": "567f6571d7e7e86b8ea78dc7715d48ccca08e512e22ecce5c2400c6bb15e8b8d"
     },
     {
       "path": "studio2/fase03/harness/DECISIONE_D9_ORDINE_LABEL_PENDING.md",
@@ -65,9 +74,24 @@
       "sha256": "375442948ee41067a52467586fee580be0847e5b17694e1b3a5f69764db6aa47"
     },
     {
+      "path": "studio2/fase03/harness/DURABLE_FIELD_CONTRACT.json",
+      "bytes": 25041,
+      "sha256": "9405052dbc4a4e28b18adefc962211186327f4679623541ed8931baa2bb40d95"
+    },
+    {
       "path": "studio2/fase03/harness/MAPPA_RIPRODUZIONI_R01_R10.md",
       "bytes": 9652,
       "sha256": "0a7eb53dfba69b97405c34c4e1b2dbad64846d4f667d55cc5c13c646eb1acbd3"
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_D03_CAMPI.json",
+      "bytes": 63268,
+      "sha256": "acdd38cdedc64dbaae4b889d4ba9545f4819986ad6a1d0ef1e6e40c95448f3a0"
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_D03_CAMPI.md",
+      "bytes": 6660,
+      "sha256": "f9a2f8ae341b19bd3065dc9460b6f1b909e903003b983ae2e9533582a76b391b"
     },
     {
       "path": "studio2/fase03/harness/MATRICE_R01_R10_C01_C03.md",
@@ -83,6 +107,11 @@
       "path": "studio2/fase03/harness/MATRICE_R01_R10_D02.md",
       "bytes": 5690,
       "sha256": "6a69b4bb3fd53bf7d136d4c2df0684c9771d3adaaa6be87257fb329b5030a5f4"
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_R01_R10_D03.md",
+      "bytes": 5491,
+      "sha256": "56038dff7afd45e9b6c5f10be99710e75a8614a4fd98a5d37e4678c181a65ad7"
     },
     {
       "path": "studio2/fase03/harness/PILOT_INPUT_SOURCES.pending.json",
@@ -230,6 +259,31 @@
       "sha256": "57cc17c9f2a250d0143a2522e9cfff4c349a7123f2c187ca1abae611100d1127"
     },
     {
+      "path": "studio2/fase03/harness/d03_evidence/REPRODUCTION_INVENTORY.json",
+      "bytes": 1155729,
+      "sha256": "a2fbb400e78454ec61cd24472cdb823e6116fe811019b36826d33e4c4c652c37"
+    },
+    {
+      "path": "studio2/fase03/harness/d03_evidence/RESULTS.json",
+      "bytes": 3779,
+      "sha256": "991cb1ec8370662976a8cee8e1b1bb475eb501477c6295ee30bdc6df69e9f58b"
+    },
+    {
+      "path": "studio2/fase03/harness/d03_evidence/SHA256SUMS",
+      "bytes": 6633,
+      "sha256": "f835ac6a0cb5cab97d3e03ac017f269ad5044a278b83655cebb25e18f6f51d03"
+    },
+    {
+      "path": "studio2/fase03/harness/d03_evidence/TEST_FIRST.json",
+      "bytes": 1393,
+      "sha256": "ba2d327b60cd33a8d7293ea61b208a2e538f9f1b17d90d7744703c57504de59b"
+    },
+    {
+      "path": "studio2/fase03/harness/d03_evidence/runs/COMANDI.md",
+      "bytes": 6863,
+      "sha256": "32973d304e236104bf5f45b03df9eaf5db0675d4796a8ac8ec4d09cd1157d0e3"
+    },
+    {
       "path": "studio2/fase03/harness/gate_rules.py",
       "bytes": 7475,
       "sha256": "a44a7fa55030c9b4186ce03389e0683ce558cf429d5c29bb3374efd237572b76"
@@ -251,8 +305,8 @@
     },
     {
       "path": "studio2/fase03/harness/ledger.py",
-      "bytes": 43676,
-      "sha256": "872a47c057711bee9f3a7e46ee4264aefb9deb09583c03d2ade7a8c76c05ec9f"
+      "bytes": 48071,
+      "sha256": "2dd95090eafd1e1d0395c45205ff66c5dcaf6f563d11de4862711bf229bf4add"
     },
     {
       "path": "studio2/fase03/harness/ledger_cli.py",
@@ -293,6 +347,16 @@
       "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/PROVENIENZA.md",
       "bytes": 1588,
       "sha256": "2051fb321c20554f2f994bccd71c9896876870f7ad6915cf7c17dea8c89c34b6"
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/ACQUISITION_INVENTORY.json",
+      "bytes": 1163541,
+      "sha256": "53536e44e8e2930e60b17952c3d8ac3281ef0a35c48ea1e3df7d25604232a384"
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/PROVENIENZA.md",
+      "bytes": 969,
+      "sha256": "ee1e6e770e3435702120dfc9c7b11d56c0bdddf37b51be6e939d2f29bc6f1146"
     },
     {
       "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/ACQUISITION_INVENTORY.json",
@@ -355,6 +419,11 @@
       "sha256": "52348a8340a3b62175ba7498344599c2d9e017931cbee68651285263003db0e3"
     },
     {
+      "path": "studio2/fase03/harness/test_d03_contract.py",
+      "bytes": 18678,
+      "sha256": "28d0a19fa18b2d83b74a4eb99e6640cb13e73e7f3388fb9ae34bf5dd042e7582"
+    },
+    {
       "path": "studio2/fase03/harness/test_harness_offline.py",
       "bytes": 13821,
       "sha256": "21368e0f24716ff49d6df4e25e72db648bc879827fa9f226ef2e06403ccfe7e9"
@@ -401,20 +470,21 @@
     "studio2/fase03/harness/test_metric_raccordo.py"
   ],
   "offline_verification": {
-    "targeted_tests": "111/111",
-    "phase03_discovery_tests": "146/146",
+    "targeted_tests": "120/120",
+    "phase03_discovery_tests": "155/155",
     "original_probes_applicable": "14/14: 12 literal, 2 fixture/argument adaptations",
     "original_non_ok_reproduction": "50 methods; 32 nonconforming; 34 assertion failures; 0 errors",
     "documentation_guardian": "35 tests; same 14 failure IDs; 1 skip; 0 errors; NOT PASS",
-    "compileall": "92 live Python sources compile; no scientific execution",
+    "compileall": "93 live Python sources compile; no scientific execution",
     "correction_diff_check": "Implementation/docs OK; byte-identical original acquisition and reproduced NON OK log retain unittest whitespace",
     "provider_calls": 0,
     "inferences": 0,
     "scientific_simulations": 0,
-    "new_regressions": "8/8 included in final suites",
+    "new_regressions": "D03 9/9; same final test bytes 9 tests/8 failures/0 errors on a219bd4",
     "Y_literal": "7/7",
-    "Z_literal": "5/5 after; 3 failures on rejected candidate",
-    "X": "23 literal conforming plus previous X23 adaptation; obsolete literal X23 failure retained"
+    "Z_literal": "5/5",
+    "X": "23 literal conforming plus previous X23 adaptation; obsolete literal X23 failure retained",
+    "W_literal": "4/4 after; 4 tests/2 failures on rejected candidate"
   },
   "open": [
     "new independent review of exact candidate",
@@ -432,14 +502,21 @@
   },
   "self_reference_policy": "Manifest excludes itself; exact candidate commit/tree and manifest digest are recorded only in the later documentary delivery.",
   "correction_scope": [
-    "D02 / R04 / R08: reauthenticate durable predecessor coverage and closure evidence"
+    "D03: shared zero-token content validation in acquisition, retry and gate; recalculable evidence/approval digests and immutable integrity link",
+    "Fail-closed legacy reconciliations without digests; no automatic backfill",
+    "Normative quota_kind consistency found by generated SQL matrix"
   ],
   "producer_summary_version": "4",
   "ledger_schema_version": 2,
-  "manifest_scope": "70 direct files. Current and historical proof indexes retained; exact copied/external evidence in inventories. Manifest excludes itself and later documentary deliverables to avoid self-reference.",
+  "manifest_scope": "83 direct files; proof hashes and exact acquisition/reproduction inventories retained. Initial contract-first proofs preserved separately from final runs. Manifest excludes itself and later documentary delivery.",
   "previous_verified_closures": [
     "D01 original",
+    "D02 original",
     "C02",
     "C03"
-  ]
+  ],
+  "contract_first_commit": "567881abf06572812c00ccc0ed817d169b68fee6",
+  "field_inventory": "DURABLE_FIELD_CONTRACT.json",
+  "generated_field_matrix": "MATRICE_D03_CAMPI.json",
+  "zero_token_content_contract_version": 1
 }

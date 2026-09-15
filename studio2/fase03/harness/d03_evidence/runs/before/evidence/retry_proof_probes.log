@@ -1,0 +1,27 @@
+test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain (__main__.Proofs.test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain) ... FAIL
+test_W02_real_runner_rejects_positive_tokens_in_durable_retry_proof (__main__.Proofs.test_W02_real_runner_rejects_positive_tokens_in_durable_retry_proof) ... FAIL
+test_W03_multihop_retry_valid_then_missing_proof_rejected_same_instance (__main__.Proofs.test_W03_multihop_retry_valid_then_missing_proof_rejected_same_instance) ... ok
+test_W04_same_instance_does_not_cache_predecessor_validation (__main__.Proofs.test_W04_same_instance_does_not_cache_predecessor_validation) ... ok
+
+======================================================================
+FAIL: test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain (__main__.Proofs.test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-0310-d03-checks/before/evidence/retry_proof_probes.py", line 55, in test_W01_changed_zero_token_proof_must_not_reconfirm_closed_chain
+    self.assertTrue(all(x['error'] for r in checks for x in r['checks']),'The stored proof must still satisfy zero-token evidence and approval requirements during reconfirmation')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : The stored proof must still satisfy zero-token evidence and approval requirements during reconfirmation
+
+======================================================================
+FAIL: test_W02_real_runner_rejects_positive_tokens_in_durable_retry_proof (__main__.Proofs.test_W02_real_runner_rejects_positive_tokens_in_durable_retry_proof)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-0310-d03-checks/before/evidence/retry_proof_probes.py", line 70, in test_W02_real_runner_rejects_positive_tokens_in_durable_retry_proof
+    self.assertIsNotNone(error,'A proof with positive tokens must not justify a retry in the reconfirmed producer chain')
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: unexpectedly None : A proof with positive tokens must not justify a retry in the reconfirmed producer chain
+
+----------------------------------------------------------------------
+Ran 4 tests in 48.401s
+
+FAILED (failures=2)
