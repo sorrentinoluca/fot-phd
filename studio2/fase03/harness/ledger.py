@@ -161,6 +161,7 @@ class PilotLedger:
             if old:
                 if old[0] != digest(binding):
                     raise HarnessError("stage inputs changed across alias, directory or restart")
+                self._prerequisites(c, stage)
                 return
             self._ready(c, stage)
             if stage == 'producer_remediation':
@@ -196,6 +197,7 @@ class PilotLedger:
         return leaves
 
     def _successful(self, c, stage):
+        self._prerequisites(c, stage)
         event = self._events(c).get('outcome:' + stage)
         if event is None or json.loads(event['detail_json'])['outcome'] != 'PASS':
             raise HarnessError(f"{stage} has no successful closed outcome")
@@ -216,32 +218,41 @@ class PilotLedger:
             raise HarnessError("closed stage contains unresolved or failed requests")
 
     def verify_stage_success(self, stage):
-        with closing(self._connect()) as c:
+        with self._transaction() as c:
             self._successful(c, stage)
 
-    def _ready(self, c, stage):
-        events, rows = self._events(c), self._rows(c)
+    def _prerequisites(self, c, stage):
+        """Validate the dependency chain for both new work and reuse of closed results.
+
+        These checks never require the requested stage to be open. Keeping them separate
+        from mutation ordering permits valid replay after downstream stages have run,
+        without grandfathering outcomes created by an earlier, unsafe implementation.
+        """
+        events = self._events(c)
         if any(k.startswith('suspended:') for k in events):
             raise HarnessError("pilot suspended; requires a new reviewed disposition")
-        if 'outcome:' + stage in events:
-            raise HarnessError("closed stage cannot be reopened")
-        if stage in {'producer_conformity', 'producer_remediation', 'alternate_conformity'}:
-            if any(r['stage'] in {'budget_probe', 'stability_gate'} for r in rows):
-                raise HarnessError("producer stages must precede probe/gate")
         if stage == 'producer_remediation' and ('remediation_authorized' not in events or 'remediation_waived' in events):
             raise HarnessError("remediation is not authorized")
         if stage in {'budget_probe', 'stability_gate'}:
-            # Binding the optional alternate starts a cycle: it cannot be silently abandoned.
             if c.execute("SELECT 1 FROM stages WHERE stage='alternate_conformity'").fetchone():
                 self._successful(c, 'alternate_conformity')
         if stage == 'budget_probe':
-            if any(r['stage'] == 'stability_gate' for r in rows):
-                raise HarnessError("probe cannot follow gate")
             self._successful(c, 'producer_remediation' if 'remediation_authorized' in events else 'producer_conformity')
         if stage == 'stability_gate':
             self._successful(c, 'budget_probe')
             if 'frozen_gate' not in events:
                 raise HarnessError("gate configuration is not authenticated by the probe")
+
+    def _ready(self, c, stage):
+        self._prerequisites(c, stage)
+        events, rows = self._events(c), self._rows(c)
+        if 'outcome:' + stage in events:
+            raise HarnessError("closed stage cannot be reopened")
+        if stage in {'producer_conformity', 'producer_remediation', 'alternate_conformity'}:
+            if any(r['stage'] in {'budget_probe', 'stability_gate'} for r in rows):
+                raise HarnessError("producer stages must precede probe/gate")
+        if stage == 'budget_probe' and any(r['stage'] == 'stability_gate' for r in rows):
+            raise HarnessError("probe cannot follow gate")
 
     def _insert_intent(self, c, *, request_id, logical_id, model, producer, stage, stage_run, quota_kind, retry_of):
         rows = self._rows(c)
@@ -481,10 +492,11 @@ class PilotLedger:
         self._require_hash(artifact_sha256, 'outcome artifact')
         with self._transaction() as c:
             previous = self._events(c).get('outcome:' + stage)
-            if previous and previous['artifact_sha256'] == artifact_sha256 and json.loads(previous['detail_json'])['outcome'] == outcome:
-                # Exact replay may regenerate materialized files after a crash after commit.
-                return
-            self._ready(c, stage)
+            replay = previous and previous['artifact_sha256'] == artifact_sha256 and json.loads(previous['detail_json'])['outcome'] == outcome
+            if replay:
+                self._prerequisites(c, stage)
+            else:
+                self._ready(c, stage)
             binding = self._binding(c, stage)
             rows = [r for r in self._rows(c) if r['stage'] == stage]
             bases = [r for r in rows if not r['retry_of']]
@@ -522,14 +534,24 @@ class PilotLedger:
                 raise HarnessError("outcome artifact must bind durable stage records")
             if diagnosis is not None and diagnosis not in DIAGNOSES:
                 raise HarnessError("inadmissible producer remediation diagnosis")
+            if replay:
+                # Revalidate predecessors, coverage and durable records before rematerializing.
+                # A replay must not insert events or reopen requests.
+                if stage == 'budget_probe' and outcome == 'PASS':
+                    event = self._events(c).get('frozen_gate')
+                    if event is None or event['artifact_sha256'] != digest(frozen):
+                        raise HarnessError('replayed freeze differs from the recorded probe')
+                return
             self._event(c, 'outcome:' + stage, artifact_sha256, {'outcome': outcome, 'diagnosis': diagnosis, 'records_sha256': digest(records), 'artifact': artifact})
             if stage == 'budget_probe' and outcome == 'PASS':
                 self._event(c, 'frozen_gate', digest(frozen), {'frozen': frozen})
 
     def authenticate_frozen(self, frozen):
-        event = self.event('frozen_gate')
-        if event is None or event['artifact_sha256'] != digest(frozen):
-            raise HarnessError("gate configuration differs from authenticated probe result")
+        with self._transaction() as c:
+            self._successful(c, 'budget_probe')
+            event = self._events(c).get('frozen_gate')
+            if event is None or event['artifact_sha256'] != digest(frozen):
+                raise HarnessError("gate configuration differs from authenticated probe result")
 
     def authorize_remediation(self, *, diff_sha256=None, approval_sha256=None, template_sha256=None, diff_path=None, approval_path=None, template_path=None):
         if any(p is None for p in (diff_path, approval_path, template_path)):

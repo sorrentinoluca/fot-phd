@@ -1,0 +1,12 @@
+test_D01_confirmation_transaction_excludes_concurrent_writer (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_confirmation_transaction_excludes_concurrent_writer) ... ok
+test_D01_current_remediation_and_C02_invalidity_survive_checked_replay (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_current_remediation_and_C02_invalidity_survive_checked_replay) ... ok
+test_D01_legacy_nonpass_alternate_rejected_by_all_confirmation_entries (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_legacy_nonpass_alternate_rejected_by_all_confirmation_entries) ... ok
+test_D01_matching_outcome_hash_does_not_skip_durable_record_validation (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_matching_outcome_hash_does_not_skip_durable_record_validation) ... ok
+test_D01_real_legacy_runner_and_cli_refuse_before_server_or_file_writes (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_real_legacy_runner_and_cli_refuse_before_server_or_file_writes) ... ok
+test_D01_valid_legacy_chain_replays_after_gate_without_reopening (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_valid_legacy_chain_replays_after_gate_without_reopening) ... ok
+test_D01_valid_real_legacy_gate_rematerializes_without_transport (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites.test_D01_valid_real_legacy_gate_rematerializes_without_transport) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 69.332s
+
+OK

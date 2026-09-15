@@ -1,7 +1,8 @@
-# Contratto eseguibile R01–R10 — correzione C01–C03
+# Contratto eseguibile R01–R10 — residuo D01 / C01 / R04
 
 15 settembre 2026. Implementazione offline da sottoporre a nuova verifica indipendente.
-Questo documento descrive il delta successivo al secondo NON OK (0c8157f): non ne cambia il verdetto.
+Questo documento descrive il delta successivo al terzo NON OK (9e18bcb): non ne cambia il verdetto.
+C02/C03 risultano chiusi nella review acquisita; D01 riguarda la riconferma di esiti storici C01 non conformi.
 La formulazione precedente su N48 era errata: il piano rev.10 §§11–11.1 richiede le invalidità di trasporto in T3/T6.
 La specifica e i report del candidato 59b6b93 restano storia, incluse le formulazioni D9
 superate. La decisione D9 del record aaba893 è già acquisita (122B producer principale
@@ -71,6 +72,39 @@ rinuncia esplicita alla remediation e mai per la sonda; massimo due triplette so
 quota è intatta; zero retry gate; 152/160 pianificati; 200 hard stop distinto. Gli intenti
 restano conteggiati anche quando non si può stabilire se il provider abbia ricevuto l'invio.
 Non si deduce una disponibilità ulteriore dalla soglia 200.
+
+## Riconferma degli esiti dopo restart — D01
+
+La validità della catena dei predecessori vale anche per uno stadio già chiuso.
+`_prerequisites` controlla sospensione, autorizzazione della remediation, conformità
+alternativa avviata e successo del producer attivo/sonda. `_successful` applica lo stesso
+controllo ricorsivo quando il risultato viene riutilizzato. `_ready` aggiunge soltanto i
+vincoli propri delle nuove transizioni: stadio aperto e divieto di ritornare a uno stadio
+precedente dopo l'avvio dei successori.
+
+Questa distinzione consente di rileggere un producer valido o rigenerare la sonda dopo
+che il gate è già concluso, senza riaprire richieste o autorizzare nuovi invii. Non basta
+che binding o hash dell'outcome coincidano: `bind_stage` su un piano esistente ricontrolla
+i prerequisiti; il replay di `record_stage_outcome` ricontrolla prerequisiti, copertura,
+record durevoli e criteri dell'esito prima di ritornare, senza inserire nuovi eventi.
+Per la sonda PASS verifica anche che il freeze riproposto coincida con quello registrato.
+
+`verify_stage_success` e `authenticate_frozen` verificano l'intera catena dentro una sola
+transazione `BEGIN IMMEDIATE`, così uno scrittore concorrente non può cambiare lo stato
+fra due letture. L'autenticazione del freeze richiede il successo conforme della sonda;
+l'identità dei byte da sola non attesta la precedenza del producer alternativo.
+
+Un ledger v2 creato dal vecchio 0c8157f, con sonda/gate PASS ma alternativo bound, INTENT,
+FAILED, ZERO_TOKEN_PROVEN, completo senza outcome o FAIL, viene quindi rifiutato negli
+ingressi di conferma. I runner/CLI sonda e gate lo rifiutano prima di interrogare il server
+e prima di rigenerare journal o riepiloghi. Gli eventi storici non sono cancellati o
+riscritti. `event`, `binding`, `request`, `stage_records` e `snapshot` restano letture
+forensi: estrarre un dato non equivale a confermarne la validità normativa.
+
+Il replay di una catena valida, anche storica, resta disponibile; conserva contatori,
+raw e invalidità C02. Nessuna migrazione di schema o riscrittura automatica degli esiti.
+Le prove generano ledger storici con il codice esatto 0c8157f in processi separati;
+nessun SQL alterato viene usato per costruire il difetto di precedenza.
 
 ## Persistenza e punti di crash
 

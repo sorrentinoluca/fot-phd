@@ -1,0 +1,5 @@
+{
+  "issue": "initial local audit used documentary base to allowlist only code delta and therefore included already authorized acquisition paths; assertion stopped before protected-file/compile checks",
+  "classification": "audit setup error, not candidate defect",
+  "resolution": "separate acquisition and technical diff bases; inventory verifies acquisition independently"
+}

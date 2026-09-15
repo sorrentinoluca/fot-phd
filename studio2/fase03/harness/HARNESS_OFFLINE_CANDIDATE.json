@@ -1,13 +1,13 @@
 {
-  "artifact_version": "3",
+  "artifact_version": "4",
   "status": "LOCAL_CORRECTION_CANDIDATE_PENDING_NEW_INDEPENDENT_REVIEW",
   "assembly_base_commit": "a00605862f627710347bd63c49f79a6d0a00135f",
-  "delivery_base_commit": "6268437b8b64288b50ad5f7c924e1fcab85b27d3",
-  "rejected_candidate": "0c8157f23bee49a3a5a2df648525c34706da29d7",
-  "rejected_tree": "a1573b49615a875f24ee97f9f1cd4bab399be93d",
-  "acquisition_commit": "b882c27103dbd9d0e0462df20731123f5ed5a0c1",
-  "non_ok_report_sha256": "1785fb3cfb832b5a299fe885ac740a4f557ad83431e002451d447afab64f4efc",
-  "non_ok_manifest_sha256": "e5cb1589a9f8006303c9ea91a3ea37be742990c2ac6c86fb8ffc7e59fcbf7f80",
+  "delivery_base_commit": "52e13e1ed540e1ad076474398bf850445c9a4a00",
+  "rejected_candidate": "9e18bcbd06fa2c54202c8eeda079c112dbfcefcd",
+  "rejected_tree": "5d1fd7924c4e1e46346f367590e6aa1977a6ba75",
+  "acquisition_commit": "89b016a728bdbf5d2d8b438416e6133b050683da",
+  "non_ok_report_sha256": "35e047834ec957a8008db7b82c375d3022cbcfeb7a8d2fb80143f44e9cabfe42",
+  "non_ok_manifest_sha256": "29385ea6589286e7a551c13ee61c8588b7b5792dabba7fa5d3ebebcd090a34ea",
   "normative_sources": {
     "statistical_plan_revision_10_commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
     "statistical_plan_tree": "24847ce0cc4ff7b6defea4d65f3f41cb9ccd1c1a",
@@ -26,7 +26,7 @@
     "evidence_archive_sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf"
   },
   "current_contract": "CONTRATTO_ESECUZIONE_E_RIPRESA.md",
-  "matrix": "MATRICE_R01_R10_C01_C03.md",
+  "matrix": "MATRICE_R01_R10_D01.md",
   "historical_documents_superseded_for_this_delta": [
     "SPECIFICA_HARNESS.md",
     "REPORT_HARNESS_OFFLINE_03_10.md",
@@ -34,7 +34,10 @@
     "DECISIONE_D9_ORDINE_LABEL_PENDING.md (D9 part only; actual label order remains pending)",
     "REPORT_CORREZIONI_HARNESS_03_10.md",
     "PROMPT_VERIFICA_CORREZIONI_HARNESS_03_10.md",
-    "CONSEGNA_CORREZIONI_HARNESS_03_10.json"
+    "CONSEGNA_CORREZIONI_HARNESS_03_10.json",
+    "REPORT_CORREZIONI_C01_C03.md",
+    "PROMPT_VERIFICA_C01_C03.md",
+    "CONSEGNA_C01_C03.json"
   ],
   "files": [
     {
@@ -49,8 +52,8 @@
     },
     {
       "path": "studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md",
-      "bytes": 13779,
-      "sha256": "b535a41abb031c72292a8156192892174bfff1cccc99fb3877d4213ed5706bf9"
+      "bytes": 16156,
+      "sha256": "15ebe69e87f9fc42bbc69bb9f0f8e4cb7388d989375422b23545b5c3bf974b65"
     },
     {
       "path": "studio2/fase03/harness/DECISIONE_D9_ORDINE_LABEL_PENDING.md",
@@ -66,6 +69,11 @@
       "path": "studio2/fase03/harness/MATRICE_R01_R10_C01_C03.md",
       "bytes": 6330,
       "sha256": "37f223a8085c295877b5b18baa25679c3736ceb845b9b9227264cd5dda23600e"
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_R01_R10_D01.md",
+      "bytes": 6201,
+      "sha256": "83483edbcefbc9f537d6a47033e6b538b26371c260757063150f9e4d2147512f"
     },
     {
       "path": "studio2/fase03/harness/PILOT_INPUT_SOURCES.pending.json",
@@ -173,6 +181,26 @@
       "sha256": "da5e1011aabd06d4ddedb7cbfc4aae958b3f5410fc172cf908caba9c38dbe79d"
     },
     {
+      "path": "studio2/fase03/harness/d01_evidence/COMANDI.md",
+      "bytes": 4217,
+      "sha256": "85eb3366ae40e4e84037c1226587fcc6e553e37c4f72a6244888414d51886da8"
+    },
+    {
+      "path": "studio2/fase03/harness/d01_evidence/REPRODUCTION_INVENTORY.json",
+      "bytes": 1133482,
+      "sha256": "f084a398daf458ddc0a621f33df2ddc4475f48a9dd12c5d6dc0dfe729120ec4f"
+    },
+    {
+      "path": "studio2/fase03/harness/d01_evidence/RESULTS.json",
+      "bytes": 3152,
+      "sha256": "3b2876b1ac9f4e57533db8a4f10154109806f5e351bbb57222aed46d6ae25559"
+    },
+    {
+      "path": "studio2/fase03/harness/d01_evidence/SHA256SUMS",
+      "bytes": 3998,
+      "sha256": "d52082f310d72268319ca1323907b4c742db78564343c584810e0982f03452a5"
+    },
+    {
       "path": "studio2/fase03/harness/gate_rules.py",
       "bytes": 7475,
       "sha256": "a44a7fa55030c9b4186ce03389e0683ce558cf429d5c29bb3374efd237572b76"
@@ -194,8 +222,8 @@
     },
     {
       "path": "studio2/fase03/harness/ledger.py",
-      "bytes": 38813,
-      "sha256": "03a99fdb4b8bb1d8be398e29bcb6d5ce9662f4a40fdbaba2035525c1a1d7c924"
+      "bytes": 39899,
+      "sha256": "350c01c1b97011519d80396fb0cc904789cd00ec072292ae87c7cac387903dcd"
     },
     {
       "path": "studio2/fase03/harness/ledger_cli.py",
@@ -226,6 +254,16 @@
       "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/PROVENIENZA.md",
       "bytes": 1605,
       "sha256": "ab7030acf76a647a13403d920d2870b745b52bb140db51d8e1b1d726c11bc024"
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/ACQUISITION_INVENTORY.json",
+      "bytes": 1114526,
+      "sha256": "d136b39add25d72730b82aefeab32e8a568a11b9942fe8af29052a3f987d9666"
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/PROVENIENZA.md",
+      "bytes": 1588,
+      "sha256": "2051fb321c20554f2f994bccd71c9896876870f7ad6915cf7c17dea8c89c34b6"
     },
     {
       "path": "studio2/fase03/harness/offline_fixtures.py",
@@ -266,6 +304,11 @@
       "path": "studio2/fase03/harness/test_c01_c03.py",
       "bytes": 19584,
       "sha256": "88245551e2dc92d19b548a98fcfb8ca74365bda68b42396417a9bd6870700fa6"
+    },
+    {
+      "path": "studio2/fase03/harness/test_d01_replay.py",
+      "bytes": 11733,
+      "sha256": "9fefb9acee61db3b458d00e215140830eba353e2ff7856d22d7908ff81e84f09"
     },
     {
       "path": "studio2/fase03/harness/test_harness_offline.py",
@@ -341,11 +384,13 @@
   },
   "self_reference_policy": "Manifest excludes itself; exact candidate commit/tree and manifest digest are recorded only in the later documentary delivery.",
   "correction_scope": [
-    "C01 / R04",
-    "C02 / R07 / N48",
-    "C03 / R07"
+    "D01 / C01 / R04: confirmation of legacy outcomes"
   ],
   "producer_summary_version": "4",
   "ledger_schema_version": 2,
-  "manifest_scope": "54 direct files; evidence SHA256SUMS covers copied new test artifacts; reproduction and acquisition inventories cover external fixtures with exact coordinates, bytes and hashes. Excludes this manifest and subsequent documentary delivery to avoid self-reference."
+  "manifest_scope": "62 direct files. Proof SHA256SUMS covers copied artifacts; acquisition and reproduction inventories describe exact external paths, hashes and dimensions. This manifest and subsequent documentary report/prompt/delivery/audit excluded to avoid self-reference.",
+  "previous_verified_closures": [
+    "C02",
+    "C03"
+  ]
 }
