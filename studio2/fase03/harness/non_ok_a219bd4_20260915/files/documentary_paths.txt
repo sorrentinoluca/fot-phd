@@ -1,0 +1,4 @@
+A	studio2/fase03/harness/CONSEGNA_D02.json
+A	studio2/fase03/harness/DELIVERY_AUDIT_D02.json
+A	studio2/fase03/harness/PROMPT_VERIFICA_D02.md
+A	studio2/fase03/harness/REPORT_CORREZIONE_D02.md

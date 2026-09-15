@@ -1,0 +1,1 @@
+{"checks": 6735, "acquisition": {"byte-identical-copy": 100, "external": 1722}, "reproduction": {"byte-identical-copy": 44, "external": 1797}, "compiled": 92, "failures": 0}
