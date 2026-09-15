@@ -59,6 +59,13 @@ efficace e richiede una nuova verifica indipendente.
 - `studio2/fase03/fedavg/smoke_fixture/SMOKE_SUMMARY.json` — esito machine-readable dello smoke.
 - `studio2/fase03/fedavg/FEDAVG_FREEZE.json` — impronte, dipendenze e stato pending.
 - `studio2/fase03/fedavg/REPORT_FEDAVG.md` — questo report.
+- `studio2/fase03/fedavg/smoke_real/INPUT_PREFLIGHT.json` — ingressi pubblicati, raccordo
+  nominale dell'indice Normal e controlli del loader precedenti al training.
+- `studio2/fase03/fedavg/smoke_real/cluster_metrics.csv` — 160 record cluster/modalità dello
+  smoke reale di sviluppo.
+- `studio2/fase03/fedavg/smoke_real/weight_hashes.json` — hash canonici dei dieci modelli reali.
+- `studio2/fase03/fedavg/smoke_real/SMOKE_SUMMARY.json` — riepilogo machine-readable dello smoke
+  reale eseguito una sola volta.
 - `studio2/PROVENIENZA.md` — nuova sezione in coda per firme 03.6 e dipendenze.
 
 Non sono stati modificati piano, walkthrough, `MAINTENANCE.md`, `phase_b/`, `code/`,
@@ -70,28 +77,32 @@ Codex basato su GPT-5 ha eseguito la specifica con profilo **decisionale breve**
 l’implementazione, i test e lo smoke con profilo **implementativo**. Nessun sottoagente, modello
 linguistico esterno, chiamata API o simulazione TEP è stato usato.
 
+Lo smoke reale successivo è stato eseguito da Codex basato su GPT-5 con profilo
+**esecutivo-batch**, limitato a una singola esecuzione locale senza chiamate a modelli.
+
 ## 4. Cosa resta fuori
 
-- smoke LOBO sui dati TEP reali, bloccato dall’assenza del bundle `normal_dev` di 03.9;
+- verifica indipendente del nuovo smoke reale e successiva documentazione nel walkthrough;
 - addestramento definitivo e valutazione sui run di test, dopo 03.11;
-- bootstrap e confronto appaiato, dopo congelamento/approvazione del piano 03.8 e integrazione 03.10;
+- bootstrap e confronto appaiato finali, da eseguire soltanto nel ciclo finale previsto;
 - confronto col braccio LLM, esplicitamente escluso da questa finestra;
-- verifica indipendente e successiva documentazione nel walkthrough;
 - inserimento di McMahan et al. nel corpus: va proposto a una finestra `Letteratura_LLM`.
 
 ## 5. Decisioni ancora necessarie
 
 Nessun iperparametro della ricetta richiede una decisione: non è stata aperta una griglia.
-Restano decisioni esterne: approvazione e congelamento del piano statistico 03.8; completamento e
-pubblicazione di `normal_dev` 03.9; completamento di 03.11. Se il formato finale 03.9/03.10 non
-contiene i campi previsti (`agent_id`/client esclusivo, `run_id`, `batch`, label), va aggiunto un
-adapter nuovo e verificato senza cambiare la ricetta.
+Il piano statistico 03.8 e `normal_dev` 03.9 sono ora congelati e pubblicati. Restano il ciclo
+indipendente di verifica/documentazione dello smoke, il completamento di 03.11 e, prima della
+valutazione finale, un raccordo durevole e verificato dei nomi `class_identifier`/`label` e
+`agent_run_index`/`batch`, senza cambiare la ricetta.
 
 ## 6. Verifica documentale
 
 `python3 docs/test_explanation.py` prima delle modifiche: `Ran 35 tests`, **14 failure**, 1 skipped.
 Dopo le modifiche: `Ran 35 tests`, **14 failure**, 1 skipped. Il conteggio è invariato e
 preesistente; nessun walkthrough è stato modificato. Il test non copre questa sotto-fase.
+Il guardiano non è stato rieseguito nella finestra dello smoke reale, in applicazione del mandato
+specifico «nessun guardian estraneo»; nessun file da esso coperto è stato modificato.
 
 ## 7. Commit
 
@@ -104,6 +115,9 @@ Commit già creati:
 Decisione: registrare l’aggiornamento di freeze e report con
 `studio2(fedavg): registra remediation del NON OK` e sottoporre il nuovo HEAD a riverifica.
 
+Per lo smoke reale, la decisione è creare un candidato locale separato con messaggio
+`studio2(fedavg): esegue lo smoke reale di sviluppo`, da sottoporre a verifica indipendente.
+
 ### Acquisizione della riverifica indipendente
 
 Acquisito `studio2/fase03/fedavg/VERIFICA_FEDAVG.md`, SHA-256
@@ -114,6 +128,45 @@ test sintetici e smoke su fixture; non attesta training reale, smoke su `normal_
 finale, confronto con il braccio LLM o congelamento efficace. Il manifest conserva lo stato
 precedente alla riverifica: il nuovo verbale documenta l’OK del pacchetto, senza rendere efficace
 il freeze e senza chiudere la sotto-fase 03.14.
+
+### Smoke reale di sviluppo del 15 settembre 2026
+
+Il loader è stato eseguito prima dell'addestramento su copie appena riscaricate delle release
+`studio2-fase03-evidence-v2` e `studio2-fase03-normal-dev-v1`. Gli archivi, rispettivamente di
+62.185.472 e 151.500.800 byte, coincidono con gli SHA-256 pubblicati
+`6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf` e
+`eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03`.
+
+L'indice Normal pubblicato usa i nomi `class_identifier` e `agent_run_index`, mentre il loader
+congelato richiede `label` e `batch`. Il primo tentativo di solo loader si è quindi arrestato,
+prima del training, con `unknown label ''`. Per mantenere byte-identico il codice verificato e
+non alterare i bundle, in una directory temporanea è stata costruita una vista dell'indice che
+preserva righe, ordine e colonne originali e aggiunge soltanto `label=class_identifier` e
+`batch=agent_run_index`. L'indice sorgente è stato verificato con SHA-256
+`4f340a0e24e809a5d16d783b561262826fae08afb143bde81d410ae103f55329`; la vista derivata ha
+SHA-256 `27a534502146589bdcb914fee3b5a55dfb7b209b094a55b1ad5495ac889431ae`.
+
+Il preflight successivo ha verificato i due manifest, i due indici e tutte le 640 firme finite
+da 697 componenti, oltre al join uno-a-uno. Il bundle fault contiene 320 esempi e 40 run; il
+Normal contiene 320 esempi e 40 run. Gli otto client hanno 80 esempi ciascuno e ogni batch ne
+contiene 128. Il fold fissato `batch=5` lascia 512 esempi/64 run al training e 128 esempi/16 run
+alla validazione, con intersezione dei run vuota. Il dettaglio machine-readable è in
+`smoke_real/INPUT_PREFLIGHT.json`.
+
+Dopo il preflight è stato eseguito **una sola volta** lo smoke LOBO reale con Python 3.13.9,
+NumPy 2.3.5 e la ricetta congelata del pacchetto `bfbde772`. L'exit code è 0. Le accuratezze
+aggregate sono pavimento locale **0,48828125** (500/1024 tentativi ricevente-cluster), FedAvg
+**0,8671875** (111/128) e centralizzato **0,4375** (56/128); astensione **0**. I 160 record
+cluster/modalità sono internamente coerenti con `SMOKE_SUMMARY.json`; l'hash del CSV è
+`8ed7d8075c66b8a028a1842b6bcf3732db054c4bce2facde41d1d0ea8969079b` e quello del file degli
+hash dei pesi è `82bc7d012d330fe6e7f0bc5529f9e8051cf477deecc79c35ff163ffa0cad835f`.
+
+Il `PASS` è esclusivamente tecnico: il runner non applica soglie di prestazione. Questi valori
+sono uno smoke di sviluppo su un solo fold, non una stima finale, non autorizzano tuning e non
+sono confrontati col braccio LLM. Non sono stati aperti dati 03.11, eseguiti training finali,
+chiamati modelli o aggiornati freeze e walkthrough. La verifica indipendente del nuovo risultato
+deve avvenire in una finestra distinta prima della documentazione; la Fase 03 e 03.14 restano
+aperte.
 
 ## Fonti lette e costo
 
