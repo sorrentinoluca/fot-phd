@@ -132,6 +132,10 @@ def inspect_raw(path):
 
 
 def check_idv(diag, transitions, onset, idv, end):
+    if idv == 0:
+        if any(int(row[1]) != 0 for row in diag) or transitions:
+            raise ValueError('Normal run contains an IDV activation')
+        return False, None
     mask = 1 << (idv-1)
     for row in diag:
         expected = 0 if row[0] < onset-1e-8 else mask
@@ -163,7 +167,9 @@ def windows(row, actual):
 def preflight(plan, destination):
     rows = validate_plan(plan)
     dest = Path(destination).resolve()
-    roots = {'fault_dev': 'runs', 'smoke': 'smoke', 'ood_preflight': 'ood_preflight'}
+    roots = {'fault_dev': 'runs', 'smoke': 'smoke', 'ood_preflight': 'ood_preflight',
+             'ood_chain_f5': 'ood_chain_f5', 'ood_chain_f12': 'ood_chain_f12',
+             'test_batch_f5': 'test_batch', 'test_batch_f12': 'test_batch'}
     parent = HERE / roots[rows[0]['set_name']]
     if dest.parent != parent or not re.fullmatch('[A-Za-z0-9_-]+', dest.name):
         raise ValueError('destination must be a direct campaign child of the prescribed root')
@@ -263,7 +269,8 @@ def validate_manifest(record, verify_files=False):
     if record['status'] not in ('complete','physical_trip','technical_failure','not_run'):
         raise ValueError('invalid manifest status')
     expected_horizon = 0.1 if record['set_name']=='smoke' else 40
-    if record['set_name'] not in ('fault_dev','smoke','ood_preflight'):
+    if record['set_name'] not in ('fault_dev','smoke','ood_preflight','ood_chain_f5',
+                                  'ood_chain_f12','test_batch_f5','test_batch_f12'):
         raise ValueError('unknown run set')
     invariants = {'onset_h':25, 'stop_time_h':25+expected_horizon, 'horizon_h':expected_horizon,
                   'burn_in_h':20, 'ts_base_h':0.0005, 'output_interval_h':1/60, 'msflag':0, 'window_h':5}
@@ -293,8 +300,8 @@ def validate_manifest(record, verify_files=False):
         raise ValueError('invalid draw counter')
     if record['pre_fault_window']['development_eligible'] is not False:
         raise ValueError('pre-fault control cannot enter development')
-    if record['set_name']=='ood_preflight' and any(w['development_eligible'] for w in record['post_fault_windows']):
-        raise ValueError('technical OOD preflight cannot enter scientific data')
+    if record['set_name']!='fault_dev' and any(w['development_eligible'] for w in record['post_fault_windows']):
+        raise ValueError('non-development run cannot enter development data')
     if record['trip_time_h'] is None and record['status']=='physical_trip':
         raise ValueError('physical trip without time')
     if record['status']=='complete' and (record['trip_time_h'] is not None or

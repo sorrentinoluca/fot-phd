@@ -1,5 +1,8 @@
 /runtime/
 /runs/
 /ood_preflight/
+/ood_chain_f5/
+/ood_chain_f12/
+/test_batch/
 /smoke/*/cache/
 /smoke/*.pid

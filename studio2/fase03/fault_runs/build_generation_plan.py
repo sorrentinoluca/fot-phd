@@ -31,26 +31,43 @@ def occupied_indices():
 
 
 def build_rows(kind):
-    if kind not in ('fault_dev', 'smoke', 'ood_preflight'):
+    allowed = ('fault_dev', 'smoke', 'ood_preflight', 'ood_chain_f5', 'ood_chain_f12',
+               'test_batch_f5', 'test_batch_f12')
+    if kind not in allowed:
         raise ValueError('unknown plan kind')
     catalog = json.loads((HERE.parent / 'selection/CATALOG_FREEZE.json').read_text())
     if tuple(catalog['catalog']) != CATALOG:
         raise ValueError('catalog differs from approved frozen catalog')
     rows = []
-    if kind == 'fault_dev':
-        pairs = [(k, b) for k in range(8) for b in range(1, 6)]
-    elif kind == 'smoke':
-        pairs = [(0, 0)]
-    else:
-        pairs = [(6, 0), (4, 0)]
     occupied = occupied_indices()
-    for k, b in pairs:
-        if kind == 'fault_dev':
-            idx, idv, run_id = 30000 + 5*k + b - 1, CATALOG[k], f'fault-dev-F{CATALOG[k]}-b{b:02d}'
-        elif kind == 'smoke':
-            idx, idv, run_id = 30040, 1, 'smoke-F1-001'
-        else:
-            idx, idv, run_id = 70000 + len(rows), k, f'preflight-F{k}-001'
+    specs = []
+    if kind == 'fault_dev':
+        specs = [(f'fault-dev-F{CATALOG[k]}-b{b:02d}', CATALOG[k], b, 30000+5*k+b-1)
+                 for k in range(8) for b in range(1, 6)]
+    elif kind == 'smoke':
+        specs = [('smoke-F1-001', 1, 0, 30040)]
+    elif kind == 'ood_preflight':
+        specs = [('preflight-F6-001', 6, 0, 70000), ('preflight-F4-001', 4, 0, 70001)]
+    elif kind in ('ood_chain_f5', 'ood_chain_f12'):
+        idv = 5 if kind.endswith('f5') else 12
+        specs = [(f'chain-F{idv}-001', idv, 0, 70002 if idv == 5 else 70003)]
+    else:
+        ood = 5 if kind.endswith('f5') else 12
+        base = 71000 if ood == 5 else 72000
+        for idv in CATALOG:
+            for repetition in range(1, 9):
+                specs.append((f'test-primary-F{idv}-r{repetition:02d}', idv, repetition,
+                              base + len(specs)))
+        for repetition in range(1, 9):
+            specs.append((f'test-primary-Normal-r{repetition:02d}', 0, repetition,
+                          base + len(specs)))
+        for idv in (ood, 4):
+            for repetition in range(1, 4):
+                specs.append((f'test-ood-F{idv}-r{repetition:02d}', idv, repetition,
+                              base + len(specs)))
+        for label, idv in [(f'F{x}', x) for x in CATALOG] + [('Normal', 0), (f'F{ood}', ood), ('F4', 4)]:
+            specs.append((f'test-spare-{label}-r01', idv, 0, base + len(specs)))
+    for run_id, idv, b, idx in specs:
         if idx in occupied:
             raise ValueError(f'occupied stream: {idx}')
         horizon = 0.1 if kind == 'smoke' else 40
@@ -77,7 +94,9 @@ def validate_plan(path):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('kind', choices=['fault_dev', 'smoke', 'ood_preflight'])
+    ap.add_argument('kind', choices=[
+        'fault_dev', 'smoke', 'ood_preflight', 'ood_chain_f5', 'ood_chain_f12',
+        'test_batch_f5', 'test_batch_f12'])
     ap.add_argument('output', type=Path)
     a = ap.parse_args()
     output = a.output.resolve()
