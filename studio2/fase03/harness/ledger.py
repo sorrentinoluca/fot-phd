@@ -41,11 +41,12 @@ class PilotLedger:
         path.parent.mkdir(parents=True, exist_ok=True)
         with closing(self._connect()) as c:
             version = c.execute("PRAGMA user_version").fetchone()[0]
-            if version not in {0, 2}:
+            if version not in {0, 2, 3}:
                 raise HarnessError("unsupported ledger version")
             if version == 0 and c.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchone():
                 raise HarnessError("legacy ledger requires explicit reviewed migration; preserved without changes")
-            c.executescript('''
+            if version == 0:
+                c.executescript('''
                 PRAGMA journal_mode=WAL;
                 CREATE TABLE IF NOT EXISTS pilot (id TEXT PRIMARY KEY);
                 CREATE TABLE IF NOT EXISTS stages (
@@ -67,7 +68,7 @@ class PilotLedger:
                     record_json TEXT, record_sha256 TEXT);
                 CREATE TABLE IF NOT EXISTS receipts (request_id TEXT PRIMARY KEY, capture_json TEXT NOT NULL);
                 PRAGMA user_version=2;
-            ''')
+                ''')
         with self._transaction() as c:
             c.execute("INSERT OR IGNORE INTO pilot VALUES (?)", (pilot_id,))
             if [r[0] for r in c.execute("SELECT id FROM pilot")] != [pilot_id]:
@@ -102,6 +103,7 @@ class PilotLedger:
         coverage. All stages contribute to the shared reserve, not only the requested one.
         The caller holds the transaction through its decision and any insertion.
         """
+        self._validated_external_history(c)
         rows = self._rows(c)
         for stage in sorted({row['stage'] for row in rows}):
             if stage not in STAGES:
@@ -109,6 +111,89 @@ class PilotLedger:
             self._validate_attempts(c, self._binding(c, stage),
                                     [row for row in rows if row['stage'] == stage])
         return rows
+
+    def _historical_rows(self, c):
+        exists = c.execute("SELECT 1 FROM sqlite_master WHERE type='table' AND name='external_history'").fetchone()
+        return [] if exists is None else list(c.execute(
+            "SELECT * FROM external_history ORDER BY historical_ordinal"))
+
+    def _validated_external_history(self, c):
+        rows = self._historical_rows(c)
+        version = c.execute("PRAGMA user_version").fetchone()[0]
+        events = [row for name, row in self._events(c).items()
+                  if name.startswith('history_reconciliation:')]
+        if not rows and version == 2 and not events:
+            return []
+        if version != 3 or len(rows) != 4 or len(events) != 1:
+            raise HarnessError('external history reconciliation is partial or corrupted')
+        event = events[0]
+        detail = json.loads(event['detail_json'])
+        package_sha256 = event['artifact_sha256']
+        self._require_hash(package_sha256, 'external history package')
+        if detail != {'status': 'RECONCILED', 'count': 4,
+                      'package_sha256': package_sha256,
+                      'approval_sha256': detail.get('approval_sha256')}:
+            raise HarnessError('external history reconciliation event is corrupted')
+        self._require_hash(detail.get('approval_sha256'), 'external history approval')
+        for position, row in enumerate(rows, 1):
+            if (row['historical_ordinal'] != position
+                    or sha256_text(row['identity_json']) != row['identity_sha256']
+                    or sha256_text(row['source_binding_json']) != row['source_binding_sha256']
+                    or row['package_sha256'] != package_sha256
+                    or row['disposition'] not in {'HISTORICAL_OUTCOME_UNCERTAIN', 'COMPLETED'}
+                    or (position == 1) != (row['disposition'] == 'HISTORICAL_OUTCOME_UNCERTAIN')):
+                raise HarnessError('external history row is corrupted')
+        return rows
+
+    def _insert_external_history(self, c, row, package_sha256):
+        c.execute("INSERT INTO external_history VALUES (?,?,?,?,?,?,?,?)", (
+            row['request_id'], row['historical_ordinal'], canonical_json(row['identity']),
+            row['identity_sha256'], canonical_json(row['source_binding']),
+            digest(row['source_binding']), row['disposition'], package_sha256))
+
+    def reconcile_external_history(self, *, package_path: Path, approval_path: Path):
+        """Explicitly import four external quota contributors; never provider requests."""
+        package_path, approval_path = Path(package_path).resolve(), Path(approval_path).resolve()
+        with self._transaction() as c:
+            from .d9 import validate_external_history_artifacts
+            validated = validate_external_history_artifacts(
+                package_path, approval_path,
+                expected_ledger={'path': str(self.path), 'pilot_id': self.pilot_id})
+            existing = self._historical_rows(c)
+            if existing:
+                checked = self._validated_external_history(c)
+                event = next(row for name, row in self._events(c).items()
+                             if name.startswith('history_reconciliation:'))
+                event_detail = json.loads(event['detail_json'])
+                if (any(row['package_sha256'] != validated['package_sha256'] for row in checked)
+                        or event_detail.get('approval_sha256') != validated['approval_sha256']):
+                    raise HarnessError('another external history package is already reconciled')
+                return {'status': 'ALREADY_RECONCILED', 'historical_requests': len(checked)}
+            if c.execute("PRAGMA user_version").fetchone()[0] != 2:
+                raise HarnessError('external history import requires an unreconciled v2 ledger')
+            if self._rows(c):
+                raise HarnessError('external history must be reconciled before native request intents')
+            if any(name.startswith('history_reconciliation:') for name in self._events(c)):
+                raise HarnessError('external history event exists without complete rows')
+            c.execute('''CREATE TABLE external_history (
+                request_id TEXT PRIMARY KEY,
+                historical_ordinal INTEGER NOT NULL UNIQUE CHECK(historical_ordinal BETWEEN 1 AND 4),
+                identity_json TEXT NOT NULL,
+                identity_sha256 TEXT NOT NULL UNIQUE,
+                source_binding_json TEXT NOT NULL,
+                source_binding_sha256 TEXT NOT NULL UNIQUE,
+                disposition TEXT NOT NULL,
+                package_sha256 TEXT NOT NULL)''')
+            for row in validated['rows']:
+                self._insert_external_history(c, row, validated['package_sha256'])
+            detail = {'status': 'RECONCILED', 'count': len(validated['rows']),
+                      'package_sha256': validated['package_sha256'],
+                      'approval_sha256': validated['approval_sha256']}
+            self._event(c, 'history_reconciliation:' + validated['package_sha256'],
+                        validated['package_sha256'], detail)
+            c.execute("PRAGMA user_version=3")
+            self._validated_external_history(c)
+            return {'status': 'RECONCILED', 'historical_requests': len(validated['rows'])}
 
     def _events(self, c):
         return {r['event']: r for r in c.execute("SELECT * FROM events")}
@@ -293,11 +378,12 @@ class PilotLedger:
 
     def _insert_intent(self, c, *, request_id, logical_id, model, producer, stage, stage_run, quota_kind, retry_of):
         rows = self._rows(c)
-        if len(rows) >= 200:
+        historical = self._validated_external_history(c)
+        if len(rows) + len(historical) >= 200:
             raise HarnessError("pilot cumulative hard stop 200 reached")
         max_calls = 160 if stage == 'alternate_conformity' or any(r['stage'] == 'alternate_conformity' for r in rows) else 152
         if len(rows) >= max_calls:
-            raise HarnessError(f"planned request maximum {max_calls} reached")
+            raise HarnessError(f"planned request maximum {max_calls + len(historical)} reached")
         self._ready(c, stage)
         rows = self._validated_attempt_inventory(c)
         binding = self._binding(c, stage)
@@ -754,8 +840,16 @@ class PilotLedger:
     def snapshot(self):
         with closing(self._connect()) as c:
             rows, events = self._rows(c), self._events(c)
+            historical = self._validated_external_history(c)
             raw_count = c.execute("SELECT count(*) FROM responses").fetchone()[0]
         by_stage = {s: sum(r['stage'] == s for r in rows) for s in sorted(STAGES)}
         remediation = sum(r['quota_kind'] == 'remediation' for r in rows)
         transport = sum(r['quota_kind'] == 'transport' for r in rows)
-        return dict(pilot_id=self.pilot_id, ledger_path=str(self.path), requests_cumulative=len(rows), requests_by_stage=by_stage, unresolved_intents=sum(r['status'] == 'INTENT' for r in rows), remediation_calls=remediation, transport_calls=transport, reserve_equation_value=8*int(remediation>0)+transport, reserve_limit=15, planned_maximum=160 if by_stage['alternate_conformity'] else 152, hard_stop=200, durable_responses=raw_count, events=sorted(events))
+        return dict(pilot_id=self.pilot_id, ledger_path=str(self.path),
+                    requests_cumulative=len(rows)+len(historical), native_requests=len(rows),
+                    historical_requests=len(historical), requests_by_stage=by_stage,
+                    unresolved_intents=sum(r['status'] == 'INTENT' for r in rows),
+                    remediation_calls=remediation, transport_calls=transport,
+                    reserve_equation_value=8*int(remediation>0)+transport, reserve_limit=15,
+                    planned_maximum=(160 if by_stage['alternate_conformity'] else 152)+len(historical),
+                    hard_stop=200, durable_responses=raw_count, events=sorted(events))

@@ -1,0 +1,191 @@
+test_direct_reservation_without_rebind_refuses_after_history (__main__.ExternalHistoryReconciliation.test_direct_reservation_without_rebind_refuses_after_history) ... ERROR
+test_failure_after_intermediate_insert_rolls_back_and_resume_succeeds (__main__.ExternalHistoryReconciliation.test_failure_after_intermediate_insert_rolls_back_and_resume_succeeds) ... ERROR
+test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically (__main__.ExternalHistoryReconciliation.test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically) ... 
+  test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically (__main__.ExternalHistoryReconciliation.test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically) (index=0) ... ERROR
+  test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically (__main__.ExternalHistoryReconciliation.test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically) (index=1) ... ERROR
+  test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically (__main__.ExternalHistoryReconciliation.test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically) (index=2) ... ERROR
+  test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically (__main__.ExternalHistoryReconciliation.test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically) (index=3) ... ERROR
+test_positive_is_separate_charged_once_reopen_and_idempotent (__main__.ExternalHistoryReconciliation.test_positive_is_separate_charged_once_reopen_and_idempotent) ... ERROR
+test_reconfirmed_before_direct_reservation_and_no_side_effect (__main__.ExternalHistoryReconciliation.test_reconfirmed_before_direct_reservation_and_no_side_effect) ... ERROR
+test_repository_source_bytes_fit_contract_on_fixture_ledger (__main__.ExternalHistoryReconciliation.test_repository_source_bytes_fit_contract_on_fixture_ledger) ... ERROR
+test_source_change_even_with_rewritten_reference_refuses (__main__.ExternalHistoryReconciliation.test_source_change_even_with_rewritten_reference_refuses) ... ERROR
+test_two_processes_compete_for_first_native_slot_once (__main__.ExternalHistoryReconciliation.test_two_processes_compete_for_first_native_slot_once) ... ERROR
+test_two_processes_reconcile_one_event_and_four_rows (__main__.ExternalHistoryReconciliation.test_two_processes_reconcile_one_event_and_four_rows) ... FAIL
+test_wrong_ledger_types_missing_review_or_approval_refuse (__main__.ExternalHistoryReconciliation.test_wrong_ledger_types_missing_review_or_approval_refuse) ... 
+  test_wrong_ledger_types_missing_review_or_approval_refuse (__main__.ExternalHistoryReconciliation.test_wrong_ledger_types_missing_review_or_approval_refuse) (index=0) ... ERROR
+  test_wrong_ledger_types_missing_review_or_approval_refuse (__main__.ExternalHistoryReconciliation.test_wrong_ledger_types_missing_review_or_approval_refuse) (index=1) ... ERROR
+  test_wrong_ledger_types_missing_review_or_approval_refuse (__main__.ExternalHistoryReconciliation.test_wrong_ledger_types_missing_review_or_approval_refuse) (index=2) ... ERROR
+  test_wrong_ledger_types_missing_review_or_approval_refuse (__main__.ExternalHistoryReconciliation.test_wrong_ledger_types_missing_review_or_approval_refuse) (index=3) ... ERROR
+
+======================================================================
+ERROR: test_direct_reservation_without_rebind_refuses_after_history (__main__.ExternalHistoryReconciliation.test_direct_reservation_without_rebind_refuses_after_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 270, in test_direct_reservation_without_rebind_refuses_after_history
+    self._import()
+    ~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 123, in _import
+    return self.ledger.reconcile_external_history(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_failure_after_intermediate_insert_rolls_back_and_resume_succeeds (__main__.ExternalHistoryReconciliation.test_failure_after_intermediate_insert_rolls_back_and_resume_succeeds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 240, in test_failure_after_intermediate_insert_rolls_back_and_resume_succeeds
+    original = self.ledger._insert_external_history
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute '_insert_external_history'
+
+======================================================================
+ERROR: test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically (__main__.ExternalHistoryReconciliation.test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically) (index=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 162, in test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically
+    self.ledger.reconcile_external_history(package_path=bad, approval_path=auth)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically (__main__.ExternalHistoryReconciliation.test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically) (index=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 162, in test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically
+    self.ledger.reconcile_external_history(package_path=bad, approval_path=auth)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically (__main__.ExternalHistoryReconciliation.test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically) (index=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 162, in test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically
+    self.ledger.reconcile_external_history(package_path=bad, approval_path=auth)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically (__main__.ExternalHistoryReconciliation.test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically) (index=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 162, in test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically
+    self.ledger.reconcile_external_history(package_path=bad, approval_path=auth)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_positive_is_separate_charged_once_reopen_and_idempotent (__main__.ExternalHistoryReconciliation.test_positive_is_separate_charged_once_reopen_and_idempotent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 135, in test_positive_is_separate_charged_once_reopen_and_idempotent
+    self.assertEqual(self._import()["status"], "RECONCILED")
+                     ~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 123, in _import
+    return self.ledger.reconcile_external_history(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_reconfirmed_before_direct_reservation_and_no_side_effect (__main__.ExternalHistoryReconciliation.test_reconfirmed_before_direct_reservation_and_no_side_effect)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 321, in test_reconfirmed_before_direct_reservation_and_no_side_effect
+    self._import()
+    ~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 123, in _import
+    return self.ledger.reconcile_external_history(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_repository_source_bytes_fit_contract_on_fixture_ledger (__main__.ExternalHistoryReconciliation.test_repository_source_bytes_fit_contract_on_fixture_ledger)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 218, in test_repository_source_bytes_fit_contract_on_fixture_ledger
+    ledger.reconcile_external_history(package_path=package, approval_path=approval)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_source_change_even_with_rewritten_reference_refuses (__main__.ExternalHistoryReconciliation.test_source_change_even_with_rewritten_reference_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 174, in test_source_change_even_with_rewritten_reference_refuses
+    self.ledger.reconcile_external_history(package_path=bad, approval_path=auth)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_two_processes_compete_for_first_native_slot_once (__main__.ExternalHistoryReconciliation.test_two_processes_compete_for_first_native_slot_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 279, in test_two_processes_compete_for_first_native_slot_once
+    self._import()
+    ~~~~~~~~~~~~^^
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 123, in _import
+    return self.ledger.reconcile_external_history(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_wrong_ledger_types_missing_review_or_approval_refuse (__main__.ExternalHistoryReconciliation.test_wrong_ledger_types_missing_review_or_approval_refuse) (index=0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 236, in test_wrong_ledger_types_missing_review_or_approval_refuse
+    self.ledger.reconcile_external_history(package_path=package, approval_path=auth)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_wrong_ledger_types_missing_review_or_approval_refuse (__main__.ExternalHistoryReconciliation.test_wrong_ledger_types_missing_review_or_approval_refuse) (index=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 236, in test_wrong_ledger_types_missing_review_or_approval_refuse
+    self.ledger.reconcile_external_history(package_path=package, approval_path=auth)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_wrong_ledger_types_missing_review_or_approval_refuse (__main__.ExternalHistoryReconciliation.test_wrong_ledger_types_missing_review_or_approval_refuse) (index=2)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 236, in test_wrong_ledger_types_missing_review_or_approval_refuse
+    self.ledger.reconcile_external_history(package_path=package, approval_path=auth)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+ERROR: test_wrong_ledger_types_missing_review_or_approval_refuse (__main__.ExternalHistoryReconciliation.test_wrong_ledger_types_missing_review_or_approval_refuse) (index=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 236, in test_wrong_ledger_types_missing_review_or_approval_refuse
+    self.ledger.reconcile_external_history(package_path=package, approval_path=auth)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_external_history'
+
+======================================================================
+FAIL: test_two_processes_reconcile_one_event_and_four_rows (__main__.ExternalHistoryReconciliation.test_two_processes_reconcile_one_event_and_four_rows)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-d9-correzioni/studio2/fase03/harness/test_history_reconciliation.py", line 262, in test_two_processes_reconcile_one_event_and_four_rows
+    self.assertEqual(sorted(queue.get(timeout=2) for _ in processes),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     ["OK", "OK"])
+                     ^^^^^^^^^^^^^
+AssertionError: Lists differ: ["AttributeError:'PilotLedger' object has [123 chars]ry'"] != ['OK', 'OK']
+
+First differing element 0:
+"AttributeError:'PilotLedger' object has [37 chars]ory'"
+'OK'
+
++ ['OK', 'OK']
+- ["AttributeError:'PilotLedger' object has no attribute "
+-  "'reconcile_external_history'",
+-  "AttributeError:'PilotLedger' object has no attribute "
+-  "'reconcile_external_history'"]
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.114s
+
+FAILED (failures=1, errors=15)

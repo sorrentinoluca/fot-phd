@@ -39,6 +39,10 @@ def _hash(value):
     return isinstance(value, str) and re.fullmatch('[0-9a-f]{64}', value) is not None
 
 
+def _digest(value):
+    return sha256_bytes(canonical_json(value).encode())
+
+
 def read_reference(ref, role):
     if not isinstance(ref, dict) or set(ref) != {'path', 'sha256'} or not _hash(ref.get('sha256')):
         fail(role + ' reference missing')
@@ -55,6 +59,165 @@ def read_reference(ref, role):
     if not isinstance(value, dict):
         fail(role + ' must be an object')
     return value
+
+
+def read_bytes_reference(ref, role):
+    if not isinstance(ref, dict) or set(ref) != {'path', 'sha256'} or not _hash(ref.get('sha256')):
+        fail(role + ' reference missing')
+    path = Path(ref['path'])
+    if not path.is_absolute() or not path.is_file():
+        fail(role + ' file missing')
+    data = path.read_bytes()
+    if sha256_bytes(data) != ref['sha256']:
+        fail(role + ' bytes changed')
+    return data
+
+
+def _read_once(reference_or_path, role):
+    if isinstance(reference_or_path, dict):
+        return read_bytes_reference(reference_or_path, role)
+    path = Path(reference_or_path)
+    if not path.is_absolute() or not path.is_file():
+        fail(role + ' file missing')
+    return path.read_bytes()
+
+
+def _json_from_bytes(data, role):
+    try:
+        value = json.loads(data)
+    except (ValueError, UnicodeError) as exc:
+        raise HarnessError('D9: invalid ' + role) from exc
+    if not isinstance(value, dict):
+        fail(role + ' must be an object')
+    return value
+
+
+def _jsonl_from_bytes(data, role):
+    try:
+        lines = data.decode('utf-8').splitlines()
+        values = [json.loads(line) for line in lines]
+    except (ValueError, UnicodeError) as exc:
+        raise HarnessError('D9: invalid ' + role) from exc
+    if not lines or any(not isinstance(value, dict) for value in values):
+        fail(role + ' must contain JSON objects')
+    return values
+
+
+def _completed_history_row_valid(row):
+    raw = row.get('raw_output')
+    response = row.get('response_raw')
+    usage = response.get('usage') if isinstance(response, dict) else None
+    choices = response.get('choices') if isinstance(response, dict) else None
+    choice = choices[0] if isinstance(choices, list) and len(choices) == 1 and isinstance(choices[0], dict) else None
+    message = choice.get('message') if isinstance(choice, dict) else None
+    token_keys = ('prompt_tokens', 'completion_tokens', 'total_tokens')
+    tokens = [row.get(key) for key in token_keys]
+    return (isinstance(raw, str) and _hash(row.get('raw_output_sha256'))
+            and sha256_bytes(raw.encode()) == row['raw_output_sha256']
+            and _text(row.get('response_id')) and _text(row.get('returned_model'))
+            and _text(row.get('system_fingerprint')) and _text(row.get('finish_reason'))
+            and all(type(value) is int and value >= 0 for value in tokens)
+            and tokens[0] + tokens[1] == tokens[2]
+            and isinstance(usage, dict)
+            and all(usage.get(key) == row.get(key) for key in token_keys)
+            and response.get('id') == row['response_id']
+            and response.get('model') == row['returned_model']
+            and response.get('system_fingerprint') == row['system_fingerprint']
+            and isinstance(message, dict) and message.get('content') == raw
+            and choice.get('finish_reason') == row['finish_reason'])
+
+
+def validate_external_history_artifacts(package_ref, approval_ref, *, expected_ledger):
+    """Read and validate one reviewed external-history package and its authorization.
+
+    Every referenced file is read once per decision. Returned normalized rows are
+    derived from those bytes and can be inserted by the caller in the same transaction.
+    """
+    package_bytes = _read_once(package_ref, 'external history package')
+    approval_bytes = _read_once(approval_ref, 'external history approval')
+    package = _json_from_bytes(package_bytes, 'external history package')
+    approval = _json_from_bytes(approval_bytes, 'external history approval')
+    required_package = {'artifact_version', 'status', 'source', 'pilot_ledger',
+                        'source_files', 'request_imports', 'review'}
+    if set(package) != required_package or package.get('artifact_version') != '1' or package.get('status') != 'MAPPING_REVIEWED':
+        fail('external history package contract mismatch')
+    if package.get('source') != HISTORY_SOURCE or package.get('pilot_ledger') != expected_ledger:
+        fail('external history package belongs to another source or ledger')
+    if set(package.get('source_files', {})) != {'summary', 'attempts', 'records'}:
+        fail('external history source inventory is incomplete')
+    source_bytes = {key: read_bytes_reference(ref, 'external history ' + key)
+                    for key, ref in package['source_files'].items()}
+    if sha256_bytes(source_bytes['summary']) != HISTORY_SOURCE['sha256']:
+        fail('external history summary differs from the approved source')
+    summary = _json_from_bytes(source_bytes['summary'], 'external history summary')
+    reported = summary.get('reported_requests', summary.get('provider_requests_total'))
+    completed = summary.get('completed_inferences', summary.get('completed_model_inferences'))
+    if (reported, completed) != (
+            HISTORY_SOURCE['reported_requests'], HISTORY_SOURCE['completed_inferences']):
+        fail('external history source counts changed')
+    if (summary.get('attempt_journal_sha256') not in {None, package['source_files']['attempts']['sha256']}
+            or summary.get('records_sha256') not in {None, package['source_files']['records']['sha256']}):
+        fail('external history summary no longer binds attempts and records')
+    source_rows = {'attempts': _jsonl_from_bytes(source_bytes['attempts'], 'external history attempts'),
+                   'records': _jsonl_from_bytes(source_bytes['records'], 'external history records')}
+    if len(source_rows['attempts']) != 1 or len(source_rows['records']) != HISTORY_SOURCE['completed_inferences']:
+        fail('external history source cardinality changed')
+    review = package.get('review')
+    if not isinstance(review, dict) or set(review) != {'reviewer', 'path', 'sha256'} or not _text(review.get('reviewer')):
+        fail('external history mapping lacks independent review')
+    if not read_bytes_reference({'path': review['path'], 'sha256': review['sha256']},
+                                'external history review').strip():
+        fail('external history review is empty')
+    required_approval = {'artifact_version', 'author', 'decision', 'package_sha256',
+                         'pilot_ledger', 'source'}
+    if (set(approval) != required_approval or approval.get('artifact_version') != '1'
+            or not _text(approval.get('author')) or approval.get('decision') != 'IMPORT_AUTHORIZED'
+            or approval.get('package_sha256') != sha256_bytes(package_bytes)
+            or approval.get('pilot_ledger') != expected_ledger
+            or approval.get('source') != HISTORY_SOURCE):
+        fail('external history import lacks exact author authorization')
+    mappings = package.get('request_imports')
+    if not isinstance(mappings, list) or len(mappings) != HISTORY_SOURCE['reported_requests']:
+        fail('external history mapping must contain exactly four requests')
+    normalized = []
+    required_mapping = {'historical_ordinal', 'request_id', 'identity', 'identity_sha256',
+                        'source_binding', 'disposition'}
+    for position, mapping in enumerate(mappings, 1):
+        if not isinstance(mapping, dict) or set(mapping) != required_mapping:
+            fail('external history mapping fields are incomplete')
+        ordinal = mapping.get('historical_ordinal')
+        if type(ordinal) is not int or ordinal != position:
+            fail('external history ordinal is missing, duplicated or out of order')
+        request_id, identity = mapping.get('request_id'), mapping.get('identity')
+        if not _text(request_id) or not isinstance(identity, dict) or mapping.get('identity_sha256') != sha256_bytes(canonical_json(identity).encode()):
+            fail('external history assigned identity is invalid')
+        binding = mapping.get('source_binding')
+        expected_key, expected_line = ('attempts', 1) if ordinal == 1 else ('records', ordinal - 1)
+        if (not isinstance(binding, dict) or set(binding) != {'source_key', 'line', 'record_sha256'}
+                or binding.get('source_key') != expected_key or type(binding.get('line')) is not int
+                or binding.get('line') != expected_line or not _hash(binding.get('record_sha256'))):
+            fail('external history source binding is incomplete or swapped')
+        row = source_rows[expected_key][expected_line - 1] if expected_line <= len(source_rows[expected_key]) else None
+        if row is None or _digest(row) != binding['record_sha256']:
+            fail('external history source row changed')
+        required_identity = {'assignment': 'ASSIGNED_DURING_RECONCILIATION',
+                             'historical_ordinal': ordinal, 'request_id': request_id,
+                             'source_binding_sha256': _digest(binding)}
+        if identity != required_identity:
+            fail('external history identity must disclose its reconciliation assignment')
+        disposition = mapping.get('disposition')
+        if ordinal == 1:
+            if (disposition != 'HISTORICAL_OUTCOME_UNCERTAIN'
+                    or row.get('outcome') != 'REJECTED_BEFORE_INFERENCE'
+                    or row.get('inference_completed') is not False):
+                fail('S1 has no durable D03 zero-token proof')
+        elif disposition != 'COMPLETED' or not _completed_history_row_valid(row):
+            fail('completed external history mapping differs from source')
+        normalized.append(deepcopy(mapping))
+    if len({row['request_id'] for row in normalized}) != len(normalized) or len({row['identity_sha256'] for row in normalized}) != len(normalized):
+        fail('external history identities must be unique')
+    return {'package_sha256': sha256_bytes(package_bytes), 'approval_sha256': sha256_bytes(approval_bytes),
+            'package': package, 'approval': approval, 'rows': normalized}
 
 
 def generation_kwargs(generation, *, model_role):
@@ -138,20 +301,50 @@ def validate_config(config):
         fail('producer configurations must be separately pinned by role')
     if set(config.get('approved_producer_config_sha256', [])) != set(providers.values()):
         fail('producer allowlist differs from D9 roles')
-    history = read_reference(d.get('history_reconciliation'), 'historical consumption reconciliation')
-    if history.get('status') != 'RECONCILED' or not _text(history.get('reviewer')) or history.get('source') != HISTORY_SOURCE:
+    history_ref = d.get('history_reconciliation')
+    history = read_reference(history_ref, 'historical consumption reconciliation')
+    if history.get('status') == 'RECONCILED':
+        if not _text(history.get('reviewer')) or history.get('source') != HISTORY_SOURCE:
+            fail('historical S consumption requires reviewed reconciliation')
+        if history.get('pilot_ledger') != config.get('pilot_ledger'):
+            fail('historical reconciliation belongs to another ledger')
+        mappings = history.get('request_identities')
+        if not isinstance(mappings, dict) or len(mappings) != HISTORY_SOURCE['reported_requests'] or not all(_text(k) and _hash(v) for k,v in mappings.items()):
+            fail('each historical request must map once to durable identity')
+    elif history.get('status') == 'MAPPING_REVIEWED':
+        validate_external_history_artifacts(history_ref, d.get('history_approval'),
+                                            expected_ledger=config.get('pilot_ledger'))
+    else:
         fail('historical S consumption requires reviewed reconciliation')
-    if history.get('pilot_ledger') != config.get('pilot_ledger'):
-        fail('historical reconciliation belongs to another ledger')
-    mappings = history.get('request_identities')
-    if not isinstance(mappings, dict) or len(mappings) != HISTORY_SOURCE['reported_requests'] or not all(_text(k) and _hash(v) for k,v in mappings.items()):
-        fail('each historical request must map once to durable identity')
     return d
 
 
 def validate_history(config, ledger, connection):
     d = validate_config(config)
     h = read_reference(d['history_reconciliation'], 'historical consumption reconciliation')
+    if h.get('status') == 'MAPPING_REVIEWED':
+        validated = validate_external_history_artifacts(
+            d['history_reconciliation'], d.get('history_approval'),
+            expected_ledger={'path': str(ledger.path), 'pilot_id': ledger.pilot_id})
+        rows = ledger._validated_external_history(connection)
+        if len(rows) != HISTORY_SOURCE['reported_requests']:
+            fail('external historical consumption has not been reconciled')
+        expected = {row['request_id']: row for row in validated['rows']}
+        event = next((row for name, row in ledger._events(connection).items()
+                      if name.startswith('history_reconciliation:')), None)
+        if event is None or json.loads(event['detail_json']).get('approval_sha256') != validated['approval_sha256']:
+            fail('external historical approval differs from the reconciled decision')
+        for row in rows:
+            mapping = expected.get(row['request_id'])
+            if (mapping is None or row['historical_ordinal'] != mapping['historical_ordinal']
+                    or row['identity_json'] != canonical_json(mapping['identity'])
+                    or row['identity_sha256'] != mapping['identity_sha256']
+                    or row['source_binding_json'] != canonical_json(mapping['source_binding'])
+                    or row['source_binding_sha256'] != _digest(mapping['source_binding'])
+                    or row['disposition'] != mapping['disposition']
+                    or row['package_sha256'] != validated['package_sha256']):
+                fail('external historical ledger binding differs from reviewed package')
+        return
     # Read in the caller's decision transaction. No migration, reset, new row or backfill.
     rows = {r['request_id']:r for r in ledger._rows(connection)}
     for request_id, identity_hash in h['request_identities'].items():
@@ -240,13 +433,15 @@ def accounting(ledger):
     by_role={key:0 for key in ROLES}; by_model={'122B':0, '27B':0}
     with ledger._transaction() as c:
         rows=ledger._validated_attempt_inventory(c)
+        historical=ledger._validated_external_history(c)
         for row in rows:
             binding=ledger._binding(c,row['stage'])
             if 'execution_config' not in binding:
                 fail('unmapped historical ledger requires separate reviewed reconciliation')
             role='alternate' if row['stage']=='alternate_conformity' else ('consumer' if row['stage'] in {'budget_probe','stability_gate'} else 'producer')
             by_role[role]+=1;by_model[ROLES[role]]+=1
-    return {'requests_cumulative':len(rows),'by_role':by_role,'by_nominal_model':by_model,
+    return {'requests_cumulative':len(rows)+len(historical),'native_requests':len(rows),
+            'historical_external':len(historical),'by_role':by_role,'by_nominal_model':by_model,
             'unit':'durable intents, including uncertain and retry attempts'}
 
 
