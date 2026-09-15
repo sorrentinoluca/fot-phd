@@ -11,6 +11,26 @@ from .common import HarnessError, sha256_text
 CONDITIONS = ("A", "B-LF", "E-LF")
 
 
+def is_transport_invalidity(record):
+    """An absent response is invalid, never an identity-verified model response.
+
+    The ledger authenticates the event; this evaluator checks its shape and still checks
+    frozen prompt metadata/repetitions below. Arbitrary missing identities remain errors.
+    """
+    return (record.get('record_kind') == 'transport_invalidity'
+            and record.get('response_received') is False
+            and record.get('parse_valid_first_attempt') is False
+            and all(k in record and record[k] is None for k in (
+                'identity_valid','returned_model','system_fingerprint','response_id',
+                'raw_output','raw_output_sha256','received_utc','parsed_output','finish_reason',
+                'prompt_tokens','completion_tokens','total_tokens'))
+            and isinstance(record.get('transport_error'), dict)
+            and bool(record['transport_error'].get('error_type'))
+            and isinstance(record.get('request_identity_sha256'), str)
+            and len(record['request_identity_sha256']) == 64
+            and all(c in '0123456789abcdef' for c in record['request_identity_sha256']))
+
+
 def semantic_signature(record: dict[str, Any]) -> tuple[Any, ...]:
     """Validity plus parsed decision pair; raw/JSON/finish differences are forensic."""
     valid = record.get("parse_valid_first_attempt") is True
@@ -70,8 +90,10 @@ def evaluate_stability_gate(records: Iterable[dict[str, Any]], *, expected_promp
         for r in group:
             if any(r.get(k) != p.get(k) or p.get(k) is None for k in ('prompt_sha256','condition','agent_id','case_id','sample_role')):
                 raise HarnessError('gate triplet prompt identity/condition differs from frozen sample')
-            if r.get('retry_count', 0) != 0 or r.get('identity_valid') is not True:
-                raise HarnessError('gate requires first attempts and verified response identity')
+            if r.get('record_kind') == 'transport_invalidity' and not is_transport_invalidity(r):
+                raise HarnessError('malformed transport invalidity')
+            if r.get('retry_count', 0) != 0 or (r.get('identity_valid') is not True and not is_transport_invalidity(r)):
+                raise HarnessError('gate requires first attempts with verified response identity or explicit transport invalidity')
 
     valid = sum(row.get("parse_valid_first_attempt") is True for row in rows)
     truncations = sum(

@@ -34,7 +34,7 @@ def export_journal(ledger, stage, path):
         leaf = ledger.leaf(stage, spec['logical_id'])
         if leaf:
             response = ledger.response(leaf['request_id'])
-            rows.append(dict(request=leaf, response=response))
+            rows.append(dict(request=leaf, response=response, transport_invalidity=ledger.gate_transport_record(leaf['request_id'])))
     durable_write(path, ''.join(canonical_json(r) + '\n' for r in rows))
 
 
@@ -44,6 +44,11 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
     leaf = ledger.leaf(stage, spec['logical_id'])
     if leaf and not resume:
         raise HarnessError('existing stage requires explicit --resume; no automatic resend')
+    if leaf and stage == 'stability_gate':
+        invalidity = ledger.gate_transport_record(leaf['request_id'])
+        if invalidity is not None:
+            export_journal(ledger, stage, journal_path)
+            return invalidity
     if leaf and leaf['status'] == 'ZERO_TOKEN_PROVEN':
         if leaf['request_id'] not in retry_requests:
             raise HarnessError('proven zero-token request requires explicit retry selection')
@@ -74,9 +79,14 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
         begin = time.monotonic()
         try:
             raw = transport()
+        except HarnessError:
+            # A pre-transport guard failure is not a model transport observation.
+            raise
         except Exception as exc:
-            ledger.complete_request(request_id, status='FAILED', latency_ms=(time.monotonic()-begin)*1000, detail={'error_type': type(exc).__name__, 'message': str(exc)})
+            ledger.complete_request(request_id, status='FAILED', latency_ms=(time.monotonic()-begin)*1000, detail={'error_type': type(exc).__name__, 'message': str(exc)}, transport_failure=True)
             export_journal(ledger, stage, journal_path)
+            if stage == 'stability_gate':
+                return ledger.gate_transport_record(request_id)
             raise HarnessError('transport failed; uncertain outcome needs explicit reconciliation') from exc
         ledger.save_raw(request_id, raw, latency_ms=(time.monotonic()-begin)*1000)
         export_journal(ledger, stage, journal_path)

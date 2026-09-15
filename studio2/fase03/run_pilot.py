@@ -332,7 +332,7 @@ def request_spec(prompt, generation, *, config, logical_id, group, repetition):
 
 
 def _tracked_call(provider, ledger, *, prompt, schema, generation, stage, stage_run, logical_id,
-                  request_id=None, return_error_record=False, config=None, journal_path=None,
+                  request_id=None, config=None, journal_path=None,
                   resume=False, retry_requests=(), repetition=1, pre_reserved=()):
     config = load_json(PREFLIGHT_CONFIG_PATH) if config is None else config
     require_execution(config)

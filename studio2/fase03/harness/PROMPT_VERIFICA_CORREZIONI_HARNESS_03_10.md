@@ -1,3 +1,5 @@
+> **Documento storico del candidato 0c8157f, respinto NON OK.** Il secondo verbale smentisce la sostituzione normativa di N48 e apre C01–C03. Il delta corrente è descritto nella [matrice C01–C03](MATRICE_R01_R10_C01_C03.md); la nuova consegna documentale è un successore separato.
+
 # Nuova verifica indipendente — correzioni R01–R10 harness offline 03.10
 
 Prima di modificare qualsiasi cosa leggi docs/MAINTENANCE.md e rispettalo.

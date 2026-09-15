@@ -1,13 +1,13 @@
 {
-  "artifact_version": "2",
+  "artifact_version": "3",
   "status": "LOCAL_CORRECTION_CANDIDATE_PENDING_NEW_INDEPENDENT_REVIEW",
   "assembly_base_commit": "a00605862f627710347bd63c49f79a6d0a00135f",
-  "delivery_base_commit": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69",
-  "rejected_candidate": "59b6b93cd9c215e8b687e540f7cd579804b7c66a",
-  "rejected_tree": "cf08c14a8deb18145189afbe9722d7da46bc2f82",
-  "acquisition_commit": "ec012911444de6baf1751ae4bf4aee8e9c24adbb",
-  "non_ok_report_sha256": "fc9725d5412ff30b789977cf12e6ae4742f8063cce7b6e5e2242aeddb3d61547",
-  "non_ok_manifest_sha256": "0d25177f41ef9651ee246d5ad8610c020e43c931e168f3c18ba9098d871f0223",
+  "delivery_base_commit": "6268437b8b64288b50ad5f7c924e1fcab85b27d3",
+  "rejected_candidate": "0c8157f23bee49a3a5a2df648525c34706da29d7",
+  "rejected_tree": "a1573b49615a875f24ee97f9f1cd4bab399be93d",
+  "acquisition_commit": "b882c27103dbd9d0e0462df20731123f5ed5a0c1",
+  "non_ok_report_sha256": "1785fb3cfb832b5a299fe885ac740a4f557ad83431e002451d447afab64f4efc",
+  "non_ok_manifest_sha256": "e5cb1589a9f8006303c9ea91a3ea37be742990c2ac6c86fb8ffc7e59fcbf7f80",
   "normative_sources": {
     "statistical_plan_revision_10_commit": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
     "statistical_plan_tree": "24847ce0cc4ff7b6defea4d65f3f41cb9ccd1c1a",
@@ -26,12 +26,15 @@
     "evidence_archive_sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf"
   },
   "current_contract": "CONTRATTO_ESECUZIONE_E_RIPRESA.md",
-  "matrix": "MAPPA_RIPRODUZIONI_R01_R10.md",
+  "matrix": "MATRICE_R01_R10_C01_C03.md",
   "historical_documents_superseded_for_this_delta": [
     "SPECIFICA_HARNESS.md",
     "REPORT_HARNESS_OFFLINE_03_10.md",
     "PROMPT_VERIFICA_HARNESS_OFFLINE_03_10.md",
-    "DECISIONE_D9_ORDINE_LABEL_PENDING.md (D9 part only; actual label order remains pending)"
+    "DECISIONE_D9_ORDINE_LABEL_PENDING.md (D9 part only; actual label order remains pending)",
+    "REPORT_CORREZIONI_HARNESS_03_10.md",
+    "PROMPT_VERIFICA_CORREZIONI_HARNESS_03_10.md",
+    "CONSEGNA_CORREZIONI_HARNESS_03_10.json"
   ],
   "files": [
     {
@@ -46,8 +49,8 @@
     },
     {
       "path": "studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md",
-      "bytes": 10570,
-      "sha256": "5bd46b02f3d2b3f8b64de1aa0b34a82276e5a561e80192bf7ff23edd45d64684"
+      "bytes": 13779,
+      "sha256": "b535a41abb031c72292a8156192892174bfff1cccc99fb3877d4213ed5706bf9"
     },
     {
       "path": "studio2/fase03/harness/DECISIONE_D9_ORDINE_LABEL_PENDING.md",
@@ -56,13 +59,28 @@
     },
     {
       "path": "studio2/fase03/harness/MAPPA_RIPRODUZIONI_R01_R10.md",
-      "bytes": 9466,
-      "sha256": "edeeddd0c05139749c06f221311c46896991a998b6d34b318268b7c84714fb88"
+      "bytes": 9652,
+      "sha256": "0a7eb53dfba69b97405c34c4e1b2dbad64846d4f667d55cc5c13c646eb1acbd3"
+    },
+    {
+      "path": "studio2/fase03/harness/MATRICE_R01_R10_C01_C03.md",
+      "bytes": 6330,
+      "sha256": "37f223a8085c295877b5b18baa25679c3736ceb845b9b9227264cd5dda23600e"
     },
     {
       "path": "studio2/fase03/harness/PILOT_INPUT_SOURCES.pending.json",
       "bytes": 194648,
       "sha256": "7103482d6c7b8038944b0af63bac58548557c8d0b8f5d24e420346bd93fa304b"
+    },
+    {
+      "path": "studio2/fase03/harness/PROMPT_VERIFICA_CORREZIONI_HARNESS_03_10.md",
+      "bytes": 6602,
+      "sha256": "ec87a37ed9bae66623a1ef3f72ddc1604ef0bf21c880b490dfb8edf67bf9f73e"
+    },
+    {
+      "path": "studio2/fase03/harness/REPORT_CORREZIONI_HARNESS_03_10.md",
+      "bytes": 14495,
+      "sha256": "fa5ec50223a528f8aebdc197623d023320d7c6f49e9bfe7088a24d647b393b0b"
     },
     {
       "path": "studio2/fase03/harness/SPECIFICA_HARNESS.md",
@@ -73,6 +91,26 @@
       "path": "studio2/fase03/harness/__init__.py",
       "bytes": 56,
       "sha256": "55b70488f5d4e69286e904225dc8bf9b358f9adb0214dae42d42d936895e3f0c"
+    },
+    {
+      "path": "studio2/fase03/harness/c01_c03_evidence/COMANDI.md",
+      "bytes": 3482,
+      "sha256": "2547227b1a2c357ac15a71054207c070d8dbe1657438e86a0f0558d04286194d"
+    },
+    {
+      "path": "studio2/fase03/harness/c01_c03_evidence/REPRODUCTION_INVENTORY.json",
+      "bytes": 1173138,
+      "sha256": "48df0191f28099b84615383a8d9484dc73183025b44b703685ebfcca75d05984"
+    },
+    {
+      "path": "studio2/fase03/harness/c01_c03_evidence/RESULTS.json",
+      "bytes": 88614,
+      "sha256": "861a34bba8c81f5d2d851a973951d6dc2321d71ec278be0836595ed0087ca85a"
+    },
+    {
+      "path": "studio2/fase03/harness/c01_c03_evidence/SHA256SUMS",
+      "bytes": 4310,
+      "sha256": "d13fd24874903d963ea2cce9ef274cc3701d1aa483e818b9c82c958cba6107a8"
     },
     {
       "path": "studio2/fase03/harness/canary.py",
@@ -136,8 +174,8 @@
     },
     {
       "path": "studio2/fase03/harness/gate_rules.py",
-      "bytes": 6075,
-      "sha256": "33c3b1fc52b9e6da739b71f968791714f8bb8d00c7561e239ac6d928fdeed8f9"
+      "bytes": 7475,
+      "sha256": "a44a7fa55030c9b4186ce03389e0683ce558cf429d5c29bb3374efd237572b76"
     },
     {
       "path": "studio2/fase03/harness/guards.py",
@@ -156,8 +194,8 @@
     },
     {
       "path": "studio2/fase03/harness/ledger.py",
-      "bytes": 32317,
-      "sha256": "a0c0fa456b93680d2371be3c708c47c38196bdb0e8be2940ab19db21516fa315"
+      "bytes": 38813,
+      "sha256": "03a99fdb4b8bb1d8be398e29bcb6d5ce9662f4a40fdbaba2035525c1a1d7c924"
     },
     {
       "path": "studio2/fase03/harness/ledger_cli.py",
@@ -178,6 +216,16 @@
       "path": "studio2/fase03/harness/metrics.py",
       "bytes": 13929,
       "sha256": "97f0427434d3593a87eaf6885e6b997f40ea41be58b011724869358633ef1be7"
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/ACQUISITION_INVENTORY.json",
+      "bytes": 2019473,
+      "sha256": "f4aaa2bef59a1568349a17684a2a0b2f58453492f56c2657259db6b864d6408b"
+    },
+    {
+      "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/PROVENIENZA.md",
+      "bytes": 1605,
+      "sha256": "ab7030acf76a647a13403d920d2870b745b52bb140db51d8e1b1d726c11bc024"
     },
     {
       "path": "studio2/fase03/harness/offline_fixtures.py",
@@ -206,13 +254,18 @@
     },
     {
       "path": "studio2/fase03/harness/runtime.py",
-      "bytes": 4798,
-      "sha256": "361e73c67d9ee23098d778a1da1c6a9a04e8ea63199a3f7937e7de9eb2927850"
+      "bytes": 5362,
+      "sha256": "9e2192897fd3d28dbcc609f21aaed013154e4d796c16387e0418774992c0dd0c"
     },
     {
       "path": "studio2/fase03/harness/sampling.py",
       "bytes": 2843,
       "sha256": "3ad3291f7084a2fa7865351734c6226a9efe0c9b176f241fe1bdbfe8500c6a8f"
+    },
+    {
+      "path": "studio2/fase03/harness/test_c01_c03.py",
+      "bytes": 19584,
+      "sha256": "88245551e2dc92d19b548a98fcfb8ca74365bda68b42396417a9bd6870700fa6"
     },
     {
       "path": "studio2/fase03/harness/test_harness_offline.py",
@@ -236,8 +289,8 @@
     },
     {
       "path": "studio2/fase03/producer_probe.py",
-      "bytes": 15575,
-      "sha256": "c3123d3d69054f96068dd7f1ad6551672e002a931a1dc95222c9aa3b0bfc4b4f"
+      "bytes": 15657,
+      "sha256": "8831e453548445b14048bf2afaf99866ffb2cfa1ace04f95ae4c54a33e23f3ab"
     },
     {
       "path": "studio2/fase03/protocol.py",
@@ -246,8 +299,8 @@
     },
     {
       "path": "studio2/fase03/run_pilot.py",
-      "bytes": 28097,
-      "sha256": "33c4df903ab7af945014b566219ba7914e6ef2347db5a777245a30c20448bca6"
+      "bytes": 28070,
+      "sha256": "2cfdb69fd45623be71440a92696e8d45f1a0038e97c5bfc28ca44df695c1d2c5"
     },
     {
       "path": "studio2/fase03/tests/test_execution_guard.py",
@@ -286,5 +339,13 @@
     "walkthrough_updated": false,
     "general_plan_or_apertura_updated": false
   },
-  "self_reference_policy": "Manifest excludes itself; exact candidate commit/tree and manifest digest are recorded only in the later documentary delivery."
+  "self_reference_policy": "Manifest excludes itself; exact candidate commit/tree and manifest digest are recorded only in the later documentary delivery.",
+  "correction_scope": [
+    "C01 / R04",
+    "C02 / R07 / N48",
+    "C03 / R07"
+  ],
+  "producer_summary_version": "4",
+  "ledger_schema_version": 2,
+  "manifest_scope": "54 direct files; evidence SHA256SUMS covers copied new test artifacts; reproduction and acquisition inventories cover external fixtures with exact coordinates, bytes and hashes. Excludes this manifest and subsequent documentary delivery to avoid self-reference."
 }

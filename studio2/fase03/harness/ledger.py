@@ -200,7 +200,19 @@ class PilotLedger:
         if event is None or json.loads(event['detail_json'])['outcome'] != 'PASS':
             raise HarnessError(f"{stage} has no successful closed outcome")
         rows = [r for r in self._rows(c) if r['stage'] == stage]
-        if not rows or any(r['status'] != 'COMPLETED' for r in self._chain_leaves(rows)):
+        leaves = self._chain_leaves(rows)
+        if stage == 'stability_gate':
+            from .gate_rules import evaluate_stability_gate
+            if len(leaves) != 120 or any(r['status'] != 'COMPLETED' and self._gate_transport_record(c, r) is None for r in leaves):
+                raise HarnessError('closed gate has unaccounted attempts')
+            records = [self._evaluated_record(c, r) for r in leaves]
+            if any(r is None for r in records):
+                raise HarnessError('closed gate has missing records')
+            frozen = json.loads(self._events(c)['frozen_gate']['detail_json'])['frozen']
+            gate = evaluate_stability_gate(records, expected_prompts=frozen['prompt_sample'])
+            if not all(gate[k] for k in ('t3_pass', 't4_pass', 't6_evaluable')):
+                raise HarnessError('closed gate contradicts its technical outcome')
+        elif not rows or any(r['status'] != 'COMPLETED' for r in leaves):
             raise HarnessError("closed stage contains unresolved or failed requests")
 
     def verify_stage_success(self, stage):
@@ -218,6 +230,10 @@ class PilotLedger:
                 raise HarnessError("producer stages must precede probe/gate")
         if stage == 'producer_remediation' and ('remediation_authorized' not in events or 'remediation_waived' in events):
             raise HarnessError("remediation is not authorized")
+        if stage in {'budget_probe', 'stability_gate'}:
+            # Binding the optional alternate starts a cycle: it cannot be silently abandoned.
+            if c.execute("SELECT 1 FROM stages WHERE stage='alternate_conformity'").fetchone():
+                self._successful(c, 'alternate_conformity')
         if stage == 'budget_probe':
             if any(r['stage'] == 'stability_gate' for r in rows):
                 raise HarnessError("probe cannot follow gate")
@@ -337,7 +353,7 @@ class PilotLedger:
                 raise HarnessError("persisted response hash mismatch")
             return {'raw': json.loads(row['raw_json']), 'record': json.loads(row['record_json']) if row['record_json'] else None, 'capture': json.loads(c.execute('SELECT capture_json FROM receipts WHERE request_id=?', (request_id,)).fetchone()[0])}
 
-    def complete_request(self, request_id, *, status, prompt_tokens=None, completion_tokens=None, total_tokens=None, latency_ms=None, proof_sha256=None, detail=None, record=None):
+    def complete_request(self, request_id, *, status, prompt_tokens=None, completion_tokens=None, total_tokens=None, latency_ms=None, proof_sha256=None, detail=None, record=None, transport_failure=False):
         if status not in {'COMPLETED', 'FAILED'}:
             raise HarnessError("zero-token status requires explicit reconcile_zero_token evidence")
         values = (prompt_tokens, completion_tokens, total_tokens)
@@ -348,6 +364,10 @@ class PilotLedger:
             raw = c.execute("SELECT * FROM responses WHERE request_id=?", (request_id,)).fetchone()
             if row is None or row['status'] != 'INTENT':
                 raise HarnessError("completion requires unresolved intent")
+            if transport_failure and (status != 'FAILED' or raw is not None or record is not None or not detail or not detail.get('error_type')):
+                raise HarnessError('transport failure requires an explicit error and no response')
+            if record is not None and raw is None:
+                raise HarnessError('response record requires durable raw')
             if status == 'COMPLETED' and (raw is None or record is None):
                 raise HarnessError("completed request requires durable raw and evaluated record")
             if record is not None:
@@ -357,8 +377,81 @@ class PilotLedger:
                 text = canonical_json(record)
                 c.execute("UPDATE responses SET record_json=?,record_sha256=? WHERE request_id=?", (text, sha256_text(text), request_id))
             c.execute("UPDATE requests SET status=?,completed_utc=?,prompt_tokens=?,completion_tokens=?,total_tokens=?,latency_ms=?,proof_sha256=?,detail_json=? WHERE request_id=?", (status, _utc_now(), *values, latency_ms, proof_sha256, canonical_json(detail or {}), request_id))
+            if transport_failure and row['stage'] == 'stability_gate':
+                self._save_gate_transport_record(c, request_id)
             if record and record.get('identity_valid') is not True:
                 self._event(c, 'suspended:' + request_id, digest(record), {'reason': 'response identity missing or changed'})
+
+    def _save_gate_transport_record(self, c, request_id):
+        """Persist invalidity from an observed transport failure or approved reconciliation.
+
+        No SDK response is fabricated. Request metadata comes from the frozen plan/sample;
+        usage and returned identity remain unknown. The immutable event survives restart.
+        """
+        row = c.execute("SELECT * FROM requests WHERE request_id=?", (request_id,)).fetchone()
+        if row['stage'] != 'stability_gate' or row['status'] not in {'FAILED', 'ZERO_TOKEN_PROVEN'}:
+            raise HarnessError('gate invalidity requires a resolved transport event')
+        if c.execute("SELECT 1 FROM responses WHERE request_id=?", (request_id,)).fetchone():
+            raise HarnessError('a received response cannot become a transport invalidity')
+        events = self._events(c)
+        if 'transport_invalidity:' + request_id in events:
+            return
+        spec = json.loads(row['identity_json'])
+        frozen = json.loads(events['frozen_gate']['detail_json'])['frozen']
+        prompts = [p for p in frozen['prompt_sample'] if p['prompt_id'] == spec['group']]
+        if len(prompts) != 1 or prompts[0]['prompt_sha256'] != spec['prompt_sha256']:
+            raise HarnessError('transport invalidity differs from frozen sample')
+        prompt = prompts[0]
+        error = json.loads(row['detail_json'] or '{}')
+        reconciliation = events.get('reconciled:' + request_id)
+        if not error.get('error_type') and reconciliation is None:
+            raise HarnessError('missing transport observation or reconciliation')
+        record = dict(
+            record_kind='transport_invalidity', request_id=request_id,
+            request_identity_sha256=sha256_text(row['identity_json']),
+            **{k: prompt[k] for k in ('prompt_id','agent_id','case_id','condition','sample_role','prompt_sha256')},
+            repetition=spec['repetition'], retry_count=0, generation=frozen['generation'],
+            response_received=False, identity_valid=None, returned_model=None, system_fingerprint=None,
+            response_id=None, raw_output=None, raw_output_sha256=None, received_utc=None,
+            parsed_output=None, parse_valid_first_attempt=False, finish_reason=None,
+            prompt_tokens=None, completion_tokens=None, total_tokens=None,
+            latency_seconds=None if row['latency_ms'] is None else row['latency_ms']/1000,
+            transport_error=error or {'error_type':'ReconciledNoResponse', 'message':'No response captured; zero-token proof accepted'},
+            observed_utc=row['completed_utc'],
+            reconciliation_sha256=None if reconciliation is None else reconciliation['artifact_sha256'])
+        self._event(c, 'transport_invalidity:' + request_id, digest(record), {'record': record})
+
+    def _gate_transport_record(self, c, row):
+        event = self._events(c).get('transport_invalidity:' + row['request_id'])
+        if event is None:
+            return None
+        from .gate_rules import is_transport_invalidity
+        record = json.loads(event['detail_json']).get('record')
+        if not isinstance(record, dict):
+            raise HarnessError('persisted transport invalidity is missing its record')
+        if (row['stage'] != 'stability_gate' or row['status'] not in {'FAILED','ZERO_TOKEN_PROVEN'}
+                or row['retry_of'] is not None or digest(record) != event['artifact_sha256']
+                or record.get('request_id') != row['request_id']
+                or record.get('request_identity_sha256') != sha256_text(row['identity_json'])
+                or not is_transport_invalidity(record)
+                or c.execute('SELECT 1 FROM responses WHERE request_id=?', (row['request_id'],)).fetchone()):
+            raise HarnessError('persisted transport invalidity is not authentic')
+        return record
+
+    def gate_transport_record(self, request_id):
+        with closing(self._connect()) as c:
+            row = c.execute('SELECT * FROM requests WHERE request_id=?', (request_id,)).fetchone()
+            return None if row is None else self._gate_transport_record(c, row)
+
+    def _evaluated_record(self, c, row):
+        raw = c.execute('SELECT * FROM responses WHERE request_id=?', (row['request_id'],)).fetchone()
+        if raw and raw['record_json']:
+            if json.loads(raw['record_json']).get('record_kind') == 'transport_invalidity':
+                raise HarnessError('a received response cannot be relabeled as transport invalidity')
+            if sha256_text(raw['record_json']) != raw['record_sha256'] or sha256_text(raw['raw_json']) != raw['raw_sha256']:
+                raise HarnessError('raw/record corruption')
+            return json.loads(raw['record_json'])
+        return self._gate_transport_record(c, row)
 
     def reconcile_zero_token(self, request_id, *, evidence_path: Path, approval_path: Path):
         evidence, approval = load_json(evidence_path), load_json(approval_path)
@@ -374,16 +467,13 @@ class PilotLedger:
                 raise HarnessError("reconciliation requires written approval of exact evidence")
             self._event(c, 'reconciled:' + request_id, sha256_file(evidence_path), {'evidence': evidence, 'approval': approval, 'approval_sha256': sha256_file(approval_path), 'previous_status': row['status']})
             c.execute("UPDATE requests SET status='ZERO_TOKEN_PROVEN',proof_sha256=?,completed_utc=? WHERE request_id=?", (sha256_file(evidence_path), _utc_now(), request_id))
+            if row['stage'] == 'stability_gate':
+                self._save_gate_transport_record(c, request_id)
 
     def stage_records(self, stage):
         with closing(self._connect()) as c:
             rows = self._chain_leaves([r for r in self._rows(c) if r['stage'] == stage])
-        result = []
-        for r in rows:
-            response = self.response(r['request_id'])
-            if response and response['record']:
-                result.append(response['record'])
-        return result
+            return [record for row in rows if (record := self._evaluated_record(c, row)) is not None]
 
     def record_stage_outcome(self, stage, *, outcome, artifact_sha256, artifact=None, diagnosis=None, frozen=None):
         if stage not in STAGES or outcome not in {'PASS','FAIL','BLOCKED'}:
@@ -406,15 +496,14 @@ class PilotLedger:
             leaves = self._chain_leaves(rows)
             if any(r['status'] == 'INTENT' for r in leaves):
                 raise HarnessError("stage cannot hide unresolved intents")
-            records = []
-            for r in leaves:
-                raw = c.execute("SELECT * FROM responses WHERE request_id=?", (r['request_id'],)).fetchone()
-                if raw and raw['record_json']:
-                    if sha256_text(raw['record_json']) != raw['record_sha256'] or sha256_text(raw['raw_json']) != raw['raw_sha256']:
-                        raise HarnessError("raw/record corruption")
-                    records.append(json.loads(raw['record_json']))
+            records = [record for row in leaves if (record := self._evaluated_record(c, row)) is not None]
+            if stage == 'stability_gate':
+                if len(records) != n or any(r['status'] != 'COMPLETED' and self._gate_transport_record(c, r) is None for r in leaves):
+                    raise HarnessError('gate requires a response or durable transport invalidity for every attempt')
             if outcome == 'PASS':
-                if any(r['status'] != 'COMPLETED' for r in leaves) or len(records) != n or any(r.get('identity_valid') is not True for r in records):
+                if len(records) != n or (stage != 'stability_gate' and (
+                        any(r['status'] != 'COMPLETED' for r in leaves)
+                        or any(r.get('identity_valid') is not True for r in records))):
                     raise HarnessError("PASS requires resolved authenticated responses")
                 if stage in {'producer_conformity','producer_remediation','alternate_conformity'} and not all(r.get('schema_valid_first_attempt') is True for r in records):
                     raise HarnessError("producer PASS requires all R4-valid pairs")

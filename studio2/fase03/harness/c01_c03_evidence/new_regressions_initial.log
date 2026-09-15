@@ -1,0 +1,18 @@
+test_C01_all_started_alternate_states_block_probe_until_pass (studio2.fase03.harness.test_c01_c03.AlternatePrecedence.test_C01_all_started_alternate_states_block_probe_until_pass) ... ok
+test_C01_alternate_started_after_probe_binding_blocks_reservation (studio2.fase03.harness.test_c01_c03.AlternatePrecedence.test_C01_alternate_started_after_probe_binding_blocks_reservation) ... ok
+test_C01_real_process_race_alternate_binding_and_probe_reservation (studio2.fase03.harness.test_c01_c03.AlternatePrecedence.test_C01_real_process_race_alternate_binding_and_probe_reservation) ... ok
+test_C01_failed_alternate_blocks_cli_probe_without_consumer_sends (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C01_failed_alternate_blocks_cli_probe_without_consumer_sends) ... ok
+test_C02_N48_single_timeout_is_119_of_120_and_replays_without_sends (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_N48_single_timeout_is_119_of_120_and_replays_without_sends) ... ok
+test_C02_cli_all_timeouts_are_120_invalid_first_attempts (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_cli_all_timeouts_are_120_invalid_first_attempts) ... ok
+test_C02_crash_INTENT_blocks_until_proof_then_enters_T3_without_retry (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_crash_INTENT_blocks_until_proof_then_enters_T3_without_retry) ... ok
+test_C02_failure_event_and_status_are_atomic_and_resume_after_journal_crash (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_failure_event_and_status_are_atomic_and_resume_after_journal_crash) ... ok
+test_C02_response_identity_mismatch_cannot_be_masked_as_transport (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_response_identity_mismatch_cannot_be_masked_as_transport) ... ok
+test_C02_seven_scattered_timeouts_fail_T3 (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_seven_scattered_timeouts_fail_T3) ... ok
+test_C02_three_timeouts_same_prompt_make_T6_unevaluable (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_three_timeouts_same_prompt_make_T6_unevaluable) ... ok
+test_C02_transport_event_tamper_or_unobserved_FAILURE_cannot_pass (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C02_transport_event_tamper_or_unobserved_FAILURE_cannot_pass) ... ok
+test_C03_retry_summary_counts_attempts_separately_and_survives_restart (studio2.fase03.harness.test_c01_c03.RunnerCorrections.test_C03_retry_summary_counts_attempts_separately_and_survives_restart) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 178.432s
+
+OK

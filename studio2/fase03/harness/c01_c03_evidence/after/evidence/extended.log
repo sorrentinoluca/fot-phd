@@ -1,0 +1,23 @@
+test_X01_incomplete_alternate_blocks_probe (__main__.Extended.test_X01_incomplete_alternate_blocks_probe) ... ok
+test_X02_failed_alternate_blocks_real_consumer (__main__.Extended.test_X02_failed_alternate_blocks_real_consumer) ... ok
+test_X03_gate_transport_invalidity_remains_in_T3_T6 (__main__.Extended.test_X03_gate_transport_invalidity_remains_in_T3_T6) ... ok
+test_X04_late_retry_is_rejected_before_and_after_restart (__main__.Extended.test_X04_late_retry_is_rejected_before_and_after_restart) ... ok
+test_X05_interrupted_primary_cannot_be_closed_or_skipped (__main__.Extended.test_X05_interrupted_primary_cannot_be_closed_or_skipped) ... ok
+test_X06_real_concurrent_base_reservation_12_writers (__main__.Extended.test_X06_real_concurrent_base_reservation_12_writers) ... ok
+test_X07_outcome_transaction_excludes_writer_while_closing (__main__.Extended.test_X07_outcome_transaction_excludes_writer_while_closing) ... ok
+test_X08_retry_triplet_rollback_after_one_insertion_at_quota (__main__.Extended.test_X08_retry_triplet_rollback_after_one_insertion_at_quota) ... ok
+test_X09_zero_token_proof_rejects_positive_tokens_wrong_identity_missing_author (__main__.Extended.test_X09_zero_token_proof_rejects_positive_tokens_wrong_identity_missing_author) ... ok
+test_X10_remediation_concrete_diff_diagnosis_template_coverage (__main__.Extended.test_X10_remediation_concrete_diff_diagnosis_template_coverage) ... ok
+test_X11_gate_boolean_repetitions_bad_roles_and_frozen_text (__main__.Extended.test_X11_gate_boolean_repetitions_bad_roles_and_frozen_text) ... ok
+test_X12_r4_rechecked_mid_producer_before_next_send (__main__.Extended.test_X12_r4_rechecked_mid_producer_before_next_send) ... ok
+test_X13_changed_fingerprint_preserves_tokens_and_suspends (__main__.Extended.test_X13_changed_fingerprint_preserves_tokens_and_suspends) ... ok
+test_X14_corrupted_durable_record_cannot_resume_or_pass (__main__.Extended.test_X14_corrupted_durable_record_cannot_resume_or_pass) ... ok
+test_X15_producer_summary_counts_retry_provider_requests (__main__.Extended.test_X15_producer_summary_counts_retry_provider_requests) ... ok
+test_X16_gate_raw_crash_and_closed_file_resume (__main__.Extended.test_X16_gate_raw_crash_and_closed_file_resume) ... ok
+test_X17_approval_hash_and_presentation_order_binding (__main__.Extended.test_X17_approval_hash_and_presentation_order_binding) ... ok
+test_X18_frozen_reformatted_bytes_rejected_without_call (__main__.Extended.test_X18_frozen_reformatted_bytes_rejected_without_call) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 85.819s
+
+OK

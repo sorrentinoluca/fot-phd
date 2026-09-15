@@ -178,8 +178,9 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
                                       expected_identity=provider['expected_response'], journal_path=journal,
                                       resume=resume, retry_requests=retry_requests))
     passed = all(r['schema_valid_first_attempt'] for r in records)
-    summary = dict(artifact_version='3', status='PASS' if passed else 'FAIL', stage=stage,
-                   producer_identity_sha256=digest(provider), provider_requests=len(records),
+    summary = dict(artifact_version='4', status='PASS' if passed else 'FAIL', stage=stage,
+                   producer_identity_sha256=digest(provider), provider_requests=ledger.snapshot()['requests_by_stage'][stage],
+                   evaluable_calls=len(records),
                    valid_first_attempts=sum(r['schema_valid_first_attempt'] for r in records), records_sha256=digest(records),
                    binding_sha256=digest(binding), r4_target_commit=SCHEMA_TARGET_COMMIT)
     ledger.record_stage_outcome(stage, outcome=summary['status'], artifact_sha256=digest(summary), artifact=summary, diagnosis=diagnosis)

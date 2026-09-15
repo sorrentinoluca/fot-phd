@@ -1,3 +1,5 @@
+> Aggiornamento C01–C03: vedere [matrice del delta](MATRICE_R01_R10_C01_C03.md). Gli esiti originali sotto sono storici; R04/R07 restano soggetti alla nuova verifica indipendente.
+
 # Corrispondenza delle riproduzioni originali con il delta
 
 Il verbale e negative_probes.py originali sono acquisiti byte-identici in
@@ -56,7 +58,7 @@ nuova suite; i nomi completi e gli esiti si trovano nei log consegnati.
 | N45 | test_R06_real_runner_remediation_approved_bytes_and_old_handoff: solo hash inventati non autorizzano più; il diff concreto è acquisito prima, poi il template diverso viene respinto a zero nuove chiamate. |
 | N46 | Riutilizzato invariato; test_R01_* estende a CLI e agli ingressi storici diretti. |
 | N47 | test_R02_source_manifest_and_prompt_rehash_cannot_bypass: aggiunge l'attacco che aggiorna anche gli hash nei file derivati; l'autenticazione delle sorgenti lo rifiuta. |
-| N48 | test_timeout_without_zero_token_proof_never_retries e test_R04_failed_and_zero_token_cannot_pass; il timeout resta una richiesta contata FAILED e interrompe il gate incompleto. Non si fabbrica un raw vuoto né una valutazione completa 120/120. I 9 test del raccordo mantengono la distinzione invalidità/astensione/denominatore. |
+| N48 | Correzione C02: test_C02_N48_single_timeout_is_119_of_120_and_replays_without_sends e X03 verificano ora il requisito originario: un timeout produce INVALID senza raw, completa 120 primi tentativi e alimenta T3/T6. La precedente sostituzione con sola interruzione FAILED non era equivalente ed è stata respinta dal secondo NON OK. |
 | N49 | test_R02_inventory_tamper_r4_and_tokenizer_zero_sends e test_R02_handoff_cannot_self_certify_or_change_library. |
 | N50–51 | test_R07_consumer_budget_crash_and_resume_preserve_raw, test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume e test_R07_producer_and_consumer_real_process_crashes; estensione a os._exit(23). |
 | N52 | test_R08_frozen_budget_tamper_first_gate_zero_additional_calls. |

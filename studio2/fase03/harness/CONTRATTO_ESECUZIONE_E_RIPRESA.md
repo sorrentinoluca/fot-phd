@@ -1,7 +1,8 @@
-# Contratto eseguibile del candidato di correzione R01–R10
+# Contratto eseguibile R01–R10 — correzione C01–C03
 
 15 settembre 2026. Implementazione offline da sottoporre a nuova verifica indipendente.
-Questo documento descrive il delta successivo al NON OK: non ne cambia il verdetto.
+Questo documento descrive il delta successivo al secondo NON OK (0c8157f): non ne cambia il verdetto.
+La formulazione precedente su N48 era errata: il piano rev.10 §§11–11.1 richiede le invalidità di trasporto in T3/T6.
 La specifica e i report del candidato 59b6b93 restano storia, incluse le formulazioni D9
 superate. La decisione D9 del record aaba893 è già acquisita (122B producer principale
  e consumer; 27B producer alternativo completo; Terra storico interno); il suo
@@ -51,10 +52,17 @@ con prova zero-token e non può creare rami concorrenti. Le triplette sonda rich
 originali distinti dello stesso gruppo e condizioni A/B-LF/E-LF corrispondenti.
 
 BEGIN IMMEDIATE racchiude verifica dei prerequisiti, dei contatori e transizione. Un esito
-PASS richiede copertura completa, foglie COMPLETED, raw/record persistiti, identità verificata
-e controlli specifici dello stadio. Una conformità richiede otto coppie R4 valide; la sonda
-seleziona la prima tripletta riuscita. FAILED e ZERO_TOKEN_PROVEN senza recupero non sono
-PASS. Gli eventi normativi non sono inseribili tramite record_event pubblico (solo note:).
+PASS producer/sonda richiede copertura completa, foglie COMPLETED, raw/record persistiti,
+identità verificata e controlli specifici. Una conformità richiede otto coppie R4 valide;
+la sonda seleziona la prima tripletta riuscita. FAILED e ZERO_TOKEN_PROVEN senza recupero
+non soddisfano queste conformità. Il gate usa invece tutti i 120 primi tentativi:
+una risposta autenticata o un evento durevole di invalidità di trasporto per ciascuno;
+T3/T4/T6 determinano l'esito tecnico. Nessuna invalidità viene contata come risposta valida.
+
+L'alternativo è opzionale prima del binding; una volta definito il suo piano, deve chiudere
+PASS prima di sonda/gate. Il controllo vale nella stessa transazione di binding, riserva
+ed esito. Un alternativo soltanto definito, incompleto, FAILED, ZERO_TOKEN_PROVEN o chiuso
+FAIL non può essere ignorato. Nessun abbandono implicito è previsto. Gli eventi normativi non sono inseribili tramite record_event pubblico (solo note:).
 Gli stadi chiusi non accettano nuove richieste; una replica identica dell'esito consente di
 rigenerare file derivati dopo un crash, senza nuova transizione o nuovo invio.
 
@@ -83,12 +91,24 @@ Gli errori di trasporto conservano tipo, messaggio, latenza e intento, senza fab
 | Esito della richiesta registrato | --resume salta quella richiesta e conserva contatori e identità. |
 | Stadio chiuso, file finale assente | --resume rigenera la proiezione dai record durevoli; nessun nuovo invio. |
 
-Un timeout interrompe il producer e il gate. Nella sonda si possono completare soltanto
-gli altri originali della tripletta già pianificata dopo un errore di trasporto; nessun
-retry e nessun gruppo successivo parte automaticamente. Un crash reale interrompe subito.
-Una tripletta con esiti di trasporto irrisolti non chiude con PASS. Il gate incompleto non
-produce una finta valutazione 120/120: mantiene tutti gli intenti nel denominatore contabile,
-con stato incompleto. Il raccordo metriche qualificato resta intatto.
+Un timeout interrompe il producer. Nella sonda si completano soltanto gli altri originali
+della tripletta già pianificata; nessun retry né gruppo successivo automatico.
+Nel gate, un'eccezione osservata dal trasporto viene registrata atomicamente con stato
+FAILED ed evento `transport_invalidity:<request_id>`: tipo/messaggio, latenza, identità
+della richiesta e metadati del campione congelato. L'evento conserva un record valutabile
+come INVALID; non inserisce righe nella tabella responses. Raw, returned_model, fingerprint,
+response_id e token restano null; identity_valid è null, non true. Le quote contano il
+primo tentativo; la riserva retry non viene usata. Gli altri originali proseguono fino a 120.
+Una failure preventiva delle barriere HarnessError e un crash BaseException non vengono
+riclassificati come errori del modello: fermano il percorso. Una risposta con identità
+mancante/errata resta una risposta ricevuta e sospende il pilot, con raw conservato.
+
+Con un solo timeout e 119 risposte valide il denominatore è 120, T3=119/120 e la tripletta
+mista è divergente (R3 pending fattibilità). Tre invalidità sullo stesso prompt impediscono
+T6 valutabile; sette invalidità portano T3 sotto 114/120. Il raccordo metriche qualificato
+resta intatto. Il journal espone separatamente request, response e transport_invalidity.
+Un crash dopo il commit dell'invalidità ma prima del journal viene ripreso senza reinvio;
+un INTENT senza risposta né osservazione durevole resta bloccato fino alla riconciliazione.
 
 ## Riconciliazione e retry espliciti
 
@@ -112,14 +132,31 @@ python -m studio2.fase03.harness.ledger_cli --ledger /PERCORSO/CONDIVISO/pilot.s
 
 Dopo riconciliazione, i runner richiedono --resume e --retry-request per gli originali
 esplicitamente selezionati. La sonda richiede esattamente tre selezioni compatibili e riserva
-la tripletta atomicamente. Il gate non accetta retry. Un retry nuovamente fallito richiede
+la tripletta atomicamente. Il gate non accetta retry: una prova zero-token per un INTENT
+senza risposta crea il record INVALID e consente --resume verso i soli originali ancora
+non tentati. Una prova successiva a un timeout già registrato conserva byte e hash del
+record INVALID originale e aggiunge l'evento di riconciliazione separato; non lo elimina
+dal denominatore e non invalida il riepilogo già materializzato. Un retry nuovamente fallito richiede
 nuova prova riferita a quel tentativo, non riuso dell'originale. --resume da solo non autorizza
 mai un reinvio incerto. La sospensione per cambio d'identità non ha uno sblocco automatico.
 
-I ledger del candidato respinto sono conservati e rifiutati come input v2: non esiste una
+I ledger del primo candidato 59b6b93 sono conservati e rifiutati come input v2: non esiste una
 migrazione automatica che possa azzerare contatori o trasformare vecchi PASS non affidabili.
 Una migrazione di un ledger realmente usato richiede un delta e una riconciliazione verificati;
-nessun ledger reale è migrato in questo incarico.
+nessun ledger reale è migrato in questo incarico. Lo schema v2 resta invariato: il delta
+aggiunge eventi, non colonne e non migra dati preesistenti. Un FAILED v2 precedente senza
+evento di invalidità non viene riclassificato automaticamente da --resume; occorre la
+riconciliazione esplicita prevista, come per l'INTENT incerto. Un outcome di un candidato
+precedente non viene riscritto automaticamente: se il nuovo artefatto differisce dal suo
+hash registrato, il replay è rifiutato. Non si correggono in-place i riepiloghi della review
+né stadi storici chiusi violando la precedenza dell'alternativo.
+
+Il riepilogo producer v4 distingue provider_requests (tutti gli intenti dello stadio,
+compresi errori e retry, come il contatore conservativo SQLite) da evaluable_calls (le otto
+foglie valutabili T9) e valid_first_attempts. Dopo un timeout provato zero-token e un retry:
+9 richieste, 8 coppie valutabili, 16 insight. Le cifre sono cumulative dello stadio, non del
+singolo processo; la rigenerazione del riepilogo non le azzera. Nel caso di crash prima
+dell'invio, il contatore conserva l'intento e non pretende di provare la ricezione remota.
 
 ## Remediation e sonda → gate
 

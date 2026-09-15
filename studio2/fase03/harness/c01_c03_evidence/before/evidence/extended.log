@@ -1,0 +1,66 @@
+test_X01_incomplete_alternate_blocks_probe (__main__.Extended.test_X01_incomplete_alternate_blocks_probe) ... FAIL
+test_X02_failed_alternate_blocks_real_consumer (__main__.Extended.test_X02_failed_alternate_blocks_real_consumer) ... FAIL
+test_X03_gate_transport_invalidity_remains_in_T3_T6 (__main__.Extended.test_X03_gate_transport_invalidity_remains_in_T3_T6) ... FAIL
+test_X04_late_retry_is_rejected_before_and_after_restart (__main__.Extended.test_X04_late_retry_is_rejected_before_and_after_restart) ... ok
+test_X05_interrupted_primary_cannot_be_closed_or_skipped (__main__.Extended.test_X05_interrupted_primary_cannot_be_closed_or_skipped) ... ok
+test_X06_real_concurrent_base_reservation_12_writers (__main__.Extended.test_X06_real_concurrent_base_reservation_12_writers) ... ok
+test_X07_outcome_transaction_excludes_writer_while_closing (__main__.Extended.test_X07_outcome_transaction_excludes_writer_while_closing) ... ok
+test_X08_retry_triplet_rollback_after_one_insertion_at_quota (__main__.Extended.test_X08_retry_triplet_rollback_after_one_insertion_at_quota) ... ok
+test_X09_zero_token_proof_rejects_positive_tokens_wrong_identity_missing_author (__main__.Extended.test_X09_zero_token_proof_rejects_positive_tokens_wrong_identity_missing_author) ... ok
+test_X10_remediation_concrete_diff_diagnosis_template_coverage (__main__.Extended.test_X10_remediation_concrete_diff_diagnosis_template_coverage) ... ok
+test_X11_gate_boolean_repetitions_bad_roles_and_frozen_text (__main__.Extended.test_X11_gate_boolean_repetitions_bad_roles_and_frozen_text) ... ok
+test_X12_r4_rechecked_mid_producer_before_next_send (__main__.Extended.test_X12_r4_rechecked_mid_producer_before_next_send) ... ok
+test_X13_changed_fingerprint_preserves_tokens_and_suspends (__main__.Extended.test_X13_changed_fingerprint_preserves_tokens_and_suspends) ... ok
+test_X14_corrupted_durable_record_cannot_resume_or_pass (__main__.Extended.test_X14_corrupted_durable_record_cannot_resume_or_pass) ... ok
+test_X15_producer_summary_counts_retry_provider_requests (__main__.Extended.test_X15_producer_summary_counts_retry_provider_requests) ... FAIL
+test_X16_gate_raw_crash_and_closed_file_resume (__main__.Extended.test_X16_gate_raw_crash_and_closed_file_resume) ... ok
+test_X17_approval_hash_and_presentation_order_binding (__main__.Extended.test_X17_approval_hash_and_presentation_order_binding) ... ok
+test_X18_frozen_reformatted_bytes_rejected_without_call (__main__.Extended.test_X18_frozen_reformatted_bytes_rejected_without_call) ... ok
+
+======================================================================
+FAIL: test_X01_incomplete_alternate_blocks_probe (__main__.Extended.test_X01_incomplete_alternate_blocks_probe)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_probes.py", line 40, in test_X01_incomplete_alternate_blocks_probe
+    self.assertIsNotNone(caught,'budget PASS must not strand an unresolved producer stage')
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: unexpectedly None : budget PASS must not strand an unresolved producer stage
+
+======================================================================
+FAIL: test_X02_failed_alternate_blocks_real_consumer (__main__.Extended.test_X02_failed_alternate_blocks_real_consumer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_probes.py", line 48, in test_X02_failed_alternate_blocks_real_consumer
+    self.assertEqual(t.consumer_calls,[],'an unresolved alternate attempt must block transition')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['S2-P03-036', 'S2-P03-004', 'S2-P03-005'] != []
+
+First list contains 3 additional elements.
+First extra element 0:
+'S2-P03-036'
+
+- ['S2-P03-036', 'S2-P03-004', 'S2-P03-005']
++ [] : an unresolved alternate attempt must block transition
+
+======================================================================
+FAIL: test_X03_gate_transport_invalidity_remains_in_T3_T6 (__main__.Extended.test_X03_gate_transport_invalidity_remains_in_T3_T6)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_probes.py", line 62, in test_X03_gate_transport_invalidity_remains_in_T3_T6
+    self.assertIsNotNone(result,'N48 normative invalidity must remain in a 120-attempt T3/T6 evaluation')
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: unexpectedly None : N48 normative invalidity must remain in a 120-attempt T3/T6 evaluation
+
+======================================================================
+FAIL: test_X15_producer_summary_counts_retry_provider_requests (__main__.Extended.test_X15_producer_summary_counts_retry_provider_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-harness-0310-c01-c03-checks/before/evidence/extended_probes.py", line 201, in test_X15_producer_summary_counts_retry_provider_requests
+    self.assertEqual(result['provider_requests'],9,'provider_requests must retain the separate call denominator after retry')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 8 != 9 : provider_requests must retain the separate call denominator after retry
+
+----------------------------------------------------------------------
+Ran 18 tests in 39.269s
+
+FAILED (failures=4)
