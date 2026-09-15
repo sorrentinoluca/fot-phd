@@ -1,0 +1,338 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-15",
+  "scope": "Studio 2 FoT-TEP, Fase 03, piano statistico 03.8, manifest finale pre-tag",
+  "status": "final_pre_tag_pending_independent_review_and_publication",
+  "freeze_effective": false,
+  "subphase_03_8_closed": false,
+  "phase_03_closed": false,
+  "statistical_plan_revision": 10,
+  "supersedes_for_future_freeze": {
+    "path": "studio2/fase03/piano_statistico/MANIFEST_CANDIDATO_FREEZE_03_8.json",
+    "bytes": 12382,
+    "sha256": "bcc9ef183190e2fd0997b2e600fc53498e4a6194993e997820255a4b6d124dc6",
+    "note": "The earlier candidate manifest remains an immutable historical record and is not modified by this file."
+  },
+  "publication_checkpoint": {
+    "remote": "https://github.com/sorrentinoluca/fot-phd.git",
+    "previous_main": "a00605862f627710347bd63c49f79a6d0a00135f",
+    "published_commit": "8dbd2b49176c16f9e100e5f181c729b99d406a35",
+    "published_tree": "d1d2a0bb3b5247190340a9d091452e55099d6a18",
+    "published_parent": "03a7d7609faad06f2e6f2a6d39fd007268a99cde",
+    "fast_forward": true,
+    "forced_update": false,
+    "commits_ahead": 23,
+    "commits_behind": 0,
+    "changed_files": 79,
+    "added_files": 75,
+    "modified_files": 4,
+    "insertions": 18427,
+    "deletions": 181,
+    "remote_ref": "refs/heads/main",
+    "remote_ref_verified_at": "2026-09-15T18:25:40+02:00",
+    "remote_ref_verified_commit": "8dbd2b49176c16f9e100e5f181c729b99d406a35",
+    "published_reachability_verified": true,
+    "publication_record": {
+      "path": "studio2/fase03/piano_statistico/ESITO_PUBBLICAZIONE_03_8.md",
+      "commit": "a5798c667dedcb85d3b745258fbc992e0c05841a",
+      "bytes": 2982,
+      "sha256": "fcff69865d187221740bf4502b337aba9d06902363abbd9d1b6b58dacf0fd922",
+      "published": false
+    }
+  },
+  "pre_tag_candidate": {
+    "base_commit": "a5798c667dedcb85d3b745258fbc992e0c05841a",
+    "base_tree": "1bd28cc9e560e38a7c2cd40c2045af5c43b20da3",
+    "candidate_commit": null,
+    "candidate_tree": null,
+    "candidate_identity_location": "CONSEGNA_MANIFEST_FINALE_PRE_TAG_03_8.md, committed after the candidate to avoid self-reference",
+    "independent_review": "pending",
+    "review_acquisition": "pending",
+    "publication": "pending"
+  },
+  "freeze_tag": {
+    "planned_name": "studio2-fase03-piano-statistico-frozen-001",
+    "target_commit": null,
+    "tag_object": null,
+    "peeled_commit": null,
+    "remote_verified": false,
+    "observed_absent_before_candidate": true,
+    "observed_at": "2026-09-15",
+    "note": "The tag target will be identified only after independent review acquisition and authorized publication of the complete pre-tag chain."
+  },
+  "effectiveness_contract": {
+    "current_manifest_role": "non-effective final pre-tag candidate",
+    "effective_only_after": [
+      "independent OK on the exact one-file manifest candidate",
+      "byte-identical acquisition of that verdict in a successor commit",
+      "authorized publication of the complete reviewed chain",
+      "explicit authorization to create the annotated freeze tag",
+      "remote verification of both tag object and peeled commit against the intended published target",
+      "a separately verified successor record if any document declares freeze_effective true"
+    ],
+    "historical_manifests_preserved": true,
+    "no_commit_is_a_freeze": true,
+    "tag_required_for_freeze": true
+  },
+  "reviewed_checkpoints": [
+    {
+      "scope": "statistical plan revision 10",
+      "candidate": "6aaa5b3eebfed4ba502c25c0443caabd0051af21",
+      "verdict": "OK",
+      "verdict_path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV10.md",
+      "verdict_bytes": 12478,
+      "verdict_sha256": "d269e26d8cb4e23370577e1e193d90d9357d66f7c739e9d0669970edf71b0066"
+    },
+    {
+      "scope": "alignment corrections R1-R4",
+      "candidate": "9a56d12d0633a0c9790c48792182f26fc6eb424a",
+      "verdict": "OK",
+      "verdict_path": "studio2/fase03/piano_statistico/VERIFICA_CORREZIONI_ALLINEAMENTI_03_8_REV10.md",
+      "verdict_bytes": 20816,
+      "verdict_sha256": "9248c42572a20388ddf5af976840e68fdc908e545312a63234167778ce53a256"
+    },
+    {
+      "scope": "documentary D9 reception",
+      "candidate": "8a20c125bd294191c67ebdbf571832b1e32ac0f1",
+      "verdict": "OK",
+      "verdict_path": "studio2/fase03/piano_statistico/VERIFICA_RECEPIMENTO_D9_ALLINEAMENTI_03_8.md",
+      "verdict_bytes": 21644,
+      "verdict_sha256": "bb8555792c5dad78fc3ffeaf5f797e3da427ef79ec1d3ebe7c840810f77c53e3"
+    },
+    {
+      "scope": "documented author approval rule",
+      "candidate": "270bd2bb0c5f9ff4541d709052cdf144142b1d88",
+      "tree": "0cf2a5656059fb6d5521062227095c0eeede0f92",
+      "verdict": "OK",
+      "verdict_path": "studio2/fase03/piano_statistico/VERIFICA_APPROVAZIONE_DOCUMENTATA_03_8.md",
+      "verdict_bytes": 5923,
+      "verdict_sha256": "17cc63875cb1ee1ad6b4e7b9689302c14b84b7cd3135d2701bfbd498a491fa42"
+    },
+    {
+      "scope": "finalization delta",
+      "base": "6490af4889fd679d491f63b9debdf2314eaf7aca",
+      "candidate": "4c9e7a1f1d8bd07b7d6be8df724f743986717da8",
+      "tree": "03b215980ae170db2e1284dd7bd5eb07b830fb28",
+      "verdict": "OK",
+      "verdict_path": "studio2/fase03/piano_statistico/VERIFICA_FINALIZZAZIONE_03_8.md",
+      "verdict_bytes": 11988,
+      "verdict_sha256": "03cb06132ce10c80ff866d9cf18d5a812237a63da5b84cee9734d22e52a7a763",
+      "acquisition_path": "studio2/fase03/piano_statistico/ACQUISIZIONE_OK_FINALIZZAZIONE_03_8.md",
+      "acquisition_bytes": 5072,
+      "acquisition_sha256": "6268c7bdec58e97bed460fa61f52016c603c7a61330794f103bddfce06f06935",
+      "acquisition_commit": "8dbd2b49176c16f9e100e5f181c729b99d406a35"
+    }
+  ],
+  "boundary_artifacts": [
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "bytes": 81490,
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a",
+      "role": "verified statistical plan revision 10"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json",
+      "bytes": 25894,
+      "sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8",
+      "role": "historical non-effective manifest, preserved"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MANIFEST_CANDIDATO_FREEZE_03_8.json",
+      "bytes": 12382,
+      "sha256": "bcc9ef183190e2fd0997b2e600fc53498e4a6194993e997820255a4b6d124dc6",
+      "role": "historical finalization candidate manifest, preserved"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "bytes": 8528,
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887",
+      "role": "complete request ledger"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md",
+      "bytes": 7108,
+      "sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e",
+      "role": "preserved normative handoff to 03.10; no runtime implementation"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.json",
+      "bytes": 126303,
+      "sha256": "8bf79dc958e045598cf7538b72752caa902d2f8b134f642e54daaf0274fddbde",
+      "role": "verified design resolution"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.md",
+      "bytes": 27356,
+      "sha256": "9ed15d15e8a6210e79573c9e4b3d073dfb8d8d9ed680735d83dc7c35358febb7",
+      "role": "verified design resolution rendering"
+    },
+    {
+      "path": "studio2/fase03/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md",
+      "bytes": 9083,
+      "sha256": "fcb113636de80cc87709905324436555e0ba103bd46de3ac079ce0ef7f60f1b8",
+      "role": "approved D9 source"
+    },
+    {
+      "path": "studio2/fase03/CONSEGNA_RECEPIMENTO_D9_2026-09-14.md",
+      "bytes": 13282,
+      "sha256": "3ea739065f1011ed2fd17bface11231f8857dc3f5256d26eff7abcc1d1ef2c77",
+      "role": "D9 delivery"
+    },
+    {
+      "path": "studio2/fase03/IMPRONTE_DECISIONE_D9_2026-09-14.json",
+      "bytes": 11169,
+      "sha256": "3b95d17ab3b467bebe5d0bda5fa84d8ab63f3ee13f87397e02caf396654af77b",
+      "role": "D9 source inventory"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV10.md",
+      "bytes": 12478,
+      "sha256": "d269e26d8cb4e23370577e1e193d90d9357d66f7c739e9d0669970edf71b0066",
+      "role": "revision-10 independent verdict"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_CORREZIONI_ALLINEAMENTI_03_8_REV10.md",
+      "bytes": 20816,
+      "sha256": "9248c42572a20388ddf5af976840e68fdc908e545312a63234167778ce53a256",
+      "role": "R1-R4 independent verdict"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ACQUISIZIONE_OK_CORREZIONI_ALLINEAMENTI_03_8_REV10.md",
+      "bytes": 3249,
+      "sha256": "28d58774b9c120afba2c0d38dae1970e6e074c91dbb2a104a22284aeea9fc905",
+      "role": "R1-R4 verdict acquisition"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_RECEPIMENTO_D9_ALLINEAMENTI_03_8.md",
+      "bytes": 21644,
+      "sha256": "bb8555792c5dad78fc3ffeaf5f797e3da427ef79ec1d3ebe7c840810f77c53e3",
+      "role": "D9 documentary independent verdict"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ACQUISIZIONE_OK_RECEPIMENTO_D9_ALLINEAMENTI_03_8.md",
+      "bytes": 2604,
+      "sha256": "27cd71d91f3d5273aee4a2c87413e0822803206b76af3449feaf37e4552ad294",
+      "role": "D9 documentary verdict acquisition"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/DECISIONE_AUTORE_APPROVAZIONE_DOCUMENTATA_03_8_2026-09-15.md",
+      "bytes": 2890,
+      "sha256": "d5029e7f7a199658577c1b6579fb9d81c78ffba333f7c8c34dd5bc0570b0470e",
+      "role": "documented author approval rule"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_APPROVAZIONE_DOCUMENTATA_03_8.md",
+      "bytes": 5923,
+      "sha256": "17cc63875cb1ee1ad6b4e7b9689302c14b84b7cd3135d2701bfbd498a491fa42",
+      "role": "documented-approval independent verdict"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ACQUISIZIONE_OK_APPROVAZIONE_DOCUMENTATA_03_8.md",
+      "bytes": 3290,
+      "sha256": "14dbb78c19c578f3ebe782ddcfad59c5c4b50ba36b4123259d3786d3a1af6f3b",
+      "role": "documented-approval verdict acquisition"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/MATRICE_RESIDUI_03_8_DOPO_D9.md",
+      "bytes": 5569,
+      "sha256": "7048bf500397f9ee038d01e9eaa88caf9cc9ff4379b62fbad187870c6d384482",
+      "role": "preserved finalization source matrix"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/COORDINAMENTO_CHIUSURA_03_8.md",
+      "bytes": 11415,
+      "sha256": "0e22b2b1267e284227856500ba98d1566fc2fe6d715d93818487f3c2e6acaab7",
+      "role": "preserved finalization coordination"
+    },
+    {
+      "path": "studio2/fase03/APERTURA_SOTTOFASI_FASE03.md",
+      "bytes": 12913,
+      "sha256": "a4bee9cf71a37a2a4532bfb7aa51d67e9e299b0c76b02cff78056d0d71063201",
+      "role": "published phase status"
+    },
+    {
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "bytes": 174958,
+      "sha256": "afca94636fe3a555d7d87fec09cda7afd842ce00ef761454a9de73ad8566f7ee",
+      "role": "published general plan alignment"
+    },
+    {
+      "path": "docs/fot_walkthrough_conversazione_studio2.md",
+      "bytes": 116355,
+      "sha256": "2eb3b673f0dd074bf17c374ad1ff2299563a31bc350412d84ef52e7fdc50035d",
+      "role": "published walkthrough markdown"
+    },
+    {
+      "path": "docs/fot_walkthrough_conversazione_studio2.html",
+      "bytes": 142437,
+      "sha256": "5b2bbdc950dadebca145d1339ac791c75c7731e7c4ca7c152b62cdc265be6e24",
+      "role": "published walkthrough HTML counterpart"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/REPORT_FINALIZZAZIONE_03_8.md",
+      "bytes": 7198,
+      "sha256": "1d18e1b18568151aef095738d4a6dbbd34cd3ffa0e1cdb68c967e8c96a036baa",
+      "role": "finalization report covered by the finalization review"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_FINALIZZAZIONE_03_8.md",
+      "bytes": 3528,
+      "sha256": "86f685377eb0d7069c98065df71549349efe4a126e89a1e118c462cd02efdc6a",
+      "role": "successor delivery, not covered by the finalization verdict"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PROMPT_VERIFICA_FINALIZZAZIONE_03_8.md",
+      "bytes": 6153,
+      "sha256": "98c114f957ca3f4872f8ec5bc4b20dbeeb703cbf4e41e7616c54c898fdb409da",
+      "role": "successor review prompt, not covered by the finalization verdict"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_FINALIZZAZIONE_03_8.md",
+      "bytes": 11988,
+      "sha256": "03cb06132ce10c80ff866d9cf18d5a812237a63da5b84cee9734d22e52a7a763",
+      "role": "independent finalization verdict"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ACQUISIZIONE_OK_FINALIZZAZIONE_03_8.md",
+      "bytes": 5072,
+      "sha256": "6268c7bdec58e97bed460fa61f52016c603c7a61330794f103bddfce06f06935",
+      "role": "finalization verdict acquisition"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/CONSEGNA_PUBBLICAZIONE_03_8.md",
+      "bytes": 7692,
+      "sha256": "6069f1781d088a9379436f152e122f3d9cfe986c1bc9985a08755e52383f4692",
+      "role": "local publication preparation record"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/ESITO_PUBBLICAZIONE_03_8.md",
+      "bytes": 2982,
+      "sha256": "fcff69865d187221740bf4502b337aba9d06902363abbd9d1b6b58dacf0fd922",
+      "role": "local publication outcome record"
+    }
+  ],
+  "excluded_self_references": [
+    "studio2/fase03/piano_statistico/MANIFEST_FINALE_PRE_TAG_03_8.json",
+    "studio2/fase03/piano_statistico/CONSEGNA_MANIFEST_FINALE_PRE_TAG_03_8.md",
+    "studio2/fase03/piano_statistico/PROMPT_VERIFICA_MANIFEST_FINALE_PRE_TAG_03_8.md",
+    "future independent verdict and its acquisition record",
+    "future authorized publication record",
+    "future annotated tag and remote tag-verification record",
+    "future post-tag effectiveness record"
+  ],
+  "separate_pending_dependencies": {
+    "label_order_1a_approved": false,
+    "harness_D9_runtime_qualified": false,
+    "service_identity_configuration_and_qualification_complete": false,
+    "T5_and_operational_feasibility_complete": false,
+    "OOD_technical_checks_03_11_complete": false,
+    "note": "These remain required in their own stages but are not circular prerequisites for the statistical-plan tag."
+  },
+  "prohibitions": [
+    "no material signature artifact",
+    "no extension of earlier OK verdicts to this manifest or later bytes",
+    "no service calls, inference, simulation, pilot or final run",
+    "no tag target inferred before review acquisition and publication",
+    "no freeze or subphase closure implied by this manifest"
+  ]
+}
