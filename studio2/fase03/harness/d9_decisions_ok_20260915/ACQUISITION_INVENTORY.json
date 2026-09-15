@@ -1,0 +1,51 @@
+{
+  "artifact_version": "1",
+  "status": "ACQUIRED_BYTE_IDENTICAL",
+  "acquired_at": "2026-09-15T19:17:19+02:00",
+  "source_directory": "/Users/luker/fot-tep/Claude outputs/verifica_recepimento_d9_3180aea",
+  "target": {
+    "base_commit": "af50d54f1efea2c489b04f54e16cd99778f20c31",
+    "candidate_commit": "3180aeaacbec25a5907d556e8ca2aa7060a04865",
+    "candidate_tree": "460a1a1d20eb7a3c6587a13682c31f398261498c",
+    "verdict": "OK_LIMITED_TO_THREE_ADDED_JSON_FILES"
+  },
+  "artifacts": [
+    {
+      "source": "/Users/luker/fot-tep/Claude outputs/verifica_recepimento_d9_3180aea/VERIFICA_RECEPIMENTO_DECISIONI_D9_3180AEA.md",
+      "copy": "studio2/fase03/harness/d9_decisions_ok_20260915/VERIFICA_RECEPIMENTO_DECISIONI_D9_3180AEA.md",
+      "bytes": 10319,
+      "sha256": "8b36472755e66aee7b598dc06d9262afe11e6154495772c353a1cfef2ca39030",
+      "byte_identical": true
+    },
+    {
+      "source": "/Users/luker/fot-tep/Claude outputs/verifica_recepimento_d9_3180aea/evidence/fail_closed_probe.py",
+      "copy": "studio2/fase03/harness/d9_decisions_ok_20260915/evidence/fail_closed_probe.py",
+      "bytes": 1177,
+      "sha256": "fd984e52d24002f06c78fe45246c6c8e0c55e87290ca5dd05b74aabc44c18ee3",
+      "byte_identical": true
+    },
+    {
+      "source": "/Users/luker/fot-tep/Claude outputs/verifica_recepimento_d9_3180aea/evidence/fail_closed_probe.log",
+      "copy": "studio2/fase03/harness/d9_decisions_ok_20260915/evidence/fail_closed_probe.log",
+      "bytes": 146,
+      "sha256": "0e4718c33ce65ed77ea939b5314983f089fe2a725fca8fe3c682d9775224cfb8",
+      "byte_identical": true
+    },
+    {
+      "source": "/Users/luker/fot-tep/Claude outputs/verifica_recepimento_d9_3180aea/evidence/guardian_summary.txt",
+      "copy": "studio2/fase03/harness/d9_decisions_ok_20260915/evidence/guardian_summary.txt",
+      "bytes": 295,
+      "sha256": "56129a4cf834c71f2efa0e9c80d00c355b9182d9492349f0c87f38c7efd42da4",
+      "byte_identical": true
+    }
+  ],
+  "limits": {
+    "runtime_or_ledger_covered": false,
+    "durable_s_reconciliation_completed": false,
+    "services_qualified": false,
+    "execution_authorized": false,
+    "guardian_status": "NON_PASS_35_TESTS_14_HISTORICAL_FAILURES_1_SKIP",
+    "reviewer_could_read_local_harness_skill": false,
+    "evidence_reexecuted_during_acquisition": false
+  }
+}
