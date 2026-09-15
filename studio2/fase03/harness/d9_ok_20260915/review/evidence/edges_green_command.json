@@ -1,0 +1,19 @@
+{
+  "command": [
+    "/opt/anaconda3/bin/python3",
+    "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/independent_correction_edges.py"
+  ],
+  "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review",
+  "environment_overrides": {
+    "FOT_D9_TARGET": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate",
+    "EDGE_OUTPUT": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/edge_fixtures",
+    "PYTHONDONTWRITEBYTECODE": "1"
+  },
+  "exit_code": 0,
+  "tests": 2,
+  "failures": 0,
+  "errors": 0,
+  "test_seconds_from_log": 2.466,
+  "source_sha256": "0121a48f69924f1009f524c7370beff8c465232aadceecd777afe686895fe700",
+  "intermediate": "v1 compared macOS /var against resolved /private/var; preserved test/log/fixtures; final assertion uses Path.resolve matching runtime"
+}

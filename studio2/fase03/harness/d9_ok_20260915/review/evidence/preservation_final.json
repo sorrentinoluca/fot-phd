@@ -1,0 +1,18 @@
+{
+  "verified_unchanged_members": {
+    "/Users/luker/fot-tep-harness-d9-correzioni": 6302,
+    "/Users/luker/fot-tep-harness-d9": 5378,
+    "/Users/luker/fot-tep-harness-0310-d04": 5332,
+    "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-review": 593,
+    "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/corrections-candidate": 6300,
+    "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output": 1283
+  },
+  "acquired_original_review_members": 591,
+  "worktree_status": {
+    "/Users/luker/fot-tep-harness-d9-correzioni": "",
+    "/Users/luker/fot-tep-harness-d9": "",
+    "/Users/luker/fot-tep-harness-0310-d04": ""
+  },
+  "archive_matches_git_technical_and_rejected": true,
+  "candidate_compressed_archive_roundtrip": true
+}

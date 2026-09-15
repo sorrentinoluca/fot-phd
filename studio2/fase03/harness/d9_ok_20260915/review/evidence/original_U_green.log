@@ -1,0 +1,13 @@
+test_U01_positive_metadata_and_resume (__main__.Independent.test_U01_positive_metadata_and_resume) ... ok
+test_U02_exact_pending_metadata_refuses (__main__.Independent.test_U02_exact_pending_metadata_refuses) ... ok
+test_U03_whitespace_pending_metadata_must_refuse (__main__.Independent.test_U03_whitespace_pending_metadata_must_refuse) ... ok
+test_U04_positive_direct_reserve (__main__.Independent.test_U04_positive_direct_reserve) ... ok
+test_U05_missing_r4_snapshot_direct_reserve_must_refuse (__main__.Independent.test_U05_missing_r4_snapshot_direct_reserve_must_refuse) ... ok
+test_U06_missing_r4_snapshot_restart_reserve_must_refuse (__main__.Independent.test_U06_missing_r4_snapshot_restart_reserve_must_refuse) ... ok
+test_U07_missing_snapshot_ordinary_runner_refuses (__main__.Independent.test_U07_missing_snapshot_ordinary_runner_refuses) ... ok
+test_U08_document_change_other_stage_reservation_refuses (__main__.Independent.test_U08_document_change_other_stage_reservation_refuses) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 7.888s
+
+OK

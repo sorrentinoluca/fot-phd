@@ -1,0 +1,636 @@
+test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x101ea94e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+
+  test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) (role='122B', value=' PENDING ') ... FAIL
+  test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) (role='122B', value='\tunknown\n') ... FAIL
+  test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) (role='122B', value='\xa0UnDeCiDeD\xa0') ... FAIL
+  test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) (role='27B', value=' PENDING ') ... FAIL
+  test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) (role='27B', value='\tunknown\n') ... FAIL
+  test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) (role='27B', value='\xa0UnDeCiDeD\xa0') ... FAIL
+test_02_valid_metadata_and_resume_preserve_outputs (__main__.D9Corrections.test_02_valid_metadata_and_resume_preserve_outputs) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1040b87c0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1040b8d60>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1040b9120>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1040b94e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1040b98a0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1040ba020>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_03_distinct_snapshots_positive_direct_reserve (__main__.D9Corrections.test_03_distinct_snapshots_positive_direct_reserve) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103bf8400>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) ... 
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer.json', mutation='missing', restart=False) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer.json', mutation='missing', restart=True) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer.json', mutation='changed', restart=False) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer.json', mutation='changed', restart=True) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer_config.json', mutation='missing', restart=False) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer_config.json', mutation='missing', restart=True) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer_config.json', mutation='changed', restart=False) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer_config.json', mutation='changed', restart=True) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='chat_template.jinja', mutation='changed', restart=False) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='chat_template.jinja', mutation='changed', restart=True) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer.json', mutation='missing', restart=False) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer.json', mutation='missing', restart=True) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer.json', mutation='changed', restart=False) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer.json', mutation='changed', restart=True) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer_config.json', mutation='missing', restart=False) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer_config.json', mutation='missing', restart=True) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer_config.json', mutation='changed', restart=False) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer_config.json', mutation='changed', restart=True) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='chat_template.jinja', mutation='changed', restart=False) ... FAIL
+  test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='chat_template.jinja', mutation='changed', restart=True) ... FAIL
+test_05_success_then_new_fault_same_instance (__main__.D9Corrections.test_05_success_then_new_fault_same_instance) ... /opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102ca1300>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x101eab010>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x101eab1f0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x101eaa110>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x101ea9e40>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x101ea9b70>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x101ea9c60>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x101eaa7a0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102d11e40>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102d135b0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102d118a0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102d12890>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x102d12b60>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103f48d60>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103f4ac50>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103f48c70>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103f48b80>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10560a890>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103f488b0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10560a6b0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+FAIL
+test_06_rebind_and_binding_reuse_require_current_files (__main__.D9Corrections.test_06_rebind_and_binding_reuse_require_current_files) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x101ea9d50>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+FAIL
+test_07_execute_request_no_transport_or_journal_after_loss (__main__.D9Corrections.test_07_execute_request_no_transport_or_journal_after_loss) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1026bd5d0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+FAIL
+test_08_closed_producer_reuse_requires_recoverable_tokenizer (__main__.D9Corrections.test_08_closed_producer_reuse_requires_recoverable_tokenizer) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10578bf10>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+FAIL
+test_09_missing_service_snapshot_binding_fails_closed (__main__.D9Corrections.test_09_missing_service_snapshot_binding_fails_closed) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10560bf10>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+FAIL
+test_10_alternate_producer_reuse_checks_its_chat_snapshot (__main__.D9Corrections.test_10_alternate_producer_reuse_checks_its_chat_snapshot) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x101eaa5c0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+FAIL
+test_11_missing_template_file_keeps_valid_inline_fallback (__main__.D9Corrections.test_11_missing_template_file_keeps_valid_inline_fallback) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x10325bd30>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+
+======================================================================
+FAIL: test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) (role='122B', value=' PENDING ')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 50, in test_01_whitespace_sentinels_prevent_client_and_intents
+    self.no_effect(self.t.producer, 'missing service metadata: weights_revision')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) (role='122B', value='\tunknown\n')
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: D9: 122B documentation bytes changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 50, in test_01_whitespace_sentinels_prevent_client_and_intents
+    self.no_effect(self.t.producer, 'missing service metadata: weights_revision')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "missing service metadata: weights_revision" does not match "D9: 122B documentation bytes changed"
+
+======================================================================
+FAIL: test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) (role='122B', value='\xa0UnDeCiDeD\xa0')
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: D9: 122B documentation bytes changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 50, in test_01_whitespace_sentinels_prevent_client_and_intents
+    self.no_effect(self.t.producer, 'missing service metadata: weights_revision')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "missing service metadata: weights_revision" does not match "D9: 122B documentation bytes changed"
+
+======================================================================
+FAIL: test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) (role='27B', value=' PENDING ')
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: D9: 122B documentation bytes changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 50, in test_01_whitespace_sentinels_prevent_client_and_intents
+    self.no_effect(self.t.producer, 'missing service metadata: weights_revision')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "missing service metadata: weights_revision" does not match "D9: 122B documentation bytes changed"
+
+======================================================================
+FAIL: test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) (role='27B', value='\tunknown\n')
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: D9: 122B documentation bytes changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 50, in test_01_whitespace_sentinels_prevent_client_and_intents
+    self.no_effect(self.t.producer, 'missing service metadata: weights_revision')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "missing service metadata: weights_revision" does not match "D9: 122B documentation bytes changed"
+
+======================================================================
+FAIL: test_01_whitespace_sentinels_prevent_client_and_intents (__main__.D9Corrections.test_01_whitespace_sentinels_prevent_client_and_intents) (role='27B', value='\xa0UnDeCiDeD\xa0')
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: D9: 122B documentation bytes changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 50, in test_01_whitespace_sentinels_prevent_client_and_intents
+    self.no_effect(self.t.producer, 'missing service metadata: weights_revision')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "missing service metadata: weights_revision" does not match "D9: 122B documentation bytes changed"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer.json', mutation='missing', restart=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer.json', mutation='missing', restart=True)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer.json', mutation='changed', restart=False)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer.json', mutation='changed', restart=True)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer_config.json', mutation='missing', restart=False)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer_config.json', mutation='missing', restart=True)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer_config.json', mutation='changed', restart=False)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='tokenizer_config.json', mutation='changed', restart=True)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='chat_template.jinja', mutation='changed', restart=False)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='tmpuykflrbk', file='chat_template.jinja', mutation='changed', restart=True)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer.json', mutation='missing', restart=False)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer.json', mutation='missing', restart=True)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer.json', mutation='changed', restart=False)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer.json', mutation='changed', restart=True)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer_config.json', mutation='missing', restart=False)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer_config.json', mutation='missing', restart=True)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer_config.json', mutation='changed', restart=False)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='tokenizer_config.json', mutation='changed', restart=True)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='chat_template.jinja', mutation='changed', restart=False)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_04_missing_or_changed_files_direct_and_restart (__main__.D9Corrections.test_04_missing_or_changed_files_direct_and_restart) (snapshot='service-tokenizer', file='chat_template.jinja', mutation='changed', restart=True)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: duplicate or out-of-order logical base
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 99, in test_04_missing_or_changed_files_direct_and_restart
+    try: self.no_effect(lambda: self.reserve(b, ledger))
+         ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "duplicate or out-of-order logical base"
+
+======================================================================
+FAIL: test_05_success_then_new_fault_same_instance (__main__.D9Corrections.test_05_success_then_new_fault_same_instance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 106, in test_05_success_then_new_fault_same_instance
+    self.no_effect(lambda: self.t.ledger.reserve_request(request_id='second',
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        logical_id=spec['logical_id'], model=spec['model'], producer=spec['producer'],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        stage='budget_probe', stage_run=digest(b)))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_06_rebind_and_binding_reuse_require_current_files (__main__.D9Corrections.test_06_rebind_and_binding_reuse_require_current_files)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 112, in test_06_rebind_and_binding_reuse_require_current_files
+    self.no_effect(lambda: self.t.ledger.bind_stage('budget_probe', b))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_07_execute_request_no_transport_or_journal_after_loss (__main__.D9Corrections.test_07_execute_request_no_transport_or_journal_after_loss)
+----------------------------------------------------------------------
+studio2.fase03.harness.common.HarnessError: expected returned model is missing
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 117, in test_07_execute_request_no_transport_or_journal_after_loss
+    self.no_effect(lambda: execute_request(ledger=self.t.ledger, stage='budget_probe',
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        spec=b['requests'][0], transport=lambda: sent.append('SENT'), evaluate=lambda raw: {},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        expected_identity={}, journal_path=self.t.results/'new-journal.jsonl'))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "tokenizer|chat[_ ]template" does not match "expected returned model is missing"
+
+======================================================================
+FAIL: test_08_closed_producer_reuse_requires_recoverable_tokenizer (__main__.D9Corrections.test_08_closed_producer_reuse_requires_recoverable_tokenizer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 125, in test_08_closed_producer_reuse_requires_recoverable_tokenizer
+    self.no_effect(lambda: self.t.ledger.binding('producer_conformity'))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_09_missing_service_snapshot_binding_fails_closed (__main__.D9Corrections.test_09_missing_service_snapshot_binding_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 131, in test_09_missing_service_snapshot_binding_fails_closed
+    self.no_effect(lambda: self.t.ledger.bind_stage('budget_probe', b), 'tokenizer')
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_10_alternate_producer_reuse_checks_its_chat_snapshot (__main__.D9Corrections.test_10_alternate_producer_reuse_checks_its_chat_snapshot)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 137, in test_10_alternate_producer_reuse_checks_its_chat_snapshot
+    self.no_effect(lambda: self.t.ledger.binding('alternate_conformity'))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-corrections-review/evidence/test_d9_corrections.py", line 36, in no_effect
+    with self.assertRaisesRegex(HarnessError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+----------------------------------------------------------------------
+Ran 11 tests in 12.867s
+
+FAILED (failures=32)
