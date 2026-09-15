@@ -22,6 +22,7 @@ STAGES = {"producer_conformity", "producer_remediation", "alternate_conformity",
 BASE_LIMITS = dict(producer_conformity=8, producer_remediation=8, alternate_conformity=8, budget_probe=9, stability_gate=120)
 DIAGNOSES = {"structure", "identifiers", "cap", "leakage"}
 TOKENIZER_ACCOUNTING_SNAPSHOT = "Qwen/Qwen3.5-122B-A10B-FP8@a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9"
+TOKENIZER_ACCOUNTING_MODEL = "qwen3.5-122b"
 
 
 def digest(value):
@@ -57,6 +58,17 @@ class TokenizerAccountingGuard:
                 "FATAL_ACCOUNTING_ERROR: Mismatch contabilità token: "
                 f"locale={local_prompt_tokens}, server={server_prompt_tokens}")
         return {"local_prompt_tokens": local_prompt_tokens, "server_prompt_tokens": server_prompt_tokens}
+
+
+def load_tokenizer_accounting_guard(snapshot: Path):
+    """Load only local frozen assets; callers remain responsible for file-hash guards."""
+    try:
+        from transformers import AutoTokenizer
+        tokenizer = AutoTokenizer.from_pretrained(
+            str(snapshot), local_files_only=True, trust_remote_code=False)
+    except Exception as exc:
+        raise HarnessError(f"FATAL_ACCOUNTING_ERROR: cannot load frozen tokenizer/template: {exc}") from exc
+    return TokenizerAccountingGuard(tokenizer)
 
 
 class PilotLedger:
@@ -236,78 +248,195 @@ class PilotLedger:
             raise HarnessError('FATAL_ACCOUNTING_ERROR: durable STOP blocks probes, gates, retries and new requests: '
                                + detail['reason'])
 
+    @staticmethod
+    def _accounting_commitment(request, messages, snapshot, raw_json,
+                               local_prompt_tokens, server_prompt_tokens):
+        return {
+            'artifact_version': 'TOKENIZER_ACCOUNTING_2',
+            'request_id': request['request_id'],
+            'request_identity_sha256': sha256_text(request['identity_json']),
+            'messages': messages,
+            'messages_sha256': sha256_text(canonical_json(messages)),
+            'snapshot': snapshot,
+            'raw_response_sha256': sha256_text(raw_json),
+            'local_prompt_tokens': local_prompt_tokens,
+            'server_prompt_tokens': server_prompt_tokens,
+            'outcome': 'PASS',
+        }
+
+    def _persist_accounting_stop(self, c, request_id, reason, artifact_sha256):
+        if self._tokenizer_accounting_stop(c) is None:
+            self._event(c, 'stop:tokenizer_accounting', artifact_sha256,
+                        {'reason': reason, 'request_id': request_id,
+                         'accounting_event': 'tokenizer_accounting:' + request_id})
+
+    def _validate_accounting_event(self, c, request, *, messages, guard):
+        response = c.execute('SELECT raw_json,raw_sha256 FROM responses WHERE request_id=?',
+                             (request['request_id'],)).fetchone()
+        event = self._events(c).get('tokenizer_accounting:' + request['request_id'])
+        if response is None or event is None:
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting evidence is missing')
+        if sha256_text(response['raw_json']) != response['raw_sha256']:
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: raw response hash mismatch')
+        try:
+            detail = json.loads(event['detail_json'])
+            raw = json.loads(response['raw_json'])
+        except (ValueError, TypeError, UnicodeError) as exc:
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting JSON is invalid') from exc
+        if detail.get('messages') != messages:
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting messages differ from the request')
+        counts = guard.validate_producer_response(messages, raw)
+        expected = self._accounting_commitment(
+            request, messages, guard.snapshot, response['raw_json'],
+            counts['local_prompt_tokens'], counts['server_prompt_tokens'])
+        commitment = digest(expected)
+        if (detail != expected or event['artifact_sha256'] != commitment
+                or request['proof_sha256'] != commitment
+                or response['raw_sha256'] != expected['raw_response_sha256']):
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting evidence binding is corrupted')
+        return expected
+
     def account_producer_response(self, request_id, *, messages, guard):
-        """Persist and bind 122B accounting before parsing or materializing output.
+        """Persist or revalidate 122B accounting before parsing/materializing output.
 
         The raw response has already been durably captured by ``save_raw``.  Both
         pass and failure evidence are create-once events; failure also writes a
         durable global STOP in this same transaction.
         """
-        failure = None
+        failure = result = None
         with self._transaction() as c:
             self._require_no_tokenizer_accounting_stop(c)
             response = c.execute('SELECT raw_json,raw_sha256 FROM responses WHERE request_id=?',
                                  (request_id,)).fetchone()
             if response is None or sha256_text(response['raw_json']) != response['raw_sha256']:
                 raise HarnessError('FATAL_ACCOUNTING_ERROR: raw response missing or hash mismatch')
-            request = c.execute('SELECT stage,status FROM requests WHERE request_id=?', (request_id,)).fetchone()
-            if request is None or request['stage'] not in {'producer_conformity', 'producer_remediation', 'alternate_conformity'}:
-                raise HarnessError('FATAL_ACCOUNTING_ERROR: accounting only accepts a persisted producer request')
-            if request['status'] != 'INTENT':
-                raise HarnessError('FATAL_ACCOUNTING_ERROR: accounting must precede request completion')
+            request = c.execute('SELECT * FROM requests WHERE request_id=?', (request_id,)).fetchone()
+            if request is None or request['model'] != TOKENIZER_ACCOUNTING_MODEL:
+                raise HarnessError('FATAL_ACCOUNTING_ERROR: accounting requires a persisted 122B request')
             try:
-                raw = json.loads(response['raw_json'])
-                counts = guard.validate_producer_response(messages, raw)
-                outcome, reason = 'PASS', None
-            except HarnessError as exc:
-                counts, outcome, reason = {}, 'FATAL_ACCOUNTING_ERROR', str(exc)
-            detail = {
-                'request_id': request_id,
-                'messages': messages,
-                'messages_sha256': sha256_text(canonical_json(messages)),
-                'snapshot': guard.snapshot,
-                'raw_response_sha256': response['raw_sha256'],
-                'local_prompt_tokens': counts.get('local_prompt_tokens'),
-                'server_prompt_tokens': counts.get('server_prompt_tokens'),
-                'outcome': outcome,
-                'reason': reason,
-            }
-            self._event(c, 'tokenizer_accounting:' + request_id, response['raw_sha256'], detail)
-            if outcome != 'PASS':
-                self._event(c, 'stop:tokenizer_accounting', response['raw_sha256'],
-                            {'reason': reason, 'request_id': request_id,
-                             'accounting_event': 'tokenizer_accounting:' + request_id})
+                existing = self._events(c).get('tokenizer_accounting:' + request_id)
+                if existing is not None:
+                    result = self._validate_accounting_event(c, request, messages=messages, guard=guard)
+                else:
+                    if request['status'] != 'INTENT' or request['proof_sha256'] is not None:
+                        raise HarnessError('FATAL_ACCOUNTING_ERROR: completed/legacy 122B request lacks accounting evidence')
+                    raw = json.loads(response['raw_json'])
+                    counts = guard.validate_producer_response(messages, raw)
+                    result = self._accounting_commitment(
+                        request, messages, guard.snapshot, response['raw_json'],
+                        counts['local_prompt_tokens'], counts['server_prompt_tokens'])
+                    commitment = digest(result)
+                    self._event(c, 'tokenizer_accounting:' + request_id, commitment, result)
+                    c.execute('UPDATE requests SET proof_sha256=? WHERE request_id=? AND proof_sha256 IS NULL',
+                              (commitment, request_id))
+            except Exception as exc:
+                reason = str(exc) if str(exc).startswith('FATAL_ACCOUNTING_ERROR') else (
+                    f'FATAL_ACCOUNTING_ERROR: tokenizer/template accounting failed: {type(exc).__name__}: {exc}')
+                self._persist_accounting_stop(c, request_id, reason, response['raw_sha256'])
                 failure = reason
         if failure is not None:
             raise HarnessError(failure)
-        return detail
+        return result
 
     def validate_tokenizer_accounting_evidence(self, guard, *, expected_messages=None):
         """Recompute all persisted accounting links before evidence is reused."""
+        failure = None
         with self._transaction() as c:
+            self._require_no_tokenizer_accounting_stop(c)
             for name, row in self._events(c).items():
                 if not name.startswith('tokenizer_accounting:'):
                     continue
-                detail = json.loads(row['detail_json'])
-                request_id = detail.get('request_id')
-                response = c.execute('SELECT raw_json,raw_sha256 FROM responses WHERE request_id=?',
-                                     (request_id,)).fetchone()
-                if (response is None or row['artifact_sha256'] != response['raw_sha256']
-                        or sha256_text(response['raw_json']) != response['raw_sha256']
-                        or detail.get('raw_response_sha256') != response['raw_sha256']
-                        or detail.get('snapshot') != guard.snapshot
-                        or detail.get('messages_sha256') != sha256_text(canonical_json(detail.get('messages')))):
-                    raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting evidence binding is corrupted')
-                if expected_messages is not None:
-                    logical = c.execute('SELECT logical_id FROM requests WHERE request_id=?', (request_id,)).fetchone()
-                    expected = expected_messages.get(logical['logical_id']) if logical else None
-                    if expected is not None and expected != detail['messages']:
-                        raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting messages differ from the request')
-                counts = guard.validate_producer_response(detail['messages'], json.loads(response['raw_json']))
-                if (detail.get('outcome') != 'PASS' or detail.get('local_prompt_tokens') != counts['local_prompt_tokens']
-                        or detail.get('server_prompt_tokens') != counts['server_prompt_tokens']):
-                    raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting result cannot be reused')
+                request_id = name.split(':', 1)[1]
+                request = c.execute('SELECT * FROM requests WHERE request_id=?', (request_id,)).fetchone()
+                try:
+                    detail = json.loads(row['detail_json'])
+                    messages = detail.get('messages')
+                    if expected_messages is not None:
+                        expected = expected_messages.get(request['logical_id']) if request else None
+                        if expected is not None:
+                            messages = expected
+                    self._validate_accounting_event(c, request, messages=messages, guard=guard)
+                except Exception as exc:
+                    reason = str(exc) if str(exc).startswith('FATAL_ACCOUNTING_ERROR') else (
+                        f'FATAL_ACCOUNTING_ERROR: accounting evidence revalidation failed: {type(exc).__name__}: {exc}')
+                    artifact = row['artifact_sha256'] if HASH.fullmatch(row['artifact_sha256'] or '') else '0' * 64
+                    self._persist_accounting_stop(c, request_id, reason, artifact)
+                    failure = reason
+                    break
+        if failure is not None:
+            raise HarnessError(failure)
+
+    @staticmethod
+    def _record_consumed_fields(raw, record):
+        if not isinstance(raw, dict) or not isinstance(record, dict):
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: raw and evaluated record must be objects')
+        usage = raw.get('usage')
+        if not isinstance(usage, dict):
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: raw usage is missing during record binding')
+        expected = {
+            'response_id': raw.get('id'), 'returned_model': raw.get('model'),
+            'system_fingerprint': raw.get('system_fingerprint'),
+            'prompt_tokens': usage.get('prompt_tokens'),
+            'completion_tokens': usage.get('completion_tokens'), 'total_tokens': usage.get('total_tokens'),
+        }
+        choices = raw.get('choices')
+        if isinstance(choices, list) and len(choices) == 1 and isinstance(choices[0], dict):
+            message = choices[0].get('message')
+            if isinstance(message, dict):
+                expected.update(finish_reason=choices[0].get('finish_reason'), raw_output=message.get('content'))
+        for key, value in expected.items():
+            if record.get(key) != value:
+                raise HarnessError('FATAL_ACCOUNTING_ERROR: evaluated record differs from raw field ' + key)
+        if 'raw_output_sha256' in record and (
+                not isinstance(record.get('raw_output'), str)
+                or record['raw_output_sha256'] != sha256_text(record['raw_output'])):
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: evaluated raw-output digest is invalid')
+        return expected
+
+    def _accounting_record_link(self, c, request, record):
+        response = c.execute('SELECT * FROM responses WHERE request_id=?', (request['request_id'],)).fetchone()
+        accounting = self._events(c).get('tokenizer_accounting:' + request['request_id'])
+        if response is None or accounting is None or request['proof_sha256'] != accounting['artifact_sha256']:
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: record lacks independent accounting commitment')
+        consumed = self._record_consumed_fields(json.loads(response['raw_json']), record)
+        return {
+            'artifact_version': 'TOKENIZER_ACCOUNTING_RECORD_1',
+            'request_id': request['request_id'],
+            'request_identity_sha256': sha256_text(request['identity_json']),
+            'accounting_commitment_sha256': request['proof_sha256'],
+            'raw_response_sha256': sha256_text(response['raw_json']),
+            'record_sha256': digest(record),
+            'consumed_fields_sha256': digest(consumed),
+        }
+
+    def bind_tokenizer_accounting_record(self, request_id, *, record):
+        """Create/reconfirm the raw-to-record semantic link before request completion."""
+        with self._transaction() as c:
             self._require_no_tokenizer_accounting_stop(c)
+            request = c.execute('SELECT * FROM requests WHERE request_id=?', (request_id,)).fetchone()
+            if request is None or request['model'] != TOKENIZER_ACCOUNTING_MODEL:
+                raise HarnessError('FATAL_ACCOUNTING_ERROR: record binding requires a 122B request')
+            link = self._accounting_record_link(c, request, record)
+            name = 'tokenizer_accounting_record:' + request_id
+            existing = self._events(c).get(name)
+            if existing is None:
+                self._event(c, name, digest(link), link)
+            elif existing['artifact_sha256'] != digest(link) or json.loads(existing['detail_json']) != link:
+                raise HarnessError('FATAL_ACCOUNTING_ERROR: evaluated record differs across resume')
+            return link
+
+    def _validate_tokenizer_accounting_record(self, c, request, record):
+        link = self._accounting_record_link(c, request, record)
+        event = self._events(c).get('tokenizer_accounting_record:' + request['request_id'])
+        if event is None or event['artifact_sha256'] != digest(link) or json.loads(event['detail_json']) != link:
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: raw-to-record accounting link is missing or corrupted')
+        return link
+
+    def validate_tokenizer_accounting_record(self, request_id, *, record):
+        with self._transaction() as c:
+            self._require_no_tokenizer_accounting_stop(c)
+            request = c.execute('SELECT * FROM requests WHERE request_id=?', (request_id,)).fetchone()
+            return self._validate_tokenizer_accounting_record(c, request, record)
 
     @staticmethod
     def _require_hash(value, role):
@@ -623,8 +752,14 @@ class PilotLedger:
                 identity = json.loads(row['identity_json'])
                 if record.get('request_id') != request_id or record.get('prompt_sha256') != identity['prompt_sha256']:
                     raise HarnessError("response record identity mismatch")
+                if row['model'] == TOKENIZER_ACCOUNTING_MODEL:
+                    self._validate_tokenizer_accounting_record(c, row, record)
                 text = canonical_json(record)
                 c.execute("UPDATE responses SET record_json=?,record_sha256=? WHERE request_id=?", (text, sha256_text(text), request_id))
+            if row['proof_sha256'] is not None:
+                if proof_sha256 is not None and proof_sha256 != row['proof_sha256']:
+                    raise HarnessError('persisted proof/accounting commitment cannot be overwritten')
+                proof_sha256 = row['proof_sha256']
             c.execute("UPDATE requests SET status=?,completed_utc=?,prompt_tokens=?,completion_tokens=?,total_tokens=?,latency_ms=?,proof_sha256=?,detail_json=? WHERE request_id=?", (status, _utc_now(), *values, latency_ms, proof_sha256, canonical_json(detail or {}), request_id))
             if transport_failure and row['stage'] == 'stability_gate':
                 self._save_gate_transport_record(c, request_id)
@@ -705,6 +840,8 @@ class PilotLedger:
             identity = json.loads(row['identity_json'])
             if record.get('request_id') != row['request_id'] or record.get('prompt_sha256') != identity['prompt_sha256']:
                 raise HarnessError('persisted record identity mismatch')
+            if row['model'] == TOKENIZER_ACCOUNTING_MODEL:
+                self._validate_tokenizer_accounting_record(c, row, record)
             return record
         return self._gate_transport_record(c, row)
 

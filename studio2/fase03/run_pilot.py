@@ -210,6 +210,7 @@ class Provider:
         prompt: dict[str, Any],
         schema: dict[str, Any],
         generation: dict[str, Any],
+        messages: list[dict[str, Any]] | None = None,
         ledger=None, stage=None, spec=None,
     ) -> dict[str, Any]:
         require_execution(self.config)
@@ -222,7 +223,10 @@ class Provider:
         leaf = ledger.leaf(stage, spec['logical_id'])
         if leaf is None or leaf['status'] != 'INTENT' or spec not in binding['requests']:
             raise HarnessError('D9: no matching durable intent for transport')
-        if binding.get('execution_config') != self.config or spec['prompt_sha256'] != sha256_text(prompt['text']) or spec['contract_sha256'] != digest(generation):
+        expected_messages = [{"role": "user", "content": prompt["text"]}]
+        if (messages != expected_messages or binding.get('execution_config') != self.config
+                or spec['prompt_sha256'] != sha256_text(prompt['text'])
+                or spec['contract_sha256'] != digest(generation)):
             raise HarnessError('D9: transport differs from durable configuration/prompt')
         options = generation_kwargs(generation, model_role='122B')
         if options['max_tokens'] > self.config['d9']['services']['122B']['max_output_tokens']:
@@ -234,7 +238,7 @@ class Provider:
         begin = time.monotonic()
         response = self.client.chat.completions.create(
             model=self.model,
-            messages=[{"role": "user", "content": prompt["text"]}],
+            messages=messages,
             **options,
             response_format={
                 "type": "json_schema",
@@ -315,7 +319,7 @@ def request_spec(prompt, generation, *, config, logical_id, group, repetition):
 
 def _tracked_call(provider, ledger, *, prompt, schema, generation, stage, stage_run, logical_id,
                   request_id=None, config=None, journal_path=None,
-                  resume=False, retry_requests=(), repetition=1, pre_reserved=()):
+                  accounting_guard=None, resume=False, retry_requests=(), repetition=1, pre_reserved=()):
     config = load_json(PREFLIGHT_CONFIG_PATH) if config is None else config
     require_execution(config)
     require_pilot_ledger(config, ledger)
@@ -327,10 +331,13 @@ def _tracked_call(provider, ledger, *, prompt, schema, generation, stage, stage_
         raise RuntimeError('tracked prompt/generation bytes changed')
     def evaluate(raw):
         return dict(consumer_record(raw, prompt, generation), repetition=repetition)
+    messages = [{"role": "user", "content": prompt["text"]}]
     return execute_request(ledger=ledger, stage=stage, spec=spec,
-                           transport=lambda: provider.call(prompt=prompt, schema=schema, generation=generation, ledger=ledger, stage=stage, spec=spec),
+                           transport=lambda transmitted=messages: provider.call(prompt=prompt, messages=transmitted,
+                               schema=schema, generation=generation, ledger=ledger, stage=stage, spec=spec),
                            evaluate=evaluate, expected_identity=config['expected_response'],
                            journal_path=journal_path or ledger.path.with_suffix('.journal.jsonl'),
+                           messages=messages, accounting_guard=accounting_guard,
                            resume=resume, retry_requests=retry_requests, pre_reserved=pre_reserved)
 
 
@@ -374,6 +381,10 @@ def run_budget_stage(prepared_dir: Path, results_dir: Path, *, ledger: PilotLedg
     reserved = _probe_retry(ledger, 'budget_probe', retry_requests) if resume else []
     server = server_contract(config)
     provider = Provider(config)
+    accounting_guard = None
+    if config['candidate']['requested_model'] == 'qwen3.5-122b':
+        from studio2.fase03.harness.ledger import load_tokenizer_accounting_guard
+        accounting_guard = load_tokenizer_accounting_guard(Path(plan['tokenizer_snapshot']))
     records, selected = [], None
     for offset in range(0,len(jobs),3):
         transport_failures = []
@@ -382,6 +393,7 @@ def run_budget_stage(prepared_dir: Path, results_dir: Path, *, ledger: PilotLedg
                 records.append(_tracked_call(provider, ledger, prompt=prompt, schema=schema, generation=generation,
                                              stage='budget_probe', stage_run=digest(binding), logical_id=spec['logical_id'],
                                              config=config, journal_path=results_dir/'budget_probe_journal.jsonl',
+                                             accounting_guard=accounting_guard,
                                              resume=resume, retry_requests=retry_requests, pre_reserved=reserved))
             except Exception:
                 leaf = ledger.leaf('budget_probe', spec['logical_id'])
@@ -442,11 +454,16 @@ def run_stability_stage(prepared_dir: Path, results_dir: Path, *, ledger: PilotL
     if server != frozen['server']:
         raise RuntimeError('server identity changed since probe')
     provider = Provider(config)
+    accounting_guard = None
+    if config['candidate']['requested_model'] == 'qwen3.5-122b':
+        from studio2.fase03.harness.ledger import load_tokenizer_accounting_guard
+        accounting_guard = load_tokenizer_accounting_guard(Path(plan['tokenizer_snapshot']))
     records = []
     for spec in specs:
         prompt = next(p for p in prompts if p['prompt_id'] == spec['group'])
         records.append(_tracked_call(provider, ledger, prompt=prompt, schema=schema, generation=frozen['generation'],
                                      stage='stability_gate', stage_run=digest(binding), logical_id=spec['logical_id'], config=config,
+                                     accounting_guard=accounting_guard,
                                      repetition=spec['repetition'], journal_path=results_dir/'stability_journal.jsonl', resume=resume))
     gate = evaluate_stability_gate(records, expected_prompts=frozen['prompt_sample'])
     summary = dict(artifact_version='2', **gate, records_sha256=digest(records), frozen_gate_config_sha256=digest(frozen))

@@ -116,9 +116,8 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
     verify_tokenizer(snapshot, **provider['tokenizer'])
     accounting_guard = None
     if 'tokenizer_accounting' in provider:
-        from transformers import AutoTokenizer
-        from studio2.fase03.harness.ledger import TokenizerAccountingGuard
-        accounting_guard = TokenizerAccountingGuard(AutoTokenizer.from_pretrained(str(snapshot), local_files_only=True))
+        from studio2.fase03.harness.ledger import load_tokenizer_accounting_guard
+        accounting_guard = load_tokenizer_accounting_guard(snapshot)
     validator = load_validator(schema_dir)
     assert_context_compatible(validator, context_from_inventory(inventory))
     count = r4_counter(preflight, offline_token_counter)
@@ -169,10 +168,13 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
         validate_provider(preflight, provider, stage, file_sha256=sha256_file(provider_path))
         count = r4_counter(preflight, offline_token_counter)
         kwargs.update(generation_kwargs({k:provider[k] for k in ('max_tokens','temperature','seed','thinking_token_budget') if k in provider}, model_role=role))
-        def transport():
+        def transport(transmitted_messages=None):
             ledger.bind_stage(stage, binding)
             require_execution(preflight)
-            response = client.chat.completions.create(**kwargs)
+            payload = dict(kwargs)
+            if transmitted_messages is not None:
+                payload['messages'] = transmitted_messages
+            response = client.chat.completions.create(**payload)
             return response.model_dump(mode='json')
         def evaluate(raw):
             choices = raw.get('choices', [])
