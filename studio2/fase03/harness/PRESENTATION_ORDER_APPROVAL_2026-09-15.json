@@ -1,0 +1,29 @@
+{
+  "artifact_version": "1",
+  "status": "AUTHOR_DECISION_RECORDED",
+  "decision": "accepted",
+  "author": "Studio 2 author via current Codex conversation",
+  "effective_date": "2026-09-15",
+  "timezone": "Europe/Rome",
+  "ordered_labels": [
+    "S2-CLS-MHMU4",
+    "S2-CLS-HEW25",
+    "S2-CLS-FD3GZ",
+    "S2-CLS-3ZGWQ",
+    "S2-CLS-GSX3L",
+    "S2-CLS-4AMS4",
+    "S2-CLS-TYFPG",
+    "S2-CLS-QRCCB",
+    "Normal"
+  ],
+  "ordered_labels_sha256": "6ec43fb83af732788086138d4da60a2e9fbb4fd67e334ad513b0a240b8119f2a",
+  "scope": "prompt-facing presentation order only; identical across agents and conditions",
+  "canonical_label_space_unchanged": true,
+  "source": {
+    "kind": "author_statement_in_current_codex_conversation",
+    "record_path": "studio2/fase03/harness/REGISTRO_DECISIONI_AUTORIALI_D9_2026-09-15.md",
+    "record_commit": "af50d54f1efea2c489b04f54e16cd99778f20c31",
+    "record_sha256": "feea9dcbaf2e9810e6a4c6a72d0336c236313a98f595ff0cf876141987cef0c0"
+  },
+  "execution_authorized": false
+}

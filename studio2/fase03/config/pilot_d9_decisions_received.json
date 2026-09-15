@@ -1,0 +1,72 @@
+{
+  "artifact_version": "D9-2",
+  "status": "SUSPENDED_D9_QUALIFICATION_RECONCILIATION_AND_EXECUTION_AUTHORIZATION",
+  "study_model_decision": "APPROVED",
+  "d9": {
+    "roles": {
+      "producer": "122B",
+      "consumer": "122B",
+      "alternate": "27B"
+    },
+    "status": "PENDING_BLOCKING_PREREQUISITES",
+    "alternate_placement": "pilot",
+    "presentation_order": [
+      "S2-CLS-MHMU4",
+      "S2-CLS-HEW25",
+      "S2-CLS-FD3GZ",
+      "S2-CLS-3ZGWQ",
+      "S2-CLS-GSX3L",
+      "S2-CLS-4AMS4",
+      "S2-CLS-TYFPG",
+      "S2-CLS-QRCCB",
+      "Normal"
+    ],
+    "missing_requirements": [
+      "service metadata/configurations and tokenizer/template pins",
+      "reviewed durable historical S reconciliation bound to the authorized pilot ledger",
+      "execution authorization covering the exact completed configuration"
+    ],
+    "services": {
+      "122B": null,
+      "27B": null
+    },
+    "producer_configs": {
+      "122B": null,
+      "27B": null
+    },
+    "r4_snapshot": null,
+    "r4_tokenizer": null,
+    "history_reconciliation": null
+  },
+  "presentation_approval": {
+    "path": "studio2/fase03/harness/PRESENTATION_ORDER_APPROVAL_2026-09-15.json",
+    "sha256": "0f9f7b7f4036bd4172467dba80673af5d9ec3abb2bb854d6239da7ccec2977d1"
+  },
+  "historical_s_source_inventory": {
+    "path": "studio2/fase03/harness/HISTORICAL_S_SOURCE_INVENTORY_2026-09-15.json",
+    "sha256": "ae8b89f23fc38344aa777037edf71f9dcf5e504c1e35e85482089d57c6a7682f"
+  },
+  "qualification": "NOT_PERFORMED",
+  "pilot_go": false,
+  "notes": {
+    "temperature_122B": "omit from payload; declared server default 0.6 is not a request parameter",
+    "historical_S": "4 provider requests charged once; 3 completed inferences are a subset; durable ledger reconciliation pending"
+  },
+  "call_budget": {
+    "historical_provider_requests_charged_once": 4,
+    "future_base_total_with_alternate_range": [139, 145],
+    "future_planned_max_with_shared_reserve": 160,
+    "cumulative_base_total_with_historical_range": [143, 149],
+    "cumulative_planned_max_with_historical_and_shared_reserve": 164,
+    "hard_stop_provider_requests": 200
+  },
+  "generation_budget": {},
+  "candidate": {},
+  "dependencies": [
+    "qualified 122B and 27B service records",
+    "authorized pilot ledger and reviewed historical mapping",
+    "separate execution authorization"
+  ],
+  "implementation_status": "AUTHOR_DECISIONS_RECEIVED_FAIL_CLOSED",
+  "subordinated_checks": []
+}
