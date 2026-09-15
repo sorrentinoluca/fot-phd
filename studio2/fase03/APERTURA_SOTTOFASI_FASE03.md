@@ -32,6 +32,19 @@ La [matrice corrente](piano_statistico/MATRICE_RESIDUI_03_8_DOPO_D9.md) e la
 [consegna tecnica successiva](piano_statistico/CONSEGNA_TECNICA_03_8_D9_PER_03_10.md)
 aggiornano lo stato senza riscrivere le consegne già improntate.
 
+**Aggiornamento di chiusura 2026-09-15.** La catena verificata è stata
+pubblicata; il freeze statistico 03.8 è efficace con tag annotato
+`studio2-fase03-piano-statistico-frozen-001`, oggetto
+`bfcf6e5b3840c5b7dc3f7ace1085843d18cfddc7` e peeled
+`11f504b2bf45a39c1bc4746952f50d58c5022743`. Il record post-tag, il relativo
+OK e l'acquisizione sono pubblicati attraverso
+`2edd4550cabfd065fafa1834609e9789149611ee`. Il presente delta dichiara 03.8
+chiusa nel candidato documentale; restano la verifica indipendente,
+l'acquisizione e la pubblicazione di questa sola dichiarazione. Il tag non viene
+modificato e la Fase 03 resta aperta. Questo aggiornamento supera soltanto le
+formulazioni di stato corrente del paragrafo precedente e non riscrive i record
+storici.
+
 **Decisioni confermate dall'autore il 2026-09-13.** Il perimetro della Fase 03 è l'opzione A:
 cantieri §6.1–§6.12 più §7.1 fino al GO/NO-GO. La sotto-fase 03.4 ha inoltre chiuso il blocco sul
 codice Q8 senza creare un nuovo perimetro: il riuso è disciplinato a livello di funzione da
@@ -79,7 +92,7 @@ cosa non può slittare.
 | 03.5 | **CHIUSA.** Score e soglie Normal secondo `DECISIONE_calibrazione_soglie_fase_B.md` rev. 19; FAR e U3 non sono riaperti da questo aggiornamento | I → B → A | ciclo completato nelle evidenze proprie | 03.3, freeze fase02 | — | completato nel proprio perimetro |
 | 03.6 | **§6.4 Evidence 697-D e verbalizzazioni neutrali** dai 40 run di sviluppo; mapping a 9 label e assegnazione agenti come input di 03.7 | I | modello capace, ragionamento medio; estrazione pre-specificata, nessuna lettura del segnale per scegliere | 03.4, 03.3; per le soglie usa 03.5 solo se il verbalizzatore ne dipende (da dichiarare, altrimenti indipendente) | P | sì: lotto evidence/testi congelato → report + verifica |
 | 03.7 | **§6.5 Nove pseudolabel opache (8 fault + Normal; `Unknown` = astensione, D10) e derangement zero-fixed-point di E** | I (combinatorio) con freeze | modello capace, ragionamento medio; basta un test che dimostri assenza di punti fissi e opacità; la sola scelta da congelare (seed, namespace) è mini-decisionale | 03.4, catalogo D1 | P | sì: freeze con seed → report breve + verifica |
-| 03.8 | **IN FINALIZZAZIONE LOCALE.** Rev.10 verificata: D2=8; D11={F1,F2}/{F14,F15}; F6/F4 condizionati; m=0,125, alpha, gerarchia, A/B e politica R approvati. D9 e l'approvazione documentata sono verificate nei rispettivi delta; nessuna firma materiale. Restano review e acquisizione del candidato finale, pubblicazione, manifest efficace e tag | D | allineamento e chiusura documentale; nessuna esecuzione | 03.2; letteratura già pubblicata; 03.9 e 03.12 congelate | —; regole per il pilot consegnate a 03.10 | freeze solo dopo i residui espliciti; nessun risultato 03.11 richiesto prima del tag |
+| 03.8 | **CHIUSA NEL CANDIDATO DOCUMENTALE.** Rev.10 verificata e pubblicata: D2=8; D11={F1,F2}/{F14,F15}; F6/F4 condizionati; m=0,125, alpha, gerarchia, A/B e politica R approvati. D9 e l'approvazione documentata sono verificate nei rispettivi delta; nessuna firma materiale. Manifest pre-tag, tag annotato, record di efficacia e relativo OK sono pubblicati; resta il gate indipendente sul solo delta di chiusura | D | chiusura documentale; nessuna esecuzione | 03.2; letteratura già pubblicata; 03.9 e 03.12 congelate | —; regole per il pilot consegnate a 03.10 | freeze efficace; tag invariato; nessun risultato 03.11 richiesto prima del tag |
 | 03.9 | **CHIUSA, pubblicata e congelata.** Baseline numerica con tag `studio2-fase03-baseline-numerica-frozen-001` | I | verifiche e record di efficacia pubblicati | 03.4, 03.6 | — | completato nel proprio perimetro |
 | 03.10 | **§6.8 Harness API**: 8 agenti, 14 insight, 9 pseudolabel con astensione, logging §8.7, set canary; già in gran parte in `studio2/fase03/` (`protocol.py`, `run_pilot.py`, `prepare_gate.py`, 16 test offline) — resta da collegare agli input reali e alla regola 03.4 | I (+ B minimo) | modello capace, ragionamento medio, test offline eseguiti; le eventuali chiamate sui ruoli effettivi vanno contate e autorizzate a parte, dopo configurazione e qualificazioni pertinenti | 03.4, 03.6, 03.7, 03.12 | P | report di sotto-fase; verifica sul gate 40×3 (03.13) |
 | 03.11 | **§6.9 Run finali di test**: 72 primari (64 fault +8 Normal) +6 OOD +11 scorte tecniche =89 run del lotto; scorte senza nuove osservazioni. Dopo il freeze 03.8 e prima di chiamate sui test: generabilità, trip e ammissibilità F6/F4 e sostituti, senza selezione su prestazioni | B (spec I breve) | esecuzione non autorizzata qui | 03.8 congelata per criteri/catene; 03.3 | — | lotto sigillato futuro; nessun risultato 03.11 è prerequisito del tag 03.8 |
@@ -114,8 +127,8 @@ Due record storici che non costituiscono una scelta D9 corrente:
 
 Prerequisiti del pilot, in ordine vincolato: **03.4 → 03.12 → 03.7 → 03.6 → 03.10 → 03.13**.
 La generazione 03.11 non è input del pilot. Le regole statistiche 03.8 devono
-essere recepite e verificate in 03.10 prima del pilot; il freeze statistico segue
-requisiti propri e non attende il completamento di 03.11. 03.6, 03.7, 03.12,
+essere recepite e verificate in 03.10 prima del pilot; il freeze statistico è
+già efficace e non ha atteso il completamento di 03.11. 03.6, 03.7, 03.12,
 identità/configurazione e capienza restano prerequisiti del pilot. Ogni sotto-fase segue il ciclo
 `Fase_LLM → Verifica_LLM (altra finestra, altro modello) → Documentazione_LLM → Commit_LLM`;
 `REPORT_FASE03.md` e `VERIFICA_FASE03.md` si scrivono solo alla chiusura del perimetro confermato.

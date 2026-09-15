@@ -16,8 +16,14 @@ usa il conteggio completo e la fattibilità temporale misurata con margine 20%.
 L'approvazione documentata dell'autore è sufficiente per 03.8 e non è richiesta
 firma materiale, secondo la decisione procedurale del 2026-09-15. Il delta
 `2af8545..270bd2b` che registra questa regola ha un OK indipendente acquisito in
-`6490af4`; l'OK non si estende al candidato di finalizzazione. Review di tale
-candidato, acquisizione, pubblicazione e freeze restano distinti e pendenti.
+`6490af4`; l'OK non si estendeva al candidato di finalizzazione. Quel candidato
+è stato successivamente verificato e pubblicato. Il manifest finale pre-tag è
+stato verificato e la catena è congelata dal tag annotato
+`studio2-fase03-piano-statistico-frozen-001` (oggetto
+`bfcf6e5b3840c5b7dc3f7ace1085843d18cfddc7`, peeled
+`11f504b2bf45a39c1bc4746952f50d58c5022743`). Il record post-tag, il relativo
+OK e l'acquisizione sono pubblicati attraverso
+`2edd4550cabfd065fafa1834609e9789149611ee`.
 L'aggiornamento dell'autore nel mandato di
 correzione R1–R4 approva 122B producer principale e consumer, 27B producer
 alternativo con libreria completa di 16 insight e consumer 122B fisso nello
@@ -32,8 +38,10 @@ fattibilità restano pendenti: non sono effetti dell'acquisizione. Le correzioni
 R1–R4 a `9a56d12` e il recepimento D9 a `8a20c12` hanno OK indipendenti acquisiti.
 Stato corrente e fonte della nuova regola nella
 [matrice successiva](../../studio2/fase03/piano_statistico/MATRICE_RESIDUI_03_8_DOPO_D9.md).
-La sufficienza dell'approvazione documentata non approva l'ordine label e non
-autorizza esecuzioni. 03.8 è in finalizzazione locale e la Fase 03 resta aperta.
+La sufficienza dell'approvazione documentata non approvava da sola l'ordine
+label; l'ordine 1a è stato approvato separatamente nel proprio record D9.
+Nessuno dei due atti autorizza esecuzioni. Il presente candidato documenta la
+chiusura di 03.8; la Fase 03 resta aperta.
 
 ---
 
@@ -304,7 +312,7 @@ La differenza rispetto alla revisione 1 è che **G5 e G6, le due sole critiche n
 
 ## 6 · Attività indipendenti dal modello e relative precedenze
 
-Queste attività non richiedono chiamate ai servizi dei modelli scelti e non rischiano di contaminare il test finale, a condizione di rispettare le regole indicate. Le attività già chiuse non si ripetono; la generazione 03.11 di §6.9 attende il freeze statistico e non è avviabile subito.
+Queste attività non richiedono chiamate ai servizi dei modelli scelti e non rischiano di contaminare il test finale, a condizione di rispettare le regole indicate. Le attività già chiuse non si ripetono; il prerequisito del freeze statistico per la generazione 03.11 di §6.9 è soddisfatto, ma restano gli altri prerequisiti e una distinta autorizzazione all'esecuzione.
 
 **6.1 — Definire i criteri di selezione degli 8 fault**
 
@@ -1211,7 +1219,9 @@ alla finestra harness e non è attestato qui. Identità esatte, revisioni,
 configurazioni, tokenizer, capienza, qualificazione e fattibilità restano da
 documentare o misurare. Nessun parametro operativo aggiuntivo è approvato.
 La dichiarazione di operatività del 122B non è qualifica tecnica. Questa scelta
-non firma materialmente 03.8, non approva l’ordine label **1a**, ancora pendente, e non autorizza chiamate o pilot.
+non firma materialmente 03.8 e non autorizza chiamate o pilot. L'ordine label
+**1a** è stato approvato in un record D9 successivo e distinto; non è un effetto
+implicito della scelta dei ruoli.
 In caso di impedimento tecnico o temporale, sospendere e rinviare all’autore:
 nessuno scambio automatico dei ruoli o fallback Terra.
 
@@ -1270,7 +1280,7 @@ La seconda strada tocca i percorsi che governano derangement ed E, cioè il cont
 | S3 | Run di test generati, congelati e hashati, con seed distinti da quelli di sviluppo | ⬜ | **SÌ** |
 | S4 | 03.5 chiusa: soglia e decisioni FAR registrate sui lotti dedicati cal_thr/far_ver, distinti da normal_dev | ✅ | **SÌ** |
 | S5 | Insight prodotti e congelati, **per entrambi i producer** (libreria completa) | ⬜ | **SÌ** |
-| S6 | Piano statistico rev.10 scritto e verificato; firma, allineamento verificato, pubblicazione e tag ancora pendenti | ⏳ | **SÌ** |
+| S6 | Piano statistico rev.10 verificato, approvato, pubblicato e congelato; record post-tag e relativo OK pubblicati; chiusura documentale nel presente candidato | ✅ | **SÌ** |
 | S7 | Le 9 pseudolabel, la forma dell'astensione (D10) e la permutazione E congelate | ✅ | **SÌ** |
 | S8 | Prompt, template e le tre condizioni congelate | ⬜ | **SÌ** |
 | S9 | Baseline numerica 03.9 pubblicata e congelata | ✅ | **SÌ** |
@@ -1306,7 +1316,7 @@ La seconda strada tocca i percorsi che governano derangement ed E, cioè il cont
 | O2 | Conteggio completo per blocco/modello e fattibilità temporale misurata con margine 20%; nessun tetto rigido 3.700 vigente | ⏳ misure/calendario | **SÌ** |
 | O3 | Scelta dei ruoli approvata; qualifica tecnica e calendario compatibile con il vincolo organizzativo del 17 settembre | ⏳ qualifica/calendario | **SÌ** prima dell’esecuzione |
 | O4 | Decisione su baseline FL | ✅ | risolta: FedAvg minimale (D8, §9) |
-| O6 | Decisioni A/B, D2, D11, OOD condizionati, margine, alpha, gerarchia e politica R approvate e recepite; firma/freeze separati | ⏳ | **SÌ** |
+| O6 | Decisioni A/B, D2, D11, OOD condizionati, margine, alpha, gerarchia e politica R approvate e recepite; approvazione documentata sufficiente e freeze efficace | ✅ | **SÌ** |
 | O5 | Sezioni del paper indipendenti dal modello iniziate (§6.12) | ⬜ | No, ma è l'unica copertura reale |
 
 ### Regola GO/NO-GO
