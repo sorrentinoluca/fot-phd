@@ -12,6 +12,13 @@ Fonte delle regole: piano statistico, con le sole nuove decisioni A/B se approva
 > byte-identici; i record anteriori che indicano la firma come pending conservano
 > il proprio significato storico.
 
+> **Stato di finalizzazione locale 2026-09-15.** Il raccordo procedurale ha ora
+> un proprio OK indipendente acquisito (`2af8545..270bd2b`, acquisizione
+> `6490af4`). Resta da verificare il nuovo delta di finalizzazione, acquisirne il
+> verbale, pubblicare la catena autorizzata su `main` effettivo e creare il
+> manifest/tag finale. Nessuno di questi eventi è anticipato dal candidato
+> locale; 03.8 e Fase 03 restano aperte.
+
 ## 1. Acquisizione del candidato bibliografico verificato
 
 Sorgente: `/Users/luker/fot-tep-letteratura-fase03`, branch
@@ -60,7 +67,7 @@ base statistica `0f1a9ba`; cercare per sezione nel target aggiornato.
 
 | Punto | Testo sostitutivo / intervento concreto |
 | --- | --- |
-| §0.1, decisione 2 | «**8 run per fault confermati**: 64 cluster fault e 8 Normal primari; +638 prima del retry e +702 (+24,6%) fra le stime arrotondate storiche di §8.8. Approvazione documentata sufficiente; review del nuovo delta e congelamento pending.» |
+| §0.1, decisione 2 | «**8 run per fault confermati**: 64 cluster fault e 8 Normal primari; +638 prima del retry e +702 (+24,6%) fra le stime arrotondate storiche di §8.8. Approvazione documentata verificata nel proprio delta; review della finalizzazione e congelamento pending.» |
 | D2, titolo e primi due paragrafi | «**D2 — 8 run per fault confermati.** Il disegno comprende 64 run fault +8 Normal, 72 primari; 6 OOD separati e 11 scorte tecniche, 89 run complessivi del lotto con due OOD selezionati. Le scorte non aggiungono osservazioni. Il confronto 6/8 e la risoluzione restano documentati nel piano statistico §7. I totali storici sono ~2.853/~3.555 con retry, differenza +702 (+24,6%), e ~2.594/~3.232 pre-retry, differenza +638. Il calendario richiede verifica della generazione e dei tempi API, non segue dalla sola data D9.» |
 | §8.8 introduzione | D2 è confermata a 8; la colonna 6 è confronto storico, non opzione ancora aperta; vecchie stime arrotondate distinte dal ledger completo |
 | §8.8 frase «+590, +24%» | sostituire con «+702, +24,6% con retry; +638 prima del retry, differenze tra stime arrotondate» |
@@ -84,7 +91,7 @@ Target `studio2/fase03/APERTURA_SOTTOFASI_FASE03.md`:
 
 | Punto | Formulazione concreta da recepire |
 | --- | --- |
-| 03.8 | «D2=8 e D11 confermati; OOD F6/F4 condizionati; politica R confermata. Approvazione documentata sufficiente, senza firma materiale; review del nuovo delta e congelamento pending.» |
+| 03.8 | «D2=8 e D11 confermati; OOD F6/F4 condizionati; politica R confermata. Approvazione documentata sufficiente e verificata nel proprio delta, senza firma materiale; review della finalizzazione e congelamento pending.» |
 | 03.11, numerosità | «72 run primari (64 fault +8 Normal) +6 OOD +11 scorte tecniche =89 run del lotto, a candidati OOD selezionati; stream/seed disgiunti, identificativi sigillati, nessuna osservazione aggiunta dalle scorte.» |
 | 03.13, catena | «input di sviluppo e schema congelati → conformità producer (8 richieste/16 insight) → eventuale unica remediation autorizzata sul diff → prompt definitivi e capienza offline → sonda budget 3–9 → freeze configurazione → unico gate 40×3 → T3/T4/T6/T11 e latenza → verifica organizzativa T5 e altri bloccanti → decisione GO/NO-GO. Conformità alternativa solo con D9 configurata, quota 8 separata.» |
 | 03.13, risorse | massimi 152/160 con riserva inclusa, hard stop 200; durata nuova API pending; distinguere evidenza vecchio 27B FP8 e nuovo alias non identificato |
@@ -107,19 +114,22 @@ non autorizza eliminarli. Nessuna attività su 03.5.
 
 ## 4. Documentazione e operazioni esterne successive
 
-Dopo l'OK indipendente del candidato nuovo, usare Documentazione_LLM per la
-coppia `docs/fot_walkthrough_conversazione_studio2.md`/`.html`, sottosezione
-della Fase 03 dedicata alla 03.8, senza cambiare le sezioni delle altre finestre.
+Dopo gli OK già acquisiti, la presente finalizzazione applica
+`Documentazione_LLM` alla coppia
+`docs/fot_walkthrough_conversazione_studio2.md`/`.html`, con una sottosezione
+della Fase 03 dedicata alla 03.8 e senza riscrivere le sezioni delle altre finestre.
 Struttura: riassunto, dettaglio, connessione alla letteratura, limiti/critiche,
 artefatti e riproducibilità. Numeri dai file manifestati, stato delle condizioni
 esplicito, **Fase 03 ancora aperta**. La sintesi divulgativa non richiede una
 voce per questa preparazione interna. Nessun walkthrough aggiornato ora.
 
-Ordine seriale: commit Letteratura + verbale → integrazione bibliografica
-verificata → recepimento A/B e allineamenti → nuova verifica del candidato esatto
-→ documentazione in coppia → controlli/commit finali → presentazione dei target
-esterni all'autore. Se la review precede un'integrazione, riverificare il delta
-che quella integrazione introduce nel candidato finale.
+Ordine seriale corrente: candidato di finalizzazione con documentazione in
+coppia e manifest non efficace → review indipendente del commit esatto →
+acquisizione byte-identica del verbale → pubblicazione autorizzata della catena
+su `main` effettivo → preparazione e review dell'eventuale nuovo delta del
+manifest efficace → pubblicazione → tag annotato e verifica remota del peeled.
+Se un'integrazione introduce conflitti o nuovi byte, verificarne il delta prima
+di pubblicarlo.
 
 Target futuri da presentare **prima** di agire: repository remoto `origin`
 (`https://github.com/sorrentinoluca/fot-phd.git`), ramo di integrazione esatto e

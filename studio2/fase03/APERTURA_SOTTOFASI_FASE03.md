@@ -11,8 +11,8 @@ esteso, su repository a HEAD `b7f359f`, senza chiamate a modelli né simulazioni
 formulazioni storiche della proposta: 03.5 e 03.9 sono chiuse; 03.12 R4 è
 pubblicata e congelata. Il piano statistico rev.10 al candidato
 `6aaa5b3eebfed4ba502c25c0443caabd0051af21` ha verifica indipendente OK, ma
-03.8 resta aperta per verifica del nuovo delta normativo, documentazione,
-pubblicazione e freeze. Il delta respinto `4503cb6` è seguito dalle correzioni
+03.8 è in finalizzazione locale: resta aperta per review del nuovo candidato,
+acquisizione del verdetto, pubblicazione e freeze. Il delta respinto `4503cb6` è seguito dalle correzioni
 R1–R4 a `9a56d12`, ora con OK indipendente acquisito. Il nuovo recepimento
 D9 del 2026-09-15 ha ricevuto review distinta OK, acquisita byte-identica. Dal record dell’autore:
 **122B producer principale e consumer; 27B producer alternativo con tutti i
@@ -25,7 +25,9 @@ recepimento eseguibile nell'harness, identità/configurazioni, qualifiche e
 fattibilità restano pendenti. Nessun 27B consumer fallback è approvato. Con la
 [decisione procedurale del 2026-09-15](piano_statistico/DECISIONE_AUTORE_APPROVAZIONE_DOCUMENTATA_03_8_2026-09-15.md),
 l'approvazione documentata dell'autore è sufficiente e la firma materiale non è
-più richiesta; ordine label **1a** e autorizzazione alle chiamate restano separati.
+più richiesta. Il relativo delta `2af8545..270bd2b` ha un OK indipendente
+acquisito in `6490af4`; tale OK non si estende ai byte della finalizzazione.
+Ordine label **1a** e autorizzazione alle chiamate restano separati.
 La [matrice corrente](piano_statistico/MATRICE_RESIDUI_03_8_DOPO_D9.md) e la
 [consegna tecnica successiva](piano_statistico/CONSEGNA_TECNICA_03_8_D9_PER_03_10.md)
 aggiornano lo stato senza riscrivere le consegne già improntate.
@@ -77,7 +79,7 @@ cosa non può slittare.
 | 03.5 | **CHIUSA.** Score e soglie Normal secondo `DECISIONE_calibrazione_soglie_fase_B.md` rev. 19; FAR e U3 non sono riaperti da questo aggiornamento | I → B → A | ciclo completato nelle evidenze proprie | 03.3, freeze fase02 | — | completato nel proprio perimetro |
 | 03.6 | **§6.4 Evidence 697-D e verbalizzazioni neutrali** dai 40 run di sviluppo; mapping a 9 label e assegnazione agenti come input di 03.7 | I | modello capace, ragionamento medio; estrazione pre-specificata, nessuna lettura del segnale per scegliere | 03.4, 03.3; per le soglie usa 03.5 solo se il verbalizzatore ne dipende (da dichiarare, altrimenti indipendente) | P | sì: lotto evidence/testi congelato → report + verifica |
 | 03.7 | **§6.5 Nove pseudolabel opache (8 fault + Normal; `Unknown` = astensione, D10) e derangement zero-fixed-point di E** | I (combinatorio) con freeze | modello capace, ragionamento medio; basta un test che dimostri assenza di punti fissi e opacità; la sola scelta da congelare (seed, namespace) è mini-decisionale | 03.4, catalogo D1 | P | sì: freeze con seed → report breve + verifica |
-| 03.8 | **APERTA.** Rev.10 verificata: D2=8; D11={F1,F2}/{F14,F15}; F6/F4 condizionati; m=0,125, alpha, gerarchia, A/B e politica R approvati. D9 è approvata e verificata; l'approvazione documentata dell'autore è sufficiente, senza firma materiale. Restano review del nuovo delta, documentazione, pubblicazione e tag | D | allineamento e chiusura documentale; nessuna esecuzione | 03.2; letteratura già pubblicata; 03.9 e 03.12 congelate | —; regole per il pilot consegnate a 03.10 | freeze solo dopo i residui espliciti |
+| 03.8 | **IN FINALIZZAZIONE LOCALE.** Rev.10 verificata: D2=8; D11={F1,F2}/{F14,F15}; F6/F4 condizionati; m=0,125, alpha, gerarchia, A/B e politica R approvati. D9 e l'approvazione documentata sono verificate nei rispettivi delta; nessuna firma materiale. Restano review e acquisizione del candidato finale, pubblicazione, manifest efficace e tag | D | allineamento e chiusura documentale; nessuna esecuzione | 03.2; letteratura già pubblicata; 03.9 e 03.12 congelate | —; regole per il pilot consegnate a 03.10 | freeze solo dopo i residui espliciti; nessun risultato 03.11 richiesto prima del tag |
 | 03.9 | **CHIUSA, pubblicata e congelata.** Baseline numerica con tag `studio2-fase03-baseline-numerica-frozen-001` | I | verifiche e record di efficacia pubblicati | 03.4, 03.6 | — | completato nel proprio perimetro |
 | 03.10 | **§6.8 Harness API**: 8 agenti, 14 insight, 9 pseudolabel con astensione, logging §8.7, set canary; già in gran parte in `studio2/fase03/` (`protocol.py`, `run_pilot.py`, `prepare_gate.py`, 16 test offline) — resta da collegare agli input reali e alla regola 03.4 | I (+ B minimo) | modello capace, ragionamento medio, test offline eseguiti; le eventuali chiamate sui ruoli effettivi vanno contate e autorizzate a parte, dopo configurazione e qualificazioni pertinenti | 03.4, 03.6, 03.7, 03.12 | P | report di sotto-fase; verifica sul gate 40×3 (03.13) |
 | 03.11 | **§6.9 Run finali di test**: 72 primari (64 fault +8 Normal) +6 OOD +11 scorte tecniche =89 run del lotto; scorte senza nuove osservazioni. Dopo il freeze 03.8 e prima di chiamate sui test: generabilità, trip e ammissibilità F6/F4 e sostituti, senza selezione su prestazioni | B (spec I breve) | esecuzione non autorizzata qui | 03.8 congelata per criteri/catene; 03.3 | — | lotto sigillato futuro; nessun risultato 03.11 è prerequisito del tag 03.8 |

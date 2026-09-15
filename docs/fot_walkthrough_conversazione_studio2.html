@@ -90,6 +90,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <li><a href="#soglie-normal-63"><span class="n">4.5</span>Soglie Normal (§6.3)</a></li>
 <li><a href="#evidence-697-d"><span class="n">4.6</span>Evidence 697-D (03.6)</a></li>
 <li><a href="#pseudolabel-037"><span class="n">4.7</span>Pseudolabel e derangement di E</a></li>
+<li><a href="#piano-statistico-038"><span class="n">4.8</span>Piano statistico</a></li>
 <li><a href="#normal-dev-baseline-039"><span class="n">4.9</span><code>normal_dev</code> e baseline numerica</a></li>
 <li><a href="#harness-raccordo-metriche-0310"><span class="n">4.10</span>raccordo metriche 03.9 → 03.10</a></li>
 <li><a href="#schema-insight-0312"><span class="n">4.12</span>Schema degli insight R4</a></li>
@@ -107,7 +108,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>. Stato al <strong>2026-09-14</strong>:
 fasi 01 e 02 documentate in §2 e §3; la sotto-fase <strong>criteri di selezione (§6.1)</strong> della
 Fase 03 è documentata in <a href="#criteri-selezione-61">§4.1</a>; <strong>D1, verificata, congelata e pubblicata</strong>, in <a href="#catalogo-d1">§4.2</a>;
-i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; il <strong>perimetro del codice Q8</strong>, chiuso, in <a href="#perimetro-codice-q8">§4.4</a>; le <strong>soglie Normal (§6.3)</strong>, calibrate e verificate, in <a href="#soglie-normal-63">§4.5</a>; le <strong>evidence 697-D</strong>, verificate e conservate nella release v2, in <a href="#evidence-697-d">§4.6</a>; pseudolabel e derangement, verificati, in <a href="#pseudolabel-037">§4.7</a>; <code>normal_dev</code> e baseline numerica, verificati, con baseline congelata e rev.5 di efficacia registrata, in <a href="#normal-dev-baseline-039">§4.9</a>; il <strong>raccordo delle metriche 03.9 → 03.10</strong>, verificato sul solo delta, in <a href="#harness-raccordo-metriche-0310">§4.10</a>; lo <strong>schema insight R4</strong>, verificato e congelato con tag pubblicato, in <a href="#schema-insight-0312">§4.12</a>; le <strong>sezioni comuni del paper</strong>, aggiornate e verificate ma conservate soltanto nel candidato locale, in <a href="#paper-sections-0315">§4.15</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
+i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; il <strong>perimetro del codice Q8</strong>, chiuso, in <a href="#perimetro-codice-q8">§4.4</a>; le <strong>soglie Normal (§6.3)</strong>, calibrate e verificate, in <a href="#soglie-normal-63">§4.5</a>; le <strong>evidence 697-D</strong>, verificate e conservate nella release v2, in <a href="#evidence-697-d">§4.6</a>; pseudolabel e derangement, verificati, in <a href="#pseudolabel-037">§4.7</a>; il <strong>piano statistico 03.8</strong>, in finalizzazione locale, in <a href="#piano-statistico-038">§4.8</a>; <code>normal_dev</code> e baseline numerica, verificati, con baseline congelata e rev.5 di efficacia registrata, in <a href="#normal-dev-baseline-039">§4.9</a>; il <strong>raccordo delle metriche 03.9 → 03.10</strong>, verificato sul solo delta, in <a href="#harness-raccordo-metriche-0310">§4.10</a>; lo <strong>schema insight R4</strong>, verificato e congelato con tag pubblicato, in <a href="#schema-insight-0312">§4.12</a>; le <strong>sezioni comuni del paper</strong>, aggiornate e verificate ma conservate soltanto nel candidato locale, in <a href="#paper-sections-0315">§4.15</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
 resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, non questo file.</p>
 </blockquote>
 </div>
@@ -962,6 +963,62 @@ deve essere riproducibile e comune alle condizioni confrontate, fissata prima
 del pilot. Restano fuori contenuti degli insight, esempi locali, manifest reale
 ed esecuzione del pilot; nessuna chiamata al modello o simulazione è stata avviata.</p>
 </section>
+<section id="piano-statistico-038">
+<h3>4.8 · Fase 03 — piano statistico (sotto-fase 03.8)</h3>
+<h4>Riassunto e sintesi</h4>
+<p>La revisione 10 del piano statistico è verificata e preservata byte-identica:
+stabilisce D2=8, le coppie D11, i candidati OOD condizionati, margine, alpha,
+gerarchia e politica R. Le decisioni A/B eliminano il tetto rigido di 3.700 in
+favore del conteggio completo e della fattibilità temporale misurata con margine
+20%; i controlli tecnici OOD appartengono alla 03.11, dopo il freeze statistico
+e prima delle chiamate sui test. Non esiste quindi una dipendenza circolare dal
+completamento della 03.11 prima del tag 03.8.</p>
+<p>I ruoli D9 sono approvati e hanno un OK documentale acquisito: 122B è producer
+principale e consumer, 27B è producer alternativo della libreria completa di 16
+insight, Terra resta solo storico descrittivo interno. L'autore ha inoltre
+stabilito che l'approvazione documentata è sufficiente; il relativo delta ha un
+OK indipendente acquisito e non è richiesta firma materiale. La sotto-fase è
+però soltanto <strong>in finalizzazione locale</strong>: il nuovo raccordo deve ancora essere
+verificato, acquisito, pubblicato e congelato. La Fase 03 resta aperta.</p>
+<h4>Dettaglio</h4>
+<p>Il nucleo comprende 1.728 richieste a R=1 e 5.184 a R=3. Il ledger completo
+aggiunge esplicitamente audit, swap, ablation, OOD, E5, canary, librerie, pilot,
+controlli tecnici e retry; alcuni termini restano parametrici. R=3 si attiva
+soltanto secondo la divergenza prevista dal piano e resta subordinato alla
+verifica <code>1,20 × T ≤ W</code> su latenze e finestra effettive. I massimi del pilot
+sono 152/160 con riserva già inclusa e hard stop cumulativo 200; questi numeri
+non autorizzano chiamate né attestano fattibilità.</p>
+<p>Le scelte statistiche, i candidati e le catene F6→F5→F12 e F4→F11→F5 si
+congelano prima dei run. La 03.11 verifica poi generabilità, trip e ammissibilità
+tecnica senza usare prestazioni diagnostiche per scegliere i fault. Le undici
+scorte sostituiscono run e non aggiungono osservazioni. Ordine label 1a,
+qualifica dei servizi, configurazioni, T5, pilot e run finali restano separati.</p>
+<h4>Connessione alla letteratura e alle critiche</h4>
+<p>La bibliografia già pubblicata sostiene la scelta dei fault e delimita F6/F4;
+non sostituisce i controlli tecnici futuri. Il piano affronta le critiche su
+molteplicità, indipendenza dei cluster, astensione, confronto producer-swap e
+tracciabilità delle decisioni, ma non produce risultati né dimostra qualità dei
+modelli, fattibilità operativa o validità degli insight. L'OK documentale D9 non
+si trasferisce al runtime harness, che segue una finestra distinta.</p>
+<h4>Artefatti e riproducibilità</h4>
+<p>La fonte è il <a href="../studio2/fase03/piano_statistico/PIANO_STATISTICO.md">piano rev.10</a>,
+SHA-256 <code>675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a</code>.
+Il <a href="../studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json">manifest storico</a>
+resta la fotografia pending del proprio checkpoint e non viene riscritto. Le
+prove distinte sono il <a href="../studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV10.md">verbale rev.10</a>,
+gli OK <a href="../studio2/fase03/piano_statistico/VERIFICA_CORREZIONI_ALLINEAMENTI_03_8_REV10.md">R1–R4</a>,
+<a href="../studio2/fase03/piano_statistico/VERIFICA_RECEPIMENTO_D9_ALLINEAMENTI_03_8.md">D9</a>
+e <a href="../studio2/fase03/piano_statistico/VERIFICA_APPROVAZIONE_DOCUMENTATA_03_8.md">approvazione documentata</a>,
+con le rispettive acquisizioni nella stessa cartella. Il nuovo manifest è un
+candidato non efficace: commit pubblicato, oggetto tag e peeled saranno
+registrabili solo dopo gli eventi reali.</p>
+<h4>Lavoro che resta</h4>
+<p>Occorrono review indipendente del candidato esatto, acquisizione byte-identica
+del verbale, pubblicazione autorizzata della catena su <code>origin/main</code>, eventuale
+review del delta del manifest efficace, creazione del tag annotato
+<code>studio2-fase03-piano-statistico-frozen-001</code> e verifica remota del peeled. Nessun
+passaggio autorizza ordine label, chiamate, inferenze, simulazioni, pilot o run.</p>
+</section>
 <section id="normal-dev-baseline-039">
 <h3>4.9 · Fase 03 — <code>normal_dev</code> e baseline numerica (sotto-fase 03.9)</h3>
 <h4>Riassunto e sintesi</h4>
@@ -1192,11 +1249,12 @@ acquisita byte-identica in un commit locale distinto dal merge, e la
 <h4>Lavoro che resta</h4>
 <p>I ruoli D9 sono approvati e il recepimento documentale ha un OK indipendente acquisito;
 identità completa e qualificazione dei servizi restano aperte. Per 03.8 l'autore ha stabilito
-che l'approvazione documentata è sufficiente: non è richiesta firma materiale. Restano il
-freeze statistico, la review del nuovo raccordo normativo, la fattibilità T5, ledger e
+che l'approvazione documentata è sufficiente: non è richiesta firma materiale e il relativo
+raccordo ha un OK indipendente acquisito. Restano il freeze statistico, la review del candidato
+di finalizzazione, la fattibilità T5, ledger e
 calendario, gli allineamenti dell'harness 03.10 e i controlli tecnici OOD della 03.11. FAR e A/B
 non sono stati riaperti. Le bozze non sono state promosse in <code>docs/paper/</code>.</p>
-<p>Il presente aggiornamento MD/HTML è un <strong>nuovo delta documentale di raccordo</strong>: deve essere
+<p>Il presente aggiornamento MD/HTML di finalizzazione è un <strong>nuovo delta documentale di raccordo</strong>: deve essere
 riesaminato nel successivo passaggio seriale per coerenza, link, anchor, numerazione e parità,
 senza riaprire la review scientifica già conclusa su <code>91a880b</code>. Il candidato resta locale e
 distinto da ogni futura integrazione in <code>main</code>, pubblicazione o congelamento. 03.15 e la Fase 03
@@ -1206,7 +1264,7 @@ distinto da ogni futura integrazione in <code>main</code>, pubblicazione o conge
 <div class="tablewrap"><table>
 <thead><tr><th>§</th><th>Fase</th><th>Che cos'&egrave;</th><th>Fonte</th><th>Stato</th></tr></thead>
 <tbody>
-<tr><td style="text-align:center">4</td><td><strong>Preparazione e capability pilot &mdash; Fase 03</strong></td><td>Cantieri §6.1&ndash;§6.12 e gate §7.1; §4.1&ndash;§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.9 <code>normal_dev</code> e baseline; §4.12 schema insight R4; §4.15 sezioni comuni del paper</td><td>piano §§6&ndash;7.1 e artefatti delle sotto-fasi</td><td>aperta; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.9 chiusa, tag baseline pubblicato e rev.5 di efficacia registrata; 03.12 R4-V OK e tag pubblicato; 03.15 verificata e raccordata solo nel candidato locale</td></tr>
+<tr><td style="text-align:center">4</td><td><strong>Preparazione e capability pilot &mdash; Fase 03</strong></td><td>Cantieri §6.1&ndash;§6.12 e gate §7.1; §4.1&ndash;§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.8 piano statistico; §4.9 <code>normal_dev</code> e baseline; §4.12 schema insight R4; §4.15 sezioni comuni del paper</td><td>piano §§6&ndash;7.1 e artefatti delle sotto-fasi</td><td>aperta; 03.8 in finalizzazione locale; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.9 chiusa, tag baseline pubblicato e rev.5 di efficacia registrata; 03.12 R4-V OK e tag pubblicato; 03.15 verificata e raccordata solo nel candidato locale</td></tr>
 <tr><td style="text-align:center">5</td><td><strong>Produzione degli insight</strong></td><td>Gli 8&times;2 insight dai dati di sviluppo, pi&ugrave; la libreria completa del producer alternativo per il braccio <em>producer-swap</em></td><td>piano §7.2</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">6</td><td><strong>Congelamento del protocollo</strong></td><td>Solo dopo il pilot, mai prima</td><td>piano §7.3</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">7</td><td><strong>Esecuzione dello studio finale</strong></td><td>Tutte le inferenze A, B-LF, E-LF, pi&ugrave; swap, OOD, ablation e canary &mdash; circa 2.853/3.555 chiamate con margine, per 6/8 run</td><td>piano §7.4 e §8.8</td><td>dopo il congelamento</td></tr>
@@ -1222,7 +1280,7 @@ distinto da ogni futura integrazione in <code>main</code>, pubblicazione o conge
 <li><strong>§6.3</strong> — Soglia Normal calibrata e FAR verificato nella sotto-fase descritta in <a href="#soglie-normal-63">§4.5</a>: rango 334 su 350, soglia 13,623626738268857, release <code>studio2-fase03-normal-v1</code>; la macro-Fase 03 resta aperta</li>
 <li><strong>§6.4</strong> — Dati strutturati, testi neutrali e firme di sviluppo prodotti e verificati nella sotto-fase 03.6 descritta in <a href="#evidence-697-d">§4.6</a>; le evidence <code>normal_dev</code> sono documentate separatamente in <a href="#normal-dev-baseline-039">§4.9</a></li>
 <li><strong>§6.5</strong> — Pseudolabel e derangement v1 verificati in <a href="#pseudolabel-037">§4.7</a>; interfaccia finale con 03.12 ancora aperta</li>
-<li><strong>§6.6</strong> — Scrivere il piano statistico completo</li>
+<li><strong>§6.6</strong> — Piano statistico rev.10 verificato e in finalizzazione locale nella sotto-fase 03.8 descritta in <a href="#piano-statistico-038">§4.8</a>; pubblicazione e freeze ancora pendenti</li>
 <li><strong>§6.7</strong> — Baseline numerica costruita e verificata nella <a href="#normal-dev-baseline-039">§4.9</a>; tag baseline pubblicato e rev.5 di efficacia registrata; harness completo 03.10 aperto</li>
 <li><strong>§6.8</strong> — Preparare l'harness API</li>
 <li><strong>§6.9</strong> — Generare e congelare i run finali di test</li>

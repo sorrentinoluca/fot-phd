@@ -14,8 +14,10 @@ questo documento. D2=8, OOD F6/F4 condizionati, D11, margine, alpha, gerarchia e
 politica R sono approvati; il tetto rigido 3.700 non è vigente. La pianificazione
 usa il conteggio completo e la fattibilità temporale misurata con margine 20%.
 L'approvazione documentata dell'autore è sufficiente per 03.8 e non è richiesta
-firma materiale, secondo la decisione procedurale del 2026-09-15; verifica
-indipendente del nuovo delta, pubblicazione e freeze restano distinti e pendenti.
+firma materiale, secondo la decisione procedurale del 2026-09-15. Il delta
+`2af8545..270bd2b` che registra questa regola ha un OK indipendente acquisito in
+`6490af4`; l'OK non si estende al candidato di finalizzazione. Review di tale
+candidato, acquisizione, pubblicazione e freeze restano distinti e pendenti.
 L'aggiornamento dell'autore nel mandato di
 correzione R1–R4 approva 122B producer principale e consumer, 27B producer
 alternativo con libreria completa di 16 insight e consumer 122B fisso nello
@@ -31,7 +33,7 @@ R1–R4 a `9a56d12` e il recepimento D9 a `8a20c12` hanno OK indipendenti acquis
 Stato corrente e fonte della nuova regola nella
 [matrice successiva](../../studio2/fase03/piano_statistico/MATRICE_RESIDUI_03_8_DOPO_D9.md).
 La sufficienza dell'approvazione documentata non approva l'ordine label e non
-autorizza esecuzioni.
+autorizza esecuzioni. 03.8 è in finalizzazione locale e la Fase 03 resta aperta.
 
 ---
 
@@ -1202,7 +1204,9 @@ La registrazione formale è acquisita localmente dai tre artefatti committati in
 `aaba893dff8c62f9f9281eec7423eee020235e03`; il record ha SHA-256
 `fcb113636de80cc87709905324436555e0ba103bd46de3ac079ce0ef7f60f1b8`.
 Il presente piano e APERTURA ne completano il recepimento documentale locale;
-la verifica del nuovo delta è pendente. Il recepimento eseguibile appartiene
+il relativo candidato `8a20c12` ha un OK indipendente acquisito in `8a3f7ba`.
+La review ancora pendente riguarda il successivo candidato di finalizzazione,
+non riapre D9. Il recepimento eseguibile appartiene
 alla finestra harness e non è attestato qui. Identità esatte, revisioni,
 configurazioni, tokenizer, capienza, qualificazione e fattibilità restano da
 documentare o misurare. Nessun parametro operativo aggiuntivo è approvato.

@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-15",
+  "scope": "Studio 2 FoT-TEP, Fase 03, finalizzazione locale della sotto-fase 03.8",
+  "status": "candidate_pending_independent_review_publication_and_freeze",
+  "freeze_effective": false,
+  "phase_03_closed": false,
+  "statistical_plan_revision": 10,
+  "integration": {
+    "remote": "https://github.com/sorrentinoluca/fot-phd.git",
+    "observed_origin_main": "a00605862f627710347bd63c49f79a6d0a00135f",
+    "acquisition_tip": "6490af4889fd679d491f63b9debdf2314eaf7aca",
+    "candidate_commit": null,
+    "candidate_tree": null,
+    "candidate_identity_location": "CONSEGNA_FINALIZZAZIONE_03_8.md, committed after the candidate to avoid self-reference",
+    "published_commit": null,
+    "published_reachability_verified": false
+  },
+  "freeze_tag": {
+    "planned_name": "studio2-fase03-piano-statistico-frozen-001",
+    "target_commit": null,
+    "tag_object": null,
+    "peeled_commit": null,
+    "remote_verified": false,
+    "note": "The target cannot be identified before review acquisition, authorized publication and creation of the final effective-manifest delta."
+  },
+  "effectiveness_contract": {
+    "current_manifest_role": "non-effective integration candidate",
+    "effective_only_after": [
+      "independent OK on the exact finalization candidate",
+      "byte-identical acquisition of that verdict",
+      "authorized publication with the required history reachable from origin/main",
+      "independent review of every later normative or effective-manifest delta",
+      "annotated tag creation on the then-identified final commit",
+      "remote verification that the peeled tag equals the intended published commit"
+    ],
+    "historical_manifest_preserved": true,
+    "historical_manifest_path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json",
+    "historical_manifest_bytes": 25894,
+    "historical_manifest_sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8"
+  },
+  "integration_chain": [
+    {"commit": "945cb1fad9b5e2d96569c39a4bacce0250573d42", "parent": "a00605862f627710347bd63c49f79a6d0a00135f", "role": "prepare rev10 residues"},
+    {"commit": "b4652a5c565479a58ea808655be0e4510c10a0e4", "parent": "945cb1fad9b5e2d96569c39a4bacce0250573d42", "role": "record author approval of addendum A and B"},
+    {"commit": "767e1d090c80b6c5f1cd7ff477b997a0c11847a5", "parent": "b4652a5c565479a58ea808655be0e4510c10a0e4", "role": "produce statistical plan revision 10"},
+    {"commit": "dac458609a642bb317bc48b8c2d000a340e163ed", "parent": "767e1d090c80b6c5f1cd7ff477b997a0c11847a5", "role": "acquire independent OK for revision 10"},
+    {"commit": "70c84e3a573951171813add26a46167cbc6c7203", "parent": "dac458609a642bb317bc48b8c2d000a340e163ed", "role": "acquire historical revision-10 prerequisites"},
+    {"commit": "4503cb6f4fbc9942785c7d1fb74b4caf90cb83b8", "parent": "70c84e3a573951171813add26a46167cbc6c7203", "role": "prepare alignment candidate later judged NON OK"},
+    {"commit": "2520e7abc1cd68785f2789448b509dea5e55ee7d", "parent": "4503cb6f4fbc9942785c7d1fb74b4caf90cb83b8", "role": "deliver initial alignment candidate and review prompt"},
+    {"commit": "1a21fd260ad2df6a3b04ffb6fa5e2d642a3f63b1", "parent": "2520e7abc1cd68785f2789448b509dea5e55ee7d", "role": "acquire NON OK alignment verdict"},
+    {"commit": "9a56d12d0633a0c9790c48792182f26fc6eb424a", "parent": "1a21fd260ad2df6a3b04ffb6fa5e2d642a3f63b1", "role": "correct alignment findings R1-R4"},
+    {"commit": "16f227439357b07b7dc945f67ab5a4368c12b684", "parent": "9a56d12d0633a0c9790c48792182f26fc6eb424a", "role": "deliver corrected candidate and review prompt"},
+    {"commit": "5b784219b08de1249636536ac98e9a546b4d4577", "parent": "16f227439357b07b7dc945f67ab5a4368c12b684", "role": "acquire independent OK for R1-R4 corrections"},
+    {"commit": "dc4d6560af73579300e33a0a81fc9c3b4316722d", "parent": "5b784219b08de1249636536ac98e9a546b4d4577", "role": "acquire approved D9 source record"},
+    {"commit": "8a20c125bd294191c67ebdbf571832b1e32ac0f1", "parent": "dc4d6560af73579300e33a0a81fc9c3b4316722d", "role": "document approved D9 roles"},
+    {"commit": "7d9100a4d2c3f8dd8f61e4f9316ebd8549c1da90", "parent": "8a20c125bd294191c67ebdbf571832b1e32ac0f1", "role": "deliver D9 documentary delta and review prompt"},
+    {"commit": "8a3f7ba706570201c5b622c4e0fc79529b1c8cfd", "parent": "7d9100a4d2c3f8dd8f61e4f9316ebd8549c1da90", "role": "acquire independent OK for D9 documentary reception"},
+    {"commit": "7cf523805710633ec3b4fecd4eb8b7c9504076bf", "parent": "8a3f7ba706570201c5b622c4e0fc79529b1c8cfd", "role": "prepare historical material-signature package"},
+    {"commit": "2af85459a14b9d9b567c6a0234154968b4d585d0", "parent": "7cf523805710633ec3b4fecd4eb8b7c9504076bf", "role": "acquire independent OK for historical signature package"},
+    {"commit": "270bd2bb0c5f9ff4541d709052cdf144142b1d88", "parent": "2af85459a14b9d9b567c6a0234154968b4d585d0", "role": "record that documented author approval is sufficient"},
+    {"commit": "85a89da150dbd1f818051cc4ad8c0fa843819767", "parent": "270bd2bb0c5f9ff4541d709052cdf144142b1d88", "role": "deliver documented-approval review prompt"},
+    {"commit": "6490af4889fd679d491f63b9debdf2314eaf7aca", "parent": "85a89da150dbd1f818051cc4ad8c0fa843819767", "role": "acquire independent OK for documented-approval delta"}
+  ],
+  "verified_checkpoints": [
+    {"scope": "statistical plan revision 10", "candidate": "6aaa5b3eebfed4ba502c25c0443caabd0051af21", "verdict": "OK", "verdict_path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV10.md"},
+    {"scope": "alignment corrections R1-R4", "candidate": "9a56d12d0633a0c9790c48792182f26fc6eb424a", "verdict": "OK", "verdict_path": "studio2/fase03/piano_statistico/VERIFICA_CORREZIONI_ALLINEAMENTI_03_8_REV10.md"},
+    {"scope": "documentary D9 reception", "candidate": "8a20c125bd294191c67ebdbf571832b1e32ac0f1", "verdict": "OK", "verdict_path": "studio2/fase03/piano_statistico/VERIFICA_RECEPIMENTO_D9_ALLINEAMENTI_03_8.md"},
+    {"scope": "documented author approval rule", "candidate": "270bd2bb0c5f9ff4541d709052cdf144142b1d88", "tree": "0cf2a5656059fb6d5521062227095c0eeede0f92", "verdict": "OK", "verdict_path": "studio2/fase03/piano_statistico/VERIFICA_APPROVAZIONE_DOCUMENTATA_03_8.md"}
+  ],
+  "artifacts": [
+    {"path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md", "bytes": 81490, "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a", "role": "verified statistical plan revision 10"},
+    {"path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json", "bytes": 25894, "sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8", "role": "historical non-effective manifest, preserved"},
+    {"path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md", "bytes": 8528, "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887", "role": "complete request ledger"},
+    {"path": "studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md", "bytes": 7108, "sha256": "e92661fe754bb12ac84578a03b6e6815beaade9731fed5dd608f5682ce2f355e", "role": "preserved normative handoff to 03.10; no runtime implementation"},
+    {"path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.json", "bytes": 126303, "sha256": "8bf79dc958e045598cf7538b72752caa902d2f8b134f642e54daaf0274fddbde", "role": "verified design resolution"},
+    {"path": "studio2/fase03/piano_statistico/DESIGN_RESOLUTION.md", "bytes": 27356, "sha256": "9ed15d15e8a6210e79573c9e4b3d073dfb8d8d9ed680735d83dc7c35358febb7", "role": "verified design resolution rendering"},
+    {"path": "studio2/fase03/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md", "bytes": 9083, "sha256": "fcb113636de80cc87709905324436555e0ba103bd46de3ac079ce0ef7f60f1b8", "role": "approved D9 source"},
+    {"path": "studio2/fase03/CONSEGNA_RECEPIMENTO_D9_2026-09-14.md", "bytes": 13282, "sha256": "3ea739065f1011ed2fd17bface11231f8857dc3f5256d26eff7abcc1d1ef2c77", "role": "D9 delivery"},
+    {"path": "studio2/fase03/IMPRONTE_DECISIONE_D9_2026-09-14.json", "bytes": 11169, "sha256": "3b95d17ab3b467bebe5d0bda5fa84d8ab63f3ee13f87397e02caf396654af77b", "role": "D9 source inventory"},
+    {"path": "studio2/fase03/piano_statistico/VERIFICA_PIANO_STATISTICO_REV10.md", "bytes": 12478, "sha256": "d269e26d8cb4e23370577e1e193d90d9357d66f7c739e9d0669970edf71b0066", "role": "revision-10 independent verdict"},
+    {"path": "studio2/fase03/piano_statistico/VERIFICA_CORREZIONI_ALLINEAMENTI_03_8_REV10.md", "bytes": 20816, "sha256": "9248c42572a20388ddf5af976840e68fdc908e545312a63234167778ce53a256", "role": "R1-R4 independent verdict"},
+    {"path": "studio2/fase03/piano_statistico/ACQUISIZIONE_OK_CORREZIONI_ALLINEAMENTI_03_8_REV10.md", "bytes": 3249, "sha256": "28d58774b9c120afba2c0d38dae1970e6e074c91dbb2a104a22284aeea9fc905", "role": "R1-R4 verdict acquisition"},
+    {"path": "studio2/fase03/piano_statistico/VERIFICA_RECEPIMENTO_D9_ALLINEAMENTI_03_8.md", "bytes": 21644, "sha256": "bb8555792c5dad78fc3ffeaf5f797e3da427ef79ec1d3ebe7c840810f77c53e3", "role": "D9 documentary independent verdict"},
+    {"path": "studio2/fase03/piano_statistico/ACQUISIZIONE_OK_RECEPIMENTO_D9_ALLINEAMENTI_03_8.md", "bytes": 2604, "sha256": "27cd71d91f3d5273aee4a2c87413e0822803206b76af3449feaf37e4552ad294", "role": "D9 documentary verdict acquisition"},
+    {"path": "studio2/fase03/piano_statistico/DECISIONE_AUTORE_APPROVAZIONE_DOCUMENTATA_03_8_2026-09-15.md", "bytes": 2890, "sha256": "d5029e7f7a199658577c1b6579fb9d81c78ffba333f7c8c34dd5bc0570b0470e", "role": "documented author approval rule"},
+    {"path": "studio2/fase03/piano_statistico/VERIFICA_APPROVAZIONE_DOCUMENTATA_03_8.md", "bytes": 5923, "sha256": "17cc63875cb1ee1ad6b4e7b9689302c14b84b7cd3135d2701bfbd498a491fa42", "role": "documented-approval independent verdict"},
+    {"path": "studio2/fase03/piano_statistico/ACQUISIZIONE_OK_APPROVAZIONE_DOCUMENTATA_03_8.md", "bytes": 3290, "sha256": "14dbb78c19c578f3ebe782ddcfad59c5c4b50ba36b4123259d3786d3a1af6f3b", "role": "documented-approval verdict acquisition"},
+    {"path": "studio2/fase03/piano_statistico/MATRICE_RESIDUI_03_8_DOPO_D9.md", "bytes": 5569, "sha256": "7048bf500397f9ee038d01e9eaa88caf9cc9ff4379b62fbad187870c6d384482", "role": "current residue matrix"},
+    {"path": "studio2/fase03/piano_statistico/COORDINAMENTO_CHIUSURA_03_8.md", "bytes": 11415, "sha256": "0e22b2b1267e284227856500ba98d1566fc2fe6d715d93818487f3c2e6acaab7", "role": "current finalization coordination"},
+    {"path": "studio2/fase03/APERTURA_SOTTOFASI_FASE03.md", "bytes": 12913, "sha256": "a4bee9cf71a37a2a4532bfb7aa51d67e9e299b0c76b02cff78056d0d71063201", "role": "current phase status"},
+    {"path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md", "bytes": 174958, "sha256": "afca94636fe3a555d7d87fec09cda7afd842ce00ef761454a9de73ad8566f7ee", "role": "general plan alignment"},
+    {"path": "docs/fot_walkthrough_conversazione_studio2.md", "bytes": 116355, "sha256": "2eb3b673f0dd074bf17c374ad1ff2299563a31bc350412d84ef52e7fdc50035d", "role": "walkthrough markdown"},
+    {"path": "docs/fot_walkthrough_conversazione_studio2.html", "bytes": 142437, "sha256": "5b2bbdc950dadebca145d1339ac791c75c7731e7c4ca7c152b62cdc265be6e24", "role": "walkthrough HTML counterpart"}
+  ],
+  "excluded_self_references": [
+    "studio2/fase03/piano_statistico/MANIFEST_CANDIDATO_FREEZE_03_8.json",
+    "studio2/fase03/piano_statistico/REPORT_FINALIZZAZIONE_03_8.md",
+    "studio2/fase03/piano_statistico/CONSEGNA_FINALIZZAZIONE_03_8.md",
+    "studio2/fase03/piano_statistico/PROMPT_VERIFICA_FINALIZZAZIONE_03_8.md",
+    "future independent verdict and its acquisition record",
+    "future publication and tag verification records"
+  ],
+  "separate_pending_dependencies": {
+    "label_order_1a_approved": false,
+    "harness_D9_runtime_qualified": false,
+    "service_identity_configuration_and_qualification_complete": false,
+    "T5_and_operational_feasibility_complete": false,
+    "OOD_technical_checks_03_11_complete": false,
+    "note": "These remain required in their own stages but are not circular prerequisites for the statistical-plan tag."
+  },
+  "prohibitions": [
+    "no material signature artifact",
+    "no extension of earlier OK verdicts to new bytes",
+    "no service calls, inference, simulation, pilot or final run",
+    "no publication or tag implied by this manifest"
+  ]
+}
