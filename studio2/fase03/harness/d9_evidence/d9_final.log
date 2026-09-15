@@ -1,0 +1,25 @@
+test_fixed_roles_and_pending_configuration (studio2.fase03.harness.test_d9.D9Contract.test_fixed_roles_and_pending_configuration) ... ok
+test_legacy_nominal_approval_is_not_d9 (studio2.fase03.harness.test_d9.D9Contract.test_legacy_nominal_approval_is_not_d9) ... ok
+test_payload_122b_omits_temperature_and_preserves_controls (studio2.fase03.harness.test_d9.D9Contract.test_payload_122b_omits_temperature_and_preserves_controls) ... ok
+test_role_stage_mapping_rejects_extra_arms (studio2.fase03.harness.test_d9.D9Contract.test_role_stage_mapping_rejects_extra_arms) ... ok
+test_122b_temperature_is_rejected_before_any_send (studio2.fase03.harness.test_d9.D9PriorBehavior.test_122b_temperature_is_rejected_before_any_send) ... ok
+test_primary_provider_cannot_execute_alternate_role (studio2.fase03.harness.test_d9.D9PriorBehavior.test_primary_provider_cannot_execute_alternate_role) ... ok
+test_alternate_pilot_full_library_and_same_case_swap (studio2.fase03.harness.test_d9.D9Runners.test_alternate_pilot_full_library_and_same_case_swap) ... ok
+test_configuration_mutations_refuse_before_client_and_intent (studio2.fase03.harness.test_d9.D9Runners.test_configuration_mutations_refuse_before_client_and_intent) ... ok
+test_direct_consumer_transport_requires_reservation (studio2.fase03.harness.test_d9.D9Runners.test_direct_consumer_transport_requires_reservation) ... ok
+test_document_changes_after_binding_block_resume_without_sends (studio2.fase03.harness.test_d9.D9Runners.test_document_changes_after_binding_block_resume_without_sends) ... ok
+test_history_mapping_cannot_reset_consumption (studio2.fase03.harness.test_d9.D9Runners.test_history_mapping_cannot_reset_consumption) ... ok
+test_pending_cli_does_not_create_ledger (studio2.fase03.harness.test_d9.D9Runners.test_pending_cli_does_not_create_ledger) ... ok
+test_persisted_provider_mutation_and_direct_reservation (studio2.fase03.harness.test_d9.D9Runners.test_persisted_provider_mutation_and_direct_reservation) ... ok
+test_r4_counter_distinct_from_service_counter (studio2.fase03.harness.test_d9.D9Runners.test_r4_counter_distinct_from_service_counter) ... /opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x103e16980>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_resume_counts_once_by_role_and_model (studio2.fase03.harness.test_d9.D9Runners.test_resume_counts_once_by_role_and_model) ... ok
+test_service_output_limit_rejects_before_client (studio2.fase03.harness.test_d9.D9Runners.test_service_output_limit_rejects_before_client) ... ok
+test_swapped_provider_or_unapproved_alternate_is_rejected (studio2.fase03.harness.test_d9.D9Runners.test_swapped_provider_or_unapproved_alternate_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 6.657s
+
+OK

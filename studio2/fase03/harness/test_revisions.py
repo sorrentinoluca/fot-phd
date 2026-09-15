@@ -255,7 +255,10 @@ class RunnerRevisions(unittest.TestCase):
                             presentation_approval=dict(path=str(approval),sha256=sha256_file(approval)),approved_producer_config_sha256=[sha256_file(self.provider)],expected_response=dict(returned_model='fixture-model',system_fingerprint=None))
         self.config['candidate']['requested_model']='fixture-model';self.config['candidate']['base_url']='https://offline.invalid/v1';self.config['candidate']['expected_max_model_len']=100000
         self.config['pilot_ledger']=dict(path=str(self.ledger.path),pilot_id=self.ledger.pilot_id)
-        self.config_path=self.home/'config.json';self.approve_config()
+        self.config_path=self.home/'config.json'
+        from studio2.fase03.harness.d9_offline_fixtures import install
+        install(self)  # D9 metadata/tokenizer fixtures; original behavioral assertions preserved.
+        self.approve_config()
         for module in (pp,rp,pg):self.stack.enter_context(patch.object(module,'PREFLIGHT_CONFIG_PATH',self.config_path))
         for module in (pp,pg):self.stack.enter_context(patch.object(module,'offline_token_counter',return_value=lambda s:len(s.split())))
         self.calls=[];self.fail_at=None;self.bad_at=None;self.identity_at=None;self.crash_at=None
@@ -267,7 +270,7 @@ class RunnerRevisions(unittest.TestCase):
             pair=[]
             for schema in fixed:
                 value={k:schema['properties'][k]['const'] for k in FIXED};value['observed_pattern']=value['variable_ids'][0]+' remains elevated.';pair.append(value)
-            raw=dict(id=f'fixture-{n}',model='WRONG' if n==self.identity_at else 'fixture-model',system_fingerprint=None,
+            raw=dict(id=f'fixture-{n}',model='WRONG' if n==self.identity_at else kwargs['model'],system_fingerprint=None,
                      choices=[dict(message=dict(content='invalid' if n==self.bad_at else json.dumps({'insights':pair})),finish_reason='stop')],usage=dict(prompt_tokens=2,completion_tokens=3,total_tokens=5))
             return types.SimpleNamespace(model_dump=lambda **kw:raw)
         def factory(**kw):
@@ -293,7 +296,9 @@ class RunnerRevisions(unittest.TestCase):
         self.config['execution_authorization']=dict(path=str(path),sha256=sha256_file(path));self.config_path.write_text(json.dumps(self.config))
 
     def producer(self,**kwargs):
-        return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=self.provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=kwargs.pop('stage','producer_conformity'),**kwargs)
+        stage=kwargs.pop('stage','producer_conformity')
+        provider=self.alternate_provider if stage=='alternate_conformity' else self.provider
+        return pp.run(source_inventory=self.source,results_dir=self.home/'results',provider_path=provider,snapshot=self.snapshot,schema_dir=kwargs.pop('schema_dir',SCHEMA),ledger=self.ledger,stage=stage,**kwargs)
 
     def inventory_args(self):
         return dict(evidence_root=REFERENCE,pseudolabel_path=ROOT/'studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json',assignment_path=ROOT/'studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json',derangement_path=ROOT/'studio2/fase03/pseudolabel/CONDITION_E_DERANGEMENTS.json',normal_handoff=ROOT/'studio2/fase03/baseline_numerica/NORMAL_DEV_HANDOFF.json',assembly_base_commit=self.inventory['assembly_base_commit'])

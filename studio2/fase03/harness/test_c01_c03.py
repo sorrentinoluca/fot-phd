@@ -102,7 +102,9 @@ class RunnerCorrections(unittest.TestCase):
         rp.run_budget_stage(t.prepared, t.results, ledger=t.ledger)
 
     def test_C01_failed_alternate_blocks_cli_probe_without_consumer_sends(self):
-        t = self.t; t.prepare(); t.fail_at = 9
+        t = self.t
+        t.config['d9']['alternate_placement']='pilot'; t.approve_config()  # Explicit D9 fixture choice, before any binding.
+        t.prepare(); t.fail_at = 9
         with self.assertRaises(HarnessError): t.producer(stage='alternate_conformity')
         argv = ['fixture', '--execute', '--acknowledge', rp.ACK, '--stage', 'budget',
                 '--prepared-dir', str(t.prepared), '--results-dir', str(t.results),

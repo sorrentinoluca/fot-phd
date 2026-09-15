@@ -1,0 +1,35 @@
+[
+  {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "-m",
+      "studio2.fase03.run_pilot",
+      "--config",
+      "/Users/luker/fot-tep-harness-d9/studio2/fase03/config/pilot_d9_pending.json"
+    ],
+    "returncode": 0,
+    "log": "run_pilot_plan.log"
+  },
+  {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "-m",
+      "studio2.fase03.producer_probe",
+      "--config",
+      "/Users/luker/fot-tep-harness-d9/studio2/fase03/config/pilot_d9_pending.json"
+    ],
+    "returncode": 0,
+    "log": "producer_probe_plan.log"
+  },
+  {
+    "command": [
+      "/opt/anaconda3/bin/python3",
+      "-m",
+      "studio2.fase03.prepare_gate",
+      "--config",
+      "/Users/luker/fot-tep-harness-d9/studio2/fase03/config/pilot_d9_pending.json"
+    ],
+    "returncode": 3,
+    "log": "prepare_gate_plan.log"
+  }
+]

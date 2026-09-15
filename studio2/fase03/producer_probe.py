@@ -62,9 +62,9 @@ def provider_config(path: Path | None) -> dict[str, Any]:
     if path is None:
         raise HarnessError("execution requires a separately frozen provider config after D9; the historical 27B record is not a default")
     value = load_json(path)
-    required = {"name", "base_url", "model", "temperature", "seed", "max_tokens",
-                "thinking_token_budget", "expected_max_model_len", "identity_sha256", "expected_response", "tokenizer"}
-    if not isinstance(value, dict) or set(value) != required:
+    required = {"name", "base_url", "model", "max_tokens",
+                "expected_max_model_len", "identity_sha256", "expected_response", "tokenizer"}
+    if not isinstance(value, dict) or not required <= set(value) or set(value) - required - {'temperature','seed','thinking_token_budget'}:
         raise HarnessError(f"producer provider config keys must be {sorted(required)}")
     if not isinstance(value["identity_sha256"], str) or len(value["identity_sha256"]) != 64:
         raise HarnessError("provider identity requires a full SHA-256")
@@ -106,10 +106,12 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
     response_identity_valid({}, provider['expected_response'])
     if sha256_file(provider_path) not in preflight.get('approved_producer_config_sha256', []):
         raise HarnessError('producer config is not covered by execution approval')
+    from studio2.fase03.harness.d9 import validate_provider, r4_counter, generation_kwargs
+    role = validate_provider(preflight, provider, stage, file_sha256=sha256_file(provider_path))
     verify_tokenizer(snapshot, **provider['tokenizer'])
     validator = load_validator(schema_dir)
     assert_context_compatible(validator, context_from_inventory(inventory))
-    count = offline_token_counter(snapshot, chat_template=False)
+    count = r4_counter(preflight, offline_token_counter)
     chat_count = offline_token_counter(snapshot, chat_template=True)
     from studio2.fase03.harness.producer import PRODUCER_TEMPLATE
     template = PRODUCER_TEMPLATE if template_path is None else template_path.read_bytes().decode('utf-8')
@@ -129,7 +131,9 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
         specs.append(spec)
         prepared.append((spec, prompt, fixed))
     binding = dict(requests=specs, template_text=template, inventory_sha256=digest(inventory),
-                   provider=provider, tokenizer=provider['tokenizer'], schema_manifest_sha256=SCHEMA_MANIFEST_SHA256)
+                   provider=provider, tokenizer=provider['tokenizer'], schema_manifest_sha256=SCHEMA_MANIFEST_SHA256,
+                   execution_config=preflight, provider_file_sha256=sha256_file(provider_path),
+                   provider_reference={'path':str(provider_path.resolve()),'sha256':sha256_file(provider_path)})
     ledger.bind_stage(stage, binding)
     # Reject any uncertain restart before constructing a client or sending later requests.
     from openai import OpenAI
@@ -146,12 +150,12 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
             raise HarnessError('producer provider config changed during stage')
         kwargs = dict(model=provider['model'], messages=[dict(role='user', content=prompt)], max_tokens=provider['max_tokens'],
                       response_format={'type': 'json_schema', 'json_schema': {'name': 'study2_insight_pair', 'strict': True, 'schema': response_schema(fixed, preflight)}})
-        for k in ('temperature','seed'):
-            if provider[k] is not None:
-                kwargs[k] = provider[k]
-        if provider['thinking_token_budget'] is not None:
-            kwargs['extra_body'] = {'thinking_token_budget': provider['thinking_token_budget']}
+        validate_provider(preflight, provider, stage, file_sha256=sha256_file(provider_path))
+        count = r4_counter(preflight, offline_token_counter)
+        kwargs.update(generation_kwargs({k:provider[k] for k in ('max_tokens','temperature','seed','thinking_token_budget') if k in provider}, model_role=role))
         def transport():
+            ledger.bind_stage(stage, binding)
+            require_execution(preflight)
             response = client.chat.completions.create(**kwargs)
             return response.model_dump(mode='json')
         def evaluate(raw):
@@ -195,13 +199,19 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
 
 
 def print_plan(preflight: dict[str, Any]) -> None:
+    if 'd9' in preflight:
+        print(json.dumps({'status':'PLAN_ONLY_NO_PROVIDER_CALLS', 'roles':preflight['d9']['roles'],
+                          'alternate_placement':preflight['d9']['alternate_placement'],
+                          'missing_requirements':preflight['d9']['missing_requirements'],
+                          'calls_per_producer':8, 'insights_per_library':16, 'pilot_go':False}, indent=2))
+        return
     print(json.dumps({"status": "PLAN_ONLY_NO_PROVIDER_CALLS", "calls_per_producer": 8,
                       "insights_per_call": 2, "global_insights_checked": 16,
                       "contract": {"revision": 4, "target_commit": SCHEMA_TARGET_COMMIT,
                                    "manifest_sha256": SCHEMA_MANIFEST_SHA256},
                       "producer_inputs": "verified development examples plus fixed contracts; no insight library",
                       "resulting_library": "written only after 16/16 first-attempt R4 validation",
-                      "provider_config": "required separately after D9; no canonical role is assumed",
+                      "provider_config": "D9: 122B primary, 27B alternate; separately documented and authorized",
                       "automatic_retries": 0, "persistent_ledger_required": True,
                       "fixed_fields": preflight["insight_contract"]["fixed_fields"],
                       "generated_field": preflight["insight_contract"]["producer_field"]},
@@ -209,6 +219,7 @@ def print_plan(preflight: dict[str, Any]) -> None:
 
 
 def main() -> int:
+    global PREFLIGHT_CONFIG_PATH
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source-inventory", type=Path)
     parser.add_argument("--results-dir", type=Path, default=DEFAULT_RESULTS)
@@ -224,7 +235,10 @@ def main() -> int:
     parser.add_argument("--diagnosis", choices=("structure", "identifiers", "cap", "leakage"))
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--acknowledge")
+    parser.add_argument("--config", type=Path, help="Explicit D9 execution configuration; historical default remains suspended")
     args = parser.parse_args()
+    if args.config is not None:
+        PREFLIGHT_CONFIG_PATH = args.config.resolve()
     preflight = load_json(PREFLIGHT_CONFIG_PATH)
     if not args.execute:
         print_plan(preflight)
@@ -233,6 +247,8 @@ def main() -> int:
         raise SystemExit(f"execution requires --acknowledge {ACK}")
     if any(value is None for value in (args.source_inventory, args.provider_config, args.ledger, args.pilot_id)):
         raise SystemExit("execution requires source inventory, provider config, absolute ledger and pilot id")
+    from studio2.fase03.harness.guards import require_execution
+    require_execution(preflight)
     ledger = PilotLedger(args.ledger, pilot_id=args.pilot_id)
     summary = run(source_inventory=args.source_inventory, results_dir=args.results_dir,
                   provider_path=args.provider_config, snapshot=args.model_snapshot, schema_dir=args.schema_dir,

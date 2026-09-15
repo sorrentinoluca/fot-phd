@@ -164,7 +164,7 @@ def verify_conformance_inventory(inventory):
     return expected
 
 
-def _insights(path, *, ledger=None, token_count=None, schema_dir=None):
+def _insights(path, *, ledger=None, token_count=None, schema_dir=None, library_role="primary"):
     if path is None:
         return [], ['16 real schema-valid producer insights'], None
     if ledger is None or token_count is None or schema_dir is None:
@@ -172,7 +172,10 @@ def _insights(path, *, ledger=None, token_count=None, schema_dir=None):
     from .insight_adapter import validate_library
     from .ledger import digest
     value = load_json(path)
-    stage = 'producer_remediation' if ledger.event('remediation_authorized') else 'producer_conformity'
+    if library_role not in {'primary', 'alternate'}:
+        raise HarnessError('unknown producer library role')
+    stage = ('alternate_conformity' if library_role == 'alternate' else
+             ('producer_remediation' if ledger.event('remediation_authorized') else 'producer_conformity'))
     outcome = ledger.event('outcome:' + stage)
     ledger.verify_stage_success(stage)
     binding = ledger.binding(stage)

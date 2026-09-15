@@ -78,3 +78,24 @@ Eseguire regressioni interessate e suite mirata/discovery complete sul candidato
 Gli adattamenti necessari delle fixture storiche al nuovo prerequisito saranno dichiarati;
 assertion di D01–D04 non indebolite. Guardiano prima/dopo con identificativi, sempre NON PASS
 storico. Nessuna qualifica reale, OK indipendente, GO, pubblicazione o freeze.
+
+## Appendice di consegna — dopo l'implementazione
+
+Il testo precedente resta recuperabile nel commit test-first `62343a7`.
+L'inventario dei nuovi campi normativi è
+[D9_FIELD_CONTRACT.json](d9_evidence/D9_FIELD_CONTRACT.json); nessuna nuova
+colonna SQLite o categoria di evento. Adattamenti e limiti effettivi sono in
+[ADATTAMENTI_E_LIMITI.md](d9_evidence/ADATTAMENTI_E_LIMITI.md).
+In particolare D01 legacy privo di D9 si arresta prima della precedente
+rematerializzazione scientifica: il positivo generico resta, quello scientifico
+non viene presentato come invariato. C01 e D02 esplicitano `pilot` nelle sole
+fixture che richiedono la conformità alternativa.
+
+Il contratto approvato dei ruoli è operativo nei percorsi locali; la configurazione
+consegnata è intenzionalmente incompleta e bloccata. La funzione di swap autentica
+librerie e conserva i casi forniti, ma non crea il runner dello studio definitivo.
+Il percorso alternativo differito richiede ancora specifica di collocazione e
+contabilità. L'interfaccia di trasporto consumer si usa attraverso `execute_request`:
+la protezione dalle ripetizioni e dai crash è del ledger durevole D04, non del
+contatore in memoria dell'SDK. Le prove finite non certificano ogni chiamata privata
+arbitraria o ogni interleaving esterno ai runner autorizzati.

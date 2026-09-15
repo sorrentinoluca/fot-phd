@@ -134,6 +134,8 @@ class DurablePredecessors(unittest.TestCase):
 
     def test_D02_runner_and_CLI_resume_refuse_before_server_calls_or_output_writes(self):
         t = fixtures.RunnerRevisions(); t.setUp(); self.addCleanup(t.doCleanups)
+        t.config['d9']['alternate_placement'] = 'pilot'
+        t.approve_config()
         t.prepare(); t.producer(stage='alternate_conformity')
         rp.run_budget_stage(t.prepared,t.results,ledger=t.ledger)
         rp.run_stability_stage(t.prepared,t.results,ledger=t.ledger)

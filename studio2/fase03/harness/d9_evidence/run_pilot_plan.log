@@ -1,0 +1,17 @@
+{
+  "status": "PLAN_ONLY_NO_PROVIDER_CALLS",
+  "roles": {
+    "producer": "122B",
+    "consumer": "122B",
+    "alternate": "27B"
+  },
+  "alternate_placement": "PENDING",
+  "missing_requirements": [
+    "service metadata/configurations and tokenizer/template pins",
+    "prompt-facing label order approval",
+    "reviewed historical S reconciliation",
+    "alternate conformance placement",
+    "execution authorization"
+  ],
+  "pilot_go": false
+}

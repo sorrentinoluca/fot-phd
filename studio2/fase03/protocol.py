@@ -641,7 +641,8 @@ def context_feasibility(
                 "maximum_input_tokens": maximum,
                 "required_context_tokens": maximum + max_tokens + margin,
                 "context_margin_tokens": remaining,
-                "fits_with_required_safety_margin": remaining >= margin,
+                "fits_with_required_safety_margin": remaining >= margin and (
+                    "d9" not in config or max_tokens <= config["d9"]["services"]["122B"]["max_output_tokens"]),
             }
         )
     feasible = [

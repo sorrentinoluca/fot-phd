@@ -1,0 +1,46 @@
+{
+  "artifact_version": "D9-1",
+  "status": "SUSPENDED_D9_PREREQUISITES",
+  "study_model_decision": "APPROVED",
+  "d9": {
+    "roles": {
+      "producer": "122B",
+      "consumer": "122B",
+      "alternate": "27B"
+    },
+    "status": "PENDING",
+    "alternate_placement": "PENDING",
+    "missing_requirements": [
+      "service metadata/configurations and tokenizer/template pins",
+      "prompt-facing label order approval",
+      "reviewed historical S reconciliation",
+      "alternate conformance placement",
+      "execution authorization"
+    ],
+    "services": {
+      "122B": null,
+      "27B": null
+    },
+    "producer_configs": {
+      "122B": null,
+      "27B": null
+    },
+    "r4_snapshot": null,
+    "r4_tokenizer": null,
+    "history_reconciliation": null
+  },
+  "qualification": "NOT_PERFORMED",
+  "pilot_go": false,
+  "notes": {
+    "temperature_122B": "omit from payload; declared server default 0.6 is not a request parameter",
+    "historical_S": "4 reported requests, 3 completed inferences; not reconciled"
+  },
+  "call_budget": {
+    "hard_stop_provider_requests": 200
+  },
+  "generation_budget": {},
+  "candidate": {},
+  "dependencies": [],
+  "implementation_status": "D9 offline delta pending independent review",
+  "subordinated_checks": []
+}

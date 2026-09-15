@@ -95,6 +95,8 @@ def require_execution(config: dict[str, Any]) -> None:
     from .common import canonical_json
     if config.get('study_model_decision') != 'APPROVED' or config.get('status') != 'APPROVED_FOR_PHASE03_EXECUTION':
         raise HarnessError('execution suspended: approved model decision and executable preflight required after D9')
+    from .d9 import validate_config
+    validate_config(config)
     approval_ref = config.get('execution_authorization', {})
     path = Path(approval_ref.get('path', ''))
     require_sha256(path, approval_ref.get('sha256', ''), role='execution approval')
@@ -131,3 +133,7 @@ def require_pilot_ledger(config, ledger):
     expected = config.get('pilot_ledger', {})
     if expected.get('pilot_id') != ledger.pilot_id or not expected.get('path') or Path(expected['path']).resolve() != ledger.path:
         raise HarnessError('pilot ledger identity/path is not covered by execution approval')
+    from .d9 import validate_history
+    with ledger._transaction() as connection:
+        validate_history(config, ledger, connection)
+        ledger._validated_attempt_inventory(connection)

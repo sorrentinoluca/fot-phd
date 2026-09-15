@@ -127,28 +127,31 @@ class ReplayPrerequisites(unittest.TestCase):
         before = logical_database(t.ledger)
         file_bytes = {p:p.read_bytes() for p in t.results.iterdir() if p.is_file()}
         for stage, run in [('budget',rp.run_budget_stage),('stability',rp.run_stability_stage)]:
-            with self.subTest(entry=stage+'/runner'), self.assertRaisesRegex(HarnessError, 'alternate_conformity'):
+            with self.subTest(entry=stage+'/runner'), self.assertRaisesRegex(HarnessError, 'D9'):
                 run(t.prepared, t.results, ledger=t.ledger, resume=True)
             argv=['fixture','--execute','--acknowledge',rp.ACK,'--stage',stage,'--resume',
                   '--prepared-dir',str(t.prepared),'--results-dir',str(t.results),
                   '--ledger',str(t.ledger.path),'--pilot-id',t.ledger.pilot_id]
-            with self.subTest(entry=stage+'/CLI'), patch.object(sys,'argv',argv), self.assertRaisesRegex(HarnessError, 'alternate_conformity'):
+            with self.subTest(entry=stage+'/CLI'), patch.object(sys,'argv',argv), self.assertRaisesRegex(HarnessError, 'D9'):
                 rp.main()
         self.assertEqual(t.consumer_calls, []); t.server_mock.assert_not_called()
         self.assertEqual(logical_database(t.ledger), before)
         self.assertEqual({p:p.read_bytes() for p in t.results.iterdir() if p.is_file()}, file_bytes)
         self.assertEqual(t.ledger.snapshot()['requests_cumulative'], 132)
 
-    def test_D01_valid_real_legacy_gate_rematerializes_without_transport(self):
+    def test_D01_real_legacy_D9_blocks_rematerialization_without_rewriting(self):
         t = self.reopen_runner(self.legacy('PASS', runner=True))
         result = json.loads((t.results/'stability_summary.json').read_text())
         frozen = json.loads((t.results/'frozen_gate_config.json').read_text())
         before = logical_database(t.ledger)
         (t.results/'stability_summary.json').unlink()
-        # Closed probe may also be replayed after the downstream gate exists.
-        self.assertEqual(rp.run_budget_stage(t.prepared,t.results,ledger=t.ledger,resume=True), frozen)
-        self.assertEqual(rp.run_stability_stage(t.prepared,t.results,ledger=t.ledger,resume=True), result)
-        self.assertEqual(json.loads((t.results/'stability_summary.json').read_text()), result)
+        # D9 does not backfill authorization over historical scientific runner fixtures.
+        # Generic v2 legacy replay is still checked above; this boundary now requires D9.
+        with self.assertRaisesRegex(HarnessError, 'D9'):
+            rp.run_budget_stage(t.prepared,t.results,ledger=t.ledger,resume=True)
+        with self.assertRaisesRegex(HarnessError, 'D9'):
+            rp.run_stability_stage(t.prepared,t.results,ledger=t.ledger,resume=True)
+        self.assertFalse((t.results/'stability_summary.json').exists())
         self.assertEqual(t.consumer_calls, []); self.assertEqual(logical_database(t.ledger), before)
 
     def test_D01_current_remediation_and_C02_invalidity_survive_checked_replay(self):

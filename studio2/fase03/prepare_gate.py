@@ -122,7 +122,8 @@ def prepare(
         if source_inventory_path is None or insight_handoff is None or ledger is None:
             raise RuntimeError('real preparation requires inventory, authenticated insight handoff and shared ledger')
         inventory = load_json(source_inventory_path)
-        raw_count = offline_token_counter(snapshot, chat_template=False)
+        from studio2.fase03.harness.d9 import r4_counter
+        raw_count = r4_counter(config, offline_token_counter)
         authenticate(manifest, inventory, config=config, ledger=ledger, handoff=insight_handoff,
                      schema_dir=schema_dir, snapshot=snapshot, token_count=raw_count)
         prompt_rows = build_real_pilot_sample(manifest, config, token_count=token_count, insight_token_count=raw_count,
@@ -209,6 +210,7 @@ def inventory() -> dict[str, Any]:
 
 
 def main() -> int:
+    global PREFLIGHT_CONFIG_PATH
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--input-manifest", type=Path)
     parser.add_argument("--source-inventory", type=Path)
@@ -219,7 +221,10 @@ def main() -> int:
     parser.add_argument("--model-snapshot", type=Path, default=DEFAULT_SNAPSHOT)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--acknowledge")
+    parser.add_argument("--config", type=Path, help="Explicit D9 execution configuration; historical default remains suspended")
     args = parser.parse_args()
+    if args.config is not None:
+        PREFLIGHT_CONFIG_PATH = args.config.resolve()
     if args.input_manifest is not None and args.synthetic_profile is not None:
         raise SystemExit("choose either --input-manifest or --synthetic-profile")
     if args.synthetic_profile is not None:
@@ -249,6 +254,8 @@ def main() -> int:
         print(json.dumps(inventory(), indent=2, ensure_ascii=False))
         return 3
     from studio2.fase03.harness.ledger import PilotLedger
+    from studio2.fase03.harness.guards import require_execution
+    require_execution(load_json(PREFLIGHT_CONFIG_PATH))
     ledger = PilotLedger(args.ledger, pilot_id=args.pilot_id) if args.ledger and args.pilot_id else None
     result = prepare(args.input_manifest, args.model_snapshot, args.output_dir, source_inventory_path=args.source_inventory, insight_handoff=args.insight_handoff, ledger=ledger)
     print(canonical_json(result))

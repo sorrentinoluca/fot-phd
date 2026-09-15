@@ -38,6 +38,7 @@ from studio2.fase03.harness.gate_rules import (  # noqa: E402
     semantic_signature,
 )
 from studio2.fase03.harness.ledger import PilotLedger, digest
+from studio2.fase03.harness.common import HarnessError
 from studio2.fase03.harness.guards import require_execution, response_identity_valid, require_pilot_ledger
 from studio2.fase03.harness.runtime import execute_request, durable_write  # noqa: E402
 
@@ -171,45 +172,13 @@ def process_provenance(config: dict[str, Any], vllm_version: str) -> dict[str, A
 
 def server_contract(config: dict[str, Any]) -> dict[str, Any]:
     require_execution(config)
-    candidate = config["candidate"]
-    origin = candidate["base_url"].removesuffix("/v1")
-    version = http_json(f"{origin}/version")
-    models = http_json(f"{candidate['base_url']}/models")
-    openapi = http_json(f"{origin}/openapi.json")
-    found = [
-        item
-        for item in models.get("data", [])
-        if item.get("id") == candidate["requested_model"]
-    ]
-    if len(found) != 1:
-        raise RuntimeError("requested model alias is missing or ambiguous")
-    model = found[0]
-    props = (
-        openapi.get("components", {})
-        .get("schemas", {})
-        .get("ChatCompletionRequest", {})
-        .get("properties", {})
-    )
-    observed = {
-        "vllm_version": version.get("version"),
-        "model_id": model.get("id"),
-        "model_root": model.get("root"),
-        "max_model_len": model.get("max_model_len"),
-        "temperature_advertised": "temperature" in props,
-        "seed_advertised": "seed" in props,
-        "thinking_token_budget_advertised": "thinking_token_budget" in props,
-        "reasoning_effort_advertised": "reasoning_effort" in props,
-    }
-    expected = {
-        "vllm_version": candidate["expected_vllm_version"],
-        "model_id": candidate["requested_model"],
-        "model_root": candidate["expected_model_root"],
-        "max_model_len": candidate["expected_max_model_len"],
-    }
-    if any(observed[key] != value for key, value in expected.items()):
-        raise RuntimeError(f"server contract mismatch: observed={observed}, expected={expected}")
-    observed["process"] = process_provenance(config, observed["vllm_version"])
-    return observed
+    # D9 metadata is checked offline. No local PID, /version or /openapi assumption
+    # applies to the remote service. This is documentary provenance, not a live qualification.
+    service = config['d9']['services']['122B']
+    from studio2.fase03.harness.d9 import read_reference
+    document = read_reference(service['documentation'], '122B documentation')
+    return {'scope': 'DOCUMENTED_NOT_LIVE_VERIFIED', 'service': service,
+            'document': document, 'documented_identity_sha256': service['identity_sha256']}
 
 
 class Provider:
@@ -227,7 +196,7 @@ class Provider:
         self.sdk_version = openai.__version__
         self.model = candidate["requested_model"]
         self.client = OpenAI(
-            api_key="local-vllm",
+            api_key=os.environ.get("STUDIO2_CONSUMER_API_KEY", "local-vllm"),
             base_url=candidate["base_url"],
             max_retries=0,
             timeout=600.0,
@@ -241,8 +210,23 @@ class Provider:
         prompt: dict[str, Any],
         schema: dict[str, Any],
         generation: dict[str, Any],
+        ledger=None, stage=None, spec=None,
     ) -> dict[str, Any]:
         require_execution(self.config)
+        from studio2.fase03.harness.d9 import generation_kwargs
+        if ledger is None or stage not in {'budget_probe','stability_gate'} or spec is None:
+            raise HarnessError('D9: direct transport requires a reserved durable request')
+        require_pilot_ledger(self.config, ledger)
+        binding = ledger.binding(stage)
+        ledger.bind_stage(stage, binding)
+        leaf = ledger.leaf(stage, spec['logical_id'])
+        if leaf is None or leaf['status'] != 'INTENT' or spec not in binding['requests']:
+            raise HarnessError('D9: no matching durable intent for transport')
+        if binding.get('execution_config') != self.config or spec['prompt_sha256'] != sha256_text(prompt['text']) or spec['contract_sha256'] != digest(generation):
+            raise HarnessError('D9: transport differs from durable configuration/prompt')
+        options = generation_kwargs(generation, model_role='122B')
+        if options['max_tokens'] > self.config['d9']['services']['122B']['max_output_tokens']:
+            raise HarnessError('D9: consumer output exceeds documented limit')
         if self.requests >= self.hard_stop:
             raise RuntimeError("hard provider-request stop reached")
         self.requests += 1
@@ -251,10 +235,7 @@ class Provider:
         response = self.client.chat.completions.create(
             model=self.model,
             messages=[{"role": "user", "content": prompt["text"]}],
-            temperature=generation["temperature"],
-            seed=generation["seed"],
-            max_tokens=generation["max_tokens"],
-            extra_body={"thinking_token_budget": generation["thinking_token_budget"]},
+            **options,
             response_format={
                 "type": "json_schema",
                 "json_schema": {
@@ -307,7 +288,8 @@ def load_prepared(prepared_dir: Path, *, expected_status='READY_FOR_PRE_GATE_GEN
     snapshot = Path(plan['tokenizer_snapshot'])
     verify_tokenizer(snapshot, **config['tokenizer'])
     counter = offline_token_counter(snapshot)
-    raw_counter = offline_token_counter(snapshot, chat_template=False)
+    from studio2.fase03.harness.d9 import r4_counter
+    raw_counter = r4_counter(config, offline_token_counter)
     inventory, manifest = load_json(Path(plan['source_inventory'])), load_json(source)
     authenticate(manifest, inventory, config=config, ledger=ledger, handoff=Path(plan['insight_handoff']),
                  schema_dir=Path(plan['schema_dir']), snapshot=snapshot, token_count=raw_counter)
@@ -346,7 +328,7 @@ def _tracked_call(provider, ledger, *, prompt, schema, generation, stage, stage_
     def evaluate(raw):
         return dict(consumer_record(raw, prompt, generation), repetition=repetition)
     return execute_request(ledger=ledger, stage=stage, spec=spec,
-                           transport=lambda: provider.call(prompt=prompt, schema=schema, generation=generation),
+                           transport=lambda: provider.call(prompt=prompt, schema=schema, generation=generation, ledger=ledger, stage=stage, spec=spec),
                            evaluate=evaluate, expected_identity=config['expected_response'],
                            journal_path=journal_path or ledger.path.with_suffix('.journal.jsonl'),
                            resume=resume, retry_requests=retry_requests, pre_reserved=pre_reserved)
@@ -377,15 +359,16 @@ def run_budget_stage(prepared_dir: Path, results_dir: Path, *, ledger: PilotLedg
     stress = {condition: max((p for p in prompts if p['condition']==condition), key=lambda p:p['input_tokens']) for condition in ('A','B-LF','E-LF')}
     specs, jobs = [], []
     for candidate in plan['context_feasibility']['feasible_candidates']:
-        generation = dict(temperature=config['generation_budget']['temperature'], seed=config['generation_budget']['seed'], **candidate)
-        # Only the two probed generation fields are admissible here.
-        generation = {k:generation[k] for k in ('temperature','seed','thinking_token_budget','max_tokens')}
+        generation = {k:config['generation_budget'][k] for k in ('seed',) if k in config['generation_budget']}
+        generation.update({k:candidate[k] for k in ('thinking_token_budget','max_tokens')})
+        from studio2.fase03.harness.d9 import generation_kwargs
+        generation_kwargs(generation, model_role='122B')
         group = str(candidate['thinking_token_budget'])
         for condition in ('A','B-LF','E-LF'):
             logical = f'budget:{group}:{condition}'
             spec = request_spec(stress[condition], generation, config=config, logical_id=logical, group=group, repetition=1)
             specs.append(spec); jobs.append((spec,stress[condition],generation))
-    binding = dict(requests=specs, config_sha256=digest(config), prompts_sha256=digest(prompts), schema_sha256=digest(schema))
+    binding = dict(requests=specs, config_sha256=digest(config), prompts_sha256=digest(prompts), schema_sha256=digest(schema), execution_config=config)
     ledger.bind_stage('budget_probe', binding)
     reserved = _probe_retry(ledger, 'budget_probe', retry_requests) if resume else []
     server = server_contract(config)
@@ -451,7 +434,7 @@ def run_stability_stage(prepared_dir: Path, results_dir: Path, *, ledger: PilotL
     if frozen['status'] != 'FROZEN_FOR_STABILITY_GATE' or frozen['config_sha256'] != digest(config) or frozen['prompt_sample'] != prompts or frozen['schema_sha256'] != digest(schema) or frozen['pre_gate_plan_sha256'] != sha256_file(prepared_dir/'pre_gate_plan.json'):
         raise RuntimeError('frozen gate provenance mismatch')
     specs = [request_spec(p, frozen['generation'], config=config, logical_id=f"{p['prompt_id']}:r{r}", group=p['prompt_id'], repetition=r) for p in prompts for r in (1,2,3)]
-    binding = dict(requests=specs, frozen_sha256=digest(frozen), config_sha256=digest(config))
+    binding = dict(requests=specs, frozen_sha256=digest(frozen), config_sha256=digest(config), execution_config=config)
     ledger.bind_stage('stability_gate', binding)
     server = server_contract(config)
     if server != frozen['server']:
@@ -472,6 +455,12 @@ def run_stability_stage(prepared_dir: Path, results_dir: Path, *, ledger: PilotL
 
 
 def print_plan(config: dict[str, Any]) -> None:
+    if 'd9' in config:
+        print(json.dumps({'status':'PLAN_ONLY_NO_PROVIDER_CALLS', 'roles':config['d9']['roles'],
+                          'alternate_placement':config['d9']['alternate_placement'],
+                          'missing_requirements':config['d9']['missing_requirements'],
+                          'pilot_go':False}, indent=2))
+        return
     calls = config["call_budget"]
     print(
         json.dumps(
@@ -516,6 +505,7 @@ def print_plan(config: dict[str, Any]) -> None:
 
 
 def main() -> int:
+    global PREFLIGHT_CONFIG_PATH
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--stage",
@@ -529,7 +519,10 @@ def main() -> int:
     parser.add_argument("--acknowledge")
     parser.add_argument("--ledger", type=Path)
     parser.add_argument("--pilot-id")
+    parser.add_argument("--config", type=Path, help="Explicit D9 execution configuration; historical default remains suspended")
     args = parser.parse_args()
+    if args.config is not None:
+        PREFLIGHT_CONFIG_PATH = args.config.resolve()
     config = load_json(PREFLIGHT_CONFIG_PATH)
     if not args.execute:
         print_plan(config)
@@ -551,6 +544,7 @@ def main() -> int:
         )
     if args.ledger is None or args.pilot_id is None:
         raise SystemExit("execution requires --ledger ABSOLUTE_PATH and --pilot-id")
+    require_execution(load_json(PREFLIGHT_CONFIG_PATH))
     ledger = PilotLedger(args.ledger, pilot_id=args.pilot_id)
     if args.stage == "budget":
         result = run_budget_stage(args.prepared_dir, args.results_dir, ledger=ledger, resume=args.resume, retry_requests=args.retry_request)

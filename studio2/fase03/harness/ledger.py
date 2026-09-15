@@ -143,10 +143,12 @@ class PilotLedger:
         value = json.loads(row['binding_json'])
         if digest(value) != row['binding_sha256']:
             raise HarnessError("stage binding corrupted")
+        from .d9 import validate_binding
+        validate_binding(value, stage, self, c)
         return value
 
     def binding(self, stage):
-        with closing(self._connect()) as c:
+        with self._transaction() as c:
             return self._binding(c, stage)
 
     def bind_stage(self, stage, binding):
@@ -172,6 +174,8 @@ class PilotLedger:
             if any(len(g) != 3 or {s['condition'] for s in g} != {'A', 'B-LF', 'E-LF'} for g in groups.values()):
                 raise HarnessError("probe plan requires distinct complete condition triplets")
         with self._transaction() as c:
+            from .d9 import validate_binding
+            validate_binding(binding, stage, self, c)
             old = c.execute("SELECT binding_sha256 FROM stages WHERE stage=?", (stage,)).fetchone()
             if old:
                 if old[0] != digest(binding):
