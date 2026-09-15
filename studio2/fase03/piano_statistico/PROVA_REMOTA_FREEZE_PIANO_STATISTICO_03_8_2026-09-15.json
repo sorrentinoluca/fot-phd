@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-09-15T17:15:57Z",
+  "scope": "phase03_subphase_03_8_statistical_plan_post_tag_effectiveness",
+  "status": "freeze_effective_record_pending_independent_review_and_publication",
+  "freeze_effective": true,
+  "record_verified": false,
+  "record_published": false,
+  "subphase_03_8_closed": false,
+  "phase_03_closed": false,
+  "remote": {
+    "name": "origin",
+    "url": "https://github.com/sorrentinoluca/fot-phd.git"
+  },
+  "publication": {
+    "previous_remote_main": "8dbd2b49176c16f9e100e5f181c729b99d406a35",
+    "published_commit": "11f504b2bf45a39c1bc4746952f50d58c5022743",
+    "published_tree": "c4da62906fe434ea7e8f514dc72f9e0c4e7b4b71",
+    "remote_main_observed": "11f504b2bf45a39c1bc4746952f50d58c5022743",
+    "fast_forward": true,
+    "forced_update": false,
+    "commits_ahead": 5,
+    "commits_behind": 0,
+    "changed_files": 7,
+    "insertions": 997,
+    "deletions": 0,
+    "target_reachable_from_remote_main": true
+  },
+  "freeze_tag": {
+    "name": "studio2-fase03-piano-statistico-frozen-001",
+    "type": "annotated",
+    "cryptographically_signed": false,
+    "tag_object": "bfcf6e5b3840c5b7dc3f7ace1085843d18cfddc7",
+    "target_type": "commit",
+    "target_commit": "11f504b2bf45a39c1bc4746952f50d58c5022743",
+    "peeled_commit": "11f504b2bf45a39c1bc4746952f50d58c5022743",
+    "target_tree": "c4da62906fe434ea7e8f514dc72f9e0c4e7b4b71",
+    "tagger_from_git_object": {
+      "name": "Luca Sorrentino",
+      "email": "lucaso@elkjop.no",
+      "timestamp_unix": 1789491395,
+      "timezone_offset": "+0200",
+      "timestamp_local": "2026-09-15T18:56:35+0200",
+      "timestamp_utc": "2026-09-15T16:56:35Z",
+      "note": "Git tagger metadata identifies creation of the annotated tag; it is not a material signature."
+    },
+    "message": "Studio 2 FoT-TEP, Fase 03: freeze piano statistico 03.8.\n\nPiano statistico rev.10 SHA-256 675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a; manifest finale pre-tag verificato al commit ec807dbaf2cb745ba96d397aac64a981f6fdeb7d, SHA-256 087d268d438ca6e98063346a5547849a05235a43712aebe56e007c46dcc1413d; OK indipendente acquisito nel commit 11f504b2bf45a39c1bc4746952f50d58c5022743, verbale SHA-256 5f6a600ae4c84d1eb7a82a229ca4a60589f29bc06386dee170fccd7ff2a7af8d. La firma materiale non è richiesta. La Fase 03 resta aperta.",
+    "local_object_verified": true,
+    "local_peeled_verified": true,
+    "remote_object_verified": true,
+    "remote_peeled_verified": true,
+    "remote_tag_output": [
+      "bfcf6e5b3840c5b7dc3f7ace1085843d18cfddc7\trefs/tags/studio2-fase03-piano-statistico-frozen-001",
+      "11f504b2bf45a39c1bc4746952f50d58c5022743\trefs/tags/studio2-fase03-piano-statistico-frozen-001^{}"
+    ]
+  },
+  "effectiveness_basis": {
+    "annotated_tag_exists_locally_and_remotely": true,
+    "local_and_remote_tag_objects_match": true,
+    "local_and_remote_peeled_commits_match_target": true,
+    "tag_target_is_published_remote_main": true,
+    "verified_manifest_and_acquired_ok_reachable_from_tag": true,
+    "material_signature_required": false,
+    "note": "The statistical freeze is effective because the reviewed pre-tag chain is published and the annotated tag resolves remotely to that exact chain. Independent review and publication of this post-tag record remain required before documenting closure of 03.8."
+  },
+  "verified_pre_tag_chain": {
+    "statistical_plan": {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "revision": 10,
+      "bytes": 81490,
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a"
+    },
+    "final_pre_tag_manifest": {
+      "path": "studio2/fase03/piano_statistico/MANIFEST_FINALE_PRE_TAG_03_8.json",
+      "base_commit": "a5798c667dedcb85d3b745258fbc992e0c05841a",
+      "candidate_commit": "ec807dbaf2cb745ba96d397aac64a981f6fdeb7d",
+      "candidate_tree": "58ffd0b057dee7c1a1c399aaadd6c256d8658e34",
+      "bytes": 14768,
+      "sha256": "087d268d438ca6e98063346a5547849a05235a43712aebe56e007c46dcc1413d"
+    },
+    "independent_verdict": {
+      "path": "studio2/fase03/piano_statistico/VERIFICA_MANIFEST_FINALE_PRE_TAG_03_8.md",
+      "verdict": "OK",
+      "bytes": 8694,
+      "sha256": "5f6a600ae4c84d1eb7a82a229ca4a60589f29bc06386dee170fccd7ff2a7af8d"
+    },
+    "verdict_acquisition": {
+      "path": "studio2/fase03/piano_statistico/ACQUISIZIONE_OK_MANIFEST_FINALE_PRE_TAG_03_8.md",
+      "commit": "11f504b2bf45a39c1bc4746952f50d58c5022743",
+      "bytes": 4160,
+      "sha256": "293219f3cc3c72538b50393923a29014a16b542652b5bb16432b0498f62bc6bd"
+    }
+  },
+  "historical_records_preserved": {
+    "statistical_plan_freeze_manifest": {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json",
+      "bytes": 25894,
+      "sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8"
+    },
+    "finalization_candidate_manifest": {
+      "path": "studio2/fase03/piano_statistico/MANIFEST_CANDIDATO_FREEZE_03_8.json",
+      "bytes": 12382,
+      "sha256": "bcc9ef183190e2fd0997b2e600fc53498e4a6194993e997820255a4b6d124dc6"
+    },
+    "final_pre_tag_manifest_modified_after_review": false,
+    "frozen_plan_modified_after_tag": false
+  },
+  "excluded_successor": {
+    "commit": "f944efd2872786d439c22b38302d33e91d08cfab",
+    "role": "pre-publication proposal record",
+    "reachable_from_remote_main": false,
+    "reachable_from_tag": false,
+    "included_in_this_candidate_history": false
+  },
+  "record_candidate": {
+    "base_commit": "11f504b2bf45a39c1bc4746952f50d58c5022743",
+    "candidate_commit": null,
+    "candidate_tree": null,
+    "identity_location": "CONSEGNA_RECORD_EFFICACIA_FREEZE_03_8.md, committed after the candidate to avoid self-reference",
+    "independent_review": "pending",
+    "review_acquisition": "pending",
+    "publication": "pending"
+  },
+  "next_required_events": [
+    "independent review of the exact one-file post-tag effectiveness record candidate",
+    "byte-identical acquisition of that verdict",
+    "authorized non-forced publication of the reviewed record chain",
+    "remote reachability verification of the record before documenting subphase 03.8 closure"
+  ],
+  "prohibitions": [
+    "do not rewrite the tagged commit or any reviewed manifest",
+    "do not move, replace or force-update the freeze tag",
+    "do not extend earlier OK verdicts to this post-tag record",
+    "do not declare subphase 03.8 or Phase 03 closed before this record is independently verified and published",
+    "no material signature, service calls, inference, simulation, pilot or final run"
+  ],
+  "operations_during_record_preparation": {
+    "pushes": 0,
+    "tags_created_or_modified": 0,
+    "scientific_model_calls": 0,
+    "scientific_runs": 0
+  }
+}
