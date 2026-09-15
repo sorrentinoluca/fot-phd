@@ -1,0 +1,29 @@
+test_V01_real_crash_reconciliation_is_atomic_before_and_after_commit (__main__.Audit.test_V01_real_crash_reconciliation_is_atomic_before_and_after_commit) ... ok
+test_V02_acquisition_reads_same_bytes_once_and_seals_opaque_content (__main__.Audit.test_V02_acquisition_reads_same_bytes_once_and_seals_opaque_content) ... ok
+test_V03_failed_gate_reconciled_preserves_invalid_and_holds_real_writer_lock (__main__.Audit.test_V03_failed_gate_reconciled_preserves_invalid_and_holds_real_writer_lock) ... ok
+test_V04_open_producer_corrupt_proof_refuses_before_client_or_retry (__main__.Audit.test_V04_open_producer_corrupt_proof_refuses_before_client_or_retry) ... ok
+test_V05_open_stage_quota_fault_cannot_authorize_eighth_retry (__main__.Audit.test_V05_open_stage_quota_fault_cannot_authorize_eighth_retry) ... FAIL
+test_V06_real_runner_quota_fault_cannot_send_eighth_retry (__main__.Audit.test_V06_real_runner_quota_fault_cannot_send_eighth_retry) ... FAIL
+
+======================================================================
+FAIL: test_V05_open_stage_quota_fault_cannot_authorize_eighth_retry (__main__.Audit.test_V05_open_stage_quota_fault_cannot_authorize_eighth_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/independent_d03_probes.py", line 115, in test_V05_open_stage_quota_fault_cannot_authorize_eighth_retry
+    self.assertIsNotNone(retry_error,'eighth retry must be refused after single normative quota field corruption')
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: unexpectedly None : eighth retry must be refused after single normative quota field corruption
+
+======================================================================
+FAIL: test_V06_real_runner_quota_fault_cannot_send_eighth_retry (__main__.Audit.test_V06_real_runner_quota_fault_cannot_send_eighth_retry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/evidence/independent_d03_probes.py", line 133, in test_V06_real_runner_quota_fault_cannot_send_eighth_retry
+    self.assertEqual(len(t.calls),calls,'normative quota fault must not reach producer transport')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 9 != 8 : normative quota fault must not reach producer transport
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.755s
+
+FAILED (failures=2)

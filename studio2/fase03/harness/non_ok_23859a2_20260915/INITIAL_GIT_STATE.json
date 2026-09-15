@@ -1,0 +1,84 @@
+{
+  "repositories": {
+    "/Users/luker/fot-tep": {
+      "head": "819b12e97fb94d501032655ec2f226139e6c5ca5",
+      "tree": "5022e36b3a7457e78a7bcb505f2bc66dffa5dc6d",
+      "branch": "codex/studio2-soglie-normal",
+      "status": "?? \"Claude outputs/\"\n?? studio2/fase03/APERTURA_SOTTOFASI_FASE03.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14_rev02.md\n?? studio2/fase03/baseline_numerica/\n?? studio2/fase03/evidence/\n?? studio2/fase03/fedavg/\n?? studio2/fase03/harness/\n?? studio2/fase03/paper_sections/\n?? studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md\n?? studio2/fase03/perimetro_q8/sottofase_3_4_verifica_e_attuazione.md\n?? studio2/fase03/piano_statistico/\n?? studio2/fase03/pseudolabel/\n?? studio2/fase03/schema_insight/\n?? studio2/fase03/soglie_normal/analisi_3_5_prompt.md\n?? studio2/fase03/soglie_normal/runs/normal_001/\n?? studio2/fase03/soglie_normal/runtime/batch_launch/\n?? studio2/fase03/soglie_normal/sottofase_3_5.md\n?? studio2/fase03/soglie_normal/verifica_3_5_prompt.md"
+    },
+    "/Users/luker/fot-tep-harness-0310-d01": {
+      "head": "7afbf41632aa8117c85274b5f471abca0a655462",
+      "tree": "3be5225c283fb323946279d854e3ba6958ea20a6",
+      "branch": "codex/studio2-harness-0310-d01",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-harness-0310-c01-c03": {
+      "head": "52e13e1ed540e1ad076474398bf850445c9a4a00",
+      "tree": "cac5612a777b595aca53219491f1c686f39b24d6",
+      "branch": "codex/studio2-harness-0310-c01-c03",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-harness-0310-correzioni": {
+      "head": "6268437b8b64288b50ad5f7c924e1fcab85b27d3",
+      "tree": "a0c406a8d15411cd175428b7984254c771138d91",
+      "branch": "codex/studio2-harness-0310-correzioni",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-harness-0310-offline": {
+      "head": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69",
+      "tree": "833c10f98f79b203cec385ff1aec0437b679bcc5",
+      "branch": "codex/studio2-harness-0310-offline",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate": {
+      "head": "edb37f359f29c461c5a507c1027c4bf411654130",
+      "tree": "56d98666e1d18c7958ac8d3631ae6d5b8ec04bf9",
+      "branch": "",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate": {
+      "head": "9e18bcbd06fa2c54202c8eeda079c112dbfcefcd",
+      "tree": "5d1fd7924c4e1e46346f367590e6aa1977a6ba75",
+      "branch": "",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate": {
+      "head": "0c8157f23bee49a3a5a2df648525c34706da29d7",
+      "tree": "a1573b49615a875f24ee97f9f1cd4bab399be93d",
+      "branch": "",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate": {
+      "head": "59b6b93cd9c215e8b687e540f7cd579804b7c66a",
+      "tree": "cf08c14a8deb18145189afbe9722d7da46bc2f82",
+      "branch": "",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-harness-0310-d02": {
+      "head": "e9b60c5db77edfd3c06a29857e6ba5f61ebe139a",
+      "tree": "5460dad38b8321ea0d820937fb2b506580e6e3c1",
+      "branch": "codex/studio2-harness-0310-d02",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate": {
+      "head": "a219bd469bbd280f56b7fa9cb56cda115b0975ed",
+      "tree": "3fb8e50c189b85b447503b8a1ac99c1741904a5b",
+      "branch": "",
+      "status": ""
+    },
+    "/Users/luker/fot-tep-harness-0310-d03": {
+      "head": "97868f9d6ef281c2dd4ab1c6ffb67e2477ee5715",
+      "tree": "30af2de32f357eee0e983f82cf529cbe58cdd617",
+      "branch": "codex/studio2-harness-0310-d03",
+      "status": "?? VERIFICA_D03.md"
+    },
+    "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate": {
+      "head": "23859a29225ccd9cd6f47e4a0b6e36258831dbab",
+      "tree": "fe66025f4925e27676b0be16428475e3fcaee060",
+      "branch": "",
+      "status": ""
+    }
+  },
+  "remote_main": "a00605862f627710347bd63c49f79a6d0a00135f\trefs/heads/main",
+  "worktrees": "worktree /Users/luker/fot-tep\nHEAD 819b12e97fb94d501032655ec2f226139e6c5ca5\nbranch refs/heads/codex/studio2-soglie-normal\n\nworktree /sessions/rcw-01118v3oqfpugb5ejgh8zaz5/mnt/fot-tep/.worktrees/verifica_si_rev3\nHEAD e058cb07dceeefa8eb4a4b6d1f6fcab5aad483db\ndetached\nlocked initializing\n\nworktree /sessions/rcw-01192th8ku9vujvmtpldgzmb/.codex_worktrees/e748_fot_tep\nHEAD 89e4caebe635973ef438d4b601bb4f761417193a\ndetached\nlocked initializing\n\nworktree /sessions/rcw-013blwcitiaqnqjnblvv2mhh/mnt/fot-tep/.worktrees/verifica-delta-raccordo-0315-10582798\nHEAD 10582798eb5a4b52672bfbcb1cc028adcb73e9f1\ndetached\nlocked initializing\n\nworktree /sessions/rcw-013blwcitiaqnqjnblvv2mhh/mnt/fot-tep/.worktrees/verifica-delta-raccordo-0315-base9b6bd64\nHEAD 9b6bd64c3e23f03d09272dda43c1a043305add50\ndetached\nlocked initializing\n\nworktree /sessions/rcw-0156foabkya4cwpud246sqxc/mnt/fot-tep/.worktrees/verifica-delta-0315-91a880b\nHEAD 91a880b136dee5d805b54040f5e32345be361eb2\ndetached\nlocked initializing\n\nworktree /sessions/rcw-01chtctybyq1nnbumduhrcsc/mnt/fot-tep/.worktrees/acquisizione-raccordo-ok\nHEAD 6c51330f0d6074e441d6b92f934c199e85a3b1b8\nbranch refs/heads/codex/studio2-harness-raccordo-ok\nlocked initializing\n\nworktree /sessions/rcw-01chtctybyq1nnbumduhrcsc/mnt/fot-tep/.worktrees/integrazione-raccordo-metriche\nHEAD 3360867751c66a39e819247f86dab8e936f8cbb3\nbranch refs/heads/codex/studio2-raccordo-metriche-integrazione\nlocked initializing\n\nworktree /sessions/rcw-01qjz5yshisitdgrobzvah2w/mnt/fot-tep/.worktrees/piano_statistico\nHEAD dd82cd1753b31c10235de18052f24683306f8751\nbranch refs/heads/codex/studio2-piano-statistico\nprunable gitdir file points to non-existent location\n\nworktree /sessions/rcw-01uepzmrzzutk3fvdr6yyrsv/mnt/fot-tep/.worktrees/verifica_evidence\nHEAD 2f6dd8de38b944e61853e605202c4c376a90585d\ndetached\nlocked initializing\n\nworktree /sessions/rcw-01wrdu2fmsdmwpx4ovj7npqu/mnt/fot-tep/.worktrees/verifica-raccordo-caf5bfb\nHEAD caf5bfb0ff9b4fc974608f9bc432e0430d90b7ae\ndetached\nlocked initializing\n\nworktree /sessions/rcw-01wrdu2fmsdmwpx4ovj7npqu/mnt/fot-tep/.worktrees/verifica-raccordo-main-c486eee\nHEAD c486eee95fe24c1e7bf4135ed7cebf01ac2962f1\ndetached\nlocked initializing\n\nworktree /sessions/rcw-01y11uc227qhevrbqxjzrpzk/mnt/fot-tep/.worktrees/verifica-schema-insight-rev004-indipendente\nHEAD 3c64390bc4dd58c48cc4e1e388a38989b32b3143\ndetached\nlocked initializing\n\nworktree /tmp/exp2-qwen-review\nHEAD 37195cf2c5076b5da724b857f10e157177654cac\ndetached\nlocked initializing\n\nworktree /tmp/exp2-review\nHEAD a8f9884dfe2150a89131ba604b34ff1f6914f6e9\ndetached\nlocked initializing\n\nworktree /Users/luker/fot-tep-allineamenti-038-r1-r4\nHEAD 7cf523805710633ec3b4fecd4eb8b7c9504076bf\nbranch refs/heads/codex/studio2-allineamenti-038-r1-r4\n\nworktree /Users/luker/fot-tep-baseline-039-efficacia-preparazione\nHEAD 10f3f9f9a55e7090db01480ba6726d0fff1b3b7a\nbranch refs/heads/codex/studio2-baseline-039-efficacia-preparazione\n\nworktree /Users/luker/fot-tep-baseline-039-residui\nHEAD 38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e\nbranch refs/heads/codex/studio2-baseline-039-residui\n\nworktree /Users/luker/fot-tep-chiusura-035-039\nHEAD c486eee95fe24c1e7bf4135ed7cebf01ac2962f1\nbranch refs/heads/codex/studio2-chiusura-035-039\n\nworktree /Users/luker/fot-tep-consolidamento-0315-metriche\nHEAD 07a64e96c39ad73889f88978cd2ecbc719201b3e\nbranch refs/heads/codex/studio2-consolidamento-0315-metriche\n\nworktree /Users/luker/fot-tep-correzione-soglie-normal\nHEAD b64ff387b8abad063a08885ac77e8a8f9621c3a8\nbranch refs/heads/codex/studio2-soglie-normal-correzioni\n\nworktree /Users/luker/fot-tep-evidence\nHEAD c66bd8dddf8e2af9dd0665ee30afd36c248b93fb\nbranch refs/heads/codex/studio2-evidence\n\nworktree /Users/luker/fot-tep-finalizzazione-baseline-039\nHEAD a00605862f627710347bd63c49f79a6d0a00135f\nbranch refs/heads/codex/studio2-finalizzazione-baseline-039\n\nworktree /Users/luker/fot-tep-harness-0310-c01-c03\nHEAD 52e13e1ed540e1ad076474398bf850445c9a4a00\nbranch refs/heads/codex/studio2-harness-0310-c01-c03\n\nworktree /Users/luker/fot-tep-harness-0310-correzioni\nHEAD 6268437b8b64288b50ad5f7c924e1fcab85b27d3\nbranch refs/heads/codex/studio2-harness-0310-correzioni\n\nworktree /Users/luker/fot-tep-harness-0310-d01\nHEAD 7afbf41632aa8117c85274b5f471abca0a655462\nbranch refs/heads/codex/studio2-harness-0310-d01\n\nworktree /Users/luker/fot-tep-harness-0310-d02\nHEAD e9b60c5db77edfd3c06a29857e6ba5f61ebe139a\nbranch refs/heads/codex/studio2-harness-0310-d02\n\nworktree /Users/luker/fot-tep-harness-0310-d03\nHEAD 97868f9d6ef281c2dd4ab1c6ffb67e2477ee5715\nbranch refs/heads/codex/studio2-harness-0310-d03\n\nworktree /Users/luker/fot-tep-harness-0310-offline\nHEAD 288dc1926bfd7ab4ce43bb4377a9a0064313ad69\nbranch refs/heads/codex/studio2-harness-0310-offline\n\nworktree /Users/luker/fot-tep-integrazione-evidence-036\nHEAD 7c99a8318cbe24bf864790566302f72614d963ed\nbranch refs/heads/codex/studio2-evidence-integrazione\n\nworktree /Users/luker/fot-tep-letteratura-fase03\nHEAD 40911d0e3e7b75960e6973f3fd8f609e65ab6e05\nbranch refs/heads/codex/studio2-letteratura-fase03\n\nworktree /Users/luker/fot-tep-paper-sections\nHEAD d35b684acbfd1f357bc34f3a21cebb18e8a6bea0\nbranch refs/heads/codex/studio2-paper-sections\n\nworktree /Users/luker/fot-tep-piano-statistico-chiusura\nHEAD 2520e7abc1cd68785f2789448b509dea5e55ee7d\nbranch refs/heads/codex/studio2-piano-statistico-chiusura-rev10\n\nworktree /Users/luker/fot-tep-piano-statistico-fix\nHEAD 51782e8c40069c0a2310afafc36907a61d517ff6\nbranch refs/heads/codex/studio2-piano-statistico-fix\n\nworktree /Users/luker/fot-tep-proposta-d9\nHEAD b65834d954b48c7daae748c80c3e7e7c568f8d47\nbranch refs/heads/codex/studio2-proposta-d9\n\nworktree /Users/luker/fot-tep-pubblicazione-consolidamento-0315-metriche\nHEAD 4f98a2973d2e1ca7932f19c34e9dd4c0498b8b43\nbranch refs/heads/main\n\nworktree /Users/luker/fot-tep-pubblicazione-schema-insight-0312\nHEAD f1746e1e76c5657e5cb74ed765d2f22143f979ce\nbranch refs/heads/codex/studio2-pubblicazione-schema-insight-0312\n\nworktree /Users/luker/fot-tep-raccordo-0315-local\nHEAD 10582798eb5a4b52672bfbcb1cc028adcb73e9f1\nbranch refs/heads/codex/studio2-raccordo-0315-local\n\nworktree /Users/luker/fot-tep-raccordo-036-0312-letteratura\nHEAD e82b5a08bf642ad45f77e71832958207beb1181c\nbranch refs/heads/codex/studio2-raccordo-036-0312-letteratura\n\nworktree /Users/luker/fot-tep-schema-insight\nHEAD 43b31afc1ff271594cb4bd21a39fa4469a8c83bc\nbranch refs/heads/codex/studio2-schema-insight\n\nworktree /Users/luker/fot-tep-schema-insight-r4-integrazione\nHEAD c9f83c6447a9963cd69531b14439a3ac5a5a72b2\nbranch refs/heads/codex/studio2-schema-insight-r4-integrazione\n\nworktree /Users/luker/fot-tep-verifica-allineamenti-03-8-rev10\nHEAD 4503cb6f4fbc9942785c7d1fb74b4caf90cb83b8\ndetached\n\nworktree /Users/luker/fot-tep-verifica-consolidamento-04dee86\nHEAD 04dee86140b3ff18882f9d164beef5ab7bf33e00\ndetached\n\nworktree /Users/luker/fot-tep-verifica-correzioni-allineamenti-03-8-rev10\nHEAD 9a56d12d0633a0c9790c48792182f26fc6eb424a\ndetached\n\nworktree /Users/luker/fot-tep-verifica-fedavg\nHEAD d56354934d2b5f88dace3f9b312fcf64ce3cf42b\ndetached\n\nworktree /Users/luker/fot-tep-verifica-paper-sections\nHEAD e2f9aea948ac4bfc64089962c5357343f997621f\ndetached\n\nworktree /Users/luker/fot-tep-verifica-piano-statistico-rev10\nHEAD 6aaa5b3eebfed4ba502c25c0443caabd0051af21\ndetached\n\nworktree /Users/luker/fot-tep-verifica-raccordo-0315-9b6bd64\nHEAD 9b6bd64c3e23f03d09272dda43c1a043305add50\ndetached\n\nworktree /Users/luker/fot-tep-verifica-raccordo-base-c486eee\nHEAD c486eee95fe24c1e7bf4135ed7cebf01ac2962f1\ndetached\n\nworktree /Users/luker/fot-tep-verifica-raccordo-e82b5a0\nHEAD e82b5a08bf642ad45f77e71832958207beb1181c\ndetached\n\nworktree /Users/luker/fot-tep-verifica-recepimento-d9-038\nHEAD 8a20c125bd294191c67ebdbf571832b1e32ac0f1\ndetached\n\nworktree /Users/luker/fot-tep-verifica-schema-insight-rev004\nHEAD 3c64390bc4dd58c48cc4e1e388a38989b32b3143\ndetached\n\nworktree /Users/luker/fot-tep-verifica-soglie-normal\nHEAD 819b12e97fb94d501032655ec2f226139e6c5ca5\ndetached\n\nworktree /Users/luker/fot-tep/.worktrees/riverifica-soglie-normal\nHEAD 819b12e97fb94d501032655ec2f226139e6c5ca5\ndetached\n\nworktree /Users/luker/fot-tep/.worktrees/studio2-baseline-numerica\nHEAD 459947af892e33ed23a8bdf998db49aabf923c68\nbranch refs/heads/codex/studio2-baseline-numerica\n\nworktree /Users/luker/fot-tep/.worktrees/studio2-fedavg\nHEAD bfbde772bf14c496ff0b255008904d3deb424e54\nbranch refs/heads/codex/studio2-fedavg\n\nworktree /Users/luker/fot-tep/.worktrees/studio2-harness\nHEAD 1ac06ebdc92f73d3b630ccca9bf75f413bea170b\nbranch refs/heads/codex/studio2-harness\n\nworktree /Users/luker/fot-tep/.worktrees/verifica-paper-sections-esterna\nHEAD cf79e81f917c7969dfd375e38db54315c28d4c07\ndetached"
+}

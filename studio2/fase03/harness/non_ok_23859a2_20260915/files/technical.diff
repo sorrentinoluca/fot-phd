@@ -1,0 +1,571 @@
+diff --git a/studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md b/studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md
+index 081bc43..840253a 100644
+--- a/studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md
++++ b/studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md
+@@ -1,9 +1,9 @@
+-# Contratto eseguibile R01–R10 — D02 / R04 / R08
++# Contratto eseguibile R01–R10 — D03 / prove zero-token
+ 
+ 15 settembre 2026. Implementazione offline da sottoporre a nuova verifica indipendente.
+-Questo documento descrive il delta successivo al quarto NON OK (edb37f3): non ne cambia il verdetto.
+-D01 originario e C02/C03 risultano chiusi nella review acquisita. D02 riguarda l’autenticazione
+-delle prove durevoli e della copertura dei predecessori che conservano PASS/COMPLETED.
++Questo documento descrive il delta successivo al quinto NON OK (a219bd4): non ne cambia il verdetto.
++D01/D02 originari e C02/C03 risultano chiusi nella review acquisita. D03 riguarda i contenuti
++obbligatori e il legame durevole della prova zero-token durante il riuso.
+ La formulazione precedente su N48 era errata: il piano rev.10 §§11–11.1 richiede le invalidità di trasporto in T3/T6.
+ La specifica e i report del candidato 59b6b93 restano storia, incluse le formulazioni D9
+ superate. La decisione D9 del record aaba893 è già acquisita (122B producer principale
+@@ -135,6 +135,61 @@ valida: raw/record alterati, dati assenti, artefatti incoerenti, copertura ridot
+ di retry perduta. Non sono la costruzione di D01 né input scientifici. Non si rivendica
+ resistenza contro chi riscrive coerentemente l’intero database e tutte le impronte.
+ 
++## Prove zero-token e inventario dei campi — D03
++
++Il [contratto D03 scritto prima del codice](CONTRATTO_D03_PRIMA_DEL_CODICE.md) e
++[DURABLE_FIELD_CONTRACT.json](DURABLE_FIELD_CONTRACT.json) fissano invariante, classificazione
++N/F dei campi e aspettative dei test. Sono inventariate tutte le colonne SQLite e le chiavi
++nominate dei payload degli eventi. I contenitori JSON improntati sono valori atomici: tutti
++i campi annidati ereditano l’integrità normativa, compresi i timestamp inclusi nel raw/record.
++Sono forensi le colonne di cattura/timestamp esterne a questi artefatti e le note pubbliche.
++I duplicati dei token nelle requests non autorizzano nulla: la prova normativa è l’evidence
++zero-token o il record valutato e improntato. Nessun dato di consumo viene dedotto da tali
++duplicati. Colonne nuove e chiavi di evento non inventariate sono DA_COPRIRE, non ammesse
++implicitamente dal controllo di inventario.
++
++`_validate_zero_token_evidence(evidence, approval, row)` è il solo validatore dei contenuti:
++identità completa, disposition=not_generated, ricevuta provider non vuota, evidenza provider
++non vuota, tre contatori di tipo int (non bool) uguali a zero, autore non vuoto, decisione
++accepted e approvazione dell’hash del file esatto. Restituisce gli identificatori dei controlli
++superati per la guardia di simmetria. Ricevuta/author sono stringhe non bianche; l’evidenza
++provider è testo non bianco oppure un oggetto non vuoto. Nessuna qualificazione remota deriva
++dalle stringhe delle fixture. Le precondizioni di stato restano ai chiamanti.
++
++Acquisizione, riconferma degli antenati retry e gate riconciliato invocano lo stesso validatore.
++L’acquisizione legge una volta i byte dei due file e usa quei byte per parsing e hash, senza
++riletture tra le due operazioni. Conserva le impronte dei file e aggiunge i digest dei contenuti
++prova/approvazione, calcolati secondo la formula esplicita del contratto D03. L’evento separato
++`reconciled_integrity:<request_id>` lega digest di contenuto, hash dei file, richiesta e stato
++precedente. La riconferma ricalcola e confronta entrambi i contenuti e il legame. Il nuovo evento
++è normativo e non può essere scritto con record_event pubblico. Nessuna modifica di schema
++SQLite v2 o migrazione viene eseguita; la creazione dei due eventi e il cambio di stato sono
++atomici. Non si aggiorna la prova originaria quando cambia un suo campo.
++
++Il controllo si applica anche prima di riservare un nuovo retry e nel binding di uno stadio
++aperto ripreso, prima di server_contract, trasporto, journal o summary. Nel gate vale anche
++quando un FAILED già rappresentato da INVALID viene successivamente riconciliato: l’INVALID
++originale rimane immutabile ma la prova successiva deve restare conforme. L’ingresso pubblico
++gate_transport_record usa una transazione unica per le letture della prova e del record.
++
++**Requisito storico esplicito:** prove riconciliate senza nuovi digest o legame durevole vengono
++rifiutate, senza backfill. Non si rende autentico il passato calcolando un hash oggi. Gli eventi
++restano leggibili a fini forensi. Lo sblocco richiede la riconciliazione revisionata separata
++prevista per il legacy, non implementata in questo delta. Le catene legacy prive di prove
++zero-token non cambiano aspettativa. Una nuova regressione genera con il vecchio 0c8157f una
++catena allora lecita con retry e verifica il nuovo rifiuto senza riscrivere i 132 intenti.
++
++La matrice deriva dall’inventario: campi di evidence/approval × alterazioni × tre percorsi,
++contenitori di riconciliazione/legame, colonne SQLite N/F e controlli positivi forensi. Le
++alterazioni con digest locali riallineati verificano la semantica obbligatoria, non pretendono
++resistenza crittografica alla riscrittura coerente dell’intera catena. La copertura resta
++finita: l’inventario strutturale e le prove precedenti non equivalgono a esplorare ogni possibile
++valore dei payload opachi o ogni combinazione di guasti.
++
++La matrice ha rilevato anche quota_kind persistito incoerente: la riconferma richiede base
++per gli originali ordinari, remediation per quelli di remediation, transport per i retry.
++Le quantità e le politiche di quota restano invariate. Nessun nuovo invio, GO o freeze.
++
+ ## Persistenza e punti di crash
+ 
+ SQLite con synchronous=FULL conserva l'intento prima del trasporto. Al ritorno dal trasporto,
+diff --git a/studio2/fase03/harness/ledger.py b/studio2/fase03/harness/ledger.py
+index 5b2d8f4..7dfb9f6 100644
+--- a/studio2/fase03/harness/ledger.py
++++ b/studio2/fase03/harness/ledger.py
+@@ -15,7 +15,7 @@ import re
+ import sqlite3
+ from typing import Any, Iterable
+ 
+-from .common import HarnessError, canonical_json, sha256_text, sha256_file, load_json
++from .common import HarnessError, canonical_json, sha256_text, sha256_file, sha256_bytes, load_json
+ 
+ HASH = re.compile(r"^[0-9a-f]{64}$")
+ STAGES = {"producer_conformity", "producer_remediation", "alternate_conformity", "budget_probe", "stability_gate"}
+@@ -162,6 +162,9 @@ class PilotLedger:
+                 if old[0] != digest(binding):
+                     raise HarnessError("stage inputs changed across alias, directory or restart")
+                 self._prerequisites(c, stage)
++                for row in self._rows(c):
++                    if row['stage'] == stage and row['status'] == 'ZERO_TOKEN_PROVEN':
++                        self._validated_reconciliation(c, row)
+                 if 'outcome:' + stage in self._events(c):
+                     self._closed_outcome(c, stage)
+                 return
+@@ -293,6 +296,7 @@ class PilotLedger:
+             original = next((r for r in rows if r['request_id'] == retry_of), None)
+             if original is None or original['status'] != 'ZERO_TOKEN_PROVEN' or original['stage'] != stage or original['identity_json'] != identity:
+                 raise HarnessError("retry requires matching original and documented zero-token proof")
++            self._validated_reconciliation(c, original)
+             if any(r['retry_of'] == retry_of for r in rows):
+                 raise HarnessError("original already has a retry; retry only the proven zero-token leaf")
+             if stage == 'stability_gate':
+@@ -449,6 +453,8 @@ class PilotLedger:
+         self._event(c, 'transport_invalidity:' + request_id, digest(record), {'record': record})
+ 
+     def _gate_transport_record(self, c, row):
++        if row['status'] == 'ZERO_TOKEN_PROVEN':
++            self._validated_reconciliation(c, row)
+         event = self._events(c).get('transport_invalidity:' + row['request_id'])
+         if event is None:
+             return None
+@@ -466,7 +472,7 @@ class PilotLedger:
+         return record
+ 
+     def gate_transport_record(self, request_id):
+-        with closing(self._connect()) as c:
++        with self._transaction() as c:
+             row = c.execute('SELECT * FROM requests WHERE request_id=?', (request_id,)).fetchone()
+             return None if row is None else self._gate_transport_record(c, row)
+ 
+@@ -484,20 +490,100 @@ class PilotLedger:
+             return record
+         return self._gate_transport_record(c, row)
+ 
++    @staticmethod
++    def _validate_zero_token_evidence(evidence, approval, row):
++        """One content contract for acquisition, retry ancestors and reconciled gate.
++
++        State eligibility belongs to callers. The returned IDs are an audit of checks
++        actually passed, used by the contract guard; no caller supplies a subset.
++        """
++        if not isinstance(evidence, dict) or not isinstance(approval, dict):
++            raise HarnessError('zero-token evidence and approval must be objects')
++        checked = set()
++        def require(field, condition):
++            if not condition:
++                raise HarnessError('zero-token content contract: ' + field)
++            checked.add(field)
++        nonempty_text = lambda value: isinstance(value, str) and bool(value.strip())
++        require('evidence.request_id', evidence.get('request_id') == row['request_id'])
++        require('evidence.request_identity_sha256', evidence.get('request_identity_sha256') == sha256_text(row['identity_json']))
++        require('evidence.disposition', evidence.get('disposition') == 'not_generated')
++        require('evidence.provider_request_id', nonempty_text(evidence.get('provider_request_id')))
++        provider_evidence = evidence.get('provider_evidence')
++        require('evidence.provider_evidence', nonempty_text(provider_evidence) or isinstance(provider_evidence, dict) and bool(provider_evidence))
++        for field in ('prompt_tokens', 'completion_tokens', 'total_tokens'):
++            require('evidence.' + field, type(evidence.get(field)) is int and evidence[field] == 0)
++        require('approval.author', nonempty_text(approval.get('author')))
++        require('approval.decision', approval.get('decision') == 'accepted')
++        require('approval.evidence_sha256', approval.get('evidence_sha256') == row['proof_sha256'])
++        return frozenset(checked)
++
++    @staticmethod
++    def _zero_token_content_digest(value):
++        # Literal contract formula; distinct from the original file's byte hash.
++        return digest(canonical_json(value))
++
++    def _reconciliation_link(self, detail, row):
++        return dict(request_id=row['request_id'], evidence_file_sha256=row['proof_sha256'],
++                    approval_file_sha256=detail['approval_sha256'],
++                    evidence_content_sha256=detail['evidence_content_sha256'],
++                    approval_content_sha256=detail['approval_content_sha256'],
++                    previous_status=detail['previous_status'])
++
++    def _validated_reconciliation(self, c, row):
++        events = self._events(c)
++        event = events.get('reconciled:' + row['request_id'])
++        marker = events.get('reconciled_integrity:' + row['request_id'])
++        if row['status'] != 'ZERO_TOKEN_PROVEN' or event is None or marker is None:
++            raise HarnessError('zero-token proof lacks durable content binding; reviewed reconciliation required')
++        try:
++            detail = json.loads(event['detail_json'])
++            stored_link = json.loads(marker['detail_json'])
++        except (ValueError, TypeError) as exc:
++            raise HarnessError('zero-token persisted proof is not valid JSON') from exc
++        required = {'evidence','approval','approval_sha256','previous_status',
++                    'evidence_content_sha256','approval_content_sha256'}
++        if not isinstance(detail, dict) or not required <= detail.keys():
++            raise HarnessError('zero-token proof lacks durable content binding; reviewed reconciliation required')
++        self._validate_zero_token_evidence(detail['evidence'], detail['approval'], row)
++        for value in (row['proof_sha256'], detail['approval_sha256']):
++            self._require_hash(value, 'zero-token original file')
++        if (event['artifact_sha256'] != row['proof_sha256']
++                or detail['previous_status'] not in {'INTENT','FAILED'}
++                or c.execute('SELECT 1 FROM responses WHERE request_id=?', (row['request_id'],)).fetchone()):
++            raise HarnessError('zero-token proof does not bind the recorded attempt')
++        for key in ('evidence','approval'):
++            if detail[key + '_content_sha256'] != self._zero_token_content_digest(detail[key]):
++                raise HarnessError('zero-token persisted content digest mismatch')
++        link = self._reconciliation_link(detail, row)
++        if stored_link != link or marker['artifact_sha256'] != digest(link):
++            raise HarnessError('zero-token durable integrity link mismatch')
++        return detail
++
+     def reconcile_zero_token(self, request_id, *, evidence_path: Path, approval_path: Path):
+-        evidence, approval = load_json(evidence_path), load_json(approval_path)
++        # Hash and parse the same bytes; never reopen a file between those operations.
++        try:
++            evidence_bytes, approval_bytes = evidence_path.read_bytes(), approval_path.read_bytes()
++            evidence, approval = json.loads(evidence_bytes), json.loads(approval_bytes)
++        except (OSError, UnicodeError, ValueError) as exc:
++            raise HarnessError('cannot read zero-token evidence/approval') from exc
++        evidence_hash, approval_hash = sha256_bytes(evidence_bytes), sha256_bytes(approval_bytes)
+         with self._transaction() as c:
+             row = c.execute("SELECT * FROM requests WHERE request_id=?", (request_id,)).fetchone()
+             if row is None or row['status'] not in {'INTENT', 'FAILED'}:
+                 raise HarnessError("reconciliation requires uncertain intent/failure")
+             if c.execute("SELECT 1 FROM responses WHERE request_id=?", (request_id,)).fetchone():
+                 raise HarnessError("raw response exists; zero-token reconciliation forbidden")
+-            if evidence.get('request_id') != request_id or evidence.get('request_identity_sha256') != sha256_text(row['identity_json']) or evidence.get('disposition') != 'not_generated' or not evidence.get('provider_request_id') or not evidence.get('provider_evidence') or any(type(evidence.get(k)) is not int or evidence[k] != 0 for k in ('prompt_tokens','completion_tokens','total_tokens')):
+-                raise HarnessError("zero-token reconciliation needs provider evidence and complete request identity")
+-            if approval.get('decision') != 'accepted' or approval.get('evidence_sha256') != sha256_file(evidence_path) or not approval.get('author'):
+-                raise HarnessError("reconciliation requires written approval of exact evidence")
+-            self._event(c, 'reconciled:' + request_id, sha256_file(evidence_path), {'evidence': evidence, 'approval': approval, 'approval_sha256': sha256_file(approval_path), 'previous_status': row['status']})
+-            c.execute("UPDATE requests SET status='ZERO_TOKEN_PROVEN',proof_sha256=?,completed_utc=? WHERE request_id=?", (sha256_file(evidence_path), _utc_now(), request_id))
++            proof_row = dict(row, proof_sha256=evidence_hash)
++            self._validate_zero_token_evidence(evidence, approval, proof_row)
++            detail = dict(evidence=evidence, approval=approval, approval_sha256=approval_hash,
++                          previous_status=row['status'],
++                          evidence_content_sha256=self._zero_token_content_digest(evidence),
++                          approval_content_sha256=self._zero_token_content_digest(approval))
++            link = self._reconciliation_link(detail, proof_row)
++            self._event(c, 'reconciled:' + request_id, evidence_hash, detail)
++            self._event(c, 'reconciled_integrity:' + request_id, digest(link), link)
++            c.execute("UPDATE requests SET status='ZERO_TOKEN_PROVEN',proof_sha256=?,completed_utc=? WHERE request_id=?", (evidence_hash, _utc_now(), request_id))
+             if row['stage'] == 'stability_gate':
+                 self._save_gate_transport_record(c, request_id)
+ 
+@@ -511,31 +597,23 @@ class PilotLedger:
+         specs = {s['logical_id']: s for s in binding['requests']}
+         by_id = {r['request_id']: r for r in rows}
+         children = {r['retry_of']: r for r in rows if r['retry_of']}
+-        events = self._events(c)
+         for row in rows:
+             spec = specs.get(row['logical_id'])
+             if (spec is None or row['identity_json'] != canonical_json(spec)
+                     or row['stage_run'] != digest(binding)
+                     or (row['model'], row['producer']) != (spec['model'], spec['producer'])):
+                 raise HarnessError('persisted request differs from immutable plan')
++            expected_quota = 'transport' if row['retry_of'] else 'remediation' if row['stage'] == 'producer_remediation' else 'base'
++            if row['quota_kind'] != expected_quota:
++                raise HarnessError('persisted attempt quota differs from its role')
+             if row['retry_of']:
+                 parent = by_id.get(row['retry_of'])
+                 if (parent is None or parent['status'] != 'ZERO_TOKEN_PROVEN'
+                         or parent['identity_json'] != row['identity_json']
+                         or row['quota_kind'] != 'transport'):
+                     raise HarnessError('orphan or inconsistent retry attempt')
+-            if row['request_id'] in children:
+-                event = events.get('reconciled:' + row['request_id'])
+-                detail = {} if event is None else json.loads(event['detail_json'])
+-                evidence, approval = detail.get('evidence', {}), detail.get('approval', {})
+-                if (event is None or row['proof_sha256'] != event['artifact_sha256']
+-                        or evidence.get('request_id') != row['request_id']
+-                        or evidence.get('request_identity_sha256') != sha256_text(row['identity_json'])
+-                        or evidence.get('disposition') != 'not_generated'
+-                        or approval.get('decision') != 'accepted'
+-                        or approval.get('evidence_sha256') != event['artifact_sha256']
+-                        or c.execute('SELECT 1 FROM responses WHERE request_id=?', (row['request_id'],)).fetchone()):
+-                    raise HarnessError('retry ancestor lacks its durable zero-token evidence')
++            if row['status'] == 'ZERO_TOKEN_PROVEN':
++                self._validated_reconciliation(c, row)
+         # _chain_leaves checks cycles reachable from bases; account for disconnected cycles too.
+         reached = set()
+         for row in (r for r in rows if not r['retry_of']):
+diff --git a/studio2/fase03/harness/test_d03_contract.py b/studio2/fase03/harness/test_d03_contract.py
+new file mode 100644
+index 0000000..4033196
+--- /dev/null
++++ b/studio2/fase03/harness/test_d03_contract.py
+@@ -0,0 +1,291 @@
++"""D03 contract-first matrix. Deliberate faults only in disposable SQLite fixtures."""
++from contextlib import closing
++from copy import deepcopy
++import json
++import os
++from pathlib import Path
++import sqlite3
++import subprocess
++import sys
++import tempfile
++import unittest
++from unittest.mock import patch
++
++HERE = Path(__file__).resolve().parent
++TARGET = Path(os.environ.get('FOT_HARNESS_TARGET', str(HERE.parents[2])))
++if os.environ.get('FOT_HARNESS_TARGET'): sys.path.insert(0, str(TARGET))
++from studio2.fase03.harness.common import HarnessError, canonical_json, sha256_text, sha256_file
++from studio2.fase03.harness.ledger import PilotLedger, digest
++from studio2.fase03.harness.offline_fixtures import Trial
++from studio2.fase03.harness import test_revisions as fixtures
++
++CONTRACT = json.loads((HERE/'DURABLE_FIELD_CONTRACT.json').read_text())
++FIELDS = [f for f in CONTRACT['fields'] if f['scope'] == 'zero_token']
++OBS = {}
++
++
++def logical(ledger):
++    with closing(sqlite3.connect(ledger.path)) as c: return '\n'.join(c.iterdump())
++
++
++def change(value, key, mutation):
++    if mutation == 'missing': value.pop(key, None)
++    else: value[key] = {'wrong_text':'INVALID FIXTURE', 'wrong_hash':'f'*64, 'empty':'',
++                       'null':None, 'false':False, 'positive':1, 'negative':-1, 'string_zero':'0'}[mutation]
++
++
++def content_digest(value): return digest(canonical_json(value))
++
++
++class ProofContract(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.tmp = tempfile.TemporaryDirectory(); cls.addClassCleanup(cls.tmp.cleanup)
++        cls.sources = {}
++        for route in ('retry','gate'):
++            t = Trial(Path(cls.tmp.name)/route)
++            if route == 'retry':
++                t.bind(); r=t.reserve(0);t.zero(r);t.complete(t.retry(r,'retried-0'))
++                for i in range(1,8):t.complete(t.reserve(i))
++                t.outcome('producer_conformity');t.finish('budget_probe',3);t.finish('stability_gate')
++                request='producer_conformity-0'
++            else:
++                t.finish();t.finish('budget_probe',3);t.bind('stability_gate')
++                for i in range(120):
++                    r=t.reserve(i,'stability_gate')
++                    if i==0:t.zero(r)
++                    else:t.complete(r)
++                t.outcome('stability_gate');request='stability_gate-0'
++            t.ledger.record_event('note:fixture',artifact_sha256='a'*64,detail={'note':'FORENSIC ONLY'})
++            cls.sources[route]=(t,request)
++
++    def setUp(self):
++        self.tmp_case=tempfile.TemporaryDirectory();self.addCleanup(self.tmp_case.cleanup)
++        self.home=Path(self.tmp_case.name);self.serial=0
++
++    def copy(self, route='retry'):
++        self.serial+=1;t=Trial(self.home/str(self.serial));src,request=self.sources[route]
++        with closing(sqlite3.connect(src.ledger.path)) as a,closing(sqlite3.connect(t.ledger.path)) as b:a.backup(b)
++        return t,request
++
++    def execute(self, ledger, sql, values=()):
++        with closing(sqlite3.connect(ledger.path)) as c,c:c.execute(sql,values)
++
++    def detail(self, ledger, request):
++        with closing(sqlite3.connect(ledger.path)) as c:return json.loads(c.execute('SELECT detail_json FROM events WHERE event=?',('reconciled:'+request,)).fetchone()[0])
++
++    def write_detail(self, ledger, request, detail, *, align_digests=False):
++        # Align local hashes only to exercise semantic rejection, never to claim cryptographic resistance.
++        if align_digests:
++            for key in ('evidence','approval'):
++                if key+'_content_sha256' in detail:detail[key+'_content_sha256']=content_digest(detail[key])
++            marker=ledger.event('reconciled_integrity:'+request)
++            if marker:
++                marker.pop('artifact_sha256')
++                for key in ('evidence_content_sha256','approval_content_sha256'):marker[key]=detail[key]
++                self.execute(ledger,'UPDATE events SET detail_json=?,artifact_sha256=? WHERE event=?',
++                             (canonical_json(marker),digest(marker),'reconciled_integrity:'+request))
++        self.execute(ledger,'UPDATE events SET detail_json=? WHERE event=?',(canonical_json(detail),'reconciled:'+request))
++
++    def confirm(self, ledger, route):
++        if route=='retry':ledger.verify_stage_success('stability_gate')
++        else:self.assertIsNotNone(ledger.gate_transport_record('stability_gate-0'))
++
++    def acquisition(self, evidence, approval):
++        self.serial+=1;t=Trial(self.home/('acquire-'+str(self.serial)));t.bind();r=t.reserve(0)
++        # Keep the evidence identity identical to the existing producer fixture.
++        e=self.home/'input-evidence.json';a=self.home/'input-approval.json'
++        e.write_text(json.dumps(evidence,indent=4));a.write_text(json.dumps(approval))
++        before=logical(t.ledger)
++        try:t.ledger.reconcile_zero_token(r,evidence_path=e,approval_path=a)
++        finally:self.assertEqual(logical(t.ledger),before)
++
++    def test_D03_generated_symmetric_content_matrix(self):
++        results=[]
++        for f in FIELDS:
++            for mutation in f['mutations']:
++                row=dict(field=f['path'],mutation=mutation,routes={})
++                # Acquisition receives exact file binding, except when testing that binding itself.
++                src,req=self.sources['retry'];d=self.detail(src.ledger,req)
++                evidence,approval=deepcopy(d['evidence']),deepcopy(d['approval'])
++                change(evidence if f['section']=='evidence' else approval,f['field'],mutation)
++                if not (f['section']=='approval' and f['field']=='evidence_sha256'):
++                    approval['evidence_sha256']=sha256_text(json.dumps(evidence,indent=4))
++                try:self.acquisition(evidence,approval)
++                except HarnessError:row['routes']['acquisition']=True
++                else:row['routes']['acquisition']=False
++                for route in ('retry','gate'):
++                    t,req=self.copy(route);d=self.detail(t.ledger,req)
++                    change(d[f['section']],f['field'],mutation)
++                    self.write_detail(t.ledger,req,d,align_digests=True)
++                    before=logical(t.ledger)
++                    try:self.confirm(t.ledger,route)
++                    except HarnessError:row['routes'][route]=True
++                    else:row['routes'][route]=False
++                    self.assertEqual(logical(t.ledger),before)
++                results.append(row)
++        OBS['symmetric']=results
++        self.assertTrue(all(all(r['routes'].values()) for r in results),json.dumps([r for r in results if not all(r['routes'].values())]))
++
++    def test_D03_three_paths_invoke_the_same_content_control_set(self):
++        self.assertTrue(hasattr(PilotLedger,'_validate_zero_token_evidence'),'shared content validator absent')
++        expected={f['section']+'.'+f['field'] for f in FIELDS};observed={}
++        t=Trial(self.home/'acquisition');t.bind();req=t.reserve(0)
++        scenarios=[('acquisition',t,lambda:t.zero(req))]
++        for route in ('retry','gate'):
++            fixture,_=self.copy(route);scenarios.append((route,fixture,lambda r=route,x=fixture:self.confirm(x.ledger,r)))
++        for route,t,call in scenarios:
++            seen=[];original=t.ledger._validate_zero_token_evidence
++            def checked(evidence,approval,row):
++                result=original(evidence,approval,row);seen.append(set(result));return result
++            with patch.object(t.ledger,'_validate_zero_token_evidence',side_effect=checked):call()
++            self.assertTrue(seen,route);self.assertTrue(all(s==expected for s in seen),route)
++            observed[route]=sorted(seen[0])
++        self.assertEqual(len({tuple(x) for x in observed.values()}),1);OBS['shared_controls']=observed
++
++    def test_D03_content_digests_and_independent_link_reject_valid_looking_changes(self):
++        results=[]
++        for route in ('retry','gate'):
++            for field in ('provider_request_id','provider_evidence','author','evidence_content_sha256','approval_content_sha256','previous_status','approval_sha256'):
++                t,req=self.copy(route);d=self.detail(t.ledger,req)
++                if field=='author':d['approval'][field]='A DIFFERENT VALID AUTHOR'
++                elif field.startswith('provider_'):d['evidence'][field]='DIFFERENT NONEMPTY FIXTURE'
++                else:d[field]='f'*64
++                self.write_detail(t.ledger,req,d);before=logical(t.ledger);refused=False
++                try:self.confirm(t.ledger,route)
++                except HarnessError:refused=True
++                results.append(dict(route=route,field=field,refused=refused));self.assertEqual(logical(t.ledger),before)
++        OBS['digest_matrix']=results;self.assertTrue(all(r['refused'] for r in results),results)
++
++    def test_D03_generated_sql_field_matrix_and_forensic_positive_controls(self):
++        results=[]
++        targets={'pilot':('id','offline-fixture'),'stages':('stage','producer_conformity'),
++                 'requests':('request_id','producer_conformity-0'),'events':('event','reconciled:producer_conformity-0'),
++                 'responses':('request_id','producer_conformity-1'),'receipts':('request_id','producer_conformity-1')}
++        for f in (f for f in CONTRACT['fields'] if f['scope']=='sql'):
++            t,_=self.copy();table,col=f['table'],f['column'];key,value=targets[table]
++            replacement='{}' if col.endswith('_json') else 'ALTERED FIXTURE'
++            if col in ('prompt_tokens','completion_tokens','total_tokens','latency_ms'):replacement=42
++            self.execute(t.ledger,f'UPDATE {table} SET {col}=? WHERE {key}=?',(replacement,value))
++            before=logical(t.ledger);refused=False
++            try:
++                t.ledger=PilotLedger(t.ledger.path,pilot_id=t.ledger.pilot_id)
++                self.confirm(t.ledger,'retry')
++            except HarnessError:refused=True
++            results.append(dict(field=f['path'],classification=f['kind'],refused=refused,expected_refusal=f['kind']=='N'))
++            self.assertEqual(logical(t.ledger),before)
++        # note:* payload, timestamp and hash remain wholly forensic.
++        t,_=self.copy();self.execute(t.ledger,"UPDATE events SET detail_json='{}',artifact_sha256=?,created_utc=? WHERE event='note:fixture'",('f'*64,'different timestamp'))
++        self.confirm(t.ledger,'retry')
++        OBS['sql_matrix']=results
++        self.assertTrue(all(r['refused']==r['expected_refusal'] for r in results),[r for r in results if r['refused']!=r['expected_refusal']])
++
++    def test_D03_inventory_covers_schema_and_new_fields_default_to_uncovered(self):
++        t,_=self.copy()
++        def uncovered():
++            missing=[]
++            with closing(sqlite3.connect(t.ledger.path)) as c:
++                for table in [r[0] for r in c.execute("SELECT name FROM sqlite_master WHERE type='table'")]:
++                    for col in c.execute(f'PRAGMA table_info({table})'):
++                        if col[1] not in CONTRACT['sql_tables'].get(table,{}):missing.append(table+'.'+col[1])
++                for event,payload in c.execute('SELECT event,detail_json FROM events'):
++                    kind=event.split(':')[0];spec=CONTRACT['event_payloads'].get(kind,{})
++                    if '*' not in spec:
++                        detail=json.loads(payload)
++                        missing += [kind+'.'+key for key in detail if key not in spec]
++                        if kind=='reconciled':
++                            for section in ('evidence','approval'):
++                                known={f['field'] for f in FIELDS if f['section']==section}
++                                missing += ['reconciled.'+section+'.'+key for key in detail.get(section,{}) if key not in known]
++            return missing
++        self.assertEqual(uncovered(),[])
++        self.execute(t.ledger,'ALTER TABLE requests ADD COLUMN future_field TEXT')
++        self.assertIn('requests.future_field',uncovered())
++        d=self.detail(t.ledger,'producer_conformity-0');d['future_proof_field']='unknown';self.write_detail(t.ledger,'producer_conformity-0',d)
++        self.assertIn('reconciled.future_proof_field',uncovered())
++        d['evidence']['future_evidence_field']='unknown';d['approval']['future_approval_field']='unknown'
++        self.write_detail(t.ledger,'producer_conformity-0',d)
++        self.assertIn('reconciled.evidence.future_evidence_field',uncovered())
++        self.assertIn('reconciled.approval.future_approval_field',uncovered())
++        self.assertEqual(CONTRACT['default'],'DA_COPRIRE')
++
++    def test_D03_missing_digest_is_fail_closed_without_backfill_even_before_retry(self):
++        results=[]
++        for route in ('retry','gate'):
++            t,req=self.copy(route);d=self.detail(t.ledger,req)
++            d.pop('evidence_content_sha256',None);d.pop('approval_content_sha256',None)
++            self.write_detail(t.ledger,req,d)
++            self.execute(t.ledger,'DELETE FROM events WHERE event=?',('reconciled_integrity:'+req,))
++            before=logical(t.ledger);refused=False
++            try:self.confirm(t.ledger,route)
++            except HarnessError:refused=True
++            results.append(dict(route=route,refused=refused));self.assertEqual(logical(t.ledger),before)
++        t=Trial(self.home/'new-retry');t.bind();req=t.reserve(0);t.zero(req);d=self.detail(t.ledger,req)
++        d.pop('evidence_content_sha256',None);self.write_detail(t.ledger,req,d);before=logical(t.ledger)
++        try:t.retry(req,'must-not-send')
++        except HarnessError:refused=True
++        else:refused=False
++        results.append(dict(route='new_retry',refused=refused));self.assertEqual(logical(t.ledger),before)
++        OBS['legacy_policy']=results;self.assertTrue(all(r['refused'] for r in results),results)
++
++    def test_D03_generated_reconciliation_envelope_matrix(self):
++        results=[]
++        fields=[f for f in CONTRACT['fields'] if f['scope']=='event_payload' and f['event'] in ('reconciled','reconciled_integrity')]
++        for f in fields:
++            t,req=self.copy();name=f['event']+':'+req
++            with closing(sqlite3.connect(t.ledger.path)) as c:
++                event=c.execute('SELECT detail_json FROM events WHERE event=?',(name,)).fetchone()
++            if event is None:
++                results.append(dict(field=f['path'],present=False,refused=False));continue
++            d=json.loads(event[0]);d.pop(f['field'],None)
++            self.execute(t.ledger,'UPDATE events SET detail_json=? WHERE event=?',(canonical_json(d),name))
++            before=logical(t.ledger);refused=False
++            try:self.confirm(t.ledger,'retry')
++            except HarnessError:refused=True
++            results.append(dict(field=f['path'],present=True,refused=refused));self.assertEqual(logical(t.ledger),before)
++        OBS['envelope_matrix']=results;self.assertTrue(all(r['present'] and r['refused'] for r in results),results)
++
++    def test_D03_real_legacy_proofs_rejected_without_rewriting_history(self):
++        old=Path('/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate')
++        self.assertEqual(subprocess.check_output(['git','-C',str(old),'rev-parse','HEAD'],text=True).strip(),'0c8157f23bee49a3a5a2df648525c34706da29d7')
++        self.assertEqual(subprocess.check_output(['git','-C',str(old),'status','--porcelain=v1'],text=True),'')
++        code="""import sys
++from studio2.fase03.harness.offline_fixtures import Trial
++t=Trial(sys.argv[1]);t.bind();r=t.reserve(0);t.zero(r);t.complete(t.retry(r,'legacy-retry'))
++for i in range(1,8):t.complete(t.reserve(i))
++t.outcome('producer_conformity');t.finish('budget_probe',3);t.finish('stability_gate')
++"""
++        home=self.home/'legacy'
++        process=subprocess.run([sys.executable,'-c',code,str(home)],cwd=old,env=dict(os.environ,PYTHONPATH=str(old),PYTHONDONTWRITEBYTECODE='1'),capture_output=True,text=True)
++        self.assertEqual(process.returncode,0,process.stderr)
++        ledger=PilotLedger(home/'pilot.sqlite3',pilot_id='offline-fixture');before=logical(ledger)
++        with self.assertRaises(HarnessError):ledger.verify_stage_success('stability_gate')
++        self.assertEqual(logical(ledger),before);self.assertIsNone(ledger.event('reconciled_integrity:producer_conformity-0'))
++        self.assertEqual(ledger.snapshot()['requests_cumulative'],132)
++
++    def test_D03_real_runner_and_CLI_refuse_before_stub_and_preserve_outputs(self):
++        t=fixtures.RunnerRevisions();t.setUp();self.addCleanup(t.doCleanups);t.fail_at=2
++        with self.assertRaises(HarnessError):t.producer()
++        req=t.ledger.leaf('producer_conformity','agent_2')['request_id'];helper=Trial(self.home/'helper');helper.ledger=t.ledger;helper.zero(req)
++        t.producer(resume=True,retry_requests=[req]);t.prepare(producer=False)
++        rp=fixtures.rp;rp.run_budget_stage(t.prepared,t.results,ledger=t.ledger);rp.run_stability_stage(t.prepared,t.results,ledger=t.ledger)
++        d=self.detail(t.ledger,req);d['evidence'].update(prompt_tokens=1,total_tokens=1);self.write_detail(t.ledger,req,d)
++        before=logical(t.ledger);files={p:p.read_bytes() for p in t.results.rglob('*') if p.is_file()};calls=len(t.consumer_calls);t.server_mock.reset_mock()
++        t.ledger=PilotLedger(t.ledger.path,pilot_id=t.ledger.pilot_id);errors=[]
++        for stage,run in [('budget',rp.run_budget_stage),('stability',rp.run_stability_stage)]:
++            try:run(t.prepared,t.results,ledger=t.ledger,resume=True)
++            except HarnessError:errors.append(stage+'/runner')
++            argv=['fixture','--execute','--acknowledge',rp.ACK,'--stage',stage,'--resume','--prepared-dir',str(t.prepared),'--results-dir',str(t.results),'--ledger',str(t.ledger.path),'--pilot-id',t.ledger.pilot_id]
++            with patch.object(sys,'argv',argv):
++                try:rp.main()
++                except HarnessError:errors.append(stage+'/CLI')
++        OBS['runner']=dict(refused=errors,server_calls=t.server_mock.call_count,new_sends=len(t.consumer_calls)-calls,snapshot=t.ledger.snapshot())
++        self.assertEqual(len(errors),4);t.server_mock.assert_not_called();self.assertEqual(len(t.consumer_calls),calls)
++        self.assertEqual(logical(t.ledger),before);self.assertEqual({p:p.read_bytes() for p in t.results.rglob('*') if p.is_file()},files);self.assertEqual(t.ledger.snapshot()['requests_cumulative'],132)
++
++
++if __name__=='__main__':
++    result=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.loadTestsFromTestCase(ProofContract))
++    output=os.environ.get('FOT_D03_OBSERVATIONS')
++    if output:Path(output).write_text(json.dumps(dict(tests=result.testsRun,failures=len(result.failures),errors=len(result.errors),observations=OBS),indent=2)+'\n')
++    sys.exit(not result.wasSuccessful())
