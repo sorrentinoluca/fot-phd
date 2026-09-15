@@ -1,0 +1,846 @@
+[
+  {
+    "path": "studio2/fase03/synthetic_fixture.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/protocol.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/prepare_gate.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/offline_verify.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/__init__.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/run_pilot.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/producer_probe.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_consolidamento_04dee86/check_documents.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_consolidamento_04dee86/run_checks.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_consolidamento_04dee86/check_integrity.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_consolidamento_04dee86/check_metadata.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_consolidamento_04dee86/write_report.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidence/verify_output.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidence/__init__.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidence/leakage.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidence/test_evidence.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidence/extract_evidence.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/schema_insight/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/schema_insight/test_validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/tests/test_protocol.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/tests/__init__.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/tests/test_execution_guard.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/score_cal_thr.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/conserve_normal.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/complete_threshold_uncertainty.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/analyze_far_ver.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/verify_smoke.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/audit_lot.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/recheck_r2_guard.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/freeze_threshold.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/build_generation_plan.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/preflight.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/metrics.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/logging_v1.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/test_c01_c03.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/guards.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/test_d03_contract.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/test_d04_open_quota.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/render.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/canary.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/test_d01_replay.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/ledger.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/__init__.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/insight_adapter.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/runtime.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/producer.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d9_offline_fixtures.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/offline_fixtures.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/inputs.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/common.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d9.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/test_d02_predecessors.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/sampling.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/ledger_cli.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/test_d9.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/ordering.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/test_harness_offline.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/test_metric_raccordo.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/gate_rules.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/metric_adapter.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/test_revisions.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/preparation.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/paper_sections/lint_paper_sections.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/selection/test_draw_d1.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/selection/draw_d1.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/fault_runs/fault_protocol.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/fault_runs/prepare_simulator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/fault_runs/verify_smoke.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/fault_runs/build_generation_plan.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_raccordo/check_parity.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_raccordo/check_documents.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_raccordo/check_supplement.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_raccordo/check_integrity.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/evidenze_verifica_raccordo/write_report.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/pseudolabel/test_pseudolabel.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/pseudolabel/pseudolabel_draw.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/pseudolabel/__init__.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/preflight_normal_dev.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/test_extract_normal_evidence.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/test_normal_dev_plan.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/baseline.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/extract_normal_evidence.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/build_normal_dev_plan.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/__init__.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/test_baseline.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/verify_prototypes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/prepare_conservation.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/baseline_numerica/audit_normal_dev.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/fault_runs/tests/test_fault_runs.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/selection/execution_snapshot/draw_d1.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_integrity.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/audit_documents.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/paper_sections/evidenze_verifica_raccordo_0315/write_report.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/acquire.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/acquire.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/correzioni_evidence/RUN_APPLICABLE_ORIGINAL.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/update_manifest.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/acquire.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/add_crash_test.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/edit.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/package_evidence.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/acquire.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/acquire.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/acquire.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/evidence/build_matrices.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/evidence/audit.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/evidence/edge_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/evidence/lineage_audit.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/evidence/package_review.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/evidence/x23_adapted/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/evidence/x23_adapted/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/evidence/applicable/evidence/negative_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/evidence/literal/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_9e18bcb_20260915/evidence/literal/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/build_matrices.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/retry_proof_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/audit.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/package_review.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/x23_adapted/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/x23_adapted/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/y_original/evidence/edge_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/applicable/evidence/negative_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/applicable/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/leakage_rules_v1_json/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/applicable/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/insight_v1_schema_json/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/applicable/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/SCHEMA_FREEZE_json/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/applicable/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/validator_py/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/z_original/evidence/chain_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/literal/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/literal/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/literal/evidence/extended_fixtures/test_X12_r4_rechecked_mid_producer_before_next_send/schema/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_a219bd4_20260915/files/literal/evidence/extended_fixtures/test_X12_r4_rechecked_mid_producer_before_next_send/schema/test_validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/build_matrices.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/audit.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/generate_field_matrix.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/independent_d03_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/package_review.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/x23_adapted/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/x23_adapted/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/y_original/evidence/edge_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/applicable/evidence/negative_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/applicable/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/leakage_rules_v1_json/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/applicable/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/insight_v1_schema_json/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/applicable/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/SCHEMA_FREEZE_json/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/applicable/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/validator_py/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/w_original/evidence/retry_proof_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/z_original/evidence/chain_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/literal/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/literal/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/literal/evidence/extended_fixtures/test_X12_r4_rechecked_mid_producer_before_next_send/schema/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_23859a2_20260915/files/literal/evidence/extended_fixtures/test_X12_r4_rechecked_mid_producer_before_next_send/schema/test_validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/x23_adapted/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/x23_adapted/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/after/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/after/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/before/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/before/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/c01_c03_evidence/applicable/evidence/negative_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/build_matrices.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/audit.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/decision_edge_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/generate_decision_matrix.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/package_review.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/x23_adapted/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/x23_adapted/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/y_original/evidence/edge_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/applicable/evidence/negative_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/w_original/evidence/retry_proof_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/v_original/evidence/independent_d03_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/z_original/evidence/chain_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/literal/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/d04_ok_20260915/codex/literal/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/build_matrices.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/audit.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/chain_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/package_review.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/x23_adapted/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/x23_adapted/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/y_original/evidence/edge_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/applicable/evidence/negative_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/applicable/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/leakage_rules_v1_json/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/applicable/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/insight_v1_schema_json/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/applicable/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/SCHEMA_FREEZE_json/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/applicable/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/validator_py/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/literal/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/literal/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/literal/evidence/extended_fixtures/test_X12_r4_rechecked_mid_producer_before_next_send/schema/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_edb37f3_20260915/files/literal/evidence/extended_fixtures/test_X12_r4_rechecked_mid_producer_before_next_send/schema/test_validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_20260915/evidence/check_integrity.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_20260915/evidence/negative_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_20260915/evidence/run_baseline_checks.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_20260915/evidence/fixtures/test_41_r4_tamper_must_block_before_any_transport/bad-schema/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_20260915/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/leakage_rules_v1_json/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_20260915/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/insight_v1_schema_json/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_20260915/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/SCHEMA_FREEZE_json/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_20260915/evidence/fixtures/test_30_all_four_r4_byte_tamper_rejected/validator_py/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/evidence/rerun_concurrency.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/evidence/audit_integrity.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/evidence/extended_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/evidence/additional_edges.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/evidence/extended_probes_initial.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/evidence/scope_and_results.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/evidence/build_report.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/evidence/build_mapping.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/evidence/extended_fixtures/test_X12_r4_rechecked_mid_producer_before_next_send/schema/validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/evidence/extended_fixtures/test_X12_r4_rechecked_mid_producer_before_next_send/schema/test_validator.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/evidence/applicable/evidence/negative_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/harness/non_ok_0c8157f_20260915/evidence/original_all_unadapted/evidence/negative_probes.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/tests/test_r2_guard_recheck.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/tests/test_threshold_uncertainty.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/tests/test_generation_plan.py",
+    "ok": true
+  },
+  {
+    "path": "studio2/fase03/soglie_normal/tests/test_generation_plan_stdlib.py",
+    "ok": true
+  }
+]

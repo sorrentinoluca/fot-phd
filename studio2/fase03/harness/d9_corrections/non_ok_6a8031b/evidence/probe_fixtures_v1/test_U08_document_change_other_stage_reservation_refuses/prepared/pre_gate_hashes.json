@@ -1,0 +1,9 @@
+{
+  "artifact_version": "1",
+  "files": {
+    "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpbfz900u8/prepared/pilot_prompts.jsonl": "673269892b671cf38d4cef0c22cff4ca59f62e38d6ac9fae4a49d77a865e5b21",
+    "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpbfz900u8/prepared/pre_gate_plan.json": "30051b83b9a1e4b7af3075f76c62fc90156e83c70786f32957dd3d35894834c8",
+    "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpbfz900u8/config.json": "3417a13fc2060325773e0b1ae3e589ac6f0ee0014b3fcef2dba97dd3408a0090",
+    "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpbfz900u8/manifest.json": "25c3d7ff84dce83bc1cbd563a7d7a57fa43f786fa5a67a4de598de5a1fc1546d"
+  }
+}

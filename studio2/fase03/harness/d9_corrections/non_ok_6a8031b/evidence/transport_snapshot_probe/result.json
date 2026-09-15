@@ -1,0 +1,102 @@
+{
+  "actual_provider_class": "<class 'studio2.fase03.run_pilot.Provider'>",
+  "actual_execute_request_module": "studio2.fase03.harness.runtime",
+  "fake_sdk_calls": 1,
+  "tokenizer_exists": false,
+  "requests_cumulative": 9,
+  "record": {
+    "prompt_id": "S2-P03-036",
+    "agent_id": "agent_8",
+    "case_id": "EVD-0299",
+    "condition": "A",
+    "sample_role": "matched_transfer",
+    "prompt_sha256": "b2588f1cb1486b1af84db76311d7c8e415a195655d85db6f5be877b4d377e471",
+    "generation": {
+      "seed": 20260829,
+      "thinking_token_budget": 2048,
+      "max_tokens": 2560
+    },
+    "returned_model": "fixture-model",
+    "system_fingerprint": null,
+    "response_id": "independent-fake-response",
+    "finish_reason": "stop",
+    "raw_output": "{\"predicted_label\": null, \"abstain\": true, \"used_insight_ids\": [], \"reasoning_summary\": \"Fixture.\"}",
+    "raw_output_sha256": "d695af1cdcd26a4fbbc78ef84fd7b21790ba873a271bdbdfbf2f0d638f2d72ae",
+    "parsed_output": {
+      "predicted_label": null,
+      "abstain": true,
+      "used_insight_ids": [],
+      "reasoning_summary": "Fixture."
+    },
+    "parse_valid_first_attempt": true,
+    "parse_error": null,
+    "retry_count": 0,
+    "prompt_tokens": null,
+    "completion_tokens": null,
+    "total_tokens": null,
+    "repetition": 1,
+    "received_utc": "2026-09-15T14:36:22.478199+00:00",
+    "latency_seconds": 0.009494957979768515,
+    "request_id": "3c84ee9dbe55af8dbd66abdc6c74dc446553c2dbb416be4f81514d6685046387",
+    "identity_valid": true
+  },
+  "payloads": [
+    {
+      "model": "fixture-model",
+      "messages": [
+        {
+          "role": "user",
+          "content": "You are a diagnostic reasoning agent. Use only the supplied local labeled examples, optional peer observations, and the neutral case description. Choose from the supplied label space. The neutral description contains observations, not a diagnosis. Return strict JSON only, without markdown or extra keys.\n\nLABEL SPACE\n\n[\"S2-CLS-MHMU4\", \"S2-CLS-HEW25\", \"S2-CLS-FD3GZ\", \"S2-CLS-3ZGWQ\", \"S2-CLS-GSX3L\", \"S2-CLS-4AMS4\", \"S2-CLS-TYFPG\", \"S2-CLS-QRCCB\", \"Normal\"]\n\nLOCAL LABELED EXAMPLES\n\n[\n  {\n    \"example_id\": \"S2-EXM-022\",\n    \"pseudolabel\": \"S2-CLS-TYFPG\",\n    \"neutral_text\": \"Intervallo osservato 25.0\u201330.0 h in 1 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 1/1 finestre, sempre con segno positivo; il run pi\u00f9 lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 25.0 h all'ultima a 25.0 h. XMEAS-1 supera la soglia di pendenza in 1/1 finestre, sempre con segno positivo; il run pi\u00f9 lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 25.0 h all'ultima a 25.0 h. XMEAS-20: variabilit\u00e0 residua dopo rimozione del trend lineare sopra soglia in 1/1 finestre; 1/1 nella fase iniziale e 0/0 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 1/1 finestre; 1/1 nella fase iniziale e 0/0 nelle ultime finestre. Su XMEAS-10, residual e diff superano simultaneamente le rispettive soglie in 1/1 finestre, incluse 0/0 finestre finali. La massima dispersione complessiva osservata \u00e8 su XMEAS-1 (rapporto tra deviazioni standard 46.11).\"\n  },\n  {\n    \"example_id\": \"S2-EXM-023\",\n    \"pseudolabel\": \"S2-CLS-TYFPG\",\n    \"neutral_text\": \"Intervallo osservato 25.0\u201330.0 h in 1 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 1/1 finestre, sempre con segno positivo; il run pi\u00f9 lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 25.0 h all'ultima a 25.0 h. XMEAS-1 supera la soglia di pendenza in 1/1 finestre, sempre con segno positivo; il run pi\u00f9 lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 25.0 h all'ultima a 25.0 h. XMEAS-10: variabilit\u00e0 residua dopo rimozione del trend lineare sopra soglia in 1/1 finestre; 1/1 nella fase iniziale e 0/0 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 1/1 finestre; 1/1 nella fase iniziale e 0/0 nelle ultime finestre. Su XMEAS-10, residual e diff superano simultaneamente le rispettive soglie in 1/1 finestre, incluse 0/0 finestre finali. La massima dispersione complessiva osservata \u00e8 su XMEAS-1 (rapporto tra deviazioni standard 46.76).\"\n  },\n  {\n    \"example_id\": \"S2-EXM-024\",\n    \"pseudolabel\": \"Normal\",\n    \"neutral_text\": \"Intervallo osservato 25.0\u201330.0 h in 1 finestre da 5.0 h. Nessuna XMEAS supera la soglia di spostamento. Nessuna XMEAS supera la soglia di pendenza. Nessuna XMEAS supera la soglia di variabilit\u00e0 residua. Nessuna XMEAS supera la soglia delle variazioni campione-campione. La massima dispersione complessiva osservata \u00e8 su XMEAS-16 (rapporto tra deviazioni standard 1.08).\"\n  }\n]\n\nCASE TO DIAGNOSE\n\nIntervallo osservato 35.0\u201340.0 h in 1 finestre da 5.0 h. XMEAS-1 supera la soglia di spostamento in 1/1 finestre, sempre con segno negativo; il run pi\u00f9 lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 35.0 h all'ultima a 35.0 h. XMEAS-1 supera la soglia di pendenza in 1/1 finestre, sempre con segno positivo; il run pi\u00f9 lungo con segno coerente comprende 1 finestra, dalla prima attivazione a 35.0 h all'ultima a 35.0 h. XMEAS-1: variabilit\u00e0 residua dopo rimozione del trend lineare sopra soglia in 1/1 finestre; 1/1 nella fase iniziale e 0/0 nelle ultime finestre. XMEAS-10: variazioni campione-campione sopra soglia in 1/1 finestre; 1/1 nella fase iniziale e 0/0 nelle ultime finestre. Su XMEAS-1, residual e diff superano simultaneamente le rispettive soglie in 1/1 finestre, incluse 0/0 finestre finali. La massima dispersione complessiva osservata \u00e8 su XMEAS-1 (rapporto tra deviazioni standard 30.60).\n\nOUTPUT SCHEMA\n\n{\"predicted_label\":\"one supplied label or null only when abstaining\",\"abstain\":false,\"used_insight_ids\":[],\"reasoning_summary\":\"one to three concise sentences\"}\n\nIf abstain is false, predicted_label must be exactly one supplied label. If abstain is true, predicted_label must be null. Use only supplied peer insight IDs; when none are supplied, used_insight_ids must be empty. Do not output confidence.\n"
+        }
+      ],
+      "max_tokens": 2560,
+      "seed": 20260829,
+      "extra_body": {
+        "thinking_token_budget": 2048
+      },
+      "response_format": {
+        "type": "json_schema",
+        "json_schema": {
+          "name": "study2_diagnostic_output",
+          "strict": true,
+          "schema": {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "additionalProperties": false,
+            "properties": {
+              "abstain": {
+                "type": "boolean"
+              },
+              "predicted_label": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reasoning_summary": {
+                "maxLength": 1200,
+                "minLength": 1,
+                "type": "string"
+              },
+              "used_insight_ids": {
+                "items": {
+                  "pattern": "^S2-INS-[0-9]{3}$",
+                  "type": "string"
+                },
+                "maxItems": 14,
+                "type": "array"
+              }
+            },
+            "required": [
+              "predicted_label",
+              "abstain",
+              "used_insight_ids",
+              "reasoning_summary"
+            ],
+            "title": "Study 2 diagnostic output",
+            "type": "object"
+          }
+        }
+      }
+    }
+  ]
+}

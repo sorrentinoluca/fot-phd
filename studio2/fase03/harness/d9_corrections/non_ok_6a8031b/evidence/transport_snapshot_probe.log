@@ -1,0 +1,7 @@
+{
+  "actual_provider_class": "<class 'studio2.fase03.run_pilot.Provider'>",
+  "actual_execute_request_module": "studio2.fase03.harness.runtime",
+  "fake_sdk_calls": 1,
+  "tokenizer_exists": false,
+  "requests_cumulative": 9
+}

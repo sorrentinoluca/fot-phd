@@ -1,0 +1,5 @@
+  889 99546       02:34 /opt/anaconda3/bin/python3
+ 1229  1228       00:00 /Library/Frameworks/Python.framework/Versions/3.11/Resources/Python.app/Contents/MacOS/Python
+33082 33074 01-21:49:35 /Users/luker/.cache/uv/archive-v0/uyBX5j-TMJmF886K/bin/python
+33090 33087 01-21:49:35 /Users/luker/.cache/uv/archive-v0/uyBX5j-TMJmF886K/bin/python
+99546 21100       10:13 /opt/anaconda3/bin/python3

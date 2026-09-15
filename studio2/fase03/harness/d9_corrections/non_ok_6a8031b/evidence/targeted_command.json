@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "/opt/anaconda3/bin/python3",
+    "-m",
+    "unittest",
+    "-v",
+    "studio2.fase03.harness.test_c01_c03",
+    "studio2.fase03.harness.test_d01_replay",
+    "studio2.fase03.harness.test_d02_predecessors",
+    "studio2.fase03.harness.test_d03_contract",
+    "studio2.fase03.harness.test_d04_open_quota",
+    "studio2.fase03.harness.test_d9",
+    "studio2.fase03.harness.test_harness_offline",
+    "studio2.fase03.harness.test_metric_raccordo",
+    "studio2.fase03.harness.test_revisions",
+    "studio2.fase03.tests.test_execution_guard",
+    "studio2.fase03.tests.test_protocol"
+  ],
+  "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-review/evidence/tmp_targeted"
+  },
+  "exit": 0,
+  "seconds": 458.34546422958374
+}

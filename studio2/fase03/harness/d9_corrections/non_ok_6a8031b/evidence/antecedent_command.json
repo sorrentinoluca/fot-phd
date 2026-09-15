@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "/opt/anaconda3/bin/python3",
+    "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate/studio2/fase03/harness/test_d9.py",
+    "-v"
+  ],
+  "cwd": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/work/candidate",
+  "env_overrides": {
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-review/evidence/tmp_antecedent"
+  },
+  "exit": 1,
+  "seconds": 1.415309190750122
+}

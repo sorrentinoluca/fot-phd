@@ -1,0 +1,93 @@
+{
+  "artifact_version": "1",
+  "status": "PROVISIONAL_TECHNICAL_PASS_REQUIRES_REAL_PROMPT_REPEAT",
+  "scope": "SYNTHETIC_CAP_STRESS_FIXTURE_ONLY_NOT_A_GATE",
+  "completed_at": "2026-09-13T00:44:21.793634+00:00",
+  "provider_requests_this_run": 3,
+  "prior_rejected_provider_requests": 1,
+  "provider_requests_total": 4,
+  "maximum_provider_requests_authorized": 9,
+  "selected_generation_provisional": {
+    "temperature": 0.0,
+    "seed": 20260829,
+    "thinking_token_budget": 2048,
+    "max_tokens": 2560
+  },
+  "generation_budget_frozen": false,
+  "stability_gate_authorized": false,
+  "mandatory_next_step": "Repeat the budget probe on the independently frozen forty real Study 2 prompts; only that real-input run may write frozen_gate_config.json.",
+  "source_plan_sha256": "5a63b445ed5fc69214c8998caf890e6f4eec4e49a092175923104f2e857d380d",
+  "prompt_file_sha256": "90744d3d3f708d09fa45f45928dda05a8f8ae023c117a147a92af57e91d625e0",
+  "diagnostic_schema_sha256": "c4f73e784d281983a0a564c96ac59f2653871ecc6cc8936c9254278ce9e3e60a",
+  "vllm_grammar_schema_sha256": "4bde5d3a53372bb1629502f305bbab2539f74b7db3f33d5a00c55ee58230c9a3",
+  "vllm_grammar_schema_compatibility": "uniqueItems removed from the server grammar only; duplicate IDs remain forbidden by parse_diagnostic_output",
+  "records_sha256": "825b649e409e462b953da263fd01d11b9d92563fd930747da17e36f93d94b158",
+  "attempt_journal_sha256": "cc3a21d8a045598b844372b04af4a68a4ac6702c05c5428a457eed098f03c382",
+  "server": {
+    "vllm_version": "0.28.0",
+    "model_id": "fot-exp2-consumer",
+    "model_root": "Qwen/Qwen3.8-27B-FP8",
+    "max_model_len": 16384,
+    "temperature_advertised": true,
+    "seed_advertised": true,
+    "thinking_token_budget_advertised": true,
+    "reasoning_effort_advertised": true,
+    "process": {
+      "api_server_pid": 690460,
+      "engine_core_pid": 690661,
+      "command": "/home/luca/fot-exp2/env-vllm/bin/python3 /home/luca/fot-exp2/env-vllm/bin/vllm serve Qwen/Qwen3.8-27B-FP8 --revision 017b9c7af6b5689d5dd426a76e0bc077eb5ca20a --served-model-name fot-exp2-consumer --host 127.0.0.1 --port 8001 --tensor-parallel-size 1 --max-model-len 16384 --max-num-seqs 1 --gpu-memory-utilization 0.97 --language-model-only --reasoning-parser qwen3 --seed 20260829 --generation-config vllm --enforce-eager --no-enable-prefix-caching --kernel-config {\"enable_flashinfer_autotune\":false,\"enable_jit_warmup\":false,\"enable_cutedsl_warmup\":false}",
+      "environment": {
+        "VLLM_USE_FLASHINFER_SAMPLER": "0",
+        "CUDA_VISIBLE_DEVICES": "0"
+      },
+      "vllm_version": "0.28.0",
+      "command_sha256": "b1560330f54807c5396e03360e7938748a1e4c41bf63f427ff74b6661de499d7",
+      "environment_sha256": "de6e5d641edcdc8542fddadf5abfbbeae9054e08aa099cb2998150d274816793",
+      "fingerprint_sha256": "39b59324e643e892bfdd05beac763aa9ca80092941f28ce01f582f0f3a593017"
+    }
+  },
+  "results": [
+    {
+      "condition": "A",
+      "prompt_id": "S2-P03-031",
+      "input_tokens": 6579,
+      "thinking_token_budget": 2048,
+      "max_tokens": 2560,
+      "finish_reason": "stop",
+      "parse_valid_first_attempt": true,
+      "prompt_tokens_reported": 6579,
+      "completion_tokens_reported": 409,
+      "latency_seconds": 32.826311480253935,
+      "raw_output_sha256": "61666e0305bd7c9cb6d476b0dcd9e3627b90a7fbe1f8e865a861e2cf7eb58aa4"
+    },
+    {
+      "condition": "B-LF",
+      "prompt_id": "S2-P03-004",
+      "input_tokens": 9875,
+      "thinking_token_budget": 2048,
+      "max_tokens": 2560,
+      "finish_reason": "stop",
+      "parse_valid_first_attempt": true,
+      "prompt_tokens_reported": 9875,
+      "completion_tokens_reported": 2174,
+      "latency_seconds": 152.5356435389258,
+      "raw_output_sha256": "b573b0ebf52c4a9a74e0d5b0d7e1557f6e8db4baeea239ae8f1f6639c23825bf"
+    },
+    {
+      "condition": "E-LF",
+      "prompt_id": "S2-P03-005",
+      "input_tokens": 9875,
+      "thinking_token_budget": 2048,
+      "max_tokens": 2560,
+      "finish_reason": "stop",
+      "parse_valid_first_attempt": true,
+      "prompt_tokens_reported": 9875,
+      "completion_tokens_reported": 835,
+      "latency_seconds": 62.29666435299441,
+      "raw_output_sha256": "5049a49b668ac5740d37868c58f312432fbc34b471a7d2da99d2dc293fe937b5"
+    }
+  ],
+  "completed_model_inferences": 3,
+  "api_requests_counter_after_probe": 4,
+  "scientific_claims_authorized": false
+}

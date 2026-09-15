@@ -1,0 +1,40 @@
+test_U01_positive_metadata_and_resume (__main__.Independent.test_U01_positive_metadata_and_resume) ... ok
+test_U02_exact_pending_metadata_refuses (__main__.Independent.test_U02_exact_pending_metadata_refuses) ... ok
+test_U03_whitespace_pending_metadata_must_refuse (__main__.Independent.test_U03_whitespace_pending_metadata_must_refuse) ... FAIL
+test_U04_positive_direct_reserve (__main__.Independent.test_U04_positive_direct_reserve) ... ok
+test_U05_missing_r4_snapshot_direct_reserve_must_refuse (__main__.Independent.test_U05_missing_r4_snapshot_direct_reserve_must_refuse) ... FAIL
+test_U06_missing_r4_snapshot_restart_reserve_must_refuse (__main__.Independent.test_U06_missing_r4_snapshot_restart_reserve_must_refuse) ... FAIL
+test_U07_missing_snapshot_ordinary_runner_refuses (__main__.Independent.test_U07_missing_snapshot_ordinary_runner_refuses) ... ok
+test_U08_document_change_other_stage_reservation_refuses (__main__.Independent.test_U08_document_change_other_stage_reservation_refuses) ... ok
+
+======================================================================
+FAIL: test_U03_whitespace_pending_metadata_must_refuse (__main__.Independent.test_U03_whitespace_pending_metadata_must_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-review/evidence/independent_probes.py", line 32, in test_U03_whitespace_pending_metadata_must_refuse
+    with self.assertRaisesRegex(HarnessError,'missing service metadata: weights_revision'):self.t.producer()
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_U05_missing_r4_snapshot_direct_reserve_must_refuse (__main__.Independent.test_U05_missing_r4_snapshot_direct_reserve_must_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-review/evidence/independent_probes.py", line 46, in test_U05_missing_r4_snapshot_direct_reserve_must_refuse
+    with self.assertRaisesRegex(HarnessError,'tokenizer'):self.reserve(b)
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+======================================================================
+FAIL: test_U06_missing_r4_snapshot_restart_reserve_must_refuse (__main__.Independent.test_U06_missing_r4_snapshot_restart_reserve_must_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/luker/Documents/Codex/2026-09-15/esegui-integralmente-il-prompt-di-review/outputs/d9-review/evidence/independent_probes.py", line 50, in test_U06_missing_r4_snapshot_restart_reserve_must_refuse
+    with self.assertRaisesRegex(HarnessError,'tokenizer'):self.reserve(b,l)
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: HarnessError not raised
+
+----------------------------------------------------------------------
+Ran 8 tests in 8.894s
+
+FAILED (failures=3)
