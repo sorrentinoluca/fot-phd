@@ -1,0 +1,67 @@
+{
+  "utc": "2026-09-15T12:33:04.787797+00:00",
+  "repositories": {
+    "/Users/luker/fot-tep": {
+      "identity": "819b12e97fb94d501032655ec2f226139e6c5ca5\n5022e36b3a7457e78a7bcb505f2bc66dffa5dc6d\n",
+      "status": "## codex/studio2-soglie-normal\n?? \"Claude outputs/\"\n?? studio2/fase03/APERTURA_SOTTOFASI_FASE03.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14.md\n?? studio2/fase03/HANDOFF_FASE03_2026-09-14_rev02.md\n?? studio2/fase03/baseline_numerica/\n?? studio2/fase03/evidence/\n?? studio2/fase03/fedavg/\n?? studio2/fase03/harness/\n?? studio2/fase03/paper_sections/\n?? studio2/fase03/perimetro_q8/VERIFICA_PERIMETRO_Q8.md\n?? studio2/fase03/perimetro_q8/sottofase_3_4_verifica_e_attuazione.md\n?? studio2/fase03/piano_statistico/\n?? studio2/fase03/pseudolabel/\n?? studio2/fase03/schema_insight/\n?? studio2/fase03/soglie_normal/analisi_3_5_prompt.md\n?? studio2/fase03/soglie_normal/runs/normal_001/\n?? studio2/fase03/soglie_normal/runtime/batch_launch/\n?? studio2/fase03/soglie_normal/sottofase_3_5.md\n?? studio2/fase03/soglie_normal/verifica_3_5_prompt.md\n"
+    },
+    "/Users/luker/fot-tep-harness-0310-d01": {
+      "identity": "7afbf41632aa8117c85274b5f471abca0a655462\n3be5225c283fb323946279d854e3ba6958ea20a6\n",
+      "status": "## codex/studio2-harness-0310-d01\n"
+    },
+    "/Users/luker/fot-tep-harness-0310-c01-c03": {
+      "identity": "52e13e1ed540e1ad076474398bf850445c9a4a00\ncac5612a777b595aca53219491f1c686f39b24d6\n",
+      "status": "## codex/studio2-harness-0310-c01-c03\n"
+    },
+    "/Users/luker/fot-tep-harness-0310-correzioni": {
+      "identity": "6268437b8b64288b50ad5f7c924e1fcab85b27d3\na0c406a8d15411cd175428b7984254c771138d91\n",
+      "status": "## codex/studio2-harness-0310-correzioni\n"
+    },
+    "/Users/luker/fot-tep-harness-0310-offline": {
+      "identity": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69\n833c10f98f79b203cec385ff1aec0437b679bcc5\n",
+      "status": "## codex/studio2-harness-0310-offline\n"
+    },
+    "/Users/luker/fot-tep-riverifica-harness-9e18bcb-01a0a1ec/candidate": {
+      "identity": "9e18bcbd06fa2c54202c8eeda079c112dbfcefcd\n5d1fd7924c4e1e46346f367590e6aa1977a6ba75\n",
+      "status": "## HEAD (no branch)\n"
+    },
+    "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate": {
+      "identity": "0c8157f23bee49a3a5a2df648525c34706da29d7\na1573b49615a875f24ee97f9f1cd4bab399be93d\n",
+      "status": "## HEAD (no branch)\n"
+    },
+    "/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/candidate": {
+      "identity": "59b6b93cd9c215e8b687e540f7cd579804b7c66a\ncf08c14a8deb18145189afbe9722d7da46bc2f82\n",
+      "status": "## HEAD (no branch)\n"
+    },
+    "/Users/luker/fot-tep-harness-0310-d02": {
+      "identity": "e9b60c5db77edfd3c06a29857e6ba5f61ebe139a\n5460dad38b8321ea0d820937fb2b506580e6e3c1\n",
+      "status": "## codex/studio2-harness-0310-d02\n"
+    },
+    "/Users/luker/fot-tep-riverifica-harness-edb37f3-01a0a1ec/candidate": {
+      "identity": "edb37f359f29c461c5a507c1027c4bf411654130\n56d98666e1d18c7958ac8d3631ae6d5b8ec04bf9\n",
+      "status": "## HEAD (no branch)\n"
+    },
+    "/Users/luker/fot-tep-riverifica-harness-a219bd4-01a0a1ec/candidate": {
+      "identity": "a219bd469bbd280f56b7fa9cb56cda115b0975ed\n3fb8e50c189b85b447503b8a1ac99c1741904a5b\n",
+      "status": "## HEAD (no branch)\n"
+    },
+    "/Users/luker/fot-tep-harness-0310-d03": {
+      "identity": "97868f9d6ef281c2dd4ab1c6ffb67e2477ee5715\n30af2de32f357eee0e983f82cf529cbe58cdd617\n",
+      "status": "## codex/studio2-harness-0310-d03\n?? VERIFICA_D03.md\n"
+    },
+    "/Users/luker/fot-tep-riverifica-harness-23859a2-01a0a1ec/candidate": {
+      "identity": "23859a29225ccd9cd6f47e4a0b6e36258831dbab\nfe66025f4925e27676b0be16428475e3fcaee060\n",
+      "status": "## HEAD (no branch)\n"
+    },
+    "/Users/luker/fot-tep-harness-0310-d04": {
+      "identity": "feaf1d3c56ff142e1d1b4bc4dd243348c20bcb98\n0fa64bfaa7b462c01adf75a5c1c45e11e1745201\n",
+      "status": "## codex/studio2-harness-0310-d04\n"
+    }
+  },
+  "remote_main": "a00605862f627710347bd63c49f79a6d0a00135f\trefs/heads/main\n",
+  "preserved_untracked": {
+    "path": "/Users/luker/fot-tep-harness-0310-d03/VERIFICA_D03.md",
+    "bytes": 13529,
+    "sha256": "bc3ee96afb2bd890d0b326ca4965d03c46d241f288a30c5ee1455a0c8ec9a47f"
+  }
+}
