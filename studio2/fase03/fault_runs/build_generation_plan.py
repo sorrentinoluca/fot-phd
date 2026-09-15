@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic plans for the approved 8 x 5 development campaign and one smoke."""
+"""Deterministic plans for qualified fault campaigns and technical OOD preflight."""
 import argparse
 import csv
 import hashlib
@@ -23,30 +23,41 @@ def occupied_indices():
     spec.loader.exec_module(mod)
     occupied = set().union(*map(set, mod.STREAM_RANGES.values())) | {999999}
     for p in (ROOT / 'studio2/fase02').rglob('generation_manifest.csv'):
-        for row in csv.DictReader(p.open()):
-            if row.get('stream_id'):
-                occupied.add(int(row['stream_id']))
+        with p.open(newline='') as handle:
+            for row in csv.DictReader(handle):
+                if row.get('stream_id'):
+                    occupied.add(int(row['stream_id']))
     return occupied
 
 
 def build_rows(kind):
-    if kind not in ('fault_dev', 'smoke'):
+    if kind not in ('fault_dev', 'smoke', 'ood_preflight'):
         raise ValueError('unknown plan kind')
     catalog = json.loads((HERE.parent / 'selection/CATALOG_FREEZE.json').read_text())
     if tuple(catalog['catalog']) != CATALOG:
         raise ValueError('catalog differs from approved frozen catalog')
     rows = []
-    pairs = [(k, b) for k in range(8) for b in range(1, 6)] if kind == 'fault_dev' else [(0, 0)]
+    if kind == 'fault_dev':
+        pairs = [(k, b) for k in range(8) for b in range(1, 6)]
+    elif kind == 'smoke':
+        pairs = [(0, 0)]
+    else:
+        pairs = [(6, 0), (4, 0)]
     occupied = occupied_indices()
     for k, b in pairs:
-        idx = 30000 + 5*k + b - 1 if kind == 'fault_dev' else 30040
+        if kind == 'fault_dev':
+            idx, idv, run_id = 30000 + 5*k + b - 1, CATALOG[k], f'fault-dev-F{CATALOG[k]}-b{b:02d}'
+        elif kind == 'smoke':
+            idx, idv, run_id = 30040, 1, 'smoke-F1-001'
+        else:
+            idx, idv, run_id = 70000 + len(rows), k, f'preflight-F{k}-001'
         if idx in occupied:
             raise ValueError(f'occupied stream: {idx}')
-        horizon = 40 if kind == 'fault_dev' else 0.1
+        horizon = 0.1 if kind == 'smoke' else 40
         rows.append(dict(zip(FIELDS, (
-            f'fault-dev-F{CATALOG[k]}-b{b:02d}' if kind == 'fault_dev' else 'smoke-F1-001',
+            run_id,
             kind, b, str(idx), str(idx), f'{KEY}:{idx:016x}', idx & 0xffffffff, idx >> 32,
-            CATALOG[k], 20, 25, horizon, 25+horizon, 5, 8 if kind == 'fault_dev' else 0))))
+            idv, 20, 25, horizon, 25+horizon, 5, 0 if kind == 'smoke' else 8))))
     return rows
 
 
@@ -66,7 +77,7 @@ def validate_plan(path):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('kind', choices=['fault_dev', 'smoke'])
+    ap.add_argument('kind', choices=['fault_dev', 'smoke', 'ood_preflight'])
     ap.add_argument('output', type=Path)
     a = ap.parse_args()
     output = a.output.resolve()

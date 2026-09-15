@@ -47,7 +47,11 @@ if modelPath ~= canonical(fullfile(matlabDir,[model '.mdl'])), error('Unexpected
 sourcePath = fullfile(here,'runtime','source','temexd_fault_philox.c');
 baseSource = fullfile(phase02,'source','temexd_philox.c');
 scriptPath = string(mfilename('fullpath')) + '.m';
-specPath = fullfile(here,'SPECIFICA_RUN_FAULT.md');
+if string(plan.set_name(1)) == "ood_preflight"
+    specPath = fullfile(here,'SPECIFICA_PREFLIGHT_OOD_03_11.md');
+else
+    specPath = fullfile(here,'SPECIFICA_RUN_FAULT.md');
+end
 [gitStatus, gitHead] = system('git -C ' + shellq(repo) + ' rev-parse HEAD');
 if gitStatus ~= 0, error('Cannot record git commit'); end
 hashes = struct('mex_sha256',sha256(mexPath), 'model_sha256',sha256(modelPath), ...

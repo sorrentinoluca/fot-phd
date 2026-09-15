@@ -1,4 +1,5 @@
 /runtime/
 /runs/
+/ood_preflight/
 /smoke/*/cache/
 /smoke/*.pid
