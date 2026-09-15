@@ -1,0 +1,29 @@
+{
+  "status": "LOCAL_DELIVERY_PENDING_INDEPENDENT_REVIEW",
+  "branch": "codex/studio2-harness-0310-correzioni",
+  "worktree": "/Users/luker/fot-tep-harness-0310-correzioni",
+  "published_base": "a00605862f627710347bd63c49f79a6d0a00135f",
+  "delivery_base": "288dc1926bfd7ab4ce43bb4377a9a0064313ad69",
+  "acquisition_commit": "ec012911444de6baf1751ae4bf4aee8e9c24adbb",
+  "technical_candidate": "0c8157f23bee49a3a5a2df648525c34706da29d7",
+  "technical_tree": "a1573b49615a875f24ee97f9f1cd4bab399be93d",
+  "technical_manifest": {
+    "path": "studio2/fase03/harness/HARNESS_OFFLINE_CANDIDATE.json",
+    "bytes": 11662,
+    "sha256": "8ed9fbc37ee14d162ce65f55430159bb1e2507e95cf65aa8d72df3743170dbe1",
+    "members": 44
+  },
+  "documentary_files": [
+    {
+      "path": "studio2/fase03/harness/REPORT_CORREZIONI_HARNESS_03_10.md",
+      "bytes": 14207,
+      "sha256": "ac97694744a1a0c931573c663ba321216be8ece05041facab53d3afe0fe19b28"
+    },
+    {
+      "path": "studio2/fase03/harness/PROMPT_VERIFICA_CORREZIONI_HARNESS_03_10.md",
+      "bytes": 6314,
+      "sha256": "2936cd680be0b01a74dada4a26f1347cc4d4f5bfedf307d094da17af0748dcca"
+    }
+  ],
+  "self_reference_policy": "This file and its containing commit are excluded from their own hashes; final delivery HEAD is reported in the conversation."
+}

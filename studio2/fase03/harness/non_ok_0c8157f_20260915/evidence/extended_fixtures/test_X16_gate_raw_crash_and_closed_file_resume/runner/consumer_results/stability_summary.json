@@ -1,0 +1,23 @@
+{
+  "artifact_version": "2",
+  "status": "PASS_R1_PENDING_T5_AND_OTHER_PREREQUISITES",
+  "go_final": false,
+  "provider_requests": 120,
+  "valid_first_attempts": 120,
+  "invalid_first_attempts": 0,
+  "t3_pass": true,
+  "abstention_coverage": {
+    "A": true,
+    "B-LF": true,
+    "E-LF": true
+  },
+  "length_truncations": 0,
+  "t4_pass": true,
+  "t6_evaluable": true,
+  "all_invalid_prompt_ids": [],
+  "divergent_prompt_ids": [],
+  "divergent_prompt_count": 0,
+  "t5_temporal_feasibility": "NOT_MEASURED_BY_OFFLINE_EVALUATION",
+  "records_sha256": "3b57a0a1b4ab885339164cda4cb8f16fd22694640800a58ed050127977054e6d",
+  "frozen_gate_config_sha256": "a238f661bf63fffa311a36641da56871b722bdae2325746d4b08a3b651049975"
+}

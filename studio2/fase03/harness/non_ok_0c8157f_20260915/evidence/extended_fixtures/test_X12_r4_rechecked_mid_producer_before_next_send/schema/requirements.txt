@@ -1,0 +1,4 @@
+jsonschema==4.26.0
+# Solo per la verifica tokenizer reale (stesse versioni del preflight):
+transformers==5.16.1
+tokenizers==0.23.2

@@ -1,0 +1,30 @@
+{
+  "links_checked": 100,
+  "mapping_rows": 50,
+  "extended_distinct_methods": 24,
+  "extended_passes": 20,
+  "candidate_assertion_failures": [
+    {
+      "id": "__main__.Extended.test_X01_incomplete_alternate_blocks_probe",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/extended_probes.py\", line 40, in test_X01_incomplete_alternate_blocks_probe\n    self.assertIsNotNone(caught,'budget PASS must not strand an unresolved producer stage')\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: unexpectedly None : budget PASS must not strand an unresolved producer stage\n"
+    },
+    {
+      "id": "__main__.Extended.test_X02_failed_alternate_blocks_real_consumer",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/extended_probes.py\", line 48, in test_X02_failed_alternate_blocks_real_consumer\n    self.assertEqual(t.consumer_calls,[],'an unresolved alternate attempt must block transition')\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Lists differ: ['S2-P03-036', 'S2-P03-004', 'S2-P03-005'] != []\n\nFirst list contains 3 additional elements.\nFirst extra element 0:\n'S2-P03-036'\n\n- ['S2-P03-036', 'S2-P03-004', 'S2-P03-005']\n+ [] : an unresolved alternate attempt must block transition\n"
+    },
+    {
+      "id": "__main__.Extended.test_X03_gate_transport_invalidity_remains_in_T3_T6",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/extended_probes.py\", line 62, in test_X03_gate_transport_invalidity_remains_in_T3_T6\n    self.assertIsNotNone(result,'N48 normative invalidity must remain in a 120-attempt T3/T6 evaluation')\n    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: unexpectedly None : N48 normative invalidity must remain in a 120-attempt T3/T6 evaluation\n"
+    },
+    {
+      "id": "__main__.Extended.test_X15_producer_summary_counts_retry_provider_requests",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/extended_probes.py\", line 201, in test_X15_producer_summary_counts_retry_provider_requests\n    self.assertEqual(result['provider_requests'],9,'provider_requests must retain the separate call denominator after retry')\n    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: 8 != 9 : provider_requests must retain the separate call denominator after retry\n"
+    }
+  ],
+  "reviewer_setup_failures_excluded": [
+    "X06 initial subprocess cwd",
+    "X07 initial subprocess cwd"
+  ],
+  "candidate_clean": true,
+  "candidate_manifest_sha256": "8ed9fbc37ee14d162ce65f55430159bb1e2507e95cf65aa8d72df3743170dbe1"
+}

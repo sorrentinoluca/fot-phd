@@ -1,0 +1,53 @@
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+    from studio2.fase03.harness.offline_fixtures import Trial
+ModuleNotFoundError: No module named 'studio2.fase03.harness.offline_fixtures'
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+    from studio2.fase03.harness.offline_fixtures import Trial
+ModuleNotFoundError: No module named 'studio2.fase03.harness.offline_fixtures'
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+    from studio2.fase03.harness.offline_fixtures import Trial
+ModuleNotFoundError: No module named 'studio2.fase03.harness.offline_fixtures'
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+    from studio2.fase03.harness.offline_fixtures import Trial
+ModuleNotFoundError: No module named 'studio2.fase03.harness.offline_fixtures'
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+    from studio2.fase03.harness.offline_fixtures import Trial
+ModuleNotFoundError: No module named 'studio2.fase03.harness.offline_fixtures'
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+    from studio2.fase03.harness.offline_fixtures import Trial
+ModuleNotFoundError: No module named 'studio2.fase03.harness.offline_fixtures'
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+    from studio2.fase03.harness.offline_fixtures import Trial
+ModuleNotFoundError: No module named 'studio2.fase03.harness.offline_fixtures'
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+    from studio2.fase03.harness.offline_fixtures import Trial
+ModuleNotFoundError: No module named 'studio2.fase03.harness.offline_fixtures'
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+    from studio2.fase03.harness.offline_fixtures import Trial
+ModuleNotFoundError: No module named 'studio2.fase03.harness.offline_fixtures'
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+    from studio2.fase03.harness.offline_fixtures import Trial
+ModuleNotFoundError: No module named 'studio2.fase03.harness.offline_fixtures'
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+    from studio2.fase03.harness.offline_fixtures import Trial
+ModuleNotFoundError: No module named 'studio2.fase03.harness.offline_fixtures'
+Traceback (most recent call last):
+  File "<string>", line 2, in <module>
+    from studio2.fase03.harness.offline_fixtures import Trial
+ModuleNotFoundError: No module named 'studio2.fase03.harness.offline_fixtures'
+Traceback (most recent call last):
+  File "<string>", line 3, in <module>
+    from studio2.fase03.harness.ledger import PilotLedger
+ModuleNotFoundError: No module named 'studio2.fase03.harness.ledger'
+{"tests": 18, "failures": 6, "errors": 0}

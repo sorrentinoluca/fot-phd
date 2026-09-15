@@ -1,0 +1,47 @@
+{
+  "tests": 2,
+  "failures": [],
+  "errors": [],
+  "observations": {
+    "test_X06_real_concurrent_base_reservation_12_writers": {
+      "returncodes": [
+        0,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17,
+        17
+      ],
+      "snapshot": {
+        "pilot_id": "offline-fixture",
+        "ledger_path": "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/evidence/concurrency_rerun/extended_fixtures/test_X06_real_concurrent_base_reservation_12_writers/pilot.sqlite3",
+        "requests_cumulative": 1,
+        "requests_by_stage": {
+          "alternate_conformity": 0,
+          "budget_probe": 0,
+          "producer_conformity": 1,
+          "producer_remediation": 0,
+          "stability_gate": 0
+        },
+        "unresolved_intents": 1,
+        "remediation_calls": 0,
+        "transport_calls": 0,
+        "reserve_equation_value": 0,
+        "reserve_limit": 15,
+        "planned_maximum": 152,
+        "hard_stop": 200,
+        "durable_responses": 0,
+        "events": []
+      }
+    },
+    "test_X07_outcome_transaction_excludes_writer_while_closing": {
+      "writer_saw_committed_outcome": "1"
+    }
+  }
+}

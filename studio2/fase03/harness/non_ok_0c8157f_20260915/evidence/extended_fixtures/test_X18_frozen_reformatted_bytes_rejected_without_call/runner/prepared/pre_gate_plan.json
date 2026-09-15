@@ -1,0 +1,91 @@
+{
+  "artifact_version": "2",
+  "source_inventory": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpit82zk1u/complete_inventory.json",
+  "insight_handoff": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpit82zk1u/results/validated_insight_library_fixture_producer_conformity.json",
+  "pilot_id": "runner-fixture",
+  "schema_dir": "/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate/studio2/fase03/schema_insight",
+  "status": "READY_FOR_PRE_GATE_GENERATION_PROBE",
+  "scope": "PRE_GATE_ONLY_NOT_STABILITY",
+  "provisional_synthetic": false,
+  "prepared_at": "2026-09-14T23:21:41.978172+00:00",
+  "source_manifest": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpit82zk1u/manifest.json",
+  "source_manifest_sha256": "25c3d7ff84dce83bc1cbd563a7d7a57fa43f786fa5a67a4de598de5a1fc1546d",
+  "source_commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+  "catalog_id": "studio2-fase03-pseudolabel-v1",
+  "preflight_config_sha256": "48c74c314eb851f7276daa17626aa94edcc84fe43b32de9f50128cbf85193d53",
+  "tokenizer_snapshot": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpit82zk1u/fixture-revision",
+  "tokenizer_config_sha256": "9dc8a35e2ee9270e72b5397d757fe71580f1f914b0b1aa0bc7d7835d01f748ed",
+  "tokenizer_json_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+  "prompt_file": "/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpit82zk1u/prepared/pilot_prompts.jsonl",
+  "prompt_count": 40,
+  "condition_counts": {
+    "A": 8,
+    "B-LF": 16,
+    "E-LF": 16
+  },
+  "context_feasibility": {
+    "expected_max_model_len": 100000,
+    "minimum_input_tokens": 373,
+    "maximum_input_tokens": 1096,
+    "answer_reserve_tokens": 512,
+    "required_safety_margin_tokens": 256,
+    "candidates": [
+      {
+        "thinking_token_budget": 2048,
+        "max_tokens": 2560,
+        "maximum_input_tokens": 1096,
+        "required_context_tokens": 3912,
+        "context_margin_tokens": 96344,
+        "fits_with_required_safety_margin": true
+      },
+      {
+        "thinking_token_budget": 3072,
+        "max_tokens": 3584,
+        "maximum_input_tokens": 1096,
+        "required_context_tokens": 4936,
+        "context_margin_tokens": 95320,
+        "fits_with_required_safety_margin": true
+      },
+      {
+        "thinking_token_budget": 4096,
+        "max_tokens": 4608,
+        "maximum_input_tokens": 1096,
+        "required_context_tokens": 5960,
+        "context_margin_tokens": 94296,
+        "fits_with_required_safety_margin": true
+      }
+    ],
+    "feasible_candidates": [
+      {
+        "thinking_token_budget": 2048,
+        "max_tokens": 2560,
+        "maximum_input_tokens": 1096,
+        "required_context_tokens": 3912,
+        "context_margin_tokens": 96344,
+        "fits_with_required_safety_margin": true
+      },
+      {
+        "thinking_token_budget": 3072,
+        "max_tokens": 3584,
+        "maximum_input_tokens": 1096,
+        "required_context_tokens": 4936,
+        "context_margin_tokens": 95320,
+        "fits_with_required_safety_margin": true
+      },
+      {
+        "thinking_token_budget": 4096,
+        "max_tokens": 4608,
+        "maximum_input_tokens": 1096,
+        "required_context_tokens": 5960,
+        "context_margin_tokens": 94296,
+        "fits_with_required_safety_margin": true
+      }
+    ],
+    "static_context_gate": "PASS",
+    "generation_budget_frozen": false,
+    "note": "Static fit is necessary but not sufficient. A candidate becomes frozen only after the pre-gate generation probe shows no length truncation on every A/B-LF/E-LF stress fixture."
+  },
+  "generation_budget_frozen": false,
+  "stability_gate_authorized": false,
+  "real_prompt_repeat_required": false
+}

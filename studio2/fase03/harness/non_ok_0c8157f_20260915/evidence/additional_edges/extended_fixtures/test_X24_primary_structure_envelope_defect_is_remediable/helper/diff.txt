@@ -1,0 +1,7 @@
+--- before
++++ after
+@@ -8,3 +8,4 @@
+ 
+ LOCAL DEVELOPMENT EXAMPLES
+ {local_examples}
++Approved FIXTURE change

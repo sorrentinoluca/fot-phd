@@ -1,0 +1,11 @@
+You produce two structured peer insights from the supplied local development examples.
+Return strict JSON only as {"insights":[...]} with exactly two objects in the supplied order.
+Copy insight_id, source_agent, pseudolabel, evidence_scope, and variable_ids byte-for-byte. Write only observed_pattern. Each narrative must be non-empty, at most 800 Unicode characters and at most 192 tokens under the pinned tokenizer. Use only observations supported by the examples.
+The validator intentionally rejects all of the following spellings or patterns, even in harmless prose: normal, unknown, valve, valvola, feed, step, A/B, and an x followed (possibly after spaces) by mv or meas. This includes phrases such as 'six MV values' and strings such as 'exmv'. Do not use any of them. Refer to variables only with exact declared identifiers such as XMEAS(7) or XMV(3); do not paraphrase physical variable names.
+
+FIXED CONTRACTS
+{fixed_contracts}
+
+LOCAL DEVELOPMENT EXAMPLES
+{local_examples}
+Approved FIXTURE change

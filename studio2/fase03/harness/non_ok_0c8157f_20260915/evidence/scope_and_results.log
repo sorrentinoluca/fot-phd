@@ -1,0 +1,51 @@
+fatal: path 'studio2/fase03/harness/test_revisions.py' exists on disk, but not in '59b6b93cd9c215e8b687e540f7cd579804b7c66a'
+{
+  "technical_changed_paths": 30,
+  "diff_stat": "30 files changed, 3750 insertions(+), 1195 deletions(-)",
+  "documentation": {
+    "tests": 35,
+    "failure_assertions": 14,
+    "errors": 0,
+    "skips": 1,
+    "ids_match_declared": true,
+    "ids_match_original": true,
+    "failure_ids": [
+      "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1\u2013C4: 4/4 PASS')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ]
+  },
+  "prior_reproduction_comparison": {
+    "original_tests": 50,
+    "reproduced_tests": 50,
+    "original_failures": 34,
+    "reproduced_failures": 34,
+    "same_failed_method_ids": true
+  },
+  "phase_b_imports": [],
+  "documentary_members": [
+    {
+      "path": "studio2/fase03/harness/REPORT_CORREZIONI_HARNESS_03_10.md",
+      "sha256": "ac97694744a1a0c931573c663ba321216be8ece05041facab53d3afe0fe19b28",
+      "bytes": 14207,
+      "ok": true
+    },
+    {
+      "path": "studio2/fase03/harness/PROMPT_VERIFICA_CORREZIONI_HARNESS_03_10.md",
+      "sha256": "2936cd680be0b01a74dada4a26f1347cc4d4f5bfedf307d094da17af0748dcca",
+      "bytes": 6314,
+      "ok": true
+    }
+  ]
+}
