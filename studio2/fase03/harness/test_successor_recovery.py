@@ -162,6 +162,61 @@ def _make_predecessor(path: Path) -> PilotLedger:
     return ledger
 
 
+def _mutate_successor_lineage(ledger: PilotLedger, mutation: str) -> str:
+    """Apply one post-import corruption to a sacrificial successor fixture."""
+    with ledger._transaction() as connection:
+        native_id = connection.execute(
+            "SELECT request_id FROM predecessor_lineage WHERE ordinal=5").fetchone()[0]
+        if mutation == "ordinal":
+            connection.execute("PRAGMA ignore_check_constraints=ON")
+            connection.execute("UPDATE predecessor_lineage SET ordinal=6 WHERE ordinal=5")
+        elif mutation == "request_id":
+            connection.execute(
+                "UPDATE predecessor_lineage SET request_id='mutated-native-id' WHERE ordinal=5")
+        elif mutation == "source_kind":
+            connection.execute(
+                "UPDATE predecessor_lineage SET source_kind='external_history' WHERE ordinal=5")
+        elif mutation == "identity_json_and_digest":
+            identity = canonical_json({"mutated": True})
+            connection.execute(
+                "UPDATE predecessor_lineage SET identity_json=?,identity_sha256=? WHERE ordinal=5",
+                (identity, sha256_text(identity)))
+        elif mutation == "identity_sha256":
+            connection.execute(
+                "UPDATE predecessor_lineage SET identity_sha256=? WHERE ordinal=5", ("1" * 64,))
+        elif mutation == "source_binding_sha256":
+            connection.execute(
+                "UPDATE predecessor_lineage SET source_binding_sha256=? WHERE ordinal=5",
+                ("2" * 64,))
+        elif mutation == "disposition":
+            connection.execute(
+                "UPDATE predecessor_lineage SET disposition='COMPLETED' WHERE ordinal=5")
+        elif mutation == "raw_sha256":
+            connection.execute(
+                "UPDATE predecessor_lineage SET raw_sha256=? WHERE ordinal=5", ("3" * 64,))
+        elif mutation == "record_sha256":
+            connection.execute(
+                "UPDATE predecessor_lineage SET record_sha256=? WHERE ordinal=5", ("4" * 64,))
+        elif mutation == "package_sha256":
+            connection.execute(
+                "UPDATE predecessor_lineage SET package_sha256=? WHERE ordinal=5", ("5" * 64,))
+        elif mutation == "predecessor_sha256":
+            connection.execute(
+                "UPDATE predecessor_lineage SET predecessor_sha256=? WHERE ordinal=5",
+                ("6" * 64,))
+        elif mutation == "approval_sha256":
+            row = connection.execute(
+                "SELECT event,detail_json FROM events WHERE event LIKE 'successor_lineage:%'"
+            ).fetchone()
+            detail = json.loads(row["detail_json"])
+            detail["approval_sha256"] = "7" * 64
+            connection.execute("UPDATE events SET detail_json=? WHERE event=?",
+                               (canonical_json(detail), row["event"]))
+        else:
+            raise AssertionError("unknown lineage mutation: " + mutation)
+    return native_id
+
+
 def _reserve_worker(path: str, pilot_id: str, queue) -> None:
     try:
         ledger = PilotLedger(Path(path), pilot_id=pilot_id)
@@ -386,6 +441,7 @@ class ProducerRenderingAndAccountingTests(unittest.TestCase):
         exact = {"chat_template_kwargs": {"enable_thinking": False}}
         self.assertEqual(producer_extra_body(exact, model_role="122B"), exact)
         for invalid in (
+            {"chat_template_kwargs": {"enable_thinking": 0}},
             {"chat_template_kwargs": {"enable_thinking": True}},
             {"chat_template_kwargs": {"enable_thinking": False, "other": 1}},
             {"other": {}},
@@ -423,6 +479,157 @@ class ProducerRenderingAndAccountingTests(unittest.TestCase):
                 [{"role": "user", "content": "fixture"}],
                 {"usage": {"prompt_tokens": 11}},
             )
+        with self.assertRaisesRegex(HarnessError, "unsupported chat-template kwargs"):
+            TokenizerAccountingGuard(tokenizer, template_kwargs={"enable_thinking": 0})
+
+
+class ReviewCorrectionLineageTests(unittest.TestCase):
+    MUTATIONS = (
+        "ordinal", "request_id", "source_kind", "identity_json_and_digest",
+        "identity_sha256", "source_binding_sha256", "disposition", "raw_sha256",
+        "record_sha256", "package_sha256", "predecessor_sha256", "approval_sha256",
+    )
+
+    @staticmethod
+    def _new_fixture():
+        fixture = SuccessorFixture()
+        fixture.setUp()
+        return fixture
+
+    def test_F1_direct_reservation_reauthenticates_every_persisted_field(self):
+        positive = self._new_fixture()
+        try:
+            ledger = positive.imported()
+            ledger.bind_stage(TECHNICAL_STAGE, _binding(TECHNICAL_STAGE, 1))
+            _reserve(ledger, TECHNICAL_STAGE, 0)
+            self.assertEqual(ledger.snapshot()["native_requests"], 1)
+        finally:
+            positive.doCleanups()
+
+        for index, mutation in enumerate(self.MUTATIONS):
+            fixture = self._new_fixture()
+            try:
+                ledger = fixture.imported()
+                ledger.bind_stage(TECHNICAL_STAGE, _binding(TECHNICAL_STAGE, 1))
+                native_id = _mutate_successor_lineage(ledger, mutation)
+                if index % 2:
+                    ledger = PilotLedger(ledger.path, pilot_id=ledger.pilot_id)
+                baseline = _logical(ledger.path)
+                request_id = native_id if mutation == "request_id" else "protected-" + mutation
+                with self.subTest(mutation=mutation), self.assertRaises(HarnessError):
+                    _reserve(ledger, TECHNICAL_STAGE, 0, request_id=request_id)
+                self.assertEqual(_logical(ledger.path), baseline)
+                with closing(sqlite3.connect(ledger.path)) as connection:
+                    self.assertEqual(connection.execute("SELECT count(*) FROM requests").fetchone()[0], 0)
+            finally:
+                fixture.doCleanups()
+
+    def test_F1_D9_path_reauthenticates_same_instance_and_restart(self):
+        from studio2.fase03.harness import d9
+        positive = self._new_fixture()
+        try:
+            ledger = positive.imported()
+            package = next(path for path in sorted(positive.home.glob("package-*.json"))
+                           if not path.name.endswith("-approval.json"))
+            approval = positive.home / (package.stem + "-approval.json")
+            config = {"pilot_ledger": {"path": str(ledger.path), "pilot_id": ledger.pilot_id},
+                      "d9": {"successor_lineage": {"path": str(package), "sha256": sha256_file(package)},
+                             "successor_lineage_approval": {
+                                 "path": str(approval), "sha256": sha256_file(approval)}}}
+            with mock.patch.object(d9, "validate_config", return_value=config["d9"]):
+                with ledger._transaction() as connection:
+                    d9.validate_history(config, ledger, connection)
+        finally:
+            positive.doCleanups()
+
+        for index, mutation in enumerate(self.MUTATIONS):
+            fixture = self._new_fixture()
+            try:
+                ledger = fixture.imported()
+                package = next(path for path in sorted(fixture.home.glob("package-*.json"))
+                               if not path.name.endswith("-approval.json"))
+                approval = fixture.home / (package.stem + "-approval.json")
+                config = {"pilot_ledger": {"path": str(ledger.path), "pilot_id": ledger.pilot_id},
+                          "d9": {"successor_lineage": {
+                                     "path": str(package), "sha256": sha256_file(package)},
+                                 "successor_lineage_approval": {
+                                     "path": str(approval), "sha256": sha256_file(approval)}}}
+                _mutate_successor_lineage(ledger, mutation)
+                if index % 2:
+                    ledger = PilotLedger(ledger.path, pilot_id=ledger.pilot_id)
+                baseline = _logical(ledger.path)
+                with mock.patch.object(d9, "validate_config", return_value=config["d9"]):
+                    with self.subTest(mutation=mutation), self.assertRaises(HarnessError):
+                        with ledger._transaction() as connection:
+                            d9.validate_history(config, ledger, connection)
+                self.assertEqual(_logical(ledger.path), baseline)
+                with closing(sqlite3.connect(ledger.path)) as connection:
+                    self.assertEqual(connection.execute("SELECT count(*) FROM requests").fetchone()[0], 0)
+            finally:
+                fixture.doCleanups()
+
+
+class ReviewCorrectionAccountingTests(SuccessorFixture):
+    class Tokenizer:
+        def apply_chat_template(self, messages, **kwargs):
+            return [1] * 11
+
+    def _completed_technical(self):
+        index = len(list(self.home.glob("technical-successor-*.sqlite3")))
+        self.successor_path = (self.home / f"technical-successor-{index}.sqlite3").resolve()
+        ledger = self.imported()
+        binding = _binding(TECHNICAL_STAGE, 1)
+        binding["requests"][0]["model"] = "qwen3.5-122b"
+        ledger.bind_stage(TECHNICAL_STAGE, binding)
+        request_id = _reserve(ledger, TECHNICAL_STAGE, 0)
+        messages = [{"role": "user", "content": "fixture"}]
+        raw = {
+            "id": "fixture", "model": "qwen3.5-122b", "system_fingerprint": "fp",
+            "choices": [{"message": {"content": '{"status":"NO_THINKING_OK"}'},
+                         "finish_reason": "stop"}],
+            "usage": {"prompt_tokens": 11, "completion_tokens": 9, "total_tokens": 20},
+        }
+        ledger.save_raw(request_id, raw)
+        guard = TokenizerAccountingGuard(
+            self.Tokenizer(), template_kwargs={"enable_thinking": False})
+        ledger.account_producer_response(request_id, messages=messages, guard=guard)
+        spec = binding["requests"][0]
+        record = {
+            "request_id": request_id, "prompt_sha256": spec["prompt_sha256"],
+            "response_id": "fixture", "returned_model": "qwen3.5-122b",
+            "system_fingerprint": "fp",
+            "identity_valid": True, "schema_valid_first_attempt": True,
+            "technical_pass": True, "reasoning_empty": True,
+            "rendering_control_accepted": True, "scientific_use": "FORBIDDEN",
+            "finish_reason": "stop", "raw_output": '{"status":"NO_THINKING_OK"}',
+            "prompt_tokens": 11, "completion_tokens": 9, "total_tokens": 20,
+        }
+        ledger.bind_tokenizer_accounting_record(request_id, record=record)
+        ledger.complete_request(request_id, status="COMPLETED", record=record,
+                                prompt_tokens=11, completion_tokens=9, total_tokens=20)
+        _outcome(ledger, TECHNICAL_STAGE)
+        return ledger, request_id
+
+    def test_F2_persisted_accounting_false_to_zero_is_rejected_before_next_stage(self):
+        positive, _ = self._completed_technical()
+        positive.bind_stage("producer_conformity", _binding("producer_conformity", 8))
+        self.assertEqual(positive.snapshot()["native_requests"], 1)
+
+        ledger, request_id = self._completed_technical()
+        with ledger._transaction() as connection:
+            row = connection.execute(
+                "SELECT detail_json FROM events WHERE event=?",
+                ("tokenizer_accounting:" + request_id,)).fetchone()
+            detail = json.loads(row["detail_json"])
+            self.assertIs(detail["chat_template_kwargs"]["enable_thinking"], False)
+            detail["chat_template_kwargs"]["enable_thinking"] = 0
+            connection.execute("UPDATE events SET detail_json=? WHERE event=?",
+                               (canonical_json(detail), "tokenizer_accounting:" + request_id))
+        baseline = _logical(ledger.path)
+        with self.assertRaises(HarnessError):
+            ledger.bind_stage("producer_conformity", _binding("producer_conformity", 8))
+        self.assertEqual(_logical(ledger.path), baseline)
+        self.assertEqual(ledger.snapshot()["native_requests"], 1)
 
 
 class SuccessorQuotaTests(SuccessorFixture):

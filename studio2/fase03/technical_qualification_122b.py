@@ -121,6 +121,10 @@ def evaluate_response(raw: dict[str, Any], expected_identity: dict[str, Any]) ->
 def _validate_contract(config: dict[str, Any]) -> dict[str, Any]:
     configured = config.get("d9", {}).get("technical_qualification_122b")
     expected = technical_contract()
+    if not isinstance(configured, dict):
+        raise HarnessError("technical qualification contract differs from the prespecified bytes")
+    from studio2.fase03.harness.d9 import producer_extra_body
+    producer_extra_body(configured.get("extra_body"), model_role="122B")
     if configured != expected:
         raise HarnessError("technical qualification contract differs from the prespecified bytes")
     return expected
@@ -141,8 +145,8 @@ def run(*, config_path: Path, provider_path: Path, ledger_path: Path, pilot_id: 
     require_pilot_ledger(config, ledger)
     from studio2.fase03.producer_probe import provider_config
     provider = provider_config(Path(provider_path))
-    if provider.get("extra_body") != NO_THINKING_EXTRA_BODY:
-        raise HarnessError("technical qualification requires exact producer-only no-thinking control")
+    from studio2.fase03.harness.d9 import producer_extra_body
+    producer_extra_body(provider.get("extra_body"), model_role="122B")
     if provider.get("max_tokens") != 2560:
         raise HarnessError("successor producer max_tokens must remain 2560")
     from studio2.fase03.harness.d9 import validate_provider

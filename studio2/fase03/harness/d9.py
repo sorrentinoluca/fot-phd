@@ -246,14 +246,25 @@ def generation_kwargs(generation, *, model_role):
     return result
 
 
+def no_thinking_template_kwargs(value):
+    """Validate the reviewed control without Python's bool/int equivalence."""
+    if (not isinstance(value, dict)
+            or set(value) != {'enable_thinking'}
+            or value.get('enable_thinking') is not False
+            or type(value.get('enable_thinking')) is not bool):
+        fail('chat_template_kwargs must be exactly enable_thinking=false')
+    return {'enable_thinking': False}
+
+
 def producer_extra_body(value, *, model_role):
     """Allow one reviewed rendering control on the 122B producer, never a pass-through."""
     if value is None:
         return None
-    expected = {'chat_template_kwargs': {'enable_thinking': False}}
-    if model_role != '122B' or value != expected:
+    if (model_role != '122B' or not isinstance(value, dict)
+            or set(value) != {'chat_template_kwargs'}):
         fail('producer extra_body must be exactly chat_template_kwargs.enable_thinking=false for 122B')
-    return deepcopy(expected)
+    no_thinking_template_kwargs(value['chat_template_kwargs'])
+    return {'chat_template_kwargs': {'enable_thinking': False}}
 
 
 def validate_config(config):
@@ -348,14 +359,9 @@ def validate_history(config, ledger, connection):
         lineage_ref, approval_ref = d['successor_lineage'], d.get('successor_lineage_approval')
         read_bytes_reference(lineage_ref, 'successor lineage package')
         read_bytes_reference(approval_ref, 'successor lineage approval')
-        from .successor import validate_successor_lineage_artifacts
-        validated = validate_successor_lineage_artifacts(
-            Path(lineage_ref['path']), Path(approval_ref['path']),
-            expected_ledger={'path': str(ledger.path), 'pilot_id': ledger.pilot_id})
-        rows = ledger._validated_predecessor_lineage(connection)
-        if len(rows) != 5 or any(
-                row['package_sha256'] != validated['package_sha256'] for row in rows):
-            fail('successor lineage differs from the reconciled predecessor package')
+        ledger._validated_predecessor_lineage(
+            connection, package_path=Path(lineage_ref['path']),
+            approval_path=Path(approval_ref['path']))
         return
     h = read_reference(d['history_reconciliation'], 'historical consumption reconciliation')
     if h.get('status') == 'MAPPING_REVIEWED':

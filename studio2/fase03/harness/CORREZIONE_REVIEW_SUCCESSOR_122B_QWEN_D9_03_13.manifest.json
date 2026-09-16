@@ -1,0 +1,122 @@
+{
+  "artifact_version": "1",
+  "status": "READY_FOR_NEW_INDEPENDENT_REVIEW",
+  "scope": [
+    "F1_SUCCESSOR_LINEAGE_DURABLE_SEMANTIC_AUTHENTICATION",
+    "F2_STRICT_FALSE_AND_PERSISTED_ACCOUNTING_BINDING"
+  ],
+  "rejected_candidate": {
+    "commit": "65dad03c7878b5ba1b3dc185861f93387bef78a0",
+    "tree": "2df08d333d8c7e887bc70986a2819135d8bcad09",
+    "parent": "6e15fe59fe7b2f69c3e74e0bbf344985fa696c36"
+  },
+  "independent_review": {
+    "verdict": "NON_OK",
+    "source": "/Users/luker/.codex/worktrees/b567/fot-tep/studio2/fase03/harness/VERIFICA_IMPLEMENTAZIONE_RECUPERO_SUCCESSOR_122B_QWEN_D9_03_13.md",
+    "repository_copy": "studio2/fase03/harness/reviews/VERIFICA_IMPLEMENTAZIONE_RECUPERO_SUCCESSOR_122B_QWEN_D9_03_13.md",
+    "sha256": "58ca090df717cbce192767c71679fc127047a2472cda0e722c6b7702a82857b5"
+  },
+  "corrections": {
+    "F1": {
+      "single_validator": "PilotLedger._validated_predecessor_lineage",
+      "approved_sources_reopened": ["package", "approval", "predecessor"],
+      "durable_event_fields_bound": [
+        "event", "artifact_sha256", "status", "count", "package_sha256",
+        "approval_sha256", "predecessor_sha256", "package_reference",
+        "approval_reference"
+      ],
+      "durable_row_fields_bound": [
+        "ordinal", "request_id", "source_kind", "identity_json",
+        "identity_sha256", "source_binding_sha256", "disposition",
+        "raw_sha256", "record_sha256", "package_sha256", "predecessor_sha256"
+      ],
+      "decision_paths": ["direct_reservation", "D9_history_validation", "restart"]
+    },
+    "F2": {
+      "accepted_value": {"enable_thinking": false},
+      "rejected_distinct_value": {"enable_thinking": 0},
+      "strict_validator": "d9.no_thinking_template_kwargs",
+      "persisted_detail_digest_recomputed": true,
+      "protected_next_stage_rejects_tamper": true
+    }
+  },
+  "repository_artifacts": {
+    "studio2/fase03/harness/d9.py": "69ad5927dae9521c645400bb2a41c76ebd483e33327a5b55396a978b8b90dfe7",
+    "studio2/fase03/harness/ledger.py": "b299d419b7dbb92539dbe5f88454e01d5502b26c4bb2a40238789b4294b6f69f",
+    "studio2/fase03/harness/test_successor_recovery.py": "bb643a43c8e670eb2b80461f04ad2fa8d2ce999b6b1277428221af618706b3ba",
+    "studio2/fase03/technical_qualification_122b.py": "9b247a22f1f1849c92cd27a4100e9593637beda1e8c913902aeef84632c15385",
+    "studio2/fase03/harness/reviews/VERIFICA_IMPLEMENTAZIONE_RECUPERO_SUCCESSOR_122B_QWEN_D9_03_13.md": "58ca090df717cbce192767c71679fc127047a2472cda0e722c6b7702a82857b5",
+    "studio2/fase03/harness/successor.py": "58d5587ec5632996eb32cf97db849d7c86c8f1e18d201ea0e0e5556d4eac1045",
+    "studio2/fase03/materialize_successor_recovery.py": "67b389c3a437917d2b21d33d3bca4b48f6ebca5d74da3a6c04746417f8e8c725",
+    "studio2/fase03/producer_probe.py": "49048534f6c3d7761445c87a7690f7e555fb0ef8d1870f4150456ca5569b4213",
+    "studio2/fase03/harness/CONTRATTO_RECUPERO_SUCCESSOR_122B_QWEN_D9_03_13.json": "143e709a534c6143efb8989dff85f0ba4a1f4b7139897e2d08f2556f1dd6f37a",
+    "studio2/fase03/harness/QUALIFICATION_SUPPLEMENT_122B_QWEN_D9_03_13.json": "dd9c53f0e4262fffe592a04298f8d7a4cfd428ccf5c487faacfe68ca357decb7"
+  },
+  "tests": {
+    "initial_declared_ten_test_bytes": {
+      "status": "NOT_RECOVERED_NOT_RECONSTRUCTED_NOT_CERTIFIED"
+    },
+    "final_bytes_on_rejected_candidate": {
+      "command": "python -m unittest -v studio2.fase03.harness.test_successor_recovery",
+      "test_methods": 12,
+      "failures": 11,
+      "errors": 0,
+      "classification": "EXPECTED_BEHAVIORAL_RED"
+    },
+    "targeted_final_green": {
+      "test_methods": 12,
+      "failures": 0,
+      "errors": 0
+    },
+    "complete_relevant_regression": {
+      "modules": 15,
+      "tests": 189,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 464.422
+    },
+    "historical_document_guardian": {
+      "tests": 35,
+      "failures": 14,
+      "skipped": 1,
+      "status": "NON_PASS_HISTORICAL_UNCHANGED"
+    }
+  },
+  "private_runtime": {
+    "access_mode_during_correction": "HASH_AND_MODE_READ_ONLY_NO_PILOTLEDGER",
+    "successor_ledger_sha256_unchanged": "9c9101826d2cb39498c1e8d0b167921680c38f045aa156220a3a4ba077ed304b",
+    "successor_configuration_sha256_unchanged": "f21b33a5e9a625ca8fa9f08711a09d456ee613b23b1f7f447faf6b26bd114067",
+    "predecessor_ledger_sha256_unchanged": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+    "directory_mode": "0700",
+    "ledger_and_configuration_mode": "0600",
+    "existing_v4_successor_under_corrected_code": "FAIL_CLOSED_MISSING_DURABLE_ARTIFACT_REFERENCES",
+    "rematerialized": false
+  },
+  "invariants": {
+    "scientific_design_changed": false,
+    "quotas_changed": false,
+    "roles_changed": false,
+    "scientific_prompts_changed": false,
+    "stage_order_changed": false,
+    "author_decision_changed": false,
+    "cumulative_planned_maximum": 166,
+    "hard_stop": 200,
+    "non_spendable_margin": 34
+  },
+  "activity": {
+    "provider_calls": 0,
+    "tokens": 0,
+    "tunnels": 0,
+    "execution_authorization_created": false,
+    "real_ledger_opened_with_PilotLedger": false,
+    "server_enea_json_read": false,
+    "push": false,
+    "merge": false,
+    "tag": false
+  },
+  "handoff": {
+    "technical_qualification_authorized": false,
+    "next_action": "NEW_INDEPENDENT_REVIEW_IN_B567",
+    "candidate_commit_and_tree": "RECORDED_AFTER_ARTIFACT_FINALIZATION_IN_HANDOFF"
+  }
+}

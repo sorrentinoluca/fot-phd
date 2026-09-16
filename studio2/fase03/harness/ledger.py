@@ -46,8 +46,13 @@ class TokenizerAccountingGuard:
                  template_kwargs=None):
         if snapshot != TOKENIZER_ACCOUNTING_SNAPSHOT:
             raise HarnessError("FATAL_ACCOUNTING_ERROR: tokenizer snapshot is not the frozen 122B client")
-        if template_kwargs not in (None, {}, {"enable_thinking": False}):
-            raise HarnessError("FATAL_ACCOUNTING_ERROR: unsupported chat-template kwargs")
+        if template_kwargs not in (None, {}):
+            try:
+                from .d9 import no_thinking_template_kwargs
+                template_kwargs = no_thinking_template_kwargs(template_kwargs)
+            except HarnessError as exc:
+                raise HarnessError(
+                    "FATAL_ACCOUNTING_ERROR: unsupported chat-template kwargs") from exc
         self.tokenizer = local_tokenizer
         self.snapshot = snapshot
         self.template_kwargs = dict(template_kwargs or {})
@@ -259,7 +264,8 @@ class PilotLedger:
         return [] if exists is None else list(c.execute(
             "SELECT * FROM predecessor_lineage ORDER BY ordinal"))
 
-    def _validated_predecessor_lineage(self, c):
+    def _validated_predecessor_lineage(self, c, *, package_path=None, approval_path=None):
+        """Reauthenticate every durable lineage field against its approved artifacts."""
         rows = self._lineage_rows(c)
         version = c.execute("PRAGMA user_version").fetchone()[0]
         events = [row for name, row in self._events(c).items()
@@ -270,37 +276,55 @@ class PilotLedger:
             raise HarnessError("successor lineage is partial or corrupted")
         event = events[0]
         detail = json.loads(event["detail_json"])
-        package_sha256 = event["artifact_sha256"]
-        if (detail.get("status") != "RECONCILED"
-                or detail.get("count") != 5
-                or detail.get("package_sha256") != package_sha256
-                or not HASH.fullmatch(detail.get("approval_sha256", ""))
-                or not HASH.fullmatch(detail.get("predecessor_sha256", ""))):
+        package_ref = detail.get("package_reference")
+        approval_ref = detail.get("approval_reference")
+        if (not isinstance(package_ref, dict) or set(package_ref) != {"path", "sha256"}
+                or not isinstance(approval_ref, dict) or set(approval_ref) != {"path", "sha256"}
+                or not Path(package_ref.get("path", "")).is_absolute()
+                or not Path(approval_ref.get("path", "")).is_absolute()
+                or not HASH.fullmatch(package_ref.get("sha256", ""))
+                or not HASH.fullmatch(approval_ref.get("sha256", ""))):
             raise HarnessError("successor lineage event is corrupted")
-        seen_requests, seen_identities = set(), set()
-        for ordinal, row in enumerate(rows, 1):
-            if (row["ordinal"] != ordinal
-                    or row["package_sha256"] != package_sha256
-                    or row["predecessor_sha256"] != detail["predecessor_sha256"]
-                    or sha256_text(row["identity_json"]) != row["identity_sha256"]
-                    or not HASH.fullmatch(row["source_binding_sha256"] or "")
-                    or row["source_kind"] not in {"external_history", "native_predecessor"}):
-                raise HarnessError("successor lineage row is corrupted")
-            if ordinal < 5:
-                if (row["source_kind"] != "external_history"
-                        or row["disposition"] not in {"HISTORICAL_OUTCOME_UNCERTAIN", "COMPLETED"}
-                        or (ordinal == 1) != (row["disposition"] == "HISTORICAL_OUTCOME_UNCERTAIN")
-                        or row["raw_sha256"] is not None or row["record_sha256"] is not None):
-                    raise HarnessError("successor lineage historical disposition is corrupted")
-            elif (row["source_kind"] != "native_predecessor"
-                    or row["disposition"] != "COMPLETED_IDENTITY_INVALID_ANTECEDENT_CONFIGURATION"
-                    or not HASH.fullmatch(row["raw_sha256"] or "")
-                    or not HASH.fullmatch(row["record_sha256"] or "")):
-                raise HarnessError("successor lineage native disposition is corrupted")
-            if row["request_id"] in seen_requests or row["identity_sha256"] in seen_identities:
-                raise HarnessError("successor lineage contains duplicate consumption")
-            seen_requests.add(row["request_id"])
-            seen_identities.add(row["identity_sha256"])
+        stored_package_path = Path(package_ref["path"]).resolve()
+        stored_approval_path = Path(approval_ref["path"]).resolve()
+        if package_path is not None and Path(package_path).resolve() != stored_package_path:
+            raise HarnessError("successor lineage package reference differs from durable import")
+        if approval_path is not None and Path(approval_path).resolve() != stored_approval_path:
+            raise HarnessError("successor lineage approval reference differs from durable import")
+        from .successor import validate_successor_lineage_artifacts
+        validated = validate_successor_lineage_artifacts(
+            stored_package_path, stored_approval_path,
+            expected_ledger={"path": str(self.path), "pilot_id": self.pilot_id})
+        expected_detail = {
+            "status": "RECONCILED", "count": 5,
+            "package_sha256": validated["package_sha256"],
+            "approval_sha256": validated["approval_sha256"],
+            "predecessor_sha256": validated["predecessor_sha256"],
+            "package_reference": {
+                "path": str(stored_package_path), "sha256": validated["package_sha256"]},
+            "approval_reference": {
+                "path": str(stored_approval_path), "sha256": validated["approval_sha256"]},
+        }
+        if (event["event"] != "successor_lineage:" + validated["package_sha256"]
+                or event["artifact_sha256"] != validated["package_sha256"]
+                or detail != expected_detail):
+            raise HarnessError("successor lineage event differs from approved artifacts")
+        for row, approved in zip(rows, validated["rows"]):
+            expected_row = {
+                "ordinal": approved["ordinal"],
+                "request_id": approved["request_id"],
+                "source_kind": approved["source_kind"],
+                "identity_json": canonical_json(approved["identity"]),
+                "identity_sha256": approved["identity_sha256"],
+                "source_binding_sha256": approved["source_binding_sha256"],
+                "disposition": approved["disposition"],
+                "raw_sha256": approved["raw_sha256"],
+                "record_sha256": approved["record_sha256"],
+                "package_sha256": validated["package_sha256"],
+                "predecessor_sha256": validated["predecessor_sha256"],
+            }
+            if any(row[key] != value for key, value in expected_row.items()):
+                raise HarnessError("successor lineage row differs from approved artifacts")
         return rows
 
     def _quota_predecessors(self, c):
@@ -348,7 +372,13 @@ class PilotLedger:
             detail = {"status": "RECONCILED", "count": 5,
                       "package_sha256": validated["package_sha256"],
                       "approval_sha256": validated["approval_sha256"],
-                      "predecessor_sha256": validated["predecessor_sha256"]}
+                      "predecessor_sha256": validated["predecessor_sha256"],
+                      "package_reference": {
+                          "path": str(package_path),
+                          "sha256": validated["package_sha256"]},
+                      "approval_reference": {
+                          "path": str(approval_path),
+                          "sha256": validated["approval_sha256"]}}
             self._event(c, "successor_lineage:" + validated["package_sha256"],
                         validated["package_sha256"], detail)
             c.execute("PRAGMA user_version=4")
@@ -414,9 +444,18 @@ class PilotLedger:
             request, messages, guard.snapshot, response['raw_json'],
             counts['local_prompt_tokens'], counts['server_prompt_tokens'],
             guard.template_kwargs)
-        commitment = digest(expected)
-        if (detail != expected or event['artifact_sha256'] != commitment
-                or request['proof_sha256'] != commitment
+        if 'chat_template_kwargs' in expected:
+            try:
+                from .d9 import no_thinking_template_kwargs
+                no_thinking_template_kwargs(detail.get('chat_template_kwargs'))
+            except HarnessError as exc:
+                raise HarnessError(
+                    'FATAL_ACCOUNTING_ERROR: persisted chat-template kwargs are invalid') from exc
+        expected_commitment = digest(expected)
+        persisted_commitment = digest(detail)
+        if (detail != expected or event['artifact_sha256'] != persisted_commitment
+                or persisted_commitment != expected_commitment
+                or request['proof_sha256'] != persisted_commitment
                 or response['raw_sha256'] != expected['raw_response_sha256']):
             raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting evidence binding is corrupted')
         return expected
@@ -522,8 +561,24 @@ class PilotLedger:
     def _accounting_record_link(self, c, request, record):
         response = c.execute('SELECT * FROM responses WHERE request_id=?', (request['request_id'],)).fetchone()
         accounting = self._events(c).get('tokenizer_accounting:' + request['request_id'])
-        if response is None or accounting is None or request['proof_sha256'] != accounting['artifact_sha256']:
+        if response is None or accounting is None:
             raise HarnessError('FATAL_ACCOUNTING_ERROR: record lacks independent accounting commitment')
+        try:
+            accounting_detail = json.loads(accounting['detail_json'])
+        except (TypeError, ValueError, UnicodeError) as exc:
+            raise HarnessError(
+                'FATAL_ACCOUNTING_ERROR: persisted accounting commitment is invalid') from exc
+        if 'chat_template_kwargs' in accounting_detail:
+            try:
+                from .d9 import no_thinking_template_kwargs
+                no_thinking_template_kwargs(accounting_detail['chat_template_kwargs'])
+            except HarnessError as exc:
+                raise HarnessError(
+                    'FATAL_ACCOUNTING_ERROR: persisted chat-template kwargs are invalid') from exc
+        if (accounting['artifact_sha256'] != digest(accounting_detail)
+                or request['proof_sha256'] != accounting['artifact_sha256']):
+            raise HarnessError(
+                'FATAL_ACCOUNTING_ERROR: persisted accounting commitment is corrupted')
         consumed = self._record_consumed_fields(json.loads(response['raw_json']), record)
         return {
             'artifact_version': 'TOKENIZER_ACCOUNTING_RECORD_1',
