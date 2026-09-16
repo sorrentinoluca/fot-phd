@@ -1,0 +1,55 @@
+{
+  "artifact_version": "1",
+  "status": "ACCEPT_ACQUIRED_EXECUTION_NOT_YET_STARTED",
+  "timestamp_utc": "2026-09-16T01:22:26Z",
+  "candidate": {
+    "commit": "d48477fdab12883eb71ebd2aef3293b56e9feb4a",
+    "tree": "6848a1e66d8ade56a3efa515eeb731260bdc5443"
+  },
+  "independent_review": {
+    "source_path": "/Users/luker/.codex/worktrees/b567/fot-tep/studio2/fase03/harness/VERIFICA_CORREZIONE_ACCOUNTING_BATCHENCODING_122B_03_13.md",
+    "versioned_copy_path": "studio2/fase03/harness/reviews/VERIFICA_CORREZIONE_ACCOUNTING_BATCHENCODING_122B_03_13.md",
+    "sha256": "87966465c5ec8fb5d36170b7b77d251b0086e795a97598d744e1c00c8cf8faa8",
+    "decision": "OK"
+  },
+  "acceptance": {
+    "author": "AUTORE_UNICO_DELL_ESPERIMENTO_FOT_TEP",
+    "text": "ACCEPT ESECUZIONE D9 03.13 — config 1305c158a98c40cb57e45b43e8d872d3d66e4d6d050d1d167c91b23e0a2fccc8 — commit d48477fdab12883eb71ebd2aef3293b56e9feb4a — review 87966465c5ec8fb5d36170b7b77d251b0086e795a97598d744e1c00c8cf8faa8",
+    "text_utf8_sha256": "a3355a4562466f6eb5ff5fe335e5aba558b12afb8f8d39b283f78526299a3eea"
+  },
+  "configuration": {
+    "private_path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/execution/pilot_d9_execution_candidate_03_13.private.json",
+    "sha256_before_authorization": "fcf4ec0bb3c77193f3aaaaa5204faf34b7c589ed8c558b4fac54601e1ce58710",
+    "sha256_after_authorization": "3c29f8ff414d27c36dcad3cf49e03ed02d8c944ed651c944e89f8df09eb30131",
+    "canonical_sha256_excluding_execution_authorization": "1305c158a98c40cb57e45b43e8d872d3d66e4d6d050d1d167c91b23e0a2fccc8"
+  },
+  "execution_authorization": {
+    "private_path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/execution/execution_authorization_d9_03_13.private.json",
+    "sha256": "4aa201174e29d6b48922855ebabbfab456cd63d22be20dc391f2f6ef8a2a4040",
+    "mode": "0600"
+  },
+  "authorized_scope": {
+    "stages_in_order": [
+      "producer_conformity",
+      "alternate_conformity"
+    ],
+    "producer_calls": {
+      "122B": 8,
+      "27B": 8
+    },
+    "automatic_retries": 0,
+    "remediation": false,
+    "consumer_budget_probe": false,
+    "stability_gate": false
+  },
+  "ledger_before_execution": {
+    "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3",
+    "sha256": "02ce8df46d04300b9eb19b0fbc3345c5edd41e7ea17bd1391f22c53f7a6d9d61",
+    "external_history": 4,
+    "native_requests": 0,
+    "stages": 0,
+    "receipts": 0,
+    "responses": 0
+  },
+  "secrets_in_versioned_artifacts": false
+}
