@@ -1,0 +1,74 @@
+timestamp=2026-09-16T21:18:45Z
+--- target recursive listing (mode,size,path) ---
+0 10705920 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/27B/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a/quarantine/tokenizer.json.0dd376b985d33ebc511c6ca4f94038deda14e97b2443621ff566f45a67736aa9
+0 1156 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/qualification/QUALIFICATION_SUPPLEMENT_122B_QWEN_D9_03_13.private.json
+0 128 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/lineage
+0 128 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers
+0 12807982 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9/tokenizer.json
+0 12809320 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/27B/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a/tokenizer.json
+0 160 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9
+0 16710 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9/tokenizer_config.json
+0 16724 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/pilot_d9_successor_candidate_03_13.private.json
+0 17928 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/27B/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a/tokenizer_config.json
+0 192 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/27B/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a
+0 2154 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/MATERIALIZATION_SUMMARY.private.json
+0 2219 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/service_27b_successor_03_13.private.json
+0 224 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution
+0 256 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03
+0 3320 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/service_122b_successor_03_13.private.json
+0 6195 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/lineage/SUCCESSOR_LINEAGE_S5_122B_QWEN_D9_03_13.private.json
+0 631 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/lineage/SUCCESSOR_LINEAGE_S5_122B_QWEN_D9_03_13.approval.private.json
+0 7756 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9/chat_template.jinja
+0 77824 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/ledger.sqlite3
+0 808 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/producer_27b_successor_03_13.private.json
+0 8952 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/27B/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a/chat_template.jinja
+0 96 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/qualification
+0 96 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/27B
+0 96 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/27B/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a/quarantine
+0 999 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/producer_122b_successor_03_13.private.json
+--- target sidecars ---
+--- staging siblings ---
+--- publish lock ---
+/Users/luker/fot-tep-runtime/.studio2-fase03-d9-pilot-03.publish.lock
+--- flock ---
+flock=SUCCESS
+--- authorization filenames ---
+--- summary selected fields ---
+{
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "pilot_id": "studio2-fase03-d9-pilot-03",
+  "budget": {
+    "S": 5,
+    "hard_stop": 200,
+    "non_spendable_margin": 34,
+    "planned_maximum": 166,
+    "technical": 1
+  },
+  "network": {
+    "provider_calls": 0,
+    "tokens": 0,
+    "tunnels": 0
+  },
+  "execution_authorization": "ABSENT",
+  "references": null
+}
+--- summary reference recomputes ---
+--- pilot-001 current ledger and sidecars ---
+4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb  /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3
+0 118784 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3
+0 0 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3-wal
+0 32768 /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3-shm
+/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001
+/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/execution
+/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.post-import-5ef87e3.sqlite3
+/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.pre-import-5ef87e3.sqlite3
+/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3
+/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3-shm
+/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3-wal
+/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/runtime_connection_plan.json
+/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/service_qualification
+/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/tokenizers
+--- pilot-002 existence ---
+present
+--- stdout digest cross-check ---
+{"configuration_sha256":"6f8d616c1f75596ddff480b6bd4c01481adb85343c99205ea2a51d129c99da4f","ledger_sha256":"8af057b5e295a21a3aa178e414673f4fe6e76979670a2b74a5a487606b4e01f1","predecessor_sha256":"4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb","root":"/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03","status":"READY_FOR_INDEPENDENT_REVIEW"}

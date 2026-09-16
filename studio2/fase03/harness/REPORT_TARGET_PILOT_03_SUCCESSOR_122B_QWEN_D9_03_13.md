@@ -2,18 +2,20 @@
 
 ## Esito
 
-**READY FOR INDEPENDENT REVIEW (author).** Delta minimo sul candidato
+**READY FOR INDEPENDENT REVIEW (author).** Materializzazione offline completata sul candidato
 `79ce7da5f869c96a718e73a328ac8bcbab0b547e` (tree `eb173bc6f2e89d25d9da708dce071db3d233d85b`),
 branch `codex/studio2-config-122b-accounting`, prompt 03.13-TARGET. Commit e tree del nuovo
 candidato sono riportati nell'handoff, dopo la finalizzazione degli artefatti, per evitare
 riferimenti circolari. Manifest: `TARGET_PILOT_03_SUCCESSOR_122B_QWEN_D9_03_13.manifest.json`.
 
-Nessuna materializzazione reale, authorization, qualifica, chiamata 122B/27B, tunnel o VPN.
+Nessuna authorization, qualifica, chiamata 122B/27B, tunnel o VPN; la materializzazione è stata
+offline e senza transport.
 `/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001` e `…-pilot-002` non sono stati
 toccati né aperti; `server_enea.json` non è stato letto.
 
-Il verbale di review indipendente (`VERIFICA_CANDIDATO_79CE7DA_…`, SHA-256 `00f0a97e…0670104`,
-verdetto *READY ONLY AFTER FRESH TARGET ID/PATH UPDATE AND RE-REVIEW*) e il parere Claude
+Il verbale di review indipendente (`VERIFICA_CANDIDATO_79CE7DA_…`, SHA-256
+`46a6d426aa05f44fda1ea994a89f3d04cede01331ebdc4866be37fd34b252f0f`, verdetto invariato;
+pre-addendum `00f0a97e20ef858ff9bd9226525ebe9fc4b357e8847a8e6b0059bf6952670104`) e il parere Claude
 (`reviews/PARERE_CLAUDE_SU_VERIFICA_79CE7DA_03_13.md`, SHA-256 `12e77f43…6d`, lasciato untracked)
 sono solo contesto: P1-02a/b, P2-01, P2-02 e `identity_sha256` non sono stati rifatti.
 

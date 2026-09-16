@@ -1,0 +1,11 @@
+timestamp=2026-09-16T21:18:22Z
+repo_head=a199d6f9d974503f68b22791680d56f95fcd7e43
+repo_tree=88cd9cc12b0c28dfdf27048d5a6a3dd6de25e3b5
+materializer_sha256=5b9ad9e9c0264fe8c02a5c0e77d3f349e13398b1d4df1c4c1e83634f55b59be7
+pilot03_exists=no
+pilot001_ledger_sha256=4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb
+pilot001_wal size=0 mtime=2026-09-16T03:29:15+0200 mode=0 path=/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3-wal
+pilot001_shm size=32768 mtime=2026-09-16T03:31:41+0200 mode=0 path=/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3-shm
+lsof_pilot001_ledger:
+staging_entries:
+lock_entries:
