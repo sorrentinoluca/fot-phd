@@ -29,6 +29,7 @@ BASE_LIMITS = {TECHNICAL_STAGE: 1, "producer_conformity": 8,
 DIAGNOSES = {"structure", "identifiers", "cap", "leakage"}
 TOKENIZER_ACCOUNTING_SNAPSHOT = "Qwen/Qwen3.5-122B-A10B-FP8@a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9"
 TOKENIZER_ACCOUNTING_MODEL = "qwen3.5-122b"
+TOKENIZER_ACCOUNTING_ARTIFACT_VERSION = "TOKENIZER_ACCOUNTING_2"
 
 
 def digest(value):
@@ -271,6 +272,8 @@ class PilotLedger:
         events = [row for name, row in self._events(c).items()
                   if name.startswith("successor_lineage:")]
         if not rows and version in {2, 3} and not events:
+            if package_path is not None or approval_path is not None:
+                raise HarnessError("successor lineage import is required before D9 use")
             return []
         if version != 4 or len(rows) != 5 or len(events) != 1:
             raise HarnessError("successor lineage is partial or corrupted")
@@ -403,7 +406,7 @@ class PilotLedger:
                                local_prompt_tokens, server_prompt_tokens,
                                template_kwargs=None):
         result = {
-            'artifact_version': 'TOKENIZER_ACCOUNTING_2',
+            'artifact_version': TOKENIZER_ACCOUNTING_ARTIFACT_VERSION,
             'request_id': request['request_id'],
             'request_identity_sha256': sha256_text(request['identity_json']),
             'messages': messages,
@@ -417,6 +420,60 @@ class PilotLedger:
         if template_kwargs:
             result['chat_template_kwargs'] = dict(template_kwargs)
         return result
+
+    @staticmethod
+    def _validate_accounting_contract(request, detail, raw_json, *, expected_messages=None):
+        """Validate one complete accounting contract for acquisition and every reuse."""
+        required = {
+            'artifact_version', 'request_id', 'request_identity_sha256', 'messages',
+            'messages_sha256', 'snapshot', 'raw_response_sha256',
+            'local_prompt_tokens', 'server_prompt_tokens', 'outcome',
+        }
+        allowed = required | {'chat_template_kwargs'}
+        if not isinstance(detail, dict) or set(detail) != required and set(detail) != allowed:
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting fields are invalid')
+        try:
+            identity = json.loads(request['identity_json'])
+            raw = json.loads(raw_json)
+        except (TypeError, ValueError, UnicodeError) as exc:
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: accounting contract JSON is invalid') from exc
+        messages = detail.get('messages')
+        if (not isinstance(messages, list) or len(messages) != 1
+                or not isinstance(messages[0], dict)
+                or set(messages[0]) != {'role', 'content'}
+                or messages[0].get('role') != 'user'
+                or not isinstance(messages[0].get('content'), str)
+                or identity.get('prompt_sha256') != sha256_text(messages[0]['content'])
+                or detail.get('messages_sha256') != sha256_text(canonical_json(messages))
+                or expected_messages is not None and messages != expected_messages):
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting messages are invalid')
+        usage = raw.get('usage') if isinstance(raw, dict) else None
+        server_usage = usage.get('prompt_tokens') if isinstance(usage, dict) else None
+        local_count = detail.get('local_prompt_tokens')
+        server_count = detail.get('server_prompt_tokens')
+        if (detail.get('artifact_version') != TOKENIZER_ACCOUNTING_ARTIFACT_VERSION
+                or detail.get('request_id') != request['request_id']
+                or detail.get('request_identity_sha256') != sha256_text(request['identity_json'])
+                or detail.get('snapshot') != TOKENIZER_ACCOUNTING_SNAPSHOT
+                or detail.get('raw_response_sha256') != sha256_text(raw_json)
+                or type(local_count) is not int or local_count < 0
+                or type(server_count) is not int or server_count < 0
+                or type(server_usage) is not int or server_usage < 0
+                or local_count != server_count or server_count != server_usage
+                or detail.get('outcome') != 'PASS'):
+            raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting contract is invalid')
+        kwargs = detail.get('chat_template_kwargs')
+        if request['stage'] == TECHNICAL_STAGE and kwargs is None:
+            raise HarnessError(
+                'FATAL_ACCOUNTING_ERROR: technical accounting lacks no-thinking control')
+        if kwargs is not None:
+            try:
+                from .d9 import no_thinking_template_kwargs
+                no_thinking_template_kwargs(kwargs)
+            except HarnessError as exc:
+                raise HarnessError(
+                    'FATAL_ACCOUNTING_ERROR: persisted chat-template kwargs are invalid') from exc
+        return detail
 
     def _persist_accounting_stop(self, c, request_id, reason, artifact_sha256):
         if self._tokenizer_accounting_stop(c) is None:
@@ -437,13 +494,15 @@ class PilotLedger:
             raw = json.loads(response['raw_json'])
         except (ValueError, TypeError, UnicodeError) as exc:
             raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting JSON is invalid') from exc
-        if detail.get('messages') != messages:
-            raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting messages differ from the request')
+        self._validate_accounting_contract(
+            request, detail, response['raw_json'], expected_messages=messages)
         counts = guard.validate_producer_response(messages, raw)
         expected = self._accounting_commitment(
             request, messages, guard.snapshot, response['raw_json'],
             counts['local_prompt_tokens'], counts['server_prompt_tokens'],
             guard.template_kwargs)
+        self._validate_accounting_contract(
+            request, expected, response['raw_json'], expected_messages=messages)
         if 'chat_template_kwargs' in expected:
             try:
                 from .d9 import no_thinking_template_kwargs
@@ -490,6 +549,8 @@ class PilotLedger:
                         request, messages, guard.snapshot, response['raw_json'],
                         counts['local_prompt_tokens'], counts['server_prompt_tokens'],
                         guard.template_kwargs)
+                    self._validate_accounting_contract(
+                        request, result, response['raw_json'], expected_messages=messages)
                     commitment = digest(result)
                     self._event(c, 'tokenizer_accounting:' + request_id, commitment, result)
                     c.execute('UPDATE requests SET proof_sha256=? WHERE request_id=? AND proof_sha256 IS NULL',
@@ -568,13 +629,8 @@ class PilotLedger:
         except (TypeError, ValueError, UnicodeError) as exc:
             raise HarnessError(
                 'FATAL_ACCOUNTING_ERROR: persisted accounting commitment is invalid') from exc
-        if 'chat_template_kwargs' in accounting_detail:
-            try:
-                from .d9 import no_thinking_template_kwargs
-                no_thinking_template_kwargs(accounting_detail['chat_template_kwargs'])
-            except HarnessError as exc:
-                raise HarnessError(
-                    'FATAL_ACCOUNTING_ERROR: persisted chat-template kwargs are invalid') from exc
+        self._validate_accounting_contract(
+            request, accounting_detail, response['raw_json'])
         if (accounting['artifact_sha256'] != digest(accounting_detail)
                 or request['proof_sha256'] != accounting['artifact_sha256']):
             raise HarnessError(

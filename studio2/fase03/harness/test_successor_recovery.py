@@ -217,6 +217,45 @@ def _mutate_successor_lineage(ledger: PilotLedger, mutation: str) -> str:
     return native_id
 
 
+def _realign_accounting_links(ledger: PilotLedger, request_id: str, mutation: str) -> None:
+    """Make an accounting mutation internally hash-consistent, as in the R2 review."""
+    with ledger._transaction() as connection:
+        event_name = "tokenizer_accounting:" + request_id
+        row = connection.execute(
+            "SELECT detail_json FROM events WHERE event=?", (event_name,)).fetchone()
+        detail = json.loads(row["detail_json"])
+        if mutation == "messages":
+            detail["messages"] = [{"role": "user", "content": "mutated"}]
+            detail["messages_sha256"] = sha256_text(canonical_json(detail["messages"]))
+        elif mutation in {"local_prompt_tokens", "server_prompt_tokens"}:
+            detail[mutation] += 1
+        elif mutation == "snapshot":
+            detail[mutation] = "Qwen/forged@snapshot"
+        elif mutation == "request_identity_sha256":
+            detail[mutation] = "8" * 64
+        elif mutation == "artifact_version":
+            detail[mutation] = "TOKENIZER_ACCOUNTING_FORGED"
+        elif mutation == "raw_response_sha256":
+            detail[mutation] = "9" * 64
+        else:
+            raise AssertionError("unknown accounting mutation: " + mutation)
+        commitment = digest(detail)
+        connection.execute(
+            "UPDATE events SET artifact_sha256=?,detail_json=? WHERE event=?",
+            (commitment, canonical_json(detail), event_name))
+        connection.execute(
+            "UPDATE requests SET proof_sha256=? WHERE request_id=?",
+            (commitment, request_id))
+        link_name = "tokenizer_accounting_record:" + request_id
+        link_row = connection.execute(
+            "SELECT detail_json FROM events WHERE event=?", (link_name,)).fetchone()
+        link = json.loads(link_row["detail_json"])
+        link["accounting_commitment_sha256"] = commitment
+        connection.execute(
+            "UPDATE events SET artifact_sha256=?,detail_json=? WHERE event=?",
+            (digest(link), canonical_json(link), link_name))
+
+
 def _reserve_worker(path: str, pilot_id: str, queue) -> None:
     try:
         ledger = PilotLedger(Path(path), pilot_id=pilot_id)
@@ -482,6 +521,90 @@ class ProducerRenderingAndAccountingTests(unittest.TestCase):
         with self.assertRaisesRegex(HarnessError, "unsupported chat-template kwargs"):
             TokenizerAccountingGuard(tokenizer, template_kwargs={"enable_thinking": 0})
 
+    def test_C1_technical_contract_and_provider_require_extra_body(self):
+        from studio2.fase03 import technical_qualification_122b as tq
+        from studio2.fase03.harness import d9
+        configured = tq.technical_contract()
+        self.assertEqual(tq._validate_contract({"d9": {
+            "technical_qualification_122b": configured}}), configured)
+        missing = deepcopy(configured)
+        missing.pop("extra_body")
+        with self.assertRaisesRegex(HarnessError, "extra_body"):
+            tq._validate_contract({"d9": {"technical_qualification_122b": missing}})
+        service = {
+            "model": "qwen3.5-122b", "base_url": "http://fixture.invalid/v1",
+            "identity_sha256": "a" * 64, "tokenizer": {},
+            "expected_response": {
+                "returned_model": "qwen3.5-122b", "system_fingerprint": None},
+            "max_model_len": 32768, "max_output_tokens": 4096,
+        }
+        provider = {
+            "name": "fixture", "base_url": service["base_url"],
+            "model": service["model"], "max_tokens": 2560,
+            "expected_max_model_len": service["max_model_len"],
+            "identity_sha256": service["identity_sha256"],
+            "expected_response": service["expected_response"], "tokenizer": {},
+        }
+        file_sha = "b" * 64
+        d = {
+            "successor_lineage": {"path": "/fixture", "sha256": "c" * 64},
+            "services": {"122B": service}, "producer_configs": {"122B": file_sha},
+            "alternate_placement": "deferred",
+        }
+        with mock.patch.object(d9, "validate_config", return_value=d):
+            with self.assertRaisesRegex(HarnessError, "extra_body"):
+                d9.validate_provider({}, provider, TECHNICAL_STAGE, file_sha256=file_sha)
+            provider["extra_body"] = deepcopy(tq.NO_THINKING_EXTRA_BODY)
+            self.assertEqual(d9.validate_provider(
+                {}, provider, TECHNICAL_STAGE, file_sha256=file_sha), "122B")
+
+    def test_C2_successor_122b_conformity_requires_exact_no_thinking(self):
+        from studio2.fase03.harness import d9
+        service = {
+            "model": "qwen3.5-122b", "base_url": "http://fixture.invalid/v1",
+            "identity_sha256": "a" * 64, "tokenizer": {},
+            "expected_response": {
+                "returned_model": "qwen3.5-122b", "system_fingerprint": None},
+            "max_model_len": 32768, "max_output_tokens": 4096,
+        }
+        file_sha = "b" * 64
+        contract = {
+            "successor_lineage": {"path": "/fixture", "sha256": "d" * 64},
+            "services": {"122B": service, "27B": deepcopy(service)},
+            "producer_configs": {"122B": file_sha, "27B": "c" * 64},
+            "alternate_placement": "deferred",
+        }
+        provider = {
+            "name": "fixture", "model": service["model"],
+            "base_url": service["base_url"], "identity_sha256": service["identity_sha256"],
+            "tokenizer": service["tokenizer"], "expected_response": service["expected_response"],
+            "expected_max_model_len": service["max_model_len"], "max_tokens": 2560,
+        }
+        with mock.patch.object(d9, "validate_config", return_value=contract):
+            for invalid in (None,
+                            {"chat_template_kwargs": {"enable_thinking": 0}},
+                            {"chat_template_kwargs": {"enable_thinking": True}},
+                            {"chat_template_kwargs": {"enable_thinking": False, "other": 1}},
+                            {"other": {}}):
+                candidate = deepcopy(provider)
+                if invalid is not None:
+                    candidate["extra_body"] = invalid
+                with self.subTest(invalid=invalid), self.assertRaises(HarnessError):
+                    d9.validate_provider({}, candidate, "producer_conformity",
+                                         file_sha256=file_sha)
+            accepted = deepcopy(provider)
+            accepted["extra_body"] = {
+                "chat_template_kwargs": {"enable_thinking": False}}
+            self.assertEqual(d9.validate_provider(
+                {}, accepted, "producer_conformity", file_sha256=file_sha), "122B")
+            alternate = deepcopy(provider)
+            alternate.update(model="fixture-27b")
+            contract["services"]["27B"] = dict(service, model="fixture-27b")
+            contract["producer_configs"]["27B"] = "c" * 64
+            contract["alternate_placement"] = "pilot"
+            self.assertEqual(d9.validate_provider(
+                {}, alternate, "alternate_conformity", file_sha256="c" * 64), "27B")
+
 
 class ReviewCorrectionLineageTests(unittest.TestCase):
     MUTATIONS = (
@@ -569,6 +692,116 @@ class ReviewCorrectionLineageTests(unittest.TestCase):
                 fixture.doCleanups()
 
 
+class ReverificationRequiredLineageTests(unittest.TestCase):
+    @staticmethod
+    def _fixture():
+        from studio2.fase03.harness import d9, guards
+        fixture = SuccessorFixture()
+        fixture.setUp()
+        ledger = PilotLedger(fixture.successor_path, pilot_id=fixture.successor_id)
+        package, approval = fixture.lineage_files()
+        service = {
+            "model": "qwen3.5-122b", "base_url": "http://fixture.invalid/v1",
+            "identity_sha256": "a" * 64, "tokenizer": {},
+            "expected_response": {
+                "returned_model": "qwen3.5-122b", "system_fingerprint": None},
+            "max_model_len": 32768, "max_output_tokens": 4096,
+        }
+        provider = {
+            "name": "fixture-producer", "model": service["model"],
+            "base_url": service["base_url"], "identity_sha256": service["identity_sha256"],
+            "tokenizer": {}, "expected_response": service["expected_response"],
+            "expected_max_model_len": service["max_model_len"], "max_tokens": 2560,
+            "extra_body": {"chat_template_kwargs": {"enable_thinking": False}},
+        }
+        provider_path = fixture.home / "provider.json"
+        provider_path.write_text(json.dumps(provider), encoding="utf-8")
+        provider_sha = sha256_file(provider_path)
+        d = {
+            "successor_lineage": {"path": str(package), "sha256": sha256_file(package)},
+            "successor_lineage_approval": {
+                "path": str(approval), "sha256": sha256_file(approval)},
+            "services": {"122B": service}, "producer_configs": {"122B": provider_sha},
+            "alternate_placement": "deferred", "r4_snapshot": str(fixture.home),
+        }
+        config = {
+            "pilot_ledger": {"path": str(ledger.path), "pilot_id": ledger.pilot_id},
+            "d9": d,
+        }
+        binding = _binding(TECHNICAL_STAGE, 1)
+        binding["requests"][0].update(
+            model=provider["model"], producer=provider["name"])
+        binding.update(
+            execution_config=config, provider=provider, tokenizer={},
+            tokenizer_snapshot=str(fixture.home.resolve()),
+            provider_file_sha256=provider_sha,
+            provider_reference={"path": str(provider_path.resolve()), "sha256": provider_sha},
+        )
+        patches = (
+            mock.patch.object(d9, "validate_config", return_value=d),
+            mock.patch.object(guards, "require_execution", return_value=None),
+            mock.patch.object(guards, "verify_tokenizer", return_value=None),
+        )
+        return fixture, ledger, package, approval, config, binding, patches
+
+    def test_R1_D9_requires_import_before_preflight_binding_and_reservation(self):
+        from studio2.fase03.harness import d9, guards
+        operations = ("direct", "preflight", "preflight_restart", "binding", "reservation")
+        for operation in operations:
+            fixture, ledger, package, approval, config, binding, patches = self._fixture()
+            started = []
+            try:
+                for patcher in patches:
+                    patcher.start()
+                    started.append(patcher)
+                if operation == "reservation":
+                    with ledger._transaction() as connection:
+                        connection.execute("INSERT INTO stages VALUES (?,?,?)", (
+                            TECHNICAL_STAGE, canonical_json(binding), digest(binding)))
+                if operation == "preflight_restart":
+                    ledger = PilotLedger(ledger.path, pilot_id=ledger.pilot_id)
+                before = _logical(ledger.path)
+                with self.subTest(operation=operation), self.assertRaisesRegex(
+                        HarnessError, "successor lineage import is required"):
+                    if operation == "direct":
+                        with ledger._transaction() as connection:
+                            ledger._validated_predecessor_lineage(
+                                connection, package_path=package, approval_path=approval)
+                    elif operation.startswith("preflight"):
+                        guards.require_pilot_ledger(config, ledger)
+                    elif operation == "binding":
+                        ledger.bind_stage(TECHNICAL_STAGE, binding)
+                    else:
+                        _reserve(ledger, TECHNICAL_STAGE, 0)
+                self.assertEqual(_logical(ledger.path), before)
+                with closing(sqlite3.connect(ledger.path)) as connection:
+                    self.assertEqual(connection.execute(
+                        "SELECT count(*) FROM requests").fetchone()[0], 0)
+            finally:
+                for patcher in reversed(started):
+                    patcher.stop()
+                fixture.doCleanups()
+
+        fixture, ledger, package, approval, config, binding, patches = self._fixture()
+        started = []
+        try:
+            for patcher in patches:
+                patcher.start()
+                started.append(patcher)
+            ledger.reconcile_successor_lineage(
+                package_path=package, approval_path=approval)
+            restarted = PilotLedger(ledger.path, pilot_id=ledger.pilot_id)
+            guards.require_pilot_ledger(config, restarted)
+            restarted.bind_stage(TECHNICAL_STAGE, binding)
+            _reserve(restarted, TECHNICAL_STAGE, 0)
+            self.assertEqual(restarted.snapshot()["predecessor_lineage_requests"], 5)
+            self.assertEqual(restarted.snapshot()["requests_cumulative"], 6)
+        finally:
+            for patcher in reversed(started):
+                patcher.stop()
+            fixture.doCleanups()
+
+
 class ReviewCorrectionAccountingTests(SuccessorFixture):
     class Tokenizer:
         def apply_chat_template(self, messages, **kwargs):
@@ -580,6 +813,7 @@ class ReviewCorrectionAccountingTests(SuccessorFixture):
         ledger = self.imported()
         binding = _binding(TECHNICAL_STAGE, 1)
         binding["requests"][0]["model"] = "qwen3.5-122b"
+        binding["requests"][0]["prompt_sha256"] = sha256_text("fixture")
         ledger.bind_stage(TECHNICAL_STAGE, binding)
         request_id = _reserve(ledger, TECHNICAL_STAGE, 0)
         messages = [{"role": "user", "content": "fixture"}]
@@ -630,6 +864,39 @@ class ReviewCorrectionAccountingTests(SuccessorFixture):
             ledger.bind_stage("producer_conformity", _binding("producer_conformity", 8))
         self.assertEqual(_logical(ledger.path), baseline)
         self.assertEqual(ledger.snapshot()["native_requests"], 1)
+
+    def test_R2_closed_technical_reuse_revalidates_full_accounting_contract(self):
+        positive, _ = self._completed_technical()
+        positive.verify_stage_success(TECHNICAL_STAGE)
+        restarted_positive = PilotLedger(positive.path, pilot_id=positive.pilot_id)
+        restarted_positive.bind_stage(
+            "producer_conformity", _binding("producer_conformity", 8))
+        self.assertEqual(restarted_positive.snapshot()["native_requests"], 1)
+
+        mutations = (
+            "messages", "local_prompt_tokens", "server_prompt_tokens", "snapshot",
+            "request_identity_sha256", "artifact_version", "raw_response_sha256",
+        )
+        for index, mutation in enumerate(mutations):
+            ledger, request_id = self._completed_technical()
+            _realign_accounting_links(ledger, request_id, mutation)
+            if index % 2:
+                ledger = PilotLedger(ledger.path, pilot_id=ledger.pilot_id)
+            before_verify = _logical(ledger.path)
+            with self.subTest(mutation=mutation, operation="verify"), self.assertRaisesRegex(
+                    HarnessError, "FATAL_ACCOUNTING_ERROR"):
+                ledger.verify_stage_success(TECHNICAL_STAGE)
+            self.assertEqual(_logical(ledger.path), before_verify)
+            before_bind = _logical(ledger.path)
+            with self.subTest(mutation=mutation, operation="next_binding"), self.assertRaises(
+                    HarnessError):
+                ledger.bind_stage(
+                    "producer_conformity", _binding("producer_conformity", 8))
+            self.assertEqual(_logical(ledger.path), before_bind)
+            with closing(sqlite3.connect(ledger.path)) as connection:
+                self.assertEqual(connection.execute(
+                    "SELECT count(*) FROM stages WHERE stage='producer_conformity'"
+                ).fetchone()[0], 0)
 
 
 class SuccessorQuotaTests(SuccessorFixture):

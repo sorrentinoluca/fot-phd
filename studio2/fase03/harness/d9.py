@@ -267,6 +267,13 @@ def producer_extra_body(value, *, model_role):
     return {'chat_template_kwargs': {'enable_thinking': False}}
 
 
+def require_122b_no_thinking(value, *, context):
+    """Make the caller-specific 122B producer requirement explicit."""
+    if value is None:
+        fail(context + ' requires extra_body.chat_template_kwargs.enable_thinking=false')
+    return producer_extra_body(value, model_role='122B')
+
+
 def validate_config(config):
     d = config.get('d9')
     if not isinstance(d, dict) or d.get('roles') != ROLES:
@@ -411,7 +418,12 @@ def validate_provider(config, provider, stage, *, file_sha256):
             fail('producer does not match its documented role: ' + key)
     generation = {k:provider[k] for k in ('max_tokens','temperature','seed','thinking_token_budget') if k in provider}
     generation_kwargs(generation, model_role=role)
-    producer_extra_body(provider.get('extra_body'), model_role=role)
+    successor_122b = role == '122B' and d.get('successor_lineage') is not None
+    if successor_122b and stage in {
+            'technical_qualification_122b', 'producer_conformity', 'producer_remediation'}:
+        require_122b_no_thinking(provider.get('extra_body'), context=stage)
+    else:
+        producer_extra_body(provider.get('extra_body'), model_role=role)
     if provider['max_tokens'] > service['max_output_tokens']:
         fail('producer output exceeds documented limit')
     return role

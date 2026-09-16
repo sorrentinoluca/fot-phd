@@ -123,8 +123,9 @@ def _validate_contract(config: dict[str, Any]) -> dict[str, Any]:
     expected = technical_contract()
     if not isinstance(configured, dict):
         raise HarnessError("technical qualification contract differs from the prespecified bytes")
-    from studio2.fase03.harness.d9 import producer_extra_body
-    producer_extra_body(configured.get("extra_body"), model_role="122B")
+    from studio2.fase03.harness.d9 import require_122b_no_thinking
+    require_122b_no_thinking(
+        configured.get("extra_body"), context="technical qualification contract")
     if configured != expected:
         raise HarnessError("technical qualification contract differs from the prespecified bytes")
     return expected
@@ -145,8 +146,9 @@ def run(*, config_path: Path, provider_path: Path, ledger_path: Path, pilot_id: 
     require_pilot_ledger(config, ledger)
     from studio2.fase03.producer_probe import provider_config
     provider = provider_config(Path(provider_path))
-    from studio2.fase03.harness.d9 import producer_extra_body
-    producer_extra_body(provider.get("extra_body"), model_role="122B")
+    from studio2.fase03.harness.d9 import require_122b_no_thinking
+    require_122b_no_thinking(
+        provider.get("extra_body"), context="technical qualification provider")
     if provider.get("max_tokens") != 2560:
         raise HarnessError("successor producer max_tokens must remain 2560")
     from studio2.fase03.harness.d9 import validate_provider
