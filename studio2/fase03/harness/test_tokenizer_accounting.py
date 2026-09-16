@@ -27,6 +27,17 @@ class FakeTokenizer:
         return list(range(sum(len(message['content']) for message in messages)))
 
 
+class BatchEncodingLike(dict):
+    """Minimal mapping with the shape returned by recent Transformers releases."""
+
+
+class BatchEncodingTokenizer(FakeTokenizer):
+    def apply_chat_template(self, messages, *, tokenize, add_generation_prompt):
+        token_ids = super().apply_chat_template(
+            messages, tokenize=tokenize, add_generation_prompt=add_generation_prompt)
+        return BatchEncodingLike(input_ids=token_ids, attention_mask=[1] * len(token_ids))
+
+
 def response(prompt_tokens=3, *, response_id='offline'):
     return {
         'id': response_id,
@@ -102,6 +113,16 @@ class TokenizerAccounting(unittest.TestCase):
             records = connection.execute('SELECT count(*) FROM responses WHERE record_json IS NOT NULL').fetchone()[0]
         return dict(intents=snap['requests_cumulative'], raw=snap['durable_responses'], records=records,
                     stopped='stop:tokenizer_accounting' in snap['events'])
+
+    def test_A00_batch_encoding_counts_input_ids_not_mapping_keys(self):
+        guard = TokenizerAccountingGuard(BatchEncodingTokenizer())
+        with self.subTest('correct input_ids count is accepted'):
+            self.assertEqual(
+                guard.validate_producer_response(MESSAGES, response(prompt_tokens=3)),
+                {'local_prompt_tokens': 3, 'server_prompt_tokens': 3})
+        with self.subTest('mapping key count is rejected'):
+            with self.assertRaisesRegex(HarnessError, 'FATAL_ACCOUNTING_ERROR'):
+                guard.validate_producer_response(MESSAGES, response(prompt_tokens=2))
 
     def test_A01_missing_guard_producer_refuses_before_intent_and_transport(self):
         calls = []; before = self._counts(self.ledger)

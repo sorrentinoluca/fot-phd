@@ -15,7 +15,8 @@ import re
 import sqlite3
 from typing import Any, Iterable
 
-from .common import HarnessError, canonical_json, sha256_text, sha256_file, sha256_bytes, load_json
+from .common import (HarnessError, canonical_json, load_json, sha256_bytes,
+                     sha256_file, sha256_text, tokenized_length)
 
 HASH = re.compile(r"^[0-9a-f]{64}$")
 STAGES = {"producer_conformity", "producer_remediation", "alternate_conformity", "budget_probe", "stability_gate"}
@@ -45,8 +46,14 @@ class TokenizerAccountingGuard:
     def validate_producer_response(self, messages, api_response):
         if not isinstance(messages, list):
             raise HarnessError("FATAL_ACCOUNTING_ERROR: messages transmitted to provider are not a list")
-        local = self.tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True)
-        local_prompt_tokens = len(local)
+        try:
+            local = self.tokenizer.apply_chat_template(
+                messages, tokenize=True, add_generation_prompt=True)
+            local_prompt_tokens = tokenized_length(local)
+        except Exception as exc:
+            raise HarnessError(
+                "FATAL_ACCOUNTING_ERROR: tokenizer output is not one unambiguous token-id sequence: "
+                f"{type(exc).__name__}: {exc}") from exc
         usage = api_response.get("usage") if isinstance(api_response, dict) else None
         if not isinstance(usage, dict):
             raise HarnessError("FATAL_ACCOUNTING_ERROR: campo usage assente o non oggetto")
