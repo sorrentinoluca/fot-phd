@@ -1,0 +1,398 @@
+{
+  "artifact_version": "1",
+  "outcome": "READY_FOR_INDEPENDENT_REVIEW",
+  "execution_status": "STOP_NO_EXECUTION_AUTHORIZED",
+  "title": "Proposta offline di recupero dallo STOP 122B Qwen D9 03.13",
+  "scope": {
+    "mode": "OFFLINE_PROPOSAL_ONLY",
+    "base_commit": "0523c9279a3e760bd001daf399267c642deda02d",
+    "base_tree": "814c578f48e12f95fbfa0f19fd870881ac367958",
+    "network_used": false,
+    "provider_calls": 0,
+    "retries": 0,
+    "real_ledger_modified": false,
+    "private_execution_json_modified": false,
+    "authorization_created": false
+  },
+  "source_evidence": {
+    "independent_review_v2": {
+      "source_path_redacted": "<INDEPENDENT_WORKTREE>/studio2/fase03/harness/VERIFICA_STOP_PRIMA_CHIAMATA_PRODUCER_QWEN_D9_03_13_V2.md",
+      "repository_copy": "studio2/fase03/harness/reviews/VERIFICA_STOP_PRIMA_CHIAMATA_PRODUCER_QWEN_D9_03_13_V2.md",
+      "sha256": "f19da5e4ec332a386fad8780dbf1db44188353fc9180ba1c0eae87d073ec924f",
+      "verdict": "OK",
+      "v1_read": false
+    },
+    "suspended_ledger": {
+      "path_redacted": "<PRIVATE_RUNTIME>/ledger.sqlite3",
+      "sha256_before": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+      "sha256_after": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+      "access": "SQLITE_MODE_RO_IMMUTABLE",
+      "pilot_id": "studio2-fase03-d9-pilot-001"
+    },
+    "base_qualification_122b_sha256": "4e7e2b67caaf64be7064fb1499b6dcdea844480a2b368ec019d03fc22f210e80",
+    "authorized_private_config_byte_sha256": "3c29f8ff414d27c36dcad3cf49e03ed02d8c944ed651c944e89f8df09eb30131",
+    "authorized_private_config_canonical_without_authorization_sha256": "1305c158a98c40cb57e45b43e8d872d3d66e4d6d050d1d167c91b23e0a2fccc8",
+    "authorization_byte_sha256": "4aa201174e29d6b48922855ebabbfab456cd63d22be20dc391f2f6ef8a2a4040",
+    "stop_manifest_sha256": "230771800b5cfa64bba2c9eeabc55b276dadf154441d26d05984299f9530386f",
+    "stop_report_sha256": "dd87811020b167f51d0a5f62610aea5f1a72bda50b6d819074814da3084f8ea2"
+  },
+  "durable_response_metadata": {
+    "request_id": "0fc7a507bda5da6dd7a29c8e39d67acf48747e6efdf1f73f1e7bdd528ed7f684",
+    "logical_id": "agent_1",
+    "stage": "producer_conformity",
+    "quota_kind": "base",
+    "status": "COMPLETED",
+    "expected": {
+      "returned_model": "qwen3.5-122b",
+      "system_fingerprint": null
+    },
+    "observed": {
+      "returned_model": "qwen3.5-122b",
+      "system_fingerprint": "vllm-0.27.1-934a3247",
+      "identity_valid": false,
+      "reasoning_field_type": "text",
+      "reasoning_characters": 8670,
+      "reasoning_utf8_bytes": 8670,
+      "content_type": "null",
+      "finish_reason": "length",
+      "schema_valid_first_attempt": false,
+      "validation_class": "structure",
+      "validation_error": "JSON value is empty or not text"
+    },
+    "usage": {
+      "prompt_tokens": 1395,
+      "completion_tokens": 2560,
+      "max_tokens": 2560,
+      "total_tokens": 3955,
+      "full_completion_cap_used": true,
+      "tokenizer_accounting": "PASS_LOCAL_EQUALS_SERVER"
+    },
+    "hashes": {
+      "raw_sha256": "e6489e73fff212d4fd14cb061e16712fd87c7c14ed246e820a2155a2b5518d35",
+      "record_sha256": "0136fe479bf875c777611128903e0cf316f5f67fe987a84d334b2a78fdd2f6a7",
+      "accounting_commitment_sha256": "7d1d94b8364ac53c18e539057c915d87146b05fdbe247e8371363dba12d486c2",
+      "stage_binding_sha256": "413aa66f799614bd6994f28e18ac5b883021e74d6aabc243c7dae0e78c7732a7"
+    },
+    "semantic_reasoning_evaluated": false,
+    "reasoning_treated_as_scientific_insight": false
+  },
+  "static_interface_analysis": {
+    "tokenizer_snapshot": "Qwen/Qwen3.5-122B-A10B-FP8@a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9",
+    "tokenizer_hashes": {
+      "tokenizer_json_sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "tokenizer_config_sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+      "chat_template_sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+    },
+    "local_client": {
+      "python": "3.13.9",
+      "transformers": "4.57.6",
+      "openai": "1.109.1"
+    },
+    "local_template_capability": {
+      "control": "enable_thinking=false",
+      "supported_by_pinned_template": true,
+      "deterministic_effect": "generation prefix closes an empty think block before answer generation",
+      "apply_chat_template_accepts_kwargs": true
+    },
+    "current_structured_request": {
+      "sends_messages": true,
+      "calls_local_apply_chat_template_for_transport": false,
+      "transmits_enable_thinking": false,
+      "provider_config_accepts_chat_template_kwargs": false,
+      "generation_builder_accepts_chat_template_kwargs": false,
+      "end_to_end_no_thinking_control_supported": false
+    },
+    "candidate_transport_control": {
+      "field": "extra_body.chat_template_kwargs.enable_thinking",
+      "value": false,
+      "status": "NOT_EXECUTABLE_PENDING_NON_GENERATIVE_SERVER_CONTRACT_PROOF_AND_HARNESS_REVIEW",
+      "server_support_inferred": false
+    },
+    "accounting_impact": "The exact local prompt-token guard must render with the same reviewed chat-template kwargs and bind them into the accounting evidence; the current guard renders with template defaults."
+  },
+  "qualification_supplement_candidate": {
+    "artifact_version": "1-candidate",
+    "status": "OBSERVED_NOT_REVIEWED_NOT_AUTHORIZED",
+    "base_qualification_sha256": "4e7e2b67caaf64be7064fb1499b6dcdea844480a2b368ec019d03fc22f210e80",
+    "evidence": {
+      "ledger_sha256": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+      "request_id": "0fc7a507bda5da6dd7a29c8e39d67acf48747e6efdf1f73f1e7bdd528ed7f684",
+      "raw_sha256": "e6489e73fff212d4fd14cb061e16712fd87c7c14ed246e820a2155a2b5518d35",
+      "record_sha256": "0136fe479bf875c777611128903e0cf316f5f67fe987a84d334b2a78fdd2f6a7"
+    },
+    "observed_once": {
+      "returned_model": "qwen3.5-122b",
+      "system_fingerprint": "vllm-0.27.1-934a3247",
+      "separate_reasoning_field_present": true,
+      "content_null": true
+    },
+    "allowed_identity_update": {
+      "returned_model": "qwen3.5-122b",
+      "system_fingerprint": "vllm-0.27.1-934a3247"
+    },
+    "not_established": [
+      "weights revision",
+      "weights byte identity",
+      "quantization",
+      "served revision",
+      "vLLM version despite the opaque fingerprint text",
+      "reasoning parser",
+      "server acceptance of chat_template_kwargs",
+      "sampling defaults",
+      "maximum output capability"
+    ],
+    "interpretation": "The fingerprint is an opaque exact response value observed once; it is not proof of any field in not_established."
+  },
+  "qualification_supplement_canonical_sha256": "d180061348b15bb0322cb75ae700bb97b1328994c8d572c98741455d5b0ef579",
+  "t9_treatment": {
+    "classification": "AUTHOR_DECISION_REQUIRED",
+    "recommended_classification": "ANTECEDENT_QUALIFICATION_CONFIGURATION_FAILURE",
+    "reason": "The request was durably bound to producer_conformity and consumed tokens, but it stopped first on an identity contract that encoded an unexposed fingerprint as null; the same response also exposed an uncontrolled reasoning channel. Frozen T9 does not state whether such a post-transport service-qualification failure belongs inside its 8-call denominator.",
+    "alternative_a_first_invalid_conformance_observation": {
+      "effect": "The consumed call remains the first invalid T9 observation. Normal continuation of the initial eight is not admissible. Only one full eight-call REMEDIATION_T9_001 could follow, and only after a separately demonstrated prompt defect, exact prompt-only diff, independent review and written author approval.",
+      "current_status": "BLOCKED",
+      "why_blocked": "The evidence attributes the thinking behavior to an uncontrolled interface configuration, not to a demonstrated prompt defect; current harness also requires a complete failed eight-call outcome before authorizing remediation."
+    },
+    "alternative_b_antecedent_qualification_configuration_failure": {
+      "effect": "The call remains charged in cumulative S but is non-evaluable for T9. After requalification and a reviewed corrected interface, a successor pilot may execute a new full eight-call base conformity stage with unchanged prompt, schema, validator, inputs, cases and order.",
+      "current_status": "RECOMMENDED_PENDING_AUTHOR_DECISION_AND_ALL_BLOCKERS",
+      "no_quota_reset": true
+    },
+    "remediation_t9_001_created": false,
+    "prompt_diff_proposed_for_thinking": false
+  },
+  "ledger_recovery": {
+    "recommended_path": "SUCCESSOR_PILOT_WITH_EXPLICIT_LINEAGE",
+    "old_ledger": "IMMUTABLE_FORENSIC_PREDECESSOR",
+    "cumulative_import": {
+      "count": 5,
+      "components": {
+        "reviewed_external_history": 4,
+        "completed_122b_attempt": 1
+      },
+      "import_exactly_once": true,
+      "transitive_double_import_forbidden": true
+    },
+    "why_recommended": "The current ledger has an immutable producer_conformity binding, a completed invalid agent_1 record and a create-once suspended event. A successor preserves these facts and avoids reinterpreting or overlaying the bound request in place.",
+    "required_harness_work": [
+      "Introduce a reviewed successor-lineage import contract that imports the predecessor cumulative S=5 once, binding predecessor pilot id, ledger SHA-256, five request identities/dispositions and independent review/author approval.",
+      "Reject duplicate, selective and transitive imports; include imported count in planned maxima and hard stop before every reservation.",
+      "Support and strictly validate the exact 122B no-thinking interface field only after non-generative server-contract proof.",
+      "Render tokenizer accounting with the same chat-template kwargs used by transport and bind those kwargs into stage and accounting commitments.",
+      "Add synthetic offline tests for lineage duplication, S=5 limits, immutable predecessor, identity mismatch, no-thinking serialization, accounting mismatch and resume behavior.",
+      "Obtain independent harness review, new ACCEPT and new authorization bound to all materialized hashes before any call."
+    ],
+    "revised_disposition_same_ledger": {
+      "status": "TECHNICALLY_POSSIBLE_ONLY_WITH_MORE_INVASIVE_APPEND_ONLY_HARNESS_CHANGE",
+      "requirements": [
+        "Preserve the suspended event and original binding unchanged.",
+        "Add a create-once independently reviewed disposition event, never an update or deletion.",
+        "Define a new stage/binding lineage rather than reclassifying the stored agent_1 response against a new expected identity.",
+        "Change prerequisite, outcome and remediation guards with synthetic offline tests and independent review."
+      ],
+      "not_recommended": "It creates overlay semantics inside a suspended ledger and is harder to audit than an explicit successor."
+    },
+    "forbidden": [
+      "delete or update the suspended event",
+      "modify the original stage binding",
+      "delete, reset or copy selected ledger rows",
+      "zero counters or quotas",
+      "reuse the completed request as a zero-token retry",
+      "silently accept the old response under a changed identity contract"
+    ]
+  },
+  "candidate_redacted_config_service_diff": {
+    "status": "EXACT_STRUCTURE_NOT_APPLIED_NOT_EXECUTABLE",
+    "unchanged": {
+      "producer_max_tokens": 2560,
+      "schema": true,
+      "validator": true,
+      "inputs": true,
+      "eight_cases": true,
+      "case_order": true,
+      "producer_prompt": true
+    },
+    "service_122b_json_patch": [
+      {
+        "op": "replace",
+        "path": "/artifact_version",
+        "value": "2-candidate"
+      },
+      {
+        "op": "replace",
+        "path": "/source",
+        "value": "base non-generative qualification SHA-256 4e7e2b67caaf64be7064fb1499b6dcdea844480a2b368ec019d03fc22f210e80 plus qualification_supplement_candidate embedded in PROPOSTA_RECUPERO_STOP_122B_QWEN_D9_03_13.json with canonical SHA-256 d180061348b15bb0322cb75ae700bb97b1328994c8d572c98741455d5b0ef579"
+      },
+      {
+        "op": "replace",
+        "path": "/serving",
+        "value": "system_fingerprint observed once as opaque exact value vllm-0.27.1-934a3247; served revision and implementation remain NOT_EXPOSED"
+      },
+      {
+        "op": "replace",
+        "path": "/thinking",
+        "value": "Pinned local template supports enable_thinking=false; current structured builder did not transmit it; server acceptance remains NOT_PROVEN"
+      },
+      {
+        "op": "add",
+        "path": "/qualification_supplement",
+        "value": {
+          "canonical_sha256": "d180061348b15bb0322cb75ae700bb97b1328994c8d572c98741455d5b0ef579",
+          "status": "OBSERVED_NOT_REVIEWED_NOT_AUTHORIZED"
+        }
+      },
+      {
+        "op": "replace",
+        "path": "/service/identity_sha256",
+        "value": "d180061348b15bb0322cb75ae700bb97b1328994c8d572c98741455d5b0ef579"
+      },
+      {
+        "op": "replace",
+        "path": "/service/expected_response/system_fingerprint",
+        "value": "vllm-0.27.1-934a3247"
+      }
+    ],
+    "producer_122b_json_patch": [
+      {
+        "op": "replace",
+        "path": "/identity_sha256",
+        "value": "d180061348b15bb0322cb75ae700bb97b1328994c8d572c98741455d5b0ef579"
+      },
+      {
+        "op": "replace",
+        "path": "/expected_response/system_fingerprint",
+        "value": "vllm-0.27.1-934a3247"
+      },
+      {
+        "op": "add",
+        "path": "/extra_body",
+        "value": {
+          "chat_template_kwargs": {
+            "enable_thinking": false
+          }
+        }
+      }
+    ],
+    "execution_config_required_exact_updates": [
+      "Set d9.services.122B.identity_sha256 to qualification_supplement_canonical_sha256.",
+      "Set d9.services.122B.expected_response.system_fingerprint and top-level expected_response.system_fingerprint to vllm-0.27.1-934a3247.",
+      "Keep candidate max_tokens at 2560 and all scientific inputs/contracts unchanged.",
+      "Recompute service documentation byte SHA-256, producer-config byte SHA-256, d9.producer_configs.122B, approved_producer_config_sha256 and the execution-config canonical SHA-256 from materialized reviewed bytes; no placeholder may enter an executable file.",
+      "Bind a new successor pilot id/path and reviewed S=5 lineage package."
+    ],
+    "redactions": {
+      "base_url": "UNCHANGED_PRIVATE_VALUE_NOT_REPRODUCED",
+      "credentials": "NOT_READ_NOT_REPRODUCED"
+    },
+    "harness_preconditions": [
+      "provider_config must allow only the exact extra_body.chat_template_kwargs.enable_thinking=false shape for 122B",
+      "generation builder must serialize that exact shape without merging unreviewed fields",
+      "tokenizer accounting must use enable_thinking=false and commit the kwargs",
+      "server support must be established non-generatively",
+      "all changes must pass independent review before ACCEPT"
+    ]
+  },
+  "accounting": {
+    "already_consumed_cumulative_s": 5,
+    "already_consumed_breakdown": {
+      "historical": 4,
+      "completed_122b": 1
+    },
+    "completed_122b_retry_eligible": false,
+    "hard_stop": 200,
+    "antecedent_configuration_path": {
+      "future_base": {
+        "corrected_primary_122b": 8,
+        "alternate_27b": 8,
+        "budget_probe": [
+          3,
+          9
+        ],
+        "stability_gate": 120,
+        "total_with_alternate": [
+          139,
+          145
+        ],
+        "total_without_alternate": [
+          131,
+          137
+        ]
+      },
+      "shared_reserve": {
+        "constraint": "8*remediation+transport<=15",
+        "optional_full_remediation": 8,
+        "transport_if_remediation_preserved_or_used": 7,
+        "transport_only_after_explicit_remediation_waiver": 15,
+        "probe_transport_cumulative_max": 7,
+        "probe_retry_unit": 3,
+        "gate_retries": 0
+      },
+      "future_planned_max_with_alternate": 160,
+      "cumulative_planned_max_with_s5": 165,
+      "hard_stop_margin": 35,
+      "future_planned_max_without_alternate": 152,
+      "cumulative_planned_max_without_alternate": 157,
+      "hard_stop_margin_without_alternate": 43
+    },
+    "first_invalid_t9_remediation_path": {
+      "future_base_excluding_remediation": {
+        "primary_122b_base": 0,
+        "alternate_27b": 8,
+        "budget_probe": [
+          3,
+          9
+        ],
+        "stability_gate": 120,
+        "total_with_alternate": [
+          131,
+          137
+        ],
+        "total_without_alternate": [
+          123,
+          129
+        ]
+      },
+      "full_remediation": 8,
+      "residual_transport_max": 7,
+      "future_without_transport_with_alternate": [
+        139,
+        145
+      ],
+      "cumulative_without_transport_with_s5": [
+        144,
+        150
+      ],
+      "future_planned_max_with_alternate": 152,
+      "cumulative_planned_max_with_s5": 157,
+      "hard_stop_margin": 43,
+      "future_planned_max_without_alternate": 144,
+      "cumulative_planned_max_without_alternate": 149,
+      "hard_stop_margin_without_alternate": 51
+    },
+    "rules": [
+      "No quota is replenished by a new ledger, changed configuration, changed template, alias, directory or process.",
+      "Only a documented ZERO_TOKEN_PROVEN request may use transport reserve; the completed 3955-token response cannot.",
+      "Probe transport repeats whole A/B-LF/E-LF triplets and never exceeds cumulative transport 7.",
+      "The gate has zero retries.",
+      "The eight alternate calls are base calls and never finance retries or remediation.",
+      "The hard-stop difference is not spendable authorization."
+    ]
+  },
+  "blockers": [
+    "Written author decision choosing the T9 classification; recommendation is antecedent qualification/configuration failure.",
+    "Non-generative, byte-backed proof that the actual 122B service accepts the exact no-thinking interface field; no probe is authorized by this proposal.",
+    "Materialized and independently reviewed qualification supplement and candidate private JSONs with all derived hashes.",
+    "Reviewed harness implementation for successor S=5 lineage, exact no-thinking serialization and matching tokenizer accounting.",
+    "Independent review of code, configuration, lineage package and quota arithmetic.",
+    "New ACCEPT and new written execution authorization bound to the corrected canonical configuration and successor ledger."
+  ],
+  "prohibitions": [
+    "No network, VPN, tunnel or provider call",
+    "No retry or remediation execution",
+    "No modification of the real ledger or existing private authorized JSONs",
+    "No prompt diff to compensate for interface-level thinking",
+    "No max_tokens increase based on this single output",
+    "No change to schema, validator, inputs, cases or order",
+    "No push, merge or tag"
+  ]
+}
