@@ -421,8 +421,25 @@ class PilotLedger:
             result['chat_template_kwargs'] = dict(template_kwargs)
         return result
 
-    @staticmethod
-    def _validate_accounting_contract(request, detail, raw_json, *, expected_messages=None):
+    def _successor_122b_producer_accounting(self, c, request):
+        """Derive the caller-specific obligation from durable request/binding state."""
+        if (request['stage'] not in {'producer_conformity', 'producer_remediation'}
+                or request['model'] != TOKENIZER_ACCOUNTING_MODEL
+                or c.execute('PRAGMA user_version').fetchone()[0] != 4):
+            return False
+        binding = self._binding(c, request['stage'])
+        specs = [spec for spec in binding['requests']
+                 if spec['logical_id'] == request['logical_id']]
+        if (request['stage_run'] != digest(binding) or len(specs) != 1
+                or request['identity_json'] != canonical_json(specs[0])
+                or (request['model'], request['producer'])
+                != (specs[0]['model'], specs[0]['producer'])):
+            raise HarnessError(
+                'FATAL_ACCOUNTING_ERROR: request differs from its durable producer binding')
+        return True
+
+    def _validate_accounting_contract(
+            self, c, request, detail, raw_json, *, expected_messages=None):
         """Validate one complete accounting contract for acquisition and every reuse."""
         required = {
             'artifact_version', 'request_id', 'request_identity_sha256', 'messages',
@@ -463,9 +480,12 @@ class PilotLedger:
                 or detail.get('outcome') != 'PASS'):
             raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting contract is invalid')
         kwargs = detail.get('chat_template_kwargs')
-        if request['stage'] == TECHNICAL_STAGE and kwargs is None:
+        requires_no_thinking = (
+            request['stage'] == TECHNICAL_STAGE
+            or self._successor_122b_producer_accounting(c, request))
+        if requires_no_thinking and kwargs is None:
             raise HarnessError(
-                'FATAL_ACCOUNTING_ERROR: technical accounting lacks no-thinking control')
+                'FATAL_ACCOUNTING_ERROR: 122B producer accounting lacks no-thinking control')
         if kwargs is not None:
             try:
                 from .d9 import no_thinking_template_kwargs
@@ -495,14 +515,14 @@ class PilotLedger:
         except (ValueError, TypeError, UnicodeError) as exc:
             raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting JSON is invalid') from exc
         self._validate_accounting_contract(
-            request, detail, response['raw_json'], expected_messages=messages)
+            c, request, detail, response['raw_json'], expected_messages=messages)
         counts = guard.validate_producer_response(messages, raw)
         expected = self._accounting_commitment(
             request, messages, guard.snapshot, response['raw_json'],
             counts['local_prompt_tokens'], counts['server_prompt_tokens'],
             guard.template_kwargs)
         self._validate_accounting_contract(
-            request, expected, response['raw_json'], expected_messages=messages)
+            c, request, expected, response['raw_json'], expected_messages=messages)
         if 'chat_template_kwargs' in expected:
             try:
                 from .d9 import no_thinking_template_kwargs
@@ -550,7 +570,7 @@ class PilotLedger:
                         counts['local_prompt_tokens'], counts['server_prompt_tokens'],
                         guard.template_kwargs)
                     self._validate_accounting_contract(
-                        request, result, response['raw_json'], expected_messages=messages)
+                        c, request, result, response['raw_json'], expected_messages=messages)
                     commitment = digest(result)
                     self._event(c, 'tokenizer_accounting:' + request_id, commitment, result)
                     c.execute('UPDATE requests SET proof_sha256=? WHERE request_id=? AND proof_sha256 IS NULL',
@@ -630,7 +650,7 @@ class PilotLedger:
             raise HarnessError(
                 'FATAL_ACCOUNTING_ERROR: persisted accounting commitment is invalid') from exc
         self._validate_accounting_contract(
-            request, accounting_detail, response['raw_json'])
+            c, request, accounting_detail, response['raw_json'])
         if (accounting['artifact_sha256'] != digest(accounting_detail)
                 or request['proof_sha256'] != accounting['artifact_sha256']):
             raise HarnessError(
@@ -1253,6 +1273,10 @@ class PilotLedger:
                     raise HarnessError('orphan or inconsistent retry attempt')
             if row['status'] == 'ZERO_TOKEN_PROVEN':
                 self._validated_reconciliation(c, row)
+            if row['status'] == 'COMPLETED' and row['model'] == TOKENIZER_ACCOUNTING_MODEL:
+                if self._evaluated_record(c, row) is None:
+                    raise HarnessError(
+                        'FATAL_ACCOUNTING_ERROR: completed 122B request lacks a durable record')
         # _chain_leaves checks cycles reachable from bases; account for disconnected cycles too.
         reached = set()
         for row in (r for r in rows if not r['retry_of']):

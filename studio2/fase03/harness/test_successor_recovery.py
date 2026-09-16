@@ -256,6 +256,34 @@ def _realign_accounting_links(ledger: PilotLedger, request_id: str, mutation: st
             (digest(link), canonical_json(link), link_name))
 
 
+def _replace_accounting_kwargs(ledger: PilotLedger, request_id: str, value) -> None:
+    """Replace/remove kwargs while keeping every internal accounting link coherent."""
+    with ledger._transaction() as connection:
+        event_name = "tokenizer_accounting:" + request_id
+        row = connection.execute(
+            "SELECT detail_json FROM events WHERE event=?", (event_name,)).fetchone()
+        detail = json.loads(row["detail_json"])
+        if value is None:
+            detail.pop("chat_template_kwargs", None)
+        else:
+            detail["chat_template_kwargs"] = deepcopy(value)
+        commitment = digest(detail)
+        connection.execute(
+            "UPDATE events SET artifact_sha256=?,detail_json=? WHERE event=?",
+            (commitment, canonical_json(detail), event_name))
+        connection.execute(
+            "UPDATE requests SET proof_sha256=? WHERE request_id=?",
+            (commitment, request_id))
+        link_name = "tokenizer_accounting_record:" + request_id
+        row = connection.execute(
+            "SELECT detail_json FROM events WHERE event=?", (link_name,)).fetchone()
+        link = json.loads(row["detail_json"])
+        link["accounting_commitment_sha256"] = commitment
+        connection.execute(
+            "UPDATE events SET artifact_sha256=?,detail_json=? WHERE event=?",
+            (digest(link), canonical_json(link), link_name))
+
+
 def _reserve_worker(path: str, pilot_id: str, queue) -> None:
     try:
         ledger = PilotLedger(Path(path), pilot_id=pilot_id)
@@ -897,6 +925,199 @@ class ReviewCorrectionAccountingTests(SuccessorFixture):
                 self.assertEqual(connection.execute(
                     "SELECT count(*) FROM stages WHERE stage='producer_conformity'"
                 ).fetchone()[0], 0)
+
+
+class SuccessorProducerAccountingContractTests(SuccessorFixture):
+    class Tokenizer:
+        def apply_chat_template(self, messages, **kwargs):
+            return [1] * 7
+
+    @staticmethod
+    def _messages(index: int) -> list[dict]:
+        return [{"role": "user", "content": f"accounting-prompt-{index}"}]
+
+    def _accounting_binding(self, stage: str, *, model: str = "qwen3.5-122b") -> dict:
+        binding = _binding(stage, 8 if stage != "budget_probe" else 3)
+        for index, spec in enumerate(binding["requests"]):
+            spec["model"] = model
+            spec["prompt_sha256"] = sha256_text(self._messages(index)[0]["content"])
+        return binding
+
+    @staticmethod
+    def _raw(model: str = "qwen3.5-122b") -> dict:
+        return {
+            "id": "fixture", "model": model, "system_fingerprint": "fp",
+            "choices": [{"message": {"content": "{}"}, "finish_reason": "stop"}],
+            "usage": {"prompt_tokens": 7, "completion_tokens": 1, "total_tokens": 8},
+        }
+
+    def _account_and_complete(self, ledger: PilotLedger, stage: str, index: int, *,
+                              kwargs=None, schema_valid: bool = True) -> tuple[str, dict]:
+        request_id = _reserve(ledger, stage, index)
+        row = ledger.request(request_id)
+        ledger.save_raw(request_id, self._raw(row["model"]))
+        guard = TokenizerAccountingGuard(self.Tokenizer(), template_kwargs=kwargs)
+        ledger.account_producer_response(
+            request_id, messages=self._messages(index), guard=guard)
+        identity = json.loads(row["identity_json"])
+        record = {
+            "request_id": request_id, "prompt_sha256": identity["prompt_sha256"],
+            "response_id": "fixture", "returned_model": row["model"],
+            "system_fingerprint": "fp", "identity_valid": True,
+            "schema_valid_first_attempt": schema_valid,
+            "validation_class": None if schema_valid else "structure",
+            "finish_reason": "stop", "raw_output": "{}",
+            "prompt_tokens": 7, "completion_tokens": 1, "total_tokens": 8,
+        }
+        ledger.bind_tokenizer_accounting_record(request_id, record=record)
+        ledger.complete_request(
+            request_id, status="COMPLETED", record=record,
+            prompt_tokens=7, completion_tokens=1, total_tokens=8)
+        return request_id, record
+
+    def _fresh_successor(self) -> PilotLedger:
+        index = len(list(self.home.glob("accounting-successor-*.sqlite3")))
+        self.successor_path = (
+            self.home / f"accounting-successor-{index}.sqlite3").resolve()
+        return self.imported()
+
+    def _successor_producer(self) -> tuple[PilotLedger, dict]:
+        ledger = self._fresh_successor()
+        self._pass_technical(ledger)
+        binding = self._accounting_binding("producer_conformity")
+        ledger.bind_stage("producer_conformity", binding)
+        return ledger, binding
+
+    def _authorize_remediation(self, ledger: PilotLedger) -> dict:
+        initial = ledger.binding("producer_conformity")
+        template = initial["template_text"] + "APPROVED ACCOUNTING FIXTURE\n"
+        diff = "".join(difflib.unified_diff(
+            initial["template_text"].splitlines(True), template.splitlines(True),
+            fromfile="before", tofile="after"))
+        template_path = self.home / "accounting-remediation-template.txt"
+        diff_path = self.home / "accounting-remediation.diff"
+        approval_path = self.home / "accounting-remediation-approval.json"
+        template_path.write_text(template, encoding="utf-8")
+        diff_path.write_text(diff, encoding="utf-8")
+        approval_path.write_text(json.dumps({
+            "author": "FIXTURE", "decision": "accepted",
+            "diff_sha256": sha256_text(diff), "template_sha256": sha256_text(template),
+            "initial_binding_sha256": digest(initial), "diagnosis": "structure",
+        }), encoding="utf-8")
+        ledger.authorize_remediation(
+            diff_path=diff_path, approval_path=approval_path, template_path=template_path)
+        remediation = deepcopy(initial)
+        remediation["template_text"] = template
+        ledger.bind_stage("producer_remediation", remediation)
+        return remediation
+
+    def test_P1_first_successor_producer_acquisition_requires_exact_false(self):
+        ledger, _ = self._successor_producer()
+        request_id = _reserve(ledger, "producer_conformity", 0)
+        ledger.save_raw(request_id, self._raw())
+        with self.assertRaisesRegex(HarnessError, "no-thinking"):
+            ledger.account_producer_response(
+                request_id, messages=self._messages(0),
+                guard=TokenizerAccountingGuard(self.Tokenizer()))
+        self.assertIsNone(ledger.event("tokenizer_accounting:" + request_id))
+        self.assertIsNone(ledger.request(request_id)["proof_sha256"])
+
+        positive, _ = self._successor_producer()
+        first, record = self._account_and_complete(
+            positive, "producer_conformity", 0,
+            kwargs={"enable_thinking": False})
+        restarted = PilotLedger(positive.path, pilot_id=positive.pilot_id)
+        restarted.validate_tokenizer_accounting_record(first, record=record)
+        second = _reserve(restarted, "producer_conformity", 1)
+        self.assertEqual(restarted.request(second)["status"], "INTENT")
+
+    def test_P2_reopened_nonconforming_proof_blocks_reuse_and_next_request(self):
+        invalid_values = (
+            None,
+            {"enable_thinking": 0},
+            {"enable_thinking": True},
+            {"enable_thinking": False, "other": 1},
+            {"other": False},
+        )
+        for invalid in invalid_values:
+            ledger, _ = self._successor_producer()
+            request_id, record = self._account_and_complete(
+                ledger, "producer_conformity", 0,
+                kwargs={"enable_thinking": False})
+            _replace_accounting_kwargs(ledger, request_id, invalid)
+            restarted = PilotLedger(ledger.path, pilot_id=ledger.pilot_id)
+            baseline = _logical(restarted.path)
+            with self.subTest(invalid=invalid, operation="reuse"), self.assertRaisesRegex(
+                    HarnessError, "FATAL_ACCOUNTING_ERROR"):
+                restarted.validate_tokenizer_accounting_record(request_id, record=record)
+            self.assertEqual(_logical(restarted.path), baseline)
+            binding = restarted.binding("producer_conformity")
+            with self.subTest(invalid=invalid, operation="binding"), self.assertRaisesRegex(
+                    HarnessError, "FATAL_ACCOUNTING_ERROR"):
+                restarted.bind_stage("producer_conformity", binding)
+            self.assertEqual(_logical(restarted.path), baseline)
+            with self.subTest(invalid=invalid, operation="reservation"), self.assertRaisesRegex(
+                    HarnessError, "FATAL_ACCOUNTING_ERROR"):
+                _reserve(restarted, "producer_conformity", 1)
+            self.assertEqual(_logical(restarted.path), baseline)
+            with closing(sqlite3.connect(restarted.path)) as connection:
+                self.assertEqual(connection.execute(
+                    "SELECT count(*) FROM requests WHERE stage='producer_conformity'"
+                ).fetchone()[0], 1)
+
+    def test_P3_successor_122b_remediation_acquisition_requires_exact_false(self):
+        ledger, _ = self._successor_producer()
+        for index in range(8):
+            self._account_and_complete(
+                ledger, "producer_conformity", index,
+                kwargs={"enable_thinking": False}, schema_valid=index != 0)
+        records = ledger.stage_records("producer_conformity")
+        artifact = {"records_sha256": digest(records)}
+        ledger.record_stage_outcome(
+            "producer_conformity", outcome="FAIL", artifact_sha256=digest(artifact),
+            artifact=artifact, diagnosis="structure")
+        self._authorize_remediation(ledger)
+        request_id = _reserve(ledger, "producer_remediation", 0)
+        ledger.save_raw(request_id, self._raw())
+        with self.assertRaisesRegex(HarnessError, "no-thinking"):
+            ledger.account_producer_response(
+                request_id, messages=self._messages(0),
+                guard=TokenizerAccountingGuard(self.Tokenizer()))
+        self.assertIsNone(ledger.event("tokenizer_accounting:" + request_id))
+        self.assertIsNone(ledger.request(request_id)["proof_sha256"])
+
+    def test_P4_generic_consumer_and_27b_paths_remain_unchanged(self):
+        generic = PilotLedger(
+            self.home / "generic.sqlite3", pilot_id="generic-accounting")
+        generic_binding = self._accounting_binding("producer_conformity")
+        generic.bind_stage("producer_conformity", generic_binding)
+        generic_id, _ = self._account_and_complete(
+            generic, "producer_conformity", 0, kwargs=None)
+        self.assertNotIn(
+            "chat_template_kwargs",
+            generic.event("tokenizer_accounting:" + generic_id))
+
+        consumer = self._fresh_successor()
+        self._pass_technical(consumer)
+        consumer.bind_stage("producer_conformity", _binding("producer_conformity", 8))
+        for index in range(8):
+            _complete(consumer, _reserve(consumer, "producer_conformity", index))
+        _outcome(consumer, "producer_conformity")
+        consumer.bind_stage("budget_probe", self._accounting_binding("budget_probe"))
+        consumer_id, _ = self._account_and_complete(
+            consumer, "budget_probe", 0, kwargs=None)
+        self.assertNotIn(
+            "chat_template_kwargs",
+            consumer.event("tokenizer_accounting:" + consumer_id))
+
+        alternate = self._fresh_successor()
+        self._pass_technical(alternate)
+        alternate.bind_stage(
+            "alternate_conformity",
+            self._accounting_binding("alternate_conformity", model="qwen3.5-27b"))
+        alternate_id = _reserve(alternate, "alternate_conformity", 0)
+        _complete(alternate, alternate_id)
+        self.assertIsNone(alternate.event("tokenizer_accounting:" + alternate_id))
 
 
 class SuccessorQuotaTests(SuccessorFixture):
