@@ -1,0 +1,76 @@
+recorded_utc=2026-09-16T23:08:55Z
+recorded_local=2026-09-17T01:08:55+0200
+gate=03.13-T9-PRODUCER-122B
+pilot_id=studio2-fase03-d9-pilot-03
+execution_head=294f154fd4e2748d0083030278939eb8ac12bd55
+execution_tree=2c4923b1414c737f0ca43473de00ee32d417f2bd
+independent_technical_review_sha256=f4ee983b9c0f9f7974d06a39f955c67db88a9f57eb29a0a8d0e4182634101db0
+offline_preflight=PASS
+source_inventory_sha256=7103482d6c7b8038944b0af63bac58548557c8d0b8f5d24e420346bd93fa304b
+producer_template_sha256=e7e80d59b2def37bea8f20186fc297583e2c8b0dea390a3351c7843d841619e7
+schema_manifest_sha256=d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12
+cases=8
+prompt_tokens_offline_min=1016
+prompt_tokens_offline_max=1395
+context_margin_min=127117
+endpoint_models_status=200
+endpoint_observed_model=qwen3.5-122b
+endpoint_observed_root=Qwen/Qwen3.5-122B-A10B-FP8
+endpoint_observed_max_model_len=131072
+endpoint_version_status=200
+endpoint_observed_vllm_version=0.27.1
+qualified_system_fingerprint=vllm-0.27.1-934a3247
+credential_path=/Users/luker/fot-tep/studio2/fase03/api_key.json
+credential_file_sha256=e24bbbd9340ed1da6ba5db036aa546f246975f70cbf6ba6de59046244e24865a
+credential_handling=in_memory_environment_only_not_printed_not_in_argv
+prelaunch_rejected_commands=1
+prelaunch_rejection_effect=no_process_no_intent_no_provider_request
+wrapper_start_utc=2026-09-16T23:07:05Z
+wrapper_start_local=2026-09-17T01:07:05+0200
+sys_executable=/opt/anaconda3/bin/python3
+python_version=3.13.9
+machine=arm64
+template_path=/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/fot-tep-t9-producer-w1zjjhnx/producer_template.txt
+argv=/opt/anaconda3/bin/python3 studio2/fase03/producer_probe.py --stage producer_conformity --config /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/pilot_d9_successor_candidate_03_13.private.json --provider-config /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/producer_122b_successor_03_13.private.json --ledger /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/ledger.sqlite3 --pilot-id studio2-fase03-d9-pilot-03 --model-snapshot /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9 --source-inventory /Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/PILOT_INPUT_SOURCES.pending.json --schema-dir /Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/schema_insight --template /var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/fot-tep-t9-producer-w1zjjhnx/producer_template.txt --results-dir /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/results --execute --acknowledge EXECUTE_PHASE03_PRODUCER_CONFORMANCE
+wrapper_end_utc=2026-09-16T23:07:43Z
+wrapper_end_local=2026-09-17T01:07:43+0200
+wrapper_exit_code=2
+summary_status=FAIL
+provider_requests=8
+evaluable_calls=8
+valid_first_attempts=6
+binding_sha256=83863085938bea35ee70cbec86e88365e7e94f95e6e17b576994635367ffd5be
+records_sha256=500c1c4f60ac7761514bb1311349210d7a9cfb3abf12b952fe4a2bc32ef7ad82
+outcome_sha256=b75e42da4c700fb808cc23c6ff8a42e9927166d98f6a96277e629ef216d4e0f1
+agent_1=PASS prompt_tokens=1397 completion_tokens=390 total_tokens=1787
+agent_2=FAIL class=identifiers reason=malformed_variable_identifier prompt_tokens=1018 completion_tokens=466 total_tokens=1484
+agent_3=FAIL class=identifiers reason=literal_references_required_and_must_be_declared prompt_tokens=1387 completion_tokens=478 total_tokens=1865
+agent_4=PASS prompt_tokens=1331 completion_tokens=416 total_tokens=1747
+agent_5=PASS prompt_tokens=1396 completion_tokens=413 total_tokens=1809
+agent_6=PASS prompt_tokens=1068 completion_tokens=391 total_tokens=1459
+agent_7=PASS prompt_tokens=1201 completion_tokens=486 total_tokens=1687
+agent_8=PASS prompt_tokens=1387 completion_tokens=442 total_tokens=1829
+producer_prompt_tokens=10185
+producer_completion_tokens=3482
+producer_total_tokens=13667
+all_returned_model=qwen3.5-122b
+all_system_fingerprint=vllm-0.27.1-934a3247
+all_identity_valid=true
+all_finish_reason=stop
+summary_sha256=d38d51d8d5532869a05ee7c049b832ef7e7dcaf5e87028391e2c7ee384aaafd4
+journal_sha256=bd367c14018838732ab99b968e55c32219f883db954911ad9f322abdabf10836
+validated_library_created=false
+ledger_sha256_before=619a66c7bb81477e302a362ebbaf7bae96adb98411a532f9ae9b9465ab52c801
+ledger_sha256_after=744b832fe43be66b57a70e5be587a9e566befbcce6f50321ea3e778db348c33b
+predecessor_ledger_sha256=4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb
+native_requests_total=9
+predecessor_requests=5
+cumulative_provider_requests_actual=14
+retry=false
+resume=false
+remediation=false
+model_27b_calls=0
+pilot03_sidecars_absent=true
+lsof_final_empty=true
+server_enea_json_read=false
+result=T9_PRODUCER_STOPPED_AT_8_READY_FOR_REVIEW
