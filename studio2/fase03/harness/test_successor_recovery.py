@@ -284,6 +284,57 @@ def _replace_accounting_kwargs(ledger: PilotLedger, request_id: str, value) -> N
             (digest(link), canonical_json(link), link_name))
 
 
+def _mutate_accounting_request_discriminator(
+        ledger: PilotLedger, request_id: str, mutation: str) -> None:
+    """Mutate one request discriminator; keep unrelated accounting links coherent."""
+    with ledger._transaction() as connection:
+        if mutation == "model":
+            connection.execute(
+                "UPDATE requests SET model='qwen3.5-27b' WHERE request_id=?", (request_id,))
+        elif mutation == "stage":
+            connection.execute(
+                "UPDATE requests SET stage='budget_probe' WHERE request_id=?", (request_id,))
+        elif mutation == "stage_run":
+            connection.execute(
+                "UPDATE requests SET stage_run=? WHERE request_id=?", ("e" * 64, request_id))
+        elif mutation == "producer":
+            connection.execute(
+                "UPDATE requests SET producer='mutated-producer' WHERE request_id=?",
+                (request_id,))
+        elif mutation == "identity":
+            request = connection.execute(
+                "SELECT identity_json FROM requests WHERE request_id=?", (request_id,)).fetchone()
+            identity = json.loads(request["identity_json"])
+            identity["case_sha256"] = "f" * 64
+            identity_json = canonical_json(identity)
+            connection.execute(
+                "UPDATE requests SET identity_json=? WHERE request_id=?",
+                (identity_json, request_id))
+            event_name = "tokenizer_accounting:" + request_id
+            event = connection.execute(
+                "SELECT detail_json FROM events WHERE event=?", (event_name,)).fetchone()
+            detail = json.loads(event["detail_json"])
+            detail["request_identity_sha256"] = sha256_text(identity_json)
+            commitment = digest(detail)
+            connection.execute(
+                "UPDATE events SET artifact_sha256=?,detail_json=? WHERE event=?",
+                (commitment, canonical_json(detail), event_name))
+            connection.execute(
+                "UPDATE requests SET proof_sha256=? WHERE request_id=?",
+                (commitment, request_id))
+            link_name = "tokenizer_accounting_record:" + request_id
+            link_row = connection.execute(
+                "SELECT detail_json FROM events WHERE event=?", (link_name,)).fetchone()
+            link = json.loads(link_row["detail_json"])
+            link["request_identity_sha256"] = sha256_text(identity_json)
+            link["accounting_commitment_sha256"] = commitment
+            connection.execute(
+                "UPDATE events SET artifact_sha256=?,detail_json=? WHERE event=?",
+                (digest(link), canonical_json(link), link_name))
+        else:
+            raise AssertionError("unknown request discriminator: " + mutation)
+
+
 def _reserve_worker(path: str, pilot_id: str, queue) -> None:
     try:
         ledger = PilotLedger(Path(path), pilot_id=pilot_id)
@@ -988,6 +1039,13 @@ class SuccessorProducerAccountingContractTests(SuccessorFixture):
         ledger.bind_stage("producer_conformity", binding)
         return ledger, binding
 
+    def _completed_successor_producer(self) -> tuple[PilotLedger, str, dict]:
+        ledger, _ = self._successor_producer()
+        request_id, record = self._account_and_complete(
+            ledger, "producer_conformity", 0,
+            kwargs={"enable_thinking": False})
+        return ledger, request_id, record
+
     def _authorize_remediation(self, ledger: PilotLedger) -> dict:
         initial = ledger.binding("producer_conformity")
         template = initial["template_text"] + "APPROVED ACCOUNTING FIXTURE\n"
@@ -1118,6 +1176,90 @@ class SuccessorProducerAccountingContractTests(SuccessorFixture):
         alternate_id = _reserve(alternate, "alternate_conformity", 0)
         _complete(alternate, alternate_id)
         self.assertIsNone(alternate.event("tokenizer_accounting:" + alternate_id))
+
+    def test_Q1_version_lineage_incoherence_fails_all_decision_paths(self):
+        from studio2.fase03.harness import d9, guards
+
+        operations = ("direct", "rebind", "reservation", "quota", "snapshot", "preflight")
+        for version in (2, 3):
+            for operation in operations:
+                ledger, request_id, record = self._completed_successor_producer()
+                _replace_accounting_kwargs(ledger, request_id, None)
+                with ledger._transaction() as connection:
+                    event = connection.execute(
+                        "SELECT detail_json FROM events WHERE event LIKE 'successor_lineage:%'"
+                    ).fetchone()
+                    lineage = json.loads(event["detail_json"])
+                    connection.execute(f"PRAGMA user_version={version}")
+                restarted = PilotLedger(ledger.path, pilot_id=ledger.pilot_id)
+                baseline = _logical(restarted.path)
+                config = {
+                    "pilot_ledger": {
+                        "path": str(restarted.path), "pilot_id": restarted.pilot_id},
+                }
+                d = {
+                    "successor_lineage": lineage["package_reference"],
+                    "successor_lineage_approval": lineage["approval_reference"],
+                }
+                with self.subTest(version=version, operation=operation):
+                    with self.assertRaises(HarnessError):
+                        if operation == "direct":
+                            restarted.validate_tokenizer_accounting_record(
+                                request_id, record=record)
+                        elif operation == "rebind":
+                            restarted.bind_stage(
+                                "producer_conformity",
+                                restarted.binding("producer_conformity"))
+                        elif operation == "reservation":
+                            _reserve(restarted, "producer_conformity", 1)
+                        elif operation == "quota":
+                            with restarted._transaction() as connection:
+                                restarted._quota_predecessors(connection)
+                        elif operation == "snapshot":
+                            restarted.snapshot()
+                        else:
+                            with mock.patch.object(d9, "validate_config", return_value=d):
+                                guards.require_pilot_ledger(config, restarted)
+                    self.assertEqual(_logical(restarted.path), baseline)
+                    with closing(sqlite3.connect(restarted.path)) as connection:
+                        self.assertEqual(connection.execute(
+                            "SELECT count(*) FROM requests WHERE stage='producer_conformity'"
+                        ).fetchone()[0], 1)
+
+    def test_Q2_request_discriminators_are_authenticated_before_classification(self):
+        mutations = ("model", "stage", "stage_run", "identity", "producer")
+        operations = ("direct", "rebind", "reservation")
+        for index, mutation in enumerate(mutations):
+            for operation in operations:
+                ledger, request_id, record = self._completed_successor_producer()
+                _replace_accounting_kwargs(ledger, request_id, None)
+                _mutate_accounting_request_discriminator(ledger, request_id, mutation)
+                if index % 2:
+                    ledger = PilotLedger(ledger.path, pilot_id=ledger.pilot_id)
+                baseline = _logical(ledger.path)
+                with self.subTest(mutation=mutation, operation=operation):
+                    with self.assertRaises(HarnessError):
+                        if operation == "direct":
+                            ledger.validate_tokenizer_accounting_record(
+                                request_id, record=record)
+                        elif operation == "rebind":
+                            ledger.bind_stage(
+                                "producer_conformity",
+                                ledger.binding("producer_conformity"))
+                        else:
+                            _reserve(ledger, "producer_conformity", 1)
+                    self.assertEqual(_logical(ledger.path), baseline)
+                    with closing(sqlite3.connect(ledger.path)) as connection:
+                        self.assertEqual(connection.execute(
+                            "SELECT count(*) FROM requests").fetchone()[0], 2)
+
+    def test_Q3_valid_successor_classification_preserves_five_predecessors(self):
+        ledger, request_id, record = self._completed_successor_producer()
+        restarted = PilotLedger(ledger.path, pilot_id=ledger.pilot_id)
+        restarted.validate_tokenizer_accounting_record(request_id, record=record)
+        snapshot = restarted.snapshot()
+        self.assertEqual(snapshot["predecessor_lineage_requests"], 5)
+        self.assertEqual(snapshot["requests_cumulative"], 7)
 
 
 class SuccessorQuotaTests(SuccessorFixture):

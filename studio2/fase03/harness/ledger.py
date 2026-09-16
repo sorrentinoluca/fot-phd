@@ -330,13 +330,34 @@ class PilotLedger:
                 raise HarnessError("successor lineage row differs from approved artifacts")
         return rows
 
-    def _quota_predecessors(self, c):
+    def _classified_successor_lineage(self, c, *, package_path=None, approval_path=None):
+        """Classify from durable evidence, then authenticate the complete successor lineage.
+
+        ``user_version`` is only one consistency field.  It cannot hide durable rows or
+        events, and caller-required successor artifacts cannot fall back to generic mode.
+        """
+        rows = self._lineage_rows(c)
         version = c.execute("PRAGMA user_version").fetchone()[0]
-        if version == 4:
+        events = [name for name in self._events(c)
+                  if name.startswith("successor_lineage:")]
+        requested = package_path is not None or approval_path is not None
+        if rows or events or version == 4 or requested:
+            return True, self._validated_predecessor_lineage(
+                c, package_path=package_path, approval_path=approval_path)
+        if version not in {2, 3}:
+            raise HarnessError("ledger version is incompatible with durable lineage")
+        return False, []
+
+    def _quota_context(self, c):
+        successor, rows = self._classified_successor_lineage(c)
+        if successor:
             if self._historical_rows(c):
                 raise HarnessError("successor lineage cannot coexist with external history rows")
-            return self._validated_predecessor_lineage(c)
-        return self._validated_external_history(c)
+            return successor, rows
+        return successor, self._validated_external_history(c)
+
+    def _quota_predecessors(self, c):
+        return self._quota_context(c)[1]
 
     def reconcile_successor_lineage(self, *, package_path: Path, approval_path: Path):
         """Import the reviewed predecessor S=5 once; never copy predecessor rows."""
@@ -421,12 +442,9 @@ class PilotLedger:
             result['chat_template_kwargs'] = dict(template_kwargs)
         return result
 
-    def _successor_122b_producer_accounting(self, c, request):
-        """Derive the caller-specific obligation from durable request/binding state."""
-        if (request['stage'] not in {'producer_conformity', 'producer_remediation'}
-                or request['model'] != TOKENIZER_ACCOUNTING_MODEL
-                or c.execute('PRAGMA user_version').fetchone()[0] != 4):
-            return False
+    def _requires_no_thinking_accounting(self, c, request):
+        """Authenticate durable lineage and request identity before classifying accounting."""
+        successor, _ = self._classified_successor_lineage(c)
         binding = self._binding(c, request['stage'])
         specs = [spec for spec in binding['requests']
                  if spec['logical_id'] == request['logical_id']]
@@ -436,7 +454,10 @@ class PilotLedger:
                 != (specs[0]['model'], specs[0]['producer'])):
             raise HarnessError(
                 'FATAL_ACCOUNTING_ERROR: request differs from its durable producer binding')
-        return True
+        return (request['stage'] == TECHNICAL_STAGE
+                or successor
+                and request['stage'] in {'producer_conformity', 'producer_remediation'}
+                and request['model'] == TOKENIZER_ACCOUNTING_MODEL)
 
     def _validate_accounting_contract(
             self, c, request, detail, raw_json, *, expected_messages=None):
@@ -480,9 +501,7 @@ class PilotLedger:
                 or detail.get('outcome') != 'PASS'):
             raise HarnessError('FATAL_ACCOUNTING_ERROR: persisted accounting contract is invalid')
         kwargs = detail.get('chat_template_kwargs')
-        requires_no_thinking = (
-            request['stage'] == TECHNICAL_STAGE
-            or self._successor_122b_producer_accounting(c, request))
+        requires_no_thinking = self._requires_no_thinking_accounting(c, request)
         if requires_no_thinking and kwargs is None:
             raise HarnessError(
                 'FATAL_ACCOUNTING_ERROR: 122B producer accounting lacks no-thinking control')
@@ -851,9 +870,8 @@ class PilotLedger:
         events = self._events(c)
         if any(k.startswith('suspended:') for k in events):
             raise HarnessError("pilot suspended; requires a new reviewed disposition")
-        successor = c.execute("PRAGMA user_version").fetchone()[0] == 4
+        successor, _ = self._classified_successor_lineage(c)
         if successor:
-            self._validated_predecessor_lineage(c)
             if stage == TECHNICAL_STAGE:
                 pass
             elif stage == 'producer_conformity':
@@ -889,10 +907,10 @@ class PilotLedger:
 
     def _insert_intent(self, c, *, request_id, logical_id, model, producer, stage, stage_run, quota_kind, retry_of):
         rows = self._rows(c)
-        predecessors = self._quota_predecessors(c)
+        successor, predecessors = self._quota_context(c)
         if len(rows) + len(predecessors) >= 200:
             raise HarnessError("pilot cumulative hard stop 200 reached")
-        successor_extra = int(c.execute("PRAGMA user_version").fetchone()[0] == 4)
+        successor_extra = int(successor)
         max_calls = (160 if stage == 'alternate_conformity' or any(
             r['stage'] == 'alternate_conformity' for r in rows) else 152) + successor_extra
         if len(rows) >= max_calls:
@@ -1406,8 +1424,7 @@ class PilotLedger:
     def snapshot(self):
         with closing(self._connect()) as c:
             rows, events = self._rows(c), self._events(c)
-            predecessors = self._quota_predecessors(c)
-            successor = c.execute("PRAGMA user_version").fetchone()[0] == 4
+            successor, predecessors = self._quota_context(c)
             raw_count = c.execute("SELECT count(*) FROM responses").fetchone()[0]
         by_stage = {s: sum(r['stage'] == s for r in rows) for s in sorted(ACTIVE_STAGES)}
         remediation = sum(r['quota_kind'] == 'remediation' for r in rows)

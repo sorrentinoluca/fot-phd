@@ -366,9 +366,11 @@ def validate_history(config, ledger, connection):
         lineage_ref, approval_ref = d['successor_lineage'], d.get('successor_lineage_approval')
         read_bytes_reference(lineage_ref, 'successor lineage package')
         read_bytes_reference(approval_ref, 'successor lineage approval')
-        ledger._validated_predecessor_lineage(
+        successor, _ = ledger._classified_successor_lineage(
             connection, package_path=Path(lineage_ref['path']),
             approval_path=Path(approval_ref['path']))
+        if not successor:
+            fail('successor lineage was not durably classified')
         return
     h = read_reference(d['history_reconciliation'], 'historical consumption reconciliation')
     if h.get('status') == 'MAPPING_REVIEWED':
