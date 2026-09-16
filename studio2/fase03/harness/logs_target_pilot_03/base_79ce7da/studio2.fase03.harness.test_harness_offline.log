@@ -1,0 +1,25 @@
+test_114_valid_pass_t3_but_113_does_not (studio2.fase03.harness.test_harness_offline.GateRuleContractTests) ... ok
+test_all_invalid_triplet_makes_t6_not_evaluable (studio2.fase03.harness.test_harness_offline.GateRuleContractTests) ... ok
+test_forensic_differences_do_not_change_semantic_signature (studio2.fase03.harness.test_harness_offline.GateRuleContractTests) ... ok
+test_length_truncation_fails_t4_separately (studio2.fase03.harness.test_harness_offline.GateRuleContractTests) ... ok
+test_mixed_validity_is_divergence_not_automatic_no_go (studio2.fase03.harness.test_harness_offline.GateRuleContractTests) ... ok
+test_gate_is_not_repeatable_and_has_no_retry (studio2.fase03.harness.test_harness_offline.LedgerContractTests) ... ok
+test_intent_survives_restart_and_directory_change (studio2.fase03.harness.test_harness_offline.LedgerContractTests) ... ok
+test_probe_triplet_retry_is_atomic_and_capped (studio2.fase03.harness.test_harness_offline.LedgerContractTests) ... ok
+test_remediation_limits_and_stage_order (studio2.fase03.harness.test_harness_offline.LedgerContractTests) ... ok
+test_timeout_without_zero_token_proof_never_retries (studio2.fase03.harness.test_harness_offline.LedgerContractTests) ... ok
+test_two_writers_cannot_duplicate_one_logical_attempt (studio2.fase03.harness.test_harness_offline.LedgerContractTests) ... ok
+test_zero_token_proof_allows_only_documented_transport (studio2.fase03.harness.test_harness_offline.LedgerContractTests) ... ok
+test_zero_token_remediation_retry_counts_as_transport (studio2.fase03.harness.test_harness_offline.LedgerContractTests) ... ok
+test_plan_reports_rev10_without_claiming_d9_or_time (studio2.fase03.harness.test_harness_offline.PlanOnlyTests) ... ok
+test_execution_never_defaults_to_historical_model (studio2.fase03.harness.test_harness_offline.R4AndInputContractTests) ... ok
+test_missing_normal_or_extra_missing_dependency_is_rejected (studio2.fase03.harness.test_harness_offline.R4AndInputContractTests) ... ok
+test_presentation_order_does_not_mutate_canonical_label_space (studio2.fase03.harness.test_harness_offline.R4AndInputContractTests) ... ok
+test_published_r4_pin_and_literal_normal_context (studio2.fase03.harness.test_harness_offline.R4AndInputContractTests) ... ok
+test_real_inventory_connects_inputs_without_inventing_library (studio2.fase03.harness.test_harness_offline.R4AndInputContractTests) ... ok
+test_schema_byte_incompatibility_fails_closed (studio2.fase03.harness.test_harness_offline.R4AndInputContractTests) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.308s
+
+OK

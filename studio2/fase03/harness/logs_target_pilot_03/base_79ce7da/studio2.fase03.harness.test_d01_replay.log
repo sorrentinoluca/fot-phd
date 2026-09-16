@@ -1,0 +1,19 @@
+fatal: cannot change to '/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate': No such file or directory
+ERROR
+
+======================================================================
+ERROR: setUpClass (studio2.fase03.harness.test_d01_replay.ReplayPrerequisites)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_d01_replay.py", line 65, in setUpClass
+    observed = subprocess.check_output(['git', '-C', str(OLD), 'rev-parse', 'HEAD', 'HEAD^{tree}'], text=True).splitlines()
+  File "/usr/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/usr/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', '-C', '/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate', 'rev-parse', 'HEAD', 'HEAD^{tree}']' returned non-zero exit status 128.
+
+----------------------------------------------------------------------
+Ran 0 tests in 0.002s
+
+FAILED (errors=1)

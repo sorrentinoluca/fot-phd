@@ -7,6 +7,7 @@ for writing.  No execution authorization is copied or created.
 from __future__ import annotations
 
 import argparse
+from contextlib import closing
 from copy import deepcopy
 import fcntl
 import json
@@ -31,8 +32,8 @@ PREDECESSOR_ROOT = Path("/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-00
 PREDECESSOR_LEDGER = PREDECESSOR_ROOT / "ledger.sqlite3"
 PREDECESSOR_SHA256 = "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb"
 PREDECESSOR_PILOT_ID = "studio2-fase03-d9-pilot-001"
-TARGET_ROOT = Path("/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-002")
-SUCCESSOR_PILOT_ID = "studio2-fase03-d9-pilot-002"
+TARGET_ROOT = Path("/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03")
+SUCCESSOR_PILOT_ID = "studio2-fase03-d9-pilot-03"
 EXPECTED_FINGERPRINT = "vllm-0.27.1-934a3247"
 AUTHOR_DECISION_TEXT_SHA256 = "e9f4b92537c630a2fb3b476324c8811525fe4ee41a81451e0fd666f3b70b8190"
 ACK = "MATERIALIZE_PHASE03_122B_SUCCESSOR_OFFLINE"
@@ -42,6 +43,47 @@ SOURCE_CONFIG = PREDECESSOR_ROOT / "execution/pilot_d9_execution_candidate_03_13
 SOURCE_PROVIDER_122B = PREDECESSOR_ROOT / "execution/producer_122b_03_13.private.json"
 SOURCE_PROVIDER_27B = PREDECESSOR_ROOT / "execution/producer_27b_03_13.private.json"
 SOURCE_SERVICE_27B = PREDECESSOR_ROOT / "execution/service_27b_03_13.private.json"
+
+
+LEDGER_SIDECAR_SUFFIXES = ("-wal", "-shm", "-journal")
+
+
+class PublishedDirectoryFsyncError(RuntimeError):
+    """The target was published by rename, but the parent directory fsync failed.
+
+    The published target is never removed or rewritten; ``published`` is always True.
+    """
+
+    def __init__(self, target: Path, result: dict, cause: OSError):
+        super().__init__(
+            f"successor target published at {target} but parent directory fsync failed: {cause}")
+        self.target = str(target)
+        self.result = result
+        self.published = True
+
+
+def _checkpoint_and_close_ledger(ledger_path: Path) -> None:
+    """Fold the WAL into the main file, close deterministically, leave no sidecars."""
+    with closing(sqlite3.connect(ledger_path)) as connection:
+        busy, _, _ = connection.execute("PRAGMA wal_checkpoint(TRUNCATE)").fetchone()
+        if busy:
+            raise RuntimeError("successor ledger WAL checkpoint did not complete")
+    for suffix in LEDGER_SIDECAR_SUFFIXES:
+        sidecar = Path(str(ledger_path) + suffix)
+        if not sidecar.exists():
+            continue
+        if suffix != "-shm" and sidecar.stat().st_size != 0:
+            raise RuntimeError(f"successor ledger sidecar is not empty after checkpoint: {sidecar}")
+        # Persistent-WAL SQLite builds keep empty sidecars after the last close.
+        sidecar.unlink()
+    _assert_no_ledger_sidecars(ledger_path)
+
+
+def _assert_no_ledger_sidecars(ledger_path: Path) -> None:
+    remaining = sorted(
+        p.name for p in Path(ledger_path).parent.glob(Path(ledger_path).name + "-*"))
+    if remaining:
+        raise RuntimeError(f"successor ledger sidecars remain: {remaining}")
 
 
 def _mkdir(path: Path) -> None:
@@ -216,11 +258,9 @@ def _materialize_tree(staging_root: Path) -> dict:
     if (len(rows), native_requests, historical_rows, 160 + 1 + len(rows),
             200 - (160 + 1 + len(rows))) != (5, 0, 0, 166, 34):
         raise RuntimeError("successor ledger snapshot differs from the approved S=5 budget")
-    with sqlite3.connect(ledger_path) as connection:
-        connection.execute("PRAGMA wal_checkpoint(TRUNCATE)")
-    for candidate in staging_root.glob("ledger.sqlite3*"):
-        if candidate.is_file():
-            os.chmod(candidate, 0o600)
+    del successor
+    _checkpoint_and_close_ledger(ledger_path)
+    os.chmod(ledger_path, 0o600)
 
     old_config = _load(SOURCE_CONFIG)
     old_provider_122b = _load(SOURCE_PROVIDER_122B)
@@ -359,6 +399,7 @@ def _materialize_tree(staging_root: Path) -> dict:
         os.chmod(directory, 0o700)
     for file_path in [p for p in staging_root.rglob("*") if p.is_file()]:
         os.chmod(file_path, 0o600)
+    _assert_no_ledger_sidecars(ledger_path)
     return {
         "status": "READY_FOR_INDEPENDENT_REVIEW",
         "root": str(TARGET_ROOT),
@@ -378,6 +419,7 @@ def _publish_staged(builder):
     staging = Path(tempfile.mkdtemp(
         prefix=f".{target.name}.staging-", dir=str(parent))).resolve()
     result = None
+    published = False
     try:
         result = builder(staging)
         lock_path = parent / f".{target.name}.publish.lock"
@@ -387,17 +429,22 @@ def _publish_staged(builder):
             if target.exists():
                 raise RuntimeError(f"successor target already exists: {target}")
             os.rename(staging, target)
-            directory_descriptor = os.open(parent, os.O_RDONLY | os.O_DIRECTORY)
+            published = True
+            # From here on the target is published: never remove or rewrite it.
             try:
-                os.fsync(directory_descriptor)
-            finally:
-                os.close(directory_descriptor)
+                directory_descriptor = os.open(parent, os.O_RDONLY | os.O_DIRECTORY)
+                try:
+                    os.fsync(directory_descriptor)
+                finally:
+                    os.close(directory_descriptor)
+            except OSError as exc:
+                raise PublishedDirectoryFsyncError(target, result, exc) from exc
         finally:
             os.close(lock_descriptor)
         return result
     except BaseException:
         prefix = f".{target.name}.staging-"
-        if (staging.exists() and staging.parent == parent
+        if (not published and staging.exists() and staging.parent == parent
                 and staging.name.startswith(prefix)):
             shutil.rmtree(staging)
         raise

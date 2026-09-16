@@ -1,0 +1,53 @@
+{
+  "artifact_version": "TARGET_SUPERSESSION_1",
+  "status": "AUTHOR_DECISION_RECORDED_AWAITING_INDEPENDENT_REVIEW",
+  "date": "2026-09-16",
+  "scope": "SUCCESSOR_TARGET_ID_AND_PATH_ONLY",
+  "frozen_contract": {
+    "path": "studio2/fase03/harness/CONTRATTO_RECUPERO_SUCCESSOR_122B_QWEN_D9_03_13.json",
+    "sha256": "143e709a534c6143efb8989dff85f0ba4a1f4b7139897e2d08f2556f1dd6f37a",
+    "rewritten": false,
+    "superseded_fields": ["successor.pilot_id"],
+    "all_other_fields": "UNCHANGED_AND_STILL_BINDING"
+  },
+  "superseded_target": {
+    "pilot_id": "studio2-fase03-d9-pilot-002",
+    "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-002",
+    "classification": "PREEXISTING_V4_CANDIDATE_NOT_MIGRATED",
+    "materialized_by_this_successor_line": false,
+    "to_be_opened_migrated_or_deleted": false
+  },
+  "successor_target": {
+    "pilot_id": "studio2-fase03-d9-pilot-03",
+    "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03",
+    "classification": "FRESH_SUCCESSOR_TARGET",
+    "materialized": false,
+    "source_constants": "studio2/fase03/materialize_successor_recovery.py:TARGET_ROOT,SUCCESSOR_PILOT_ID"
+  },
+  "predecessor": {
+    "pilot_id": "studio2-fase03-d9-pilot-001",
+    "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001",
+    "sha256": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+    "lineage": "S5_UNCHANGED",
+    "opened_or_modified": false
+  },
+  "author_decision": {
+    "author": "Luca",
+    "date": "2026-09-16",
+    "decision": "NEW_PILOT_ID_pilot-03"
+  },
+  "independent_review_trigger": {
+    "path": "/Users/luker/.codex/worktrees/b567/fot-tep/studio2/fase03/harness/VERIFICA_CANDIDATO_79CE7DA_SUCCESSOR_122B_QWEN_D9_03_13.md",
+    "sha256": "00f0a97e20ef858ff9bd9226525ebe9fc4b357e8847a8e6b0059bf6952670104",
+    "verdict": "READY ONLY AFTER FRESH TARGET ID/PATH UPDATE AND RE-REVIEW"
+  },
+  "invariants": {
+    "prompts_schema_cases_order_changed": false,
+    "producer_122b_max_tokens": 2560,
+    "producer_122b_enable_thinking": false,
+    "cumulative_planned_maximum": 166,
+    "hard_stop": 200,
+    "non_spendable_margin": 34,
+    "execution_authorization_created": false
+  }
+}

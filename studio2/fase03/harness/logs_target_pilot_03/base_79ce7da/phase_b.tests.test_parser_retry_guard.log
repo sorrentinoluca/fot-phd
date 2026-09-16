@@ -1,0 +1,15 @@
+test_abstain_allows_null_prediction (phase_b.tests.test_parser_retry_guard.ParserRetryGuardTests) ... ok
+test_abstain_rejects_non_null_prediction (phase_b.tests.test_parser_retry_guard.ParserRetryGuardTests) ... ok
+test_exactly_two_retries_then_parse_failure_abstain (phase_b.tests.test_parser_retry_guard.ParserRetryGuardTests) ... ok
+test_explicit_integrity_verifier_exception_only (phase_b.tests.test_parser_retry_guard.ParserRetryGuardTests) ... ok
+test_heldout_guard_denies_root_and_manifest_filename_without_opening (phase_b.tests.test_parser_retry_guard.ParserRetryGuardTests) ... ok
+test_invalid_json_rejected (phase_b.tests.test_parser_retry_guard.ParserRetryGuardTests) ... ok
+test_no_retry_for_valid_wrong_or_semantically_weak_output (phase_b.tests.test_parser_retry_guard.ParserRetryGuardTests) ... ok
+test_retry_budget_cannot_be_changed (phase_b.tests.test_parser_retry_guard.ParserRetryGuardTests) ... ok
+test_retry_policy_is_bounded_and_deterministic (phase_b.tests.test_parser_retry_guard.ParserRetryGuardTests) ... ok
+test_unknown_label_and_extra_key_rejected (phase_b.tests.test_parser_retry_guard.ParserRetryGuardTests) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.001s
+
+OK

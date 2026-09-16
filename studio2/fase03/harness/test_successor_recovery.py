@@ -1573,6 +1573,250 @@ class BlockingCorrectionTests(SuccessorFixture):
                 patcher.stop()
 
 
+class FreshTargetPilot03Tests(SuccessorFixture):
+    """03.13-TARGET: fresh pilot-03 target and deterministic ledger close."""
+
+    EXPECTED_ID = "studio2-fase03-d9-pilot-03"
+    EXPECTED_ROOT = Path("/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03")
+
+    def _fixture_sources(self):
+        """Offline predecessor root and harness copy; no real runtime path is touched."""
+        from studio2.fase03 import materialize_successor_recovery as materializer
+
+        predecessor_root = self.home / "predecessor-root"
+        (predecessor_root / "execution").mkdir(parents=True)
+        for relative in ("tokenizers/122B-rev/tokenizer.json",
+                         "tokenizers/27B/27B-rev/tokenizer.json"):
+            path = predecessor_root / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text('{"fixture": true}\n', encoding="utf-8")
+        tokenizer = {"repository": "fixture/tokenizer", "revision": "122B-rev"}
+        service = {"model": "fixture-122b", "base_url": "http://127.0.0.1:9/v1",
+                   "tokenizer": tokenizer, "max_model_len": 131072,
+                   "max_output_tokens": 2560}
+        config = {
+            "artifact_version": "FIXTURE", "status": "FIXTURE",
+            "candidate": {}, "call_budget": {"historical_nominal_model": "122B"},
+            "implementation_status": {},
+            "d9": {"services": {"122B": service, "27B": {"model": "fixture-27b"}},
+                   "r4_tokenizer": {"revision": "27B-rev"},
+                   "history_reconciliation": {}, "history_approval": {}},
+        }
+        execution = predecessor_root / "execution"
+        (execution / "pilot_d9_execution_candidate_03_13.private.json").write_text(
+            json.dumps(config), encoding="utf-8")
+        (execution / "producer_122b_03_13.private.json").write_text(
+            json.dumps({"tokenizer": tokenizer}), encoding="utf-8")
+        (execution / "producer_27b_03_13.private.json").write_text(
+            '{"fixture": "27B producer"}\n', encoding="utf-8")
+        (execution / "service_27b_03_13.private.json").write_text(
+            '{"fixture": "27B service"}\n', encoding="utf-8")
+
+        harness = self.home / "harness-copy"
+        (harness / "reviews").mkdir(parents=True)
+        for name in ("PROPOSTA_RECUPERO_STOP_122B_QWEN_D9_03_13.json",
+                     "QUALIFICATION_SUPPLEMENT_122B_QWEN_D9_03_13.json"):
+            (harness / name).write_bytes((materializer.HARNESS / name).read_bytes())
+        sources = {
+            "reviews/VERIFICA_STOP_PRIMA_CHIAMATA_PRODUCER_QWEN_D9_03_13_V2.md": "stop_review_v2",
+            "PROPOSTA_RECUPERO_STOP_122B_QWEN_D9_03_13.md": "proposal_md",
+            "reviews/VERIFICA_PROPOSTA_RECUPERO_STOP_122B_QWEN_D9_03_13.md": "proposal_review",
+            "ACQUISIZIONE_DECISIONE_AUTORE_RECUPERO_SUCCESSOR_122B_QWEN_D9_03_13.json":
+                "author_decision",
+        }
+        for relative, role in sources.items():
+            (harness / relative).write_bytes(
+                Path(self.evidence[role]["path"]).read_bytes())
+
+        target = (self.home / "runtime" / self.EXPECTED_ID).resolve()
+        patches = [
+            mock.patch.object(materializer, "PREDECESSOR_ROOT", predecessor_root),
+            mock.patch.object(materializer, "PREDECESSOR_LEDGER", self.predecessor.path),
+            mock.patch.object(materializer, "PREDECESSOR_SHA256", self.predecessor_sha),
+            mock.patch.object(materializer, "PREDECESSOR_PILOT_ID", self.predecessor.pilot_id),
+            mock.patch.object(materializer, "AUTHOR_DECISION_TEXT_SHA256",
+                              sha256_text("FIXTURE AUTHOR DECISION")),
+            mock.patch.object(materializer, "HARNESS", harness),
+            mock.patch.object(materializer, "TARGET_ROOT", target),
+            mock.patch.object(materializer, "SOURCE_CONFIG",
+                              execution / "pilot_d9_execution_candidate_03_13.private.json"),
+            mock.patch.object(materializer, "SOURCE_PROVIDER_122B",
+                              execution / "producer_122b_03_13.private.json"),
+            mock.patch.object(materializer, "SOURCE_PROVIDER_27B",
+                              execution / "producer_27b_03_13.private.json"),
+            mock.patch.object(materializer, "SOURCE_SERVICE_27B",
+                              execution / "service_27b_03_13.private.json"),
+            # Full D9 validation is covered elsewhere; here only ledger finalization
+            # and publication of the fixture tree are under test.
+            mock.patch("studio2.fase03.harness.d9.validate_config"),
+        ]
+        for patch in patches:
+            patch.start()
+            self.addCleanup(patch.stop)
+        return materializer, target
+
+    def _durable_refs(self, target: Path) -> list[dict]:
+        summary = json.loads((target / "MATERIALIZATION_SUMMARY.private.json").read_text(
+            encoding="utf-8"))
+        refs = [summary[key] for key in (
+            "ledger", "configuration", "lineage_package", "lineage_approval",
+            "qualification_supplement", "producer_122b", "service_122b")]
+        config = json.loads(Path(summary["configuration"]["path"]).read_text(encoding="utf-8"))
+        refs.extend([
+            config["d9"]["successor_lineage"],
+            config["d9"]["successor_lineage_approval"],
+            config["d9"]["services"]["122B"]["documentation"],
+            config["d9"]["services"]["27B"]["documentation"],
+        ])
+        for ref in refs:
+            self.assertTrue(Path(ref["path"]).is_relative_to(target), ref["path"])
+        return refs
+
+    def _assert_refs(self, refs: list[dict]) -> None:
+        for ref in refs:
+            with self.subTest(path=ref["path"]):
+                self.assertEqual(sha256_file(Path(ref["path"])), ref["sha256"])
+
+    def test_T_a_fresh_pilot_03_identity_and_path_are_coherent(self):
+        from studio2.fase03 import materialize_successor_recovery as materializer
+
+        self.assertEqual(materializer.SUCCESSOR_PILOT_ID, self.EXPECTED_ID)
+        self.assertEqual(materializer.TARGET_ROOT, self.EXPECTED_ROOT)
+        self.assertEqual(materializer.TARGET_ROOT.name, materializer.SUCCESSOR_PILOT_ID)
+        for value in (materializer.SUCCESSOR_PILOT_ID, str(materializer.TARGET_ROOT)):
+            self.assertNotIn("pilot-002", value)
+            self.assertNotIn("pilot-001", value)
+        self.assertEqual(materializer.PREDECESSOR_PILOT_ID, "studio2-fase03-d9-pilot-001")
+        self.assertEqual(materializer.PREDECESSOR_ROOT,
+                         Path("/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001"))
+        self.assertEqual(
+            materializer.PREDECESSOR_SHA256,
+            "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb")
+        source = Path(materializer.__file__).read_text(encoding="utf-8")
+        self.assertNotIn("pilot-002", source)
+
+    def test_T_b_published_target_has_no_wal_or_shm_sidecars(self):
+        materializer, target = self._fixture_sources()
+        # Persistent-WAL SQLite builds (e.g. Apple's) keep empty sidecars after close;
+        # simulate them so the assertion does not depend on the local SQLite build.
+        real_connect = sqlite3.connect
+
+        def persistent_wal_connect(*args, **kwargs):
+            connection = real_connect(*args, **kwargs)
+            database = str(args[0] if args else kwargs["database"])
+            if kwargs.get("uri") or database.startswith("file:"):
+                return connection
+            return _PersistentWalConnection(connection, Path(database))
+
+        with mock.patch.object(materializer.sqlite3, "connect", persistent_wal_connect):
+            result = materializer._publish_staged(materializer._materialize_tree)
+        self.assertEqual(result["root"], str(target))
+        self.assertTrue((target / "ledger.sqlite3").is_file())
+        self.assertEqual(sorted(p.name for p in target.glob("ledger.sqlite3*")),
+                         ["ledger.sqlite3"])
+        self.assertEqual([p for p in target.rglob("*") if p.name.endswith(("-wal", "-shm"))], [])
+        self.assertEqual(sha256_file(self.predecessor.path), self.predecessor_sha)
+
+    def test_T_c_durable_hashes_hold_after_reopening_published_ledger(self):
+        materializer, target = self._fixture_sources()
+        result = materializer._publish_staged(materializer._materialize_tree)
+        refs = self._durable_refs(target)
+        self._assert_refs(refs)
+        before = {p.name for p in target.iterdir()}
+
+        published = target / "ledger.sqlite3"
+        reopened = PilotLedger(published, pilot_id=materializer.SUCCESSOR_PILOT_ID)
+        self.assertEqual(reopened.identity_path, published.resolve())
+        package = Path(refs[2]["path"])
+        approval = Path(refs[3]["path"])
+        with reopened._transaction() as connection:
+            rows = reopened._validated_predecessor_lineage(
+                connection, package_path=package, approval_path=approval)
+            self.assertEqual((len(rows), len(reopened._rows(connection)),
+                              len(reopened._historical_rows(connection))), (5, 0, 0))
+        with self.assertRaisesRegex(HarnessError, "already reconciled"):
+            reopened.reconcile_successor_lineage(package_path=package, approval_path=approval)
+        del reopened
+
+        self.assertEqual(sha256_file(published), result["ledger_sha256"])
+        self._assert_refs(refs)
+        self.assertEqual({p.name for p in target.iterdir()}, before)
+        self.assertEqual(sha256_file(self.predecessor.path), self.predecessor_sha)
+
+    def test_T_d_directory_fsync_failure_after_rename_is_published_and_intact(self):
+        import errno
+        import stat
+
+        materializer, target = self._fixture_sources()
+        error_type = getattr(materializer, "PublishedDirectoryFsyncError", None)
+        self.assertTrue(isinstance(error_type, type) and issubclass(error_type, RuntimeError),
+                        "materializer lacks a dedicated published-but-not-durable diagnosis")
+        real_fsync = os.fsync
+
+        def failing_directory_fsync(descriptor):
+            if stat.S_ISDIR(os.fstat(descriptor).st_mode):
+                raise OSError(errno.EIO, "injected directory fsync failure")
+            return real_fsync(descriptor)
+
+        with mock.patch.object(materializer.os, "fsync", failing_directory_fsync):
+            with self.assertRaises(error_type) as caught:
+                materializer._publish_staged(materializer._materialize_tree)
+        error = caught.exception
+        self.assertIs(error.published, True)
+        self.assertEqual(Path(error.target), target)
+        self.assertEqual(error.result["root"], str(target))
+        self.assertIsInstance(error.__cause__, OSError)
+        self.assertEqual(error.__cause__.errno, errno.EIO)
+        self.assertTrue(target.is_dir())
+        self._assert_refs(self._durable_refs(target))
+        self.assertEqual(sha256_file(target / "ledger.sqlite3"), error.result["ledger_sha256"])
+        self.assertEqual(list(target.parent.glob(f".{target.name}.staging-*")), [])
+        with self.assertRaisesRegex(RuntimeError, "already exists"):
+            materializer._publish_staged(lambda staging: self.fail("builder must not run"))
+        self._assert_refs(self._durable_refs(target))
+
+
+class _PersistentWalConnection:
+    """sqlite3 connection proxy that keeps empty WAL/SHM files after close.
+
+    Models persistent-WAL SQLite builds: sidecars survive both an explicit close and
+    an implicit close at garbage collection.
+    """
+
+    def __init__(self, connection, database: Path):
+        self._connection = connection
+        self._database = database
+        self._closed = False
+
+    def __getattr__(self, name):
+        return getattr(self._connection, name)
+
+    def __setattr__(self, name, value):
+        if name.startswith("_"):
+            object.__setattr__(self, name, value)
+        else:
+            setattr(self._connection, name, value)
+
+    def __enter__(self):
+        self._connection.__enter__()
+        return self
+
+    def __exit__(self, *exc):
+        return self._connection.__exit__(*exc)
+
+    def close(self):
+        if self._closed:
+            return
+        self._closed = True
+        self._connection.close()
+        if self._database.parent.is_dir():
+            for suffix in ("-wal", "-shm"):
+                Path(str(self._database) + suffix).touch()
+
+    def __del__(self):
+        self.close()
+
+
 class EntrypointFailClosedTests(unittest.TestCase):
     def test_direct_and_cli_refuse_unapproved_successor_before_transport_or_ledger(self):
         from studio2.fase03 import technical_qualification_122b as tq
