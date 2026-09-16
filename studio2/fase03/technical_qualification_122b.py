@@ -131,6 +131,25 @@ def _validate_contract(config: dict[str, Any]) -> dict[str, Any]:
     return expected
 
 
+def _materialize_technical_pass(ledger: PilotLedger, results_dir: Path) -> dict[str, Any]:
+    """Idempotently close derived PASS evidence from the complete technical record."""
+    records = ledger.stage_records(TECHNICAL_STAGE)
+    summary = {
+        "artifact_version": "1",
+        "status": "PASS",
+        "stage": TECHNICAL_STAGE,
+        "records_sha256": digest(records),
+        "provider_requests": 1,
+        "scientific_use": "FORBIDDEN",
+    }
+    ledger.record_stage_outcome(
+        TECHNICAL_STAGE, outcome="PASS", artifact_sha256=digest(summary),
+        artifact=summary)
+    durable_write(Path(results_dir) / "technical_qualification_122b_summary.json",
+                  json.dumps(summary, indent=2, sort_keys=True) + "\n")
+    return summary
+
+
 def run(*, config_path: Path, provider_path: Path, ledger_path: Path, pilot_id: str,
         snapshot: Path, results_dir: Path,
         transport: Callable[[dict[str, Any]], dict[str, Any]] | None = None,
@@ -203,6 +222,7 @@ def run(*, config_path: Path, provider_path: Path, ledger_path: Path, pilot_id: 
         ledger.validate_tokenizer_accounting_record(request_id, record=stored["record"])
         if stored["record"].get("technical_pass") is not True:
             raise HarnessError("successor remains suspended by persisted technical STOP")
+        _materialize_technical_pass(ledger, Path(results_dir))
         ledger.verify_stage_success(TECHNICAL_STAGE)
         return stored["record"]
     if stored is None and leaf["status"] != "INTENT":
@@ -253,14 +273,7 @@ def run(*, config_path: Path, provider_path: Path, ledger_path: Path, pilot_id: 
         if record["identity_valid"] is True:
             ledger.suspend_technical(request_id, reason=";".join(record["failure_reasons"]))
         raise HarnessError("successor suspended by technical qualification STOP")
-    records = ledger.stage_records(TECHNICAL_STAGE)
-    summary = {"artifact_version": "1", "status": "PASS", "stage": TECHNICAL_STAGE,
-               "records_sha256": digest(records), "provider_requests": 1,
-               "scientific_use": "FORBIDDEN"}
-    ledger.record_stage_outcome(
-        TECHNICAL_STAGE, outcome="PASS", artifact_sha256=digest(summary), artifact=summary)
-    durable_write(Path(results_dir) / "technical_qualification_122b_summary.json",
-                  json.dumps(summary, indent=2, sort_keys=True) + "\n")
+    _materialize_technical_pass(ledger, Path(results_dir))
     return record
 
 

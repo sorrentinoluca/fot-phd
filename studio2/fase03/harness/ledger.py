@@ -95,12 +95,16 @@ def load_tokenizer_accounting_guard(snapshot: Path, *, template_kwargs=None):
 
 
 class PilotLedger:
-    def __init__(self, path: Path, *, pilot_id: str):
+    def __init__(self, path: Path, *, pilot_id: str, identity_path: Path | None = None):
         if not path.is_absolute():
             raise HarnessError("pilot ledger path must be absolute and shared across worktrees")
+        if identity_path is not None and not Path(identity_path).is_absolute():
+            raise HarnessError("pilot ledger identity path must be absolute")
         if not re.fullmatch(r"[A-Za-z0-9_.-]{8,120}", pilot_id):
             raise HarnessError("invalid pilot_id")
         self.path, self.pilot_id = path.resolve(), pilot_id
+        self.identity_path = (Path(identity_path).resolve()
+                              if identity_path is not None else self.path)
         path.parent.mkdir(parents=True, exist_ok=True)
         with closing(self._connect()) as c:
             version = c.execute("PRAGMA user_version").fetchone()[0]
@@ -221,7 +225,7 @@ class PilotLedger:
             from .d9 import validate_external_history_artifacts
             validated = validate_external_history_artifacts(
                 package_path, approval_path,
-                expected_ledger={'path': str(self.path), 'pilot_id': self.pilot_id})
+                expected_ledger={'path': str(self.identity_path), 'pilot_id': self.pilot_id})
             existing = self._historical_rows(c)
             if existing:
                 checked = self._validated_external_history(c)
@@ -265,14 +269,17 @@ class PilotLedger:
         return [] if exists is None else list(c.execute(
             "SELECT * FROM predecessor_lineage ORDER BY ordinal"))
 
-    def _validated_predecessor_lineage(self, c, *, package_path=None, approval_path=None):
+    def _validated_predecessor_lineage(
+            self, c, *, package_path=None, approval_path=None,
+            source_package_path=None, source_approval_path=None):
         """Reauthenticate every durable lineage field against its approved artifacts."""
         rows = self._lineage_rows(c)
         version = c.execute("PRAGMA user_version").fetchone()[0]
         events = [row for name, row in self._events(c).items()
                   if name.startswith("successor_lineage:")]
         if not rows and version in {2, 3} and not events:
-            if package_path is not None or approval_path is not None:
+            if (package_path is not None or approval_path is not None
+                    or source_package_path is not None or source_approval_path is not None):
                 raise HarnessError("successor lineage import is required before D9 use")
             return []
         if version != 4 or len(rows) != 5 or len(events) != 1:
@@ -294,10 +301,17 @@ class PilotLedger:
             raise HarnessError("successor lineage package reference differs from durable import")
         if approval_path is not None and Path(approval_path).resolve() != stored_approval_path:
             raise HarnessError("successor lineage approval reference differs from durable import")
+        validation_package_path = (Path(source_package_path).resolve()
+                                   if source_package_path is not None else stored_package_path)
+        validation_approval_path = (Path(source_approval_path).resolve()
+                                    if source_approval_path is not None else stored_approval_path)
         from .successor import validate_successor_lineage_artifacts
         validated = validate_successor_lineage_artifacts(
-            stored_package_path, stored_approval_path,
-            expected_ledger={"path": str(self.path), "pilot_id": self.pilot_id})
+            validation_package_path, validation_approval_path,
+            expected_ledger={"path": str(self.identity_path), "pilot_id": self.pilot_id})
+        if (validated["package_sha256"] != package_ref["sha256"]
+                or validated["approval_sha256"] != approval_ref["sha256"]):
+            raise HarnessError("successor lineage staged bytes differ from durable references")
         expected_detail = {
             "status": "RECONCILED", "count": 5,
             "package_sha256": validated["package_sha256"],
@@ -330,7 +344,9 @@ class PilotLedger:
                 raise HarnessError("successor lineage row differs from approved artifacts")
         return rows
 
-    def _classified_successor_lineage(self, c, *, package_path=None, approval_path=None):
+    def _classified_successor_lineage(
+            self, c, *, package_path=None, approval_path=None,
+            source_package_path=None, source_approval_path=None):
         """Classify from durable evidence, then authenticate the complete successor lineage.
 
         ``user_version`` is only one consistency field.  It cannot hide durable rows or
@@ -340,10 +356,13 @@ class PilotLedger:
         version = c.execute("PRAGMA user_version").fetchone()[0]
         events = [name for name in self._events(c)
                   if name.startswith("successor_lineage:")]
-        requested = package_path is not None or approval_path is not None
+        requested = (package_path is not None or approval_path is not None
+                     or source_package_path is not None or source_approval_path is not None)
         if rows or events or version == 4 or requested:
             return True, self._validated_predecessor_lineage(
-                c, package_path=package_path, approval_path=approval_path)
+                c, package_path=package_path, approval_path=approval_path,
+                source_package_path=source_package_path,
+                source_approval_path=source_approval_path)
         if version not in {2, 3}:
             raise HarnessError("ledger version is incompatible with durable lineage")
         return False, []
@@ -359,9 +378,16 @@ class PilotLedger:
     def _quota_predecessors(self, c):
         return self._quota_context(c)[1]
 
-    def reconcile_successor_lineage(self, *, package_path: Path, approval_path: Path):
+    def reconcile_successor_lineage(
+            self, *, package_path: Path, approval_path: Path,
+            durable_package_path: Path | None = None,
+            durable_approval_path: Path | None = None):
         """Import the reviewed predecessor S=5 once; never copy predecessor rows."""
         package_path, approval_path = Path(package_path).resolve(), Path(approval_path).resolve()
+        durable_package_path = (Path(durable_package_path).resolve()
+                                if durable_package_path is not None else package_path)
+        durable_approval_path = (Path(durable_approval_path).resolve()
+                                 if durable_approval_path is not None else approval_path)
         with self._transaction() as c:
             if self._lineage_rows(c) or any(
                     name.startswith("successor_lineage:") for name in self._events(c)):
@@ -373,7 +399,7 @@ class PilotLedger:
             from .successor import validate_successor_lineage_artifacts
             validated = validate_successor_lineage_artifacts(
                 package_path, approval_path,
-                expected_ledger={"path": str(self.path), "pilot_id": self.pilot_id})
+                expected_ledger={"path": str(self.identity_path), "pilot_id": self.pilot_id})
             c.execute("""CREATE TABLE predecessor_lineage (
                 ordinal INTEGER PRIMARY KEY CHECK(ordinal BETWEEN 1 AND 5),
                 request_id TEXT NOT NULL UNIQUE,
@@ -398,15 +424,19 @@ class PilotLedger:
                       "approval_sha256": validated["approval_sha256"],
                       "predecessor_sha256": validated["predecessor_sha256"],
                       "package_reference": {
-                          "path": str(package_path),
+                          "path": str(durable_package_path),
                           "sha256": validated["package_sha256"]},
                       "approval_reference": {
-                          "path": str(approval_path),
+                          "path": str(durable_approval_path),
                           "sha256": validated["approval_sha256"]}}
             self._event(c, "successor_lineage:" + validated["package_sha256"],
                         validated["package_sha256"], detail)
             c.execute("PRAGMA user_version=4")
-            self._validated_predecessor_lineage(c)
+            self._validated_predecessor_lineage(
+                c, package_path=durable_package_path,
+                approval_path=durable_approval_path,
+                source_package_path=package_path,
+                source_approval_path=approval_path)
             return {"status": "RECONCILED", "predecessor_requests": 5}
 
     def _events(self, c):
@@ -620,7 +650,16 @@ class PilotLedger:
                         expected = expected_messages.get(request['logical_id']) if request else None
                         if expected is not None:
                             messages = expected
-                    self._validate_accounting_event(c, request, messages=messages, guard=guard)
+                    # The rendering rule is an attribute of this authenticated durable
+                    # request, not of the caller that happens to revalidate the ledger.
+                    # Classify only after lineage, binding and request identity agree.
+                    requires_no_thinking = self._requires_no_thinking_accounting(c, request)
+                    event_guard = TokenizerAccountingGuard(
+                        guard.tokenizer, snapshot=guard.snapshot,
+                        template_kwargs=({'enable_thinking': False}
+                                         if requires_no_thinking else None))
+                    self._validate_accounting_event(
+                        c, request, messages=messages, guard=event_guard)
                 except Exception as exc:
                     reason = str(exc) if str(exc).startswith('FATAL_ACCOUNTING_ERROR') else (
                         f'FATAL_ACCOUNTING_ERROR: accounting evidence revalidation failed: {type(exc).__name__}: {exc}')
@@ -1431,7 +1470,7 @@ class PilotLedger:
         transport = sum(r['quota_kind'] == 'transport' for r in rows)
         planned_without_alternate = 152 + int(successor) + len(predecessors)
         planned_with_alternate = 160 + int(successor) + len(predecessors)
-        return dict(pilot_id=self.pilot_id, ledger_path=str(self.path),
+        return dict(pilot_id=self.pilot_id, ledger_path=str(self.identity_path),
                     requests_cumulative=len(rows)+len(predecessors), native_requests=len(rows),
                     historical_requests=len(predecessors),
                     predecessor_lineage_requests=len(predecessors) if successor else 0,

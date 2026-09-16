@@ -4,6 +4,7 @@ from __future__ import annotations
 from contextlib import closing
 from copy import deepcopy
 import difflib
+import inspect
 import json
 import multiprocessing
 import os
@@ -1352,6 +1353,224 @@ class SuccessorQuotaTests(SuccessorFixture):
         self.assertEqual(snapshot["planned_maximum_with_alternate"], 166)
         self.assertEqual(snapshot["hard_stop"], 200)
         self.assertEqual(snapshot["hard_stop_margin_at_planned_maximum"], 34)
+
+
+class BlockingCorrectionTests(SuccessorFixture):
+    class Tokenizer:
+        def apply_chat_template(self, messages, **kwargs):
+            return [1] * 11
+
+    def test_P1_02a_materializer_requires_explicit_gate_before_work(self):
+        from studio2.fase03 import materialize_successor_recovery as materializer
+
+        self.assertIn("argv", inspect.signature(materializer.main).parameters)
+        with mock.patch.object(materializer, "materialize") as execute:
+            with self.assertRaises(SystemExit):
+                materializer.main([])
+            execute.assert_not_called()
+            with self.assertRaises(SystemExit):
+                materializer.main(["--execute", "--acknowledge", "WRONG"])
+            execute.assert_not_called()
+            self.assertEqual(materializer.main([
+                "--execute", "--acknowledge", materializer.ACK]), 0)
+            execute.assert_called_once_with()
+
+    def test_P1_02b_staging_failure_never_publishes_partial_target(self):
+        from studio2.fase03 import materialize_successor_recovery as materializer
+
+        publish = getattr(materializer, "_publish_staged", None)
+        self.assertTrue(callable(publish), "materializer lacks atomic staged publication")
+        target = self.home / "fresh-successor"
+        with mock.patch.object(materializer, "TARGET_ROOT", target):
+            def fail(staging):
+                (staging / "partial").write_text("partial", encoding="utf-8")
+                raise RuntimeError("injected materialization failure")
+
+            with self.assertRaisesRegex(RuntimeError, "injected"):
+                publish(fail)
+            self.assertFalse(target.exists())
+            self.assertEqual(list(self.home.glob(".fresh-successor.staging-*")), [])
+
+            publish(lambda staging: (staging / "complete").write_text(
+                "complete", encoding="utf-8"))
+            self.assertEqual((target / "complete").read_text(encoding="utf-8"), "complete")
+            called = []
+            with self.assertRaisesRegex(RuntimeError, "already exists"):
+                publish(lambda staging: called.append(staging))
+            self.assertEqual(called, [])
+
+    def test_identity_sha256_has_one_source_backed_object_and_distinct_file_digests(self):
+        from studio2.fase03 import materialize_successor_recovery as materializer
+        from studio2.fase03.harness import d9
+
+        build = getattr(materializer, "_response_identity_binding", None)
+        self.assertTrue(callable(build), "response identity digest semantics are not explicit")
+        binding = build()
+        self.assertEqual(
+            binding["identity_sha256"],
+            "d180061348b15bb0322cb75ae700bb97b1328994c8d572c98741455d5b0ef579")
+        self.assertEqual(binding["qualification_supplement_file"]["sha256"],
+                         "dd9c53f0e4262fffe592a04298f8d7a4cfd428ccf5c487faacfe68ca357decb7")
+        self.assertEqual(binding["qualification_supplement_canonical_sha256"],
+                         "79515feb95b1048f67e8c01446be580dcbb73def188a13175b842b58a5356a40")
+        self.assertEqual(len({
+            binding["identity_sha256"],
+            binding["qualification_supplement_file"]["sha256"],
+            binding["qualification_supplement_canonical_sha256"],
+        }), 3)
+        service = {
+            "identity_sha256": binding["identity_sha256"],
+            "expected_response": {
+                "returned_model": "qwen3.5-122b",
+                "system_fingerprint": "vllm-0.27.1-934a3247"},
+        }
+        d9._validate_response_identity_binding(binding, service)
+        for field in ("identity_sha256", "qualification_supplement_canonical_sha256"):
+            mutated = deepcopy(binding)
+            mutated[field] = "0" * 64
+            with self.subTest(field=field), self.assertRaises(HarnessError):
+                d9._validate_response_identity_binding(mutated, service)
+
+    def test_P2_01_mixed_accounting_uses_authenticated_per_event_guard(self):
+        ledger = self.imported()
+        self._pass_technical(ledger)
+        producer = _binding("producer_conformity", 8)
+        for index, spec in enumerate(producer["requests"]):
+            spec["model"] = "qwen3.5-122b"
+            spec["prompt_sha256"] = sha256_text(f"producer-{index}")
+        ledger.bind_stage("producer_conformity", producer)
+        for index in range(8):
+            request_id = _reserve(ledger, "producer_conformity", index)
+            messages = [{"role": "user", "content": f"producer-{index}"}]
+            raw = {"id": f"producer-{index}", "model": "qwen3.5-122b",
+                   "system_fingerprint": "fp",
+                   "choices": [{"message": {"content": "{}"}, "finish_reason": "stop"}],
+                   "usage": {"prompt_tokens": 11, "completion_tokens": 1,
+                             "total_tokens": 12}}
+            ledger.save_raw(request_id, raw)
+            guard = TokenizerAccountingGuard(
+                self.Tokenizer(), template_kwargs={"enable_thinking": False})
+            ledger.account_producer_response(request_id, messages=messages, guard=guard)
+            identity = json.loads(ledger.request(request_id)["identity_json"])
+            record = {"request_id": request_id,
+                      "prompt_sha256": identity["prompt_sha256"],
+                      "response_id": raw["id"], "returned_model": raw["model"],
+                      "system_fingerprint": "fp", "identity_valid": True,
+                      "schema_valid_first_attempt": True, "finish_reason": "stop",
+                      "raw_output": "{}", "prompt_tokens": 11,
+                      "completion_tokens": 1, "total_tokens": 12}
+            ledger.bind_tokenizer_accounting_record(request_id, record=record)
+            ledger.complete_request(request_id, status="COMPLETED", record=record,
+                                    prompt_tokens=11, completion_tokens=1, total_tokens=12)
+        _outcome(ledger, "producer_conformity")
+
+        consumer = _binding("budget_probe", 3)
+        consumer["requests"][0]["model"] = "qwen3.5-122b"
+        consumer["requests"][0]["prompt_sha256"] = sha256_text("consumer")
+        ledger.bind_stage("budget_probe", consumer)
+        request_id = _reserve(ledger, "budget_probe", 0)
+        messages = [{"role": "user", "content": "consumer"}]
+        raw = {"id": "consumer", "model": "qwen3.5-122b", "system_fingerprint": "fp",
+               "choices": [{"message": {"content": "{}"}, "finish_reason": "stop"}],
+               "usage": {"prompt_tokens": 11, "completion_tokens": 1, "total_tokens": 12}}
+        ledger.save_raw(request_id, raw)
+        consumer_guard = TokenizerAccountingGuard(self.Tokenizer())
+        ledger.account_producer_response(request_id, messages=messages, guard=consumer_guard)
+        identity = json.loads(ledger.request(request_id)["identity_json"])
+        record = {"request_id": request_id, "prompt_sha256": identity["prompt_sha256"],
+                  "response_id": "consumer", "returned_model": "qwen3.5-122b",
+                  "system_fingerprint": "fp", "identity_valid": True,
+                  "schema_valid_first_attempt": True, "finish_reason": "stop",
+                  "raw_output": "{}", "prompt_tokens": 11,
+                  "completion_tokens": 1, "total_tokens": 12}
+        ledger.bind_tokenizer_accounting_record(request_id, record=record)
+        ledger.complete_request(request_id, status="COMPLETED", record=record,
+                                prompt_tokens=11, completion_tokens=1, total_tokens=12)
+
+        restarted = PilotLedger(ledger.path, pilot_id=ledger.pilot_id)
+        try:
+            restarted.validate_tokenizer_accounting_evidence(
+                TokenizerAccountingGuard(
+                    self.Tokenizer(), template_kwargs={"enable_thinking": False}))
+        except HarnessError as exc:
+            self.fail(f"mixed producer/consumer accounting produced a false STOP: {exc}")
+        self.assertIsNone(restarted.event("stop:tokenizer_accounting"))
+        self.assertEqual(restarted.snapshot()["native_requests"], 10)
+
+    def test_P2_02_resume_reconstructs_complete_technical_outcome_without_send(self):
+        from studio2.fase03 import technical_qualification_122b as tq
+        from studio2.fase03.harness import d9, guards
+        from studio2.fase03 import producer_probe
+
+        ledger = self.imported()
+        config_path = self.home / "config.json"
+        config_path.write_text(json.dumps({"d9": {
+            "technical_qualification_122b": tq.technical_contract()}}), encoding="utf-8")
+        provider_path = self.home / "provider.json"
+        provider_path.write_text("{}", encoding="utf-8")
+        provider = {
+            "name": "fixture-producer", "model": "qwen3.5-122b",
+            "base_url": "http://fixture.invalid/v1", "max_tokens": 2560,
+            "expected_max_model_len": 32768, "identity_sha256": "a" * 64,
+            "expected_response": {
+                "returned_model": "qwen3.5-122b", "system_fingerprint": "fp"},
+            "tokenizer": {},
+            "extra_body": {"chat_template_kwargs": {"enable_thinking": False}},
+        }
+        guard = TokenizerAccountingGuard(
+            self.Tokenizer(), template_kwargs={"enable_thinking": False})
+        raw = {
+            "id": "technical", "model": "qwen3.5-122b", "system_fingerprint": "fp",
+            "choices": [{"message": {"content": '{"status":"NO_THINKING_OK"}'},
+                         "finish_reason": "stop"}],
+            "usage": {"prompt_tokens": 11, "completion_tokens": 1, "total_tokens": 12},
+        }
+        patches = (
+            mock.patch.object(guards, "require_execution", return_value=None),
+            mock.patch.object(guards, "require_pilot_ledger", return_value=None),
+            mock.patch.object(guards, "verify_tokenizer", return_value=None),
+            mock.patch.object(producer_probe, "provider_config", return_value=provider),
+            mock.patch.object(d9, "validate_provider", return_value="122B"),
+            mock.patch.object(d9, "validate_binding", return_value=None),
+            mock.patch.object(tq, "load_tokenizer_accounting_guard", return_value=guard),
+        )
+        started = []
+        try:
+            for patcher in patches:
+                patcher.start()
+                started.append(patcher)
+            with mock.patch.object(
+                    PilotLedger, "record_stage_outcome",
+                    side_effect=RuntimeError("injected crash after completed technical record")):
+                with self.assertRaisesRegex(RuntimeError, "injected crash"):
+                    tq.run(
+                        config_path=config_path, provider_path=provider_path,
+                        ledger_path=ledger.path, pilot_id=ledger.pilot_id,
+                        snapshot=self.home, results_dir=self.home / "results",
+                        transport=lambda payload: deepcopy(raw))
+            restarted = PilotLedger(ledger.path, pilot_id=ledger.pilot_id)
+            before = restarted.snapshot()
+            calls = []
+            try:
+                record = tq.run(
+                    config_path=config_path, provider_path=provider_path,
+                    ledger_path=ledger.path, pilot_id=ledger.pilot_id,
+                    snapshot=self.home, results_dir=self.home / "results",
+                    transport=lambda payload: calls.append(payload), resume=True)
+            except HarnessError as exc:
+                self.fail("resume did not reconstruct the complete technical PASS: " + str(exc))
+            self.assertTrue(record["technical_pass"])
+            self.assertEqual(calls, [])
+            after = restarted.snapshot()
+            self.assertEqual(after["native_requests"], before["native_requests"])
+            self.assertEqual(after["requests_cumulative"], before["requests_cumulative"])
+            restarted.verify_stage_success(TECHNICAL_STAGE)
+            summary = json.loads((self.home / "results" /
+                                  "technical_qualification_122b_summary.json").read_text())
+            self.assertEqual(summary["status"], "PASS")
+        finally:
+            for patcher in reversed(started):
+                patcher.stop()
 
 
 class EntrypointFailClosedTests(unittest.TestCase):

@@ -131,7 +131,8 @@ def require_presentation(inventory: dict[str, Any], approval_ref: dict[str, Any]
 
 def require_pilot_ledger(config, ledger):
     expected = config.get('pilot_ledger', {})
-    if expected.get('pilot_id') != ledger.pilot_id or not expected.get('path') or Path(expected['path']).resolve() != ledger.path:
+    if (expected.get('pilot_id') != ledger.pilot_id or not expected.get('path')
+            or Path(expected['path']).resolve() != ledger.identity_path):
         raise HarnessError('pilot ledger identity/path is not covered by execution approval')
     from .d9 import validate_history
     with ledger._transaction() as connection:

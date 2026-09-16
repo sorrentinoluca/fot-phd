@@ -20,6 +20,12 @@ R4_TOKENIZER = {
     'chat_template_sha256': 'c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041'}
 HISTORY_SOURCE = {'sha256': 'c9adf2a8f07d9058257cc2c51a00064662874611875a715c716a1f1ea4828368',
                   'reported_requests': 4, 'completed_inferences': 3}
+RECOVERY_PROPOSAL_FILE_SHA256 = '77d72204d53e4706d7e93dc579532a9f148175e3d7daff75d0467c93eee03624'
+APPROVED_122B_IDENTITY_SHA256 = 'd180061348b15bb0322cb75ae700bb97b1328994c8d572c98741455d5b0ef579'
+QUALIFICATION_SUPPLEMENT_FILE_SHA256 = 'dd9c53f0e4262fffe592a04298f8d7a4cfd428ccf5c487faacfe68ca357decb7'
+QUALIFICATION_SUPPLEMENT_CANONICAL_SHA256 = '79515feb95b1048f67e8c01446be580dcbb73def188a13175b842b58a5356a40'
+IDENTITY_SHA256_SEMANTICS = (
+    'CANONICAL_JSON_SHA256_OF_SOURCE_PROPOSAL_QUALIFICATION_SUPPLEMENT_CANDIDATE')
 
 
 def fail(message):
@@ -72,6 +78,47 @@ def read_bytes_reference(ref, role):
     if sha256_bytes(data) != ref['sha256']:
         fail(role + ' bytes changed')
     return data
+
+
+def _validate_response_identity_binding(binding, service):
+    """Authenticate identity_sha256 to one named source object, not a file digest."""
+    required = {
+        'artifact_version', 'identity_sha256_semantics', 'source_proposal',
+        'source_object_key', 'identity_sha256', 'qualification_supplement_file',
+        'qualification_supplement_canonical_sha256',
+    }
+    if not isinstance(binding, dict) or set(binding) != required:
+        fail('response identity binding fields are incomplete')
+    if (binding.get('artifact_version') != 'RESPONSE_IDENTITY_BINDING_1'
+            or binding.get('identity_sha256_semantics') != IDENTITY_SHA256_SEMANTICS
+            or binding.get('source_object_key') != 'qualification_supplement_candidate'):
+        fail('response identity binding semantics differ from the reviewed proposal')
+    proposal_ref = binding.get('source_proposal')
+    if (not isinstance(proposal_ref, dict)
+            or proposal_ref.get('sha256') != RECOVERY_PROPOSAL_FILE_SHA256):
+        fail('response identity source proposal is not the reviewed file')
+    proposal = read_reference(proposal_ref, 'response identity source proposal')
+    candidate = proposal.get(binding['source_object_key'])
+    identity_sha256 = binding.get('identity_sha256')
+    if (not isinstance(candidate, dict)
+            or identity_sha256 != APPROVED_122B_IDENTITY_SHA256
+            or proposal.get('qualification_supplement_canonical_sha256') != identity_sha256
+            or _digest(candidate) != identity_sha256
+            or service.get('identity_sha256') != identity_sha256
+            or candidate.get('allowed_identity_update') != service.get('expected_response')):
+        fail('identity_sha256 does not authenticate the reviewed proposal object')
+    supplement_ref = binding.get('qualification_supplement_file')
+    if (not isinstance(supplement_ref, dict)
+            or supplement_ref.get('sha256') != QUALIFICATION_SUPPLEMENT_FILE_SHA256):
+        fail('qualification supplement file digest differs from the reviewed bytes')
+    supplement = read_reference(supplement_ref, 'qualification supplement')
+    if (binding.get('qualification_supplement_canonical_sha256')
+            != QUALIFICATION_SUPPLEMENT_CANONICAL_SHA256
+            or _digest(supplement) != QUALIFICATION_SUPPLEMENT_CANONICAL_SHA256
+            or {key: supplement.get(key) for key in ('returned_model', 'system_fingerprint')}
+            != service.get('expected_response')):
+        fail('qualification supplement canonical object differs from reviewed evidence')
+    return binding
 
 
 def _read_once(reference_or_path, role):
@@ -286,6 +333,7 @@ def validate_config(config):
         fail('canonical R4 tokenizer must remain separate and pinned')
     from .guards import require_presentation
     require_presentation({'presentation':{'author_decision':'accepted','ordered_labels':d.get('presentation_order',[])}}, config.get('presentation_approval',{}))
+    successor = d.get('successor_lineage') is not None
     services = d.get('services')
     if not isinstance(services, dict) or set(services) != {'122B', '27B'}:
         fail('exactly two documented services required')
@@ -314,6 +362,8 @@ def validate_config(config):
         expected = {k:v for k,v in service.items() if k != 'documentation'}
         if doc.get('service') != expected:
             fail('documented service differs from execution configuration')
+        if successor and role == '122B':
+            _validate_response_identity_binding(doc.get('identity_binding'), service)
         from .guards import response_identity_valid
         response_identity_valid({}, service['expected_response'])
     c = services['122B']; candidate = config.get('candidate', {})
@@ -376,7 +426,7 @@ def validate_history(config, ledger, connection):
     if h.get('status') == 'MAPPING_REVIEWED':
         validated = validate_external_history_artifacts(
             d['history_reconciliation'], d.get('history_approval'),
-            expected_ledger={'path': str(ledger.path), 'pilot_id': ledger.pilot_id})
+            expected_ledger={'path': str(ledger.identity_path), 'pilot_id': ledger.pilot_id})
         rows = ledger._validated_external_history(connection)
         if len(rows) != HISTORY_SOURCE['reported_requests']:
             fail('external historical consumption has not been reconciled')
@@ -439,7 +489,7 @@ def validate_binding(binding, stage, ledger, connection):
     config = binding['execution_config']
     from .guards import require_execution
     require_execution(config)
-    expected_ledger = {'path':str(ledger.path), 'pilot_id':ledger.pilot_id}
+    expected_ledger = {'path':str(ledger.identity_path), 'pilot_id':ledger.pilot_id}
     if config.get('pilot_ledger') != expected_ledger:
         fail('binding belongs to another pilot ledger')
     validate_history(config, ledger, connection)
