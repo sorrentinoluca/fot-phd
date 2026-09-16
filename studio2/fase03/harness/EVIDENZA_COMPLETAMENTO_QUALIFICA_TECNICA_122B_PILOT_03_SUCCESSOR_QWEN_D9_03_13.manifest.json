@@ -1,0 +1,131 @@
+{
+  "artifact_version": "TECHNICAL_QUALIFICATION_122B_COMPLETION_EVIDENCE_1",
+  "created_utc": "2026-09-16T22:43:12Z",
+  "verdict": "TECHNICAL PASS — READY FOR REVIEW (author)",
+  "status": "PASS",
+  "pilot_id": "studio2-fase03-d9-pilot-03",
+  "provenance": {
+    "authorized_code_commit": "59293f9c89c3c826b6c120239dd34b4bac69ae38",
+    "execution_head": "8d8ac603eeeadcf7c92fd07ca33993f51580239c",
+    "technical_wrapper_same_as_authorized_code": true,
+    "superseded_stop_commit": "8d8ac603eeeadcf7c92fd07ca33993f51580239c",
+    "superseded_stop_report_sha256": "8942c474cce90ec42eb30d1d91dd6cba40b032a6cccb378a748aea40a1e3dbd3",
+    "superseded_stop_manifest_sha256": "61377114cf8dd27657f5e0c9d801911f205f6b393d5aff29d1c955ad32d4a39c",
+    "superseded_stop_log_sha256": "8af450babb1cd268d36d7d9e7cce1f2faee2b86367f412420cf6e5b8f4c9671e"
+  },
+  "authorization": {
+    "configuration_sha256": "0c3cd34ef137cae4388e7868e4aa1e8d9bf494ab563fcabbdbcdc66bc7fe0606",
+    "authorization_sha256": "7dcec1055696fa26b9baad40f1937f4ca55dc450a9f277ca9b01271b6ff1c875",
+    "provider_sha256": "04b2c948c586c9ae4e38d9d0c50d36aad86a5b609a609d94c2d31fde7c2a8bf0",
+    "maximum_native_requests": 1,
+    "retry_authorized": false,
+    "resume_used": false,
+    "t9_authorized": false,
+    "model_27b_authorized": false,
+    "remediation_authorized": false
+  },
+  "preflight": {
+    "fix_session_non_generative_http_requests": 3,
+    "models": {
+      "status": 200,
+      "observed_model": "qwen3.5-122b",
+      "observed_root": "Qwen/Qwen3.5-122B-A10B-FP8",
+      "observed_max_model_len": 131072,
+      "system_fingerprint": null
+    },
+    "malformed_version_path": {
+      "status": 404,
+      "effect": "none; no OpenAI client, generation, token or ledger mutation"
+    },
+    "version": {
+      "status": 200,
+      "observed": "0.27.1"
+    },
+    "fingerprint_attestation_channel": "single authorized technical response"
+  },
+  "execution": {
+    "wrapper_started": true,
+    "wrapper_start_utc": "2026-09-16T22:41:48Z",
+    "wrapper_end_utc": "2026-09-16T22:41:55Z",
+    "wrapper_exit_code": 0,
+    "sys_executable": "/opt/anaconda3/bin/python3",
+    "python_version": "3.13.9",
+    "machine": "arm64",
+    "client_constructed": true,
+    "native_requests": 1,
+    "generation_requests": 1,
+    "retry": false,
+    "resume": false,
+    "t9_calls": 0,
+    "model_27b_calls": 0,
+    "remediation_calls": 0,
+    "request_id": "ad50077666b5504667ccbb63a5a84c5f6f151695aea1bd10619febcb2c779e62",
+    "response_id": "chatcmpl-ad06852d4d862c38"
+  },
+  "technical_result": {
+    "returned_model": "qwen3.5-122b",
+    "system_fingerprint": "vllm-0.27.1-934a3247",
+    "identity_valid": true,
+    "schema_valid_first_attempt": true,
+    "reasoning_empty": true,
+    "finish_reason": "stop",
+    "technical_pass": true,
+    "prompt_tokens": 42,
+    "completion_tokens": 10,
+    "total_tokens": 52,
+    "raw_response_sha256": "be93aab00d67415e6500bf80125f5b8bee6586756554cedb4850ba97181c2113",
+    "record_sha256": "40901f53e648dc56e83b61841442790af7140bb6ef9134615693167ca5ac8566",
+    "raw_response_versioned": false,
+    "scientific_use": "FORBIDDEN"
+  },
+  "ledger_state": {
+    "pilot03_sha256_before": "8af057b5e295a21a3aa178e414673f4fe6e76979670a2b74a5a487606b4e01f1",
+    "pilot03_sha256_after": "619a66c7bb81477e302a362ebbaf7bae96adb98411a532f9ae9b9465ab52c801",
+    "pilot001_sha256_before": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+    "pilot001_sha256_after": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+    "user_version": 4,
+    "requests": 1,
+    "responses": 1,
+    "receipts": 1,
+    "stages": 1,
+    "events": 4,
+    "native_requests": 1,
+    "request_status": "COMPLETED",
+    "quota_kind": "technical",
+    "stage_binding_sha256": "c2be8e58efd7dc00ba4f2435af7ce7a36e97a50eca09a36f2c58fdcbec3f00ce",
+    "stage_outcome": "PASS",
+    "stage_outcome_sha256": "cdf5247d6cd6aa5c36e254edf2dcdd3b919b375ec0343429f12c0e86f149b672",
+    "inspection": "sqlite URI mode=ro&immutable=1; no PilotLedger",
+    "lsof_final_empty": true,
+    "pilot03_sidecars_absent": true
+  },
+  "budget": {
+    "predecessor_lineage_provider_requests_charged_once": 5,
+    "technical_qualification_planned": 1,
+    "technical_qualification_consumed": 1,
+    "cumulative_planned_max": 166,
+    "hard_stop": 200,
+    "planned_margin": 34
+  },
+  "network": {
+    "vpn_route": "preexisting user session",
+    "tunnel_27b_state": "active and working by author statement",
+    "tunnel_27b_used_or_modified": false,
+    "server_enea_json_read": false
+  },
+  "private_artifacts": {
+    "/Users/luker/fot-tep/studio2/fase03/api_key.json": "e24bbbd9340ed1da6ba5db036aa546f246975f70cbf6ba6de59046244e24865a",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/pilot_d9_successor_candidate_03_13.private.json": "0c3cd34ef137cae4388e7868e4aa1e8d9bf494ab563fcabbdbcdc66bc7fe0606",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/technical_execution_authorization_03_13.private.json": "7dcec1055696fa26b9baad40f1937f4ca55dc450a9f277ca9b01271b6ff1c875",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/producer_122b_successor_03_13.private.json": "04b2c948c586c9ae4e38d9d0c50d36aad86a5b609a609d94c2d31fde7c2a8bf0",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/ledger.sqlite3": "619a66c7bb81477e302a362ebbaf7bae96adb98411a532f9ae9b9465ab52c801",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/qualification/technical_qualification_122b_summary.json": "3a3eaf15b6208eb86a697dcc9683677c39bc02d161529317c1a8a3cf8b33210d",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/qualification/technical_qualification_122b_journal.json": "f6e44bd4e7680eabdc17a2fc72a9afb376c78ba419bd3ca52e6182c4288be60b",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb"
+  },
+  "versioned_artifacts": {
+    "studio2/fase03/harness/EVIDENZA_COMPLETAMENTO_QUALIFICA_TECNICA_122B_PILOT_03_SUCCESSOR_QWEN_D9_03_13.md": "4c3363e894ef384f23dbc7b6995eec0708e5cf2a09c1bbedf412d6b3d6b2be2b",
+    "studio2/fase03/harness/logs_qualifica_tecnica_pilot_03/gate_b_wrapper_execution.log": "4a090264e51bf9e37844af69611cdbdce43aede13947836969e894f85dd9e047"
+  },
+  "self_sha256": "excluded_to_avoid_self_reference"
+}
