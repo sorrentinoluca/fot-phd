@@ -1,0 +1,42 @@
+{
+  "artifact_version": "1",
+  "status": "TEST_FIRST_OFFLINE_IMPLEMENTATION_CONTRACT",
+  "successor": {
+    "pilot_id": "studio2-fase03-d9-pilot-002",
+    "predecessor_pilot_id": "studio2-fase03-d9-pilot-001",
+    "predecessor_sha256": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+    "lineage_count": 5,
+    "lineage_import": "EXACTLY_ONCE_NON_TRANSITIVE",
+    "ledger_copy_forbidden": true
+  },
+  "technical_stage": {
+    "name": "technical_qualification_122b",
+    "limit": 1,
+    "before": "producer_conformity",
+    "t9_membership": false,
+    "scientific_use": "FORBIDDEN",
+    "retries": 0
+  },
+  "budget": {
+    "predecessor_charged_once": 5,
+    "technical_planned": 1,
+    "future_planned_maximum_with_shared_reserve": 161,
+    "cumulative_planned_maximum": 166,
+    "hard_stop": 200,
+    "non_spendable_margin": 34,
+    "remediation_consumed": 0,
+    "remediation_authorized": false
+  },
+  "test_first": {
+    "prior_candidate_commit": "6e15fe59fe7b2f69c3e74e0bbf344985fa696c36",
+    "initial_result": "RED",
+    "tests_run": 10,
+    "errors": 10,
+    "expected_reason": "successor lineage and technical qualification interfaces absent"
+  },
+  "network_activity": {
+    "provider_calls": 0,
+    "tokens": 0,
+    "tunnels": 0
+  }
+}

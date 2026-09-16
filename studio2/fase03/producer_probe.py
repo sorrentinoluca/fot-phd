@@ -64,7 +64,7 @@ def provider_config(path: Path | None) -> dict[str, Any]:
     value = load_json(path)
     required = {"name", "base_url", "model", "max_tokens",
                 "expected_max_model_len", "identity_sha256", "expected_response", "tokenizer"}
-    if not isinstance(value, dict) or not required <= set(value) or set(value) - required - {'temperature','seed','thinking_token_budget','tokenizer_accounting'}:
+    if not isinstance(value, dict) or not required <= set(value) or set(value) - required - {'temperature','seed','thinking_token_budget','tokenizer_accounting','extra_body'}:
         raise HarnessError(f"producer provider config keys must be {sorted(required)}")
     if not isinstance(value["identity_sha256"], str) or len(value["identity_sha256"]) != 64:
         raise HarnessError("provider identity requires a full SHA-256")
@@ -73,6 +73,8 @@ def provider_config(path: Path | None) -> dict[str, Any]:
         expected = {'snapshot', 'mode'}
         if not isinstance(accounting, dict) or set(accounting) != expected or accounting.get('snapshot') != 'Qwen/Qwen3.5-122B-A10B-FP8@a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9' or accounting.get('mode') != 'exact_prompt_tokens':
             raise HarnessError('122B producer requires the frozen tokenizer accounting guard')
+    from studio2.fase03.harness.d9 import producer_extra_body
+    producer_extra_body(value.get('extra_body'), model_role='122B' if value['model'] == 'qwen3.5-122b' else '27B')
     return value
 
 
@@ -117,7 +119,9 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
     accounting_guard = None
     if 'tokenizer_accounting' in provider:
         from studio2.fase03.harness.ledger import load_tokenizer_accounting_guard
-        accounting_guard = load_tokenizer_accounting_guard(snapshot)
+        template_kwargs = (provider.get('extra_body') or {}).get('chat_template_kwargs')
+        accounting_guard = load_tokenizer_accounting_guard(
+            snapshot, template_kwargs=template_kwargs)
     validator = load_validator(schema_dir)
     assert_context_compatible(validator, context_from_inventory(inventory))
     count = r4_counter(preflight, offline_token_counter)
@@ -167,7 +171,13 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
                       response_format={'type': 'json_schema', 'json_schema': {'name': 'study2_insight_pair', 'strict': True, 'schema': response_schema(fixed, preflight)}})
         validate_provider(preflight, provider, stage, file_sha256=sha256_file(provider_path))
         count = r4_counter(preflight, offline_token_counter)
-        kwargs.update(generation_kwargs({k:provider[k] for k in ('max_tokens','temperature','seed','thinking_token_budget') if k in provider}, model_role=role))
+        generated = generation_kwargs({k:provider[k] for k in ('max_tokens','temperature','seed','thinking_token_budget') if k in provider}, model_role=role)
+        if provider.get('extra_body') is not None:
+            if 'extra_body' in generated:
+                raise HarnessError('producer rendering control cannot be merged with another extra_body')
+            from studio2.fase03.harness.d9 import producer_extra_body
+            generated['extra_body'] = producer_extra_body(provider['extra_body'], model_role=role)
+        kwargs.update(generated)
         def transport(transmitted_messages=None):
             ledger.bind_stage(stage, binding)
             require_execution(preflight)

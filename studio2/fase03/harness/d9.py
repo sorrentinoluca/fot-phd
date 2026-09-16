@@ -11,7 +11,8 @@ from .common import HarnessError, canonical_json, sha256_bytes
 
 ROLES = {'producer': '122B', 'consumer': '122B', 'alternate': '27B'}
 STAGE_MODELS = {'producer_conformity': '122B', 'producer_remediation': '122B',
-                'alternate_conformity': '27B', 'budget_probe': '122B', 'stability_gate': '122B'}
+                'alternate_conformity': '27B', 'budget_probe': '122B',
+                'stability_gate': '122B', 'technical_qualification_122b': '122B'}
 R4_TOKENIZER = {
     'revision': '017b9c7af6b5689d5dd426a76e0bc077eb5ca20a',
     'tokenizer_json_sha256': '0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3',
@@ -245,6 +246,16 @@ def generation_kwargs(generation, *, model_role):
     return result
 
 
+def producer_extra_body(value, *, model_role):
+    """Allow one reviewed rendering control on the 122B producer, never a pass-through."""
+    if value is None:
+        return None
+    expected = {'chat_template_kwargs': {'enable_thinking': False}}
+    if model_role != '122B' or value != expected:
+        fail('producer extra_body must be exactly chat_template_kwargs.enable_thinking=false for 122B')
+    return deepcopy(expected)
+
+
 def validate_config(config):
     d = config.get('d9')
     if not isinstance(d, dict) or d.get('roles') != ROLES:
@@ -301,6 +312,18 @@ def validate_config(config):
         fail('producer configurations must be separately pinned by role')
     if set(config.get('approved_producer_config_sha256', [])) != set(providers.values()):
         fail('producer allowlist differs from D9 roles')
+    lineage_ref = d.get('successor_lineage')
+    if lineage_ref is not None:
+        if 'history_reconciliation' in d or 'history_approval' in d:
+            fail('successor lineage cannot be combined with historical reconciliation')
+        approval_ref = d.get('successor_lineage_approval')
+        read_bytes_reference(lineage_ref, 'successor lineage package')
+        read_bytes_reference(approval_ref, 'successor lineage approval')
+        from .successor import validate_successor_lineage_artifacts
+        validate_successor_lineage_artifacts(
+            Path(lineage_ref['path']), Path(approval_ref['path']),
+            expected_ledger=config.get('pilot_ledger'))
+        return d
     history_ref = d.get('history_reconciliation')
     history = read_reference(history_ref, 'historical consumption reconciliation')
     if history.get('status') == 'RECONCILED':
@@ -321,6 +344,19 @@ def validate_config(config):
 
 def validate_history(config, ledger, connection):
     d = validate_config(config)
+    if d.get('successor_lineage') is not None:
+        lineage_ref, approval_ref = d['successor_lineage'], d.get('successor_lineage_approval')
+        read_bytes_reference(lineage_ref, 'successor lineage package')
+        read_bytes_reference(approval_ref, 'successor lineage approval')
+        from .successor import validate_successor_lineage_artifacts
+        validated = validate_successor_lineage_artifacts(
+            Path(lineage_ref['path']), Path(approval_ref['path']),
+            expected_ledger={'path': str(ledger.path), 'pilot_id': ledger.pilot_id})
+        rows = ledger._validated_predecessor_lineage(connection)
+        if len(rows) != 5 or any(
+                row['package_sha256'] != validated['package_sha256'] for row in rows):
+            fail('successor lineage differs from the reconciled predecessor package')
+        return
     h = read_reference(d['history_reconciliation'], 'historical consumption reconciliation')
     if h.get('status') == 'MAPPING_REVIEWED':
         validated = validate_external_history_artifacts(
@@ -354,7 +390,8 @@ def validate_history(config, ledger, connection):
 
 def validate_provider(config, provider, stage, *, file_sha256):
     d = validate_config(config); role = model_for_stage(stage)
-    if stage not in {'producer_conformity', 'producer_remediation', 'alternate_conformity'}:
+    if stage not in {'technical_qualification_122b', 'producer_conformity',
+                     'producer_remediation', 'alternate_conformity'}:
         fail('not a producer stage')
     if stage == 'alternate_conformity' and d['alternate_placement'] != 'pilot':
         fail('alternate conformance is deferred; no pilot calls authorized')
@@ -368,6 +405,7 @@ def validate_provider(config, provider, stage, *, file_sha256):
             fail('producer does not match its documented role: ' + key)
     generation = {k:provider[k] for k in ('max_tokens','temperature','seed','thinking_token_budget') if k in provider}
     generation_kwargs(generation, model_role=role)
+    producer_extra_body(provider.get('extra_body'), model_role=role)
     if provider['max_tokens'] > service['max_output_tokens']:
         fail('producer output exceeds documented limit')
     return role
@@ -392,7 +430,8 @@ def validate_binding(binding, stage, ledger, connection):
         ledger._successful(connection, 'alternate_conformity')
     if any(s['model'] != service['model'] for s in binding.get('requests', [])):
         fail('persisted request model differs from the stage role')
-    producer_stage = stage in {'producer_conformity', 'producer_remediation', 'alternate_conformity'}
+    producer_stage = stage in {'technical_qualification_122b', 'producer_conformity',
+                               'producer_remediation', 'alternate_conformity'}
     if producer_stage and 'provider' not in binding:
         fail('producer binding lacks its certified provider')
     if not producer_stage and any(spec['producer'] != 'consumer' for spec in binding['requests']):
@@ -433,13 +472,19 @@ def accounting(ledger):
     by_role={key:0 for key in ROLES}; by_model={'122B':0, '27B':0}
     with ledger._transaction() as c:
         rows=ledger._validated_attempt_inventory(c)
-        historical=ledger._validated_external_history(c)
+        historical=ledger._quota_predecessors(c)
         for row in rows:
             binding=ledger._binding(c,row['stage'])
             if 'execution_config' not in binding:
                 fail('unmapped historical ledger requires separate reviewed reconciliation')
-            role='alternate' if row['stage']=='alternate_conformity' else ('consumer' if row['stage'] in {'budget_probe','stability_gate'} else 'producer')
-            by_role[role]+=1;by_model[ROLES[role]]+=1
+            role=('technical_qualification' if row['stage']=='technical_qualification_122b'
+                  else 'alternate' if row['stage']=='alternate_conformity'
+                  else 'consumer' if row['stage'] in {'budget_probe','stability_gate'}
+                  else 'producer')
+            if role == 'technical_qualification' and role not in by_role:
+                by_role[role] = 0
+            by_role[role] += 1
+            by_model['122B' if role == 'technical_qualification' else ROLES[role]] += 1
     return {'requests_cumulative':len(rows)+len(historical),'native_requests':len(rows),
             'historical_external':len(historical),'by_role':by_role,'by_nominal_model':by_model,
             'unit':'durable intents, including uncertain and retry attempts'}

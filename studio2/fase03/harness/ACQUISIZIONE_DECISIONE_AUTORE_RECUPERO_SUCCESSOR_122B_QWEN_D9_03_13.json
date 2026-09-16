@@ -1,0 +1,35 @@
+{
+  "artifact_version": "1",
+  "status": "AUTHOR_DECISION_ACQUIRED",
+  "recorded_date": "2026-09-16",
+  "author": "REDACTED_STUDY_AUTHOR",
+  "decision_text": "ACCEPT RECUPERO STOP 122B D9 03.13 — antecedente qualificazione — predecessor 4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb — S=5 — successor lineage exactly-once — no-thinking solo producer — qualifica tecnica separata 1 chiamata — T9 invariata — remediation non consumata — massimo 166/200 — review 849e5979fa6459b4eaf505bc298c44a7dbd0e40ef9e11e26c521c23fe70bce41",
+  "selection": {
+    "t9_classification": "ANTECEDENT_QUALIFICATION_CONFIGURATION_FAILURE",
+    "predecessor_sha256": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+    "cumulative_lineage_requests": 5,
+    "lineage_import": "EXACTLY_ONCE_SUCCESSOR_ONLY",
+    "technical_qualification_calls": 1,
+    "producer_rendering_control": {
+      "chat_template_kwargs": {
+        "enable_thinking": false
+      }
+    },
+    "consumer_probe_gate": "UNCHANGED",
+    "t9": "UNCHANGED_AND_NOT_CONSUMED_BY_TECHNICAL_STAGE",
+    "remediation": "NOT_CONSUMED_NOT_AUTHORIZED",
+    "cumulative_planned_maximum": 166,
+    "hard_stop": 200,
+    "non_spendable_margin": 34
+  },
+  "independent_review": {
+    "repository_copy": "studio2/fase03/harness/reviews/VERIFICA_PROPOSTA_RECUPERO_STOP_122B_QWEN_D9_03_13.md",
+    "sha256": "849e5979fa6459b4eaf505bc298c44a7dbd0e40ef9e11e26c521c23fe70bce41",
+    "verdict_before_author_choice": "OK CON SCELTA AUTORE PENDENTE"
+  },
+  "authorization": {
+    "implementation_and_offline_materialization": true,
+    "provider_calls": false,
+    "execution_authorization_created": false
+  }
+}

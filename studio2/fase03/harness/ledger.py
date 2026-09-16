@@ -19,8 +19,13 @@ from .common import (HarnessError, canonical_json, load_json, sha256_bytes,
                      sha256_file, sha256_text, tokenized_length)
 
 HASH = re.compile(r"^[0-9a-f]{64}$")
-STAGES = {"producer_conformity", "producer_remediation", "alternate_conformity", "budget_probe", "stability_gate"}
-BASE_LIMITS = dict(producer_conformity=8, producer_remediation=8, alternate_conformity=8, budget_probe=9, stability_gate=120)
+TECHNICAL_STAGE = "technical_qualification_122b"
+STAGES = {"producer_conformity", "producer_remediation", "alternate_conformity",
+          "budget_probe", "stability_gate"}
+ACTIVE_STAGES = STAGES | {TECHNICAL_STAGE}
+BASE_LIMITS = {TECHNICAL_STAGE: 1, "producer_conformity": 8,
+               "producer_remediation": 8, "alternate_conformity": 8,
+               "budget_probe": 9, "stability_gate": 120}
 DIAGNOSES = {"structure", "identifiers", "cap", "leakage"}
 TOKENIZER_ACCOUNTING_SNAPSHOT = "Qwen/Qwen3.5-122B-A10B-FP8@a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9"
 TOKENIZER_ACCOUNTING_MODEL = "qwen3.5-122b"
@@ -37,18 +42,23 @@ def _utc_now():
 class TokenizerAccountingGuard:
     """The one 122B accounting rule, deliberately bound to its frozen client snapshot."""
 
-    def __init__(self, local_tokenizer, *, snapshot=TOKENIZER_ACCOUNTING_SNAPSHOT):
+    def __init__(self, local_tokenizer, *, snapshot=TOKENIZER_ACCOUNTING_SNAPSHOT,
+                 template_kwargs=None):
         if snapshot != TOKENIZER_ACCOUNTING_SNAPSHOT:
             raise HarnessError("FATAL_ACCOUNTING_ERROR: tokenizer snapshot is not the frozen 122B client")
+        if template_kwargs not in (None, {}, {"enable_thinking": False}):
+            raise HarnessError("FATAL_ACCOUNTING_ERROR: unsupported chat-template kwargs")
         self.tokenizer = local_tokenizer
         self.snapshot = snapshot
+        self.template_kwargs = dict(template_kwargs or {})
 
     def validate_producer_response(self, messages, api_response):
         if not isinstance(messages, list):
             raise HarnessError("FATAL_ACCOUNTING_ERROR: messages transmitted to provider are not a list")
         try:
             local = self.tokenizer.apply_chat_template(
-                messages, tokenize=True, add_generation_prompt=True)
+                messages, tokenize=True, add_generation_prompt=True,
+                **self.template_kwargs)
             local_prompt_tokens = tokenized_length(local)
         except Exception as exc:
             raise HarnessError(
@@ -67,7 +77,7 @@ class TokenizerAccountingGuard:
         return {"local_prompt_tokens": local_prompt_tokens, "server_prompt_tokens": server_prompt_tokens}
 
 
-def load_tokenizer_accounting_guard(snapshot: Path):
+def load_tokenizer_accounting_guard(snapshot: Path, *, template_kwargs=None):
     """Load only local frozen assets; callers remain responsible for file-hash guards."""
     try:
         from transformers import AutoTokenizer
@@ -75,7 +85,7 @@ def load_tokenizer_accounting_guard(snapshot: Path):
             str(snapshot), local_files_only=True, trust_remote_code=False)
     except Exception as exc:
         raise HarnessError(f"FATAL_ACCOUNTING_ERROR: cannot load frozen tokenizer/template: {exc}") from exc
-    return TokenizerAccountingGuard(tokenizer)
+    return TokenizerAccountingGuard(tokenizer, template_kwargs=template_kwargs)
 
 
 class PilotLedger:
@@ -88,7 +98,7 @@ class PilotLedger:
         path.parent.mkdir(parents=True, exist_ok=True)
         with closing(self._connect()) as c:
             version = c.execute("PRAGMA user_version").fetchone()[0]
-            if version not in {0, 2, 3}:
+            if version not in {0, 2, 3, 4}:
                 raise HarnessError("unsupported ledger version")
             if version == 0 and c.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchone():
                 raise HarnessError("legacy ledger requires explicit reviewed migration; preserved without changes")
@@ -150,10 +160,10 @@ class PilotLedger:
         coverage. All stages contribute to the shared reserve, not only the requested one.
         The caller holds the transaction through its decision and any insertion.
         """
-        self._validated_external_history(c)
+        self._quota_predecessors(c)
         rows = self._rows(c)
         for stage in sorted({row['stage'] for row in rows}):
-            if stage not in STAGES:
+            if stage not in ACTIVE_STAGES:
                 raise HarnessError('persisted attempt has an unknown stage')
             self._validate_attempts(c, self._binding(c, stage),
                                     [row for row in rows if row['stage'] == stage])
@@ -242,6 +252,109 @@ class PilotLedger:
             self._validated_external_history(c)
             return {'status': 'RECONCILED', 'historical_requests': len(validated['rows'])}
 
+    def _lineage_rows(self, c):
+        exists = c.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='table' AND name='predecessor_lineage'"
+        ).fetchone()
+        return [] if exists is None else list(c.execute(
+            "SELECT * FROM predecessor_lineage ORDER BY ordinal"))
+
+    def _validated_predecessor_lineage(self, c):
+        rows = self._lineage_rows(c)
+        version = c.execute("PRAGMA user_version").fetchone()[0]
+        events = [row for name, row in self._events(c).items()
+                  if name.startswith("successor_lineage:")]
+        if not rows and version in {2, 3} and not events:
+            return []
+        if version != 4 or len(rows) != 5 or len(events) != 1:
+            raise HarnessError("successor lineage is partial or corrupted")
+        event = events[0]
+        detail = json.loads(event["detail_json"])
+        package_sha256 = event["artifact_sha256"]
+        if (detail.get("status") != "RECONCILED"
+                or detail.get("count") != 5
+                or detail.get("package_sha256") != package_sha256
+                or not HASH.fullmatch(detail.get("approval_sha256", ""))
+                or not HASH.fullmatch(detail.get("predecessor_sha256", ""))):
+            raise HarnessError("successor lineage event is corrupted")
+        seen_requests, seen_identities = set(), set()
+        for ordinal, row in enumerate(rows, 1):
+            if (row["ordinal"] != ordinal
+                    or row["package_sha256"] != package_sha256
+                    or row["predecessor_sha256"] != detail["predecessor_sha256"]
+                    or sha256_text(row["identity_json"]) != row["identity_sha256"]
+                    or not HASH.fullmatch(row["source_binding_sha256"] or "")
+                    or row["source_kind"] not in {"external_history", "native_predecessor"}):
+                raise HarnessError("successor lineage row is corrupted")
+            if ordinal < 5:
+                if (row["source_kind"] != "external_history"
+                        or row["disposition"] not in {"HISTORICAL_OUTCOME_UNCERTAIN", "COMPLETED"}
+                        or (ordinal == 1) != (row["disposition"] == "HISTORICAL_OUTCOME_UNCERTAIN")
+                        or row["raw_sha256"] is not None or row["record_sha256"] is not None):
+                    raise HarnessError("successor lineage historical disposition is corrupted")
+            elif (row["source_kind"] != "native_predecessor"
+                    or row["disposition"] != "COMPLETED_IDENTITY_INVALID_ANTECEDENT_CONFIGURATION"
+                    or not HASH.fullmatch(row["raw_sha256"] or "")
+                    or not HASH.fullmatch(row["record_sha256"] or "")):
+                raise HarnessError("successor lineage native disposition is corrupted")
+            if row["request_id"] in seen_requests or row["identity_sha256"] in seen_identities:
+                raise HarnessError("successor lineage contains duplicate consumption")
+            seen_requests.add(row["request_id"])
+            seen_identities.add(row["identity_sha256"])
+        return rows
+
+    def _quota_predecessors(self, c):
+        version = c.execute("PRAGMA user_version").fetchone()[0]
+        if version == 4:
+            if self._historical_rows(c):
+                raise HarnessError("successor lineage cannot coexist with external history rows")
+            return self._validated_predecessor_lineage(c)
+        return self._validated_external_history(c)
+
+    def reconcile_successor_lineage(self, *, package_path: Path, approval_path: Path):
+        """Import the reviewed predecessor S=5 once; never copy predecessor rows."""
+        package_path, approval_path = Path(package_path).resolve(), Path(approval_path).resolve()
+        with self._transaction() as c:
+            if self._lineage_rows(c) or any(
+                    name.startswith("successor_lineage:") for name in self._events(c)):
+                raise HarnessError("successor lineage is already reconciled")
+            if c.execute("PRAGMA user_version").fetchone()[0] != 2:
+                raise HarnessError("successor lineage import requires a fresh v2 ledger")
+            if self._rows(c) or self._historical_rows(c):
+                raise HarnessError("successor lineage must precede every native intent and history import")
+            from .successor import validate_successor_lineage_artifacts
+            validated = validate_successor_lineage_artifacts(
+                package_path, approval_path,
+                expected_ledger={"path": str(self.path), "pilot_id": self.pilot_id})
+            c.execute("""CREATE TABLE predecessor_lineage (
+                ordinal INTEGER PRIMARY KEY CHECK(ordinal BETWEEN 1 AND 5),
+                request_id TEXT NOT NULL UNIQUE,
+                source_kind TEXT NOT NULL,
+                identity_json TEXT NOT NULL,
+                identity_sha256 TEXT NOT NULL UNIQUE,
+                source_binding_sha256 TEXT NOT NULL UNIQUE,
+                disposition TEXT NOT NULL,
+                raw_sha256 TEXT,
+                record_sha256 TEXT,
+                package_sha256 TEXT NOT NULL,
+                predecessor_sha256 TEXT NOT NULL)""")
+            for row in validated["rows"]:
+                c.execute("INSERT INTO predecessor_lineage VALUES (?,?,?,?,?,?,?,?,?,?,?)", (
+                    row["ordinal"], row["request_id"], row["source_kind"],
+                    canonical_json(row["identity"]), row["identity_sha256"],
+                    row["source_binding_sha256"], row["disposition"],
+                    row["raw_sha256"], row["record_sha256"],
+                    validated["package_sha256"], validated["predecessor_sha256"]))
+            detail = {"status": "RECONCILED", "count": 5,
+                      "package_sha256": validated["package_sha256"],
+                      "approval_sha256": validated["approval_sha256"],
+                      "predecessor_sha256": validated["predecessor_sha256"]}
+            self._event(c, "successor_lineage:" + validated["package_sha256"],
+                        validated["package_sha256"], detail)
+            c.execute("PRAGMA user_version=4")
+            self._validated_predecessor_lineage(c)
+            return {"status": "RECONCILED", "predecessor_requests": 5}
+
     def _events(self, c):
         return {r['event']: r for r in c.execute("SELECT * FROM events")}
 
@@ -257,8 +370,9 @@ class PilotLedger:
 
     @staticmethod
     def _accounting_commitment(request, messages, snapshot, raw_json,
-                               local_prompt_tokens, server_prompt_tokens):
-        return {
+                               local_prompt_tokens, server_prompt_tokens,
+                               template_kwargs=None):
+        result = {
             'artifact_version': 'TOKENIZER_ACCOUNTING_2',
             'request_id': request['request_id'],
             'request_identity_sha256': sha256_text(request['identity_json']),
@@ -270,6 +384,9 @@ class PilotLedger:
             'server_prompt_tokens': server_prompt_tokens,
             'outcome': 'PASS',
         }
+        if template_kwargs:
+            result['chat_template_kwargs'] = dict(template_kwargs)
+        return result
 
     def _persist_accounting_stop(self, c, request_id, reason, artifact_sha256):
         if self._tokenizer_accounting_stop(c) is None:
@@ -295,7 +412,8 @@ class PilotLedger:
         counts = guard.validate_producer_response(messages, raw)
         expected = self._accounting_commitment(
             request, messages, guard.snapshot, response['raw_json'],
-            counts['local_prompt_tokens'], counts['server_prompt_tokens'])
+            counts['local_prompt_tokens'], counts['server_prompt_tokens'],
+            guard.template_kwargs)
         commitment = digest(expected)
         if (detail != expected or event['artifact_sha256'] != commitment
                 or request['proof_sha256'] != commitment
@@ -331,7 +449,8 @@ class PilotLedger:
                     counts = guard.validate_producer_response(messages, raw)
                     result = self._accounting_commitment(
                         request, messages, guard.snapshot, response['raw_json'],
-                        counts['local_prompt_tokens'], counts['server_prompt_tokens'])
+                        counts['local_prompt_tokens'], counts['server_prompt_tokens'],
+                        guard.template_kwargs)
                     commitment = digest(result)
                     self._event(c, 'tokenizer_accounting:' + request_id, commitment, result)
                     c.execute('UPDATE requests SET proof_sha256=? WHERE request_id=? AND proof_sha256 IS NULL',
@@ -485,7 +604,7 @@ class PilotLedger:
 
     def bind_stage(self, stage, binding):
         """Freeze exact requests, provider, prompts, inputs and template before reservation."""
-        if stage not in STAGES:
+        if stage not in ACTIVE_STAGES:
             raise HarnessError("invalid stage")
         specs = binding.get('requests', [])
         required = {'logical_id', 'model', 'producer', 'prompt_sha256', 'case_sha256', 'contract_sha256', 'condition', 'group', 'repetition'}
@@ -601,6 +720,18 @@ class PilotLedger:
         events = self._events(c)
         if any(k.startswith('suspended:') for k in events):
             raise HarnessError("pilot suspended; requires a new reviewed disposition")
+        successor = c.execute("PRAGMA user_version").fetchone()[0] == 4
+        if successor:
+            self._validated_predecessor_lineage(c)
+            if stage == TECHNICAL_STAGE:
+                pass
+            elif stage == 'producer_conformity':
+                try:
+                    self._successful(c, TECHNICAL_STAGE)
+                except HarnessError as exc:
+                    raise HarnessError(
+                        "successor producer conformity requires successful technical qualification"
+                    ) from exc
         if stage == 'producer_remediation' and ('remediation_authorized' not in events or 'remediation_waived' in events):
             raise HarnessError("remediation is not authorized")
         if stage in {'budget_probe', 'stability_gate'}:
@@ -627,12 +758,17 @@ class PilotLedger:
 
     def _insert_intent(self, c, *, request_id, logical_id, model, producer, stage, stage_run, quota_kind, retry_of):
         rows = self._rows(c)
-        historical = self._validated_external_history(c)
-        if len(rows) + len(historical) >= 200:
+        predecessors = self._quota_predecessors(c)
+        if len(rows) + len(predecessors) >= 200:
             raise HarnessError("pilot cumulative hard stop 200 reached")
-        max_calls = 160 if stage == 'alternate_conformity' or any(r['stage'] == 'alternate_conformity' for r in rows) else 152
+        successor_extra = int(c.execute("PRAGMA user_version").fetchone()[0] == 4)
+        max_calls = (160 if stage == 'alternate_conformity' or any(
+            r['stage'] == 'alternate_conformity' for r in rows) else 152) + successor_extra
         if len(rows) >= max_calls:
-            raise HarnessError(f"planned request maximum {max_calls + len(historical)} reached")
+            raise HarnessError(f"planned request maximum {max_calls + len(predecessors)} reached")
+        predecessor_request_ids = {row["request_id"] for row in predecessors}
+        if request_id in predecessor_request_ids or retry_of in predecessor_request_ids:
+            raise HarnessError("predecessor lineage cannot be reused as a native request or retry")
         self._ready(c, stage)
         rows = self._validated_attempt_inventory(c)
         binding = self._binding(c, stage)
@@ -655,6 +791,8 @@ class PilotLedger:
                 raise HarnessError("original already has a retry; retry only the proven zero-token leaf")
             if stage == 'stability_gate':
                 raise HarnessError("gate requests are never repeatable")
+            if stage == TECHNICAL_STAGE:
+                raise HarnessError("technical qualification is never retryable")
         elif any(r['stage'] == stage and r['logical_id'] == logical_id for r in rows):
             raise HarnessError("duplicate logical base across restart/alias/directory")
         remediation = sum(r['quota_kind'] == 'remediation' for r in rows) + (quota_kind == 'remediation')
@@ -668,6 +806,8 @@ class PilotLedger:
             raise HarnessError("remediation quota is exclusive")
         if stage == 'producer_remediation' and quota_kind == 'base':
             raise HarnessError("remediation cannot use base quota")
+        if (stage == TECHNICAL_STAGE) != (quota_kind == 'technical'):
+            raise HarnessError("technical qualification requires its separate quota kind")
         if not isinstance(request_id, str) or not request_id:
             raise HarnessError("request id required")
         try:
@@ -683,11 +823,35 @@ class PilotLedger:
         with self._transaction() as c:
             self._insert_intent(c, stage='producer_remediation', quota_kind='remediation', retry_of=None, **value)
 
+    def reserve_technical_request(self, **value):
+        with self._transaction() as c:
+            self._insert_intent(c, stage=TECHNICAL_STAGE, quota_kind='technical',
+                                retry_of=None, **value)
+
     def reserve_transport_retry(self, **value):
         if value['stage'] == 'budget_probe':
             raise HarnessError("probe retries require an atomic complete triplet")
+        if value['stage'] == TECHNICAL_STAGE:
+            raise HarnessError("technical qualification is never retryable")
         with self._transaction() as c:
             self._insert_intent(c, quota_kind='transport', **value)
+
+    def suspend_technical(self, request_id, *, reason):
+        if not isinstance(reason, str) or not reason.strip():
+            raise HarnessError("technical suspension requires a reason")
+        with self._transaction() as c:
+            row = c.execute("SELECT * FROM requests WHERE request_id=?", (request_id,)).fetchone()
+            if row is None or row['stage'] != TECHNICAL_STAGE or row['status'] != 'COMPLETED':
+                raise HarnessError("technical suspension requires one completed technical request")
+            name = 'suspended:' + request_id
+            if name in self._events(c):
+                return
+            response = c.execute("SELECT record_sha256 FROM responses WHERE request_id=?",
+                                 (request_id,)).fetchone()
+            if response is None or not HASH.fullmatch(response['record_sha256'] or ''):
+                raise HarnessError("technical suspension requires a durable evaluated record")
+            self._event(c, name, response['record_sha256'],
+                        {'reason': reason, 'classification': 'technical_qualification_stop'})
 
     def reserve_probe_transport_triplet(self, requests: Iterable[dict[str, str]]):
         values = list(requests)
@@ -965,7 +1129,9 @@ class PilotLedger:
                     or row['stage_run'] != digest(binding)
                     or (row['model'], row['producer']) != (spec['model'], spec['producer'])):
                 raise HarnessError('persisted request differs from immutable plan')
-            expected_quota = 'transport' if row['retry_of'] else 'remediation' if row['stage'] == 'producer_remediation' else 'base'
+            expected_quota = ('transport' if row['retry_of'] else
+                              'remediation' if row['stage'] == 'producer_remediation' else
+                              'technical' if row['stage'] == TECHNICAL_STAGE else 'base')
             if row['quota_kind'] != expected_quota:
                 raise HarnessError('persisted attempt quota differs from its role')
             if row['retry_of']:
@@ -1012,6 +1178,14 @@ class PilotLedger:
                 raise HarnessError("PASS requires resolved authenticated responses")
             if stage in {'producer_conformity','producer_remediation','alternate_conformity'} and not all(r.get('schema_valid_first_attempt') is True for r in records):
                 raise HarnessError("producer PASS requires all R4-valid pairs")
+            if stage == TECHNICAL_STAGE and not all(
+                    r.get('technical_pass') is True
+                    and r.get('reasoning_empty') is True
+                    and r.get('rendering_control_accepted') is True
+                    and r.get('scientific_use') == 'FORBIDDEN'
+                    and r.get('finish_reason') == 'stop'
+                    for r in records):
+                raise HarnessError("technical qualification PASS contradicts its durable record")
             if stage == 'stability_gate':
                 from .gate_rules import evaluate_stability_gate
                 frozen_event = self._frozen(c)
@@ -1030,7 +1204,7 @@ class PilotLedger:
         return records
 
     def record_stage_outcome(self, stage, *, outcome, artifact_sha256, artifact=None, diagnosis=None, frozen=None):
-        if stage not in STAGES or outcome not in {'PASS','FAIL','BLOCKED'}:
+        if stage not in ACTIVE_STAGES or outcome not in {'PASS','FAIL','BLOCKED'}:
             raise HarnessError("unsupported stage outcome")
         self._require_hash(artifact_sha256, 'outcome artifact')
         with self._transaction() as c:
@@ -1097,16 +1271,26 @@ class PilotLedger:
     def snapshot(self):
         with closing(self._connect()) as c:
             rows, events = self._rows(c), self._events(c)
-            historical = self._validated_external_history(c)
+            predecessors = self._quota_predecessors(c)
+            successor = c.execute("PRAGMA user_version").fetchone()[0] == 4
             raw_count = c.execute("SELECT count(*) FROM responses").fetchone()[0]
-        by_stage = {s: sum(r['stage'] == s for r in rows) for s in sorted(STAGES)}
+        by_stage = {s: sum(r['stage'] == s for r in rows) for s in sorted(ACTIVE_STAGES)}
         remediation = sum(r['quota_kind'] == 'remediation' for r in rows)
         transport = sum(r['quota_kind'] == 'transport' for r in rows)
+        planned_without_alternate = 152 + int(successor) + len(predecessors)
+        planned_with_alternate = 160 + int(successor) + len(predecessors)
         return dict(pilot_id=self.pilot_id, ledger_path=str(self.path),
-                    requests_cumulative=len(rows)+len(historical), native_requests=len(rows),
-                    historical_requests=len(historical), requests_by_stage=by_stage,
+                    requests_cumulative=len(rows)+len(predecessors), native_requests=len(rows),
+                    historical_requests=len(predecessors),
+                    predecessor_lineage_requests=len(predecessors) if successor else 0,
+                    requests_by_stage=by_stage,
                     unresolved_intents=sum(r['status'] == 'INTENT' for r in rows),
                     remediation_calls=remediation, transport_calls=transport,
                     reserve_equation_value=8*int(remediation>0)+transport, reserve_limit=15,
-                    planned_maximum=(160 if by_stage['alternate_conformity'] else 152)+len(historical),
-                    hard_stop=200, durable_responses=raw_count, events=sorted(events))
+                    planned_maximum=(planned_with_alternate if by_stage['alternate_conformity']
+                                     else planned_without_alternate),
+                    planned_maximum_without_alternate=planned_without_alternate,
+                    planned_maximum_with_alternate=planned_with_alternate,
+                    hard_stop=200,
+                    hard_stop_margin_at_planned_maximum=200-planned_with_alternate,
+                    durable_responses=raw_count, events=sorted(events))
