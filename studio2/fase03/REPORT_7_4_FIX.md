@@ -354,8 +354,9 @@ cd /Users/luker/fot-tep/.worktrees/rem6-riconciliazione
 librerie, perché così com'è l'artefatto non è riusabile su nessuna macchina diversa da quella
 che lo ha prodotto.
 
-**G — suite sul Mac.** **Chiuso**: 306 test, OK, nessun non-pass; evidenza in
-`batch_finale/SUITE_MAC_a51ffd1.txt` (`50601686…`). Vedi §6.
+**G — suite sul Mac.** **Chiuso** e riconfermato a ogni commit di codice: 306 test OK su
+`a51ffd1` (`batch_finale/SUITE_MAC_a51ffd1.txt`, `50601686…`) e 318 test OK su `7d58efd`
+(`batch_finale/SUITE_MAC_7d58efd.txt`, `66c34927…`). Vedi §6 e la sezione FIX-3.
 
 **H — prerequisiti di runtime del target.** I tre elencati al §5, più il tag annotato del
 protocollo e l'approvazione di materializzazione, restano in capo a Luca.
@@ -478,15 +479,24 @@ merge, come indicato.
 
 | Esecuzione | Test | Failure | Error | Skip |
 | --- | ---: | ---: | ---: | ---: |
-| Base `7925124` | 291 | 2 | 33 | 22 |
-| Con FIX-3 | 303 | 2 | 33 | 22 |
+| Base `7925124`, VM Linux | 291 | 2 | 33 | 22 |
+| Con FIX-3, VM Linux | 303 | 2 | 33 | 22 |
+| **Con FIX-3, Mac** | **318** | **0** | **0** | **0** |
 
-Dodici test nuovi, tutti passanti; l'insieme dei non-pass è identico riga per riga ed è
-ambientale (albero evidence di release assente in questa VM Linux, percorsi solo-Mac).
-`studio2.fase03.harness.test_final_batch` da solo: **45 test, OK**.
+Dodici test nuovi, tutti passanti. Nella VM Linux l'insieme dei non-pass è identico riga per
+riga alla base ed è ambientale (albero evidence di release assente, percorsi solo-Mac);
+`studio2.fase03.harness.test_final_batch` da solo vi gira in **45 test, OK**.
 
-Comando della suite per il Mac, da rieseguire e salvare in
-`batch_finale/SUITE_MAC_<sha del commit>.txt`:
+**Suite sul Mac: chiusa.** Luca ha rieseguito i sedici moduli con
+`/opt/anaconda3/bin/python3` (Python 3.13): **318 test, `OK`**, 475,8 s, nessun failure,
+nessun error, nessuno skip. Evidenza in `batch_finale/SUITE_MAC_7d58efd.txt`, SHA-256
+`66c3492709f8aede6e7813c01e3feb2b5748bb9301acdeef4e4b0ed09969de66`. Sono dodici test in più
+dei 306 di `SUITE_MAC_a51ffd1.txt`, esattamente i test nuovi di FIX-3; nel log restano solo
+`ResourceWarning` di connessioni SQLite chiuse dal garbage collector, che non incidono su
+alcun esito. I 22 skip della VM Linux non compaiono sul Mac perché sono condizionati
+all'ambiente.
+
+Comando usato, e da riusare a ogni commit che tocchi codice:
 
 ```bash
 cd /Users/luker/fot-tep/.worktrees/rem6-riconciliazione
