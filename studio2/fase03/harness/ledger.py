@@ -1429,6 +1429,100 @@ class PilotLedger:
             if event is None or event['artifact_sha256'] != digest(frozen):
                 raise HarnessError("gate configuration differs from authenticated probe result")
 
+    def _diagnosed_producer_failure(self, c, records_sha256):
+        event = self._events(c).get('diagnosis:producer_conformity')
+        if event is None:
+            return None
+        try:
+            detail = json.loads(event['detail_json'])
+            reference = detail.get('approval')
+            if (not isinstance(reference, dict) or set(reference) != {'path', 'sha256'}
+                    or not Path(reference['path']).is_absolute()):
+                raise HarnessError('producer failure diagnosis lacks its approval reference')
+            approval_bytes = Path(reference['path']).read_bytes()
+            approval = json.loads(approval_bytes)
+        except (OSError, TypeError, ValueError, UnicodeError) as exc:
+            raise HarnessError('producer failure diagnosis approval is unavailable or invalid') from exc
+        diagnosis = detail.get('diagnosis')
+        expected = {
+            'diagnosis': diagnosis,
+            'records_sha256': records_sha256,
+            'approval': reference,
+        }
+        if (diagnosis not in DIAGNOSES or detail != expected
+                or event['artifact_sha256'] != reference['sha256']
+                or sha256_bytes(approval_bytes) != reference['sha256']
+                or not isinstance(approval, dict)
+                or set(approval) != {'decision', 'author', 'diagnosis', 'records_sha256'}
+                or approval.get('decision') != 'accepted'
+                or not isinstance(approval.get('author'), str)
+                or not approval['author'].strip()
+                or approval.get('diagnosis') != diagnosis
+                or approval.get('records_sha256') != records_sha256):
+            raise HarnessError('producer failure diagnosis event is corrupted')
+        return diagnosis
+
+    def diagnose_producer_failure(self, *, diagnosis, approval_path,
+                                  approval_sha256=None):
+        """Attach one approved diagnosis to a closed undiagnosed producer FAIL."""
+        if diagnosis not in DIAGNOSES:
+            raise HarnessError('inadmissible producer remediation diagnosis')
+        approval_path = Path(approval_path).resolve()
+        try:
+            approval_bytes = approval_path.read_bytes()
+            approval = json.loads(approval_bytes)
+        except (OSError, TypeError, ValueError, UnicodeError) as exc:
+            raise HarnessError('producer failure diagnosis approval is unavailable or invalid') from exc
+        actual_sha256 = sha256_bytes(approval_bytes)
+        if approval_sha256 is not None:
+            self._require_hash(approval_sha256, 'producer failure diagnosis approval')
+            if actual_sha256 != approval_sha256:
+                raise HarnessError('producer failure diagnosis approval hash mismatch')
+        with self._transaction() as c:
+            events = self._events(c)
+            rows = self._rows(c)
+            if ('remediation_authorized' in events or 'remediation_waived' in events
+                    or any(row['stage'] in {'budget_probe', 'stability_gate'} for row in rows)):
+                raise HarnessError('producer failure diagnosis is forbidden after remediation disposition or probe/gate')
+            failed = events.get('outcome:producer_conformity')
+            detail = json.loads(failed['detail_json']) if failed else {}
+            if detail.get('outcome') != 'FAIL' or detail.get('diagnosis') is not None:
+                raise HarnessError('producer failure diagnosis requires an undiagnosed closed FAIL')
+            self._closed_outcome(c, 'producer_conformity')
+            producer_rows = [row for row in rows if row['stage'] == 'producer_conformity']
+            failed_records = [
+                record for row in self._chain_leaves(producer_rows)
+                if (record := self._evaluated_record(c, row)) is not None
+            ]
+            if not any(record.get('schema_valid_first_attempt') is False
+                       and record.get('validation_class') == diagnosis
+                       for record in failed_records):
+                raise HarnessError(
+                    'producer failure diagnosis must match a recorded producer validation defect')
+            records_sha256 = detail.get('records_sha256')
+            if (not isinstance(approval, dict)
+                    or set(approval) != {'decision', 'author', 'diagnosis', 'records_sha256'}
+                    or approval.get('decision') != 'accepted'
+                    or not isinstance(approval.get('author'), str)
+                    or not approval['author'].strip()
+                    or approval.get('diagnosis') != diagnosis
+                    or approval.get('records_sha256') != records_sha256):
+                raise HarnessError(
+                    'producer failure diagnosis approval must bind author, diagnosis and records')
+            event_detail = {
+                'diagnosis': diagnosis,
+                'records_sha256': records_sha256,
+                'approval': {'path': str(approval_path), 'sha256': actual_sha256},
+            }
+            existing = events.get('diagnosis:producer_conformity')
+            if existing is not None:
+                stored = self._diagnosed_producer_failure(c, records_sha256)
+                if existing['artifact_sha256'] != actual_sha256 or stored != diagnosis:
+                    raise HarnessError('another producer failure diagnosis already exists')
+                return json.loads(existing['detail_json'])
+            self._event(c, 'diagnosis:producer_conformity', actual_sha256, event_detail)
+            return event_detail
+
     def authorize_remediation(self, *, diff_sha256=None, approval_sha256=None, template_sha256=None, diff_path=None, approval_path=None, template_path=None):
         if any(p is None for p in (diff_path, approval_path, template_path)):
             raise HarnessError("remediation requires concrete diff, approval and template bytes")
@@ -1442,15 +1536,19 @@ class PilotLedger:
                 raise HarnessError("remediation forbidden after probe/gate or waiver")
             failed = events.get('outcome:producer_conformity')
             detail = json.loads(failed['detail_json']) if failed else {}
+            diagnosis = detail.get('diagnosis')
+            if diagnosis is None:
+                diagnosis = self._diagnosed_producer_failure(
+                    c, detail.get('records_sha256'))
             rows = [r for r in self._rows(c) if r['stage'] == 'producer_conformity']
             failed_records = [self.response(r['request_id'])['record'] for r in self._chain_leaves(rows) if r['status'] == 'COMPLETED']
-            if not any(r.get('schema_valid_first_attempt') is False and r.get('validation_class') == detail.get('diagnosis') for r in failed_records):
+            if not any(r.get('schema_valid_first_attempt') is False and r.get('validation_class') == diagnosis for r in failed_records):
                 raise HarnessError('remediation diagnosis must match a recorded producer validation defect')
-            if detail.get('outcome') != 'FAIL' or detail.get('diagnosis') not in DIAGNOSES or any(r['status'] != 'COMPLETED' for r in self._chain_leaves(rows)):
+            if detail.get('outcome') != 'FAIL' or diagnosis not in DIAGNOSES or any(r['status'] != 'COMPLETED' for r in self._chain_leaves(rows)):
                 raise HarnessError("remediation requires diagnosed prompt defect; unresolved timeout is not admissible")
             binding = self._binding(c, 'producer_conformity')
             expected_diff = ''.join(difflib.unified_diff(binding['template_text'].splitlines(True), template.splitlines(True), fromfile='before', tofile='after'))
-            if not expected_diff or diff != expected_diff or approval.get('decision') != 'accepted' or not approval.get('author') or approval.get('diff_sha256') != sha256_text(diff) or approval.get('template_sha256') != sha256_text(template) or approval.get('initial_binding_sha256') != digest(binding) or approval.get('diagnosis') != detail['diagnosis']:
+            if not expected_diff or diff != expected_diff or approval.get('decision') != 'accepted' or not approval.get('author') or approval.get('diff_sha256') != sha256_text(diff) or approval.get('template_sha256') != sha256_text(template) or approval.get('initial_binding_sha256') != digest(binding) or approval.get('diagnosis') != diagnosis:
                 raise HarnessError("approval must bind exact diff, template, diagnosis and original eight-case plan")
             self._event(c, 'remediation_authorized', sha256_file(Path(approval_path)), {'diff_sha256': sha256_text(diff), 'template_sha256': sha256_text(template), 'template_text': template, 'approval': approval})
 

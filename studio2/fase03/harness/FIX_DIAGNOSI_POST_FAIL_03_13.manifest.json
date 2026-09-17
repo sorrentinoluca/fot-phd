@@ -1,0 +1,108 @@
+{
+  "artifact_version": "1",
+  "status": "READY_FOR_INDEPENDENT_REVIEW_AUTHOR",
+  "scope": "03.13-REM-1_POST_FAIL_PRODUCER_DIAGNOSIS",
+  "base": {
+    "commit": "2a135c26b3733651168f0bc07789daf107f40d25",
+    "tree": "b013f76dffbad565a096c2f06f4f1aaaddf60633",
+    "parent": "294f154fd4e2748d0083030278939eb8ac12bd55"
+  },
+  "correction": {
+    "new_api": "PilotLedger.diagnose_producer_failure",
+    "durable_event": "diagnosis:producer_conformity",
+    "requires_closed_undiagnosed_fail": true,
+    "requires_failed_record_validation_class_match": true,
+    "approval_fields": [
+      "decision",
+      "author",
+      "diagnosis",
+      "records_sha256"
+    ],
+    "same_bytes_idempotent": true,
+    "outcome_rewritten": false,
+    "stage_reopened": false,
+    "authorization_fallback_only_when_outcome_diagnosis_missing": true
+  },
+  "repository_artifacts": {
+    "studio2/fase03/harness/ledger.py": "44e1402af69740810c3d2feac4e007f5165f454de7b3771277902402cf8c3c4b",
+    "studio2/fase03/harness/test_successor_recovery.py": "d8ae88868313b1a5e3fc80abbc5e2f123ab4092b05a37b4b40e4101ff00b42cc",
+    "studio2/fase03/harness/REPORT_FIX_DIAGNOSI_POST_FAIL_03_13.md": "88fa5eee40f1523aa27969d5ea67c397335d56b464ed3dc60bd8ea06d2a26e19",
+    "studio2/fase03/harness/logs_fix_diagnosi_post_fail_03_13/verification.log": "a495cf32cf2a0ac0cc5791f07eca7199b5ab322a19d913922387a826ca0a011c",
+    "studio2/fase03/harness/FIX_DIAGNOSI_POST_FAIL_03_13.manifest.json": "SELF_SHA256_EXCLUDED_TO_AVOID_SELF_REFERENCE"
+  },
+  "tests": {
+    "parent_red": {
+      "test_methods": 5,
+      "failures": 0,
+      "errors": 5,
+      "seconds": 0.295,
+      "classification": "EXPECTED_BEHAVIORAL_RED_MISSING_API"
+    },
+    "rem1_green": {
+      "test_methods": 5,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 0.466
+    },
+    "successor_targeted": {
+      "module": "studio2.fase03.harness.test_successor_recovery",
+      "test_methods": 37,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 5.541
+    },
+    "complete_relevant_regression": {
+      "modules": [
+        "phase_b.tests.test_parser_retry_guard",
+        "phase_b.tests.test_protocol_freeze",
+        "studio2.fase03.harness.test_c01_c03",
+        "studio2.fase03.harness.test_d01_replay",
+        "studio2.fase03.harness.test_d02_predecessors",
+        "studio2.fase03.harness.test_d03_contract",
+        "studio2.fase03.harness.test_d04_open_quota",
+        "studio2.fase03.harness.test_d9",
+        "studio2.fase03.harness.test_d9_corrections",
+        "studio2.fase03.harness.test_harness_offline",
+        "studio2.fase03.harness.test_history_reconciliation",
+        "studio2.fase03.harness.test_metric_raccordo",
+        "studio2.fase03.harness.test_revisions",
+        "studio2.fase03.harness.test_successor_recovery",
+        "studio2.fase03.harness.test_tokenizer_accounting"
+      ],
+      "test_methods": 210,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 476.969
+    },
+    "guardian_separate": {
+      "command": "/opt/anaconda3/bin/python3 docs/test_explanation.py -v",
+      "test_methods": 35,
+      "failures": 14,
+      "errors": 0,
+      "skipped": 1,
+      "seconds": 0.078,
+      "classification": "EXPECTED_HISTORICAL_NON_PASS_OUTSIDE_REM1_SCOPE"
+    },
+    "py_compile": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "invariants": {
+    "sqlite_schema_changed": false,
+    "producer_execution_path_changed": false,
+    "scientific_prompts_changed": false,
+    "frozen_contracts_changed": false,
+    "quotas_changed": false,
+    "stage_order_changed": false
+  },
+  "activity": {
+    "provider_calls": 0,
+    "network_access": false,
+    "scientific_execution": false,
+    "real_ledger_opened": false,
+    "real_ledger_modified": false,
+    "server_enea_json_read": false,
+    "push": false,
+    "merge": false,
+    "tag": false
+  }
+}

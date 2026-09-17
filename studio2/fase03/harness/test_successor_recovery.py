@@ -1263,6 +1263,172 @@ class SuccessorProducerAccountingContractTests(SuccessorFixture):
         self.assertEqual(snapshot["requests_cumulative"], 7)
 
 
+class PostFailureDiagnosisTests(SuccessorFixture):
+    def _closed_producer(self, *, outcome="FAIL", validation_class="identifiers"):
+        serial = getattr(self, "_producer_fixture_serial", 0) + 1
+        self._producer_fixture_serial = serial
+        self.successor_path = (self.home / f"successor-{serial}.sqlite3").resolve()
+        self.successor_id = f"successor-fixture-{serial}"
+        ledger = self.imported()
+        self._pass_technical(ledger)
+        ledger.bind_stage("producer_conformity", _binding("producer_conformity", 8))
+        for index in range(8):
+            request_id = _reserve(ledger, "producer_conformity", index)
+            record = _complete(ledger, request_id,
+                               schema_valid=outcome == "PASS" or index != 1)
+            if outcome == "FAIL" and index == 1:
+                record["validation_class"] = validation_class
+                with ledger._transaction() as connection:
+                    text = canonical_json(record)
+                    connection.execute(
+                        "UPDATE responses SET record_json=?,record_sha256=? WHERE request_id=?",
+                        (text, sha256_text(text), request_id))
+        _outcome(ledger, "producer_conformity", outcome)
+        return ledger
+
+    def _diagnosis_approval(self, ledger, diagnosis="identifiers", *, name="diagnosis"):
+        outcome = ledger.event("outcome:producer_conformity")
+        path = self.home / f"{name}.json"
+        path.write_text(json.dumps({
+            "decision": "accepted", "author": "FIXTURE AUTHOR",
+            "diagnosis": diagnosis,
+            "records_sha256": outcome["records_sha256"],
+        }, sort_keys=True) + "\n", encoding="utf-8")
+        return path
+
+    def _remediation_artifacts(self, ledger, diagnosis="identifiers"):
+        initial = ledger.binding("producer_conformity")
+        template = initial["template_text"] + "APPROVED FIXTURE CHANGE\n"
+        diff = "".join(difflib.unified_diff(
+            initial["template_text"].splitlines(True), template.splitlines(True),
+            fromfile="before", tofile="after"))
+        template_path = self.home / "remediation-template.txt"
+        template_path.write_text(template, encoding="utf-8")
+        diff_path = self.home / "remediation.diff"
+        diff_path.write_text(diff, encoding="utf-8")
+        approval_path = self.home / "remediation-approval.json"
+        approval_path.write_text(json.dumps({
+            "author": "FIXTURE", "decision": "accepted",
+            "diff_sha256": sha256_text(diff),
+            "template_sha256": sha256_text(template),
+            "initial_binding_sha256": digest(initial), "diagnosis": diagnosis,
+        }), encoding="utf-8")
+        return diff_path, approval_path, template_path
+
+    def test_RM1_a_post_fail_diagnosis_unlocks_existing_remediation_contract(self):
+        ledger = self._closed_producer()
+        diff_path, remediation_approval, template_path = self._remediation_artifacts(ledger)
+        with self.assertRaises(HarnessError):
+            ledger.authorize_remediation(
+                diff_path=diff_path, approval_path=remediation_approval,
+                template_path=template_path)
+        diagnosis_approval = self._diagnosis_approval(ledger)
+        ledger.diagnose_producer_failure(
+            diagnosis="identifiers", approval_path=diagnosis_approval)
+        ledger.authorize_remediation(
+            diff_path=diff_path, approval_path=remediation_approval,
+            template_path=template_path)
+        self.assertIsNotNone(ledger.event("remediation_authorized"))
+
+    def test_RM1_b_diagnosis_must_match_a_failed_record(self):
+        ledger = self._closed_producer(validation_class="identifiers")
+        approval = self._diagnosis_approval(ledger, diagnosis="structure")
+        baseline = _logical(ledger.path)
+        with self.assertRaisesRegex(HarnessError, "diagnosis must match"):
+            ledger.diagnose_producer_failure(
+                diagnosis="structure", approval_path=approval)
+        self.assertEqual(_logical(ledger.path), baseline)
+        self.assertIsNone(ledger.event("diagnosis:producer_conformity"))
+
+        correct = self._diagnosis_approval(
+            ledger, diagnosis="identifiers", name="correct-diagnosis")
+        with self.assertRaisesRegex(HarnessError, "hash mismatch"):
+            ledger.diagnose_producer_failure(
+                diagnosis="identifiers", approval_path=correct,
+                approval_sha256="0" * 64)
+        invalid = json.loads(correct.read_text())
+        invalid["records_sha256"] = "1" * 64
+        correct.write_text(json.dumps(invalid), encoding="utf-8")
+        with self.assertRaisesRegex(HarnessError, "approval must bind"):
+            ledger.diagnose_producer_failure(
+                diagnosis="identifiers", approval_path=correct)
+        self.assertEqual(_logical(ledger.path), baseline)
+
+    def test_RM1_c_diagnosis_rejects_pass_disposition_and_downstream_work(self):
+        passing = self._closed_producer(outcome="PASS")
+        approval = self._diagnosis_approval(passing)
+        with self.assertRaises(HarnessError):
+            passing.diagnose_producer_failure(
+                diagnosis="identifiers", approval_path=approval)
+
+        authorized = self._closed_producer()
+        diagnosis_approval = self._diagnosis_approval(authorized)
+        authorized.diagnose_producer_failure(
+            diagnosis="identifiers", approval_path=diagnosis_approval)
+        diff_path, remediation_approval, template_path = self._remediation_artifacts(authorized)
+        authorized.authorize_remediation(
+            diff_path=diff_path, approval_path=remediation_approval,
+            template_path=template_path)
+        with self.assertRaises(HarnessError):
+            authorized.diagnose_producer_failure(
+                diagnosis="identifiers", approval_path=diagnosis_approval)
+
+        waived = self._closed_producer()
+        waived_approval = self._diagnosis_approval(waived)
+        waived.waive_remediation(approval_sha256="a" * 64)
+        with self.assertRaises(HarnessError):
+            waived.diagnose_producer_failure(
+                diagnosis="identifiers", approval_path=waived_approval)
+
+        probed = self._closed_producer()
+        probed_approval = self._diagnosis_approval(probed)
+        spec = _spec("budget_probe", 0, count=3)
+        with probed._transaction() as connection:
+            connection.execute(
+                "INSERT INTO requests VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                ("probe-blocker", spec["logical_id"], "budget_probe", "b" * 64,
+                 spec["model"], spec["producer"], "base", None,
+                 canonical_json(spec), "INTENT", "2026-09-17T00:00:00+00:00",
+                 None, None, None, None, None, None, None))
+        with self.assertRaises(HarnessError):
+            probed.diagnose_producer_failure(
+                diagnosis="identifiers", approval_path=probed_approval)
+
+    def test_RM1_d_diagnosis_preserves_outcome_stage_and_quota(self):
+        ledger = self._closed_producer()
+        approval = self._diagnosis_approval(ledger)
+        before_snapshot = ledger.snapshot()
+        before_outcome = ledger.event("outcome:producer_conformity")
+        ledger.diagnose_producer_failure(
+            diagnosis="identifiers", approval_path=approval)
+        after_snapshot = ledger.snapshot()
+        self.assertEqual(ledger.event("outcome:producer_conformity"), before_outcome)
+        for key in ("native_requests", "requests_cumulative", "remediation_calls",
+                    "transport_calls", "reserve_equation_value"):
+            self.assertEqual(after_snapshot[key], before_snapshot[key])
+        self.assertEqual(set(after_snapshot["events"]) - set(before_snapshot["events"]),
+                         {"diagnosis:producer_conformity"})
+        with self.assertRaises(HarnessError):
+            _reserve(ledger, "producer_conformity", 0, request_id="cannot-reopen")
+
+    def test_RM1_e_same_approval_bytes_are_idempotent(self):
+        ledger = self._closed_producer()
+        approval = self._diagnosis_approval(ledger)
+        first = ledger.diagnose_producer_failure(
+            diagnosis="identifiers", approval_path=approval,
+            approval_sha256=sha256_file(approval))
+        logical = _logical(ledger.path)
+        second = ledger.diagnose_producer_failure(
+            diagnosis="identifiers", approval_path=approval,
+            approval_sha256=sha256_file(approval))
+        self.assertEqual(first, second)
+        self.assertEqual(_logical(ledger.path), logical)
+        with closing(sqlite3.connect(ledger.path)) as connection:
+            self.assertEqual(connection.execute(
+                "SELECT count(*) FROM events WHERE event='diagnosis:producer_conformity'"
+            ).fetchone()[0], 1)
+
+
 class SuccessorQuotaTests(SuccessorFixture):
     def test_planned_maximum_166_and_two_processes_compete_for_last_slot(self):
         ledger = self.imported()

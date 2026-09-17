@@ -1,0 +1,40 @@
+03.13-REM-1 verification log
+date: 2026-09-17 Europe/Rome
+worktree: /Users/luker/.codex/worktrees/dd86/fot-tep
+base_commit: 2a135c26b3733651168f0bc07789daf107f40d25
+base_tree: b013f76dffbad565a096c2f06f4f1aaaddf60633
+python: /opt/anaconda3/bin/python3 (Python 3.13.9, x86_64)
+
+RED — parent implementation with the five REM-1 tests
+result: 5 tests, 0 failures, 5 errors, 0.295 s
+expected cause: PilotLedger has no attribute diagnose_producer_failure
+classification: EXPECTED_BEHAVIORAL_RED
+
+GREEN — PostFailureDiagnosisTests
+result: 5/5 PASS, 0 failures, 0 errors, 0.466 s
+
+SUCCESSOR TARGETED
+command: /opt/anaconda3/bin/python3 -m unittest -v studio2.fase03.harness.test_successor_recovery
+result: 37/37 PASS, 0 failures, 0 errors, 5.541 s
+
+15-MODULE REGRESSION
+command: /opt/anaconda3/bin/python3 -m unittest phase_b.tests.test_parser_retry_guard phase_b.tests.test_protocol_freeze studio2.fase03.harness.test_c01_c03 studio2.fase03.harness.test_d01_replay studio2.fase03.harness.test_d02_predecessors studio2.fase03.harness.test_d03_contract studio2.fase03.harness.test_d04_open_quota studio2.fase03.harness.test_d9 studio2.fase03.harness.test_d9_corrections studio2.fase03.harness.test_harness_offline studio2.fase03.harness.test_history_reconciliation studio2.fase03.harness.test_metric_raccordo studio2.fase03.harness.test_revisions studio2.fase03.harness.test_successor_recovery studio2.fase03.harness.test_tokenizer_accounting
+result: 210/210 PASS, 0 failures, 0 errors, 476.969 s
+wall clock: 477.45 s
+note: historical SQLite ResourceWarning messages were emitted; they are not test failures or errors
+
+GUARDIAN — separate, non-blocking historical baseline
+command: /opt/anaconda3/bin/python3 docs/test_explanation.py -v
+result: 35 tests, 14 failures, 1 skipped, 0 errors, 0.078 s
+classification: EXPECTED_HISTORICAL_NON_PASS_OUTSIDE_REM-1_SCOPE
+
+STATIC CHECKS
+py_compile ledger.py test_successor_recovery.py: PASS
+git diff --check: PASS
+
+ACTIVITY
+provider calls: 0
+network access: false
+real ledger opened or modified: false
+server_enea.json read: false
+scientific execution: false
