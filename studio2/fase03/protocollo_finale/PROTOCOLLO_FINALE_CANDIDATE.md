@@ -1,6 +1,7 @@
-# Protocollo finale candidato rev2 — Studio 2, Fase 03
+# Protocollo finale candidato rev3 — Studio 2, Fase 03
 
-Data del candidato: 2026-09-17. Revisione documentale 2, aggiornamento Q1–Q3 dopo `1f9ebc5`; predecessore iniziale `e0db132fc6ef477bc054d8c02b3fb62f8c39da06`. Stato: **CANDIDATO DI FREEZE, NON EFFICACE E NON
+Data del candidato: 2026-09-17. Revisione documentale 3, chiusura dei segnaposto dopo
+`d0cfeab`; predecessore iniziale `e0db132fc6ef477bc054d8c02b3fb62f8c39da06`. Stato: **CANDIDATO DI FREEZE, NON EFFICACE E NON
 AUTORIZZATIVO**. Questo documento non autorizza chiamate, materializzazione o esecuzione. Il
 freeze diventa efficace soltanto dopo verifica indipendente di questo candidato, commit finale
 accettato e tag annotato dell'autore; 7.2-R è già chiusa con l'evidenza di §2.
@@ -45,6 +46,10 @@ alla verifica sintetica a ICC=0, con fallback Hoeffding già deciso; reporting D
 descrittivamente. Indipendenza fra run dichiarata per H1/H2/H3/fallback: fattori condivisi
 fissi condizionano l’estimando, stream del simulatore separati sostengono l’indipendenza,
 deriva LLM mitigata da schedule/canary ma non eliminata. Stress ICC>0 solo descrittivo.
+Le decisioni serali D6–D11 sono registrate nel nuovo
+[DECISIONI_AUTORE_7_3_REV3.md](DECISIONI_AUTORE_7_3_REV3.md): `X=0`, quota retry 400,
+backoff 30/60/120/240 s fino a 15 min, STOP a cinque fallimenti tecnici consecutivi per
+servizio, barriera canary per giorno civile, massimo 7.202 e collocazione di 7.4-MAT dopo il tag.
 
 ### 1.2 D1 — un caso per run
 
@@ -84,9 +89,14 @@ Testo per i metodi, da usare solo dopo il freeze e l’esecuzione della procedur
 > valuta il monitoraggio continuo né il ritardo di rilevazione; le analisi per posizione temporale
 > sono descrittive.
 
-Gli SHA dell’assegnazione, del manifest test, dell’inventario e della schedule restano
-**PENDING_7_4_FIX_REVIEWED**. Generatore/seme/versione dell’assegnazione sono distinti dalla
-schedule e saranno importati dal commit 7.4-FIX rivisto, senza inventarli qui.
+L’assegnazione è stata committata in `7e497dc`, prima di ogni lavoro sugli input test:
+`PCG64(20260917)`, namespace `studio2-fase03-window-assignment-v1`, una `permutation(8)`
+per gruppo in ordine lessicografico, primi tre valori per ciascun fault OOD. Sono assegnati
+78 run; le 11 scorte sono escluse e mai sostitutive. La verifica successiva ha confermato
+89/89 run con otto finestre e l’estrazione di 78/78 unità sulla sola finestra assegnata.
+SHA tabella assegnazione `1ba7669ae9715e4c6313b6746a05f8d390eeee2877d7f41cc554146c9e35836b`;
+SHA file `ASSEGNAZIONE_FINESTRE_7_4.json`
+`c809e79d2c03d74f4a5a37988eca809bda336468ab0060f794d3c214f9a6a775`.
 
 ## 2. Riferimenti congelati e ambito degli hash
 
@@ -114,6 +124,12 @@ Il manifest JSON affiancato conserva l'elenco meccanico completo.
 | Candidato librerie 7.2 | commit `c284523badefdf6b4f4e131e99ba4dfbda31300c`; `studio2/fase03/librerie/LIBRERIE_FINALI_CANDIDATE.json` | `235fb0de37080a0a2076332b8587fd5fa6457600ed2228a13d3042e18058a5a3` file |
 | Decisione di riuso 7.2 | stesso commit; `studio2/fase03/librerie/RIUSO_LIBRERIE_7_2.md` | `90e939231c1b27d9ff2b58b6ce7dcde35c6dfc561576f8fe67cae4b744c7c036` file |
 | Review indipendente 7.2-R | commit `f0d0393a3702bd349d93ec9e7e60a740580445fb`; `studio2/fase03/librerie/VERIFICA_LIBRERIE_7_2.md` | `fce3b955584bb8fd0fca8d98f9985f4f1ffc2da4f93a9daa99c67e414f4aaad9` file |
+| Runner finale 7.4 | commit `a51ffd1d0e15c5e99bf35d68559618951650b1d9` (include PREP `9e0e086`, assegnazione `7e497dc`, FIX `1c70001`) | parte del freeze, condizionato alla review `b567` |
+| Assegnazione finestre 7.4 | `batch_finale/ASSEGNAZIONE_FINESTRE_7_4.json` | `c809e79d2c03d74f4a5a37988eca809bda336468ab0060f794d3c214f9a6a775` file; `1ba7669ae9715e4c6313b6746a05f8d390eeee2877d7f41cc554146c9e35836b` tabella canonica |
+| Input test 7.4 | `evidence/output_test/INPUT_MANIFEST_TEST_7_4.json` | `67e7584a80d743efc06edc4c97019c20803cc4787c1d70c8d924ad23736612e8` file |
+| Inventario / schedule finali | generati da `a51ffd1` con NumPy 2.2.6 | `227e5e9c797dbfd8be746d85b77298f5dfb091846dc301f0b2e31ea1dbc6df3f`; `1acfc4044c53f113016ed0bfab58863291a9060a9edc9abadb68a21d30687819`, ambito artefatto canonico |
+| Prompt finali | `final_prompts.jsonl`; mappa identificativo→SHA | `f938604c512394df0e149732e474eb7d17b02a8dd1ed72155b84f19579a1385d` file; `b819200396da480d3ed9d4aa8f6b6aac8c135d97f0876b734a9b607b75736489` mappa canonica |
+| Verifica sintetica H3 | commit script/manifest `b465f90`; risultati `d0cfeab`; `verifica_sintetica_h3/` | script eseguito `847bc294948303a1d4763cc223893eeffc167c42f4e3b1540f73ed31feb53c5f`; Tango sorgente `25a648b99fcb86f8111eaaf2f712183d6c3e0a0af5960b6b84c424c38fb1e613` |
 | FedAvg 03.14 | `fedavg/FEDAVG_FREEZE.json`; `fedavg/FINAL_PROTOCOL.json` | `6a93ef43177a3bbafa412d68cc3ab4bdf330fc5d718e3783ae1f9d2f652bf9a2`; `5eaa041852b6573314f07ee0bf39f20d1e78c5b260d476676fe911452c476f9a` file |
 | Ordine di presentazione | `harness/PRESENTATION_ORDER_APPROVAL_2026-09-15.json` | `0f9f7b7f4036bd4172467dba80673af5d9ec3abb2bb854d6239da7ccec2977d1` file; `6ec43fb83af732788086138d4da60a2e9fbb4fd67e334ad513b0a240b8119f2a` solo array ordinato dichiarato |
 
@@ -134,12 +150,11 @@ I nomi release appartengono a `sorrentinoluca/fot-tep-data`, non ai tag Git di q
 - `evidence-v2`: release ID 388257324, commit dati `6d238929285e57c6c70f4d563ef7e30b59da6ac5`,
   asset `studio2-fase03-evidence-v2.tar`, 62.185.472 byte, SHA in §2;
   `evidence/ARTIFACT_STORAGE.json` registra riscaricamento, 1.283 file e zero mismatch.
-- `test-v1`: i tre asset e gli SHA sono registrati nel JSON; il sigillo è distinto dall’hash
-  dell’archivio. Il verbale Claude riferisce l’esistenza del tag remoto, ma il record locale
-  `fault_runs/ARTIFACT_STORAGE.json` resta `publication_pending_author`, senza release ID,
-  commit e verifica per riscaricamento. **C3 non è chiuso: S3 PENDING.** L’accesso offline non
-  autorizza a trasformare l’esistenza riferita del tag in verifica degli asset. Servono record
-  di pubblicazione/riscaricamento tracciati prima del tag; nessun nuovo download in questo mandato.
+- `test-v1`: Luca ha riscaricato i tre asset il 2026-09-17; gli SHA ricalcolati coincidono
+  con `fault_runs/ARTIFACT_STORAGE.json`: `ac1e7c0c…`, `242f689a…`, `16acf7c1…`.
+  **C3/R2 è chiuso**. Questo branch propone nel medesimo JSON il passaggio da
+  `publication_pending_author` a `public_release_verified_by_redownload`, senza inventare
+  release ID, commit o timestamp remoto non presenti nella verifica offline.
 
 La review pilot SHA `944db3…abb2` è ora copiata byte-identica in questa cartella: sarà
 raggiungibile da main con l’integrazione del candidato; non si dichiara già integrata.
@@ -167,12 +182,13 @@ E-LF deriva da B-LF modificando soltanto `pseudolabel`, secondo
 Token esatto `B-noLF`, libreria `G_P`: il prompt deve essere B-LF meno il solo blocco
 `DECISION POLICY` local-first. Istruzioni, esempi, insight, ordine, caso, schema e ogni altro
 byte restano identici. Nuovo file/revisione del renderer, **mai modifica in luogo** di
-`protocol.py` SHA `791fa347…53d1e`; path, commit e SHA del nuovo renderer =
-**PENDING_7_4_FIX_REVIEWED**, con prova di diff B-LF↔B-noLF e logging del quarto token.
+`protocol.py` SHA `791fa347…53d1e`: `studio2/fase03/protocol_bnolf.py`, commit `a51ffd1`,
+SHA `b716200e6fdb34fa6dc0e7264612820306026f1851b188ef772016fc633fca8c`.
+La prova di diff B-LF↔B-noLF passa su 148 prompt e il logging ammette il quarto token.
 Il numero di token del prompt completo deve essere misurato col tokenizer qualificato per
 ogni prompt e conservato; non è deducibile come somma/sottrazione di token del blocco isolato.
 Il token era già nell’inventario 7.4-PREP, quindi questa decisione non cambia da sola lo SHA
-storico della schedule. L’eseguibilità e S8 restano PENDING fino alla review del nuovo file.
+storico della schedule. S8 è soddisfatto nel candidato e resta condizionato alla review `b567`.
 
 ### 3.2 Producer e chiusura 7.2-R
 
@@ -199,6 +215,10 @@ di quelle dichiarate, non il viceversa: la riga aggiunta correla con una copertu
 più alta ma incompleta nel 122B (6/16 insight) contro nessuna nel 27B (0/16), un effetto che va
 oltre la sola sintassi degli identificatori.
 
+`LIBRERIE_FINALI_CANDIDATE.json` conserva un `library_path` assoluto: sarà corretto alla prossima
+revisione dichiarata di quel file. Il rilievo non blocca questo protocollo perché identità fisica
+e contenuto canonico delle due librerie sono congelati dai digest sopra.
+
 ### 3.3 Allegato S18: diff B-LF ↔ E-LF
 
 Il diff strutturale è stato rifatto con il renderer di §2, `G_P` di §3.2 e il manifest di input
@@ -208,14 +228,18 @@ Per ciascuno degli otto riceventi sono stati confrontati i quattordici insight p
 `evidence_scope`, `variable_ids` e `observed_pattern` hanno **0 differenze**. Il controllo interno
 di `peer_insights` rifiuta inoltre qualunque insieme di campi modificati diverso dal singleton
 `{"pseudolabel"}`. Poiché per input identici il renderer costruisce entrambe le condizioni con le
-stesse istruzioni, politica local-first, label space, esempi locali, caso e schema, questo verifica il renderer di base sugli input di sviluppo. Il controllo sul nuovo manifest
-e sul renderer finale resta PENDING_7_4_FIX_REVIEWED prima della materializzazione. La permutazione E resta quella congelata in
+stesse istruzioni, politica local-first, label space, esempi locali, caso e schema, questo verifica il renderer di base sugli input di sviluppo. Sul manifest test finale il diff B↔E
+passa su **624** celle appaiate, con zero differenze fuori dal blocco `PEER INSIGHTS`; il diff
+B-noLF passa su 148 prompt. Il massimo è 5.284 token e il p95 5.219. La verifica resta
+condizionata alla review `b567`. La permutazione E resta quella congelata in
 `pseudolabel/CONDITION_E_DERANGEMENTS.json`, SHA in §3.1.
 
-## 4. Blocchi previsti (eseguibilità ancora condizionata)
+## 4. Blocchi congelati (efficacia condizionata alle review)
 
 In ogni riga il ricevente è il consumer 122B; `R=3`; la generazione usa i renderer di
-§§3.1–3.1-bis e l’ordine di §2, dopo la chiusura delle dipendenze 7.4-FIX.
+§§3.1–3.1-bis e l’ordine di §2. Il runner è congelato al commit candidato `a51ffd1` e resta
+condizionato alla review indipendente. L'inventario finale contiene 2.244 prompt unici e lo
+schedule 6.732 richieste scientifiche.
 
 | Blocco | Casi e condizioni | Insight | Richieste |
 | --- | --- | --- | ---: |
@@ -248,7 +272,7 @@ OOD.
 
 ## 5. Conteggio indipendente e T5
 
-### 5.1 Conteggio base e massimo futuro da completare
+### 5.1 Conteggio finale e massimo
 
 | Voce | Formula | Valore | Identità destinataria |
 | --- | --- | ---: | --- |
@@ -262,24 +286,24 @@ OOD.
 | Libreria principale | `G_P=0`; riuso accettato da 7.2-R | 0 | — |
 | Libreria alternativa | `G_A=0`; riuso accettato da 7.2-R | 0 | — |
 | Pilot storico | già eseguito e rendicontato; 156 intent nativi + 5 di lineage | 161 storico; 0 futuro | — |
-| Verifiche tecniche | `X=100`, massimo prudenziale, non obiettivo di spesa | 100 | 122B |
-| Retry fuori pilot | solo zero-token provati; `Q_max=PENDING_7_4_FIX_REVIEWED_AND_AUTHOR` | Q_max | 122B |
-| **Base senza riserva retry** | somma delle voci precedenti salvo Q | **6.902** | 122B; 0 27B |
-| **Totale futuro massimo** | `6.902 + Q_max` | **PENDING** | 122B; 0 27B |
+| Verifiche tecniche | `X=0`; una futura verifica richiede revisione dichiarata | 0 | — |
+| Retry fuori pilot | solo zero-token provati; quota separata `Q=400` | 400 | 122B |
+| **Base pianificata senza retry** | `6.732 + 70` | **6.802** | 122B; 0 27B |
+| **Totale futuro massimo** | `6.732 + 70 + 400` | **7.202** | 122B; 0 27B |
 
-Parametri recepiti: `S=0`, `U=0`, `d=7`, `X=100`, `G_P=0`, `G_A=0`.
-D3 sostituisce Q=0 assoluto con riserva limitata ai trasporti zero-token provati. Il numero Q_max
-e l’attesa crescente devono essere proposti da 7.4-FIX, rivisti e accettati prima del freeze.
-Il tasso storico 8/156 informa l’ordine di grandezza, non è una previsione garantita del batch. Il riuso è stato
-dimostrato da 7.2-R; le sedici chiamate producer prima accantonate non sono trasferibili ad altre
-chiamate.
+Parametri recepiti: `S=0`, `U=0`, `d=7`, `X=0`, `G_P=0`, `G_A=0`, `Q=400`.
+D3 limita i retry ai trasporti con zero token generati provato. La quota deriva dal pilot:
+`8/156 = 5,13%`, circa 349 tentativi attesi su 6.802 slot pianificati, più 15% e arrotondamento
+prudenziale a 400. È un tetto, non un obiettivo né una previsione garantita. Il riuso delle
+librerie è stato dimostrato da 7.2-R; le sedici chiamate producer prima accantonate non sono
+trasferibili ad altre chiamate.
 
-La base 6.902 (non il nuovo massimo con retry) rispetto al totale 7.174 del `REPORT_PILOT_03_13.md` differisce di **−272**: `−256` perché il report
-conservava gli accantonamenti prudenziali E5 `192+64`, qui esclusi, e `−16` perché 7.2-R ha
-accettato il riuso di entrambe le librerie (`G_P=G_A=0`). Tutte le altre voci coincidono.
+Il massimo 7.202 rispetto al totale storico 7.174 del `REPORT_PILOT_03_13.md` differisce di
+**+28**: `−256` per gli accantonamenti E5 esclusi, `−16` per il riuso delle librerie,
+`−100` per `X=0`, `+400` per la quota retry.
 
-La base supera il vecchio tetto storico 3.700 di **3.202 chiamate (+86,5%)**;
-il nuovo massimo lo supera di `3.202 + Q_max`. È accettato perché
+La base pianificata 6.802 supera il vecchio tetto storico 3.700 di **3.102 chiamate (+83,8%)**;
+il massimo 7.202 lo supera di **3.502 (+94,6%)**. È accettato perché
 la rev. 10 ha sostituito quel tetto con conteggio completo e test temporale `1,20×T<=W`, e
 l'autore ha dato GO al ramo R=3 con `W=7 giorni` dopo il pilot. Non è un'autorizzazione a
 riutilizzare la differenza come riserva.
@@ -288,22 +312,15 @@ riutilizzare la differenza come riserva.
 
 Calcolo sequenziale, senza vantaggi teorici di concorrenza:
 
-- media: `(6902×26,209)/3600 = 50,248 h`; con margine 20%:
-  **60,298 h < 168 h**;
-- p95: `(6902×36,661)/3600 = 70,287 h`; con margine 20%:
-  **84,345 h < 168 h**.
-
-Questi sono scenari **base senza retry**, non un PASS del massimo rev2. Con Q_max:
-
-`T_media_20 = (6902 + Q_max) * 26,209 / 3600 * 1,20 + attese_e_overhead_con_margine`
-
-`T_p95_20 = (6902 + Q_max) * 36,661 / 3600 * 1,20 + attese_e_overhead_con_margine`.
+- media: `(7202×26,2086)/3600 = 52,432 h`; con margine 20%:
+  **62,918 h (62,9 h) < 168 h**;
+- p95: `(7202×36,6609)/3600 = 73,342 h`; con margine 20%:
+  **88,011 h (88,0 h) < 168 h**.
 
 La seconda è una proiezione basata sulla latenza p95 individuale, **non** il p95 del tempo
-complessivo. I retry tecnici possono avere timeout più lunghi: il massimo deve includere
-il tempo limite dei tentativi falliti, il backoff cumulativo e il costo del binding misurato
-sul Mac (7.4-PREP punto 9). Senza Q_max e tempi dei retry non è dimostrato T5 del nuovo massimo:
-**T5 PENDING**. Non si usa il margine temporale come quota implicita. Nessuna chiamata 27B futura.
+complessivo. Il backoff è regolato separatamente e monitorato nel tempo civile; non crea quota.
+Con il massimo di 7.202 chiamate entrambe le proiezioni con margine restano sotto `W=168 h`:
+**T5 PASS condizionato alla review del runner**. Nessuna chiamata 27B futura.
 
 ## 6. Canary T8
 
@@ -326,7 +343,7 @@ parsata e hash della risposta grezza. L'hash grezzo è solo forense.
 | `S2-P03-015` | E-LF | 3 | `db07d10d4ed4ef69a4e9dd5b2b37c6e8c8d7d74df38cce580fdb0145d401ffbc` | false | `S2-CLS-QRCCB` | `2f586f2d771b286b6b1fc7e3f7ce36cf1609fd10e462da7955a641fdfdb1e0de` |
 | `S2-P03-025` | E-LF | 5 | `114064dddd45c28a91455de329bd6df9943e46fc578f3eb9e800a190076606e5` | false | `S2-CLS-4AMS4` | `bc4575f0a4ebed9674862694624315ede64c8d748848fe814fcd7314f433e020` |
 
-Regola giornaliera (piano §10.5, D3; specificazione rev2 C4–C5):
+Regola giornaliera (piano §10.5, D3; decisione D8 rev3):
 
 1. Dieci slot canary all’inizio di ogni giorno civile Europe/Rome con chiamate scientifiche,
    prima del primo lotto; massimo sette giorni civili, non automaticamente tutti i giorni
@@ -334,7 +351,7 @@ Regola giornaliera (piano §10.5, D3; specificazione rev2 C4–C5):
 2. Dieci risposte valide concordi con la coppia attesa → PASS. Almeno una coppia diversa o
    una risposta generata invalida/troncata → giorno MARKED (causa distinta: discordanza o
    invalidità). L’hash grezzo è solo forense. Un errore di trasporto non dimostra deriva:
-   prova zero-token → slot recuperabile entro Q_max; consumo incerto → STOP immediato.
+   prova zero-token → slot recuperabile entro `Q=400`; consumo incerto → STOP immediato.
    Fino alla risoluzione dei dieci slot nessun verdetto giornaliero né invio scientifico.
 3. Ogni tentativo consuma contabilità: primo invio nello slot dei 70, retry nella riserva Q,
    mai nuovo slot canary né azzeramento del numero di giorni. Una risposta generata invalida
@@ -353,7 +370,9 @@ Regola giornaliera (piano §10.5, D3; specificazione rev2 C4–C5):
 6. I dieci prompt sono quelli del pilot, copiati byte-identici nel nuovo target e autenticati
    contro la tabella prima della materializzazione; non si rigenerano dal nuovo manifest test.
 
-Implementazione della barriera, delle due maschere e dei casi invalidi: **PENDING_7_4_FIX_REVIEWED**.
+La barriera per giorno civile, le due maschere e i casi invalidi sono implementati al commit
+`a51ffd1`, con efficacia **condizionata alla review**. Nessun lotto scientifico può iniziare in
+un giorno civile privo di canary PASS di quello stesso giorno.
 Le maschere individuano richieste/risposte; qualsiasi contrasto ricalcolato dopo esclusioni
 mantiene solo coppie complete, con denominatori e motivi di esclusione espliciti; è sensibilità,
 non cambia la popolazione primaria. Nessuna sostituzione opportunistica con repetitions 2/3.
@@ -364,24 +383,26 @@ non cambia la popolazione primaria. Nessuna sostituzione opportunistica con repe
 
 Ordine obbligatorio:
 
-1. Completare 7.4-FIX, review offline del runner (inclusa quota/accounting/ledger), decisioni
-   Q_max, verifica sintetica H3 e review dell’addendum con Q1–Q3 già approvate; registrare commit rivisto, non il solo commit PREP `9e0e086`.
-2. Congelare l’assegnazione run→finestra sui soli identificativi prima di estrarre evidence;
-   estrarre solo le finestre assegnate con pipeline 03.6 e soglie congelate. Conservare esempi
-   locali, label space e agenti dal manifest sviluppo SHA `84176888…4014`, senza usare test
-   per costruire esempi. Il manifest test, distinto, porta SHA di ciascun input.
-3. Verificare rendibilità dei 2.244 prompt, token entro contesto, diff B↔E e B-LF↔B-noLF,
-   integrità/disponibilità canary e release; registrare i quattro SHA, renderer e runner.
-4. Integrare rem6 **fino al commit rivisto** (include `c284523`/`f0d0393`), poi questo
-   candidato con review/addendum accettati e verbale pilot; solo dopo creare il tag annotato
+1. Concludere la review indipendente del ramo rem6 fino ad `a51ffd1` (runner, quota,
+   accounting e ledger) e della verifica sintetica H3/candidato di protocollo.
+2. Integrare rem6 **fino ad `a51ffd1` dopo la review**, poi il branch del protocollo; solo dopo
+   creare il tag annotato
    `studio2-fase03-protocollo-finale-frozen-001` sul commit in main, su mandato dell’autore.
-5. Dopo il tag, Luca materializza un target finale fresco e ledger durevole con inventario,
-   identità, quote e schedule autenticati. Canary iniziale PASS, poi le tre passate; infine
-   chiusura del ledger e analisi. Questo incarico non materializza né integra né crea tag.
+3. Dopo il tag, la fase **7.4-MAT** produce il target finale fresco: configurazione eseguibile,
+   contratto di generazione e copia autenticata dei dieci prompt canary del pilot; quindi ledger,
+   inventario, identità, quote e schedule autenticati. Questi prodotti post-tag non sono difetti
+   né prerequisiti del protocollo. Canary giornaliero PASS, poi le tre passate; infine chiusura
+   del ledger e analisi. Questo incarico non materializza, integra o crea tag.
+
+Il ref `main` contiene già 03.11 (`ea90761d`): sigillo
+`9bd02e900429e971c08cbb8fc81f5dec54b8dcfb30b90e19faf622bb8558739d`, audit
+`420a61eb65a47961092ee042f7fa08797a25b350f875cad76c0954f7f3eeb6e3` e piano F5
+`ef0b28529b6a48932d6fb7483c1fef44e331db089f284cc3d7a06a6e20879572`.
 
 Il runner finale è **parte del freeze**: nuovi entrypoint `run_final_batch.py`,
 `run_final_canary.py`, `materialize_final_target.py`, inventario e adattamenti del ledger,
-non una capacità già dimostrata dal pilot. Commit finale/review/hashes = PENDING_7_4_FIX_REVIEWED.
+non una capacità già dimostrata dal pilot. Il commit candidato è `a51ffd1`; l’efficacia nel
+freeze resta condizionata alla review indipendente.
 
 L’inventario ha 2.244 prompt logici: 1.728 nucleo, 224 swap, 148 B-noLF, 144 OOD.
 ID stabile: tupla `(block, condition, case_id, recipient_agent, library_role)` di stringhe,
@@ -395,12 +416,11 @@ Schedule: numpy **2.2.6** come ambiente di riferimento PREP, un solo
 Per passate 1→2→3, chiamare **`Generator.permutation(n)`**, n=2244, sugli indici
 nell’inventario ordinato; mai re-inizializzare il generatore fra passate.
 Stage: `final_batch_r1`, `final_batch_r2`, `final_batch_r3`, ciascuno 2.244 slot logici;
-`final_canary` 70; `technical_verification` 100; quota trasporto Q separata e condivisa,
+`final_canary` 70; `technical_verification` 0; quota trasporto `Q=400` separata e condivisa,
 non moltiplicata per stage. La passata successiva richiede chiusura della precedente.
 
-SHA storici PREP: inventario `227e5e9c797dbfd8be746d85b77298f5dfb091846dc301f0b2e31ea1dbc6df3f`,
+Pin finali verificati: inventario `227e5e9c797dbfd8be746d85b77298f5dfb091846dc301f0b2e31ea1dbc6df3f`,
 schedule `1acfc4044c53f113016ed0bfab58863291a9060a9edc9abadb68a21d30687819`.
-Sono riferimenti di confronto, **non i pin finali**, che restano PENDING_7_4_FIX_REVIEWED.
 Il token B-noLF era già presente: non cambia da solo la schedule. Differenze future vanno
 spiegate e riviste, mai coperte sovrascrivendo gli SHA storici. Registrare versione numpy effettiva.
 Resume: stessa schedule persistita, nessun rimescolamento/riuso slot; retry come tentativo
@@ -410,7 +430,7 @@ figlio della stessa richiesta logica. Repetition 1 è quella assegnata, non la p
 
 | Esito | Regola vincolante |
 | --- | --- |
-| Errore tecnico con prova che non è avvenuta generazione | Retry entro Q_max dopo riconciliazione |
+| Errore tecnico con prova che non è avvenuta generazione | Retry entro `Q=400` dopo riconciliazione |
 | Timeout senza prova di mancata generazione | Sospendere e riconciliare, nessun reinvio automatico |
 | Risposta generata invalida o troncata | Fallimento terminale, nessuna rigenerazione |
 | Risposta valida errata o astenuta | Esito scientifico definitivo |
@@ -431,7 +451,8 @@ Una richiesta recuperabile ma senza quota resta pendente con STOP; non si omette
 STOP operativo dopo **5 tentativi tecnici consecutivi falliti per servizio**, retry inclusi;
 contatore persistente, conservato al riavvio, reset soltanto dopo trasporto completato
 con identità verificata (la validità diagnostica non è criterio di reset). Attesa crescente
-registrata e tetto cumulativo Q separato, entrambi da 7.4-FIX e accettazione; la quinta
+registrata: 30, 60, 120, 240 secondi, poi crescita fino al tetto di 15 minuti; tetto cumulativo
+`Q=400` separato. La quinta
 occorrenza impedisce il sesto invio automatico. Il numero 5 è una protezione operativa,
 non una soglia statistica. STOP conserva risultati e richieste pendenti, non cancella la campagna.
 
@@ -439,12 +460,12 @@ STOP immediato: errore permanente, identità cambiata (`returned_model` **o** fi
 consumo incerto, quota superata, schedule non autenticata, prerequisiti mancanti, secondo
 canary-day marcato, ledger incoerente, provenienza persa. Ripresa soltanto sullo stesso
 binding/schedule e dopo risoluzione documentata; non autorizza una nuova configurazione.
-Q_max si valida atomicamente attraverso tutti gli stage prima del nuovo intent/trasporto;
-restart/alias/directory diversi non creano quota. Implementazione non certificata da questa rev2.
+La quota si valida atomicamente attraverso tutti gli stage prima del nuovo intent/trasporto;
+restart/alias/directory diversi non creano quota. Implementazione al commit `a51ffd1`, soggetta
+alla review indipendente.
 
-`X=100` resta una riserva tecnica **inutilizzabile** fino a elenco identificato e approvato
-prima degli invii; non finanzia retry, remediation, canary extra o nuove analisi. Il totale
-massimo e T5 restano PENDING fino a Q_max, backoff e timeout massimi rivisti.
+`X=0`: non esiste riserva tecnica. Qualunque futura verifica tecnica richiede una revisione
+dichiarata del protocollo; non può finanziare retry, remediation, canary extra o nuove analisi.
 
 ### 7.3 D4 — uso delle tre ripetizioni
 
@@ -500,11 +521,11 @@ e taggato. Un requisito bloccante `PENDING` impedisce materializzazione/esecuzio
 | T2 | PASS documentale | report pilot e review byte-identica tracciata in questa cartella, §2.1 | Integrazione richiesta prima del tag |
 | T3 | PASS | 119/120 valide, astensione in A/B-LF/E-LF; `pilot/VERIFICA_ESITO_PILOT_03_13.md`, SHA in §2 | No |
 | T4 | PASS | 0/120 troncamenti; stesso esito | No |
-| T5 | PENDING | base 60,298/84,345 h; massimo con Q/backoff/timeout ancora aperto, §5 | Sì |
+| T5 | PASS-C | massimo 7.202: 62,918/88,011 h con margine 20%, entrambe <168 h, §5 | Sì, fino alla review runner |
 | T6 | PASS, ramo R3 | 1/40 divergente per validità; report/review pilot | No |
 | T7 | PASS | logging durevole e identità verificati nel report/review pilot | No |
-| T8 | PENDING | selezione verificata; nuove regole canary §6 e loro implementazione/review 7.4-FIX | Sì |
-| T9 | PASS pilot | 16/16 insight per entrambi nel pilot; report/review pilot | No per capability; S5/S19 restano aperti |
+| T8 | PASS-C | selezione e barriera giornaliera implementate in `a51ffd1`, §6 | Sì, fino alla review runner |
+| T9 | PASS pilot | 16/16 insight per entrambi nel pilot; report/review pilot | No per capability; S5/S19 sono condizionati alla review |
 | T10 | PASS registrazione | report pilot §3/§4: configurazioni, seed/thinking e identità esposte | No; limite da riportare |
 | T11 | PASS | gate: A ha 6/24 astensioni valide sui casi `matched_transfer`; report pilot §4 | No |
 
@@ -514,15 +535,15 @@ e taggato. Un requisito bloccante `PENDING` impedisce materializzazione/esecuzio
 | --- | --- | --- | --- |
 | S1 | PASS | tag `studio2-fase03-catalogo-D1-frozen-001`; `selection/CATALOG_FREEZE.json`, SHA in §2 | No |
 | S2 | PASS | release `studio2-fase03-evidence-v2`, SHA archivio completo in §2 | No |
-| S3 | PENDING | sigillo verificato; coordinate asset nel JSON, riscaricamento/publication record test-v1 mancante (§2.1) | Sì |
+| S3 | PASS | sigillo verificato; tre asset test-v1 riscaricati e verificati il 2026-09-17 (§2.1) | No |
 | S4 | PASS | tag `studio2-fase03-soglie-normal-frozen-001`; `soglie_normal/THRESHOLD_FREEZE.json`, SHA in §2 | No |
 | S5 | PASS-C | `G_P/G_A` accettate senza nuove chiamate; §3.2 e review 7.2-R, SHA in §2 | Sì fino al freeze |
-| S6 | PENDING | piano congelato intatto + addendum nuovo §§1–5, Q1–Q3 approvate; verifica sintetica H3 e review da chiudere | Sì |
+| S6 | PASS condizionato alla review della verifica sintetica | 108/108 punti ICC=0 passano, massimo `phat=0,05128`; procedura invariata | Sì, fino alla review |
 | S7 | PASS | tag `studio2-fase03-pseudolabel-frozen-001`; `PSEUDOLABEL_FREEZE.json`, SHA in §2 | No |
-| S8 | PENDING | base congelata intatta; renderer B-noLF/file nuovo, token e test input da 7.4-FIX (§3.1-bis) | Sì |
+| S8 | PASS-C | `protocol.py` intatto; renderer B-noLF e 148 diff verificati al commit `a51ffd1` (§3.1-bis) | Sì, fino alla review runner |
 | S9 | PASS | commit a00605862f627710347bd63c49f79a6d0a00135f, BASELINE_FREEZE_rev005.json (§2) | No |
-| S10 | PENDING | m e gerarchia invariati; validità inferenziale condizionata e H3/Q2 nell’addendum | Sì |
-| S11 | PENDING | sequenza invariata; livello di Tango e FWER completo non dimostrati nel nuovo disegno | Sì |
+| S10 | PASS condizionato alla review della verifica sintetica | m e gerarchia invariati; validità condizionata all’indipendenza fra run | Sì, fino alla review |
+| S11 | PASS condizionato alla review della verifica sintetica | sequenza invariata; Tango H3 supera il bordo ICC=0, senza garanzia FWER generale | Sì, fino alla review |
 | S11b | PASS | piano statistico §3.1, tag 03.8 | No |
 | S12 | PASS | piano §9/D11; sigillo 03.11 | No |
 | S13 | PASS | `F6→F5`, `F4` mantenuto; `fault_runs/ACQUISIZIONE_OK_ESECUZIONE_03_11.md`, SHA `ddd986c1fb54359d0dd059c58994136d6b71d0fccad8298665b6019848f81208` | No |
@@ -530,7 +551,7 @@ e taggato. Un requisito bloccante `PENDING` impedisce materializzazione/esecuzio
 | S15 | PASS | `fedavg/FINAL_PROTOCOL.json`, SHA in §2 | No |
 | S16 | PASS | `fedavg/FEDAVG_FREEZE.json`, SHA in §2 | No |
 | S17 | PASS | tag `studio2-fase03-schema-insight-frozen-001`; `SCHEMA_FREEZE.json`, SHA in §2 | No |
-| S18 | PENDING finale | base/development 112/112 solo pseudolabel; verifica renderer e input finali da 7.4-FIX | Sì |
+| S18 | PASS-C | finali: B↔E 624/624 e B-noLF 148/148; max 5.284, p95 5.219 token | Sì, fino alla review runner |
 | S19 | PASS-C | 13/13 criteri su entrambe le librerie; asimmetria accettata e R1 dichiarato; §3.2 e review 7.2-R | Sì fino al freeze |
 
 ### 8.3 Organizzativi O1–O6
@@ -538,15 +559,15 @@ e taggato. Un requisito bloccante `PENDING` impedisce materializzazione/esecuzio
 | ID | Stato | Evidenza puntuale | Bloccante ora? |
 | --- | --- | --- | --- |
 | O1 | PASS | D9 e identità effettive nel tag/report pilot | No |
-| O2 | PENDING | Q_max, massimo completo e T5 §5 | Sì |
+| O2 | PASS-C | `Q=400`, massimo 7.202 e T5 62,9/88,0 h §5 | Sì, fino alla review runner |
 | O3 | PASS-C | ruoli qualificati nel pilot, W=7 giorni, canary §6 | Sì fino al freeze |
 | O4 | PASS | freeze FedAvg 03.14 | No |
 | O5 | PASS | `paper_sections/REPORT_PAPER_SECTIONS.md`, SHA `a15387ffcc237f001c0c8692f1b19edfdf2cd04fa1803a58a79920c403488b3d` | No |
-| O6 | PENDING | D1–D5 recepite, Q1–Q3 approvate; verifica H3/review addendum e quota retry ancora pendenti | Sì |
+| O6 | PASS-C | D1–D11 recepite; quota e verifica H3 chiuse documentalmente | Sì, fino alle review |
 
-**Verdetto rev2:** candidato documentale consegnabile per decisioni/review, **NO-GO al freeze
-e alla materializzazione** finché verifica H3/review addendum, 7.4-FIX rivisto, Q_max/T5, coordinate residue e
-verifica di conservazione test-v1 non sono chiusi. Nessun PASS documentale certifica il runner.
+**Verdetto rev3:** tutti i segnaposto documentali sono chiusi. Il candidato è pronto per le
+review indipendenti richieste; dopo esito favorevole si integra nell’ordine di §7.1 e si crea il
+tag annotato. La materializzazione 7.4-MAT avviene soltanto dopo il tag.
 
 ## 9. Deviazioni da dichiarare nel paper
 
@@ -562,9 +583,9 @@ verifica di conservazione test-v1 non sono chiusi. Nessun PASS documentale certi
    producer 122B ha ricevuto una riga di remediation che impone forma canonica e citazione di ogni
    variabile dichiarata; il 27B ha mantenuto il template base. L'asimmetria non è stata ricalcolata
    a posteriori ed è un possibile confondente: copertura bidirezionale 6/16 contro 0/16.
-6. La base 6.902 supera il tetto storico 3.700 di 3.202 (+86,5%); il massimo rev2 è
-   6.902+Q_max, ancora da fissare. Il tetto storico era stato sostituito da T5 temporale;
-   il PASS della sola base non certifica il massimo con retry e attese.
+6. La base pianificata 6.802 supera il tetto storico 3.700 di 3.102 (+83,8%); il massimo
+   congelato 7.202 lo supera di 3.502 (+94,6%). Il tetto storico è sostituito da T5 temporale;
+   il massimo passa a 62,9 h sulla media e 88,0 h sulla p95, margine 20% incluso.
 7. La chiamata di gate fallita per trasporto resta nel conteggio del pilot; il pilot non è stato
    riavviato da zero.
 8. E5 non entra nel protocollo finale perché approvata ma non congelata; i suoi 256 slot
@@ -577,9 +598,9 @@ verifica di conservazione test-v1 non sono chiusi. Nessun PASS documentale certi
 10. Una finestra per run, randomizzazione bilanciata per posizione entro fault: endpoint
     uniforme sulle otto posizioni, non monitoraggio continuo; assunzioni e limiti inferenziali
     nell’addendum, curva temporale soltanto descrittiva.
-11. D3 sostituisce Q=0 assoluto: retry solo con zero-token provati, contabilità separata,
+11. D3 sostituisce Q=0 assoluto con `Q=400`: retry solo con zero-token provati, contabilità separata,
     STOP dopo cinque fallimenti tecnici per servizio e STOP immediati; nessun retry di output
-    generato invalido. Quota finale e tempi devono essere congelati prima degli invii.
+    generato invalido. Backoff 30/60/120/240 secondi fino a 15 minuti.
 12. D4 completa la sensibilità: 2/3 o astensione per disaccordo; primaria sempre repetition 1.
     Triplette incomplete e reporting globale sono approvati con Q3; non introdotti
     dopo l’osservazione dei risultati. Canary: maschera giorno come piano, intervallo forense
@@ -593,6 +614,15 @@ sintassi, questa riga correla con una copertura `variable_ids↔observed_pattern
 (6/16 contro 0/16 insight), un possibile confondente se l'ampiezza descrittiva della narrativa
 influenza l'uso a valle degli insight. Inoltre i quattro fault di continuità scelti non coprono i
 fault sticking o i fault difficili `F3/F15`; la misura è esplorativa e descrittiva.
+
+### 9.2 Threats to validity della verifica H3
+
+La verifica sintetica ha completato 1.596 scenari, con 24 stress INFEASIBLE e zero errori
+numerici. Al bordo ICC=0, Tango H3 passa 108/108 punti (`phat` massimo 0,05128), ma il massimo
+ICC descrittivo testato con livello ≤0,055 è 0 per Tango H3 e 0,20 per Hoeffding H3 e H1/H2.
+H3 vale dunque sotto indipendenza fra run ed è sensibile anche a piccola correlazione entro fault;
+H1/H2 risultano descrittivamente robusti fino a correlazione moderata. Ciò non cambia la
+procedura, non garantisce il FWER completo e resta condizionato alla review `b567`.
 
 ## 10. Risposte Q1–Q3 e chiusura del freeze
 
@@ -609,20 +639,22 @@ fault sticking o i fault difficili `F3/F15`; la misura è esplorativa e descritt
    Esito negativo a ICC=0 → fallback B Hoeffding deciso ora, non dopo i dati reali.
    Stress ICC=0/0,05/0,1/0,2/0,4 su Tango, Hoeffding H3 e H1/H2 descrittivo, senza
    cambiare procedura né attivare fallback; riportato nei threats. S6/S10/S11
-   restano PENDING; Tango non rende garantito il FWER completo. Il fallback richiede ancora
+   sono PASS condizionato alla review; Tango non rende garantito il FWER completo. Il fallback richiede ancora
    l’indipendenza effettiva dei run: non sana automaticamente correlazioni reali.
 3. **Q3 sì:** audit 10% invariato e reporting D4 su tutti i prompt, descrittivo per blocco e
    condizione; meno di tre validi → invalid_incomplete_triplet, anche con due concordi,
    non corretto e distinto dalle astensioni, con numero di risposte valide registrato.
 
-La verifica H3 è una sotto-fase separata: qui soltanto specifica, nessuno script di simulazione
-eseguito né esito anticipato. Review del candidato/addendum ancora necessaria.
+La verifica H3 è stata eseguita con script congelato SHA
+`847bc294948303a1d4763cc223893eeffc167c42f4e3b1540f73ed31feb53c5f` e implementazione Tango
+SHA `25a648b99fcb86f8111eaaf2f712183d6c3e0a0af5960b6b84c424c38fb1e613`.
+L’esito §5 resta condizionato alla review indipendente `b567`.
 
-Quota Q_max/attese: proposta **PENDING_7_4_FIX_REVIEWED_AND_AUTHOR**, non inventata qui.
-Segnaposto bloccanti: commit/review runner e renderer B-noLF; SHA assegnazione, input test,
-inventario e schedule; prova token/diff/dry-run; quota/Q_max e T5 comprensivo di tempi tecnici;
-record di pubblicazione e riscaricamento test-v1. Dettaglio nel manifest e nel registro rev2.
+Non restano segnaposto. Restano aperti soltanto:
 
-Ordine di integrazione: **rem6 fino al commit rivisto → candidato rev2 accettato (include
-verbale pilot e addendum) → tag annotato in main**. La vecchia soglia f0d0393 identificava le
-sole librerie: è necessaria ma non sufficiente a includere il runner. Nessun merge/tag qui.
+1. review indipendenti del ramo rem6 fino ad `a51ffd1` e della verifica sintetica/candidato;
+2. integrazione nell’ordine **rem6 fino ad `a51ffd1` → branch del protocollo**, quindi tag
+   annotato `studio2-fase03-protocollo-finale-frozen-001` in `main`.
+
+La fase 7.4-MAT è successiva al tag e non è un difetto aperto del protocollo. Nessun merge o tag
+è eseguito da questo incarico.

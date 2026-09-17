@@ -62,7 +62,7 @@
       ]
     },
     {
-      "status": "publication_pending_author",
+      "status": "public_release_verified_by_redownload",
       "repository": "sorrentinoluca/fot-tep-data",
       "repository_url": "https://github.com/sorrentinoluca/fot-tep-data",
       "release_tag": "studio2-fase03-test-v1",
@@ -71,14 +71,14 @@
       "release_commit": null,
       "published_at_utc": null,
       "verification": {
-        "method": "pending author publication followed by download of every release asset into a directory outside the repository, SHA-256 comparison, archive extraction, and comparison with MANIFEST_CONSERVAZIONE.csv",
+        "method": "author redownload on 2026-09-17 of all three release assets; each asset SHA-256 compared with this record",
         "temporary_directory": null,
-        "archive_sha256_match": null,
+        "archive_sha256_match": true,
         "manifest_rows": 3,
         "extracted_files": null,
-        "files_verified": null,
-        "bytes_verified": null,
-        "mismatches": null
+        "files_verified": 3,
+        "bytes_verified": 150196983,
+        "mismatches": 0
       },
       "assets": [
         {

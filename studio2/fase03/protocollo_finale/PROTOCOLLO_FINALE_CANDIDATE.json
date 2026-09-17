@@ -1,24 +1,20 @@
 {
-  "artifact_version": "2.1",
+  "artifact_version": "3.0",
   "status": "CANDIDATE_NOT_EFFECTIVE_NOT_AUTHORIZATIVE",
   "created_date": "2026-09-17",
-  "base_commit": "ea90761d5b946588a572c7b8a6d47bf43c739501",
+  "base_commit": "d0cfeab11d1a779f795ebc018e32c9f508a24831",
   "branch": "codex/studio2-freeze-protocollo-finale",
   "candidate": {
     "path": "studio2/fase03/protocollo_finale/PROTOCOLLO_FINALE_CANDIDATE.md",
-    "sha256": "7b7035ea3c5cefc4654d7de1281a4e3a83f3ec6524ba0ee8694b2559029fe702",
+    "sha256": "a66fbd7051e86bd4f2f8512ba204b588671147443d7ade0e5b43be97bf5155a9",
     "hash_scope": "physical file bytes"
   },
   "proposed_tag_not_created": "studio2-fase03-protocollo-finale-frozen-001",
   "freeze_effective": false,
   "execution_authorized": false,
   "blocking_dependencies": [
-    "independent synthetic H3 verification at ICC=0, descriptive ICC stress, branch reception and addendum review; Q1/Q2/Q3 already approved",
-    "reviewed 7.4-FIX commit including runner, B-noLF, accounting and ledger",
-    "reviewed four final artifact hashes, tokenizer checks and dry-run",
-    "author accepted retry quota/backoff/timeout and full T5 calculation",
-    "test-v1 publication and redownload verification record",
-    "rem6 reviewed commit then candidate integrated in main, then independent accepted freeze and annotated tag"
+    "independent review of rem6 through a51ffd1, including runner, accounting and ledger, and of the synthetic H3 verification/protocol candidate",
+    "integration in order rem6 through a51ffd1 then protocol branch, followed by annotated tag studio2-fase03-protocollo-finale-frozen-001"
   ],
   "author_decisions_2026_09_17": {
     "producer_swap_faults": [
@@ -49,13 +45,25 @@
     "normative_source": {
       "path": "studio2/fase03/protocollo_finale/DECISIONI_AUTORE_7_3_REV2_2026-09-17.md",
       "sha256": "535939de1d8c1e6f8185fd838a6bd20caca85b5f09c7908f679f251761aaccb2",
-      "status": "byte-identical copy; D1-D5 binding, Q1-Q3 not approved"
+      "status": "byte-identical copy; D1-D5 binding"
     }
   },
+  "author_decisions_rev3": {
+    "path": "studio2/fase03/protocollo_finale/DECISIONI_AUTORE_7_3_REV3.md",
+    "sha256": "235ab24ff254ed1e400033ff6ff65f302e91b3888001a9ec9a173095990e812a",
+    "X": 0,
+    "retry_quota": 400,
+    "backoff_seconds": [30, 60, 120, 240],
+    "backoff_cap_seconds": 900,
+    "consecutive_failures_per_service_stop": 5,
+    "daily_civil_day_canary_barrier": true,
+    "maximum_calls": 7202,
+    "materialization_phase": "7.4-MAT after annotated tag"
+  },
   "S18_diff": {
-    "status": "PASS_BASE_DEVELOPMENT_ONLY_FINAL_INPUT_PENDING",
+    "status": "PASS_FINAL_INPUT_CONDITIONAL_REVIEW",
     "renderer_sha256": "791fa347e97ca49e15a8b7ca1e02e0e38c0be37e23eece092c8a094e9a653d1e",
-    "input_manifest_sha256": "8417688869b75bda8235387ac830018ecdc9030442a860d495418f195f2b4014",
+    "input_manifest_sha256": "67e7584a80d743efc06edc4c97019c20803cc4787c1d70c8d924ad23736612e8",
     "library_canonical_sha256": "c2469737bcaab0df8d07a1c2493d2f95784aae07a55998aecf49cc53fa5d1a30",
     "recipients": 8,
     "peer_records_per_recipient": 14,
@@ -68,7 +76,13 @@
       "variable_ids": 0,
       "observed_pattern": 0
     },
-    "final_manifest_and_renderer_verification": "PENDING_7_4_FIX_REVIEWED"
+    "final_manifest_and_renderer_verification": {
+      "B_E_pairs_passed": 624,
+      "B_noLF_prompts_passed": 148,
+      "max_tokens": 5284,
+      "p95_tokens": 5219,
+      "status": "PASS_CONDITIONAL_RUNNER_REVIEW"
+    }
   },
   "repository_sources": [
     {
@@ -425,35 +439,26 @@
     "d": 7,
     "G_P_max": 0,
     "G_A_max": 0,
-    "X_max": 100,
-    "Q": null,
-    "future_calls_max": null,
-    "future_calls_122b_max": null,
+    "X_max": 0,
+    "Q": 400,
+    "future_calls_max": 7202,
+    "future_calls_122b_max": 7202,
     "future_calls_27b_max": 0,
-    "mean_T_hours": null,
-    "mean_T_with_20_percent_hours": null,
-    "p95_T_hours": null,
-    "p95_T_with_20_percent_hours": null,
-    "Q_status": "PENDING_7_4_FIX_REVIEWED_AND_AUTHOR",
-    "base_future_calls_without_retries": 6902,
-    "maximum_formula": "6902 + Q_max",
-    "T5_status": "PENDING_FULL_MAXIMUM_RETRY_TIMING",
-    "base_scenario": {
-      "mean_seconds_per_call": 26.209,
-      "p95_seconds_per_call": 36.661,
-      "mean_hours": 50.24847722222223,
-      "mean_with_20_percent_hours": 60.29817266666667,
-      "p95_proxy_hours": 70.2872838888889,
-      "p95_proxy_with_20_percent_hours": 84.34474066666667
+    "mean_T_hours": 52.43176033333333,
+    "mean_T_with_20_percent_hours": 62.9181124,
+    "p95_T_hours": 73.34216716666666,
+    "p95_T_with_20_percent_hours": 88.0106006,
+    "Q_status": "AUTHOR_FIXED_400_CONDITIONAL_RUNNER_REVIEW",
+    "base_future_calls_without_retries": 6802,
+    "maximum_formula": "6732 + 70 + 0 + 400",
+    "T5_status": "PASS_CONDITIONAL_RUNNER_REVIEW",
+    "latency_basis": {
+      "mean_seconds_per_call": 26.2086,
+      "p95_seconds_per_call": 36.6609,
+      "margin": 1.2
     },
-    "full_timing_requires": [
-      "retry count",
-      "failed attempt timeout bound",
-      "cumulative backoff",
-      "measured binding overhead"
-    ],
     "p95_scope": "per-call latency projection, not percentile of total campaign",
-    "X_status": "reserved but unusable without identified preapproved technical list"
+    "X_status": "fixed at zero; any future technical verification requires declared protocol revision"
   },
   "author_questions": [],
   "predecessor_candidate_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06",
@@ -472,19 +477,26 @@
       "repetitions"
     ],
     "inputs": "run identifiers only; freeze before test signals/evidence",
-    "generator_seed_version": "PENDING_7_4_FIX_REVIEWED",
-    "artifact_sha256": null,
-    "status": "PENDING_7_4_FIX_REVIEWED"
+    "generator_seed_version": "numpy.random.Generator(PCG64(20260917)); namespace studio2-fase03-window-assignment-v1; one permutation(8) per lexicographically ordered group; OOD uses first three values",
+    "assigned_runs": 78,
+    "reserve_runs_excluded": 11,
+    "runs_with_eight_windows": "89/89",
+    "extracted_units": "78/78",
+    "artifact_sha256": "c809e79d2c03d74f4a5a37988eca809bda336468ab0060f794d3c214f9a6a775",
+    "canonical_assignment_sha256": "1ba7669ae9715e4c6313b6746a05f8d390eeee2877d7f41cc554146c9e35836b",
+    "status": "FROZEN_CONDITIONAL_RUNNER_REVIEW"
   },
   "B_noLF": {
     "condition": "B-noLF",
     "library_role": "G_P",
     "definition": "B-LF minus only DECISION POLICY block",
     "base_renderer_unchanged": true,
-    "new_renderer_path": null,
-    "new_renderer_sha256": null,
-    "status": "PENDING_7_4_FIX_REVIEWED",
-    "prompt_token_count": "measure full prompt with qualified tokenizer; no additive token subtraction"
+    "new_renderer_path": "studio2/fase03/protocol_bnolf.py",
+    "new_renderer_sha256": "b716200e6fdb34fa6dc0e7264612820306026f1851b188ef772016fc633fca8c",
+    "base_renderer_sha256": "791fa347e97ca49e15a8b7ca1e02e0e38c0be37e23eece092c8a094e9a653d1e",
+    "diff_prompts_passed": 148,
+    "status": "PASS_CONDITIONAL_RUNNER_REVIEW",
+    "prompt_token_count": "full final prompt measured with qualified tokenizer; overall max 5284, p95 5219"
   },
   "retry_policy": {
     "scope": "final batch only",
@@ -497,9 +509,10 @@
     "consecutive_technical_failures_per_service_stop": 5,
     "counter_persistent": true,
     "counter_reset": "identity-verified completed transport, not diagnostic validity",
-    "backoff_schedule": null,
-    "cumulative_retry_limit": null,
-    "status": "policy D3 accepted; numeric quota/backoff and implementation PENDING_7_4_FIX_REVIEWED_AND_AUTHOR"
+    "backoff_schedule_seconds": [30, 60, 120, 240],
+    "backoff_cap_seconds": 900,
+    "cumulative_retry_limit": 400,
+    "status": "IMPLEMENTED_A51FFD1_CONDITIONAL_REVIEW"
   },
   "repetitions": {
     "R": 3,
@@ -544,31 +557,46 @@
     },
     "other_base_stages": {
       "final_canary": 70,
-      "technical_verification": 100
+      "technical_verification": 0
     },
-    "retry_quota": "separate shared cumulative Q, not multiplied per stage",
+    "retry_quota": "separate shared cumulative Q=400, not multiplied per stage",
     "historical_prep_commit": "9e0e086746111359e080b204f51aadb6dbc03e40",
     "historical_inventory_sha256": "227e5e9c797dbfd8be746d85b77298f5dfb091846dc301f0b2e31ea1dbc6df3f",
     "historical_schedule_sha256": "1acfc4044c53f113016ed0bfab58863291a9060a9edc9abadb68a21d30687819",
-    "final_inventory_sha256": null,
-    "final_schedule_sha256": null,
-    "status": "PENDING_7_4_FIX_REVIEWED"
+    "final_inventory_sha256": "227e5e9c797dbfd8be746d85b77298f5dfb091846dc301f0b2e31ea1dbc6df3f",
+    "final_schedule_sha256": "1acfc4044c53f113016ed0bfab58863291a9060a9edc9abadb68a21d30687819",
+    "status": "FINAL_CONDITIONAL_RUNNER_REVIEW"
   },
   "final_input_manifest": {
-    "sha256": null,
-    "status": "PENDING_7_4_FIX_REVIEWED",
+    "sha256": "67e7584a80d743efc06edc4c97019c20803cc4787c1d70c8d924ad23736612e8",
+    "status": "FINAL_CONDITIONAL_RUNNER_REVIEW",
     "development_local_examples_agents_labels_source_sha256": "8417688869b75bda8235387ac830018ecdc9030442a860d495418f195f2b4014",
     "scientific_prompt_count": 2244,
-    "scientific_request_count": 6732
+    "scientific_request_count": 6732,
+    "condition_counts": {
+      "A": 624,
+      "B-LF": 848,
+      "E-LF": 624,
+      "B-noLF": 148
+    },
+    "block_counts": {
+      "nucleus": 1728,
+      "producer_swap": 224,
+      "ablation_b_no_lf": 148,
+      "ood": 144
+    },
+    "final_prompts_file_sha256": "f938604c512394df0e149732e474eb7d17b02a8dd1ed72155b84f19579a1385d",
+    "prompts_canonical_sha256": "b819200396da480d3ed9d4aa8f6b6aac8c135d97f0876b734a9b607b75736489"
   },
   "runner_freeze": {
+    "candidate_commit": "a51ffd1d0e15c5e99bf35d68559618951650b1d9",
     "reviewed_commit": null,
     "review_record_sha256": null,
-    "status": "PENDING_7_4_FIX_REVIEWED",
+    "status": "PENDING_INDEPENDENT_REVIEW_B567",
     "part_of_protocol_freeze": true,
     "integration_order": [
-      "rem6 through reviewed commit (including c284523 and f0d0393)",
-      "accepted candidate with pilot review and addendum",
+      "rem6 through a51ffd1 after independent review",
+      "protocol branch after independent review",
       "annotated studio2-fase03-protocollo-finale-frozen-001 on integrated main"
     ]
   },
@@ -680,7 +708,8 @@
     "second_distinct_marked_day": "stop before scientific batch",
     "sensitivity_mask": "all scientific requests of MARKED civil day per plan 10.5",
     "forensic_mask": "last completed PASS to failed canary, or campaign start if none; separate derived union; no terminal record rewrites",
-    "implementation_status": "PENDING_7_4_FIX_REVIEWED"
+    "daily_civil_day_barrier": "no scientific batch on a civil day without PASS canary on that same Europe/Rome day",
+    "implementation_status": "IMPLEMENTED_A51FFD1_CONDITIONAL_REVIEW"
   },
   "release_coordinates": [
     {
@@ -723,19 +752,19 @@
       "release_id": null,
       "release_commit": null,
       "release_url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-test-v1",
-      "recorded_status": "publication_pending_author",
+      "recorded_status": "public_release_verified_by_redownload",
       "source_path": "studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
-      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06",
-      "source_sha256": "59d6f7c70a5ccb5c99cb9dcee6e9fc9069b753aa3b935a0f6055dd6642cf6e56",
+      "source_commit": null,
+      "source_sha256": "b568ae5fdd39b6cebc52a4096e18c85874b77b6466e7b2e6aa2438bd303cccba",
       "verification": {
-        "method": "pending author publication followed by download of every release asset into a directory outside the repository, SHA-256 comparison, archive extraction, and comparison with MANIFEST_CONSERVAZIONE.csv",
+        "method": "author redownload on 2026-09-17 of all three release assets; each asset SHA-256 compared with fault_runs/ARTIFACT_STORAGE.json",
         "temporary_directory": null,
-        "archive_sha256_match": null,
+        "archive_sha256_match": true,
         "manifest_rows": 3,
         "extracted_files": null,
-        "files_verified": null,
-        "bytes_verified": null,
-        "mismatches": null
+        "files_verified": 3,
+        "bytes_verified": 150196983,
+        "mismatches": 0
       },
       "assets": [
         {
@@ -758,8 +787,8 @@
         }
       ],
       "identity_rule": "retrieve at URL and require expected bytes/hash; mutable tag URL alone is not immutable",
-      "this_task": "offline record inspection; no new download",
-      "remaining": "remote tag existence reported by Claude review; immutable release coordinates and redownload verification still pending"
+      "this_task": "offline reception of author redownload verification; release ID, commit and published timestamp not invented",
+      "remaining": null
     }
   ],
   "implementation_predecessor_report": {
@@ -780,7 +809,9 @@
   "synthetic_verification": {
     "path": "studio2/fase03/protocollo_finale/SPECIFICA_VERIFICA_SINTETICA_H3.md",
     "sha256": "335fa789163c51cb36d6d557382eb8095e94e656d09ef5d3245a71e29d556272",
-    "status": "SPECIFICATION_ONLY_NOT_EXECUTED",
+    "status": "PASS_AT_ICC_ZERO_CONDITIONAL_INDEPENDENT_REVIEW_B567",
+    "executed_script_sha256": "847bc294948303a1d4763cc223893eeffc167c42f4e3b1540f73ed31feb53c5f",
+    "tango_source_sha256": "25a648b99fcb86f8111eaaf2f712183d6c3e0a0af5960b6b84c424c38fb1e613",
     "N": 64,
     "faults": 8,
     "positions": 8,
@@ -815,14 +846,24 @@
     ],
     "icc_definition": "mean Pearson correlation over nondegenerate within-fault cell pairs; not mixture weight; feasibility explicit",
     "target_scenarios": 1620,
+    "completed_scenarios": 1596,
+    "infeasible_stress_scenarios": 24,
+    "numerical_errors": 0,
     "decision_null_points_icc_zero": 108,
     "decision_rule": "Tango rejection rate <=0.055 at every ICC=0 boundary point; negative => Hoeffding H3; incomplete => PENDING",
+    "decision_points_passed": "108/108",
+    "maximum_boundary_phat": 0.05128,
     "stress_procedures": [
       "Tango H3",
       "Hoeffding H3 N64",
       "Hoeffding H1/H2 N64"
     ],
     "stress_role": "descriptive only; report tested ICC range satisfying 0.055; never activates fallback",
+    "maximum_tested_icc_with_level_at_most_0_055": {
+      "Tango_H3": 0,
+      "Hoeffding_H3": 0.2,
+      "Hoeffding_H1_H2": 0.2
+    },
     "seed": 20260917,
     "namespace": "studio2-fase03-h3-synthetic-q2-v1",
     "full_fwer_guaranteed_with_Tango": false,
@@ -833,7 +874,8 @@
     "fixed_shared_factors": "condition on catalog, library, prompts, thresholds, model configuration; define conditional estimand",
     "simulator": "distinct qualified streams per run support conditional independence given fault; distinct seed values alone not proof",
     "llm_service": "randomized interleaved order and daily canary mitigate but do not eliminate shared random drift/state",
-    "residual_icc": "not separately identifiable nonparametrically from fixed effects/cell heterogeneity with one observation per cell"
+    "residual_icc": "not separately identifiable nonparametrically from fixed effects/cell heterogeneity with one observation per cell",
+    "synthetic_stress_conclusion": "H3 is valid under run independence and sensitive to even small within-fault correlation; H1/H2 are descriptively robust through moderate ICC=0.20; procedure unchanged and no full-FWER guarantee"
   },
   "intervals_Q1": {
     "bootstrap": "plan section 6 unchanged, descriptive approximate, not guaranteed conservative",
@@ -859,6 +901,20 @@
   "documentary_checks": {
     "path": "studio2/fase03/protocollo_finale/CONTROLLI_RISPOSTE_Q1_Q3.json",
     "sha256": "3d59a8b97d7a70e0df1b4b2778305ebfaf34c00c8a0d0ce34e3035dc7a6100b6",
-    "scope": "self-check only, not independent review"
-  }
+    "scope": "historical self-check only, not independent review"
+  },
+  "library_path_note": "LIBRERIE_FINALI_CANDIDATE.json contains an absolute library_path; correct it at that file's next declared revision; non-blocking for this protocol because file and canonical content hashes are pinned",
+  "materialization_after_tag": {
+    "phase": "7.4-MAT",
+    "products": [
+      "executable final target configuration",
+      "generation contract",
+      "ten pilot canary prompts copied byte-identically and authenticated"
+    ],
+    "protocol_defect": false
+  },
+  "remaining_open": [
+    "independent reviews of rem6 through a51ffd1 and of the synthetic H3 verification/protocol candidate",
+    "integration in the fixed order rem6 through a51ffd1 then protocol branch, followed by annotated tag studio2-fase03-protocollo-finale-frozen-001"
+  ]
 }
