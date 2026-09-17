@@ -1,0 +1,76 @@
+{
+  "artifact_version": "ACCETTAZIONI_AUTORE_PRE_GATE_03_13_1",
+  "status": "READY_FOR_INDEPENDENT_REVIEW_AUTHOR",
+  "real_gate_status": "BLOCKED",
+  "author_model": "claude-opus-5",
+  "base_commit": "4ab1e2e7ecb5704b55ea6d8867663714354ed5c4",
+  "real_runtime_census": {
+    "ledger_sha256": "3872029001346913f3722928b350813c8daaef349c5d4fbe98b770200c893fa0",
+    "access": "sqlite immutable read-only",
+    "config_sha256": "0c3cd34ef137cae4388e7868e4aa1e8d9bf494ab563fcabbdbcdc66bc7fe0606",
+    "execution_authorization_sha256": "7dcec1055696fa26b9baad40f1937f4ca55dc450a9f277ca9b01271b6ff1c875",
+    "presentation_approval_sha256": "0f9f7b7f4036bd4172467dba80673af5d9ec3abb2bb854d6239da7ccec2977d1",
+    "blocking": {
+      "L02_not_suspended": "suspended:19a9b37269bede1b62799cf3ac5819557dc19a5273aa53099f04b202bb94b207",
+      "L06_alternate_pass": "alternate_conformity without outcome, alternate_placement=pilot"
+    },
+    "runtime_files_written": []
+  },
+  "script": {
+    "path": "studio2/fase03/author_acceptances.py",
+    "acknowledge": "ACCEPT_PHASE03_PRE_GATE_INPUTS",
+    "writes": [
+      "execution/PILOT_INPUT_SOURCES.frozen.json",
+      "execution/PILOT_INPUT_MANIFEST.frozen.json",
+      "prepared/pilot_prompts.jsonl",
+      "prepared/pre_gate_plan.json",
+      "prepared/pre_gate_hashes.json",
+      "execution/PRE_GATE_ACCEPTANCE_03_13.private.json"
+    ],
+    "never_writes": [
+      "execution configuration",
+      "execution authorization",
+      "presentation approval",
+      "insight handoff",
+      "ledger content"
+    ],
+    "declared_deviations": [
+      "config and authorization verified, not rewritten (binding equality)",
+      "build_inventory in-process instead of inputs.py CLI",
+      "separate executable manifest file",
+      "--evidence-root required"
+    ]
+  },
+  "repository_artifacts": {
+    "studio2/fase03/author_acceptances.py": "07ca3e92cdb58caa5d577a503175e5d626fd67d20f0ccdf1794a9637c210d816",
+    "studio2/fase03/harness/test_author_acceptances.py": "8542eaec4d3dc46b37c75c2133431315836b03fa5a9c5d52540c9077b1e34338",
+    "studio2/fase03/RUNBOOK_PRE_GATE_PILOT_03.md": "2a6cfc8270bb58e26d19da66d1d15538cd1f30d759a1daf3b1b839f704e23014",
+    "studio2/fase03/harness/REPORT_ACCETTAZIONI_AUTORE_PRE_GATE_03_13.md": "e8421a00bc43f760797fe9eacf0964c4909526cedea2d5068e8ae80a2ef8d319",
+    "studio2/fase03/harness/logs_accettazioni_autore_pre_gate_03_13/verification.log": "a7a796e8c3426b15c68d9a7c672d9af7ee405b062feb31ae86df70a556f2b3d8"
+  },
+  "tests": {
+    "new_module": {
+      "module": "test_author_acceptances",
+      "tests": 9,
+      "failures": 0,
+      "errors": 0
+    },
+    "sixteen_modules_vm": {
+      "python": "3.10.12",
+      "evidence_release_sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf",
+      "non_pass": 2,
+      "non_pass_cause": "absent Mac path /Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec",
+      "same_as_base": true
+    },
+    "guardian": {
+      "tests": 35,
+      "failures": 14,
+      "skipped": 1
+    }
+  },
+  "runtime": {
+    "provider_calls": 0,
+    "push_merge_tag": false
+  },
+  "self": "SELF_SHA256_EXCLUDED_TO_AVOID_SELF_REFERENCE"
+}
