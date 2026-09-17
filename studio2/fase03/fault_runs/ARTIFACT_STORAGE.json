@@ -60,6 +60,52 @@
           "contents": "20 files: instrumented-MEX source (temexd_fault_philox.c, philox4x32.h, teprob_mod.h) and compiled binary (temexd_fault_philox.mexmaca64) for the fault-dev batch, the successful batch launch's matlab.log and matlab.pid, and the full MATLAB replay of fault-dev-F1-b01 with the instrumented MEX (runtime/mex_equivalence/fault_instrumented_30000_replay/); individual paths, byte counts, and SHA-256 values are in MANIFEST_CONSERVAZIONE_rev002.csv. Does not include or replace the equivalence-proof/replay MATLAB scripts: not recoverable (undocumented at the time, confirmed absent from the repository and from the author's disk)."
         }
       ]
+    },
+    {
+      "status": "publication_pending_author",
+      "repository": "sorrentinoluca/fot-tep-data",
+      "repository_url": "https://github.com/sorrentinoluca/fot-tep-data",
+      "release_tag": "studio2-fase03-test-v1",
+      "release_id": null,
+      "release_url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-test-v1",
+      "release_commit": null,
+      "published_at_utc": null,
+      "verification": {
+        "method": "pending author publication followed by download of every release asset into a directory outside the repository, SHA-256 comparison, archive extraction, and comparison with MANIFEST_CONSERVAZIONE.csv",
+        "temporary_directory": null,
+        "archive_sha256_match": null,
+        "manifest_rows": 3,
+        "extracted_files": null,
+        "files_verified": null,
+        "bytes_verified": null,
+        "mismatches": null
+      },
+      "assets": [
+        {
+          "name": "test_batch_f5_001.tar.gz",
+          "local_path": "studio2/fase03/fault_runs/test_batch/test_batch_f5_001.tar.gz",
+          "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-test-v1/test_batch_f5_001.tar.gz",
+          "bytes": 141191097,
+          "sha256": "ac1e7c0c4575ab746ee24a8bb5ce7f09289919773bc4d8c61ba86f7a93218a55",
+          "contents": "sealed 89-run F5 test batch"
+        },
+        {
+          "name": "chain_f5_001.tar.gz",
+          "local_path": "studio2/fase03/fault_runs/ood_chain_f5/chain_f5_001.tar.gz",
+          "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-test-v1/chain_f5_001.tar.gz",
+          "bytes": 1579326,
+          "sha256": "242f689a8737739f51eb6b3acefaf34cea4c06e9ebd547beccbcf1760a473aec",
+          "contents": "sealed technical F5 substitution probe"
+        },
+        {
+          "name": "ood_preflight_001.tar",
+          "local_path": "studio2/fase03/fault_runs/ood_preflight/ood_preflight_001.tar",
+          "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-test-v1/ood_preflight_001.tar",
+          "bytes": 7426560,
+          "sha256": "16acf7c1e18923b606a47fe3fb0efaa83b99e8ee19024f11f4d8f3fd675929df",
+          "contents": "sealed F6/F4 OOD preflight, including the preserved F6 physical trip"
+        }
+      ]
     }
   ]
 }
