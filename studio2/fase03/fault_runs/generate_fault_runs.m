@@ -47,7 +47,11 @@ if modelPath ~= canonical(fullfile(matlabDir,[model '.mdl'])), error('Unexpected
 sourcePath = fullfile(here,'runtime','source','temexd_fault_philox.c');
 baseSource = fullfile(phase02,'source','temexd_philox.c');
 scriptPath = string(mfilename('fullpath')) + '.m';
-specPath = fullfile(here,'SPECIFICA_RUN_FAULT.md');
+if startsWith(string(plan.set_name(1)), "ood_") || startsWith(string(plan.set_name(1)), "test_batch_")
+    specPath = fullfile(here,'SPECIFICA_CATENA_E_LOTTO_03_11.md');
+else
+    specPath = fullfile(here,'SPECIFICA_RUN_FAULT.md');
+end
 [gitStatus, gitHead] = system('git -C ' + shellq(repo) + ' rev-parse HEAD');
 if gitStatus ~= 0, error('Cannot record git commit'); end
 hashes = struct('mex_sha256',sha256(mexPath), 'model_sha256',sha256(modelPath), ...
@@ -84,7 +88,8 @@ for k=1:height(plan)
     assignin('base','Ts_base',0.0005);
     assignin('base','Ts_save',1/60);
     assignin('base','fot_stream_id',str2double(row.stream_id));
-    dist = zeros(1,28); dist(row.idv) = 1;
+    dist = zeros(1,28);
+    if row.idv > 0, dist(row.idv) = 1; end
     assignin('base','dist',dist);
     evalin('base','clear fot_draw_counter_end');
     set_param(model,'StopTime',sprintf('%.17g',row.stop_time_h));

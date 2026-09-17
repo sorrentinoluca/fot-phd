@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED_UNRESOLVED_SUBSTITUTE",
+  "batch_89_authorized": false,
+  "generic_campaign_audit": {
+    "manifest_count": 2,
+    "expected_count": 2,
+    "counts": {
+      "complete": 1,
+      "physical_trip": 1,
+      "technical_failure": 0,
+      "not_run": 0
+    },
+    "useful_windows_complete": 9,
+    "hashes_verified": true,
+    "accepted": true,
+    "generation_manifest_sha256": "d8e169d3ccb14e1e09191ff90c3aaf047990b4a02516ddb001b7596929fac72b",
+    "events_sha256": "c28e36e8d4e8aec0a1b6eb174537e413b71dba743a46631ff685bf5286c3f0f7"
+  },
+  "probes": {
+    "F6": {
+      "admissible": false,
+      "status": "physical_trip",
+      "actual_end_h": 32.1095,
+      "trip_time_h": 32.1095,
+      "trip_code": 8,
+      "complete_windows": 1,
+      "manifest_sha256": "cfcb4080406caef2ed931569c3111cd1a724fa1d158c19e164d2ae8fa855428e",
+      "raw_sha256": "36d88ffebb56cb550c6a65e4f45860e851bfec538fda0c99da61018482882105"
+    },
+    "F4": {
+      "admissible": true,
+      "status": "complete",
+      "actual_end_h": 65.0,
+      "trip_time_h": null,
+      "trip_code": null,
+      "complete_windows": 8,
+      "manifest_sha256": "bf1155399c2c832b2a211dab610594db2054aba03e119bef0925fff5e47c1654",
+      "raw_sha256": "bfb7e7e5d4924b17c39d8b4cb1d4441e5d998d5f7057005e6799d264ff8fc006"
+    }
+  },
+  "frozen_chain": {
+    "F6": [
+      "F5",
+      "F12"
+    ],
+    "F4": [
+      "F11",
+      "F5"
+    ]
+  },
+  "required_next_candidate": "F5",
+  "required_candidate_detectability_record_present": false,
+  "blocking_reason": "F6 tripped before 65 h; F5 is next, but the normative package records no verified detectability number for F5 and no approved F5 evidence exists in this worktree.",
+  "source_hashes": {
+    "studio2/fase03/piano_statistico/PIANO_STATISTICO.md": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a",
+    "studio2/fase03/piano_statistico/DECISIONI_AUTORE_03_8_bozza.md": "66e04dd2d8dd00fcf0edf6076a9e3f60bb6fd1fdf8c1e86028a9f80c8754fafb",
+    "docs/lit_review/VERIFICA_RILEVABILITA_IDV6_IDV4_FASE03.md": "f2c29416664e27c2ecac7d439939f51f1a3f7313e2aba669bb39db7106cf0b8e",
+    "studio2/fase03/fault_runs/SPECIFICA_PREFLIGHT_OOD_03_11.md": "12270b7ab4ec0a512b83a5925fc6a0c8fa6e5c19d8c42fef3d22aa08b03a870c",
+    "studio2/fase03/fault_runs/plans/ood_preflight_03_11.csv": "876a05f22c40662685c541fb522ffdb3117f9499adaef1a4d630a3436083ad3f"
+  },
+  "preserved_local_evidence": {
+    "campaign_path": "studio2/fase03/fault_runs/ood_preflight/ood_preflight_001",
+    "events_sha256": "c28e36e8d4e8aec0a1b6eb174537e413b71dba743a46631ff685bf5286c3f0f7",
+    "generation_manifest_sha256": "d8e169d3ccb14e1e09191ff90c3aaf047990b4a02516ddb001b7596929fac72b",
+    "matlab_log_path": "studio2/fase03/fault_runs/runtime/ood_preflight_03_11/matlab.log",
+    "matlab_log_sha256": "aadb31af37e7f33b47e1cbbfe6d11dd6a41b6af0a584d0fbb41483ab2c903f5a"
+  },
+  "scientific_model_calls": 0,
+  "qwen_calls": 0,
+  "test_batch_runs_started": 0
+}

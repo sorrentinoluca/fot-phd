@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Deterministic plans for the approved 8 x 5 development campaign and one smoke."""
+"""Deterministic plans for qualified fault campaigns and technical OOD preflight."""
 import argparse
 import csv
 import hashlib
@@ -23,30 +23,58 @@ def occupied_indices():
     spec.loader.exec_module(mod)
     occupied = set().union(*map(set, mod.STREAM_RANGES.values())) | {999999}
     for p in (ROOT / 'studio2/fase02').rglob('generation_manifest.csv'):
-        for row in csv.DictReader(p.open()):
-            if row.get('stream_id'):
-                occupied.add(int(row['stream_id']))
+        with p.open(newline='') as handle:
+            for row in csv.DictReader(handle):
+                if row.get('stream_id'):
+                    occupied.add(int(row['stream_id']))
     return occupied
 
 
 def build_rows(kind):
-    if kind not in ('fault_dev', 'smoke'):
+    allowed = ('fault_dev', 'smoke', 'ood_preflight', 'ood_chain_f5', 'ood_chain_f12',
+               'test_batch_f5', 'test_batch_f12')
+    if kind not in allowed:
         raise ValueError('unknown plan kind')
     catalog = json.loads((HERE.parent / 'selection/CATALOG_FREEZE.json').read_text())
     if tuple(catalog['catalog']) != CATALOG:
         raise ValueError('catalog differs from approved frozen catalog')
     rows = []
-    pairs = [(k, b) for k in range(8) for b in range(1, 6)] if kind == 'fault_dev' else [(0, 0)]
     occupied = occupied_indices()
-    for k, b in pairs:
-        idx = 30000 + 5*k + b - 1 if kind == 'fault_dev' else 30040
+    specs = []
+    if kind == 'fault_dev':
+        specs = [(f'fault-dev-F{CATALOG[k]}-b{b:02d}', CATALOG[k], b, 30000+5*k+b-1)
+                 for k in range(8) for b in range(1, 6)]
+    elif kind == 'smoke':
+        specs = [('smoke-F1-001', 1, 0, 30040)]
+    elif kind == 'ood_preflight':
+        specs = [('preflight-F6-001', 6, 0, 70000), ('preflight-F4-001', 4, 0, 70001)]
+    elif kind in ('ood_chain_f5', 'ood_chain_f12'):
+        idv = 5 if kind.endswith('f5') else 12
+        specs = [(f'chain-F{idv}-001', idv, 0, 70002 if idv == 5 else 70003)]
+    else:
+        ood = 5 if kind.endswith('f5') else 12
+        base = 71000 if ood == 5 else 72000
+        for idv in CATALOG:
+            for repetition in range(1, 9):
+                specs.append((f'test-primary-F{idv}-r{repetition:02d}', idv, repetition,
+                              base + len(specs)))
+        for repetition in range(1, 9):
+            specs.append((f'test-primary-Normal-r{repetition:02d}', 0, repetition,
+                          base + len(specs)))
+        for idv in (ood, 4):
+            for repetition in range(1, 4):
+                specs.append((f'test-ood-F{idv}-r{repetition:02d}', idv, repetition,
+                              base + len(specs)))
+        for label, idv in [(f'F{x}', x) for x in CATALOG] + [('Normal', 0), (f'F{ood}', ood), ('F4', 4)]:
+            specs.append((f'test-spare-{label}-r01', idv, 0, base + len(specs)))
+    for run_id, idv, b, idx in specs:
         if idx in occupied:
             raise ValueError(f'occupied stream: {idx}')
-        horizon = 40 if kind == 'fault_dev' else 0.1
+        horizon = 0.1 if kind == 'smoke' else 40
         rows.append(dict(zip(FIELDS, (
-            f'fault-dev-F{CATALOG[k]}-b{b:02d}' if kind == 'fault_dev' else 'smoke-F1-001',
+            run_id,
             kind, b, str(idx), str(idx), f'{KEY}:{idx:016x}', idx & 0xffffffff, idx >> 32,
-            CATALOG[k], 20, 25, horizon, 25+horizon, 5, 8 if kind == 'fault_dev' else 0))))
+            idv, 20, 25, horizon, 25+horizon, 5, 0 if kind == 'smoke' else 8))))
     return rows
 
 
@@ -66,7 +94,9 @@ def validate_plan(path):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('kind', choices=['fault_dev', 'smoke'])
+    ap.add_argument('kind', choices=[
+        'fault_dev', 'smoke', 'ood_preflight', 'ood_chain_f5', 'ood_chain_f12',
+        'test_batch_f5', 'test_batch_f12'])
     ap.add_argument('output', type=Path)
     a = ap.parse_args()
     output = a.output.resolve()

@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "batch_path": "studio2/fase03/fault_runs/test_batch/test_batch_f5_001",
+  "active_ood_substitution": "F6 -> F5",
+  "F12_executed": false,
+  "counts": {
+    "total_generated": 89,
+    "primary_fault": 64,
+    "primary_normal": 8,
+    "ood": 6,
+    "technical_spares": 11,
+    "complete": 89,
+    "physical_trip": 0,
+    "technical_failure": 0,
+    "not_run": 0,
+    "spares_activated_as_replacements": 0,
+    "complete_windows": 712
+  },
+  "generic_campaign_audit": {
+    "manifest_count": 89,
+    "expected_count": 89,
+    "counts": {
+      "complete": 89,
+      "physical_trip": 0,
+      "technical_failure": 0,
+      "not_run": 0
+    },
+    "useful_windows_complete": 712,
+    "hashes_verified": true,
+    "accepted": true,
+    "generation_manifest_sha256": "e7c75d23107e95abcdbcf7531f845d3d90b8620974d7c3917071b37f70a34780",
+    "events_sha256": "af4f659ee82d25cc71caac1d3ca2c04c58efa9448d23ac1fe59b46276bb1b55e"
+  },
+  "plan": {
+    "path": "studio2/fase03/fault_runs/plans/test_batch_f5.csv",
+    "sha256": "ef0b28529b6a48932d6fb7483c1fef44e331db089f284cc3d7a06a6e20879572"
+  },
+  "generation_manifest": {
+    "path": "studio2/fase03/fault_runs/test_batch/test_batch_f5_001/generation_manifest.csv",
+    "sha256": "e7c75d23107e95abcdbcf7531f845d3d90b8620974d7c3917071b37f70a34780"
+  },
+  "events": {
+    "path": "studio2/fase03/fault_runs/test_batch/test_batch_f5_001/events.jsonl",
+    "sha256": "af4f659ee82d25cc71caac1d3ca2c04c58efa9448d23ac1fe59b46276bb1b55e"
+  },
+  "matlab_log": {
+    "path": "studio2/fase03/fault_runs/runtime/test_batch_f5.matlab.log",
+    "sha256": "73ce498d56d192b57da6bf957985adf0606b985f522e8feacfc45f1eed96587c"
+  },
+  "matlab_versions": [
+    "25.2.0.3312555 (R2025b) Update 6"
+  ],
+  "mex_hashes": [
+    "834e2361915249402a1ec9074a4be04f22a6404deb841e5134bf34347dfde544"
+  ],
+  "run_commit": [
+    "f650f0306a9e7aa3220de6a3b4d14fc0377f8770"
+  ],
+  "runtime_seconds_sum": 761.8710000000001,
+  "qwen_calls": 0,
+  "scientific_model_calls": 0,
+  "selection_on_diagnostic_performance": false
+}

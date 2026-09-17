@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "sealed_at_utc": "2026-09-15T21:25:15Z",
+  "scope": "subphase_03_11_F5_gate_and_89_run_test_batch",
+  "status": "sealed_local_pending_independent_review",
+  "origin_main_base": "15e56a89b0f377e6d90eef28ed941d4d54b5b00c",
+  "preserved_stop_candidate": {
+    "commit": "1cdf597b9a95e7f1c9a3d6711c2f840c8b5ab6aa",
+    "tree": "c3bcbe802f5c7fb6b9b5be55c1be88c87fef3b82",
+    "F6_status": "physical_trip",
+    "test_batch_started_runs": 0
+  },
+  "acquired_review": {
+    "path": "studio2/fase03/fault_runs/VERIFICA_ESECUZIONE_03_11.md",
+    "bytes": 1132,
+    "sha256": "2fb7dc83eb82db7e15bbc56f947bcbe3781ef5a853fa1fd710eaeb95f587bae8",
+    "acquisition_commit": "ab8f5bb06e6d438c6727abf2d45b3f5efbefb55b",
+    "acquisition_tree": "5a1b533af7bdb23f68646146fed7f805ba2cb04a"
+  },
+  "frozen_execution": {
+    "commit": "f650f0306a9e7aa3220de6a3b4d14fc0377f8770",
+    "tree": "703dd58b3736ae7f1be173773bfd15121fdc0537",
+    "chain": "F6 -> F5 -> F12",
+    "applied_substitution": "F6 -> F5",
+    "F12_executed": false
+  },
+  "f5_detectability": {
+    "status": "PASS",
+    "path": "studio2/fase03/fault_runs/VERIFICA_RILEVABILITA_F5_03_11.md",
+    "bytes": 1408,
+    "sha256": "21f578c67f1c10fbad2c84f2c422b8dfb0a70b5bd0ce0a833f629cde049ca9e0"
+  },
+  "f5_technical_probe": {
+    "status": "PASS",
+    "path": "studio2/fase03/fault_runs/ood_chain_f5/chain_f5_001",
+    "complete_runs": 1,
+    "physical_trip": 0,
+    "complete_windows": 8,
+    "manifest": {
+      "bytes": 7115,
+      "sha256": "2b80a02ed0ecf7880486680fbda4533ca488e16608a440deef35e1028effca48"
+    },
+    "generation_manifest_sha256": "c222ae5a438ec3343c093e32f003633129b2959f9ee1ee2d9d74379c43081664",
+    "events_sha256": "995dcd639de34aa2f764c02ee5d8a8ddc3f409c4f1a43424df223c1ee40eee37",
+    "matlab_log_sha256": "1ddd4286b5d47b8a5f5e8a6a5f829b269ecde131a8d2a36913886100c67f55a5"
+  },
+  "test_batch": {
+    "status": "PASS",
+    "path": "studio2/fase03/fault_runs/test_batch/test_batch_f5_001",
+    "counts": {
+      "total": 89,
+      "primary_fault": 64,
+      "primary_normal": 8,
+      "ood": 6,
+      "technical_spares": 11,
+      "complete": 89,
+      "physical_trip": 0,
+      "technical_failure": 0,
+      "not_run": 0,
+      "spares_activated_as_replacements": 0,
+      "complete_windows": 712
+    },
+    "audit": {
+      "path": "studio2/fase03/fault_runs/BATCH_AUDIT_03_11.json",
+      "bytes": 2073,
+      "sha256": "420a61eb65a47961092ee042f7fa08797a25b350f875cad76c0954f7f3eeb6e3"
+    },
+    "generation_manifest_sha256": "e7c75d23107e95abcdbcf7531f845d3d90b8620974d7c3917071b37f70a34780",
+    "events_sha256": "af4f659ee82d25cc71caac1d3ca2c04c58efa9448d23ac1fe59b46276bb1b55e",
+    "matlab_log_sha256": "73ce498d56d192b57da6bf957985adf0606b985f522e8feacfc45f1eed96587c"
+  },
+  "runtime": {
+    "matlab_version": "25.2.0.3312555 (R2025b) Update 6",
+    "platform": "MACA64",
+    "qualified_instrumented_mex_sha256": "834e2361915249402a1ec9074a4be04f22a6404deb841e5134bf34347dfde544"
+  },
+  "local_archives": [
+    {
+      "path": "studio2/fase03/fault_runs/ood_chain_f5/chain_f5_001.tar.gz",
+      "bytes": 1579326,
+      "sha256": "242f689a8737739f51eb6b3acefaf34cea4c06e9ebd547beccbcf1760a473aec"
+    },
+    {
+      "path": "studio2/fase03/fault_runs/test_batch/test_batch_f5_001.tar.gz",
+      "bytes": 141191097,
+      "sha256": "ac1e7c0c4575ab746ee24a8bb5ce7f09289919773bc4d8c61ba86f7a93218a55"
+    }
+  ],
+  "external_publication": null,
+  "independent_review_of_this_candidate": null,
+  "qwen_calls": 0,
+  "scientific_model_calls": 0,
+  "selection_on_diagnostic_performance": false
+}
