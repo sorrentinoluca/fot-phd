@@ -93,6 +93,28 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p>Lo score combinato è stato calibrato su 350 run Normal e verificato su 150 run separati, mantenendo invariata la soglia congelata. Incertezza teorica, bootstrap empirico e FAR osservato restano quantità distinte; il limite di tracciabilità dei file FAR è dichiarato e accettato dall’autore. La Fase 03 resta aperta. <a href="fot_walkthrough_conversazione_studio2.html#soglie-normal-63">Leggi la sezione lunga §4.5 &rarr;</a></p>
 </section>
 
+<section id="fase-03-piano-statistico">
+<p class="kicker"><span class="num">Fase 03 · sotto-fase 03.8</span></p><h2>Piano statistico congelato</h2>
+<p>Prima di qualunque run finale sono stati fissati i confronti, la correzione per la molteplicità, i fault fuori catalogo e la regola per le ripetizioni. Il piano è verificato, congelato con tag e integrato nel repository principale. Dettaglio in <a class="xref" href="fot_walkthrough_conversazione_studio2.html#piano-statistico-038">§4.8</a>.</p>
+</section>
+
+<section id="fase-03-run-finali">
+<p class="kicker"><span class="num">Fase 03 · sotto-fase 03.11</span></p><h2>Run finali di test generati</h2>
+<p>Il lotto di test è completo, 89 run su 89, senza chiamate a modelli linguistici. Uno dei due fault fuori catalogo previsti (F6) ha fermato l'impianto simulato; la regola fissata in anticipo lo ha sostituito con F5. Il lavoro è verificato ma non ancora integrato né pubblicato. Dettaglio in <a class="xref" href="fot_walkthrough_conversazione_studio2.html#run-finali-ood-0311">§4.11</a>.</p>
+</section>
+
+<section id="fase-03-fedavg">
+<p class="kicker"><span class="num">Fase 03 · sotto-fase 03.14</span></p><h2>Baseline FedAvg valutata</h2>
+<p>Una piccola rete addestrata in tre modi — solo in locale, federata con FedAvg, centralizzata — è stata valutata una sola volta sui run di test. FedAvg classifica correttamente 434 finestre su 576, il modello centralizzato 443 e i modelli locali, sommati, 897 su 4.608 tentativi. Sono numeri descrittivi: nessun test statistico e nessun confronto con i modelli linguistici. Verificato, non ancora integrato. Dettaglio in <a class="xref" href="fot_walkthrough_conversazione_studio2.html#fedavg-0314">§4.14</a>.</p>
+</section>
+
+<section id="fase-03-sezioni-paper">
+<p class="kicker"><span class="num">Fase 03 · sotto-fase 03.15</span></p><h2>Bozze comuni del paper</h2>
+<p>Cinque bozze (metodo, protocollo, verbalizzatore, lavori correlati, minacce alla validità) sono allineate alle decisioni prese e verificate. Non sono ancora nel manoscritto: il paper si scrive dopo l'esperimento. Dettaglio in <a class="xref" href="fot_walkthrough_conversazione_studio2.html#paper-sections-0315">§4.15</a>.</p>
+</section>
+
+<p><em>Le altre sotto-fasi della Fase 03 (criteri, catalogo, run di sviluppo, perimetro del codice, evidence, pseudolabel, baseline numerica, harness, schema degli insight) sono preparazione tecnica e non hanno qui una sintesi. La Fase 03 non è chiusa; il pilot sui modelli (03.13) è in corso.</em></p>
+
 <div class="tablewrap"><table>
 <thead><tr><th>Cerchi</th><th>Vai a</th></tr></thead>
 <tbody>
