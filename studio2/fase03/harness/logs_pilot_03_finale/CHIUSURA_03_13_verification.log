@@ -1,0 +1,15 @@
+03.13-CLOSE verification log
+date: 2026-09-17 Europe/Rome; executor: claude-opus-5 (Claude Cowork); base HEAD d3f8f844e5be4244477fc294ca754528e6938b15
+runtime access: read-only; ledger opened only as sqlite 'file:...?mode=ro&immutable=1'; no PilotLedger; no provider calls
+ledger sha256 at start: 93ff83a5a4132800c2973fe6687c8e0ffcdb07d33f293a8517ca715ff8dc4089
+ledger sha256 after evidence extraction and archive build: 93ff83a5a4132800c2973fe6687c8e0ffcdb07d33f293a8517ca715ff8dc4089
+ledger sidecars: none (-wal/-shm absent)
+lsof: not available from this session; covered by b567 verdict (lsof empty) and identical ledger sha
+b567 verdict read: VERIFICA_ESITO_PILOT_03_13.md sha256 1ce0a466586a65993d1269476f9de8a4812b9f64a20eae71cd9aec7e8bee4b70 (copied byte-identical to studio2/fase03/pilot/)
+recomputed from ledger: native 156, lineage 5, cumulative 161; gate 120 rows, 119 COMPLETED, 1 FAILED; gate latency mean 26.20861893542266 s, p95 linear 36.66086580456467 s; 27B final leaves mean 34.04257990098267 s, p95 37.167290904093534 s
+T5 (W=168 h, R=3, worst-case parameters, 7174 requests): 1.2*T = 62.694 h (mean), 87.670 h (p95) -> PASS
+logs: 15 run logs copied; 14 byte-identical, budget log prompt_sample redacted (count 40, canonical digest recorded); secret scan: none
+archive: studio2-fase03-pilot-v1.tar, 9021440 bytes, sha256 30cdd5ca5715695bae4cc61c3b3919d3949f471c768d008d87395430d9c2c3b8; extracted self-check 77/77 files match manifest, no extras; credential scan of extracted tree: none
+walkthrough: edited on the c633dce (origin/main) version of the pair plus the popular summary; MD/HTML parity of §4.13 checked on normalized words: 1216/1216 identical; internal links of §4.13 and of the report resolve on this branch
+guardian (docs/test_explanation.py) on an export of c633dce: before 35 tests, 14 failures, 1 skipped; after (with the new docs): 14 failures, identical failing test set
+guardian on this worktree (with the new docs): 14 failures, 1 skipped

@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/producer_probe.py", line 290, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/producer_probe.py", line 282, in main
+    summary = run(source_inventory=args.source_inventory, results_dir=args.results_dir,
+                  provider_path=args.provider_config, snapshot=args.model_snapshot, schema_dir=args.schema_dir,
+                  ledger=ledger, stage=args.stage, resume=args.resume, retry_requests=args.retry_request, template_path=args.template, diagnosis=args.diagnosis)
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/producer_probe.py", line 209, in run
+    records.append(execute_request(ledger=ledger, stage=stage, spec=spec, transport=transport, evaluate=evaluate,
+                   ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                  expected_identity=provider['expected_response'], journal_path=journal,
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                  messages=kwargs['messages'], accounting_guard=accounting_guard,
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                  resume=resume, retry_requests=retry_requests))
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/runtime.py", line 92, in execute_request
+    raise HarnessError('uncertain request blocks resume; reconcile evidence before any resend')
+studio2.fase03.harness.common.HarnessError: uncertain request blocks resume; reconcile evidence before any resend

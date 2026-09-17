@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "status": "prepared_not_published",
+  "note": "pilot-03 runtime is excluded from Git. The archive below was built deterministically (PAX, sorted paths, mtime 2026-09-17T16:00:00Z, uid/gid 0, mode 0644) from the read-only runtime after the stability gate. Upload and verification by re-download are the author's step; until then this record is a local-copy location, not a verified release (MAINTENANCE §8.5).",
+  "local_source": {
+    "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03",
+    "ledger_sha256": "93ff83a5a4132800c2973fe6687c8e0ffcdb07d33f293a8517ca715ff8dc4089",
+    "excluded": ["tokenizers/ (third-party assets pinned by revision and file hashes in the execution configuration)"],
+    "included": ["ledger.sqlite3", "MATERIALIZATION_SUMMARY.private.json", "execution/", "lineage/", "qualification/", "prepared/", "results/"],
+    "credential_scan": "no API key, bearer token or password found; api_key.json and server_enea.json are not in the runtime tree"
+  },
+  "local_archive": {
+    "path": "/Users/luker/fot-tep/downloads/studio2-fase03-pilot-v1/studio2-fase03-pilot-v1.tar",
+    "bytes": 9021440,
+    "sha256": "30cdd5ca5715695bae4cc61c3b3919d3949f471c768d008d87395430d9c2c3b8",
+    "self_check": "extracted into a separate directory: 77/77 files match MANIFEST_CONSERVAZIONE.csv, no extra files"
+  },
+  "planned_release": {
+    "repository": "sorrentinoluca/fot-tep-data",
+    "release_tag": "studio2-fase03-pilot-v1",
+    "asset": {
+      "name": "studio2-fase03-pilot-v1.tar",
+      "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-pilot-v1/studio2-fase03-pilot-v1.tar",
+      "bytes": 9021440,
+      "sha256": "30cdd5ca5715695bae4cc61c3b3919d3949f471c768d008d87395430d9c2c3b8"
+    },
+    "publishability_check_required": "the archive contains *.private.json execution files (service endpoints, approvals, configuration), prompts with evaluator-side true_pseudolabel and raw model responses; the author decides before upload"
+  },
+  "manifest": {"path": "studio2/fase03/pilot/MANIFEST_CONSERVAZIONE.csv", "rows": 77},
+  "verification": {
+    "method": "pending: download the release asset into a separate directory, compare the archive SHA-256, extract and compare every file with the manifest",
+    "archive_sha256_match": null,
+    "files_verified": null,
+    "mismatches": null
+  }
+}

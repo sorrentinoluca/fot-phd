@@ -1,0 +1,117 @@
+{
+  "artifact_version": "EVIDENZA_PILOT_03_ESECUZIONE_FINALE_03_13_1",
+  "status": "REGISTERED_READ_ONLY",
+  "executor": "claude-opus-5",
+  "code_reference": "d3f8f844e5be4244477fc294ca754528e6938b15",
+  "runtime": {
+    "provider_calls": 0,
+    "runtime_files_written": [],
+    "push_merge_tag": false
+  },
+  "ledger": {
+    "sha256_before_revision": "3872029001346913f3722928b350813c8daaef349c5d4fbe98b770200c893fa0",
+    "sha256_final": "93ff83a5a4132800c2973fe6687c8e0ffcdb07d33f293a8517ca715ff8dc4089",
+    "access": "sqlite mode=ro&immutable=1",
+    "native_requests": 156,
+    "lineage": 5,
+    "cumulative": 161,
+    "planned_maximum": 167,
+    "hard_stop": 200
+  },
+  "independent_outcome_review": {
+    "path": "studio2/fase03/pilot/VERIFICA_ESITO_PILOT_03_13.md",
+    "origin": "/Users/luker/.codex/worktrees/b567/fot-tep/studio2/fase03/harness/VERIFICA_ESITO_PILOT_03_13.md",
+    "sha256": "1ce0a466586a65993d1269476f9de8a4812b9f64a20eae71cd9aec7e8bee4b70",
+    "verdict": "PILOT TECHNICAL PASS CONFIRMED — R3 REQUIRED; T5 = NOT ESTABLISHED; READY FOR AUTHOR GO/NO-GO"
+  },
+  "gate": {
+    "requests": 120,
+    "valid_first_attempts": 119,
+    "length_truncations": 0,
+    "t3": true,
+    "t4": true,
+    "t6_evaluable": true,
+    "divergent": [
+      "S2-P03-002"
+    ],
+    "divergence_kind": "validity (transport invalidity on one repetition)",
+    "records_sha256": "bd9713eca7c3241c002d24a2ebf480f0255e5da82534289eb6cfb658d0e2f9a2",
+    "frozen_gate_sha256": "de1f59ceb28e50cd8b9027874f5d2d22cb1337ceab2e4dda8c2adda4b2dda6f2",
+    "latency_s": {
+      "mean": 26.20861893542266,
+      "median": 24.911971750028897,
+      "p95_linear": 36.66086580456467
+    }
+  },
+  "t5": {
+    "W_hours": 168,
+    "R": 3,
+    "requests": 7174,
+    "requests_27b": 8,
+    "parameters": {
+      "S": 12,
+      "U": 8,
+      "d": 7,
+      "G_P": 8,
+      "G_A": 8,
+      "X": 100,
+      "Q": 0
+    },
+    "one_point_two_T_hours": {
+      "mean": 62.694,
+      "p95": 87.67
+    },
+    "result": "PASS"
+  },
+  "author_decision": {
+    "date": "2026-09-17",
+    "decision": "GO with R=3",
+    "basis": "decision 11 (statistical plan §10.3)",
+    "conditions": {
+      "T5": "PASS with W=7 days",
+      "divergence": "validity, confirmed by b567"
+    },
+    "definitive": true,
+    "subject_to": "VERIFICA_PILOT_03_13.md on this closure"
+  },
+  "conservation": {
+    "archive_sha256": "30cdd5ca5715695bae4cc61c3b3919d3949f471c768d008d87395430d9c2c3b8",
+    "archive_bytes": 9021440,
+    "files": 77,
+    "planned_release": "sorrentinoluca/fot-tep-data studio2-fase03-pilot-v1",
+    "published": false
+  },
+  "repository_artifacts": {
+    "studio2/fase03/harness/EVIDENZA_PILOT_03_ESECUZIONE_FINALE_03_13.md": "9a5d3500dcab30af95a08ee619cd2333130ff71b55d3314b07ed4e77a9cf1035",
+    "studio2/fase03/pilot/REPORT_PILOT_03_13.md": "daf79ab1990ceb78712223067c024527d01eb2b67fa751eaa66f30615cf59049",
+    "studio2/fase03/pilot/VERIFICA_ESITO_PILOT_03_13.md": "1ce0a466586a65993d1269476f9de8a4812b9f64a20eae71cd9aec7e8bee4b70",
+    "studio2/fase03/pilot/MANIFEST_CONSERVAZIONE.csv": "647b852beed2585c3eb5fef486c4c4063e97bbc3ef0a661f9712a10f5094454f",
+    "studio2/fase03/pilot/ARTIFACT_STORAGE.json": "8ca6be0e30fc0b5f8d58fef26fc1120be6295ed2555875586c91182138a850b5",
+    "docs/fot_walkthrough_conversazione_studio2.md": "3f7194b9fe3b2879b33c958ad3dd281bd4d49f151cbc3e65dee58b3527f23236",
+    "docs/fot_walkthrough_conversazione_studio2.html": "e67966b019757572b85a0d9984438132df877118c30e2490bd6ba11ab53ef870",
+    "docs/fot_walkthrough_studio2.html": "870def98f590d8c14f08fe61c4bced1174fa288c32c9158c9620f6f60b0a6360",
+    "studio2/fase03/harness/logs_pilot_03_finale/CHIUSURA_03_13_verification.log": "30b259276dad3c134a03c504ac412895e05c9795a29104d4fd280383c105ad5e",
+    "studio2/fase03/harness/logs_pilot_03_finale/REDACTION_INDEX.json": "9342efd91823f35dbc853e05c23b1f9369e141e60927b8db943cc18f47473c6c",
+    "studio2/fase03/harness/logs_pilot_03_finale/alternate_20260917T125137.log": "3a3dce5f237852aff1b610a684269521eb49c7a2c2d30fbe30526a8d41b230bd",
+    "studio2/fase03/harness/logs_pilot_03_finale/alternate_20260917T125401.log": "3a3dce5f237852aff1b610a684269521eb49c7a2c2d30fbe30526a8d41b230bd",
+    "studio2/fase03/harness/logs_pilot_03_finale/alternate_20260917T125847.log": "7a5ea6e5620d8fb17dfee42d1f77e540772031cf7949ef8b51fd33788b63dbf6",
+    "studio2/fase03/harness/logs_pilot_03_finale/alternate_20260917T130137.log": "51ec601a1e1299d6fe5131f1c4d22cf861684e0658d7c740702d56aa2139817d",
+    "studio2/fase03/harness/logs_pilot_03_finale/alternate_20260917T130331.log": "51ec601a1e1299d6fe5131f1c4d22cf861684e0658d7c740702d56aa2139817d",
+    "studio2/fase03/harness/logs_pilot_03_finale/alternate_20260917T131707.log": "51ec601a1e1299d6fe5131f1c4d22cf861684e0658d7c740702d56aa2139817d",
+    "studio2/fase03/harness/logs_pilot_03_finale/alternate_20260917T131826.log": "4ec50de572aa168b15d118d158a0f04c98251adb2c8b2cdddd571964ed3d9831",
+    "studio2/fase03/harness/logs_pilot_03_finale/alternate_20260917T162321.log": "2ab25de107bca6c388edfe38840660ad16c09dc2f73d0a2d1e4fb18d8b139428",
+    "studio2/fase03/harness/logs_pilot_03_finale/budget_20260917T163729.log": "52fb247fa44abbfc50d8dfd28d32aa8db6012469ccc898cf0ebbfd9ed3e527f1",
+    "studio2/fase03/harness/logs_pilot_03_finale/remediation_20260917T123528.log": "9b985a8df83bbbcacb9262d4b9534a140204f126f9a6798d035d5294d6599940",
+    "studio2/fase03/harness/logs_pilot_03_finale/remediation_20260917T123723.log": "23a38ff77e3dffd93de150374107df635e1657036b144d7acc5322a9ff997d58",
+    "studio2/fase03/harness/logs_pilot_03_finale/remediation_20260917T123804.log": "ac1e027df7e19c601dc8a48fab281fe822bf5504537a88fb8d472f44538bf9b6",
+    "studio2/fase03/harness/logs_pilot_03_finale/remediation_20260917T124316.log": "9b985a8df83bbbcacb9262d4b9534a140204f126f9a6798d035d5294d6599940",
+    "studio2/fase03/harness/logs_pilot_03_finale/remediation_20260917T124623.log": "90a0316153cce3691998f0ce4fa52e4fca3314d762222e38035d4508fcd9c264",
+    "studio2/fase03/harness/logs_pilot_03_finale/stability_20260917T163928.log": "4081a03e0200a4cf004ec9700be5423587aa3f2d605aa8673f4e73a5b6a2d13b"
+  },
+  "guardian": {
+    "before_on_main_export": "35/14/1",
+    "after_on_main_export": "35/14/1",
+    "failing_set_changed": false
+  },
+  "self": "SELF_SHA256_EXCLUDED_TO_AVOID_SELF_REFERENCE"
+}
