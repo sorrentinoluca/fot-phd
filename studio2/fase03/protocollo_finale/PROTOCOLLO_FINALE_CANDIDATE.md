@@ -1,6 +1,6 @@
 # Protocollo finale candidato rev2 — Studio 2, Fase 03
 
-Data del candidato: 2026-09-17. Revisione documentale 2, predecessore `e0db132fc6ef477bc054d8c02b3fb62f8c39da06`. Stato: **CANDIDATO DI FREEZE, NON EFFICACE E NON
+Data del candidato: 2026-09-17. Revisione documentale 2, aggiornamento Q1–Q3 dopo `1f9ebc5`; predecessore iniziale `e0db132fc6ef477bc054d8c02b3fb62f8c39da06`. Stato: **CANDIDATO DI FREEZE, NON EFFICACE E NON
 AUTORIZZATIVO**. Questo documento non autorizza chiamate, materializzazione o esecuzione. Il
 freeze diventa efficace soltanto dopo verifica indipendente di questo candidato, commit finale
 accettato e tag annotato dell'autore; 7.2-R è già chiusa con l'evidenza di §2.
@@ -36,7 +36,15 @@ Fonte normativa integrale: [DECISIONI_AUTORE_7_3_REV2_2026-09-17.md](DECISIONI_A
 SHA `535939de1d8c1e6f8185fd838a6bd20caca85b5f09c7908f679f251761aaccb2`, copiata byte-identica.
 D1–D5 prevalgono sulle formulazioni del candidato rev1. Le motivazioni sono parte del protocollo,
 non note sacrificabili. L’[addendum statistico](ADDENDUM_PIANO_STATISTICO_FINESTRE.md) verifica le
-conseguenze e separa le decisioni già prese dalle proposte Q1–Q3 ancora da approvare.
+conseguenze. Q1–Q3 sono ora approvate in
+[DECISIONI_AUTORE_7_3_REV2_Q1_Q3.md](DECISIONI_AUTORE_7_3_REV2_Q1_Q3.md), con motivazioni
+e copia integrale delle risposte. La copia D1–D5 byte-identica non è stata modificata.
+L’addendum è alla revisione 2: bootstrap descrittivo invariato e intervallo bilaterale Hoeffding
+sempre affiancati (semiampiezza ≈0,34 sotto le assunzioni dichiarate); Tango condizionato
+alla verifica sintetica a ICC=0, con fallback Hoeffding già deciso; reporting D4 esteso
+descrittivamente. Indipendenza fra run dichiarata per H1/H2/H3/fallback: fattori condivisi
+fissi condizionano l’estimando, stream del simulatore separati sostengono l’indipendenza,
+deriva LLM mitigata da schedule/canary ma non eliminata. Stress ICC>0 solo descrittivo.
 
 ### 1.2 D1 — un caso per run
 
@@ -357,7 +365,7 @@ non cambia la popolazione primaria. Nessuna sostituzione opportunistica con repe
 Ordine obbligatorio:
 
 1. Completare 7.4-FIX, review offline del runner (inclusa quota/accounting/ledger), decisioni
-   Q1–Q3, Q_max e addendum; registrare commit rivisto, non il solo commit PREP `9e0e086`.
+   Q_max, verifica sintetica H3 e review dell’addendum con Q1–Q3 già approvate; registrare commit rivisto, non il solo commit PREP `9e0e086`.
 2. Congelare l’assegnazione run→finestra sui soli identificativi prima di estrarre evidence;
    estrarre solo le finestre assegnate con pipeline 03.6 e soglie congelate. Conservare esempi
    locali, label space e agenti dal manifest sviluppo SHA `84176888…4014`, senza usare test
@@ -458,17 +466,19 @@ Categorie distinte: astensione del modello, astensione per disaccordo, output in
 Accuratezza primaria conta astensioni/invalidità non corrette; riportare anche copertura,
 accuratezza sui non astenuti e invalidità, senza eliminare gli invalidi (§3.3).
 
-**Proposta Q3, non approvata:** meno di tre risposte valide dopo risoluzione delle richieste
+**Regola Q3 approvata:** meno di tre risposte valide dopo risoluzione delle richieste
 pendenti → `invalid_incomplete_triplet`, non astensione, anche con due valide concordi.
 Nessuna rigenerazione o voto «errato» come etichetta. Invalidità aggregata non corretta nei
 denominatori totale e non astenuti; astensioni aggregate escluse soltanto dal secondo.
-Conservare numero di votanti validi e cause. La primaria non cambia per questa scelta.
+Conservare numero di votanti validi e cause. La primaria non cambia per questa scelta. Con D3, triplette incomplete terminali derivano
+solo da risposte generate e invalide; richieste di trasporto pendenti bloccano la chiusura.
 
 Ambito già previsto: piano §10.4, sensibilità sui soli prompt audit deterministici del 10%
-del nucleo, senza nuove chiamate a R=3. **Raccomandazione Q3:** mantenere quella sensibilità
+del nucleo, senza nuove chiamate a R=3. **Q3 approvata:** mantenere quella sensibilità
 e aggiungere una tabella descrittiva dell’aggregazione su tutti i prompt, separata per blocco,
-senza nuove ipotesi o sostituzione dei risultati confermativi. Richiede l’addendum §§5 e 7;
-alternativa solo audit. Nessuna estensione tacita.
+senza nuove ipotesi o sostituzione dei risultati confermativi. Recepito nell’addendum rev2 §§5 e 7. Riportare per blocco e condizione accuratezza, copertura,
+accuratezza sui non astenuti, astensione del modello, astensione per disaccordo e invalidità
+aggregata; nessuna fusione dei blocchi né test confermativo aggiuntivo.
 
 La self-consistency di Wang et al., ICLR 2023, è un precedente del voto in ragionamento
 aritmetico/commonsense, non una garanzia TEP né della prima risposta in caso di disaccordo.
@@ -507,7 +517,7 @@ e taggato. Un requisito bloccante `PENDING` impedisce materializzazione/esecuzio
 | S3 | PENDING | sigillo verificato; coordinate asset nel JSON, riscaricamento/publication record test-v1 mancante (§2.1) | Sì |
 | S4 | PASS | tag `studio2-fase03-soglie-normal-frozen-001`; `soglie_normal/THRESHOLD_FREEZE.json`, SHA in §2 | No |
 | S5 | PASS-C | `G_P/G_A` accettate senza nuove chiamate; §3.2 e review 7.2-R, SHA in §2 | Sì fino al freeze |
-| S6 | PENDING | piano congelato intatto + addendum nuovo §§1–5, Q1–Q3 e review da chiudere | Sì |
+| S6 | PENDING | piano congelato intatto + addendum nuovo §§1–5, Q1–Q3 approvate; verifica sintetica H3 e review da chiudere | Sì |
 | S7 | PASS | tag `studio2-fase03-pseudolabel-frozen-001`; `PSEUDOLABEL_FREEZE.json`, SHA in §2 | No |
 | S8 | PENDING | base congelata intatta; renderer B-noLF/file nuovo, token e test input da 7.4-FIX (§3.1-bis) | Sì |
 | S9 | PASS | commit a00605862f627710347bd63c49f79a6d0a00135f, BASELINE_FREEZE_rev005.json (§2) | No |
@@ -532,10 +542,10 @@ e taggato. Un requisito bloccante `PENDING` impedisce materializzazione/esecuzio
 | O3 | PASS-C | ruoli qualificati nel pilot, W=7 giorni, canary §6 | Sì fino al freeze |
 | O4 | PASS | freeze FedAvg 03.14 | No |
 | O5 | PASS | `paper_sections/REPORT_PAPER_SECTIONS.md`, SHA `a15387ffcc237f001c0c8692f1b19edfdf2cd04fa1803a58a79920c403488b3d` | No |
-| O6 | PENDING | D1–D5 recepite, proposte Q1–Q3/addendum e quota retry ancora da chiudere | Sì |
+| O6 | PENDING | D1–D5 recepite, Q1–Q3 approvate; verifica H3/review addendum e quota retry ancora pendenti | Sì |
 
 **Verdetto rev2:** candidato documentale consegnabile per decisioni/review, **NO-GO al freeze
-e alla materializzazione** finché Q1–Q3, 7.4-FIX rivisto, Q_max/T5, coordinate residue e
+e alla materializzazione** finché verifica H3/review addendum, 7.4-FIX rivisto, Q_max/T5, coordinate residue e
 verifica di conservazione test-v1 non sono chiusi. Nessun PASS documentale certifica il runner.
 
 ## 9. Deviazioni da dichiarare nel paper
@@ -571,7 +581,7 @@ verifica di conservazione test-v1 non sono chiusi. Nessun PASS documentale certi
     STOP dopo cinque fallimenti tecnici per servizio e STOP immediati; nessun retry di output
     generato invalido. Quota finale e tempi devono essere congelati prima degli invii.
 12. D4 completa la sensibilità: 2/3 o astensione per disaccordo; primaria sempre repetition 1.
-    Triplette incomplete e reporting globale sono proposte Q3 da accettare; non introdotte
+    Triplette incomplete e reporting globale sono approvati con Q3; non introdotti
     dopo l’osservazione dei risultati. Canary: maschera giorno come piano, intervallo forense
     separato; nessuna sovrascrittura implicita della sensibilità §10.5.
 
@@ -584,18 +594,29 @@ sintassi, questa riga correla con una copertura `variable_ids↔observed_pattern
 influenza l'uso a valle degli insight. Inoltre i quattro fault di continuità scelti non coprono i
 fault sticking o i fault difficili `F3/F15`; la misura è esplorativa e descrittiva.
 
-## 10. Domande aperte e chiusura del freeze
+## 10. Risposte Q1–Q3 e chiusura del freeze
 
-1. **Q1 — Intervalli:** accettare bootstrap di §6 come descrittivo approssimato, senza
-   rivendicare conservatività/copertura, affiancando il limite Hoeffding per i contrasti medi
-   sotto le assunzioni esplicite dell’addendum? **Raccomandato.** Alternativa: progettare e
-   validare un nuovo metodo prima del freeze; non basta stratificare celle con un solo run.
-2. **Q2 — H3:** mantenere Tango approssimato con verifica sintetica indipendente del nuovo
-   disegno prima del freeze (**raccomandato**, criteri da fissare prima della verifica), oppure
-   adottare Hoeffding anche per H3, con forte perdita di potenza? Margine e gerarchia invariati.
-3. **Q3 — Sensibilità R=3:** mantenere audit §10.4 e aggiungere aggregazione su tutti i prompt
-   come descrittiva separata (**raccomandato**), oppure solo audit? In entrambi i casi si
-   propone tripla con meno di tre validi = invalidità aggregata, senza voto ridotto né retry.
+**Nessuna risposta Q1–Q3 ancora richiesta all’autore.** Recepimento normativo nel file nuovo
+`DECISIONI_AUTORE_7_3_REV2_Q1_Q3.md`; non viene riscritta la copia originale.
+
+1. **Q1 sì:** bootstrap §6 invariato, descrittivo approssimato e non garantito conservativo;
+   intervallo bilaterale Hoeffding affiancato, sempre entrambi, nessuna scelta post-hoc.
+   Il quantile bootstrap non decide H1/H2/H3; nel paper si dichiara la semiampiezza ≈0,34.
+2. **Q2 A:** Tango resta per H3 condizionato alla verifica sintetica indipendente pre-dati
+   definita in [SPECIFICA_VERIFICA_SINTETICA_H3.md](SPECIFICA_VERIFICA_SINTETICA_H3.md).
+   N=64, griglia eterogenea fault×posizione con correlazione entro fault, bordo −0,125 e
+   potenza a 0/+0,05, 100.000 repliche per punto, livello empirico ≤0,055 su tutta la griglia **ICC=0**.
+   Esito negativo a ICC=0 → fallback B Hoeffding deciso ora, non dopo i dati reali.
+   Stress ICC=0/0,05/0,1/0,2/0,4 su Tango, Hoeffding H3 e H1/H2 descrittivo, senza
+   cambiare procedura né attivare fallback; riportato nei threats. S6/S10/S11
+   restano PENDING; Tango non rende garantito il FWER completo. Il fallback richiede ancora
+   l’indipendenza effettiva dei run: non sana automaticamente correlazioni reali.
+3. **Q3 sì:** audit 10% invariato e reporting D4 su tutti i prompt, descrittivo per blocco e
+   condizione; meno di tre validi → invalid_incomplete_triplet, anche con due concordi,
+   non corretto e distinto dalle astensioni, con numero di risposte valide registrato.
+
+La verifica H3 è una sotto-fase separata: qui soltanto specifica, nessuno script di simulazione
+eseguito né esito anticipato. Review del candidato/addendum ancora necessaria.
 
 Quota Q_max/attese: proposta **PENDING_7_4_FIX_REVIEWED_AND_AUTHOR**, non inventata qui.
 Segnaposto bloccanti: commit/review runner e renderer B-noLF; SHA assegnazione, input test,

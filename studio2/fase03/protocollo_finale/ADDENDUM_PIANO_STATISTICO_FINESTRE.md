@@ -1,10 +1,11 @@
 # Addendum al piano statistico 03.8 — finestre e ripetizioni
 
-Revisione 1, 2026-09-17; allegato al candidato protocollo rev2. **PROPOSTA DA APPROVARE E
-RIVEDERE, NON FREEZE.** Il piano al tag `studio2-fase03-piano-statistico-frozen-001`, SHA file
+Revisione 2, 2026-09-17; allegato al candidato protocollo rev2. **Q1–Q3 APPROVATE;
+VERIFICA SINTETICA E REVIEW PENDENTI, NON FREEZE.** Il piano al tag `studio2-fase03-piano-statistico-frozen-001`, SHA file
 `675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a`, rimane intatto.
 Origine vincolante: D1 e D4 di `DECISIONI_AUTORE_7_3_REV2_2026-09-17.md` (copia byte-identica
-accanto a questo file). Nessun dato di test, esito diagnostico o segnale è stato consultato.
+accanto a questo file), integrata dalle risposte e motivazioni dell’autore in
+`DECISIONI_AUTORE_7_3_REV2_Q1_Q3.md`. La revisione 1 è conservata al commit `1f9ebc5`. Nessun dato di test, esito diagnostico o segnale è stato consultato.
 Le derivazioni sotto sono verifiche algebriche, non risultati simulati né validazione empirica.
 
 ## 1. Disegno, quantità stimata e due fonti di casualità
@@ -29,13 +30,27 @@ Per l'inferenza su **nuovi run**, la quantità è invece
 La media finita è stimata imparzialmente dal disegno, ma non si deve sostituire alla quantità
 di superpopolazione nelle garanzie di §2–§4 senza dichiararlo.
 
-Assunzioni aggiuntive esplicite per queste garanzie: traiettorie indipendenti e generate
-con identica procedura **entro fault**; distribuzione non dipendente dall'identificativo
-r a parità di fault/posizione; estrazione indipendente dagli esiti; librerie e configurazione
-fissate; assenza di dipendenza condivisa fra run introdotta dal servizio LLM. Gli stream
-separati sostengono, ma non dimostrano, queste assunzioni. Un seed congelato rende la
-randomizzazione riproducibile, non dimostra indipendenza statistica. Canary e intercalazione
-controllano parte del rischio di deriva, senza provarne l'assenza.
+L’**indipendenza fra run è un’assunzione dichiarata**, comune a H1, H2, H3 e al fallback,
+non una proprietà garantita dai risultati. Si distingue fra:
+
+- **Fattori condivisi fissi:** catalogo, libreria di insight, prompt, soglie e configurazione.
+  Si condiziona su di essi: delimitano la prestazione *con questa libreria e questa
+  configurazione*, senza introdurre di per sé dipendenza fra run.
+- **Fattori condivisi casuali, simulatore:** il disegno usa seed/stream distinti per run e
+  identica procedura entro fault per sostenere traiettorie indipendenti dato il fault.
+  La sola diversità numerica dei seed non è una prova matematica di indipendenza del PRNG:
+  il riferimento operativo è la separazione degli stream già qualificata nel progetto.
+- **Fattori condivisi casuali, LLM:** deriva del servizio o stato condiviso nel tempo possono
+  correlare esiti di run diversi. Ordine randomizzato/intercalato e canary giornaliero
+  mitigano la concentrazione temporale di fault/condizioni e rilevano parte della deriva,
+  ma non la eliminano né ne dimostrano l’assenza.
+
+Si assumono distribuzioni non dipendenti dall’identificativo r a parità di fault/posizione,
+assegnazione indipendente dagli esiti e assenza di dipendenza residua fra run nel modello
+inferenziale primario. Con una sola osservazione per cella, la correlazione residua entro
+fault non è identificabile in modo non parametrico separatamente dagli effetti fissi e
+dall’eterogeneità fault × posizione: resta un’assunzione sostenuta dal disegno. Lo stress
+sintetico la esplora come limite, senza stimarla dal test né correggerla post-hoc.
 
 ## 2. Appaiamento e H1/H2: quando Hoeffding resta valido
 
@@ -89,14 +104,15 @@ sovrastimarla. Quindi il percentile a n=8 non è garantito conservativo e non ha
 nominale dimostrata. La stessa derivazione si applica a ciascun contrasto medio di cluster;
 non si estende automaticamente all'accuratezza condizionata ai non astenuti, che è un rapporto.
 
-**Raccomandazione Q1:** conservare il bootstrap di §6 (10.000 repliche, seed e appaiamento
-invariati) esclusivamente come intervallo descrittivo approssimato, dichiarando il limite;
-affiancare per i contrasti medi limitati un intervallo bilaterale Hoeffding
-`Dbar ± sqrt(2*ln(2/0,05)/64)` (intersecato con [−1,1]), sotto §1, senza usarlo per scegliere
-post-hoc la procedura più favorevole. Il quantile bootstrap 5% non decide H1/H2/H3.
-Alternativa Q1: sviluppare e validare prima del freeze un modello/ricampionamento che sfrutti
-la struttura fault × tempo; non è giustificabile il semplice comando «preserva le quote».
-La raccomandazione necessita accettazione come reporting aggiuntivo, non cambia m o alpha.
+**Q1 approvata dall’autore:** bootstrap di §6 invariato (10.000 repliche, seed 20260913,
+appaiamento) come intervallo **descrittivo approssimato**, con il limite di varianza sopra.
+Affiancare per i contrasti medi limitati l’intervallo bilaterale Hoeffding al 95%
+`Dbar ± sqrt(2*ln(2/0,05)/64)`, intersecato con [−1,1], sotto le assunzioni di §1.
+**Entrambi sempre riportati**, senza scelta post-hoc del più favorevole; il quantile bootstrap
+5% non decide H1/H2/H3. Margine e alpha restano invariati. Nel paper dichiarare che la
+semiampiezza Hoeffding ≈0,3395 (circa 0,34) è larga perché il limite non richiede una forma
+distribuzionale, pur richiedendo indipendenza e limitatezza. Non estendere questa garanzia
+al rapporto di accuratezza sui non astenuti o agli scenari con dipendenza fra run.
 
 ## 4. H3, margine e gerarchia: limite non eliminato
 
@@ -112,25 +128,42 @@ non dimostra quindi il livello di Tango. Il piano §5 ammetteva già la limitazi
 alle quote per fault; le quote per posizione la rendono più esplicita. I risultati di potenza
 e livello simulati nel piano §7.1 non validano questo nuovo disegno eterogeneo.
 
-**Q2 richiede l'autore.** Opzione A (raccomandata per continuità): mantenere Tango come
-procedura approssimata, ma condizionare il freeze a una verifica sintetica indipendente,
-pre-dati, del livello al bordo Δ3=−0,125 e della potenza, includendo eterogeneità fault ×
-posizione e discordanza. La griglia, la tolleranza del livello e la regola in caso di esito
-negativo vanno fissate prima della verifica; questo documento non autorizza quel lavoro e
-non presume il suo esito. Non chiamare «garantito» il FWER completo.
-Opzione B: sostituire H3 con il limite Hoeffding (nuova decisione, non attuata): rifiuto se
-`Dbar3 + m >= sqrt(2*ln(20)/64)`, cioè `Dbar3 >= 0,180968…`. Dà livello ≤0,05 sotto §1,
-ma richiede un miglioramento osservato di circa 18,1 punti per affermare non inferiorità:
-è molto conservativo e perde potenza vicino a Δ3=0. A alpha=0,025 la soglia è circa 0,2145.
-Non si adotta B dopo aver visto l'esito di A sul test.
+**Q2 approvata: opzione A con fallback pre-specificato B.** Tango resta la procedura
+approssimata di H3, condizionata a una verifica sintetica indipendente **pre-dati**, in
+sotto-fase separata con script riproducibile e review. La
+[specifica della verifica](SPECIFICA_VERIFICA_SINTETICA_H3.md) fissa griglia 8×8 eterogenea,
+discordanza bassa/media/alta e correlazione entro fault; bordo Δ3=−0,125 per il livello e
+Δ3∈{0,+0,05} per la potenza; almeno 100.000 repliche per punto con errore Monte Carlo.
+Criterio: livello simulato ≤0,055 **su tutta la griglia a ICC=0** a nominale 0,05.
+Esito negativo → H3 passa a **B Hoeffding**, deciso ora, prima del test reale; verifica
+incompleta → PENDING. Nessuna selezione del test sui risultati reali.
+
+B rifiuta se `Dbar3 + m >= sqrt(2*ln(20)/64)`, cioè `Dbar3 >= 0,180968…`;
+a alpha=0,025 la soglia è 0,214525…. L’autore mantiene A perché richiedere circa +18 punti
+osservati per non inferiorità rende B praticamente non rifiutabile vicino a Δ3=0. Non è
+un’impossibilità matematica per effetti grandi. B mantiene la garanzia solo sotto §1:
+ripara l’eterogeneità fra celle, non la correlazione fra run. Se cade l’indipendenza, cade
+anche la garanzia N=64 di H1/H2; il limite a otto blocchi richiede indipendenza fra fault
+e ha t≈0,865, scarsamente utile. Non viene adottato automaticamente. Specifica §5 distingue il fallback deciso
+dalla necessità di sostenere l’assunzione nel disegno reale.
+
+Aspettativa, **non conclusione**: per trinomiali indipendenti non identiche, la varianza della
+somma è ≤ quella del multinomiale IID alle probabilità medie; lo score aggregato potrebbe
+risultare conservativo. Questa disuguaglianza non prova il livello finito dello score con
+MLE vincolata e non comprende i termini di covarianza negli scenari correlati. La verifica
+include anche questi ultimi come **stress descrittivo**, senza farli entrare nel criterio
+di scelta. ICC target 0; 0,05; 0,1; 0,2; 0,4 per Tango, Hoeffding H3 e Hoeffding H1/H2;
+riportare fino a quale ICC testato il livello resta ≤0,055, con fattibilità/correlazione
+effettiva e limiti della griglia. I punti ICC>0 non cambiano procedura, non attivano il
+fallback e vanno nei threats. La specifica distingue ICC osservabile e parametro generativo.
 
 La sequenza **H1→H2→H3** resta quella del piano §4.2. La prova del gatekeeping resta valida
 se ogni test locale controlla il livello per la propria nulla. Con A, H1/H2 hanno la garanzia
 condizionale sopra, H3 e FWER completo restano approssimati e da qualificare; con B, sotto §1,
 la garanzia di livello riguarda l'intera sequenza. Nessun risultato del bootstrap modifica
-l'ordine, alpha o il criterio di rifiuto. Sino alla decisione Q2/review: S6/S10/S11 PENDING.
+l'ordine, alpha o il criterio di rifiuto. Sino all’esito della verifica sintetica, alla review e al recepimento del ramo: S6/S10/S11 PENDING.
 
-## 5. D4, aggregatore e ambito: rinvii esatti e proposta Q3
+## 5. D4, aggregatore e ambito: Q3 approvata
 
 Il piano §§3.3 e 10.3–10.4 mantiene la **prima ripetizione sempre primaria**, anche se
 le altre due concordano contro di essa. L'audit deterministico del 10% del nucleo resta
@@ -141,14 +174,13 @@ D4 completa l'aggregatore: tre risposte valide, voto sulla coppia (`abstain`, `p
 almeno due identiche → tale esito; altrimenti astensione per disaccordo. L'astensione
 maggioritaria del modello e quella indotta dall'aggregatore hanno cause distinte.
 
-**Q3, raccomandazione da approvare:** aggiungere un reporting descrittivo separato su tutti
+**Q3 approvata:** aggiungere un reporting descrittivo separato su tutti
 i prompt, disponibili a R=3, senza sostituire audit o primaria, senza nuovo test confermativo.
 Per ciascun blocco/condizione riportare accuratezza, copertura, accuratezza sui non astenuti,
 astensione del modello, astensione per disaccordo e invalidità aggregata. Non combinare i
-blocchi in una singola popolazione nuova. Questa estensione richiede questo addendum a §10.4.
-Alternativa: limitare la sensibilità all'audit già previsto, senza reporting aggregato globale.
+blocchi in una singola popolazione nuova. Questa estensione è recepita dal presente addendum a §10.4.
 
-**Meno di tre esiti validi, proposta comune alle due opzioni Q3:** dopo risoluzione di ogni
+**Meno di tre esiti validi, regola approvata Q3:** dopo risoluzione di ogni
 richiesta pendente, aggregato `invalid_incomplete_triplet`, anche se due risposte valide
 concordano. Nessuna nuova chiamata per completare una risposta generata invalida. Non si
 chiama astensione, non si vota una pseudolabel «errato» e non si usa repetition 1 come spareggio.
@@ -156,8 +188,9 @@ Si conserva il numero di risposte valide. L'aggregato invalido conta non corrett
 denominatore totale e nel denominatore dei non astenuti, per coerenza con §3.3; resta
 separato dalle due cause di astensione. Una richiesta ancora incerta/zero-token da recuperare
 non è una invalidità terminale: la campagna resta sospesa, nessuna analisi finale selettiva.
-Questa scelta evita di confrontare aggregatori con numeri diversi di votanti. Accettarla non
-cambia la primaria; è una specificazione nuova della sensibilità da approvare prima del freeze.
+Questa scelta evita di confrontare aggregatori con numeri diversi di votanti e non cambia
+la primaria. Con D3 le triplette incomplete terminali derivano solo da risposte generate
+e invalide; i trasporti non risolti non diventano invalidità diagnostiche per chiudere il batch.
 
 La sensibilità canary di §10.5 resta distinta da entrambe: esclude le chiamate del giorno
 marcato. La finestra fra ultimo PASS e canary fallito è riportata anche come maschera forense
@@ -184,5 +217,6 @@ né la scelta della prima in caso di disaccordo. Non è stata avviata ricerca on
 Preservati: un caso per run, appaiamento, numerosità, primaria repetition 1, m, alpha e ordine.
 Verificato con condizioni esplicite: H1/H2 Hoeffding per la media di superpopolazione.
 Non dimostrati: copertura del percentile bootstrap, livello di Tango sotto il nuovo disegno,
-indipendenza reale del servizio, potenza aggiornata. Q1–Q3 sono proposte, non autorizzazioni.
+indipendenza reale del servizio, potenza aggiornata. Q1–Q3 sono approvate, non un’autorizzazione a eseguire simulazioni o chiamate in questo mandato.
+La specifica H3 è scritta; verifica sintetica e review sono ancora da eseguire separatamente.
 Il piano congelato e gli artefatti DESIGN_RESOLUTION restano byte-identici.

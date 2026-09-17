@@ -1,19 +1,19 @@
 {
-  "artifact_version": "2",
+  "artifact_version": "2.1",
   "status": "CANDIDATE_NOT_EFFECTIVE_NOT_AUTHORIZATIVE",
   "created_date": "2026-09-17",
   "base_commit": "ea90761d5b946588a572c7b8a6d47bf43c739501",
   "branch": "codex/studio2-freeze-protocollo-finale",
   "candidate": {
     "path": "studio2/fase03/protocollo_finale/PROTOCOLLO_FINALE_CANDIDATE.md",
-    "sha256": "96d10e645762d225718b1bfc8432f3e833c0ba23a21be3be87162cb810ecde01",
+    "sha256": "7b7035ea3c5cefc4654d7de1281a4e3a83f3ec6524ba0ee8694b2559029fe702",
     "hash_scope": "physical file bytes"
   },
   "proposed_tag_not_created": "studio2-fase03-protocollo-finale-frozen-001",
   "freeze_effective": false,
   "execution_authorized": false,
   "blocking_dependencies": [
-    "author acceptance of Q1/Q2/Q3 and independent statistical addendum review",
+    "independent synthetic H3 verification at ICC=0, descriptive ICC stress, branch reception and addendum review; Q1/Q2/Q3 already approved",
     "reviewed 7.4-FIX commit including runner, B-noLF, accounting and ledger",
     "reviewed four final artifact hashes, tokenizer checks and dry-run",
     "author accepted retry quota/backoff/timeout and full T5 calculation",
@@ -293,8 +293,8 @@
     },
     {
       "path": "studio2/fase03/protocollo_finale/ADDENDUM_PIANO_STATISTICO_FINESTRE.md",
-      "sha256": "acf5cfd22228b8d5b7c8f52deb3d897d5738f142d184f7318e99a33836fbc2a3",
-      "source_revision": "included with candidate rev2 commit",
+      "sha256": "4a428d241981f4a70731398a67076df99f6c942f9536f6e82ac577cf6af06c05",
+      "source_revision": "addendum revision 2, Q1-Q3 reception; revision 1 retained at 1f9ebc5",
       "hash_scope": "physical file bytes"
     },
     {
@@ -320,6 +320,18 @@
       "sha256": "2719650d6c5e09d55dcba8420f91d5d559fba05d43a55df569eae89a4ea2990d",
       "source_revision": "included with candidate rev2 commit",
       "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "studio2/fase03/protocollo_finale/DECISIONI_AUTORE_7_3_REV2_Q1_Q3.md",
+      "sha256": "b7a830ecffe145343458bf654c84439e664ce994edf89e6d7d1dc2a2baef8c53",
+      "hash_scope": "physical file bytes",
+      "source_revision": "Q1-Q3 reception commit"
+    },
+    {
+      "path": "studio2/fase03/protocollo_finale/SPECIFICA_VERIFICA_SINTETICA_H3.md",
+      "sha256": "335fa789163c51cb36d6d557382eb8095e94e656d09ef5d3245a71e29d556272",
+      "hash_scope": "physical file bytes",
+      "source_revision": "Q1-Q3 reception commit"
     }
   ],
   "external_preserved_sources": [
@@ -443,26 +455,7 @@
     "p95_scope": "per-call latency projection, not percentile of total campaign",
     "X_status": "reserved but unusable without identified preapproved technical list"
   },
-  "author_questions": [
-    {
-      "id": "Q1",
-      "question": "Keep bootstrap descriptive approximate and add Hoeffding contrast bounds, or develop a new inferential method?",
-      "recommendation": "descriptive bootstrap plus explicit Hoeffding bounds under stated superpopulation assumptions",
-      "status": "PENDING"
-    },
-    {
-      "id": "Q2",
-      "question": "Retain approximate Tango subject to independent pre-data synthetic validation, or use conservative Hoeffding for H3?",
-      "recommendation": "Tango with explicit limitations and pre-freeze synthetic validation with criteria fixed beforehand",
-      "status": "PENDING"
-    },
-    {
-      "id": "Q3",
-      "question": "Audit-only sensitivity or also all-prompt descriptive aggregation; classify fewer than 3 valid outcomes as aggregate invalidity?",
-      "recommendation": "audit plus separately labelled all-prompt descriptive aggregation; incomplete triple invalid, no reduced vote",
-      "status": "PENDING"
-    }
-  ],
+  "author_questions": [],
   "predecessor_candidate_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06",
   "window_assignment": {
     "rule": "random balanced assignment by position separately within each fault and Normal",
@@ -518,10 +511,11 @@
       "invalid_output"
     ],
     "existing_scope": "PIANO_STATISTICO.md 10.4 audit 10 percent of nucleus only",
-    "proposed_additional_scope": "all prompts, descriptive by block, no confirmatory tests",
-    "proposed_incomplete_triplet": "invalid_incomplete_triplet even if two valid votes agree; pending requests stop closure",
-    "proposal_status": "Q3_PENDING_AUTHOR",
-    "additional_calls": 0
+    "additional_calls": 0,
+    "additional_scope": "all prompts, descriptive by block, no confirmatory tests",
+    "incomplete_triplet": "invalid_incomplete_triplet even if two valid votes agree; pending requests stop closure",
+    "status": "Q3_APPROVED; implementation/review pending",
+    "incomplete_triplet_origin": "generated invalid responses only; unresolved transports suspend closure"
   },
   "schedule": {
     "rng": "numpy.random.Generator(PCG64(20260913))",
@@ -768,19 +762,103 @@
       "remaining": "remote tag existence reported by Claude review; immutable release coordinates and redownload verification still pending"
     }
   ],
-  "revision_delivery_record": {
-    "path": "studio2/fase03/protocollo_finale/REPORT_REV2.md",
-    "sha256": "2f53b3fe9e02b1b6e828bb341ffa4ed2f111e6b355b62814404e459807840bdc"
-  },
-  "documentary_checks": {
-    "path": "studio2/fase03/protocollo_finale/CONTROLLI_DOCUMENTALI_REV2.json",
-    "sha256": "3692698f29fb84db0fdaa2e5f67190f251fefdb1294abacdd79d91c9dafceab6",
-    "scope": "self-check only, not independent review"
-  },
   "implementation_predecessor_report": {
     "source_commit": "9e0e086746111359e080b204f51aadb6dbc03e40",
     "path": "studio2/fase03/REPORT_7_4_PREP.md",
     "sha256": "281345dfb5ac3b0f766f2a03289968f43328e1bab5139d0e3b4f845887b5f9d1",
     "status": "historical PREP only; does not certify FIX"
+  },
+  "previous_documentary_commit": "1f9ebc51649fcc30a17949819a05eca2271daac0",
+  "author_responses_Q1_Q3": {
+    "status": "APPROVED",
+    "path": "studio2/fase03/protocollo_finale/DECISIONI_AUTORE_7_3_REV2_Q1_Q3.md",
+    "sha256": "b7a830ecffe145343458bf654c84439e664ce994edf89e6d7d1dc2a2baef8c53",
+    "Q1": "unchanged descriptive approximate bootstrap plus bilateral Hoeffding bounds, always both, no post-hoc selection",
+    "Q2": "Tango conditional on independent pre-data synthetic check; empirical rejection <=0.055 at every ICC=0 null-boundary scenario; failure selects Hoeffding H3 now; ICC>0 descriptive only",
+    "Q3": "unchanged audit plus descriptive aggregation over all prompts by block/condition; <3 valid generated outcomes invalid_incomplete_triplet"
+  },
+  "synthetic_verification": {
+    "path": "studio2/fase03/protocollo_finale/SPECIFICA_VERIFICA_SINTETICA_H3.md",
+    "sha256": "335fa789163c51cb36d6d557382eb8095e94e656d09ef5d3245a71e29d556272",
+    "status": "SPECIFICATION_ONLY_NOT_EXECUTED",
+    "N": 64,
+    "faults": 8,
+    "positions": 8,
+    "replications_per_feasible_point": 100000,
+    "delta_grid": [
+      -0.125,
+      0,
+      0.05
+    ],
+    "discordance_grid": [
+      0.15,
+      0.3,
+      0.6,
+      0.9
+    ],
+    "heterogeneity_a_b": [
+      0,
+      0.5,
+      1
+    ],
+    "patterns": [
+      "fault/time",
+      "time/interaction",
+      "interaction/fault"
+    ],
+    "icc_targets": [
+      0,
+      0.05,
+      0.1,
+      0.2,
+      0.4
+    ],
+    "icc_definition": "mean Pearson correlation over nondegenerate within-fault cell pairs; not mixture weight; feasibility explicit",
+    "target_scenarios": 1620,
+    "decision_null_points_icc_zero": 108,
+    "decision_rule": "Tango rejection rate <=0.055 at every ICC=0 boundary point; negative => Hoeffding H3; incomplete => PENDING",
+    "stress_procedures": [
+      "Tango H3",
+      "Hoeffding H3 N64",
+      "Hoeffding H1/H2 N64"
+    ],
+    "stress_role": "descriptive only; report tested ICC range satisfying 0.055; never activates fallback",
+    "seed": 20260917,
+    "namespace": "studio2-fase03-h3-synthetic-q2-v1",
+    "full_fwer_guaranteed_with_Tango": false,
+    "fallback_requires_independence": true
+  },
+  "inferential_assumptions": {
+    "run_independence": "declared for H1 H2 H3 and fallback; not proven",
+    "fixed_shared_factors": "condition on catalog, library, prompts, thresholds, model configuration; define conditional estimand",
+    "simulator": "distinct qualified streams per run support conditional independence given fault; distinct seed values alone not proof",
+    "llm_service": "randomized interleaved order and daily canary mitigate but do not eliminate shared random drift/state",
+    "residual_icc": "not separately identifiable nonparametrically from fixed effects/cell heterogeneity with one observation per cell"
+  },
+  "intervals_Q1": {
+    "bootstrap": "plan section 6 unchanged, descriptive approximate, not guaranteed conservative",
+    "iterations": 10000,
+    "seed": 20260913,
+    "hoeffding": "bilateral 95% for bounded mean contrasts under independence, radius 0.3395253789351549 at N64",
+    "both_always_reported": true,
+    "bootstrap_quantile_decides_hypotheses": false
+  },
+  "previous_documentary_checks": {
+    "path": "studio2/fase03/protocollo_finale/CONTROLLI_DOCUMENTALI_REV2.json",
+    "sha256": "3692698f29fb84db0fdaa2e5f67190f251fefdb1294abacdd79d91c9dafceab6",
+    "scope": "historical checks of 1f9ebc5, not current candidate"
+  },
+  "previous_delivery_record": {
+    "path": "studio2/fase03/protocollo_finale/REPORT_REV2.md",
+    "sha256": "2f53b3fe9e02b1b6e828bb341ffa4ed2f111e6b355b62814404e459807840bdc"
+  },
+  "revision_delivery_record": {
+    "path": "studio2/fase03/protocollo_finale/REPORT_RISPOSTE_Q1_Q3.md",
+    "sha256": "67eb73df9dfa6db7c1741d7b0cbdfef8670c9ffcb71b47cc7dca7176b56edc3b"
+  },
+  "documentary_checks": {
+    "path": "studio2/fase03/protocollo_finale/CONTROLLI_RISPOSTE_Q1_Q3.json",
+    "sha256": "3d59a8b97d7a70e0df1b4b2778305ebfaf34c00c8a0d0ce34e3035dc7a6100b6",
+    "scope": "self-check only, not independent review"
   }
 }
