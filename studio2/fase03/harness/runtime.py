@@ -60,7 +60,13 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
         if invalidity is not None:
             export_journal(ledger, stage, journal_path)
             return invalidity
-    if leaf and leaf['status'] == 'ZERO_TOKEN_PROVEN':
+    if leaf and leaf['status'] == 'COMPLETED' and leaf['request_id'] in retry_requests:
+        # 03.13-REV27B: one explicit resend of a reconciled identity suspension.
+        request_id = digest([ledger.pilot_id, stage, spec['logical_id'], leaf['request_id']])
+        ledger.reserve_requalification_retry(request_id=request_id, logical_id=spec['logical_id'], model=spec['model'], producer=spec['producer'], stage=stage, stage_run=stage_run, retry_of=leaf['request_id'])
+        leaf = ledger.request(request_id)
+        fresh = True
+    elif leaf and leaf['status'] == 'ZERO_TOKEN_PROVEN':
         if leaf['request_id'] not in retry_requests:
             raise HarnessError('proven zero-token request requires explicit retry selection')
         request_id = digest([ledger.pilot_id, stage, spec['logical_id'], leaf['request_id']])

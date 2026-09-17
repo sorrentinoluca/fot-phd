@@ -304,12 +304,15 @@ def no_thinking_template_kwargs(value):
 
 
 def producer_extra_body(value, *, model_role):
-    """Allow one reviewed rendering control on the 122B producer, never a pass-through."""
+    """Allow one reviewed rendering control on a producer, never a pass-through.
+
+    122B: reviewed successor control. 27B: approved 03.13-REV27B requalification.
+    """
     if value is None:
         return None
-    if (model_role != '122B' or not isinstance(value, dict)
+    if (model_role not in {'122B', '27B'} or not isinstance(value, dict)
             or set(value) != {'chat_template_kwargs'}):
-        fail('producer extra_body must be exactly chat_template_kwargs.enable_thinking=false for 122B')
+        fail('producer extra_body must be exactly chat_template_kwargs.enable_thinking=false')
     no_thinking_template_kwargs(value['chat_template_kwargs'])
     return {'chat_template_kwargs': {'enable_thinking': False}}
 
@@ -489,6 +492,7 @@ def validate_binding(binding, stage, ledger, connection):
     config = binding['execution_config']
     from .guards import require_execution
     require_execution(config)
+    ledger._require_accepted_config(connection, config)
     expected_ledger = {'path':str(ledger.identity_path), 'pilot_id':ledger.pilot_id}
     if config.get('pilot_ledger') != expected_ledger:
         fail('binding belongs to another pilot ledger')
@@ -524,9 +528,14 @@ def validate_binding(binding, stage, ledger, connection):
     if not isinstance(chat_snapshot, str) or not Path(chat_snapshot).is_absolute():
         fail('binding lacks its recoverable service tokenizer snapshot')
     verify_tokenizer(Path(chat_snapshot), **service['tokenizer'])
+    revised = bool(ledger._config_chain(connection))
     for row in connection.execute('SELECT stage,binding_json FROM stages'):
         other=json.loads(row['binding_json'])
-        if 'execution_config' in other and other['execution_config'] != config:
+        if 'execution_config' not in other:
+            continue
+        if revised:
+            ledger._require_accepted_config(connection, other['execution_config'])
+        elif other['execution_config'] != config:
             fail('configuration changed between stages; no implicit ledger reset/rebinding')
 
 
@@ -572,8 +581,10 @@ def swap_manifest(primary_manifest, *, primary_handoff, alternate_handoff, confi
     primary, _, p = _insights(primary_handoff, ledger=ledger, token_count=token_count, schema_dir=schema_dir)
     alternate, _, a = _insights(alternate_handoff, ledger=ledger, token_count=token_count, schema_dir=schema_dir, library_role='alternate')
     for provenance in (p, a):
-        if ledger.binding(provenance['stage']).get('execution_config') != config:
-            fail('swap library does not belong to this D9 configuration')
+        try:
+            ledger.config_accepted(ledger.binding(provenance['stage']).get('execution_config'), config)
+        except Exception as exc:
+            raise HarnessError('swap library does not belong to this D9 configuration') from exc
     if primary_manifest.get('insights') != primary:
         fail('swap source is not the authenticated primary library')
     result = deepcopy(primary_manifest); result['insights'] = alternate

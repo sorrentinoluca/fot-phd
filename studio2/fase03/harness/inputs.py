@@ -180,7 +180,7 @@ def _insights(path, *, ledger=None, token_count=None, schema_dir=None, library_r
     ledger.verify_stage_success(stage)
     binding = ledger.binding(stage)
     records = ledger.stage_records(stage)
-    if not outcome or outcome['outcome'] != 'PASS' or any(e.startswith('suspended:') for e in ledger.snapshot()['events']):
+    if not outcome or outcome['outcome'] != 'PASS' or ledger.unreconciled_suspensions():
         raise HarnessError('handoff requires successful active producer cycle')
     library = []
     for row in records:

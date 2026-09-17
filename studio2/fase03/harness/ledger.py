@@ -35,6 +35,65 @@ ACCOUNTING_STOP_RECONCILED_EVENT = "stop_reconciled:tokenizer_accounting"
 ACCOUNTING_STOP_APPROVAL_KEYS = {"decision", "author", "stop_artifact_sha256", "stop_request_id",
                                  "cause", "fixed_commit", "ledger_sha256_before"}
 COMMIT = re.compile(r"^[0-9a-f]{40}$")
+CONFIG_REVISION_PREFIX = "config_revision:"
+STAGE_REBINDING_PREFIX = "stage_rebinding:"
+SUSPENSION_RECONCILED_PREFIX = "suspension_reconciled:"
+IDENTITY_SUSPENSION_REASON = "response identity missing or changed"
+REQUALIFICATION_STAGES = {"alternate_conformity"}
+REQUALIFICATION_LIMIT = 1
+# Flattened configuration paths an approved revision may change (03.13-REV27B).
+CONFIG_REVISION_ALLOWED = (
+    ("d9", "producer_configs", "27B"),
+    ("d9", "services", "27B", "expected_response", "system_fingerprint"),
+    ("d9", "services", "27B", "documentation"),
+    ("approved_producer_config_sha256",),
+    ("execution_authorization",),
+)
+CONFIG_REVISION_APPROVAL_KEYS = {"decision", "author", "previous_sha256", "new_sha256", "reason"}
+SUSPENSION_APPROVAL_KEYS = {"decision", "author", "request_id", "suspension_artifact_sha256",
+                            "observed_identity", "config_content_sha256"}
+REBINDING_BINDING_KEYS = {"execution_config", "provider", "provider_file_sha256", "provider_reference"}
+REBINDING_PROVIDER_KEYS = {"extra_body", "expected_response", "thinking_token_budget"}
+
+
+def _diff_paths(before, after, prefix=()):
+    """Smallest changed paths; a changed list or scalar is one leaf."""
+    if isinstance(before, dict) and isinstance(after, dict):
+        paths = []
+        for key in sorted(set(before) | set(after)):
+            if key not in before or key not in after:
+                paths.append(prefix + (key,))
+            elif before[key] != after[key]:
+                paths.extend(_diff_paths(before[key], after[key], prefix + (key,)))
+        return paths
+    return [] if before == after else [prefix]
+
+
+def _embedded_json(stored, role):
+    """Rebuild approval bytes embedded in an event and verify their three bindings."""
+    if (not isinstance(stored, dict) or set(stored) != {"path", "sha256", "content", "utf8"}
+            or not isinstance(stored.get("path"), str) or not Path(stored["path"]).is_absolute()
+            or not isinstance(stored.get("utf8"), str)):
+        raise HarnessError(role + " approval copy is incomplete")
+    data = stored["utf8"].encode("utf-8")
+    try:
+        value = json.loads(data)
+    except ValueError as exc:
+        raise HarnessError(role + " approval copy is not JSON") from exc
+    if value != stored["content"] or sha256_bytes(data) != stored["sha256"]:
+        raise HarnessError(role + " approval copy is corrupted")
+    return value
+
+
+def _read_embedded_json(path, role):
+    path = Path(path).resolve()
+    try:
+        data = path.read_bytes()
+        text = data.decode("utf-8")
+        value = json.loads(text)
+    except (OSError, UnicodeError, ValueError) as exc:
+        raise HarnessError(role + " file is unavailable or invalid") from exc
+    return value, {"path": str(path), "sha256": sha256_bytes(data), "content": value, "utf8": text}
 
 
 def digest(value):
@@ -446,6 +505,335 @@ class PilotLedger:
 
     def _events(self, c):
         return {r['event']: r for r in c.execute("SELECT * FROM events")}
+
+    # --- 03.13-REV27B: approved configuration revisions -------------------------------
+    @staticmethod
+    def _validate_config_revision_content(previous, new):
+        if not isinstance(previous, dict) or not isinstance(new, dict):
+            raise HarnessError('config revision requires two JSON objects')
+        changed = _diff_paths(previous, new)
+        if not changed:
+            raise HarnessError('config revision changes nothing')
+        allowed = lambda path: any(path[:len(a)] == a for a in CONFIG_REVISION_ALLOWED)
+        outside = [".".join(map(str, path)) for path in changed if not allowed(path)]
+        if outside:
+            raise HarnessError('config revision changes keys outside the approved set: ' + ", ".join(outside))
+        old_d9, new_d9 = previous.get('d9') or {}, new.get('d9') or {}
+        if (old_d9.get('producer_configs', {}).get('122B') != new_d9.get('producer_configs', {}).get('122B')
+                or sorted(new.get('approved_producer_config_sha256', []))
+                != sorted(new_d9.get('producer_configs', {}).values())):
+            raise HarnessError('config revision must keep the producer allowlist equal to the D9 roles')
+        return sorted(".".join(map(str, path)) for path in changed)
+
+    def _config_chain(self, c):
+        """Return [C0, C1, ..., Cn] after re-authenticating every revision, or []."""
+        events = sorted(((int(name[len(CONFIG_REVISION_PREFIX):]), row)
+                         for name, row in self._events(c).items()
+                         if name.startswith(CONFIG_REVISION_PREFIX)), key=lambda item: item[0])
+        chain = []
+        for position, (number, row) in enumerate(events, 1):
+            try:
+                detail = json.loads(row['detail_json'])
+                if (number != position
+                        or set(detail) != {'revision', 'previous', 'new', 'changed_keys', 'approval'}
+                        or detail['revision'] != number):
+                    raise HarnessError('fields')
+                previous, new = detail['previous'], detail['new']
+                for side in (previous, new):
+                    if (not isinstance(side, dict)
+                            or set(side) != {'file_sha256', 'content_sha256', 'content'}
+                            or side['content_sha256'] != digest(side['content'])
+                            or not HASH.fullmatch(side['file_sha256'])):
+                        raise HarnessError('side')
+                approval = _embedded_json(detail['approval'], 'config revision')
+                if (not isinstance(approval, dict) or set(approval) != CONFIG_REVISION_APPROVAL_KEYS
+                        or approval['decision'] != 'accepted'
+                        or not isinstance(approval['author'], str) or not approval['author'].strip()
+                        or not isinstance(approval['reason'], str) or not approval['reason'].strip()
+                        or approval['previous_sha256'] != previous['file_sha256']
+                        or approval['new_sha256'] != new['file_sha256']
+                        or row['artifact_sha256'] != new['content_sha256']
+                        or detail['changed_keys'] != self._validate_config_revision_content(
+                            previous['content'], new['content'])
+                        or (chain and previous['content'] != chain[-1])):
+                    raise HarnessError('binding')
+            except (HarnessError, KeyError, TypeError, ValueError, AttributeError) as exc:
+                raise HarnessError('FATAL: config revision chain is corrupted') from exc
+            if not chain:
+                chain.append(previous['content'])
+            chain.append(new['content'])
+        return chain
+
+    def config_revisions(self):
+        with self._transaction() as c:
+            return self._config_chain(c)
+
+    def _require_accepted_config(self, c, stored, current=None):
+        """A stored execution_config is valid if equal to the current one or, once revisions
+        exist, if it is a member of the recorded chain whose head is the current one."""
+        chain = self._config_chain(c)
+        if not chain:
+            if current is not None and stored != current:
+                raise HarnessError('execution configuration differs and no approved config revision exists')
+            return
+        if stored not in chain:
+            raise HarnessError('execution configuration is not a recorded config revision')
+        if current is not None and current != chain[-1]:
+            raise HarnessError('execution configuration is not the head of the recorded config revision chain')
+
+    def require_current_config(self, config, connection=None):
+        def check(c):
+            chain = self._config_chain(c)
+            if chain and config != chain[-1]:
+                raise HarnessError(
+                    'execution configuration is not the head of the recorded config revision chain')
+        if connection is not None:
+            return check(connection)
+        with self._transaction() as c:
+            check(c)
+
+    def config_accepted(self, stored, current):
+        with self._transaction() as c:
+            self._require_accepted_config(c, stored, current)
+        return True
+
+    def record_config_revision(self, *, previous_config_path: Path, new_config_path: Path,
+                               approval_path: Path):
+        """Record one author-approved revision; existing bindings and requests stay unchanged."""
+        previous, previous_ref = _read_embedded_json(previous_config_path, 'previous configuration')
+        new, new_ref = _read_embedded_json(new_config_path, 'new configuration')
+        approval, approval_ref = _read_embedded_json(approval_path, 'config revision approval')
+        with self._transaction() as c:
+            chain = self._config_chain(c)
+            if chain and chain[-1] == new:
+                event = self._events(c)[f'{CONFIG_REVISION_PREFIX}{len(chain) - 1}']
+                if json.loads(event['detail_json'])['approval']['sha256'] != approval_ref['sha256']:
+                    raise HarnessError('config revision already recorded with another approval')
+                return {'status': 'ALREADY_RECORDED', 'revision': len(chain) - 1}
+            changed = self._validate_config_revision_content(previous, new)
+            if (not isinstance(approval, dict) or set(approval) != CONFIG_REVISION_APPROVAL_KEYS
+                    or approval.get('decision') != 'accepted'
+                    or not isinstance(approval.get('author'), str) or not approval['author'].strip()
+                    or not isinstance(approval.get('reason'), str) or not approval['reason'].strip()
+                    or approval.get('previous_sha256') != previous_ref['sha256']
+                    or approval.get('new_sha256') != new_ref['sha256']):
+                raise HarnessError('config revision approval does not bind these two configurations')
+            if chain and chain[-1] != previous:
+                raise HarnessError('config revision must start from the current head')
+            stored = [json.loads(r['binding_json']).get('execution_config')
+                      for r in c.execute('SELECT binding_json FROM stages')]
+            if not chain and any(value is not None and value != previous for value in stored):
+                raise HarnessError('config revision must start from the configuration of every durable binding')
+            if any(r['status'] == 'INTENT' for r in self._rows(c)):
+                raise HarnessError('config revision requires no unresolved intent')
+            from .guards import require_execution
+            require_execution(previous)
+            require_execution(new)
+            number = len(chain) if chain else 1
+            detail = {'revision': number,
+                      'previous': {'file_sha256': previous_ref['sha256'],
+                                   'content_sha256': digest(previous), 'content': previous},
+                      'new': {'file_sha256': new_ref['sha256'],
+                              'content_sha256': digest(new), 'content': new},
+                      'changed_keys': changed, 'approval': approval_ref}
+            self._event(c, f'{CONFIG_REVISION_PREFIX}{number}', digest(new), detail)
+            self._config_chain(c)
+            return {'status': 'RECORDED', 'revision': number, 'changed_keys': changed}
+
+    # --- stage rebinding after an approved revision -----------------------------------
+    def _stage_runs(self, c, stage):
+        """Every binding digest a persisted attempt of this stage may carry."""
+        row = c.execute("SELECT binding_sha256 FROM stages WHERE stage=?", (stage,)).fetchone()
+        prefix = f'{STAGE_REBINDING_PREFIX}{stage}:'
+        events = sorted(((int(name[len(prefix):]), r) for name, r in self._events(c).items()
+                         if name.startswith(prefix)), key=lambda item: item[0])
+        runs = []
+        chain = self._config_chain(c) if events else []
+        for position, (number, event) in enumerate(events, 1):
+            try:
+                detail = json.loads(event['detail_json'])
+                if (number != position
+                        or set(detail) != {'stage', 'revision', 'previous_binding',
+                                           'previous_sha256', 'new_sha256'}
+                        or detail['stage'] != stage or detail['revision'] != number
+                        or digest(detail['previous_binding']) != detail['previous_sha256']
+                        or event['artifact_sha256'] != detail['new_sha256']
+                        or detail['previous_binding'].get('execution_config') not in chain
+                        or (runs and runs[-1] != detail['previous_sha256'])):
+                    raise HarnessError('fields')
+            except (HarnessError, KeyError, TypeError, ValueError, AttributeError) as exc:
+                raise HarnessError('FATAL: stage rebinding history is corrupted') from exc
+            if not runs:
+                runs.append(detail['previous_sha256'])
+            runs.append(detail['new_sha256'])
+        if runs and (row is None or runs[-1] != row['binding_sha256']):
+            raise HarnessError('FATAL: stage rebinding history differs from the current binding')
+        return runs or ([row['binding_sha256']] if row else [])
+
+    def _rebind_stage(self, c, stage, old, new):
+        if stage not in REQUALIFICATION_STAGES:
+            raise HarnessError("stage inputs changed across alias, directory or restart")
+        chain = self._config_chain(c)
+        if not chain:
+            raise HarnessError("stage inputs changed and no approved config revision exists")
+        from .d9 import model_for_stage, no_thinking_template_kwargs
+        role = model_for_stage(stage)
+        changed = {k for k in set(old) | set(new) if old.get(k) != new.get(k)}
+        if set(old) != set(new) or not changed <= REBINDING_BINDING_KEYS:
+            raise HarnessError("stage rebinding may change only configuration and provider")
+        if old['execution_config'] not in chain[:-1] or new['execution_config'] != chain[-1]:
+            raise HarnessError("stage rebinding must move a recorded revision to the current head")
+        old_provider, new_provider = old['provider'], new['provider']
+        provider_changed = {k for k in set(old_provider) | set(new_provider)
+                            if old_provider.get(k) != new_provider.get(k)}
+        extra = new_provider.get('extra_body')
+        strip = lambda value: {k: v for k, v in value.items() if k != 'system_fingerprint'}
+        if (not provider_changed <= REBINDING_PROVIDER_KEYS
+                or not isinstance(extra, dict) or set(extra) != {'chat_template_kwargs'}
+                or no_thinking_template_kwargs(extra['chat_template_kwargs']) != extra['chat_template_kwargs']
+                or new_provider.get('thinking_token_budget') is not None
+                or strip(old_provider['expected_response']) != strip(new_provider['expected_response'])
+                or old['provider_file_sha256'] != old['execution_config']['d9']['producer_configs'][role]
+                or new['provider_file_sha256'] != new['execution_config']['d9']['producer_configs'][role]):
+            raise HarnessError("stage rebinding provider change is outside the approved 27B requalification")
+        events = self._events(c)
+        if 'outcome:' + stage in events:
+            raise HarnessError("closed stage cannot be rebound")
+        if any(r['status'] == 'INTENT' for r in self._rows(c) if r['stage'] == stage):
+            raise HarnessError("stage rebinding requires no unresolved intent")
+        prefix = f'{STAGE_REBINDING_PREFIX}{stage}:'
+        number = sum(name.startswith(prefix) for name in events) + 1
+        self._event(c, f'{prefix}{number}', digest(new),
+                    {'stage': stage, 'revision': number, 'previous_binding': old,
+                     'previous_sha256': digest(old), 'new_sha256': digest(new)})
+        c.execute("UPDATE stages SET binding_json=?, binding_sha256=? WHERE stage=?",
+                  (canonical_json(new), digest(new), stage))
+        self._stage_runs(c, stage)
+
+    # --- identity suspension reconciliation --------------------------------------------
+    def _suspension_identity_check(self, c, request_id, observed, config_content_sha256):
+        row = c.execute('SELECT * FROM requests WHERE request_id=?', (request_id,)).fetchone()
+        response = c.execute('SELECT * FROM responses WHERE request_id=?', (request_id,)).fetchone()
+        if (row is None or row['status'] != 'COMPLETED' or response is None
+                or response['record_json'] is None):
+            raise HarnessError('suspension reconciliation requires a completed request with a durable record')
+        if (sha256_text(response['raw_json']) != response['raw_sha256']
+                or sha256_text(response['record_json']) != response['record_sha256']):
+            raise HarnessError('suspended response hash mismatch')
+        raw, record = json.loads(response['raw_json']), json.loads(response['record_json'])
+        durable = {'returned_model': raw.get('model'), 'system_fingerprint': raw.get('system_fingerprint')}
+        if (observed != durable or record.get('identity_valid') is not False
+                or record.get('returned_model') != durable['returned_model']
+                or record.get('system_fingerprint') != durable['system_fingerprint']):
+            raise HarnessError('observed identity differs from the durable suspended response')
+        configs = [value for value in self._config_chain(c) if digest(value) == config_content_sha256]
+        if not configs:
+            raise HarnessError('suspension reconciliation requires a recorded config revision')
+        from .d9 import model_for_stage
+        from .guards import response_identity_valid
+        expected = configs[0]['d9']['services'][model_for_stage(row['stage'])]['expected_response']
+        if not response_identity_valid(observed, expected):
+            raise HarnessError('observed identity is not accepted by the config revision')
+        return row
+
+    def _validated_suspension_reconciliation(self, c, suspended, event):
+        request_id = suspended['event'].split(':', 1)[1]
+        try:
+            stop = json.loads(suspended['detail_json'])
+            detail = json.loads(event['detail_json'])
+            if (stop != {'reason': IDENTITY_SUSPENSION_REASON}
+                    or set(detail) != {'request_id', 'suspension_artifact_sha256', 'observed_identity',
+                                       'config_content_sha256', 'approval'}
+                    or detail['request_id'] != request_id
+                    or detail['suspension_artifact_sha256'] != suspended['artifact_sha256']
+                    or event['artifact_sha256'] != suspended['artifact_sha256']):
+                raise HarnessError('fields')
+            approval = _embedded_json(detail['approval'], 'suspension reconciliation')
+            if (not isinstance(approval, dict) or set(approval) != SUSPENSION_APPROVAL_KEYS
+                    or approval['decision'] != 'accepted'
+                    or not isinstance(approval['author'], str) or not approval['author'].strip()
+                    or any(approval[k] != detail[k] for k in (
+                        'request_id', 'suspension_artifact_sha256',
+                        'observed_identity', 'config_content_sha256'))):
+                raise HarnessError('approval')
+            self._suspension_identity_check(c, request_id, detail['observed_identity'],
+                                            detail['config_content_sha256'])
+        except (HarnessError, KeyError, TypeError, ValueError, AttributeError) as exc:
+            raise HarnessError('FATAL: suspension reconciliation is corrupted or no longer valid') from exc
+        return detail
+
+    def _unreconciled_suspensions(self, c):
+        events = self._events(c)
+        pending = []
+        for name, row in events.items():
+            if not name.startswith('suspended:'):
+                continue
+            event = events.get(SUSPENSION_RECONCILED_PREFIX + name.split(':', 1)[1])
+            if event is None:
+                pending.append(name)
+            else:
+                self._validated_suspension_reconciliation(c, row, event)
+        return sorted(pending)
+
+    def unreconciled_suspensions(self):
+        with self._transaction() as c:
+            return self._unreconciled_suspensions(c)
+
+    def reconcile_suspension(self, request_id, *, approval_path: Path):
+        """Lift one response-identity suspension once a recorded revision accepts that identity.
+
+        The ``suspended:`` event and the invalid record stay; nothing is re-evaluated.
+        """
+        approval, approval_ref = _read_embedded_json(approval_path, 'suspension reconciliation')
+        with self._transaction() as c:
+            events = self._events(c)
+            suspended = events.get('suspended:' + request_id)
+            if (suspended is None
+                    or json.loads(suspended['detail_json']) != {'reason': IDENTITY_SUSPENSION_REASON}):
+                raise HarnessError('only a response-identity suspension can be reconciled')
+            name = SUSPENSION_RECONCILED_PREFIX + request_id
+            if name in events:
+                detail = self._validated_suspension_reconciliation(c, suspended, events[name])
+                if detail['approval']['sha256'] != approval_ref['sha256']:
+                    raise HarnessError('suspension already reconciled with another approval')
+                return {'status': 'ALREADY_RECONCILED', 'request_id': request_id}
+            chain = self._config_chain(c)
+            if not chain:
+                raise HarnessError('suspension reconciliation requires a recorded config revision')
+            rows = self._rows(c)
+            if any(r['status'] == 'INTENT' for r in rows):
+                raise HarnessError('suspension reconciliation requires no unresolved intent')
+            created = datetime.fromisoformat(suspended['created_utc'])
+            if any(datetime.fromisoformat(r['intent_utc']) > created for r in rows):
+                raise HarnessError('a request was created after the suspension; reconciliation refused')
+            if (not isinstance(approval, dict) or set(approval) != SUSPENSION_APPROVAL_KEYS
+                    or approval.get('decision') != 'accepted'
+                    or not isinstance(approval.get('author'), str) or not approval['author'].strip()
+                    or approval.get('request_id') != request_id
+                    or approval.get('suspension_artifact_sha256') != suspended['artifact_sha256']
+                    or approval.get('config_content_sha256') != digest(chain[-1])):
+                raise HarnessError('suspension approval does not bind this suspension and the current revision')
+            self._suspension_identity_check(c, request_id, approval.get('observed_identity'),
+                                            approval['config_content_sha256'])
+            detail = {k: approval[k] for k in ('request_id', 'suspension_artifact_sha256',
+                                                'observed_identity', 'config_content_sha256')}
+            detail['approval'] = approval_ref
+            self._event(c, name, suspended['artifact_sha256'], detail)
+            self._validated_suspension_reconciliation(c, suspended, self._events(c)[name])
+            return {'status': 'RECONCILED', 'request_id': request_id}
+
+    def _validated_requalification_parent(self, c, row):
+        events = self._events(c)
+        suspended = events.get('suspended:' + row['request_id'])
+        event = events.get(SUSPENSION_RECONCILED_PREFIX + row['request_id'])
+        if suspended is None or event is None:
+            raise HarnessError("requalification requires a reconciled identity suspension")
+        self._validated_suspension_reconciliation(c, suspended, event)
+
+    def reserve_requalification_retry(self, **value):
+        """One explicit resend of a reconciled identity suspension, outside 8r+t<=15."""
+        with self._transaction() as c:
+            self._insert_intent(c, quota_kind='requalification', **value)
 
     def _accounting_stops(self, c):
         return list(c.execute(
@@ -990,7 +1378,7 @@ class PilotLedger:
             old = c.execute("SELECT binding_sha256 FROM stages WHERE stage=?", (stage,)).fetchone()
             if old:
                 if old[0] != digest(binding):
-                    raise HarnessError("stage inputs changed across alias, directory or restart")
+                    self._rebind_stage(c, stage, self._binding(c, stage), binding)
                 self._prerequisites(c, stage)
                 self._validated_attempt_inventory(c)
                 if 'outcome:' + stage in self._events(c):
@@ -1020,10 +1408,12 @@ class PilotLedger:
             row = base
             visited = set()
             while row['request_id'] in children:
-                if row['request_id'] in visited or row['status'] != 'ZERO_TOKEN_PROVEN':
+                nxt = children[row['request_id']]
+                if row['request_id'] in visited or not (
+                        row['status'] == 'ZERO_TOKEN_PROVEN'
+                        or row['status'] == 'COMPLETED' and nxt['quota_kind'] == 'requalification'):
                     raise HarnessError("invalid retry chain")
                 visited.add(row['request_id'])
-                nxt = children[row['request_id']]
                 if nxt['identity_json'] != row['identity_json']:
                     raise HarnessError("retry changed complete request identity")
                 row = nxt
@@ -1077,7 +1467,7 @@ class PilotLedger:
         without grandfathering outcomes created by an earlier, unsafe implementation.
         """
         events = self._events(c)
-        if any(k.startswith('suspended:') for k in events):
+        if self._unreconciled_suspensions(c):
             raise HarnessError("pilot suspended; requires a new reviewed disposition")
         successor, _ = self._classified_successor_lineage(c)
         if successor:
@@ -1120,8 +1510,10 @@ class PilotLedger:
         if len(rows) + len(predecessors) >= 200:
             raise HarnessError("pilot cumulative hard stop 200 reached")
         successor_extra = int(successor)
+        requalification_extra = (sum(r['quota_kind'] == 'requalification' for r in rows)
+                                 + int(quota_kind == 'requalification'))
         max_calls = (160 if stage == 'alternate_conformity' or any(
-            r['stage'] == 'alternate_conformity' for r in rows) else 152) + successor_extra
+            r['stage'] == 'alternate_conformity' for r in rows) else 152) + successor_extra + requalification_extra
         if len(rows) >= max_calls:
             raise HarnessError(f"planned request maximum {max_calls + len(predecessors)} reached")
         predecessor_request_ids = {row["request_id"] for row in predecessors}
@@ -1140,7 +1532,18 @@ class PilotLedger:
             base_rows = [r for r in rows if r['stage'] == stage and r['retry_of'] is None]
             if len(base_rows) >= len(binding['requests']) or binding['requests'][len(base_rows)]['logical_id'] != logical_id:
                 raise HarnessError('duplicate or out-of-order logical base')
-        if retry_of:
+        if quota_kind == 'requalification':
+            original = next((r for r in rows if r['request_id'] == retry_of), None)
+            if (not retry_of or original is None or original['status'] != 'COMPLETED'
+                    or original['stage'] != stage or stage not in REQUALIFICATION_STAGES
+                    or original['identity_json'] != identity):
+                raise HarnessError("requalification retry requires the matching completed suspended request")
+            self._validated_requalification_parent(c, original)
+            if sum(r['quota_kind'] == 'requalification' for r in rows) >= REQUALIFICATION_LIMIT:
+                raise HarnessError("requalification quota is exhausted")
+            if any(r['retry_of'] == retry_of for r in rows):
+                raise HarnessError("requalification original already has a retry")
+        elif retry_of:
             original = next((r for r in rows if r['request_id'] == retry_of), None)
             if original is None or original['status'] != 'ZERO_TOKEN_PROVEN' or original['stage'] != stage or original['identity_json'] != identity:
                 raise HarnessError("retry requires matching original and documented zero-token proof")
@@ -1481,18 +1884,31 @@ class PilotLedger:
         specs = {s['logical_id']: s for s in binding['requests']}
         by_id = {r['request_id']: r for r in rows}
         children = {r['retry_of']: r for r in rows if r['retry_of']}
+        runs = {stage: set(self._stage_runs(c, stage)) | {digest(binding)}
+                for stage in {r['stage'] for r in rows}}
+        if sum(r['quota_kind'] == 'requalification' for r in self._rows(c)) > REQUALIFICATION_LIMIT:
+            raise HarnessError('requalification quota exceeded')
         for row in rows:
             spec = specs.get(row['logical_id'])
             if (spec is None or row['identity_json'] != canonical_json(spec)
-                    or row['stage_run'] != digest(binding)
+                    or row['stage_run'] not in runs[row['stage']]
                     or (row['model'], row['producer']) != (spec['model'], spec['producer'])):
                 raise HarnessError('persisted request differs from immutable plan')
-            expected_quota = ('transport' if row['retry_of'] else
+            requalification = bool(row['retry_of']) and row['quota_kind'] == 'requalification'
+            expected_quota = ('requalification' if requalification else
+                              'transport' if row['retry_of'] else
                               'remediation' if row['stage'] == 'producer_remediation' else
                               'technical' if row['stage'] == TECHNICAL_STAGE else 'base')
             if row['quota_kind'] != expected_quota:
                 raise HarnessError('persisted attempt quota differs from its role')
-            if row['retry_of']:
+            if requalification:
+                parent = by_id.get(row['retry_of'])
+                if (parent is None or parent['status'] != 'COMPLETED'
+                        or row['stage'] not in REQUALIFICATION_STAGES
+                        or parent['identity_json'] != row['identity_json']):
+                    raise HarnessError('orphan or inconsistent requalification attempt')
+                self._validated_requalification_parent(c, parent)
+            elif row['retry_of']:
                 parent = by_id.get(row['retry_of'])
                 if (parent is None or parent['status'] != 'ZERO_TOKEN_PROVEN'
                         or parent['identity_json'] != row['identity_json']
@@ -1752,8 +2168,9 @@ class PilotLedger:
         by_stage = {s: sum(r['stage'] == s for r in rows) for s in sorted(ACTIVE_STAGES)}
         remediation = sum(r['quota_kind'] == 'remediation' for r in rows)
         transport = sum(r['quota_kind'] == 'transport' for r in rows)
-        planned_without_alternate = 152 + int(successor) + len(predecessors)
-        planned_with_alternate = 160 + int(successor) + len(predecessors)
+        requalification = sum(r['quota_kind'] == 'requalification' for r in rows)
+        planned_without_alternate = 152 + int(successor) + len(predecessors) + requalification
+        planned_with_alternate = 160 + int(successor) + len(predecessors) + requalification
         return dict(pilot_id=self.pilot_id, ledger_path=str(self.identity_path),
                     requests_cumulative=len(rows)+len(predecessors), native_requests=len(rows),
                     historical_requests=len(predecessors),
@@ -1761,6 +2178,7 @@ class PilotLedger:
                     requests_by_stage=by_stage,
                     unresolved_intents=sum(r['status'] == 'INTENT' for r in rows),
                     remediation_calls=remediation, transport_calls=transport,
+                    requalification_calls=requalification,
                     reserve_equation_value=8*int(remediation>0)+transport, reserve_limit=15,
                     planned_maximum=(planned_with_alternate if by_stage['alternate_conformity']
                                      else planned_without_alternate),

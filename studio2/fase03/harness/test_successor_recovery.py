@@ -565,10 +565,13 @@ class ProducerRenderingAndAccountingTests(unittest.TestCase):
             {"chat_template_kwargs": {"enable_thinking": False, "other": 1}},
             {"other": {}},
         ):
-            with self.subTest(invalid=invalid), self.assertRaises(HarnessError):
-                producer_extra_body(invalid, model_role="122B")
+            for role in ("122B", "27B"):
+                with self.subTest(invalid=invalid, role=role), self.assertRaises(HarnessError):
+                    producer_extra_body(invalid, model_role=role)
+        # 03.13-REV27B (author decision A): the 27B producer accepts the same exact control.
+        self.assertEqual(producer_extra_body(exact, model_role="27B"), exact)
         with self.assertRaises(HarnessError):
-            producer_extra_body(exact, model_role="27B")
+            producer_extra_body(exact, model_role="consumer")
         self.assertEqual(
             __import__("studio2.fase03.harness.d9", fromlist=["generation_kwargs"]).generation_kwargs(
                 {"max_tokens": 2560, "thinking_token_budget": 2048}, model_role="122B"),

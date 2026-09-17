@@ -1,0 +1,98 @@
+{
+  "artifact_version": "REVISIONE_CONFIG_RIQUALIFICA_27B_03_13_1",
+  "status": "READY_FOR_INDEPENDENT_REVIEW_AUTHOR",
+  "author_model": "claude-opus-5",
+  "base_commit_short": "3952fb4",
+  "review_window": "b567",
+  "author_decisions": {
+    "requalification_quota": {
+      "limit": 1,
+      "scope": "request with reconciled identity suspension",
+      "planned_maximum_pilot_03": "167/200",
+      "reserve_8r_plus_t_le_15": "unchanged",
+      "methods_note": "single declared derogation (27B runtime update)"
+    },
+    "service_documentation": "rev2 file, fingerprint only; d9.services.27B.documentation admitted in revision"
+  },
+  "real_ledger": {
+    "sha256": "3872029001346913f3722928b350813c8daaef349c5d4fbe98b770200c893fa0",
+    "access": "read-only",
+    "suspended_request": "19a9b37269bede1b62799cf3ac5819557dc19a5273aa53099f04b202bb94b207",
+    "suspended_request_is_transport_retry": true,
+    "reserve": "8+7=15/15",
+    "native_requests": 25,
+    "lineage": 5,
+    "observed_identity": {
+      "returned_model": "fot-exp2-consumer",
+      "system_fingerprint": "vllm-0.28.0-5fc21ed4"
+    }
+  },
+  "events_introduced": [
+    "config_revision:<n>",
+    "stage_rebinding:<stage>:<n>",
+    "suspension_reconciled:<request_id>"
+  ],
+  "quota_kind_introduced": "requalification",
+  "allowed_revision_keys": [
+    "d9.producer_configs.27B",
+    "d9.services.27B.expected_response.system_fingerprint",
+    "d9.services.27B.documentation",
+    "approved_producer_config_sha256",
+    "execution_authorization"
+  ],
+  "declared_deviations": [
+    "requalification quota instead of transport",
+    "documentation and allowlist admitted",
+    "authorization written as new rev2 file",
+    "thinking_token_budget removed from 27B rev2 provider",
+    "rebinding event instead of in-place binding change",
+    "pre-existing 27B extra_body rejection test updated per decision A"
+  ],
+  "repository_artifacts": {
+    "studio2/fase03/harness/ledger.py": "612696da176f29d86463ab93ad96e8fb3e4c997791b8ddb65a2f7ecb62f1df50",
+    "studio2/fase03/harness/d9.py": "ce3c0a75b364fc6e28361973b99e7caedd7473b2c34269773ce2956b801223f9",
+    "studio2/fase03/harness/guards.py": "34e56dea659b766e4b7fbce207588721b53d37e7bb4ddfe825aba60d7cd7a1aa",
+    "studio2/fase03/harness/preparation.py": "4f689ef6cafa2068abd67617dda778630bc9c459031f57ba72dff8c3ad11f578",
+    "studio2/fase03/harness/inputs.py": "265f8c43334daf648b36a774565341cf60ec3376faf1d2ed1de82be2e7012f26",
+    "studio2/fase03/harness/runtime.py": "6af555b97f644ff12a7af4146ebee6f88058f81d8fb9515f043719508c5340a3",
+    "studio2/fase03/author_acceptances.py": "3706aa34b5e584edddaac12c402ecad21665986c96c71f51817d2f6c02fb3daa",
+    "studio2/fase03/revise_pilot_config.py": "559a6b888c76dc7c40b1ffba3297f00ff3fb189db600dc434c16350c86266b1a",
+    "studio2/fase03/harness/test_config_revision.py": "92c4ab6bc424a2d684ad7b1d7b2255ee70a6157cfe1e19a8d538f638966d2b2e",
+    "studio2/fase03/harness/test_successor_recovery.py": "4af2e23884f74ac3ea7ec8a96ba02c0791d8f0659cfe7b98a65f245e8ff9b2a8",
+    "studio2/fase03/RUNBOOK_RIPRESA_27B_PILOT_03.md": "2d0afb792cc5b08f7df10abaf74ded27e087b82bcda6c2e0eee41304fe940524",
+    "studio2/fase03/harness/REPORT_REVISIONE_CONFIG_RIQUALIFICA_27B_03_13.md": "bb4272ff6dfff3ff33f7d13481a6e928375aff84a980efa471c8525b302bdd36",
+    "studio2/fase03/harness/PROMPT_VERIFICA_REVISIONE_CONFIG_RIQUALIFICA_27B_03_13.md": "47bac365680b4b9302596c610416f8c65cd92604aa31e17a7e72cfa833224a3e",
+    "studio2/fase03/harness/logs_revisione_config_27b_03_13/verification.log": "aaed47b80b24c4fc590c4c953b9bb72f254aab986c6185ee1843fbd9ee5671f8",
+    "studio2/fase03/harness/logs_revisione_config_27b_03_13/red_base_3952fb4.log": "b06e85b1bd73215c070a6e8a34e429b2a8191f6d24b2a344ab5a096196d08871"
+  },
+  "tests": {
+    "red_on_base": {
+      "tests": 11,
+      "errors": 13,
+      "pass": [
+        "REV0"
+      ]
+    },
+    "test_config_revision": {
+      "tests": 11,
+      "failures": 0,
+      "errors": 0
+    },
+    "seventeen_modules_vm": {
+      "non_pass": 2,
+      "cause": "absent Mac path",
+      "same_as_base": true
+    },
+    "guardian": {
+      "tests": 35,
+      "failures": 14,
+      "skipped": 1
+    }
+  },
+  "runtime": {
+    "provider_calls": 0,
+    "runtime_files_written": [],
+    "push_merge_tag": false
+  },
+  "self": "SELF_SHA256_EXCLUDED_TO_AVOID_SELF_REFERENCE"
+}

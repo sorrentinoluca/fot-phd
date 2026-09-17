@@ -136,5 +136,6 @@ def require_pilot_ledger(config, ledger):
         raise HarnessError('pilot ledger identity/path is not covered by execution approval')
     from .d9 import validate_history
     with ledger._transaction() as connection:
+        ledger.require_current_config(config, connection)
         validate_history(config, ledger, connection)
         ledger._validated_attempt_inventory(connection)

@@ -68,7 +68,8 @@ def _check(results, key, *, file, field, formula, verifier, ok, detail="", block
 
 def _read_ledger(path: Path):
     """Read-only census view; never used for decisions that write."""
-    uri = f"file:{path}?mode=ro&immutable=1"
+    wal = Path(str(path) + "-wal")
+    uri = f"file:{path}?mode=ro" + ("" if wal.exists() else "&immutable=1")
     with closing(sqlite3.connect(uri, uri=True)) as c:
         events = {r[0]: json.loads(r[1]) for r in c.execute("SELECT event, detail_json FROM events")}
         stages = {r[0]: json.loads(r[1]) for r in c.execute("SELECT stage, binding_json FROM stages")}
@@ -152,9 +153,11 @@ def census(config_path: Path, *, handoff: Path) -> list[dict[str, Any]]:
            verifier="ledger._require_no_tokenizer_accounting_stop",
            ok=not stops or (stops == ["stop:tokenizer_accounting"] and reconciled),
            detail=f"stops={stops} reconciled={reconciled}")
-    suspended = sorted(k for k in events if k.startswith("suspended:"))
-    _check(out, "L02_not_suspended", file=ledger_path, field="events suspended:*",
-           formula="absent", verifier="ledger._prerequisites (every stage) and inputs._insights",
+    suspended = sorted(k for k in events if k.startswith("suspended:")
+                       and "suspension_reconciled:" + k.split(":", 1)[1] not in events)
+    _check(out, "L02_not_suspended", file=ledger_path, field="events suspended:* without suspension_reconciled:*",
+           formula="absent or reconciled (re-authenticated by the ledger)",
+           verifier="ledger._prerequisites (every stage) and inputs._insights",
            ok=not suspended, detail="; ".join(f"{k}: {events[k].get('reason')}" for k in suspended))
     _check(out, "L03_no_open_intent", file=ledger_path, field="requests.status=INTENT", formula="count == 0",
            verifier="runtime.execute_request (resume only)", ok=intents == 0, detail=str(intents))
@@ -167,10 +170,18 @@ def census(config_path: Path, *, handoff: Path) -> list[dict[str, Any]]:
                formula="outcome == PASS (re-authenticated by _closed_outcome)",
                verifier="ledger._prerequisites / d9.validate_binding",
                ok=(not needed) or outcome(stage) == "PASS", detail=f"required={needed} outcome={outcome(stage)}")
-    changed = sorted(s for s, b in stages.items() if "execution_config" in b and b["execution_config"] != config)
-    _check(out, "L07_binding_config_equality", file=ledger_path, field="stages.binding_json.execution_config",
-           formula="== configuration file content", verifier="d9.validate_binding; preparation.authenticate",
-           ok=not changed, detail=",".join(changed))
+    revisions = [events[k] for k in sorted((k for k in events if k.startswith("config_revision:")),
+                                           key=lambda k: int(k.split(":", 1)[1]))]
+    accepted = ([revisions[0]["previous"]["content"]] + [r["new"]["content"] for r in revisions]
+                if revisions else [config])
+    changed = sorted(s for s, b in stages.items() if "execution_config" in b and b["execution_config"] not in accepted)
+    head_ok = accepted[-1] == config
+    _check(out, "L07_binding_config_equality", file=ledger_path,
+           field="stages.binding_json.execution_config; events config_revision:*",
+           formula="== configuration, or member of the recorded revision chain whose head == configuration",
+           verifier="d9.validate_binding; guards.require_pilot_ledger; preparation.authenticate",
+           ok=not changed and head_ok,
+           detail=f"revisions={len(revisions)} head_is_config={head_ok} outside={','.join(changed)}")
     try:
         value = load_json(handoff)
         ok = value.get("validated") is True and value.get("stage") == primary and value.get("pilot_id") == config["pilot_ledger"]["pilot_id"]

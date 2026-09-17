@@ -18,8 +18,10 @@ def authenticate(manifest, inventory, *, config, ledger, handoff, schema_dir, sn
     expected.update(status='COMPLETE_READY_TO_FREEZE', provenance_kind='study2_scientific', missing_requirements=[])
     expected['presentation']['author_decision'] = 'accepted'
     library, _, provenance = _insights(handoff, ledger=ledger, token_count=token_count, schema_dir=schema_dir)
-    if ledger.binding(provenance['stage']).get('execution_config') != config:
-        raise HarnessError('D9: primary library was not produced under this execution configuration')
+    try:
+        ledger.config_accepted(ledger.binding(provenance['stage']).get('execution_config'), config)
+    except HarnessError as exc:
+        raise HarnessError('D9: primary library was not produced under this execution configuration') from exc
     expected['sources']['insight_validation'] = provenance
     if inventory != expected:
         raise HarnessError('source inventory changed from authenticated development inputs')
