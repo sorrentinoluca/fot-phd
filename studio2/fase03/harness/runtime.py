@@ -51,7 +51,11 @@ def retry_requests_by_logical_id(ledger, stage, retry_requests):
 
 
 def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identity, journal_path,
-                    messages=None, accounting_guard=None, resume=False, retry_requests=(), pre_reserved=()):
+                    messages=None, accounting_guard=None, resume=False, retry_requests=(),
+                    pre_reserved=(), journal=None):
+    # ``journal`` lets a caller with a very large binding append only the request it is
+    # executing. The default keeps the pilot behaviour: a full re-export at every step.
+    export = export_journal if journal is None else journal
     binding = ledger.binding(stage)
     stage_run = digest(binding)
     selected = retry_requests_by_logical_id(ledger, stage, retry_requests)
@@ -74,7 +78,7 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
     if leaf and stage == 'stability_gate':
         invalidity = ledger.gate_transport_record(leaf['request_id'])
         if invalidity is not None:
-            export_journal(ledger, stage, journal_path)
+            export(ledger, stage, journal_path)
             return invalidity
     if leaf and leaf['status'] == 'COMPLETED' and leaf['request_id'] in retry_requests:
         # 03.13-REV27B: one explicit resend of a reconciled identity suspension.
@@ -106,7 +110,7 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
     if stored and stored['record']:
         if accounting_required:
             ledger.validate_tokenizer_accounting_record(request_id, record=stored['record'])
-        export_journal(ledger, stage, journal_path)
+        export(ledger, stage, journal_path)
         if stored['record'].get('identity_valid') is not True:
             raise HarnessError('pilot suspended by persisted response identity mismatch')
         return stored['record']
@@ -121,12 +125,12 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
             raise
         except Exception as exc:
             ledger.complete_request(request_id, status='FAILED', latency_ms=(time.monotonic()-begin)*1000, detail={'error_type': type(exc).__name__, 'message': str(exc)}, transport_failure=True)
-            export_journal(ledger, stage, journal_path)
+            export(ledger, stage, journal_path)
             if stage == 'stability_gate':
                 return ledger.gate_transport_record(request_id)
             raise HarnessError('transport failed; uncertain outcome needs explicit reconciliation') from exc
         ledger.save_raw(request_id, raw, latency_ms=(time.monotonic()-begin)*1000)
-        export_journal(ledger, stage, journal_path)
+        export(ledger, stage, journal_path)
     else:
         raw = stored['raw']
     if accounting_required:
@@ -142,7 +146,7 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
     ledger.complete_request(request_id, status='COMPLETED', record=record,
                             prompt_tokens=record.get('prompt_tokens'), completion_tokens=record.get('completion_tokens'),
                             total_tokens=record.get('total_tokens'), latency_ms=capture['latency_ms'])
-    export_journal(ledger, stage, journal_path)
+    export(ledger, stage, journal_path)
     if not record['identity_valid']:
         raise HarnessError('pilot suspended: returned model/fingerprint missing or changed; raw and consumption preserved')
     return record

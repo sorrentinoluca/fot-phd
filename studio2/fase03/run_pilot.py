@@ -183,6 +183,10 @@ def server_contract(config: dict[str, Any]) -> dict[str, Any]:
 
 
 class Provider:
+    # Stages whose durable intents this transport may serve. A runner for another stage
+    # subclasses and widens it; the reservation checks below never change.
+    ALLOWED_STAGES = {'budget_probe', 'stability_gate'}
+
     def __init__(self, config: dict[str, Any]) -> None:
         require_execution(config)
         self.config = config
@@ -216,7 +220,7 @@ class Provider:
     ) -> dict[str, Any]:
         require_execution(self.config)
         from studio2.fase03.harness.d9 import generation_kwargs
-        if ledger is None or stage not in {'budget_probe','stability_gate'} or spec is None:
+        if ledger is None or stage not in self.ALLOWED_STAGES or spec is None:
             raise HarnessError('D9: direct transport requires a reserved durable request')
         require_pilot_ledger(self.config, ledger)
         binding = ledger.binding(stage)

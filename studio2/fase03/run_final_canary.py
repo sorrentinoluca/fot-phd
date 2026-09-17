@@ -1,0 +1,207 @@
+#!/usr/bin/env python3
+"""Daily canary of the final batch (protocol §6). Separate command, separate stage.
+
+Ten frozen prompts per civil day Europe/Rome, before the day's first scientific lot, at
+most seven days. The parsed pair decides; the raw hash is forensic only. An identity
+change is an immediate STOP; the second marked day is a STOP pending an author decision.
+"""
+
+from __future__ import annotations
+
+import argparse
+from datetime import datetime, timedelta, timezone
+import json
+from pathlib import Path
+import sys
+from typing import Any
+
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from studio2.fase03.protocol import DIAGNOSTIC_SCHEMA_PATH, canonical_json, load_json, sha256_text  # noqa: E402
+from studio2.fase03.harness.common import HarnessError  # noqa: E402
+from studio2.fase03.harness import canary as canary_module  # noqa: E402
+from studio2.fase03.harness.ledger import (  # noqa: E402
+    CANARY_MARKED_PREFIX, CANARY_PASS_PREFIX, CANARY_STOP_PREFIX, FINAL_CANARY_STAGE,
+    PilotLedger, digest, load_tokenizer_accounting_guard,
+)
+from studio2.fase03.harness.guards import require_execution, require_pilot_ledger  # noqa: E402
+from studio2.fase03.harness.runtime import durable_write, execute_request  # noqa: E402
+from studio2.fase03 import run_pilot  # noqa: E402
+from studio2.fase03.run_final_batch import BatchStop, STOP_PREFIX, load_target  # noqa: E402
+
+ACK = "EXECUTE_PHASE03_FINAL_CANARY"
+MAX_DAYS = 7
+DAILY_CALLS = 10
+ROME_OFFSET_NOTE = "Europe/Rome civil day; pass --day explicitly when the run straddles midnight"
+
+
+class CanaryProvider(run_pilot.Provider):
+    ALLOWED_STAGES = {FINAL_CANARY_STAGE}
+
+
+def rome_day(now: datetime | None = None) -> str:
+    """Civil date in Europe/Rome without depending on a tz database at runtime."""
+    moment = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
+    try:
+        from zoneinfo import ZoneInfo
+
+        return moment.astimezone(ZoneInfo("Europe/Rome")).date().isoformat()
+    except Exception:  # pragma: no cover - fallback only when tzdata is absent
+        year = moment.year
+        offset = timedelta(hours=2 if datetime(year, 3, 31, tzinfo=timezone.utc) <= moment
+                           <= datetime(year, 10, 27, tzinfo=timezone.utc) else 1)
+        return (moment + offset).date().isoformat()
+
+
+def canary_prompts(target: dict[str, Any]) -> list[dict[str, Any]]:
+    """The ten frozen canary prompts, authenticated against the §6 table."""
+    expectations = load_json(Path(target["canary_expectations"]["path"]))
+    expected = {row["prompt_id"]: row for row in expectations["expectations"]}
+    path = Path(target["canary_prompts"]["path"])
+    rows = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line:
+            continue
+        prompt = json.loads(line)
+        if prompt["prompt_id"] not in expected:
+            continue
+        reference = expected[prompt["prompt_id"]]
+        if sha256_text(prompt["text"]) != reference["prompt_sha256"]:
+            raise BatchStop(STOP_PREFIX + f" canary prompt bytes changed: {prompt['prompt_id']}")
+        prompt["prompt_sha256"] = reference["prompt_sha256"]
+        rows.append(prompt)
+    if len(rows) != DAILY_CALLS:
+        raise BatchStop(STOP_PREFIX + f" expected {DAILY_CALLS} frozen canary prompts, found {len(rows)}")
+    rows.sort(key=lambda row: row["prompt_id"])
+    return rows
+
+
+def canary_binding(specs, *, config, schema, target) -> dict[str, Any]:
+    return dict(requests=specs, stage=FINAL_CANARY_STAGE, config_sha256=digest(config),
+                execution_config=config, schema_sha256=digest(schema),
+                expectations_sha256=target["canary_expectations"]["sha256"],
+                tokenizer_snapshot=str(Path(target["tokenizer_snapshot"]).resolve()))
+
+
+def day_state(ledger: PilotLedger) -> dict[str, list[str]]:
+    events = ledger.snapshot()["events"]
+    return {
+        "passed": sorted(e[len(CANARY_PASS_PREFIX):] for e in events if e.startswith(CANARY_PASS_PREFIX)),
+        "marked": sorted(e[len(CANARY_MARKED_PREFIX):] for e in events if e.startswith(CANARY_MARKED_PREFIX)),
+        "stops": sorted(e for e in events if e.startswith(CANARY_STOP_PREFIX)),
+    }
+
+
+def run_day(*, target, ledger, config, generation, schema, day: str, results_dir: Path,
+            execute: bool, provider_factory=None, accounting_guard=None) -> dict[str, Any]:
+    state = day_state(ledger)
+    if state["stops"]:
+        raise BatchStop(STOP_PREFIX + f" canary stop in force: {state['stops']}")
+    if day in state["passed"] or day in state["marked"]:
+        raise BatchStop(STOP_PREFIX + f" canary day {day} already recorded")
+    if len(state["passed"]) + len(state["marked"]) >= MAX_DAYS:
+        raise BatchStop(STOP_PREFIX + f" the canary allowance of {MAX_DAYS} days is exhausted")
+
+    prompts = canary_prompts(target)
+    # The plan covers all seven admitted days from the start: the binding is immutable and
+    # the day index, not the civil date, identifies the slot. The date lives in the event.
+    day_index = len(state["passed"]) + len(state["marked"]) + 1
+    specs = [dict(logical_id=f"canary:day{index}:{prompt['prompt_id']}",
+                  model=config["candidate"]["requested_model"], producer="consumer",
+                  prompt_sha256=prompt["prompt_sha256"],
+                  case_sha256=digest([prompt["agent_id"], prompt["case_id"]]),
+                  contract_sha256=digest(generation), condition=prompt["condition"],
+                  group=prompt["prompt_id"], repetition=1)
+             for index in range(1, MAX_DAYS + 1) for prompt in prompts]
+    binding = canary_binding(specs, config=config, schema=schema, target=target)
+    today = [spec for spec in specs if spec["logical_id"].startswith(f"canary:day{day_index}:")]
+    if not execute:
+        return {"day": day, "day_index": day_index, "stage": FINAL_CANARY_STAGE,
+                "planned": len(today), "status": "PLAN_ONLY", "state": state}
+
+    ledger.bind_stage(FINAL_CANARY_STAGE, binding)
+    provider = (provider_factory or CanaryProvider)(config)
+    journal_path = results_dir / "final_canary_journal.jsonl"
+    observations, identity_stop = [], None
+    for prompt, spec in zip(prompts, today):
+        messages = [{"role": "user", "content": prompt["text"]}]
+
+        def evaluate(raw, prompt=prompt):
+            return dict(run_pilot.consumer_record(raw, prompt, generation), repetition=1)
+
+        try:
+            record = execute_request(
+                ledger=ledger, stage=FINAL_CANARY_STAGE, spec=spec,
+                transport=lambda transmitted=messages: provider.call(
+                    prompt=prompt, messages=transmitted, schema=schema, generation=generation,
+                    ledger=ledger, stage=FINAL_CANARY_STAGE, spec=spec),
+                evaluate=evaluate, expected_identity=config["expected_response"],
+                journal_path=journal_path, messages=messages,
+                accounting_guard=accounting_guard, journal=lambda *_: None)
+        except HarnessError as exc:
+            if "identity" not in str(exc) and "suspended" not in str(exc):
+                raise
+            identity_stop = str(exc)
+            break
+        observations.append({"prompt_id": prompt["prompt_id"],
+                             "parsed_output": record.get("parsed_output"),
+                             "raw_response": record.get("raw_output") or ""})
+
+    if identity_stop is not None:
+        ledger.record_canary_stop(day, reason="returned_model or system_fingerprint changed",
+                                  detail={"message": identity_stop, "day_index": day_index})
+        raise BatchStop(STOP_PREFIX + f" canary identity change on {day}: {identity_stop}")
+
+    comparison = canary_module.compare_run(Path(target["canary_expectations"]["path"]), observations)
+    outcome = dict(day=day, day_index=day_index, marked=comparison["marked_day"],
+                   behavior_changes=comparison["behavior_changes"],
+                   raw_hash_changes=comparison["raw_hash_changes"],
+                   comparison_sha256=comparison["comparison_sha256"],
+                   details=comparison["details"])
+    durable_write(results_dir / f"canary_{day}.json",
+                  json.dumps(outcome, indent=2, ensure_ascii=False, sort_keys=True) + "\n")
+    verdict = "MARKED" if comparison["marked_day"] else "PASS"
+    ledger.record_canary_day(day, verdict=verdict, comparison=comparison,
+                             expectations_sha256=target["canary_expectations"]["sha256"])
+    outcome["verdict"] = verdict
+    if verdict == "MARKED":
+        state = day_state(ledger)
+        if state["stops"]:
+            raise BatchStop(
+                STOP_PREFIX + f" second marked canary day ({state['marked']}); author decision required")
+    return outcome
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--target", type=Path, required=True)
+    parser.add_argument("--day", help=ROME_OFFSET_NOTE)
+    parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--acknowledge")
+    arguments = parser.parse_args(argv)
+
+    target = load_target(arguments.target)
+    config = load_json(Path(target["config"]["path"]))
+    schema = run_pilot.vllm_grammar_schema(load_json(DIAGNOSTIC_SCHEMA_PATH))
+    if arguments.execute:
+        if arguments.acknowledge != ACK:
+            raise SystemExit(f"--execute requires --acknowledge {ACK}")
+        require_execution(config)
+    ledger = PilotLedger(Path(target["ledger"]["path"]), pilot_id=target["ledger"]["pilot_id"],
+                         profile=target["ledger"]["profile"])
+    require_pilot_ledger(config, ledger)
+    accounting_guard = None
+    if config["candidate"]["requested_model"] == "qwen3.5-122b":
+        accounting_guard = load_tokenizer_accounting_guard(Path(target["tokenizer_snapshot"]))
+    outcome = run_day(target=target, ledger=ledger, config=config, generation=target["generation"],
+                      schema=schema, day=arguments.day or rome_day(),
+                      results_dir=Path(target["results_dir"]), execute=arguments.execute,
+                      accounting_guard=accounting_guard)
+    print(json.dumps(dict(outcome, state=day_state(ledger)), indent=2, ensure_ascii=False, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

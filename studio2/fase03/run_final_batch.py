@@ -1,0 +1,341 @@
+#!/usr/bin/env python3
+"""Runner of the final scientific batch (protocol §4-§7).
+
+Reuses the pilot machinery unchanged: ``harness.ledger.PilotLedger`` under its
+``final_batch`` quota profile, ``harness.runtime.execute_request`` for the durable
+request lifecycle, ``run_pilot.Provider`` for transport and ``run_pilot.consumer_record``
+for parsing. Only the schedule walk, the progress view and the STOP rules of §7.2 are new.
+
+Without ``--execute`` nothing is sent: the command validates every prerequisite, prints
+the plan and exits.
+"""
+
+from __future__ import annotations
+
+import argparse
+from collections import Counter
+from datetime import datetime, timezone
+import json
+from pathlib import Path
+import sys
+import time
+from typing import Any
+
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from studio2.fase03.protocol import (  # noqa: E402
+    DIAGNOSTIC_SCHEMA_PATH, canonical_json, load_json, sha256_file, sha256_text,
+)
+from studio2.fase03.harness.common import HarnessError  # noqa: E402
+from studio2.fase03.harness.ledger import (  # noqa: E402
+    CANARY_MARKED_PREFIX, CANARY_PASS_PREFIX, CANARY_STOP_PREFIX, FINAL_PASS_STAGES,
+    PilotLedger, digest, load_tokenizer_accounting_guard,
+)
+from studio2.fase03.harness.guards import require_execution, require_pilot_ledger  # noqa: E402
+from studio2.fase03.harness.runtime import durable_write, execute_request  # noqa: E402
+from studio2.fase03.harness import final_inventory as inventory_module  # noqa: E402
+from studio2.fase03 import run_pilot  # noqa: E402
+
+ACK = "EXECUTE_PHASE03_FINAL_BATCH"
+RENDERABLE_CONDITIONS = ("A", "B-LF", "E-LF")
+STOP_PREFIX = "STOP:"
+
+
+class BatchStop(HarnessError):
+    """Every §7.2 stop condition raised by the runner itself."""
+
+
+class BatchProvider(run_pilot.Provider):
+    ALLOWED_STAGES = set(FINAL_PASS_STAGES)
+
+
+def utc_now() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def load_target(path: Path) -> dict[str, Any]:
+    """Authenticate the target descriptor and every file it binds."""
+    target = load_json(path)
+    if target.get("artifact_version") != "TARGET_FINALE_7_4_1":
+        raise BatchStop(STOP_PREFIX + " unknown target descriptor version")
+    for role in ("config", "schedule", "prompts", "canary_expectations"):
+        reference = target[role]
+        observed = sha256_file(Path(reference["path"]))
+        if observed != reference["sha256"]:
+            raise BatchStop(f"{STOP_PREFIX} {role} bytes differ from the authenticated target")
+    return target
+
+
+def load_schedule(target: dict[str, Any]) -> list[dict[str, Any]]:
+    """Read the schedule and re-derive it from the committed generator."""
+    artifact = load_json(Path(target["schedule"]["path"]))
+    entries = artifact["entries"]
+    regenerated = inventory_module.build_schedule(inventory_module.build_inventory())
+    if [row["logical_id"] for row in entries] != [row["logical_id"] for row in regenerated]:
+        raise BatchStop(STOP_PREFIX + " schedule differs from the deterministic generator")
+    if artifact["seed"] != inventory_module.SCHEDULE_SEED or artifact["namespace"] != inventory_module.SCHEDULE_NAMESPACE:
+        raise BatchStop(STOP_PREFIX + " schedule seed/namespace is not the pre-registered one")
+    return entries
+
+
+def load_prompts(target: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """Read the rendered prompts and check every prompt hash against its own bytes."""
+    path = Path(target["prompts"]["path"])
+    prompts: dict[str, dict[str, Any]] = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line:
+            continue
+        row = json.loads(line)
+        if row["prompt_sha256"] != sha256_text(row["text"]):
+            raise BatchStop(STOP_PREFIX + f" prompt bytes changed: {row.get('prompt_id')}")
+        prompts[row["prompt_id"]] = row
+    return prompts
+
+
+def executable_rows(schedule: list[dict[str, Any]], prompts: dict[str, dict[str, Any]]) -> None:
+    """Fail closed on any scheduled row this harness cannot render or log.
+
+    The ablation arm of §4 uses a fourth condition that neither the frozen renderer of §2
+    nor the §8.7 call-record contract admits. It is enumerated in the inventory and the
+    schedule, and it is refused here rather than silently reinterpreted.
+    """
+    unsupported = sorted({row["condition"] for row in schedule
+                          if row["condition"] not in RENDERABLE_CONDITIONS})
+    if unsupported:
+        raise BatchStop(
+            STOP_PREFIX + " the schedule contains conditions the frozen renderer does not "
+            f"produce: {unsupported}; see REPORT_7_4_PREP.md open point 1")
+    missing = [row["stable_id"] for row in schedule if row["stable_id"] not in prompts]
+    if missing:
+        raise BatchStop(STOP_PREFIX + f" {len(missing)} scheduled prompts are not materialized")
+
+
+def batch_spec(row: dict[str, Any], prompt: dict[str, Any], generation: dict[str, Any],
+               *, config: dict[str, Any]) -> dict[str, Any]:
+    return dict(logical_id=row["logical_id"], model=config["candidate"]["requested_model"],
+                producer="consumer", prompt_sha256=prompt["prompt_sha256"],
+                case_sha256=digest([row["recipient_agent"], row["case_id"]]),
+                contract_sha256=digest(generation), condition=row["condition"],
+                group=row["stable_id"], repetition=row["repetition"])
+
+
+def pass_binding(rows, prompts, generation, *, config, target, schema, stage) -> dict[str, Any]:
+    specs = [batch_spec(row, prompts[row["stable_id"]], generation, config=config) for row in rows]
+    return dict(requests=specs, stage=stage,
+                config_sha256=digest(config), execution_config=config,
+                schedule_sha256=target["schedule"]["sha256"],
+                prompts_sha256=target["prompts"]["sha256"],
+                schema_sha256=digest(schema),
+                tokenizer_snapshot=str(Path(target["tokenizer_snapshot"]).resolve()))
+
+
+def canary_state(ledger: PilotLedger) -> dict[str, Any]:
+    events = ledger.snapshot()["events"]
+    return {
+        "passed_days": sorted(e[len(CANARY_PASS_PREFIX):] for e in events if e.startswith(CANARY_PASS_PREFIX)),
+        "marked_days": sorted(e[len(CANARY_MARKED_PREFIX):] for e in events if e.startswith(CANARY_MARKED_PREFIX)),
+        "stops": sorted(e for e in events if e.startswith(CANARY_STOP_PREFIX)),
+    }
+
+
+def require_canary_ok(ledger: PilotLedger) -> dict[str, Any]:
+    state = canary_state(ledger)
+    if state["stops"]:
+        raise BatchStop(STOP_PREFIX + f" canary stop in force: {state['stops']}")
+    if not state["passed_days"]:
+        raise BatchStop(STOP_PREFIX + " no canary day has passed yet (§7.1 order, step 3)")
+    if len(state["marked_days"]) >= 2:
+        raise BatchStop(STOP_PREFIX + " second marked canary day: author decision required (§6.4)")
+    return state
+
+
+class Progress:
+    """Readable, per-pass progress with a sequential ETA."""
+
+    def __init__(self, stage: str, total: int, done: int) -> None:
+        self.stage, self.total, self.done = stage, total, done
+        self.invalid = self.abstained = self.sent = 0
+        self.latencies: list[float] = []
+
+    def observe(self, record: dict[str, Any]) -> None:
+        self.done += 1
+        self.sent += 1
+        if not record.get("parse_valid_first_attempt"):
+            self.invalid += 1
+        parsed = record.get("parsed_output")
+        if isinstance(parsed, dict) and parsed.get("abstain") is True:
+            self.abstained += 1
+        latency = record.get("latency_seconds")
+        if isinstance(latency, (int, float)):
+            self.latencies.append(float(latency))
+
+    def skip(self) -> None:
+        self.done += 1
+
+    def line(self) -> str:
+        mean = sum(self.latencies) / len(self.latencies) if self.latencies else None
+        remaining = self.total - self.done
+        eta = "n/a" if mean is None else f"{remaining * mean / 3600:.1f}h"
+        mean_text = "n/a" if mean is None else f"{mean:.1f}s"
+        return (f"{self.stage} {self.done}/{self.total} sent={self.sent} "
+                f"invalid={self.invalid} abstain={self.abstained} mean={mean_text} eta={eta}")
+
+
+def _call_record(row: dict[str, Any], prompt: dict[str, Any], record: dict[str, Any],
+                 *, generation: dict[str, Any], config: dict[str, Any], attempt: int):
+    from studio2.fase03.harness.logging_v1 import CallRecord
+
+    return CallRecord.create(
+        prompt_id=row["logical_id"], agent_id=row["recipient_agent"],
+        physical_case_id=row["case_id"], condition=row["condition"],
+        repetition=row["repetition"], attempt=attempt, timestamp_utc=record["received_utc"],
+        provider=config["candidate"]["provider"], requested_model=config["candidate"]["requested_model"],
+        returned_model=record["returned_model"] or "",
+        returned_model_revision=config["candidate"].get("expected_model_revision"),
+        request_id=record["request_id"], system_fingerprint=record["system_fingerprint"],
+        temperature_supported=None, seed_supported="seed" in generation,
+        generation=generation, prompt_sha256=record["prompt_sha256"],
+        prompt_bytes=len(prompt["text"].encode("utf-8")), raw_response=record["raw_output"],
+        latency_ms=(record["latency_seconds"] or 0.0) * 1000,
+        prompt_tokens=record.get("prompt_tokens"), completion_tokens=record.get("completion_tokens"),
+        total_tokens=record.get("total_tokens"), token_source="provider_usage",
+        finish_reason=record.get("finish_reason"),
+        truncated=record.get("finish_reason") == "length",
+        parse_valid=bool(record.get("parse_valid_first_attempt")),
+        schema_valid=bool(record.get("parse_valid_first_attempt")),
+        parsed_output=record.get("parsed_output"),
+        error=None if record.get("parse_error") is None else {"parse_error": record["parse_error"]},
+    )
+
+
+def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, pass_index,
+             results_dir: Path, execute: bool, max_requests: int | None, resume: bool = False,
+             provider_factory=None, accounting_guard=None) -> dict[str, Any]:
+    stage = FINAL_PASS_STAGES[pass_index - 1]
+    rows = [row for row in schedule if row["repetition"] == pass_index]
+    binding = pass_binding(rows, prompts, generation, config=config, target=target,
+                           schema=schema, stage=stage)
+    ledger.bind_stage(stage, binding)
+    stage_run = digest(binding)
+
+    existing = sum(ledger.leaf(stage, row["logical_id"]) is not None for row in rows)
+    progress = Progress(stage, len(rows), 0)
+    if not execute:
+        return {"stage": stage, "planned": len(rows), "already_recorded": existing,
+                "stage_run": stage_run, "status": "PLAN_ONLY"}
+    if existing and not resume:
+        raise BatchStop(STOP_PREFIX + " the pass already has recorded requests; "
+                        "continue it with --resume, which never resends a terminal slot")
+
+    require_canary_ok(ledger)
+    provider = (provider_factory or BatchProvider)(config)
+    journal_path = results_dir / f"{stage}_journal.jsonl"
+    log_path = results_dir / f"{stage}_call_log.jsonl"
+    from studio2.fase03.harness.logging_v1 import JsonlCallLogger
+    logger = JsonlCallLogger(log_path, create=not log_path.is_file())
+
+    def append_journal(_ledger, _stage, path):
+        # The binding holds 2,244 specs: re-exporting all of them per call is quadratic.
+        # SQLite stays authoritative; the journal is an append-only forensic mirror.
+        pass
+
+    sent = 0
+    used_insight_ids: Counter = Counter()
+    for row in rows:
+        leaf = ledger.leaf(stage, row["logical_id"])
+        if leaf is not None:
+            if leaf["status"] in {"COMPLETED", "ZERO_TOKEN_PROVEN"}:
+                # Q=0: a received-or-proven slot is terminal and is never resent.
+                progress.skip()
+                continue
+            raise BatchStop(
+                STOP_PREFIX + f" uncertain request {leaf['request_id']} ({leaf['status']}); "
+                "reconcile it with ledger_cli reconcile-zero-token before resuming")
+        if max_requests is not None and sent >= max_requests:
+            break
+        require_canary_ok(ledger)
+        prompt = prompts[row["stable_id"]]
+        spec = next(s for s in binding["requests"] if s["logical_id"] == row["logical_id"])
+        messages = [{"role": "user", "content": prompt["text"]}]
+
+        def evaluate(raw, prompt=prompt):
+            return dict(run_pilot.consumer_record(raw, prompt, generation),
+                        repetition=row["repetition"], stable_id=row["stable_id"],
+                        block=row["block"], library_role=row["library_role"])
+
+        record = execute_request(
+            ledger=ledger, stage=stage, spec=spec,
+            transport=lambda transmitted=messages: provider.call(
+                prompt=prompt, messages=transmitted, schema=schema, generation=generation,
+                ledger=ledger, stage=stage, spec=spec),
+            evaluate=evaluate, expected_identity=config["expected_response"],
+            journal_path=journal_path, messages=messages, accounting_guard=accounting_guard,
+            journal=append_journal)
+        sent += 1
+        progress.observe(record)
+        logger.append(_call_record(row, prompt, record, generation=generation,
+                                   config=config, attempt=1))
+        parsed = record.get("parsed_output")
+        if isinstance(parsed, dict):
+            used_insight_ids.update(parsed.get("used_insight_ids") or [])
+        durable_write(results_dir / f"{stage}_record_{record['request_id']}.json",
+                      canonical_json(record) + "\n")
+        print(progress.line(), flush=True)
+
+    summary = {"stage": stage, "planned": len(rows), "completed": progress.done,
+               "sent_this_run": sent, "invalid": progress.invalid,
+               "abstained": progress.abstained, "stage_run": stage_run,
+               "t9_used_insight_ids": dict(sorted(used_insight_ids.items())),
+               "status": "COMPLETE" if progress.done == len(rows) else "PARTIAL"}
+    durable_write(results_dir / f"{stage}_summary.json",
+                  json.dumps(summary, indent=2, ensure_ascii=False, sort_keys=True) + "\n")
+    return summary
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--target", type=Path, required=True)
+    parser.add_argument("--pass-index", type=int, choices=(1, 2, 3), required=True)
+    parser.add_argument("--max-requests", type=int)
+    parser.add_argument("--resume", action="store_true",
+                        help="continue an interrupted pass; terminal slots are skipped, never resent")
+    parser.add_argument("--execute", action="store_true")
+    parser.add_argument("--acknowledge")
+    arguments = parser.parse_args(argv)
+
+    target = load_target(arguments.target)
+    config = load_json(Path(target["config"]["path"]))
+    schedule = load_schedule(target)
+    prompts = load_prompts(target)
+    executable_rows(schedule, prompts)
+    schema = run_pilot.vllm_grammar_schema(load_json(DIAGNOSTIC_SCHEMA_PATH))
+    generation = target["generation"]
+    results_dir = Path(target["results_dir"])
+
+    if arguments.execute:
+        if arguments.acknowledge != ACK:
+            raise SystemExit(f"--execute requires --acknowledge {ACK}")
+        require_execution(config)
+
+    ledger = PilotLedger(Path(target["ledger"]["path"]), pilot_id=target["ledger"]["pilot_id"],
+                         profile=target["ledger"]["profile"])
+    require_pilot_ledger(config, ledger)
+    accounting_guard = None
+    if config["candidate"]["requested_model"] == "qwen3.5-122b":
+        accounting_guard = load_tokenizer_accounting_guard(Path(target["tokenizer_snapshot"]))
+
+    summary = run_pass(target=target, ledger=ledger, schedule=schedule, prompts=prompts,
+                       config=config, generation=generation, schema=schema,
+                       pass_index=arguments.pass_index, results_dir=results_dir,
+                       execute=arguments.execute, max_requests=arguments.max_requests,
+                       resume=arguments.resume, accounting_guard=accounting_guard)
+    print(json.dumps(dict(summary, canary=canary_state(ledger),
+                          ledger=ledger.snapshot()["requests_by_stage"]),
+                     indent=2, ensure_ascii=False, sort_keys=True))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

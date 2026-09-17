@@ -1,0 +1,67 @@
+{
+  "artifact_version": "INVENTARIO_SCHEDULE_7_4_1",
+  "be_pairing": {
+    "paired_blocks": [
+      "nucleus",
+      "ood"
+    ],
+    "paired_cells": 624
+  },
+  "be_structural_diff": {
+    "122B": {
+      "changed_fields": [
+        "pseudolabel"
+      ],
+      "library_canonical_sha256": "c2469737bcaab0df8d07a1c2493d2f95784aae07a55998aecf49cc53fa5d1a30",
+      "records_compared": 112,
+      "status": "PASS"
+    },
+    "27B": {
+      "changed_fields": [
+        "pseudolabel"
+      ],
+      "library_canonical_sha256": "f860063befb6a409f4ecf824e4dd7b57002cc8e67809184dadd03d0b934a05f3",
+      "records_compared": 112,
+      "status": "PASS"
+    }
+  },
+  "counts": {
+    "requests_by_block": {
+      "ablation_b_no_lf": 444,
+      "nucleus": 5184,
+      "ood": 432,
+      "producer_swap": 672
+    },
+    "requests_total": 6732,
+    "unique_by_block": {
+      "ablation_b_no_lf": 148,
+      "nucleus": 1728,
+      "ood": 144,
+      "producer_swap": 224
+    },
+    "unique_total": 2244
+  },
+  "first_scheduled_logical_id": "producer_swap|B-LF|test-primary-F10-r04|agent_6|G_A|r1",
+  "generator": "studio2/fase03/build_final_inventory.py",
+  "identifier_fields": [
+    "block",
+    "condition",
+    "case_id",
+    "recipient_agent",
+    "library_role"
+  ],
+  "inventory_sha256": "227e5e9c797dbfd8be746d85b77298f5dfb091846dc301f0b2e31ea1dbc6df3f",
+  "last_scheduled_logical_id": "nucleus|E-LF|test-primary-F10-r02|agent_6|G_P|r3",
+  "module": "studio2/fase03/harness/final_inventory.py",
+  "protocol_reference": "PROTOCOLLO_FINALE_CANDIDATE.md e0db132",
+  "schedule": {
+    "bit_generator": "numpy.random.PCG64",
+    "namespace": "studio2-fase03-final-order-v1",
+    "numpy_version": "2.2.6",
+    "permutation_call": "Generator.permutation(n) over the index range, once per repetition, 1 -> 2 -> 3",
+    "requests_total": 6732,
+    "seed": 20260913
+  },
+  "schedule_sha256": "1acfc4044c53f113016ed0bfab58863291a9060a9edc9abadb68a21d30687819",
+  "status": "CANDIDATE_NOT_AUTHENTICATED"
+}

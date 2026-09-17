@@ -12,7 +12,10 @@ from .common import HarnessError, canonical_json, sha256_bytes
 ROLES = {'producer': '122B', 'consumer': '122B', 'alternate': '27B'}
 STAGE_MODELS = {'producer_conformity': '122B', 'producer_remediation': '122B',
                 'alternate_conformity': '27B', 'budget_probe': '122B',
-                'stability_gate': '122B', 'technical_qualification_122b': '122B'}
+                'stability_gate': '122B', 'technical_qualification_122b': '122B',
+                # 7.4 final batch: every future call is addressed to the 122B consumer.
+                'final_batch_r1': '122B', 'final_batch_r2': '122B', 'final_batch_r3': '122B',
+                'final_canary': '122B', 'technical_verification': '122B'}
 R4_TOKENIZER = {
     'revision': '017b9c7af6b5689d5dd426a76e0bc077eb5ca20a',
     'tokenizer_json_sha256': '0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3',

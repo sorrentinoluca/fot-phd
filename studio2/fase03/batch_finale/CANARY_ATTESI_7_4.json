@@ -1,0 +1,109 @@
+{
+  "artifact_version": "CANARY_ATTESI_7_4_1",
+  "balance": {
+    "A": 2,
+    "B-LF": 4,
+    "E-LF": 4
+  },
+  "daily_calls": 10,
+  "expectations": [
+    {
+      "abstain": false,
+      "agent_id": "agent_1",
+      "condition": "E-LF",
+      "predicted_label": "Normal",
+      "prompt_id": "S2-P03-003",
+      "prompt_sha256": "ddc6ed67ad84499ca462eface5cf8380b8cfaf0fe36dd74d11170111c1f77966",
+      "raw_response_sha256": "2517b9e5b1a51e97b7dabf4e6402fd2ab258b9382577389c9ff1e1fcf304fddd"
+    },
+    {
+      "abstain": true,
+      "agent_id": "agent_2",
+      "condition": "A",
+      "predicted_label": null,
+      "prompt_id": "S2-P03-006",
+      "prompt_sha256": "83f1ba531ce0a92307aca8feefd4d591c2ef7d3634e94f546295e623f1643535",
+      "raw_response_sha256": "71a76533df65a4063f967a458878ea132e4336a492f4485c28434f556172144f"
+    },
+    {
+      "abstain": false,
+      "agent_id": "agent_3",
+      "condition": "B-LF",
+      "predicted_label": "S2-CLS-4AMS4",
+      "prompt_id": "S2-P03-012",
+      "prompt_sha256": "9391f1b8c379262cde40d4764aa442e0b1bf04d9a2343b820f9e8d1d9914c2a1",
+      "raw_response_sha256": "04876f98c504d0c353abd0f20f18428fac4371cd45e455916e2a58be8df2af75"
+    },
+    {
+      "abstain": false,
+      "agent_id": "agent_3",
+      "condition": "E-LF",
+      "predicted_label": "S2-CLS-QRCCB",
+      "prompt_id": "S2-P03-015",
+      "prompt_sha256": "db07d10d4ed4ef69a4e9dd5b2b37c6e8c8d7d74df38cce580fdb0145d401ffbc",
+      "raw_response_sha256": "2f586f2d771b286b6b1fc7e3f7ce36cf1609fd10e462da7955a641fdfdb1e0de"
+    },
+    {
+      "abstain": false,
+      "agent_id": "agent_4",
+      "condition": "E-LF",
+      "predicted_label": "S2-CLS-FD3GZ",
+      "prompt_id": "S2-P03-018",
+      "prompt_sha256": "e9e8a2586dc08f70b5644dae430d560fdb9672ef7ce7f368b2eb0fa16463cf0b",
+      "raw_response_sha256": "ba705ebfb3fb3896e33577c980c64037ff90191164939bca557445a8194c6cfa"
+    },
+    {
+      "abstain": true,
+      "agent_id": "agent_5",
+      "condition": "B-LF",
+      "predicted_label": null,
+      "prompt_id": "S2-P03-022",
+      "prompt_sha256": "ce3248d5e95fdffb95b9cce7876bef8ccb67a538cfb6446fd13393c07770df6e",
+      "raw_response_sha256": "2f724a4a261da1502c78e246444c5bbe4661c39caf52e67c56e4ed80dbbce6ca"
+    },
+    {
+      "abstain": false,
+      "agent_id": "agent_5",
+      "condition": "E-LF",
+      "predicted_label": "S2-CLS-4AMS4",
+      "prompt_id": "S2-P03-025",
+      "prompt_sha256": "114064dddd45c28a91455de329bd6df9943e46fc578f3eb9e800a190076606e5",
+      "raw_response_sha256": "bc4575f0a4ebed9674862694624315ede64c8d748848fe814fcd7314f433e020"
+    },
+    {
+      "abstain": true,
+      "agent_id": "agent_6",
+      "condition": "B-LF",
+      "predicted_label": null,
+      "prompt_id": "S2-P03-027",
+      "prompt_sha256": "89043dec743b84b3a5c2a72f8d9b27e6fa9bca84bc3f08ff9f0be63fc42393c0",
+      "raw_response_sha256": "12eac67cf626e692889fdd0be1415e1c92db69bc6e2c8f637c619ad4b5ef84d8"
+    },
+    {
+      "abstain": false,
+      "agent_id": "agent_7",
+      "condition": "A",
+      "predicted_label": "S2-CLS-4AMS4",
+      "prompt_id": "S2-P03-031",
+      "prompt_sha256": "45fab8a3c81d929f78f9f20d4c551f9ebbed93a13e24cd4cf780286a51e3ee76",
+      "raw_response_sha256": "6cd51196f38c6732f7df6401d1512672fc065d6db3334ed95cf9c786c8b154fb"
+    },
+    {
+      "abstain": false,
+      "agent_id": "agent_8",
+      "condition": "B-LF",
+      "predicted_label": "S2-CLS-HEW25",
+      "prompt_id": "S2-P03-037",
+      "prompt_sha256": "bad9d28b146367bbaeceea5ea9188e9c8821ecd32705150d4016b0a15f85122d",
+      "raw_response_sha256": "a49844d80f86440547819142538e007bcde00d3b266c36aeb4971c48035f3bcb"
+    }
+  ],
+  "max_calls": 70,
+  "max_days": 7,
+  "namespace": "studio2-fase03-canary-v1",
+  "raw_hash_scope": "forensic only; a raw-hash-only change never marks the day",
+  "selector": "studio2/fase03/harness/sampling.py",
+  "selector_sha256": "3ad3291f7084a2fa7865351734c6226a9efe0c9b176f241fe1bdbfe8500c6a8f",
+  "source": "PROTOCOLLO_FINALE_CANDIDATE.md commit e0db132 §6",
+  "status": "TRANSCRIBED_FROM_PROTOCOL_CANDIDATE_NOT_AUTHENTICATED"
+}
