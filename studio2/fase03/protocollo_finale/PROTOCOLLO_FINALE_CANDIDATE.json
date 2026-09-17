@@ -1,20 +1,22 @@
 {
-  "artifact_version": "3.0",
+  "artifact_version": "4.0",
   "status": "CANDIDATE_NOT_EFFECTIVE_NOT_AUTHORIZATIVE",
-  "created_date": "2026-09-17",
-  "base_commit": "d0cfeab11d1a779f795ebc018e32c9f508a24831",
+  "created_date": "2026-09-18",
+  "base_commit": "9edf31e56572aaa4cd36ac9307ad014c3a7a22e2",
   "branch": "codex/studio2-freeze-protocollo-finale",
   "candidate": {
     "path": "studio2/fase03/protocollo_finale/PROTOCOLLO_FINALE_CANDIDATE.md",
-    "sha256": "a66fbd7051e86bd4f2f8512ba204b588671147443d7ade0e5b43be97bf5155a9",
+    "sha256": "5d130dd4813023902463fda819235159d106f0d5f4c2abc0c627ec67fd21489b",
     "hash_scope": "physical file bytes"
   },
   "proposed_tag_not_created": "studio2-fase03-protocollo-finale-frozen-001",
   "freeze_effective": false,
   "execution_authorized": false,
   "blocking_dependencies": [
-    "independent review of rem6 through a51ffd1, including runner, accounting and ledger, and of the synthetic H3 verification/protocol candidate",
-    "integration in order rem6 through a51ffd1 then protocol branch, followed by annotated tag studio2-fase03-protocollo-finale-frozen-001"
+    "independent review of the FIX-3 and protocol revision 4 deltas only",
+    "integration in order rem6 through 74c5d3dca78fc22c3de1e675e50e7d0870f45ecc then protocol branch, with both Mac suite logs reachable from main",
+    "annotated tag studio2-fase03-protocollo-finale-frozen-001",
+    "post-tag 7.4-MAT"
   ],
   "author_decisions_2026_09_17": {
     "producer_swap_faults": [
@@ -50,7 +52,7 @@
   },
   "author_decisions_rev3": {
     "path": "studio2/fase03/protocollo_finale/DECISIONI_AUTORE_7_3_REV3.md",
-    "sha256": "235ab24ff254ed1e400033ff6ff65f302e91b3888001a9ec9a173095990e812a",
+    "sha256": "7826f7afdf73e1d69422402d6cb0f93cf2a625e9011ebcfb2d0dcecbe3be164a",
     "X": 0,
     "retry_quota": 400,
     "backoff_seconds": [30, 60, 120, 240],
@@ -58,10 +60,12 @@
     "consecutive_failures_per_service_stop": 5,
     "daily_civil_day_canary_barrier": true,
     "maximum_calls": 7202,
-    "materialization_phase": "7.4-MAT after annotated tag"
+    "materialization_phase": "7.4-MAT after annotated tag",
+    "D11_outcome": "TANGO_MANTENUTO",
+    "D11_review_record": "studio2/fase03/protocollo_finale/VERIFICA_FINALE_PROTOCOLLO_RUNNER_H3.md"
   },
   "S18_diff": {
-    "status": "PASS_FINAL_INPUT_CONDITIONAL_REVIEW",
+    "status": "PASS_FINAL_INPUT_REVIEWED; FIX-3_DELTA_REVIEW_PENDING",
     "renderer_sha256": "791fa347e97ca49e15a8b7ca1e02e0e38c0be37e23eece092c8a094e9a653d1e",
     "input_manifest_sha256": "67e7584a80d743efc06edc4c97019c20803cc4787c1d70c8d924ad23736612e8",
     "library_canonical_sha256": "c2469737bcaab0df8d07a1c2493d2f95784aae07a55998aecf49cc53fa5d1a30",
@@ -81,7 +85,7 @@
       "B_noLF_prompts_passed": 148,
       "max_tokens": 5284,
       "p95_tokens": 5219,
-      "status": "PASS_CONDITIONAL_RUNNER_REVIEW"
+      "status": "PASS_REVIEWED; FIX-3_DELTA_REVIEW_PENDING"
     }
   },
   "repository_sources": [
@@ -222,6 +226,12 @@
       "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
     },
     {
+      "path": "studio2/fase03/fault_runs/AGGIORNAMENTO_PUBBLICAZIONE_E_RIVERIFICA_03_11_2026-09-17.md",
+      "sha256": "1c382fda87bc99d2177461c44fdef1ae50e977abfa9b5113a57587dab3e0bc2c",
+      "hash_scope": "physical file bytes",
+      "status": "three of three assets redownloaded and verified; historical acquisition record unchanged"
+    },
+    {
       "path": "studio2/fase03/schema_insight/SCHEMA_FREEZE.json",
       "sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12",
       "hash_scope": "physical file bytes",
@@ -346,6 +356,12 @@
       "sha256": "335fa789163c51cb36d6d557382eb8095e94e656d09ef5d3245a71e29d556272",
       "hash_scope": "physical file bytes",
       "source_revision": "Q1-Q3 reception commit"
+    },
+    {
+      "path": "studio2/fase03/protocollo_finale/VERIFICA_FINALE_PROTOCOLLO_RUNNER_H3.md",
+      "sha256": "a2fe4b6753cdbac04f0eaddd9902f735adeb0c201bc220d882532ec8f81fba6a",
+      "hash_scope": "physical file bytes",
+      "status": "A OK con rilievi; B OK con rilievi; C OK; TANGO MANTENUTO"
     }
   ],
   "external_preserved_sources": [
@@ -448,10 +464,10 @@
     "mean_T_with_20_percent_hours": 62.9181124,
     "p95_T_hours": 73.34216716666666,
     "p95_T_with_20_percent_hours": 88.0106006,
-    "Q_status": "AUTHOR_FIXED_400_CONDITIONAL_RUNNER_REVIEW",
+    "Q_status": "AUTHOR_FIXED_400_REVIEWED; FIX-3_DELTA_REVIEW_PENDING",
     "base_future_calls_without_retries": 6802,
     "maximum_formula": "6732 + 70 + 0 + 400",
-    "T5_status": "PASS_CONDITIONAL_RUNNER_REVIEW",
+    "T5_status": "PASS_REVIEWED; FIX-3_DELTA_REVIEW_PENDING",
     "latency_basis": {
       "mean_seconds_per_call": 26.2086,
       "p95_seconds_per_call": 36.6609,
@@ -484,7 +500,7 @@
     "extracted_units": "78/78",
     "artifact_sha256": "c809e79d2c03d74f4a5a37988eca809bda336468ab0060f794d3c214f9a6a775",
     "canonical_assignment_sha256": "1ba7669ae9715e4c6313b6746a05f8d390eeee2877d7f41cc554146c9e35836b",
-    "status": "FROZEN_CONDITIONAL_RUNNER_REVIEW"
+    "status": "FROZEN_REVIEWED; FIX-3_DELTA_REVIEW_PENDING"
   },
   "B_noLF": {
     "condition": "B-noLF",
@@ -495,7 +511,7 @@
     "new_renderer_sha256": "b716200e6fdb34fa6dc0e7264612820306026f1851b188ef772016fc633fca8c",
     "base_renderer_sha256": "791fa347e97ca49e15a8b7ca1e02e0e38c0be37e23eece092c8a094e9a653d1e",
     "diff_prompts_passed": 148,
-    "status": "PASS_CONDITIONAL_RUNNER_REVIEW",
+    "status": "PASS_REVIEWED; FIX-3_DELTA_REVIEW_PENDING",
     "prompt_token_count": "full final prompt measured with qualified tokenizer; overall max 5284, p95 5219"
   },
   "retry_policy": {
@@ -512,7 +528,7 @@
     "backoff_schedule_seconds": [30, 60, 120, 240],
     "backoff_cap_seconds": 900,
     "cumulative_retry_limit": 400,
-    "status": "IMPLEMENTED_A51FFD1_CONDITIONAL_REVIEW"
+    "status": "IMPLEMENTED_7D58EFD; DOCUMENTED_74C5D3D; DELTA_REVIEW_PENDING"
   },
   "repetitions": {
     "R": 3,
@@ -565,7 +581,8 @@
     "historical_schedule_sha256": "1acfc4044c53f113016ed0bfab58863291a9060a9edc9abadb68a21d30687819",
     "final_inventory_sha256": "227e5e9c797dbfd8be746d85b77298f5dfb091846dc301f0b2e31ea1dbc6df3f",
     "final_schedule_sha256": "1acfc4044c53f113016ed0bfab58863291a9060a9edc9abadb68a21d30687819",
-    "status": "FINAL_CONDITIONAL_RUNNER_REVIEW"
+    "status": "FINAL_REVIEWED; FIX-3_DELTA_REVIEW_PENDING",
+    "pin_dependency_note": "inventory, schedule and window-assignment payload hashes include numpy_version and the historical e0db132 protocol reference; reproduce with NumPy 2.2.6 and do not overwrite the pins"
   },
   "final_input_manifest": {
     "sha256": "67e7584a80d743efc06edc4c97019c20803cc4787c1d70c8d924ad23736612e8",
@@ -585,18 +602,35 @@
       "ablation_b_no_lf": 148,
       "ood": 144
     },
-    "final_prompts_file_sha256": "f938604c512394df0e149732e474eb7d17b02a8dd1ed72155b84f19579a1385d",
-    "prompts_canonical_sha256": "b819200396da480d3ed9d4aa8f6b6aac8c135d97f0876b734a9b607b75736489"
+    "final_prompts_file_sha256": null,
+    "final_prompts_file_status": "product of 7.4-MAT; record its SHA at materialization",
+    "prompts_canonical_sha256": "b819200396da480d3ed9d4aa8f6b6aac8c135d97f0876b734a9b607b75736489",
+    "prompts_canonical_status": "binding and independently reproduced by the final review"
   },
   "runner_freeze": {
-    "candidate_commit": "a51ffd1d0e15c5e99bf35d68559618951650b1d9",
-    "reviewed_commit": null,
-    "review_record_sha256": null,
-    "status": "PENDING_INDEPENDENT_REVIEW_B567",
+    "final_commit": "74c5d3dca78fc22c3de1e675e50e7d0870f45ecc",
+    "code_commit": "7d58efd",
+    "reviewed_pre_fix3_commit": "a51ffd1d0e15c5e99bf35d68559618951650b1d9",
+    "review_record_sha256": "a2fe4b6753cdbac04f0eaddd9902f735adeb0c201bc220d882532ec8f81fba6a",
+    "fix3_report_sha256": "482ff5d804a0ba0df502510e47f8418806cd2f27d76c7cb19b6723a97c04ec07",
+    "status": "FINAL_CODE_AND_MAC_EVIDENCE_READY; FIX3_DELTA_REVIEW_PENDING",
     "part_of_protocol_freeze": true,
+    "mac_suite_logs": [
+      {
+        "path": "studio2/fase03/batch_finale/SUITE_MAC_a51ffd1.txt",
+        "containing_commit": "7925124",
+        "sha256": "50601686bc4ecd160820d0b2413eeecab63511b21477b579a760dd1c30f4b373"
+      },
+      {
+        "path": "studio2/fase03/batch_finale/SUITE_MAC_7d58efd.txt",
+        "containing_commit": "74c5d3dca78fc22c3de1e675e50e7d0870f45ecc",
+        "sha256": "66c3492709f8aede6e7813c01e3feb2b5748bb9301acdeef4e4b0ed09969de66"
+      }
+    ],
     "integration_order": [
-      "rem6 through a51ffd1 after independent review",
-      "protocol branch after independent review",
+      "independent review of FIX-3 and protocol revision 4 deltas only",
+      "rem6 through 74c5d3dca78fc22c3de1e675e50e7d0870f45ecc, making both Mac suite logs reachable from main",
+      "protocol branch",
       "annotated studio2-fase03-protocollo-finale-frozen-001 on integrated main"
     ]
   },
@@ -706,10 +740,11 @@
     "proved_zero_token": "retry within Q; day incomplete until resolved",
     "uncertain_or_permanent_error": "immediate stop",
     "second_distinct_marked_day": "stop before scientific batch",
-    "sensitivity_mask": "all scientific requests of MARKED civil day per plan 10.5",
-    "forensic_mask": "last completed PASS to failed canary, or campaign start if none; separate derived union; no terminal record rewrites",
+    "primary_mask_request_ids": "all scientific requests of MARKED civil day per plan 10.5; pre-specified sensitivity mask",
+    "forensic_mask_request_ids": "last completed PASS to failed canary, or campaign start if none; forensic only",
+    "union_descriptive_request_ids": "descriptive union of primary and forensic masks; never substitutes the primary sensitivity mask",
     "daily_civil_day_barrier": "no scientific batch on a civil day without PASS canary on that same Europe/Rome day",
-    "implementation_status": "IMPLEMENTED_A51FFD1_CONDITIONAL_REVIEW"
+    "implementation_status": "IMPLEMENTED_7D58EFD; DOCUMENTED_74C5D3D; DELTA_REVIEW_PENDING"
   },
   "release_coordinates": [
     {
@@ -756,6 +791,10 @@
       "source_path": "studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
       "source_commit": null,
       "source_sha256": "b568ae5fdd39b6cebc52a4096e18c85874b77b6466e7b2e6aa2438bd303cccba",
+      "historical_acquisition_path": "studio2/fase03/fault_runs/ACQUISIZIONE_OK_ESECUZIONE_03_11.md",
+      "historical_acquisition_unchanged": true,
+      "publication_update_path": "studio2/fase03/fault_runs/AGGIORNAMENTO_PUBBLICAZIONE_E_RIVERIFICA_03_11_2026-09-17.md",
+      "publication_update_sha256": "1c382fda87bc99d2177461c44fdef1ae50e977abfa9b5113a57587dab3e0bc2c",
       "verification": {
         "method": "author redownload on 2026-09-17 of all three release assets; each asset SHA-256 compared with fault_runs/ARTIFACT_STORAGE.json",
         "temporary_directory": null,
@@ -797,19 +836,32 @@
     "sha256": "281345dfb5ac3b0f766f2a03289968f43328e1bab5139d0e3b4f845887b5f9d1",
     "status": "historical PREP only; does not certify FIX"
   },
+  "runner_final_report": {
+    "final_commit": "74c5d3dca78fc22c3de1e675e50e7d0870f45ecc",
+    "code_commit": "7d58efd",
+    "path": "studio2/fase03/REPORT_7_4_FIX.md",
+    "sha256": "482ff5d804a0ba0df502510e47f8418806cd2f27d76c7cb19b6723a97c04ec07",
+    "section": "FIX-3",
+    "findings_received": ["B1", "B2", "B3", "B4", "B5", "B6", "B7"]
+  },
   "previous_documentary_commit": "1f9ebc51649fcc30a17949819a05eca2271daac0",
   "author_responses_Q1_Q3": {
     "status": "APPROVED",
     "path": "studio2/fase03/protocollo_finale/DECISIONI_AUTORE_7_3_REV2_Q1_Q3.md",
     "sha256": "b7a830ecffe145343458bf654c84439e664ce994edf89e6d7d1dc2a2baef8c53",
     "Q1": "unchanged descriptive approximate bootstrap plus bilateral Hoeffding bounds, always both, no post-hoc selection",
-    "Q2": "Tango conditional on independent pre-data synthetic check; empirical rejection <=0.055 at every ICC=0 null-boundary scenario; failure selects Hoeffding H3 now; ICC>0 descriptive only",
+    "Q2": "TANGO MANTENUTO after independent final review of the pre-data synthetic check; empirical rejection <=0.055 at every ICC=0 null-boundary scenario; ICC>0 descriptive only",
     "Q3": "unchanged audit plus descriptive aggregation over all prompts by block/condition; <3 valid generated outcomes invalid_incomplete_triplet"
   },
   "synthetic_verification": {
     "path": "studio2/fase03/protocollo_finale/SPECIFICA_VERIFICA_SINTETICA_H3.md",
     "sha256": "335fa789163c51cb36d6d557382eb8095e94e656d09ef5d3245a71e29d556272",
-    "status": "PASS_AT_ICC_ZERO_CONDITIONAL_INDEPENDENT_REVIEW_B567",
+    "status": "TANGO_MANTENUTO",
+    "review_record": {
+      "path": "studio2/fase03/protocollo_finale/VERIFICA_FINALE_PROTOCOLLO_RUNNER_H3.md",
+      "sha256": "a2fe4b6753cdbac04f0eaddd9902f735adeb0c201bc220d882532ec8f81fba6a",
+      "outcome": "C OK; section 5 TANGO MANTENUTO"
+    },
     "executed_script_sha256": "847bc294948303a1d4763cc223893eeffc167c42f4e3b1540f73ed31feb53c5f",
     "tango_source_sha256": "25a648b99fcb86f8111eaaf2f712183d6c3e0a0af5960b6b84c424c38fb1e613",
     "N": 64,
@@ -850,7 +902,7 @@
     "infeasible_stress_scenarios": 24,
     "numerical_errors": 0,
     "decision_null_points_icc_zero": 108,
-    "decision_rule": "Tango rejection rate <=0.055 at every ICC=0 boundary point; negative => Hoeffding H3; incomplete => PENDING",
+    "decision_rule": "Tango rejection rate <=0.055 at every ICC=0 boundary point; negative => Hoeffding H3; incomplete => no decision",
     "decision_points_passed": "108/108",
     "maximum_boundary_phat": 0.05128,
     "stress_procedures": [
@@ -866,6 +918,8 @@
     },
     "seed": 20260917,
     "namespace": "studio2-fase03-h3-synthetic-q2-v1",
+    "implementation_note": "the H3 script transcribes Tango instead of importing it and does not verify declared SHA values at runtime; identity was verified by the final review",
+    "script_modified_for_rev4": false,
     "full_fwer_guaranteed_with_Tango": false,
     "fallback_requires_independence": true
   },
@@ -914,7 +968,9 @@
     "protocol_defect": false
   },
   "remaining_open": [
-    "independent reviews of rem6 through a51ffd1 and of the synthetic H3 verification/protocol candidate",
-    "integration in the fixed order rem6 through a51ffd1 then protocol branch, followed by annotated tag studio2-fase03-protocollo-finale-frozen-001"
+    "independent review of FIX-3 and protocol revision 4 deltas only",
+    "integration in the fixed order rem6 through 74c5d3dca78fc22c3de1e675e50e7d0870f45ecc then protocol branch, with both Mac suite logs reachable from main",
+    "annotated tag studio2-fase03-protocollo-finale-frozen-001",
+    "post-tag 7.4-MAT, including final_prompts.jsonl and its materialization SHA"
   ]
 }

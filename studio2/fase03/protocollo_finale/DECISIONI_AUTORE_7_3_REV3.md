@@ -52,9 +52,11 @@ Sono prerequisiti operativi della materializzazione, non difetti o segnaposto de
 
 La verifica sintetica ha completato 1.596 scenari, con 24 stress ICC non fattibili e zero
 errori numerici. I 108/108 punti decisionali al bordo e ICC=0 hanno `phat <= 0,055`; massimo
-0,05128. L'esito resta **PENDING** fino alla review indipendente `b567`. Gli stress ICC sono
+0,05128. Aggiornamento del 2026-09-18: la review indipendente finale
+`VERIFICA_FINALE_PROTOCOLLO_RUNNER_H3.md` ha concluso **TANGO MANTENUTO**. Gli stress ICC sono
 descrittivi: massimo ICC testato con tutti i livelli <=0,055 pari a 0 per Tango H3 e 0,20 per
-Hoeffding H3 e H1/H2. Non si cambia procedura e non si rivendica un FWER garantito.
+Hoeffding H3 e H1/H2. La verifica è locale a H3; livello e FWER completo restano approssimati,
+non garantiti. Non si cambia procedura.
 
 Motivazione: H3 dipende dall'indipendenza fra run ed è sensibile anche a correlazione entro
 fault piccola; H1/H2 risultano più robusti fino a ICC moderato nella griglia, senza che lo
