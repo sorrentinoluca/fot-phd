@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "archive": "studio2-fase03-pilot-v1",
+  "redactions": [
+    {
+      "path": "studio2-fase03-d9-pilot-03/MATERIALIZATION_SUMMARY.private.json",
+      "original_sha256": "30021bc4d91a070058f268e99f1ef5c1df3afce61691e7e5aed86c040d7e2cee",
+      "redacted_sha256": "91aecba90d4ba7d724dd3094f453e6754a5916171c7cedb9c354372fd9d12bbf"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/execution/PRE_GATE_ACCEPTANCE_03_13.private.json",
+      "original_sha256": "491fe5339cd4ba935ff43c9b78883714527c1120bbc471edd95766946c671649",
+      "redacted_sha256": "7a88cc5996531f60b22f4d9e90788cb64586a81695b155f1fd43da3cb106eb6c"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/execution/pilot_d9_successor_candidate_03_13.private.json",
+      "original_sha256": "c22dca7c70d7e4d8d6044ef9de0c1e4ec03c22059e31e830386b1161b7962075",
+      "redacted_sha256": "a2f16bfff3703da07bb2cc35c06e68fa7fd84cf128500653758c19f8fdf36a4c"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/execution/pilot_d9_successor_candidate_03_13.private.json.pre_authorization",
+      "original_sha256": "6f8d616c1f75596ddff480b6bd4c01481adb85343c99205ea2a51d129c99da4f",
+      "redacted_sha256": "3eb2bb8c1ec586fa05a427fd7563d5bd915d178c150488ce45a612fbfaf6c522"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/execution/pilot_d9_successor_candidate_03_13.private.json.pre_rev2",
+      "original_sha256": "0c3cd34ef137cae4388e7868e4aa1e8d9bf494ab563fcabbdbcdc66bc7fe0606",
+      "redacted_sha256": "6ffd52c965d4f511565bf9e9f59ee789e5dd69e107ff1b8f1979a55ae4489201"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/execution/presentation_order_approval.private.json",
+      "original_sha256": "0f9f7b7f4036bd4172467dba80673af5d9ec3abb2bb854d6239da7ccec2977d1",
+      "redacted_sha256": "b18a8d2475c38afc812e1d4dc6225b5abeb53f746881f79cabf8fa7ac90b5d9c"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/execution/producer_122b_successor_03_13.private.json",
+      "original_sha256": "04b2c948c586c9ae4e38d9d0c50d36aad86a5b609a609d94c2d31fde7c2a8bf0",
+      "redacted_sha256": "6b93b968a1e2b18d2a957242b06e9065c8e4eeb2f022ca187bc341f9b3a8a487"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/execution/producer_27b_successor_03_13.private.json",
+      "original_sha256": "fcecc53417d8c35319c11bf7a633b70456d3c85b90f51d7193490cae99baa4e4",
+      "redacted_sha256": "011f3f1f83b6edf397174be2509a5e0f99c6e1883b4963ca756c2fea2e756121"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/execution/producer_27b_successor_03_13.rev2.private.json",
+      "original_sha256": "27295c25f6a2d08730781d8e24053be74ce593434cbe8c80e6324145469c34c0",
+      "redacted_sha256": "2dbf5d81dbe4ba026b3dd912d93797ad7fe6ffd603cdfce6d7a80050f2fb21b9"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/execution/service_122b_successor_03_13.private.json",
+      "original_sha256": "714c24bf14e525c73c4ff839f3a102b5a9dbeb36a85be986a0439b91bd1b3469",
+      "redacted_sha256": "cd8f647b6b1135757f437acd374429ae440143dd0ddee6893e4b623c5c718664"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/execution/service_27b_successor_03_13.private.json",
+      "original_sha256": "133807dfa57ddbd7a4319bfbdd2b851f0648928c12195422ee300b0e17d4f485",
+      "redacted_sha256": "d5fadc4b5794f6822fc58ba3a88bfb9a31c3de04bc0ec536b70a27ea451bb9fd"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/execution/service_27b_successor_03_13.rev2.private.json",
+      "original_sha256": "7b3496a4b6e7d135f025175bf7204675830fc2aa528ed2494e84608c995e4ed6",
+      "redacted_sha256": "3f9fa1b1a2c7697ee9699bdfbd4ee9ac0f3419943066abcb3139535ad7f31a1c"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/lineage/SUCCESSOR_LINEAGE_S5_122B_QWEN_D9_03_13.approval.private.json",
+      "original_sha256": "fbda6b463809ed309bcb933cf15cc0f2c01b03d15a783dfb1017df154fc58516",
+      "redacted_sha256": "8cf1d691a8606ac6cd07557ca67682d18f76d168859fa77a8a9d5b28a4e8177e"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/lineage/SUCCESSOR_LINEAGE_S5_122B_QWEN_D9_03_13.private.json",
+      "original_sha256": "ee5a2aa58b90e85a8482a66540b4c39f6c6e5229c054434ba3e750b9cd5b07e6",
+      "redacted_sha256": "15a6e73b3a3c7e0e35a5b3236f0fd8dfb29598d7bade50a597c23c4a4c68a595"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/prepared/pre_gate_hashes.json",
+      "original_sha256": "a80fb83501eaf5c0febc4a3bd8d64d9118c16ee6ac0d94d6e122b4b73a17d4a6",
+      "redacted_sha256": "e7aa0e7ef3f259218afeb6cace066daddd2303b1a489ca3822f9d4a9de1d2cd6"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/prepared/pre_gate_plan.json",
+      "original_sha256": "b83c88ea1206efb22603691f04045f260ee4f5d64f0cdb7585a9de881b73e856",
+      "redacted_sha256": "d94a0e5a6083d2dde53b988db5990144b754723e042de0833e2ae4a2ee7fbf4b"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/results/budget_20260917T163729.log",
+      "original_sha256": "0a66edbdeba2eb190b589432816310242061d4177a7126101cadd595da04772e",
+      "redacted_sha256": "c4f86a652f01e133879c73aae48ec7d1ce1153bc58732aada5ac7efd3bdd3eea"
+    },
+    {
+      "path": "studio2-fase03-d9-pilot-03/results/frozen_gate_config.json",
+      "original_sha256": "709ae3400238b3ecdf50ef5b7d377b0bea4fdf87fcec569994d24cace39fa8ac",
+      "redacted_sha256": "c17b7d1ac4b5d52278303c37e9938fbc0a05ef847ee16a217360e4217f60a592"
+    }
+  ]
+}
