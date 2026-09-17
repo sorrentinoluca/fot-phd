@@ -488,7 +488,10 @@ def aggregate(manifest_path: Path, output: Path) -> None:
     if len(boundary) != 108:
         raise RuntimeError(f"boundary accounting {len(boundary)} != 108")
     worst_boundary = max(boundary, key=lambda r: (r["metrics"]["tango_0.05"]["phat"], -r["scenario_index"]))
-    decision = "TANGO MANTENUTO" if all(r["metrics"]["tango_0.05"]["phat"] <= 0.055 for r in boundary) else "FALLBACK HOEFFDING"
+    statistical_pass = all(r["metrics"]["tango_0.05"]["phat"] <= 0.055 for r in boundary)
+    # La review b567 e' deliberatamente esterna a questa esecuzione. Un pass numerico non puo'
+    # autocertificarla: §5 resta PENDING finche' la review indipendente non e' OK.
+    decision = "PENDING" if statistical_pass else "FALLBACK HOEFFDING"
 
     procedure_keys = {"Tango H3": "tango_0.05", "Hoeffding H3": "hoeffding_h3_0.05", "Hoeffding H1/H2": "hoeffding_h12_0.05"}
     robustness = {}
@@ -508,6 +511,8 @@ def aggregate(manifest_path: Path, output: Path) -> None:
 
     summary = {
         "outcome_section_5": decision,
+        "statistical_boundary_result": "PASS" if statistical_pass else "FAIL",
+        "independent_review_b567": "NOT_PERFORMED",
         "target_scenarios": len(results),
         "complete_scenarios": len(complete),
         "infeasible_scenarios": sum(r["status"] == "INFEASIBLE" for r in results),
