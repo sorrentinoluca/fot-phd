@@ -6,3 +6,4 @@
 /test_batch/
 /smoke/*/cache/
 /smoke/*.pid
+/test_batch/

@@ -10,6 +10,20 @@ from .ledger import digest, TOKENIZER_ACCOUNTING_MODEL, TokenizerAccountingGuard
 from .guards import response_identity_valid
 
 
+class IdentitySuspension(HarnessError):
+    """Suspension caused by a missing or changed response identity.
+
+    A dedicated type so callers classify the event on the exception, never on the wording
+    of its message (review rilievo B4). ``field`` names what did not match, when known.
+    """
+
+    def __init__(self, message, *, field=None, observed=None, expected=None):
+        super().__init__(message)
+        self.field = field
+        self.observed = observed
+        self.expected = expected
+
+
 def durable_write(path, text):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -50,8 +64,21 @@ def retry_requests_by_logical_id(ledger, stage, retry_requests):
     return selected
 
 
-def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identity, journal_path,
-                    messages=None, accounting_guard=None, resume=False, retry_requests=(), pre_reserved=()):
+def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identity,
+                    journal_path=None, messages=None, accounting_guard=None, resume=False,
+                    retry_requests=(), pre_reserved=()):
+    """``journal_path`` is the JSONL projection of the stage.
+
+    The pilot stages always pass one and keep the contract's projection semantics. The
+    final batch passes none: its binding holds 2.244 specifications, so re-exporting the
+    whole stage at every step would be quadratic, and its durable projection is the call
+    log plus one record per request, with SQLite authoritative. See the tracked revision
+    ``CONTRATTO_ESECUZIONE_E_RIPRESA_REV2_BATCH_FINALE.md``.
+    """
+    def export(ledger_, stage_, path):
+        if path is not None:
+            export_journal(ledger_, stage_, path)
+
     binding = ledger.binding(stage)
     stage_run = digest(binding)
     selected = retry_requests_by_logical_id(ledger, stage, retry_requests)
@@ -74,7 +101,7 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
     if leaf and stage == 'stability_gate':
         invalidity = ledger.gate_transport_record(leaf['request_id'])
         if invalidity is not None:
-            export_journal(ledger, stage, journal_path)
+            export(ledger, stage, journal_path)
             return invalidity
     if leaf and leaf['status'] == 'COMPLETED' and leaf['request_id'] in retry_requests:
         # 03.13-REV27B: one explicit resend of a reconciled identity suspension.
@@ -106,9 +133,12 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
     if stored and stored['record']:
         if accounting_required:
             ledger.validate_tokenizer_accounting_record(request_id, record=stored['record'])
-        export_journal(ledger, stage, journal_path)
+        export(ledger, stage, journal_path)
         if stored['record'].get('identity_valid') is not True:
-            raise HarnessError('pilot suspended by persisted response identity mismatch')
+            raise IdentitySuspension(
+                'pilot suspended by persisted response identity mismatch',
+                field='identity_valid', observed=stored['record'].get('identity_valid'),
+                expected=True)
         return stored['record']
     if not fresh and stored is None:
         raise HarnessError('uncertain request blocks resume; reconcile evidence before any resend')
@@ -121,12 +151,12 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
             raise
         except Exception as exc:
             ledger.complete_request(request_id, status='FAILED', latency_ms=(time.monotonic()-begin)*1000, detail={'error_type': type(exc).__name__, 'message': str(exc)}, transport_failure=True)
-            export_journal(ledger, stage, journal_path)
+            export(ledger, stage, journal_path)
             if stage == 'stability_gate':
                 return ledger.gate_transport_record(request_id)
             raise HarnessError('transport failed; uncertain outcome needs explicit reconciliation') from exc
         ledger.save_raw(request_id, raw, latency_ms=(time.monotonic()-begin)*1000)
-        export_journal(ledger, stage, journal_path)
+        export(ledger, stage, journal_path)
     else:
         raw = stored['raw']
     if accounting_required:
@@ -142,7 +172,13 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
     ledger.complete_request(request_id, status='COMPLETED', record=record,
                             prompt_tokens=record.get('prompt_tokens'), completion_tokens=record.get('completion_tokens'),
                             total_tokens=record.get('total_tokens'), latency_ms=capture['latency_ms'])
-    export_journal(ledger, stage, journal_path)
+    export(ledger, stage, journal_path)
     if not record['identity_valid']:
-        raise HarnessError('pilot suspended: returned model/fingerprint missing or changed; raw and consumption preserved')
+        changed = [key for key in ('returned_model', 'system_fingerprint')
+                   if record.get(key) != expected_identity.get(key)]
+        raise IdentitySuspension(
+            'pilot suspended: returned model/fingerprint missing or changed; raw and consumption preserved',
+            field=','.join(changed) or 'returned_model,system_fingerprint',
+            observed={key: record.get(key) for key in ('returned_model', 'system_fingerprint')},
+            expected={key: expected_identity.get(key) for key in ('returned_model', 'system_fingerprint')})
     return record

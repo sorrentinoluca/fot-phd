@@ -1,0 +1,400 @@
+File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/opt/anaconda3/lib/python3.13/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+    ~~~~^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/unittest/main.py", line 104, in __init__
+    self.runTests()
+    ~~~~~~~~~~~~~^^
+  File "/opt/anaconda3/lib/python3.13/unittest/main.py", line 270, in runTests
+    self.result = testRunner.run(self.test)
+                  ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/unittest/runner.py", line 240, in run
+    test(result)
+    ~~~~^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+           ~~~~~~~~^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/unittest/suite.py", line 122, in run
+    test(result)
+    ~~~~^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+           ~~~~~~~~^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/unittest/suite.py", line 122, in run
+    test(result)
+    ~~~~^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+           ~~~~~~~~^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/unittest/suite.py", line 122, in run
+    test(result)
+    ~~~~^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/unittest/case.py", line 707, in __call__
+    return self.run(*args, **kwds)
+           ~~~~~~~~^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/unittest/case.py", line 651, in run
+    self._callTestMethod(testMethod)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/unittest/case.py", line 606, in _callTestMethod
+    if method() is not None:
+       ~~~~~~^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_author_acceptances.py", line 59, in test_ACC01_all_gates_pass_after_script
+    frozen, summary = self.gate()
+                      ~~~~~~~~~^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_author_acceptances.py", line 36, in gate
+    return frozen, rp.run_stability_stage(prepared, results, ledger=self.t.ledger)
+                   ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/run_pilot.py", line 471, in run_stability_stage
+    records.append(_tracked_call(provider, ledger, prompt=prompt, schema=schema, generation=frozen['generation'],
+                   ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                 stage='stability_gate', stage_run=digest(binding), logical_id=spec['logical_id'], config=config,
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                 accounting_guard=accounting_guard,
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                 repetition=spec['repetition'], journal_path=results_dir/'stability_journal.jsonl', resume=resume))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/run_pilot.py", line 340, in _tracked_call
+    return execute_request(ledger=ledger, stage=stage, spec=spec,
+                           transport=lambda transmitted=messages: provider.call(prompt=prompt, messages=transmitted,
+    ...<3 lines>...
+                           messages=messages, accounting_guard=accounting_guard,
+                           resume=resume, retry_requests=retry_requests, pre_reserved=pre_reserved)
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/runtime.py", line 149, in execute_request
+    export(ledger, stage, journal_path)
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/runtime.py", line 34, in export_journal
+    leaf = ledger.leaf(stage, spec['logical_id'])
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/ledger.py", line 1895, in leaf
+    rows = [r for r in self._rows(c) if r['stage'] == stage and r['logical_id'] == logical_id]
+                       ~~~~~~~~~~^^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/ledger.py", line 328, in _rows
+    return list(c.execute("SELECT * FROM requests ORDER BY rowid"))
+KeyboardInterrupt
+
+(base) MacBook-Pro:rem6-riconciliazione luker$ cd /Users/luker/fot-tep/.worktrees/rem6-riconciliazione
+(base) MacBook-Pro:rem6-riconciliazione luker$ /opt/anaconda3/bin/python3 -m unittest $(ls studio2/fase03/harness/test_*.py | sed 's|/|.|g; s|\.py$||') studio2.fase03.evidence.test_test_lot_evidence
+............................................................................................./opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x105ada020>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+...../opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12acaec50>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12acac8b0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12acac5e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12e27ec50>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12e27d5d0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12dedaf20>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12dedb5b0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12ded8040>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12dedaa70>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12dedb1f0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12ded86d0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12ded9c60>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12bc9a7a0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+../opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12dcde2f0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12aff71f0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12aff5300>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12aff76a0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12aff5f30>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12aff4040>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12aff7a60>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1047d5990>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1047d6020>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1047d4f40>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12ab5f2e0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12ab5c7c0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12ab5e5c0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12d839f30>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12d8394e0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12d839210>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12c59a200>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12c599e40>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12c59a3e0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12c59b1f0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12c599c60>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12c59b100>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12c59a980>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12c59ad40>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12c59a4d0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12c59ac50>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12afc8310>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x128859990>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12afc86d0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12b877100>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12b877b50>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12b876a70>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12b877f10>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12b876d40>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12b876f20>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12b8776a0>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12acac130>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12acae110>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12acaec50>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/unittest/mock.py:494: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12acac310>
+  __dict__['_mock_mock_calls'] = _CallList()
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12a8157b0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12dd644f0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12bea7100>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12af46980>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12af45e40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1292bad40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12db9d6c0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12dd672e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12dd66b60>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12df063e0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12df062f0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12df071f0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12acaf790>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12e57ec50>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+./opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12e57cf40>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12ee118a0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=3 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=4 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=5 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=6 invalid=0 abstain=0 mean=0.0s eta=0.0h
+.final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=3 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=4 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=5 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=6 invalid=0 abstain=0 mean=0.0s eta=0.0h
+..final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=3 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=4 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=5 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=6 invalid=0 abstain=0 mean=0.0s eta=0.0h
+..final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+.final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=3 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=4 invalid=0 abstain=0 mean=0.0s eta=0.0h
+.final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=3 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=4 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=5 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=6 invalid=0 abstain=0 mean=0.0s eta=0.0h
+.final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=3 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=4 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=5 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=6 invalid=0 abstain=0 mean=0.0s eta=0.0h
+.final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+...final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=3 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=4 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=5 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=6 invalid=0 abstain=0 mean=0.0s eta=0.0h
+..final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=1 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=3 invalid=1 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=4 invalid=1 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=5 invalid=1 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=6 invalid=1 abstain=0 mean=0.0s eta=0.0h
+....final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=3 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=4 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=5 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=6 invalid=0 abstain=0 mean=0.0s eta=0.0h
+.final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=3 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=4 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=5 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=6 invalid=0 abstain=0 mean=0.0s eta=0.0h
+....final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=3 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=4 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=5 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=6 invalid=0 abstain=0 mean=0.0s eta=0.0h
+.final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=3 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=4 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=5 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=6 invalid=0 abstain=0 mean=0.0s eta=0.0h
+....final_batch_r1 1/6 sent=1 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 2/6 sent=2 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 3/6 sent=3 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 4/6 sent=4 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 5/6 sent=5 invalid=0 abstain=0 mean=0.0s eta=0.0h
+final_batch_r1 6/6 sent=6 invalid=0 abstain=0 mean=0.0s eta=0.0h
+......................................./opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12ee10c70>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12ee13a60>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12e196b60>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12e1967a0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12e196a70>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12e1946d0>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12e196f20>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/opt/anaconda3/lib/python3.13/json/decoder.py:361: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x1288c0400>
+  obj, end = self.scan_once(s, idx)
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+...............................<frozen os>:717: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x12e08a980>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+......................................{"approval":{},"fixed_commit":"0000000000000000000000000000000000000000","ledger":"/private/var/folders/70/_hlqlsnj2_j8v8m0k1wfckh40000gn/T/tmpypf1thh9/missing.sqlite3","pilot_id":"successor-cli","requires":"--execute --acknowledge RECONCILE_PHASE03_ACCOUNTING_STOP","status":"PLAN_ONLY"}
+..............................................................
+----------------------------------------------------------------------
+Ran 306 tests in 485.662s
+
+OK
+

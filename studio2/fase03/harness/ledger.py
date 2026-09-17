@@ -7,6 +7,7 @@ No uncertain request is ever resent implicitly.
 from __future__ import annotations
 
 from contextlib import closing, contextmanager
+from dataclasses import dataclass
 from datetime import datetime, timezone
 import difflib
 import json
@@ -26,6 +27,72 @@ ACTIVE_STAGES = STAGES | {TECHNICAL_STAGE}
 BASE_LIMITS = {TECHNICAL_STAGE: 1, "producer_conformity": 8,
                "producer_remediation": 8, "alternate_conformity": 8,
                "budget_probe": 9, "stability_gate": 120}
+
+# 7.4: the final scientific batch runs on its own target with its own quota envelope.
+# The pilot numbers above stay exactly as they are; a ledger declares which envelope it
+# lives under once, at creation, and can never be reopened under another one.
+FINAL_PASS_STAGES = ("final_batch_r1", "final_batch_r2", "final_batch_r3")
+FINAL_PASS_LIMIT = 2244
+FINAL_CANARY_STAGE = "final_canary"
+TECHNICAL_VERIFICATION_STAGE = "technical_verification"
+FINAL_BATCH_STAGES = set(FINAL_PASS_STAGES) | {FINAL_CANARY_STAGE, TECHNICAL_VERIFICATION_STAGE}
+# Author decision 2026-09-17 (7.4-FIX-2): X = 0. No technical verification is planned, so
+# the stage stays defined with quota zero and every reservation on it is refused. A future
+# technical verification requires a declared protocol revision, not a local widening.
+TECHNICAL_VERIFICATION_QUOTA = 0
+FINAL_BATCH_LIMITS = {**{stage: FINAL_PASS_LIMIT for stage in FINAL_PASS_STAGES},
+                      FINAL_CANARY_STAGE: 70,
+                      TECHNICAL_VERIFICATION_STAGE: TECHNICAL_VERIFICATION_QUOTA}
+# Author decision D3 (2026-09-17) replaces the absolute Q=0 of the candidate: a retry is
+# admitted only against proof that no token was generated. The cumulative ceiling is a
+# quota of its own, separate from the scientific stage quotas, so a transport storm can
+# never finance itself on scientific slots. Order of magnitude from the pilot: 8 pre-
+# generation failures out of 156 requests (5.13%); on 6,802 planned calls that is ~349
+# expected, and 400 leaves ~15% headroom while costing at most ~4.9 h at the gate p95.
+# (The pilot rate is computed on 6,802 planned calls; with X = 0 the planned calls are
+# 6,802 as well: 6,732 scientific plus 70 canary.)
+FINAL_RETRY_QUOTA = 400
+# Five consecutive failed technical attempts on the same service, retries included.
+# Protection against an unavailable service; no statistical meaning (D3).
+FINAL_CONSECUTIVE_FAILURE_STOP = 5
+TECHNICAL_FAILURE_STOP_PREFIX = "technical_failure_stop:"
+PROFILE_EVENT_PREFIX = "ledger_profile:"
+CANARY_PASS_PREFIX = "canary_pass:"
+CANARY_MARKED_PREFIX = "canary_marked:"
+CANARY_STOP_PREFIX = "canary_stop:"
+CANARY_MAX_DAYS = 7
+CANARY_DAILY_CALLS = 10
+
+
+@dataclass(frozen=True)
+class LedgerProfile:
+    """Immutable quota envelope of one ledger."""
+
+    name: str
+    stages: frozenset
+    base_limits: dict
+    planned_maximum: int
+    hard_stop: int
+    quota_kinds: frozenset
+    # D3: cumulative ceiling of proven-zero-token retries, counted apart from the
+    # per-stage scientific quotas. Zero keeps the historical behaviour.
+    retry_quota: int = 0
+    # D3: consecutive failed technical attempts on one service that stop the campaign.
+    consecutive_failure_stop: int = 0
+
+
+PILOT_PROFILE = LedgerProfile(
+    name="pilot", stages=frozenset(ACTIVE_STAGES), base_limits=dict(BASE_LIMITS),
+    planned_maximum=160, hard_stop=200,
+    quota_kinds=frozenset({"base", "remediation", "transport", "technical", "requalification"}))
+FINAL_BATCH_PROFILE = LedgerProfile(
+    name="final_batch", stages=frozenset(FINAL_BATCH_STAGES), base_limits=dict(FINAL_BATCH_LIMITS),
+    planned_maximum=sum(FINAL_BATCH_LIMITS.values()) + FINAL_RETRY_QUOTA,
+    hard_stop=sum(FINAL_BATCH_LIMITS.values()) + FINAL_RETRY_QUOTA,
+    quota_kinds=frozenset({"base", "transport"}),
+    retry_quota=FINAL_RETRY_QUOTA,
+    consecutive_failure_stop=FINAL_CONSECUTIVE_FAILURE_STOP)
+PROFILES = {profile.name: profile for profile in (PILOT_PROFILE, FINAL_BATCH_PROFILE)}
 DIAGNOSES = {"structure", "identifiers", "cap", "leakage"}
 TOKENIZER_ACCOUNTING_SNAPSHOT = "Qwen/Qwen3.5-122B-A10B-FP8@a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9"
 TOKENIZER_ACCOUNTING_MODEL = "qwen3.5-122b"
@@ -159,7 +226,11 @@ def load_tokenizer_accounting_guard(snapshot: Path, *, template_kwargs=None):
 
 
 class PilotLedger:
-    def __init__(self, path: Path, *, pilot_id: str, identity_path: Path | None = None):
+    def __init__(self, path: Path, *, pilot_id: str, identity_path: Path | None = None,
+                 profile: str = "pilot"):
+        if profile not in PROFILES:
+            raise HarnessError("unknown ledger profile")
+        self.profile = PROFILES[profile]
         if not path.is_absolute():
             raise HarnessError("pilot ledger path must be absolute and shared across worktrees")
         if identity_path is not None and not Path(identity_path).is_absolute():
@@ -204,6 +275,35 @@ class PilotLedger:
             c.execute("INSERT OR IGNORE INTO pilot VALUES (?)", (pilot_id,))
             if [r[0] for r in c.execute("SELECT id FROM pilot")] != [pilot_id]:
                 raise HarnessError("ledger belongs to a different pilot; counters cannot be reset by renaming")
+            self._bind_profile(c)
+
+    def _bind_profile(self, c):
+        """Create-once declaration of the quota envelope.
+
+        A ledger written before 7.4 carries no declaration and is, by definition, a pilot
+        ledger: it is never rewritten here. Any other profile records its name once and
+        every later open is refused if it does not match.
+        """
+        declared = [row[0] for row in c.execute("SELECT event FROM events")
+                    if row[0].startswith(PROFILE_EVENT_PREFIX)]
+        if len(declared) > 1:
+            raise HarnessError("ledger declares more than one quota profile")
+        if declared:
+            if declared[0] != PROFILE_EVENT_PREFIX + self.profile.name:
+                raise HarnessError("ledger profile differs from the declared quota envelope")
+            return
+        if self.profile.name == "pilot":
+            return
+        if c.execute("SELECT count(*) FROM requests").fetchone()[0]:
+            raise HarnessError("a ledger with requests cannot adopt a new quota envelope")
+        detail = {"profile": self.profile.name,
+                  "base_limits": dict(sorted(self.profile.base_limits.items())),
+                  "planned_maximum": self.profile.planned_maximum,
+                  "hard_stop": self.profile.hard_stop,
+                  "quota_kinds": sorted(self.profile.quota_kinds),
+                  "retry_quota": self.profile.retry_quota,
+                  "consecutive_failure_stop": self.profile.consecutive_failure_stop}
+        self._event(c, PROFILE_EVENT_PREFIX + self.profile.name, digest(detail), detail)
 
     def _connect(self):
         c = sqlite3.connect(self.path, timeout=30)
@@ -237,7 +337,7 @@ class PilotLedger:
         self._quota_predecessors(c)
         rows = self._rows(c)
         for stage in sorted({row['stage'] for row in rows}):
-            if stage not in ACTIVE_STAGES:
+            if stage not in self.profile.stages:
                 raise HarnessError('persisted attempt has an unknown stage')
             self._validate_attempts(c, self._binding(c, stage),
                                     [row for row in rows if row['stage'] == stage])
@@ -1098,7 +1198,7 @@ class PilotLedger:
         if (expected_stage is None) != (expected_messages is None):
             raise HarnessError(
                 'FATAL_ACCOUNTING_ERROR: expected messages require an explicit stage')
-        if expected_stage is not None and (expected_stage not in ACTIVE_STAGES
+        if expected_stage is not None and (expected_stage not in self.profile.stages
                 or not isinstance(expected_messages, dict)
                 or not all(isinstance(key, str) and key for key in expected_messages)):
             raise HarnessError(
@@ -1323,6 +1423,90 @@ class PilotLedger:
         except sqlite3.IntegrityError as exc:
             raise HarnessError(f"event is create-once: {event}") from exc
 
+    def _canary_days(self, c):
+        events = self._events(c)
+        passed = [e[len(CANARY_PASS_PREFIX):] for e in events if e.startswith(CANARY_PASS_PREFIX)]
+        marked = [e[len(CANARY_MARKED_PREFIX):] for e in events if e.startswith(CANARY_MARKED_PREFIX)]
+        stops = [e for e in events if e.startswith(CANARY_STOP_PREFIX)]
+        return sorted(passed), sorted(marked), sorted(stops)
+
+    def _canary_day_slot(self, c, day):
+        """Validate that exactly one complete, unrecorded canary day is being closed."""
+        if self.profile.name != 'final_batch':
+            raise HarnessError("canary verdicts belong to the final-batch profile")
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(day)):
+            raise HarnessError("canary day must be an ISO civil date")
+        passed, marked, stops = self._canary_days(c)
+        if stops:
+            raise HarnessError("a canary stop is already in force")
+        if day in passed or day in marked:
+            raise HarnessError("canary day already recorded")
+        index = len(passed) + len(marked) + 1
+        if index > CANARY_MAX_DAYS:
+            raise HarnessError(f"canary allowance of {CANARY_MAX_DAYS} days is exhausted")
+        prefix = f"canary:day{index}:"
+        rows = [r for r in self._rows(c)
+                if r['stage'] == FINAL_CANARY_STAGE and r['logical_id'].startswith(prefix)]
+        return index, rows, passed, marked
+
+    def record_canary_day(self, day, *, verdict, comparison, expectations_sha256, identity=None,
+                          observed_day=None):
+        """Create-once verdict of one canary day (§6). Ten complete calls, no rewriting.
+
+        ``observed_day`` is the Europe/Rome day read from the clock when the day was run.
+        A canary opens the day it belongs to, so the two must coincide: a declared day that
+        does not match the observed one is refused here as well as in the runner, and both
+        values stay in the event (review rilievo B1).
+        """
+        if verdict not in {'PASS', 'MARKED'}:
+            raise HarnessError("canary verdict must be PASS or MARKED")
+        if not isinstance(comparison, dict) or 'marked_day' not in comparison:
+            raise HarnessError("canary verdict requires its comparison artifact")
+        if bool(comparison['marked_day']) != (verdict == 'MARKED'):
+            raise HarnessError("canary verdict contradicts its comparison")
+        self._require_hash(expectations_sha256, 'canary expectations')
+        if observed_day is not None and observed_day != day:
+            raise HarnessError(
+                f"canary day {day} was declared but the observed Europe/Rome day is "
+                f"{observed_day}; a canary never crosses midnight")
+        with self._transaction() as c:
+            index, rows, passed, marked = self._canary_day_slot(c, day)
+            if len(rows) != CANARY_DAILY_CALLS or any(r['status'] != 'COMPLETED' for r in rows):
+                raise HarnessError("a canary day closes only on ten complete calls")
+            detail = dict(day=day, day_index=index, verdict=verdict,
+                          declared_day=day, observed_day=observed_day or day,
+                          expectations_sha256=expectations_sha256, comparison=comparison,
+                          request_ids=sorted(r['request_id'] for r in rows))
+            if identity is not None:
+                # §6 identity control: returned_model AND system_fingerprint observed on
+                # every canary call of the day, persisted with the verdict.
+                if not isinstance(identity, dict) or not identity:
+                    raise HarnessError("canary identity evidence must be a non-empty mapping")
+                detail['identity'] = identity
+            prefix = CANARY_PASS_PREFIX if verdict == 'PASS' else CANARY_MARKED_PREFIX
+            self._event(c, prefix + day, digest(detail), detail)
+            if verdict == 'MARKED' and len(marked) + 1 >= 2:
+                stop = dict(day=day, marked_days=sorted(marked + [day]),
+                            rule="second marked day: author decision before any resumption")
+                self._event(c, CANARY_STOP_PREFIX + 'second_marked_day:' + day, digest(stop), stop)
+            return detail
+
+    def record_canary_stop(self, day, *, reason, detail, observed_day=None):
+        """Immediate canary stop (§6.3): identity change before any further call.
+
+        A stop is always recordable, so a mismatch between declared and observed day is
+        preserved here rather than refused: the evidence must survive.
+        """
+        if self.profile.name != 'final_batch':
+            raise HarnessError("canary stops belong to the final-batch profile")
+        if not isinstance(reason, str) or not reason.strip():
+            raise HarnessError("a canary stop requires a written reason")
+        value = dict(day=day, declared_day=day, observed_day=observed_day or day,
+                     reason=reason, detail=detail)
+        with self._transaction() as c:
+            self._event(c, CANARY_STOP_PREFIX + 'identity:' + str(day), digest(value), value)
+            return value
+
     def record_event(self, event, *, artifact_sha256, detail):
         if not event.startswith('note:'):
             raise HarnessError("public events may only be non-normative notes")
@@ -1351,13 +1535,13 @@ class PilotLedger:
 
     def bind_stage(self, stage, binding):
         """Freeze exact requests, provider, prompts, inputs and template before reservation."""
-        if stage not in ACTIVE_STAGES:
+        if stage not in self.profile.stages:
             raise HarnessError("invalid stage")
         specs = binding.get('requests', [])
         required = {'logical_id', 'model', 'producer', 'prompt_sha256', 'case_sha256', 'contract_sha256', 'condition', 'group', 'repetition'}
         if not isinstance(specs, list) or len({s.get('logical_id') for s in specs}) != len(specs):
             raise HarnessError("request plan requires unique logical identities")
-        expected = BASE_LIMITS[stage]
+        expected = self.profile.base_limits[stage]
         if (stage == 'budget_probe' and len(specs) not in {3, 6, 9}) or (stage != 'budget_probe' and len(specs) != expected):
             raise HarnessError("request plan has wrong coverage")
         for s in specs:
@@ -1462,6 +1646,41 @@ class PilotLedger:
         with self._transaction() as c:
             self._successful(c, stage)
 
+    def _consecutive_technical_failures(self, c):
+        """Consecutive failed technical attempts per service, retries included (D3).
+
+        Derived from the request table in insertion order, so the counter is persistent
+        by construction: restarting the runner, renaming a directory or opening the
+        ledger again cannot reset it. A request that reaches ``COMPLETED`` -- a response
+        was received, valid or not -- resets its service; ``FAILED`` and the reconciled
+        ``ZERO_TOKEN_PROVEN`` both record that the attempt failed technically.
+        """
+        counters: dict = {}
+        for row in self._rows(c):
+            if row['status'] == 'INTENT':
+                continue
+            service = row['model']
+            if row['status'] == 'COMPLETED':
+                counters[service] = 0
+            else:
+                counters[service] = counters.get(service, 0) + 1
+        return counters
+
+    def consecutive_technical_failures(self):
+        with closing(self._connect()) as c:
+            return self._consecutive_technical_failures(c)
+
+    def _technical_failure_stop(self, c):
+        limit = self.profile.consecutive_failure_stop
+        if not limit:
+            return {}
+        return {service: count for service, count
+                in self._consecutive_technical_failures(c).items() if count >= limit}
+
+    def technical_failure_stop(self):
+        with closing(self._connect()) as c:
+            return self._technical_failure_stop(c)
+
     def _prerequisites(self, c, stage):
         """Validate the dependency chain for both new work and reuse of closed results.
 
@@ -1483,6 +1702,22 @@ class PilotLedger:
                     raise HarnessError(
                         "successor producer conformity requires successful technical qualification"
                     ) from exc
+        if self.profile.name == 'final_batch':
+            if any(event.startswith(CANARY_STOP_PREFIX) for event in events):
+                raise HarnessError("canary STOP blocks every further call of the final batch")
+            stopped = self._technical_failure_stop(c)
+            if stopped:
+                raise HarnessError(
+                    f"STOP: {self.profile.consecutive_failure_stop} consecutive technical "
+                    f"failures on {sorted(stopped)}; the campaign is suspended with results "
+                    "and pending requests preserved")
+            if stage in FINAL_PASS_STAGES:
+                if not any(event.startswith(CANARY_PASS_PREFIX) for event in events):
+                    raise HarnessError("the scientific batch requires a passed canary day first")
+                index = FINAL_PASS_STAGES.index(stage)
+                if index and 'outcome:' + FINAL_PASS_STAGES[index - 1] not in events:
+                    raise HarnessError(
+                        f"pass {index + 1} cannot start before {FINAL_PASS_STAGES[index - 1]} is closed")
         if stage == 'producer_remediation' and ('remediation_authorized' not in events or 'remediation_waived' in events):
             raise HarnessError("remediation is not authorized")
         if stage in {'budget_probe', 'stability_gate'}:
@@ -1510,15 +1745,39 @@ class PilotLedger:
     def _insert_intent(self, c, *, request_id, logical_id, model, producer, stage, stage_run, quota_kind, retry_of):
         rows = self._rows(c)
         successor, predecessors = self._quota_context(c)
-        if len(rows) + len(predecessors) >= 200:
-            raise HarnessError("pilot cumulative hard stop 200 reached")
-        successor_extra = int(successor)
-        requalification_extra = (sum(r['quota_kind'] == 'requalification' for r in rows)
-                                 + int(quota_kind == 'requalification'))
-        max_calls = (160 if stage == 'alternate_conformity' or any(
-            r['stage'] == 'alternate_conformity' for r in rows) else 152) + successor_extra + requalification_extra
-        if len(rows) >= max_calls:
-            raise HarnessError(f"planned request maximum {max_calls + len(predecessors)} reached")
+        profile = self.profile
+        if quota_kind not in profile.quota_kinds:
+            raise HarnessError(f"quota kind {quota_kind} is not admitted by profile {profile.name}")
+        if len(rows) + len(predecessors) >= profile.hard_stop:
+            raise HarnessError(f"cumulative hard stop {profile.hard_stop} reached")
+        if profile.name == 'pilot':
+            successor_extra = int(successor)
+            requalification_extra = (sum(r['quota_kind'] == 'requalification' for r in rows)
+                                     + int(quota_kind == 'requalification'))
+            max_calls = (160 if stage == 'alternate_conformity' or any(
+                r['stage'] == 'alternate_conformity' for r in rows) else 152) + successor_extra + requalification_extra
+            if len(rows) >= max_calls:
+                raise HarnessError(f"planned request maximum {max_calls + len(predecessors)} reached")
+        else:
+            # Protocol §7.2 with author decision D3: exceeding a per-stage quota, the
+            # separate retry ceiling or the total is a batch STOP. Scientific slots are
+            # counted on the base requests alone, so a retry never consumes one.
+            if len(rows) >= profile.planned_maximum:
+                raise HarnessError(f"planned request maximum {profile.planned_maximum} reached")
+            limit = profile.base_limits.get(stage)
+            if limit is None:
+                raise HarnessError(f"stage {stage} has no quota in profile {profile.name}")
+            if limit == 0:
+                raise HarnessError(
+                    f"stage {stage} has quota 0 in profile {profile.name}; a call on it "
+                    "requires a declared protocol revision")
+            if quota_kind == 'transport':
+                used = sum(r['quota_kind'] == 'transport' for r in rows) + 1
+                if used > profile.retry_quota:
+                    raise HarnessError(
+                        f"cumulative retry quota {profile.retry_quota} is exhausted")
+            elif sum(r['stage'] == stage and r['retry_of'] is None for r in rows) >= limit:
+                raise HarnessError(f"stage quota {limit} for {stage} is exhausted")
         predecessor_request_ids = {row["request_id"] for row in predecessors}
         if request_id in predecessor_request_ids or retry_of in predecessor_request_ids:
             raise HarnessError("predecessor lineage cannot be reused as a native request or retry")
@@ -1559,13 +1818,17 @@ class PilotLedger:
                 raise HarnessError("technical qualification is never retryable")
         elif any(r['stage'] == stage and r['logical_id'] == logical_id for r in rows):
             raise HarnessError("duplicate logical base across restart/alias/directory")
-        remediation = sum(r['quota_kind'] == 'remediation' for r in rows) + (quota_kind == 'remediation')
-        transport = sum(r['quota_kind'] == 'transport' for r in rows) + (quota_kind == 'transport')
-        if remediation > 8 or 8 * int(remediation > 0) + transport > 15:
-            raise HarnessError("shared reserve constraint 8r+t<=15 violated")
-        events = self._events(c)
-        if transport > 7 and (stage == 'budget_probe' or 'remediation_waived' not in events):
-            raise HarnessError("transport beyond seven requires waiver and is never available to probe")
+        if profile.name == 'pilot':
+            # The pilot shared reserve (8r + t <= 15) is a pilot envelope: the final batch
+            # has its own separate retry quota and never borrows from a remediation
+            # reserve it does not own.
+            remediation = sum(r['quota_kind'] == 'remediation' for r in rows) + (quota_kind == 'remediation')
+            transport = sum(r['quota_kind'] == 'transport' for r in rows) + (quota_kind == 'transport')
+            if remediation > 8 or 8 * int(remediation > 0) + transport > 15:
+                raise HarnessError("shared reserve constraint 8r+t<=15 violated")
+            events = self._events(c)
+            if transport > 7 and (stage == 'budget_probe' or 'remediation_waived' not in events):
+                raise HarnessError("transport beyond seven requires waiver and is never available to probe")
         if quota_kind == 'remediation' and stage != 'producer_remediation':
             raise HarnessError("remediation quota is exclusive")
         if stage == 'producer_remediation' and quota_kind == 'base':
@@ -1632,6 +1895,25 @@ class PilotLedger:
                 raise HarnessError("probe retry must preserve one original budget group")
             for v in values:
                 self._insert_intent(c, stage='budget_probe', quota_kind='transport', **{k: v[k] for k in ('request_id','logical_id','model','producer','stage_run','retry_of')})
+
+    def completion_instants(self, stage):
+        """Read-only: the completion instants of one stage, oldest first.
+
+        Used by the runner to prove that a lot which now runs past midnight really began
+        on the civil day it declares (review rilievo B1).
+        """
+        if stage not in self.profile.stages:
+            raise HarnessError("unknown stage for this quota profile")
+        with closing(self._connect()) as c:
+            return [row[0] for row in c.execute(
+                "SELECT completed_utc FROM requests WHERE stage=? AND completed_utc IS NOT NULL"
+                " ORDER BY completed_utc", (stage,))]
+
+    def attempts(self, stage, logical_id):
+        """Every attempt recorded for one logical request, in insertion order."""
+        with closing(self._connect()) as c:
+            return [dict(r) for r in self._rows(c)
+                    if r['stage'] == stage and r['logical_id'] == logical_id]
 
     def request(self, request_id):
         with closing(self._connect()) as c:
@@ -1985,7 +2267,7 @@ class PilotLedger:
         return records
 
     def record_stage_outcome(self, stage, *, outcome, artifact_sha256, artifact=None, diagnosis=None, frozen=None):
-        if stage not in ACTIVE_STAGES or outcome not in {'PASS','FAIL','BLOCKED'}:
+        if stage not in self.profile.stages or outcome not in {'PASS','FAIL','BLOCKED'}:
             raise HarnessError("unsupported stage outcome")
         self._require_hash(artifact_sha256, 'outcome artifact')
         with self._transaction() as c:
@@ -2167,13 +2449,15 @@ class PilotLedger:
         with closing(self._connect()) as c:
             rows, events = self._rows(c), self._events(c)
             successor, predecessors = self._quota_context(c)
+            consecutive = self._consecutive_technical_failures(c)
             raw_count = c.execute("SELECT count(*) FROM responses").fetchone()[0]
-        by_stage = {s: sum(r['stage'] == s for r in rows) for s in sorted(ACTIVE_STAGES)}
+        by_stage = {s: sum(r['stage'] == s for r in rows) for s in sorted(self.profile.stages)}
         remediation = sum(r['quota_kind'] == 'remediation' for r in rows)
         transport = sum(r['quota_kind'] == 'transport' for r in rows)
         requalification = sum(r['quota_kind'] == 'requalification' for r in rows)
         planned_without_alternate = 152 + int(successor) + len(predecessors) + requalification
         planned_with_alternate = 160 + int(successor) + len(predecessors) + requalification
+        planned_maximum = self.profile.planned_maximum
         return dict(pilot_id=self.pilot_id, ledger_path=str(self.identity_path),
                     requests_cumulative=len(rows)+len(predecessors), native_requests=len(rows),
                     historical_requests=len(predecessors),
@@ -2183,10 +2467,18 @@ class PilotLedger:
                     remediation_calls=remediation, transport_calls=transport,
                     requalification_calls=requalification,
                     reserve_equation_value=8*int(remediation>0)+transport, reserve_limit=15,
-                    planned_maximum=(planned_with_alternate if by_stage['alternate_conformity']
-                                     else planned_without_alternate),
+                    planned_maximum=(planned_maximum if self.profile.name != 'pilot' else
+                                     (planned_with_alternate if by_stage['alternate_conformity']
+                                      else planned_without_alternate)),
                     planned_maximum_without_alternate=planned_without_alternate,
                     planned_maximum_with_alternate=planned_with_alternate,
-                    hard_stop=200,
-                    hard_stop_margin_at_planned_maximum=200-planned_with_alternate,
+                    profile=self.profile.name,
+                    stage_quota=dict(sorted(self.profile.base_limits.items())),
+                    retry_quota=self.profile.retry_quota,
+                    retry_quota_used=transport if self.profile.retry_quota else 0,
+                    consecutive_technical_failures=dict(sorted(consecutive.items())),
+                    consecutive_failure_stop=self.profile.consecutive_failure_stop,
+                    hard_stop=self.profile.hard_stop,
+                    hard_stop_margin_at_planned_maximum=self.profile.hard_stop - (
+                        planned_maximum if self.profile.name != 'pilot' else planned_with_alternate),
                     durable_responses=raw_count, events=sorted(events))
