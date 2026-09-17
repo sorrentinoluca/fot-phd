@@ -1,0 +1,976 @@
+{
+  "artifact_version": "4.0",
+  "status": "CANDIDATE_NOT_EFFECTIVE_NOT_AUTHORIZATIVE",
+  "created_date": "2026-09-18",
+  "base_commit": "9edf31e56572aaa4cd36ac9307ad014c3a7a22e2",
+  "branch": "codex/studio2-freeze-protocollo-finale",
+  "candidate": {
+    "path": "studio2/fase03/protocollo_finale/PROTOCOLLO_FINALE_CANDIDATE.md",
+    "sha256": "5d130dd4813023902463fda819235159d106f0d5f4c2abc0c627ec67fd21489b",
+    "hash_scope": "physical file bytes"
+  },
+  "proposed_tag_not_created": "studio2-fase03-protocollo-finale-frozen-001",
+  "freeze_effective": false,
+  "execution_authorized": false,
+  "blocking_dependencies": [
+    "independent review of the FIX-3 and protocol revision 4 deltas only",
+    "integration in order rem6 through 74c5d3dca78fc22c3de1e675e50e7d0870f45ecc then protocol branch, with both Mac suite logs reachable from main",
+    "annotated tag studio2-fase03-protocollo-finale-frozen-001",
+    "post-tag 7.4-MAT"
+  ],
+  "author_decisions_2026_09_17": {
+    "producer_swap_faults": [
+      "F1",
+      "F8",
+      "F10",
+      "F13"
+    ],
+    "producer_swap_scope": "descriptive; continuity faults only",
+    "producer_libraries": {
+      "G_P": {
+        "reuse": true,
+        "future_calls": 0,
+        "library_file_sha256": "1e97ddd3525c414f6d5ddd240e98d358720937e912edb4e27644374e8b2eea09",
+        "library_canonical_sha256": "c2469737bcaab0df8d07a1c2493d2f95784aae07a55998aecf49cc53fa5d1a30",
+        "template_sha256": "4306c5da6f0ebefcbce75d26d585caf82cc05ff85d5e7e6639e3f65b2d66de12"
+      },
+      "G_A": {
+        "reuse": true,
+        "future_calls": 0,
+        "library_file_sha256": "c697e803be178235c37d37caf7ec1ef65a0761db44e097f2d422e7498eef73c9",
+        "library_canonical_sha256": "f860063befb6a409f4ecf824e4dd7b57002cc8e67809184dadd03d0b934a05f3",
+        "template_sha256": "e7e80d59b2def37bea8f20186fc297583e2c8b0dea390a3351c7843d841619e7"
+      }
+    },
+    "template_asymmetry": "accepted and declared; bidirectional variable coverage is 6/16 for G_P and 0/16 for G_A",
+    "E5": "excluded from this protocol; planned only as a later separately frozen study",
+    "normative_source": {
+      "path": "studio2/fase03/protocollo_finale/DECISIONI_AUTORE_7_3_REV2_2026-09-17.md",
+      "sha256": "535939de1d8c1e6f8185fd838a6bd20caca85b5f09c7908f679f251761aaccb2",
+      "status": "byte-identical copy; D1-D5 binding"
+    }
+  },
+  "author_decisions_rev3": {
+    "path": "studio2/fase03/protocollo_finale/DECISIONI_AUTORE_7_3_REV3.md",
+    "sha256": "7826f7afdf73e1d69422402d6cb0f93cf2a625e9011ebcfb2d0dcecbe3be164a",
+    "X": 0,
+    "retry_quota": 400,
+    "backoff_seconds": [30, 60, 120, 240],
+    "backoff_cap_seconds": 900,
+    "consecutive_failures_per_service_stop": 5,
+    "daily_civil_day_canary_barrier": true,
+    "maximum_calls": 7202,
+    "materialization_phase": "7.4-MAT after annotated tag",
+    "D11_outcome": "TANGO_MANTENUTO",
+    "D11_review_record": "studio2/fase03/protocollo_finale/VERIFICA_FINALE_PROTOCOLLO_RUNNER_H3.md"
+  },
+  "S18_diff": {
+    "status": "PASS_FINAL_INPUT_REVIEWED; FIX-3_DELTA_REVIEW_PENDING",
+    "renderer_sha256": "791fa347e97ca49e15a8b7ca1e02e0e38c0be37e23eece092c8a094e9a653d1e",
+    "input_manifest_sha256": "67e7584a80d743efc06edc4c97019c20803cc4787c1d70c8d924ad23736612e8",
+    "library_canonical_sha256": "c2469737bcaab0df8d07a1c2493d2f95784aae07a55998aecf49cc53fa5d1a30",
+    "recipients": 8,
+    "peer_records_per_recipient": 14,
+    "records_compared": 112,
+    "changed_fields": {
+      "pseudolabel": 112,
+      "insight_id": 0,
+      "source_agent": 0,
+      "evidence_scope": 0,
+      "variable_ids": 0,
+      "observed_pattern": 0
+    },
+    "final_manifest_and_renderer_verification": {
+      "B_E_pairs_passed": 624,
+      "B_noLF_prompts_passed": 148,
+      "max_tokens": 5284,
+      "p95_tokens": 5219,
+      "status": "PASS_REVIEWED; FIX-3_DELTA_REVIEW_PENDING"
+    }
+  },
+  "repository_sources": [
+    {
+      "path": "docs/MAINTENANCE.md",
+      "sha256": "77b4768c2b6ae1bc27d2e1aaaa56f9c38626add20b2f5e74f6a426eef7a66ec0",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md",
+      "sha256": "d3cac5ba80c12ade2dfba2a1f8816b61a8466b5f5415d638209f692c1b5f902b",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/perimetro_q8/REPORT_PERIMETRO_Q8.md",
+      "sha256": "d3ebdce17977cb8c14751161e324b5ceceac67e498ae27c5d1a36a8a41ab3b52",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/selection/CATALOG_FREEZE.json",
+      "sha256": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/selection/CRITERIA_FREEZE_rev002.json",
+      "sha256": "67785912feae29212001f7deb0a21b468d4d768421269e900314bef88ea41d21",
+      "hash_scope": "physical file bytes",
+      "source_commit": "ab43f0b20f45cdb475c0caf52c6f7afcbae50891",
+      "containing_tag": "studio2-fase03-catalogo-D1-frozen-001"
+    },
+    {
+      "path": "studio2/fase03/soglie_normal/THRESHOLD_FREEZE.json",
+      "sha256": "ff5c27002a2548003e4bc5f54805cda3754fb19b9cb2559222996b9c7f7e14a9",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/evidence/REPORT_EVIDENCE.md",
+      "sha256": "24d861ab0506161786b4e8456e084fb8c12dd447dfc8ca74c337b9b81db52822",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/PSEUDOLABEL_FREEZE.json",
+      "sha256": "21c9e52f94f508e02ae98a3957e3e55c9661334a44fedc25011c033fc4fabaec",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/PSEUDOLABEL_MAP.json",
+      "sha256": "b0ce81d53f11038ddf51c9ec964a1e838a7045e2e57b8ac3368f05e9a215bbc6",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/AGENT_ASSIGNMENT.json",
+      "sha256": "df7434230dcd1d5460cd19e0d27e909efd40289f64d89a4b3fee2a0e55b79fcf",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/pseudolabel/CONDITION_E_DERANGEMENTS.json",
+      "sha256": "34350c7e49b11d29b885da128d4b34ce3df31cd41df7c521cb66421aa1b9d001",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/piano_statistico/PIANO_STATISTICO_FREEZE.json",
+      "sha256": "a69c4f684d93b4d4665a3b3c58e96406ef5efbdc779c5a708ea7fe5a510f80f8",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev005.json",
+      "sha256": "c52c7231021f52fc7b60b3b55eb67b5205854176395eb809db4d20227978b7cc",
+      "hash_scope": "physical file bytes",
+      "source_commit": "a00605862f627710347bd63c49f79a6d0a00135f",
+      "note": "postdates baseline-numerica-frozen-001; not claimed at that tag"
+    },
+    {
+      "path": "studio2/fase03/harness/ACQUISIZIONE_OK_CHIUSURA_03_10.md",
+      "sha256": "2e057a07224d113e817c645913f22e47c4438ead426f7559e45fdede4ea6440d",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/harness/PRESENTATION_ORDER_APPROVAL_2026-09-15.json",
+      "sha256": "0f9f7b7f4036bd4172467dba80673af5d9ec3abb2bb854d6239da7ccec2977d1",
+      "hash_scope": "physical file bytes",
+      "declared_ordered_labels_sha256": "6ec43fb83af732788086138d4da60a2e9fbb4fd67e334ad513b0a240b8119f2a",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/harness/sampling.py",
+      "sha256": "3ad3291f7084a2fa7865351734c6226a9efe0c9b176f241fe1bdbfe8500c6a8f",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/harness/canary.py",
+      "sha256": "f20718fa62713f2792e1e59a959779b4e5088fc1f9dff0647e366998b0e3e65c",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/harness/EVIDENZA_REMEDIATION_PRODUCER_122B_PILOT_03_03_13.manifest.json",
+      "sha256": "84165178b42f306f1fc6434e9ffc97f937e267643d9332bea2a3b4d4ad5f935c",
+      "hash_scope": "physical file bytes",
+      "declared_remediation_template_sha256": "4306c5da6f0ebefcbce75d26d585caf82cc05ff85d5e7e6639e3f65b2d66de12",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/fault_runs/SIGILLO_LOTTO_03_11.json",
+      "sha256": "9bd02e900429e971c08cbb8fc81f5dec54b8dcfb30b90e19faf622bb8558739d",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/fault_runs/ACQUISIZIONE_OK_ESECUZIONE_03_11.md",
+      "sha256": "ddd986c1fb54359d0dd059c58994136d6b71d0fccad8298665b6019848f81208",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/fault_runs/AGGIORNAMENTO_PUBBLICAZIONE_E_RIVERIFICA_03_11_2026-09-17.md",
+      "sha256": "1c382fda87bc99d2177461c44fdef1ae50e977abfa9b5113a57587dab3e0bc2c",
+      "hash_scope": "physical file bytes",
+      "status": "three of three assets redownloaded and verified; historical acquisition record unchanged"
+    },
+    {
+      "path": "studio2/fase03/schema_insight/SCHEMA_FREEZE.json",
+      "sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/schema_insight/insight_v1.schema.json",
+      "sha256": "15e0d29e033c1d699d4f1114b5fdf378ad1cea8398c89b133403a92983229de6",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/schema_insight/leakage_rules_v1.json",
+      "sha256": "1cf035b5d5e7a7f4cc909dc0a04f6f0da6580284d32710f3ee6924533c706a7a",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/pilot/REPORT_PILOT_03_13.md",
+      "sha256": "daf79ab1990ceb78712223067c024527d01eb2b67fa751eaa66f30615cf59049",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/pilot/VERIFICA_ESITO_PILOT_03_13.md",
+      "sha256": "1ce0a466586a65993d1269476f9de8a4812b9f64a20eae71cd9aec7e8bee4b70",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/fedavg/FEDAVG_FREEZE.json",
+      "sha256": "6a93ef43177a3bbafa412d68cc3ab4bdf330fc5d718e3783ae1f9d2f652bf9a2",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/fedavg/FINAL_PROTOCOL.json",
+      "sha256": "5eaa041852b6573314f07ee0bf39f20d1e78c5b260d476676fe911452c476f9a",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/protocol.py",
+      "sha256": "791fa347e97ca49e15a8b7ca1e02e0e38c0be37e23eece092c8a094e9a653d1e",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "phase_b/c06/prompts/B_LOCAL_FIRST_V1.txt",
+      "sha256": "4e6cc81f87033f0b3bcddebff694e7f446e31c228c5ac1f7560b9552aada6192",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/paper_sections/REPORT_PAPER_SECTIONS.md",
+      "sha256": "a15387ffcc237f001c0c8692f1b19edfdf2cd04fa1803a58a79920c403488b3d",
+      "hash_scope": "physical file bytes",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06"
+    },
+    {
+      "path": "studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+      "sha256": "c9814cfc750fb34665b6e5b6bc04790a2088a921fe6b1df8a783694b44e58143",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "sha256": "59d6f7c70a5ccb5c99cb9dcee6e9fc9069b753aa3b935a0f6055dd6642cf6e56",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "studio2/fase03/harness/CONTRATTO_ESECUZIONE_E_RIPRESA.md",
+      "sha256": "b4e822a300eaf1f1b23c8e76f9043374678ca3bbce84e8efd365167a998d48dc",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "studio2/fase03/protocollo_finale/DECISIONI_AUTORE_7_3_REV2_2026-09-17.md",
+      "sha256": "535939de1d8c1e6f8185fd838a6bd20caca85b5f09c7908f679f251761aaccb2",
+      "source_revision": "included with candidate rev2 commit",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "studio2/fase03/protocollo_finale/ADDENDUM_PIANO_STATISTICO_FINESTRE.md",
+      "sha256": "4a428d241981f4a70731398a67076df99f6c942f9536f6e82ac577cf6af06c05",
+      "source_revision": "addendum revision 2, Q1-Q3 reception; revision 1 retained at 1f9ebc5",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "studio2/fase03/protocollo_finale/VERIFICA_PILOT_03_13.md",
+      "sha256": "944db3d73ecb389f450b95f7228095e279dfb181321d929cff0a03c7ceaaabb2",
+      "source_revision": "included with candidate rev2 commit",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "studio2/fase03/protocollo_finale/PROMPT_7_3_REV2_CANDIDATO.md",
+      "sha256": "ce1a0fc37bf12cdcdbdf01eee8b865a4157d6c541ce0a1c65f63fb573f44c1c4",
+      "source_revision": "included with candidate rev2 commit",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "studio2/fase03/protocollo_finale/VERIFICA_PROTOCOLLO_FINALE.md",
+      "sha256": "d0fe9d316df6a813fa19dedae199ae9770c8155fb55060c817118496ca05261c",
+      "source_revision": "included with candidate rev2 commit",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "studio2/fase03/protocollo_finale/VERIFICA_PROTOCOLLO_FINALE_claude.md",
+      "sha256": "2719650d6c5e09d55dcba8420f91d5d559fba05d43a55df569eae89a4ea2990d",
+      "source_revision": "included with candidate rev2 commit",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "studio2/fase03/protocollo_finale/DECISIONI_AUTORE_7_3_REV2_Q1_Q3.md",
+      "sha256": "b7a830ecffe145343458bf654c84439e664ce994edf89e6d7d1dc2a2baef8c53",
+      "hash_scope": "physical file bytes",
+      "source_revision": "Q1-Q3 reception commit"
+    },
+    {
+      "path": "studio2/fase03/protocollo_finale/SPECIFICA_VERIFICA_SINTETICA_H3.md",
+      "sha256": "335fa789163c51cb36d6d557382eb8095e94e656d09ef5d3245a71e29d556272",
+      "hash_scope": "physical file bytes",
+      "source_revision": "Q1-Q3 reception commit"
+    },
+    {
+      "path": "studio2/fase03/protocollo_finale/VERIFICA_FINALE_PROTOCOLLO_RUNNER_H3.md",
+      "sha256": "a2fe4b6753cdbac04f0eaddd9902f735adeb0c201bc220d882532ec8f81fba6a",
+      "hash_scope": "physical file bytes",
+      "status": "A OK con rilievi; B OK con rilievi; C OK; TANGO MANTENUTO"
+    }
+  ],
+  "external_preserved_sources": [
+    {
+      "path": "/Users/luker/fot-tep/studio2/fase03/PROMPT_7_3_FREEZE_PROTOCOLLO_FINALE.md",
+      "sha256": "1f60f7f64e65f75a79c69fd6864a62320431208fe1f501bb4a2390b08b789cd5",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep/studio2/fase03/PROMPT_7_2_PREP_LIBRERIE_INSIGHT.md",
+      "sha256": "aa074abbca06d88f579947d16a39d87c183f58f8506d32cf5923176e9059d289",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep/studio2/fase03/HANDOFF_FASE03_2026-09-17_rev07.md",
+      "sha256": "5ee95c19d09258446c0539efdd9cbd1f23a75544532996b3ecec4810119e4013",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/librerie/LIBRERIE_FINALI_CANDIDATE.json",
+      "source_commit": "c284523badefdf6b4f4e131e99ba4dfbda31300c",
+      "sha256": "235fb0de37080a0a2076332b8587fd5fa6457600ed2228a13d3042e18058a5a3",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/librerie/RIUSO_LIBRERIE_7_2.md",
+      "source_commit": "c284523badefdf6b4f4e131e99ba4dfbda31300c",
+      "sha256": "90e939231c1b27d9ff2b58b6ce7dcde35c6dfc561576f8fe67cae4b744c7c036",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/librerie/VERIFICA_LIBRERIE_7_2.md",
+      "source_commit": "f0d0393a3702bd349d93ec9e7e60a740580445fb",
+      "sha256": "fce3b955584bb8fd0fca8d98f9985f4f1ffc2da4f93a9daa99c67e414f4aaad9",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/PILOT_INPUT_MANIFEST.frozen.json",
+      "sha256": "8417688869b75bda8235387ac830018ecdc9030442a860d495418f195f2b4014",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/results/validated_insight_library_qwen_122b_primary_producer_remediation.json",
+      "sha256": "1e97ddd3525c414f6d5ddd240e98d358720937e912edb4e27644374e8b2eea09",
+      "canonical_content_sha256": "c2469737bcaab0df8d07a1c2493d2f95784aae07a55998aecf49cc53fa5d1a30",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/results/validated_insight_library_qwen_27b_alternate_alternate_conformity.json",
+      "sha256": "c697e803be178235c37d37caf7ec1ef65a0761db44e097f2d422e7498eef73c9",
+      "canonical_content_sha256": "f860063befb6a409f4ecf824e4dd7b57002cc8e67809184dadd03d0b934a05f3",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "artifact": "studio2-fase03-evidence-v2.tar",
+      "sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf",
+      "hash_scope": "release archive bytes"
+    },
+    {
+      "artifact": "pilot-03/prepared/pilot_prompts.jsonl",
+      "sha256": "efd43620603b9c26dbbcc986ec80b663937fd48c05b82f2cb7406dadb61cf298",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "artifact": "pilot-03/results/stability_records.jsonl",
+      "sha256": "dde3f7de3c88bdee4844d14d3dd82daedd5e8fe7df70c465f1d3708c6f440ea6",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "artifact": "pilot-03/frozen_gate_config.json",
+      "sha256": "709ae3400238b3ecdf50ef5b7d377b0bea4fdf87fcec569994d24cace39fa8ac",
+      "hash_scope": "physical pretty-printed file bytes",
+      "canonical_content_sha256": "de1f59ceb28e50cd8b9027874f5d2d22cb1337ceab2e4dda8c2adda4b2dda6f2"
+    }
+  ],
+  "frozen_tags_referenced": [
+    "studio2-fase03-catalogo-D1-frozen-001",
+    "studio2-fase03-criteri-selezione-frozen-001",
+    "studio2-fase03-soglie-normal-frozen-001",
+    "studio2-fase03-pseudolabel-frozen-001",
+    "studio2-fase03-piano-statistico-frozen-001",
+    "studio2-fase03-baseline-numerica-frozen-001",
+    "studio2-fase03-schema-insight-frozen-001",
+    "studio2-fase03-pilot-v1"
+  ],
+  "budget": {
+    "R": 3,
+    "W_hours": 168,
+    "S": 0,
+    "U": 0,
+    "d": 7,
+    "G_P_max": 0,
+    "G_A_max": 0,
+    "X_max": 0,
+    "Q": 400,
+    "future_calls_max": 7202,
+    "future_calls_122b_max": 7202,
+    "future_calls_27b_max": 0,
+    "mean_T_hours": 52.43176033333333,
+    "mean_T_with_20_percent_hours": 62.9181124,
+    "p95_T_hours": 73.34216716666666,
+    "p95_T_with_20_percent_hours": 88.0106006,
+    "Q_status": "AUTHOR_FIXED_400_REVIEWED; FIX-3_DELTA_REVIEW_PENDING",
+    "base_future_calls_without_retries": 6802,
+    "maximum_formula": "6732 + 70 + 0 + 400",
+    "T5_status": "PASS_REVIEWED; FIX-3_DELTA_REVIEW_PENDING",
+    "latency_basis": {
+      "mean_seconds_per_call": 26.2086,
+      "p95_seconds_per_call": 36.6609,
+      "margin": 1.2
+    },
+    "p95_scope": "per-call latency projection, not percentile of total campaign",
+    "X_status": "fixed at zero; any future technical verification requires declared protocol revision"
+  },
+  "author_questions": [],
+  "predecessor_candidate_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06",
+  "window_assignment": {
+    "rule": "random balanced assignment by position separately within each fault and Normal",
+    "positions": 8,
+    "primary_runs_per_class": 8,
+    "windows_per_run": 1,
+    "ood_runs_per_fault": 3,
+    "ood_positions": "3 distinct of 8",
+    "estimand": "uniform mean over eight temporal positions; finite allocation unbiasedness distinguished from superpopulation inference",
+    "shared_across": [
+      "conditions",
+      "recipients",
+      "library_role",
+      "repetitions"
+    ],
+    "inputs": "run identifiers only; freeze before test signals/evidence",
+    "generator_seed_version": "numpy.random.Generator(PCG64(20260917)); namespace studio2-fase03-window-assignment-v1; one permutation(8) per lexicographically ordered group; OOD uses first three values",
+    "assigned_runs": 78,
+    "reserve_runs_excluded": 11,
+    "runs_with_eight_windows": "89/89",
+    "extracted_units": "78/78",
+    "artifact_sha256": "c809e79d2c03d74f4a5a37988eca809bda336468ab0060f794d3c214f9a6a775",
+    "canonical_assignment_sha256": "1ba7669ae9715e4c6313b6746a05f8d390eeee2877d7f41cc554146c9e35836b",
+    "status": "FROZEN_REVIEWED; FIX-3_DELTA_REVIEW_PENDING"
+  },
+  "B_noLF": {
+    "condition": "B-noLF",
+    "library_role": "G_P",
+    "definition": "B-LF minus only DECISION POLICY block",
+    "base_renderer_unchanged": true,
+    "new_renderer_path": "studio2/fase03/protocol_bnolf.py",
+    "new_renderer_sha256": "b716200e6fdb34fa6dc0e7264612820306026f1851b188ef772016fc633fca8c",
+    "base_renderer_sha256": "791fa347e97ca49e15a8b7ca1e02e0e38c0be37e23eece092c8a094e9a653d1e",
+    "diff_prompts_passed": 148,
+    "status": "PASS_REVIEWED; FIX-3_DELTA_REVIEW_PENDING",
+    "prompt_token_count": "full final prompt measured with qualified tokenizer; overall max 5284, p95 5219"
+  },
+  "retry_policy": {
+    "scope": "final batch only",
+    "eligible": "proved zero generated tokens including reasoning, request-bound durable proof after reconciliation",
+    "generated_invalid_or_truncated": "terminal no regeneration",
+    "valid_wrong_or_abstain": "terminal scientific outcome",
+    "unknown_consumption": "immediate stop; no automatic resend",
+    "permanent_error": "immediate stop",
+    "identity_change": "immediate stop",
+    "consecutive_technical_failures_per_service_stop": 5,
+    "counter_persistent": true,
+    "counter_reset": "identity-verified completed transport, not diagnostic validity",
+    "backoff_schedule_seconds": [30, 60, 120, 240],
+    "backoff_cap_seconds": 900,
+    "cumulative_retry_limit": 400,
+    "status": "IMPLEMENTED_7D58EFD; DOCUMENTED_74C5D3D; DELTA_REVIEW_PENDING"
+  },
+  "repetitions": {
+    "R": 3,
+    "primary": "always repetition 1",
+    "sensitivity_aggregation": "2 of 3 valid parsed pairs; else disagreement abstention",
+    "distinct_categories": [
+      "model_abstention",
+      "disagreement_abstention",
+      "invalid_output"
+    ],
+    "existing_scope": "PIANO_STATISTICO.md 10.4 audit 10 percent of nucleus only",
+    "additional_calls": 0,
+    "additional_scope": "all prompts, descriptive by block, no confirmatory tests",
+    "incomplete_triplet": "invalid_incomplete_triplet even if two valid votes agree; pending requests stop closure",
+    "status": "Q3_APPROVED; implementation/review pending",
+    "incomplete_triplet_origin": "generated invalid responses only; unresolved transports suspend closure"
+  },
+  "schedule": {
+    "rng": "numpy.random.Generator(PCG64(20260913))",
+    "numpy_reference_version": "2.2.6",
+    "namespace": "studio2-fase03-final-order-v1",
+    "operation": "Generator.permutation(2244), same generator successively for passes 1,2,3",
+    "sort": "lexicographic tuple of five string fields",
+    "id_fields": [
+      "block",
+      "condition",
+      "case_id",
+      "recipient_agent",
+      "library_role"
+    ],
+    "library_roles": {
+      "A": "none",
+      "B-LF": "G_P",
+      "E-LF": "G_P",
+      "B-noLF": "G_P",
+      "producer_swap": "G_A"
+    },
+    "scientific_stages": {
+      "final_batch_r1": 2244,
+      "final_batch_r2": 2244,
+      "final_batch_r3": 2244
+    },
+    "other_base_stages": {
+      "final_canary": 70,
+      "technical_verification": 0
+    },
+    "retry_quota": "separate shared cumulative Q=400, not multiplied per stage",
+    "historical_prep_commit": "9e0e086746111359e080b204f51aadb6dbc03e40",
+    "historical_inventory_sha256": "227e5e9c797dbfd8be746d85b77298f5dfb091846dc301f0b2e31ea1dbc6df3f",
+    "historical_schedule_sha256": "1acfc4044c53f113016ed0bfab58863291a9060a9edc9abadb68a21d30687819",
+    "final_inventory_sha256": "227e5e9c797dbfd8be746d85b77298f5dfb091846dc301f0b2e31ea1dbc6df3f",
+    "final_schedule_sha256": "1acfc4044c53f113016ed0bfab58863291a9060a9edc9abadb68a21d30687819",
+    "status": "FINAL_REVIEWED; FIX-3_DELTA_REVIEW_PENDING",
+    "pin_dependency_note": "inventory, schedule and window-assignment payload hashes include numpy_version and the historical e0db132 protocol reference; reproduce with NumPy 2.2.6 and do not overwrite the pins"
+  },
+  "final_input_manifest": {
+    "sha256": "67e7584a80d743efc06edc4c97019c20803cc4787c1d70c8d924ad23736612e8",
+    "status": "FINAL_CONDITIONAL_RUNNER_REVIEW",
+    "development_local_examples_agents_labels_source_sha256": "8417688869b75bda8235387ac830018ecdc9030442a860d495418f195f2b4014",
+    "scientific_prompt_count": 2244,
+    "scientific_request_count": 6732,
+    "condition_counts": {
+      "A": 624,
+      "B-LF": 848,
+      "E-LF": 624,
+      "B-noLF": 148
+    },
+    "block_counts": {
+      "nucleus": 1728,
+      "producer_swap": 224,
+      "ablation_b_no_lf": 148,
+      "ood": 144
+    },
+    "final_prompts_file_sha256": null,
+    "final_prompts_file_status": "product of 7.4-MAT; record its SHA at materialization",
+    "prompts_canonical_sha256": "b819200396da480d3ed9d4aa8f6b6aac8c135d97f0876b734a9b607b75736489",
+    "prompts_canonical_status": "binding and independently reproduced by the final review"
+  },
+  "runner_freeze": {
+    "final_commit": "74c5d3dca78fc22c3de1e675e50e7d0870f45ecc",
+    "code_commit": "7d58efd",
+    "reviewed_pre_fix3_commit": "a51ffd1d0e15c5e99bf35d68559618951650b1d9",
+    "review_record_sha256": "a2fe4b6753cdbac04f0eaddd9902f735adeb0c201bc220d882532ec8f81fba6a",
+    "fix3_report_sha256": "482ff5d804a0ba0df502510e47f8418806cd2f27d76c7cb19b6723a97c04ec07",
+    "status": "FINAL_CODE_AND_MAC_EVIDENCE_READY; FIX3_DELTA_REVIEW_PENDING",
+    "part_of_protocol_freeze": true,
+    "mac_suite_logs": [
+      {
+        "path": "studio2/fase03/batch_finale/SUITE_MAC_a51ffd1.txt",
+        "containing_commit": "7925124",
+        "sha256": "50601686bc4ecd160820d0b2413eeecab63511b21477b579a760dd1c30f4b373"
+      },
+      {
+        "path": "studio2/fase03/batch_finale/SUITE_MAC_7d58efd.txt",
+        "containing_commit": "74c5d3dca78fc22c3de1e675e50e7d0870f45ecc",
+        "sha256": "66c3492709f8aede6e7813c01e3feb2b5748bb9301acdeef4e4b0ed09969de66"
+      }
+    ],
+    "integration_order": [
+      "independent review of FIX-3 and protocol revision 4 deltas only",
+      "rem6 through 74c5d3dca78fc22c3de1e675e50e7d0870f45ecc, making both Mac suite logs reachable from main",
+      "protocol branch",
+      "annotated studio2-fase03-protocollo-finale-frozen-001 on integrated main"
+    ]
+  },
+  "canaries": {
+    "expected": [
+      {
+        "prompt_id": "S2-P03-006",
+        "condition": "A",
+        "agent": 2,
+        "prompt_text_sha256": "83f1ba531ce0a92307aca8feefd4d591c2ef7d3634e94f546295e623f1643535",
+        "expected_abstain": true,
+        "expected_predicted_label": null,
+        "expected_raw_response_sha256": "71a76533df65a4063f967a458878ea132e4336a492f4485c28434f556172144f"
+      },
+      {
+        "prompt_id": "S2-P03-031",
+        "condition": "A",
+        "agent": 7,
+        "prompt_text_sha256": "45fab8a3c81d929f78f9f20d4c551f9ebbed93a13e24cd4cf780286a51e3ee76",
+        "expected_abstain": false,
+        "expected_predicted_label": "S2-CLS-4AMS4",
+        "expected_raw_response_sha256": "6cd51196f38c6732f7df6401d1512672fc065d6db3334ed95cf9c786c8b154fb"
+      },
+      {
+        "prompt_id": "S2-P03-037",
+        "condition": "B-LF",
+        "agent": 8,
+        "prompt_text_sha256": "bad9d28b146367bbaeceea5ea9188e9c8821ecd32705150d4016b0a15f85122d",
+        "expected_abstain": false,
+        "expected_predicted_label": "S2-CLS-HEW25",
+        "expected_raw_response_sha256": "a49844d80f86440547819142538e007bcde00d3b266c36aeb4971c48035f3bcb"
+      },
+      {
+        "prompt_id": "S2-P03-012",
+        "condition": "B-LF",
+        "agent": 3,
+        "prompt_text_sha256": "9391f1b8c379262cde40d4764aa442e0b1bf04d9a2343b820f9e8d1d9914c2a1",
+        "expected_abstain": false,
+        "expected_predicted_label": "S2-CLS-4AMS4",
+        "expected_raw_response_sha256": "04876f98c504d0c353abd0f20f18428fac4371cd45e455916e2a58be8df2af75"
+      },
+      {
+        "prompt_id": "S2-P03-022",
+        "condition": "B-LF",
+        "agent": 5,
+        "prompt_text_sha256": "ce3248d5e95fdffb95b9cce7876bef8ccb67a538cfb6446fd13393c07770df6e",
+        "expected_abstain": true,
+        "expected_predicted_label": null,
+        "expected_raw_response_sha256": "2f724a4a261da1502c78e246444c5bbe4661c39caf52e67c56e4ed80dbbce6ca"
+      },
+      {
+        "prompt_id": "S2-P03-027",
+        "condition": "B-LF",
+        "agent": 6,
+        "prompt_text_sha256": "89043dec743b84b3a5c2a72f8d9b27e6fa9bca84bc3f08ff9f0be63fc42393c0",
+        "expected_abstain": true,
+        "expected_predicted_label": null,
+        "expected_raw_response_sha256": "12eac67cf626e692889fdd0be1415e1c92db69bc6e2c8f637c619ad4b5ef84d8"
+      },
+      {
+        "prompt_id": "S2-P03-018",
+        "condition": "E-LF",
+        "agent": 4,
+        "prompt_text_sha256": "e9e8a2586dc08f70b5644dae430d560fdb9672ef7ce7f368b2eb0fa16463cf0b",
+        "expected_abstain": false,
+        "expected_predicted_label": "S2-CLS-FD3GZ",
+        "expected_raw_response_sha256": "ba705ebfb3fb3896e33577c980c64037ff90191164939bca557445a8194c6cfa"
+      },
+      {
+        "prompt_id": "S2-P03-003",
+        "condition": "E-LF",
+        "agent": 1,
+        "prompt_text_sha256": "ddc6ed67ad84499ca462eface5cf8380b8cfaf0fe36dd74d11170111c1f77966",
+        "expected_abstain": false,
+        "expected_predicted_label": "Normal",
+        "expected_raw_response_sha256": "2517b9e5b1a51e97b7dabf4e6402fd2ab258b9382577389c9ff1e1fcf304fddd"
+      },
+      {
+        "prompt_id": "S2-P03-015",
+        "condition": "E-LF",
+        "agent": 3,
+        "prompt_text_sha256": "db07d10d4ed4ef69a4e9dd5b2b37c6e8c8d7d74df38cce580fdb0145d401ffbc",
+        "expected_abstain": false,
+        "expected_predicted_label": "S2-CLS-QRCCB",
+        "expected_raw_response_sha256": "2f586f2d771b286b6b1fc7e3f7ce36cf1609fd10e462da7955a641fdfdb1e0de"
+      },
+      {
+        "prompt_id": "S2-P03-025",
+        "condition": "E-LF",
+        "agent": 5,
+        "prompt_text_sha256": "114064dddd45c28a91455de329bd6df9943e46fc578f3eb9e800a190076606e5",
+        "expected_abstain": false,
+        "expected_predicted_label": "S2-CLS-4AMS4",
+        "expected_raw_response_sha256": "bc4575f0a4ebed9674862694624315ede64c8d748848fe814fcd7314f433e020"
+      }
+    ],
+    "raw_hash_role": "forensic only",
+    "max_base_slots": 70,
+    "timezone": "Europe/Rome",
+    "max_civil_days": 7,
+    "initial_day_requires": "PASS",
+    "identity_fields": [
+      "returned_model",
+      "system_fingerprint"
+    ],
+    "invalid_generated": "MARKED; no regeneration",
+    "proved_zero_token": "retry within Q; day incomplete until resolved",
+    "uncertain_or_permanent_error": "immediate stop",
+    "second_distinct_marked_day": "stop before scientific batch",
+    "primary_mask_request_ids": "all scientific requests of MARKED civil day per plan 10.5; pre-specified sensitivity mask",
+    "forensic_mask_request_ids": "last completed PASS to failed canary, or campaign start if none; forensic only",
+    "union_descriptive_request_ids": "descriptive union of primary and forensic masks; never substitutes the primary sensitivity mask",
+    "daily_civil_day_barrier": "no scientific batch on a civil day without PASS canary on that same Europe/Rome day",
+    "implementation_status": "IMPLEMENTED_7D58EFD; DOCUMENTED_74C5D3D; DELTA_REVIEW_PENDING"
+  },
+  "release_coordinates": [
+    {
+      "repository": "sorrentinoluca/fot-tep-data",
+      "release_tag": "studio2-fase03-evidence-v2",
+      "release_id": 388257324,
+      "release_commit": "6d238929285e57c6c70f4d563ef7e30b59da6ac5",
+      "release_url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-evidence-v2",
+      "recorded_status": "public_release_verified_by_redownload_appledouble_free",
+      "source_path": "studio2/fase03/evidence/ARTIFACT_STORAGE.json",
+      "source_commit": "e0db132fc6ef477bc054d8c02b3fb62f8c39da06",
+      "source_sha256": "c9814cfc750fb34665b6e5b6bc04790a2088a921fe6b1df8a783694b44e58143",
+      "verification": {
+        "method": "downloaded the v2 release asset into a new temporary directory outside the repository; verified archive SHA-256 and tar member hygiene; extracted with COPYFILE_DISABLE=1; compared all paths, byte counts, and SHA-256 values with MANIFEST_CONSERVAZIONE.csv",
+        "temporary_directory": "/tmp/fot-tep-evidence-v2-redownload-curl-001",
+        "archive_sha256_match": true,
+        "manifest_rows": 1283,
+        "extracted_files": 1283,
+        "files_verified": 1283,
+        "bytes_verified": 61208618,
+        "appledouble_files": 0,
+        "mismatches": 0,
+        "extra_files": 0
+      },
+      "assets": [
+        {
+          "name": "studio2-fase03-evidence-v2.tar",
+          "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-evidence-v2/studio2-fase03-evidence-v2.tar",
+          "bytes": 62185472,
+          "sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf"
+        }
+      ],
+      "identity_rule": "retrieve at URL and require expected bytes/hash; mutable tag URL alone is not immutable",
+      "this_task": "offline record inspection; no new download",
+      "remaining": null
+    },
+    {
+      "repository": "sorrentinoluca/fot-tep-data",
+      "release_tag": "studio2-fase03-test-v1",
+      "release_id": null,
+      "release_commit": null,
+      "release_url": "https://github.com/sorrentinoluca/fot-tep-data/releases/tag/studio2-fase03-test-v1",
+      "recorded_status": "public_release_verified_by_redownload",
+      "source_path": "studio2/fase03/fault_runs/ARTIFACT_STORAGE.json",
+      "source_commit": null,
+      "source_sha256": "b568ae5fdd39b6cebc52a4096e18c85874b77b6466e7b2e6aa2438bd303cccba",
+      "historical_acquisition_path": "studio2/fase03/fault_runs/ACQUISIZIONE_OK_ESECUZIONE_03_11.md",
+      "historical_acquisition_unchanged": true,
+      "publication_update_path": "studio2/fase03/fault_runs/AGGIORNAMENTO_PUBBLICAZIONE_E_RIVERIFICA_03_11_2026-09-17.md",
+      "publication_update_sha256": "1c382fda87bc99d2177461c44fdef1ae50e977abfa9b5113a57587dab3e0bc2c",
+      "verification": {
+        "method": "author redownload on 2026-09-17 of all three release assets; each asset SHA-256 compared with fault_runs/ARTIFACT_STORAGE.json",
+        "temporary_directory": null,
+        "archive_sha256_match": true,
+        "manifest_rows": 3,
+        "extracted_files": null,
+        "files_verified": 3,
+        "bytes_verified": 150196983,
+        "mismatches": 0
+      },
+      "assets": [
+        {
+          "name": "test_batch_f5_001.tar.gz",
+          "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-test-v1/test_batch_f5_001.tar.gz",
+          "bytes": 141191097,
+          "sha256": "ac1e7c0c4575ab746ee24a8bb5ce7f09289919773bc4d8c61ba86f7a93218a55"
+        },
+        {
+          "name": "chain_f5_001.tar.gz",
+          "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-test-v1/chain_f5_001.tar.gz",
+          "bytes": 1579326,
+          "sha256": "242f689a8737739f51eb6b3acefaf34cea4c06e9ebd547beccbcf1760a473aec"
+        },
+        {
+          "name": "ood_preflight_001.tar",
+          "url": "https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-test-v1/ood_preflight_001.tar",
+          "bytes": 7426560,
+          "sha256": "16acf7c1e18923b606a47fe3fb0efaa83b99e8ee19024f11f4d8f3fd675929df"
+        }
+      ],
+      "identity_rule": "retrieve at URL and require expected bytes/hash; mutable tag URL alone is not immutable",
+      "this_task": "offline reception of author redownload verification; release ID, commit and published timestamp not invented",
+      "remaining": null
+    }
+  ],
+  "implementation_predecessor_report": {
+    "source_commit": "9e0e086746111359e080b204f51aadb6dbc03e40",
+    "path": "studio2/fase03/REPORT_7_4_PREP.md",
+    "sha256": "281345dfb5ac3b0f766f2a03289968f43328e1bab5139d0e3b4f845887b5f9d1",
+    "status": "historical PREP only; does not certify FIX"
+  },
+  "runner_final_report": {
+    "final_commit": "74c5d3dca78fc22c3de1e675e50e7d0870f45ecc",
+    "code_commit": "7d58efd",
+    "path": "studio2/fase03/REPORT_7_4_FIX.md",
+    "sha256": "482ff5d804a0ba0df502510e47f8418806cd2f27d76c7cb19b6723a97c04ec07",
+    "section": "FIX-3",
+    "findings_received": ["B1", "B2", "B3", "B4", "B5", "B6", "B7"]
+  },
+  "previous_documentary_commit": "1f9ebc51649fcc30a17949819a05eca2271daac0",
+  "author_responses_Q1_Q3": {
+    "status": "APPROVED",
+    "path": "studio2/fase03/protocollo_finale/DECISIONI_AUTORE_7_3_REV2_Q1_Q3.md",
+    "sha256": "b7a830ecffe145343458bf654c84439e664ce994edf89e6d7d1dc2a2baef8c53",
+    "Q1": "unchanged descriptive approximate bootstrap plus bilateral Hoeffding bounds, always both, no post-hoc selection",
+    "Q2": "TANGO MANTENUTO after independent final review of the pre-data synthetic check; empirical rejection <=0.055 at every ICC=0 null-boundary scenario; ICC>0 descriptive only",
+    "Q3": "unchanged audit plus descriptive aggregation over all prompts by block/condition; <3 valid generated outcomes invalid_incomplete_triplet"
+  },
+  "synthetic_verification": {
+    "path": "studio2/fase03/protocollo_finale/SPECIFICA_VERIFICA_SINTETICA_H3.md",
+    "sha256": "335fa789163c51cb36d6d557382eb8095e94e656d09ef5d3245a71e29d556272",
+    "status": "TANGO_MANTENUTO",
+    "review_record": {
+      "path": "studio2/fase03/protocollo_finale/VERIFICA_FINALE_PROTOCOLLO_RUNNER_H3.md",
+      "sha256": "a2fe4b6753cdbac04f0eaddd9902f735adeb0c201bc220d882532ec8f81fba6a",
+      "outcome": "C OK; section 5 TANGO MANTENUTO"
+    },
+    "executed_script_sha256": "847bc294948303a1d4763cc223893eeffc167c42f4e3b1540f73ed31feb53c5f",
+    "tango_source_sha256": "25a648b99fcb86f8111eaaf2f712183d6c3e0a0af5960b6b84c424c38fb1e613",
+    "N": 64,
+    "faults": 8,
+    "positions": 8,
+    "replications_per_feasible_point": 100000,
+    "delta_grid": [
+      -0.125,
+      0,
+      0.05
+    ],
+    "discordance_grid": [
+      0.15,
+      0.3,
+      0.6,
+      0.9
+    ],
+    "heterogeneity_a_b": [
+      0,
+      0.5,
+      1
+    ],
+    "patterns": [
+      "fault/time",
+      "time/interaction",
+      "interaction/fault"
+    ],
+    "icc_targets": [
+      0,
+      0.05,
+      0.1,
+      0.2,
+      0.4
+    ],
+    "icc_definition": "mean Pearson correlation over nondegenerate within-fault cell pairs; not mixture weight; feasibility explicit",
+    "target_scenarios": 1620,
+    "completed_scenarios": 1596,
+    "infeasible_stress_scenarios": 24,
+    "numerical_errors": 0,
+    "decision_null_points_icc_zero": 108,
+    "decision_rule": "Tango rejection rate <=0.055 at every ICC=0 boundary point; negative => Hoeffding H3; incomplete => no decision",
+    "decision_points_passed": "108/108",
+    "maximum_boundary_phat": 0.05128,
+    "stress_procedures": [
+      "Tango H3",
+      "Hoeffding H3 N64",
+      "Hoeffding H1/H2 N64"
+    ],
+    "stress_role": "descriptive only; report tested ICC range satisfying 0.055; never activates fallback",
+    "maximum_tested_icc_with_level_at_most_0_055": {
+      "Tango_H3": 0,
+      "Hoeffding_H3": 0.2,
+      "Hoeffding_H1_H2": 0.2
+    },
+    "seed": 20260917,
+    "namespace": "studio2-fase03-h3-synthetic-q2-v1",
+    "implementation_note": "the H3 script transcribes Tango instead of importing it and does not verify declared SHA values at runtime; identity was verified by the final review",
+    "script_modified_for_rev4": false,
+    "full_fwer_guaranteed_with_Tango": false,
+    "fallback_requires_independence": true
+  },
+  "inferential_assumptions": {
+    "run_independence": "declared for H1 H2 H3 and fallback; not proven",
+    "fixed_shared_factors": "condition on catalog, library, prompts, thresholds, model configuration; define conditional estimand",
+    "simulator": "distinct qualified streams per run support conditional independence given fault; distinct seed values alone not proof",
+    "llm_service": "randomized interleaved order and daily canary mitigate but do not eliminate shared random drift/state",
+    "residual_icc": "not separately identifiable nonparametrically from fixed effects/cell heterogeneity with one observation per cell",
+    "synthetic_stress_conclusion": "H3 is valid under run independence and sensitive to even small within-fault correlation; H1/H2 are descriptively robust through moderate ICC=0.20; procedure unchanged and no full-FWER guarantee"
+  },
+  "intervals_Q1": {
+    "bootstrap": "plan section 6 unchanged, descriptive approximate, not guaranteed conservative",
+    "iterations": 10000,
+    "seed": 20260913,
+    "hoeffding": "bilateral 95% for bounded mean contrasts under independence, radius 0.3395253789351549 at N64",
+    "both_always_reported": true,
+    "bootstrap_quantile_decides_hypotheses": false
+  },
+  "previous_documentary_checks": {
+    "path": "studio2/fase03/protocollo_finale/CONTROLLI_DOCUMENTALI_REV2.json",
+    "sha256": "3692698f29fb84db0fdaa2e5f67190f251fefdb1294abacdd79d91c9dafceab6",
+    "scope": "historical checks of 1f9ebc5, not current candidate"
+  },
+  "previous_delivery_record": {
+    "path": "studio2/fase03/protocollo_finale/REPORT_REV2.md",
+    "sha256": "2f53b3fe9e02b1b6e828bb341ffa4ed2f111e6b355b62814404e459807840bdc"
+  },
+  "revision_delivery_record": {
+    "path": "studio2/fase03/protocollo_finale/REPORT_RISPOSTE_Q1_Q3.md",
+    "sha256": "67eb73df9dfa6db7c1741d7b0cbdfef8670c9ffcb71b47cc7dca7176b56edc3b"
+  },
+  "documentary_checks": {
+    "path": "studio2/fase03/protocollo_finale/CONTROLLI_RISPOSTE_Q1_Q3.json",
+    "sha256": "3d59a8b97d7a70e0df1b4b2778305ebfaf34c00c8a0d0ce34e3035dc7a6100b6",
+    "scope": "historical self-check only, not independent review"
+  },
+  "library_path_note": "LIBRERIE_FINALI_CANDIDATE.json contains an absolute library_path; correct it at that file's next declared revision; non-blocking for this protocol because file and canonical content hashes are pinned",
+  "materialization_after_tag": {
+    "phase": "7.4-MAT",
+    "products": [
+      "executable final target configuration",
+      "generation contract",
+      "ten pilot canary prompts copied byte-identically and authenticated"
+    ],
+    "protocol_defect": false
+  },
+  "remaining_open": [
+    "independent review of FIX-3 and protocol revision 4 deltas only",
+    "integration in the fixed order rem6 through 74c5d3dca78fc22c3de1e675e50e7d0870f45ecc then protocol branch, with both Mac suite logs reachable from main",
+    "annotated tag studio2-fase03-protocollo-finale-frozen-001",
+    "post-tag 7.4-MAT, including final_prompts.jsonl and its materialization SHA"
+  ]
+}

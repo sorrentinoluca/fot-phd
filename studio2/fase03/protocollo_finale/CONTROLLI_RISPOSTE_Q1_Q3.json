@@ -1,0 +1,21 @@
+{
+  "scope": "documentary self-check only; no independent review or synthetic execution",
+  "source_hashes_verified": 43,
+  "guardian": {
+    "tests": 35,
+    "failures": 14,
+    "skipped": 1,
+    "failure_ids_identical_to_previous_commit": true,
+    "log_path": "/tmp/fot-protocol-q123-guardian.log",
+    "log_sha256": "21e58ddf1357fa09f16366ac881f6bd5ceadffbbddd23cde4a43400956671d61"
+  },
+  "original_author_copy_unchanged": true,
+  "new_record_original_prefix_byte_identical": true,
+  "latest_author_prompt_preserved_verbatim": true,
+  "Q1_Q3_approved": true,
+  "synthetic_executed": false,
+  "ICC_zero_only_decision": true,
+  "ICC_positive_descriptive_only": true,
+  "links_resolve": true,
+  "candidate_markdown_sha256": "7b7035ea3c5cefc4654d7de1281a4e3a83f3ec6524ba0ee8694b2559029fe702"
+}

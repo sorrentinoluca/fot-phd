@@ -1,0 +1,57 @@
+{
+  "status": "PASS_DOCUMENTARY_CHECKS_ONLY",
+  "repository_sources_verified": 41,
+  "source_commits_verified": 35,
+  "copied_author_and_pilot_byte_identical": true,
+  "predecessor_reviews_unchanged": true,
+  "candidate_markdown_hash_matches_json": true,
+  "canaries": 10,
+  "scientific_calls": 6732,
+  "base_calls": 6902,
+  "retry_max_pending": true,
+  "changed_tracked_files_within_scope": [
+    "studio2/fase03/protocollo_finale/PROTOCOLLO_FINALE_CANDIDATE.json",
+    "studio2/fase03/protocollo_finale/PROTOCOLLO_FINALE_CANDIDATE.md"
+  ],
+  "frozen_artifacts_unchanged": true,
+  "guardian": {
+    "tests": 35,
+    "failures": 14,
+    "skipped": 1,
+    "same_counts_as_pre_edit": true,
+    "failure_ids": [
+      "test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks.test_condition_c_contract_and_caveats) (phrase='non un risultato empiricamente misurato')",
+      "test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks.test_one_flow_and_ordered_step_headings)",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.944444')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.916667')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='0.833333')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='zero astensioni')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='C1–C4: 4/4 PASS')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='controllo secondario distinto')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='budget nominale di 1024')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations) (phrase='36 aggregati B non cappati sono corretti')",
+      "test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks.test_step27_qwen_frozen_results_and_limitations)",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='html')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts) (doc='md')",
+      "test_step27_qwen_protocol_stable_facts (__main__.UnifiedConversationChecks.test_step27_qwen_protocol_stable_facts)"
+    ],
+    "log_sha256": "1b0a5a88d8408874c7eccbc7881cf413bf6212ab3fa9a9c77dc26e6e0d8aa5bc",
+    "log_path": "/tmp/fot-protocol-rev2-doc-guardian.log"
+  },
+  "algebra": {
+    "H1_H2_threshold": 0.30596835383510207,
+    "H3_Hoeffding_threshold_alternative": 0.18096835383510207,
+    "H3_alpha025_threshold_alternative": 0.2145253789351549,
+    "bilateral_Hoeffding_radius": 0.3395253789351549,
+    "bootstrap_expected_variance_equal_means_factor": 0.875
+  },
+  "not_verified": [
+    "7.4-FIX implementation",
+    "real test data or predictions",
+    "Tango level in heterogeneous design",
+    "bootstrap coverage",
+    "remote test-v1 redownload",
+    "independent review of rev2"
+  ],
+  "no_provider_calls": true
+}
