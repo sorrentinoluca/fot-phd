@@ -1449,8 +1449,15 @@ class PilotLedger:
                 if r['stage'] == FINAL_CANARY_STAGE and r['logical_id'].startswith(prefix)]
         return index, rows, passed, marked
 
-    def record_canary_day(self, day, *, verdict, comparison, expectations_sha256, identity=None):
-        """Create-once verdict of one canary day (§6). Ten complete calls, no rewriting."""
+    def record_canary_day(self, day, *, verdict, comparison, expectations_sha256, identity=None,
+                          observed_day=None):
+        """Create-once verdict of one canary day (§6). Ten complete calls, no rewriting.
+
+        ``observed_day`` is the Europe/Rome day read from the clock when the day was run.
+        A canary opens the day it belongs to, so the two must coincide: a declared day that
+        does not match the observed one is refused here as well as in the runner, and both
+        values stay in the event (review rilievo B1).
+        """
         if verdict not in {'PASS', 'MARKED'}:
             raise HarnessError("canary verdict must be PASS or MARKED")
         if not isinstance(comparison, dict) or 'marked_day' not in comparison:
@@ -1458,11 +1465,16 @@ class PilotLedger:
         if bool(comparison['marked_day']) != (verdict == 'MARKED'):
             raise HarnessError("canary verdict contradicts its comparison")
         self._require_hash(expectations_sha256, 'canary expectations')
+        if observed_day is not None and observed_day != day:
+            raise HarnessError(
+                f"canary day {day} was declared but the observed Europe/Rome day is "
+                f"{observed_day}; a canary never crosses midnight")
         with self._transaction() as c:
             index, rows, passed, marked = self._canary_day_slot(c, day)
             if len(rows) != CANARY_DAILY_CALLS or any(r['status'] != 'COMPLETED' for r in rows):
                 raise HarnessError("a canary day closes only on ten complete calls")
             detail = dict(day=day, day_index=index, verdict=verdict,
+                          declared_day=day, observed_day=observed_day or day,
                           expectations_sha256=expectations_sha256, comparison=comparison,
                           request_ids=sorted(r['request_id'] for r in rows))
             if identity is not None:
@@ -1479,13 +1491,18 @@ class PilotLedger:
                 self._event(c, CANARY_STOP_PREFIX + 'second_marked_day:' + day, digest(stop), stop)
             return detail
 
-    def record_canary_stop(self, day, *, reason, detail):
-        """Immediate canary stop (§6.3): identity change before any further call."""
+    def record_canary_stop(self, day, *, reason, detail, observed_day=None):
+        """Immediate canary stop (§6.3): identity change before any further call.
+
+        A stop is always recordable, so a mismatch between declared and observed day is
+        preserved here rather than refused: the evidence must survive.
+        """
         if self.profile.name != 'final_batch':
             raise HarnessError("canary stops belong to the final-batch profile")
         if not isinstance(reason, str) or not reason.strip():
             raise HarnessError("a canary stop requires a written reason")
-        value = dict(day=day, reason=reason, detail=detail)
+        value = dict(day=day, declared_day=day, observed_day=observed_day or day,
+                     reason=reason, detail=detail)
         with self._transaction() as c:
             self._event(c, CANARY_STOP_PREFIX + 'identity:' + str(day), digest(value), value)
             return value
@@ -1878,6 +1895,19 @@ class PilotLedger:
                 raise HarnessError("probe retry must preserve one original budget group")
             for v in values:
                 self._insert_intent(c, stage='budget_probe', quota_kind='transport', **{k: v[k] for k in ('request_id','logical_id','model','producer','stage_run','retry_of')})
+
+    def completion_instants(self, stage):
+        """Read-only: the completion instants of one stage, oldest first.
+
+        Used by the runner to prove that a lot which now runs past midnight really began
+        on the civil day it declares (review rilievo B1).
+        """
+        if stage not in self.profile.stages:
+            raise HarnessError("unknown stage for this quota profile")
+        with closing(self._connect()) as c:
+            return [row[0] for row in c.execute(
+                "SELECT completed_utc FROM requests WHERE stage=? AND completed_utc IS NOT NULL"
+                " ORDER BY completed_utc", (stage,))]
 
     def attempts(self, stage, logical_id):
         """Every attempt recorded for one logical request, in insertion order."""

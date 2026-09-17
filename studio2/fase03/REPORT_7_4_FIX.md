@@ -366,3 +366,139 @@ perché questo ramo fork a `540df7b`.
 
 **L — review `b567`.** Dovuta: FIX-2 tocca ancora quota e ledger (`TECHNICAL_VERIFICATION_QUOTA`,
 nuovo massimo, rifiuto della quota zero).
+
+---
+
+# FIX-3 — rilievi B della review finale
+
+Fonte: `VERIFICA_FINALE_PROTOCOLLO_RUNNER_H3.md`, SHA
+`a2fe4b6753cdbac04f0eaddd9902f735adeb0c201bc220d882532ec8f81fba6a`, sezione «Rilievi»,
+letta in sola lettura in `/Users/luker/fot-tep-pubblicazione-consolidamento-0315-metriche/`.
+Esito della review su B: **OK con rilievi, nessun bloccante**. Base `7925124`. Offline:
+nessuna chiamata, nessuna materializzazione, nessun push/merge/tag. Sostituzione di modello
+dichiarata: mandato a `gpt-5.6-sol`, eseguito da `claude-opus-5` (Claude Cowork).
+
+## I cinque SHA pinnati: **invariati**
+
+| Artefatto | SHA-256 | Verifica in questa sessione |
+| --- | --- | --- |
+| Inventario | `227e5e9c797dbfd8be746d85b77298f5dfb091846dc301f0b2e31ea1dbc6df3f` | rigenerato con `build_final_inventory.py`, identico |
+| Schedule | `1acfc4044c53f113016ed0bfab58863291a9060a9edc9abadb68a21d30687819` | rigenerata, identica |
+| Assegnazione finestre | `c809e79d2c03d74f4a5a37988eca809bda336468ab0060f794d3c214f9a6a775` | `shasum` sul file committato, identico |
+| Manifest di input del lotto test | `67e7584a80d743efc06edc4c97019c20803cc4787c1d70c8d924ad23736612e8` | nessun file della sua catena è nel diff |
+| Mappa dei prompt | `b819200396da480d3ed9d4aa8f6b6aac8c135d97f0876b734a9b607b75736489` | nessun file della sua catena è nel diff |
+
+Gli ultimi due si producono con `build_final_prompts.py`, che importa soltanto
+`harness/final_inventory.py`, `harness/final_prompts.py`, `harness/common.py` e
+`runtime.durable_write`: i primi tre non sono toccati da FIX-3 e di `runtime.py` cambia solo
+`execute_request` (più la nuova eccezione tipata), non `durable_write`. Il diff di FIX-3
+tocca nove file, nessuno dei quali entra nel rendering dei prompt o nell'estrazione evidence.
+
+## Rilievo → chiusura
+
+**B1 — `--day` non era mai confrontato con l'orologio. Chiuso.**
+`resolve_civil_day` (in `run_final_batch.py`) lega il giorno dichiarato a `rome_day(now)` e
+restituisce `declared_day`, `observed_day` e `midnight_crossing`. La regola
+dell'attraversamento è stretta e vale solo se **tutte** e tre le condizioni sono vere: il
+giorno osservato è il giorno di calendario immediatamente successivo a quello dichiarato; lo
+stage possiede già almeno una richiesta completata nel giorno dichiarato (nuovo accesso di
+sola lettura `PilotLedger.completion_instants`); si tratta di un lotto scientifico. **Il
+canary non attraversa mai la mezzanotte**: apre il giorno a cui appartiene, quindi
+`run_day` chiama `resolve_civil_day` senza prova di attraversamento e il ledger ripete il
+rifiuto in `record_canary_day`, che accetta `observed_day` e lo rifiuta se diverso dal
+dichiarato. Entrambi i valori sono persistiti: nell'evento canary (`declared_day`,
+`observed_day`), nel record durevole di ogni chiamata del batch e del canary
+(`declared_day`, `observed_day`, `midnight_crossing`), nel riepilogo di tratto e
+nell'artefatto del giorno invalido. Il controllo è rifatto **prima di ogni richiesta**, non
+solo all'avvio, così l'attraversamento della mezzanotte a metà tratto è deciso dalla regola e
+non subìto. La regola è scritta nel runbook, §5, con l'esempio del tratto delle 22:00.
+Test: `CivilDayBinding`, otto test.
+
+**B2 — `canary_marking` presentava l'unione come la maschera. Chiuso.**
+I campi sono ora `primary_mask_request_ids` (piano §10.5, giorno civile marcato: è la
+maschera che esce dalla sensibilità pre-specificata), `forensic_mask_request_ids` (§6.5,
+intervallo fra l'ultimo PASS e il canary fallito, **solo forense**) e
+`union_descriptive_request_ids` (**solo descrittiva**, con `union_scope` che lo dichiara).
+`marked_request_ids`, `interval_only` e `civil_day_only` non esistono più; la versione
+dell'artefatto passa a `MARCATURA_CANARY_7_4_2` e la docstring del modulo riporta la
+gerarchia di §6.5 rev3 invece dell'unione. `query_canary_marking.py` e il runbook §3 sono
+allineati. Test: due test in `CanaryBarrierAndMarking`, che verificano anche l'assenza del
+campo generico.
+
+**B3 — journal dichiarato e mai scritto. Chiuso per via contrattuale, senza journal nuovo.**
+`CONTRATTO_ESECUZIONE_E_RIPRESA.md` è **congelato** — `HARNESS_D9_CANDIDATE.json` ne pinna i
+byte con SHA `b4e822a3…` — quindi non è stato modificato in luogo: la clausola vive in una
+revisione tracciata, `harness/CONTRATTO_ESECUZIONE_E_RIPRESA_REV2_BATCH_FINALE.md`, che vale
+per i soli stage del profilo `final_batch` e nomina la proiezione effettiva (SQLite
+autorevole, `{stage}_call_log.jsonl`, un record durevole per richiesta, il riepilogo di
+tratto). Nel codice sono spariti il no-op, la variabile `journal_path` dei due runner e il
+commento che descriveva ciò che non avveniva; `execute_request` ha ora `journal_path`
+opzionale, e senza di esso non scrive alcuna proiezione — non un file vuoto. Gli ingressi del
+pilot lo passano sempre e restano identici. Verifica:
+`grep -rn 'journal' run_final_batch.py run_final_canary.py` non restituisce nulla, e lo SHA
+del contratto congelato è invariato.
+
+**B4 — STOP d'identità classificato per sottostringa. Chiuso.**
+`runtime.IdentitySuspension(HarnessError)` è la nuova eccezione tipata, sollevata nei due
+punti in cui l'identità manca o cambia, con `field`, `observed` ed `expected`. Il canary la
+intercetta per tipo (`except IdentitySuspension`) e non più con
+`if "identity" not in str(exc)`: una riformulazione del messaggio non può più far perdere
+l'evento durevole. Essendo sottoclasse di `HarnessError`, nessun percorso fail-closed
+esistente cambia comportamento. Il campo che è cambiato finisce nell'evento di STOP.
+
+**B5 — fallback di `rome_day` con confini d'ora legale sbagliati. Chiuso con il rifiuto.**
+Senza `zoneinfo`/tzdata `rome_day` ora **rifiuta** con un `HarnessError` che dice cosa
+installare, invece di stimare il giorno civile con il 31 marzo / 27 ottobre. Il giorno civile
+è l'unità della barriera e della maschera primaria: una risposta approssimata è peggio di
+nessuna risposta. Due test: il rifiuto in assenza di tzdata, e l'esattezza attorno al
+cambio d'ora reale del 2026 (25 ottobre), dove il vecchio fallback sbagliava.
+
+**B6 — il tetto totale non era esercitato. Chiuso.**
+`test_the_total_ceiling_is_refused_on_its_own_path` afferma l'identità reale del profilo
+(`planned_maximum = hard_stop = 7.202 = Σ base_limits + retry_quota`) e poi, su un profilo
+con quote per stage larghe e totale stretto, percorre **entrambi** i rami del totale: il
+rifiuto sul massimo pianificato e quello sull'hard stop cumulativo, che con 7.202 si
+raggiungono solo a campagna conclusa.
+
+**B7 — pin dipendenti da NumPy e `protocol_reference: e0db132`. Nessuna modifica, come chiesto.**
+Si dichiara qui: `numpy_version` e `protocol_reference` stanno **dentro** il payload hashato
+di `inventory_artifact`, `schedule_artifact` e dell'assegnazione. I tre pin `227e5e9c…`,
+`1acfc404…` e `c809e79d…` sono quindi riproducibili solo sotto **NumPy 2.2.6**, che è
+l'ambiente di riferimento di §7.1, registrato negli artefatti e presente sul Mac; un
+aggiornamento futuro cambierebbe lo SHA senza cambiare l'ordine e **va spiegato, non
+sovrascritto**. Il riferimento `PROTOCOLLO_FINALE_CANDIDATE.md e0db132 §4, §5, §7.1` cita il
+candidato rev1: è imprecisione documentale e non errore di conteggio, perché i contenuti
+richiamati di §4 e §5 (2.244 e 6.732) sono identici in rev1 e rev3. Correggerlo cambierebbe
+i pin, che il mandato dichiara invarianti: resta com'è, dichiarato.
+
+**N — riga `/test_batch/` duplicata in `fault_runs/.gitignore`.** Lasciata: si ripulisce al
+merge, come indicato.
+
+## Test
+
+| Esecuzione | Test | Failure | Error | Skip |
+| --- | ---: | ---: | ---: | ---: |
+| Base `7925124` | 291 | 2 | 33 | 22 |
+| Con FIX-3 | 303 | 2 | 33 | 22 |
+
+Dodici test nuovi, tutti passanti; l'insieme dei non-pass è identico riga per riga ed è
+ambientale (albero evidence di release assente in questa VM Linux, percorsi solo-Mac).
+`studio2.fase03.harness.test_final_batch` da solo: **45 test, OK**.
+
+Comando della suite per il Mac, da rieseguire e salvare in
+`batch_finale/SUITE_MAC_<sha del commit>.txt`:
+
+```bash
+cd /Users/luker/fot-tep/.worktrees/rem6-riconciliazione
+/opt/anaconda3/bin/python3 -m unittest $(ls studio2/fase03/harness/test_*.py \
+  | sed 's#/#.#g; s#\.py$##') 2>&1 | tee \
+  studio2/fase03/batch_finale/SUITE_MAC_<sha>.txt
+```
+
+## Note lasciate aperte
+
+Restano aperti, invariati, i punti **F**, **H**, **I** e **L** del §8, e i rilievi **A1**,
+**A2**, **A3**, **A4**, **A5**, **A6** e **C1** della review, che non sono di competenza di
+questo fix: A1 e A2 riguardano l'ordine di merge e i due documenti di §2 che si
+contraddicono, A3 la conservazione (o il depinnaggio) di `final_prompts.jsonl`, A4-A6 e C1
+sono note documentali sul candidato e sullo script H3.

@@ -28,7 +28,7 @@ from __future__ import annotations
 
 import argparse
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 import json
 from pathlib import Path
 import sys
@@ -171,6 +171,56 @@ def canary_state(ledger: PilotLedger) -> dict[str, Any]:
     }
 
 
+MIDNIGHT_CROSSING_RULE = (
+    "a lot may run past midnight only as the continuation of a lot already begun on the "
+    "declared day: the observed Europe/Rome day must be the calendar day immediately after "
+    "the declared one, and the stage must already hold a request completed on the declared "
+    "day. Every other mismatch is a STOP.")
+
+
+def _is_next_day(declared: str, observed: str) -> bool:
+    return date.fromisoformat(observed) - date.fromisoformat(declared) == timedelta(days=1)
+
+
+def stage_began_on(ledger: PilotLedger, stage: str, day: str) -> bool:
+    """True when this stage already completed a request on that civil day."""
+    for instant in ledger.completion_instants(stage):
+        moment = datetime.fromisoformat(instant.replace("Z", "+00:00"))
+        if rome_day(moment) == day:
+            return True
+    return False
+
+
+def resolve_civil_day(declared: str | None, *, now: datetime | None = None,
+                      crossing_evidence=None) -> dict[str, Any]:
+    """Bind the declared civil day to the clock (review rilievo B1).
+
+    ``--day`` exists for the one legitimate case, a lot that crosses midnight, and until
+    now nothing compared it with the clock: a canary passed for day X and a lot launched
+    with ``--day X`` on another day satisfied the barrier. Both values are returned so the
+    caller persists them in the event and in every record.
+
+    ``crossing_evidence`` is a zero-argument callable, evaluated only when the two days
+    differ, that proves the lot really began on the declared day. Passing ``None``
+    forbids the crossing outright, which is what the canary does: a canary opens the day.
+    """
+    observed = rome_day(now or datetime.now(timezone.utc))
+    if declared is None:
+        return {"declared_day": observed, "observed_day": observed, "midnight_crossing": False}
+    try:
+        date.fromisoformat(declared)
+    except ValueError as exc:
+        raise BatchStop(STOP_PREFIX + f" --day {declared!r} is not an ISO civil date") from exc
+    if declared == observed:
+        return {"declared_day": declared, "observed_day": observed, "midnight_crossing": False}
+    if (crossing_evidence is not None and _is_next_day(declared, observed)
+            and crossing_evidence()):
+        return {"declared_day": declared, "observed_day": observed, "midnight_crossing": True}
+    raise BatchStop(
+        STOP_PREFIX + f" declared day {declared} differs from the observed Europe/Rome day "
+        f"{observed}. " + MIDNIGHT_CROSSING_RULE)
+
+
 def require_canary_ok(ledger: PilotLedger, day: str | None = None) -> dict[str, Any]:
     """The canary->lot barrier of §6: no scientific call outside a passed canary day.
 
@@ -187,6 +237,7 @@ def require_canary_ok(ledger: PilotLedger, day: str | None = None) -> dict[str, 
     if len(state["marked_days"]) >= 2:
         raise BatchStop(STOP_PREFIX + " second marked canary day: author decision required (§6.4)")
     today = day or rome_day(datetime.now(timezone.utc))
+    # ``day`` reaches here already bound to the clock by resolve_civil_day.
     if today not in state["passed_days"]:
         raise BatchStop(
             STOP_PREFIX + f" no canary PASS recorded for {today}: §6 requires the daily "
@@ -256,7 +307,7 @@ def _call_record(row: dict[str, Any], prompt: dict[str, Any], record: dict[str, 
 def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, pass_index,
              results_dir: Path, execute: bool, max_requests: int | None, resume: bool = False,
              provider_factory=None, accounting_guard=None, sleep=time.sleep,
-             day: str | None = None) -> dict[str, Any]:
+             day: str | None = None, now: datetime | None = None) -> dict[str, Any]:
     stage = FINAL_PASS_STAGES[pass_index - 1]
     rows = [row for row in schedule if row["repetition"] == pass_index]
     binding = pass_binding(rows, prompts, generation, config=config, target=target,
@@ -273,17 +324,14 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
         raise BatchStop(STOP_PREFIX + " the pass already has recorded requests; "
                         "continue it with --resume, which never resends a terminal slot")
 
+    civil = resolve_civil_day(day, now=now,
+                              crossing_evidence=lambda: stage_began_on(ledger, stage, day))
+    day = civil["declared_day"]
     require_canary_ok(ledger, day)
     provider = (provider_factory or BatchProvider)(config)
-    journal_path = results_dir / f"{stage}_journal.jsonl"
     log_path = results_dir / f"{stage}_call_log.jsonl"
     from studio2.fase03.harness.logging_v1 import JsonlCallLogger
     logger = JsonlCallLogger(log_path, create=not log_path.is_file())
-
-    def append_journal(_ledger, _stage, path):
-        # The binding holds 2,244 specs: re-exporting all of them per call is quadratic.
-        # SQLite stays authoritative; the journal is an append-only forensic mirror.
-        pass
 
     sent = 0
     retried = 0
@@ -313,15 +361,20 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
             if wait and sleep is not None:
                 sleep(wait)
             retried += 1
+        civil = resolve_civil_day(day, now=now,
+                                  crossing_evidence=lambda: stage_began_on(ledger, stage, day))
         require_canary_ok(ledger, day)
         prompt = prompts[row["stable_id"]]
         spec = next(s for s in binding["requests"] if s["logical_id"] == row["logical_id"])
         messages = [{"role": "user", "content": prompt["text"]}]
 
-        def evaluate(raw, prompt=prompt):
+        def evaluate(raw, prompt=prompt, civil=civil):
             return dict(run_pilot.consumer_record(raw, prompt, generation),
                         repetition=row["repetition"], stable_id=row["stable_id"],
-                        block=row["block"], library_role=row["library_role"])
+                        block=row["block"], library_role=row["library_role"],
+                        declared_day=civil["declared_day"],
+                        observed_day=civil["observed_day"],
+                        midnight_crossing=civil["midnight_crossing"])
 
         record = execute_request(
             ledger=ledger, stage=stage, spec=spec,
@@ -329,9 +382,8 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
                 prompt=prompt, messages=transmitted, schema=schema, generation=generation,
                 ledger=ledger, stage=stage, spec=spec),
             evaluate=evaluate, expected_identity=config["expected_response"],
-            journal_path=journal_path, messages=messages, accounting_guard=accounting_guard,
-            journal=append_journal, resume=bool(retry_requests),
-            retry_requests=retry_requests)
+            messages=messages, accounting_guard=accounting_guard,
+            resume=bool(retry_requests), retry_requests=retry_requests)
         sent += 1
         progress.observe(record)
         logger.append(_call_record(row, prompt, record, generation=generation,
@@ -346,6 +398,9 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
 
     snapshot = ledger.snapshot()
     summary = {"stage": stage, "planned": len(rows), "completed": progress.done,
+               "declared_day": civil["declared_day"], "observed_day": civil["observed_day"],
+               "midnight_crossing": civil["midnight_crossing"],
+               "midnight_crossing_rule": MIDNIGHT_CROSSING_RULE,
                "sent_this_run": sent, "retries_this_run": retried,
                "retry_quota": FINAL_RETRY_QUOTA,
                "retry_quota_used": snapshot.get("retry_quota_used", 0),
@@ -368,7 +423,9 @@ def main(argv=None) -> int:
     parser.add_argument("--resume", action="store_true",
                         help="continue an interrupted pass; terminal slots are skipped, never resent")
     parser.add_argument("--day", help="civil day Europe/Rome this lot belongs to; the canary "
-                                      "of that day must have passed (default: today)")
+                                      "of that day must have passed, and the declared day is "
+                                      "checked against the clock: it may differ only for a lot "
+                                      "that crosses midnight (default: today)")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--acknowledge")
     arguments = parser.parse_args(argv)

@@ -36,11 +36,13 @@ Scatta quindi la review `b567` sul commit. Dove, esattamente:
    `stage_quota` e lo `hard_stop` del profilo.
 6. **`harness/d9.py` — `STAGE_MODELS`**: i cinque stage del batch sono dichiarati `122B`,
    coerentemente con §5 (6.902 chiamate 122B, 0 chiamate 27B).
-7. **`harness/runtime.py`**: `execute_request` accetta un parametro opzionale `journal`.
-   Il default è il comportamento del pilot (ri-export completo del journal a ogni passo);
-   il batch, che ha binding da 2.244 specifiche, ne passa uno append-only per non rendere
-   quadratico il costo per chiamata. Nessuna regola di contabilità cambia: SQLite resta la
-   fonte autoritativa.
+7. **`harness/runtime.py`**: `execute_request` accetta `journal_path` opzionale
+   (7.4-FIX-3, rilievo B3: prima era un parametro `journal` con un no-op lato batch).
+   Passandolo si ha il comportamento del pilot (ri-export completo del journal a ogni passo);
+   il batch, che ha binding da 2.244 specifiche, non lo passa: la sua proiezione durevole è
+   il call log più un record per richiesta, come dichiara la revisione tracciata
+   `harness/CONTRATTO_ESECUZIONE_E_RIPRESA_REV2_BATCH_FINALE.md`. Nessuna regola di
+   contabilità cambia: SQLite resta la fonte autoritativa.
 8. **`run_pilot.py`**: `Provider.ALLOWED_STAGES` sostituisce l'insieme di stage letterale
    dentro `Provider.call`. Valore identico per il pilot; il runner del batch sottoclassa.
 

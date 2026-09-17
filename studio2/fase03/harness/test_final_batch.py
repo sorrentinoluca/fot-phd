@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from contextlib import ExitStack
 import dataclasses
+from datetime import datetime
 import json
 from pathlib import Path
 import tempfile
@@ -169,11 +170,17 @@ class FinalBatchBase(unittest.TestCase):
         self.target["canary_expectations"] = {"path": str(expectations_path), "sha256": "2" * 64}
         self.target["canary_prompts"] = {"path": str(prompts_path), "sha256": "3" * 64}
 
-    def run_day(self, day="2026-09-18"):
+    @staticmethod
+    def noon(day):
+        """A UTC instant whose Europe/Rome civil day is exactly ``day``."""
+        return datetime.fromisoformat(day + "T10:00:00+00:00")
+
+    def run_day(self, day="2026-09-18", now=None):
         return run_final_canary.run_day(
             target=self.target, ledger=self.ledger, config=self.config,
             generation=self.generation, schema=self.schema, day=day,
-            results_dir=self.results, execute=True, provider_factory=FakeProvider)
+            results_dir=self.results, execute=True, provider_factory=FakeProvider,
+            now=now if now is not None else self.noon(day))
 
     def pass_canary_day(self, day="2026-09-18"):
         outcome = self.run_day(day)
@@ -187,6 +194,7 @@ class FinalBatchBase(unittest.TestCase):
                        execute=True, max_requests=None, provider_factory=FakeProvider,
                        day="2026-09-18")
         options.update(kwargs)
+        options.setdefault("now", self.noon(options["day"]) if options["day"] else None)
         return run_final_batch.run_pass(**options)
 
 
@@ -354,6 +362,32 @@ class BatchExecution(FinalBatchBase):
                          [row for row in self.ledger.snapshot()["requests_by_stage"]
                           if self.ledger.snapshot()["requests_by_stage"][row]])
 
+    def test_the_total_ceiling_is_refused_on_its_own_path(self):
+        """B6: the refusal on the overall maximum, not only the per-stage one."""
+        from .ledger import FINAL_BATCH_PROFILE as real
+
+        self.assertEqual(real.planned_maximum, real.hard_stop)
+        self.assertEqual(real.planned_maximum, 7202)
+        self.assertEqual(sum(real.base_limits.values()) + real.retry_quota, 7202)
+        self.pass_canary_day()
+        # Per-stage quotas stay wide; only the total is narrow, so the refusal can come
+        # from the total branch alone, which 7.202 would reach after the whole campaign.
+        # The total counts every request of the target, the ten canary calls included.
+        already = sum(self.ledger.snapshot()["requests_by_stage"].values())
+        admitted = self.rows_per_pass - 1
+        total = already + admitted
+        self.ledger.profile = dataclasses.replace(
+            self.ledger.profile, planned_maximum=total, hard_stop=total + 10)
+        with self.assertRaisesRegex(HarnessError, f"planned request maximum {total} reached"):
+            self.run_pass()
+        self.assertEqual(self.ledger.snapshot()["requests_by_stage"][FINAL_PASS_STAGES[0]],
+                         admitted)
+        # The cumulative hard stop answers on its own branch, before the planned maximum.
+        self.ledger.profile = dataclasses.replace(
+            self.ledger.profile, planned_maximum=total + 10, hard_stop=total)
+        with self.assertRaisesRegex(HarnessError, f"cumulative hard stop {total} reached"):
+            self.run_pass(resume=True)
+
     def test_retry_backoff_increases_and_is_capped(self):
         waits = [run_final_batch.retry_backoff_seconds(n) for n in range(1, 8)]
         self.assertEqual(waits[:4], [30.0, 60.0, 120.0, 240.0])
@@ -486,6 +520,105 @@ class CanaryDay(FinalBatchBase):
             self.run_pass()
 
 
+class CivilDayBinding(FinalBatchBase):
+    """B1: the declared day is bound to the clock, and both values are persisted."""
+
+    def test_a_lot_declared_for_another_day_is_refused(self):
+        self.pass_canary_day("2026-09-18")
+        with self.assertRaisesRegex(run_final_batch.BatchStop,
+                                    "declared day 2026-09-18 differs from the observed"):
+            self.run_pass(day="2026-09-18", now=self.noon("2026-09-20"))
+
+    def test_a_lot_that_crosses_midnight_continues_and_is_flagged(self):
+        self.pass_canary_day("2026-09-18")
+        first = self.run_pass(day="2026-09-18", max_requests=2)
+        self.assertFalse(first["midnight_crossing"])
+        # The clock moves to the next day; the stage already ran on the declared day.
+        second = self.run_pass(day="2026-09-18", resume=True,
+                               now=datetime.fromisoformat("2026-09-19T00:30:00+01:00"))
+        self.assertTrue(second["midnight_crossing"])
+        self.assertEqual(second["declared_day"], "2026-09-18")
+        self.assertEqual(second["observed_day"], "2026-09-19")
+        self.assertEqual(second["status"], "COMPLETE")
+
+    def test_the_crossing_is_refused_without_evidence_that_the_lot_began_that_day(self):
+        self.pass_canary_day("2026-09-18")
+        with self.assertRaisesRegex(run_final_batch.BatchStop,
+                                    "differs from the observed Europe/Rome day 2026-09-19"):
+            self.run_pass(day="2026-09-18", now=self.noon("2026-09-19"))
+
+    def test_the_crossing_never_reaches_a_second_day(self):
+        self.pass_canary_day("2026-09-18")
+        self.run_pass(day="2026-09-18", max_requests=2)
+        with self.assertRaises(run_final_batch.BatchStop):
+            self.run_pass(day="2026-09-18", resume=True, now=self.noon("2026-09-20"))
+
+    def test_both_days_are_persisted_in_every_batch_record(self):
+        self.pass_canary_day("2026-09-18")
+        self.run_pass(day="2026-09-18")
+        stage = FINAL_PASS_STAGES[0]
+        leaf = self.ledger.leaf(stage, self.schedule[0]["logical_id"])
+        record = self.ledger.response(leaf["request_id"])["record"]
+        self.assertEqual(record["declared_day"], "2026-09-18")
+        self.assertEqual(record["observed_day"], "2026-09-18")
+        self.assertIs(record["midnight_crossing"], False)
+
+    def test_a_canary_never_crosses_midnight(self):
+        with self.assertRaisesRegex(run_final_batch.BatchStop,
+                                    "differs from the observed Europe/Rome day 2026-09-19"):
+            self.run_day("2026-09-18", now=self.noon("2026-09-19"))
+        self.assertFalse([event for event in self.ledger.snapshot()["events"]
+                          if event.startswith("canary_")])
+
+    def test_both_days_are_persisted_in_the_canary_event(self):
+        outcome = self.pass_canary_day("2026-09-18")
+        self.assertEqual(outcome["declared_day"], "2026-09-18")
+        self.assertEqual(outcome["observed_day"], "2026-09-18")
+        detail = self.ledger.event("canary_pass:2026-09-18")
+        self.assertEqual(detail["declared_day"], "2026-09-18")
+        self.assertEqual(detail["observed_day"], "2026-09-18")
+
+    def test_the_ledger_refuses_a_canary_day_that_contradicts_the_clock(self):
+        """Belt and braces: the fail-closed layer repeats the check of the runner."""
+        self.pass_canary_day("2026-09-18")
+        with self.assertRaisesRegex(HarnessError, "never crosses midnight"):
+            self.ledger.record_canary_day("2026-09-19", verdict="PASS",
+                                          comparison={"marked_day": False},
+                                          expectations_sha256="2" * 64,
+                                          observed_day="2026-09-20")
+
+    def test_an_invalid_day_string_is_refused(self):
+        with self.assertRaisesRegex(run_final_batch.BatchStop, "is not an ISO civil date"):
+            run_final_batch.resolve_civil_day("18-09-2026", now=self.noon("2026-09-18"))
+
+
+class RomeDayWithoutTzdata(unittest.TestCase):
+    """B5: no tzdata, no guess."""
+
+    def test_rome_day_refuses_when_the_time_zone_database_is_missing(self):
+        import builtins
+
+        real_import = builtins.__import__
+
+        def without_zoneinfo(name, *args, **kwargs):
+            if name == "zoneinfo":
+                raise ImportError("FIXTURE ONLY: no tzdata")
+            return real_import(name, *args, **kwargs)
+
+        with patch.object(builtins, "__import__", without_zoneinfo):
+            with self.assertRaisesRegex(HarnessError, "requires the IANA time-zone database"):
+                canary_marking.rome_day(datetime.fromisoformat("2026-10-26T00:30:00+00:00"))
+
+    def test_rome_day_is_exact_across_the_2026_dst_switch(self):
+        # The old fallback used 27 October; the real switch is on the 25th.
+        self.assertEqual(
+            canary_marking.rome_day(datetime.fromisoformat("2026-10-25T23:30:00+00:00")),
+            "2026-10-26")
+        self.assertEqual(
+            canary_marking.rome_day(datetime.fromisoformat("2026-10-24T23:30:00+00:00")),
+            "2026-10-25")
+
+
 if __name__ == "__main__":
     unittest.main()
 
@@ -555,7 +688,9 @@ class CanaryBarrierAndMarking(FinalBatchBase):
         self.run_pass(day="2026-09-18")
         value = canary_marking.marking(self.ledger)
         self.assertEqual(value["failed_canaries"], [])
-        self.assertEqual(value["marked_requests"], 0)
+        self.assertEqual(value["primary_mask_requests"], 0)
+        self.assertEqual(value["forensic_mask_requests"], 0)
+        self.assertEqual(value["union_descriptive_requests"], 0)
         self.assertEqual(value["scientific_requests"], self.rows_per_pass)
 
     def test_a_marked_day_marks_the_lots_that_precede_it_and_those_of_the_day(self):
@@ -567,7 +702,17 @@ class CanaryBarrierAndMarking(FinalBatchBase):
         self.assertEqual(outcome["verdict"], "MARKED")
         value = canary_marking.marking(self.ledger)
         self.assertEqual(value["failed_canaries"], ["2026-09-19"])
-        self.assertEqual(value["marked_requests"], self.rows_per_pass)
+        # B2: the two masks are named and kept apart; the union is descriptive only.
+        self.assertNotIn("marked_request_ids", value)
+        self.assertEqual(value["forensic_mask_requests"], self.rows_per_pass)
+        self.assertEqual(value["forensic_mask_source"],
+                         "PROTOCOLLO_FINALE_CANDIDATE.md §6.5 — exposure interval")
+        self.assertEqual(value["primary_mask_source"],
+                         "PIANO_STATISTICO.md §10.5 — marked civil day")
+        self.assertEqual(
+            set(value["union_descriptive_request_ids"]),
+            set(value["primary_mask_request_ids"]) | set(value["forensic_mask_request_ids"]))
+        self.assertIn("descriptive", value["union_scope"])
         self.assertEqual(value["intervals"][0]["after_last_passed_canary"], "2026-09-18")
         self.assertTrue(value["equivalent_sql"])
 

@@ -192,9 +192,17 @@ eseguibile anche a campagna chiusa):
 "$PY" studio2/fase03/query_canary_marking.py --target "$TARGET" --full
 ```
 
-Regola applicata: **unione** fra l'intervallo §6.5 (chiamate fra l'ultimo canary PASS e il
-canary fallito) e l'insieme §10.5 (chiamate del giorno civile marcato). La query non scrive
-nulla: nessun record terminale viene riscritto.
+Regola applicata (§6.5 rev3), con i tre insiemi nominati e tenuti distinti:
+
+- `primary_mask_request_ids` — **maschera primaria**, piano statistico §10.5: le chiamate del
+  giorno civile marcato. È l'insieme che esce dall'analisi di sensibilità pre-specificata.
+- `forensic_mask_request_ids` — **solo forense**, protocollo §6.5: le chiamate fra l'ultimo
+  canary PASS e il canary fallito. Documenta l'intervallo di esposizione; non decide la
+  sensibilità.
+- `union_descriptive_request_ids` — **solo descrittiva**, ed etichettata come tale: §6.5 rev3
+  vieta che l'unione sostituisca tacitamente la maschera del piano.
+
+La query non scrive nulla: nessun record terminale viene riscritto.
 
 ## 4. Tratti consigliati del batch
 
@@ -249,8 +257,29 @@ generata alcuna emissione — viene **ritentato** una volta, dopo un'attesa cres
 (30 s, 60 s, 120 s, 240 s… fino a 15 min), a carico della quota retry separata. Senza
 `--resume` il runner rifiuta di continuare una passata che ha già richieste registrate.
 
-Il giorno civile del tratto si dichiara con `--day AAAA-MM-GG` quando l'esecuzione
-attraversa la mezzanotte di Roma; senza l'opzione vale il giorno corrente.
+### Il giorno civile e l'attraversamento della mezzanotte
+
+Senza `--day` vale il giorno Europe/Rome letto dall'orologio. Con `--day AAAA-MM-GG` il
+giorno dichiarato viene **confrontato con l'orologio**: entrambi i valori finiscono
+nell'evento canary, nel record durevole di ogni chiamata e nel riepilogo del tratto
+(`declared_day`, `observed_day`, `midnight_crossing`).
+
+**Regola dell'attraversamento della mezzanotte, in forma stretta.** Il giorno dichiarato può
+differire da quello osservato **solo** quando tutte e tre le condizioni valgono:
+
+1. il giorno osservato è il giorno di calendario **immediatamente successivo** a quello
+   dichiarato;
+2. lo stage in corso possiede già **almeno una richiesta completata** nel giorno dichiarato,
+   cioè il lotto è davvero iniziato quel giorno;
+3. si tratta di un lotto scientifico: **il canary non attraversa mai la mezzanotte**, perché
+   apre il giorno a cui appartiene, e un canary con giorno dichiarato diverso da quello
+   osservato viene rifiutato dal comando e di nuovo dal ledger.
+
+Qualunque altra differenza — due giorni di distanza, un giorno precedente, un lotto nuovo
+dichiarato per ieri — è uno STOP. In pratica: un tratto avviato alle 22:00 del giorno X con
+canary PASS di X si lancia con `--day X` e può proseguire oltre le 24:00; il tratto
+successivo, iniziato dopo la mezzanotte, appartiene al giorno X+1 e richiede **prima** il
+canary di X+1.
 
 Se il comando si interrompe fra invio e salvataggio, lo slot resta `INTENT`/`FAILED` e la
 ripresa si ferma: è incertezza, non un fallimento da ritentare (punto 6).
@@ -265,9 +294,11 @@ ripresa si ferma: è incertezza, non un fallimento da ritentare (punto 6).
 | Cinque fallimenti tecnici consecutivi | `STOP: 5 consecutive technical failures on [...]` | STOP: servizio verosimilmente indisponibile. Il contatore è **persistente** (derivato dal ledger) e non si azzera riavviando; si azzera solo con una chiamata che riceve risposta. Decisione dell'autore prima di riprendere. |
 | Canary invalido | `canary day ... has N invalid responses` | Il giorno non si chiude e nessun lotto parte in quel giorno. Decisione dell'autore. |
 | Lotto fuori da un giorno canary | `no canary PASS recorded for <giorno>` | Eseguire il canary del giorno prima del primo lotto, oppure dichiarare il giorno corretto con `--day`. |
+| Giorno dichiarato diverso dall'orologio | `declared day ... differs from the observed Europe/Rome day ...` | Atteso quando `--day` non corrisponde: usare il giorno corrente, oppure — se e solo se il lotto è iniziato il giorno dichiarato e l'orologio segna il giorno dopo — riprenderlo con lo stesso `--day`, che il runner accetta come attraversamento della mezzanotte. Un canary non attraversa mai la mezzanotte. |
+| Fuso orario mancante | `Europe/Rome civil day requires the IANA time-zone database` | Installare tzdata sulla macchina (`pip install tzdata` dove il database di sistema manca). Il giorno civile non viene mai stimato. |
 | Sospensione d'identità | `pilot suspended: returned model/fingerprint ...` | STOP. L'unico percorso ammesso è una revisione approvata della configurazione e la riconciliazione già implementata; la ripresa richiede decisione dell'autore e, se cambia identità o autorizza nuove chiamate, una revisione di protocollo/quota. |
 | Canary: identità cambiata | `canary identity change on <giorno>` | STOP immediato prima di altre chiamate. Nessun comando riprende da solo. |
-| Canary: secondo giorno marcato | `second marked canary day` | STOP prima del lotto successivo; decisione dell'autore prima di qualunque ripresa. L'insieme marcato è quello dato da `query_canary_marking.py`: unione fra le chiamate dall'ultimo canary PASS al canary fallito e le chiamate del giorno civile marcato. Restano nell'analisi primaria ed escono dall'analisi di sensibilità già pre-specificata. |
+| Canary: secondo giorno marcato | `second marked canary day` | STOP prima del lotto successivo; decisione dell'autore prima di qualunque ripresa. L'insieme che esce dall'analisi di sensibilità è `primary_mask_request_ids` di `query_canary_marking.py` (giorno civile marcato, piano §10.5); `forensic_mask_request_ids` documenta l'intervallo §6.5 e l'unione è solo descrittiva. Tutte restano nell'analisi primaria. |
 | Quota per stage o totale | `stage quota ... is exhausted` / `cumulative hard stop 7202` | STOP. Nessun allargamento locale: il tetto è 6.732 scientifiche più 70 canary più 400 retry provati = 7.202. |
 | Chiamata su `technical_verification` | `stage technical_verification has quota 0` | Atteso: `X = 0`. Una verifica tecnica richiede una revisione dichiarata del protocollo, non un allargamento locale. |
 | Schedule non autenticata | `schedule differs from the deterministic generator` | STOP. Non rigenerare sopra: verificare quale artefatto è cambiato. |

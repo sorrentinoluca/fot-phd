@@ -1,15 +1,19 @@
-"""Marking of the scientific lots that sit between two canaries (review rilievo C4).
+"""Marking of the scientific lots that sit between two canaries (§6.5 rev3, plan §10.5).
 
-Two sources disagreed and the candidate did not say which set leaves the sensitivity
-analysis: protocol §6.5 marks the interval that precedes the failed canary, the statistical
-plan §10.5 marks the calls *of the day*.  The rule applied here is the **union** of the two,
-defined on ledger timestamps alone, so the marked set is derivable after the fact and never
-requires writing on records that are already terminal:
+Protocol §6.5 rev3 settles the relation between the two sets, and this module reproduces
+that hierarchy instead of collapsing it:
 
-* interval set -- every scientific request completed after the last canary PASS that
-  precedes a marked (or stopped) canary, and before that canary's first call;
-* day set -- every scientific request completed inside the marked civil day, Europe/Rome,
-  including the calls that follow the failed canary on the same day.
+* ``primary_mask_request_ids`` -- **the primary mask**. Statistical plan §10.5: every
+  scientific request completed inside the marked civil day, Europe/Rome, including the
+  calls that follow the failed canary on the same day. This is the set that leaves the
+  pre-specified sensitivity analysis.
+* ``forensic_mask_request_ids`` -- **forensic only**. Protocol §6.5: every scientific
+  request completed after the last canary PASS that precedes a marked (or stopped) canary
+  and before that canary's first call. It documents the exposure interval; it does not
+  decide the sensitivity analysis.
+* ``union_descriptive_request_ids`` -- **descriptive only**, and labelled as such. §6.5
+  rev3 forbids the union from silently replacing the plan's sensitivity mask, so it is
+  published under its own name and never as *the* marked set.
 
 Nothing is mutated: this is a read-only query over the ledger.
 """
@@ -17,9 +21,10 @@ Nothing is mutated: this is a read-only query over the ledger.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from typing import Any, Iterable
 
+from .common import HarnessError
 from .ledger import (
     CANARY_MARKED_PREFIX, CANARY_PASS_PREFIX, CANARY_STOP_PREFIX, FINAL_CANARY_STAGE,
     FINAL_PASS_STAGES,
@@ -39,17 +44,23 @@ SELECT r.request_id, r.stage, r.logical_id, r.completed_utc
 
 
 def rome_day(moment: datetime) -> str:
-    """Civil date in Europe/Rome; falls back to the fixed EU rule without tzdata."""
+    """Civil date in Europe/Rome. Without tzdata it refuses rather than guess.
+
+    The civil day is the unit of both the canary barrier and the primary mask, so an
+    approximate answer is worse than none: a fixed-date fallback puts the DST switch on
+    the wrong day in most years (review rilievo B5). Install tzdata on the machine that
+    runs the batch; ``pip install tzdata`` is enough where the OS database is missing.
+    """
     moment = moment.astimezone(timezone.utc)
     try:
         from zoneinfo import ZoneInfo
 
-        return moment.astimezone(ZoneInfo("Europe/Rome")).date().isoformat()
-    except Exception:  # pragma: no cover - fallback only when tzdata is absent
-        year = moment.year
-        offset = timedelta(hours=2 if datetime(year, 3, 31, tzinfo=timezone.utc) <= moment
-                           <= datetime(year, 10, 27, tzinfo=timezone.utc) else 1)
-        return (moment + offset).date().isoformat()
+        zone = ZoneInfo("Europe/Rome")
+    except Exception as exc:
+        raise HarnessError(
+            "Europe/Rome civil day requires the IANA time-zone database; install tzdata "
+            "before running the canary or the batch") from exc
+    return moment.astimezone(zone).date().isoformat()
 
 
 def _moment(value: str | None) -> datetime | None:
@@ -144,17 +155,28 @@ def marking(ledger) -> dict[str, Any]:
         for row in requests:
             if rome_day(_moment(row["completed_utc"])) == entry["day"]:
                 day_ids.add(row["request_id"])
-    marked = sorted(interval_ids | day_ids)
+    primary = sorted(day_ids)
+    forensic = sorted(interval_ids)
+    union = sorted(interval_ids | day_ids)
     return {
-        "artifact_version": "MARCATURA_CANARY_7_4_1",
-        "rule": "union of the interval set (§6.5) and the civil-day set (§10.5)",
+        "artifact_version": "MARCATURA_CANARY_7_4_2",
+        "rule": "primary mask = marked civil day (plan §10.5); forensic mask = interval "
+                "between the last PASS and the failed canary (§6.5); their union is "
+                "descriptive only and never replaces the plan's sensitivity mask",
         "canary_days": days,
         "failed_canaries": [entry["day"] for entry in failed],
         "intervals": intervals,
-        "interval_only": sorted(interval_ids - day_ids),
-        "civil_day_only": sorted(day_ids - interval_ids),
-        "marked_request_ids": marked,
-        "marked_requests": len(marked),
+        "primary_mask_request_ids": primary,
+        "primary_mask_requests": len(primary),
+        "primary_mask_source": "PIANO_STATISTICO.md §10.5 — marked civil day",
+        "forensic_mask_request_ids": forensic,
+        "forensic_mask_requests": len(forensic),
+        "forensic_mask_source": "PROTOCOLLO_FINALE_CANDIDATE.md §6.5 — exposure interval",
+        "forensic_only_request_ids": sorted(interval_ids - day_ids),
+        "primary_only_request_ids": sorted(day_ids - interval_ids),
+        "union_descriptive_request_ids": union,
+        "union_descriptive_requests": len(union),
+        "union_scope": "descriptive; §6.5 rev3 forbids using it as the sensitivity mask",
         "scientific_requests": len(requests),
         "derivation": "read-only over the ledger; terminal records are never rewritten",
         "equivalent_sql": EQUIVALENT_SQL,

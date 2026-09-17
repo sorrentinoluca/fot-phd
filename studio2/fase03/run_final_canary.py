@@ -37,27 +37,24 @@ from studio2.fase03.harness.ledger import (  # noqa: E402
     PilotLedger, digest, load_tokenizer_accounting_guard,
 )
 from studio2.fase03.harness.guards import require_execution, require_pilot_ledger  # noqa: E402
-from studio2.fase03.harness.runtime import durable_write, execute_request  # noqa: E402
+from studio2.fase03.harness.runtime import (  # noqa: E402
+    IdentitySuspension, durable_write, execute_request,
+)
 from studio2.fase03 import run_pilot  # noqa: E402
 from studio2.fase03.run_final_batch import (  # noqa: E402
-    BatchStop, STOP_PREFIX, load_target, retry_backoff_seconds,
+    BatchStop, STOP_PREFIX, load_target, resolve_civil_day, retry_backoff_seconds,
 )
 
 ACK = "EXECUTE_PHASE03_FINAL_CANARY"
 MAX_DAYS = 7
 DAILY_CALLS = 10
-ROME_OFFSET_NOTE = "Europe/Rome civil day; pass --day explicitly when the run straddles midnight"
+ROME_OFFSET_NOTE = ("Europe/Rome civil day of this canary; it must equal the day observed "
+                    "on the clock, because a canary opens the day it belongs to and never "
+                    "crosses midnight (default: today)")
 
 
 class CanaryProvider(run_pilot.Provider):
     ALLOWED_STAGES = {FINAL_CANARY_STAGE}
-
-
-def rome_day(now: datetime | None = None) -> str:
-    """Civil date in Europe/Rome; one definition, shared with the marking query."""
-    from studio2.fase03.harness.canary_marking import rome_day as shared
-
-    return shared(now or datetime.now(timezone.utc))
 
 
 def canary_prompts(target: dict[str, Any]) -> list[dict[str, Any]]:
@@ -99,9 +96,13 @@ def day_state(ledger: PilotLedger) -> dict[str, list[str]]:
     }
 
 
-def run_day(*, target, ledger, config, generation, schema, day: str, results_dir: Path,
+def run_day(*, target, ledger, config, generation, schema, day: str | None, results_dir: Path,
             execute: bool, provider_factory=None, accounting_guard=None,
-            sleep=None) -> dict[str, Any]:
+            sleep=None, now: datetime | None = None) -> dict[str, Any]:
+    # A canary opens the civil day it belongs to, so no crossing is admitted here: the
+    # declared day must equal the observed Europe/Rome day (review rilievo B1).
+    civil = resolve_civil_day(day, now=now, crossing_evidence=None)
+    day, observed_day = civil["declared_day"], civil["observed_day"]
     state = day_state(ledger)
     if state["stops"]:
         raise BatchStop(STOP_PREFIX + f" canary stop in force: {state['stops']}")
@@ -124,12 +125,12 @@ def run_day(*, target, ledger, config, generation, schema, day: str, results_dir
     binding = canary_binding(specs, config=config, schema=schema, target=target)
     today = [spec for spec in specs if spec["logical_id"].startswith(f"canary:day{day_index}:")]
     if not execute:
-        return {"day": day, "day_index": day_index, "stage": FINAL_CANARY_STAGE,
+        return {"day": day, "declared_day": day, "observed_day": observed_day,
+                "day_index": day_index, "stage": FINAL_CANARY_STAGE,
                 "planned": len(today), "status": "PLAN_ONLY", "state": state}
 
     ledger.bind_stage(FINAL_CANARY_STAGE, binding)
     provider = (provider_factory or CanaryProvider)(config)
-    journal_path = results_dir / "final_canary_journal.jsonl"
     observations, identity_stop = [], None
     identity: dict[str, Any] = {}
     invalid: list[str] = []
@@ -137,7 +138,8 @@ def run_day(*, target, ledger, config, generation, schema, day: str, results_dir
         messages = [{"role": "user", "content": prompt["text"]}]
 
         def evaluate(raw, prompt=prompt):
-            return dict(run_pilot.consumer_record(raw, prompt, generation), repetition=1)
+            return dict(run_pilot.consumer_record(raw, prompt, generation), repetition=1,
+                        declared_day=day, observed_day=observed_day, midnight_crossing=False)
 
         leaf = ledger.leaf(FINAL_CANARY_STAGE, spec["logical_id"])
         retry_requests: tuple = ()
@@ -175,13 +177,12 @@ def run_day(*, target, ledger, config, generation, schema, day: str, results_dir
                     prompt=prompt, messages=transmitted, schema=schema, generation=generation,
                     ledger=ledger, stage=FINAL_CANARY_STAGE, spec=spec),
                 evaluate=evaluate, expected_identity=config["expected_response"],
-                journal_path=journal_path, messages=messages,
-                accounting_guard=accounting_guard, journal=lambda *_: None,
+                messages=messages, accounting_guard=accounting_guard,
                 resume=bool(retry_requests), retry_requests=retry_requests)
-        except HarnessError as exc:
-            if "identity" not in str(exc) and "suspended" not in str(exc):
-                raise
-            identity_stop = str(exc)
+        except IdentitySuspension as exc:
+            # Typed, so a reworded message in runtime can never lose the durable event.
+            identity_stop = {"message": str(exc), "field": exc.field,
+                             "observed": exc.observed, "expected": exc.expected}
             break
         identity[prompt["prompt_id"]] = {
             "returned_model": record.get("returned_model"),
@@ -195,16 +196,21 @@ def run_day(*, target, ledger, config, generation, schema, day: str, results_dir
                              "raw_response": record.get("raw_output") or ""})
 
     if identity_stop is not None:
-        ledger.record_canary_stop(day, reason="returned_model or system_fingerprint changed",
-                                  detail={"message": identity_stop, "day_index": day_index,
-                                          "identity": identity})
-        raise BatchStop(STOP_PREFIX + f" canary identity change on {day}: {identity_stop}")
+        ledger.record_canary_stop(
+            day, reason="returned_model or system_fingerprint changed",
+            detail=dict(identity_stop, day_index=day_index, identity=identity,
+                        declared_day=day, observed_day=observed_day),
+            observed_day=observed_day)
+        raise BatchStop(
+            STOP_PREFIX + f" canary identity change on {day} "
+            f"({identity_stop['field']}): {identity_stop['message']}")
 
     if invalid:
         # C5 under D3: the day is neither PASS nor MARKED, so the barrier of §7.1 step 3
         # keeps every scientific lot of this day closed until the author decides.
         durable_write(results_dir / f"canary_{day}_invalid.json",
-                      json.dumps({"day": day, "day_index": day_index,
+                      json.dumps({"day": day, "declared_day": day,
+                                  "observed_day": observed_day, "day_index": day_index,
                                   "invalid_prompt_ids": sorted(invalid),
                                   "identity": identity,
                                   "rule": "D3: a received but invalid response is never "
@@ -216,7 +222,8 @@ def run_day(*, target, ledger, config, generation, schema, day: str, results_dir
             "scientific lot may run on it: author decision required")
 
     comparison = canary_module.compare_run(Path(target["canary_expectations"]["path"]), observations)
-    outcome = dict(day=day, day_index=day_index, marked=comparison["marked_day"],
+    outcome = dict(day=day, declared_day=day, observed_day=observed_day,
+                   day_index=day_index, marked=comparison["marked_day"],
                    behavior_changes=comparison["behavior_changes"],
                    raw_hash_changes=comparison["raw_hash_changes"],
                    comparison_sha256=comparison["comparison_sha256"],
@@ -226,7 +233,7 @@ def run_day(*, target, ledger, config, generation, schema, day: str, results_dir
     verdict = "MARKED" if comparison["marked_day"] else "PASS"
     ledger.record_canary_day(day, verdict=verdict, comparison=comparison,
                              expectations_sha256=target["canary_expectations"]["sha256"],
-                             identity=identity)
+                             identity=identity, observed_day=observed_day)
     outcome["verdict"] = verdict
     outcome["identity"] = identity
     if verdict == "MARKED":
@@ -259,7 +266,7 @@ def main(argv=None) -> int:
     if config["candidate"]["requested_model"] == "qwen3.5-122b":
         accounting_guard = load_tokenizer_accounting_guard(Path(target["tokenizer_snapshot"]))
     outcome = run_day(target=target, ledger=ledger, config=config, generation=target["generation"],
-                      schema=schema, day=arguments.day or rome_day(),
+                      schema=schema, day=arguments.day,
                       results_dir=Path(target["results_dir"]), execute=arguments.execute,
                       accounting_guard=accounting_guard)
     print(json.dumps(dict(outcome, state=day_state(ledger)), indent=2, ensure_ascii=False, sort_keys=True))

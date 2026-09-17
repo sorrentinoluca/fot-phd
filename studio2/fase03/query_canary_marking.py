@@ -41,8 +41,12 @@ def main(argv=None) -> int:
     ledger = PilotLedger(path, pilot_id=pilot_id, profile="final_batch")
     value = marking(ledger)
     if not arguments.full:
-        value = dict(value, marked_request_ids=value["marked_request_ids"][:20],
-                     truncated=len(value["marked_request_ids"]) > 20)
+        truncated = False
+        for field in ("primary_mask_request_ids", "forensic_mask_request_ids",
+                      "union_descriptive_request_ids"):
+            truncated = truncated or len(value[field]) > 20
+            value = dict(value, **{field: value[field][:20]})
+        value = dict(value, truncated=truncated)
     print(json.dumps(value, indent=2, ensure_ascii=False, sort_keys=True))
     return 0
 
