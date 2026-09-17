@@ -1,0 +1,46 @@
+03.13 remediation correction verification log
+date: 2026-09-17 Europe/Rome
+worktree: /Users/luker/.codex/worktrees/dd86/fot-tep
+rejected_commit: 72e20d84fdc1a3251df98fe00b1bbd9026fc37ed
+rejected_tree: b340794ca9ca370121fb7154804a3d500d2670f5
+review: /Users/luker/.codex/worktrees/b567/fot-tep/studio2/fase03/harness/VERIFICA_ESITO_REMEDIATION_PRODUCER_122B_PILOT_03_03_13.md
+review_sha256: f0b9ca37d0ab61a37ad0f69fbaee250047725467f0eb21819122b81c78747552
+review_verdict: NOT CONFIRMED
+python: /opt/anaconda3/bin/python3 (Python 3.13.9)
+
+FINAL TEST BYTES ON REJECTED IMPLEMENTATION
+tests: diagnosis approval survives source deletion; accounting expected messages are stage-scoped; same-stage mismatch remains a durable STOP
+result: 3 tests, 0 failures, 3 errors, 0.119 s
+errors: missing embedded approval content; expected_stage API absent (2)
+classification: EXPECTED_BEHAVIORAL_RED
+
+FOCUSED GREEN
+result: 3/3 PASS, 0 failures, 0 errors, 0.121 s
+
+SUCCESSOR TARGETED
+command: /opt/anaconda3/bin/python3 -m unittest -v studio2.fase03.harness.test_successor_recovery
+result: 39/39 PASS, 0 failures, 0 errors, 5.464 s
+
+15-MODULE REGRESSION
+command: /opt/anaconda3/bin/python3 -m unittest phase_b.tests.test_parser_retry_guard phase_b.tests.test_protocol_freeze studio2.fase03.harness.test_c01_c03 studio2.fase03.harness.test_d01_replay studio2.fase03.harness.test_d02_predecessors studio2.fase03.harness.test_d03_contract studio2.fase03.harness.test_d04_open_quota studio2.fase03.harness.test_d9 studio2.fase03.harness.test_d9_corrections studio2.fase03.harness.test_harness_offline studio2.fase03.harness.test_history_reconciliation studio2.fase03.harness.test_metric_raccordo studio2.fase03.harness.test_revisions studio2.fase03.harness.test_successor_recovery studio2.fase03.harness.test_tokenizer_accounting
+result: 212/212 PASS, 0 failures, 0 errors, 447.244 s
+wall_clock: 447.67 s
+note: historical SQLite ResourceWarning messages are not failures or errors
+
+GUARDIAN — separate historical baseline
+command: /opt/anaconda3/bin/python3 docs/test_explanation.py -v
+result: 35 tests, 14 failures, 1 skipped, 0 errors, 0.074 s
+classification: EXPECTED_HISTORICAL_NON_PASS_OUTSIDE_CORRECTION_SCOPE
+
+STATIC CHECKS
+py_compile modified Python modules: PASS
+git diff --check: PASS
+
+RUNTIME ACTIVITY
+provider calls: 0
+network access: false
+scientific execution: false
+real stop removed or modified: false
+pilot03_sha256: 3690ccfac8a0807d20f1be581325748f392ed777a206ee7c2e8954106df19779
+pilot001_sha256: 4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb
+lsof_final_empty: true

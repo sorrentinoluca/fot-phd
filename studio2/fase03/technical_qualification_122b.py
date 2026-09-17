@@ -205,7 +205,8 @@ def run(*, config_path: Path, provider_path: Path, ledger_path: Path, pilot_id: 
         "chat_template_kwargs": deepcopy(NO_THINKING_EXTRA_BODY["chat_template_kwargs"]),
     }
     ledger.validate_tokenizer_accounting_evidence(
-        guard, expected_messages={spec["logical_id"]: messages})
+        guard, expected_stage=TECHNICAL_STAGE,
+        expected_messages={spec["logical_id"]: messages})
     ledger.bind_stage(TECHNICAL_STAGE, binding)
     leaf = ledger.leaf(TECHNICAL_STAGE, spec["logical_id"])
     if leaf and not resume:

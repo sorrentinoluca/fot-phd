@@ -1325,6 +1325,10 @@ class PostFailureDiagnosisTests(SuccessorFixture):
         diagnosis_approval = self._diagnosis_approval(ledger)
         ledger.diagnose_producer_failure(
             diagnosis="identifiers", approval_path=diagnosis_approval)
+        diagnosis_event = ledger.event("diagnosis:producer_conformity")
+        self.assertEqual(diagnosis_event["approval"]["content"]["diagnosis"],
+                         "identifiers")
+        diagnosis_approval.unlink()
         ledger.authorize_remediation(
             diff_path=diff_path, approval_path=remediation_approval,
             template_path=template_path)
@@ -1525,6 +1529,59 @@ class BlockingCorrectionTests(SuccessorFixture):
     class Tokenizer:
         def apply_chat_template(self, messages, **kwargs):
             return [1] * 11
+
+    def _one_accounted_producer_request(self):
+        ledger = self.imported()
+        self._pass_technical(ledger)
+        binding = _binding("producer_conformity", 8)
+        for index, spec in enumerate(binding["requests"]):
+            spec["model"] = "qwen3.5-122b"
+            spec["prompt_sha256"] = sha256_text(f"original-{index}")
+        ledger.bind_stage("producer_conformity", binding)
+        request_id = _reserve(ledger, "producer_conformity", 0)
+        messages = [{"role": "user", "content": "original-0"}]
+        raw = {
+            "id": "accounted", "model": "qwen3.5-122b",
+            "system_fingerprint": "fp",
+            "choices": [{"message": {"content": "{}"}, "finish_reason": "stop"}],
+            "usage": {"prompt_tokens": 11, "completion_tokens": 1,
+                      "total_tokens": 12},
+        }
+        guard = TokenizerAccountingGuard(
+            self.Tokenizer(), template_kwargs={"enable_thinking": False})
+        ledger.save_raw(request_id, raw)
+        ledger.account_producer_response(request_id, messages=messages, guard=guard)
+        identity = json.loads(ledger.request(request_id)["identity_json"])
+        record = {
+            "request_id": request_id, "prompt_sha256": identity["prompt_sha256"],
+            "response_id": raw["id"], "returned_model": raw["model"],
+            "system_fingerprint": "fp", "identity_valid": True,
+            "schema_valid_first_attempt": True, "finish_reason": "stop",
+            "raw_output": "{}", "prompt_tokens": 11,
+            "completion_tokens": 1, "total_tokens": 12,
+        }
+        ledger.bind_tokenizer_accounting_record(request_id, record=record)
+        ledger.complete_request(
+            request_id, status="COMPLETED", record=record,
+            prompt_tokens=11, completion_tokens=1, total_tokens=12)
+        return ledger, guard, binding["requests"][0]["logical_id"]
+
+    def test_REM3_accounting_expected_messages_are_scoped_by_stage_and_logical_id(self):
+        ledger, guard, logical_id = self._one_accounted_producer_request()
+        remediation_messages = [{"role": "user", "content": "remediated-0"}]
+        ledger.validate_tokenizer_accounting_evidence(
+            guard, expected_stage="producer_remediation",
+            expected_messages={logical_id: remediation_messages})
+        self.assertIsNone(ledger.event("stop:tokenizer_accounting"))
+
+    def test_REM3_same_stage_message_mismatch_remains_a_durable_stop(self):
+        ledger, guard, logical_id = self._one_accounted_producer_request()
+        changed_messages = [{"role": "user", "content": "changed-0"}]
+        with self.assertRaisesRegex(HarnessError, "persisted accounting messages are invalid"):
+            ledger.validate_tokenizer_accounting_evidence(
+                guard, expected_stage="producer_conformity",
+                expected_messages={logical_id: changed_messages})
+        self.assertIsNotNone(ledger.event("stop:tokenizer_accounting"))
 
     def test_P1_02a_materializer_requires_explicit_gate_before_work(self):
         from studio2.fase03 import materialize_successor_recovery as materializer

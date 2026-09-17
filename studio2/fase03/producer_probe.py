@@ -150,7 +150,7 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
                    provider_reference={'path':str(provider_path.resolve()),'sha256':sha256_file(provider_path)})
     if accounting_guard is not None:
         ledger.validate_tokenizer_accounting_evidence(
-            accounting_guard,
+            accounting_guard, expected_stage=stage,
             expected_messages={spec['logical_id']: [dict(role='user', content=prompt)]
                                for spec, prompt, _ in prepared})
     ledger.bind_stage(stage, binding)

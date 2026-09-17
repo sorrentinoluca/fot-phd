@@ -633,8 +633,17 @@ class PilotLedger:
             raise HarnessError(failure)
         return result
 
-    def validate_tokenizer_accounting_evidence(self, guard, *, expected_messages=None):
-        """Recompute all persisted accounting links before evidence is reused."""
+    def validate_tokenizer_accounting_evidence(
+            self, guard, *, expected_stage=None, expected_messages=None):
+        """Recompute evidence; caller messages apply only to their named stage."""
+        if (expected_stage is None) != (expected_messages is None):
+            raise HarnessError(
+                'FATAL_ACCOUNTING_ERROR: expected messages require an explicit stage')
+        if expected_stage is not None and (expected_stage not in ACTIVE_STAGES
+                or not isinstance(expected_messages, dict)
+                or not all(isinstance(key, str) and key for key in expected_messages)):
+            raise HarnessError(
+                'FATAL_ACCOUNTING_ERROR: expected accounting stage/messages are invalid')
         failure = None
         with self._transaction() as c:
             self._require_no_tokenizer_accounting_stop(c)
@@ -646,10 +655,11 @@ class PilotLedger:
                 try:
                     detail = json.loads(row['detail_json'])
                     messages = detail.get('messages')
-                    if expected_messages is not None:
-                        expected = expected_messages.get(request['logical_id']) if request else None
-                        if expected is not None:
-                            messages = expected
+                    if request is not None and request['stage'] == expected_stage:
+                        if request['logical_id'] not in expected_messages:
+                            raise HarnessError(
+                                'FATAL_ACCOUNTING_ERROR: expected messages omit a stage request')
+                        messages = expected_messages[request['logical_id']]
                     # The rendering rule is an attribute of this authenticated durable
                     # request, not of the caller that happens to revalidate the ledger.
                     # Classify only after lineage, binding and request identity agree.
@@ -1435,23 +1445,33 @@ class PilotLedger:
             return None
         try:
             detail = json.loads(event['detail_json'])
-            reference = detail.get('approval')
-            if (not isinstance(reference, dict) or set(reference) != {'path', 'sha256'}
-                    or not Path(reference['path']).is_absolute()):
+            stored_approval = detail.get('approval')
+            if (not isinstance(stored_approval, dict)
+                    or not Path(stored_approval.get('path', '')).is_absolute()):
                 raise HarnessError('producer failure diagnosis lacks its approval reference')
-            approval_bytes = Path(reference['path']).read_bytes()
-            approval = json.loads(approval_bytes)
-        except (OSError, TypeError, ValueError, UnicodeError) as exc:
+            if set(stored_approval) == {'path', 'sha256'}:
+                # Compatibility for the one pre-correction event: it remains fail-closed
+                # and still requires its externally authenticated approval bytes.
+                approval_bytes = Path(stored_approval['path']).read_bytes()
+                approval = json.loads(approval_bytes)
+            elif set(stored_approval) == {'path', 'sha256', 'content', 'utf8'}:
+                approval_bytes = stored_approval['utf8'].encode('utf-8')
+                approval = json.loads(approval_bytes)
+                if approval != stored_approval['content']:
+                    raise HarnessError('producer failure diagnosis approval copy is corrupted')
+            else:
+                raise HarnessError('producer failure diagnosis lacks its approval content')
+        except (OSError, AttributeError, TypeError, ValueError, UnicodeError) as exc:
             raise HarnessError('producer failure diagnosis approval is unavailable or invalid') from exc
         diagnosis = detail.get('diagnosis')
         expected = {
             'diagnosis': diagnosis,
             'records_sha256': records_sha256,
-            'approval': reference,
+            'approval': stored_approval,
         }
         if (diagnosis not in DIAGNOSES or detail != expected
-                or event['artifact_sha256'] != reference['sha256']
-                or sha256_bytes(approval_bytes) != reference['sha256']
+                or event['artifact_sha256'] != stored_approval['sha256']
+                or sha256_bytes(approval_bytes) != stored_approval['sha256']
                 or not isinstance(approval, dict)
                 or set(approval) != {'decision', 'author', 'diagnosis', 'records_sha256'}
                 or approval.get('decision') != 'accepted'
@@ -1470,7 +1490,8 @@ class PilotLedger:
         approval_path = Path(approval_path).resolve()
         try:
             approval_bytes = approval_path.read_bytes()
-            approval = json.loads(approval_bytes)
+            approval_utf8 = approval_bytes.decode('utf-8')
+            approval = json.loads(approval_utf8)
         except (OSError, TypeError, ValueError, UnicodeError) as exc:
             raise HarnessError('producer failure diagnosis approval is unavailable or invalid') from exc
         actual_sha256 = sha256_bytes(approval_bytes)
@@ -1512,7 +1533,12 @@ class PilotLedger:
             event_detail = {
                 'diagnosis': diagnosis,
                 'records_sha256': records_sha256,
-                'approval': {'path': str(approval_path), 'sha256': actual_sha256},
+                'approval': {
+                    'path': str(approval_path),
+                    'sha256': actual_sha256,
+                    'content': approval,
+                    'utf8': approval_utf8,
+                },
             }
             existing = events.get('diagnosis:producer_conformity')
             if existing is not None:
