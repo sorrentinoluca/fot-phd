@@ -1,0 +1,307 @@
+{
+  "artifact_version": "LIBRERIE_FINALI_CANDIDATE_7_2_1",
+  "status": "CANDIDATE_NOT_FROZEN",
+  "note": "Candidato di riuso senza chiamate: riferimenti al runtime pilot-03, nessuna copia modificata. Il freeze e la scelta fra riuso e rigenerazione sono dell autore.",
+  "ledger": {
+    "path": "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/studio2-fase03-d9-pilot-03/ledger.sqlite3",
+    "sha256": "93ff83a5a4132800c2973fe6687c8e0ffcdb07d33f293a8517ca715ff8dc4089"
+  },
+  "source_inventory_digest": "d3605ae5f656606d2597cd7f06d69aab4ad2305c799db1f0b8b09b0722aea3b3",
+  "producers": {
+    "122B": {
+      "role": "principale",
+      "stage": "producer_remediation",
+      "library_path": "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/studio2-fase03-d9-pilot-03/results/validated_insight_library_qwen_122b_primary_producer_remediation.json",
+      "library_file_sha256": "1e97ddd3525c414f6d5ddd240e98d358720937e912edb4e27644374e8b2eea09",
+      "library_canonical_sha256": "c2469737bcaab0df8d07a1c2493d2f95784aae07a55998aecf49cc53fa5d1a30",
+      "records_sha256": "64845a495017662f55ec779e9cc9df02281a33771b787d3ba20c0cc6a1d12530",
+      "binding_sha256": "ad9ed8aeb8aa347480ebf5965f28b6156b9c1e47c50ca56ae411c54af0e0793e",
+      "inventory_sha256": "d3605ae5f656606d2597cd7f06d69aab4ad2305c799db1f0b8b09b0722aea3b3",
+      "schema_commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "schema_manifest_sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12",
+      "model": "qwen3.5-122b",
+      "system_fingerprint": "vllm-0.27.1-934a3247",
+      "provider_name": "qwen_122b_primary",
+      "provider_file_sha256": "04b2c948c586c9ae4e38d9d0c50d36aad86a5b609a609d94c2d31fde7c2a8bf0",
+      "generation": {
+        "max_tokens": 2560,
+        "temperature": null,
+        "seed": null,
+        "thinking_token_budget": null,
+        "extra_body": {
+          "chat_template_kwargs": {
+            "enable_thinking": false
+          }
+        }
+      },
+      "template": {
+        "source": "execution/producer_template_remediation_03_13.txt",
+        "sha256": "4306c5da6f0ebefcbce75d26d585caf82cc05ff85d5e7e6639e3f65b2d66de12",
+        "canonical_digest": "304c858f828471e46ed915fba1eb79991f9cfe689bd524f20b504658b9d605c9"
+      },
+      "insights": 16,
+      "agents": 8,
+      "variable_ids_total": 128,
+      "variable_ids_distinct": 33,
+      "tokens_per_insight": {
+        "S2-INS-001": 87,
+        "S2-INS-002": 94,
+        "S2-INS-003": 122,
+        "S2-INS-004": 120,
+        "S2-INS-005": 93,
+        "S2-INS-006": 87,
+        "S2-INS-007": 121,
+        "S2-INS-008": 106,
+        "S2-INS-009": 85,
+        "S2-INS-010": 86,
+        "S2-INS-011": 66,
+        "S2-INS-012": 86,
+        "S2-INS-013": 87,
+        "S2-INS-014": 102,
+        "S2-INS-015": 130,
+        "S2-INS-016": 130
+      },
+      "chars_per_insight": {
+        "S2-INS-001": 427,
+        "S2-INS-002": 473,
+        "S2-INS-003": 413,
+        "S2-INS-004": 393,
+        "S2-INS-005": 390,
+        "S2-INS-006": 368,
+        "S2-INS-007": 441,
+        "S2-INS-008": 388,
+        "S2-INS-009": 423,
+        "S2-INS-010": 424,
+        "S2-INS-011": 321,
+        "S2-INS-012": 388,
+        "S2-INS-013": 441,
+        "S2-INS-014": 497,
+        "S2-INS-015": 505,
+        "S2-INS-016": 525
+      },
+      "tokens": {
+        "total": 1602,
+        "mean": 100.12,
+        "median": 93.5,
+        "min": 66,
+        "max": 130
+      },
+      "chars": {
+        "total": 6817,
+        "mean": 426.06,
+        "median": 423.5,
+        "min": 321,
+        "max": 525
+      },
+      "provenance": {
+        "agent_1": {
+          "request_id": "2f2d4f1d2c552a8298ed3f7b72dff20dd36b070b7dcbd53deecb1cfc06f66a89",
+          "quota_kind": "transport",
+          "prompt_sha256": "5c9671200fa9ce0699e3fdde7ffd031ca1a31e06c16ceb3dc7bdd2aac134802b",
+          "case_sha256": "ca14433577ff35854f98a56ee283a8cb516f717ea7a422bc15a02d6b9cb292bd",
+          "contract_sha256": "71f61a89283d653dc4d54235b35c0843485949b1957f6b33edad9c8e8d88e0b2"
+        },
+        "agent_2": {
+          "request_id": "e2d9eea7084908d361814badd621ba58265714cbd7d201a0aad1ad55be8ae844",
+          "quota_kind": "remediation",
+          "prompt_sha256": "a36dd3ef01f5c3612fa504bf376ea3ee0c174f2535b675c756dae48a3cede2f9",
+          "case_sha256": "1e605087e041129f03a978fa45c8ebd8b5773b3356c869c026f71658be139aac",
+          "contract_sha256": "0cc0cd5745f814bb5d485607f1848cfdae08e2298b1c757a44d2f59187564d9e"
+        },
+        "agent_3": {
+          "request_id": "de010a6e379b40153ddfaf34f3b485ef72c2e62a77849777408cf7fa41165378",
+          "quota_kind": "remediation",
+          "prompt_sha256": "d8dcf498d161ff7ab24625d40b43710e9526db7939d5bc332233fae25dda319b",
+          "case_sha256": "51752ea0a43c85810d84f7ba687d4e3dd6e7de84448d09663eb66a5f4cea4aa4",
+          "contract_sha256": "8381e47bd8189e1357d3a626f4b13d8c29f6f8eaa2a1491163760808addc9a66"
+        },
+        "agent_4": {
+          "request_id": "9740d32322bf98affdbd85a6266a36d51b7ccf27faab9e90200d02083c78d171",
+          "quota_kind": "remediation",
+          "prompt_sha256": "0758f7495d4349dbdd708aee4bfa81eff41cc9826510ff17f00da17d3ec2af58",
+          "case_sha256": "781704bfda95768293c1a6cf325b661bc0ea8577566123df3bb685ffcf42b003",
+          "contract_sha256": "e4e270a8424bbd0f0fe963417f1fa487367095d84eda17c88bfdea2dbd647c39"
+        },
+        "agent_5": {
+          "request_id": "d9d6b00a9c90f72b2a0d18f45f7d5fd4bd4170bc4dd71834af93947d3dae9a3a",
+          "quota_kind": "remediation",
+          "prompt_sha256": "0be163af235a4086381eadffcb33b7240a2bb0fb32d2fe8904a772300024324b",
+          "case_sha256": "7cba4c3ab80119e3a76e1e3c8362927b4ad8cacd8aba82684b366be25bf7f0bd",
+          "contract_sha256": "4d9cbdac55dfafb8caf5172dc00b232fb37c3c9600354a9c32b2c73dd362a0a6"
+        },
+        "agent_6": {
+          "request_id": "224920ff9d5905efd8c52c2c183fe8d2b58a225eca49fd7b2be94d34d616cbbb",
+          "quota_kind": "remediation",
+          "prompt_sha256": "886eb215b47e818217edd6b473a14e61cb6a4701ec4074fb732928e472c37b01",
+          "case_sha256": "961d34d123c6dc75d1545fabb0d980902573dd94dc21b9fb7c36e9f359b8d6cf",
+          "contract_sha256": "1a291e35ae96315ffb70eea8c469f6b5492e612078c28dd385197472a9f4e940"
+        },
+        "agent_7": {
+          "request_id": "85b8ef3335d6ad1a6b90b0ef784664b9c714617bbd2ab87bcc72f7e503972b24",
+          "quota_kind": "remediation",
+          "prompt_sha256": "333c3a942f6e7e6a5844ab4462d3d1629fd32a82acdbe9dc6e50292cb0585032",
+          "case_sha256": "1410c58184e59c0c75989bdd0bd8badc97e4f48628d9ab36d021f622982c6299",
+          "contract_sha256": "55abae3805406b5bcbf4c53e9c756b052abd73430b6b1d3b227f40a535b6d513"
+        },
+        "agent_8": {
+          "request_id": "7295260ae854a6461bc2b8d14681201ab486bdd47063356cf256ca4dc20a0112",
+          "quota_kind": "remediation",
+          "prompt_sha256": "b3b91a0f8d1bb01861c1f7488e8bf3cf72de9446ce9e44f3b388fc9a94bd3885",
+          "case_sha256": "214675fd1aa0621a531e786a76c3ef3cb485507a2a8a6f607ccd27cb2be7190d",
+          "contract_sha256": "62fba62c4c68e808e8927687181724d141f9ea3e4fa3e04c197fa222bd25ead0"
+        }
+      },
+      "offline_revalidation": "schema_insight/validator.py + leakage_rules_v1.json + cap token con tokenizer R4 27B: PASS"
+    },
+    "27B": {
+      "role": "alternativo",
+      "stage": "alternate_conformity",
+      "library_path": "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/studio2-fase03-d9-pilot-03/results/validated_insight_library_qwen_27b_alternate_alternate_conformity.json",
+      "library_file_sha256": "c697e803be178235c37d37caf7ec1ef65a0761db44e097f2d422e7498eef73c9",
+      "library_canonical_sha256": "f860063befb6a409f4ecf824e4dd7b57002cc8e67809184dadd03d0b934a05f3",
+      "records_sha256": "baddd67043da38f1a3a176ea52f669564371c2e4618fe4bf3630e8a2695cc759",
+      "binding_sha256": "7cb32fb9a09d17ea38ec8d0d41e5bd97504727d823951544dfbbe8a1a90129f5",
+      "inventory_sha256": "d3605ae5f656606d2597cd7f06d69aab4ad2305c799db1f0b8b09b0722aea3b3",
+      "schema_commit": "3c64390bc4dd58c48cc4e1e388a38989b32b3143",
+      "schema_manifest_sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12",
+      "model": "fot-exp2-consumer",
+      "system_fingerprint": "vllm-0.28.0-5fc21ed4",
+      "provider_name": "qwen_27b_alternate",
+      "provider_file_sha256": "27295c25f6a2d08730781d8e24053be74ce593434cbe8c80e6324145469c34c0",
+      "generation": {
+        "max_tokens": 2560,
+        "temperature": 0.0,
+        "seed": 20260829,
+        "thinking_token_budget": null,
+        "extra_body": {
+          "chat_template_kwargs": {
+            "enable_thinking": false
+          }
+        }
+      },
+      "template": {
+        "source": "studio2/fase03/harness/producer.py::PRODUCER_TEMPLATE (03.10, non modificato)",
+        "sha256": "e7e80d59b2def37bea8f20186fc297583e2c8b0dea390a3351c7843d841619e7",
+        "canonical_digest": "156fd0e18274b8e8fc72c04527e741a83197daa8b21f3201a5a9496e6d87ed29"
+      },
+      "insights": 16,
+      "agents": 8,
+      "variable_ids_total": 128,
+      "variable_ids_distinct": 33,
+      "tokens_per_insight": {
+        "S2-INS-001": 69,
+        "S2-INS-002": 75,
+        "S2-INS-003": 60,
+        "S2-INS-004": 60,
+        "S2-INS-005": 131,
+        "S2-INS-006": 132,
+        "S2-INS-007": 133,
+        "S2-INS-008": 110,
+        "S2-INS-009": 94,
+        "S2-INS-010": 111,
+        "S2-INS-011": 60,
+        "S2-INS-012": 87,
+        "S2-INS-013": 121,
+        "S2-INS-014": 123,
+        "S2-INS-015": 134,
+        "S2-INS-016": 127
+      },
+      "chars_per_insight": {
+        "S2-INS-001": 330,
+        "S2-INS-002": 320,
+        "S2-INS-003": 235,
+        "S2-INS-004": 237,
+        "S2-INS-005": 497,
+        "S2-INS-006": 532,
+        "S2-INS-007": 576,
+        "S2-INS-008": 441,
+        "S2-INS-009": 364,
+        "S2-INS-010": 407,
+        "S2-INS-011": 235,
+        "S2-INS-012": 286,
+        "S2-INS-013": 483,
+        "S2-INS-014": 502,
+        "S2-INS-015": 519,
+        "S2-INS-016": 507
+      },
+      "tokens": {
+        "total": 1627,
+        "mean": 101.69,
+        "median": 110.5,
+        "min": 60,
+        "max": 134
+      },
+      "chars": {
+        "total": 6471,
+        "mean": 404.44,
+        "median": 424.0,
+        "min": 235,
+        "max": 576
+      },
+      "provenance": {
+        "agent_1": {
+          "request_id": "26919ef29133d3ca72ef93d17ebf9d71655cd04972017cbb93177974f8b47caf",
+          "quota_kind": "requalification",
+          "prompt_sha256": "ffebfd052f4a12a1ab04442c3fbbe9a04669c9db803c91460ad24faeb770aba7",
+          "case_sha256": "ca14433577ff35854f98a56ee283a8cb516f717ea7a422bc15a02d6b9cb292bd",
+          "contract_sha256": "71f61a89283d653dc4d54235b35c0843485949b1957f6b33edad9c8e8d88e0b2"
+        },
+        "agent_2": {
+          "request_id": "7e72bbdc5d4463f64112cb013486331721c382d86409844cba735af5c013ed20",
+          "quota_kind": "base",
+          "prompt_sha256": "74040c611a894236e6794b35c16fd668ab99a34e6d8ad9ca7be0bbe00b7604fb",
+          "case_sha256": "1e605087e041129f03a978fa45c8ebd8b5773b3356c869c026f71658be139aac",
+          "contract_sha256": "0cc0cd5745f814bb5d485607f1848cfdae08e2298b1c757a44d2f59187564d9e"
+        },
+        "agent_3": {
+          "request_id": "5a02c88f28a4acbfa2dee0232ba2ed8e91c2ff142df283f482866a9c0d757086",
+          "quota_kind": "base",
+          "prompt_sha256": "6ff6dde0d5163f209b437013022f8b59f1cf6bb86523585528ecf91cc7722928",
+          "case_sha256": "51752ea0a43c85810d84f7ba687d4e3dd6e7de84448d09663eb66a5f4cea4aa4",
+          "contract_sha256": "8381e47bd8189e1357d3a626f4b13d8c29f6f8eaa2a1491163760808addc9a66"
+        },
+        "agent_4": {
+          "request_id": "8d36d3589de739766b6dc99041a8381ad917f237dd7dd32a95f7865412b68a18",
+          "quota_kind": "base",
+          "prompt_sha256": "ac3eb930ea52b34311a162e722e962b86d26db680be8bff74473f553b0cc72ab",
+          "case_sha256": "781704bfda95768293c1a6cf325b661bc0ea8577566123df3bb685ffcf42b003",
+          "contract_sha256": "e4e270a8424bbd0f0fe963417f1fa487367095d84eda17c88bfdea2dbd647c39"
+        },
+        "agent_5": {
+          "request_id": "06b52437f316214d989dc50e4223a4989408b496a08feb193bdeef14c4a1d13d",
+          "quota_kind": "base",
+          "prompt_sha256": "2e8fef9d8e15fa51fa07da2a4c5e066f8d42ef2f663a8d7ae87428e11bfeeacf",
+          "case_sha256": "7cba4c3ab80119e3a76e1e3c8362927b4ad8cacd8aba82684b366be25bf7f0bd",
+          "contract_sha256": "4d9cbdac55dfafb8caf5172dc00b232fb37c3c9600354a9c32b2c73dd362a0a6"
+        },
+        "agent_6": {
+          "request_id": "99397e926242b1a5d9f53655d7241c3d53ee0df526a7d6a59d0910a741f259a4",
+          "quota_kind": "base",
+          "prompt_sha256": "b3b7f659bf8b80679158b3c41dbcc4ba76d1da483755a4288ced24ce1f6703e9",
+          "case_sha256": "961d34d123c6dc75d1545fabb0d980902573dd94dc21b9fb7c36e9f359b8d6cf",
+          "contract_sha256": "1a291e35ae96315ffb70eea8c469f6b5492e612078c28dd385197472a9f4e940"
+        },
+        "agent_7": {
+          "request_id": "41cfce2389cfaf28c0a72442dbfe1121799f4a21dac462ad2cfa078ce0678a0b",
+          "quota_kind": "base",
+          "prompt_sha256": "1f800ff07bcaaf6859beb5c9cd808eefe4811dedc4737879e461ca8eba0bc194",
+          "case_sha256": "1410c58184e59c0c75989bdd0bd8badc97e4f48628d9ab36d021f622982c6299",
+          "contract_sha256": "55abae3805406b5bcbf4c53e9c756b052abd73430b6b1d3b227f40a535b6d513"
+        },
+        "agent_8": {
+          "request_id": "3ee41d6f29f4e85fe42d53979c7a06c0e3d26e24dc1460940a60c052a6c38c84",
+          "quota_kind": "base",
+          "prompt_sha256": "2036d22658653e473cee0b41242d35f9a71d82dfd8a80c8e9a0a632709de8234",
+          "case_sha256": "214675fd1aa0621a531e786a76c3ef3cb485507a2a8a6f607ccd27cb2be7190d",
+          "contract_sha256": "62fba62c4c68e808e8927687181724d141f9ea3e4fa3e04c197fa222bd25ead0"
+        }
+      },
+      "offline_revalidation": "schema_insight/validator.py + leakage_rules_v1.json + cap token con tokenizer R4 27B: PASS"
+    }
+  },
+  "token_counter": {
+    "snapshot": "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/studio2-fase03-d9-pilot-03/tokenizers/27B/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+    "chat_template": false,
+    "transformers": "5.17.0 (VM della sessione)"
+  }
+}
