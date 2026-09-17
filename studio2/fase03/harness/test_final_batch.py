@@ -17,7 +17,7 @@ from unittest.mock import patch
 from .common import HarnessError, sha256_text
 from .ledger import (FINAL_BATCH_PROFILE, FINAL_CANARY_STAGE, FINAL_PASS_STAGES, PilotLedger,
                      digest)
-from . import final_inventory
+from . import canary_marking, final_inventory
 from studio2.fase03 import run_final_batch, run_final_canary
 
 MODEL = "fixture-consumer-model"
@@ -184,7 +184,8 @@ class FinalBatchBase(unittest.TestCase):
         options = dict(target=self.target, ledger=self.ledger, schedule=self.schedule,
                        prompts=self.prompts, config=self.config, generation=self.generation,
                        schema=self.schema, pass_index=pass_index, results_dir=self.results,
-                       execute=True, max_requests=None, provider_factory=FakeProvider)
+                       execute=True, max_requests=None, provider_factory=FakeProvider,
+                       day="2026-09-18")
         options.update(kwargs)
         return run_final_batch.run_pass(**options)
 
@@ -229,7 +230,8 @@ class BatchExecution(FinalBatchBase):
         again = self.run_pass(resume=True)
         self.assertEqual(again["sent_this_run"], 0)
 
-    def test_zero_token_is_reconciled_and_not_resent(self):
+    def test_uncertain_transport_is_suspended_and_never_resent_automatically(self):
+        """D3 row 2: a failure without proof suspends the slot; no automatic resend."""
         self.pass_canary_day()
         FakeProvider.script = {self.schedule[0]["logical_id"]: "raise"}
         with self.assertRaises(HarnessError):
@@ -237,18 +239,106 @@ class BatchExecution(FinalBatchBase):
         stage = FINAL_PASS_STAGES[0]
         request_id = digest([self.pilot_id, stage, self.schedule[0]["logical_id"]])
         self.assertEqual(self.ledger.request(request_id)["status"], "FAILED")
+        FakeProvider.script = {}
         with self.assertRaises(run_final_batch.BatchStop):
             self.run_pass(resume=True)
+        self.assertEqual(self.ledger.snapshot()["requests_by_stage"][stage], 1)
+
+    def test_proven_zero_token_is_retried_once_within_the_separate_quota(self):
+        """D3 row 1: the only admitted retry, after proof linked to the request."""
+        self.pass_canary_day()
+        FakeProvider.script = {self.schedule[0]["logical_id"]: "raise"}
+        with self.assertRaises(HarnessError):
+            self.run_pass()
+        stage = FINAL_PASS_STAGES[0]
+        logical_id = self.schedule[0]["logical_id"]
+        request_id = digest([self.pilot_id, stage, logical_id])
+        self.reconcile_zero_token(request_id)
+        self.assertEqual(self.ledger.request(request_id)["status"], "ZERO_TOKEN_PROVEN")
+        FakeProvider.script = {}
+        waits = []
+        summary = self.run_pass(resume=True, sleep=waits.append)
+        self.assertEqual(summary["retries_this_run"], 1)
+        self.assertEqual(waits, [run_final_batch.RETRY_BACKOFF_BASE_SECONDS])
+        self.assertEqual(summary["completed"], self.rows_per_pass)
+        # The retry lives on its own quota: the scientific slots stay at one per row.
+        snapshot = self.ledger.snapshot()
+        self.assertEqual(snapshot["requests_by_stage"][stage], self.rows_per_pass + 1)
+        self.assertEqual(snapshot["retry_quota_used"], 1)
+        self.assertEqual(snapshot["retry_quota"], 400)
+        leaf = self.ledger.leaf(stage, logical_id)
+        self.assertEqual(leaf["retry_of"], request_id)
+        self.assertEqual(leaf["status"], "COMPLETED")
+        self.assertEqual(self.run_pass(resume=True)["sent_this_run"], 0)
+
+    def test_a_retry_never_consumes_a_scientific_stage_slot(self):
+        self.pass_canary_day()
+        FakeProvider.script = {self.schedule[0]["logical_id"]: "raise"}
+        with self.assertRaises(HarnessError):
+            self.run_pass()
+        stage = FINAL_PASS_STAGES[0]
+        request_id = digest([self.pilot_id, stage, self.schedule[0]["logical_id"]])
         self.reconcile_zero_token(request_id)
         FakeProvider.script = {}
-        summary = self.run_pass(resume=True)
-        self.assertEqual(summary["sent_this_run"], self.rows_per_pass - 1)
-        self.assertEqual(self.ledger.request(request_id)["status"], "ZERO_TOKEN_PROVEN")
-        # The reconciled slot stays terminal and alone: Q=0 authorizes no replacement.
-        self.assertEqual(self.ledger.snapshot()["requests_by_stage"][stage], self.rows_per_pass)
-        self.assertEqual(self.ledger.leaf(stage, self.schedule[0]["logical_id"])["request_id"],
-                         request_id)
-        self.assertEqual(self.run_pass(resume=True)["sent_this_run"], 0)
+        self.run_pass(resume=True, sleep=lambda _: None)
+        base = [row for row in self.ledger.attempts(stage, self.schedule[0]["logical_id"])
+                if row["retry_of"] is None]
+        self.assertEqual(len(base), 1)
+
+    def failing_cycle(self, index, *, first):
+        """One technical failure on the same logical row, then its zero-token proof."""
+        stage = FINAL_PASS_STAGES[0]
+        logical_id = self.schedule[0]["logical_id"]
+        with self.assertRaises(HarnessError):
+            self.run_pass(resume=not first, sleep=lambda _: None)
+        leaf = self.ledger.leaf(stage, logical_id)
+        self.assertEqual(leaf["status"], "FAILED")
+        self.reconcile_zero_token(leaf["request_id"])
+
+    def test_five_consecutive_technical_failures_stop_the_campaign(self):
+        """D3: persistent per-service counter, retries included, threshold five."""
+        self.pass_canary_day()
+        FakeProvider.script = {self.schedule[0]["logical_id"]: "raise"}
+        for index in range(4):
+            self.failing_cycle(index, first=index == 0)
+        self.assertEqual(max(self.ledger.consecutive_technical_failures().values()), 4)
+        self.assertFalse(self.ledger.technical_failure_stop())
+        self.failing_cycle(4, first=False)
+        self.assertEqual(max(self.ledger.consecutive_technical_failures().values()), 5)
+        self.assertTrue(self.ledger.technical_failure_stop())
+        FakeProvider.script = {}
+        with self.assertRaisesRegex(HarnessError, "consecutive technical"):
+            self.run_pass(resume=True, sleep=lambda _: None)
+
+    def test_the_failure_counter_survives_reopening_the_ledger(self):
+        self.pass_canary_day()
+        stage = FINAL_PASS_STAGES[0]
+        FakeProvider.script = {self.schedule[0]["logical_id"]: "raise"}
+        with self.assertRaises(HarnessError):
+            self.run_pass()
+        before = self.ledger.consecutive_technical_failures()
+        reopened = PilotLedger(self.ledger.path, pilot_id=self.pilot_id, profile="final_batch")
+        self.assertEqual(reopened.consecutive_technical_failures(), before)
+        self.assertEqual(max(before.values()), 1)
+
+    def test_a_completed_call_resets_the_service_counter(self):
+        self.pass_canary_day()
+        stage = FINAL_PASS_STAGES[0]
+        FakeProvider.script = {self.schedule[0]["logical_id"]: "raise"}
+        with self.assertRaises(HarnessError):
+            self.run_pass()
+        request_id = digest([self.pilot_id, stage, self.schedule[0]["logical_id"]])
+        self.reconcile_zero_token(request_id)
+        FakeProvider.script = {}
+        self.run_pass(resume=True, sleep=lambda _: None)
+        self.assertEqual(max(self.ledger.consecutive_technical_failures().values()), 0)
+
+    def test_retry_backoff_increases_and_is_capped(self):
+        waits = [run_final_batch.retry_backoff_seconds(n) for n in range(1, 8)]
+        self.assertEqual(waits[:4], [30.0, 60.0, 120.0, 240.0])
+        self.assertEqual(waits, sorted(waits))
+        self.assertLessEqual(max(waits), run_final_batch.RETRY_BACKOFF_CAP_SECONDS)
+        self.assertEqual(run_final_batch.retry_backoff_seconds(0), 0.0)
 
     def reconcile_zero_token(self, request_id):
         row = self.ledger.request(request_id)
@@ -333,8 +423,13 @@ class ScheduleContract(unittest.TestCase):
         self.assertEqual(dict(repetitions), {1: 2244, 2: 2244, 3: 2244})
         self.assertEqual(len({row["logical_id"] for row in first}), 6732)
 
-    def test_unsupported_condition_is_refused_rather_than_reinterpreted(self):
-        schedule = [{"condition": "B-noLF", "stable_id": "x", "logical_id": "x|r1"}]
+    def test_the_four_protocol_arms_are_renderable(self):
+        for condition in ("A", "B-LF", "E-LF", "B-noLF"):
+            schedule = [{"condition": condition, "stable_id": "x", "logical_id": "x|r1"}]
+            run_final_batch.executable_rows(schedule, {"x": {}})
+
+    def test_an_unknown_condition_is_refused_rather_than_reinterpreted(self):
+        schedule = [{"condition": "B-noLocalFirst", "stable_id": "x", "logical_id": "x|r1"}]
         with self.assertRaises(run_final_batch.BatchStop):
             run_final_batch.executable_rows(schedule, {"x": {}})
 
@@ -372,3 +467,95 @@ class CanaryDay(FinalBatchBase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class CanaryBarrierAndMarking(FinalBatchBase):
+    """§6 barrier, persisted identity, C4 marking and C5 invalid-canary handling."""
+
+    def test_a_lot_is_refused_on_a_day_whose_canary_has_not_passed(self):
+        self.pass_canary_day("2026-09-18")
+        with self.assertRaisesRegex(run_final_batch.BatchStop, "no canary PASS recorded for 2026-09-19"):
+            self.run_pass(day="2026-09-19")
+        self.assertEqual(self.run_pass(day="2026-09-18")["status"], "COMPLETE")
+
+    def test_the_barrier_is_checked_before_every_request_not_only_at_the_start(self):
+        self.pass_canary_day("2026-09-18")
+        state = run_final_batch.require_canary_ok(self.ledger, "2026-09-18")
+        self.assertEqual(state["barrier_day"], "2026-09-18")
+        with self.assertRaises(run_final_batch.BatchStop):
+            run_final_batch.require_canary_ok(self.ledger, "2026-09-20")
+
+    def test_identity_of_every_canary_call_is_persisted_with_the_verdict(self):
+        outcome = self.pass_canary_day("2026-09-18")
+        self.assertEqual(len(outcome["identity"]), 10)
+        detail = self.ledger.event("canary_pass:2026-09-18")
+        self.assertEqual(len(detail["identity"]), 10)
+        for value in detail["identity"].values():
+            self.assertEqual(value["returned_model"], MODEL)
+            self.assertEqual(value["system_fingerprint"], FINGERPRINT)
+
+    def test_a_fingerprint_change_stops_the_canary_and_is_persisted(self):
+        FakeProvider.script = {"canary:day1:S2-P03-004": "identity"}
+        with self.assertRaises(run_final_batch.BatchStop):
+            self.run_day("2026-09-18")
+        stops = [event for event in self.ledger.snapshot()["events"]
+                 if event.startswith("canary_stop:")]
+        self.assertEqual(len(stops), 1)
+        detail = self.ledger.event(stops[0])
+        self.assertIn("identity", detail["detail"])
+        with self.assertRaises(HarnessError):
+            self.run_pass(day="2026-09-18")
+
+    def test_an_invalid_canary_response_leaves_the_day_unclosed(self):
+        """C5 under D3: received but invalid; never regenerated, the day cannot close."""
+        FakeProvider.script = {"canary:day1:S2-P03-006": "invalid"}
+        with self.assertRaisesRegex(run_final_batch.BatchStop, "invalid responses"):
+            self.run_day("2026-09-18")
+        events = self.ledger.snapshot()["events"]
+        self.assertFalse([event for event in events if event.startswith("canary_pass:")])
+        self.assertFalse([event for event in events if event.startswith("canary_marked:")])
+        with self.assertRaisesRegex(HarnessError, "requires a passed canary day"):
+            self.run_pass(day="2026-09-18")
+        self.assertTrue((self.results / "canary_2026-09-18_invalid.json").is_file())
+
+    def test_an_invalid_canary_call_is_not_resent_when_the_day_is_retried(self):
+        FakeProvider.script = {"canary:day1:S2-P03-006": "invalid"}
+        with self.assertRaises(run_final_batch.BatchStop):
+            self.run_day("2026-09-18")
+        before = self.ledger.snapshot()["requests_by_stage"][FINAL_CANARY_STAGE]
+        FakeProvider.script = {}
+        with self.assertRaises(run_final_batch.BatchStop):
+            self.run_day("2026-09-18")
+        after = self.ledger.snapshot()["requests_by_stage"][FINAL_CANARY_STAGE]
+        self.assertEqual(before, after)
+
+    def test_marking_is_empty_while_every_canary_passes(self):
+        self.pass_canary_day("2026-09-18")
+        self.run_pass(day="2026-09-18")
+        value = canary_marking.marking(self.ledger)
+        self.assertEqual(value["failed_canaries"], [])
+        self.assertEqual(value["marked_requests"], 0)
+        self.assertEqual(value["scientific_requests"], self.rows_per_pass)
+
+    def test_a_marked_day_marks_the_lots_that_precede_it_and_those_of_the_day(self):
+        self.pass_canary_day("2026-09-18")
+        self.run_pass(day="2026-09-18")
+        FakeProvider.script = {f"canary:day2:{row['prompt_id']}": "canary-drift"
+                               for row in self.canary_prompts[:3]}
+        outcome = self.run_day("2026-09-19")
+        self.assertEqual(outcome["verdict"], "MARKED")
+        value = canary_marking.marking(self.ledger)
+        self.assertEqual(value["failed_canaries"], ["2026-09-19"])
+        self.assertEqual(value["marked_requests"], self.rows_per_pass)
+        self.assertEqual(value["intervals"][0]["after_last_passed_canary"], "2026-09-18")
+        self.assertTrue(value["equivalent_sql"])
+
+    def test_marking_is_read_only_over_terminal_records(self):
+        self.pass_canary_day("2026-09-18")
+        self.run_pass(day="2026-09-18")
+        FakeProvider.script = {f"canary:day2:{row['prompt_id']}": "canary-drift"
+                               for row in self.canary_prompts[:3]}
+        self.run_day("2026-09-19")
+        before = self.ledger.snapshot()
+        canary_marking.marking(self.ledger)
+        self.assertEqual(self.ledger.snapshot(), before)

@@ -8,6 +8,20 @@ for parsing. Only the schedule walk, the progress view and the STOP rules of §7
 
 Without ``--execute`` nothing is sent: the command validates every prerequisite, prints
 the plan and exits.
+
+Retry and STOP follow author decision D3 (2026-09-17), which replaces the absolute
+``Q=0`` of the candidate:
+
+* a technical error **with proof that no token was generated** (``reconcile_zero_token``)
+  may be retried, within a separate cumulative quota and after an increasing wait;
+* a timeout without that proof suspends the slot and requires reconciliation -- never an
+  automatic resend;
+* a response that was generated but is invalid or truncated is a recorded failure and is
+  never regenerated;
+* a valid but wrong or abstaining response is a definitive scientific outcome;
+* five consecutive failed technical attempts on the same service -- retries included,
+  counted persistently in the ledger -- stop the campaign, as do permanent errors, an
+  identity change and any uncertain consumption.
 """
 
 from __future__ import annotations
@@ -31,16 +45,24 @@ from studio2.fase03.protocol import (  # noqa: E402
 from studio2.fase03.harness.common import HarnessError  # noqa: E402
 from studio2.fase03.harness.ledger import (  # noqa: E402
     CANARY_MARKED_PREFIX, CANARY_PASS_PREFIX, CANARY_STOP_PREFIX, FINAL_PASS_STAGES,
+    FINAL_CONSECUTIVE_FAILURE_STOP, FINAL_RETRY_QUOTA,
     PilotLedger, digest, load_tokenizer_accounting_guard,
 )
+from studio2.fase03.harness.canary_marking import rome_day  # noqa: E402
 from studio2.fase03.harness.guards import require_execution, require_pilot_ledger  # noqa: E402
 from studio2.fase03.harness.runtime import durable_write, execute_request  # noqa: E402
 from studio2.fase03.harness import final_inventory as inventory_module  # noqa: E402
+from studio2.fase03 import protocol_bnolf  # noqa: E402
 from studio2.fase03 import run_pilot  # noqa: E402
 
 ACK = "EXECUTE_PHASE03_FINAL_BATCH"
-RENDERABLE_CONDITIONS = ("A", "B-LF", "E-LF")
+# A, B-LF and E-LF come from the frozen renderer of §2; B-noLF from its tracked revision
+# ``protocol_bnolf.py`` (author decision D2).
+RENDERABLE_CONDITIONS = protocol_bnolf.FINAL_CONDITIONS
 STOP_PREFIX = "STOP:"
+# D3: increasing wait between technical attempts on the same logical request.
+RETRY_BACKOFF_BASE_SECONDS = 30.0
+RETRY_BACKOFF_CAP_SECONDS = 900.0
 
 
 class BatchStop(HarnessError):
@@ -53,6 +75,14 @@ class BatchProvider(run_pilot.Provider):
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def retry_backoff_seconds(previous_attempts: int) -> float:
+    """Increasing wait before the n-th technical attempt (D3): 30 s, 60 s, 120 s ... capped."""
+    if previous_attempts < 1:
+        return 0.0
+    return min(RETRY_BACKOFF_BASE_SECONDS * (2 ** (previous_attempts - 1)),
+               RETRY_BACKOFF_CAP_SECONDS)
 
 
 def load_target(path: Path) -> dict[str, Any]:
@@ -97,9 +127,10 @@ def load_prompts(target: dict[str, Any]) -> dict[str, dict[str, Any]]:
 def executable_rows(schedule: list[dict[str, Any]], prompts: dict[str, dict[str, Any]]) -> None:
     """Fail closed on any scheduled row this harness cannot render or log.
 
-    The ablation arm of §4 uses a fourth condition that neither the frozen renderer of §2
-    nor the §8.7 call-record contract admits. It is enumerated in the inventory and the
-    schedule, and it is refused here rather than silently reinterpreted.
+    The four arms of §4 are renderable: A, B-LF and E-LF by the frozen renderer of §2,
+    B-noLF by its tracked revision ``protocol_bnolf.py`` (author decision D2), and all
+    four are admitted by the §8.7 call-record contract. Any other condition is refused
+    here rather than silently reinterpreted.
     """
     unsupported = sorted({row["condition"] for row in schedule
                           if row["condition"] not in RENDERABLE_CONDITIONS})
@@ -140,7 +171,14 @@ def canary_state(ledger: PilotLedger) -> dict[str, Any]:
     }
 
 
-def require_canary_ok(ledger: PilotLedger) -> dict[str, Any]:
+def require_canary_ok(ledger: PilotLedger, day: str | None = None) -> dict[str, Any]:
+    """The canary->lot barrier of §6: no scientific call outside a passed canary day.
+
+    Three conditions, checked before *every* request, not only at the start of a pass:
+    no canary STOP in force, at least one passed day (§7.1 order, step 3) and a canary
+    PASS recorded for the civil day this call belongs to, because §6 requires the daily
+    canary before the day's first scientific lot.
+    """
     state = canary_state(ledger)
     if state["stops"]:
         raise BatchStop(STOP_PREFIX + f" canary stop in force: {state['stops']}")
@@ -148,7 +186,12 @@ def require_canary_ok(ledger: PilotLedger) -> dict[str, Any]:
         raise BatchStop(STOP_PREFIX + " no canary day has passed yet (§7.1 order, step 3)")
     if len(state["marked_days"]) >= 2:
         raise BatchStop(STOP_PREFIX + " second marked canary day: author decision required (§6.4)")
-    return state
+    today = day or rome_day(datetime.now(timezone.utc))
+    if today not in state["passed_days"]:
+        raise BatchStop(
+            STOP_PREFIX + f" no canary PASS recorded for {today}: §6 requires the daily "
+            "canary before the day's first scientific lot")
+    return dict(state, barrier_day=today)
 
 
 class Progress:
@@ -212,7 +255,8 @@ def _call_record(row: dict[str, Any], prompt: dict[str, Any], record: dict[str, 
 
 def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, pass_index,
              results_dir: Path, execute: bool, max_requests: int | None, resume: bool = False,
-             provider_factory=None, accounting_guard=None) -> dict[str, Any]:
+             provider_factory=None, accounting_guard=None, sleep=time.sleep,
+             day: str | None = None) -> dict[str, Any]:
     stage = FINAL_PASS_STAGES[pass_index - 1]
     rows = [row for row in schedule if row["repetition"] == pass_index]
     binding = pass_binding(rows, prompts, generation, config=config, target=target,
@@ -229,7 +273,7 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
         raise BatchStop(STOP_PREFIX + " the pass already has recorded requests; "
                         "continue it with --resume, which never resends a terminal slot")
 
-    require_canary_ok(ledger)
+    require_canary_ok(ledger, day)
     provider = (provider_factory or BatchProvider)(config)
     journal_path = results_dir / f"{stage}_journal.jsonl"
     log_path = results_dir / f"{stage}_call_log.jsonl"
@@ -242,20 +286,34 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
         pass
 
     sent = 0
+    retried = 0
     used_insight_ids: Counter = Counter()
     for row in rows:
         leaf = ledger.leaf(stage, row["logical_id"])
+        retry_requests: tuple = ()
         if leaf is not None:
-            if leaf["status"] in {"COMPLETED", "ZERO_TOKEN_PROVEN"}:
-                # Q=0: a received-or-proven slot is terminal and is never resent.
+            if leaf["status"] == "COMPLETED":
+                # A received response is terminal: valid, invalid or truncated, it is an
+                # outcome and is never regenerated (D3, rows 3 and 4).
                 progress.skip()
                 continue
-            raise BatchStop(
-                STOP_PREFIX + f" uncertain request {leaf['request_id']} ({leaf['status']}); "
-                "reconcile it with ledger_cli reconcile-zero-token before resuming")
+            if leaf["status"] == "ZERO_TOKEN_PROVEN":
+                # D3, row 1: the only admitted retry, against proof -- linked to this very
+                # request -- that no token was generated, reasoning included.
+                retry_requests = (leaf["request_id"],)
+            else:
+                # D3, row 2: uncertain consumption is suspended, never resent automatically.
+                raise BatchStop(
+                    STOP_PREFIX + f" uncertain request {leaf['request_id']} ({leaf['status']}); "
+                    "reconcile it with ledger_cli reconcile-zero-token before resuming")
         if max_requests is not None and sent >= max_requests:
             break
-        require_canary_ok(ledger)
+        if retry_requests:
+            wait = retry_backoff_seconds(len(ledger.attempts(stage, row["logical_id"])))
+            if wait and sleep is not None:
+                sleep(wait)
+            retried += 1
+        require_canary_ok(ledger, day)
         prompt = prompts[row["stable_id"]]
         spec = next(s for s in binding["requests"] if s["logical_id"] == row["logical_id"])
         messages = [{"role": "user", "content": prompt["text"]}]
@@ -272,11 +330,13 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
                 ledger=ledger, stage=stage, spec=spec),
             evaluate=evaluate, expected_identity=config["expected_response"],
             journal_path=journal_path, messages=messages, accounting_guard=accounting_guard,
-            journal=append_journal)
+            journal=append_journal, resume=bool(retry_requests),
+            retry_requests=retry_requests)
         sent += 1
         progress.observe(record)
         logger.append(_call_record(row, prompt, record, generation=generation,
-                                   config=config, attempt=1))
+                                   config=config,
+                                   attempt=len(ledger.attempts(stage, row["logical_id"]))))
         parsed = record.get("parsed_output")
         if isinstance(parsed, dict):
             used_insight_ids.update(parsed.get("used_insight_ids") or [])
@@ -284,8 +344,14 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
                       canonical_json(record) + "\n")
         print(progress.line(), flush=True)
 
+    snapshot = ledger.snapshot()
     summary = {"stage": stage, "planned": len(rows), "completed": progress.done,
-               "sent_this_run": sent, "invalid": progress.invalid,
+               "sent_this_run": sent, "retries_this_run": retried,
+               "retry_quota": FINAL_RETRY_QUOTA,
+               "retry_quota_used": snapshot.get("retry_quota_used", 0),
+               "consecutive_technical_failures": snapshot.get("consecutive_technical_failures", {}),
+               "consecutive_failure_stop": FINAL_CONSECUTIVE_FAILURE_STOP,
+               "invalid": progress.invalid,
                "abstained": progress.abstained, "stage_run": stage_run,
                "t9_used_insight_ids": dict(sorted(used_insight_ids.items())),
                "status": "COMPLETE" if progress.done == len(rows) else "PARTIAL"}
@@ -301,6 +367,8 @@ def main(argv=None) -> int:
     parser.add_argument("--max-requests", type=int)
     parser.add_argument("--resume", action="store_true",
                         help="continue an interrupted pass; terminal slots are skipped, never resent")
+    parser.add_argument("--day", help="civil day Europe/Rome this lot belongs to; the canary "
+                                      "of that day must have passed (default: today)")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--acknowledge")
     arguments = parser.parse_args(argv)
@@ -330,7 +398,8 @@ def main(argv=None) -> int:
                        config=config, generation=generation, schema=schema,
                        pass_index=arguments.pass_index, results_dir=results_dir,
                        execute=arguments.execute, max_requests=arguments.max_requests,
-                       resume=arguments.resume, accounting_guard=accounting_guard)
+                       resume=arguments.resume, accounting_guard=accounting_guard,
+                       day=arguments.day)
     print(json.dumps(dict(summary, canary=canary_state(ledger),
                           ledger=ledger.snapshot()["requests_by_stage"]),
                      indent=2, ensure_ascii=False, sort_keys=True))

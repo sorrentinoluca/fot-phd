@@ -14,6 +14,10 @@ from .common import HarnessError, canonical_json, sha256_text
 
 
 HASH = re.compile(r"^[0-9a-f]{64}$")
+# Sec.8.7 call-record contract. ``B-noLF`` is the ablation arm of the final batch
+# (author decision D2, 2026-09-17): the frozen B-LF prompt minus the DECISION POLICY
+# block, rendered by the tracked revision ``protocol_bnolf.py``.
+CONDITIONS = frozenset({"A", "B-LF", "E-LF", "B-noLF", "PRODUCER"})
 
 
 @dataclass(frozen=True)
@@ -65,7 +69,7 @@ class CallRecord:
     def validate(self) -> None:
         if not self.prompt_id or not re.fullmatch(r"agent_[1-8]", self.agent_id):
             raise HarnessError("invalid prompt or agent identity")
-        if self.condition not in {"A", "B-LF", "E-LF", "PRODUCER"}:
+        if self.condition not in CONDITIONS:
             raise HarnessError("invalid call condition")
         if self.repetition < 1 or self.attempt < 1:
             raise HarnessError("repetition and attempt are one-based")

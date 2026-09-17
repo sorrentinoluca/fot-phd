@@ -75,15 +75,23 @@ def _read_source(relative: str, expected_sha256: str, *, git_ref: str = IDENTIFI
         text = path.read_text(encoding="utf-8")
         source = f"worktree:{relative}"
     else:
-        try:
-            raw = subprocess.run(
-                ["git", "show", f"{git_ref}:{relative}"],
-                cwd=str(repo_root), check=True, capture_output=True,
-            ).stdout
-        except (OSError, subprocess.CalledProcessError) as exc:  # pragma: no cover
+        raw, failure, used = None, None, None
+        for candidate in _git_roots(repo_root):
+            try:
+                raw = subprocess.run(
+                    ["git", "show", f"{git_ref}:{relative}"],
+                    cwd=str(candidate), check=True, capture_output=True,
+                ).stdout
+                used = candidate
+                break
+            except (OSError, subprocess.CalledProcessError) as exc:
+                failure = exc
+        if raw is None:
             raise HarnessError(
-                f"sealed identifier source is unavailable: {relative} ({exc})") from exc
+                f"sealed identifier source is unavailable: {relative} ({failure})")
         text = raw.decode("utf-8")
+        # The recorded source never carries a machine path: the artifact must stay
+        # byte-reproducible on any checkout.
         source = f"git:{git_ref}:{relative}"
     observed = sha256_text(text)
     if observed != expected_sha256:
@@ -91,6 +99,20 @@ def _read_source(relative: str, expected_sha256: str, *, git_ref: str = IDENTIFI
             f"sealed identifier source changed: {relative} expected {expected_sha256}, "
             f"got {observed}")
     return text, source
+
+
+def _git_roots(repo_root: Path) -> list[Path]:
+    """The worktree first, then the enclosing repository.
+
+    A linked worktree records its git directory as an absolute path; when that path is
+    not resolvable (a checkout mounted elsewhere), the same objects are still reachable
+    from the repository the worktree belongs to.
+    """
+    roots = [repo_root]
+    for parent in repo_root.parents:
+        if (parent / ".git").is_dir() and parent not in roots:
+            roots.append(parent)
+    return roots
 
 
 def sealed_sources(*, git_ref: str = IDENTIFIER_GIT_REF, repo_root: Path = REPO_ROOT):

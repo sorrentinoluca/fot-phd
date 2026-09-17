@@ -4,6 +4,16 @@
 Ten frozen prompts per civil day Europe/Rome, before the day's first scientific lot, at
 most seven days. The parsed pair decides; the raw hash is forensic only. An identity
 change is an immediate STOP; the second marked day is a STOP pending an author decision.
+
+Identity control (§6, rilievo C5): ``returned_model`` **and** ``system_fingerprint`` are
+compared with the qualified identity on every canary call and are persisted, per prompt,
+in the day's verdict event -- not only checked in memory.
+
+A canary that fails is treated exactly like a scientific call under author decision D3:
+a technical failure with proof of zero generated tokens may be retried within the batch
+retry quota; a failure without that proof suspends the day and requires reconciliation; a
+response that was received but is invalid is a recorded failure and is never regenerated,
+so the day cannot be closed and no scientific lot may run on it.
 """
 
 from __future__ import annotations
@@ -29,7 +39,9 @@ from studio2.fase03.harness.ledger import (  # noqa: E402
 from studio2.fase03.harness.guards import require_execution, require_pilot_ledger  # noqa: E402
 from studio2.fase03.harness.runtime import durable_write, execute_request  # noqa: E402
 from studio2.fase03 import run_pilot  # noqa: E402
-from studio2.fase03.run_final_batch import BatchStop, STOP_PREFIX, load_target  # noqa: E402
+from studio2.fase03.run_final_batch import (  # noqa: E402
+    BatchStop, STOP_PREFIX, load_target, retry_backoff_seconds,
+)
 
 ACK = "EXECUTE_PHASE03_FINAL_CANARY"
 MAX_DAYS = 7
@@ -42,17 +54,10 @@ class CanaryProvider(run_pilot.Provider):
 
 
 def rome_day(now: datetime | None = None) -> str:
-    """Civil date in Europe/Rome without depending on a tz database at runtime."""
-    moment = (now or datetime.now(timezone.utc)).astimezone(timezone.utc)
-    try:
-        from zoneinfo import ZoneInfo
+    """Civil date in Europe/Rome; one definition, shared with the marking query."""
+    from studio2.fase03.harness.canary_marking import rome_day as shared
 
-        return moment.astimezone(ZoneInfo("Europe/Rome")).date().isoformat()
-    except Exception:  # pragma: no cover - fallback only when tzdata is absent
-        year = moment.year
-        offset = timedelta(hours=2 if datetime(year, 3, 31, tzinfo=timezone.utc) <= moment
-                           <= datetime(year, 10, 27, tzinfo=timezone.utc) else 1)
-        return (moment + offset).date().isoformat()
+    return shared(now or datetime.now(timezone.utc))
 
 
 def canary_prompts(target: dict[str, Any]) -> list[dict[str, Any]]:
@@ -95,7 +100,8 @@ def day_state(ledger: PilotLedger) -> dict[str, list[str]]:
 
 
 def run_day(*, target, ledger, config, generation, schema, day: str, results_dir: Path,
-            execute: bool, provider_factory=None, accounting_guard=None) -> dict[str, Any]:
+            execute: bool, provider_factory=None, accounting_guard=None,
+            sleep=None) -> dict[str, Any]:
     state = day_state(ledger)
     if state["stops"]:
         raise BatchStop(STOP_PREFIX + f" canary stop in force: {state['stops']}")
@@ -125,11 +131,42 @@ def run_day(*, target, ledger, config, generation, schema, day: str, results_dir
     provider = (provider_factory or CanaryProvider)(config)
     journal_path = results_dir / "final_canary_journal.jsonl"
     observations, identity_stop = [], None
+    identity: dict[str, Any] = {}
+    invalid: list[str] = []
     for prompt, spec in zip(prompts, today):
         messages = [{"role": "user", "content": prompt["text"]}]
 
         def evaluate(raw, prompt=prompt):
             return dict(run_pilot.consumer_record(raw, prompt, generation), repetition=1)
+
+        leaf = ledger.leaf(FINAL_CANARY_STAGE, spec["logical_id"])
+        retry_requests: tuple = ()
+        if leaf is not None:
+            if leaf["status"] == "COMPLETED":
+                stored = ledger.response(leaf["request_id"])
+                record = (stored or {}).get("record") or {}
+                observations.append({"prompt_id": prompt["prompt_id"],
+                                     "parsed_output": record.get("parsed_output"),
+                                     "raw_response": record.get("raw_output") or ""})
+                identity[prompt["prompt_id"]] = {
+                    "returned_model": record.get("returned_model"),
+                    "system_fingerprint": record.get("system_fingerprint"),
+                    "request_id": leaf["request_id"]}
+                if not isinstance(record.get("parsed_output"), dict):
+                    invalid.append(prompt["prompt_id"])
+                continue
+            if leaf["status"] == "ZERO_TOKEN_PROVEN":
+                # D3 row 1: retry admitted only against proof of zero generated tokens.
+                retry_requests = (leaf["request_id"],)
+                wait = retry_backoff_seconds(
+                    len(ledger.attempts(FINAL_CANARY_STAGE, spec["logical_id"])))
+                if wait and sleep is not None:
+                    sleep(wait)
+            else:
+                # D3 row 2: uncertain consumption suspends the day; no automatic resend.
+                raise BatchStop(
+                    STOP_PREFIX + f" uncertain canary request {leaf['request_id']} "
+                    f"({leaf['status']}); reconcile it before resuming the canary")
 
         try:
             record = execute_request(
@@ -139,20 +176,44 @@ def run_day(*, target, ledger, config, generation, schema, day: str, results_dir
                     ledger=ledger, stage=FINAL_CANARY_STAGE, spec=spec),
                 evaluate=evaluate, expected_identity=config["expected_response"],
                 journal_path=journal_path, messages=messages,
-                accounting_guard=accounting_guard, journal=lambda *_: None)
+                accounting_guard=accounting_guard, journal=lambda *_: None,
+                resume=bool(retry_requests), retry_requests=retry_requests)
         except HarnessError as exc:
             if "identity" not in str(exc) and "suspended" not in str(exc):
                 raise
             identity_stop = str(exc)
             break
+        identity[prompt["prompt_id"]] = {
+            "returned_model": record.get("returned_model"),
+            "system_fingerprint": record.get("system_fingerprint"),
+            "request_id": record.get("request_id")}
+        if not isinstance(record.get("parsed_output"), dict):
+            # D3 row 3: received but invalid. Recorded, never regenerated.
+            invalid.append(prompt["prompt_id"])
         observations.append({"prompt_id": prompt["prompt_id"],
                              "parsed_output": record.get("parsed_output"),
                              "raw_response": record.get("raw_output") or ""})
 
     if identity_stop is not None:
         ledger.record_canary_stop(day, reason="returned_model or system_fingerprint changed",
-                                  detail={"message": identity_stop, "day_index": day_index})
+                                  detail={"message": identity_stop, "day_index": day_index,
+                                          "identity": identity})
         raise BatchStop(STOP_PREFIX + f" canary identity change on {day}: {identity_stop}")
+
+    if invalid:
+        # C5 under D3: the day is neither PASS nor MARKED, so the barrier of §7.1 step 3
+        # keeps every scientific lot of this day closed until the author decides.
+        durable_write(results_dir / f"canary_{day}_invalid.json",
+                      json.dumps({"day": day, "day_index": day_index,
+                                  "invalid_prompt_ids": sorted(invalid),
+                                  "identity": identity,
+                                  "rule": "D3: a received but invalid response is never "
+                                          "regenerated; the canary day cannot be closed"},
+                                 indent=2, ensure_ascii=False, sort_keys=True) + "\n")
+        raise BatchStop(
+            STOP_PREFIX + f" canary day {day} has {len(invalid)} invalid responses "
+            f"({sorted(invalid)}); D3 forbids regeneration, the day stays unclosed and no "
+            "scientific lot may run on it: author decision required")
 
     comparison = canary_module.compare_run(Path(target["canary_expectations"]["path"]), observations)
     outcome = dict(day=day, day_index=day_index, marked=comparison["marked_day"],
@@ -164,8 +225,10 @@ def run_day(*, target, ledger, config, generation, schema, day: str, results_dir
                   json.dumps(outcome, indent=2, ensure_ascii=False, sort_keys=True) + "\n")
     verdict = "MARKED" if comparison["marked_day"] else "PASS"
     ledger.record_canary_day(day, verdict=verdict, comparison=comparison,
-                             expectations_sha256=target["canary_expectations"]["sha256"])
+                             expectations_sha256=target["canary_expectations"]["sha256"],
+                             identity=identity)
     outcome["verdict"] = verdict
+    outcome["identity"] = identity
     if verdict == "MARKED":
         state = day_state(ledger)
         if state["stops"]:

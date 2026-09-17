@@ -65,9 +65,9 @@ def plan(arguments) -> dict:
     prompts = Path(arguments.prompts) if arguments.prompts else None
     if prompts is None or not prompts.is_file():
         missing.append(
-            "rendered prompts for the 2.244 stable identifiers: the frozen renderer needs the "
-            "03.11 test-lot consumer input manifest (neutral texts and local examples), which "
-            "does not exist yet; see REPORT_7_4_PREP.md open point 2")
+            "rendered prompts for the 2.244 stable identifiers: download the release "
+            "studio2-fase03-test-v1, run evidence/extract_test_lot_evidence.py for the "
+            "windows assigned by D1, then build_final_prompts.py")
     else:
         rendered = {json.loads(line)["prompt_id"]
                     for line in prompts.read_text(encoding="utf-8").splitlines() if line}
@@ -92,7 +92,11 @@ def plan(arguments) -> dict:
         "stage_quota": dict(sorted(FINAL_BATCH_PROFILE.base_limits.items())),
         "planned_maximum": FINAL_BATCH_PROFILE.planned_maximum,
         "hard_stop": FINAL_BATCH_PROFILE.hard_stop,
-        "retry_policy": "Q=0: no retry of a received response is authorized",
+        "retry_policy": (
+            "author decision D3: a retry is admitted only against proof of zero generated "
+            "tokens linked to the request; a received response is never regenerated"),
+        "retry_quota": FINAL_BATCH_PROFILE.retry_quota,
+        "consecutive_failure_stop": FINAL_BATCH_PROFILE.consecutive_failure_stop,
         "inventory_sha256": inventory_sha256,
         "schedule_sha256": schedule_sha256,
         "approval": {"path": str(Path(arguments.approval)), "sha256": sha256_file(Path(arguments.approval))},

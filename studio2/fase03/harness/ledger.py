@@ -38,6 +38,17 @@ TECHNICAL_VERIFICATION_STAGE = "technical_verification"
 FINAL_BATCH_STAGES = set(FINAL_PASS_STAGES) | {FINAL_CANARY_STAGE, TECHNICAL_VERIFICATION_STAGE}
 FINAL_BATCH_LIMITS = {**{stage: FINAL_PASS_LIMIT for stage in FINAL_PASS_STAGES},
                       FINAL_CANARY_STAGE: 70, TECHNICAL_VERIFICATION_STAGE: 100}
+# Author decision D3 (2026-09-17) replaces the absolute Q=0 of the candidate: a retry is
+# admitted only against proof that no token was generated. The cumulative ceiling is a
+# quota of its own, separate from the scientific stage quotas, so a transport storm can
+# never finance itself on scientific slots. Order of magnitude from the pilot: 8 pre-
+# generation failures out of 156 requests (5.13%); on 6,802 planned calls that is ~349
+# expected, and 400 leaves ~15% headroom while costing at most ~4.9 h at the gate p95.
+FINAL_RETRY_QUOTA = 400
+# Five consecutive failed technical attempts on the same service, retries included.
+# Protection against an unavailable service; no statistical meaning (D3).
+FINAL_CONSECUTIVE_FAILURE_STOP = 5
+TECHNICAL_FAILURE_STOP_PREFIX = "technical_failure_stop:"
 PROFILE_EVENT_PREFIX = "ledger_profile:"
 CANARY_PASS_PREFIX = "canary_pass:"
 CANARY_MARKED_PREFIX = "canary_marked:"
@@ -56,6 +67,11 @@ class LedgerProfile:
     planned_maximum: int
     hard_stop: int
     quota_kinds: frozenset
+    # D3: cumulative ceiling of proven-zero-token retries, counted apart from the
+    # per-stage scientific quotas. Zero keeps the historical behaviour.
+    retry_quota: int = 0
+    # D3: consecutive failed technical attempts on one service that stop the campaign.
+    consecutive_failure_stop: int = 0
 
 
 PILOT_PROFILE = LedgerProfile(
@@ -64,8 +80,11 @@ PILOT_PROFILE = LedgerProfile(
     quota_kinds=frozenset({"base", "remediation", "transport", "technical", "requalification"}))
 FINAL_BATCH_PROFILE = LedgerProfile(
     name="final_batch", stages=frozenset(FINAL_BATCH_STAGES), base_limits=dict(FINAL_BATCH_LIMITS),
-    planned_maximum=sum(FINAL_BATCH_LIMITS.values()), hard_stop=sum(FINAL_BATCH_LIMITS.values()),
-    quota_kinds=frozenset({"base"}))
+    planned_maximum=sum(FINAL_BATCH_LIMITS.values()) + FINAL_RETRY_QUOTA,
+    hard_stop=sum(FINAL_BATCH_LIMITS.values()) + FINAL_RETRY_QUOTA,
+    quota_kinds=frozenset({"base", "transport"}),
+    retry_quota=FINAL_RETRY_QUOTA,
+    consecutive_failure_stop=FINAL_CONSECUTIVE_FAILURE_STOP)
 PROFILES = {profile.name: profile for profile in (PILOT_PROFILE, FINAL_BATCH_PROFILE)}
 DIAGNOSES = {"structure", "identifiers", "cap", "leakage"}
 TOKENIZER_ACCOUNTING_SNAPSHOT = "Qwen/Qwen3.5-122B-A10B-FP8@a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9"
@@ -274,7 +293,9 @@ class PilotLedger:
                   "base_limits": dict(sorted(self.profile.base_limits.items())),
                   "planned_maximum": self.profile.planned_maximum,
                   "hard_stop": self.profile.hard_stop,
-                  "quota_kinds": sorted(self.profile.quota_kinds)}
+                  "quota_kinds": sorted(self.profile.quota_kinds),
+                  "retry_quota": self.profile.retry_quota,
+                  "consecutive_failure_stop": self.profile.consecutive_failure_stop}
         self._event(c, PROFILE_EVENT_PREFIX + self.profile.name, digest(detail), detail)
 
     def _connect(self):
@@ -1421,7 +1442,7 @@ class PilotLedger:
                 if r['stage'] == FINAL_CANARY_STAGE and r['logical_id'].startswith(prefix)]
         return index, rows, passed, marked
 
-    def record_canary_day(self, day, *, verdict, comparison, expectations_sha256):
+    def record_canary_day(self, day, *, verdict, comparison, expectations_sha256, identity=None):
         """Create-once verdict of one canary day (§6). Ten complete calls, no rewriting."""
         if verdict not in {'PASS', 'MARKED'}:
             raise HarnessError("canary verdict must be PASS or MARKED")
@@ -1437,6 +1458,12 @@ class PilotLedger:
             detail = dict(day=day, day_index=index, verdict=verdict,
                           expectations_sha256=expectations_sha256, comparison=comparison,
                           request_ids=sorted(r['request_id'] for r in rows))
+            if identity is not None:
+                # §6 identity control: returned_model AND system_fingerprint observed on
+                # every canary call of the day, persisted with the verdict.
+                if not isinstance(identity, dict) or not identity:
+                    raise HarnessError("canary identity evidence must be a non-empty mapping")
+                detail['identity'] = identity
             prefix = CANARY_PASS_PREFIX if verdict == 'PASS' else CANARY_MARKED_PREFIX
             self._event(c, prefix + day, digest(detail), detail)
             if verdict == 'MARKED' and len(marked) + 1 >= 2:
@@ -1595,6 +1622,41 @@ class PilotLedger:
         with self._transaction() as c:
             self._successful(c, stage)
 
+    def _consecutive_technical_failures(self, c):
+        """Consecutive failed technical attempts per service, retries included (D3).
+
+        Derived from the request table in insertion order, so the counter is persistent
+        by construction: restarting the runner, renaming a directory or opening the
+        ledger again cannot reset it. A request that reaches ``COMPLETED`` -- a response
+        was received, valid or not -- resets its service; ``FAILED`` and the reconciled
+        ``ZERO_TOKEN_PROVEN`` both record that the attempt failed technically.
+        """
+        counters: dict = {}
+        for row in self._rows(c):
+            if row['status'] == 'INTENT':
+                continue
+            service = row['model']
+            if row['status'] == 'COMPLETED':
+                counters[service] = 0
+            else:
+                counters[service] = counters.get(service, 0) + 1
+        return counters
+
+    def consecutive_technical_failures(self):
+        with closing(self._connect()) as c:
+            return self._consecutive_technical_failures(c)
+
+    def _technical_failure_stop(self, c):
+        limit = self.profile.consecutive_failure_stop
+        if not limit:
+            return {}
+        return {service: count for service, count
+                in self._consecutive_technical_failures(c).items() if count >= limit}
+
+    def technical_failure_stop(self):
+        with closing(self._connect()) as c:
+            return self._technical_failure_stop(c)
+
     def _prerequisites(self, c, stage):
         """Validate the dependency chain for both new work and reuse of closed results.
 
@@ -1619,6 +1681,12 @@ class PilotLedger:
         if self.profile.name == 'final_batch':
             if any(event.startswith(CANARY_STOP_PREFIX) for event in events):
                 raise HarnessError("canary STOP blocks every further call of the final batch")
+            stopped = self._technical_failure_stop(c)
+            if stopped:
+                raise HarnessError(
+                    f"STOP: {self.profile.consecutive_failure_stop} consecutive technical "
+                    f"failures on {sorted(stopped)}; the campaign is suspended with results "
+                    "and pending requests preserved")
             if stage in FINAL_PASS_STAGES:
                 if not any(event.startswith(CANARY_PASS_PREFIX) for event in events):
                     raise HarnessError("the scientific batch requires a passed canary day first")
@@ -1667,13 +1735,20 @@ class PilotLedger:
             if len(rows) >= max_calls:
                 raise HarnessError(f"planned request maximum {max_calls + len(predecessors)} reached")
         else:
-            # Protocol §7.2: exceeding a per-stage quota or the total is a batch STOP.
+            # Protocol §7.2 with author decision D3: exceeding a per-stage quota, the
+            # separate retry ceiling or the total is a batch STOP. Scientific slots are
+            # counted on the base requests alone, so a retry never consumes one.
             if len(rows) >= profile.planned_maximum:
                 raise HarnessError(f"planned request maximum {profile.planned_maximum} reached")
             limit = profile.base_limits.get(stage)
             if limit is None:
                 raise HarnessError(f"stage {stage} has no quota in profile {profile.name}")
-            if sum(r['stage'] == stage for r in rows) >= limit:
+            if quota_kind == 'transport':
+                used = sum(r['quota_kind'] == 'transport' for r in rows) + 1
+                if used > profile.retry_quota:
+                    raise HarnessError(
+                        f"cumulative retry quota {profile.retry_quota} is exhausted")
+            elif sum(r['stage'] == stage and r['retry_of'] is None for r in rows) >= limit:
                 raise HarnessError(f"stage quota {limit} for {stage} is exhausted")
         predecessor_request_ids = {row["request_id"] for row in predecessors}
         if request_id in predecessor_request_ids or retry_of in predecessor_request_ids:
@@ -1715,13 +1790,17 @@ class PilotLedger:
                 raise HarnessError("technical qualification is never retryable")
         elif any(r['stage'] == stage and r['logical_id'] == logical_id for r in rows):
             raise HarnessError("duplicate logical base across restart/alias/directory")
-        remediation = sum(r['quota_kind'] == 'remediation' for r in rows) + (quota_kind == 'remediation')
-        transport = sum(r['quota_kind'] == 'transport' for r in rows) + (quota_kind == 'transport')
-        if remediation > 8 or 8 * int(remediation > 0) + transport > 15:
-            raise HarnessError("shared reserve constraint 8r+t<=15 violated")
-        events = self._events(c)
-        if transport > 7 and (stage == 'budget_probe' or 'remediation_waived' not in events):
-            raise HarnessError("transport beyond seven requires waiver and is never available to probe")
+        if profile.name == 'pilot':
+            # The pilot shared reserve (8r + t <= 15) is a pilot envelope: the final batch
+            # has its own separate retry quota and never borrows from a remediation
+            # reserve it does not own.
+            remediation = sum(r['quota_kind'] == 'remediation' for r in rows) + (quota_kind == 'remediation')
+            transport = sum(r['quota_kind'] == 'transport' for r in rows) + (quota_kind == 'transport')
+            if remediation > 8 or 8 * int(remediation > 0) + transport > 15:
+                raise HarnessError("shared reserve constraint 8r+t<=15 violated")
+            events = self._events(c)
+            if transport > 7 and (stage == 'budget_probe' or 'remediation_waived' not in events):
+                raise HarnessError("transport beyond seven requires waiver and is never available to probe")
         if quota_kind == 'remediation' and stage != 'producer_remediation':
             raise HarnessError("remediation quota is exclusive")
         if stage == 'producer_remediation' and quota_kind == 'base':
@@ -1788,6 +1867,12 @@ class PilotLedger:
                 raise HarnessError("probe retry must preserve one original budget group")
             for v in values:
                 self._insert_intent(c, stage='budget_probe', quota_kind='transport', **{k: v[k] for k in ('request_id','logical_id','model','producer','stage_run','retry_of')})
+
+    def attempts(self, stage, logical_id):
+        """Every attempt recorded for one logical request, in insertion order."""
+        with closing(self._connect()) as c:
+            return [dict(r) for r in self._rows(c)
+                    if r['stage'] == stage and r['logical_id'] == logical_id]
 
     def request(self, request_id):
         with closing(self._connect()) as c:
@@ -2323,6 +2408,7 @@ class PilotLedger:
         with closing(self._connect()) as c:
             rows, events = self._rows(c), self._events(c)
             successor, predecessors = self._quota_context(c)
+            consecutive = self._consecutive_technical_failures(c)
             raw_count = c.execute("SELECT count(*) FROM responses").fetchone()[0]
         by_stage = {s: sum(r['stage'] == s for r in rows) for s in sorted(self.profile.stages)}
         remediation = sum(r['quota_kind'] == 'remediation' for r in rows)
@@ -2347,6 +2433,10 @@ class PilotLedger:
                     planned_maximum_with_alternate=planned_with_alternate,
                     profile=self.profile.name,
                     stage_quota=dict(sorted(self.profile.base_limits.items())),
+                    retry_quota=self.profile.retry_quota,
+                    retry_quota_used=transport if self.profile.retry_quota else 0,
+                    consecutive_technical_failures=dict(sorted(consecutive.items())),
+                    consecutive_failure_stop=self.profile.consecutive_failure_stop,
                     hard_stop=self.profile.hard_stop,
                     hard_stop_margin_at_planned_maximum=self.profile.hard_stop - (
                         planned_maximum if self.profile.name != 'pilot' else planned_with_alternate),
