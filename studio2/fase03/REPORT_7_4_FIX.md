@@ -149,12 +149,8 @@ Confronto sull'intera suite `studio2/fase03/harness/test_*.py`, stessa VM Linux:
 L'insieme dei non-pass è **identico riga per riga** (52 voci, ambientali: dipendono
 dall'albero evidence di release e da percorsi solo-Mac); i 49 test nuovi passano tutti.
 
-Riesecuzione richiesta sul Mac, da incollare qui:
-
-```bash
-cd /Users/luker/fot-tep/.worktrees/rem6-riconciliazione
-/opt/anaconda3/bin/python3 -m unittest $(ls studio2/fase03/harness/test_*.py | sed 's|/|.|g; s|\.py$||') studio2.fase03.evidence.test_test_lot_evidence
-```
+Riesecuzione sul Mac: eseguita dopo FIX-2 sul commit `a51ffd1` — **306 test, OK, zero
+non-pass**. Esito, comando e spiegazione della differenza 306/299 nella sezione FIX-2 §6.
 
 `materialize_final_target.py` in dry-run gira e riporta `BLOCKED_MISSING_PREREQUISITES`: in
 FIX-1 con `planned_maximum 7302` e cinque prerequisiti residui, in FIX-2 con
@@ -298,12 +294,43 @@ I prompt renderizzati e lo snapshot del tokenizer **non** sono più fra i blocca
 
 ## 6. Test
 
-Suite `studio2/fase03/harness/test_*.py` più `evidence/test_test_lot_evidence.py`, stessa VM
-Linux: **299 test**, 3 failure / 49 error / 22 skip, insieme dei non-pass **identico riga per
-riga** a quello della base `9e0e086` (52 voci, ambientali). Un test nuovo in FIX-2:
-`X = 0` chiude `technical_verification` (profilo a 7.202 e stage non legabile).
+Suite `studio2/fase03/harness/test_*.py` più `evidence/test_test_lot_evidence.py`.
+Un test nuovo in FIX-2: `X = 0` chiude `technical_verification` (profilo a 7.202 e stage non
+legabile).
 
-Riesecuzione sul Mac ancora da incollare qui (punto aperto G):
+| Esecuzione | Test | Failure | Error | Skip | Esito |
+| --- | ---: | ---: | ---: | ---: | --- |
+| VM Linux (questa finestra) | 299 | 3 | 49 | 22 | non-pass **identico riga per riga** alla base `9e0e086` |
+| **Mac, `/opt/anaconda3/bin/python3`** | **306** | **0** | **0** | **0** | **OK**, 485,662 s |
+
+Esito del Mac acquisito da Luca in `batch_finale/SUITE_MAC_a51ffd1.txt`, SHA-256
+`50601686bc4ecd160820d0b2413eeecab63511b21477b579a760dd1c30f4b373`, commit `a51ffd1`,
+Python 3.13 di Anaconda. Il file contiene in testa la coda di una prima esecuzione
+interrotta con `Ctrl-C` e poi l'esecuzione completa; è quest'ultima a fare fede.
+
+**Sul Mac non c'è alcun non-pass.** I 52 non-pass e i 22 skip della VM erano tutti
+ambientali, come dichiarato in 7.4-PREP: dipendono dall'albero evidence di release e da
+percorsi che esistono solo sul Mac. La riesecuzione lo conferma.
+
+### Perché 306 sul Mac e 299 nella VM
+
+La differenza è di **sette test** ed è interamente
+`harness/test_d01_replay.ReplayPrerequisites`. Il suo `setUpClass` esegue
+`git -C /Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate rev-parse HEAD`
+per pretendere che il generatore delle fixture legacy sia esattamente il candidato `0c8157f`
+e sia pulito. Quella worktree esiste sul Mac; nella VM Linux non è montata, il comando esce
+con stato 128 e `setUpClass` solleva.
+
+Quando `setUpClass` fallisce, `unittest` registra **un errore di classe** e **non conta** i
+metodi: la classe contribuisce `Ran 0 tests … errors=1`. I sette metodi
+`test_D01_*` di quella classe spariscono quindi dal conteggio della VM:
+
+    306 (Mac) − 7 (metodi di ReplayPrerequisites) = 299 (VM)
+
+Non è una differenza di codice né di selezione dei test: è la stessa suite, con una classe
+non eseguibile dove manca la sua worktree di riferimento.
+
+Comando eseguito:
 
 ```bash
 cd /Users/luker/fot-tep/.worktrees/rem6-riconciliazione
@@ -327,7 +354,8 @@ cd /Users/luker/fot-tep/.worktrees/rem6-riconciliazione
 librerie, perché così com'è l'artefatto non è riusabile su nessuna macchina diversa da quella
 che lo ha prodotto.
 
-**G — suite sul Mac.** Comando sopra; l'esito va incollato in questo report.
+**G — suite sul Mac.** **Chiuso**: 306 test, OK, nessun non-pass; evidenza in
+`batch_finale/SUITE_MAC_a51ffd1.txt` (`50601686…`). Vedi §6.
 
 **H — prerequisiti di runtime del target.** I tre elencati al §5, più il tag annotato del
 protocollo e l'approvazione di materializzazione, restano in capo a Luca.
