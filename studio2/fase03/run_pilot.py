@@ -40,7 +40,8 @@ from studio2.fase03.harness.gate_rules import (  # noqa: E402
 from studio2.fase03.harness.ledger import PilotLedger, digest
 from studio2.fase03.harness.common import HarnessError
 from studio2.fase03.harness.guards import require_execution, response_identity_valid, require_pilot_ledger
-from studio2.fase03.harness.runtime import execute_request, durable_write  # noqa: E402
+from studio2.fase03.harness.runtime import (execute_request, durable_write,
+                                            retry_requests_by_logical_id)  # noqa: E402
 
 
 ACK = "EXECUTE_PHASE03_PRELIMINARY_PILOT"
@@ -342,11 +343,12 @@ def _tracked_call(provider, ledger, *, prompt, schema, generation, stage, stage_
 
 
 def _probe_retry(ledger, stage, retry_requests):
+    retry_requests_by_logical_id(ledger, stage, retry_requests)
     selected = []
     for request_id in retry_requests:
         row = ledger.request(request_id)
-        if row is None or row['stage'] != stage or row['status'] != 'ZERO_TOKEN_PROVEN':
-            raise RuntimeError('explicit probe retry is not a proven zero-token original')
+        if row['status'] != 'ZERO_TOKEN_PROVEN':
+            raise HarnessError('explicit probe retry is not a proven zero-token original')
         spec = json.loads(row['identity_json'])
         selected.append(dict(request_id=digest([ledger.pilot_id, stage, spec['logical_id'], request_id]),
                              logical_id=spec['logical_id'], model=spec['model'], producer=spec['producer'],
@@ -377,6 +379,7 @@ def run_budget_stage(prepared_dir: Path, results_dir: Path, *, ledger: PilotLedg
             specs.append(spec); jobs.append((spec,stress[condition],generation))
     binding = dict(requests=specs, config_sha256=digest(config), prompts_sha256=digest(prompts), schema_sha256=digest(schema), execution_config=config,
                    tokenizer_snapshot=str(Path(plan['tokenizer_snapshot']).resolve()))
+    retry_requests_by_logical_id(ledger, 'budget_probe', retry_requests)
     ledger.bind_stage('budget_probe', binding)
     reserved = _probe_retry(ledger, 'budget_probe', retry_requests) if resume else []
     server = server_contract(config)

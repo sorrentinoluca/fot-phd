@@ -56,6 +56,17 @@ File nuovi in `$RT/execution/` (gli originali restano identici):
 La config viene sostituita (temp + rename). Nel ledger: `config_revision:1` e
 `suspension_reconciled:19a9b372…`. Rilanciarlo è idempotente (`UNCHANGED`, `ALREADY_…`).
 
+### Limite noto E26 — interruzione fra rename ed evento ledger
+
+Il rename della config e la registrazione di `config_revision:1` non sono una singola transazione
+fra filesystem e SQLite. Se il processo si interrompe dopo il rename e prima dell'evento, la nuova
+config non è ancora una revisione registrata: trattare lo stato come **fail-closed operativo** e
+non avviare alternate, probe o gate. Il rimedio previsto è rilanciare identico il passo 2; lo
+script riusa i byte `.rev2` e completa idempotentemente revisione, riconciliazione e preflight.
+Prima del passo 3 verificare sempre `revision.status = RECORDED` (oppure `ALREADY_RECORDED`) e
+`suspension.status = RECONCILED` (oppure `ALREADY_RECONCILED`). Il fix E20/E4 non modifica questa
+finestra di crash e non introduce un protocollo transazionale cross-filesystem.
+
 ## 3. Ripresa dell'alternate 27B (8 chiamate: 1 requalification + 7 base)
 
 Tunnel verso il 27B su `127.0.0.1:18001` aperto come nei run precedenti.

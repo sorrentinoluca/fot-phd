@@ -1373,6 +1373,9 @@ class PilotLedger:
                 raise HarnessError("probe plan requires distinct complete condition triplets")
         with self._transaction() as c:
             self._require_no_tokenizer_accounting_stop(c)
+            if 'execution_config' in binding:
+                self._require_accepted_config(
+                    c, binding['execution_config'], binding['execution_config'])
             from .d9 import validate_binding
             validate_binding(binding, stage, self, c)
             old = c.execute("SELECT binding_sha256 FROM stages WHERE stage=?", (stage,)).fetchone()

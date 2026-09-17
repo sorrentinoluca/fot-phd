@@ -276,6 +276,62 @@ class ConfigRevisionTests(unittest.TestCase):
             ledger._rebind_stage(c, "producer_conformity", old, good)
         self.assertFalse(any(e.startswith("stage_rebinding:") for e in ledger.snapshot()["events"]))
 
+    def test_FIX_E20_retry_selector_must_match_stage_and_logical_id(self):
+        self.revise()
+        ledger = self.t.ledger
+        binding = ledger.binding("alternate_conformity")
+        spec = next(value for value in binding["requests"] if value["logical_id"] == "agent_2")
+        producer_request = ledger.leaf("producer_conformity", "agent_1")["request_id"]
+        from studio2.fase03.harness.runtime import execute_request
+
+        before = _dump(ledger.path)
+        snapshot = ledger.snapshot()
+        with self.assertRaisesRegex(HarnessError, "retry selector"):
+            pp.run(source_inventory=self.t.source, results_dir=self.t.home / "results",
+                   provider_path=self.rev2_provider(), snapshot=self.t.snapshot,
+                   schema_dir=SCHEMA, ledger=ledger, stage="alternate_conformity",
+                   resume=True, retry_requests=[producer_request])
+        self.assertEqual(_dump(ledger.path), before)
+        self.assertEqual(ledger.snapshot(), snapshot)
+
+        def forbidden_transport():
+            raise AssertionError("retry selector rejection must precede transport")
+
+        for request_id in (producer_request, "missing-request-id"):
+            with self.subTest(request_id=request_id):
+                with self.assertRaisesRegex(HarnessError, "retry selector"):
+                    execute_request(
+                        ledger=ledger, stage="alternate_conformity", spec=spec,
+                        transport=forbidden_transport, evaluate=lambda raw: {},
+                        expected_identity=binding["provider"]["expected_response"],
+                        journal_path=self.t.home / "forbidden-retry-journal.jsonl",
+                        resume=True, retry_requests=[request_id])
+                self.assertEqual(_dump(ledger.path), before)
+                self.assertEqual(ledger.snapshot(), snapshot)
+                self.assertFalse((self.t.home / "forbidden-retry-journal.jsonl").exists())
+
+        summary = self.resume_alternate()
+        self.assertEqual(summary["status"], "PASS")
+        leaf = ledger.leaf("alternate_conformity", "agent_1")
+        self.assertEqual((leaf["retry_of"], leaf["quota_kind"]),
+                         (self.suspended, "requalification"))
+
+    def test_FIX_E4_bind_requires_current_revision_but_saved_stage_accepts_old(self):
+        self.revise()
+        ledger = self.t.ledger
+        old_binding = ledger.binding("alternate_conformity")
+        self.assertEqual(old_binding["execution_config"], json.loads(self.previous_config))
+        before = _dump(ledger.path)
+        with self.assertRaisesRegex(HarnessError, "head|current revision"):
+            ledger.bind_stage("alternate_conformity", old_binding)
+        self.assertEqual(_dump(ledger.path), before)
+        self.assertEqual(ledger.binding("alternate_conformity"), old_binding)
+
+        summary = self.resume_alternate()
+        self.assertEqual(summary["status"], "PASS")
+        self.assertEqual(ledger.binding("alternate_conformity")["execution_config"],
+                         ledger.config_revisions()[-1])
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

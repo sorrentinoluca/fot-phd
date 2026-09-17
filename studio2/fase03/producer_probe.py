@@ -103,7 +103,8 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
     from studio2.fase03.harness.guards import require_execution, verify_tokenizer, require_pilot_ledger, response_identity_valid
     from studio2.fase03.harness.insight_adapter import load_validator, context_from_inventory, assert_context_compatible
     from studio2.fase03.harness.ledger import digest
-    from studio2.fase03.harness.runtime import execute_request, durable_write
+    from studio2.fase03.harness.runtime import (execute_request, durable_write,
+                                                retry_requests_by_logical_id)
     preflight = load_json(PREFLIGHT_CONFIG_PATH)
     require_execution(preflight)
     require_pilot_ledger(preflight, ledger)
@@ -148,6 +149,7 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
                    execution_config=preflight, tokenizer_snapshot=str(snapshot.resolve()),
                    provider_file_sha256=sha256_file(provider_path),
                    provider_reference={'path':str(provider_path.resolve()),'sha256':sha256_file(provider_path)})
+    selected_retries = retry_requests_by_logical_id(ledger, stage, retry_requests)
     if accounting_guard is not None:
         ledger.validate_tokenizer_accounting_evidence(
             accounting_guard, expected_stage=stage,
@@ -209,7 +211,8 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
         records.append(execute_request(ledger=ledger, stage=stage, spec=spec, transport=transport, evaluate=evaluate,
                                       expected_identity=provider['expected_response'], journal_path=journal,
                                       messages=kwargs['messages'], accounting_guard=accounting_guard,
-                                      resume=resume, retry_requests=retry_requests))
+                                      resume=resume,
+                                      retry_requests=selected_retries.get(spec['logical_id'], ())))
     passed = all(r['schema_valid_first_attempt'] for r in records)
     summary = dict(artifact_version='4', status='PASS' if passed else 'FAIL', stage=stage,
                    producer_identity_sha256=digest(provider), provider_requests=ledger.snapshot()['requests_by_stage'][stage],

@@ -38,10 +38,26 @@ def export_journal(ledger, stage, path):
     durable_write(path, ''.join(canonical_json(r) + '\n' for r in rows))
 
 
+def retry_requests_by_logical_id(ledger, stage, retry_requests):
+    """Authenticate every explicit selector before any request can be reserved."""
+    selected = {}
+    for request_id in retry_requests:
+        row = ledger.request(request_id)
+        if row is None or row['stage'] != stage:
+            raise HarnessError(
+                'retry selector must identify an existing request in the current stage')
+        selected.setdefault(row['logical_id'], []).append(request_id)
+    return selected
+
+
 def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identity, journal_path,
                     messages=None, accounting_guard=None, resume=False, retry_requests=(), pre_reserved=()):
     binding = ledger.binding(stage)
     stage_run = digest(binding)
+    selected = retry_requests_by_logical_id(ledger, stage, retry_requests)
+    if not pre_reserved and any(logical_id != spec['logical_id'] for logical_id in selected):
+        raise HarnessError('retry selector must match the logical request in execution')
+    retry_requests = tuple(selected.get(spec['logical_id'], ()))
     accounting_required = spec.get('model') == TOKENIZER_ACCOUNTING_MODEL
     if accounting_required:
         if not isinstance(accounting_guard, TokenizerAccountingGuard):
