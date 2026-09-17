@@ -92,8 +92,11 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <li><a href="#pseudolabel-037"><span class="n">4.7</span>Pseudolabel e derangement di E</a></li>
 <li><a href="#piano-statistico-038"><span class="n">4.8</span>Piano statistico</a></li>
 <li><a href="#normal-dev-baseline-039"><span class="n">4.9</span><code>normal_dev</code> e baseline numerica</a></li>
-<li><a href="#harness-raccordo-metriche-0310"><span class="n">4.10</span>raccordo metriche 03.9 → 03.10</a></li>
+<li><a href="#harness-raccordo-metriche-0310"><span class="n">4.10</span>Raccordo metriche e chiusura harness</a></li>
+<li><a href="#run-finali-ood-0311"><span class="n">4.11</span>Run finali e controlli OOD</a></li>
 <li><a href="#schema-insight-0312"><span class="n">4.12</span>Schema degli insight R4</a></li>
+<li><a href="#pilot-qwen-0313"><span class="n">4.13</span>Pilot Qwen (aperto)</a></li>
+<li><a href="#fedavg-0314"><span class="n">4.14</span>Baseline FedAvg</a></li>
 <li><a href="#paper-sections-0315"><span class="n">4.15</span>Sezioni comuni del paper</a></li>
 <li><a href="#sez-13-conferenza"><span class="n">13</span>Conferenza</a></li>
 <li><a href="#sez-14-letteratura"><span class="n">14</span>Letteratura</a></li>
@@ -105,10 +108,10 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <h1>Studio 2 &mdash; walkthrough</h1>
 
 <div class="warn"><blockquote>
-<p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>. Stato al <strong>2026-09-15</strong>:
+<p><strong>Documento vivo, a scheletro.</strong> Si aggiorna <strong>fase per fase</strong>. Stato al <strong>2026-09-17</strong>:
 fasi 01 e 02 documentate in §2 e §3; la sotto-fase <strong>criteri di selezione (§6.1)</strong> della
 Fase 03 è documentata in <a href="#criteri-selezione-61">§4.1</a>; <strong>D1, verificata, congelata e pubblicata</strong>, in <a href="#catalogo-d1">§4.2</a>;
-i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; il <strong>perimetro del codice Q8</strong>, chiuso, in <a href="#perimetro-codice-q8">§4.4</a>; le <strong>soglie Normal (§6.3)</strong>, calibrate e verificate, in <a href="#soglie-normal-63">§4.5</a>; le <strong>evidence 697-D</strong>, verificate e conservate nella release v2, in <a href="#evidence-697-d">§4.6</a>; pseudolabel e derangement, verificati, in <a href="#pseudolabel-037">§4.7</a>; il <strong>piano statistico 03.8</strong>, chiuso nel presente candidato documentale dopo pubblicazione e freeze efficace, in <a href="#piano-statistico-038">§4.8</a>; <code>normal_dev</code> e baseline numerica, verificati, con baseline congelata e rev.5 di efficacia registrata, in <a href="#normal-dev-baseline-039">§4.9</a>; il <strong>raccordo delle metriche 03.9 → 03.10</strong>, verificato sul solo delta, in <a href="#harness-raccordo-metriche-0310">§4.10</a>; lo <strong>schema insight R4</strong>, verificato e congelato con tag pubblicato, in <a href="#schema-insight-0312">§4.12</a>; le <strong>sezioni comuni del paper</strong>, aggiornate e verificate ma conservate soltanto nel candidato locale, in <a href="#paper-sections-0315">§4.15</a>. La Fase 03 resta aperta. La parte restante delle fasi successive
+i <strong>run fault di sviluppo (§6.2)</strong>, verificati e conservati, in <a href="#run-fault-62">§4.3</a>; il <strong>perimetro del codice Q8</strong>, chiuso, in <a href="#perimetro-codice-q8">§4.4</a>; le <strong>soglie Normal (§6.3)</strong>, calibrate e verificate, in <a href="#soglie-normal-63">§4.5</a>; le <strong>evidence 697-D</strong>, verificate e conservate nella release v2, in <a href="#evidence-697-d">§4.6</a>; pseudolabel e derangement, verificati, in <a href="#pseudolabel-037">§4.7</a>; il <strong>piano statistico 03.8</strong>, chiuso e integrato in <code>main</code> dopo pubblicazione e freeze efficace, in <a href="#piano-statistico-038">§4.8</a>; <code>normal_dev</code> e baseline numerica, verificati, con baseline congelata e rev.5 di efficacia registrata, in <a href="#normal-dev-baseline-039">§4.9</a>; il <strong>raccordo delle metriche 03.9 → 03.10</strong> e la <strong>chiusura dell'harness offline 03.10</strong>, verificati e integrati in <code>main</code>, in <a href="#harness-raccordo-metriche-0310">§4.10</a>; i <strong>run finali di test e i controlli OOD 03.11</strong>, verificati ma non integrati in <code>main</code>, in <a href="#run-finali-ood-0311">§4.11</a>; lo <strong>schema insight R4</strong>, verificato e congelato con tag pubblicato, in <a href="#schema-insight-0312">§4.12</a>; il <strong>pilot Qwen 03.13</strong>, ancora aperto, in <a href="#pilot-qwen-0313">§4.13</a>; la <strong>baseline FedAvg 03.14</strong>, verificata ma non integrata in <code>main</code>, in <a href="#fedavg-0314">§4.14</a>; le <strong>sezioni comuni del paper</strong>, verificate e integrate in <code>main</code>, in <a href="#paper-sections-0315">§4.15</a>. La Fase 03 <strong>non è chiusa</strong>. La parte restante delle fasi successive
 resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, non questo file.</p>
 </blockquote>
 </div>
@@ -149,16 +152,15 @@ resta a scheletro: per essa <strong>la fonte autorevole è il piano</strong>, no
 
 <section id="sez-0-1-punti-aperti">
 <p class="kicker"><span class="num">0.1</span></p><h2>Punti aperti &mdash; da risolvere, non da aggirare</h2>
-<p>Restano qui le decisioni che una fase non pu&ograve; chiudere da sola. Il precedente punto sul riuso dei dati del primo studio &egrave; stato chiuso dalla fase 02: R1 &egrave; respinto come sostituzione di nuovi run fault e R2 &egrave; autorizzato come <code>baseline_fit</code> condizionata (<a href="#sez-3-generazione-riuso">§3</a>). La decisione U3 del 2026-09-13 ne ha esteso l'uso, in modo circoscritto, alla normalizzazione e ai flag del verbalizzatore V2 delle evidence 03.6, senza autorizzare calibrazione, verifica o test su N1&ndash;N5 (<a href="#evidence-697-d">§4.6</a>). Il punto sul perimetro del codice della Q8, registrato il 2026-09-12, &egrave; stato chiuso dalla sotto-fase 03.4 senza aprire un nuovo perimetro: la terza metrica di §8.5, il cap dello schema, l'estensione a 8 agenti e il derangement a 7 peer sono codice nuovo in <code>studio2/</code> secondo <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.2, che ora disciplina il riuso a livello di funzione; <code>phase_b/</code> e il nucleo di <code>code/</code> restano congelati per impronta (<a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §1).</p>
+<p>Restano qui le decisioni che una fase non pu&ograve; chiudere da sola. Il precedente punto sul riuso dei dati del primo studio &egrave; stato chiuso dalla fase 02: R1 &egrave; respinto come sostituzione di nuovi run fault e R2 &egrave; autorizzato come <code>baseline_fit</code> condizionata (<a href="#sez-3-generazione-riuso">§3</a>). La decisione U3 del 2026-09-13 ne ha esteso l'uso, in modo circoscritto, alla normalizzazione e ai flag del verbalizzatore V2 delle evidence 03.6, senza autorizzare calibrazione, verifica o test su N1&ndash;N5 (<a href="#evidence-697-d">§4.6</a>). Il punto sul perimetro del codice della Q8, registrato il 2026-09-12, &egrave; stato chiuso dalla sotto-fase 03.4 senza aprire un nuovo perimetro: la terza metrica di §8.5, il cap dello schema, l'estensione a 8 agenti e il derangement a 7 peer sono codice nuovo in <code>studio2/</code> secondo <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.2, che ora disciplina il riuso a livello di funzione; <code>phase_b/</code> e il nucleo di <code>code/</code> restano congelati per impronta (<a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §1). Le sotto-fasi 03.8, 03.10, 03.11, 03.14 e 03.15 documentate al 2026-09-17 non chiudono nessuno dei punti rimasti: i punti 1 e 3 restano aperti. Il punto 4, gi&agrave; chiuso in <code>MAINTENANCE.md</code> §8, &egrave; stato tolto dalla tabella come prevede la nota sotto.</p>
 <div class="tablewrap"><table>
 <thead><tr><th>#</th><th>Punto aperto</th><th>Perch&eacute; blocca</th><th>Chi decide</th><th>Registrato</th><th>Decisione da chiudere in</th></tr></thead>
 <tbody>
 <tr><td style="text-align:center">1</td><td><strong>Sigle <code>C06</code>, <code>C07</code>, <code>C18</code></strong> citate dal piano sperimentale</td><td>Vengono dal registro critiche <code>C01&ndash;C18</code>, che esiste <strong>solo</strong> in <code>fot_walkthrough_conversazione.md</code> §33 &mdash; la prima esposizione del primo studio, che non &egrave; fonte. Finch&eacute; restano cos&igrave; sono riferimenti appesi a un documento che nessuno deve usare</td><td>riportarle per esteso nel piano <strong>oppure</strong> rinumerarle</td><td>2026-09-12</td><td><code>docs/paper/FoT_TEP_Review_Piano_Sperimentale.md</code> §0.1 &mdash; <strong>non</strong> il piano BIGDATA2026, che §0 esclude dalle fonti autorevoli</td></tr>
 <tr><td style="text-align:center">3</td><td><strong>Congelamento definitivo della fase 02</strong></td><td>Gli artefatti sono committati e il freeze &egrave; stato rigenerato sul loro HEAD; il record di storage e il freeze rigenerato sono successivi al riesame indipendente</td><td>riverifica indipendente delle impronte del freeze rigenerato prima di ogni tag definitivo</td><td>2026-09-12</td><td><code>studio2/fase02/validation/PRECALIBRATION_FREEZE.json</code> e ciclo <code>Verifica_LLM</code></td></tr>
-<tr><td style="text-align:center">4</td><td><strong>Formato del tag di lotto su <code>fot-tep-data</code></strong></td><td>Chiuso: segue <a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.5; per i lotti il formato operativo è ora esplicito e rinvia lì</td><td>aggiornato in <code>docs/MAINTENANCE.md</code></td><td>2026-09-13</td><td><a href="MAINTENANCE.md"><code>MAINTENANCE.md</code></a> §8.5 / §8.6</td></tr>
 </tbody>
 </table></div>
-<p style="color:var(--muted);font-size:14.5px"><em>Registrati il 2026-09-12 (1&ndash;3) e il 2026-09-13 (4, ora chiuso in <a href="MAINTENANCE.md">MAINTENANCE.md</a> §8); il punto 2 &egrave; stato chiuso il 2026-09-13 e rimosso dalla tabella. Quando uno si chiude, va tolto da qui e la decisione va scritta dove compete: nel piano, in un registro di <code>lit_review/</code>, o in <code>MAINTENANCE.md</code> §1/§8.</em></p>
+<p style="color:var(--muted);font-size:14.5px"><em>Registrati il 2026-09-12 (1&ndash;3) e il 2026-09-13 (4); il punto 2 &egrave; stato chiuso il 2026-09-13 e il punto 4, chiuso in <a href="MAINTENANCE.md">MAINTENANCE.md</a> §8, &egrave; stato rimosso il 2026-09-17. Quando uno si chiude, va tolto da qui e la decisione va scritta dove compete: nel piano, in un registro di <code>lit_review/</code>, o in <code>MAINTENANCE.md</code> §1/§8.</em></p>
 </section>
 
 
@@ -981,9 +983,10 @@ OK indipendente acquisito e non è richiesta firma materiale. Il candidato di
 finalizzazione e il manifest finale pre-tag sono stati verificati e pubblicati;
 il tag annotato è stato pubblicato e risolve allo stesso commit in locale e sul
 remoto. Anche il record post-tag, il relativo OK e l'acquisizione sono
-raggiungibili da <code>origin/main</code>. La sotto-fase è <strong>chiusa nel presente candidato
-documentale</strong>; la dichiarazione resta da verificare, acquisire e pubblicare. La
-Fase 03 resta aperta.</p>
+raggiungibili da <code>origin/main</code>. La dichiarazione di chiusura documentale ha
+ricevuto un OK indipendente sul delta <code>2edd4550..b2184360</code>, acquisito e integrato
+in <code>main</code> (commit <code>f887b0a</code>, antenato di <code>15e56a8</code>). La sotto-fase 03.8 è <strong>chiusa</strong>. La Fase 03 resta
+aperta.</p>
 <h4>Dettaglio</h4>
 <p>Il nucleo comprende 1.728 richieste a R=1 e 5.184 a R=3. Il ledger completo
 aggiunge esplicitamente audit, swap, ablation, OOD, E5, canary, librerie, pilot,
@@ -1029,11 +1032,16 @@ sono pubblicati attraverso <code>2edd4550cabfd065fafa1834609e9789149611ee</code>
 I flag temporali dei manifest e del record restano fotografie byte-identiche
 dei rispettivi checkpoint e non vengono riscritti. La
 <a href="../studio2/fase03/piano_statistico/CHIUSURA_DOCUMENTALE_03_8.md">chiusura documentale</a>
-registra separatamente gli eventi successivi.</p>
+registra separatamente gli eventi successivi. Il
+<a href="../studio2/fase03/piano_statistico/VERIFICA_CHIUSURA_DOCUMENTALE_03_8.md">verbale OK di chiusura</a>
+ha SHA-256 <code>a80cb1f63c8ba8ccf8210c9315046184c28b6045d2d7c76e17da07d94578cba6</code>, vale per il delta
+<code>2edd4550cabfd065fafa1834609e9789149611ee..b2184360e6b857fd6f9e8c25903dbd428735ccf5</code> ed è
+<a href="../studio2/fase03/piano_statistico/ACQUISIZIONE_VERIFICA_CHIUSURA_DOCUMENTALE_03_8.md">acquisito</a>
+nel commit <code>f887b0aac9b0ef6cab1d3159de260183c1d837b7</code>. Il candidato è entrato in <code>main</code> come
+cherry-pick tracciato, <code>24999d60769b6af91cc53a63017df29396ddaf8a</code>, con tree identico:
+<code>b2184360</code> non è quindi antenato di <code>main</code>.</p>
 <h4>Lavoro che resta</h4>
-<p>Restano soltanto review indipendente del presente delta di chiusura,
-acquisizione byte-identica del verbale e pubblicazione autorizzata della
-dichiarazione. Il tag esistente non deve essere modificato. Nessun passaggio
+<p>Nessuno nel perimetro della 03.8. Il tag esistente non deve essere modificato. La chiusura non
 autorizza chiamate, inferenze, simulazioni, pilot o run.</p>
 </section>
 <section id="normal-dev-baseline-039">
@@ -1045,7 +1053,7 @@ baseline numerica pre-specificata. L'audit e la verifica indipendente confermano
 componenti e costruiti <strong>nove prototipi globali e sedici locali</strong>. Il ricalcolo indipendente dei
 25 vettori ha differenza massima zero. Non sono stati aperti dati di test, calcolate accuratezze o
 scelte soglie sulle prestazioni.</p>
-<p>La verifica scientifica storica è <strong>OK</strong>, dopo due candidati NON OK per errori di provenienza poi corretti. Il lotto Normal è già pubblicato e verificato per riscaricamento; mapping e sorgenti 03.6 sono integrati. L'OK di chiusura residui riguarda separatamente il candidato <code>49bc53b6d4630e7675eb5cf59c6d483d694ab042</code> ed è acquisito nel commit <code>9370346c61d6edfdb0521aea812003a5f013748d</code>. Il tag annotato <code>studio2-fase03-baseline-numerica-frozen-001</code> è pubblicato sul commit <code>38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e</code>; la successiva rev.5 registra l'efficacia. La sotto-fase 03.9 è chiusa nel suo perimetro; 03.8 è chiusa nel presente candidato documentale, mentre 03.10 e la Fase 03 restano aperte.</p>
+<p>La verifica scientifica storica è <strong>OK</strong>, dopo due candidati NON OK per errori di provenienza poi corretti. Il lotto Normal è già pubblicato e verificato per riscaricamento; mapping e sorgenti 03.6 sono integrati. L'OK di chiusura residui riguarda separatamente il candidato <code>49bc53b6d4630e7675eb5cf59c6d483d694ab042</code> ed è acquisito nel commit <code>9370346c61d6edfdb0521aea812003a5f013748d</code>. Il tag annotato <code>studio2-fase03-baseline-numerica-frozen-001</code> è pubblicato sul commit <code>38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e</code>; la successiva rev.5 registra l'efficacia. La sotto-fase 03.9 è chiusa nel suo perimetro; anche 03.8 e 03.10 sono chiuse, mentre la Fase 03 resta aperta.</p>
 <h4>Dettaglio</h4>
 <p>Il piano, fissato prima della generazione, assegna cinque run a ciascuno degli otto agenti e gli
 stream 60000–60039. Ogni workbook copre 65 h con campionamento al minuto; le otto finestre utili
@@ -1072,7 +1080,8 @@ prototipo è una media aritmetica 697-D e la classificazione usa L1 media, con p
 che il disegno richiede per interpretare i bracci LLM. Mitiga i rischi di selezione post-hoc e di
 contaminazione del test grazie a specifica precedente, separazione development/test e verifica
 hash; non dimostra accuratezza, robustezza o indipendenza statistica. Lo sbilanciamento di sviluppo
-fra 320 firme Normal e 40 per fault resta un vincolo da trattare nella ricetta FedAvg della 03.14.</p>
+fra 320 firme Normal e 40 per fault è stato trattato nella ricetta FedAvg della 03.14 con pesi di classe
+nella loss (<a href="#fedavg-0314">§4.14</a>).</p>
 <h4>Artefatti e riproducibilità</h4>
 <p>Il <a href="../studio2/fase03/baseline_numerica/REPORT_BASELINE_NUMERICA.md">report</a> e la <a href="../studio2/fase03/baseline_numerica/VERIFICA_BASELINE_NUMERICA.md">verifica scientifica storica</a> restano le fonti di <code>normal_dev</code> e prototipi, con OK su <code>ba1a206e1fe31c062d5491b4fb821ff925149982</code>. Il <a href="../studio2/fase03/baseline_numerica/RAPPORTO_RESIDUI_BASELINE_03_9_2026-09-14.md">rapporto residui</a> identifica il successivo delta <code>49bc53b6d4630e7675eb5cf59c6d483d694ab042</code>; il relativo verbale OK acquisito ha SHA-256 <code>2131277d6d8840e767e73e3b0ab9e421f4b27acaa39a18faa770f19a69dd536a</code>. Il <a href="../studio2/fase03/baseline_numerica/PUBBLICAZIONE_BASELINE_03_9.md">record di pubblicazione 03.9</a> documenta acquisizione, commit pubblicato, oggetto annotato <code>124262f5a6172a20965d019f220ff93954284922</code>, peeled <code>38cb5f5eaa2e5a7dddfd53564a7d020b6b50fa1e</code> e riscontro remoto <code>2026-09-14T20:53:04Z</code>. La <a href="../studio2/fase03/baseline_numerica/BASELINE_FREEZE_rev005.json">rev.5 di efficacia</a> è registrata dopo il target del tag. Le revisioni 1–4 restano intatte; il raccordo metriche conserva il pin storico della rev.3.</p>
 <p><code>PROTOTYPES.json</code> ha SHA-256 <code>6d0b754065eb8a69d0657638deeef0756de0ec8e93a905c55aea18fadace2cb2</code>;
@@ -1082,14 +1091,14 @@ L'archivio USTAR pubblicato ha SHA-256
 <code>eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03</code> e 1.336 membri verificati per riscaricamento dalla release <code>studio2-fase03-normal-dev-v1</code>, senza differenze. Dati grezzi, runtime, storia audit, evidence e archivio restano fuori
 da Git e sono legati agli inventari tracciati.</p>
 <h4>Lavoro che resta</h4>
-<p>Il freeze baseline non qualifica l'harness completo né il pilot. Restano separati servizio 122B, collegamento ai run finali e attuazione del recepimento D9; la chiusura documentale 03.8 non li autorizza. Lo schema insight 03.12 resta congelato come documentato in <a href="#schema-insight-0312">§4.12</a>; l'adeguamento del suo pin nell'adapter 03.10 resta un lavoro distinto. La <a href="../studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md">consegna storica di integrazione</a> conserva lo stato precedente, superato per i soli residui baseline dal record di pubblicazione 03.9.</p>
+<p>Il freeze baseline non qualifica l'harness completo né il pilot. Restano separati servizio 122B e pilot 03.13; il recepimento D9 è attuato nell'harness offline chiuso in <a href="#harness-raccordo-metriche-0310">§4.10</a>. Lo schema insight 03.12 resta congelato come documentato in <a href="#schema-insight-0312">§4.12</a>; l'adeguamento del suo pin nell'adapter 03.10 resta un lavoro distinto. La <a href="../studio2/fase03/baseline_numerica/CONSEGNA_INTEGRAZIONE_03_9.md">consegna storica di integrazione</a> conserva lo stato precedente, superato per i soli residui baseline dal record di pubblicazione 03.9.</p>
 </section>
 <section id="harness-raccordo-metriche-0310">
 <h3>4.10 · Fase 03 — harness: raccordo delle metriche 03.9 → 03.10 (sotto-fase 03.10)</h3>
-<p><em>Questa sotto-sezione documenta <strong>soltanto</strong> il raccordo (adattamento offline)
-delle metriche fra la baseline numerica 03.9 e l'harness 03.10, delta <code>5116087..caf5bfb</code>.
-<strong>Non</strong> documenta l'intero harness 03.10, che resta aperto, e non chiude 03.9 né 03.10.
-La Fase 03 <strong>non è chiusa</strong>.</em></p>
+<p><em>Questa sotto-sezione documenta il raccordo (adattamento offline) delle metriche fra la
+baseline numerica 03.9 e l'harness 03.10, delta <code>5116087..caf5bfb</code>, e in coda la <strong>chiusura
+della sotto-fase 03.10</strong> nel solo perimetro dell'harness offline, integrata in <code>origin/main</code>
+con il merge <code>15e56a8</code>. La Fase 03 <strong>non è chiusa</strong>.</em></p>
 <p><strong>Stato d'integrazione pubblicato.</strong> Il raccordo minimo <code>3360867751c66a39e819247f86dab8e936f8cbb3</code>, inclusi <code>common.py</code> e il test mirato, è verificato; il consolidamento qualificato <code>04dee86140b3ff18882f9d164beef5ab7bf33e00</code> e la relativa acquisizione sono pubblicati. Il <a href="../studio2/fase03/REGISTRO_PUBBLICAZIONE_CONSOLIDAMENTO_0315_METRICHE_2026-09-14.md">registro del consolidamento</a> documenta l'integrazione. Questo stato supera il precedente candidato locale su <code>e82b5a0</code> senza estendere l'OK all'intero harness.</p>
 <h4>Riassunto e sintesi</h4>
 <p>Il delta aggiunge un adattatore offline, hash-pinned e fail-closed, che legge il documento
@@ -1139,8 +1148,177 @@ registrato in
 Dipendenza normativa rev. 10: <code>studio2/fase03/piano_statistico/DELTA_HARNESS_03_10.md</code> al
 riferimento Git stabile <code>6aaa5b3eebfed4ba502c25c0443caabd0051af21</code> (blob <code>780e08ae…</code>,
 contenuto SHA-256 <code>e92661fe…</code>).</p>
+<h4>Chiusura della sotto-fase 03.10 (harness offline)</h4>
+<p>La <a href="../studio2/fase03/harness/CHIUSURA_SOTTOFASE_03_10.md">dichiarazione di chiusura</a> considera
+03.10 chiusa <strong>nel solo perimetro dell'harness offline</strong>: costruzione dei prompt, validazione,
+logging, ledger, resume, quote, gate e recepimento D9, fino al candidato tecnico
+<code>868b1f4317f49877a67d3b76908379c53d6aedc8</code>. L'ultimo delta rende importabile lo storico esterno S
+solo con un pacchetto revisionato (<code>MAPPING_REVIEWED</code>) e un'autorizzazione distinta
+(<code>IMPORT_AUTHORIZED</code>), in un'unica transazione SQLite. L'addebito prudenziale resta S=4, contato una
+sola volta; S1 resta storicamente incerto e non diventa una prova zero-token. Secondo il verbale, i
+massimi osservabili diventano 156/164, di cui 152/160 richieste native.</p>
+<p>Il test discriminante <code>test_history_reconciliation.py</code> (stessi byte, SHA-256
+<code>ebbe59d6d230f5052d4d8cd4beb5492e23452824aca0fb01111648565409e88c</code>) fallisce sul parent
+<code>8fbbfa0</code> con 10 test, 1 failure e 15 errori, e passa 10/10 sul candidato
+(<code>history_reconciliation_evidence/RESULTS.json</code>); il verificatore lo ha rieseguito, 10/10 con
+Python 3.11.5 arm64. Le regressioni registrate nello stesso file (D9 17, correzioni D9 11, D04 8,
+revisioni 37, tutte OK) non sono state rieseguite dal verificatore.</p>
+<p>Il <a href="../studio2/fase03/harness/VERIFICA_CHIUSURA_03_10.md">verbale indipendente</a> è <strong>OK</strong>, limitato
+al delta <code>8fbbfa01820d00562188594123182982939187b2..dcc742282124784c3fd9004dc642962a9b1e9868</code>
+(5.785 byte, SHA-256 <code>1d67c6425bd8e2e1c0904c3b7f08675e7774d4ace214c76abcffcd27c0afeeb7</code>). È
+acquisito nel <a href="../studio2/fase03/harness/ACQUISIZIONE_OK_CHIUSURA_03_10.md">record</a> del commit
+<code>e853d5f4f4a5e6aaae75ec473d7c09d0a7b368d7</code> e integrato in <code>origin/main</code> dal merge
+<code>15e56a89b0f377e6d90eef28ed941d4d54b5b00c</code>. La chiusura non qualifica i servizi Qwen, non approva
+capienza o package reale S e non autorizza chiamate: questi punti appartengono al pilot 03.13.
+Nella connessione alle critiche, la chiusura <strong>mitiga</strong> il rischio di doppio conteggio e di
+accounting incoerente del budget; non chiude la qualificazione dei modelli.</p>
 <h4>Lavoro che resta</h4>
-<p>Collegare l'adapter agli artefatti reali dell'harness e agli input verificati; completare l'attuazione del delta rev.10 nel perimetro 03.10, pin 03.12, recepimento dell'ordine label 1a, endpoint e qualificazione dei modelli. La disponibilità della fonte normativa nella storia integrata non equivale all'implementazione dell'intero delta. Il freeze baseline è documentato separatamente in <a href="#normal-dev-baseline-039">§4.9</a>. La sotto-fase 03.8 è chiusa nel presente candidato documentale; 03.10 e la Fase 03 restano aperte.</p>
+<p>Nel perimetro 03.10, nessuno. Endpoint, tokenizer e template, fingerprint, capienza, package reale
+S, ledger e <code>pilot_id</code> e ogni chiamata appartengono al pilot 03.13 (<a href="#pilot-qwen-0313">§4.13</a>),
+per il quale l'harness resta fail-closed. Il freeze baseline è documentato in
+<a href="#normal-dev-baseline-039">§4.9</a>. Le sotto-fasi 03.8 e 03.10 sono chiuse; la Fase 03 resta aperta.</p>
+</section>
+<section id="run-finali-ood-0311">
+<h3>4.11 · Fase 03 — run finali di test e controlli tecnici OOD (sotto-fase 03.11)</h3>
+<blockquote>
+<p><strong>Stato d'integrazione.</strong> La sotto-fase è <strong>conclusa e verificata localmente, ma non integrata
+in <code>main</code></strong> né pubblicata: il lavoro sta sul branch locale <code>codex/studio2-esecuzione-0311</code>,
+HEAD <code>349ead315de575cf43977fdf807d43b64070546c</code> (tree <code>38e546c0c1f253af5dc75fe65505b8039fc5e189</code>),
+nella worktree <code>/Users/luker/fot-tep-wt-0311</code>. I link di questa sotto-sezione puntano a percorsi
+che esistono solo su quel branch. La Fase 03 <strong>non è chiusa</strong>.</p>
+</blockquote>
+<h4>Riassunto e sintesi</h4>
+<p>La 03.11 ha generato il lotto finale di test prespecificato dal piano rev.10 e ha eseguito, prima
+del lotto, i controlli tecnici sui due fault OOD. La prima sonda F6 è andata in trip fisico a
+32,1095 h (codice 8) con 1/8 finestre complete; F4 ha raggiunto 65 h con 8/8 finestre. Il trip ha
+attivato la catena congelata <code>F6→F5→F12</code>: poiché per F5 mancava il numero di rilevabilità
+riverificato richiesto, la procedura si è <strong>fermata</strong> prima del lotto (0/89) e lo stop ha ricevuto
+un primo OK indipendente. Dopo la verifica bibliografica di F5 e una sonda tecnica F5 riuscita
+(65 h, nessun trip, 8/8 finestre), è stata applicata la sostituzione <strong>F6→F5</strong>; F12 non è stata
+eseguita. Il lotto <code>test_batch_f5</code> è completo <strong>89/89</strong>: 64 run primari fault, 8 Normal, 6 OOD
+(3 F5 e 3 F4) e 11 scorte tecniche, con 712 finestre complete, zero trip, zero errori tecnici e
+nessuna scorta attivata. Il secondo verbale indipendente è <strong>OK</strong>.</p>
+<p>Non ci sono state chiamate a Qwen o ad altri modelli e nessuna scelta è stata fatta su prestazioni
+diagnostiche. Il lotto è un insieme di dati sigillato, non un risultato scientifico.</p>
+<h4>Dettaglio</h4>
+<p><strong>Preflight OOD.</strong> La specifica è stata congelata prima di ogni simulazione nel commit
+<code>3618e424748fe02d745f09542ce15d30da032492</code>: sonde in ordine F6, F4 con stream 70000 e 70001,
+chiave Philox <code>0x464f545445503032</code>, innesco a 25 h e stop a 65 h, generatore qualificato dei fault
+di sviluppo (MATLAB R2025b Update 6 arm64, <code>ode45</code>, MEX strumentato SHA-256
+<code>834e2361915249402a1ec9074a4be04f22a6404deb841e5134bf34347dfde544</code>). Una sonda è ammissibile
+solo con manifest e hash validi, unico IDV attivo e osservato, nessun trip, 8/8 finestre
+<code>[25,65)</code> complete e nessun valore non finito; non si leggono XMEAS, feature o score. L'audit
+<code>PREFLIGHT_AUDIT_03_11.json</code> registra <code>BLOCKED_UNRESOLVED_SUBSTITUTE</code>, 2/2 manifest, 1 completo,
+1 trip fisico e zero run del lotto avviati.</p>
+<p><strong>Catena e lotto.</strong> Dopo l'acquisizione del primo OK, catena, criteri e due piani alternativi di
+lotto sono stati congelati prima della nuova sonda nel commit
+<code>f650f0306a9e7aa3220de6a3b4d14fc0377f8770</code>: F5 sullo stream 70002, F12 (solo se F5 fallisce)
+sullo stream 70003; lotto <code>test_batch_f5</code> sugli stream 71000–71088 e alternativo <code>test_batch_f12</code>
+su 72000–72088, entrambi da 89 righe. Il piano attivo contiene 8 run per ciascuno dei fault D1
+(F1, F2, F3, F8, F10, F13, F14, F15) e 8 Normal, 3 run per ciascun OOD e 11 scorte, una per
+classe primaria e una per OOD. L'audit <code>BATCH_AUDIT_03_11.json</code> è <code>PASS</code>, con
+<code>active_ood_substitution = "F6 -&gt; F5"</code>, <code>F12_executed = false</code>, 89 manifest verificati e somma dei
+tempi di esecuzione 761,871 s.</p>
+<p><strong>Rilevabilità F5.</strong> Il record <code>VERIFICA_RILEVABILITA_F5_03_11.md</code> legge la Tabella 2 (p. 6) di
+Xiao, Kordon e Sen (2023): FDR 100% per il DAE, 29% per PCA-T² e 31% per PCA-SPE. Soddisfa la sola
+condizione prescritta (esiste un numero esterno primario riverificato); lo stesso record vieta di
+descrivere F5 come uniformemente facile, perché i due rilevatori PCA restano intorno al 30%.</p>
+<h4>Connessione alla letteratura</h4>
+<p>Xiao, Kordon e Sen 2023 (<a href="letteratura.html"><code>letteratura.md</code> §14.1 e §14.2</a>, 🟢) <strong>sostiene</strong> l'uso
+di F5 come sostituto nel solo senso richiesto dal piano, e <strong>delimita</strong> qualunque claim sulla sua
+facilità: la rilevabilità dipende dal metodo. Per F6 e F4 vale la verifica già registrata in
+<code>lit_review/VERIFICA_RILEVABILITA_IDV6_IDV4_FASE03.md</code>. Nessuna di queste fonti prova
+generabilità, ammissibilità tecnica o prestazione FoT, che restano affidate alle sonde e agli
+audit.</p>
+<h4>Connessione alle critiche</h4>
+<p>La sotto-fase <strong>mitiga</strong> il rischio di selezione post-hoc dei fault OOD: catena, criteri, stream e
+piani alternativi erano congelati prima delle sonde, e la sostituzione è avvenuta per trip fisico,
+non per prestazioni. <strong>Mitiga</strong> anche il rischio di contaminazione: stream finali disgiunti da
+quelli di sviluppo e nessuna feature calcolata in questa sotto-fase. <strong>Lascia aperta</strong> la consegna
+dei dati: gli archivi restano locali e non pubblicati su <code>fot-tep-data</code>, quindi, secondo
+<code>Commit_LLM.md</code> §7, il lotto non è ancora consegnato. La sostituzione F6→F5 cambia la coppia OOD
+effettiva rispetto al primo candidato: va dichiarata nel paper come esito della regola, non come
+scelta.</p>
+<h4>Artefatti e riproducibilità</h4>
+<p>Tutti i file sotto <code>studio2/fase03/fault_runs/</code> sul branch locale:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Artefatto</th>
+<th style="text-align: right;">Byte</th>
+<th>SHA-256</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SIGILLO_LOTTO_03_11.json</code></td>
+<td style="text-align: right;">3.595</td>
+<td><code>9bd02e900429e971c08cbb8fc81f5dec54b8dcfb30b90e19faf622bb8558739d</code></td>
+</tr>
+<tr>
+<td><code>BATCH_AUDIT_03_11.json</code></td>
+<td style="text-align: right;">2.073</td>
+<td><code>420a61eb65a47961092ee042f7fa08797a25b350f875cad76c0954f7f3eeb6e3</code></td>
+</tr>
+<tr>
+<td><code>SIGILLO_PREFLIGHT_03_11.json</code></td>
+<td style="text-align: right;">2.467</td>
+<td><code>6c4c5a6dd0baf6f1c450218dbd2b8a61f28eaa841c7858dd3c37aedd808f71e3</code></td>
+</tr>
+<tr>
+<td><code>PREFLIGHT_AUDIT_03_11.json</code></td>
+<td style="text-align: right;">2.988</td>
+<td><code>748bf307eabc39c13f80618dc96ccbf551b03c97fea68a49de3cdde92a24fa03</code></td>
+</tr>
+<tr>
+<td><code>plans/test_batch_f5.csv</code></td>
+<td style="text-align: right;">10.018</td>
+<td><code>ef0b28529b6a48932d6fb7483c1fef44e331db089f284cc3d7a06a6e20879572</code></td>
+</tr>
+<tr>
+<td><code>plans/test_batch_f12.csv</code></td>
+<td style="text-align: right;">10.115</td>
+<td><code>d2609b75aeda034d12cdb1b08815b0c535ea44f0dd067390f3fab31df9ac8f56</code></td>
+</tr>
+<tr>
+<td><code>plans/ood_preflight_03_11.csv</code></td>
+<td style="text-align: right;">380</td>
+<td><code>876a05f22c40662685c541fb522ffdb3117f9499adaef1a4d630a3436083ad3f</code></td>
+</tr>
+<tr>
+<td><code>VERIFICA_RILEVABILITA_F5_03_11.md</code></td>
+<td style="text-align: right;">1.408</td>
+<td><code>21f578c67f1c10fbad2c84f2c422b8dfb0a70b5bd0ce0a833f629cde049ca9e0</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Il sigillo registra il manifest di generazione del lotto
+<code>e7c75d23107e95abcdbcf7531f845d3d90b8620974d7c3917071b37f70a34780</code>, gli eventi
+<code>af4f659ee82d25cc71caac1d3ca2c04c58efa9448d23ac1fe59b46276bb1b55e</code> e due archivi locali:
+<code>test_batch/test_batch_f5_001.tar.gz</code>, 141.191.097 byte, SHA-256
+<code>ac1e7c0c4575ab746ee24a8bb5ce7f09289919773bc4d8c61ba86f7a93218a55</code>, e
+<code>ood_chain_f5/chain_f5_001.tar.gz</code>, 1.579.326 byte, SHA-256
+<code>242f689a8737739f51eb6b3acefaf34cea4c06e9ebd547beccbcf1760a473aec</code>; il preflight conserva
+<code>ood_preflight/ood_preflight_001.tar</code>, 7.426.560 byte, SHA-256
+<code>16acf7c1e18923b606a47fe3fb0efaa83b99e8ee19024f11f4d8f3fd675929df</code>. Gli archivi non sono in Git
+e <code>external_publication</code> è <code>null</code>; le loro impronte sono state ricalcolate dal verificatore, non
+in questa documentazione.</p>
+<p>Verifiche: il <a href="../studio2/fase03/fault_runs/VERIFICA_ESECUZIONE_03_11.md">primo verbale</a> (OK sullo
+stop, candidato <code>1cdf597b9a95e7f1c9a3d6711c2f840c8b5ab6aa</code>, 1.132 byte, SHA-256
+<code>2fb7dc83eb82db7e15bbc56f947bcbe3781ef5a853fa1fd710eaeb95f587bae8</code>) e il
+<a href="../studio2/fase03/fault_runs/VERIFICA_ESECUZIONE_03_11_v2.md">verbale finale</a> (OK sul candidato
+<code>fd41fcf05aa6374d01b45b26b0881e2ffcc98062</code>, tree <code>9010a6b3aab4029f20ff5355455c452bbefde1b5</code>,
+2.339 byte, SHA-256 <code>09994cf7536166d4d4717eecd585ebe61c664fb5f388d58425cbc181e611f16f</code>), acquisito
+nel <a href="../studio2/fase03/fault_runs/ACQUISIZIONE_OK_ESECUZIONE_03_11.md">record</a> del commit
+<code>349ead3</code>. Il verificatore ha rieseguito 27/27 test, rigenerato l'audit byte-identico e
+ricalcolato i conteggi da piani, manifest ed eventi. Report: lo
+<a href="../studio2/fase03/fault_runs/REPORT_ESECUZIONE_03_11.md">stop</a> e la
+<a href="../studio2/fase03/fault_runs/REPORT_PROSECUZIONE_03_11_F5_F12.md">prosecuzione</a>.</p>
+<h4>Lavoro che resta</h4>
+<p>Integrazione del branch in <code>main</code>, pubblicazione degli archivi su <code>fot-tep-data</code> con verifica per
+riscaricamento ed eventuale tag richiedono un mandato esplicito. Il lotto è già stato letto dalla
+valutazione finale FedAvg (<a href="#fedavg-0314">§4.14</a>); i bracci LLM lo useranno solo dopo pilot e
+congelamento del protocollo.</p>
 </section>
 <section id="schema-insight-0312">
 <h3>4.12 · Fase 03 — schema degli insight (sotto-fase 03.12)</h3>
@@ -1213,6 +1391,189 @@ pilot e la qualificazione del servizio/modello 122B. In una successiva attività
 aggiornati i pin dell'adapter; questo aggiornamento non appartiene alla 03.12 e non è stato
 eseguito qui.</p>
 </section>
+<section id="pilot-qwen-0313">
+<h3>4.13 · Fase 03 — capability pilot Qwen (sotto-fase 03.13)</h3>
+<p>Sotto-fase <strong>aperta</strong>: non ha una verifica conclusiva e non viene documentata qui. Finché resta
+aperta, la fonte è il piano §7.1.</p>
+</section>
+<section id="fedavg-0314">
+<h3>4.14 · Fase 03 — baseline FedAvg, pavimento locale e soffitto centralizzato (sotto-fase 03.14)</h3>
+<blockquote>
+<p><strong>Stato d'integrazione.</strong> La sotto-fase è <strong>conclusa e verificata localmente, ma non integrata
+in <code>main</code></strong> né pubblicata o taggata: il lavoro sta sul branch locale <code>codex/studio2-fedavg</code>,
+HEAD <code>e1b46faf5aee27b2a1f98d4c568c3e276bf33ae4</code> (acquisizione delle review finali), nella worktree
+<code>/Users/luker/fot-tep/.worktrees/studio2-fedavg</code>. I link di questa sotto-sezione puntano a
+percorsi che esistono solo su quel branch. La Fase 03 <strong>non è chiusa</strong>.</p>
+</blockquote>
+<h4>Riassunto e sintesi</h4>
+<p>La 03.14 ha costruito il comparatore parametrico dello studio in tre modalità con la stessa
+ricetta: <strong>pavimento locale</strong> (ogni client vede solo <code>Normal</code> e il proprio fault), <strong>FedAvg</strong>
+canonico e <strong>soffitto centralizzato</strong>. La ricetta è stata congelata prima di ogni addestramento
+reale; il modello è stato addestrato una sola volta sui 640 esempi di sviluppo (03.6 e 03.9) e
+valutato una sola volta sui 72 run primari del lotto 03.11 (<a href="#run-finali-ood-0311">§4.11</a>), 576
+finestre. Risultati, tutti con astensione zero per costruzione:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Modalità</th>
+<th style="text-align: right;">Corretti / tentativi</th>
+<th style="text-align: right;">Accuratezza</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Locale, otto riceventi</td>
+<td style="text-align: right;">897 / 4.608</td>
+<td style="text-align: right;">0,19466145833333334</td>
+</tr>
+<tr>
+<td>FedAvg</td>
+<td style="text-align: right;">434 / 576</td>
+<td style="text-align: right;">0,7534722222222222</td>
+</tr>
+<tr>
+<td>Centralizzato</td>
+<td style="text-align: right;">443 / 576</td>
+<td style="text-align: right;">0,7690972222222222</td>
+</tr>
+</tbody>
+</table></div>
+<p>I 6 run OOD (F4 e F5) sono esclusi dalle metriche primarie e riportati solo come attribuzioni
+forzate alle nove classi, senza accuratezza. La valutazione finale ha un OK indipendente e un
+replay indipendente byte-identico.</p>
+<p>Questi numeri sono <strong>descrittivi</strong>: nessun bootstrap, nessun test fra modalità, nessun confronto
+con il braccio LLM. La distanza fra FedAvg e centralizzato (9 corretti su 576) non è stata
+sottoposta ad alcun test e non va letta come effetto.</p>
+<h4>Dettaglio</h4>
+<p><strong>Ricetta.</strong> MLP <code>697 → 32 → 9</code>, z-score stimato sul solo training, cross-entropy con pesi di
+classe <code>n/(K·n_k)</code> calcolati sul solo training (è così che la ricetta tratta lo sbilanciamento
+Normal/fault segnalato in <a href="#normal-dev-baseline-039">§4.9</a>), SGD senza momentum con learning rate
+0,05, batch 32, 5 epoche locali, 40 round, seed 20260914; FedAvg usa tutti gli otto client a ogni
+round e media i parametri con peso pari alla numerosità locale. Nel pavimento i logit dei sette
+fault assenti sono mascherati a <code>−∞</code>: un fault altrui è necessariamente un errore, e il
+denominatore è 576 × 8 riceventi = 4.608. Nessuna griglia di iperparametri, nessun early stopping.</p>
+<p><strong>Catena delle verifiche.</strong> La prima verifica indipendente del pacchetto <code>b39b723</code> è stata
+<strong>NON OK</strong> per due fixture avversarie: un <code>run_id</code> poteva comparire in batch diversi (R1) e un
+symlink poteva aggirare il confinamento dei percorsi (R2). Le correzioni di <code>e5d5a51</code> li hanno
+chiusi senza toccare la ricetta; la riverifica su <code>d56354934d2b5f88dace3f9b312fcf64ce3cf42b</code> è
+<strong>OK</strong>, limitata a specifica, codice, loader, test sintetici e smoke su fixture.</p>
+<p><strong>Smoke reale di sviluppo.</strong> Sulle release <code>studio2-fase03-evidence-v2</code> e
+<code>studio2-fase03-normal-dev-v1</code> riscaricate, con il solo fold <code>batch=5</code> in validazione (512 esempi
+di training, 128 di validazione in 16 cluster), l'esecuzione unica ha dato accuratezza aggregata
+0,48828125 per il pavimento, 0,8671875 per FedAvg e 0,4375 per il centralizzato
+(<code>smoke_real/SMOKE_SUMMARY.json</code>). L'indice Normal pubblicato usa <code>class_identifier</code> e
+<code>agent_run_index</code> al posto di <code>label</code> e <code>batch</code>: è stata usata una vista temporanea che aggiunge
+solo le due colonne, SHA-256 <code>27a534502146589bdcb914fee3b5a55dfb7b209b094a55b1ad5495ac889431ae</code>.
+La verifica minima indipendente su <code>f66f30d99b6d9f89d13e9644cb38e7ee0a52f70a</code> è <strong>OK</strong> e ha
+riprodotto i tre output byte per byte. Lo smoke è un controllo tecnico su un fold, non una stima.</p>
+<p><strong>Valutazione finale.</strong> Prima di estrarre le firme finali l'autore ha deciso il trattamento degli
+OOD, fissato in <code>FINAL_PROTOCOL.json</code>: nessuna accuratezza OOD, nessun confronto diretto con
+l'astensione LLM, nessuna osservazione OOD nelle metriche primarie. Il manifest finale seleziona
+78 run (72 primari e 6 OOD, 8 finestre ciascuno) ed esclude le 11 scorte non attivate; il
+confronto evaluator-side non trova sovrapposizioni di <code>run_id</code> o di hash sorgente fra sviluppo e
+test. Le 624 firme 697-D (576 primarie, 48 OOD) sono estratte con l'estrattore e <code>leakage.py</code>
+della 03.6 verificati per hash. Lo stato registra <code>training_attempt=1</code>, <code>evaluation_attempt=1</code>,
+<code>rerun_allowed=false</code>.</p>
+<p><strong>Attribuzioni forzate OOD</strong> (<code>ood_forced_attributions.csv</code>, 180 righe, ogni combinazione
+modello/ricevente × fault somma a 24): FedAvg assegna F4 a <code>Normal</code> 21 volte e a F14 3 volte, F5 a
+<code>Normal</code> 24 volte; il centralizzato assegna F4 a <code>Normal</code> 17, F3 2, F14 3, F15 2 e F5 a <code>Normal</code>
+20, F3 1, F15 3; gli otto modelli locali, sommati, assegnano F4 a <code>Normal</code> 178, F3 6, F14 3, F15 5
+e F5 a <code>Normal</code> 186, F3 3, F15 3. Sono conteggi, non accuratezze.</p>
+<h4>Connessione alla letteratura</h4>
+<p>McMahan et al. 2017 (<a href="letteratura.html"><code>letteratura.md</code> §14.1 e §14.2</a>, 🟢) <strong>sostiene</strong> la scelta
+di FedAvg canonico, cioè aggiornamenti SGD locali e media dei modelli pesata per numerosità. Lo
+stesso articolo <strong>delimita</strong> la ricetta: architettura, pesi della loss e partecipazione di tutti i
+client a ogni round non vi sono prescritti, quindi sono scelte di questo studio, congelate prima dell'addestramento. Il contrasto
+«FoT non aggrega parametri» resta un claim da scrivere con §14.5–§14.7, non un risultato di questa
+sotto-fase.</p>
+<h4>Connessione alle critiche</h4>
+<p>La sotto-fase <strong>chiude</strong> la mancanza del comparatore parametrico richiesto dal piano §6.11 e §9.3.
+<strong>Mitiga</strong> il rischio di tuning sul test: ricetta congelata, una sola esecuzione, flag di rerun
+disattivato, decisione OOD legata per hash al preflight. <strong>Lascia aperti</strong>: il confronto con i
+bracci LLM, l'incertezza statistica dei numeri finali, la consegna dei dati (branch non
+integrato, nulla pubblicato) e un limite storico dichiarato dai verbali — la precedenza della
+decisione OOD è provata dal gate fail-closed e dal digest del protocollo, non da una marcatura
+temporale indipendente.</p>
+<h4>Artefatti e riproducibilità</h4>
+<p>Tutti i file sotto <code>studio2/fase03/fedavg/</code> sul branch locale:</p>
+<div class="tablewrap"><table>
+<thead>
+<tr>
+<th>Artefatto</th>
+<th style="text-align: right;">Byte</th>
+<th>SHA-256</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FINAL_PROTOCOL.json</code></td>
+<td style="text-align: right;">1.286</td>
+<td><code>5eaa041852b6573314f07ee0bf39f20d1e78c5b260d476676fe911452c476f9a</code></td>
+</tr>
+<tr>
+<td><code>final/FINAL_SET_MANIFEST.csv</code></td>
+<td style="text-align: right;">31.892</td>
+<td><code>34a860e015c41411038eb1e8d05dad1e7a79aab505b9b42017a8e81674456122</code></td>
+</tr>
+<tr>
+<td><code>final/FINAL_EVIDENCE_MANIFEST.csv</code></td>
+<td style="text-align: right;">189.283</td>
+<td><code>7bf857192a296ee8e21f60fa7379e221bbdb2d962b5eea7707c72561c918d58e</code></td>
+</tr>
+<tr>
+<td><code>final/primary_cluster_metrics.csv</code></td>
+<td style="text-align: right;">40.387</td>
+<td><code>f31d66c9f79689b398c94beca46d0cf14527bdaffc4348bc684b09e3bcb485de</code></td>
+</tr>
+<tr>
+<td><code>final/ood_forced_attributions.csv</code></td>
+<td style="text-align: right;">6.165</td>
+<td><code>804ce4c1b9c15fb5096477631771487c4544dd072dbeaff4fc00ba2c1be8f7fb</code></td>
+</tr>
+<tr>
+<td><code>final/weight_hashes.json</code></td>
+<td style="text-align: right;">864</td>
+<td><code>50af2a8f145009038c0c1cd8ef1530cb4bb5817059a77fbcf76b1618091fefd3</code></td>
+</tr>
+<tr>
+<td><code>final/FINAL_SUMMARY.json</code></td>
+<td style="text-align: right;">1.194</td>
+<td><code>7ef542e806968346f3c38194f04d73f780b77c6972aa77e123272226628f9db1</code></td>
+</tr>
+<tr>
+<td><code>FEDAVG_FREEZE.json</code> (fotografia storica, <code>effective: false</code>, non riscritta)</td>
+<td style="text-align: right;">4.699</td>
+<td><code>6a93ef43177a3bbafa412d68cc3ab4bdf330fc5d718e3783ae1f9d2f652bf9a2</code></td>
+</tr>
+<tr>
+<td><code>REPORT_FEDAVG.md</code></td>
+<td style="text-align: right;">15.448</td>
+<td><code>177317fdcea073c10c46aa2b85379d8b4c49a06122d0efd27bb4d90e726c93a9</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Verifiche, nell'ordine: <a href="../studio2/fase03/fedavg/VERIFICA_FEDAVG.md"><code>VERIFICA_FEDAVG.md</code></a>
+(33.761 byte, SHA-256 <code>57784bf2ff7e8d7d8143bdf7efa29256f44384939a56139b5999f21b0281f11b</code>), con il
+NON OK storico su <code>b39b723</code> in appendice e l'OK su <code>d563549</code>;
+<a href="../studio2/fase03/fedavg/VERIFICA_MINIMA_03_14_f66f30d.md"><code>VERIFICA_MINIMA_03_14_f66f30d.md</code></a>
+(5.845 byte, SHA-256 <code>596637f1878b8b79a0e6b7b2101f914a7c5e7ad81ac26647e276552127cc2a7d</code>);
+<a href="../studio2/fase03/fedavg/VERBALE_VERIFICA_ESECUZIONE_FINALE_FEDAVG_03_14.md"><code>VERBALE_VERIFICA_ESECUZIONE_FINALE_FEDAVG_03_14.md</code></a>
+(12.456 byte, SHA-256 <code>a43db064a337bb2b4f9e3b9f9edaaf0c3afa5ac7ff62c17bf89bf08fccf6e58e</code>,
+identico alla copia nell'orchestratore) e
+<a href="../studio2/fase03/fedavg/VERBALE_REPLAY_INDIPENDENTE_FEDAVG_03_14.md"><code>VERBALE_REPLAY_INDIPENDENTE_FEDAVG_03_14.md</code></a>
+(SHA-256 <code>dff0956203dc55b74bbe37b3d4fac26e0997d497165b21155621c71f3f0b4ac4</code>), entrambi <strong>OK</strong> sul
+candidato <code>8cb9a8bc62ddd207ed1ed7a287e0124ceae07999</code>, tree
+<code>49b4b0d2286ad3ac54cf78ab14778cffc959eb90</code>, e acquisiti nel
+<a href="../studio2/fase03/fedavg/ACQUISIZIONE_OK_FINALE_03_14.md">record</a> del commit <code>e1b46fa</code>. Il replay
+è stato eseguito con Python 3.13.9 e NumPy 2.3.5, lo stesso ambiente del freeze, e ha superato
+15/15 test.</p>
+<p>Le metriche primarie e le somme OOD riportate sopra sono state ricalcolate per questa sezione dai
+due CSV del commit <code>e1b46fa</code>.</p>
+<h4>Lavoro che resta</h4>
+<p>Integrazione in <code>main</code>, eventuale pubblicazione e tag richiedono un mandato esplicito. Il
+confronto con i bracci LLM e il bootstrap appaiato appartengono all'analisi finale, dopo pilot e
+congelamento del protocollo.</p>
+</section>
 <section id="paper-sections-0315">
 <h3>4.15 · Fase 03 — sezioni comuni del paper (sotto-fase 03.15)</h3>
 <h4>Riassunto e sintesi</h4>
@@ -1227,8 +1588,14 @@ pubblicato.</p>
 <p>Il pacchetto <code>d35b684</code> è stato raccordato localmente sulla base comune esatta
 <code>e82b5a08bf642ad45f77e71832958207beb1181c</code>. Nell'ascendenza del candidato locale sono
 raggiungibili storia, bozze, verbali e <strong>44 delle 54 fonti</strong> registrate; delle restanti, <strong>8</strong>
-rimangono su commit esterni non antenati e <strong>2</strong> sono fonti locali senza commit. Il raccordo non
-integra il pacchetto in <code>main</code>, non lo pubblica e non chiude né 03.15 né la Fase 03.</p>
+rimangono su commit esterni non antenati e <strong>2</strong> sono fonti locali senza commit. Un primo
+<a href="../studio2/fase03/paper_sections/VERIFICA_RACCORDO_DOCUMENTALE_0315.md">verbale</a> su quel candidato
+<code>9b6bd64</code> è stato <strong>NON OK</strong> per due correzioni documentali; il delta correttivo
+<code>9b6bd64..1058279</code> ha ricevuto un <a href="../studio2/fase03/paper_sections/VERIFICA_DELTA_RACCORDO_0315.md">OK</a>.
+Il pacchetto è poi entrato in <code>origin/main</code> con il consolidamento verificato
+<code>04dee86140b3ff18882f9d164beef5ab7bf33e00</code>, pubblicato come documentato nel
+<a href="../studio2/fase03/REGISTRO_PUBBLICAZIONE_CONSOLIDAMENTO_0315_METRICHE_2026-09-14.md">registro di pubblicazione</a>.
+Le bozze non sono promosse nel manoscritto; la Fase 03 non è chiusa.</p>
 <h4>Dettaglio</h4>
 <p>Il delta verificato allinea soprattutto <code>protocol.md</code> e <code>verbalizer.md</code> alle fonti già maturate:
 <code>normal_dev</code> reale e baseline numerica della 03.9, soglia e FAR della 03.5 ormai chiusa, decisioni
@@ -1268,21 +1635,17 @@ acquisita byte-identica in un commit locale distinto dal merge, e la
 identità completa e qualificazione dei servizi restano aperte. Per 03.8 l'autore ha stabilito
 che l'approvazione documentata è sufficiente: non è richiesta firma materiale e il relativo
 raccordo ha un OK indipendente acquisito. Il freeze statistico, il record di
-efficacia e il relativo OK sono pubblicati; la chiusura 03.8 è documentata nel
-presente candidato. Restano la fattibilità T5, ledger e
-calendario, gli allineamenti dell'harness 03.10 e i controlli tecnici OOD della 03.11. FAR e A/B
-non sono stati riaperti. Le bozze non sono state promosse in <code>docs/paper/</code>.</p>
-<p>Il presente aggiornamento MD/HTML di finalizzazione è un <strong>nuovo delta documentale di raccordo</strong>: deve essere
-riesaminato nel successivo passaggio seriale per coerenza, link, anchor, numerazione e parità,
-senza riaprire la review scientifica già conclusa su <code>91a880b</code>. Il candidato resta locale e
-distinto da ogni futura integrazione in <code>main</code>, pubblicazione o congelamento. 03.15 e la Fase 03
-<strong>restano aperte</strong>.</p>
+efficacia e il relativo OK sono pubblicati; 03.8 e 03.10 sono chiuse, e i controlli tecnici OOD
+sono stati eseguiti nella 03.11 (<a href="#run-finali-ood-0311">§4.11</a>). FAR e A/B non sono stati riaperti.
+Le bozze non sono state promosse in <code>docs/paper/</code>: il paper finale si scrive dopo l'esperimento, e
+la nota di metodo sul pilot 03.13 va aggiunta quando la 03.13 avrà un esito verificato. La Fase 03
+<strong>non è chiusa</strong>.</p>
 </section>
 <p><strong>Sintesi per sezione.</strong></p>
 <div class="tablewrap"><table>
 <thead><tr><th>§</th><th>Fase</th><th>Che cos'&egrave;</th><th>Fonte</th><th>Stato</th></tr></thead>
 <tbody>
-<tr><td style="text-align:center">4</td><td><strong>Preparazione e capability pilot &mdash; Fase 03</strong></td><td>Cantieri §6.1&ndash;§6.12 e gate §7.1; §4.1&ndash;§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.8 piano statistico; §4.9 <code>normal_dev</code> e baseline; §4.12 schema insight R4; §4.15 sezioni comuni del paper</td><td>piano §§6&ndash;7.1 e artefatti delle sotto-fasi</td><td>aperta; 03.8 chiusa nel candidato documentale, con tag e record di efficacia pubblicati; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.9 chiusa, tag baseline pubblicato e rev.5 di efficacia registrata; 03.12 R4-V OK e tag pubblicato; 03.15 verificata e raccordata solo nel candidato locale</td></tr>
+<tr><td style="text-align:center">4</td><td><strong>Preparazione e capability pilot &mdash; Fase 03</strong></td><td>Cantieri §6.1&ndash;§6.12 e gate §7.1; §4.1&ndash;§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.8 piano statistico; §4.9 <code>normal_dev</code> e baseline; §4.10 raccordo metriche e chiusura harness; §4.11 run finali e OOD; §4.12 schema insight R4; §4.13 pilot (aperto); §4.14 FedAvg; §4.15 sezioni comuni del paper</td><td>piano §§6&ndash;7.1 e artefatti delle sotto-fasi</td><td>aperta; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.8 chiusa e integrata, con tag e record di efficacia pubblicati; 03.9 chiusa, tag baseline pubblicato e rev.5 di efficacia registrata; 03.10 chiusa e integrata (harness offline); 03.11 e 03.14 verificate ma non integrate in <code>main</code>; 03.12 R4-V OK e tag pubblicato; 03.13 aperta; 03.15 verificata e integrata</td></tr>
 <tr><td style="text-align:center">5</td><td><strong>Produzione degli insight</strong></td><td>Gli 8&times;2 insight dai dati di sviluppo, pi&ugrave; la libreria completa del producer alternativo per il braccio <em>producer-swap</em></td><td>piano §7.2</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">6</td><td><strong>Congelamento del protocollo</strong></td><td>Solo dopo il pilot, mai prima</td><td>piano §7.3</td><td>dopo il pilot</td></tr>
 <tr><td style="text-align:center">7</td><td><strong>Esecuzione dello studio finale</strong></td><td>Tutte le inferenze A, B-LF, E-LF, pi&ugrave; swap, OOD, ablation e canary &mdash; circa 2.853/3.555 chiamate con margine, per 6/8 run</td><td>piano §7.4 e §8.8</td><td>dopo il congelamento</td></tr>
@@ -1298,14 +1661,14 @@ distinto da ogni futura integrazione in <code>main</code>, pubblicazione o conge
 <li><strong>§6.3</strong> — Soglia Normal calibrata e FAR verificato nella sotto-fase descritta in <a href="#soglie-normal-63">§4.5</a>: rango 334 su 350, soglia 13,623626738268857, release <code>studio2-fase03-normal-v1</code>; la macro-Fase 03 resta aperta</li>
 <li><strong>§6.4</strong> — Dati strutturati, testi neutrali e firme di sviluppo prodotti e verificati nella sotto-fase 03.6 descritta in <a href="#evidence-697-d">§4.6</a>; le evidence <code>normal_dev</code> sono documentate separatamente in <a href="#normal-dev-baseline-039">§4.9</a></li>
 <li><strong>§6.5</strong> — Pseudolabel e derangement v1 verificati in <a href="#pseudolabel-037">§4.7</a>; interfaccia finale con 03.12 ancora aperta</li>
-<li><strong>§6.6</strong> — Piano statistico rev.10 verificato, pubblicato e congelato; 03.8 è chiusa nel presente candidato documentale come descritto in <a href="#piano-statistico-038">§4.8</a>, con review e pubblicazione del solo delta di chiusura ancora pendenti</li>
-<li><strong>§6.7</strong> — Baseline numerica costruita e verificata nella <a href="#normal-dev-baseline-039">§4.9</a>; tag baseline pubblicato e rev.5 di efficacia registrata; harness completo 03.10 aperto</li>
-<li><strong>§6.8</strong> — Preparare l'harness API</li>
-<li><strong>§6.9</strong> — Generare e congelare i run finali di test</li>
+<li><strong>§6.6</strong> — Piano statistico rev.10 verificato, pubblicato e congelato; 03.8 chiusa e integrata come descritto in <a href="#piano-statistico-038">§4.8</a></li>
+<li><strong>§6.7</strong> — Baseline numerica costruita e verificata nella <a href="#normal-dev-baseline-039">§4.9</a>; tag baseline pubblicato e rev.5 di efficacia registrata</li>
+<li><strong>§6.8</strong> — Harness API offline chiuso e integrato in <a href="#harness-raccordo-metriche-0310">§4.10</a>; qualifica dei servizi nel pilot</li>
+<li><strong>§6.9</strong> — Run finali di test (89/89) e controlli OOD con sostituzione F6→F5, verificati in <a href="#run-finali-ood-0311">§4.11</a>; non integrati in <code>main</code> né pubblicati</li>
 <li><strong>§6.10</strong> — Schema insight R4 verificato e congelato con tag pubblicato in <a href="#schema-insight-0312">§4.12</a>; pin dell'adapter e qualifica del pilot restano separati</li>
-<li><strong>§6.11</strong> — Implementare la baseline FedAvg</li>
-<li><strong>§6.12</strong> — Sezioni comuni del paper aggiornate e verificate in <a href="#paper-sections-0315">§4.15</a>; candidato soltanto locale, D9 e promozione nel manoscritto ancora aperte</li>
-<li><strong>§7.1</strong> — Capability pilot su Qwen-2.4T</li>
+<li><strong>§6.11</strong> — Baseline FedAvg, pavimento locale e soffitto centralizzato valutati sui run finali e verificati in <a href="#fedavg-0314">§4.14</a>; non integrati in <code>main</code></li>
+<li><strong>§6.12</strong> — Sezioni comuni del paper aggiornate, verificate e integrate in <a href="#paper-sections-0315">§4.15</a>; promozione nel manoscritto rinviata a dopo l'esperimento</li>
+<li><strong>§7.1</strong> — Capability pilot su Qwen-2.4T; sotto-fase 03.13 aperta, <a href="#pilot-qwen-0313">§4.13</a></li>
 <li><strong>§7.2</strong> — Produzione insight con Qwen-2.4T</li>
 <li><strong>§7.3</strong> — Congelamento protocollo finale</li>
 <li><strong>§7.4</strong> — Esecuzione studio finale</li>
