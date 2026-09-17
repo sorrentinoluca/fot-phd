@@ -1,0 +1,44 @@
+{
+  "artifact_version": "D9-122B-1",
+  "status": "DOCUMENTED_NOT_QUALIFIED_NOT_EXECUTION_AUTHORIZED",
+  "service_id": "qwen_122b_api_primary",
+  "role": "producer_primary",
+  "routing": {
+    "model_requested": "qwen3.5-122b",
+    "model_root_observed": "Qwen/Qwen3.5-122B-A10B-FP8",
+    "context_window_observed": 131072
+  },
+  "endpoints": {
+    "completions": "/v1/chat/completions",
+    "models": "/v1/models"
+  },
+  "validation_hashes": {
+    "api_models_raw_sha256": "2c8dac0e66e656dc743fe8000732ccf07cd6636d6f577699dca20c4f7af8cf45",
+    "api_version_raw_sha256": "37ec4665a8102d115ffd1ac20dae94c98b4dac64b0c1a68228aa2a531caeb35d",
+    "api_tokenize_raw_sha256": "37ec4665a8102d115ffd1ac20dae94c98b4dac64b0c1a68228aa2a531caeb35d"
+  },
+  "client_snapshot": {
+    "repository": "Qwen/Qwen3.5-122B-A10B-FP8",
+    "revision": "a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9",
+    "status": "FROZEN",
+    "designation": "tokenizer client congelato per rendering e contabilita",
+    "disclaimer": "NON costituisce prova byte-identica del tokenizer server a causa dell'assenza dell'endpoint /tokenize remoto."
+  },
+  "server_parameters": {
+    "served_revision": "NOT_EXPOSED",
+    "vllm_version": "NOT_EXPOSED",
+    "quantization": "NOT_EXPOSED",
+    "parser": "NOT_EXPOSED",
+    "default": "NOT_EXPOSED"
+  },
+  "producer_payload_contract": {
+    "allowed_top_level_keys": ["model", "messages", "max_tokens", "response_format", "seed", "extra_body"],
+    "accounting": "usage.prompt_tokens must exactly equal the frozen client snapshot count for the exact messages sent"
+  },
+  "prohibitions": {
+    "execution_authorization": "ABSENT",
+    "historical_S_reconciliation": "NOT_APPLIED",
+    "provider_calls": "NOT_AUTHORIZED",
+    "tokenizer_server_identity": "NOT_PROVEN"
+  }
+}

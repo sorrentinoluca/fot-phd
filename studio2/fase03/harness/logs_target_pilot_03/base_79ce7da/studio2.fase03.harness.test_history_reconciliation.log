@@ -1,0 +1,15 @@
+test_direct_reservation_without_rebind_refuses_after_history (studio2.fase03.harness.test_history_reconciliation.ExternalHistoryReconciliation) ... ok
+test_failure_after_intermediate_insert_rolls_back_and_resume_succeeds (studio2.fase03.harness.test_history_reconciliation.ExternalHistoryReconciliation) ... ok
+test_incomplete_duplicate_swapped_and_false_zero_refuse_atomically (studio2.fase03.harness.test_history_reconciliation.ExternalHistoryReconciliation) ... ok
+test_positive_is_separate_charged_once_reopen_and_idempotent (studio2.fase03.harness.test_history_reconciliation.ExternalHistoryReconciliation) ... ok
+test_reconfirmed_before_direct_reservation_and_no_side_effect (studio2.fase03.harness.test_history_reconciliation.ExternalHistoryReconciliation) ... ok
+test_repository_source_bytes_fit_contract_on_fixture_ledger (studio2.fase03.harness.test_history_reconciliation.ExternalHistoryReconciliation) ... ok
+test_source_change_even_with_rewritten_reference_refuses (studio2.fase03.harness.test_history_reconciliation.ExternalHistoryReconciliation) ... ok
+test_two_processes_compete_for_first_native_slot_once (studio2.fase03.harness.test_history_reconciliation.ExternalHistoryReconciliation) ... ok
+test_two_processes_reconcile_one_event_and_four_rows (studio2.fase03.harness.test_history_reconciliation.ExternalHistoryReconciliation) ... ok
+test_wrong_ledger_types_missing_review_or_approval_refuse (studio2.fase03.harness.test_history_reconciliation.ExternalHistoryReconciliation) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.371s
+
+OK

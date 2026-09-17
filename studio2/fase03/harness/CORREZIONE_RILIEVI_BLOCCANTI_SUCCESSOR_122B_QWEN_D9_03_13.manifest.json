@@ -1,0 +1,135 @@
+{
+  "artifact_version": "1",
+  "status": "READY_FOR_NEW_INDEPENDENT_REVIEW",
+  "scope": [
+    "P1-02a_EXPLICIT_MATERIALIZER_GATE",
+    "P1-02b_ATOMIC_STAGED_PUBLICATION",
+    "P2-01_AUTHENTICATED_PER_EVENT_ACCOUNTING_GUARD",
+    "P2-02_IDEMPOTENT_TECHNICAL_OUTCOME_RECOVERY",
+    "RESPONSE_IDENTITY_DIGEST_SEMANTICS"
+  ],
+  "rejected_candidate": {
+    "commit": "a6bc817165fcab820b9c4bbe7209fc7ca53d7d1d",
+    "tree": "e2c4ecadbadfbac15947cdaff589256f91ffe9d3",
+    "parent": "72fb93c6d26ceb220ed2cece1dac2ef6614c791f"
+  },
+  "independent_review": {
+    "verdict": "NOT_READY_FOR_SEPARATE_FRESH_TARGET_MATERIALIZATION",
+    "source": "/Users/luker/.codex/worktrees/b567/fot-tep/studio2/fase03/harness/VERIFICA_MIRATA_RILIEVI_CLAUDE_03_13.md",
+    "repository_copy": "studio2/fase03/harness/reviews/VERIFICA_MIRATA_RILIEVI_CLAUDE_03_13.md",
+    "sha256": "ada613c3d1542d209756b1f3d85ac8631edc4cf7013e104c1426f263aab3d107"
+  },
+  "correction": {
+    "materializer": {
+      "acknowledgement": "MATERIALIZE_PHASE03_122B_SUCCESSOR_OFFLINE",
+      "required_flags": ["--execute", "--acknowledge"],
+      "publication": "PRIVATE_SIBLING_STAGING_THEN_ATOMIC_RENAME",
+      "failure_cleanup": "STAGING_ONLY_TARGET_REMAINS_ABSENT",
+      "replacement": "FORBIDDEN"
+    },
+    "ledger_staging_identity": {
+      "physical_path": "PRIVATE_STAGING_LEDGER",
+      "durable_identity_path": "FINAL_PUBLISHED_LEDGER",
+      "lineage_source_bytes": "PRIVATE_STAGING_FILES",
+      "lineage_durable_references": "FINAL_PUBLISHED_FILES"
+    },
+    "accounting": {
+      "selection": "PER_EVENT_AFTER_DURABLE_LINEAGE_BINDING_AND_REQUEST_AUTHENTICATION",
+      "producer_and_technical_template_kwargs": {"enable_thinking": false},
+      "consumer_template_kwargs": null,
+      "false_global_stop_eliminated": true
+    },
+    "technical_resume": {
+      "source": "COMPLETE_AUTHENTICATED_TECHNICAL_RECORD",
+      "rebuilds": ["PASS_OUTCOME", "SUMMARY_FILE"],
+      "transport_calls": 0,
+      "new_intents": 0,
+      "additional_quota": 0,
+      "idempotent": true
+    },
+    "identity_sha256": {
+      "semantics": "CANONICAL_JSON_SHA256_OF_SOURCE_PROPOSAL_QUALIFICATION_SUPPLEMENT_CANDIDATE",
+      "source_proposal_file_sha256": "77d72204d53e4706d7e93dc579532a9f148175e3d7daff75d0467c93eee03624",
+      "source_object_key": "qualification_supplement_candidate",
+      "value": "d180061348b15bb0322cb75ae700bb97b1328994c8d572c98741455d5b0ef579",
+      "standalone_supplement_file_sha256": "dd9c53f0e4262fffe592a04298f8d7a4cfd428ccf5c487faacfe68ca357decb7",
+      "standalone_supplement_canonical_sha256": "79515feb95b1048f67e8c01446be580dcbb73def188a13175b842b58a5356a40",
+      "digests_are_distinct_and_named": true
+    }
+  },
+  "repository_artifacts": {
+    "studio2/fase03/harness/d9.py": "ecb7fd9f8d9671693b6b5b19ab9f71e20271d2fc77ef9416eb90e5fd9e664b99",
+    "studio2/fase03/harness/guards.py": "bf821f4c85d8996adad3afd42443dadd4f7f9c204a1de0ea97a4e81dd9fa626c",
+    "studio2/fase03/harness/ledger.py": "349a90ba651d65f9eb48d1effab20be67b649c04ac988c6e17731882ce1ea45f",
+    "studio2/fase03/harness/test_successor_recovery.py": "af23fa95e340fd196536934437541568ba7227e50d9475fb84f4457b92048860",
+    "studio2/fase03/materialize_successor_recovery.py": "b00aa356c8c582a7f4ae626c35567875a0dc232ab72201a3f5e71ba51af55297",
+    "studio2/fase03/technical_qualification_122b.py": "c1d11467f02ad06c1e2e9d9e00319b515fa83832c7e091e24479eb255c9ad457",
+    "studio2/fase03/harness/reviews/VERIFICA_MIRATA_RILIEVI_CLAUDE_03_13.md": "ada613c3d1542d209756b1f3d85ac8631edc4cf7013e104c1426f263aab3d107"
+  },
+  "tests": {
+    "final_test_bytes_on_rejected_candidate": {
+      "command": "python -m unittest -v studio2.fase03.harness.test_successor_recovery",
+      "test_methods": 28,
+      "failures": 5,
+      "errors": 0,
+      "seconds": 5.060,
+      "classification": "EXPECTED_BEHAVIORAL_RED"
+    },
+    "targeted_final_green": {
+      "test_methods": 28,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 4.863
+    },
+    "harness_discovery": {
+      "test_methods": 188,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 460.996
+    },
+    "complete_relevant_regression": {
+      "modules": 15,
+      "test_methods": 205,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 463.089
+    },
+    "git_diff_check": "PASS"
+  },
+  "private_runtime": {
+    "access_mode_during_correction": "NOT_OPENED_NOT_READ_NOT_HASHED",
+    "fresh_target_created": false,
+    "materialized": false,
+    "existing_private_state_assessed": false
+  },
+  "invariants": {
+    "scientific_design_changed": false,
+    "quotas_changed": false,
+    "roles_changed": false,
+    "scientific_prompts_changed": false,
+    "denominators_changed": false,
+    "stage_order_changed": false,
+    "author_decision_changed": false,
+    "cumulative_planned_maximum": 166,
+    "hard_stop": 200,
+    "non_spendable_margin": 34
+  },
+  "activity": {
+    "provider_calls": 0,
+    "tokens": 0,
+    "network_access": false,
+    "tunnels": 0,
+    "execution_authorization_created": false,
+    "scientific_execution": false,
+    "private_ledger_opened": false,
+    "server_enea_json_read": false,
+    "push": false,
+    "merge": false,
+    "tag": false
+  },
+  "handoff": {
+    "fresh_target_materialization_authorized": false,
+    "next_action": "NEW_INDEPENDENT_REVIEW",
+    "candidate_commit_and_tree": "RECORDED_AFTER_ARTIFACT_FINALIZATION_IN_HANDOFF"
+  }
+}

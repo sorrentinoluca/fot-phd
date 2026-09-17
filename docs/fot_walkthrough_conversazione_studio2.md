@@ -3,7 +3,7 @@
 > **Documento vivo, a scheletro.** Si aggiorna **fase per fase**. Stato al **2026-09-17**:
 > fasi 01 e 02 documentate in §2 e §3; la sotto-fase **criteri di selezione (§6.1)** della
 > Fase 03 è documentata in [§4.1](#criteri-selezione-61); **D1, verificata, congelata e pubblicata**, in [§4.2](#catalogo-d1);
-> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); le **soglie Normal (§6.3)**, calibrate e verificate, in [§4.5](#soglie-normal-63); le **evidence 697-D**, verificate e conservate nella release v2, in [§4.6](#evidence-697-d); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037); il **piano statistico 03.8**, chiuso e integrato in `main` dopo pubblicazione e freeze efficace, in [§4.8](#piano-statistico-038); `normal_dev` e baseline numerica, verificati, con baseline congelata e rev.5 di efficacia registrata, in [§4.9](#normal-dev-baseline-039); il **raccordo delle metriche 03.9 → 03.10** e la **chiusura dell'harness offline 03.10**, verificati e integrati in `main`, in [§4.10](#harness-raccordo-metriche-0310); i **run finali di test e i controlli OOD 03.11**, verificati ma non integrati in `main`, in [§4.11](#run-finali-ood-0311); lo **schema insight R4**, verificato e congelato con tag pubblicato, in [§4.12](#schema-insight-0312); il **pilot Qwen 03.13**, ancora aperto, in [§4.13](#pilot-qwen-0313); la **baseline FedAvg 03.14**, verificata ma non integrata in `main`, in [§4.14](#fedavg-0314); le **sezioni comuni del paper**, verificate e integrate in `main`, in [§4.15](#paper-sections-0315). La Fase 03 **non è chiusa**. La parte restante delle fasi successive
+> i **run fault di sviluppo (§6.2)**, verificati e conservati, in [§4.3](#run-fault-62); il **perimetro del codice Q8**, chiuso, in [§4.4](#perimetro-codice-q8); le **soglie Normal (§6.3)**, calibrate e verificate, in [§4.5](#soglie-normal-63); le **evidence 697-D**, verificate e conservate nella release v2, in [§4.6](#evidence-697-d); pseudolabel e derangement, verificati, in [§4.7](#pseudolabel-037); il **piano statistico 03.8**, chiuso e integrato in `main` dopo pubblicazione e freeze efficace, in [§4.8](#piano-statistico-038); `normal_dev` e baseline numerica, verificati, con baseline congelata e rev.5 di efficacia registrata, in [§4.9](#normal-dev-baseline-039); il **raccordo delle metriche 03.9 → 03.10** e la **chiusura dell'harness offline 03.10**, verificati e integrati in `main`, in [§4.10](#harness-raccordo-metriche-0310); i **run finali di test e i controlli OOD 03.11**, verificati ma non integrati in `main`, in [§4.11](#run-finali-ood-0311); lo **schema insight R4**, verificato e congelato con tag pubblicato, in [§4.12](#schema-insight-0312); il **pilot Qwen 03.13**, con esito tecnico verificato e GO con R = 3, non integrato in `main`, in [§4.13](#pilot-qwen-0313); la **baseline FedAvg 03.14**, verificata ma non integrata in `main`, in [§4.14](#fedavg-0314); le **sezioni comuni del paper**, verificate e integrate in `main`, in [§4.15](#paper-sections-0315). La Fase 03 **non è chiusa**. La parte restante delle fasi successive
 > resta a scheletro: per essa **la fonte autorevole è il piano**, non questo file.
 
 | Ruolo | File |
@@ -65,7 +65,7 @@ aprire un nuovo perimetro: la terza metrica di §8.5, il cap dello schema, l'est
 il derangement a 7 peer sono codice nuovo in `studio2/` secondo [`MAINTENANCE.md`](MAINTENANCE.md)
 §8.2, che ora disciplina il riuso a livello di funzione; `phase_b/` e il nucleo di `code/` restano
 congelati per impronta ([`MAINTENANCE.md`](MAINTENANCE.md) §1). Le sotto-fasi 03.8, 03.10, 03.11,
-03.14 e 03.15 documentate al 2026-09-17 non chiudono nessuno dei punti rimasti: i punti 1 e 3
+03.13, 03.14 e 03.15 documentate al 2026-09-17 non chiudono nessuno dei punti rimasti: i punti 1 e 3
 restano aperti. Il punto 4, già chiuso in `MAINTENANCE.md` §8, è stato tolto dalla tabella come
 prevede la nota sotto.
 
@@ -1699,8 +1699,123 @@ eseguito qui.
 
 ### 4.13 · Fase 03 — capability pilot Qwen (sotto-fase 03.13)
 
-Sotto-fase **aperta**: non ha una verifica conclusiva e non viene documentata qui. Finché resta
-aperta, la fonte è il piano §7.1.
+> **Stato.** Sotto-fase **conclusa con esito tecnico verificato** e GO dell'autore con **R = 3**. Il
+> lavoro sta sul branch `codex/studio2-riconciliazione-stop-contabile` (worktree
+> `/Users/luker/fot-tep/.worktrees/rem6-riconciliazione`), non ancora integrato in `main`; il runtime
+> `pilot-03` è fuori da Git e la sua release non è ancora pubblicata. La verifica di sotto-fase
+> `VERIFICA_PILOT_03_13.md` è **in attesa**; freeze e tag del pilot non sono stati eseguiti. La Fase 03
+> **non è chiusa**.
+
+#### Riassunto e sintesi
+
+Il pilot ha qualificato su dati di sviluppo la catena completa con i modelli scelti in D9: un
+producer principale Qwen 122B, un producer alternativo Qwen 27B e il consumer Qwen 122B. I due
+producer hanno prodotto ciascuno una libreria completa di 16 insight valida contro lo schema R4
+(il 122B dopo l'unica remediation consentita, il 27B al primo passaggio); la sonda ha fissato il
+budget di generazione del consumer al primo candidato; il gate 40 × 3 ha dato **119 risposte valide
+su 120**, zero troncamenti e almeno un'astensione per condizione.
+
+Un prompt su 40 (`S2-P03-002`) diverge: una delle tre ripetizioni non ha ricevuto risposta per un
+errore di connessione, le altre due concordano. È una divergenza **di validità**, non di contenuto,
+ma la regola del piano statistico la conta e impone **R = 3** per tutto lo studio. Con la finestra
+operativa fissata dall'autore (W = 7 giorni), il conteggio completo a R = 3 richiede circa 63 ore
+con il margine del 20 % (T5 PASS). Il 2026-09-17 l'autore ha deciso il **GO con R = 3**.
+
+Il pilot è costato 161 richieste sulle 200 disponibili, incluse quelle non valutabili. Per
+arrivarci sono state necessarie deviazioni dichiarate: producer senza fase di ragionamento,
+riqualifica dell'identità del servizio 27B, due riconciliazioni di blocchi dovuti all'harness e una
+richiesta in più sul massimo pianificato.
+
+#### Dettaglio
+
+**Configurazione.** Producer e consumer 122B rispondono come `qwen3.5-122b` con fingerprint
+`vllm-0.27.1-934a3247`; il 27B come `fot-exp2-consumer` (Qwen3.8-27B-FP8) con fingerprint
+`vllm-0.28.0-5fc21ed4`. Entrambi i producer generano con `enable_thinking=false` e `max_tokens` 2560; il
+consumer mantiene il ragionamento con budget 2048 e `max_tokens` 2560, seed 20260829. Il piano
+§7.1 indicava Qwen-2.4T: i ruoli effettivi sono quelli approvati in D9.
+
+**Ordine delle esecuzioni.** Dopo la qualifica tecnica del 122B (1 chiamata, PASS), la conformità
+del producer principale ha dato 6/8 risposte valide: le due non valide citavano identificatori in
+forma non canonica (`XMEAS-39`) o non dichiarata. Con diagnosi registrata e diff del template
+approvato, l'unica remediation ha dato 8/8. Il primo tentativo di remediation si era fermato su uno
+STOP contabile prodotto da un difetto dell'harness, corretto e riconciliato con approvazione durevole
+prima di ripartire; due tentativi sono falliti con HTTP 401 senza consumo di token. Il producer 27B ha
+risposto alla prima chiamata utile con un fingerprint diverso da quello qualificato (atteso assente) e
+con 2047 dei 2560 token spesi in ragionamento e JSON troncato: il pilot si è sospeso. Con una revisione
+della configurazione approvata dall'autore e registrata nel ledger, il fingerprint è stato
+riqualificato e il 27B è passato a `enable_thinking=false`; la richiesta sospesa è stata reinviata una
+sola volta su una quota dedicata e lo stage ha dato 8/8. Seguono la sonda (3 richieste, primo
+candidato valido) e il gate (120 richieste, circa 74 minuti).
+
+| Stage | Richieste | Esito |
+| --- | ---: | --- |
+| Qualifica tecnica 122B | 1 | PASS |
+| Conformità producer 122B | 8 | FAIL, 6/8 |
+| Remediation 122B | 10 | PASS, 8/8 (2 zero-token) |
+| Producer alternativo 27B | 14 | PASS, 8/8 (5 zero-token, 1 risposta sospesa, 1 requalification) |
+| Sonda budget | 3 | PASS, budget 2048/2560 |
+| Gate 40 × 3 | 120 | 119 valide, 0 troncamenti; 1 divergente |
+| **Totale nativo + lineage** | **156 + 5 = 161** | massimo pianificato 167, hard stop 200 |
+
+**Gate.** Valide al primo tentativo: A 24/24, B-LF 47/47, E-LF 48/48, più la ripetizione senza
+risposta. Astensioni: 6, 18 e 12. Latenza media 26,209 s (mediana 24,912 s, p95 36,661 s). T3, T4 PASS,
+T6 valutabile. Il verbale indipendente ha ricalcolato il gate dal ledger campo per campo.
+
+**T5.** Il conteggio completo a R = 3, con i parametri non ancora congelati al valore più sfavorevole
+del prospetto (E5 con S = 12 e U = 8, canary per 7 giorni, librerie non riusate, 100 verifiche
+tecniche), vale 7.174 richieste, di cui 8 sul 27B. Con le latenze del pilot `1,20 × T` = 62,69 h
+alla media e 87,67 h al p95, contro W = 168 h: **PASS**.
+
+**Decisione.** GO del pilot con R = 3, 2026-09-17, in applicazione della decisione 11 (piano
+statistico §10.3), con W = 7 giorni e T5 PASS. Il campo `go_final=false` del summary del gate resta
+invariato: il GO è un atto dell'autore, non una riscrittura dell'artefatto.
+
+**Deviazioni dichiarate.** Producer senza ragionamento dopo due troncature osservate (cap invariato);
+riqualifica del fingerprint 27B, la cui causa non è documentata; riconciliazione di uno STOP contabile
+spurio e della sospensione per identità, con gli stati originari conservati; quota `requalification`
+(1 richiesta) e massimo pianificato da 166 a 167. Nessuna deviazione tocca prompt, schema, casi,
+ordine o cap. Il confronto 122B/27B è fra pipeline configurate, non fra capacità dei modelli.
+
+#### Connessione alla letteratura
+
+Chen et al. 2026, *EviFDD-Agent* ([`letteratura.md` §14.2](letteratura.md), scheda «LLM per fault
+diagnosis») **sostiene** la lettura del fallimento T9: i difetti di conformità si concentrano sugli
+identificatori di variabile, come nei due casi del 122B, e un modello più grande non è per questo più
+conforme. Zhou & Yu 2025 (§14.2, «Allineamento TS–linguaggio») **delimita** la scelta sul
+ragionamento: che un budget di ragionamento più ampio migliori il risultato non è un'assunzione
+neutra, quindi disattivarlo sui producer è una scelta di disegno da dichiarare, non una perdita da
+compensare. Nessuna nuova implicazione per §14.5–§14.7.
+
+#### Connessione alle critiche
+
+La sotto-fase **chiude** i requisiti T2, T3, T4, T6 e T9 della checklist del piano §11 e fissa R.
+**Mitiga** il rischio temporale del piano §7 con una misura sulla configurazione effettiva (T5), ma
+non lo elimina: i parametri S, U, d, X e Q sono ancora da congelare. **Lascia aperti** T8 (set canary),
+S5, S8, S18 e S19, che appartengono alle fasi successive; lascia inoltre un debito tecnico
+dell'harness dichiarato nel report (API del ledger più permissiva dei runner, finestra non atomica
+della revisione di configurazione).
+
+#### Artefatti e riproducibilità
+
+Sul branch indicato sopra:
+
+| Artefatto | SHA-256 |
+| --- | --- |
+| [`REPORT_PILOT_03_13.md`](../studio2/fase03/pilot/REPORT_PILOT_03_13.md) — indice della catena, nota metodi integrata, T5, debito | nel manifest dell'evidenza |
+| [`VERIFICA_ESITO_PILOT_03_13.md`](../studio2/fase03/pilot/VERIFICA_ESITO_PILOT_03_13.md) — verbale indipendente dell'esito | `1ce0a466586a65993d1269476f9de8a4812b9f64a20eae71cd9aec7e8bee4b70` |
+| [`EVIDENZA_PILOT_03_ESECUZIONE_FINALE_03_13.md`](../studio2/fase03/harness/EVIDENZA_PILOT_03_ESECUZIONE_FINALE_03_13.md) e log redatti | nel manifest dell'evidenza |
+| [`MANIFEST_CONSERVAZIONE.csv`](../studio2/fase03/pilot/MANIFEST_CONSERVAZIONE.csv), [`ARTIFACT_STORAGE.json`](../studio2/fase03/pilot/ARTIFACT_STORAGE.json) | 77 file del runtime |
+| Ledger `pilot-03` (fuori da Git) | `93ff83a5a4132800c2973fe6687c8e0ffcdb07d33f293a8517ca715ff8dc4089` |
+| Archivio `studio2-fase03-pilot-v1.tar`, da pubblicare su `fot-tep-data` | `30cdd5ca5715695bae4cc61c3b3919d3949f471c768d008d87395430d9c2c3b8` |
+
+Codice di riferimento: commit `d3f8f844e5be4244477fc294ca754528e6938b15`. Summary del gate: digest
+dei record `bd9713eca7c3241c002d24a2ebf480f0255e5da82534289eb6cfb658d0e2f9a2`; configurazione
+congelata del gate `de1f59ceb28e50cd8b9027874f5d2d22cb1337ceab2e4dda8c2adda4b2dda6f2`.
+
+#### Lavoro che resta
+
+Verifica di sotto-fase, pubblicazione e verifica per riscaricamento della release, freeze e tag del
+pilot, integrazione in `main`. Poi la produzione e il congelamento delle librerie (§7.2) con R = 3.
 
 <a id="fedavg-0314"></a>
 
@@ -1914,14 +2029,15 @@ raccordo ha un OK indipendente acquisito. Il freeze statistico, il record di
 efficacia e il relativo OK sono pubblicati; 03.8 e 03.10 sono chiuse, e i controlli tecnici OOD
 sono stati eseguiti nella 03.11 ([§4.11](#run-finali-ood-0311)). FAR e A/B non sono stati riaperti.
 Le bozze non sono state promosse in `docs/paper/`: il paper finale si scrive dopo l'esperimento, e
-la nota di metodo sul pilot 03.13 va aggiunta quando la 03.13 avrà un esito verificato. La Fase 03
+la nota di metodo sul pilot 03.13, ora con esito verificato, è integrata nel report di sotto-fase
+([§4.13](#pilot-qwen-0313)) e va promossa nel manoscritto con le altre bozze. La Fase 03
 **non è chiusa**.
 
 ### Sintesi per sezione
 
 | § | Fase | Che cos'è | Fonte | Stato |
 | :---: | --- | --- | --- | --- |
-| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.8 piano statistico; §4.9 `normal_dev` e baseline; §4.10 raccordo metriche e chiusura harness; §4.11 run finali e OOD; §4.12 schema insight R4; §4.13 pilot (aperto); §4.14 FedAvg; §4.15 sezioni comuni del paper | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.8 chiusa e integrata, con tag e record di efficacia pubblicati; 03.9 chiusa, tag baseline pubblicato e rev.5 di efficacia registrata; 03.10 chiusa e integrata (harness offline); 03.11 e 03.14 verificate ma non integrate in `main`; 03.12 R4-V OK e tag pubblicato; 03.13 aperta; 03.15 verificata e integrata |
+| 4 | **Preparazione e capability pilot — Fase 03** | Cantieri §6.1–§6.12 e gate §7.1; §4.1–§4.4 documentano criteri, catalogo D1, run fault e perimetro del codice; §4.5 soglie Normal; §4.6 evidence 697-D; §4.7 pseudolabel; §4.8 piano statistico; §4.9 `normal_dev` e baseline; §4.10 raccordo metriche e chiusura harness; §4.11 run finali e OOD; §4.12 schema insight R4; §4.13 pilot (GO, R = 3); §4.14 FedAvg; §4.15 sezioni comuni del paper | piano §§6–7.1 e artefatti delle sotto-fasi | aperta; 03.5 chiusa e pubblicata; 03.6 verificata e documentata; 03.8 chiusa e integrata, con tag e record di efficacia pubblicati; 03.9 chiusa, tag baseline pubblicato e rev.5 di efficacia registrata; 03.10 chiusa e integrata (harness offline); 03.11 e 03.14 verificate ma non integrate in `main`; 03.12 R4-V OK e tag pubblicato; 03.13 esito tecnico verificato e GO con R = 3, non integrata in `main`; 03.15 verificata e integrata |
 | 5 | **Produzione degli insight** | Gli 8×2 insight dai dati di sviluppo, più la libreria completa del producer alternativo per il braccio *producer-swap* | piano §7.2 | dopo il pilot |
 | 6 | **Congelamento del protocollo** | Solo dopo il pilot, mai prima | piano §7.3 | dopo il pilot |
 | 7 | **Esecuzione dello studio finale** | Tutte le inferenze A, B-LF, E-LF, più swap, OOD, ablation e canary — circa 2.853/3.555 chiamate con margine, per 6/8 run | piano §7.4 e §8.8 | dopo il congelamento |
@@ -1945,7 +2061,7 @@ Dettaglio dei cantieri ancora previsti dal piano §§6–7:
 10. **§6.10** — Schema insight R4 verificato e congelato con tag pubblicato in [§4.12](#schema-insight-0312); pin dell'adapter e qualifica del pilot restano separati
 11. **§6.11** — Baseline FedAvg, pavimento locale e soffitto centralizzato valutati sui run finali e verificati in [§4.14](#fedavg-0314); non integrati in `main`
 12. **§6.12** — Sezioni comuni del paper aggiornate, verificate e integrate in [§4.15](#paper-sections-0315); promozione nel manoscritto rinviata a dopo l'esperimento
-13. **§7.1** — Capability pilot su Qwen-2.4T; sotto-fase 03.13 aperta, [§4.13](#pilot-qwen-0313)
+13. **§7.1** — Capability pilot eseguito con i ruoli D9 (Qwen 122B producer e consumer, Qwen 27B alternativo): esito tecnico verificato, GO con R = 3, non integrato in `main`, [§4.13](#pilot-qwen-0313)
 14. **§7.2** — Produzione insight con Qwen-2.4T
 15. **§7.3** — Congelamento protocollo finale
 16. **§7.4** — Esecuzione studio finale

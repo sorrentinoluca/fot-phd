@@ -1,0 +1,14 @@
+test_baseline_metric_adapter_all_abstained_and_empty (studio2.fase03.harness.test_metric_raccordo.MetricTests) ... ok
+test_baseline_metric_adapter_rejects_invalid_or_inconsistent_source (studio2.fase03.harness.test_metric_raccordo.MetricTests) ... ok
+test_baseline_metric_adapter_renames_without_numeric_changes (studio2.fase03.harness.test_metric_raccordo.MetricTests) ... ok
+test_cluster_bootstrap_and_tests (studio2.fase03.harness.test_metric_raccordo.MetricTests) ... ok
+test_divergence_ignores_raw_only_difference (studio2.fase03.harness.test_metric_raccordo.MetricTests) ... ok
+test_load_baseline_metrics_adapts_every_consumer_leaf (studio2.fase03.harness.test_metric_raccordo.MetricTests) ... ok
+test_three_numbers_empty_and_all_valid_abstained_edges (studio2.fase03.harness.test_metric_raccordo.MetricTests) ... ok
+test_three_numbers_keep_invalid_in_nonabstained_denominator (studio2.fase03.harness.test_metric_raccordo.MetricTests) ... ok
+test_three_numbers_never_turns_invalid_into_abstention_or_correct (studio2.fase03.harness.test_metric_raccordo.MetricTests) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.003s
+
+OK

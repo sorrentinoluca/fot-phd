@@ -1,0 +1,237 @@
+{
+  "artifact_version": "1",
+  "outcome": "STOP",
+  "scope": "offline preflight inventory; no transport, no reservation, no execution authorization",
+  "base": {
+    "commit": "d38da38b96d252ba1a224b6f373cb08ca519a1ed",
+    "tree": "02ad075223d42bf3db0d17927c9938a6274ecc75"
+  },
+  "configuration_candidate": {
+    "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/config/pilot_d9_execution_candidate_03_13.json",
+    "sha256": "5431ab2fe4bb4a09d065d1a5e5d5339bf860ddbfbc3029b8802f07606980d7ff",
+    "canonical_sha256_excluding_execution_authorization": "233b83a6999a624463edc756ef4aaa5b1f20fd4c5d1e5140a98e0d3959c898e6",
+    "eligible_for_authorization": false,
+    "execution_authorization_present": false
+  },
+  "ledger": {
+    "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3",
+    "pilot_id": "studio2-fase03-d9-pilot-001",
+    "sha256_before_checks": "02ce8df46d04300b9eb19b0fbc3345c5edd41e7ea17bd1391f22c53f7a6d9d61",
+    "external_history_requests": 4,
+    "historical_completed": 3,
+    "historical_uncertain": 1,
+    "native_requests": 0,
+    "receipts": 0,
+    "stages": 0,
+    "hard_stop_events": 0
+  },
+  "call_plan": {
+    "122B": {
+      "primary_producer_conformity": 8,
+      "consumer_budget_probe_range": [
+        3,
+        9
+      ],
+      "consumer_stability_gate": 120,
+      "future_base_range": [
+        131,
+        137
+      ],
+      "future_upper_bound_if_all_shared_reserve_is_attributed_to_122B": 152
+    },
+    "27B": {
+      "historical_already_charged": 4,
+      "alternate_producer_conformity": 8,
+      "future_base": 8,
+      "cumulative_base": 12,
+      "future_upper_bound_if_all_shared_transport_is_attributed_to_27B": 23
+    },
+    "shared_reserve": {
+      "constraint": "8*remediation+transport<=15",
+      "note": "per-model upper bounds are alternatives and cannot be summed"
+    },
+    "future_base_total_range": [
+      139,
+      145
+    ],
+    "cumulative_base_total_range_including_S4_once": [
+      143,
+      149
+    ],
+    "future_planned_max": 160,
+    "cumulative_planned_max": 164,
+    "hard_stop": 200,
+    "margin_at_planned_max": 36
+  },
+  "first_pilot_command": null,
+  "first_pilot_command_reason": "not emitted while the candidate is STOP and cannot pass the real D9 validator",
+  "stage_order_after_resolution": [
+    "122B producer_conformity",
+    "optional separately authorized 122B producer_remediation",
+    "27B alternate_conformity",
+    "122B budget_probe",
+    "122B stability_gate"
+  ],
+  "runtime": {
+    "connection_plan": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/runtime_connection_plan.json",
+      "sha256": "8dbeb38f2e406a5860e451a6a5ff5f94e085e272a694098acb5e7fe2d0aeee32",
+      "mode": "0600"
+    },
+    "server_credentials": {
+      "source_path": "/Users/luker/fot-tep/studio2/fase03/server_enea.json",
+      "source_mode_observed": "0600",
+      "source_is_git_tracked": false,
+      "secrets_copied_into_repository": false,
+      "secret_hash_recorded": false,
+      "records": [
+        "122B",
+        "27B"
+      ],
+      "approved_27b_connection_label_present": true,
+      "scientific_27b_service_identity_verified": false
+    },
+    "tokenizer_122b_snapshot": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9",
+      "directory_mode": "0700",
+      "file_mode": "0600",
+      "revision": "a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9",
+      "tokenizer_json_sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "tokenizer_config_sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+      "chat_template_sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+      "guard_result": "PASS"
+    },
+    "vpn_available_by_user_statement": true,
+    "enea_vpn_active_state_identified": false,
+    "vpn_or_ssh_connection_attempted": false,
+    "tunnel_opened": false,
+    "selected_27b_tunnel": "derive user and host at runtime from server_enea.json#27B; forward 127.0.0.1:18001 to remote 127.0.0.1:8001",
+    "selected_27b_base_url_after_tunnel": "http://127.0.0.1:18001/v1",
+    "local_port_18001_at_offline_check": "free"
+  },
+  "verified_artifacts": [
+    {
+      "role": "D9 role decision",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/DECISIONE_AUTORE_D9_RUOLI_2026-09-14.md",
+      "sha256": "fcb113636de80cc87709905324436555e0ba103bd46de3ac079ce0ef7f60f1b8"
+    },
+    {
+      "role": "122B documented metadata",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/config/qwen_122b_api_primary_d9.json",
+      "sha256": "9dffc6d957a03944d89030bcbc779ca616e7df23f72576d62a9e309ba2f15179"
+    },
+    {
+      "role": "122B accounting ACCEPT acquisition",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/ACQUISIZIONE_ACCEPT_ACCOUNTING_122B_03_13.md",
+      "sha256": "0dd96c56b8e08394daa251c679eba005eee488e4178ee533014020148ea961ae"
+    },
+    {
+      "role": "122B independent accounting review",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/reviews/VERBALE_RIVERIFICA_CONFIG_122B_ACCOUNTING_03_13.md",
+      "sha256": "007652fcc26ba2e1ad0cac9ccc303dcfb93a93ddc12279cc488b54fce7813a40"
+    },
+    {
+      "role": "27B historical preflight",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/config/pilot_preflight.json",
+      "sha256": "559b8cb857e54f428d9724b96e4b0600c4dafcb69773a0c3567909d4e019e549"
+    },
+    {
+      "role": "27B historical process record",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/env/ENDPOINT_8001_16384_RECORD.md",
+      "sha256": "6424d416d3228898a4e9313b800162441b530bcadd1d7fe2e1b83ee096a2af21"
+    },
+    {
+      "role": "R4 schema freeze",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/schema_insight/SCHEMA_FREEZE.json",
+      "sha256": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12"
+    },
+    {
+      "role": "approved presentation order",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/PRESENTATION_ORDER_APPROVAL_2026-09-15.json",
+      "sha256": "0f9f7b7f4036bd4172467dba80673af5d9ec3abb2bb854d6239da7ccec2977d1"
+    },
+    {
+      "role": "S4 mapping",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/MAPPING_REVIEWED_STORICO_S4_PILOT_03_13.json",
+      "sha256": "98608abe9831707254208ed29e493f92d29c06313a219d238ceec933f064d53c"
+    },
+    {
+      "role": "S4 import authorization",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/IMPORT_AUTHORIZED_STORICO_S4_PILOT_03_13.json",
+      "sha256": "aaefae11807826b4eedb3a3a917a86f33f7ff6d5c5c9442b8a468f630f13f7cb"
+    },
+    {
+      "role": "S4 independent import review",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/reviews/VERIFICA_IMPORT_STORICO_S4_LEDGER_PILOT_03_13.md",
+      "sha256": "a70a6170c75445ce670c095a462ebc8be97209face16e7cbcc7c187644c0d2ee"
+    },
+    {
+      "role": "authenticated real producer source inventory",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/PILOT_INPUT_SOURCES.pending.json",
+      "sha256": "7103482d6c7b8038944b0af63bac58548557c8d0b8f5d24e420346bd93fa304b"
+    },
+    {
+      "role": "statistical plan rev10",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/piano_statistico/PIANO_STATISTICO.md",
+      "sha256": "675dbbcc96d9e1e3c153388b905291c3ece7930e563a2f78f37183b6194d032a"
+    },
+    {
+      "role": "call budget rev10",
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/piano_statistico/BUDGET_RISORSE_REV10.md",
+      "sha256": "8d909d8f851b8b9c633687989d3a9f3221230b48e1f0595278e075556d283887"
+    }
+  ],
+  "external_closed_subphase": {
+    "worktree": "/Users/luker/fot-tep-wt-0311",
+    "commit": "349ead315de575cf43977fdf807d43b64070546c",
+    "tree": "38e546c0c1f253af5dc75fe65505b8039fc5e189",
+    "acquisition_sha256": "ddd986c1fb54359d0dd059c58994136d6b71d0fccad8298665b6019848f81208",
+    "batch_audit_sha256": "420a61eb65a47961092ee042f7fa08797a25b350f875cad76c0954f7f3eeb6e3",
+    "batch_counts": {
+      "total": 89,
+      "primary_fault": 64,
+      "primary_normal": 8,
+      "ood": 6,
+      "technical_spares": 11
+    },
+    "pilot_input_use": "FORBIDDEN_FINAL_TEST_AND_OOD_EXCLUDED; the producer inventory uses frozen development evidence and Normal-dev only",
+    "files_copied_into_candidate": 0
+  },
+  "blockers": [
+    {
+      "id": "B1",
+      "class": "technical",
+      "description": "The 122B bytes document /models, limits and a frozen client tokenizer but do not establish the completion response identity required by expected_response, and no complete service record exists.",
+      "single_resolution_action": "Acquire and preserve the provider's exact returned model/fingerprint contract (null explicitly allowed) and original metadata bytes, then write and hash the complete 122B service record."
+    },
+    {
+      "id": "B2",
+      "class": "technical_scientific",
+      "description": "Distinct 122B and 27B producer payload configurations are absent; historical 27B temperature/seed/thinking values are not transferable to the 122B service or alternate producer.",
+      "single_resolution_action": "Author-freeze one producer configuration per role, including max_tokens and only provider-supported prespecified controls, then hash both files."
+    },
+    {
+      "id": "B3",
+      "class": "runtime",
+      "description": "The pinned 27B/R4 tokenizer snapshot is recorded only at the remote Linux path and is unavailable on the Mac execution host.",
+      "single_resolution_action": "After VPN access, copy or mount the exact revision 017b9c7a... tokenizer.json, tokenizer_config.json and chat template to a recoverable absolute path and verify the three frozen hashes."
+    },
+    {
+      "id": "B4",
+      "class": "runtime_technical",
+      "description": "server_enea.json now supplies protected connection data under the 27B label, but that label is not scientific model identity. The VPN is available by user statement; the tunnel was not opened and the endpoint was not verified to expose the approved 27B alternate in this offline task.",
+      "single_resolution_action": "Connect the ENEA VPN, use the 27B connection record to open the frozen 18001-to-8001 tunnel, and preserve a non-generative /models/process attestation proving the endpoint is the prespecified 27B service."
+    }
+  ],
+  "non_blocking_staged_dependency": "The complete consumer input and prepared prompt manifests must not exist before the successful durable primary producer cycle that creates the 16 real insights.",
+  "offline_checks": {
+    "semantic_validation": "EXPECTED_FAIL_CLOSED_D9_PREREQUISITES",
+    "require_execution": "EXPECTED_FAIL_BEFORE_AUTHORIZATION_CHECK_BECAUSE_CANDIDATE_IS_NOT_TECHNICALLY_COMPLETE",
+    "history_package_validation": "PASS",
+    "tokenizer_122b_guard": "PASS",
+    "producer_dry_plan": "PASS_PLAN_ONLY_NO_PROVIDER_CALLS",
+    "consumer_dry_plan": "PASS_PLAN_ONLY_NO_PROVIDER_CALLS",
+    "provider_calls": 0,
+    "new_intents": 0
+  }
+}

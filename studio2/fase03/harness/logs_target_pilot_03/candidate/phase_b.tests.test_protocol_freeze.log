@@ -1,0 +1,8 @@
+test_freeze_hash_references_match_global_manifest (phase_b.tests.test_protocol_freeze.ProtocolFreezeTests) ... ok
+test_freeze_records_required_execution_and_statistical_rules (phase_b.tests.test_protocol_freeze.ProtocolFreezeTests) ... ok
+test_global_manifest_matches_every_frozen_artifact (phase_b.tests.test_protocol_freeze.ProtocolFreezeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.016s
+
+OK

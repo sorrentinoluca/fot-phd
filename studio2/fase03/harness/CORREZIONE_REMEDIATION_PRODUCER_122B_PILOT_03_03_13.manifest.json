@@ -1,0 +1,99 @@
+{
+  "artifact_version": "CORREZIONE_REMEDIATION_PRODUCER_122B_PILOT_03_1",
+  "status": "READY_FOR_INDEPENDENT_REVIEW_AUTHOR",
+  "rejected_candidate": {
+    "commit": "72e20d84fdc1a3251df98fe00b1bbd9026fc37ed",
+    "tree": "b340794ca9ca370121fb7154804a3d500d2670f5",
+    "parent": "98dc2b85d83e386fd66f695e76f87b871ac2f7fe"
+  },
+  "independent_review": {
+    "path": "/Users/luker/.codex/worktrees/b567/fot-tep/studio2/fase03/harness/VERIFICA_ESITO_REMEDIATION_PRODUCER_122B_PILOT_03_03_13.md",
+    "sha256": "f0b9ca37d0ab61a37ad0f69fbaee250047725467f0eb21819122b81c78747552",
+    "verdict": "NOT CONFIRMED"
+  },
+  "correction": {
+    "accounting_expected_message_identity": [
+      "stage",
+      "logical_id"
+    ],
+    "cross_stage_logical_id_collision_eliminated": true,
+    "same_stage_message_mismatch_remains_durable_stop": true,
+    "diagnosis_approval_new_event_fields": [
+      "path",
+      "sha256",
+      "content",
+      "utf8"
+    ],
+    "diagnosis_approval_bytes_rehashed_on_reuse": true,
+    "new_diagnosis_survives_source_file_deletion": true,
+    "legacy_path_hash_event": "SUPPORTED_FAIL_CLOSED_WITH_EXTERNAL_FILE_REQUIRED",
+    "real_stop_reconciled_or_removed": false
+  },
+  "repository_artifacts": {
+    "studio2/fase03/harness/ledger.py": "c05cf47f76756775cb24f8ea29d791136d304346ea86b30febef42f024978437",
+    "studio2/fase03/producer_probe.py": "c8dfc2dfb49dab11cf9c371afa4dffc88a778f781c98b74b137b238923368cda",
+    "studio2/fase03/technical_qualification_122b.py": "1bfcd49d23663c809bdd08dce251aec060788a9173f9304df6db0c285e43b7de",
+    "studio2/fase03/harness/test_successor_recovery.py": "f5bdab8a136289a0b0b424c344c4a852c4a20eae946dccb4f3708b6f677df961",
+    "studio2/fase03/harness/REPORT_CORREZIONE_REMEDIATION_PRODUCER_122B_PILOT_03_03_13.md": "fbfbf67ea40d4f917892161b2c4578ec7f4e1b4d9ef5f3debb6fa1f180587051",
+    "studio2/fase03/harness/logs_correzione_remediation_producer_pilot_03/verification.log": "21af3f5a001ec57ea0d8a1b74a97877d75c1adbd5c1979c8b5c2def1ebe323ee",
+    "studio2/fase03/harness/CORREZIONE_REMEDIATION_PRODUCER_122B_PILOT_03_03_13.manifest.json": "SELF_SHA256_EXCLUDED_TO_AVOID_SELF_REFERENCE"
+  },
+  "tests": {
+    "final_test_bytes_on_rejected_candidate": {
+      "test_methods": 3,
+      "failures": 0,
+      "errors": 3,
+      "seconds": 0.119,
+      "classification": "EXPECTED_BEHAVIORAL_RED"
+    },
+    "focused_green": {
+      "test_methods": 3,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 0.121
+    },
+    "successor_targeted": {
+      "test_methods": 39,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 5.464
+    },
+    "complete_relevant_regression": {
+      "modules": 15,
+      "test_methods": 212,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 447.244
+    },
+    "guardian_separate": {
+      "test_methods": 35,
+      "failures": 14,
+      "errors": 0,
+      "skipped": 1,
+      "seconds": 0.074,
+      "classification": "EXPECTED_HISTORICAL_NON_PASS_OUTSIDE_CORRECTION_SCOPE"
+    },
+    "py_compile": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "runtime": {
+    "pilot03_ledger_sha256": "3690ccfac8a0807d20f1be581325748f392ed777a206ee7c2e8954106df19779",
+    "pilot001_ledger_sha256": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+    "real_stop_preserved": true,
+    "real_ledger_opened_with_sqlite": false,
+    "real_ledger_modified": false,
+    "lsof_final_empty": true
+  },
+  "activity": {
+    "provider_calls": 0,
+    "network_access": false,
+    "scientific_execution": false,
+    "retry": false,
+    "resume": false,
+    "remediation_execution": false,
+    "model_27b_calls": 0,
+    "push": false,
+    "merge": false,
+    "tag": false
+  }
+}

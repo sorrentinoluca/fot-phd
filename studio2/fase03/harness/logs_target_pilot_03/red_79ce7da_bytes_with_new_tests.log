@@ -1,0 +1,73 @@
+test_P1_02a_materializer_requires_explicit_gate_before_work (studio2.fase03.harness.test_successor_recovery.BlockingCorrectionTests) ... ok
+test_P1_02b_staging_failure_never_publishes_partial_target (studio2.fase03.harness.test_successor_recovery.BlockingCorrectionTests) ... ok
+test_P2_01_mixed_accounting_uses_authenticated_per_event_guard (studio2.fase03.harness.test_successor_recovery.BlockingCorrectionTests) ... ok
+test_P2_02_resume_reconstructs_complete_technical_outcome_without_send (studio2.fase03.harness.test_successor_recovery.BlockingCorrectionTests) ... ok
+test_identity_sha256_has_one_source_backed_object_and_distinct_file_digests (studio2.fase03.harness.test_successor_recovery.BlockingCorrectionTests) ... ok
+test_direct_and_cli_refuse_unapproved_successor_before_transport_or_ledger (studio2.fase03.harness.test_successor_recovery.EntrypointFailClosedTests) ... ok
+test_T_a_fresh_pilot_03_identity_and_path_are_coherent (studio2.fase03.harness.test_successor_recovery.FreshTargetPilot03Tests) ... FAIL
+test_T_b_published_target_has_no_wal_or_shm_sidecars (studio2.fase03.harness.test_successor_recovery.FreshTargetPilot03Tests) ... FAIL
+test_T_c_durable_hashes_hold_after_reopening_published_ledger (studio2.fase03.harness.test_successor_recovery.FreshTargetPilot03Tests) ... ok
+test_T_d_directory_fsync_failure_after_rename_is_published_and_intact (studio2.fase03.harness.test_successor_recovery.FreshTargetPilot03Tests) ... FAIL
+test_C1_technical_contract_and_provider_require_extra_body (studio2.fase03.harness.test_successor_recovery.ProducerRenderingAndAccountingTests) ... ok
+test_C2_successor_122b_conformity_requires_exact_no_thinking (studio2.fase03.harness.test_successor_recovery.ProducerRenderingAndAccountingTests) ... ok
+test_accounting_uses_and_commits_exact_transport_template_kwargs (studio2.fase03.harness.test_successor_recovery.ProducerRenderingAndAccountingTests) ... ok
+test_only_exact_122b_producer_no_thinking_shape_is_accepted (studio2.fase03.harness.test_successor_recovery.ProducerRenderingAndAccountingTests) ... ok
+test_R1_D9_requires_import_before_preflight_binding_and_reservation (studio2.fase03.harness.test_successor_recovery.ReverificationRequiredLineageTests) ... ok
+test_F2_persisted_accounting_false_to_zero_is_rejected_before_next_stage (studio2.fase03.harness.test_successor_recovery.ReviewCorrectionAccountingTests) ... ok
+test_R2_closed_technical_reuse_revalidates_full_accounting_contract (studio2.fase03.harness.test_successor_recovery.ReviewCorrectionAccountingTests) ... ok
+test_F1_D9_path_reauthenticates_same_instance_and_restart (studio2.fase03.harness.test_successor_recovery.ReviewCorrectionLineageTests) ... ok
+test_F1_direct_reservation_reauthenticates_every_persisted_field (studio2.fase03.harness.test_successor_recovery.ReviewCorrectionLineageTests) ... ok
+test_selective_tampered_and_transitive_imports_refuse_without_side_effect (studio2.fase03.harness.test_successor_recovery.SuccessorLineageTests) ... ok
+test_valid_exactly_once_restart_and_predecessor_immutable (studio2.fase03.harness.test_successor_recovery.SuccessorLineageTests) ... ok
+test_P1_first_successor_producer_acquisition_requires_exact_false (studio2.fase03.harness.test_successor_recovery.SuccessorProducerAccountingContractTests) ... ok
+test_P2_reopened_nonconforming_proof_blocks_reuse_and_next_request (studio2.fase03.harness.test_successor_recovery.SuccessorProducerAccountingContractTests) ... ok
+test_P3_successor_122b_remediation_acquisition_requires_exact_false (studio2.fase03.harness.test_successor_recovery.SuccessorProducerAccountingContractTests) ... ok
+test_P4_generic_consumer_and_27b_paths_remain_unchanged (studio2.fase03.harness.test_successor_recovery.SuccessorProducerAccountingContractTests) ... ok
+test_Q1_version_lineage_incoherence_fails_all_decision_paths (studio2.fase03.harness.test_successor_recovery.SuccessorProducerAccountingContractTests) ... ok
+test_Q2_request_discriminators_are_authenticated_before_classification (studio2.fase03.harness.test_successor_recovery.SuccessorProducerAccountingContractTests) ... ok
+test_Q3_valid_successor_classification_preserves_five_predecessors (studio2.fase03.harness.test_successor_recovery.SuccessorProducerAccountingContractTests) ... ok
+test_planned_maximum_166_and_two_processes_compete_for_last_slot (studio2.fase03.harness.test_successor_recovery.SuccessorQuotaTests) ... ok
+test_accounting_mismatch_is_a_persistent_charged_stop_before_second_call (studio2.fase03.harness.test_successor_recovery.TechnicalStageTests) ... ok
+test_each_technical_mismatch_fails_closed_and_never_enters_t9 (studio2.fase03.harness.test_successor_recovery.TechnicalStageTests) ... ok
+test_technical_stage_is_mandatory_once_before_conformity_and_survives_restart (studio2.fase03.harness.test_successor_recovery.TechnicalStageTests) ... ok
+
+======================================================================
+FAIL: test_T_a_fresh_pilot_03_identity_and_path_are_coherent (studio2.fase03.harness.test_successor_recovery.FreshTargetPilot03Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/red/studio2/fase03/harness/test_successor_recovery.py", line 1683, in test_T_a_fresh_pilot_03_identity_and_path_are_coherent
+    self.assertEqual(materializer.SUCCESSOR_PILOT_ID, self.EXPECTED_ID)
+AssertionError: 'studio2-fase03-d9-pilot-002' != 'studio2-fase03-d9-pilot-03'
+- studio2-fase03-d9-pilot-002
+?                          ^^
++ studio2-fase03-d9-pilot-03
+?                          ^
+
+
+======================================================================
+FAIL: test_T_b_published_target_has_no_wal_or_shm_sidecars (studio2.fase03.harness.test_successor_recovery.FreshTargetPilot03Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/red/studio2/fase03/harness/test_successor_recovery.py", line 1715, in test_T_b_published_target_has_no_wal_or_shm_sidecars
+    self.assertEqual(sorted(p.name for p in target.glob("ledger.sqlite3*")),
+AssertionError: Lists differ: ['ledger.sqlite3', 'ledger.sqlite3-shm', 'ledger.sqlite3-wal'] != ['ledger.sqlite3']
+
+First list contains 2 additional elements.
+First extra element 1:
+'ledger.sqlite3-shm'
+
+- ['ledger.sqlite3', 'ledger.sqlite3-shm', 'ledger.sqlite3-wal']
++ ['ledger.sqlite3']
+
+======================================================================
+FAIL: test_T_d_directory_fsync_failure_after_rename_is_published_and_intact (studio2.fase03.harness.test_successor_recovery.FreshTargetPilot03Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/red/studio2/fase03/harness/test_successor_recovery.py", line 1752, in test_T_d_directory_fsync_failure_after_rename_is_published_and_intact
+    self.assertTrue(isinstance(error_type, type) and issubclass(error_type, RuntimeError),
+AssertionError: False is not true : materializer lacks a dedicated published-but-not-durable diagnosis
+
+----------------------------------------------------------------------
+Ran 32 tests in 6.132s
+
+FAILED (failures=3)

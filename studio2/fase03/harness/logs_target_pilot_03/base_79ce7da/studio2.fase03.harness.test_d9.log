@@ -1,0 +1,54 @@
+test_fixed_roles_and_pending_configuration (studio2.fase03.harness.test_d9.D9Contract) ... ok
+test_legacy_nominal_approval_is_not_d9 (studio2.fase03.harness.test_d9.D9Contract) ... ok
+test_payload_122b_omits_temperature_and_preserves_controls (studio2.fase03.harness.test_d9.D9Contract) ... ok
+test_role_stage_mapping_rejects_extra_arms (studio2.fase03.harness.test_d9.D9Contract) ... ok
+test_122b_temperature_is_rejected_before_any_send (studio2.fase03.harness.test_d9.D9PriorBehavior) ... ok
+test_primary_provider_cannot_execute_alternate_role (studio2.fase03.harness.test_d9.D9PriorBehavior) ... ok
+test_alternate_pilot_full_library_and_same_case_swap (studio2.fase03.harness.test_d9.D9Runners) ... ERROR
+test_configuration_mutations_refuse_before_client_and_intent (studio2.fase03.harness.test_d9.D9Runners) ... ok
+test_direct_consumer_transport_requires_reservation (studio2.fase03.harness.test_d9.D9Runners) ... ERROR
+test_document_changes_after_binding_block_resume_without_sends (studio2.fase03.harness.test_d9.D9Runners) ... ok
+test_history_mapping_cannot_reset_consumption (studio2.fase03.harness.test_d9.D9Runners) ... ok
+test_pending_cli_does_not_create_ledger (studio2.fase03.harness.test_d9.D9Runners) ... ok
+test_persisted_provider_mutation_and_direct_reservation (studio2.fase03.harness.test_d9.D9Runners) ... ok
+test_r4_counter_distinct_from_service_counter (studio2.fase03.harness.test_d9.D9Runners) ... ok
+test_resume_counts_once_by_role_and_model (studio2.fase03.harness.test_d9.D9Runners) ... ok
+test_service_output_limit_rejects_before_client (studio2.fase03.harness.test_d9.D9Runners) ... ok
+test_swapped_provider_or_unapproved_alternate_is_rejected (studio2.fase03.harness.test_d9.D9Runners) ... ok
+
+======================================================================
+ERROR: test_alternate_pilot_full_library_and_same_case_swap (studio2.fase03.harness.test_d9.D9Runners)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_d9.py", line 171, in test_alternate_pilot_full_library_and_same_case_swap
+    t.config['d9']['alternate_placement']='pilot';t.approve_config();t.prepare()
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+======================================================================
+ERROR: test_direct_consumer_transport_requires_reservation (studio2.fase03.harness.test_d9.D9Runners)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_d9.py", line 145, in test_direct_consumer_transport_requires_reservation
+    t.prepare(); captured=[]
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+----------------------------------------------------------------------
+Ran 17 tests in 1.461s
+
+FAILED (errors=2)

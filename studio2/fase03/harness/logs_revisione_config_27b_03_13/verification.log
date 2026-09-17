@@ -1,0 +1,27 @@
+03.13-REV27B verification log
+date: 2026-09-17 Europe/Rome; author_model: claude-opus-5; base 3952fb4; python 3.10.12 VM; evidence-v2 sha 6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf
+
+RED on base 3952fb4 (git archive + new test + script): 11 tests, 13 errors (4 AttributeError record_config_revision, 9 ImportError IDENTITY_SUSPENSION_REASON); REV0 PASS
+
+MODULES (candidate)
+phase_b.tests.test_parser_retry_guard | Ran 10 tests in 0.004s | OK
+phase_b.tests.test_protocol_freeze | Ran 3 tests in 0.015s | OK
+studio2.fase03.harness.test_author_acceptances | Ran 9 tests in 24.234s | OK
+studio2.fase03.harness.test_c01_c03 | Ran 14 tests in 140.778s | OK
+studio2.fase03.harness.test_config_revision | Ran 11 tests in 34.537s | OK
+studio2.fase03.harness.test_d01_replay | Ran 0 tests in 0.002s | FAILED (errors=1)
+studio2.fase03.harness.test_d02_predecessors | Ran 8 tests in 30.044s | OK
+studio2.fase03.harness.test_d03_contract | Ran 9 tests in 21.153s | FAILED (errors=1)
+studio2.fase03.harness.test_d04_open_quota | Ran 8 tests in 3.600s | OK
+studio2.fase03.harness.test_d9 | Ran 17 tests in 5.713s | OK
+studio2.fase03.harness.test_d9_corrections | Ran 11 tests in 13.077s | OK
+studio2.fase03.harness.test_harness_offline | Ran 20 tests in 0.289s | OK
+studio2.fase03.harness.test_history_reconciliation | Ran 10 tests in 0.413s | OK
+studio2.fase03.harness.test_metric_raccordo | Ran 9 tests in 0.003s | OK
+studio2.fase03.harness.test_revisions | Ran 37 tests in 45.768s | OK
+studio2.fase03.harness.test_successor_recovery | Ran 50 tests in 5.270s | OK
+studio2.fase03.harness.test_tokenizer_accounting | Ran 10 tests in 0.203s | OK
+
+non-pass: test_d01_replay setUpClass and test_d03_contract D03_real_legacy_proofs (absent /Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec), identical to base
+guardian: 35 tests, 14 failures, 1 skipped
+real ledger pilot-03: sha256 3872029001346913f3722928b350813c8daaef349c5d4fbe98b770200c893fa0 before/after; read-only immutable; runtime files written: none; provider calls: 0

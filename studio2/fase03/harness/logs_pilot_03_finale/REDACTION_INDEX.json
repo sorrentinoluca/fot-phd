@@ -1,0 +1,107 @@
+[
+  {
+    "file": "alternate_20260917T125137.log",
+    "source_bytes": 6716,
+    "source_sha256": "3a3dce5f237852aff1b610a684269521eb49c7a2c2d30fbe30526a8d41b230bd",
+    "copy_sha256": "3a3dce5f237852aff1b610a684269521eb49c7a2c2d30fbe30526a8d41b230bd",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "alternate_20260917T125401.log",
+    "source_bytes": 6716,
+    "source_sha256": "3a3dce5f237852aff1b610a684269521eb49c7a2c2d30fbe30526a8d41b230bd",
+    "copy_sha256": "3a3dce5f237852aff1b610a684269521eb49c7a2c2d30fbe30526a8d41b230bd",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "alternate_20260917T125847.log",
+    "source_bytes": 2342,
+    "source_sha256": "7a5ea6e5620d8fb17dfee42d1f77e540772031cf7949ef8b51fd33788b63dbf6",
+    "copy_sha256": "7a5ea6e5620d8fb17dfee42d1f77e540772031cf7949ef8b51fd33788b63dbf6",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "alternate_20260917T130137.log",
+    "source_bytes": 7186,
+    "source_sha256": "51ec601a1e1299d6fe5131f1c4d22cf861684e0658d7c740702d56aa2139817d",
+    "copy_sha256": "51ec601a1e1299d6fe5131f1c4d22cf861684e0658d7c740702d56aa2139817d",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "alternate_20260917T130331.log",
+    "source_bytes": 7186,
+    "source_sha256": "51ec601a1e1299d6fe5131f1c4d22cf861684e0658d7c740702d56aa2139817d",
+    "copy_sha256": "51ec601a1e1299d6fe5131f1c4d22cf861684e0658d7c740702d56aa2139817d",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "alternate_20260917T131707.log",
+    "source_bytes": 7186,
+    "source_sha256": "51ec601a1e1299d6fe5131f1c4d22cf861684e0658d7c740702d56aa2139817d",
+    "copy_sha256": "51ec601a1e1299d6fe5131f1c4d22cf861684e0658d7c740702d56aa2139817d",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "alternate_20260917T131826.log",
+    "source_bytes": 1977,
+    "source_sha256": "4ec50de572aa168b15d118d158a0f04c98251adb2c8b2cdddd571964ed3d9831",
+    "copy_sha256": "4ec50de572aa168b15d118d158a0f04c98251adb2c8b2cdddd571964ed3d9831",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "alternate_20260917T162321.log",
+    "source_bytes": 464,
+    "source_sha256": "2ab25de107bca6c388edfe38840660ad16c09dc2f73d0a2d1e4fb18d8b139428",
+    "copy_sha256": "2ab25de107bca6c388edfe38840660ad16c09dc2f73d0a2d1e4fb18d8b139428",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "budget_20260917T163729.log",
+    "source_bytes": 580853,
+    "source_sha256": "0a66edbdeba2eb190b589432816310242061d4177a7126101cadd595da04772e",
+    "copy_sha256": "52fb247fa44abbfc50d8dfd28d32aa8db6012469ccc898cf0ebbfd9ed3e527f1",
+    "redaction": "prompt_sample redacted"
+  },
+  {
+    "file": "remediation_20260917T123528.log",
+    "source_bytes": 3452,
+    "source_sha256": "9b985a8df83bbbcacb9262d4b9534a140204f126f9a6798d035d5294d6599940",
+    "copy_sha256": "9b985a8df83bbbcacb9262d4b9534a140204f126f9a6798d035d5294d6599940",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "remediation_20260917T123723.log",
+    "source_bytes": 1914,
+    "source_sha256": "23a38ff77e3dffd93de150374107df635e1657036b144d7acc5322a9ff997d58",
+    "copy_sha256": "23a38ff77e3dffd93de150374107df635e1657036b144d7acc5322a9ff997d58",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "remediation_20260917T123804.log",
+    "source_bytes": 1928,
+    "source_sha256": "ac1e027df7e19c601dc8a48fab281fe822bf5504537a88fb8d472f44538bf9b6",
+    "copy_sha256": "ac1e027df7e19c601dc8a48fab281fe822bf5504537a88fb8d472f44538bf9b6",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "remediation_20260917T124316.log",
+    "source_bytes": 3452,
+    "source_sha256": "9b985a8df83bbbcacb9262d4b9534a140204f126f9a6798d035d5294d6599940",
+    "copy_sha256": "9b985a8df83bbbcacb9262d4b9534a140204f126f9a6798d035d5294d6599940",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "remediation_20260917T124623.log",
+    "source_bytes": 464,
+    "source_sha256": "90a0316153cce3691998f0ce4fa52e4fca3314d762222e38035d4508fcd9c264",
+    "copy_sha256": "90a0316153cce3691998f0ce4fa52e4fca3314d762222e38035d4508fcd9c264",
+    "redaction": "none (byte-identical)"
+  },
+  {
+    "file": "stability_20260917T163928.log",
+    "source_bytes": 628,
+    "source_sha256": "4081a03e0200a4cf004ec9700be5423587aa3f2d605aa8673f4e73a5b6a2d13b",
+    "copy_sha256": "4081a03e0200a4cf004ec9700be5423587aa3f2d605aa8673f4e73a5b6a2d13b",
+    "redaction": "none (byte-identical)"
+  }
+]

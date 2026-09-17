@@ -24,6 +24,7 @@ from studio2.fase03.protocol import (  # noqa: E402
     load_json,
     sha256_file,
 )
+from studio2.fase03.harness.common import tokenized_length  # noqa: E402
 from studio2.fase03.synthetic_fixture import build_synthetic_manifest  # noqa: E402
 
 
@@ -45,20 +46,6 @@ def write_atomic(path: Path, content: str) -> None:
     temporary = path.with_name(path.name + ".tmp")
     temporary.write_text(content, encoding="utf-8")
     os.replace(temporary, path)
-
-
-def tokenized_length(tokens: Any) -> int:
-    """Return token count for either a token-id list or a BatchEncoding-like value."""
-    if hasattr(tokens, "get"):
-        input_ids = tokens.get("input_ids")
-        if input_ids is None:
-            raise RuntimeError("tokenizer result has no input_ids")
-        if input_ids and isinstance(input_ids[0], (list, tuple)):
-            if len(input_ids) != 1:
-                raise RuntimeError("expected exactly one tokenized prompt")
-            input_ids = input_ids[0]
-        return len(input_ids)
-    return len(tokens)
 
 
 def offline_token_counter(snapshot: Path, *, chat_template: bool = True):

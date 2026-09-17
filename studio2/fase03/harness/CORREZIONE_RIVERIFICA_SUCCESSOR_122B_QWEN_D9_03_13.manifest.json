@@ -1,0 +1,161 @@
+{
+  "artifact_version": "1",
+  "status": "READY_FOR_NEW_INDEPENDENT_REVIEW",
+  "scope": [
+    "R1_SUCCESSOR_D9_REQUIRES_IMPORTED_LINEAGE",
+    "R2_COMPLETE_ACCOUNTING_CONTRACT_ON_CLOSED_REUSE",
+    "C1_TECHNICAL_EXTRA_BODY_REQUIRED",
+    "C2_SUCCESSOR_122B_PRODUCER_REQUIRES_STRICT_FALSE"
+  ],
+  "rejected_candidate": {
+    "commit": "ef6d6ef550d59d11233f8f9dc4af6abd247dcff9",
+    "tree": "47610aee32a3a1bfddc650edda4b81fc583a0155",
+    "parent": "65dad03c7878b5ba1b3dc185861f93387bef78a0"
+  },
+  "independent_review": {
+    "verdict": "NON_OK",
+    "source": "/Users/luker/.codex/worktrees/b567/fot-tep/studio2/fase03/harness/VERIFICA_CORREZIONE_REVIEW_SUCCESSOR_122B_QWEN_D9_03_13.md",
+    "repository_copy": "studio2/fase03/harness/reviews/VERIFICA_CORREZIONE_REVIEW_SUCCESSOR_122B_QWEN_D9_03_13.md",
+    "sha256": "790ceb1e49dde5fba926a8e7b6b450ce8600651c2f6b74b5cda013b5ddc853bc"
+  },
+  "corrections": {
+    "R1": {
+      "validator": "PilotLedger._validated_predecessor_lineage",
+      "caller_specific_trigger": "explicit package_path or approval_path",
+      "missing_import_result": "FAIL_CLOSED_BEFORE_WRITE",
+      "generic_v2_without_successor_references_unchanged": true,
+      "covered_paths": [
+        "direct_validation",
+        "require_pilot_ledger",
+        "restart",
+        "stage_binding",
+        "reservation"
+      ],
+      "positive_cumulative_count": "5+1=6"
+    },
+    "R2": {
+      "single_validator": "PilotLedger._validate_accounting_contract",
+      "used_during_acquisition": true,
+      "used_during_closed_reuse": true,
+      "bound_fields": [
+        "messages",
+        "messages_sha256",
+        "local_prompt_tokens",
+        "server_prompt_tokens",
+        "snapshot",
+        "request_id",
+        "request_identity_sha256",
+        "artifact_version",
+        "raw_response_sha256",
+        "raw_usage_prompt_tokens",
+        "outcome",
+        "chat_template_kwargs"
+      ],
+      "closed_stage_and_next_binding_reject_tamper": true,
+      "same_instance_and_restart_covered": true
+    },
+    "C1": {
+      "technical_contract_missing_extra_body_rejected": true,
+      "technical_provider_missing_extra_body_rejected": true,
+      "provider_file_pin_retained": true
+    },
+    "C2": {
+      "successor_122b_required_value": {
+        "chat_template_kwargs": {
+          "enable_thinking": false
+        }
+      },
+      "rejected": ["absent", "numeric_zero", "true", "additional_key", "different_shape"],
+      "generic_validator_unchanged": true,
+      "alternate_27b_unchanged": true
+    },
+    "prior_F1_F2": {
+      "tests_retained": true,
+      "status": "PASS"
+    }
+  },
+  "repository_artifacts": {
+    "studio2/fase03/harness/d9.py": "3e5a6e0c40b0137aaf7192ed9d1e81659f5ef2b8b8aa4d27b3b2ee77f5b44849",
+    "studio2/fase03/harness/ledger.py": "8d88cde74ab37ce018dc3d4dafade0466cd8378633990359ece3eddd0f9ae5c3",
+    "studio2/fase03/harness/test_successor_recovery.py": "2c557b600ad3b5555479b1adaf928de28b850adce62046b88e71e312b581625e",
+    "studio2/fase03/technical_qualification_122b.py": "ac8595a13c4e14831060070c72218e108c6e1c7f250ae79b8263fce9809af74b",
+    "studio2/fase03/harness/reviews/VERIFICA_CORREZIONE_REVIEW_SUCCESSOR_122B_QWEN_D9_03_13.md": "790ceb1e49dde5fba926a8e7b6b450ce8600651c2f6b74b5cda013b5ddc853bc",
+    "studio2/fase03/harness/successor.py": "58d5587ec5632996eb32cf97db849d7c86c8f1e18d201ea0e0e5556d4eac1045",
+    "studio2/fase03/materialize_successor_recovery.py": "67b389c3a437917d2b21d33d3bca4b48f6ebca5d74da3a6c04746417f8e8c725",
+    "studio2/fase03/producer_probe.py": "49048534f6c3d7761445c87a7690f7e555fb0ef8d1870f4150456ca5569b4213",
+    "studio2/fase03/harness/CONTRATTO_RECUPERO_SUCCESSOR_122B_QWEN_D9_03_13.json": "143e709a534c6143efb8989dff85f0ba4a1f4b7139897e2d08f2556f1dd6f37a",
+    "studio2/fase03/harness/QUALIFICATION_SUPPLEMENT_122B_QWEN_D9_03_13.json": "dd9c53f0e4262fffe592a04298f8d7a4cfd428ccf5c487faacfe68ca357decb7"
+  },
+  "tests": {
+    "final_test_bytes_on_rejected_candidate": {
+      "command": "python -m unittest -v studio2.fase03.harness.test_successor_recovery",
+      "test_methods": 16,
+      "failures": 10,
+      "errors": 0,
+      "classification": "EXPECTED_BEHAVIORAL_RED"
+    },
+    "targeted_final_green": {
+      "test_methods": 16,
+      "failures": 0,
+      "errors": 0
+    },
+    "focused_regression": {
+      "modules": 4,
+      "tests": 54,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 21.736
+    },
+    "complete_relevant_regression": {
+      "modules": 15,
+      "tests": 193,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 469.859
+    },
+    "historical_document_guardian": {
+      "tests": 35,
+      "failures": 14,
+      "errors": 0,
+      "skipped": 1,
+      "status": "NON_PASS_HISTORICAL_UNCHANGED"
+    }
+  },
+  "private_runtime": {
+    "access_mode_during_correction": "NOT_OPENED_NOT_READ_NOT_HASHED",
+    "fresh_target_created": false,
+    "materialized": false,
+    "existing_private_state_assessed": false
+  },
+  "invariants": {
+    "scientific_design_changed": false,
+    "quotas_changed": false,
+    "roles_changed": false,
+    "scientific_prompts_changed": false,
+    "denominators_changed": false,
+    "stage_order_changed": false,
+    "author_decision_changed": false,
+    "cumulative_planned_maximum": 166,
+    "hard_stop": 200,
+    "non_spendable_margin": 34
+  },
+  "activity": {
+    "provider_calls": 0,
+    "tokens": 0,
+    "network_access": false,
+    "tunnels": 0,
+    "execution_authorization_created": false,
+    "scientific_execution": false,
+    "private_ledger_opened": false,
+    "server_enea_json_read": false,
+    "push": false,
+    "merge": false,
+    "tag": false
+  },
+  "handoff": {
+    "technical_qualification_authorized": false,
+    "fresh_target_materialization_authorized": false,
+    "next_action": "NEW_INDEPENDENT_REVIEW",
+    "candidate_commit_and_tree": "RECORDED_AFTER_ARTIFACT_FINALIZATION_IN_HANDOFF"
+  }
+}

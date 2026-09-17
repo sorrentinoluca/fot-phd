@@ -1,0 +1,83 @@
+{
+  "artifact_version": "1",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
+  "base": {
+    "commit": "6e15fe59fe7b2f69c3e74e0bbf344985fa696c36",
+    "tree": "7f5ba92c81bda1eaa0e13b42bc9da807d472d2c5",
+    "parent": "0523c9279a3e760bd001daf399267c642deda02d"
+  },
+  "decision": {
+    "classification": "ANTECEDENT_QUALIFICATION_CONFIGURATION_FAILURE",
+    "author_record_sha256": "c8dea72c26d15ef4e38215cfc66c10f4e3362f1c27d548faf19c6c343dc6e5a3",
+    "author_decision_text_utf8_sha256": "e9f4b92537c630a2fb3b476324c8811525fe4ee41a81451e0fd666f3b70b8190",
+    "independent_review_sha256": "849e5979fa6459b4eaf505bc298c44a7dbd0e40ef9e11e26c521c23fe70bce41"
+  },
+  "repository_artifacts": {
+    "studio2/fase03/harness/ACQUISIZIONE_DECISIONE_AUTORE_RECUPERO_SUCCESSOR_122B_QWEN_D9_03_13.json": "c8dea72c26d15ef4e38215cfc66c10f4e3362f1c27d548faf19c6c343dc6e5a3",
+    "studio2/fase03/harness/CONTRATTO_RECUPERO_SUCCESSOR_122B_QWEN_D9_03_13.json": "143e709a534c6143efb8989dff85f0ba4a1f4b7139897e2d08f2556f1dd6f37a",
+    "studio2/fase03/harness/QUALIFICATION_SUPPLEMENT_122B_QWEN_D9_03_13.json": "dd9c53f0e4262fffe592a04298f8d7a4cfd428ccf5c487faacfe68ca357decb7",
+    "studio2/fase03/harness/reviews/VERIFICA_PROPOSTA_RECUPERO_STOP_122B_QWEN_D9_03_13.md": "849e5979fa6459b4eaf505bc298c44a7dbd0e40ef9e11e26c521c23fe70bce41",
+    "studio2/fase03/harness/d9.py": "05ccd85d9ed4c0e67936b7780faa890f42079b5c6898dea26ae4a0d0c7bf9b78",
+    "studio2/fase03/harness/ledger.py": "54a1d42e61846b7bc50db82f5c0bc9dadbfe660009e6925e4b792f5276dc529d",
+    "studio2/fase03/harness/successor.py": "58d5587ec5632996eb32cf97db849d7c86c8f1e18d201ea0e0e5556d4eac1045",
+    "studio2/fase03/harness/test_successor_recovery.py": "9c0b51b2c92b67f1f8bc4dd0bca13ae6261d2c3991fd571be25b9fa52c82b4be",
+    "studio2/fase03/materialize_successor_recovery.py": "67b389c3a437917d2b21d33d3bca4b48f6ebca5d74da3a6c04746417f8e8c725",
+    "studio2/fase03/producer_probe.py": "49048534f6c3d7761445c87a7690f7e555fb0ef8d1870f4150456ca5569b4213",
+    "studio2/fase03/technical_qualification_122b.py": "72603b4e696f0baa9fbe756eea5e6b61e8f0b6c5ada212c39c8fa3158d041d27"
+  },
+  "private_successor": {
+    "root": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-002",
+    "directory_mode": "0700",
+    "file_mode": "0600",
+    "pilot_id": "studio2-fase03-d9-pilot-002",
+    "ledger": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-002/ledger.sqlite3",
+      "sha256": "9c9101826d2cb39498c1e8d0b167921680c38f045aa156220a3a4ba077ed304b",
+      "user_version": 4,
+      "predecessor_lineage_rows": 5,
+      "native_requests": 0
+    },
+    "configuration": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-002/execution/pilot_d9_successor_candidate_03_13.private.json",
+      "sha256": "f21b33a5e9a625ca8fa9f08711a09d456ee613b23b1f7f447faf6b26bd114067",
+      "execution_authorization": "ABSENT",
+      "fail_closed": true
+    },
+    "lineage_package_sha256": "64b37439761d482d285baf5717fc50947dd4ca42afd745eb9a2224842fbee2a5",
+    "lineage_approval_sha256": "192a648f0acabc90406a8af6e45506cb635925bafb37a78437287a3c72faf03d",
+    "qualification_supplement_sha256": "dd9c53f0e4262fffe592a04298f8d7a4cfd428ccf5c487faacfe68ca357decb7",
+    "producer_122b_sha256": "dea208bfba5cdd124b4d204d921ce4fa1d08180d87b13e591fb4513b6d33bb86",
+    "service_122b_sha256": "9d37d68e7dc524827ae275e9230ae1928dee5c34352a9bd1d920d6a5b8be72c1",
+    "materialization_summary_sha256": "166809322ca99447fe28932332c215e3c790deeae433fe9b588361ce52c38d83"
+  },
+  "predecessor": {
+    "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3",
+    "pilot_id": "studio2-fase03-d9-pilot-001",
+    "sha256_before_and_after": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb"
+  },
+  "budget": {
+    "predecessor_lineage_charged_once": 5,
+    "technical_qualification_planned": 1,
+    "future_planned_maximum": 161,
+    "cumulative_planned_maximum": 166,
+    "hard_stop": 200,
+    "non_spendable_margin": 34,
+    "remediation_consumed": 0,
+    "remediation_authorized": false
+  },
+  "tests": {
+    "initial_test_first_red": {"tests": 10, "errors": 10},
+    "final_differential_on_prior_candidate": {"tests": 9, "errors": 9},
+    "targeted_green": {"tests": 9, "failures": 0, "errors": 0},
+    "final_regression_green": {"tests": 140, "failures": 0, "errors": 0},
+    "historical_document_guardian": {"tests": 35, "failures": 14, "skipped": 1, "status": "NON_PASS_HISTORICAL_UNCHANGED"}
+  },
+  "activity": {
+    "provider_calls": 0,
+    "tokens": 0,
+    "tunnels": 0,
+    "push": false,
+    "merge": false,
+    "tag": false
+  }
+}

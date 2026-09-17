@@ -1,0 +1,102 @@
+{
+  "artifact_version": "1",
+  "pilot_ledger": {
+    "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3",
+    "pilot_id": "studio2-fase03-d9-pilot-001"
+  },
+  "request_imports": [
+    {
+      "disposition": "HISTORICAL_OUTCOME_UNCERTAIN",
+      "historical_ordinal": 1,
+      "identity": {
+        "assignment": "ASSIGNED_DURING_RECONCILIATION",
+        "historical_ordinal": 1,
+        "request_id": "2816b74ff6df290645d411841d5b3fe52f9c8a94f51d8b2504add3ddb06798d7",
+        "source_binding_sha256": "2d430549ceecbffb9bd2823aaa88ed74b79908e19346ea5510d28603f09f6b09"
+      },
+      "identity_sha256": "574d3335db3e364f2428903422336def278f71a2cd27f395ab1c3f38020e0dde",
+      "request_id": "2816b74ff6df290645d411841d5b3fe52f9c8a94f51d8b2504add3ddb06798d7",
+      "source_binding": {
+        "line": 1,
+        "record_sha256": "c0a72bd67e360e630688148cb47a681248be3f7cbf181aa954be9eac198362ea",
+        "source_key": "attempts"
+      }
+    },
+    {
+      "disposition": "COMPLETED",
+      "historical_ordinal": 2,
+      "identity": {
+        "assignment": "ASSIGNED_DURING_RECONCILIATION",
+        "historical_ordinal": 2,
+        "request_id": "bc65836bf364bee2d2221ae161edc6027eb4097c4fe06b89cd356d511b44531a",
+        "source_binding_sha256": "a338b4d874d7176b6011386c1d8097e32424fff1648fe0cdcb7c862465a23791"
+      },
+      "identity_sha256": "b601d3c547ab60de08d4d3ea5f3138d5fa6dfa7373a0864d93f0f7b61bc31e31",
+      "request_id": "bc65836bf364bee2d2221ae161edc6027eb4097c4fe06b89cd356d511b44531a",
+      "source_binding": {
+        "line": 1,
+        "record_sha256": "97104230a3afba9f2af6df4758864d5f86e6bd91741c0eca498f7cc4e24d01c4",
+        "source_key": "records"
+      }
+    },
+    {
+      "disposition": "COMPLETED",
+      "historical_ordinal": 3,
+      "identity": {
+        "assignment": "ASSIGNED_DURING_RECONCILIATION",
+        "historical_ordinal": 3,
+        "request_id": "b398041eb723f70febf057bbfe5f532a8f6392d01ae1076bfa83b5e4c83f7a81",
+        "source_binding_sha256": "364352f91cd8f3add11c42044ba04168ca352c69f524be7f2b176e312a17d494"
+      },
+      "identity_sha256": "29067d59635ac9bcd059e9718e79e0f01f490a9a69535ea1c303f4d09063d0c4",
+      "request_id": "b398041eb723f70febf057bbfe5f532a8f6392d01ae1076bfa83b5e4c83f7a81",
+      "source_binding": {
+        "line": 2,
+        "record_sha256": "d6b142e8b8c3ae1fef2bd6c2afb40cd153a39097522bc65f327c1bc94ee700b4",
+        "source_key": "records"
+      }
+    },
+    {
+      "disposition": "COMPLETED",
+      "historical_ordinal": 4,
+      "identity": {
+        "assignment": "ASSIGNED_DURING_RECONCILIATION",
+        "historical_ordinal": 4,
+        "request_id": "6842b2d03d8de8253539922fe529d0700309b64a7fb2fa60d477d694d72260e5",
+        "source_binding_sha256": "148c8b22e62ff4c33d760768567e8cef091ef36beb18ba6eb07688ad11d1c082"
+      },
+      "identity_sha256": "0bfa66fe054d6f9a5c380f85c0f9adacb11d145b374ff2830295cbf25f25a04b",
+      "request_id": "6842b2d03d8de8253539922fe529d0700309b64a7fb2fa60d477d694d72260e5",
+      "source_binding": {
+        "line": 3,
+        "record_sha256": "09de23c8053bcb5fb265e5cdb36bba905bb5470dda1c37eb3eeb7f493effb697",
+        "source_key": "records"
+      }
+    }
+  ],
+  "review": {
+    "path": "/Users/luker/Downloads/VERIFICA_RICOGNIZIONE_STORICO_S_1.md",
+    "reviewer": "Claude (claude-opus-4-8) — OK limitato documentale su ricognizione e proposta; mapping esatto da riverificare",
+    "sha256": "cbf363316646f5f75a4123adcb30f312fce0dfce6cb0548bf953deb2718d7e31"
+  },
+  "source": {
+    "completed_inferences": 3,
+    "reported_requests": 4,
+    "sha256": "c9adf2a8f07d9058257cc2c51a00064662874611875a715c716a1f1ea4828368"
+  },
+  "source_files": {
+    "attempts": {
+      "path": "/Users/luker/fot-tep/studio2/fase03/results/provisional_cap_stress/provisional_stress_probe_attempts.jsonl",
+      "sha256": "cc3a21d8a045598b844372b04af4a68a4ac6702c05c5428a457eed098f03c382"
+    },
+    "records": {
+      "path": "/Users/luker/fot-tep/studio2/fase03/results/provisional_cap_stress/provisional_stress_probe_records.jsonl",
+      "sha256": "825b649e409e462b953da263fd01d11b9d92563fd930747da17e36f93d94b158"
+    },
+    "summary": {
+      "path": "/Users/luker/fot-tep/studio2/fase03/results/provisional_cap_stress/provisional_stress_probe_summary.json",
+      "sha256": "c9adf2a8f07d9058257cc2c51a00064662874611875a715c716a1f1ea4828368"
+    }
+  },
+  "status": "MAPPING_REVIEWED"
+}

@@ -1,0 +1,50 @@
+{
+  "artifact_version": "MATERIALIZATION_EVIDENCE_1",
+  "status": "TARGET_MATERIALIZED_READY_FOR_INDEPENDENT_REVIEW_AUTHOR",
+  "pilot_id": "studio2-fase03-d9-pilot-03",
+  "root": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03",
+  "materializer_exit_code": 0,
+  "python": "/usr/local/bin/python3 (3.11.5)",
+  "network": {"provider_calls": 0, "tokens": 0, "tunnels": 0},
+  "execution_authorization": "ABSENT",
+  "review": {
+    "current_sha256": "46a6d426aa05f44fda1ea994a89f3d04cede01331ebdc4866be37fd34b252f0f",
+    "pre_addendum_sha256": "00f0a97e20ef858ff9bd9226525ebe9fc4b357e8847a8e6b0059bf6952670104",
+    "verdict": "UNCHANGED"
+  },
+  "logs": {
+    "PRECONDIZIONI.txt": "5ab85e7f9e56e41e7b5d30dd4984754859d78c1168efa0bac5ce3a1f671d5fc8",
+    "POST_MATERIALIZZAZIONE.txt": "edd191590fa67ac7148477f719ac61176bd2a73f033b90d27f1d044875fb3206",
+    "materialize_successor_recovery.stdout-stderr.log": "ec0aebd116c556ee782265798a7f281da61246344a8e0a4ab539375c170e2c3e"
+  },
+  "versioned_artifacts": {
+    "studio2/fase03/harness/EVIDENZA_MATERIALIZZAZIONE_PILOT_03_SUCCESSOR_122B_QWEN_D9_03_13.md": "653d44300238658f11dee40a17179f15fdf37359623b7f03081693c59279d7c4",
+    "studio2/fase03/harness/TARGET_PILOT_03_SUCCESSOR_122B_QWEN_D9_03_13.manifest.json": "039bc4014e864786bebec14274691cc4987226a6f8b63f6532509cac0b3c9884",
+    "studio2/fase03/harness/REPORT_TARGET_PILOT_03_SUCCESSOR_122B_QWEN_D9_03_13.md": "b9c0e023927f7c5b824d315eb7b7d159fe755678fc40fdf9c76039bf0ccf0157",
+    "studio2/fase03/harness/SUPERSESSIONE_TARGET_PILOT_03_SUCCESSOR_122B_QWEN_D9_03_13.json": "410b5b2d067eb1cd3d77cb61c9eebd664578fb790fb51b321814652fbbb5be07"
+  },
+  "published_files": {
+    "execution/pilot_d9_successor_candidate_03_13.private.json": "6f8d616c1f75596ddff480b6bd4c01481adb85343c99205ea2a51d129c99da4f",
+    "execution/producer_122b_successor_03_13.private.json": "04b2c948c586c9ae4e38d9d0c50d36aad86a5b609a609d94c2d31fde7c2a8bf0",
+    "execution/producer_27b_successor_03_13.private.json": "fcecc53417d8c35319c11bf7a633b70456d3c85b90f51d7193490cae99baa4e4",
+    "execution/service_122b_successor_03_13.private.json": "714c24bf14e525c73c4ff839f3a102b5a9dbeb36a85be986a0439b91bd1b3469",
+    "execution/service_27b_successor_03_13.private.json": "133807dfa57ddbd7a4319bfbdd2b851f0648928c12195422ee300b0e17d4f485",
+    "ledger.sqlite3": "8af057b5e295a21a3aa178e414673f4fe6e76979670a2b74a5a487606b4e01f1",
+    "qualification/QUALIFICATION_SUPPLEMENT_122B_QWEN_D9_03_13.private.json": "dd9c53f0e4262fffe592a04298f8d7a4cfd428ccf5c487faacfe68ca357decb7",
+    "lineage/SUCCESSOR_LINEAGE_S5_122B_QWEN_D9_03_13.private.json": "ee5a2aa58b90e85a8482a66540b4c39f6c6e5229c054434ba3e750b9cd5b07e6",
+    "lineage/SUCCESSOR_LINEAGE_S5_122B_QWEN_D9_03_13.approval.private.json": "fbda6b463809ed309bcb933cf15cc0f2c01b03d15a783dfb1017df154fc58516",
+    "tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9/tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+    "tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9/tokenizer_config.json": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+    "tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9/chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+    "tokenizers/27B/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a/tokenizer.json": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+    "tokenizers/27B/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a/tokenizer_config.json": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27",
+    "tokenizers/27B/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a/chat_template.jinja": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041",
+    "tokenizers/27B/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a/quarantine/tokenizer.json.0dd376b985d33ebc511c6ca4f94038deda14e97b2443621ff566f45a67736aa9": "0dd376b985d33ebc511c6ca4f94038deda14e97b2443621ff566f45a67736aa9",
+    "MATERIALIZATION_SUMMARY.private.json": "30021bc4d91a070058f268e99f1ef5c1df3afce61691e7e5aed86c040d7e2cee"
+  },
+  "sidecars_pilot001": {
+    "ledger.sqlite3-wal": {"size": 0, "mtime": "2026-09-16T03:29:15+0200", "lsof_exit": 1},
+    "ledger.sqlite3-shm": {"size": 32768, "mtime": "2026-09-16T03:31:41+0200", "lsof_exit": 1}
+  },
+  "self_sha256": "excluded_to_avoid_self_reference"
+}

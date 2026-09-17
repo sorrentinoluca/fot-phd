@@ -11,7 +11,8 @@ from .common import HarnessError, canonical_json, sha256_bytes
 
 ROLES = {'producer': '122B', 'consumer': '122B', 'alternate': '27B'}
 STAGE_MODELS = {'producer_conformity': '122B', 'producer_remediation': '122B',
-                'alternate_conformity': '27B', 'budget_probe': '122B', 'stability_gate': '122B'}
+                'alternate_conformity': '27B', 'budget_probe': '122B',
+                'stability_gate': '122B', 'technical_qualification_122b': '122B'}
 R4_TOKENIZER = {
     'revision': '017b9c7af6b5689d5dd426a76e0bc077eb5ca20a',
     'tokenizer_json_sha256': '0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3',
@@ -19,6 +20,12 @@ R4_TOKENIZER = {
     'chat_template_sha256': 'c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041'}
 HISTORY_SOURCE = {'sha256': 'c9adf2a8f07d9058257cc2c51a00064662874611875a715c716a1f1ea4828368',
                   'reported_requests': 4, 'completed_inferences': 3}
+RECOVERY_PROPOSAL_FILE_SHA256 = '77d72204d53e4706d7e93dc579532a9f148175e3d7daff75d0467c93eee03624'
+APPROVED_122B_IDENTITY_SHA256 = 'd180061348b15bb0322cb75ae700bb97b1328994c8d572c98741455d5b0ef579'
+QUALIFICATION_SUPPLEMENT_FILE_SHA256 = 'dd9c53f0e4262fffe592a04298f8d7a4cfd428ccf5c487faacfe68ca357decb7'
+QUALIFICATION_SUPPLEMENT_CANONICAL_SHA256 = '79515feb95b1048f67e8c01446be580dcbb73def188a13175b842b58a5356a40'
+IDENTITY_SHA256_SEMANTICS = (
+    'CANONICAL_JSON_SHA256_OF_SOURCE_PROPOSAL_QUALIFICATION_SUPPLEMENT_CANDIDATE')
 
 
 def fail(message):
@@ -71,6 +78,47 @@ def read_bytes_reference(ref, role):
     if sha256_bytes(data) != ref['sha256']:
         fail(role + ' bytes changed')
     return data
+
+
+def _validate_response_identity_binding(binding, service):
+    """Authenticate identity_sha256 to one named source object, not a file digest."""
+    required = {
+        'artifact_version', 'identity_sha256_semantics', 'source_proposal',
+        'source_object_key', 'identity_sha256', 'qualification_supplement_file',
+        'qualification_supplement_canonical_sha256',
+    }
+    if not isinstance(binding, dict) or set(binding) != required:
+        fail('response identity binding fields are incomplete')
+    if (binding.get('artifact_version') != 'RESPONSE_IDENTITY_BINDING_1'
+            or binding.get('identity_sha256_semantics') != IDENTITY_SHA256_SEMANTICS
+            or binding.get('source_object_key') != 'qualification_supplement_candidate'):
+        fail('response identity binding semantics differ from the reviewed proposal')
+    proposal_ref = binding.get('source_proposal')
+    if (not isinstance(proposal_ref, dict)
+            or proposal_ref.get('sha256') != RECOVERY_PROPOSAL_FILE_SHA256):
+        fail('response identity source proposal is not the reviewed file')
+    proposal = read_reference(proposal_ref, 'response identity source proposal')
+    candidate = proposal.get(binding['source_object_key'])
+    identity_sha256 = binding.get('identity_sha256')
+    if (not isinstance(candidate, dict)
+            or identity_sha256 != APPROVED_122B_IDENTITY_SHA256
+            or proposal.get('qualification_supplement_canonical_sha256') != identity_sha256
+            or _digest(candidate) != identity_sha256
+            or service.get('identity_sha256') != identity_sha256
+            or candidate.get('allowed_identity_update') != service.get('expected_response')):
+        fail('identity_sha256 does not authenticate the reviewed proposal object')
+    supplement_ref = binding.get('qualification_supplement_file')
+    if (not isinstance(supplement_ref, dict)
+            or supplement_ref.get('sha256') != QUALIFICATION_SUPPLEMENT_FILE_SHA256):
+        fail('qualification supplement file digest differs from the reviewed bytes')
+    supplement = read_reference(supplement_ref, 'qualification supplement')
+    if (binding.get('qualification_supplement_canonical_sha256')
+            != QUALIFICATION_SUPPLEMENT_CANONICAL_SHA256
+            or _digest(supplement) != QUALIFICATION_SUPPLEMENT_CANONICAL_SHA256
+            or {key: supplement.get(key) for key in ('returned_model', 'system_fingerprint')}
+            != service.get('expected_response')):
+        fail('qualification supplement canonical object differs from reviewed evidence')
+    return binding
 
 
 def _read_once(reference_or_path, role):
@@ -245,6 +293,37 @@ def generation_kwargs(generation, *, model_role):
     return result
 
 
+def no_thinking_template_kwargs(value):
+    """Validate the reviewed control without Python's bool/int equivalence."""
+    if (not isinstance(value, dict)
+            or set(value) != {'enable_thinking'}
+            or value.get('enable_thinking') is not False
+            or type(value.get('enable_thinking')) is not bool):
+        fail('chat_template_kwargs must be exactly enable_thinking=false')
+    return {'enable_thinking': False}
+
+
+def producer_extra_body(value, *, model_role):
+    """Allow one reviewed rendering control on a producer, never a pass-through.
+
+    122B: reviewed successor control. 27B: approved 03.13-REV27B requalification.
+    """
+    if value is None:
+        return None
+    if (model_role not in {'122B', '27B'} or not isinstance(value, dict)
+            or set(value) != {'chat_template_kwargs'}):
+        fail('producer extra_body must be exactly chat_template_kwargs.enable_thinking=false')
+    no_thinking_template_kwargs(value['chat_template_kwargs'])
+    return {'chat_template_kwargs': {'enable_thinking': False}}
+
+
+def require_122b_no_thinking(value, *, context):
+    """Make the caller-specific 122B producer requirement explicit."""
+    if value is None:
+        fail(context + ' requires extra_body.chat_template_kwargs.enable_thinking=false')
+    return producer_extra_body(value, model_role='122B')
+
+
 def validate_config(config):
     d = config.get('d9')
     if not isinstance(d, dict) or d.get('roles') != ROLES:
@@ -257,6 +336,7 @@ def validate_config(config):
         fail('canonical R4 tokenizer must remain separate and pinned')
     from .guards import require_presentation
     require_presentation({'presentation':{'author_decision':'accepted','ordered_labels':d.get('presentation_order',[])}}, config.get('presentation_approval',{}))
+    successor = d.get('successor_lineage') is not None
     services = d.get('services')
     if not isinstance(services, dict) or set(services) != {'122B', '27B'}:
         fail('exactly two documented services required')
@@ -285,6 +365,8 @@ def validate_config(config):
         expected = {k:v for k,v in service.items() if k != 'documentation'}
         if doc.get('service') != expected:
             fail('documented service differs from execution configuration')
+        if successor and role == '122B':
+            _validate_response_identity_binding(doc.get('identity_binding'), service)
         from .guards import response_identity_valid
         response_identity_valid({}, service['expected_response'])
     c = services['122B']; candidate = config.get('candidate', {})
@@ -301,6 +383,18 @@ def validate_config(config):
         fail('producer configurations must be separately pinned by role')
     if set(config.get('approved_producer_config_sha256', [])) != set(providers.values()):
         fail('producer allowlist differs from D9 roles')
+    lineage_ref = d.get('successor_lineage')
+    if lineage_ref is not None:
+        if 'history_reconciliation' in d or 'history_approval' in d:
+            fail('successor lineage cannot be combined with historical reconciliation')
+        approval_ref = d.get('successor_lineage_approval')
+        read_bytes_reference(lineage_ref, 'successor lineage package')
+        read_bytes_reference(approval_ref, 'successor lineage approval')
+        from .successor import validate_successor_lineage_artifacts
+        validate_successor_lineage_artifacts(
+            Path(lineage_ref['path']), Path(approval_ref['path']),
+            expected_ledger=config.get('pilot_ledger'))
+        return d
     history_ref = d.get('history_reconciliation')
     history = read_reference(history_ref, 'historical consumption reconciliation')
     if history.get('status') == 'RECONCILED':
@@ -321,11 +415,21 @@ def validate_config(config):
 
 def validate_history(config, ledger, connection):
     d = validate_config(config)
+    if d.get('successor_lineage') is not None:
+        lineage_ref, approval_ref = d['successor_lineage'], d.get('successor_lineage_approval')
+        read_bytes_reference(lineage_ref, 'successor lineage package')
+        read_bytes_reference(approval_ref, 'successor lineage approval')
+        successor, _ = ledger._classified_successor_lineage(
+            connection, package_path=Path(lineage_ref['path']),
+            approval_path=Path(approval_ref['path']))
+        if not successor:
+            fail('successor lineage was not durably classified')
+        return
     h = read_reference(d['history_reconciliation'], 'historical consumption reconciliation')
     if h.get('status') == 'MAPPING_REVIEWED':
         validated = validate_external_history_artifacts(
             d['history_reconciliation'], d.get('history_approval'),
-            expected_ledger={'path': str(ledger.path), 'pilot_id': ledger.pilot_id})
+            expected_ledger={'path': str(ledger.identity_path), 'pilot_id': ledger.pilot_id})
         rows = ledger._validated_external_history(connection)
         if len(rows) != HISTORY_SOURCE['reported_requests']:
             fail('external historical consumption has not been reconciled')
@@ -354,7 +458,8 @@ def validate_history(config, ledger, connection):
 
 def validate_provider(config, provider, stage, *, file_sha256):
     d = validate_config(config); role = model_for_stage(stage)
-    if stage not in {'producer_conformity', 'producer_remediation', 'alternate_conformity'}:
+    if stage not in {'technical_qualification_122b', 'producer_conformity',
+                     'producer_remediation', 'alternate_conformity'}:
         fail('not a producer stage')
     if stage == 'alternate_conformity' and d['alternate_placement'] != 'pilot':
         fail('alternate conformance is deferred; no pilot calls authorized')
@@ -368,6 +473,12 @@ def validate_provider(config, provider, stage, *, file_sha256):
             fail('producer does not match its documented role: ' + key)
     generation = {k:provider[k] for k in ('max_tokens','temperature','seed','thinking_token_budget') if k in provider}
     generation_kwargs(generation, model_role=role)
+    successor_122b = role == '122B' and d.get('successor_lineage') is not None
+    if successor_122b and stage in {
+            'technical_qualification_122b', 'producer_conformity', 'producer_remediation'}:
+        require_122b_no_thinking(provider.get('extra_body'), context=stage)
+    else:
+        producer_extra_body(provider.get('extra_body'), model_role=role)
     if provider['max_tokens'] > service['max_output_tokens']:
         fail('producer output exceeds documented limit')
     return role
@@ -381,7 +492,8 @@ def validate_binding(binding, stage, ledger, connection):
     config = binding['execution_config']
     from .guards import require_execution
     require_execution(config)
-    expected_ledger = {'path':str(ledger.path), 'pilot_id':ledger.pilot_id}
+    ledger._require_accepted_config(connection, config)
+    expected_ledger = {'path':str(ledger.identity_path), 'pilot_id':ledger.pilot_id}
     if config.get('pilot_ledger') != expected_ledger:
         fail('binding belongs to another pilot ledger')
     validate_history(config, ledger, connection)
@@ -392,7 +504,8 @@ def validate_binding(binding, stage, ledger, connection):
         ledger._successful(connection, 'alternate_conformity')
     if any(s['model'] != service['model'] for s in binding.get('requests', [])):
         fail('persisted request model differs from the stage role')
-    producer_stage = stage in {'producer_conformity', 'producer_remediation', 'alternate_conformity'}
+    producer_stage = stage in {'technical_qualification_122b', 'producer_conformity',
+                               'producer_remediation', 'alternate_conformity'}
     if producer_stage and 'provider' not in binding:
         fail('producer binding lacks its certified provider')
     if not producer_stage and any(spec['producer'] != 'consumer' for spec in binding['requests']):
@@ -415,9 +528,14 @@ def validate_binding(binding, stage, ledger, connection):
     if not isinstance(chat_snapshot, str) or not Path(chat_snapshot).is_absolute():
         fail('binding lacks its recoverable service tokenizer snapshot')
     verify_tokenizer(Path(chat_snapshot), **service['tokenizer'])
+    revised = bool(ledger._config_chain(connection))
     for row in connection.execute('SELECT stage,binding_json FROM stages'):
         other=json.loads(row['binding_json'])
-        if 'execution_config' in other and other['execution_config'] != config:
+        if 'execution_config' not in other:
+            continue
+        if revised:
+            ledger._require_accepted_config(connection, other['execution_config'])
+        elif other['execution_config'] != config:
             fail('configuration changed between stages; no implicit ledger reset/rebinding')
 
 
@@ -433,13 +551,19 @@ def accounting(ledger):
     by_role={key:0 for key in ROLES}; by_model={'122B':0, '27B':0}
     with ledger._transaction() as c:
         rows=ledger._validated_attempt_inventory(c)
-        historical=ledger._validated_external_history(c)
+        historical=ledger._quota_predecessors(c)
         for row in rows:
             binding=ledger._binding(c,row['stage'])
             if 'execution_config' not in binding:
                 fail('unmapped historical ledger requires separate reviewed reconciliation')
-            role='alternate' if row['stage']=='alternate_conformity' else ('consumer' if row['stage'] in {'budget_probe','stability_gate'} else 'producer')
-            by_role[role]+=1;by_model[ROLES[role]]+=1
+            role=('technical_qualification' if row['stage']=='technical_qualification_122b'
+                  else 'alternate' if row['stage']=='alternate_conformity'
+                  else 'consumer' if row['stage'] in {'budget_probe','stability_gate'}
+                  else 'producer')
+            if role == 'technical_qualification' and role not in by_role:
+                by_role[role] = 0
+            by_role[role] += 1
+            by_model['122B' if role == 'technical_qualification' else ROLES[role]] += 1
     return {'requests_cumulative':len(rows)+len(historical),'native_requests':len(rows),
             'historical_external':len(historical),'by_role':by_role,'by_nominal_model':by_model,
             'unit':'durable intents, including uncertain and retry attempts'}
@@ -457,8 +581,10 @@ def swap_manifest(primary_manifest, *, primary_handoff, alternate_handoff, confi
     primary, _, p = _insights(primary_handoff, ledger=ledger, token_count=token_count, schema_dir=schema_dir)
     alternate, _, a = _insights(alternate_handoff, ledger=ledger, token_count=token_count, schema_dir=schema_dir, library_role='alternate')
     for provenance in (p, a):
-        if ledger.binding(provenance['stage']).get('execution_config') != config:
-            fail('swap library does not belong to this D9 configuration')
+        try:
+            ledger.config_accepted(ledger.binding(provenance['stage']).get('execution_config'), config)
+        except Exception as exc:
+            raise HarnessError('swap library does not belong to this D9 configuration') from exc
     if primary_manifest.get('insights') != primary:
         fail('swap source is not the authenticated primary library')
     result = deepcopy(primary_manifest); result['insights'] = alternate

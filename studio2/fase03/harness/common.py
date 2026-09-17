@@ -4,12 +4,30 @@ from __future__ import annotations
 
 import hashlib
 import json
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
 
 class HarnessError(ValueError):
     """An input violates a pre-specified harness contract."""
+
+
+def tokenized_length(tokens: Any) -> int:
+    """Count one token-id sequence and reject ambiguous tokenizer shapes."""
+    if isinstance(tokens, Mapping):
+        if "input_ids" not in tokens:
+            raise RuntimeError("tokenizer result has no input_ids")
+        tokens = tokens["input_ids"]
+    if not isinstance(tokens, (list, tuple)):
+        raise RuntimeError("tokenizer result must be one token-id sequence")
+    if tokens and isinstance(tokens[0], (list, tuple)):
+        if len(tokens) != 1:
+            raise RuntimeError("expected exactly one tokenized prompt")
+        tokens = tokens[0]
+    if any(type(token_id) is not int or token_id < 0 for token_id in tokens):
+        raise RuntimeError("tokenizer input_ids must be a flat sequence of non-negative integers")
+    return len(tokens)
 
 
 def canonical_json(value: Any) -> str:
@@ -51,4 +69,3 @@ def load_json(path: Path) -> Any:
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         raise HarnessError(f"cannot load JSON {path}: {exc}") from exc
-

@@ -212,6 +212,21 @@ class DiagnosticAndBudgetTests(unittest.TestCase):
         encoded = {"input_ids": [10, 20, 30, 40], "attention_mask": [1, 1, 1, 1]}
         self.assertEqual(tokenized_length(encoded), 4)
         self.assertEqual(tokenized_length([10, 20, 30]), 3)
+        self.assertEqual(tokenized_length({"input_ids": [[10, 20, 30]]}), 3)
+
+    def test_tokenized_length_rejects_ambiguous_or_invalid_shapes(self):
+        invalid = (
+            {"attention_mask": [1]},
+            {"input_ids": [[10], [20]]},
+            {"input_ids": [10, [20]]},
+            {"input_ids": [10, "20"]},
+            {"input_ids": [True]},
+            {"input_ids": [-1]},
+            {"input_ids": object()},
+        )
+        for encoded in invalid:
+            with self.subTest(encoded=encoded), self.assertRaises(RuntimeError):
+                tokenized_length(encoded)
 
     def test_abstention_contract(self):
         result = parse_diagnostic_output(

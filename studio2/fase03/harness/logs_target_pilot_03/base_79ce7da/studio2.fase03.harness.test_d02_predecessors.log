@@ -1,0 +1,29 @@
+test_D02_durable_predecessor_reads_hold_the_confirmation_lock (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors) ... ok
+test_D02_missing_coverage_raw_or_evaluation_rejects_predecessors (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors) ... ok
+test_D02_probe_cannot_shrink_to_an_allowed_prefix_after_closure (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors) ... ok
+test_D02_raw_and_record_hash_faults_reject_all_confirmation_entries (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors) ... ok
+test_D02_record_digest_binding_and_frozen_evidence_are_reauthenticated (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors) ... ok
+test_D02_remediation_and_new_probe_validate_durable_active_producer (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors) ... ok
+test_D02_retry_replay_preserves_nine_attempts_and_rejects_missing_ancestor (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors) ... ok
+test_D02_runner_and_CLI_resume_refuse_before_server_calls_or_output_writes (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors) ... ERROR
+
+======================================================================
+ERROR: test_D02_runner_and_CLI_resume_refuse_before_server_calls_or_output_writes (studio2.fase03.harness.test_d02_predecessors.DurablePredecessors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_d02_predecessors.py", line 139, in test_D02_runner_and_CLI_resume_refuse_before_server_calls_or_output_writes
+    t.prepare(); t.producer(stage='alternate_conformity')
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+----------------------------------------------------------------------
+Ran 8 tests in 11.347s
+
+FAILED (errors=1)

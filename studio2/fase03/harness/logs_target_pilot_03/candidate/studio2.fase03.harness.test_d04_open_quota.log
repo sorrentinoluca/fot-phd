@@ -1,0 +1,13 @@
+test_D04_eighth_retry_and_new_fault_after_previous_success (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract) ... ok
+test_D04_explicit_waiver_preserves_valid_eighth_and_limit_fifteen (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract) ... ok
+test_D04_generated_quota_matrix_open_stages_states_and_entries (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract) ... ok
+test_D04_inventory_covers_stages_roles_and_normative_dependencies (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract) ... ok
+test_D04_probe_triplet_refuses_atomically_then_accepts_legal_retry (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract) ... ok
+test_D04_role_dependencies_are_validated_before_new_reservation (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract) ... ok
+test_D04_runner_and_CLI_refuse_before_client_server_send_and_outputs (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract) ... ok
+test_D04_shared_attempt_validation_covers_other_open_stage_and_holds_lock (studio2.fase03.harness.test_d04_open_quota.OpenQuotaContract) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 3.151s
+
+OK

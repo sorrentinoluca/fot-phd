@@ -1,0 +1,30 @@
+{
+  "artifact_version": "1",
+  "status": "OPAQUE_OBSERVED_RESPONSE_IDENTITY_SUPPLEMENT",
+  "nominal_model": "122B",
+  "returned_model": "qwen3.5-122b",
+  "system_fingerprint": "vllm-0.27.1-934a3247",
+  "interpretation": "OPAQUE_EXACT_VALUE_ONLY",
+  "explicit_non_inferences": [
+    "NO_VLLM_VERSION_INFERENCE",
+    "NO_WEIGHTS_REVISION_INFERENCE",
+    "NO_QUANTIZATION_INFERENCE",
+    "NO_PARSER_INFERENCE",
+    "NO_SERVER_CAPABILITY_INFERENCE"
+  ],
+  "source_observation": {
+    "predecessor_pilot_id": "studio2-fase03-d9-pilot-001",
+    "predecessor_ledger_sha256": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+    "disposition": "COMPLETED_IDENTITY_INVALID_ANTECEDENT_CONFIGURATION",
+    "scientific_use": "FORBIDDEN",
+    "t9_use": "FORBIDDEN",
+    "response_reuse": "FORBIDDEN"
+  },
+  "role_scope": {
+    "common_response_identity": "producer_and_consumer_122B",
+    "no_thinking_control": "producer_122B_only",
+    "consumer_probe_gate": "unchanged_prespecified_thinking_budget_candidates"
+  },
+  "change_policy": "ANY_DIFFERENT_RETURNED_MODEL_OR_FINGERPRINT_CAUSES_A_NEW_CHARGED_FAIL_CLOSED_STOP",
+  "authorization": "NONE"
+}

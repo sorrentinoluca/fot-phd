@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/producer_probe.py", line 290, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/producer_probe.py", line 282, in main
+    summary = run(source_inventory=args.source_inventory, results_dir=args.results_dir,
+                  provider_path=args.provider_config, snapshot=args.model_snapshot, schema_dir=args.schema_dir,
+                  ledger=ledger, stage=args.stage, resume=args.resume, retry_requests=args.retry_request, template_path=args.template, diagnosis=args.diagnosis)
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/producer_probe.py", line 109, in run
+    require_pilot_ledger(preflight, ledger)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/guards.py", line 140, in require_pilot_ledger
+    ledger._validated_attempt_inventory(connection)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/ledger.py", line 183, in _validated_attempt_inventory
+    self._validate_attempts(c, self._binding(c, stage),
+                               ~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/ledger.py", line 957, in _binding
+    validate_binding(value, stage, self, c)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/d9.py", line 512, in validate_binding
+    if read_reference(reference, 'persisted producer configuration') != provider or reference['sha256'] != binding.get('provider_file_sha256'):
+       ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/d9.py", line 61, in read_reference
+    fail(role + ' bytes changed')
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/d9.py", line 32, in fail
+    raise HarnessError('D9: ' + message)
+studio2.fase03.harness.common.HarnessError: D9: persisted producer configuration bytes changed

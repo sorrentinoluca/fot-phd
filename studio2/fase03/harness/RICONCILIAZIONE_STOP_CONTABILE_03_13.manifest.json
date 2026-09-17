@@ -1,0 +1,99 @@
+{
+  "artifact_version": "RICONCILIAZIONE_STOP_CONTABILE_03_13_1",
+  "status": "READY_FOR_INDEPENDENT_REVIEW_AUTHOR",
+  "author_model": "claude-opus-5",
+  "base_commit": "82a41797c5b07dbd81a0e568dc399b45c98ff92f",
+  "branch": "codex/studio2-riconciliazione-stop-contabile",
+  "target_stop": {
+    "ledger_path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/ledger.sqlite3",
+    "expected_ledger_sha256": "3690ccfac8a0807d20f1be581325748f392ed777a206ee7c2e8954106df19779",
+    "event": "stop:tokenizer_accounting",
+    "request_id": "e6019d34669737981fec3174173a92c160df3e192924880226bfc7952a50bb67",
+    "artifact_sha256": "d02464d2937cc7d5f31038b40478bfe0b547112c277371da5c1b2d3b37dbc54a",
+    "cause": "harness_defect"
+  },
+  "implementation": {
+    "method": "PilotLedger.reconcile_accounting_stop(*, approval_path, fixed_commit, guard)",
+    "reconciliation_event": "stop_reconciled:tokenizer_accounting",
+    "stop_deleted": false,
+    "approval_keys": [
+      "author",
+      "cause",
+      "decision",
+      "fixed_commit",
+      "ledger_sha256_before",
+      "stop_artifact_sha256",
+      "stop_request_id"
+    ],
+    "approval_embedded_fields": [
+      "path",
+      "sha256",
+      "content",
+      "utf8"
+    ],
+    "revalidation": "all tokenizer_accounting events, persisted messages only, no override",
+    "refuses": [
+      "no STOP",
+      "invalid approval",
+      "ledger state mismatch or non-empty WAL",
+      "request after STOP",
+      "unresolved INTENT",
+      "any accounting revalidation failure",
+      "different approval after reconciliation"
+    ],
+    "later_stops": "persisted as stop:tokenizer_accounting#N, blocking, not reconcilable",
+    "cli": "studio2/fase03/reconcile_accounting_stop.py",
+    "cli_acknowledge": "RECONCILE_PHASE03_ACCOUNTING_STOP",
+    "declared_deviations": [
+      "guard argument",
+      "_revalidate_accounting_events extraction",
+      "stop #N naming",
+      "extra CLI arguments and plan-only default"
+    ]
+  },
+  "repository_artifacts": {
+    "studio2/fase03/harness/ledger.py": "f673ce315ac4f35907d6657e6474563833180022776f1f002aaa0190ec26ef70",
+    "studio2/fase03/harness/test_successor_recovery.py": "ee3d81234b568fb7253c5e878b2e2aee3ff25f7287e9d732bf983f6778822dc4",
+    "studio2/fase03/reconcile_accounting_stop.py": "df43ab077b8d532d3691cbcb1a86da3e7ccd73f08bfeb97084f11ee36fce8718",
+    "studio2/fase03/harness/REPORT_RICONCILIAZIONE_STOP_CONTABILE_03_13.md": "bc31c156b9a94419a3ff4a4c102a2bfe913dee30b1735179c6411ff168300afe",
+    "studio2/fase03/harness/logs_riconciliazione_stop_contabile_03_13/verification.log": "5cb6b0e229cfecb60e073bea2d165b7f5c576a7565b65b7dedb7f7fec3437691",
+    "studio2/fase03/harness/logs_riconciliazione_stop_contabile_03_13/red_rejected_base.log": "94c23f25d3e188647112e72b5856e47d2dec661524c57eeb0cfbbbd99279bbed"
+  },
+  "tests": {
+    "red_on_base": {
+      "test_methods": 10,
+      "errors": 18,
+      "failures": 0,
+      "seconds": 0.315,
+      "classification": "EXPECTED_BEHAVIORAL_RED"
+    },
+    "successor_targeted": {
+      "test_methods": 50,
+      "failures": 0,
+      "errors": 0,
+      "seconds": 6.712
+    },
+    "fifteen_modules_vm": {
+      "python": "3.10.12",
+      "candidate_tests": 216,
+      "base_tests": 205,
+      "candidate_non_pass": 35,
+      "base_non_pass": 35,
+      "non_pass_set_difference": [],
+      "classification": "ENVIRONMENTAL_NON_PASS_IDENTICAL_TO_BASE",
+      "mac_full_green_required_before_review": true
+    },
+    "guardian": {
+      "tests": 35,
+      "failures": 14,
+      "skipped": 1,
+      "classification": "UNCHANGED_HISTORICAL_BASELINE"
+    }
+  },
+  "runtime": {
+    "provider_calls": 0,
+    "real_ledger_opened_or_modified": false,
+    "push_merge_tag": false
+  },
+  "self": "SELF_SHA256_EXCLUDED_TO_AVOID_SELF_REFERENCE"
+}

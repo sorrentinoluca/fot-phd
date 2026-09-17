@@ -103,6 +103,11 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p>Il lotto di test è completo, 89 run su 89, senza chiamate a modelli linguistici. Uno dei due fault fuori catalogo previsti (F6) ha fermato l'impianto simulato; la regola fissata in anticipo lo ha sostituito con F5. Il lavoro è verificato ma non ancora integrato né pubblicato. Dettaglio in <a class="xref" href="fot_walkthrough_conversazione_studio2.html#run-finali-ood-0311">§4.11</a>.</p>
 </section>
 
+<section id="fase-03-pilot">
+<p class="kicker"><span class="num">Fase 03 · sotto-fase 03.13</span></p><h2>Pilot sui modelli superato, con tre ripetizioni</h2>
+<p>I due modelli che producono gli insight hanno generato ciascuno una libreria completa e valida, e il modello che li usa ha risposto correttamente al formato in 119 prove su 120. Una sola ripetizione è rimasta senza risposta per un errore di rete: la regola fissata in anticipo lo conta come instabilità, quindi lo studio ripeterà ogni prova tre volte. Il tempo stimato rientra nella finestra di una settimana e l'autore ha dato il via libera. Verificato, non ancora integrato. Dettaglio in <a class="xref" href="fot_walkthrough_conversazione_studio2.html#pilot-qwen-0313">§4.13</a>.</p>
+</section>
+
 <section id="fase-03-fedavg">
 <p class="kicker"><span class="num">Fase 03 · sotto-fase 03.14</span></p><h2>Baseline FedAvg valutata</h2>
 <p>Una piccola rete addestrata in tre modi — solo in locale, federata con FedAvg, centralizzata — è stata valutata una sola volta sui run di test. FedAvg classifica correttamente 434 finestre su 576, il modello centralizzato 443 e i modelli locali, sommati, 897 su 4.608 tentativi. Sono numeri descrittivi: nessun test statistico e nessun confronto con i modelli linguistici. Verificato, non ancora integrato. Dettaglio in <a class="xref" href="fot_walkthrough_conversazione_studio2.html#fedavg-0314">§4.14</a>.</p>
@@ -113,7 +118,7 @@ hr{border:none;border-top:1px solid var(--line);margin:26px 0}
 <p>Cinque bozze (metodo, protocollo, verbalizzatore, lavori correlati, minacce alla validità) sono allineate alle decisioni prese e verificate. Non sono ancora nel manoscritto: il paper si scrive dopo l'esperimento. Dettaglio in <a class="xref" href="fot_walkthrough_conversazione_studio2.html#paper-sections-0315">§4.15</a>.</p>
 </section>
 
-<p><em>Le altre sotto-fasi della Fase 03 (criteri, catalogo, run di sviluppo, perimetro del codice, evidence, pseudolabel, baseline numerica, harness, schema degli insight) sono preparazione tecnica e non hanno qui una sintesi. La Fase 03 non è chiusa; il pilot sui modelli (03.13) è in corso.</em></p>
+<p><em>Le altre sotto-fasi della Fase 03 (criteri, catalogo, run di sviluppo, perimetro del codice, evidence, pseudolabel, baseline numerica, harness, schema degli insight) sono preparazione tecnica e non hanno qui una sintesi. La Fase 03 non è chiusa.</em></p>
 
 <div class="tablewrap"><table>
 <thead><tr><th>Cerchi</th><th>Vai a</th></tr></thead>

@@ -1,0 +1,109 @@
+{
+  "artifact_version": "1",
+  "outcome": "READY_FOR_RE_REVIEW",
+  "scope": "R1-only offline correction of 122B exact prompt-token accounting",
+  "base": {
+    "commit": "b83048af49f63657cc91c6ceb519299e6d61567c",
+    "tree": "70927d842214fffc000f2c09b4de000d0ca2161f"
+  },
+  "independent_review": {
+    "path": "/Users/luker/.codex/worktrees/b567/fot-tep/studio2/fase03/harness/VERIFICA_INTEGRAZIONE_FINALE_CONFIG_D9_QWEN_03_13.md",
+    "sha256": "2b1bad43e206560a71adc9e18cb15077d28c0a0419d6906f89f1f1eaed5cf11f",
+    "decision": "NON_OK",
+    "blocking_finding": "R1_BATCHENCODING_ACCOUNTING_COUNTS_MAPPING_KEYS"
+  },
+  "preserved_historical_candidate": {
+    "manifest": {
+      "path": "studio2/fase03/harness/INTEGRAZIONE_FINALE_CONFIG_D9_QWEN_03_13.manifest.json",
+      "sha256": "699664d0f28ddb5a74563baa0289d4fc48d1eaab6461db7ae228bb117509ce30"
+    },
+    "report": {
+      "path": "studio2/fase03/harness/REPORT_INTEGRAZIONE_FINALE_CONFIG_D9_QWEN_03_13.md",
+      "sha256": "09a6e07c75cd0d2b65531ff5aec047f6cff62f70d1a0a7c119bb854ac0e0c57d"
+    }
+  },
+  "authorized_configuration_binding": {
+    "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/execution/pilot_d9_execution_candidate_03_13.private.json",
+    "byte_sha256": "fcf4ec0bb3c77193f3aaaaa5204faf34b7c589ed8c558b4fac54601e1ce58710",
+    "canonical_sha256_excluding_execution_authorization": "1305c158a98c40cb57e45b43e8d872d3d66e4d6d050d1d167c91b23e0a2fccc8",
+    "modified": false
+  },
+  "code": {
+    "shared_counter": {
+      "path": "studio2/fase03/harness/common.py",
+      "sha256": "bd2636bc4f98f98c8a029ebcd08bd87c11917a31bf722e7c92849da4bffb56a0",
+      "definition_count": 1
+    },
+    "durable_accounting_guard": {
+      "path": "studio2/fase03/harness/ledger.py",
+      "sha256": "51987992378a9fcebe201ad9987c94066da65dd165531b93610c5d324e9c2bd6"
+    },
+    "offline_counter": {
+      "path": "studio2/fase03/prepare_gate.py",
+      "sha256": "d9c85552959c73e95a47675d792969b532529e8c5baf659634dec8ad747a135d"
+    }
+  },
+  "shared_counter_contract": {
+    "accepted": [
+      "flat list or tuple of non-negative integer token IDs",
+      "mapping or BatchEncoding with flat input_ids",
+      "mapping or BatchEncoding with exactly one nested input_ids batch"
+    ],
+    "rejected": [
+      "missing input_ids",
+      "non-sequence input_ids",
+      "multiple batches",
+      "ragged or nested ambiguous shapes",
+      "non-integer, boolean or negative token IDs"
+    ]
+  },
+  "tests": {
+    "accounting": {
+      "path": "studio2/fase03/harness/test_tokenizer_accounting.py",
+      "sha256": "90ac1bd393a52c6d6d50a7223cb7bee0961488f3b0ad65693ed065080371c52f",
+      "discriminating_test": "TokenizerAccounting.test_A00_batch_encoding_counts_input_ids_not_mapping_keys"
+    },
+    "offline_shapes": {
+      "path": "studio2/fase03/tests/test_protocol.py",
+      "sha256": "4e4b82650790fd69cf4f7f98f2f99097f6d700ab0ec94191c6867122cf9a79e5"
+    },
+    "same_final_test_bytes": {
+      "sha256": "90ac1bd393a52c6d6d50a7223cb7bee0961488f3b0ad65693ed065080371c52f",
+      "parent_commit": "b83048af49f63657cc91c6ceb519299e6d61567c",
+      "parent_result": "RED_EXIT_1_R1_CORRECT_COUNT_REJECTED_AND_VALUE_2_ACCEPTED",
+      "corrected_candidate_result": "GREEN_EXIT_0"
+    },
+    "pinned_122b_prompts": {
+      "counts": [1395, 1016, 1385, 1329, 1394, 1066, 1199, 1385],
+      "correct_count_accepted": "8/8",
+      "value_2_rejected": "8/8"
+    },
+    "directly_dependent_offline_regressions": {
+      "interpreter": "Python 3.13.9 arm64",
+      "modules": [
+        "studio2.fase03.harness.test_tokenizer_accounting",
+        "studio2.fase03.tests.test_protocol",
+        "studio2.fase03.tests.test_execution_guard",
+        "studio2.fase03.harness.test_d9",
+        "studio2.fase03.harness.test_revisions",
+        "studio2.fase03.harness.test_d9_corrections",
+        "studio2.fase03.harness.test_harness_offline"
+      ],
+      "tests_run": 112,
+      "result": "PASS"
+    }
+  },
+  "runtime_immutability": {
+    "ledger": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3",
+      "sha256_before_and_after": "02ce8df46d04300b9eb19b0fbc3345c5edd41e7ea17bd1391f22c53f7a6d9d61",
+      "modified": false
+    },
+    "private_artifacts_modified": false,
+    "provider_calls": 0,
+    "generated_tokens": 0,
+    "new_intents": 0,
+    "new_stages": 0,
+    "new_receipts": 0
+  }
+}

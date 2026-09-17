@@ -1,0 +1,231 @@
+test_R10_repetition_condition_hash_uniqueness_and_distribution (studio2.fase03.harness.test_revisions.GateRevisions) ... ok
+test_R04_closed_stage_cannot_reopen_retry (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R04_failed_and_zero_token_cannot_pass (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R04_outcome_atomic_with_real_concurrent_writer (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R04_public_normative_event_forbidden (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R05_changed_alias_run_pilot_id_and_duplicate_original (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R05_triplet_cannot_reuse_original_or_mix_budget (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R05_two_processes_reserve_one_original_once (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R06_same_case_cannot_replace_eight_and_non_template_contracts_immutable (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R06_timeout_and_missing_concrete_approval_cannot_remediate (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R07_legacy_ledger_is_preserved_not_reset (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R07_real_crashes_intent_raw_and_completed_restart (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R07_reconciliation_requires_matching_evidence_preserves_counts (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R08_arbitrary_freeze_is_not_authenticated (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_hard_200_on_explicit_imported_fixture (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_reserve_15_waiver_and_maxima_152_160 (studio2.fase03.harness.test_revisions.LedgerRevisions) ... ok
+test_R01_CLI_with_transport_stub_rejects_historical_preflight (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ok
+test_R01_changed_ledger_directory_cannot_reset_pilot (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ok
+test_R01_undecided_and_suspended_all_entries_zero_sends (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ok
+test_R02_dependency_failure_is_pretransport_and_not_prompt_diagnosis (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ok
+test_R02_frozen_037_and_evidence_json_tamper (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ERROR
+test_R02_handoff_cannot_self_certify_or_change_library (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ok
+test_R02_inventory_tamper_r4_and_tokenizer_zero_sends (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ok
+test_R02_source_manifest_and_prompt_rehash_cannot_bypass (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ERROR
+test_R03_real_pipeline_labels_preserved_and_pending_rejected (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ERROR
+test_R06_real_runner_remediation_approved_bytes_and_old_handoff (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ok
+test_R07_cli_successful_producer_and_budget_use_shared_ledger (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ERROR
+test_R07_consumer_budget_crash_and_resume_preserve_raw (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ERROR
+test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ERROR
+test_R07_probe_explicit_zero_token_triplet_retry (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ERROR
+test_R07_producer_and_consumer_real_process_crashes (studio2.fase03.harness.test_revisions.RunnerRevisions) ... Traceback (most recent call last):
+  File "<string>", line 11, in <module>
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+FAIL
+test_R07_producer_timeout_resume_no_resend_and_explicit_reconciliation (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ok
+test_R07_resume_saved_raw_and_closed_artifact_without_new_sends (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ERROR
+test_R08_frozen_budget_tamper_first_gate_zero_additional_calls (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ERROR
+test_R09_consumer_identity_change_during_gate_suspends (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ERROR
+test_R09_producer_identity_mismatch_preserves_raw_and_suspends (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ok
+test_ordinary_complete_producer_prepare_probe_gate_offline (studio2.fase03.harness.test_revisions.RunnerRevisions) ... ERROR
+
+======================================================================
+ERROR: test_R02_frozen_037_and_evidence_json_tamper (studio2.fase03.harness.test_revisions.RunnerRevisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 355, in test_R02_frozen_037_and_evidence_json_tamper
+    dest=self.home/'evidence';shutil.copytree(REFERENCE,dest)
+  File "/usr/lib/python3.10/shutil.py", line 557, in copytree
+    with os.scandir(src) as itr:
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output'
+
+======================================================================
+ERROR: test_R02_source_manifest_and_prompt_rehash_cannot_bypass (studio2.fase03.harness.test_revisions.RunnerRevisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 381, in test_R02_source_manifest_and_prompt_rehash_cannot_bypass
+    self.prepare();value=json.loads(self.manifest.read_text());value['label_space'].reverse();self.manifest.write_text(json.dumps(value))
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+======================================================================
+ERROR: test_R03_real_pipeline_labels_preserved_and_pending_rejected (studio2.fase03.harness.test_revisions.RunnerRevisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 370, in test_R03_real_pipeline_labels_preserved_and_pending_rejected
+    self.prepare();manifest=json.loads(self.manifest.read_text())
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+======================================================================
+ERROR: test_R07_cli_successful_producer_and_budget_use_shared_ledger (studio2.fase03.harness.test_revisions.RunnerRevisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 469, in test_R07_cli_successful_producer_and_budget_use_shared_ledger
+    self.prepare(producer=False)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+======================================================================
+ERROR: test_R07_consumer_budget_crash_and_resume_preserve_raw (studio2.fase03.harness.test_revisions.RunnerRevisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 424, in test_R07_consumer_budget_crash_and_resume_preserve_raw
+    self.prepare();self.consumer_fail=2
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+======================================================================
+ERROR: test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume (studio2.fase03.harness.test_revisions.RunnerRevisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 432, in test_R07_gate_crash_retains_raw_and_blocks_uncertain_resume
+    self.prepare();rp.run_budget_stage(self.prepared,self.results,ledger=self.ledger);self.consumer_fail=5
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+======================================================================
+ERROR: test_R07_probe_explicit_zero_token_triplet_retry (studio2.fase03.harness.test_revisions.RunnerRevisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 491, in test_R07_probe_explicit_zero_token_triplet_retry
+    self.prepare()
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+======================================================================
+ERROR: test_R07_resume_saved_raw_and_closed_artifact_without_new_sends (studio2.fase03.harness.test_revisions.RunnerRevisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 476, in test_R07_resume_saved_raw_and_closed_artifact_without_new_sends
+    self.prepare()
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+======================================================================
+ERROR: test_R08_frozen_budget_tamper_first_gate_zero_additional_calls (studio2.fase03.harness.test_revisions.RunnerRevisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 440, in test_R08_frozen_budget_tamper_first_gate_zero_additional_calls
+    self.prepare();rp.run_budget_stage(self.prepared,self.results,ledger=self.ledger)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+======================================================================
+ERROR: test_R09_consumer_identity_change_during_gate_suspends (studio2.fase03.harness.test_revisions.RunnerRevisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 446, in test_R09_consumer_identity_change_during_gate_suspends
+    self.prepare();rp.run_budget_stage(self.prepared,self.results,ledger=self.ledger);self.consumer_identity=5
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+======================================================================
+ERROR: test_ordinary_complete_producer_prepare_probe_gate_offline (studio2.fase03.harness.test_revisions.RunnerRevisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 452, in test_ordinary_complete_producer_prepare_probe_gate_offline
+    self.prepare();rp.run_budget_stage(self.prepared,self.results,ledger=self.ledger)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+======================================================================
+FAIL: test_R07_producer_and_consumer_real_process_crashes (studio2.fase03.harness.test_revisions.RunnerRevisions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 527, in test_R07_producer_and_consumer_real_process_crashes
+    self.assertEqual(result.returncode,23)
+AssertionError: 1 != 23
+
+----------------------------------------------------------------------
+Ran 37 tests in 9.686s
+
+FAILED (failures=1, errors=11)

@@ -1,0 +1,15 @@
+test_A00_batch_encoding_counts_input_ids_not_mapping_keys (studio2.fase03.harness.test_tokenizer_accounting.TokenizerAccounting) ... ok
+test_A01_missing_guard_producer_refuses_before_intent_and_transport (studio2.fase03.harness.test_tokenizer_accounting.TokenizerAccounting) ... ok
+test_A02_missing_guard_consumer_refuses_before_intent_and_transport (studio2.fase03.harness.test_tokenizer_accounting.TokenizerAccounting) ... ok
+test_A03_completed_record_revalidates_messages_without_transport (studio2.fase03.harness.test_tokenizer_accounting.TokenizerAccounting) ... ok
+test_A04_coherent_raw_and_internal_hash_tamper_is_rejected (studio2.fase03.harness.test_tokenizer_accounting.TokenizerAccounting) ... ok
+test_A05_tokenizer_value_error_persists_raw_and_stop_before_record (studio2.fase03.harness.test_tokenizer_accounting.TokenizerAccounting) ... ok
+test_A06_pass_event_without_record_resumes_idempotently (studio2.fase03.harness.test_tokenizer_accounting.TokenizerAccounting) ... ok
+test_invalid_usage_variants_stop_after_one_transport_without_record (studio2.fase03.harness.test_tokenizer_accounting.TokenizerAccounting) ... ok
+test_non_122b_remains_compatible_without_guard (studio2.fase03.harness.test_tokenizer_accounting.TokenizerAccounting) ... ok
+test_positive_producer_and_consumer_first_resume_restart (studio2.fase03.harness.test_tokenizer_accounting.TokenizerAccounting) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.217s
+
+OK

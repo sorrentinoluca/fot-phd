@@ -1,0 +1,37 @@
+# riepilogo; log completo 2578030 byte, SHA-256 d37f8faab377874b94a130c953f01ed37bb7f850a7ac87f11c72fd04829e9ef5 (non versionato)
+test_artifact_values_and_status (__main__.C02bDocumentationChecks) ... ok
+test_html_is_balanced_and_main_step_contract_matches (__main__.C02bDocumentationChecks) ... ok
+test_supervisor_model_suite_values_and_documentation (__main__.C02bDocumentationChecks) ... ok
+test_three_walkthroughs_report_same_c02b_outcome (__main__.C02bDocumentationChecks) ... ok
+test_correct_seed_present_exp_plan (__main__.Exp2QwenDocumentStatusChecks) ... ok
+All three error types must be listed. ... ok
+Must mention 5 B errors, not 2. ... ok
+B−E supports C4 (delta_unseen > delta_E), not C2 ... ok
+The relationship between B errors and the 1023-token cap ... ok
+test_exp_plan_completed_markers (__main__.Exp2QwenDocumentStatusChecks) ... ok
+test_exp_plan_frozen_chain (__main__.Exp2QwenDocumentStatusChecks) ... ok
+test_exp_plan_no_exp2_avviato (__main__.Exp2QwenDocumentStatusChecks) ... ok
+test_exp_plan_no_exp2_in_corso (__main__.Exp2QwenDocumentStatusChecks) ... ok
+Literature review must document: all 5 B errors at cap, ... ok
+test_lit_review_completed_markers (__main__.Exp2QwenDocumentStatusChecks) ... ok
+test_lit_review_frozen_chain (__main__.Exp2QwenDocumentStatusChecks) ... ok
+test_lit_review_no_exp2_avviato (__main__.Exp2QwenDocumentStatusChecks) ... ok
+test_lit_review_no_exp2_in_corso (__main__.Exp2QwenDocumentStatusChecks) ... ok
+Walkthrough says PLAUSIBLE (limite alto). SOLID is unjustified. ... ok
+test_lit_review_plausible (__main__.Exp2QwenDocumentStatusChecks) ... ok
+test_no_seed_42_in_exp_plan (__main__.Exp2QwenDocumentStatusChecks) ... ok
+test_no_seed_42_in_lit_review (__main__.Exp2QwenDocumentStatusChecks) ... ok
+test_p3_phase_b_design_v1_annotated_and_not_linked (__main__.Exp2QwenDocumentStatusChecks) ... ok
+test_p3_xlsx_annotated_and_not_linked (__main__.Exp2QwenDocumentStatusChecks) ... ok
+test_active_readme_publishes_main_guide_and_artifacts_exist (__main__.UnifiedConversationChecks) ... ok
+test_collapsible_navigation_and_progressive_layout (__main__.UnifiedConversationChecks) ... ok
+test_condition_c_contract_and_caveats (__main__.UnifiedConversationChecks) ... test_forbidden_condition_c_formulations_absent (__main__.UnifiedConversationChecks) ... ok
+test_json_and_neutral_text_are_real_pair (__main__.UnifiedConversationChecks) ... ok
+test_one_flow_and_ordered_step_headings (__main__.UnifiedConversationChecks) ... FAIL
+test_real_heldout_A_B_E_case (__main__.UnifiedConversationChecks) ... ok
+test_real_reduced_example_and_calibration (__main__.UnifiedConversationChecks) ... ok
+test_step27_qwen_frozen_results_and_limitations (__main__.UnifiedConversationChecks) ... FAIL
+Stable facts from the frozen Qwen protocol (commit d9bb95c). ... FAIL
+test_valid_markup_links_and_unique_anchors (__main__.UnifiedConversationChecks) ... ok
+Ran 35 tests in 0.090s
+FAILED (failures=14, skipped=1)

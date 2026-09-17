@@ -1,0 +1,184 @@
+{
+  "artifact_version": "1",
+  "outcome": "READY_FOR_INDEPENDENT_REVIEW",
+  "scope": "offline integration only; no transport, tunnel, execution authorization, stage binding or request intent",
+  "base": {
+    "commit": "56779e289333ed9064cfb3dc75bcfe2efc6ed166",
+    "tree": "edf3065f65f9055fed06f3b7e572ec3f25a5a31c"
+  },
+  "configuration_candidate": {
+    "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/execution/pilot_d9_execution_candidate_03_13.private.json",
+    "sha256": "fcf4ec0bb3c77193f3aaaaa5204faf34b7c589ed8c558b4fac54601e1ce58710",
+    "canonical_sha256_excluding_execution_authorization": "1305c158a98c40cb57e45b43e8d872d3d66e4d6d050d1d167c91b23e0a2fccc8",
+    "status": "APPROVED_FOR_PHASE03_EXECUTION",
+    "study_model_decision": "APPROVED",
+    "execution_authorization_present": false,
+    "eligible_for_independent_review": true
+  },
+  "private_artifacts": {
+    "directory": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/execution",
+    "directory_mode": "0700",
+    "file_mode": "0600",
+    "service_122b": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/execution/service_122b_03_13.private.json",
+      "sha256": "94c6637f65e43d028483e1b12c7d3f14cd91058c8072f200fe3f6638225cd642"
+    },
+    "service_27b": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/execution/service_27b_03_13.private.json",
+      "sha256": "133807dfa57ddbd7a4319bfbdd2b851f0648928c12195422ee300b0e17d4f485"
+    },
+    "producer_122b": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/execution/producer_122b_03_13.private.json",
+      "sha256": "b24275860a40062cca9cdce8639ff8e15936e6c17a37cde244c92ea7bea772aa"
+    },
+    "producer_27b": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/execution/producer_27b_03_13.private.json",
+      "sha256": "fcecc53417d8c35319c11bf7a633b70456d3c85b90f51d7193490cae99baa4e4"
+    }
+  },
+  "service_qualifications": {
+    "122B": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/service_qualification/122B/QUALIFICATION_122B.json",
+      "sha256": "4e7e2b67caaf64be7064fb1499b6dcdea844480a2b368ec019d03fc22f210e80",
+      "result": "PASS_NON_GENERATIVE",
+      "alias": "qwen3.5-122b",
+      "model_root": "Qwen/Qwen3.5-122B-A10B-FP8",
+      "max_model_len": 131072,
+      "not_exposed": [
+        "served_revision",
+        "system_fingerprint",
+        "vllm_version",
+        "quantization",
+        "reasoning_parser",
+        "thinking_configuration",
+        "sampling_defaults",
+        "error_policy",
+        "max_output_tokens"
+      ]
+    },
+    "27B": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/service_qualification/27B/QUALIFICATION_27B_FINAL.json",
+      "sha256": "ebf01ced71e07cde4525b72d3ccd6a1720464bc29d18b2c4fc0cbc159112e106",
+      "result": "PASS_NON_GENERATIVE",
+      "alias": "fot-exp2-consumer",
+      "model_root": "Qwen/Qwen3.8-27B-FP8",
+      "weights_revision": "017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+      "vllm_version": "0.28.0",
+      "max_model_len": 16384,
+      "execution_endpoint": "local loopback tunnel on port 18001; tunnel not opened"
+    }
+  },
+  "tokenizers": {
+    "122B": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9",
+      "revision": "a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9",
+      "tokenizer_json_sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+      "tokenizer_config_sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+      "chat_template_sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+      "guard": "PASS"
+    },
+    "27B_R4": {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/tokenizers/27B/017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+      "revision": "017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+      "tokenizer_json_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+      "tokenizer_config_sha256": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27",
+      "chat_template_sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041",
+      "guard": "PASS"
+    }
+  },
+  "producer_configurations": {
+    "122B": {
+      "model": "qwen3.5-122b",
+      "max_tokens": 2560,
+      "temperature": "OMITTED",
+      "seed": "OMITTED",
+      "thinking_token_budget": "OMITTED",
+      "tokenizer_accounting": "exact_prompt_tokens",
+      "offline_fit": {
+        "prompts": 8,
+        "max_input_tokens": 1395,
+        "minimum_context_margin_tokens": 127117,
+        "result": "PASS"
+      }
+    },
+    "27B": {
+      "model": "fot-exp2-consumer",
+      "max_tokens": 2560,
+      "temperature": 0.0,
+      "seed": 20260829,
+      "thinking_token_budget": 2048,
+      "offline_fit": {
+        "prompts": 8,
+        "max_input_tokens": 1437,
+        "minimum_context_margin_tokens": 12387,
+        "result": "PASS"
+      }
+    }
+  },
+  "history_and_ledger": {
+    "mapping": {
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/MAPPING_REVIEWED_STORICO_S4_PILOT_03_13.json",
+      "sha256": "98608abe9831707254208ed29e493f92d29c06313a219d238ceec933f064d53c"
+    },
+    "approval": {
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/IMPORT_AUTHORIZED_STORICO_S4_PILOT_03_13.json",
+      "sha256": "aaefae11807826b4eedb3a3a917a86f33f7ff6d5c5c9442b8a468f630f13f7cb"
+    },
+    "ledger_path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3",
+    "pilot_id": "studio2-fase03-d9-pilot-001",
+    "sha256_before_and_after": "02ce8df46d04300b9eb19b0fbc3345c5edd41e7ea17bd1391f22c53f7a6d9d61",
+    "external_history_requests": 4,
+    "native_requests": 0,
+    "receipts": 0,
+    "stages": 0,
+    "hard_stop_events": 0,
+    "validation": "PASS_READ_ONLY"
+  },
+  "call_plan": {
+    "122B_future_base": {
+      "producer_conformity": 8,
+      "consumer_budget_probe_cumulative": [3, 6, 9],
+      "consumer_stability_gate": 120,
+      "range": [131, 137]
+    },
+    "27B": {
+      "historical_charged_once": 4,
+      "alternate_producer_conformity_future": 8,
+      "cumulative": 12
+    },
+    "future_base_total_range": [139, 145],
+    "cumulative_base_total_including_S4_once": [143, 149],
+    "shared_reserve_constraint": "8*remediation+transport<=15",
+    "future_planned_max": 160,
+    "cumulative_planned_max": 164,
+    "hard_stop": 200,
+    "margin_at_cumulative_planned_max": 36
+  },
+  "offline_checks": {
+    "validate_config": "PASS",
+    "require_execution": "EXPECTED_FAIL_ONLY_MISSING_EXECUTION_AUTHORIZATION",
+    "validate_external_history_artifacts": "PASS_S4",
+    "producer_config_parsing_and_validation": "PASS_BOTH",
+    "producer_prompt_fit": "PASS_8_OF_8_BOTH",
+    "producer_dry_plan": "PASS_PLAN_ONLY_NO_PROVIDER_CALLS_BOTH_ROLES",
+    "consumer_dry_plan": "PASS_PLAN_ONLY_NO_PROVIDER_CALLS",
+    "private_credential_scan": "PASS",
+    "provider_calls": 0,
+    "generated_tokens": 0,
+    "new_intents": 0,
+    "ledger_changed": false
+  },
+  "connection_source": {
+    "path": "/Users/luker/fot-tep/studio2/fase03/server_enea.json",
+    "mode": "0600",
+    "git_tracked": false,
+    "records": ["122B", "27B"],
+    "source_hash_recorded": false,
+    "secret_values_copied_to_repository": false
+  },
+  "scientific_input_policy": {
+    "allowed": "frozen Study 2 development evidence and Normal-dev",
+    "forbidden": "03.11 final-test, OOD and technical-spare data",
+    "forbidden_inputs_used": 0
+  }
+}

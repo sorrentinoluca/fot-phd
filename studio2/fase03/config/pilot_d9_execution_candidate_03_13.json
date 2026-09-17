@@ -1,0 +1,183 @@
+{
+  "artifact_version": "D9-EXECUTION-CANDIDATE-03.13-STOP-1",
+  "status": "STOP_BLOCKED_INCOMPLETE_SERVICE_CONFIGURATION",
+  "study_model_decision": "APPROVED",
+  "qualification": "NOT_PERFORMED",
+  "pilot_go": false,
+  "scope": "OFFLINE_FAIL_CLOSED_CANDIDATE_NOT_EXECUTABLE",
+  "candidate": {
+    "provider": "openai_compatible_api",
+    "base_url": null,
+    "runtime_connection_reference": "/Users/luker/fot-tep/studio2/fase03/server_enea.json#122B",
+    "api_family": "Chat Completions",
+    "endpoint": "/v1/chat/completions",
+    "requested_model": "qwen3.5-122b",
+    "expected_model_root": "Qwen/Qwen3.5-122B-A10B-FP8",
+    "expected_model_revision": "NOT_EXPOSED",
+    "expected_max_model_len": 131072,
+    "expected_max_output_tokens": 16384,
+    "expected_response": null
+  },
+  "tokenizer": {
+    "revision": "a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9",
+    "tokenizer_json_sha256": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+    "tokenizer_config_sha256": "316230d6a809701f4db5ea8f8fc862bc3a6f3229c937c174e674ff3ca0a64ac8",
+    "chat_template_sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715"
+  },
+  "tokenizer_snapshot": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9",
+  "expected_response": null,
+  "generation_budget": {
+    "status": "BLOCKED_NOT_FROZEN_FOR_122B",
+    "temperature_122b": "OMIT_FIELD",
+    "automatic_retries": 0,
+    "max_structural_retries": 0,
+    "consumer_budget_probe_calls": [
+      3,
+      6,
+      9
+    ],
+    "consumer_budget_selection_rule": "freeze the first complete A/B-LF/E-LF triplet with no length truncation and first-attempt valid parsing",
+    "unresolved": [
+      "122B producer max_tokens and supported seed/thinking controls",
+      "27B alternate producer max_tokens and prespecified sampling controls",
+      "122B consumer thinking-token candidates and answer reserve applicable to this service"
+    ]
+  },
+  "call_budget": {
+    "historical_provider_requests_charged_once": 4,
+    "historical_nominal_model": "27B",
+    "future_122b_base_range": [
+      131,
+      137
+    ],
+    "future_27b_base": 8,
+    "future_base_total_with_alternate_range": [
+      139,
+      145
+    ],
+    "future_planned_max_with_shared_reserve": 160,
+    "cumulative_base_total_with_historical_range": [
+      143,
+      149
+    ],
+    "cumulative_planned_max_with_historical_and_shared_reserve": 164,
+    "hard_stop_provider_requests": 200,
+    "hard_stop_margin_at_planned_max": 36,
+    "shared_reserve": {
+      "constraint": "8*remediation+transport<=15",
+      "remediation_domain": [
+        0,
+        1
+      ],
+      "remediation_calls": 8,
+      "transport_max_while_preserving_remediation": 7,
+      "conformity_transport_max_after_explicit_remediation_waiver": 15,
+      "budget_probe_transport_cumulative_max": 7,
+      "budget_probe_repeat_unit": 3,
+      "gate_retries": 0,
+      "automatic_retries": 0,
+      "alternate_producer_calls_fund_retries": false
+    }
+  },
+  "pilot_ledger": {
+    "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3",
+    "pilot_id": "studio2-fase03-d9-pilot-001"
+  },
+  "d9": {
+    "roles": {
+      "producer": "122B",
+      "consumer": "122B",
+      "alternate": "27B"
+    },
+    "status": "PENDING_BLOCKING_PREREQUISITES",
+    "alternate_placement": "pilot",
+    "presentation_order": [
+      "S2-CLS-MHMU4",
+      "S2-CLS-HEW25",
+      "S2-CLS-FD3GZ",
+      "S2-CLS-3ZGWQ",
+      "S2-CLS-GSX3L",
+      "S2-CLS-4AMS4",
+      "S2-CLS-TYFPG",
+      "S2-CLS-QRCCB",
+      "Normal"
+    ],
+    "missing_requirements": [
+      "complete 122B response identity and service record from preserved provider evidence",
+      "freeze distinct 122B and 27B producer configurations without transferring historical 27B sampling to 122B",
+      "make the pinned 27B tokenizer/R4 snapshot available to the execution host",
+      "verify that the server_enea.json connection labelled 27B reaches the approved 27B alternate, then reconfirm its current process/service identity and freeze the reachable VPN/SSH path"
+    ],
+    "services": {
+      "122B": {
+        "status": "PARTIAL_NOT_EXECUTABLE",
+        "model": "qwen3.5-122b",
+        "base_url": null,
+        "model_root_observed": "Qwen/Qwen3.5-122B-A10B-FP8",
+        "max_model_len": 131072,
+        "max_output_tokens": 16384,
+        "tokenizer_snapshot": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9",
+        "tokenizer_server_identity_proven": false,
+        "runtime_connection_reference": {
+          "path": "/Users/luker/fot-tep/studio2/fase03/server_enea.json",
+          "record_key": "122B"
+        },
+        "expected_response": null,
+        "identity_sha256": null
+      },
+      "27B": {
+        "status": "HISTORICAL_RECORD_ONLY_NOT_RECONFIRMED",
+        "model": "fot-exp2-consumer",
+        "model_root": "Qwen/Qwen3.8-27B-FP8",
+        "weights_revision": "017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+        "remote_loopback_base_url": "http://127.0.0.1:8001/v1",
+        "execution_base_url": null,
+        "max_model_len": 16384,
+        "vllm_version": "0.28.0",
+        "tokenizer_snapshot": null,
+        "runtime_connection_reference": {
+          "path": "/Users/luker/fot-tep/studio2/fase03/server_enea.json",
+          "record_key": "27B",
+          "scientific_service_identity": "REQUIRES_ENDPOINT_VERIFICATION"
+        },
+        "expected_response": null,
+        "identity_sha256": null
+      }
+    },
+    "producer_configs": {
+      "122B": null,
+      "27B": null
+    },
+    "r4_snapshot": null,
+    "r4_tokenizer": {
+      "revision": "017b9c7af6b5689d5dd426a76e0bc077eb5ca20a",
+      "tokenizer_json_sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+      "tokenizer_config_sha256": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27",
+      "chat_template_sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041"
+    },
+    "history_reconciliation": {
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/MAPPING_REVIEWED_STORICO_S4_PILOT_03_13.json",
+      "sha256": "98608abe9831707254208ed29e493f92d29c06313a219d238ceec933f064d53c"
+    },
+    "history_approval": {
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/IMPORT_AUTHORIZED_STORICO_S4_PILOT_03_13.json",
+      "sha256": "aaefae11807826b4eedb3a3a917a86f33f7ff6d5c5c9442b8a468f630f13f7cb"
+    }
+  },
+  "presentation_approval": {
+    "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/PRESENTATION_ORDER_APPROVAL_2026-09-15.json",
+    "sha256": "0f9f7b7f4036bd4172467dba80673af5d9ec3abb2bb854d6239da7ccec2977d1"
+  },
+  "approved_producer_config_sha256": [],
+  "scientific_inputs": {
+    "producer_source_inventory": {
+      "path": "/Users/luker/.codex/worktrees/dd86/fot-tep/studio2/fase03/harness/PILOT_INPUT_SOURCES.pending.json",
+      "sha256": "7103482d6c7b8038944b0af63bac58548557c8d0b8f5d24e420346bd93fa304b",
+      "status": "AUTHENTICATED_REAL_DEVELOPMENT_INPUTS_AWAITING_PRODUCER_OUTPUT"
+    },
+    "consumer_input_manifest": null,
+    "prepared_prompt_manifest": null,
+    "consumer_dependency": "created only after a successful durable 122B producer-conformity cycle; final-test and OOD inputs remain forbidden"
+  },
+  "execution_authorization_intentionally_absent": true
+}

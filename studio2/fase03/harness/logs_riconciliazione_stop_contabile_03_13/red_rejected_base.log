@@ -1,0 +1,183 @@
+EEEEEEEEEE
+======================================================================
+ERROR: test_REM6_a_spurious_stop_is_reconciled_and_new_requests_are_admitted (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2058, in test_REM6_a_spurious_stop_is_reconciled_and_new_requests_are_admitted
+    result = self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_b_really_corrupted_accounting_refuses_reconciliation (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2083, in test_REM6_b_really_corrupted_accounting_refuses_reconciliation
+    self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_c_request_created_after_stop_refuses_reconciliation (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2112, in test_REM6_c_request_created_after_stop_refuses_reconciliation
+    self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_c_unresolved_intent_refuses_reconciliation (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2120, in test_REM6_c_unresolved_intent_refuses_reconciliation
+    self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_d_absent_stop_is_not_reconcilable (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2156, in test_REM6_d_absent_stop_is_not_reconcilable
+    self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_d_approval_bound_to_another_stop_or_state_is_refused (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests) (name='stop-hash')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2139, in test_REM6_d_approval_bound_to_another_stop_or_state_is_refused
+    self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_d_approval_bound_to_another_stop_or_state_is_refused (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests) (name='stop-request')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2139, in test_REM6_d_approval_bound_to_another_stop_or_state_is_refused
+    self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_d_approval_bound_to_another_stop_or_state_is_refused (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests) (name='cause')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2139, in test_REM6_d_approval_bound_to_another_stop_or_state_is_refused
+    self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_d_approval_bound_to_another_stop_or_state_is_refused (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests) (name='decision')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2139, in test_REM6_d_approval_bound_to_another_stop_or_state_is_refused
+    self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_d_approval_bound_to_another_stop_or_state_is_refused (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests) (name='author')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2139, in test_REM6_d_approval_bound_to_another_stop_or_state_is_refused
+    self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_d_approval_bound_to_another_stop_or_state_is_refused (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests) (name='fixed-commit')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2139, in test_REM6_d_approval_bound_to_another_stop_or_state_is_refused
+    self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_d_approval_bound_to_another_stop_or_state_is_refused (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests) (name='ledger-before')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2139, in test_REM6_d_approval_bound_to_another_stop_or_state_is_refused
+    self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_d_approval_bound_to_another_stop_or_state_is_refused (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests) (name='extra-key')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2139, in test_REM6_d_approval_bound_to_another_stop_or_state_is_refused
+    self._reconcile(ledger, guard, approval)
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_d_approval_bound_to_another_stop_or_state_is_refused (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2143, in test_REM6_d_approval_bound_to_another_stop_or_state_is_refused
+    ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_e_corrupted_reconciliation_event_blocks_fail_closed (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2177, in test_REM6_e_corrupted_reconciliation_event_blocks_fail_closed
+    self._reconcile(ledger, guard, self._approval(ledger))
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_e_new_stop_after_reconciliation_blocks_again (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2160, in test_REM6_e_new_stop_after_reconciliation_blocks_again
+    self._reconcile(ledger, guard, self._approval(ledger))
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_f_reconciliation_is_idempotent_and_single (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2193, in test_REM6_f_reconciliation_is_idempotent_and_single
+    self.assertEqual(self._reconcile(ledger, guard, approval)["status"], "RECONCILED")
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+======================================================================
+ERROR: test_REM6_g_quota_and_outcomes_are_unchanged (studio2.fase03.harness.test_successor_recovery.AccountingStopReconciliationTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2209, in test_REM6_g_quota_and_outcomes_are_unchanged
+    self._reconcile(ledger, guard, self._approval(ledger))
+  File "/sessions/rcw-014jsqqhf5avnsjmnect17hx/mnt/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/harness/test_successor_recovery.py", line 2037, in _reconcile
+    return ledger.reconcile_accounting_stop(
+AttributeError: 'PilotLedger' object has no attribute 'reconcile_accounting_stop'
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.315s
+
+FAILED (errors=18)

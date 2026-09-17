@@ -1,0 +1,212 @@
+{
+  "artifact_version": "1",
+  "status": "READY_FOR_INDEPENDENT_REVIEW_AUTHOR",
+  "prompt": "studio2/fase03/PROMPT_TARGET_PILOT_03_SUCCESSOR_122B_QWEN_D9_03_13.md",
+  "scope": [
+    "FRESH_SUCCESSOR_TARGET_PILOT_03",
+    "DETERMINISTIC_LEDGER_CLOSE_NO_SIDECARS",
+    "PUBLISHED_DIRECTORY_FSYNC_DIAGNOSIS",
+    "TARGET_SUPERSESSION_RECORD"
+  ],
+  "base_candidate": {
+    "commit": "79ce7da5f869c96a718e73a328ac8bcbab0b547e",
+    "tree": "eb173bc6f2e89d25d9da708dce071db3d233d85b",
+    "module_sha256": {
+      "studio2/fase03/materialize_successor_recovery.py": "b00aa356c8c582a7f4ae626c35567875a0dc232ab72201a3f5e71ba51af55297",
+      "studio2/fase03/harness/test_successor_recovery.py": "af23fa95e340fd196536934437541568ba7227e50d9475fb84f4457b92048860"
+    }
+  },
+  "context": {
+    "independent_review": {
+      "path": "/Users/luker/.codex/worktrees/b567/fot-tep/studio2/fase03/harness/VERIFICA_CANDIDATO_79CE7DA_SUCCESSOR_122B_QWEN_D9_03_13.md",
+      "sha256": "46a6d426aa05f44fda1ea994a89f3d04cede01331ebdc4866be37fd34b252f0f",
+      "pre_addendum_sha256": "00f0a97e20ef858ff9bd9226525ebe9fc4b357e8847a8e6b0059bf6952670104",
+      "verdict": "UNCHANGED"
+    },
+    "claude_opinion_untracked": {
+      "path": "studio2/fase03/harness/reviews/PARERE_CLAUDE_SU_VERIFICA_79CE7DA_03_13.md",
+      "sha256": "12e77f4362386f6dac704f4182509435116bba4916cb9c39cd0c54068c40106d"
+    },
+    "author_decision": {
+      "author": "Luca",
+      "date": "2026-09-16",
+      "successor_pilot_id": "studio2-fase03-d9-pilot-03"
+    }
+  },
+  "target": {
+    "successor_pilot_id": "studio2-fase03-d9-pilot-03",
+    "target_root": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03",
+    "superseded": "studio2-fase03-d9-pilot-002",
+    "predecessor_pilot_id": "studio2-fase03-d9-pilot-001",
+    "predecessor_sha256": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+    "lineage": "S5_UNCHANGED",
+    "frozen_contract_rewritten": false
+  },
+  "correction": {
+    "checkpoint_position": "UNCHANGED_AFTER_LAST_LEDGER_WRITE_BEFORE_ANY_HASH",
+    "connection_close": "CONTEXTLIB_CLOSING",
+    "busy_checkpoint": "FAIL_CLOSED",
+    "empty_sidecars": "REMOVED_IN_STAGING",
+    "non_empty_wal_or_journal": "FAIL_CLOSED",
+    "sidecar_assertions": [
+      "AFTER_CHECKPOINT",
+      "BEFORE_BUILDER_RETURN"
+    ],
+    "post_rename_fsync_failure": "PublishedDirectoryFsyncError(published=True,target,result)",
+    "published_target_removed_or_rewritten": false
+  },
+  "repository_artifacts": {
+    "studio2/fase03/materialize_successor_recovery.py": "5b9ad9e9c0264fe8c02a5c0e77d3f349e13398b1d4df1c4c1e83634f55b59be7",
+    "studio2/fase03/harness/test_successor_recovery.py": "762c3d20b665806aa1dd1b60897521974733088c2002eeba2192cfd2008038cb",
+    "studio2/fase03/harness/SUPERSESSIONE_TARGET_PILOT_03_SUCCESSOR_122B_QWEN_D9_03_13.json": "410b5b2d067eb1cd3d77cb61c9eebd664578fb790fb51b321814652fbbb5be07",
+    "studio2/fase03/harness/REPORT_TARGET_PILOT_03_SUCCESSOR_122B_QWEN_D9_03_13.md": "b9c0e023927f7c5b824d315eb7b7d159fe755678fc40fdf9c76039bf0ccf0157"
+  },
+  "logs": {
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/discovery_harness.log": "0a88ca8f68d5f66a87f70fe67bde6c6c61fdbbdd100e335645994e0e70a3eb52",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/guardian_summary.log": "dd7d1c65dcef0ce5318e24e35c4f7c906e15041122239b14218531046a7fdb3f",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/phase_b.tests.test_parser_retry_guard.log": "ec5929ee99b4d0dcc8cd99a7745092f2a6b9dc01b3098d57832cade64e656134",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/phase_b.tests.test_protocol_freeze.log": "b8567bbe4ece3c21b5ddc2e6273380b9540c0d15d50f4f11aef43136ea623891",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_c01_c03.log": "1592169e4e26dba9483302da32ed92bd570a20abccdf4a4f6d0a1373d1897d48",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_d01_replay.log": "c1676e3410d03a0b2f35fc3b1d6e78b1ec1f2c9467958440d4964f316bddf582",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_d02_predecessors.log": "b59bd72ccdec0f4a7ed47eab84bad57147aee86f6bf732942766f26868f17c8a",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_d03_contract.log": "654a5efe1a16e0724bb8d1326110e7890e4ac9c9f042c54ca40397b71da74ec3",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_d04_open_quota.log": "1573af6bdd93805b1a19337ea3d4e36f87e353df30b8266bc8e08ca2358bbee3",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_d9.log": "78c265526a6b3f3676b8acbfad35de3755a1ba2837ea1a4fcd6da703c5e9fa14",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_d9_corrections.log": "0926e2aedc94c39b8723e371eb6017436c9eae39e73fe699ebf4709abecc6453",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_harness_offline.log": "6a3f4c1952bbfe40fbe2e98b2b94eaff29552783a4cb8c1d188812a92fb50695",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_history_reconciliation.log": "95545ea6bea6e4c54479d4bbd911b9812c3e305c89aae4880bffc170ce17d4b5",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_metric_raccordo.log": "fb13be8362e61ae4622314c270b295d5277814456e366de200b8867947ad6ed3",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_revisions.log": "55cc2a5cf58c8eaa6a9942bf3909dcd9dc2beb65bced625aaa2f2aeec074b964",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_successor_recovery.log": "30ce16d04006a023b776daceab19f996974fbe9b05c397124e332757f4aa6f15",
+    "studio2/fase03/harness/logs_target_pilot_03/base_79ce7da/studio2.fase03.harness.test_tokenizer_accounting.log": "b65f63ecd13a696e7661ebce56c1ecb50c5b10837d00627b5961c70700b844d6",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/discovery_harness.log": "d637ae3fa9cd9308f67e1fa9a11c12909a253022f9752af7bc3ad30cf9d70ac0",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/guardian_summary.log": "b8c57fc582e4575703688aac6fce4daed45f39a276f8f8fccf94dfbfd0004442",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/phase_b.tests.test_parser_retry_guard.log": "8ec4caa97186ed70003c2a2b66da4a48e5cc3f39b68ab094c690728fb1609149",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/phase_b.tests.test_protocol_freeze.log": "8beb9f31a548deeb3794dc8dce6af50a47bedef16c8acea2bbeb01a8838bd10b",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_c01_c03.log": "c14a28bd52e9121a307bbbf1c43ef074deed9a01ac4f89c63209685ef5c47ac6",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_d01_replay.log": "d0d49f11ae2977e8e9e2cc7ab3d2cb2684e0cd6137298142217e3705f53c8581",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_d02_predecessors.log": "869e92b382173a2376659f44497c18cf8a983ce1c744cda43a46161a4afa9d28",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_d03_contract.log": "95dddf11b8b3471df4ffbc3519723800877f00f108d1264b7bfb03e4613b84c6",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_d04_open_quota.log": "25091bfae12cd15b824845756934d5627b87d3e7cfdf2f2dda3fb688fc2aa4ae",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_d9.log": "477af46cfe2f1acad86d69daa4f5bafdb4a974f4d85dd9af614ef3a23c413b23",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_d9_corrections.log": "a638807d923b7720f1d0f7dafdc55e7b8da9e372ff316c48abc821b302e5c77e",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_harness_offline.log": "7fdfc4b06e091893176a9c4d964d1ebff02c36e1bbae78242f0044a416f901a0",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_history_reconciliation.log": "7d1157450f8194c2015669c0bb3b88afe2a31395db08612887d3e691afa96fba",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_metric_raccordo.log": "fb13be8362e61ae4622314c270b295d5277814456e366de200b8867947ad6ed3",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_revisions.log": "88c7acdd92f86942f0d1a7ebde580ec80332d060e259e94c3b0eb9a758fd595a",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_successor_recovery.log": "900e21393f38f5d8966cc4fccc62f5ac4deeb147b5d31ba6261f4df43cd3f011",
+    "studio2/fase03/harness/logs_target_pilot_03/candidate/studio2.fase03.harness.test_tokenizer_accounting.log": "3b8a89a50eda01b32a8f4d1b1d2897b2d12d8617aab70f8734881e62f94300c2",
+    "studio2/fase03/harness/logs_target_pilot_03/red_79ce7da_bytes_with_new_tests.log": "05cff2ac1cf571fd537d5ca94a686f33f6e760a24c17edb6a4ef533106b4cf03"
+  },
+  "tests": {
+    "environment": {
+      "host": "LINUX_VM_ON_LINKED_MAC",
+      "python": "3.10.12",
+      "sqlite": "3.37.2",
+      "installed_outside_repository": [
+        "transformers==4.57.6",
+        "jsonschema==4.26.0"
+      ],
+      "env_blocked_cause": "ABSOLUTE_/Users/luker_PATHS_ABSENT_IN_VM",
+      "arm64_macos_rerun": "PENDING_REVIEW"
+    },
+    "red_on_79ce7da_with_new_tests": {
+      "test_methods": 32,
+      "failures": 3,
+      "errors": 0,
+      "failing": [
+        "test_T_a",
+        "test_T_b",
+        "test_T_d"
+      ],
+      "not_red": {
+        "test_T_c": "REGRESSION_GUARD_79CE7DA_HASHES_ALREADY_CORRECT"
+      }
+    },
+    "candidate": {
+      "successor_targeted": {
+        "test_methods": 32,
+        "failures": 0,
+        "errors": 0,
+        "seconds": 5.8
+      },
+      "harness_discovery": {
+        "run": 185,
+        "ok": 150,
+        "failures": 2,
+        "errors": 33,
+        "seconds": 47.188,
+        "classification": "ENV_BLOCKED_IDENTICAL_TO_BASE_EXCEPT_4_NEW_OK"
+      },
+      "relevant_regression_15_modules": {
+        "run": 198,
+        "ok": 164,
+        "failures": 2,
+        "errors": 33,
+        "execution": "PER_MODULE",
+        "classification": "ENV_BLOCKED_IDENTICAL_TO_BASE_EXCEPT_4_NEW_OK"
+      },
+      "py_compile": "PASS",
+      "json_validation": "PASS",
+      "git_diff_check": "PASS"
+    },
+    "base_79ce7da_same_environment": {
+      "successor_targeted": {
+        "test_methods": 28,
+        "failures": 0,
+        "errors": 0
+      },
+      "harness_discovery": {
+        "run": 181,
+        "ok": 146,
+        "failures": 2,
+        "errors": 33,
+        "seconds": 46.277
+      },
+      "relevant_regression_15_modules": {
+        "run": 194,
+        "ok": 160,
+        "failures": 2,
+        "errors": 33
+      }
+    },
+    "historical_guardian_separate_not_pass": {
+      "command": "python3 docs/test_explanation.py -v",
+      "tests": 35,
+      "failures": 14,
+      "errors": 0,
+      "skipped": 1,
+      "identical_to_base": true
+    },
+    "overlapping_suites_summed": false
+  },
+  "invariants": {
+    "prompts_schema_cases_order_changed": false,
+    "producer_122b_max_tokens": 2560,
+    "producer_122b_enable_thinking": false,
+    "cumulative_planned_maximum": 166,
+    "hard_stop": 200,
+    "non_spendable_margin": 34
+  },
+  "activity": {
+    "provider_calls": 0,
+    "tokens": 0,
+    "tunnels": 0,
+    "vpn": false,
+    "network_access": "PYPI_TEST_DEPENDENCIES_ONLY",
+    "real_materialization": false,
+    "execution_authorization_created": false,
+    "technical_qualification_executed": false,
+    "runtime_pilot_001_or_002_touched": false,
+    "private_ledger_opened": false,
+    "server_enea_json_read": false,
+    "push": false,
+    "merge": false,
+    "tag": false,
+    "untracked_cleanup": false
+  },
+  "handoff": {
+    "next_action": "INDEPENDENT_REVIEW_B567_03.13-RV7",
+    "candidate_commit_and_tree": "RECORDED_AFTER_ARTIFACT_FINALIZATION_IN_HANDOFF"
+  }
+}

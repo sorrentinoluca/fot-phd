@@ -1,0 +1,43 @@
+test_D03_content_digests_and_independent_link_reject_valid_looking_changes (studio2.fase03.harness.test_d03_contract.ProofContract) ... ok
+test_D03_generated_reconciliation_envelope_matrix (studio2.fase03.harness.test_d03_contract.ProofContract) ... ok
+test_D03_generated_sql_field_matrix_and_forensic_positive_controls (studio2.fase03.harness.test_d03_contract.ProofContract) ... ok
+test_D03_generated_symmetric_content_matrix (studio2.fase03.harness.test_d03_contract.ProofContract) ... ok
+test_D03_inventory_covers_schema_and_new_fields_default_to_uncovered (studio2.fase03.harness.test_d03_contract.ProofContract) ... ok
+test_D03_missing_digest_is_fail_closed_without_backfill_even_before_retry (studio2.fase03.harness.test_d03_contract.ProofContract) ... ok
+test_D03_real_legacy_proofs_rejected_without_rewriting_history (studio2.fase03.harness.test_d03_contract.ProofContract) ... fatal: cannot change to '/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate': No such file or directory
+ERROR
+test_D03_real_runner_and_CLI_refuse_before_stub_and_preserve_outputs (studio2.fase03.harness.test_d03_contract.ProofContract) ... ERROR
+test_D03_three_paths_invoke_the_same_content_control_set (studio2.fase03.harness.test_d03_contract.ProofContract) ... ok
+
+======================================================================
+ERROR: test_D03_real_legacy_proofs_rejected_without_rewriting_history (studio2.fase03.harness.test_d03_contract.ProofContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_d03_contract.py", line 250, in test_D03_real_legacy_proofs_rejected_without_rewriting_history
+    self.assertEqual(subprocess.check_output(['git','-C',str(old),'rev-parse','HEAD'],text=True).strip(),'0c8157f23bee49a3a5a2df648525c34706da29d7')
+  File "/usr/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/usr/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', '-C', '/Users/luker/fot-tep-riverifica-harness-0c8157f-01a0a1ec/candidate', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+======================================================================
+ERROR: test_D03_real_runner_and_CLI_refuse_before_stub_and_preserve_outputs (studio2.fase03.harness.test_d03_contract.ProofContract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_d03_contract.py", line 270, in test_D03_real_runner_and_CLI_refuse_before_stub_and_preserve_outputs
+    t.producer(resume=True,retry_requests=[req]);t.prepare(producer=False)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/test_revisions.py", line 309, in prepare
+    inv,manifest=inputs.build_inventory(**self.inventory_args(),insight_handoff=handoff,ledger=self.ledger,token_count=lambda s:len(s.split()),schema_dir=SCHEMA,presentation_approval=self.config['presentation_approval'])
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 248, in build_inventory
+    cases, public_by_id = _load_evidence(evidence_root)
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/inputs.py", line 52, in _load_evidence
+    require_sha256(evidence_manifest, EVIDENCE_MANIFEST_SHA256, role="03.6 evidence manifest")
+  File "/sessions/rcw-0152x2fmqy11i5nanjs27gfx/base/studio2/fase03/harness/common.py", line 61, in require_sha256
+    raise HarnessError(f"missing {role}: {path}")
+studio2.fase03.harness.common.HarnessError: missing 03.6 evidence manifest: /Users/luker/fot-tep-verifica-harness-0310-01a0a1ec/evidence/reference/studio2/fase03/evidence/output/EVIDENCE_MANIFEST.csv
+
+----------------------------------------------------------------------
+Ran 9 tests in 6.784s
+
+FAILED (errors=2)

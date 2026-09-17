@@ -64,10 +64,17 @@ def provider_config(path: Path | None) -> dict[str, Any]:
     value = load_json(path)
     required = {"name", "base_url", "model", "max_tokens",
                 "expected_max_model_len", "identity_sha256", "expected_response", "tokenizer"}
-    if not isinstance(value, dict) or not required <= set(value) or set(value) - required - {'temperature','seed','thinking_token_budget'}:
+    if not isinstance(value, dict) or not required <= set(value) or set(value) - required - {'temperature','seed','thinking_token_budget','tokenizer_accounting','extra_body'}:
         raise HarnessError(f"producer provider config keys must be {sorted(required)}")
     if not isinstance(value["identity_sha256"], str) or len(value["identity_sha256"]) != 64:
         raise HarnessError("provider identity requires a full SHA-256")
+    accounting = value.get('tokenizer_accounting')
+    if value['model'] == 'qwen3.5-122b':
+        expected = {'snapshot', 'mode'}
+        if not isinstance(accounting, dict) or set(accounting) != expected or accounting.get('snapshot') != 'Qwen/Qwen3.5-122B-A10B-FP8@a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9' or accounting.get('mode') != 'exact_prompt_tokens':
+            raise HarnessError('122B producer requires the frozen tokenizer accounting guard')
+    from studio2.fase03.harness.d9 import producer_extra_body
+    producer_extra_body(value.get('extra_body'), model_role='122B' if value['model'] == 'qwen3.5-122b' else '27B')
     return value
 
 
@@ -96,7 +103,8 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
     from studio2.fase03.harness.guards import require_execution, verify_tokenizer, require_pilot_ledger, response_identity_valid
     from studio2.fase03.harness.insight_adapter import load_validator, context_from_inventory, assert_context_compatible
     from studio2.fase03.harness.ledger import digest
-    from studio2.fase03.harness.runtime import execute_request, durable_write
+    from studio2.fase03.harness.runtime import (execute_request, durable_write,
+                                                retry_requests_by_logical_id)
     preflight = load_json(PREFLIGHT_CONFIG_PATH)
     require_execution(preflight)
     require_pilot_ledger(preflight, ledger)
@@ -109,6 +117,12 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
     from studio2.fase03.harness.d9 import validate_provider, r4_counter, generation_kwargs
     role = validate_provider(preflight, provider, stage, file_sha256=sha256_file(provider_path))
     verify_tokenizer(snapshot, **provider['tokenizer'])
+    accounting_guard = None
+    if 'tokenizer_accounting' in provider:
+        from studio2.fase03.harness.ledger import load_tokenizer_accounting_guard
+        template_kwargs = (provider.get('extra_body') or {}).get('chat_template_kwargs')
+        accounting_guard = load_tokenizer_accounting_guard(
+            snapshot, template_kwargs=template_kwargs)
     validator = load_validator(schema_dir)
     assert_context_compatible(validator, context_from_inventory(inventory))
     count = r4_counter(preflight, offline_token_counter)
@@ -135,6 +149,12 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
                    execution_config=preflight, tokenizer_snapshot=str(snapshot.resolve()),
                    provider_file_sha256=sha256_file(provider_path),
                    provider_reference={'path':str(provider_path.resolve()),'sha256':sha256_file(provider_path)})
+    selected_retries = retry_requests_by_logical_id(ledger, stage, retry_requests)
+    if accounting_guard is not None:
+        ledger.validate_tokenizer_accounting_evidence(
+            accounting_guard, expected_stage=stage,
+            expected_messages={spec['logical_id']: [dict(role='user', content=prompt)]
+                               for spec, prompt, _ in prepared})
     ledger.bind_stage(stage, binding)
     # Reject any uncertain restart before constructing a client or sending later requests.
     from openai import OpenAI
@@ -153,11 +173,20 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
                       response_format={'type': 'json_schema', 'json_schema': {'name': 'study2_insight_pair', 'strict': True, 'schema': response_schema(fixed, preflight)}})
         validate_provider(preflight, provider, stage, file_sha256=sha256_file(provider_path))
         count = r4_counter(preflight, offline_token_counter)
-        kwargs.update(generation_kwargs({k:provider[k] for k in ('max_tokens','temperature','seed','thinking_token_budget') if k in provider}, model_role=role))
-        def transport():
+        generated = generation_kwargs({k:provider[k] for k in ('max_tokens','temperature','seed','thinking_token_budget') if k in provider}, model_role=role)
+        if provider.get('extra_body') is not None:
+            if 'extra_body' in generated:
+                raise HarnessError('producer rendering control cannot be merged with another extra_body')
+            from studio2.fase03.harness.d9 import producer_extra_body
+            generated['extra_body'] = producer_extra_body(provider['extra_body'], model_role=role)
+        kwargs.update(generated)
+        def transport(transmitted_messages=None):
             ledger.bind_stage(stage, binding)
             require_execution(preflight)
-            response = client.chat.completions.create(**kwargs)
+            payload = dict(kwargs)
+            if transmitted_messages is not None:
+                payload['messages'] = transmitted_messages
+            response = client.chat.completions.create(**payload)
             return response.model_dump(mode='json')
         def evaluate(raw):
             choices = raw.get('choices', [])
@@ -181,7 +210,9 @@ def run(*, source_inventory: Path, results_dir: Path, provider_path: Path, snaps
                         **{k: usage.get(k) for k in ('prompt_tokens','completion_tokens','total_tokens')})
         records.append(execute_request(ledger=ledger, stage=stage, spec=spec, transport=transport, evaluate=evaluate,
                                       expected_identity=provider['expected_response'], journal_path=journal,
-                                      resume=resume, retry_requests=retry_requests))
+                                      messages=kwargs['messages'], accounting_guard=accounting_guard,
+                                      resume=resume,
+                                      retry_requests=selected_retries.get(spec['logical_id'], ())))
     passed = all(r['schema_valid_first_attempt'] for r in records)
     summary = dict(artifact_version='4', status='PASS' if passed else 'FAIL', stage=stage,
                    producer_identity_sha256=digest(provider), provider_requests=ledger.snapshot()['requests_by_stage'][stage],
