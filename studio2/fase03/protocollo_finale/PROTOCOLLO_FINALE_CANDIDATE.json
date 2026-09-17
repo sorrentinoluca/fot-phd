@@ -6,19 +6,54 @@
   "branch": "codex/studio2-freeze-protocollo-finale",
   "candidate": {
     "path": "studio2/fase03/protocollo_finale/PROTOCOLLO_FINALE_CANDIDATE.md",
-    "sha256": "1540bd5898af2f73de3eae1cf191d20f3570c09b6e8473dbe4ad298837171496",
+    "sha256": "d4f00224d473800105baa1d347b4f65a6685ff108f8c26331a2557de808e97fa",
     "hash_scope": "physical file bytes"
   },
   "proposed_tag_not_created": "studio2-fase03-protocollo-finale-frozen-001",
   "freeze_effective": false,
   "execution_authorized": false,
   "blocking_dependencies": [
-    "author decision: identify the four in-catalog faults in SWAP4",
-    "S5: final complete libraries for both producers accepted by 7.2-R",
-    "S18: final B-LF to E-LF one-field diff attached",
-    "S19: structural parity verified on the final libraries",
     "independent review and author-created annotated tag"
   ],
+  "author_decisions_2026_09_17": {
+    "producer_swap_faults": ["F1", "F8", "F10", "F13"],
+    "producer_swap_scope": "descriptive; continuity faults only",
+    "producer_libraries": {
+      "G_P": {
+        "reuse": true,
+        "future_calls": 0,
+        "library_file_sha256": "1e97ddd3525c414f6d5ddd240e98d358720937e912edb4e27644374e8b2eea09",
+        "library_canonical_sha256": "c2469737bcaab0df8d07a1c2493d2f95784aae07a55998aecf49cc53fa5d1a30",
+        "template_sha256": "4306c5da6f0ebefcbce75d26d585caf82cc05ff85d5e7e6639e3f65b2d66de12"
+      },
+      "G_A": {
+        "reuse": true,
+        "future_calls": 0,
+        "library_file_sha256": "c697e803be178235c37d37caf7ec1ef65a0761db44e097f2d422e7498eef73c9",
+        "library_canonical_sha256": "f860063befb6a409f4ecf824e4dd7b57002cc8e67809184dadd03d0b934a05f3",
+        "template_sha256": "e7e80d59b2def37bea8f20186fc297583e2c8b0dea390a3351c7843d841619e7"
+      }
+    },
+    "template_asymmetry": "accepted and declared; bidirectional variable coverage is 6/16 for G_P and 0/16 for G_A",
+    "E5": "excluded from this protocol; planned only as a later separately frozen study"
+  },
+  "S18_diff": {
+    "status": "PASS_CANDIDATE",
+    "renderer_sha256": "791fa347e97ca49e15a8b7ca1e02e0e38c0be37e23eece092c8a094e9a653d1e",
+    "input_manifest_sha256": "8417688869b75bda8235387ac830018ecdc9030442a860d495418f195f2b4014",
+    "library_canonical_sha256": "c2469737bcaab0df8d07a1c2493d2f95784aae07a55998aecf49cc53fa5d1a30",
+    "recipients": 8,
+    "peer_records_per_recipient": 14,
+    "records_compared": 112,
+    "changed_fields": {
+      "pseudolabel": 112,
+      "insight_id": 0,
+      "source_agent": 0,
+      "evidence_scope": 0,
+      "variable_ids": 0,
+      "observed_pattern": 0
+    }
+  },
   "repository_sources": [
     {
       "path": "docs/MAINTENANCE.md",
@@ -205,6 +240,41 @@
       "hash_scope": "physical file bytes"
     },
     {
+      "path": "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/librerie/LIBRERIE_FINALI_CANDIDATE.json",
+      "source_commit": "c284523badefdf6b4f4e131e99ba4dfbda31300c",
+      "sha256": "235fb0de37080a0a2076332b8587fd5fa6457600ed2228a13d3042e18058a5a3",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/librerie/RIUSO_LIBRERIE_7_2.md",
+      "source_commit": "c284523badefdf6b4f4e131e99ba4dfbda31300c",
+      "sha256": "90e939231c1b27d9ff2b58b6ce7dcde35c6dfc561576f8fe67cae4b744c7c036",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep/.worktrees/rem6-riconciliazione/studio2/fase03/librerie/VERIFICA_LIBRERIE_7_2.md",
+      "source_commit": "f0d0393a3702bd349d93ec9e7e60a740580445fb",
+      "sha256": "fce3b955584bb8fd0fca8d98f9985f4f1ffc2da4f93a9daa99c67e414f4aaad9",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/PILOT_INPUT_MANIFEST.frozen.json",
+      "sha256": "8417688869b75bda8235387ac830018ecdc9030442a860d495418f195f2b4014",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/results/validated_insight_library_qwen_122b_primary_producer_remediation.json",
+      "sha256": "1e97ddd3525c414f6d5ddd240e98d358720937e912edb4e27644374e8b2eea09",
+      "canonical_content_sha256": "c2469737bcaab0df8d07a1c2493d2f95784aae07a55998aecf49cc53fa5d1a30",
+      "hash_scope": "physical file bytes"
+    },
+    {
+      "path": "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/results/validated_insight_library_qwen_27b_alternate_alternate_conformity.json",
+      "sha256": "c697e803be178235c37d37caf7ec1ef65a0761db44e097f2d422e7498eef73c9",
+      "canonical_content_sha256": "f860063befb6a409f4ecf824e4dd7b57002cc8e67809184dadd03d0b934a05f3",
+      "hash_scope": "physical file bytes"
+    },
+    {
       "artifact": "studio2-fase03-evidence-v2.tar",
       "sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf",
       "hash_scope": "release archive bytes"
@@ -242,28 +312,17 @@
     "S": 0,
     "U": 0,
     "d": 7,
-    "G_P_max": 8,
-    "G_A_max": 8,
+    "G_P_max": 0,
+    "G_A_max": 0,
     "X_max": 100,
     "Q": 0,
-    "future_calls_max": 6918,
-    "future_calls_122b_max": 6910,
-    "future_calls_27b_max": 8,
-    "mean_T_hours": 50.382371,
-    "mean_T_with_20_percent_hours": 60.458845,
-    "p95_T_hours": 70.451346,
-    "p95_T_with_20_percent_hours": 84.541615
+    "future_calls_max": 6902,
+    "future_calls_122b_max": 6902,
+    "future_calls_27b_max": 0,
+    "mean_T_hours": 50.248477,
+    "mean_T_with_20_percent_hours": 60.298173,
+    "p95_T_hours": 70.287284,
+    "p95_T_with_20_percent_hours": 84.344741
   },
-  "author_questions": [
-    {
-      "id": "SWAP4_FAULT_SET",
-      "question": "Which four in-catalog faults are used for the producer-swap measurement?",
-      "options": {
-        "A_recommended": ["F1", "F8", "F10", "F13"],
-        "B": ["F2", "F3", "F14", "F15"],
-        "C": "deterministic 2+2 draw frozen before calls"
-      },
-      "recommendation": "A: it is an already named structural group and requires no new draw"
-    }
-  ]
+  "author_questions": []
 }
