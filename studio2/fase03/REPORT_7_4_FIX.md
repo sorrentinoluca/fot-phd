@@ -37,12 +37,12 @@ L'accounting del tokenizer 122B **non cambia**: stesso `TokenizerAccountingGuard
 
 ## Nuovo totale massimo dichiarato
 
-**7.302 chiamate** = 6.732 scientifiche + 70 canary + 100 `X` (6.902, invariato) + **400**
-di quota retry separata. Il 400 viene dal tasso del pilot, 8 fallimenti pre-generazione su
-156 richieste (5,13 %): su 6.802 chiamate pianificate l'attesa è ~349, e 400 lascia ~15 % di
-margine restando un ordine di grandezza sotto la campagna. Costo temporale a quota piena:
-+2,9 h alla media e +4,1 h al p95, cioè 63,8 h / 89,3 h con il margine T5 del 20 %, contro
-`W` = 168 h. Il margine temporale non crea quota.
+**7.202 chiamate** (valore di FIX-2; in FIX-1 era 7.302 con `X=100`) = 6.732 scientifiche +
+70 canary + 0 `X` + **400** di quota retry separata. Il 400 viene dal tasso del pilot, 8
+fallimenti pre-generazione su 156 richieste (5,13 %): su 6.802 chiamate pianificate l'attesa
+è ~349, e 400 lascia ~15 % di margine restando un ordine di grandezza sotto la campagna.
+T5 a 7.202: 52,4 h alla media e 73,3 h al p95, cioè **62,9 h** e **88,0 h** con il margine
+del 20 %, contro `W` = 168 h. Il margine temporale non crea quota.
 
 ## I quattro SHA
 
@@ -52,7 +52,7 @@ margine restando un ordine di grandezza sotto la campagna. Costo temporale a quo
 | `batch_finale/ASSEGNAZIONE_FINESTRE_7_4.json` (file) | `c809e79d2c03d74f4a5a37988eca809bda336468ab0060f794d3c214f9a6a775` | committata |
 | Inventario | `227e5e9c797dbfd8be746d85b77298f5dfb091846dc301f0b2e31ea1dbc6df3f` | **invariato** |
 | Schedule | `1acfc4044c53f113016ed0bfab58863291a9060a9edc9abadb68a21d30687819` | **invariato** |
-| Manifest di input del lotto test | — | **non producibile**: la copia locale verificata della release `studio2-fase03-test-v1` non esiste (punto aperto A) |
+| Manifest di input del lotto test | `67e7584a80d743efc06edc4c97019c20803cc4787c1d70c8d924ad23736612e8` | prodotto in FIX-2 |
 
 Lo SHA della schedule non cambia perché il token `B-noLF` era già quello enumerato
 dall'inventario 7.4-PREP: D2 ha confermato il token, non introdotto un valore nuovo.
@@ -156,7 +156,185 @@ cd /Users/luker/fot-tep/.worktrees/rem6-riconciliazione
 /opt/anaconda3/bin/python3 -m unittest $(ls studio2/fase03/harness/test_*.py | sed 's|/|.|g; s|\.py$||') studio2.fase03.evidence.test_test_lot_evidence
 ```
 
-`materialize_final_target.py` in dry-run gira e riporta `BLOCKED_MISSING_PREREQUISITES` con
-`planned_maximum 7302`, `hard_stop 7302`, `retry_quota 400`, schedule `1acfc404…`: i
-prerequisiti residui sono i cinque artefatti di runtime, e **non** più la condizione
-`B-noLF`.
+`materialize_final_target.py` in dry-run gira e riporta `BLOCKED_MISSING_PREREQUISITES`: in
+FIX-1 con `planned_maximum 7302` e cinque prerequisiti residui, in FIX-2 con
+`planned_maximum 7202` e tre (vedi sotto). In nessuno dei due la condizione `B-noLF` è più
+un blocco.
+
+---
+
+# FIX-2 — input del lotto test, prompt finali, `X = 0`
+
+Data: 2026-09-17, stessa finestra e stesso branch, base `1c70001`. Offline: nessuna chiamata,
+nessuna materializzazione, nessun push/merge/tag.
+
+## Sblocco del punto A
+
+La release `studio2-fase03-test-v1` è stata riscaricata da Luca; i tre SHA sono stati
+**ricalcolati qui** e coincidono con `fault_runs/ARTIFACT_STORAGE.json` (ramo `main`):
+`test_batch_f5_001.tar.gz` `ac1e7c0c…`, `chain_f5_001.tar.gz` `242f689a…`,
+`ood_preflight_001.tar` `16acf7c1…`. Gli archivi sono stati spostati sotto
+`studio2/fase03/fault_runs/test_batch/` (la loro sede naturale secondo `archive_root`) ed
+estratti lì. `fault_runs/test_batch/` ed `evidence/output_test/` sono stati aggiunti ai
+rispettivi `.gitignore`: né il lotto né le unità estratte entrano in repository, esattamente
+come per il lotto di sviluppo.
+
+## 1. Riverifica per-run delle otto finestre (punto E, chiuso)
+
+`generation_manifest.csv` del lotto estratto ha SHA `e7c75d23…` ed `events.jsonl`
+`af4f659e…`: coincidono con il sigillo. Sulle sue 89 righe: **89 `complete`, zero eccezioni,
+`useful_windows_complete = 8` per ogni run, somma 712**. La verifica è ora anche geometrica:
+per ciascun run la tabella `post_fault_windows` dichiara le otto finestre mezze aperte
+`[25,30) … [60,65)` tutte complete, e il manifest immutabile per-run (`<run>.manifest.json`)
+è confrontato campo per campo con la riga del manifest di campagna, hash del CSV incluso.
+`development_eligible` è `false` in tutto il lotto test — corretto, e irrilevante per
+l'estrazione, che non usa quel flag.
+
+Il driver è stato adattato al manifest di campagna: la colonna `sha256` viene normalizzata in
+`output_sha256` (solo il nome, nessun valore inventato) e la verifica del manifest per-run è
+quella del lotto test, non quella di sviluppo che pretende `development_eligible: true`.
+
+## 2. Estrazione evidence sulla finestra assegnata
+
+`evidence/extract_test_lot_evidence.py` sull'assegnazione `c809e79d…` (tabella `1ba7669a…`):
+
+| Voce | Valore |
+| --- | --- |
+| Run assegnati / unità estratte | 78 / **78** |
+| `not_extracted` | **[]** |
+| Finestre calcolate per run / estratte per run | 8 / **1** |
+| Leakage sui file consumer-facing | **PASS** |
+| Dimensione firma | 697 |
+| `EVIDENCE_MANIFEST_TEST.csv` | `6be25786bb40951eb23f2b63e482572001ea8c68c7591327e720e23c9186af09` |
+| `EVALUATOR_INDEX_TEST.csv` | `a415b4323320cc8497f7a4cbbdabf6f67954f02116dc6f39228006b4067c5578` |
+| **`INPUT_MANIFEST_TEST_7_4.json`** | **`67e7584a80d743efc06edc4c97019c20803cc4787c1d70c8d924ad23736612e8`** |
+
+Baseline e guardie sono quelle congelate: `mode1_normal_500.xlsx` `79883dd0…`,
+`verbalizer_config_v2.json` `552a0b8a…`, `R2_GUARD_RECHECK.json` `7df0cef2…`. Rieseguendo
+l'estrazione in una directory diversa i due SHA di manifest sono identici: deterministica.
+Nessuna statistica per fault, nessuna anteprima, nessuna selezione sul contenuto; il fault
+resta nell'indice evaluator-side e non compare nel manifest consumer.
+
+## 3. Rendering dei 2.244 prompt
+
+| Voce | Valore |
+| --- | --- |
+| Prompt unici | **2.244** (richieste a `R=3`: 6.732) |
+| Per blocco | nucleo 1.728 · swap 224 · ablazione 148 · OOD 144 |
+| Per condizione | A 624 · B-LF 848 · E-LF 624 · **B-noLF 148** |
+| Diff B↔E | **PASS** — 624 celle appaiate, 0 coppie identiche, 0 differenze fuori dal blocco `PEER INSIGHTS` |
+| Diff B-noLF | **PASS** — 148 prompt, 0 che conservano la politica |
+| Casi | 78 |
+| `prompts_sha256` (identificativo→hash) | `b819200396da480d3ed9d4aa8f6b6aac8c135d97f0876b734a9b607b75736489` |
+| `final_prompts.jsonl` | `f938604c512394df0e149732e474eb7d17b02a8dd1ed72155b84f19579a1385d` |
+
+Token per prompt, contati con il tokenizer congelato `a099dee7…` e il suo chat template,
+contro un contesto qualificato di **131.072** con **2.560** riservati all'output:
+
+| Insieme | n | min | p50 | p95 | max | media |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| tutti | 2.244 | 849 | 4.923 | 5.219 | **5.284** | 3.928,9 |
+| A | 624 | 849 | 1.225 | 1.414 | 1.417 | 1.191,8 |
+| B-LF | 848 | 4.594 | 5.028 | 5.222 | 5.284 | 5.000,6 |
+| E-LF | 624 | 4.594 | 5.026 | 5.220 | 5.231 | 4.978,9 |
+| B-noLF | 148 | 4.519 | 4.958 | 5.147 | 5.156 | 4.902,1 |
+
+Il massimo è **5.284 token**, il 4,0 % del contesto: nessun prompt si avvicina al limite.
+Solo conteggi: i testi non sono stati aperti né ispezionati.
+
+Esempi locali, spazio di label, agenti e derangement vengono dal manifest congelato del pilot
+`84176888…`. L'**ordine di presentazione** delle label è quello accettato dall'autore
+(`studio2-fase03-presentation-v1`, letto da `PILOT_INPUT_SOURCES.frozen.json` `3099ad40…` e
+accettato solo con `author_decision: accepted`): il batch finale mostra le label esattamente
+come il pilot.
+
+**Difetto trovato e aggirato senza riscrivere l'artefatto accettato.**
+`librerie/LIBRERIE_FINALI_CANDIDATE.json` registra un `library_path` assoluto che apparteneva
+alla macchina che lo ha prodotto e non è portabile: nessuna macchina diversa da quella può
+leggere le librerie per quel percorso. L'artefatto è un record 7.2-R accettato e **non è
+stato riscritto**; `build_final_prompts.py` e `build_final_inventory.py` accettano ora
+`--libraries-root` e cercano la libreria per nome sotto quella radice, accettandola **solo**
+se lo SHA coincide con `library_file_sha256`. Da correggere alla prossima revisione delle
+librerie (punto aperto F).
+
+## 4. `X = 0` e nuovo massimo
+
+`TECHNICAL_VERIFICATION_QUOTA = 0`: lo stage resta definito ma la sua quota è zero, il che lo
+chiude a doppia mandata — il piano di stage non può nemmeno essere legato (la copertura
+eccede la quota) e una riserva diretta è rifiutata con `stage technical_verification has
+quota 0 … requires a declared protocol revision`.
+
+| Voce | FIX-1 | FIX-2 |
+| --- | ---: | ---: |
+| Scientifiche | 6.732 | 6.732 |
+| Canary | 70 | 70 |
+| `X` | 100 | **0** |
+| Quota retry separata | 400 | 400 |
+| **`planned_maximum` = `hard_stop`** | 7.302 | **7.202** |
+
+T5 ricalcolato sulle 120 righe del gate (media 26,2086 s, p95 36,6609 s):
+
+| Insieme | media | media × 1,20 | p95 | p95 × 1,20 |
+| --- | ---: | ---: | ---: | ---: |
+| 6.802 (scientifiche + canary) | 49,5 h | 59,4 h | 69,3 h | 83,1 h |
+| **7.202 (con quota retry piena)** | 52,4 h | **62,9 h** | 73,3 h | **88,0 h** |
+
+Contro `W` = 168 h: margine ampio in entrambi i casi.
+
+## 5. Dry-run della materializzazione
+
+`materialize_final_target.py` (dry-run, scrive nulla) → `BLOCKED_MISSING_PREREQUISITES`, con
+`planned_maximum 7202`, `hard_stop 7202`, `retry_quota 400`, `consecutive_failure_stop 5`,
+`stage_quota {r1 2244, r2 2244, r3 2244, canary 70, technical_verification 0}`, inventario
+`227e5e9c…` e schedule `1acfc404…` invariati.
+
+Prerequisiti residui, **tre**, tutti artefatti di runtime che non si producono qui:
+
+1. configurazione eseguibile del target finale con l'identità 122B qualificata;
+2. contratto di generazione congelato del target finale;
+3. i dieci prompt canary congelati di §6.
+
+I prompt renderizzati e lo snapshot del tokenizer **non** sono più fra i bloccanti.
+
+## 6. Test
+
+Suite `studio2/fase03/harness/test_*.py` più `evidence/test_test_lot_evidence.py`, stessa VM
+Linux: **299 test**, 3 failure / 49 error / 22 skip, insieme dei non-pass **identico riga per
+riga** a quello della base `9e0e086` (52 voci, ambientali). Un test nuovo in FIX-2:
+`X = 0` chiude `technical_verification` (profilo a 7.202 e stage non legabile).
+
+Riesecuzione sul Mac ancora da incollare qui (punto aperto G):
+
+```bash
+cd /Users/luker/fot-tep/.worktrees/rem6-riconciliazione
+/opt/anaconda3/bin/python3 -m unittest $(ls studio2/fase03/harness/test_*.py | sed 's|/|.|g; s|\.py$||') studio2.fase03.evidence.test_test_lot_evidence
+```
+
+## 7. Stato dei punti aperti di FIX-1
+
+| Punto | Stato |
+| --- | --- |
+| **A** — release non scaricata | **chiuso**: scaricata, verificata, estratta, 78/78 unità |
+| **B** — `X=100` non programmato | **chiuso dall'autore**: `X = 0`, stage a quota zero |
+| **C** — D4 «da verificare in rev2» | **chiuso dall'autore** (Q3): audit 10 % invariato più aggregatore descrittivo su tutti i prompt; triplette con meno di tre esiti validi = `invalid_incomplete_triplet`. È analisi a valle (7.5): nessun codice qui |
+| **D** — barriera canary per giorno civile | **confermata dall'autore** come lettura letterale di §6 |
+| **E** — riverifica per-run delle finestre | **chiuso**: 89/89 run, otto finestre ciascuno, geometria e manifest per-run verificati |
+
+## 8. Punti ancora aperti
+
+**F — `library_path` non portabile in `LIBRERIE_FINALI_CANDIDATE.json`.** Aggirato con
+`--libraries-root` e verifica di SHA; va corretto alla prossima revisione tracciata delle
+librerie, perché così com'è l'artefatto non è riusabile su nessuna macchina diversa da quella
+che lo ha prodotto.
+
+**G — suite sul Mac.** Comando sopra; l'esito va incollato in questo report.
+
+**H — prerequisiti di runtime del target.** I tre elencati al §5, più il tag annotato del
+protocollo e l'approvazione di materializzazione, restano in capo a Luca.
+
+**I — ordine di integrazione in `main`.** Invariato: ramo librerie fino a `f0d0393` → 03.11 →
+candidato 7.3 corretto → tag. I file sigillati di 03.11 continuano a essere letti da `main`
+perché questo ramo fork a `540df7b`.
+
+**L — review `b567`.** Dovuta: FIX-2 tocca ancora quota e ledger (`TECHNICAL_VERIFICATION_QUOTA`,
+nuovo massimo, rifiuto della quota zero).

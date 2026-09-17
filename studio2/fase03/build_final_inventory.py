@@ -27,16 +27,16 @@ DEFAULT_OUT = ROOT / "studio2/fase03/batch_finale/build"
 SUMMARY_PATH = ROOT / "studio2/fase03/batch_finale/INVENTARIO_SCHEDULE_7_4.json"
 
 
+LIBRARY_ROOTS: list[Path] = []
+
+
 def _library_rows(role: str) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    from studio2.fase03.harness.common import HarnessError, load_json, sha256_file
+    from studio2.fase03.harness.common import load_json
+    from studio2.fase03.harness.final_prompts import resolve_library_path
 
     candidate = load_json(LIBRARIES_PATH)
     entry = candidate["producers"][role]
-    path = Path(entry["library_path"])
-    observed = sha256_file(path)
-    if observed != entry["library_file_sha256"]:
-        raise HarnessError(f"{role} insight library file hash changed")
-    payload = load_json(path)
+    payload = load_json(resolve_library_path(entry, roots=LIBRARY_ROOTS))
     return payload["library"], entry
 
 
@@ -86,10 +86,14 @@ def main() -> int:
                         help="directory receiving the full inventory and schedule artifacts")
     parser.add_argument("--write-summary", action="store_true",
                         help="also refresh the committed summary next to the generator")
+    parser.add_argument("--libraries-root", type=Path, action="append", default=[],
+                        help="directory holding the accepted insight libraries when the "
+                             "path recorded in LIBRERIE_FINALI_CANDIDATE.json is not portable")
     parser.add_argument("--skip-library-check", action="store_true",
                         help="skip the B->E structural re-check when the runtime libraries are unreachable")
     arguments = parser.parse_args()
 
+    LIBRARY_ROOTS.extend(arguments.libraries_root)
     inventory = inventory_module.build_inventory()
     schedule = inventory_module.build_schedule(inventory)
     inventory_artifact = inventory_module.inventory_artifact(inventory)

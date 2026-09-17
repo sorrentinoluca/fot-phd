@@ -10,8 +10,13 @@ chiusura dei punti aperti di `REPORT_7_4_PREP.md`.
 
 Aggiornato da 7.4-FIX con le decisioni d'autore del 2026-09-17
 (`DECISIONI_AUTORE_7_3_REV2_2026-09-17.md`, SHA `535939de…`): D1 assegnazione delle
-finestre, D2 condizione `B-noLF`, D3 retry/STOP al posto di `Q=0`. Il totale massimo di
-chiamate passa da **6.902 a 7.302** (6.902 + quota retry separata di 400).
+finestre, D2 condizione `B-noLF`, D3 retry/STOP al posto di `Q=0`.
+
+Aggiornato da 7.4-FIX-2 con le decisioni d'autore successive: **`X = 0`** (nessuna verifica
+tecnica pianificata; lo stage `technical_verification` resta definito con quota 0 e ogni
+chiamata su di esso è rifiutata — una verifica futura richiede una revisione dichiarata del
+protocollo) e barriera canary per giorno civile confermata. Il totale massimo di chiamate è
+**7.202** = 6.732 scientifiche + 70 canary + 400 di quota retry separata.
 
 ## 0. Ambiente
 
@@ -43,7 +48,9 @@ Le chiavi non compaiono mai in `argv`, nei log o nei file committati; `api_key.j
 ## 1. Preflight offline (nessuna chiamata, ripetibile)
 
 ```bash
-"$PY" studio2/fase03/build_final_inventory.py --out-dir /tmp/batch74
+export RUNTIME=/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03
+"$PY" studio2/fase03/build_final_inventory.py --out-dir /tmp/batch74 \
+  --libraries-root "$RUNTIME/results"
 "$PY" studio2/fase03/build_window_assignment.py
 "$PY" -m unittest studio2.fase03.harness.test_final_batch \
   studio2.fase03.harness.test_final_prompts studio2.fase03.harness.test_bnolf \
@@ -62,11 +69,15 @@ non è più quella congelata prima dei dati di test e ci si ferma.
 
 ## 1-bis. Input consumer del lotto test (D1, prerequisito dei prompt)
 
+> **Già eseguito in 7.4-FIX-2** (release riscaricata e verificata da Luca, estrazione
+> completata: 78/78 unità, `not_extracted []`). I comandi restano qui per la riesecuzione.
+
 Il lotto test 03.11 non è in repository: si scarica dalla release `studio2-fase03-test-v1`
-e si verifica **prima** di estrarre qualunque evidenza.
+e si verifica **prima** di estrarre qualunque evidenza. `fault_runs/test_batch/` ed
+`evidence/output_test/` sono ignorati da git: il lotto e le unità estratte non si committano.
 
 ```bash
-cd /Users/luker/fot-tep
+cd /Users/luker/fot-tep/.worktrees/rem6-riconciliazione
 mkdir -p studio2/fase03/fault_runs/test_batch
 curl -fL -o studio2/fase03/fault_runs/test_batch/test_batch_f5_001.tar.gz \
   https://github.com/sorrentinoluca/fot-tep-data/releases/download/studio2-fase03-test-v1/test_batch_f5_001.tar.gz
@@ -86,9 +97,9 @@ Estrazione con la pipeline congelata 03.6, **solo** per la finestra assegnata a 
 ```bash
 "$PY" studio2/fase03/evidence/extract_test_lot_evidence.py \
   --lot-root studio2/fase03/fault_runs/test_batch/test_batch_f5_001 \
-  --normal   code/tep_cache/mode1_normal_500.xlsx \
+  --normal   /Users/luker/fot-tep/code/tep_cache/mode1_normal_500.xlsx \
   --r2-guard studio2/fase03/soglie_normal/R2_GUARD_RECHECK.json \
-  --output   /Users/luker/fot-tep-runtime/prepared-7-4/test_input
+  --output   studio2/fase03/evidence/output_test
 ```
 
 Attesi: `evidence_unit_count 78`, `not_extracted []`, `windows_extracted_per_run 1`,
@@ -99,18 +110,29 @@ fermarsi prima di rendere i prompt.
 ## 1-ter. Rendering offline dei 2.244 prompt
 
 ```bash
+export RUNTIME=/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03
 "$PY" studio2/fase03/build_final_prompts.py \
-  --pilot-manifest /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/PILOT_INPUT_MANIFEST.frozen.json \
-  --test-input     /Users/luker/fot-tep-runtime/prepared-7-4/test_input \
-  --tokenizer-snapshot /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9 \
+  --pilot-manifest "$RUNTIME/execution/PILOT_INPUT_MANIFEST.frozen.json" \
+  --pilot-sources  "$RUNTIME/execution/PILOT_INPUT_SOURCES.frozen.json" \
+  --test-input     studio2/fase03/evidence/output_test \
+  --libraries-root "$RUNTIME/results" \
+  --tokenizer-snapshot "$RUNTIME/tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9" \
   --out /Users/luker/fot-tep-runtime/prepared-7-4
 ```
 
-Attesi: `unique_total 2244`, conteggi per blocco `1728/224/148/144`,
-`be_pseudolabel_diff.status PASS`, `bnolf_policy_diff.status PASS` su 148 prompt,
-`max_prompt_tokens` entro il contesto qualificato. Esempi locali, spazio di label, agenti e
-derangement restano quelli del manifest congelato del pilot `84176888…`: dal lotto test
-viene **solo** il testo neutrale del caso.
+Attesi: `unique_total 2244`, conteggi per blocco `1728/224/148/144`, per condizione
+`A 624 / B-LF 848 / E-LF 624 / B-noLF 148`, `be_pseudolabel_diff.status PASS` su 624 celle
+appaiate, `bnolf_policy_diff.status PASS` su 148 prompt, `max_prompt_tokens 5284` contro un
+contesto qualificato di 131.072 con 2.560 riservati all'output.
+
+Esempi locali, spazio di label, agenti e derangement restano quelli del manifest congelato
+del pilot `84176888…`; l'ordine di presentazione delle label è quello accettato dall'autore
+(`studio2-fase03-presentation-v1`, da `PILOT_INPUT_SOURCES.frozen.json` `3099ad40…`). Dal
+lotto test viene **solo** il testo neutrale del caso.
+
+`--libraries-root` serve perché `LIBRERIE_FINALI_CANDIDATE.json` registra un `library_path`
+assoluto non portabile: l'artefatto accettato in 7.2-R non si riscrive, la libreria si cerca
+per nome sotto la radice indicata e si accetta solo se lo SHA coincide.
 
 ## 2. Materializzazione del target (la esegue Luca dopo il tag)
 
@@ -128,7 +150,7 @@ Quando lo stato è `READY_TO_MATERIALIZE`:
   --approval .../APPROVAZIONE_MATERIALIZZAZIONE_7_4.json \
   --config    /Users/luker/fot-tep-runtime/studio2-fase03-batch-finale-01.config/execution.private.json \
   --generation /Users/luker/fot-tep-runtime/studio2-fase03-batch-finale-01.config/generation.json \
-  --prompts   /Users/luker/fot-tep-runtime/prepared-7-4/build/final_prompts.jsonl \
+  --prompts   /Users/luker/fot-tep-runtime/prepared-7-4/final_prompts.jsonl \
   --canary-prompts /Users/luker/fot-tep-runtime/prepared-7-4/canary_prompts.jsonl \
   --tokenizer-snapshot /Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/tokenizers/a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9 \
   --execute --acknowledge MATERIALIZE_PHASE03_FINAL_BATCH_TARGET
@@ -199,12 +221,12 @@ Dimensionamento a ~26 s per chiamata (media misurata nel pilot; p95 ~36,7 s):
 | consigliato | 250 | ~1 h 49 min | ~2 h 33 min |
 | giornata piena | 1 000 | ~7 h 17 min | ~10 h 11 min |
 | una passata | 2 244 | ~16 h 20 min | ~22 h 51 min |
-| nucleo + canary + X | 6 902 | ~50,2 h | ~70,3 h |
-| con la quota retry piena | 7 302 | ~53,2 h | ~74,4 h |
+| scientifiche + canary (`X=0`) | 6 802 | ~49,5 h | ~69,3 h |
+| con la quota retry piena | 7 202 | ~52,4 h | ~73,3 h |
 
-Con il margine del 20% del criterio T5: 60,3 h alla media e 84,3 h al p95 a 6.902 chiamate;
-63,8 h e 89,3 h se l'intera quota retry di 400 venisse consumata, contro una finestra `W` di
-168 h. Il margine temporale **non** crea quota di chiamate.
+Con il margine del 20% del criterio T5: 59,4 h alla media e 83,1 h al p95 a 6.802 chiamate;
+**62,9 h** e **88,0 h** se l'intera quota retry di 400 venisse consumata, contro una finestra
+`W` di 168 h. Il margine temporale **non** crea quota di chiamate.
 
 La riga di avanzamento è, per ogni chiamata:
 
@@ -246,7 +268,8 @@ ripresa si ferma: è incertezza, non un fallimento da ritentare (punto 6).
 | Sospensione d'identità | `pilot suspended: returned model/fingerprint ...` | STOP. L'unico percorso ammesso è una revisione approvata della configurazione e la riconciliazione già implementata; la ripresa richiede decisione dell'autore e, se cambia identità o autorizza nuove chiamate, una revisione di protocollo/quota. |
 | Canary: identità cambiata | `canary identity change on <giorno>` | STOP immediato prima di altre chiamate. Nessun comando riprende da solo. |
 | Canary: secondo giorno marcato | `second marked canary day` | STOP prima del lotto successivo; decisione dell'autore prima di qualunque ripresa. L'insieme marcato è quello dato da `query_canary_marking.py`: unione fra le chiamate dall'ultimo canary PASS al canary fallito e le chiamate del giorno civile marcato. Restano nell'analisi primaria ed escono dall'analisi di sensibilità già pre-specificata. |
-| Quota per stage o totale | `stage quota ... is exhausted` / `cumulative hard stop 7302` | STOP. Nessun allargamento locale: il tetto è 6.902 chiamate scientifiche/canary/X più 400 retry provati = 7.302. |
+| Quota per stage o totale | `stage quota ... is exhausted` / `cumulative hard stop 7202` | STOP. Nessun allargamento locale: il tetto è 6.732 scientifiche più 70 canary più 400 retry provati = 7.202. |
+| Chiamata su `technical_verification` | `stage technical_verification has quota 0` | Atteso: `X = 0`. Una verifica tecnica richiede una revisione dichiarata del protocollo, non un allargamento locale. |
 | Schedule non autenticata | `schedule differs from the deterministic generator` | STOP. Non rigenerare sopra: verificare quale artefatto è cambiato. |
 | Condizione non producibile | `conditions the frozen renderer does not produce` | STOP. Le quattro condizioni del protocollo (A, B-LF, E-LF, B-noLF) sono producibili: qualunque altro token è un errore di inventario, non una condizione da reinterpretare. |
 | Ledger incoerente | qualunque `HarnessError` dal ledger in fase di bind | STOP. Non riscrivere storia incerta, non retrofittare. |
@@ -275,7 +298,7 @@ A fine passata e a fine batch:
 
 Attesi finali: 2.244 richieste **base** per ciascuno dei tre stage di passata
 (`final_batch_r1/r2/r3`, retry esclusi dal conteggio di stage e contati a parte),
-`final_canary <= 70`, `technical_verification <= 100`, `retry_quota_used <= 400`,
-cumulativo `<= 7302`, `unresolved_intents = 0`,
+`final_canary <= 70`, `technical_verification = 0`, `retry_quota_used <= 400`,
+cumulativo `<= 7202`, `unresolved_intents = 0`,
 `consecutive_technical_failures` tutti sotto 5. Solo dopo la chiusura del ledger e questa
 verifica si passa all'analisi (§7.1, passo 5).

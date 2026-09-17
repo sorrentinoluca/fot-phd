@@ -36,14 +36,21 @@ FINAL_PASS_LIMIT = 2244
 FINAL_CANARY_STAGE = "final_canary"
 TECHNICAL_VERIFICATION_STAGE = "technical_verification"
 FINAL_BATCH_STAGES = set(FINAL_PASS_STAGES) | {FINAL_CANARY_STAGE, TECHNICAL_VERIFICATION_STAGE}
+# Author decision 2026-09-17 (7.4-FIX-2): X = 0. No technical verification is planned, so
+# the stage stays defined with quota zero and every reservation on it is refused. A future
+# technical verification requires a declared protocol revision, not a local widening.
+TECHNICAL_VERIFICATION_QUOTA = 0
 FINAL_BATCH_LIMITS = {**{stage: FINAL_PASS_LIMIT for stage in FINAL_PASS_STAGES},
-                      FINAL_CANARY_STAGE: 70, TECHNICAL_VERIFICATION_STAGE: 100}
+                      FINAL_CANARY_STAGE: 70,
+                      TECHNICAL_VERIFICATION_STAGE: TECHNICAL_VERIFICATION_QUOTA}
 # Author decision D3 (2026-09-17) replaces the absolute Q=0 of the candidate: a retry is
 # admitted only against proof that no token was generated. The cumulative ceiling is a
 # quota of its own, separate from the scientific stage quotas, so a transport storm can
 # never finance itself on scientific slots. Order of magnitude from the pilot: 8 pre-
 # generation failures out of 156 requests (5.13%); on 6,802 planned calls that is ~349
 # expected, and 400 leaves ~15% headroom while costing at most ~4.9 h at the gate p95.
+# (The pilot rate is computed on 6,802 planned calls; with X = 0 the planned calls are
+# 6,802 as well: 6,732 scientific plus 70 canary.)
 FINAL_RETRY_QUOTA = 400
 # Five consecutive failed technical attempts on the same service, retries included.
 # Protection against an unavailable service; no statistical meaning (D3).
@@ -1743,6 +1750,10 @@ class PilotLedger:
             limit = profile.base_limits.get(stage)
             if limit is None:
                 raise HarnessError(f"stage {stage} has no quota in profile {profile.name}")
+            if limit == 0:
+                raise HarnessError(
+                    f"stage {stage} has quota 0 in profile {profile.name}; a call on it "
+                    "requires a declared protocol revision")
             if quota_kind == 'transport':
                 used = sum(r['quota_kind'] == 'transport' for r in rows) + 1
                 if used > profile.retry_quota:

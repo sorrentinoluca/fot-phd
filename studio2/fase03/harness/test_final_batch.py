@@ -30,8 +30,8 @@ SMALL = 6
 def small_profile(rows_per_pass: int, canary_slots: int = 70):
     limits = {stage: rows_per_pass for stage in FINAL_PASS_STAGES}
     limits[FINAL_CANARY_STAGE] = canary_slots
-    limits["technical_verification"] = 100
-    total = sum(limits.values())
+    limits["technical_verification"] = FINAL_BATCH_PROFILE.base_limits["technical_verification"]
+    total = sum(limits.values()) + FINAL_BATCH_PROFILE.retry_quota
     return dataclasses.replace(FINAL_BATCH_PROFILE, base_limits=limits,
                                planned_maximum=total, hard_stop=total)
 
@@ -332,6 +332,27 @@ class BatchExecution(FinalBatchBase):
         FakeProvider.script = {}
         self.run_pass(resume=True, sleep=lambda _: None)
         self.assertEqual(max(self.ledger.consecutive_technical_failures().values()), 0)
+
+    def test_technical_verification_is_closed_at_x_zero(self):
+        """X = 0: the stage exists, its quota is zero, every call on it is refused."""
+        from .ledger import FINAL_BATCH_PROFILE as real
+
+        self.assertEqual(real.base_limits["technical_verification"], 0)
+        self.assertEqual(real.planned_maximum, 7202)
+        self.assertEqual(real.hard_stop, 7202)
+        self.assertEqual(sum(real.base_limits.values()) + real.retry_quota, 7202)
+        self.pass_canary_day()
+        binding = {"requests": [dict(logical_id="tv-1", model=MODEL, producer="consumer",
+                                     prompt_sha256="0" * 64, case_sha256="1" * 64,
+                                     contract_sha256="2" * 64, condition="A", group="g",
+                                     repetition=1)],
+                   "stage": "technical_verification"}
+        # The stage cannot even be bound: a plan of any size exceeds a quota of zero.
+        with self.assertRaises(HarnessError):
+            self.ledger.bind_stage("technical_verification", binding)
+        self.assertNotIn("technical_verification",
+                         [row for row in self.ledger.snapshot()["requests_by_stage"]
+                          if self.ledger.snapshot()["requests_by_stage"][row]])
 
     def test_retry_backoff_increases_and_is_capped(self):
         waits = [run_final_batch.retry_backoff_seconds(n) for n in range(1, 8)]

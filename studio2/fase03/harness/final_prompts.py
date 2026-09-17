@@ -19,11 +19,35 @@ from __future__ import annotations
 from typing import Any, Callable, Iterable
 
 from studio2.fase03 import protocol, protocol_bnolf
-from .common import HarnessError, canonical_json, sha256_text
+from .common import HarnessError, canonical_json, sha256_file, sha256_text
 from . import final_inventory
 
 LIBRARY_ROLE_BY_TOKEN = {final_inventory.LIBRARY_PRIMARY: "122B",
                          final_inventory.LIBRARY_ALTERNATE: "27B"}
+
+
+def resolve_library_path(entry: dict[str, Any], *, roots: Iterable[Any] = ()) -> Any:
+    """Locate one accepted insight library and authenticate its bytes.
+
+    ``LIBRERIE_FINALI_CANDIDATE.json`` records an absolute ``library_path`` that was valid
+    on the machine that produced it and is not portable. The artifact is an accepted 7.2-R
+    record and is **not** rewritten here: the file is looked up by its recorded path first
+    and then by name under the supplied roots, and in every case it is accepted only if its
+    SHA-256 matches ``library_file_sha256``.
+    """
+    from pathlib import Path
+
+    recorded = Path(entry["library_path"])
+    candidates = [recorded] + [Path(root) / recorded.name for root in roots]
+    for candidate in candidates:
+        try:
+            if candidate.is_file() and sha256_file(candidate) == entry["library_file_sha256"]:
+                return candidate
+        except OSError:
+            continue
+    raise HarnessError(
+        f"insight library not found or hash mismatch: {recorded.name}; "
+        f"looked in {[str(item) for item in candidates]}")
 
 
 def _insights(library: Iterable[dict[str, Any]]) -> list[protocol.Insight]:
@@ -64,6 +88,8 @@ def render_all(*, inventory: list[dict[str, Any]], manifest: dict[str, Any],
     by_block: dict[str, int] = {}
     by_condition: dict[str, int] = {}
     longest = 0
+    counts: list[int] = []
+    counts_by_condition: dict[str, list[int]] = {}
     over_context: list[str] = []
     for entry in inventory:
         text, ids = render_entry(entry, manifest=manifest, libraries=prepared, cases=cases,
@@ -79,6 +105,8 @@ def render_all(*, inventory: list[dict[str, Any]], manifest: dict[str, Any],
             count = token_count(text)
             row["prompt_tokens"] = count
             longest = max(longest, count)
+            counts.append(count)
+            counts_by_condition.setdefault(entry["condition"], []).append(count)
             if context_limit is not None and count + reserved_output_tokens > context_limit:
                 over_context.append(entry["stable_id"])
         rows.append(row)
@@ -103,12 +131,34 @@ def render_all(*, inventory: list[dict[str, Any]], manifest: dict[str, Any],
         "be_pseudolabel_diff": be_pseudolabel_diff(rows),
         "bnolf_policy_diff": bnolf_policy_diff(rows),
         "max_prompt_tokens": longest if token_count is not None else None,
+        "prompt_token_distribution": _distribution(counts) if counts else None,
+        "prompt_token_distribution_by_condition": (
+            {key: _distribution(value) for key, value in sorted(counts_by_condition.items())}
+            if counts else None),
         "context_limit": context_limit,
         "reserved_output_tokens": reserved_output_tokens,
         "prompts_sha256": sha256_text(canonical_json(
             [[row["prompt_id"], row["prompt_sha256"]] for row in rows])),
     }
     return {"rows": rows, "summary": summary}
+
+
+def _distribution(values: list[int]) -> dict[str, Any]:
+    """Synthetic distribution of prompt sizes. Counts only: no prompt text is read."""
+    ordered = sorted(values)
+
+    def percentile(fraction: float) -> int:
+        if not ordered:
+            return 0
+        position = fraction * (len(ordered) - 1)
+        low = int(position)
+        high = min(low + 1, len(ordered) - 1)
+        weight = position - low
+        return int(round(ordered[low] * (1 - weight) + ordered[high] * weight))
+
+    return {"count": len(ordered), "min": ordered[0], "p50": percentile(0.50),
+            "p95": percentile(0.95), "max": ordered[-1],
+            "mean": round(sum(ordered) / len(ordered), 1)}
 
 
 def be_pseudolabel_diff(rows: list[dict[str, Any]]) -> dict[str, Any]:

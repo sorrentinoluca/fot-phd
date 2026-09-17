@@ -71,7 +71,11 @@ def download_instructions(destination: Path) -> dict[str, Any]:
 
 
 def read_lot_manifest(path: Path) -> dict[str, dict[str, str]]:
-    """Read the sealed generation manifest of the test lot and check every row's form."""
+    """Read the sealed generation manifest of the test lot and check every row's form.
+
+    The campaign manifest names the run CSV hash ``sha256``; the 03.6 reader expects
+    ``output_sha256``. Only the column name is normalised here -- no value is invented.
+    """
     with path.open(newline="", encoding="utf-8-sig") as handle:
         rows = list(csv.DictReader(handle))
     by_run: dict[str, dict[str, str]] = {}
@@ -81,12 +85,28 @@ def read_lot_manifest(path: Path) -> dict[str, dict[str, str]]:
             raise ValueError("generation manifest contains an empty run_id")
         if run_id in by_run:
             raise ValueError(f"duplicate run_id in the generation manifest: {run_id}")
+        if not row.get("output_sha256") and row.get("sha256"):
+            row["output_sha256"] = row["sha256"]
         by_run[run_id] = row
     return by_run
 
 
+def expected_windows() -> list[dict[str, Any]]:
+    """The eight half-open post-onset windows of the frozen horizon [25, 65)."""
+    return [{"start_h": int(frozen.ONSET_H + index * frozen.WINDOW_H),
+             "end_h": int(frozen.ONSET_H + (index + 1) * frozen.WINDOW_H),
+             "complete": True}
+            for index in range(frozen.EXPECTED_WINDOWS_PER_RUN)]
+
+
 def per_run_window_check(row: dict[str, str]) -> str | None:
-    """Per-run re-verification of the D1 precondition; returns a reason when it fails."""
+    """Per-run re-verification of the D1 precondition; returns a reason when it fails.
+
+    The declared count is checked first, then -- when the campaign manifest carries the
+    window table -- the geometry itself: eight complete half-open windows over [25, 65).
+    ``development_eligible`` is **not** required here: the test lot is by construction not
+    development-eligible, and that flag plays no part in the extraction.
+    """
     if row.get("status") != "complete":
         return f"status is {row.get('status')!r}, not complete"
     try:
@@ -97,7 +117,46 @@ def per_run_window_check(row: dict[str, str]) -> str | None:
         return f"{windows} useful windows, expected {frozen.EXPECTED_WINDOWS_PER_RUN}"
     if not row.get("output_sha256"):
         return "missing output_sha256"
+    declared = row.get("post_fault_windows")
+    if declared:
+        try:
+            table = json.loads(declared)
+        except (TypeError, json.JSONDecodeError):
+            return "post_fault_windows is not readable JSON"
+        observed = [{"start_h": int(item["start_h"]), "end_h": int(item["end_h"]),
+                     "complete": bool(item.get("complete"))} for item in table]
+        if observed != expected_windows():
+            return f"post-onset window table is not the frozen eight: {observed}"
+    for key, value in (("onset_h", frozen.ONSET_H), ("stop_time_h", frozen.END_H),
+                       ("window_h", frozen.WINDOW_H)):
+        if key in row and row[key] not in ("", None) and float(row[key]) != value:
+            return f"{key} is {row[key]}, expected {value}"
     return None
+
+
+def verify_lot_run_manifest(row: dict[str, str], source: Path) -> None:
+    """Cross-check the immutable per-run manifest of the test lot, when it is present."""
+    manifest_path = source.with_suffix(".manifest.json")
+    if not manifest_path.is_file():
+        return
+    payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    expected_values = {
+        "run_id": row["run_id"], "status": "complete", "stream_id": row["stream_id"],
+        "idv": int(row["idv"]), "onset_h": frozen.ONSET_H,
+        "horizon_h": frozen.END_H - frozen.ONSET_H, "stop_time_h": frozen.END_H,
+        "window_h": frozen.WINDOW_H,
+        "useful_windows_complete": frozen.EXPECTED_WINDOWS_PER_RUN,
+        "sha256": row["output_sha256"],
+    }
+    mismatches = {key: (payload.get(key), value) for key, value in expected_values.items()
+                  if payload.get(key) != value}
+    observed = [{"start_h": int(item["start_h"]), "end_h": int(item["end_h"]),
+                 "complete": bool(item.get("complete"))}
+                for item in payload.get("post_fault_windows") or []]
+    if observed != expected_windows():
+        mismatches["post_fault_windows"] = (observed, expected_windows())
+    if mismatches:
+        raise RuntimeError(f"{row['run_id']}: per-run manifest mismatch: {sorted(mismatches)}")
 
 
 def extract(*, api, assignment: list[dict[str, Any]], lot_rows: dict[str, dict[str, str]],
@@ -133,7 +192,7 @@ def extract(*, api, assignment: list[dict[str, Any]], lot_rows: dict[str, dict[s
                 continue
             try:
                 source = frozen.resolve_source(row, runs_root=runs_root)
-                frozen.verify_run_manifest(row, source)
+                verify_lot_run_manifest(row, source)
                 case = api.load_case(source)
                 features = api.analyze_case_windows(
                     case, baseline, start_h=frozen.ONSET_H, end_h=frozen.END_H,
@@ -200,6 +259,7 @@ def extract(*, api, assignment: list[dict[str, Any]], lot_rows: dict[str, dict[s
                 "evidence_id": evidence_id,
                 "run_id": case_id,
                 "fault": f"F{int(row['idv'])}" if int(row["idv"]) else "Normal",
+                "idv": int(row["idv"]),
                 "run_index": case_id.rsplit("-r", 1)[1],
                 "stream_id": row["stream_id"],
                 "window_ordinal": ordinal,
