@@ -1999,6 +1999,220 @@ class FreshTargetPilot03Tests(SuccessorFixture):
         self._assert_refs(self._durable_refs(target))
 
 
+FIXED_COMMIT = "82a41797c5b07dbd81a0e568dc399b45c98ff92f"
+
+
+class AccountingStopReconciliationTests(SuccessorFixture):
+    """03.13-REM-6: explicit, durable reconciliation of one spurious accounting STOP."""
+
+    Tokenizer = BlockingCorrectionTests.Tokenizer
+    _one_accounted_producer_request = BlockingCorrectionTests._one_accounted_producer_request
+
+    def _spurious_stop(self):
+        ledger, guard, logical_id = self._one_accounted_producer_request()
+        with self.assertRaisesRegex(HarnessError, "persisted accounting messages are invalid"):
+            ledger.validate_tokenizer_accounting_evidence(
+                guard, expected_stage="producer_conformity",
+                expected_messages={logical_id: [{"role": "user", "content": "changed-0"}]})
+        self.assertIsNotNone(ledger.event("stop:tokenizer_accounting"))
+        return ledger, guard
+
+    def _approval(self, ledger, name="approval", **changes):
+        stop = ledger.event("stop:tokenizer_accounting")
+        value = {
+            "decision": "accepted",
+            "author": "FIXTURE AUTHOR",
+            "stop_artifact_sha256": stop["artifact_sha256"],
+            "stop_request_id": stop["request_id"],
+            "cause": "harness_defect",
+            "fixed_commit": FIXED_COMMIT,
+            "ledger_sha256_before": sha256_file(ledger.path),
+        }
+        value.update(changes)
+        path = self.home / f"{name}.json"
+        path.write_text(json.dumps(value, indent=2) + "\n", encoding="utf-8")
+        return path
+
+    def _reconcile(self, ledger, guard, approval):
+        return ledger.reconcile_accounting_stop(
+            approval_path=approval, fixed_commit=FIXED_COMMIT, guard=guard)
+
+    def _state(self, ledger):
+        with closing(sqlite3.connect(ledger.path)) as connection:
+            return {
+                "requests": list(connection.execute("SELECT * FROM requests ORDER BY rowid")),
+                "responses": list(connection.execute("SELECT * FROM responses ORDER BY rowid")),
+                "receipts": list(connection.execute("SELECT * FROM receipts ORDER BY rowid")),
+                "stages": list(connection.execute("SELECT * FROM stages ORDER BY rowid")),
+                "events": list(connection.execute(
+                    "SELECT * FROM events WHERE event != 'stop_reconciled:tokenizer_accounting' "
+                    "ORDER BY rowid")),
+            }
+
+    def test_REM6_a_spurious_stop_is_reconciled_and_new_requests_are_admitted(self):
+        ledger, guard = self._spurious_stop()
+        with self.assertRaisesRegex(HarnessError, "durable STOP blocks"):
+            _reserve(ledger, "producer_conformity", 1)
+        stop = ledger.event("stop:tokenizer_accounting")
+        approval = self._approval(ledger)
+        result = self._reconcile(ledger, guard, approval)
+        self.assertEqual(result["status"], "RECONCILED")
+        event = ledger.event("stop_reconciled:tokenizer_accounting")
+        self.assertEqual(event["artifact_sha256"], stop["artifact_sha256"])
+        self.assertEqual(event["approval"]["sha256"], sha256_file(approval))
+        self.assertEqual(event["approval"]["content"]["cause"], "harness_defect")
+        self.assertEqual(event["fixed_commit"], FIXED_COMMIT)
+        self.assertEqual(ledger.event("stop:tokenizer_accounting"), stop)
+        approval.unlink()
+        ledger.validate_tokenizer_accounting_evidence(guard)
+        self.assertEqual(_reserve(ledger, "producer_conformity", 1), "producer_conformity-1")
+
+    def test_REM6_b_really_corrupted_accounting_refuses_reconciliation(self):
+        ledger, guard = self._spurious_stop()
+        approval = self._approval(ledger)
+        with closing(sqlite3.connect(ledger.path)) as connection:
+            name = "tokenizer_accounting:" + ledger.event("stop:tokenizer_accounting")["request_id"]
+            detail = json.loads(connection.execute(
+                "SELECT detail_json FROM events WHERE event=?", (name,)).fetchone()[0])
+            detail["messages"] = [{"role": "user", "content": "tampered-0"}]
+            connection.execute("UPDATE events SET detail_json=? WHERE event=?",
+                               (canonical_json(detail), name))
+            connection.commit()
+        approval = self._approval(ledger, "approval-after-tamper")
+        with self.assertRaisesRegex(HarnessError, "reconciliation refused"):
+            self._reconcile(ledger, guard, approval)
+        self.assertIsNone(ledger.event("stop_reconciled:tokenizer_accounting"))
+        with self.assertRaisesRegex(HarnessError, "durable STOP blocks"):
+            _reserve(ledger, "producer_conformity", 1)
+
+    def _insert_request_copy(self, ledger, *, status, intent_utc):
+        with closing(sqlite3.connect(ledger.path)) as connection:
+            row = list(connection.execute("SELECT * FROM requests ORDER BY rowid LIMIT 1").fetchone())
+            columns = [item[1] for item in connection.execute("PRAGMA table_info(requests)")]
+            value = dict(zip(columns, row))
+            value.update(request_id="after-stop", logical_id="after-stop-logical",
+                         stage="producer_conformity", retry_of=None, status=status,
+                         intent_utc=intent_utc)
+            connection.execute(
+                f"INSERT INTO requests VALUES ({','.join('?' for _ in columns)})",
+                [value[column] for column in columns])
+            connection.commit()
+
+    def test_REM6_c_request_created_after_stop_refuses_reconciliation(self):
+        ledger, guard = self._spurious_stop()
+        with closing(sqlite3.connect(ledger.path)) as connection:
+            stop_row = connection.execute(
+                "SELECT created_utc FROM events WHERE event='stop:tokenizer_accounting'").fetchone()[0]
+        self.assertLess(stop_row, "2999")
+        later = "2999-01-01T00:00:00+00:00"
+        self._insert_request_copy(ledger, status="COMPLETED", intent_utc=later)
+        approval = self._approval(ledger)
+        with self.assertRaisesRegex(HarnessError, "request created after the STOP"):
+            self._reconcile(ledger, guard, approval)
+        self.assertIsNone(ledger.event("stop_reconciled:tokenizer_accounting"))
+
+    def test_REM6_c_unresolved_intent_refuses_reconciliation(self):
+        ledger, guard = self._spurious_stop()
+        self._insert_request_copy(ledger, status="INTENT", intent_utc="2000-01-01T00:00:00+00:00")
+        approval = self._approval(ledger)
+        with self.assertRaisesRegex(HarnessError, "unresolved INTENT"):
+            self._reconcile(ledger, guard, approval)
+        self.assertIsNone(ledger.event("stop_reconciled:tokenizer_accounting"))
+
+    def test_REM6_d_approval_bound_to_another_stop_or_state_is_refused(self):
+        ledger, guard = self._spurious_stop()
+        cases = {
+            "stop-hash": dict(stop_artifact_sha256="0" * 64),
+            "stop-request": dict(stop_request_id="other-request"),
+            "cause": dict(cause="provider_defect"),
+            "decision": dict(decision="rejected"),
+            "author": dict(author=""),
+            "fixed-commit": dict(fixed_commit="0" * 40),
+            "ledger-before": dict(ledger_sha256_before="1" * 64),
+            "extra-key": dict(note="unexpected"),
+        }
+        for name, changes in cases.items():
+            with self.subTest(name=name):
+                approval = self._approval(ledger, name, **changes)
+                with self.assertRaises(HarnessError):
+                    self._reconcile(ledger, guard, approval)
+                self.assertIsNone(ledger.event("stop_reconciled:tokenizer_accounting"))
+        approval = self._approval(ledger, "wrong-fixed-argument")
+        with self.assertRaises(HarnessError):
+            ledger.reconcile_accounting_stop(
+                approval_path=approval, fixed_commit="1" * 40, guard=guard)
+        self.assertIsNone(ledger.event("stop_reconciled:tokenizer_accounting"))
+
+    def test_REM6_d_absent_stop_is_not_reconcilable(self):
+        ledger, guard, _ = self._one_accounted_producer_request()
+        approval = self.home / "no-stop.json"
+        approval.write_text(json.dumps({
+            "decision": "accepted", "author": "FIXTURE AUTHOR",
+            "stop_artifact_sha256": "0" * 64, "stop_request_id": "x",
+            "cause": "harness_defect", "fixed_commit": FIXED_COMMIT,
+            "ledger_sha256_before": sha256_file(ledger.path)}), encoding="utf-8")
+        with self.assertRaisesRegex(HarnessError, "no tokenizer accounting STOP"):
+            self._reconcile(ledger, guard, approval)
+
+    def test_REM6_e_new_stop_after_reconciliation_blocks_again(self):
+        ledger, guard = self._spurious_stop()
+        self._reconcile(ledger, guard, self._approval(ledger))
+        request_id = ledger.event("stop:tokenizer_accounting")["request_id"]
+        logical_id = ledger.request(request_id)["logical_id"]
+        with self.assertRaisesRegex(HarnessError, "persisted accounting messages are invalid"):
+            ledger.validate_tokenizer_accounting_evidence(
+                guard, expected_stage="producer_conformity",
+                expected_messages={logical_id: [{"role": "user", "content": "changed-again"}]})
+        self.assertIn("stop:tokenizer_accounting#2", ledger.snapshot()["events"])
+        with self.assertRaisesRegex(HarnessError, "durable STOP blocks"):
+            _reserve(ledger, "producer_conformity", 1)
+        with self.assertRaisesRegex(HarnessError, "durable STOP blocks"):
+            ledger.validate_tokenizer_accounting_evidence(guard)
+        with self.assertRaises(HarnessError):
+            self._reconcile(ledger, guard, self._approval(ledger, "second"))
+
+    def test_REM6_e_corrupted_reconciliation_event_blocks_fail_closed(self):
+        ledger, guard = self._spurious_stop()
+        self._reconcile(ledger, guard, self._approval(ledger))
+        with closing(sqlite3.connect(ledger.path)) as connection:
+            detail = json.loads(connection.execute(
+                "SELECT detail_json FROM events WHERE event='stop_reconciled:tokenizer_accounting'"
+            ).fetchone()[0])
+            detail["approval"]["content"]["cause"] = "operator_override"
+            connection.execute(
+                "UPDATE events SET detail_json=? WHERE event='stop_reconciled:tokenizer_accounting'",
+                (canonical_json(detail),))
+            connection.commit()
+        with self.assertRaisesRegex(HarnessError, "FATAL_ACCOUNTING_ERROR"):
+            _reserve(ledger, "producer_conformity", 1)
+
+    def test_REM6_f_reconciliation_is_idempotent_and_single(self):
+        ledger, guard = self._spurious_stop()
+        approval = self._approval(ledger)
+        self.assertEqual(self._reconcile(ledger, guard, approval)["status"], "RECONCILED")
+        before = _logical(ledger.path)
+        self.assertEqual(self._reconcile(ledger, guard, approval)["status"], "ALREADY_RECONCILED")
+        self.assertEqual(_logical(ledger.path), before)
+        with closing(sqlite3.connect(ledger.path)) as connection:
+            self.assertEqual(connection.execute(
+                "SELECT count(*) FROM events WHERE event LIKE 'stop_reconciled:%'").fetchone()[0], 1)
+        other = self._approval(ledger, "other", author="OTHER AUTHOR")
+        with self.assertRaisesRegex(HarnessError, "already reconciled"):
+            self._reconcile(ledger, guard, other)
+        self.assertEqual(_logical(ledger.path), before)
+
+    def test_REM6_g_quota_and_outcomes_are_unchanged(self):
+        ledger, guard = self._spurious_stop()
+        state = self._state(ledger)
+        snapshot = ledger.snapshot()
+        self._reconcile(ledger, guard, self._approval(ledger))
+        self.assertEqual(self._state(ledger), state)
+        after = ledger.snapshot()
+        self.assertEqual(after.pop("events"),
+                         sorted(snapshot.pop("events") + ["stop_reconciled:tokenizer_accounting"]))
+        self.assertEqual(after, snapshot)
+
+
 class _PersistentWalConnection:
     """sqlite3 connection proxy that keeps empty WAL/SHM files after close.
 
@@ -2065,6 +2279,24 @@ class EntrypointFailClosedTests(unittest.TestCase):
             with mock.patch.object(tq.sys, "argv", argv), self.assertRaises(HarnessError):
                 tq.main()
             self.assertFalse((home / "cli.sqlite3").exists())
+
+    def test_REM6_reconcile_cli_requires_ack_and_existing_ledger(self):
+        from studio2.fase03 import reconcile_accounting_stop as cli
+        with tempfile.TemporaryDirectory() as tmp:
+            home = Path(tmp)
+            ledger_path = (home / "missing.sqlite3").resolve()
+            approval = home / "approval.json"
+            approval.write_text("{}", encoding="utf-8")
+            base = ["--ledger", str(ledger_path), "--pilot-id", "successor-cli",
+                    "--approval", str(approval), "--fixed-commit", "0" * 40,
+                    "--provider-config", str(home / "missing-provider.json"),
+                    "--model-snapshot", str(home / "missing-snapshot")]
+            self.assertEqual(cli.main(base), 0)
+            with self.assertRaises(SystemExit):
+                cli.main(base + ["--execute", "--acknowledge", "WRONG"])
+            with self.assertRaisesRegex(HarnessError, "existing absolute ledger"):
+                cli.main(base + ["--execute", "--acknowledge", cli.ACK])
+            self.assertFalse(ledger_path.exists())
 
 
 if __name__ == "__main__":

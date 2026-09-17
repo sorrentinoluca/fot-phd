@@ -30,6 +30,11 @@ DIAGNOSES = {"structure", "identifiers", "cap", "leakage"}
 TOKENIZER_ACCOUNTING_SNAPSHOT = "Qwen/Qwen3.5-122B-A10B-FP8@a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9"
 TOKENIZER_ACCOUNTING_MODEL = "qwen3.5-122b"
 TOKENIZER_ACCOUNTING_ARTIFACT_VERSION = "TOKENIZER_ACCOUNTING_2"
+ACCOUNTING_STOP_EVENT = "stop:tokenizer_accounting"
+ACCOUNTING_STOP_RECONCILED_EVENT = "stop_reconciled:tokenizer_accounting"
+ACCOUNTING_STOP_APPROVAL_KEYS = {"decision", "author", "stop_artifact_sha256", "stop_request_id",
+                                 "cause", "fixed_commit", "ledger_sha256_before"}
+COMMIT = re.compile(r"^[0-9a-f]{40}$")
 
 
 def digest(value):
@@ -442,8 +447,72 @@ class PilotLedger:
     def _events(self, c):
         return {r['event']: r for r in c.execute("SELECT * FROM events")}
 
+    def _accounting_stops(self, c):
+        return list(c.execute(
+            "SELECT * FROM events WHERE event=? OR substr(event,1,?)=? ORDER BY rowid",
+            (ACCOUNTING_STOP_EVENT, len(ACCOUNTING_STOP_EVENT) + 1, ACCOUNTING_STOP_EVENT + '#')))
+
+    @staticmethod
+    def _validate_accounting_stop_approval(approval, stop, stop_detail, fixed_commit):
+        if (not isinstance(approval, dict) or set(approval) != ACCOUNTING_STOP_APPROVAL_KEYS
+                or approval.get('decision') != 'accepted'
+                or not isinstance(approval.get('author'), str) or not approval['author'].strip()
+                or approval.get('stop_artifact_sha256') != stop['artifact_sha256']
+                or approval.get('stop_request_id') != stop_detail.get('request_id')
+                or approval.get('cause') != 'harness_defect'
+                or not isinstance(fixed_commit, str) or not COMMIT.fullmatch(fixed_commit)
+                or approval.get('fixed_commit') != fixed_commit
+                or not isinstance(approval.get('ledger_sha256_before'), str)
+                or not HASH.fullmatch(approval['ledger_sha256_before'])):
+            raise HarnessError(
+                'FATAL_ACCOUNTING_ERROR: accounting STOP approval does not match the durable STOP')
+
+    def _validated_accounting_stop_reconciliation(self, c, stop, event):
+        """Re-authenticate the embedded approval bytes on every use; never trust a marker."""
+        try:
+            stop_detail = json.loads(stop['detail_json'])
+            detail = json.loads(event['detail_json'])
+            stored = detail['approval']
+            if (set(detail) != {'stop_event', 'stop_request_id', 'stop_created_utc', 'stop_reason',
+                                'fixed_commit', 'revalidated_accounting_events', 'approval'}
+                    or not isinstance(stored, dict)
+                    or set(stored) != {'path', 'sha256', 'content', 'utf8'}
+                    or not Path(stored['path']).is_absolute()):
+                raise HarnessError('reconciliation fields are invalid')
+            approval_bytes = stored['utf8'].encode('utf-8')
+            approval = json.loads(approval_bytes)
+            if (approval != stored['content']
+                    or sha256_bytes(approval_bytes) != stored['sha256']
+                    or event['artifact_sha256'] != stop['artifact_sha256']
+                    or detail['stop_event'] != stop['event']
+                    or detail['stop_request_id'] != stop_detail.get('request_id')
+                    or detail['stop_created_utc'] != stop['created_utc']
+                    or detail['stop_reason'] != stop_detail.get('reason')
+                    or not isinstance(detail['revalidated_accounting_events'], list)
+                    or 'tokenizer_accounting:' + stop_detail.get('request_id', '')
+                    not in detail['revalidated_accounting_events']):
+                raise HarnessError('reconciliation binding is invalid')
+            self._validate_accounting_stop_approval(
+                approval, stop, stop_detail, detail['fixed_commit'])
+        except (AttributeError, KeyError, TypeError, ValueError, UnicodeError, HarnessError) as exc:
+            raise HarnessError(
+                'FATAL_ACCOUNTING_ERROR: accounting STOP reconciliation is corrupted') from exc
+        return detail
+
     def _tokenizer_accounting_stop(self, c):
-        return self._events(c).get('stop:tokenizer_accounting')
+        """Return the first durable STOP that still blocks; only the original may be reconciled."""
+        events = self._events(c)
+        reconciliation = events.get(ACCOUNTING_STOP_RECONCILED_EVENT)
+        stops = self._accounting_stops(c)
+        if reconciliation is not None and (not stops or stops[0]['event'] != ACCOUNTING_STOP_EVENT):
+            raise HarnessError(
+                'FATAL_ACCOUNTING_ERROR: accounting STOP reconciliation has no original STOP')
+        for stop in stops:
+            if stop['event'] == ACCOUNTING_STOP_EVENT and reconciliation is not None:
+                self._validated_accounting_stop_reconciliation(c, stop, reconciliation)
+                continue
+            return stop
+        return None
 
     def _require_no_tokenizer_accounting_stop(self, c):
         stop = self._tokenizer_accounting_stop(c)
@@ -546,7 +615,9 @@ class PilotLedger:
 
     def _persist_accounting_stop(self, c, request_id, reason, artifact_sha256):
         if self._tokenizer_accounting_stop(c) is None:
-            self._event(c, 'stop:tokenizer_accounting', artifact_sha256,
+            count = len(self._accounting_stops(c))
+            name = ACCOUNTING_STOP_EVENT if count == 0 else f'{ACCOUNTING_STOP_EVENT}#{count + 1}'
+            self._event(c, name, artifact_sha256,
                         {'reason': reason, 'request_id': request_id,
                          'accounting_event': 'tokenizer_accounting:' + request_id})
 
@@ -647,38 +718,127 @@ class PilotLedger:
         failure = None
         with self._transaction() as c:
             self._require_no_tokenizer_accounting_stop(c)
-            for name, row in self._events(c).items():
-                if not name.startswith('tokenizer_accounting:'):
-                    continue
-                request_id = name.split(':', 1)[1]
-                request = c.execute('SELECT * FROM requests WHERE request_id=?', (request_id,)).fetchone()
-                try:
-                    detail = json.loads(row['detail_json'])
-                    messages = detail.get('messages')
-                    if request is not None and request['stage'] == expected_stage:
-                        if request['logical_id'] not in expected_messages:
-                            raise HarnessError(
-                                'FATAL_ACCOUNTING_ERROR: expected messages omit a stage request')
-                        messages = expected_messages[request['logical_id']]
-                    # The rendering rule is an attribute of this authenticated durable
-                    # request, not of the caller that happens to revalidate the ledger.
-                    # Classify only after lineage, binding and request identity agree.
-                    requires_no_thinking = self._requires_no_thinking_accounting(c, request)
-                    event_guard = TokenizerAccountingGuard(
-                        guard.tokenizer, snapshot=guard.snapshot,
-                        template_kwargs=({'enable_thinking': False}
-                                         if requires_no_thinking else None))
-                    self._validate_accounting_event(
-                        c, request, messages=messages, guard=event_guard)
-                except Exception as exc:
-                    reason = str(exc) if str(exc).startswith('FATAL_ACCOUNTING_ERROR') else (
-                        f'FATAL_ACCOUNTING_ERROR: accounting evidence revalidation failed: {type(exc).__name__}: {exc}')
-                    artifact = row['artifact_sha256'] if HASH.fullmatch(row['artifact_sha256'] or '') else '0' * 64
-                    self._persist_accounting_stop(c, request_id, reason, artifact)
-                    failure = reason
-                    break
+            failed = self._revalidate_accounting_events(
+                c, guard, expected_stage=expected_stage,
+                expected_messages=expected_messages)[1]
+            if failed is not None:
+                request_id, failure, artifact = failed
+                self._persist_accounting_stop(c, request_id, failure, artifact)
         if failure is not None:
             raise HarnessError(failure)
+
+    def _revalidate_accounting_events(self, c, guard, *, expected_stage=None,
+                                      expected_messages=None):
+        """Return validated event names and the first failure, without writing."""
+        validated = []
+        for name, row in self._events(c).items():
+            if not name.startswith('tokenizer_accounting:'):
+                continue
+            request_id = name.split(':', 1)[1]
+            request = c.execute('SELECT * FROM requests WHERE request_id=?', (request_id,)).fetchone()
+            try:
+                detail = json.loads(row['detail_json'])
+                messages = detail.get('messages')
+                if request is not None and request['stage'] == expected_stage:
+                    if request['logical_id'] not in expected_messages:
+                        raise HarnessError(
+                            'FATAL_ACCOUNTING_ERROR: expected messages omit a stage request')
+                    messages = expected_messages[request['logical_id']]
+                # The rendering rule is an attribute of this authenticated durable
+                # request, not of the caller that happens to revalidate the ledger.
+                # Classify only after lineage, binding and request identity agree.
+                requires_no_thinking = self._requires_no_thinking_accounting(c, request)
+                event_guard = TokenizerAccountingGuard(
+                    guard.tokenizer, snapshot=guard.snapshot,
+                    template_kwargs=({'enable_thinking': False}
+                                     if requires_no_thinking else None))
+                self._validate_accounting_event(
+                    c, request, messages=messages, guard=event_guard)
+                validated.append(name)
+            except Exception as exc:
+                reason = str(exc) if str(exc).startswith('FATAL_ACCOUNTING_ERROR') else (
+                    f'FATAL_ACCOUNTING_ERROR: accounting evidence revalidation failed: {type(exc).__name__}: {exc}')
+                artifact = row['artifact_sha256'] if HASH.fullmatch(row['artifact_sha256'] or '') else '0' * 64
+                return validated, (request_id, reason, artifact)
+        return validated, None
+
+    def reconcile_accounting_stop(self, *, approval_path: Path, fixed_commit: str, guard):
+        """Reconcile the original spurious accounting STOP with a durable author approval.
+
+        The STOP is never deleted.  Every persisted accounting event must pass the
+        corrected validator with its own durable messages, and no request may have
+        been created after the STOP.  A later STOP is never covered.
+        """
+        approval_path = Path(approval_path).resolve()
+        try:
+            approval_bytes = approval_path.read_bytes()
+            approval_utf8 = approval_bytes.decode('utf-8')
+            approval = json.loads(approval_utf8)
+        except (OSError, ValueError, UnicodeError) as exc:
+            raise HarnessError('accounting STOP approval is unavailable or invalid') from exc
+        approval_sha256 = sha256_bytes(approval_bytes)
+        with self._transaction() as c:
+            events = self._events(c)
+            stop = events.get(ACCOUNTING_STOP_EVENT)
+            if stop is None:
+                raise HarnessError('no tokenizer accounting STOP to reconcile')
+            existing = events.get(ACCOUNTING_STOP_RECONCILED_EVENT)
+            if existing is not None:
+                detail = self._validated_accounting_stop_reconciliation(c, stop, existing)
+                if (detail['approval']['sha256'] != approval_sha256
+                        or detail['fixed_commit'] != fixed_commit):
+                    raise HarnessError('accounting STOP is already reconciled with another approval')
+                blocking = self._tokenizer_accounting_stop(c)
+                if blocking is not None:
+                    raise HarnessError('FATAL_ACCOUNTING_ERROR: durable STOP blocks probes, gates, '
+                                       'retries and new requests: a later STOP is not reconcilable')
+                return {'status': 'ALREADY_RECONCILED', 'stop_request_id': detail['stop_request_id'],
+                        'approval_sha256': approval_sha256}
+            if [row['event'] for row in self._accounting_stops(c)] != [ACCOUNTING_STOP_EVENT]:
+                raise HarnessError('accounting STOP inventory is inconsistent')
+            try:
+                stop_detail = json.loads(stop['detail_json'])
+            except (TypeError, ValueError) as exc:
+                raise HarnessError('accounting STOP detail is corrupted') from exc
+            if (not isinstance(stop_detail, dict)
+                    or set(stop_detail) != {'reason', 'request_id', 'accounting_event'}
+                    or stop_detail['accounting_event'] != 'tokenizer_accounting:' + str(stop_detail['request_id'])):
+                raise HarnessError('accounting STOP detail is corrupted')
+            self._validate_accounting_stop_approval(approval, stop, stop_detail, fixed_commit)
+            wal = Path(str(self.path) + '-wal')
+            if wal.exists() and wal.stat().st_size:
+                raise HarnessError('accounting STOP reconciliation requires a checkpointed ledger')
+            if sha256_file(self.path) != approval['ledger_sha256_before']:
+                raise HarnessError('accounting STOP approval is bound to another ledger state')
+            stop_time = datetime.fromisoformat(stop['created_utc'])
+            for row in self._rows(c):
+                if row['status'] == 'INTENT':
+                    raise HarnessError('accounting STOP reconciliation refused: unresolved INTENT exists')
+                if datetime.fromisoformat(row['intent_utc']) > stop_time:
+                    raise HarnessError('accounting STOP reconciliation refused: request created after the STOP')
+            validated, failed = self._revalidate_accounting_events(c, guard)
+            if failed is not None:
+                raise HarnessError('accounting STOP reconciliation refused: ' + failed[1])
+            if stop_detail['accounting_event'] not in validated:
+                raise HarnessError('accounting STOP reconciliation refused: STOP request lacks valid accounting')
+            detail = {
+                'stop_event': ACCOUNTING_STOP_EVENT,
+                'stop_request_id': stop_detail['request_id'],
+                'stop_created_utc': stop['created_utc'],
+                'stop_reason': stop_detail['reason'],
+                'fixed_commit': fixed_commit,
+                'revalidated_accounting_events': sorted(validated),
+                'approval': {'path': str(approval_path), 'sha256': approval_sha256,
+                             'content': approval, 'utf8': approval_utf8},
+            }
+            self._event(c, ACCOUNTING_STOP_RECONCILED_EVENT, stop['artifact_sha256'], detail)
+            self._validated_accounting_stop_reconciliation(
+                c, stop, self._events(c)[ACCOUNTING_STOP_RECONCILED_EVENT])
+            if self._tokenizer_accounting_stop(c) is not None:
+                raise HarnessError('accounting STOP reconciliation did not clear the original STOP')
+            return {'status': 'RECONCILED', 'stop_request_id': stop_detail['request_id'],
+                    'revalidated_accounting_events': len(validated),
+                    'approval_sha256': approval_sha256}
 
     @staticmethod
     def _record_consumed_fields(raw, record):
