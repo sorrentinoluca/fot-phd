@@ -1,0 +1,136 @@
+{
+  "artifact_version": "REMEDIATION_PRODUCER_122B_PILOT_03_EVIDENCE_1",
+  "created_utc": "2026-09-17T07:58:21Z",
+  "verdict": "REMEDIATION FAIL — READY FOR REVIEW",
+  "pilot_id": "studio2-fase03-d9-pilot-03",
+  "candidate": {
+    "execution_commit": "98dc2b85d83e386fd66f695e76f87b871ac2f7fe",
+    "execution_tree": "23149781278ebf34cd1d037a5b509a089310f195"
+  },
+  "offline_authorization": {
+    "status": "PASS",
+    "diagnosis": "identifiers",
+    "outcome_changed": false,
+    "require_execution": "PASS",
+    "producer_remediation_prerequisites": "PASS",
+    "diagnosis_approval_sha256": "3bfba0d781dca4bb9d359d089cbd3948a4583ab99afc5df1ac0f8f7de32bb3e2",
+    "template_sha256": "4306c5da6f0ebefcbce75d26d585caf82cc05ff85d5e7e6639e3f65b2d66de12",
+    "diff_sha256": "7bbe19745179b90e57d8a80c2c362b1b0449d99474799f2273baae952a7a2f5f",
+    "remediation_approval_sha256": "5469d14c7f1462b2f4c606705d891f4e5dffad927cd79b2829ba9f61a6193b6f"
+  },
+  "endpoint": {
+    "route": "DIRECT_FROZEN_PROVIDER_URL_OVER_ACTIVE_NETWORK_PATH",
+    "ssh_tunnel_opened": false,
+    "models_status": 200,
+    "observed_model": "qwen3.5-122b",
+    "observed_root": "Qwen/Qwen3.5-122B-A10B-FP8",
+    "observed_max_model_len": 131072,
+    "version_status": 200,
+    "observed_vllm_version": "0.27.1",
+    "qualified_system_fingerprint": "vllm-0.27.1-934a3247"
+  },
+  "execution": {
+    "runner_invocations": 1,
+    "wrapper_start_utc": "2026-09-17T07:58:14.529068+00:00",
+    "wrapper_end_utc": "2026-09-17T07:58:21.053918+00:00",
+    "wrapper_exit_code": 1,
+    "sys_executable": "/opt/anaconda3/bin/python3",
+    "python_version": "3.13.9",
+    "machine": "arm64",
+    "stage": "producer_remediation",
+    "diagnosis": "identifiers",
+    "retry": false,
+    "resume": false,
+    "second_invocation": false,
+    "model_27b_calls": 0,
+    "provider_inference_requests": 0,
+    "endpoint_control_requests": 2,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "total_tokens": 0
+  },
+  "failure": {
+    "message": "FATAL_ACCOUNTING_ERROR: persisted accounting messages are invalid",
+    "boundary": "TOKENIZER_ACCOUNTING_REVALIDATION_BEFORE_STAGE_BINDING_AND_REQUEST_RESERVATION",
+    "cause": "REMEDIATION_EXPECTED_MESSAGES_KEYED_ONLY_BY_LOGICAL_ID_REPLACED_MESSAGES_FOR_PRIOR_PRODUCER_CONFORMITY_EVENTS",
+    "durable_stop_event": "stop:tokenizer_accounting",
+    "durable_stop_request_id": "e6019d34669737981fec3174173a92c160df3e192924880226bfc7952a50bb67",
+    "durable_stop_artifact_sha256": "d02464d2937cc7d5f31038b40478bfe0b547112c277371da5c1b2d3b37dbc54a",
+    "stage_binding_created": false,
+    "requests_created": 0,
+    "responses_created": 0,
+    "outcome_created": false,
+    "journal_created": false,
+    "summary_created": false,
+    "validated_library_created": false
+  },
+  "cases": [
+    {"logical_id": "agent_1", "status": "NOT_SENT", "total_tokens": 0},
+    {"logical_id": "agent_2", "status": "NOT_SENT", "total_tokens": 0},
+    {"logical_id": "agent_3", "status": "NOT_SENT", "total_tokens": 0},
+    {"logical_id": "agent_4", "status": "NOT_SENT", "total_tokens": 0},
+    {"logical_id": "agent_5", "status": "NOT_SENT", "total_tokens": 0},
+    {"logical_id": "agent_6", "status": "NOT_SENT", "total_tokens": 0},
+    {"logical_id": "agent_7", "status": "NOT_SENT", "total_tokens": 0},
+    {"logical_id": "agent_8", "status": "NOT_SENT", "total_tokens": 0}
+  ],
+  "ledger_state": {
+    "pilot03_sha256_before_wrapper": "ce9e6724e64879edab02a8283526c451e4c0a4a94f4b4be12701083479c52522",
+    "pilot03_sha256_after_wrapper": "3690ccfac8a0807d20f1be581325748f392ed777a206ee7c2e8954106df19779",
+    "pilot001_sha256_before": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+    "pilot001_sha256_after": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb",
+    "requests": 9,
+    "responses": 9,
+    "receipts": 9,
+    "stages": 2,
+    "events": 24,
+    "predecessor_lineage_requests": 5,
+    "native_requests": 9,
+    "producer_remediation_requests": 0,
+    "lsof_final_empty": true,
+    "pilot03_sidecars_absent": true
+  },
+  "budget": {
+    "cumulative_provider_requests_actual": 14,
+    "expected_after_eight_remediation_requests": 22,
+    "cumulative_planned_max": 166,
+    "hard_stop": 200,
+    "planned_margin": 34
+  },
+  "durability_review_note": {
+    "finding": "DIAGNOSIS_EVENT_STORES_APPROVAL_PATH_AND_HASH_WITHOUT_EMBEDDED_CONTENT",
+    "status": "OPEN_FAIL_CLOSED_NOT_CAUSAL_TO_THIS_RUN",
+    "approval_file_present": true,
+    "approval_file_mode": "0600"
+  },
+  "input_artifacts": {
+    "studio2/fase03/producer_probe.py": "49048534f6c3d7761445c87a7690f7e555fb0ef8d1870f4150456ca5569b4213",
+    "studio2/fase03/harness/ledger.py": "44e1402af69740810c3d2feac4e007f5165f454de7b3771277902402cf8c3c4b",
+    "studio2/fase03/harness/PILOT_INPUT_SOURCES.pending.json": "7103482d6c7b8038944b0af63bac58548557c8d0b8f5d24e420346bd93fa304b",
+    "studio2/fase03/schema_insight/SCHEMA_FREEZE.json": "d64e4d4be32afcf9bc35d78727c943e13d7d466320caab35451f40e624ddde12"
+  },
+  "private_artifacts": {
+    "/Users/luker/fot-tep/studio2/fase03/api_key.json": "e24bbbd9340ed1da6ba5db036aa546f246975f70cbf6ba6de59046244e24865a",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/pilot_d9_successor_candidate_03_13.private.json": "0c3cd34ef137cae4388e7868e4aa1e8d9bf494ab563fcabbdbcdc66bc7fe0606",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/producer_122b_successor_03_13.private.json": "04b2c948c586c9ae4e38d9d0c50d36aad86a5b609a609d94c2d31fde7c2a8bf0",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/producer_failure_diagnosis_03_13.private.json": "3bfba0d781dca4bb9d359d089cbd3948a4583ab99afc5df1ac0f8f7de32bb3e2",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/producer_template_remediation_03_13.txt": "4306c5da6f0ebefcbce75d26d585caf82cc05ff85d5e7e6639e3f65b2d66de12",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/producer_template_remediation_03_13.diff": "7bbe19745179b90e57d8a80c2c362b1b0449d99474799f2273baae952a7a2f5f",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/execution/remediation_approval_03_13.private.json": "5469d14c7f1462b2f4c606705d891f4e5dffad927cd79b2829ba9f61a6193b6f",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-03/ledger.sqlite3": "3690ccfac8a0807d20f1be581325748f392ed777a206ee7c2e8954106df19779",
+    "/Users/luker/fot-tep-runtime/studio2-fase03-d9-pilot-001/ledger.sqlite3": "4802d7918dc063d198b799c367a9300c4ba11685cc37487c862e8a2f47bcc1eb"
+  },
+  "versioned_artifacts": {
+    "studio2/fase03/harness/EVIDENZA_REMEDIATION_PRODUCER_122B_PILOT_03_03_13.md": "8f5bd6c5df19d3395fe9cff26e8392bfb898668d312c22c4a580cc83a24d12ca",
+    "studio2/fase03/harness/logs_remediation_producer_pilot_03/remediation_producer_wrapper.log": "fa79e747aacfbce85761245c4049fdcfbb2a44e99ed4ee93e0c5af017a6d7f7c"
+  },
+  "constraints": {
+    "server_enea_json_read": false,
+    "raw_versioned": false,
+    "secrets_versioned": false,
+    "push": false,
+    "merge": false,
+    "tag": false
+  },
+  "self_sha256": "EXCLUDED_TO_AVOID_SELF_REFERENCE"
+}
