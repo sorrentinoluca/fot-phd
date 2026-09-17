@@ -1,0 +1,11 @@
+{
+  "accuracy_defined": false,
+  "direct_llm_comparison": false,
+  "distribution_sha256": "804ce4c1b9c15fb5096477631771487c4544dd072dbeaff4fc00ba2c1be8f7fb",
+  "included_in_primary_metrics": false,
+  "runs": 6,
+  "schema_version": 1,
+  "scope": "six sealed OOD runs, separate forced attribution only",
+  "structural_abstention_rate": 0.0,
+  "windows": 48
+}

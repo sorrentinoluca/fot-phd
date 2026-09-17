@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "status": "PASS",
+  "scope": "development_only_loader_preflight_before_single_real_lobo_smoke",
+  "package_commit": "bfbde772bf14c496ff0b255008904d3deb424e54",
+  "held_out_batch": "5",
+  "archives": {
+    "fault": {
+      "release": "studio2-fase03-evidence-v2",
+      "bytes": 62185472,
+      "sha256": "6d724ca2a06439129a11ff4a56648d550b3dd87d4e23a34197e88e6fca5b37cf",
+      "manifest_sha256": "5111d0c61c2e93fe5071d7a85015673549af0bf9c1dc74e0d940719a8400e020",
+      "evaluator_index_sha256": "b966cdd3d579efaf595fd48c4b9baa70747ba584522926520840a1e914dbf69c"
+    },
+    "normal": {
+      "release": "studio2-fase03-normal-dev-v1",
+      "bytes": 151500800,
+      "sha256": "eef69b42d8506c993ac45d77208df982d138b4354d7d4134bd67ba421dc91a03",
+      "manifest_sha256": "cc8d96c2c60169afc99cb811cea194aa553afcc7cc51cad4a0092d44de38fdc1",
+      "source_evaluator_index_sha256": "4f340a0e24e809a5d16d783b561262826fae08afb143bde81d410ae103f55329",
+      "adapted_evaluator_index_sha256": "27a534502146589bdcb914fee3b5a55dfb7b209b094a55b1ad5495ac889431ae"
+    }
+  },
+  "normal_index_adapter": {
+    "location": "temporary_directory_outside_repository",
+    "source_rows": 320,
+    "source_order_preserved": true,
+    "source_columns_preserved": true,
+    "columns_appended": {
+      "label": "class_identifier",
+      "batch": "agent_run_index"
+    },
+    "encoding": "utf-8",
+    "line_ending": "LF",
+    "scientific_payload_modified": false,
+    "package_code_modified": false
+  },
+  "datasets": {
+    "fault": {"samples": 320, "dimensions": 697, "clusters": 40},
+    "normal": {"samples": 320, "dimensions": 697, "clusters": 40},
+    "combined": {"samples": 640, "dimensions": 697, "clusters": 80},
+    "training": {"samples": 512, "clusters": 64},
+    "validation": {"samples": 128, "clusters": 16}
+  },
+  "checks": {
+    "all_signatures_finite_and_697_dimensional": true,
+    "manifest_index_join_one_to_one": true,
+    "eight_clients_present": true,
+    "five_batches_present": true,
+    "fault_normal_run_overlap": 0,
+    "training_validation_run_overlap": 0
+  },
+  "execution": {
+    "smoke_attempts": 1,
+    "python": "3.13.9",
+    "numpy": "2.3.5",
+    "platform": "macOS 26.6.2"
+  }
+}

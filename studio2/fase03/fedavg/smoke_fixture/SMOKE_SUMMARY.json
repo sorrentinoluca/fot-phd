@@ -1,0 +1,28 @@
+{
+  "abstention_rate": 0.0,
+  "aggregate_accuracy": {
+    "centralized": 1.0,
+    "fedavg": 1.0,
+    "local": 0.5625
+  },
+  "config": {
+    "batch_size": 32,
+    "hidden_dim": 32,
+    "input_dim": 697,
+    "learning_rate": 0.05,
+    "local_epochs": 5,
+    "output_dim": 9,
+    "rounds": 40,
+    "seed": 20260914,
+    "std_floor": 1e-08
+  },
+  "held_out_batch": "5",
+  "metrics_sha256": "1840ca6c5023d037f6797737f02f6ae425ef1756ffd3577597e219d716c37f1d",
+  "schema_version": 1,
+  "scope": "technical_leave_one_batch_out_not_a_performance_estimate",
+  "status": "PASS",
+  "train_samples": 128,
+  "validation_clusters": 16,
+  "validation_samples": 32,
+  "weight_hashes_sha256": "7927b73afeb044f981b49627e9173c01d3228a9a633bd59231502a01019be2e5"
+}
