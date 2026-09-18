@@ -247,6 +247,41 @@ def load_tokenizer_accounting_guard(snapshot: Path, *, template_kwargs=None):
     return TokenizerAccountingGuard(tokenizer, template_kwargs=template_kwargs)
 
 
+class _EventRow:
+    """Read-only event row with the same keys as ``sqlite3.Row``; detail read on demand."""
+
+    __slots__ = ("_ledger", "_connection", "_values", "_detail")
+    KEYS = ("event", "created_utc", "artifact_sha256", "detail_json")
+
+    def __init__(self, ledger, connection, event, created_utc, artifact_sha256):
+        self._ledger, self._connection = ledger, connection
+        self._values = {"event": event, "created_utc": created_utc,
+                        "artifact_sha256": artifact_sha256}
+        self._detail = None
+
+    def keys(self):
+        return list(self.KEYS)
+
+    def __getitem__(self, key):
+        if key != "detail_json":
+            return self._values[key]
+        if self._detail is None:
+            query = ("SELECT detail_json FROM events WHERE event=? AND created_utc=? "
+                     "AND artifact_sha256=?")
+            args = (self._values["event"], self._values["created_utc"],
+                    self._values["artifact_sha256"])
+            try:
+                row = self._connection.execute(query, args).fetchone()
+            except sqlite3.ProgrammingError:
+                # The caller's connection is closed (e.g. a snapshot read after its block).
+                with closing(self._ledger._connect()) as fresh:
+                    row = fresh.execute(query, args).fetchone()
+            if row is None:
+                raise HarnessError("event changed while it was being read")
+            self._detail = row[0]
+        return self._detail
+
+
 class PilotLedger:
     def __init__(self, path: Path, *, pilot_id: str, identity_path: Path | None = None,
                  profile: str = "pilot"):
@@ -260,6 +295,12 @@ class PilotLedger:
         if not re.fullmatch(r"[A-Za-z0-9_.-]{8,120}", pilot_id):
             raise HarnessError("invalid pilot_id")
         self.path, self.pilot_id = path.resolve(), pilot_id
+        # 7.4-FIX-RETRY-RETE, latency: in-process memos of work whose inputs are unchanged.
+        # A new process starts empty, so every open still validates the whole ledger once.
+        self._event_cache: dict = {}
+        self._binding_cache: dict = {}
+        self._digest_memo: list = []
+        self._record_memo: set = set()
         self.identity_path = (Path(identity_path).resolve()
                               if identity_path is not None else self.path)
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -626,7 +667,25 @@ class PilotLedger:
             return {"status": "RECONCILED", "predecessor_requests": 5}
 
     def _events(self, c):
-        return {r['event']: r for r in c.execute("SELECT * FROM events")}
+        """All events by name, in insertion order.
+
+        Only name, artifact and instant are read here; ``detail_json`` -- which for the
+        accounting events carries the whole prompt -- is read from the database when a
+        caller asks for it, never cached across calls. Name-only uses (membership, prefix
+        scans) no longer load every detail at every call, which made the batch latency
+        grow with the ledger (ANALISI_LATENZA_TRATTO_1); tamper checks still read fresh bytes.
+        """
+        return {row[0]: _EventRow(self, c, *row) for row in c.execute(
+            "SELECT event, created_utc, artifact_sha256 FROM events ORDER BY rowid")}
+
+    def _binding_digest(self, value):
+        """``digest`` of a stage binding, memoized on value equality (bindings are large)."""
+        for known, sha in self._digest_memo:
+            if known == value:
+                return sha
+        sha = digest(value)
+        self._digest_memo = [(json.loads(canonical_json(value)), sha)] + self._digest_memo[:3]
+        return sha
 
     # --- 03.13-REV27B: approved configuration revisions -------------------------------
     @staticmethod
@@ -1057,7 +1116,7 @@ class PilotLedger:
         binding = self._binding(c, request['stage'])
         specs = [spec for spec in binding['requests']
                  if spec['logical_id'] == request['logical_id']]
-        if (request['stage_run'] != digest(binding) or len(specs) != 1
+        if (request['stage_run'] != self._binding_digest(binding) or len(specs) != 1
                 or request['identity_json'] != canonical_json(specs[0])
                 or (request['model'], request['producer'])
                 != (specs[0]['model'], specs[0]['producer'])):
@@ -1545,8 +1604,11 @@ class PilotLedger:
         if row is None:
             raise HarnessError(f"stage {stage} requires an immutable request plan")
         value = json.loads(row['binding_json'])
-        if digest(value) != row['binding_sha256']:
-            raise HarnessError("stage binding corrupted")
+        cached = self._binding_cache.get(stage)
+        if cached != (row['binding_json'], row['binding_sha256']):
+            if self._binding_digest(value) != row['binding_sha256']:
+                raise HarnessError("stage binding corrupted")
+            self._binding_cache[stage] = (row['binding_json'], row['binding_sha256'])
         from .d9 import validate_binding
         validate_binding(value, stage, self, c)
         return value
@@ -1586,7 +1648,7 @@ class PilotLedger:
             validate_binding(binding, stage, self, c)
             old = c.execute("SELECT binding_sha256 FROM stages WHERE stage=?", (stage,)).fetchone()
             if old:
-                if old[0] != digest(binding):
+                if old[0] != self._binding_digest(binding):
                     self._rebind_stage(c, stage, self._binding(c, stage), binding)
                 self._prerequisites(c, stage)
                 self._validated_attempt_inventory(c)
@@ -1843,7 +1905,7 @@ class PilotLedger:
         self._ready(c, stage)
         rows = self._validated_attempt_inventory(c)
         binding = self._binding(c, stage)
-        if stage_run != digest(binding):
+        if stage_run != self._binding_digest(binding):
             raise HarnessError("stage_run must identify the exact immutable request plan")
         specs = [s for s in binding['requests'] if s['logical_id'] == logical_id]
         if len(specs) != 1 or (model, producer) != (specs[0]['model'], specs[0]['producer']):
@@ -1979,8 +2041,10 @@ class PilotLedger:
     def attempts(self, stage, logical_id):
         """Every attempt recorded for one logical request, in insertion order."""
         with closing(self._connect()) as c:
-            return [dict(r) for r in self._rows(c)
-                    if r['stage'] == stage and r['logical_id'] == logical_id]
+            # Filtered in SQLite: same rows, same order, without loading the whole table.
+            return [dict(r) for r in c.execute(
+                "SELECT * FROM requests WHERE stage=? AND logical_id=? ORDER BY rowid",
+                (stage, logical_id))]
 
     def request(self, request_id):
         with closing(self._connect()) as c:
@@ -1989,7 +2053,9 @@ class PilotLedger:
 
     def leaf(self, stage, logical_id):
         with closing(self._connect()) as c:
-            rows = [r for r in self._rows(c) if r['stage'] == stage and r['logical_id'] == logical_id]
+            rows = list(c.execute(
+                "SELECT * FROM requests WHERE stage=? AND logical_id=? ORDER BY rowid",
+                (stage, logical_id)))
             leaves = self._chain_leaves(rows)
             return dict(leaves[0]) if leaves else None
 
@@ -2234,9 +2300,10 @@ class PilotLedger:
     def _validate_attempts(self, c, binding, rows):
         """Check every attempt against its plan, including non-leaf retry ancestors."""
         specs = {s['logical_id']: s for s in binding['requests']}
+        hashes = events = None
         by_id = {r['request_id']: r for r in rows}
         children = {r['retry_of']: r for r in rows if r['retry_of']}
-        runs = {stage: set(self._stage_runs(c, stage)) | {digest(binding)}
+        runs = {stage: set(self._stage_runs(c, stage)) | {self._binding_digest(binding)}
                 for stage in {r['stage'] for r in rows}}
         if sum(r['quota_kind'] == 'requalification' for r in self._rows(c)) > REQUALIFICATION_LIMIT:
             raise HarnessError('requalification quota exceeded')
@@ -2270,9 +2337,25 @@ class PilotLedger:
             if row['status'] == 'ZERO_TOKEN_PROVEN':
                 self._validated_reconciliation(c, row)
             if row['status'] == 'COMPLETED' and row['model'] == TOKENIZER_ACCOUNTING_MODEL:
+                # Memo keyed by everything the check reads: the request row, the hashes of
+                # raw and record, the two accounting events. Unchanged key, same verdict.
+                if hashes is None:
+                    hashes = {r[0]: (r[1], r[2]) for r in c.execute(
+                        "SELECT request_id, raw_sha256, record_sha256 FROM responses")}
+                    # Artifact, instant and detail length: a fingerprint read in SQLite,
+                    # without moving the details (whole prompts) into Python at every call.
+                    events = {r[0]: tuple(r[1:]) for r in c.execute(
+                        "SELECT event, artifact_sha256, created_utc, length(detail_json) "
+                        "FROM events WHERE event LIKE 'tokenizer\\_accounting%' ESCAPE '\\'")}
+                links = tuple(events.get(prefix + row['request_id'])
+                              for prefix in ('tokenizer_accounting:', 'tokenizer_accounting_record:'))
+                key = (tuple(row), hashes.get(row['request_id']), links)
+                if key in self._record_memo:
+                    continue
                 if self._evaluated_record(c, row) is None:
                     raise HarnessError(
                         'FATAL_ACCOUNTING_ERROR: completed 122B request lacks a durable record')
+                self._record_memo.add(key)
         # _chain_leaves checks cycles reachable from bases; account for disconnected cycles too.
         reached = set()
         for row in (r for r in rows if not r['retry_of']):
