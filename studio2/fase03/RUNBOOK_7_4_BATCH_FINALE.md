@@ -242,6 +242,11 @@ Da qui in avanti, `export TARGET=/Users/luker/fot-tep-runtime/studio2-fase03-bat
   --execute --acknowledge EXECUTE_PHASE03_FINAL_CANARY
 ```
 
+Il piano ora è un preflight vero anche sullo spazio delle label: lo legge dal manifest
+congelato del pilot (`84176888…`, accanto allo snapshot del tokenizer indicato dal target,
+altrimenti `--pilot-manifest`) e lo autentica per SHA-256. Un manifest assente o alterato
+ferma il giorno a **zero** chiamate invece che dopo la prima (7.4-FIX-RUNNER).
+
 Dieci chiamate, una volta per giorno civile Europe/Rome in cui si inviano chiamate
 scientifiche, **prima** del primo lotto del giorno; senza numero massimo di giorni
 (REVISIONE_002). La quota `final_canary` di 300 è solo una guardia contabile.
@@ -363,7 +368,8 @@ ripresa si ferma: è incertezza, non un fallimento da ritentare (punto 6).
 
 | STOP | Segnale | Azione |
 | --- | --- | --- |
-| Richiesta incerta (`INTENT`/`FAILED` senza risposta) | `uncertain request ...; reconcile it with ledger_cli` | Raccogliere la prova durevole del provider, poi `"$PY" -m studio2.fase03.harness.ledger_cli --ledger <ledger> --pilot-id studio2-fase03-batch-finale-01 reconcile-zero-token --request-id <id> --evidence <f> --approval <f>`. **D3:** se la prova stabilisce zero token generati (ragionamento incluso), la ripresa con `--resume` ritenta lo slot una volta, a carico della quota retry. Se la prova non chiude l'incertezza: nessun reinvio, STOP e decisione dell'autore. |
+| Slot `INTENT` con risposta già salvata | eccezione dopo la chiamata; `status INTENT` e `raw_json` presente | **Non è incertezza**: `execute_request` salva il raw prima di interpretarlo, quindi la chiamata è documentata e lo slot si chiude rivalutando i byte salvati, senza nuova chiamata. Basta rieseguire il comando (canary o `--resume` per il lotto): il runner lo riconosce, registra l'evento `note:stored_response_evaluated:<id>` e conta il recupero in `recovered_from_stored_response`. |
+| Richiesta incerta (`INTENT`/`FAILED` **senza** risposta salvata) | `uncertain request ...; reconcile it with ledger_cli` | Raccogliere la prova durevole del provider, poi `"$PY" -m studio2.fase03.harness.ledger_cli --ledger <ledger> --pilot-id studio2-fase03-batch-finale-01 reconcile-zero-token --request-id <id> --evidence <f> --approval <f>`. Il CLI legge dal ledger il profilo dichiarato (`--profile` per forzarlo): su un target `final_batch` si apre senza opzioni. **D3:** se la prova stabilisce zero token generati (ragionamento incluso), la ripresa con `--resume` ritenta lo slot una volta, a carico della quota retry. Se la prova non chiude l'incertezza: nessun reinvio, STOP e decisione dell'autore. |
 | Risposta ricevuta ma invalida o troncata | `invalid` nella riga di avanzamento | Nessuna azione: è un fallimento registrato e definitivo (D3 riga 3). Non si rigenera. |
 | Quota retry esaurita | `cumulative retry quota 400 is exhausted` | STOP. Il tetto retry è separato dalla quota scientifica e non si allarga localmente. |
 | Cinque fallimenti tecnici consecutivi | `STOP: 5 consecutive technical failures on [...]` | STOP: servizio verosimilmente indisponibile. Il contatore è **persistente** (derivato dal ledger) e non si azzera riavviando; si azzera solo con una chiamata che riceve risposta. Decisione dell'autore prima di riprendere. |

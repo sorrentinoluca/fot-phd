@@ -15,7 +15,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from .common import HarnessError, sha256_text
+from .common import HarnessError, sha256_file, sha256_text
 from .ledger import (FINAL_BATCH_PROFILE, FINAL_CANARY_STAGE, FINAL_PASS_STAGES, PilotLedger,
                      digest)
 from . import canary_marking, final_inventory
@@ -48,11 +48,30 @@ def fixture_config(ledger_path: Path, pilot_id: str) -> dict:
 
 
 def fixture_prompt(stable_id: str) -> dict:
+    """A rendered row as the renderer really writes it: no ``label_space``.
+
+    The label space is bound by the loaders from the frozen manifest. A fixture that adds it
+    by hand hides exactly the gap that stopped the first canary day of the real campaign.
+    """
     text = f"FIXTURE ONLY prompt {stable_id}"
     return {"prompt_id": stable_id, "text": text, "prompt_sha256": sha256_text(text),
             "agent_id": "agent_1", "case_id": "fixture-case", "condition": "A",
-            "sample_role": "matched_transfer", "label_space": LABELS,
+            "sample_role": "matched_transfer",
             "available_insight_ids": INSIGHTS}
+
+
+def install_frozen_manifest(stack, home: Path) -> Path:
+    """A sacrificial stand-in for the frozen pilot input manifest, authenticated as the real one."""
+    from . import final_prompts as final_prompts_module
+    path = home / "pilot" / "execution" / "PILOT_INPUT_MANIFEST.frozen.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"artifact_version": "FIXTURE", "label_space": LABELS}),
+                    encoding="utf-8")
+    stack.enter_context(patch.object(final_prompts_module, "PILOT_INPUT_MANIFEST_SHA256",
+                                     sha256_file(path)))
+    stack.enter_context(patch.object(run_final_batch, "pilot_manifest_path",
+                                     lambda target, override=None: Path(override or path)))
+    return path
 
 
 def answer(*, abstain=False, label="Normal", reasoning="FIXTURE ONLY reasoning."):
@@ -128,12 +147,20 @@ class FinalBatchBase(unittest.TestCase):
         self.schema = {"type": "object"}
         self.results = self.home / "results"
         self.schedule = self.make_schedule()
-        self.prompts = {row["stable_id"]: fixture_prompt(row["stable_id"]) for row in self.schedule}
-        self.target = {"schedule": {"sha256": "0" * 64}, "prompts": {"sha256": "1" * 64},
+        self.manifest_path = install_frozen_manifest(self.stack, self.home)
+        self.prompts_path = self.home / "final_prompts.jsonl"
+        self.prompts_path.write_text(
+            "".join(json.dumps(fixture_prompt(row["stable_id"])) + "\n"
+                    for row in self.schedule if row["repetition"] == 1), encoding="utf-8")
+        self.target = {"schedule": {"sha256": "0" * 64},
+                       "prompts": {"sha256": "1" * 64, "path": str(self.prompts_path)},
                        "canary_expectations": {"path": str(self.home / "canary.json"),
                                                "sha256": "2" * 64},
                        "tokenizer_snapshot": str(self.home), "generation": self.generation,
                        "results_dir": str(self.results)}
+        # The loader binds the label space, exactly as the command does before any call.
+        self.prompts = run_final_batch.load_prompts(
+            self.target, label_space=run_final_batch.target_label_space(self.target))
         FakeProvider.script = {}
         self.stack.enter_context(patch.object(run_final_batch, "pass_binding", binding_without_config))
         self.stack.enter_context(patch.object(run_final_canary, "canary_binding",

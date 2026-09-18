@@ -19,11 +19,36 @@ from __future__ import annotations
 from typing import Any, Callable, Iterable
 
 from studio2.fase03 import protocol, protocol_bnolf
-from .common import HarnessError, canonical_json, sha256_file, sha256_text
+from .common import HarnessError, canonical_json, load_json, sha256_file, sha256_text
 from . import final_inventory
 
 LIBRARY_ROLE_BY_TOKEN = {final_inventory.LIBRARY_PRIMARY: "122B",
                          final_inventory.LIBRARY_ALTERNATE: "27B"}
+
+PILOT_INPUT_MANIFEST_SHA256 = "8417688869b75bda8235387ac830018ecdc9030442a860d495418f195f2b4014"
+
+
+def frozen_label_space(manifest_path) -> list[str]:
+    """The label space of the frozen pilot input manifest, authenticated by its SHA-256.
+
+    A rendered row carries ``available_insight_ids`` but not the label space: the label
+    space is not prompt bytes, it is the closed set the answer is validated against, and it
+    belongs to the frozen manifest (``84176888...``). The runners read it from here, so the
+    rendered files -- pinned and already materialised inside a target -- are never touched.
+    """
+    from pathlib import Path as _Path
+
+    path = _Path(manifest_path)
+    if not path.is_file():
+        raise HarnessError(f"frozen pilot input manifest not found: {path}")
+    observed = sha256_file(path)
+    if observed != PILOT_INPUT_MANIFEST_SHA256:
+        raise HarnessError("pilot input manifest is not the frozen one: label space refused "
+                           f"(SHA-256 {observed})")
+    labels = load_json(path).get("label_space")
+    if not isinstance(labels, list) or not labels or not all(isinstance(x, str) for x in labels):
+        raise HarnessError("the frozen manifest carries no usable label space")
+    return list(labels)
 
 
 def resolve_library_path(entry: dict[str, Any], *, roots: Iterable[Any] = ()) -> Any:

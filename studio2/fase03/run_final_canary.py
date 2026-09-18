@@ -45,6 +45,7 @@ from studio2.fase03.harness.runtime import (  # noqa: E402
 from studio2.fase03 import run_pilot  # noqa: E402
 from studio2.fase03.run_final_batch import (  # noqa: E402
     BatchStop, STOP_PREFIX, load_target, resolve_civil_day, retry_backoff_seconds,
+    stored_without_record, target_label_space,
 )
 
 ACK = "EXECUTE_PHASE03_FINAL_CANARY"
@@ -100,7 +101,7 @@ def day_state(ledger: PilotLedger) -> dict[str, list[str]]:
 
 def run_day(*, target, ledger, config, generation, schema, day: str | None, results_dir: Path,
             execute: bool, provider_factory=None, accounting_guard=None,
-            sleep=None, now: datetime | None = None) -> dict[str, Any]:
+            sleep=None, now: datetime | None = None, pilot_manifest=None) -> dict[str, Any]:
     # A canary opens the civil day it belongs to, so no crossing is admitted here: the
     # declared day must equal the observed Europe/Rome day (review rilievo B1).
     civil = resolve_civil_day(day, now=now, crossing_evidence=None)
@@ -114,6 +115,16 @@ def run_day(*, target, ledger, config, generation, schema, day: str | None, resu
         raise BatchStop(STOP_PREFIX + f" the canary allowance of {MAX_DAYS} days is exhausted")
 
     prompts = canary_prompts(target)
+    # The label space is not in the prompt file (the pilot injected it from its frozen
+    # manifest at load time) and ``consumer_record`` cannot validate an answer without it.
+    # Binding it here, before the plan returns, turns the plan into a real preflight: a
+    # missing or altered manifest stops the day at zero calls instead of after the first.
+    labels = target_label_space(target, pilot_manifest)
+    for prompt in prompts:
+        prompt["label_space"] = list(labels)
+        if "available_insight_ids" not in prompt:
+            raise BatchStop(STOP_PREFIX + f" canary prompt without available_insight_ids: "
+                                          f"{prompt['prompt_id']}")
     # The plan covers every slot of the canary quota from the start: the binding is immutable and
     # the day index, not the civil date, identifies the slot. The date lives in the event.
     day_index = len(state["passed"]) + len(state["marked"]) + 1
@@ -145,6 +156,7 @@ def run_day(*, target, ledger, config, generation, schema, day: str | None, resu
 
         leaf = ledger.leaf(FINAL_CANARY_STAGE, spec["logical_id"])
         retry_requests: tuple = ()
+        from_stored = False
         if leaf is not None:
             if leaf["status"] == "COMPLETED":
                 stored = ledger.response(leaf["request_id"])
@@ -166,6 +178,10 @@ def run_day(*, target, ledger, config, generation, schema, day: str | None, resu
                     len(ledger.attempts(FINAL_CANARY_STAGE, spec["logical_id"])))
                 if wait and sleep is not None:
                     sleep(wait)
+            elif stored_without_record(ledger, leaf["request_id"]):
+                # The response is durable and unparsed: closing it consumes no call and the
+                # day keeps the observation it already paid for.
+                from_stored = True
             else:
                 # D3 row 2: uncertain consumption suspends the day; no automatic resend.
                 raise BatchStop(
@@ -180,12 +196,18 @@ def run_day(*, target, ledger, config, generation, schema, day: str | None, resu
                     ledger=ledger, stage=FINAL_CANARY_STAGE, spec=spec),
                 evaluate=evaluate, expected_identity=config["expected_response"],
                 messages=messages, accounting_guard=accounting_guard,
-                resume=bool(retry_requests), retry_requests=retry_requests)
+                resume=bool(retry_requests) or from_stored, retry_requests=retry_requests)
         except IdentitySuspension as exc:
             # Typed, so a reworded message in runtime can never lose the durable event.
             identity_stop = {"message": str(exc), "field": exc.field,
                              "observed": exc.observed, "expected": exc.expected}
             break
+        if from_stored:
+            ledger.record_event("note:stored_response_evaluated:" + record["request_id"],
+                                artifact_sha256=digest(record),
+                                detail={"stage": FINAL_CANARY_STAGE,
+                                        "logical_id": spec["logical_id"],
+                                        "reason": "durable raw response evaluated without transport"})
         identity[prompt["prompt_id"]] = {
             "returned_model": record.get("returned_model"),
             "system_fingerprint": record.get("system_fingerprint"),
@@ -250,6 +272,9 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target", type=Path, required=True)
     parser.add_argument("--day", help=ROME_OFFSET_NOTE)
+    parser.add_argument("--pilot-manifest", type=Path,
+                        help="frozen pilot input manifest that carries the label space "
+                             "(default: beside the tokenizer snapshot of the target)")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--acknowledge")
     arguments = parser.parse_args(argv)
@@ -270,7 +295,7 @@ def main(argv=None) -> int:
     outcome = run_day(target=target, ledger=ledger, config=config, generation=target["generation"],
                       schema=schema, day=arguments.day,
                       results_dir=Path(target["results_dir"]), execute=arguments.execute,
-                      accounting_guard=accounting_guard)
+                      accounting_guard=accounting_guard, pilot_manifest=arguments.pilot_manifest)
     print(json.dumps(dict(outcome, state=day_state(ledger)), indent=2, ensure_ascii=False, sort_keys=True))
     return 0
 

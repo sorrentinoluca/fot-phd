@@ -29,7 +29,8 @@ from studio2.fase03.harness.common import (  # noqa: E402
 )
 from studio2.fase03.harness.runtime import durable_write  # noqa: E402
 
-PILOT_INPUT_MANIFEST_SHA256 = "8417688869b75bda8235387ac830018ecdc9030442a860d495418f195f2b4014"
+# One definition only: the runners authenticate the same manifest to read the label space.
+PILOT_INPUT_MANIFEST_SHA256 = final_prompts.PILOT_INPUT_MANIFEST_SHA256
 PILOT_INPUT_SOURCES_SHA256 = "3099ad40ed05d86dab9b69349a2e0a920eb8bbeb8006be3223db6f6438429bbf"
 PRESENTATION_NAMESPACE = "studio2-fase03-presentation-v1"
 LIBRARIES_PATH = ROOT / "studio2/fase03/librerie/LIBRERIE_FINALI_CANDIDATE.json"
