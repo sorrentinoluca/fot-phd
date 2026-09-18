@@ -18,6 +18,14 @@ chiamata su di esso è rifiutata — una verifica futura richiede una revisione 
 protocollo) e barriera canary per giorno civile confermata. Il totale massimo di chiamate è
 **7.202** = 6.732 scientifiche + 70 canary + 400 di quota retry separata.
 
+Aggiornato da 7.4-MAT con la decisione d'autore del 2026-09-18
+(`protocollo_finale/REVISIONE_002_NESSUN_LIMITE_DI_GIORNI.md`, tag
+`studio2-fase03-protocollo-finale-frozen-002`): **nessun limite di calendario**. Un canary per
+ogni giorno civile con chiamate scientifiche, senza numero massimo di giorni; la quota
+`final_canary` passa da 70 a **300** (guardia contabile, senza significato scientifico) e il
+massimo totale da 7.202 a **7.432** = 6.732 + 300 + 400. `W` = 168 h resta il controllo di
+fattibilità pre-avvio già superato (62,9 h / 88,0 h), non una scadenza.
+
 ## 0. Ambiente
 
 Tutti i comandi si eseguono dalla shell nativa del Mac, mai da una finestra LLM.
@@ -134,7 +142,71 @@ lotto test viene **solo** il testo neutrale del caso.
 assoluto non portabile: l'artefatto accettato in 7.2-R non si riscrive, la libreria si cerca
 per nome sotto la radice indicata e si accetta solo se lo SHA coincide.
 
+## 1-quater. Prerequisiti del target finale (7.4-MAT)
+
+`materialize_final_target.py` pretende quattro input piu' l'approvazione. Li deriva
+`prepare_final_target_inputs.py`, che non contatta nessun modello, non apre i ledger del pilot
+e non legge le chiavi. **Si esegue dal checkout di `main`.** Ordine (dettaglio, attesi e criteri
+di STOP in `batch_finale/SEQUENZA_7_4_MAT.md`): merge locale e suite → piano ed `--execute` con
+la prova a vuoto → **solo allora** tag 002 e push → `--approval-template`, che rifiuta di
+scriversi se il tag non e' sul commit in esecuzione. Cosi' un difetto scoperto dalla preparazione
+sul runtime reale si corregge prima del tag, senza una revisione 003:
+
+```bash
+cd /Users/luker/fot-tep-pubblicazione-consolidamento-0315-metriche
+export PY=/opt/anaconda3/bin/python3
+```
+
+Piano, che non scrive nulla fuori da una directory temporanea (rende i 2.244 prompt in
+temporanea e ricontrolla i pin di inventario, schedule, assegnazione, manifest e mappa):
+
+```bash
+"$PY" studio2/fase03/prepare_final_target_inputs.py
+```
+
+Attesi: `status PLAN_ONLY`, tutte le righe `checks` a `PASS`, e in `requires` lo SHA della
+configurazione da accettare. Una sola riga `NOTE`: lo SHA del file `final_prompts.jsonl`.
+
+Scrittura degli input, con l'accettazione esplicita di quella configurazione:
+
+```bash
+"$PY" studio2/fase03/prepare_final_target_inputs.py \
+  --execute --acknowledge PREPARE_PHASE03_FINAL_TARGET_INPUTS \
+  --author "Luca Sorrentino" \
+  --accept-configuration-sha256 <lo SHA stampato dal piano>
+```
+
+Scrive, senza mai sovrascrivere byte diversi da quelli gia' presenti:
+
+| File | Dove |
+| --- | --- |
+| `execution.private.json` (modo `d9.final_target`) | `…-runtime/studio2-fase03-batch-finale-01.config/` |
+| `execution_authorization.private.json` | idem |
+| `generation.json` (contratto del gate, campo per campo) | idem |
+| `canary_prompts.jsonl` (dieci righe identiche a quelle del pilot) | `…-runtime/prepared-7-4/` |
+| `final_prompts.jsonl` (2.244 prompt) | idem |
+
+Chiude con la **prova a vuoto**: la catena D9 reale (`require_execution`,
+`require_pilot_ledger`, `bind_stage` con `execution_config`) e il binding canary vero su un
+ledger `final_batch` usa e getta che porta l'identita' del target. Atteso
+`canary_slots_bound 300`. Nessuna chiamata, nessuna prenotazione sul ledger reale.
+
+Poi il modello di approvazione, che riprende gli SHA dei file appena scritti:
+
+```bash
+"$PY" studio2/fase03/prepare_final_target_inputs.py --approval-template
+```
+
+Scrive `studio2/fase03/batch_finale/APPROVAZIONE_MATERIALIZZAZIONE_7_4.json` con
+`decision`, `author` e `date` a `null`: **li compila l'autore a mano** (`decision` =
+`"accepted"`); il file si committa con l'evidenza, dopo la materializzazione che ne registra lo SHA. Il file non viene mai sovrascritto: se esiste, il comando si
+ferma.
+
 ## 2. Materializzazione del target (la esegue Luca dopo il tag)
+
+> **7.4-MAT:** gli input e le approvazioni vengono dal §1-quater; la sequenza completa, con
+> attesi e criteri di STOP, è in `batch_finale/SEQUENZA_7_4_MAT.md`. Il tag da citare è
+> `…-frozen-002`.
 
 Prima il dry-run, che non scrive nulla ed elenca i prerequisiti mancanti:
 
@@ -171,7 +243,8 @@ Da qui in avanti, `export TARGET=/Users/luker/fot-tep-runtime/studio2-fase03-bat
 ```
 
 Dieci chiamate, una volta per giorno civile Europe/Rome in cui si inviano chiamate
-scientifiche, **prima** del primo lotto del giorno; al massimo sette giorni, quindi 70.
+scientifiche, **prima** del primo lotto del giorno; senza numero massimo di giorni
+(REVISIONE_002). La quota `final_canary` di 300 è solo una guardia contabile.
 
 - `verdict: PASS` → il batch è sbloccato **per quel giorno civile**: il runner rifiuta un
   lotto in un giorno che non ha un canary PASS proprio (barriera canary→lotto, §6);
@@ -234,7 +307,9 @@ Dimensionamento a ~26 s per chiamata (media misurata nel pilot; p95 ~36,7 s):
 
 Con il margine del 20% del criterio T5: 59,4 h alla media e 83,1 h al p95 a 6.802 chiamate;
 **62,9 h** e **88,0 h** se l'intera quota retry di 400 venisse consumata, contro una finestra
-`W` di 168 h. Il margine temporale **non** crea quota di chiamate.
+`W` di 168 h. `W` era il controllo di fattibilità pre-avvio, non una scadenza di campagna
+(REVISIONE_002); queste durate sono calcolate con 70 canary e ogni giorno in più aggiunge dieci
+chiamate (~4–6 min). Il margine temporale **non** crea quota di chiamate.
 
 La riga di avanzamento è, per ogni chiamata:
 
@@ -299,7 +374,7 @@ ripresa si ferma: è incertezza, non un fallimento da ritentare (punto 6).
 | Sospensione d'identità | `pilot suspended: returned model/fingerprint ...` | STOP. L'unico percorso ammesso è una revisione approvata della configurazione e la riconciliazione già implementata; la ripresa richiede decisione dell'autore e, se cambia identità o autorizza nuove chiamate, una revisione di protocollo/quota. |
 | Canary: identità cambiata | `canary identity change on <giorno>` | STOP immediato prima di altre chiamate. Nessun comando riprende da solo. |
 | Canary: secondo giorno marcato | `second marked canary day` | STOP prima del lotto successivo; decisione dell'autore prima di qualunque ripresa. L'insieme che esce dall'analisi di sensibilità è `primary_mask_request_ids` di `query_canary_marking.py` (giorno civile marcato, piano §10.5); `forensic_mask_request_ids` documenta l'intervallo §6.5 e l'unione è solo descrittiva. Tutte restano nell'analisi primaria. |
-| Quota per stage o totale | `stage quota ... is exhausted` / `cumulative hard stop 7202` | STOP. Nessun allargamento locale: il tetto è 6.732 scientifiche più 70 canary più 400 retry provati = 7.202. |
+| Quota per stage o totale | `stage quota ... is exhausted` / `cumulative hard stop 7432` | STOP. Nessun allargamento locale: il tetto è 6.732 scientifiche più 300 canary (guardia contabile, REVISIONE_002) più 400 retry provati = 7.432. |
 | Chiamata su `technical_verification` | `stage technical_verification has quota 0` | Atteso: `X = 0`. Una verifica tecnica richiede una revisione dichiarata del protocollo, non un allargamento locale. |
 | Schedule non autenticata | `schedule differs from the deterministic generator` | STOP. Non rigenerare sopra: verificare quale artefatto è cambiato. |
 | Condizione non producibile | `conditions the frozen renderer does not produce` | STOP. Le quattro condizioni del protocollo (A, B-LF, E-LF, B-noLF) sono producibili: qualunque altro token è un errore di inventario, non una condizione da reinterpretare. |
@@ -329,7 +404,7 @@ A fine passata e a fine batch:
 
 Attesi finali: 2.244 richieste **base** per ciascuno dei tre stage di passata
 (`final_batch_r1/r2/r3`, retry esclusi dal conteggio di stage e contati a parte),
-`final_canary <= 70`, `technical_verification = 0`, `retry_quota_used <= 400`,
-cumulativo `<= 7202`, `unresolved_intents = 0`,
+`final_canary <= 300`, `technical_verification = 0`, `retry_quota_used <= 400`,
+cumulativo `<= 7432`, `unresolved_intents = 0`,
 `consecutive_technical_failures` tutti sotto 5. Solo dopo la chiusura del ledger e questa
 verifica si passa all'analisi (§7.1, passo 5).

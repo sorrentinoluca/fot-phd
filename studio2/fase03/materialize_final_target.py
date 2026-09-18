@@ -28,7 +28,8 @@ TARGET_ID = "studio2-fase03-batch-finale-01"
 DEFAULT_ROOT = Path("/Users/luker/fot-tep-runtime") / TARGET_ID
 SUMMARY_PATH = ROOT / "studio2/fase03/batch_finale/INVENTARIO_SCHEDULE_7_4.json"
 CANARY_PATH = ROOT / "studio2/fase03/batch_finale/CANARY_ATTESI_7_4.json"
-PROTOCOL_TAG = "studio2-fase03-protocollo-finale-frozen-001"
+# REVISIONE_002 (2026-09-18): the approval must cover the revision in force (canary guard 300).
+PROTOCOL_TAG = "studio2-fase03-protocollo-finale-frozen-002"
 
 
 def check_approval(path: Path) -> dict:

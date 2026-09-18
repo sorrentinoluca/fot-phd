@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Daily canary of the final batch (protocol §6). Separate command, separate stage.
 
-Ten frozen prompts per civil day Europe/Rome, before the day's first scientific lot, at
-most seven days. The parsed pair decides; the raw hash is forensic only. An identity
+Ten frozen prompts per civil day Europe/Rome, before the day's first scientific lot, with
+no calendar limit (REVISIONE_002): the only bound is the accounting guard of the canary
+quota. The parsed pair decides; the raw hash is forensic only. An identity
 change is an immediate STOP; the second marked day is a STOP pending an author decision.
 
 Identity control (§6, rilievo C5): ``returned_model`` **and** ``system_fingerprint`` are
@@ -33,7 +34,8 @@ from studio2.fase03.protocol import DIAGNOSTIC_SCHEMA_PATH, canonical_json, load
 from studio2.fase03.harness.common import HarnessError  # noqa: E402
 from studio2.fase03.harness import canary as canary_module  # noqa: E402
 from studio2.fase03.harness.ledger import (  # noqa: E402
-    CANARY_MARKED_PREFIX, CANARY_PASS_PREFIX, CANARY_STOP_PREFIX, FINAL_CANARY_STAGE,
+    CANARY_MARKED_PREFIX, CANARY_MAX_DAYS, CANARY_PASS_PREFIX, CANARY_STOP_PREFIX,
+    FINAL_CANARY_STAGE,
     PilotLedger, digest, load_tokenizer_accounting_guard,
 )
 from studio2.fase03.harness.guards import require_execution, require_pilot_ledger  # noqa: E402
@@ -46,7 +48,7 @@ from studio2.fase03.run_final_batch import (  # noqa: E402
 )
 
 ACK = "EXECUTE_PHASE03_FINAL_CANARY"
-MAX_DAYS = 7
+MAX_DAYS = CANARY_MAX_DAYS  # accounting guard (quota // 10), not a calendar limit
 DAILY_CALLS = 10
 ROME_OFFSET_NOTE = ("Europe/Rome civil day of this canary; it must equal the day observed "
                     "on the clock, because a canary opens the day it belongs to and never "
@@ -112,7 +114,7 @@ def run_day(*, target, ledger, config, generation, schema, day: str | None, resu
         raise BatchStop(STOP_PREFIX + f" the canary allowance of {MAX_DAYS} days is exhausted")
 
     prompts = canary_prompts(target)
-    # The plan covers all seven admitted days from the start: the binding is immutable and
+    # The plan covers every slot of the canary quota from the start: the binding is immutable and
     # the day index, not the civil date, identifies the slot. The date lives in the event.
     day_index = len(state["passed"]) + len(state["marked"]) + 1
     specs = [dict(logical_id=f"canary:day{index}:{prompt['prompt_id']}",

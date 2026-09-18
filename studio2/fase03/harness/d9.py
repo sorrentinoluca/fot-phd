@@ -31,8 +31,36 @@ IDENTITY_SHA256_SEMANTICS = (
     'CANONICAL_JSON_SHA256_OF_SOURCE_PROPOSAL_QUALIFICATION_SUPPLEMENT_CANDIDATE')
 
 
+# REVISIONE_002: the final batch runs on a fresh target with no predecessor consumption.
+# The pilot modes (successor lineage, reconciled history) bind a configuration to the
+# pilot's own ledger and cannot describe it; this third mode is explicit and exclusive.
+FINAL_TARGET_VERSION = 'FINAL_TARGET_1'
+FINAL_TARGET_PREDECESSORS = 'NONE_FRESH_TARGET'
+PILOT_HISTORY_KEYS = ('successor_lineage', 'successor_lineage_approval',
+                      'history_reconciliation', 'history_approval')
+
+
 def fail(message):
     raise HarnessError('D9: ' + message)
+
+
+def final_target_mode(config):
+    """True when the configuration declares the fresh final target; validates its form."""
+    d = config.get('d9') if isinstance(config, dict) else None
+    declared = d.get('final_target') if isinstance(d, dict) else None
+    if declared is None:
+        return False
+    if any(key in d for key in PILOT_HISTORY_KEYS):
+        fail('final target cannot be combined with successor lineage or historical reconciliation')
+    ledger = config.get('pilot_ledger')
+    if (not isinstance(declared, dict)
+            or set(declared) != {'artifact_version', 'target_id', 'predecessor_consumption'}
+            or declared.get('artifact_version') != FINAL_TARGET_VERSION
+            or declared.get('predecessor_consumption') != FINAL_TARGET_PREDECESSORS
+            or not isinstance(ledger, dict) or not _text(declared.get('target_id'))
+            or declared.get('target_id') != ledger.get('pilot_id')):
+        fail('final target declaration is incomplete or names another ledger')
+    return True
 
 
 def model_for_stage(stage):
@@ -340,6 +368,7 @@ def validate_config(config):
     from .guards import require_presentation
     require_presentation({'presentation':{'author_decision':'accepted','ordered_labels':d.get('presentation_order',[])}}, config.get('presentation_approval',{}))
     successor = d.get('successor_lineage') is not None
+    final_target = final_target_mode(config)
     services = d.get('services')
     if not isinstance(services, dict) or set(services) != {'122B', '27B'}:
         fail('exactly two documented services required')
@@ -368,7 +397,7 @@ def validate_config(config):
         expected = {k:v for k,v in service.items() if k != 'documentation'}
         if doc.get('service') != expected:
             fail('documented service differs from execution configuration')
-        if successor and role == '122B':
+        if (successor or final_target) and role == '122B':
             _validate_response_identity_binding(doc.get('identity_binding'), service)
         from .guards import response_identity_valid
         response_identity_valid({}, service['expected_response'])
@@ -386,6 +415,8 @@ def validate_config(config):
         fail('producer configurations must be separately pinned by role')
     if set(config.get('approved_producer_config_sha256', [])) != set(providers.values()):
         fail('producer allowlist differs from D9 roles')
+    if final_target:
+        return d
     lineage_ref = d.get('successor_lineage')
     if lineage_ref is not None:
         if 'history_reconciliation' in d or 'history_approval' in d:
@@ -418,6 +449,16 @@ def validate_config(config):
 
 def validate_history(config, ledger, connection):
     d = validate_config(config)
+    final_ledger = getattr(getattr(ledger, 'profile', None), 'name', None) == 'final_batch'
+    if final_target_mode(config) != final_ledger:
+        fail('the final-target mode and the final_batch ledger profile go together only')
+    if final_ledger:
+        if (ledger._lineage_rows(connection) or ledger._historical_rows(connection)
+                or connection.execute('PRAGMA user_version').fetchone()[0] == 4
+                or any(name.startswith(('successor_lineage:', 'history_reconciliation:'))
+                       for name in ledger._events(connection))):
+            fail('a fresh final target carries no predecessor consumption')
+        return
     if d.get('successor_lineage') is not None:
         lineage_ref, approval_ref = d['successor_lineage'], d.get('successor_lineage_approval')
         read_bytes_reference(lineage_ref, 'successor lineage package')
