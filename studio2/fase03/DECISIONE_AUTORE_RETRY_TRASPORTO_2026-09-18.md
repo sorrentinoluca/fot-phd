@@ -18,7 +18,11 @@ connessione caduta o rifiutata (`APIConnectionError`), errore del server
 (`InternalServerError`, 5xx), `RateLimitError` (429) — si ritenta senza prova fino a **3
 volte**, con l'attesa crescente già prevista (30, 60, 120 s) e a carico della quota retry.
 Dopo il terzo retry fallito lo slot è un **fallimento tecnico definitivo**: dato mancante,
-riportato a parte, fuori dagli endpoint. Il batch prosegue.
+escluso dall'endpoint primario e dall'aggregatore R=3, riportato a parte (trattamento in
+analisi: [Revisione 003](protocollo_finale/REVISIONE_003_TRASPORTO_NON_OSSERVATO.md) §2). Il
+batch prosegue. Uno slot abbandonato vale quattro fallimenti consecutivi: il primo fallimento
+dello slot successivo porta il contatore a cinque e ferma la campagna, quindi due slot
+abbandonati di fila sono impossibili.
 
 Restano invariati: timeout (`APITimeoutError`) → sospensione e riconciliazione; 401/403 e
 altri 4xx → STOP; risposta ricevuta ma invalida o troncata → esito definitivo, mai
@@ -32,5 +36,9 @@ rigenerata; cambio d'identità → STOP; cinque fallimenti tecnici consecutivi �
 - Gli eventuali token consumati non hanno costo per lo studio.
 - Il timeout è escluso perché correla con generazioni lunghe: ritentarlo favorirebbe le
   risposte brevi.
-- Ogni tentativo resta nel ledger (catena `retry_of`, quota `transport`); il numero di
-  retry e di slot abbandonati si riporta nei metodi.
+- Ogni tentativo resta nel ledger (catena `retry_of`, quota `transport`), con tipo d'errore,
+  `status_code` e causa sottostante; il numero di retry e di slot abbandonati si riporta nei
+  metodi.
+- La perdita è MCAR per costruzione (nessun byte ricevuto): escluderla non distorce; contarla
+  errata attribuirebbe al modello un guasto di rete. Robustezza: risultati con gli slot
+  abbandonati contati come non corretti.

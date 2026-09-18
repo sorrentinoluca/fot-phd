@@ -12,6 +12,7 @@ records it on the real path. No test opens a socket.
 
 from __future__ import annotations
 
+import json
 import unittest
 
 import openai
@@ -61,6 +62,7 @@ class UnobservedTransportRetry(FinalBatchBase):
     def setUp(self):
         super().setUp()
         RetryProvider.failures = {}
+        RetryProvider.script = {}  # a class attribute of its own: reset it, not only FakeProvider's
         self.stage = FINAL_PASS_STAGES[0]
         self.first = self.schedule[0]["logical_id"]
         self.pass_canary_day()
@@ -210,6 +212,44 @@ class UnobservedTransportRetry(FinalBatchBase):
         # Four attempts on the first slot, the fifth failure on the second one.
         self.assertEqual(len(self.ledger.attempts(self.stage, self.schedule[1]["logical_id"])), 1)
         self.assertEqual(max(self.ledger.consecutive_technical_failures().values()), 5)
+
+    def test_the_failure_detail_keeps_status_code_and_cause(self):
+        original_call = RetryProvider.call
+
+        def disconnected(provider, **kwargs):
+            if kwargs["spec"]["logical_id"] == self.first:
+                try:
+                    raise ConnectionError("Server disconnected without sending a response.")
+                except ConnectionError as cause:
+                    raise sdk_error(openai.APIConnectionError, "Connection error.") from cause
+            return original_call(provider, **kwargs)
+
+        RetryProvider.call = disconnected
+        self.addCleanup(setattr, RetryProvider, "call", original_call)
+        self.batch(max_requests=1)
+        detail = json.loads(self.ledger.request(
+            digest([self.pilot_id, self.stage, self.first]))["detail_json"])
+        self.assertEqual(detail["error_type"], "APIConnectionError")
+        self.assertIsNone(detail["status_code"])
+        self.assertEqual(detail["cause_type"], "ConnectionError")
+        self.assertIn("Server disconnected", detail["cause_message"])
+
+    def test_a_5xx_keeps_its_status_code(self):
+        original_call = RetryProvider.call
+
+        def server_error(provider, **kwargs):
+            if kwargs["spec"]["logical_id"] == self.first:
+                error = sdk_error(openai.InternalServerError, "Error code: 502")
+                error.status_code = 502
+                raise error
+            return original_call(provider, **kwargs)
+
+        RetryProvider.call = server_error
+        self.addCleanup(setattr, RetryProvider, "call", original_call)
+        self.batch(max_requests=1)
+        detail = json.loads(self.ledger.request(
+            digest([self.pilot_id, self.stage, self.first]))["detail_json"])
+        self.assertEqual(detail["status_code"], 502)
 
     def test_max_requests_counts_answered_calls_not_failed_attempts(self):
         RetryProvider.script = {self.first: "once:APIConnectionError"}
