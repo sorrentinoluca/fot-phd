@@ -27,6 +27,14 @@ LIBRARY_ROLE_BY_TOKEN = {final_inventory.LIBRARY_PRIMARY: "122B",
 
 PILOT_INPUT_MANIFEST_SHA256 = "8417688869b75bda8235387ac830018ecdc9030442a860d495418f195f2b4014"
 
+# The keys of one rendered row of ``final_prompts.jsonl`` exactly as ``render_all`` writes
+# them (``prompt_tokens`` only when a counter is supplied). Neither ``label_space`` nor
+# ``sample_role`` is here: the runners bind both at load time (``run_final_batch``).
+RENDERED_ROW_KEYS = ("prompt_id", "stable_id", "block", "condition", "case_id", "agent_id",
+                     "library_role", "available_insight_ids", "text", "prompt_sha256",
+                     "prompt_bytes")
+RENDERED_ROW_OPTIONAL_KEYS = ("prompt_tokens",)
+
 
 def frozen_label_space(manifest_path) -> list[str]:
     """The label space of the frozen pilot input manifest, authenticated by its SHA-256.
@@ -134,6 +142,9 @@ def render_all(*, inventory: list[dict[str, Any]], manifest: dict[str, Any],
             counts_by_condition.setdefault(entry["condition"], []).append(count)
             if context_limit is not None and count + reserved_output_tokens > context_limit:
                 over_context.append(entry["stable_id"])
+        if set(row) - set(RENDERED_ROW_KEYS) - set(RENDERED_ROW_OPTIONAL_KEYS) \
+                or set(RENDERED_ROW_KEYS) - set(row):
+            raise HarnessError("rendered row keys differ from RENDERED_ROW_KEYS")
         rows.append(row)
         by_block[entry["block"]] = by_block.get(entry["block"], 0) + 1
         by_condition[entry["condition"]] = by_condition.get(entry["condition"], 0) + 1

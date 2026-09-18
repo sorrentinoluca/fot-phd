@@ -247,6 +247,14 @@ congelato del pilot (`84176888…`, accanto allo snapshot del tokenizer indicato
 altrimenti `--pilot-manifest`) e lo autentica per SHA-256. Un manifest assente o alterato
 ferma il giorno a **zero** chiamate invece che dopo la prima (7.4-FIX-RUNNER).
 
+Lo stesso vale per l'intero contratto del record di chiamata (7.4-FIX-CONTRATTO-RECORD): al
+caricamento, canary e lotto verificano che ogni prompt porti tutti i campi che
+`consumer_record` e il runner leggono (`REQUIRED_PROMPT_FIELDS` in `run_final_batch.py`), e il
+piano si ferma nominando i campi mancanti. Nel lotto `sample_role` vale la costante
+`final_batch`, legata al caricamento come `label_space`: non è un ruolo di campionamento (i
+2.244 casi non sono campionati) ma un marcatore di provenienza. Ogni `main()` della pipeline,
+inoltre, si ferma se NumPy non è la `2.2.6` dichiarata in `INVENTARIO_SCHEDULE_7_4.json`.
+
 Dieci chiamate, una volta per giorno civile Europe/Rome in cui si inviano chiamate
 scientifiche, **prima** del primo lotto del giorno; senza numero massimo di giorni
 (REVISIONE_002). La quota `final_canary` di 300 è solo una guardia contabile.
@@ -382,6 +390,8 @@ ripresa si ferma: è incertezza, non un fallimento da ritentare (punto 6).
 | Canary: secondo giorno marcato | `second marked canary day` | STOP prima del lotto successivo; decisione dell'autore prima di qualunque ripresa. L'insieme che esce dall'analisi di sensibilità è `primary_mask_request_ids` di `query_canary_marking.py` (giorno civile marcato, piano §10.5); `forensic_mask_request_ids` documenta l'intervallo §6.5 e l'unione è solo descrittiva. Tutte restano nell'analisi primaria. |
 | Quota per stage o totale | `stage quota ... is exhausted` / `cumulative hard stop 7432` | STOP. Nessun allargamento locale: il tetto è 6.732 scientifiche più 300 canary (guardia contabile, REVISIONE_002) più 400 retry provati = 7.432. |
 | Chiamata su `technical_verification` | `stage technical_verification has quota 0` | Atteso: `X = 0`. Una verifica tecnica richiede una revisione dichiarata del protocollo, non un allargamento locale. |
+| Ambiente non di riferimento | `STOP: reference environment mismatch: numpy X observed, 2.2.6 expected` | STOP prima di qualunque lettura o chiamata. Non è un dettaglio d'ambiente: sotto un altro NumPy la schedule è un altro esperimento. Attivare `fottep002` (o un ambiente con NumPy 2.2.6) e rilanciare lo stesso comando. |
+| Prompt senza un campo del record | `... lacks the call-record fields [...]` / `lacks the renderer keys [...]` / `already carries <campo>: the loader binds it` | STOP a zero chiamate, dal piano. Il file dei prompt del target non è quello renderizzato e pinnato (o è stato riscritto a mano): non correggere le righe, verificare gli SHA del target e ripristinare il file pinnato. |
 | Schedule non autenticata | `schedule differs from the deterministic generator` | STOP. Non rigenerare sopra: verificare quale artefatto è cambiato. |
 | Condizione non producibile | `conditions the frozen renderer does not produce` | STOP. Le quattro condizioni del protocollo (A, B-LF, E-LF, B-noLF) sono producibili: qualunque altro token è un errore di inventario, non una condizione da reinterpretare. |
 | Ledger incoerente | qualunque `HarnessError` dal ledger in fase di bind | STOP. Non riscrivere storia incerta, non retrofittare. |

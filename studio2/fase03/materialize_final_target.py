@@ -22,6 +22,7 @@ from studio2.fase03.harness.common import HarnessError, canonical_json, load_jso
 from studio2.fase03.harness.ledger import FINAL_BATCH_PROFILE, PilotLedger  # noqa: E402
 from studio2.fase03.harness import final_inventory as inventory_module  # noqa: E402
 from studio2.fase03.harness.runtime import durable_write  # noqa: E402
+from studio2.fase03.harness.guards import require_reference_environment  # noqa: E402
 
 ACK = "MATERIALIZE_PHASE03_FINAL_BATCH_TARGET"
 TARGET_ID = "studio2-fase03-batch-finale-01"
@@ -150,6 +151,7 @@ def materialize(arguments, value, inventory_artifact, schedule_artifact) -> dict
 
 
 def main(argv=None) -> int:
+    require_reference_environment()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target-id", default=TARGET_ID)
     parser.add_argument("--root", default=str(DEFAULT_ROOT))

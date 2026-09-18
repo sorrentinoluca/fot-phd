@@ -42,6 +42,7 @@ from studio2.fase03.harness import d9  # noqa: E402
 from studio2.fase03.harness import final_inventory as inventory_module  # noqa: E402
 from studio2.fase03.harness.ledger import FINAL_BATCH_PROFILE, FINAL_CANARY_STAGE, PilotLedger, digest  # noqa: E402
 from studio2.fase03.harness.runtime import durable_write  # noqa: E402
+from studio2.fase03.harness.guards import require_reference_environment  # noqa: E402
 from studio2.fase03 import materialize_final_target as materializer  # noqa: E402
 
 ACK = "PREPARE_PHASE03_FINAL_TARGET_INPUTS"
@@ -404,6 +405,7 @@ def run(arguments) -> dict:
 
 
 def main(argv=None) -> int:
+    require_reference_environment()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--runtime-root", type=Path, default=RUNTIME)
     parser.add_argument("--pilot-runtime", type=Path)

@@ -257,6 +257,16 @@ class Provider:
         return response.model_dump(mode="json")
 
 
+# The prompt fields ``consumer_record`` reads. ``CONSUMER_RECORD_PROMPT_FIELDS`` are copied
+# verbatim into the durable record; ``CONSUMER_RECORD_VALIDATION_FIELDS`` validate the answer
+# and are not copied. Every runner that feeds ``consumer_record`` must guarantee all of them
+# at load time, before any call (7.4-FIX-CONTRATTO-RECORD): a field missing here fails only
+# after the response, with the call already paid for.
+CONSUMER_RECORD_PROMPT_FIELDS = ('prompt_id', 'agent_id', 'case_id', 'condition', 'sample_role', 'prompt_sha256')
+CONSUMER_RECORD_VALIDATION_FIELDS = ('label_space', 'available_insight_ids')
+CONSUMER_RECORD_REQUIRED_FIELDS = CONSUMER_RECORD_PROMPT_FIELDS + CONSUMER_RECORD_VALIDATION_FIELDS
+
+
 def consumer_record(raw, prompt, generation):
     choices = raw.get('choices', [])
     choice = choices[0] if len(choices) == 1 else {}
@@ -269,7 +279,7 @@ def consumer_record(raw, prompt, generation):
     except ContractError as exc:
         error = str(exc)
     usage = raw.get('usage') or {}
-    return dict(**{k: prompt[k] for k in ('prompt_id','agent_id','case_id','condition','sample_role','prompt_sha256')},
+    return dict(**{k: prompt[k] for k in CONSUMER_RECORD_PROMPT_FIELDS},
                 generation=generation, returned_model=raw.get('model'), system_fingerprint=raw.get('system_fingerprint'),
                 response_id=raw.get('id'), finish_reason=choice.get('finish_reason'), raw_output=content,
                 raw_output_sha256=sha256_text(content), parsed_output=parsed, parse_valid_first_attempt=error is None,
