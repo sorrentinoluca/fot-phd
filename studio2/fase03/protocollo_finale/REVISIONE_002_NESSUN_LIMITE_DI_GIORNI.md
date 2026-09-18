@@ -65,11 +65,41 @@ non dipendono dalle costanti canary (`harness/final_inventory.py` non le importa
 - `harness/test_final_batch.py`: 7.202 → 7.432; default del profilo ridotto 70 → 300.
 - `RUNBOOK_7_4_BATCH_FINALE.md`: nota di aggiornamento e numeri.
 
+## Secondo contenuto della revisione: modo `d9.final_target`
+
+Rilevato in 7.4-MAT prima di qualunque esecuzione: la guardia D9 era specifica del pilot. Con
+`successor_lineage`, `validate_config` autentica il pacchetto di lineage contro il ledger
+dichiarato dalla configurazione, e quel pacchetto appartiene al ledger di `pilot-03`; senza
+lineage pretende la riconciliazione delle quattro richieste storiche. `require_pilot_ledger`
+esegue `validate_history` anche nel piano senza chiamate. Nessuna configurazione derivata dal
+pilot poteva quindi aprire il ledger fresco del target finale. La suite non lo vedeva perché
+`test_final_batch.py` toglie `execution_config` dai binding.
+
+Decisione dell'autore (2026-09-18): terzo modo esplicito, solo in `harness/d9.py`:
+
+- `d9.final_target = {artifact_version: FINAL_TARGET_1, target_id, predecessor_consumption:
+  NONE_FRESH_TARGET}`, con `target_id` uguale al `pilot_id` del ledger della configurazione;
+- esclusivo con `successor_lineage`, `successor_lineage_approval`, `history_reconciliation`,
+  `history_approval`;
+- ammesso **solo** su un ledger di profilo `final_batch`, e un ledger `final_batch` ammette solo
+  questo modo; il ledger non deve portare righe di lineage, storico esterno o eventi relativi;
+- il binding d'identità 122B (`identity_binding` → proposta rivista `77d72204…`, supplemento di
+  qualifica `dd9c53f0…`, identità `d1800613…`) resta obbligatorio e autenticato come nel successor;
+- tutto il resto di `validate_config` (ruoli, servizi documentati, tokenizer, presentazione,
+  allowlist producer, approvazione d'esecuzione sulla configurazione esatta) è invariato. Nessuna
+  modifica a ledger, quote o contabilità.
+
+Test nuovo `harness/test_final_target_d9.py`: binding **reali** con configurazione D9 valida su
+ledger `final_batch` (canary del giorno, passata, piano senza chiamate, guardie), più i rifiuti:
+combinazione con i modi del pilot, dichiarazione che nomina un altro ledger, binding d'identità
+assente, modo e profilo non corrispondenti.
+
 ## Controllo
 
-Per decisione dell'autore nessuna review separata: è una costante contabile fissata prima di
-qualunque dato. Il controllo è il diff visibile del codice più la suite completa rieseguita da
-Luca sul Mac; se OK, merge in `main` e tag `studio2-fase03-protocollo-finale-frozen-002`.
+Per decisione dell'autore nessuna review separata, per entrambi i contenuti: sono fissati prima
+di qualunque dato. Il controllo è il diff visibile del codice, la suite completa rieseguita da
+Luca sul Mac, il dry-run di materializzazione e il piano canary senza chiamate sul target reale;
+se OK, merge in `main` e tag `studio2-fase03-protocollo-finale-frozen-002`.
 
 Da dichiarare nel paper (metodi): canary giornaliero senza limite di giorni; la finestra di
 sette giorni era solo il criterio di fattibilità pre-avvio.
