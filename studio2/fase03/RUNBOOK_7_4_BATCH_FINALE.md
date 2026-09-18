@@ -142,6 +142,63 @@ lotto test viene **solo** il testo neutrale del caso.
 assoluto non portabile: l'artefatto accettato in 7.2-R non si riscrive, la libreria si cerca
 per nome sotto la radice indicata e si accetta solo se lo SHA coincide.
 
+## 1-quater. Prerequisiti del target finale (7.4-MAT, dopo il tag 002)
+
+`materialize_final_target.py` pretende quattro input piu' l'approvazione. Li deriva
+`prepare_final_target_inputs.py`, che non contatta nessun modello, non apre i ledger del pilot
+e non legge le chiavi. **Si esegue dal checkout di `main` che porta il tag 002** (il modello di
+approvazione rifiuta di scriversi se il tag non e' sul commit in esecuzione):
+
+```bash
+cd /Users/luker/fot-tep-pubblicazione-consolidamento-0315-metriche
+export PY=/opt/anaconda3/bin/python3
+```
+
+Piano, che non scrive nulla fuori da una directory temporanea (rende i 2.244 prompt in
+temporanea e ricontrolla i pin di inventario, schedule, assegnazione, manifest e mappa):
+
+```bash
+"$PY" studio2/fase03/prepare_final_target_inputs.py
+```
+
+Attesi: `status PLAN_ONLY`, tutte le righe `checks` a `PASS`, e in `requires` lo SHA della
+configurazione da accettare. Una sola riga `NOTE`: lo SHA del file `final_prompts.jsonl`.
+
+Scrittura degli input, con l'accettazione esplicita di quella configurazione:
+
+```bash
+"$PY" studio2/fase03/prepare_final_target_inputs.py \
+  --execute --acknowledge PREPARE_PHASE03_FINAL_TARGET_INPUTS \
+  --author "Luca Sorrentino" \
+  --accept-configuration-sha256 <lo SHA stampato dal piano>
+```
+
+Scrive, senza mai sovrascrivere byte diversi da quelli gia' presenti:
+
+| File | Dove |
+| --- | --- |
+| `execution.private.json` (modo `d9.final_target`) | `…-runtime/studio2-fase03-batch-finale-01.config/` |
+| `execution_authorization.private.json` | idem |
+| `generation.json` (contratto del gate, campo per campo) | idem |
+| `canary_prompts.jsonl` (dieci righe identiche a quelle del pilot) | `…-runtime/prepared-7-4/` |
+| `final_prompts.jsonl` (2.244 prompt) | idem |
+
+Chiude con la **prova a vuoto**: la catena D9 reale (`require_execution`,
+`require_pilot_ledger`, `bind_stage` con `execution_config`) e il binding canary vero su un
+ledger `final_batch` usa e getta che porta l'identita' del target. Atteso
+`canary_slots_bound 300`. Nessuna chiamata, nessuna prenotazione sul ledger reale.
+
+Poi il modello di approvazione, che riprende gli SHA dei file appena scritti:
+
+```bash
+"$PY" studio2/fase03/prepare_final_target_inputs.py --approval-template
+```
+
+Scrive `studio2/fase03/batch_finale/APPROVAZIONE_MATERIALIZZAZIONE_7_4.json` con
+`decision`, `author` e `date` a `null`: **li compila l'autore a mano** (`decision` =
+`"accepted"`) e li committa. Il file non viene mai sovrascritto: se esiste, il comando si
+ferma.
+
 ## 2. Materializzazione del target (la esegue Luca dopo il tag)
 
 Prima il dry-run, che non scrive nulla ed elenca i prerequisiti mancanti:
