@@ -142,12 +142,15 @@ lotto test viene **solo** il testo neutrale del caso.
 assoluto non portabile: l'artefatto accettato in 7.2-R non si riscrive, la libreria si cerca
 per nome sotto la radice indicata e si accetta solo se lo SHA coincide.
 
-## 1-quater. Prerequisiti del target finale (7.4-MAT, dopo il tag 002)
+## 1-quater. Prerequisiti del target finale (7.4-MAT)
 
 `materialize_final_target.py` pretende quattro input piu' l'approvazione. Li deriva
 `prepare_final_target_inputs.py`, che non contatta nessun modello, non apre i ledger del pilot
-e non legge le chiavi. **Si esegue dal checkout di `main` che porta il tag 002** (il modello di
-approvazione rifiuta di scriversi se il tag non e' sul commit in esecuzione):
+e non legge le chiavi. **Si esegue dal checkout di `main`.** Ordine (dettaglio, attesi e criteri
+di STOP in `batch_finale/SEQUENZA_7_4_MAT.md`): merge locale e suite → piano ed `--execute` con
+la prova a vuoto → **solo allora** tag 002 e push → `--approval-template`, che rifiuta di
+scriversi se il tag non e' sul commit in esecuzione. Cosi' un difetto scoperto dalla preparazione
+sul runtime reale si corregge prima del tag, senza una revisione 003:
 
 ```bash
 cd /Users/luker/fot-tep-pubblicazione-consolidamento-0315-metriche
@@ -196,10 +199,14 @@ Poi il modello di approvazione, che riprende gli SHA dei file appena scritti:
 
 Scrive `studio2/fase03/batch_finale/APPROVAZIONE_MATERIALIZZAZIONE_7_4.json` con
 `decision`, `author` e `date` a `null`: **li compila l'autore a mano** (`decision` =
-`"accepted"`) e li committa. Il file non viene mai sovrascritto: se esiste, il comando si
+`"accepted"`); il file si committa con l'evidenza, dopo la materializzazione che ne registra lo SHA. Il file non viene mai sovrascritto: se esiste, il comando si
 ferma.
 
 ## 2. Materializzazione del target (la esegue Luca dopo il tag)
+
+> **7.4-MAT:** gli input e le approvazioni vengono dal §1-quater; la sequenza completa, con
+> attesi e criteri di STOP, è in `batch_finale/SEQUENZA_7_4_MAT.md`. Il tag da citare è
+> `…-frozen-002`.
 
 Prima il dry-run, che non scrive nulla ed elenca i prerequisiti mancanti:
 

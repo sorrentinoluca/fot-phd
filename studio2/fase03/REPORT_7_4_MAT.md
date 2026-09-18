@@ -51,16 +51,22 @@ esecuzione. Nessuno dei file scritti viene mai sovrascritto con byte diversi.
 - `test_final_batch` 45 OK e `test_final_target_d9` nella VM (`e7ed69d`/`6da353b`).
 - **Fa fede la suite sul Mac**: nella VM `jsonschema` e' vecchio e mancano i runtime.
   Da rieseguire su questo commit prima del merge (`batch_finale/SUITE_MAC_<sha>.txt`).
+- `test_prepare_final_target_inputs` 4 OK nella VM: runtime del pilot sintetico, piano che non
+  scrive, accettazione con SHA sbagliato rifiutata, scrittura, copia canary byte per byte, prova a
+  vuoto con 300 slot, idempotenza, rifiuto di un canary alterato e di un contratto diverso dal gate.
 - Non verificato in questa finestra: l'esecuzione reale di `prepare_final_target_inputs.py`,
   che richiede `/Users/luker/fot-tep-runtime` — mai collegato alle sessioni Cowork. Il piano
   (`PLAN_ONLY`) e' il primo comando di Luca e non scrive nulla.
 
 ## Sequenza per Luca
 
-1. Suite completa sul Mac su questo commit → `batch_finale/SUITE_MAC_<sha>.txt`.
-2. Merge in `main`, tag annotato `studio2-fase03-protocollo-finale-frozen-002`, push.
-3. Runbook §1-quater: piano, `--execute`, `--approval-template`; compilare e committare
-   l'approvazione.
+Comandi esatti, attesi e criteri di STOP: `batch_finale/SEQUENZA_7_4_MAT.md`.
+
+1. Merge **locale** in `main` e suite completa sul Mac (attesi 329 test).
+2. Runbook §1-quater: piano ed `--execute` con la prova a vuoto, **prima del tag**: un difetto
+   emerso sul runtime reale si corregge senza una revisione 003.
+3. Tag annotato `studio2-fase03-protocollo-finale-frozen-002`, push; poi `--approval-template` e
+   compilazione a mano dell'approvazione (si committa con l'evidenza).
 4. Runbook §2: `materialize_final_target.py` in dry-run, poi `--execute`.
 5. Runbook §3: canary iniziale (dieci chiamate) — le prime chiamate della campagna.
 6. Runbook §4: primo tratto, `--pass-index 1 --max-requests 250`. Il tratto da' la latenza
