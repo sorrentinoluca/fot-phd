@@ -35,6 +35,7 @@ import sys
 import time
 from typing import Any
 
+PILOT_MANIFEST_RELATIVE = "execution/PILOT_INPUT_MANIFEST.frozen.json"
 ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -43,6 +44,7 @@ from studio2.fase03.protocol import (  # noqa: E402
     DIAGNOSTIC_SCHEMA_PATH, canonical_json, load_json, sha256_file, sha256_text,
 )
 from studio2.fase03.harness.common import HarnessError  # noqa: E402
+from studio2.fase03.harness.final_prompts import frozen_label_space  # noqa: E402
 from studio2.fase03.harness.ledger import (  # noqa: E402
     CANARY_MARKED_PREFIX, CANARY_PASS_PREFIX, CANARY_STOP_PREFIX, FINAL_PASS_STAGES,
     FINAL_CONSECUTIVE_FAILURE_STOP, FINAL_RETRY_QUOTA,
@@ -110,8 +112,35 @@ def load_schedule(target: dict[str, Any]) -> list[dict[str, Any]]:
     return entries
 
 
-def load_prompts(target: dict[str, Any]) -> dict[str, dict[str, Any]]:
-    """Read the rendered prompts and check every prompt hash against its own bytes."""
+def pilot_manifest_path(target: dict[str, Any], override=None) -> Path:
+    """Where the frozen pilot input manifest lives for this target.
+
+    The descriptor already points into the pilot runtime for the tokenizer snapshot
+    (``<pilot>/tokenizers/<revision>``); the manifest is its sibling. The path is only a
+    starting point: ``frozen_label_space`` refuses anything whose SHA-256 is not the frozen
+    one, so a wrong path fails closed instead of feeding an unauthenticated label space.
+    """
+    if override is not None:
+        return Path(override)
+    return Path(target["tokenizer_snapshot"]).resolve().parents[1] / PILOT_MANIFEST_RELATIVE
+
+
+def target_label_space(target: dict[str, Any], override=None) -> list[str]:
+    try:
+        return frozen_label_space(pilot_manifest_path(target, override))
+    except HarnessError as exc:
+        raise BatchStop(STOP_PREFIX + f" label space unavailable: {exc}; "
+                        "pass --pilot-manifest with the frozen manifest") from exc
+
+
+def load_prompts(target: dict[str, Any], *, label_space: list[str]) -> dict[str, dict[str, Any]]:
+    """Read the rendered prompts, check every hash, and bind the frozen label space.
+
+    A rendered row does not carry ``label_space``: the pilot injected it at load time from
+    its manifest and the same happens here, because the rendered file is pinned and already
+    copied inside the target. Without it ``consumer_record`` cannot validate an answer, and
+    the failure would land after the call, with the response already paid for.
+    """
     path = Path(target["prompts"]["path"])
     prompts: dict[str, dict[str, Any]] = {}
     for line in path.read_text(encoding="utf-8").splitlines():
@@ -120,8 +149,25 @@ def load_prompts(target: dict[str, Any]) -> dict[str, dict[str, Any]]:
         row = json.loads(line)
         if row["prompt_sha256"] != sha256_text(row["text"]):
             raise BatchStop(STOP_PREFIX + f" prompt bytes changed: {row.get('prompt_id')}")
+        if "available_insight_ids" not in row:
+            raise BatchStop(STOP_PREFIX + f" rendered prompt without available_insight_ids: "
+                                          f"{row.get('prompt_id')}")
+        row["label_space"] = list(label_space)
         prompts[row["prompt_id"]] = row
     return prompts
+
+
+def stored_without_record(ledger, request_id: str) -> bool:
+    """True when transport is durably recorded and only the evaluation is missing.
+
+    ``execute_request`` commits the raw response before parsing it, so an ``INTENT`` slot
+    that already has a stored raw is not uncertain consumption: the call happened, its bytes
+    and its receipt are in the ledger, and the slot closes by evaluating them again, with no
+    transport. Uncertainty under D3 row 2 is an unresolved slot with **no** stored raw, and
+    that case is unchanged: no automatic resend, author decision.
+    """
+    stored = ledger.response(request_id)
+    return stored is not None and stored.get("raw") is not None and stored.get("record") is None
 
 
 def executable_rows(schedule: list[dict[str, Any]], prompts: dict[str, dict[str, Any]]) -> None:
@@ -335,10 +381,12 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
 
     sent = 0
     retried = 0
+    recovered = 0
     used_insight_ids: Counter = Counter()
     for row in rows:
         leaf = ledger.leaf(stage, row["logical_id"])
         retry_requests: tuple = ()
+        from_stored = False
         if leaf is not None:
             if leaf["status"] == "COMPLETED":
                 # A received response is terminal: valid, invalid or truncated, it is an
@@ -349,6 +397,9 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
                 # D3, row 1: the only admitted retry, against proof -- linked to this very
                 # request -- that no token was generated, reasoning included.
                 retry_requests = (leaf["request_id"],)
+            elif stored_without_record(ledger, leaf["request_id"]):
+                # The response is durable and unparsed: closing it consumes no call.
+                from_stored = True
             else:
                 # D3, row 2: uncertain consumption is suspended, never resent automatically.
                 raise BatchStop(
@@ -383,8 +434,15 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
                 ledger=ledger, stage=stage, spec=spec),
             evaluate=evaluate, expected_identity=config["expected_response"],
             messages=messages, accounting_guard=accounting_guard,
-            resume=bool(retry_requests), retry_requests=retry_requests)
-        sent += 1
+            resume=bool(retry_requests) or from_stored, retry_requests=retry_requests)
+        if from_stored:
+            recovered += 1
+            ledger.record_event("note:stored_response_evaluated:" + record["request_id"],
+                                artifact_sha256=digest(record),
+                                detail={"stage": stage, "logical_id": row["logical_id"],
+                                        "reason": "durable raw response evaluated without transport"})
+        else:
+            sent += 1
         progress.observe(record)
         logger.append(_call_record(row, prompt, record, generation=generation,
                                    config=config,
@@ -406,6 +464,7 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
                "retry_quota_used": snapshot.get("retry_quota_used", 0),
                "consecutive_technical_failures": snapshot.get("consecutive_technical_failures", {}),
                "consecutive_failure_stop": FINAL_CONSECUTIVE_FAILURE_STOP,
+               "recovered_from_stored_response": recovered,
                "invalid": progress.invalid,
                "abstained": progress.abstained, "stage_run": stage_run,
                "t9_used_insight_ids": dict(sorted(used_insight_ids.items())),
@@ -426,6 +485,9 @@ def main(argv=None) -> int:
                                       "of that day must have passed, and the declared day is "
                                       "checked against the clock: it may differ only for a lot "
                                       "that crosses midnight (default: today)")
+    parser.add_argument("--pilot-manifest", type=Path,
+                        help="frozen pilot input manifest that carries the label space "
+                             "(default: beside the tokenizer snapshot of the target)")
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--acknowledge")
     arguments = parser.parse_args(argv)
@@ -433,7 +495,7 @@ def main(argv=None) -> int:
     target = load_target(arguments.target)
     config = load_json(Path(target["config"]["path"]))
     schedule = load_schedule(target)
-    prompts = load_prompts(target)
+    prompts = load_prompts(target, label_space=target_label_space(target, arguments.pilot_manifest))
     executable_rows(schedule, prompts)
     schema = run_pilot.vllm_grammar_schema(load_json(DIAGNOSTIC_SCHEMA_PATH))
     generation = target["generation"]
