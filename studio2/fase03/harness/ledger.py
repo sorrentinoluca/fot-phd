@@ -60,6 +60,18 @@ FINAL_RETRY_QUOTA = 400
 # Five consecutive failed technical attempts on the same service, retries included.
 # Protection against an unavailable service; no statistical meaning (D3).
 FINAL_CONSECUTIVE_FAILURE_STOP = 5
+# Author decision 2026-09-18 (7.4-FIX-RETRY-RETE), revising D3 row 2 for a closed set of
+# transport failures. When the connection fails, the server answers 5xx or 429, no byte of
+# a response is received: the outcome was never observed by anyone, so resending it is not
+# a selective second chance for the model, and consumed tokens carry no cost. Such a slot
+# is retried up to three times (backoff 30/60/120 s) without provider proof; after the
+# third failed retry it is a definitive technical failure -- missing data, reported apart
+# -- and the batch continues. The timeout stays out of the set: it correlates with long
+# generations, and retrying it would select shorter answers. Every other failure (401/403,
+# 4xx, timeout, identity change, any received response) keeps its D3 treatment.
+UNOBSERVED_TRANSPORT_ERRORS = frozenset({"APIConnectionError", "InternalServerError",
+                                         "RateLimitError"})
+FINAL_UNOBSERVED_TRANSPORT_RETRIES = 3
 TECHNICAL_FAILURE_STOP_PREFIX = "technical_failure_stop:"
 PROFILE_EVENT_PREFIX = "ledger_profile:"
 CANARY_PASS_PREFIX = "canary_pass:"
@@ -85,6 +97,9 @@ class LedgerProfile:
     retry_quota: int = 0
     # D3: consecutive failed technical attempts on one service that stop the campaign.
     consecutive_failure_stop: int = 0
+    # 7.4-FIX-RETRY-RETE: retries admitted without proof for an unobserved transport failure
+    # (``UNOBSERVED_TRANSPORT_ERRORS``), per logical request. Zero keeps D3 row 2 unchanged.
+    unobserved_transport_retries: int = 0
 
 
 PILOT_PROFILE = LedgerProfile(
@@ -97,7 +112,8 @@ FINAL_BATCH_PROFILE = LedgerProfile(
     hard_stop=sum(FINAL_BATCH_LIMITS.values()) + FINAL_RETRY_QUOTA,
     quota_kinds=frozenset({"base", "transport"}),
     retry_quota=FINAL_RETRY_QUOTA,
-    consecutive_failure_stop=FINAL_CONSECUTIVE_FAILURE_STOP)
+    consecutive_failure_stop=FINAL_CONSECUTIVE_FAILURE_STOP,
+    unobserved_transport_retries=FINAL_UNOBSERVED_TRANSPORT_RETRIES)
 PROFILES = {profile.name: profile for profile in (PILOT_PROFILE, FINAL_BATCH_PROFILE)}
 DIAGNOSES = {"structure", "identifiers", "cap", "leakage"}
 TOKENIZER_ACCOUNTING_SNAPSHOT = "Qwen/Qwen3.5-122B-A10B-FP8@a099dee70ccfcd8d5dda56aaa0b60cb8ecadabc9"
@@ -1604,6 +1620,7 @@ class PilotLedger:
                 nxt = children[row['request_id']]
                 if row['request_id'] in visited or not (
                         row['status'] == 'ZERO_TOKEN_PROVEN'
+                        or self._unobserved_failure_row(row)
                         or row['status'] == 'COMPLETED' and nxt['quota_kind'] == 'requalification'):
                     raise HarnessError("invalid retry chain")
                 visited.add(row['request_id'])
@@ -1612,6 +1629,42 @@ class PilotLedger:
                 row = nxt
             leaves.append(row)
         return leaves
+
+    def _unobserved_failure_row(self, row):
+        """True for a recorded transport failure of the admitted set (7.4-FIX-RETRY-RETE).
+
+        Reads the persisted row only; the absence of any stored response is checked where
+        a connection is available (``_unobserved_transport_failure``).
+        """
+        if not self.profile.unobserved_transport_retries or row['status'] != 'FAILED':
+            return False
+        try:
+            detail = json.loads(row['detail_json'] or 'null')
+        except (TypeError, ValueError):
+            return False
+        return isinstance(detail, dict) and detail.get('error_type') in UNOBSERVED_TRANSPORT_ERRORS
+
+    def _unobserved_transport_failure(self, c, row):
+        return (self._unobserved_failure_row(row) and c.execute(
+            'SELECT 1 FROM responses WHERE request_id=?', (row['request_id'],)).fetchone() is None)
+
+    def _unobserved_failures(self, rows, stage, logical_id):
+        return sum(r['stage'] == stage and r['logical_id'] == logical_id
+                   and self._unobserved_failure_row(r) for r in rows)
+
+    def unobserved_transport_disposition(self, request_id):
+        """``retry``, ``exhausted`` or ``None`` for a leaf, read-only (7.4-FIX-RETRY-RETE).
+
+        ``retry``: an unobserved transport failure with retries left. ``exhausted``: the
+        same after the last admitted retry, a definitive technical failure. ``None``: any
+        other state, which keeps its D3 treatment.
+        """
+        with closing(self._connect()) as c:
+            row = c.execute("SELECT * FROM requests WHERE request_id=?", (request_id,)).fetchone()
+            if row is None or not self._unobserved_transport_failure(c, row):
+                return None
+            failed = self._unobserved_failures(self._rows(c), row['stage'], row['logical_id'])
+            return 'retry' if failed <= self.profile.unobserved_transport_retries else 'exhausted'
 
     def _frozen(self, c):
         event = self._events(c).get('frozen_gate')
@@ -1813,9 +1866,17 @@ class PilotLedger:
                 raise HarnessError("requalification original already has a retry")
         elif retry_of:
             original = next((r for r in rows if r['request_id'] == retry_of), None)
-            if original is None or original['status'] != 'ZERO_TOKEN_PROVEN' or original['stage'] != stage or original['identity_json'] != identity:
+            unobserved = (original is not None and stage in FINAL_PASS_STAGES
+                          and self._unobserved_transport_failure(c, original))
+            if original is None or not (original['status'] == 'ZERO_TOKEN_PROVEN' or unobserved) or original['stage'] != stage or original['identity_json'] != identity:
                 raise HarnessError("retry requires matching original and documented zero-token proof")
-            self._validated_reconciliation(c, original)
+            if unobserved:
+                if self._unobserved_failures(rows, stage, logical_id) > profile.unobserved_transport_retries:
+                    raise HarnessError(
+                        f"unobserved transport retries ({profile.unobserved_transport_retries}) "
+                        "are exhausted; the slot is a definitive technical failure")
+            else:
+                self._validated_reconciliation(c, original)
             if any(r['retry_of'] == retry_of for r in rows):
                 raise HarnessError("original already has a retry; retry only the proven zero-token leaf")
             if stage == 'stability_gate':
@@ -2201,7 +2262,8 @@ class PilotLedger:
                 self._validated_requalification_parent(c, parent)
             elif row['retry_of']:
                 parent = by_id.get(row['retry_of'])
-                if (parent is None or parent['status'] != 'ZERO_TOKEN_PROVEN'
+                if (parent is None or not (parent['status'] == 'ZERO_TOKEN_PROVEN'
+                                           or self._unobserved_transport_failure(c, parent))
                         or parent['identity_json'] != row['identity_json']
                         or row['quota_kind'] != 'transport'):
                     raise HarnessError('orphan or inconsistent retry attempt')
