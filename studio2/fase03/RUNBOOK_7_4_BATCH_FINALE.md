@@ -372,6 +372,56 @@ canary di X+1.
 Se il comando si interrompe fra invio e salvataggio, lo slot resta `INTENT`/`FAILED` e la
 ripresa si ferma: è incertezza, non un fallimento da ritentare (punto 6).
 
+## 5-bis. Chiudere il passaggio (7.4-CHIUSURA-PASSAGGIO)
+
+Quando il riepilogo del tratto dice `"status": "COMPLETE"`, il passaggio va **chiuso** prima
+di aprire il successivo: il passaggio `N+1` non si lega senza l'evento
+`outcome:final_batch_rN`, e lo autentica per intero (copertura, ordine, record, foglie
+terminali) alla prima chiamata di ogni processo. Nessuna chiamata al modello, nessuna
+opzione di esecuzione:
+
+```bash
+"$PY" studio2/fase03/run_final_batch.py --target "$TARGET" --close-pass 1
+```
+
+Che cosa fa:
+
+- rifiuta il passaggio se un solo slot non è terminale, elencando **ogni** slot aperto come
+  `logical_id -> motivo` (`never reserved`, `unresolved intent`, `uncertain FAILED …
+  (reconcile it)`, `unobserved transport failure with retries left (resume the pass)`,
+  `proven zero-token failure not yet retried (resume the pass)`), esce con codice 2 e non
+  scrive nulla. Il comando si può lanciare anche a metà tratto per vedere quanto manca;
+- se ogni slot è terminale — risposta ricevuta (valida, invalida o astenuta) oppure slot
+  abbandonato per trasporto non osservato con i 3 retry esauriti — scrive nella stessa
+  transazione la nota `note:unobserved_transport_abandoned:<id>` eventualmente mancante
+  (solo quando il ledger la prova; una nota con digest diverso è un rifiuto) e l'evento
+  `outcome:final_batch_rN` con `outcome = PASS`. **PASS significa passaggio completo, non
+  un giudizio sui risultati** (`judgement: none` nell'artefatto);
+- salva l'artefatto in `results/final_batch_rN_closure.json` e lo stampa;
+- ripetuto su un passaggio già chiuso è un replay: stesso artefatto, nessun evento nuovo.
+
+Output atteso (passaggio 1, un esempio con uno slot abbandonato):
+
+```json
+{
+  "abandoned": [{"attempts": ["…", "…", "…", "…"], "logical_id": "…", "request_id": "…"}],
+  "abstained": 0,
+  "completed": 2243,
+  "invalid": 0,
+  "judgement": "none",
+  "ledger": {"final_batch_r1": 2247, "final_batch_r2": 0, "final_batch_r3": 0, "final_canary": 10, "technical_verification": 0},
+  "planned": 2244,
+  "records_sha256": "…",
+  "retries": {"unobserved_transport": 3, "zero_token_proven": 1},
+  "stage": "final_batch_r1",
+  "stage_run": "…"
+}
+```
+
+`planned = completed + len(abandoned)`; `invalid` e `abstained` usano le stesse definizioni
+delle righe di avanzamento; `ledger` conta le righe per stage, retry inclusi. Poi il
+passaggio successivo parte come al §4 con `--pass-index 2` (canary del giorno se cambia).
+
 ## 6. Cosa fare per ogni tipo di STOP
 
 | STOP | Segnale | Azione |
@@ -395,6 +445,7 @@ ripresa si ferma: è incertezza, non un fallimento da ritentare (punto 6).
 | Prompt senza un campo del record | `... lacks the call-record fields [...]` / `lacks the renderer keys [...]` / `already carries <campo>: the loader binds it` | STOP a zero chiamate, dal piano. Il file dei prompt del target non è quello renderizzato e pinnato (o è stato riscritto a mano): non correggere le righe, verificare gli SHA del target e ripristinare il file pinnato. |
 | Schedule non autenticata | `schedule differs from the deterministic generator` | STOP. Non rigenerare sopra: verificare quale artefatto è cambiato. |
 | Condizione non producibile | `conditions the frozen renderer does not produce` | STOP. Le quattro condizioni del protocollo (A, B-LF, E-LF, B-noLF) sono producibili: qualunque altro token è un errore di inventario, non una condizione da reinterpretare. |
+| Passaggio precedente non chiuso o non autentico | `pass 2 cannot start before final_batch_r1 is closed` / `final_batch_r1 is not complete: …` / `has no successful closed outcome` | Chiudere il passaggio precedente con `--close-pass N` (§5-bis). Un evento `outcome:` che non si riautentica dal ledger non sblocca nulla: STOP e decisione dell'autore. |
 | Ledger incoerente | qualunque `HarnessError` dal ledger in fase di bind | STOP. Non riscrivere storia incerta, non retrofittare. |
 
 ## 7. Cosa consegnare alla finestra dopo ogni tratto
@@ -419,7 +470,7 @@ A fine passata e a fine batch:
   --pilot-id studio2-fase03-batch-finale-01 status
 ```
 
-Attesi finali: 2.244 richieste **base** per ciascuno dei tre stage di passata
+Attesi finali: `outcome:final_batch_r1/r2/r3` fra gli eventi (§5-bis), 2.244 richieste **base** per ciascuno dei tre stage di passata
 (`final_batch_r1/r2/r3`, retry esclusi dal conteggio di stage e contati a parte),
 `final_canary <= 300`, `technical_verification = 0`, `retry_quota_used <= 400`,
 cumulativo `<= 7432`, `unresolved_intents = 0`,
