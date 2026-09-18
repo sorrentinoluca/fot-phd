@@ -16,6 +16,13 @@ Retry and STOP follow author decision D3 (2026-09-17), which replaces the absolu
   may be retried, within a separate cumulative quota and after an increasing wait;
 * a timeout without that proof suspends the slot and requires reconciliation -- never an
   automatic resend;
+* revision 7.4-FIX-RETRY-RETE (author, 2026-09-18): a transport failure in which no byte
+  of a response was received -- connection lost or refused, 5xx, 429
+  (``UNOBSERVED_TRANSPORT_ERRORS``) -- is an outcome nobody observed. It is retried
+  without proof up to three times, in the same run and after the same increasing wait;
+  after the third failed retry the slot is a definitive technical failure (missing data,
+  ``note:unobserved_transport_abandoned:<id>``, ``abandoned_unobserved_transport`` in the
+  summary) and the batch continues;
 * a response that was generated but is invalid or truncated is a recorded failure and is
   never regenerated;
 * a valid but wrong or abstaining response is a definitive scientific outcome;
@@ -432,78 +439,123 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
     sent = 0
     retried = 0
     recovered = 0
+    abandoned: list[str] = []
     used_insight_ids: Counter = Counter()
+    budget_reached = False
     for row in rows:
-        leaf = ledger.leaf(stage, row["logical_id"])
-        retry_requests: tuple = ()
-        from_stored = False
-        if leaf is not None:
-            if leaf["status"] == "COMPLETED":
-                # A received response is terminal: valid, invalid or truncated, it is an
-                # outcome and is never regenerated (D3, rows 3 and 4).
-                progress.skip()
+        # One logical slot; the loop repeats only for an unobserved transport failure
+        # (7.4-FIX-RETRY-RETE), until a response arrives or the retries are exhausted.
+        while True:
+            leaf = ledger.leaf(stage, row["logical_id"])
+            retry_requests: tuple = ()
+            from_stored = False
+            if leaf is not None:
+                if leaf["status"] == "COMPLETED":
+                    # A received response is terminal: valid, invalid or truncated, it is an
+                    # outcome and is never regenerated (D3, rows 3 and 4).
+                    progress.skip()
+                    break
+                if leaf["status"] == "ZERO_TOKEN_PROVEN":
+                    # D3, row 1: retry against proof -- linked to this very request -- that
+                    # no token was generated, reasoning included.
+                    retry_requests = (leaf["request_id"],)
+                elif stored_without_record(ledger, leaf["request_id"]):
+                    # The response is durable and unparsed: closing it consumes no call.
+                    from_stored = True
+                else:
+                    disposition = ledger.unobserved_transport_disposition(leaf["request_id"])
+                    if disposition == "retry":
+                        # 7.4-FIX-RETRY-RETE: connection lost, 5xx or 429 with no byte
+                        # received -- an outcome nobody observed, resent without proof.
+                        retry_requests = (leaf["request_id"],)
+                    elif disposition == "exhausted":
+                        # Definitive technical failure: missing data, reported apart.
+                        note = "note:unobserved_transport_abandoned:" + leaf["request_id"]
+                        if ledger.event(note) is None:
+                            attempts = ledger.attempts(stage, row["logical_id"])
+                            ledger.record_event(note, artifact_sha256=digest(attempts), detail={
+                                "stage": stage, "logical_id": row["logical_id"],
+                                "attempts": [a["request_id"] for a in attempts],
+                                "reason": "unobserved transport failure after the admitted retries"})
+                        abandoned.append(row["logical_id"])
+                        progress.skip()
+                        print(f"{stage} ABANDONED {row['logical_id']} "
+                              "(unobserved transport failure, retries exhausted)", flush=True)
+                        break
+                    else:
+                        # D3, row 2: uncertain consumption is suspended, never resent.
+                        raise BatchStop(
+                            STOP_PREFIX + f" uncertain request {leaf['request_id']} "
+                            f"({leaf['status']}); reconcile it with ledger_cli "
+                            "reconcile-zero-token before resuming")
+            # Closing a stored response consumes no call, so ``--max-requests`` does not gate it.
+            if not from_stored and max_requests is not None and sent >= max_requests:
+                budget_reached = True
+                break
+            if retry_requests:
+                wait = retry_backoff_seconds(len(ledger.attempts(stage, row["logical_id"])))
+                if wait and sleep is not None:
+                    sleep(wait)
+                retried += 1
+            civil = resolve_civil_day(day, now=now,
+                                      crossing_evidence=lambda: stage_began_on(ledger, stage, day))
+            require_canary_ok(ledger, day)
+            prompt = prompts[row["stable_id"]]
+            spec = next(s for s in binding["requests"] if s["logical_id"] == row["logical_id"])
+            messages = [{"role": "user", "content": prompt["text"]}]
+
+            def evaluate(raw, prompt=prompt, civil=civil):
+                return dict(run_pilot.consumer_record(raw, prompt, generation),
+                            repetition=row["repetition"], stable_id=row["stable_id"],
+                            block=row["block"], library_role=row["library_role"],
+                            declared_day=civil["declared_day"],
+                            observed_day=civil["observed_day"],
+                            midnight_crossing=civil["midnight_crossing"])
+
+            before = None if leaf is None else leaf["request_id"]
+            try:
+                record = execute_request(
+                    ledger=ledger, stage=stage, spec=spec,
+                    transport=lambda transmitted=messages: provider.call(
+                        prompt=prompt, messages=transmitted, schema=schema,
+                        generation=generation, ledger=ledger, stage=stage, spec=spec),
+                    evaluate=evaluate, expected_identity=config["expected_response"],
+                    messages=messages, accounting_guard=accounting_guard,
+                    resume=bool(retry_requests) or from_stored, retry_requests=retry_requests)
+            except HarnessError:
+                # Continue only when *this* attempt was recorded as an unobserved transport
+                # failure; anything else -- a reservation refused, the five-failure STOP,
+                # a timeout, an authentication error -- stops as before.
+                failed = ledger.leaf(stage, row["logical_id"])
+                if (failed is None or failed["request_id"] == before
+                        or failed["status"] != "FAILED"
+                        or ledger.unobserved_transport_disposition(failed["request_id"]) is None):
+                    raise
+                print(f"{stage} transport failure on {row['logical_id']} "
+                      f"(attempt {len(ledger.attempts(stage, row['logical_id']))}); "
+                      "unobserved: no byte received", flush=True)
                 continue
-            if leaf["status"] == "ZERO_TOKEN_PROVEN":
-                # D3, row 1: the only admitted retry, against proof -- linked to this very
-                # request -- that no token was generated, reasoning included.
-                retry_requests = (leaf["request_id"],)
-            elif stored_without_record(ledger, leaf["request_id"]):
-                # The response is durable and unparsed: closing it consumes no call.
-                from_stored = True
+            if from_stored:
+                recovered += 1
+                ledger.record_event("note:stored_response_evaluated:" + record["request_id"],
+                                    artifact_sha256=digest(record),
+                                    detail={"stage": stage, "logical_id": row["logical_id"],
+                                            "reason": "durable raw response evaluated without transport"})
             else:
-                # D3, row 2: uncertain consumption is suspended, never resent automatically.
-                raise BatchStop(
-                    STOP_PREFIX + f" uncertain request {leaf['request_id']} ({leaf['status']}); "
-                    "reconcile it with ledger_cli reconcile-zero-token before resuming")
-        # Closing a stored response consumes no call, so ``--max-requests`` does not gate it.
-        if not from_stored and max_requests is not None and sent >= max_requests:
+                sent += 1
+            progress.observe(record)
+            logger.append(_call_record(row, prompt, record, generation=generation,
+                                       config=config,
+                                       attempt=len(ledger.attempts(stage, row["logical_id"]))))
+            parsed = record.get("parsed_output")
+            if isinstance(parsed, dict):
+                used_insight_ids.update(parsed.get("used_insight_ids") or [])
+            durable_write(results_dir / f"{stage}_record_{record['request_id']}.json",
+                          canonical_json(record) + "\n")
+            print(progress.line(), flush=True)
             break
-        if retry_requests:
-            wait = retry_backoff_seconds(len(ledger.attempts(stage, row["logical_id"])))
-            if wait and sleep is not None:
-                sleep(wait)
-            retried += 1
-        civil = resolve_civil_day(day, now=now,
-                                  crossing_evidence=lambda: stage_began_on(ledger, stage, day))
-        require_canary_ok(ledger, day)
-        prompt = prompts[row["stable_id"]]
-        spec = next(s for s in binding["requests"] if s["logical_id"] == row["logical_id"])
-        messages = [{"role": "user", "content": prompt["text"]}]
-
-        def evaluate(raw, prompt=prompt, civil=civil):
-            return dict(run_pilot.consumer_record(raw, prompt, generation),
-                        repetition=row["repetition"], stable_id=row["stable_id"],
-                        block=row["block"], library_role=row["library_role"],
-                        declared_day=civil["declared_day"],
-                        observed_day=civil["observed_day"],
-                        midnight_crossing=civil["midnight_crossing"])
-
-        record = execute_request(
-            ledger=ledger, stage=stage, spec=spec,
-            transport=lambda transmitted=messages: provider.call(
-                prompt=prompt, messages=transmitted, schema=schema, generation=generation,
-                ledger=ledger, stage=stage, spec=spec),
-            evaluate=evaluate, expected_identity=config["expected_response"],
-            messages=messages, accounting_guard=accounting_guard,
-            resume=bool(retry_requests) or from_stored, retry_requests=retry_requests)
-        if from_stored:
-            recovered += 1
-            ledger.record_event("note:stored_response_evaluated:" + record["request_id"],
-                                artifact_sha256=digest(record),
-                                detail={"stage": stage, "logical_id": row["logical_id"],
-                                        "reason": "durable raw response evaluated without transport"})
-        else:
-            sent += 1
-        progress.observe(record)
-        logger.append(_call_record(row, prompt, record, generation=generation,
-                                   config=config,
-                                   attempt=len(ledger.attempts(stage, row["logical_id"]))))
-        parsed = record.get("parsed_output")
-        if isinstance(parsed, dict):
-            used_insight_ids.update(parsed.get("used_insight_ids") or [])
-        durable_write(results_dir / f"{stage}_record_{record['request_id']}.json",
-                      canonical_json(record) + "\n")
-        print(progress.line(), flush=True)
+        if budget_reached:
+            break
 
     snapshot = ledger.snapshot()
     summary = {"stage": stage, "planned": len(rows), "completed": progress.done,
@@ -516,6 +568,7 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
                "consecutive_technical_failures": snapshot.get("consecutive_technical_failures", {}),
                "consecutive_failure_stop": FINAL_CONSECUTIVE_FAILURE_STOP,
                "recovered_from_stored_response": recovered,
+               "abandoned_unobserved_transport": abandoned,
                "invalid": progress.invalid,
                "abstained": progress.abstained, "stage_run": stage_run,
                "t9_used_insight_ids": dict(sorted(used_insight_ids.items())),

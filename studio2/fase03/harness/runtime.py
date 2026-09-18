@@ -109,7 +109,10 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
         ledger.reserve_requalification_retry(request_id=request_id, logical_id=spec['logical_id'], model=spec['model'], producer=spec['producer'], stage=stage, stage_run=stage_run, retry_of=leaf['request_id'])
         leaf = ledger.request(request_id)
         fresh = True
-    elif leaf and leaf['status'] == 'ZERO_TOKEN_PROVEN':
+    elif leaf and (leaf['status'] == 'ZERO_TOKEN_PROVEN'
+                   or leaf['status'] == 'FAILED' and leaf['request_id'] in retry_requests):
+        # FAILED is admitted only as an explicit selector; the ledger accepts it solely for an
+        # unobserved transport failure of the final batch (7.4-FIX-RETRY-RETE).
         if leaf['request_id'] not in retry_requests:
             raise HarnessError('proven zero-token request requires explicit retry selection')
         request_id = digest([ledger.pilot_id, stage, spec['logical_id'], leaf['request_id']])
@@ -150,7 +153,14 @@ def execute_request(*, ledger, stage, spec, transport, evaluate, expected_identi
             # A pre-transport guard failure is not a model transport observation.
             raise
         except Exception as exc:
-            ledger.complete_request(request_id, status='FAILED', latency_ms=(time.monotonic()-begin)*1000, detail={'error_type': type(exc).__name__, 'message': str(exc)}, transport_failure=True)
+            # 7.4-FIX-RETRY-RETE (R2): keep the HTTP status and the underlying cause, so a
+            # lost connection ("Server disconnected ...") is distinguishable in the ledger.
+            cause = exc.__cause__ or exc.__context__
+            detail = {'error_type': type(exc).__name__, 'message': str(exc),
+                      'status_code': getattr(exc, 'status_code', None),
+                      'cause_type': None if cause is None else type(cause).__name__,
+                      'cause_message': None if cause is None else str(cause)}
+            ledger.complete_request(request_id, status='FAILED', latency_ms=(time.monotonic()-begin)*1000, detail=detail, transport_failure=True)
             export(ledger, stage, journal_path)
             if stage == 'stability_gate':
                 return ledger.gate_transport_record(request_id)
