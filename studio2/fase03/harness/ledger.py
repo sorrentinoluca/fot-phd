@@ -40,8 +40,12 @@ FINAL_BATCH_STAGES = set(FINAL_PASS_STAGES) | {FINAL_CANARY_STAGE, TECHNICAL_VER
 # the stage stays defined with quota zero and every reservation on it is refused. A future
 # technical verification requires a declared protocol revision, not a local widening.
 TECHNICAL_VERIFICATION_QUOTA = 0
+# Author decision 2026-09-18 (REVISIONE_002): no calendar limit. One canary per civil day
+# with scientific calls, with no maximum number of days in the protocol. 300 (30 days of
+# ten calls) is an accounting guard with no scientific meaning; it replaces 70 (7 days).
+FINAL_CANARY_QUOTA = 300
 FINAL_BATCH_LIMITS = {**{stage: FINAL_PASS_LIMIT for stage in FINAL_PASS_STAGES},
-                      FINAL_CANARY_STAGE: 70,
+                      FINAL_CANARY_STAGE: FINAL_CANARY_QUOTA,
                       TECHNICAL_VERIFICATION_STAGE: TECHNICAL_VERIFICATION_QUOTA}
 # Author decision D3 (2026-09-17) replaces the absolute Q=0 of the candidate: a retry is
 # admitted only against proof that no token was generated. The cumulative ceiling is a
@@ -50,7 +54,8 @@ FINAL_BATCH_LIMITS = {**{stage: FINAL_PASS_LIMIT for stage in FINAL_PASS_STAGES}
 # generation failures out of 156 requests (5.13%); on 6,802 planned calls that is ~349
 # expected, and 400 leaves ~15% headroom while costing at most ~4.9 h at the gate p95.
 # (The pilot rate is computed on 6,802 planned calls; with X = 0 the planned calls are
-# 6,802 as well: 6,732 scientific plus 70 canary.)
+# 6,802 as well: 6,732 scientific plus 70 canary. REVISIONE_002 raises the canary guard
+# to 300 and leaves this retry quota unchanged.)
 FINAL_RETRY_QUOTA = 400
 # Five consecutive failed technical attempts on the same service, retries included.
 # Protection against an unavailable service; no statistical meaning (D3).
@@ -60,8 +65,9 @@ PROFILE_EVENT_PREFIX = "ledger_profile:"
 CANARY_PASS_PREFIX = "canary_pass:"
 CANARY_MARKED_PREFIX = "canary_marked:"
 CANARY_STOP_PREFIX = "canary_stop:"
-CANARY_MAX_DAYS = 7
 CANARY_DAILY_CALLS = 10
+# Accounting guard derived from the canary quota (REVISIONE_002), not a calendar limit.
+CANARY_MAX_DAYS = FINAL_CANARY_QUOTA // CANARY_DAILY_CALLS
 
 
 @dataclass(frozen=True)

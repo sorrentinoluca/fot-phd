@@ -28,7 +28,7 @@ INSIGHTS = ["S2-INS-001", "S2-INS-002"]
 SMALL = 6
 
 
-def small_profile(rows_per_pass: int, canary_slots: int = 70):
+def small_profile(rows_per_pass: int, canary_slots: int = 300):
     limits = {stage: rows_per_pass for stage in FINAL_PASS_STAGES}
     limits[FINAL_CANARY_STAGE] = canary_slots
     limits["technical_verification"] = FINAL_BATCH_PROFILE.base_limits["technical_verification"]
@@ -346,9 +346,9 @@ class BatchExecution(FinalBatchBase):
         from .ledger import FINAL_BATCH_PROFILE as real
 
         self.assertEqual(real.base_limits["technical_verification"], 0)
-        self.assertEqual(real.planned_maximum, 7202)
-        self.assertEqual(real.hard_stop, 7202)
-        self.assertEqual(sum(real.base_limits.values()) + real.retry_quota, 7202)
+        self.assertEqual(real.planned_maximum, 7432)
+        self.assertEqual(real.hard_stop, 7432)
+        self.assertEqual(sum(real.base_limits.values()) + real.retry_quota, 7432)
         self.pass_canary_day()
         binding = {"requests": [dict(logical_id="tv-1", model=MODEL, producer="consumer",
                                      prompt_sha256="0" * 64, case_sha256="1" * 64,
@@ -367,11 +367,11 @@ class BatchExecution(FinalBatchBase):
         from .ledger import FINAL_BATCH_PROFILE as real
 
         self.assertEqual(real.planned_maximum, real.hard_stop)
-        self.assertEqual(real.planned_maximum, 7202)
-        self.assertEqual(sum(real.base_limits.values()) + real.retry_quota, 7202)
+        self.assertEqual(real.planned_maximum, 7432)
+        self.assertEqual(sum(real.base_limits.values()) + real.retry_quota, 7432)
         self.pass_canary_day()
         # Per-stage quotas stay wide; only the total is narrow, so the refusal can come
-        # from the total branch alone, which 7.202 would reach after the whole campaign.
+        # from the total branch alone, which 7.432 would reach after the whole campaign.
         # The total counts every request of the target, the ten canary calls included.
         already = sum(self.ledger.snapshot()["requests_by_stage"].values())
         admitted = self.rows_per_pass - 1
