@@ -38,14 +38,16 @@ from studio2.fase03.harness.ledger import (  # noqa: E402
     FINAL_CANARY_STAGE,
     PilotLedger, digest, load_tokenizer_accounting_guard,
 )
-from studio2.fase03.harness.guards import require_execution, require_pilot_ledger  # noqa: E402
+from studio2.fase03.harness.guards import (  # noqa: E402
+    require_execution, require_pilot_ledger, require_reference_environment,
+)
 from studio2.fase03.harness.runtime import (  # noqa: E402
     IdentitySuspension, durable_write, execute_request,
 )
 from studio2.fase03 import run_pilot  # noqa: E402
 from studio2.fase03.run_final_batch import (  # noqa: E402
-    BatchStop, STOP_PREFIX, load_target, resolve_civil_day, retry_backoff_seconds,
-    stored_without_record, target_label_space,
+    BatchStop, STOP_PREFIX, load_target, require_prompt_fields, resolve_civil_day,
+    retry_backoff_seconds, stored_without_record, target_label_space,
 )
 
 ACK = "EXECUTE_PHASE03_FINAL_CANARY"
@@ -121,10 +123,13 @@ def run_day(*, target, ledger, config, generation, schema, day: str | None, resu
     # missing or altered manifest stops the day at zero calls instead of after the first.
     labels = target_label_space(target, pilot_manifest)
     for prompt in prompts:
+        if "label_space" in prompt:
+            raise BatchStop(STOP_PREFIX + f" canary prompt {prompt['prompt_id']} already "
+                                          "carries label_space: the loader binds it")
         prompt["label_space"] = list(labels)
-        if "available_insight_ids" not in prompt:
-            raise BatchStop(STOP_PREFIX + f" canary prompt without available_insight_ids: "
-                                          f"{prompt['prompt_id']}")
+        # Canary rows are the pilot's own (``sample_role`` included): the same completeness
+        # check as the batch, so a missing field stops the plan at zero calls.
+        require_prompt_fields(prompt, source="canary")
     # The plan covers every slot of the canary quota from the start: the binding is immutable and
     # the day index, not the civil date, identifies the slot. The date lives in the event.
     day_index = len(state["passed"]) + len(state["marked"]) + 1
@@ -269,6 +274,7 @@ def run_day(*, target, ledger, config, generation, schema, day: str | None, resu
 
 
 def main(argv=None) -> int:
+    require_reference_environment()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target", type=Path, required=True)
     parser.add_argument("--day", help=ROME_OFFSET_NOTE)

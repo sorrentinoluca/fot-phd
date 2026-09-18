@@ -28,6 +28,7 @@ from studio2.fase03.harness.common import (  # noqa: E402
     HarnessError, canonical_json, load_json, sha256_file, sha256_text,
 )
 from studio2.fase03.harness.runtime import durable_write  # noqa: E402
+from studio2.fase03.harness.guards import require_reference_environment  # noqa: E402
 
 # One definition only: the runners authenticate the same manifest to read the label space.
 PILOT_INPUT_MANIFEST_SHA256 = final_prompts.PILOT_INPUT_MANIFEST_SHA256
@@ -84,6 +85,7 @@ def load_libraries(roots=()) -> dict:
 
 
 def main(argv=None) -> int:
+    require_reference_environment()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--pilot-manifest", type=Path,
                         help="execution/PILOT_INPUT_MANIFEST.frozen.json of the pilot runtime")

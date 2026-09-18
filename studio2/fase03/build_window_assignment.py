@@ -24,11 +24,13 @@ if str(ROOT) not in sys.path:
 from studio2.fase03.harness import window_assignment as module  # noqa: E402
 from studio2.fase03.harness.common import HarnessError, canonical_json  # noqa: E402
 from studio2.fase03.harness.runtime import durable_write  # noqa: E402
+from studio2.fase03.harness.guards import require_reference_environment  # noqa: E402
 
 ARTIFACT_PATH = ROOT / "studio2/fase03/batch_finale/ASSEGNAZIONE_FINESTRE_7_4.json"
 
 
 def main(argv=None) -> int:
+    require_reference_environment()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", type=Path, default=ARTIFACT_PATH)
     parser.add_argument("--git-ref", default=module.IDENTIFIER_GIT_REF,

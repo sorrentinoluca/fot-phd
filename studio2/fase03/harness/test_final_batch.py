@@ -48,16 +48,36 @@ def fixture_config(ledger_path: Path, pilot_id: str) -> dict:
 
 
 def fixture_prompt(stable_id: str) -> dict:
-    """A rendered row as the renderer really writes it: no ``label_space``.
+    """A rendered row with exactly the keys ``final_prompts.render_all`` writes.
 
-    The label space is bound by the loaders from the frozen manifest. A fixture that adds it
-    by hand hides exactly the gap that stopped the first canary day of the real campaign.
+    No ``label_space`` and no ``sample_role``: both are bound by ``load_prompts``. Twice a
+    fixture added by hand a field the renderer does not emit, and twice the real campaign
+    paid a call to find out (7.4-FIX-RUNNER, 7.4-FIX-CONTRATTO-RECORD). The key set is
+    asserted against ``RENDERED_ROW_KEYS`` in ``test_record_contract``.
     """
+    from .final_prompts import RENDERED_ROW_KEYS
     text = f"FIXTURE ONLY prompt {stable_id}"
-    return {"prompt_id": stable_id, "text": text, "prompt_sha256": sha256_text(text),
-            "agent_id": "agent_1", "case_id": "fixture-case", "condition": "A",
-            "sample_role": "matched_transfer",
-            "available_insight_ids": INSIGHTS}
+    row = {"prompt_id": stable_id, "stable_id": stable_id, "block": "nucleus", "condition": "A",
+           "case_id": "fixture-case", "agent_id": "agent_1", "library_role": "none",
+           "available_insight_ids": INSIGHTS, "text": text, "prompt_sha256": sha256_text(text),
+           "prompt_bytes": len(text.encode("utf-8"))}
+    assert tuple(row) == RENDERED_ROW_KEYS, "fixture row drifted from the renderer"
+    return row
+
+
+def fixture_pilot_prompt(prompt_id: str) -> dict:
+    """A pilot row (``protocol.RenderedPrompt.to_dict``): what ``canary_prompts.jsonl`` holds.
+
+    Built through the production dataclass, so a pilot field added or removed there changes
+    this fixture with it. It carries ``sample_role`` because the pilot sampled its cases;
+    it carries no ``label_space``.
+    """
+    from studio2.fase03.protocol import RenderedPrompt
+    text = f"FIXTURE ONLY prompt {prompt_id}"
+    return RenderedPrompt(prompt_id=prompt_id, agent_id="agent_1", case_id="fixture-case",
+                          condition="A", sample_role="matched_transfer", text=text,
+                          prompt_sha256=sha256_text(text),
+                          available_insight_ids=tuple(INSIGHTS), input_tokens=5).to_dict()
 
 
 def install_frozen_manifest(stack, home: Path) -> Path:
@@ -181,8 +201,7 @@ class FinalBatchBase(unittest.TestCase):
         return rows
 
     def install_canary_fixture(self):
-        self.canary_prompts = [dict(fixture_prompt(f"S2-P03-{index:03d}"),
-                                    prompt_id=f"S2-P03-{index:03d}") for index in range(1, 11)]
+        self.canary_prompts = [fixture_pilot_prompt(f"S2-P03-{index:03d}") for index in range(1, 11)]
         prompts_path = self.home / "canary_prompts.jsonl"
         prompts_path.write_text("".join(json.dumps(row) + "\n" for row in self.canary_prompts),
                                 encoding="utf-8")

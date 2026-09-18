@@ -139,3 +139,39 @@ def require_pilot_ledger(config, ledger):
         ledger.require_current_config(config, connection)
         validate_history(config, ledger, connection)
         ledger._validated_attempt_inventory(connection)
+
+
+# 7.4-FIX-CONTRATTO-RECORD: the reference execution environment (protocol §7.1).
+# The schedule is a NumPy ``PCG64`` permutation and NumPy 2.3.x permutes differently: a
+# different NumPy is not an environment detail, it is another experiment. The expected
+# version is read from the frozen schedule artifact, never hard-coded here.
+SCHEDULE_ARTIFACT_PATH = Path(__file__).resolve().parents[1] / "batch_finale" / "INVENTARIO_SCHEDULE_7_4.json"
+
+
+def reference_numpy_version(artifact_path: Path = SCHEDULE_ARTIFACT_PATH) -> str:
+    path = Path(artifact_path)
+    if not path.is_file():
+        raise HarnessError(f"schedule artifact not found, reference environment unknown: {path}")
+    value = load_json(path).get("schedule", {}).get("numpy_version")
+    if not isinstance(value, str) or not value.strip():
+        raise HarnessError(f"schedule artifact declares no numpy_version: {path}")
+    return value
+
+
+def require_reference_environment(artifact_path: Path = SCHEDULE_ARTIFACT_PATH) -> str:
+    """Stop the command unless the running NumPy is the one the schedule was frozen with.
+
+    Blocking, not a warning: called as the first line of every ``main()`` of the final
+    batch pipeline, so the mismatch is named before any artifact is rebuilt or compared
+    ("observed X, expected Y") instead of surfacing later as a schedule pin failure.
+    """
+    import numpy
+
+    expected = reference_numpy_version(artifact_path)
+    observed = numpy.__version__
+    if observed != expected:
+        raise HarnessError(
+            f"STOP: reference environment mismatch: numpy {observed} observed, {expected} "
+            f"expected by {Path(artifact_path).name} (protocol §7.1); run under conda "
+            "fottep002 or an environment with that NumPy")
+    return observed

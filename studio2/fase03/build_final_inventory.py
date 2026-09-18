@@ -21,6 +21,7 @@ if str(ROOT) not in sys.path:
 from studio2.fase03.harness import final_inventory as inventory_module  # noqa: E402
 from studio2.fase03.harness.common import canonical_json, sha256_text  # noqa: E402
 from studio2.fase03.harness.runtime import durable_write  # noqa: E402
+from studio2.fase03.harness.guards import require_reference_environment  # noqa: E402
 
 LIBRARIES_PATH = ROOT / "studio2/fase03/librerie/LIBRERIE_FINALI_CANDIDATE.json"
 DEFAULT_OUT = ROOT / "studio2/fase03/batch_finale/build"
@@ -81,6 +82,7 @@ def be_structural_diff() -> dict[str, Any]:
 
 
 def main() -> int:
+    require_reference_environment()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT,
                         help="directory receiving the full inventory and schedule artifacts")

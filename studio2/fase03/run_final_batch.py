@@ -44,14 +44,18 @@ from studio2.fase03.protocol import (  # noqa: E402
     DIAGNOSTIC_SCHEMA_PATH, canonical_json, load_json, sha256_file, sha256_text,
 )
 from studio2.fase03.harness.common import HarnessError  # noqa: E402
-from studio2.fase03.harness.final_prompts import frozen_label_space  # noqa: E402
+from studio2.fase03.harness.final_prompts import (  # noqa: E402
+    RENDERED_ROW_KEYS, frozen_label_space,
+)
 from studio2.fase03.harness.ledger import (  # noqa: E402
     CANARY_MARKED_PREFIX, CANARY_PASS_PREFIX, CANARY_STOP_PREFIX, FINAL_PASS_STAGES,
     FINAL_CONSECUTIVE_FAILURE_STOP, FINAL_RETRY_QUOTA,
     PilotLedger, digest, load_tokenizer_accounting_guard,
 )
 from studio2.fase03.harness.canary_marking import rome_day  # noqa: E402
-from studio2.fase03.harness.guards import require_execution, require_pilot_ledger  # noqa: E402
+from studio2.fase03.harness.guards import (  # noqa: E402
+    require_execution, require_pilot_ledger, require_reference_environment,
+)
 from studio2.fase03.harness.runtime import durable_write, execute_request  # noqa: E402
 from studio2.fase03.harness import final_inventory as inventory_module  # noqa: E402
 from studio2.fase03 import protocol_bnolf  # noqa: E402
@@ -65,6 +69,43 @@ STOP_PREFIX = "STOP:"
 # D3: increasing wait between technical attempts on the same logical request.
 RETRY_BACKOFF_BASE_SECONDS = 30.0
 RETRY_BACKOFF_CAP_SECONDS = 900.0
+
+# --- Prompt contract of the call record (7.4-FIX-CONTRATTO-RECORD) -------------------
+# ``sample_role`` in the pilot describes how that case was sampled (``matched_transfer`` /
+# ``context_stress``). The final batch samples nothing: all 2,244 cases run, so the field
+# is a constant provenance marker, not a sampling role (author decision 2026-09-18). The
+# discriminating information lives in ``block``, ``condition``, ``library_role`` and
+# ``locality`` of the schedule. It is bound at load time, like ``label_space``: the
+# rendered rows are pinned and never rewritten.
+FINAL_BATCH_SAMPLE_ROLE = "final_batch"
+# Fields the runner itself reads from a prompt: transport and the T7 log need ``text``;
+# ``batch_spec`` and ``Provider.call`` need ``prompt_sha256``.
+RUNNER_PROMPT_FIELDS = ("text", "prompt_sha256")
+# What the loaders add to a row that the renderer does not write.
+BOUND_AT_LOAD_FIELDS = ("label_space", "sample_role")
+
+
+def required_prompt_fields() -> tuple[str, ...]:
+    """Everything a prompt must carry once loaded, before the first call.
+
+    Read from ``run_pilot`` at call time, not copied: a field added tomorrow to
+    ``consumer_record`` is required here the same instant, and the loader stops at zero
+    calls unless the renderer writes it or the loader binds it.
+    """
+    return tuple(dict.fromkeys(run_pilot.CONSUMER_RECORD_REQUIRED_FIELDS + RUNNER_PROMPT_FIELDS))
+
+
+REQUIRED_PROMPT_FIELDS = required_prompt_fields()
+
+
+def require_prompt_fields(prompt: dict[str, Any], *, source: str) -> None:
+    """Fail closed, naming every missing field, before any call can be reserved."""
+    required = required_prompt_fields()
+    missing = [key for key in required if key not in prompt]
+    if missing:
+        raise BatchStop(
+            STOP_PREFIX + f" {source} prompt {prompt.get('prompt_id')!r} lacks the call-record "
+            f"fields {missing}; required: {list(required)}")
 
 
 class BatchStop(HarnessError):
@@ -134,12 +175,14 @@ def target_label_space(target: dict[str, Any], override=None) -> list[str]:
 
 
 def load_prompts(target: dict[str, Any], *, label_space: list[str]) -> dict[str, dict[str, Any]]:
-    """Read the rendered prompts, check every hash, and bind the frozen label space.
+    """Read the rendered prompts, check every hash, bind what the renderer does not write.
 
-    A rendered row does not carry ``label_space``: the pilot injected it at load time from
-    its manifest and the same happens here, because the rendered file is pinned and already
-    copied inside the target. Without it ``consumer_record`` cannot validate an answer, and
-    the failure would land after the call, with the response already paid for.
+    A rendered row carries exactly ``RENDERED_ROW_KEYS``: no ``label_space`` (the pilot
+    injected it at load time from its manifest, and the same happens here) and no
+    ``sample_role`` (a pilot sampling notion; here the constant ``FINAL_BATCH_SAMPLE_ROLE``).
+    The rendered file is pinned and already copied inside the target, so nothing is written
+    back. The completeness check runs here, on the plan as on the execution, so a missing
+    field stops the command at zero calls instead of after the first paid response.
     """
     path = Path(target["prompts"]["path"])
     prompts: dict[str, dict[str, Any]] = {}
@@ -147,12 +190,19 @@ def load_prompts(target: dict[str, Any], *, label_space: list[str]) -> dict[str,
         if not line:
             continue
         row = json.loads(line)
+        missing_rendered = [key for key in RENDERED_ROW_KEYS if key not in row]
+        if missing_rendered:
+            raise BatchStop(STOP_PREFIX + f" rendered prompt {row.get('prompt_id')!r} lacks "
+                                          f"the renderer keys {missing_rendered}")
         if row["prompt_sha256"] != sha256_text(row["text"]):
             raise BatchStop(STOP_PREFIX + f" prompt bytes changed: {row.get('prompt_id')}")
-        if "available_insight_ids" not in row:
-            raise BatchStop(STOP_PREFIX + f" rendered prompt without available_insight_ids: "
-                                          f"{row.get('prompt_id')}")
+        for key in BOUND_AT_LOAD_FIELDS:
+            if key in row:
+                raise BatchStop(STOP_PREFIX + f" rendered prompt {row.get('prompt_id')!r} "
+                                              f"already carries {key}: the loader binds it")
         row["label_space"] = list(label_space)
+        row["sample_role"] = FINAL_BATCH_SAMPLE_ROLE
+        require_prompt_fields(row, source="rendered")
         prompts[row["prompt_id"]] = row
     return prompts
 
@@ -405,7 +455,8 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
                 raise BatchStop(
                     STOP_PREFIX + f" uncertain request {leaf['request_id']} ({leaf['status']}); "
                     "reconcile it with ledger_cli reconcile-zero-token before resuming")
-        if max_requests is not None and sent >= max_requests:
+        # Closing a stored response consumes no call, so ``--max-requests`` does not gate it.
+        if not from_stored and max_requests is not None and sent >= max_requests:
             break
         if retry_requests:
             wait = retry_backoff_seconds(len(ledger.attempts(stage, row["logical_id"])))
@@ -475,6 +526,7 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
 
 
 def main(argv=None) -> int:
+    require_reference_environment()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target", type=Path, required=True)
     parser.add_argument("--pass-index", type=int, choices=(1, 2, 3), required=True)

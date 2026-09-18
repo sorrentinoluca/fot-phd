@@ -1,4 +1,4 @@
-# Report 7.4-FIX-RUNNER — tre difetti trovati dalla prima giornata canary reale
+# Report 7.4-FIX-RUNNER — quattro difetti trovati dalla prima giornata reale
 
 Worktree `7-4-fix-runner`, branch `codex/studio2-7-4-fix-runner` dal tag
 `studio2-fase03-protocollo-finale-frozen-002` (`93c43a0`). Nessuna chiamata a modelli in
@@ -73,6 +73,85 @@ costruisce i prompt passando da `load_prompts`, cioè dal codice che gira davver
   (3 failures, 49 errors, 22 skipped su `d04f423` come su questo commit) — nessuna
   regressione. **Fa fede il Mac**, sotto Python 3.10 / NumPy 2.2.6.
 
+## D4 — il contratto del record di chiamata era chiuso a metà (7.4-FIX-CONTRATTO-RECORD)
+
+Dopo D1 il canary del 2026-09-18 è passato con dieci chiamate reali, e il primo tratto
+scientifico è morto alla **prima** risposta, pagata: `KeyError: 'sample_role'` in
+`consumer_record`. Stessa forma di D1: il campo mancava nella riga renderizzata e la fixture
+lo aggiungeva a mano. La correzione di D1 aveva tolto `label_space` da `fixture_prompt` e
+lasciato `sample_role`. Lo slot è `INTENT` con raw salvato e si chiude da D3 senza chiamata.
+
+### Elenco dei campi, ricavato dal codice che li consuma
+
+| Consumatore | Campi letti dal prompt | Origine nel percorso reale |
+| --- | --- | --- |
+| `run_pilot.consumer_record`, copiati nel record durevole (`CONSUMER_RECORD_PROMPT_FIELDS`) | `prompt_id, agent_id, case_id, condition, prompt_sha256` | riga di `render_all` |
+| | `sample_role` | **nessuna**: legato al caricamento, vedi sotto |
+| `consumer_record`, validazione della risposta (`CONSUMER_RECORD_VALIDATION_FIELDS`) | `label_space` | manifest congelato `84176888…`, legato al caricamento (D1) |
+| | `available_insight_ids` | riga di `render_all` |
+| trasporto (`Provider.call`), `_call_record` (log T7 §8.7), `batch_spec` (`RUNNER_PROMPT_FIELDS`) | `text, prompt_sha256` | riga di `render_all` |
+| `evaluate` del lotto (`repetition, stable_id, block, library_role`, giorni civili) | — | dallo **schedule**, non dal prompt |
+| log T7 §8.7 (`CallRecord`) | nessun `sample_role` | — |
+
+Le chiavi di una riga renderizzata sono ora dichiarate in
+`final_prompts.RENDERED_ROW_KEYS` e `render_all` le verifica su ogni riga; i campi che
+`consumer_record` legge sono dichiarati in `run_pilot` (`CONSUMER_RECORD_REQUIRED_FIELDS`, il
+codice li usa da lì) e `run_final_batch.required_prompt_fields()` è la loro unione con quelli
+del runner, ricalcolata a ogni caricamento: un campo aggiunto domani a `consumer_record` è
+richiesto dal caricatore nello stesso istante. Il canary non soffriva del difetto: le sue righe sono del pilot
+(`protocol.RenderedPrompt`), che porta `sample_role`.
+
+### Decisione d'autore su `sample_role` (2026-09-18)
+
+**Nel batch finale `sample_role` non è un ruolo di campionamento ma un marcatore costante di
+provenienza, `final_batch`, perché i casi non sono campionati: i 2.244 casi corrono tutti.
+L'informazione discriminante sta in `block`, `condition`, `library_role`, `locality`.** Nel
+pilot lo stesso campo (`matched_transfer` / `context_stress`) descrive come quel caso fu
+campionato. Derivarlo da `block`/`locality` avrebbe risposto a un'altra domanda sotto la
+stessa chiave, ambiguità che non si spiega nel paper; toglierlo avrebbe richiesto un wrapper
+di `consumer_record` e rotto l'allineamento delle chiavi fra record del pilot e del batch. Il
+valore è legato al caricamento (`load_prompts`), come `label_space`, e **non** scritto nelle
+righe renderizzate, pinnate e già dentro il target.
+
+### Controllo di completezza, fail closed prima di qualunque chiamata
+
+`load_prompts` verifica su ogni riga le chiavi del renderer, rifiuta una riga che porti già un
+campo legato al caricamento (`label_space`, `sample_role`), lega i due e poi
+`require_prompt_fields` nomina ogni campo mancante. `canary_prompts` passa dalla stessa
+verifica. Il piano (`--pass-index N` senza `--execute`, canary senza `--execute`) carica i
+prompt prima di restituire, quindi si ferma a **zero** chiamate. Il recupero da raw salvato
+non è più gettato da `--max-requests`: non consuma chiamate e non è contato in `sent`.
+
+### Ambiente di riferimento (aggiunta d'autore)
+
+`harness.guards.require_reference_environment` legge `schedule.numpy_version` da
+`batch_finale/INVENTARIO_SCHEDULE_7_4.json` (non ricablato) e ferma il comando se
+`numpy.__version__` differisce, dicendo versione osservata e attesa. È la prima riga dei
+`main()` di `build_final_inventory`, `build_window_assignment`, `build_final_prompts`,
+`prepare_final_target_inputs`, `materialize_final_target`, `run_final_canary`,
+`run_final_batch`, prima ancora del parser degli argomenti (anche `--help` si ferma).
+Bloccante: sotto NumPy 2.3.x la schedule è un altro esperimento, e fin qui l'errore arrivava
+come `FAIL pin schedule`, vero ma senza il perché. Conseguenza voluta: `build_final_inventory`
+legge la versione dallo stesso artefatto che riscrive, quindi la schedule non si rigenera mai
+sotto un NumPy diverso; con l'artefatto assente si ripristina da git prima di rilanciare.
+
+### Verifiche
+
+- `harness/test_record_contract.py`, 21 test. Righe del **renderer vero** sull'inventario
+  reale caricate dal caricatore reale; `fixture_prompt` ha esattamente `RENDERED_ROW_KEYS`
+  (asserito) e `fixture_pilot_prompt` passa da `protocol.RenderedPrompt`; una riga senza un
+  campo ferma piano e caricatore nominandolo, a zero richieste; un canary con `sample_role`
+  mancante o `label_space` già scritto si ferma prima di ogni chiamata; il record di ogni
+  slot porta `final_batch` e il log T7 ha esattamente i campi di `CallRecord`; la ripresa dal
+  raw salvato con il contratto chiuso (`recovered_from_stored_response: 1`, `sent_this_run`
+  = nuove) e con un provider che **fallisce il test se chiamato**; una guardia che traccia
+  ogni chiave letta da `consumer_record` e dall'intero `run_pass` e fallisce se ne compare una
+  non dichiarata, più il caso "campo aggiunto domani" fermato dal caricatore; l'ambiente:
+  versione letta dall'artefatto, mismatch con messaggio osservato/atteso, artefatto assente,
+  e i sette `main()` che chiamano la guardia per primi.
+- Regola: **nessuna fixture aggiunge a mano un campo che il codice di produzione non produce.**
+- Suite nella VM: vedi sotto; **fa fede il Mac** (Python 3.10 / NumPy 2.2.6).
+
 ## Ripresa della campagna
 
 1. Suite sul Mac nell'ambiente `fottep002`; merge in `main`; tag `studio2-fase03-runner-7-4-fix-001`.
@@ -82,3 +161,9 @@ costruisce i prompt passando da `load_prompts`, cioè dal codice che gira davver
    `qwen3.5-122b` / `vllm-0.27.1-934a3247`.
 3. Poi il primo tratto: `run_final_batch.py --target "$TARGET" --pass-index 1 --max-requests 250
    --execute --acknowledge EXECUTE_PHASE03_FINAL_BATCH`.
+
+Dopo D4 (tratto fermo alla prima risposta, canary del 2026-09-18 già `PASS`): suite sul Mac,
+merge, tag; piano `run_final_batch.py --target "$TARGET" --pass-index 1` (deve stampare
+`PLAN_ONLY` con `already_recorded: 1`); poi lo stesso comando del punto 3 con **`--resume`**.
+Attesi nel riepilogo `recovered_from_stored_response: 1` e `sent_this_run` pari alle chiamate
+nuove; il record recuperato porta `sample_role: final_batch`.
