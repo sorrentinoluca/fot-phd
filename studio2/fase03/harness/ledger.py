@@ -34,6 +34,11 @@ BASE_LIMITS = {TECHNICAL_STAGE: 1, "producer_conformity": 8,
 FINAL_PASS_STAGES = ("final_batch_r1", "final_batch_r2", "final_batch_r3")
 FINAL_PASS_LIMIT = 2244
 FINAL_CANARY_STAGE = "final_canary"
+# 7.4-CHIUSURA-PASSAGGIO: a final pass closes as PASS with this judgement -- coverage complete,
+# nothing scientific -- and an abandoned slot (REVISIONE_003) is noted under this prefix.
+FINAL_PASS_JUDGEMENT = "none"
+UNOBSERVED_ABANDONED_PREFIX = "note:unobserved_transport_abandoned:"
+UNOBSERVED_ABANDONED_REASON = "unobserved transport failure after the admitted retries"
 TECHNICAL_VERIFICATION_STAGE = "technical_verification"
 FINAL_BATCH_STAGES = set(FINAL_PASS_STAGES) | {FINAL_CANARY_STAGE, TECHNICAL_VERIFICATION_STAGE}
 # Author decision 2026-09-17 (7.4-FIX-2): X = 0. No technical verification is planned, so
@@ -301,6 +306,9 @@ class PilotLedger:
         self._binding_cache: dict = {}
         self._digest_memo: list = []
         self._record_memo: set = set()
+        # 7.4-CHIUSURA-PASSAGGIO: closures of final passes authenticated in this process,
+        # stage -> outcome artifact digest. A new digest or a new process re-authenticates.
+        self._authenticated_closures: dict = {}
         self.identity_path = (Path(identity_path).resolve()
                               if identity_path is not None else self.path)
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -1641,6 +1649,7 @@ class PilotLedger:
                 raise HarnessError("probe plan requires distinct complete condition triplets")
         with self._transaction() as c:
             self._require_no_tokenizer_accounting_stop(c)
+            self._require_authenticated_predecessor(c, stage)
             if 'execution_config' in binding:
                 self._require_accepted_config(
                     c, binding['execution_config'], binding['execution_config'])
@@ -1714,6 +1723,24 @@ class PilotLedger:
         return sum(r['stage'] == stage and r['logical_id'] == logical_id
                    and self._unobserved_failure_row(r) for r in rows)
 
+    def _attempt_rows(self, c, stage, logical_id):
+        """Every attempt of one logical request, in insertion order, as plain dicts."""
+        return [dict(r) for r in c.execute(
+            "SELECT * FROM requests WHERE stage=? AND logical_id=? ORDER BY rowid",
+            (stage, logical_id))]
+
+    def _unobserved_disposition(self, c, row):
+        """The one predicate and threshold behind ``unobserved_transport_disposition``.
+
+        The count is the durable retry chain of this very logical request, never an
+        aggregate of the stage.
+        """
+        if row is None or not self._unobserved_transport_failure(c, row):
+            return None
+        attempts = self._attempt_rows(c, row['stage'], row['logical_id'])
+        failed = self._unobserved_failures(attempts, row['stage'], row['logical_id'])
+        return 'retry' if failed <= self.profile.unobserved_transport_retries else 'exhausted'
+
     def unobserved_transport_disposition(self, request_id):
         """``retry``, ``exhausted`` or ``None`` for a leaf, read-only (7.4-FIX-RETRY-RETE).
 
@@ -1723,10 +1750,74 @@ class PilotLedger:
         """
         with closing(self._connect()) as c:
             row = c.execute("SELECT * FROM requests WHERE request_id=?", (request_id,)).fetchone()
-            if row is None or not self._unobserved_transport_failure(c, row):
-                return None
-            failed = self._unobserved_failures(self._rows(c), row['stage'], row['logical_id'])
-            return 'retry' if failed <= self.profile.unobserved_transport_retries else 'exhausted'
+            return self._unobserved_disposition(c, row)
+
+    def _abandonment_proof(self, c, row):
+        """The durable attempt chain proving that leaf ``row`` is abandoned, else ``None``.
+
+        7.4-CHIUSURA-PASSAGGIO. Proof: the leaf is an unobserved transport failure without
+        any stored response and its own chain has exhausted the admitted retries -- the same
+        predicate and threshold as ``unobserved_transport_disposition``. Nothing else is
+        ever an abandonment; the note is derived from this proof, never the reverse.
+        """
+        if self._unobserved_disposition(c, row) != 'exhausted':
+            return None
+        return self._attempt_rows(c, row['stage'], row['logical_id'])
+
+    @staticmethod
+    def _abandonment_note(row, attempts):
+        """Name, artifact and detail of the abandonment note: one serialization for all."""
+        return (UNOBSERVED_ABANDONED_PREFIX + row['request_id'], digest(attempts), {
+            'stage': row['stage'], 'logical_id': row['logical_id'],
+            'attempts': [a['request_id'] for a in attempts],
+            'reason': UNOBSERVED_ABANDONED_REASON})
+
+    def _record_abandonment(self, c, row):
+        """Note one proven abandoned leaf, once. ``False`` when the note already exists.
+
+        An existing note must carry the digest of the same attempt chain: a different
+        digest is refused, never updated.
+        """
+        attempts = self._abandonment_proof(c, row)
+        if attempts is None:
+            raise HarnessError(f"{row['request_id']} is not a proven abandoned slot")
+        name, artifact_sha256, detail = self._abandonment_note(row, attempts)
+        existing = self._events(c).get(name)
+        if existing is not None:
+            if existing['artifact_sha256'] != artifact_sha256:
+                raise HarnessError(
+                    f"persisted abandonment note contradicts the attempt chain of {row['request_id']}")
+            return False
+        self._event(c, name, artifact_sha256, detail)
+        return True
+
+    def record_unobserved_abandonment(self, request_id):
+        """Runner entry point (7.4-FIX-RETRY-RETE): note the abandoned slot ``request_id``."""
+        with self._transaction() as c:
+            row = c.execute("SELECT * FROM requests WHERE request_id=?", (request_id,)).fetchone()
+            if row is None:
+                raise HarnessError("unknown request")
+            return self._record_abandonment(c, row)
+
+    def _require_authenticated_predecessor(self, c, stage):
+        """A final pass binds only over the authenticated closure of the previous pass.
+
+        ``_prerequisites`` -- on the per-call path -- checks the event by name only. Here,
+        once per binding, the stored closure is re-validated with the closure validator
+        itself (profile, coverage, order, records digest, terminal leaves). The in-process
+        memo keeps an authenticated artifact digest, so a different digest or a new process
+        re-authenticates from the ledger.
+        """
+        if stage not in FINAL_PASS_STAGES or not FINAL_PASS_STAGES.index(stage):
+            return
+        index = FINAL_PASS_STAGES.index(stage)
+        previous = FINAL_PASS_STAGES[index - 1]
+        event = self._events(c).get('outcome:' + previous)
+        if event is None:
+            raise HarnessError(f"pass {index + 1} cannot start before {previous} is closed")
+        if self._authenticated_closures.get(previous) != event['artifact_sha256']:
+            self._successful(c, previous)
+            self._authenticated_closures[previous] = event['artifact_sha256']
 
     def _frozen(self, c):
         event = self._events(c).get('frozen_gate')
@@ -2042,9 +2133,7 @@ class PilotLedger:
         """Every attempt recorded for one logical request, in insertion order."""
         with closing(self._connect()) as c:
             # Filtered in SQLite: same rows, same order, without loading the whole table.
-            return [dict(r) for r in c.execute(
-                "SELECT * FROM requests WHERE stage=? AND logical_id=? ORDER BY rowid",
-                (stage, logical_id))]
+            return self._attempt_rows(c, stage, logical_id)
 
     def request(self, request_id):
         with closing(self._connect()) as c:
@@ -2373,7 +2462,9 @@ class PilotLedger:
         rows = [r for r in self._rows(c) if r['stage'] == stage]
         bases = [r for r in rows if not r['retry_of']]
         n = len(bases)
-        if (stage == 'budget_probe' and n not in {3,6,9}) or (stage != 'budget_probe' and n != BASE_LIMITS[stage]):
+        # Coverage comes from the profile of this ledger, never from a module constant: the
+        # pilot keeps its numbers, the final batch its own, a reduced test profile its own.
+        if (stage == 'budget_probe' and n not in {3,6,9}) or (stage != 'budget_probe' and n != self.profile.base_limits[stage]):
             raise HarnessError("stage outcome requires complete distinct base coverage")
         if [r['logical_id'] for r in bases] != [s['logical_id'] for s in binding['requests'][:n]]:
             raise HarnessError("stage does not match frozen request order/coverage")
@@ -2381,6 +2472,20 @@ class PilotLedger:
         leaves = self._chain_leaves(rows)
         if any(r['status'] == 'INTENT' for r in leaves):
             raise HarnessError("stage cannot hide unresolved intents")
+        if stage in FINAL_PASS_STAGES:
+            # 7.4-CHIUSURA-PASSAGGIO: terminal leaves only, abandoned slots admitted, no gate
+            # or probe logic. The artifact and diagnosis checks below stay shared.
+            records = self._validate_final_pass_outcome(c, stage, leaves, outcome)
+        else:
+            records = self._final_records(c, stage, leaves, outcome, frozen, n)
+        if not isinstance(artifact, dict) or digest(artifact) != artifact_sha256 or artifact.get('records_sha256') != digest(records):
+            raise HarnessError("outcome artifact must bind durable stage records")
+        if diagnosis is not None and diagnosis not in DIAGNOSES:
+            raise HarnessError("inadmissible producer remediation diagnosis")
+        return records
+
+    def _final_records(self, c, stage, leaves, outcome, frozen, n):
+        """Pilot closure rules, unchanged: gate, probe, producer and technical stages."""
         records = [record for row in leaves if (record := self._evaluated_record(c, row)) is not None]
         if stage == 'stability_gate':
             if len(records) != n or any(r['status'] != 'COMPLETED' and self._gate_transport_record(c, r) is None for r in leaves):
@@ -2411,38 +2516,164 @@ class PilotLedger:
                     raise HarnessError('probe must select the first successful budget triplet')
                 if frozen is None or frozen.get('generation') != records[-1].get('generation') or not all(r.get('generation') == frozen['generation'] and r.get('parse_valid_first_attempt') is True and r.get('finish_reason') == 'stop' for r in records[-3:]):
                     raise HarnessError("probe PASS must authenticate selected budget and complete successful triplet")
-        if not isinstance(artifact, dict) or digest(artifact) != artifact_sha256 or artifact.get('records_sha256') != digest(records):
-            raise HarnessError("outcome artifact must bind durable stage records")
-        if diagnosis is not None and diagnosis not in DIAGNOSES:
-            raise HarnessError("inadmissible producer remediation diagnosis")
         return records
 
+    def _final_pass_problems(self, c, leaves):
+        """Classify the leaves of a final pass (7.4-CHIUSURA-PASSAGGIO).
+
+        Returns ``(problems, records, abandoned)``: ``problems`` is ``[(logical_id, reason)]``
+        for every leaf that keeps the pass open, ``records`` the durable records of the
+        completed leaves in binding order, ``abandoned`` the leaves whose abandonment is
+        proven by the ledger (``_abandonment_proof``).
+        """
+        problems, records, abandoned = [], [], []
+        for row in leaves:
+            logical_id = row['logical_id']
+            if row['status'] == 'COMPLETED':
+                # Valid, invalid or abstaining: a received response is a terminal outcome.
+                record = self._evaluated_record(c, row)
+                if record is None:
+                    problems.append((logical_id, 'completed without a durable record'))
+                elif record.get('identity_valid') is not True:
+                    problems.append((logical_id, 'response identity not valid'))
+                else:
+                    records.append(record)
+            elif row['status'] == 'INTENT':
+                problems.append((logical_id, 'unresolved intent'))
+            elif row['status'] == 'ZERO_TOKEN_PROVEN':
+                problems.append((logical_id, 'proven zero-token failure not yet retried (resume the pass)'))
+            else:
+                disposition = self._unobserved_disposition(c, row)
+                if disposition == 'exhausted':
+                    abandoned.append(row)
+                elif disposition == 'retry':
+                    problems.append((logical_id, 'unobserved transport failure with retries left (resume the pass)'))
+                else:
+                    problems.append((logical_id, f"uncertain {row['status']} {row['request_id']} (reconcile it)"))
+        return problems, records, abandoned
+
+    @staticmethod
+    def _open_pass_error(stage, problems):
+        lines = [f"{logical_id} -> {reason}" for logical_id, reason in problems]
+        return HarnessError(f"{stage} is not complete: {len(problems)} open slot(s)\n" + "\n".join(lines))
+
+    def _validate_final_pass_outcome(self, c, stage, leaves, outcome):
+        """Closure validator of a final pass; shared by creation, replay and reconfirmation.
+
+        PASS means the pass is complete -- every leaf terminal -- and nothing more: the
+        judgement of the results is not the ledger's. An abandoned slot is admitted only
+        with its authentic note, and every abandonment note of the stage must belong to an
+        abandoned leaf.
+        """
+        if outcome != 'PASS':
+            raise HarnessError('a final pass closes only as PASS: coverage complete, no scientific judgement')
+        problems, records, abandoned = self._final_pass_problems(c, leaves)
+        if problems:
+            raise self._open_pass_error(stage, problems)
+        events = self._events(c)
+        expected = {}
+        for row in abandoned:
+            name, artifact_sha256, _ = self._abandonment_note(
+                row, self._attempt_rows(c, row['stage'], row['logical_id']))
+            note = events.get(name)
+            if note is None or note['artifact_sha256'] != artifact_sha256:
+                raise HarnessError(f"abandoned slot {row['logical_id']} lacks an authentic abandonment note")
+            expected[name] = row['logical_id']
+        for name in events:
+            if name.startswith(UNOBSERVED_ABANDONED_PREFIX) and name not in expected:
+                detail = json.loads(events[name]['detail_json'])
+                if detail.get('stage') == stage:
+                    raise HarnessError(f"abandonment note {name} does not belong to an abandoned leaf")
+        return records
+
+    def _final_pass_artifact(self, c, stage, rows, leaves, records, abandoned):
+        """Deterministic closure artifact: counts of this stage only, no instant, no commit.
+
+        A replay rebuilds it from the same durable state and must obtain the same digest;
+        anything ledger-wide (the cumulative retry quota, say) would change with later
+        passes and is left to ``snapshot``.
+        """
+        by_id = {r['request_id']: r for r in rows}
+        retries = [r for r in rows if r['retry_of']]
+        zero_token = sum(by_id[r['retry_of']]['status'] == 'ZERO_TOKEN_PROVEN' for r in retries)
+        unobserved = sum(self._unobserved_failure_row(by_id[r['retry_of']]) for r in retries)
+        invalid = sum(not record.get('parse_valid_first_attempt') for record in records)
+        abstained = sum(isinstance(record.get('parsed_output'), dict)
+                        and record['parsed_output'].get('abstain') is True for record in records)
+        stage_run = c.execute("SELECT binding_sha256 FROM stages WHERE stage=?", (stage,)).fetchone()[0]
+        return {
+            'stage': stage, 'stage_run': stage_run, 'judgement': FINAL_PASS_JUDGEMENT,
+            'planned': len(leaves), 'completed': len(records), 'invalid': invalid,
+            'abstained': abstained,
+            'abandoned': [{'logical_id': row['logical_id'], 'request_id': row['request_id'],
+                           'attempts': [a['request_id'] for a in
+                                        self._attempt_rows(c, stage, row['logical_id'])]}
+                          for row in abandoned],
+            'retries': {'zero_token_proven': zero_token, 'unobserved_transport': unobserved},
+            'records_sha256': digest(records)}
+
+    def close_final_pass(self, stage):
+        """Close a final pass as PASS -- coverage complete, no scientific judgement.
+
+        7.4-CHIUSURA-PASSAGGIO. No model call. Refuses an incomplete pass naming every open
+        slot (``logical_id -> reason``). In one transaction it writes the abandonment note a
+        proven abandoned slot still lacks and the ``outcome:<stage>`` event; a further call
+        on the same durable state is a replay that revalidates and writes nothing. Returns
+        the outcome artifact.
+        """
+        if stage not in FINAL_PASS_STAGES or stage not in self.profile.stages:
+            raise HarnessError("close_final_pass closes the final passes of a final_batch ledger only")
+        with self._transaction() as c:
+            self._prerequisites(c, stage)
+            binding = self._binding(c, stage)
+            rows = [r for r in self._rows(c) if r['stage'] == stage]
+            self._validate_attempts(c, binding, rows)
+            leaves = self._chain_leaves(rows)
+            problems, records, abandoned = self._final_pass_problems(c, leaves)
+            # One report in binding order: slots never reserved and leaves still open.
+            reasons = dict(problems)
+            reasons.update((s['logical_id'], 'never reserved') for s in binding['requests']
+                           if s['logical_id'] not in {r['logical_id'] for r in rows})
+            if reasons:
+                raise self._open_pass_error(stage, [(s['logical_id'], reasons[s['logical_id']])
+                                                    for s in binding['requests'] if s['logical_id'] in reasons])
+            for row in abandoned:
+                self._record_abandonment(c, row)
+            artifact = self._final_pass_artifact(c, stage, rows, leaves, records, abandoned)
+            self._record_stage_outcome(c, stage, outcome='PASS', artifact_sha256=digest(artifact),
+                                       artifact=artifact, diagnosis=None, frozen=None)
+            return artifact
+
     def record_stage_outcome(self, stage, *, outcome, artifact_sha256, artifact=None, diagnosis=None, frozen=None):
+        with self._transaction() as c:
+            self._record_stage_outcome(c, stage, outcome=outcome, artifact_sha256=artifact_sha256,
+                                       artifact=artifact, diagnosis=diagnosis, frozen=frozen)
+
+    def _record_stage_outcome(self, c, stage, *, outcome, artifact_sha256, artifact, diagnosis, frozen):
         if stage not in self.profile.stages or outcome not in {'PASS','FAIL','BLOCKED'}:
             raise HarnessError("unsupported stage outcome")
         self._require_hash(artifact_sha256, 'outcome artifact')
-        with self._transaction() as c:
-            previous = self._events(c).get('outcome:' + stage)
-            replay = previous and previous['artifact_sha256'] == artifact_sha256 and json.loads(previous['detail_json'])['outcome'] == outcome
-            if replay:
-                self._prerequisites(c, stage)
-            else:
-                self._ready(c, stage)
-            if replay:
-                self._closed_outcome(c, stage)
-            records = self._validate_outcome(c, stage, outcome=outcome,
-                artifact_sha256=artifact_sha256, artifact=artifact, diagnosis=diagnosis, frozen=frozen)
-            if replay:
-                # Revalidate predecessors, coverage and durable records before rematerializing.
-                # A replay must not insert events or reopen requests.
-                if stage == 'budget_probe' and outcome == 'PASS':
-                    event = self._events(c).get('frozen_gate')
-                    if event is None or event['artifact_sha256'] != digest(frozen):
-                        raise HarnessError('replayed freeze differs from the recorded probe')
-                return
-            self._event(c, 'outcome:' + stage, artifact_sha256, {'outcome': outcome, 'diagnosis': diagnosis, 'records_sha256': digest(records), 'artifact': artifact})
+        previous = self._events(c).get('outcome:' + stage)
+        replay = previous and previous['artifact_sha256'] == artifact_sha256 and json.loads(previous['detail_json'])['outcome'] == outcome
+        if replay:
+            self._prerequisites(c, stage)
+        else:
+            self._ready(c, stage)
+        if replay:
+            self._closed_outcome(c, stage)
+        records = self._validate_outcome(c, stage, outcome=outcome,
+            artifact_sha256=artifact_sha256, artifact=artifact, diagnosis=diagnosis, frozen=frozen)
+        if replay:
+            # Revalidate predecessors, coverage and durable records before rematerializing.
+            # A replay must not insert events or reopen requests.
             if stage == 'budget_probe' and outcome == 'PASS':
-                self._event(c, 'frozen_gate', digest(frozen), {'frozen': frozen})
+                event = self._events(c).get('frozen_gate')
+                if event is None or event['artifact_sha256'] != digest(frozen):
+                    raise HarnessError('replayed freeze differs from the recorded probe')
+            return
+        self._event(c, 'outcome:' + stage, artifact_sha256, {'outcome': outcome, 'diagnosis': diagnosis, 'records_sha256': digest(records), 'artifact': artifact})
+        if stage == 'budget_probe' and outcome == 'PASS':
+            self._event(c, 'frozen_gate', digest(frozen), {'frozen': frozen})
 
     def authenticate_frozen(self, frozen):
         with self._transaction() as c:
