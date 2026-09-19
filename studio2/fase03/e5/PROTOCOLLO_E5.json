@@ -1,0 +1,104 @@
+{
+  "artifact_version": "PROTOCOLLO_E5_1",
+  "status": "CANDIDATE_NOT_FROZEN",
+  "date": "2026-09-19",
+  "authoritative_design": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md 8.12",
+  "proposed_freeze_tag": "exp5-protocol-frozen-001",
+  "open_decisions": {
+    "A_recipients": "one recipient per run (proposal) or all seven non-owners",
+    "B_repetitions": "FIXED_B2: R=3; B-LF r1-r3 reused after identity verification; r1 primary, 2/3 majority sensitivity; 576 E5 calls with one recipient per run",
+    "C_family_mechanism_map": "family_map.json mechanism_map_proposal",
+    "D_e5_c2_threshold": "5 % confirmed, to be verified on whole composed prompts (verifica_e5_c2_prompt.py); no additivity of token counts is assumed",
+    "E_aggregation_and_intervals": "block bootstrap on the cycles of the permutation, resampling whole FULL/PERM pairs; intervals conditional on the realized derangement",
+    "F_donor_temporal_position": "no constraint, matrix reported",
+    "G_freeze_time": "before opening analysis 7.5"
+  },
+  "arms": {
+    "FULL": "reused B-LF r1-r3 after six identities; r1 primary, 2/3 majority sensitivity",
+    "PERM": "primary",
+    "OMIT": "secondary, length confounder declared"
+  },
+  "families": [
+    "level",
+    "trend",
+    "residual",
+    "diff"
+  ],
+  "never_ablated_columns": [
+    "raw_std_ratio",
+    "window_start_h",
+    "window_end_h",
+    "variable"
+  ],
+  "derived_recomputed_in_every_arm": [
+    "rapid_variability",
+    "coherent_drift_episodes",
+    "strict_global_drift",
+    "settling_transient",
+    "phase_values"
+  ],
+  "derangement": {
+    "kind": "class-disjoint derangement",
+    "sampling": "uniform by rejection",
+    "seed_namespace": "studio2-fase03-e5-v1",
+    "base_seed": 20260919
+  },
+  "e5_c1_minimum_effect": 0.1,
+  "e5_c2": {
+    "threshold": 0.05,
+    "scope": "whole prompt, composed and counted whole",
+    "additivity": "not assumed; boundary residual measured = 0 on 3600 observations with synthetic carriers",
+    "truncation": "zero differences; context 131072, reserved 2560, max prompt 5284",
+    "status": "CLOSED_2026-09-19: 5 %; max observed 1.42 % over 254400 whole-prompt compositions with 848 real B-LF carriers",
+    "verification_paths": {
+      "pre_freeze": "verifica_e5_c2_prompt.py --dev-units ... --prompts ... --carrier-mode all (development texts, every real carrier): this is what can close the 5 %",
+      "G3": "verifica_e5_c2_prompt.py --case-texts ... --prompts ... --carrier-mode all (test-lot texts)",
+      "candidates_mode": "informed shortcut, not exhaustive: its outcome is a feasibility check, never a proof"
+    },
+    "worst_carrier_rule": "the worst carrier is chosen after composition, per pair; ranking carriers by prefix+suffix counted apart would reintroduce the additivity assumption"
+  },
+  "e5_c3_status": "descriptive; exploratory intervals; no hypothesis test",
+  "reference_hashes": {
+    "code/tep_verbalize_v2.py": "3a9129b6353cac6f8c9e02281282f137dd07885b1f882ca633ee9d6bf52393be",
+    "code/verbalizer_config_v2.json": "552a0b8a9cf9e416de77daa7aca2d8dee152a2700bbfaab4ae5e039081712519",
+    "studio2/fase03/selection/CATALOG_FREEZE.json": "68b8461a6382c93e1a5dd8dc6c9def66b26b2ec865f0bc0786dd88fa95acedda",
+    "studio2/fase03/protocol.py": "39ea42b3c5da7c22974b80f79fa4b924274c75086ccaaf4365af580a5474bb55",
+    "studio2/fase03/PIANO_E5_ABLAZIONE_rev2_2026-09-19.md": "8110092ee211073173eb6de5bef5dcd0239f42cd6ce28aba98c2386f57bd0975"
+  },
+  "e5_artifact_hashes": {
+    ".gitignore": "32dae3052f331ee34d628ef535709b301259a45df7c7522c4d35dcf49873f00b",
+    "DECISIONI_AUTORE_E5.md": "aa0ad2abc2c030ed4b904f7719001fab6093407d3f8328944a0e353495161fa3",
+    "DERANGEMENTS_E5.json": "d36bddfddf520e199e3fb64b05419125bb9d72deabb4827af57390f514a5781a",
+    "DEV_UNITS_INDEX.json": "75a2f3958d99b700a0a043323281b703de2cad87f35e0f1113e4ed64742ade12",
+    "PROTOCOLLO_E5.md": "9f195be0f736bc4f2df16d981f3d9966de4bca03411d00b284ae666a10822cbf",
+    "README.md": "a310651f048b8c4d3e16db45627d296cebec2c3d91754f0852ea40970bdb7531",
+    "RICEVENTI_E5.json": "829f4ecab184b797ca198250e9d755c303dee574f9e4bfee84e686f98e0f51fe",
+    "VERIFICA_E5_C2.md": "187e0b7c7bb792c82ac13f1cd908bb6a00d7153592dc4f8f1c122054bb7b3fe8",
+    "VERIFICA_E5_C2_ALL.json": "f53e65c086d3642150f60703de22746ab81f0f1e08319463a91ee6af1d4401cf",
+    "VERIFICA_E5_C2_PROMPT.json": "c9fa39b70c3826901d2afa8c4e93bb6393830c63906d1c8084a9066d03e0be2e",
+    "VERIFICA_E5_C2_PROMPT_SINTETICO.json": "9f4358d0234fab5675b989f7a9bd57a615eec451df9a52983a15cc47bd722208",
+    "VERIFICA_E5_C2_SF.json": "805b37bafbe5782bc4b537988b83fbd6f778344beea0ac4ea22fb10df16bc12c",
+    "VERIFICA_FULL_BLF.md": "5adede4a5e64b7712e0a254851a8a14854eba9bdf21db2daf8c0506673724743",
+    "build_dev_units.py": "afddaee4da5e732b657a6f113ae96efad0b779eabdec67afec624604f18b3bc1",
+    "build_e5_assignments.py": "95ac521303659d6fc6771d05f3654403ff75ff41868e579b44ea3b744b6da8ad",
+    "e5_corruption.py": "6d9441bf4e8f0e74ea79f7fb867c7f8595e6670872b9153737fb22e5185d1ebc",
+    "e5_derangement.py": "a160cd41996f3852d5101a3de0b5e4a60687c1ab0baede27799891f94345038c",
+    "export_full_blf.py": "a383995637d9f6ecbd9713acaacd8d68680d13bcc63e1b520b30076abfafe6a6",
+    "family_map.json": "4edb4fbc4761ec099d10c5eb96e01757e43757f25e9d8dae6f8d0703f27c19e4",
+    "protocol_omit.py": "d641be109228966ac49ba7c0dd223fa680e4534feb3dc42d9ee4092b28078c27",
+    "raw_e5_c2_ALL.jsonl.gz": "976696d5da5b815ba569bd4a1142f26fdd8ebc69030b9411bad054a64e213a9e",
+    "raw_e5_c2_SF.jsonl.gz": "fb7794094913e10684903f07b7bcdf442aca0a7f3ba9698aec3a42850bd61881",
+    "riepiloga_e5_c2.py": "b83e71b02aac3a183a1003c8716f133cfcb4b717aee2ac1ff3e856735049f34f",
+    "test_e5.py": "22578b435bc860009d181da633673a5f0848487867b7dbca65a702f3c97a5b97",
+    "build_e5_prompts.py": "34e645d3c09c8ab7813c2be082c2789d6f57903a662080e1cd1a60abc9c7cf29",
+    "run_e5.py": "dc00a89adb4f2b7debd3ce68459dd3a70399192a7b6d61d1d5f8dd9f0d60cbf2",
+    "verifica_e5_c2.py": "157b906d7dc1a4d10b5e4e39e693b2e0d29fa5a376f54c676c12cbf8c5530e4e",
+    "verifica_e5_c2_prompt.py": "e4c33f104ee709676102d7505b50c70ad618e785c9bf5d73cfd5715ab9b050aa"
+  },
+  "seeding": {
+    "namespace_c2": "studio2-fase03-e5-c2-v1",
+    "namespace_assignments": "studio2-fase03-e5-v1",
+    "rule": "every seed derives from SHA-256, never from Python's hash(), which is salted per process"
+  },
+  "full_reuse_contract": "FIXED_B2: B-LF r1-r3; r1 primary and 2/3 majority sensitivity"
+}

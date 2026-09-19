@@ -1,0 +1,282 @@
+{
+  "artifact_version": "RIEPILOGO_E5_C2_1",
+  "scope": "S_F proposal, development data only",
+  "families": {
+    "level": {
+      "pairs": 3000,
+      "replicates": 150,
+      "tokens_full_text": {
+        "min": 111.0,
+        "p50": 208.0,
+        "p90": 298.0,
+        "p95": 299.0,
+        "p99": 300.0,
+        "max": 300.0,
+        "mean": 205.90566666666666
+      },
+      "abs_delta_tokens": {
+        "min": 0.0,
+        "p50": 1.0,
+        "p90": 48.0,
+        "p95": 48.0,
+        "p99": 48.0,
+        "max": 48.0,
+        "mean": 23.392
+      },
+      "ratio_text_only_NOT_THE_CRITERION": {
+        "min": 0.0,
+        "p50": 0.006289308176100629,
+        "p90": 0.41964285714285715,
+        "p95": 0.42857142857142855,
+        "p99": 0.42857142857142855,
+        "max": 0.43243243243243246,
+        "mean": 0.1519348606658658
+      },
+      "share_above_5pct_text": 0.486,
+      "share_above_5pct_by_prefix_additive_approximation": {
+        "0": 0.486,
+        "500": 0.486,
+        "1000": 0.0,
+        "1500": 0.0,
+        "2000": 0.0,
+        "2500": 0.0,
+        "3000": 0.0,
+        "4000": 0.0,
+        "5000": 0.0
+      },
+      "max_ratio_by_prefix_additive_approximation": {
+        "0": 0.43243243243243246,
+        "500": 0.07855973813420622,
+        "1000": 0.043204320432043204,
+        "1500": 0.0297951582867784,
+        "2000": 0.022738038844149693,
+        "2500": 0.018383761011106857,
+        "3000": 0.015429122468659595,
+        "4000": 0.011675991243006568,
+        "5000": 0.009391508511054587
+      },
+      "indicative_prefix_for_5pct_NOT_A_PROOF": {
+        "max": 849.0,
+        "p99": 848.0,
+        "p95": 848.0,
+        "warning": "obtained by treating token counts as additive across the junctions of the prompt, which a BPE tokenizer does not guarantee. It is an order of magnitude, not a verification: the 5 % rule is checked on whole composed prompts by verifica_e5_c2_prompt.py"
+      },
+      "signed_delta_mean": 0.0,
+      "share_perm_longer": 0.41833333333333333
+    },
+    "trend": {
+      "pairs": 1500,
+      "replicates": 150,
+      "tokens_full_text": {
+        "min": 158.0,
+        "p50": 296.0,
+        "p90": 300.0,
+        "p95": 301.0,
+        "p99": 301.0,
+        "max": 301.0,
+        "mean": 256.426
+      },
+      "abs_delta_tokens": {
+        "min": 0.0,
+        "p50": 1.0,
+        "p90": 48.0,
+        "p95": 48.0,
+        "p99": 48.0,
+        "max": 48.0,
+        "mean": 11.278666666666666
+      },
+      "ratio_text_only_NOT_THE_CRITERION": {
+        "min": 0.0,
+        "p50": 0.003355704697986577,
+        "p90": 0.2569281694803104,
+        "p95": 0.3018867924528302,
+        "p99": 0.3037974683544304,
+        "max": 0.3037974683544304,
+        "mean": 0.053779442157494105
+      },
+      "share_above_5pct_text": 0.228,
+      "share_above_5pct_by_prefix_additive_approximation": {
+        "0": 0.228,
+        "500": 0.228,
+        "1000": 0.0,
+        "1500": 0.0,
+        "2000": 0.0,
+        "2500": 0.0,
+        "3000": 0.0,
+        "4000": 0.0,
+        "5000": 0.0
+      },
+      "max_ratio_by_prefix_additive_approximation": {
+        "0": 0.3037974683544304,
+        "500": 0.0729483282674772,
+        "1000": 0.04145077720207254,
+        "1500": 0.028950542822677925,
+        "2000": 0.022242817423540315,
+        "2500": 0.01805869074492099,
+        "3000": 0.015199493350221659,
+        "4000": 0.011544011544011544,
+        "5000": 0.009305932531989143
+      },
+      "indicative_prefix_for_5pct_NOT_A_PROOF": {
+        "max": 802.0,
+        "p99": 802.0,
+        "p95": 801.0,
+        "warning": "obtained by treating token counts as additive across the junctions of the prompt, which a BPE tokenizer does not guarantee. It is an order of magnitude, not a verification: the 5 % rule is checked on whole composed prompts by verifica_e5_c2_prompt.py"
+      },
+      "signed_delta_mean": 0.0,
+      "share_perm_longer": 0.326
+    },
+    "residual": {
+      "pairs": 2250,
+      "replicates": 150,
+      "tokens_full_text": {
+        "min": 158.0,
+        "p50": 297.0,
+        "p90": 301.0,
+        "p95": 301.0,
+        "p99": 301.0,
+        "max": 301.0,
+        "mean": 261.94
+      },
+      "abs_delta_tokens": {
+        "min": 0.0,
+        "p50": 1.0,
+        "p90": 67.0,
+        "p95": 68.0,
+        "p99": 68.0,
+        "max": 68.0,
+        "mean": 19.78088888888889
+      },
+      "ratio_text_only_NOT_THE_CRITERION": {
+        "min": 0.0,
+        "p50": 0.00423728813559322,
+        "p90": 0.2256216651565489,
+        "p95": 0.22666666666666666,
+        "p99": 0.2698412698412698,
+        "max": 0.33170731707317075,
+        "mean": 0.0778396718000786
+      },
+      "share_above_5pct_text": 0.4444444444444444,
+      "share_above_5pct_by_prefix_additive_approximation": {
+        "0": 0.4444444444444444,
+        "500": 0.13733333333333334,
+        "1000": 0.13733333333333334,
+        "1500": 0.0,
+        "2000": 0.0,
+        "2500": 0.0,
+        "3000": 0.0,
+        "4000": 0.0,
+        "5000": 0.0
+      },
+      "max_ratio_by_prefix_additive_approximation": {
+        "0": 0.33170731707317075,
+        "500": 0.09645390070921986,
+        "1000": 0.056431535269709544,
+        "1500": 0.03988269794721408,
+        "2000": 0.030839002267573697,
+        "2500": 0.025138632162661736,
+        "3000": 0.021216848673946957,
+        "4000": 0.016171224732461357,
+        "5000": 0.013064361191162345
+      },
+      "indicative_prefix_for_5pct_NOT_A_PROOF": {
+        "max": 1155.0,
+        "p99": 1108.0,
+        "p95": 1060.0,
+        "warning": "obtained by treating token counts as additive across the junctions of the prompt, which a BPE tokenizer does not guarantee. It is an order of magnitude, not a verification: the 5 % rule is checked on whole composed prompts by verifica_e5_c2_prompt.py"
+      },
+      "signed_delta_mean": -9.708,
+      "share_perm_longer": 0.256
+    },
+    "diff": {
+      "pairs": 2250,
+      "replicates": 150,
+      "tokens_full_text": {
+        "min": 111.0,
+        "p50": 202.0,
+        "p90": 236.0,
+        "p95": 237.0,
+        "p99": 298.0,
+        "max": 298.0,
+        "mean": 181.30355555555556
+      },
+      "abs_delta_tokens": {
+        "min": 0.0,
+        "p50": 24.0,
+        "p90": 61.0,
+        "p95": 61.0,
+        "p99": 61.0,
+        "max": 61.0,
+        "mean": 30.554666666666666
+      },
+      "ratio_text_only_NOT_THE_CRITERION": {
+        "min": 0.0,
+        "p50": 0.20469798657718122,
+        "p90": 0.2975609756097561,
+        "p95": 0.29901960784313725,
+        "p99": 0.29901960784313725,
+        "max": 0.42657342657342656,
+        "mean": 0.1643695057925272
+      },
+      "share_above_5pct_text": 0.712,
+      "share_above_5pct_by_prefix_additive_approximation": {
+        "0": 0.712,
+        "500": 0.4022222222222222,
+        "1000": 0.1368888888888889,
+        "1500": 0.0,
+        "2000": 0.0,
+        "2500": 0.0,
+        "3000": 0.0,
+        "4000": 0.0,
+        "5000": 0.0
+      },
+      "max_ratio_by_prefix_additive_approximation": {
+        "0": 0.42657342657342656,
+        "500": 0.09486780715396578,
+        "1000": 0.05336832895888014,
+        "1500": 0.03712720632988436,
+        "2000": 0.028464769015398975,
+        "2500": 0.0230798335225123,
+        "3000": 0.019408208717785556,
+        "4000": 0.014723630219647598,
+        "5000": 0.011860781644954306
+      },
+      "indicative_prefix_for_5pct_NOT_A_PROOF": {
+        "max": 1077.0,
+        "p99": 1016.0,
+        "p95": 1016.0,
+        "warning": "obtained by treating token counts as additive across the junctions of the prompt, which a BPE tokenizer does not guarantee. It is an order of magnitude, not a verification: the 5 % rule is checked on whole composed prompts by verifica_e5_c2_prompt.py"
+      },
+      "signed_delta_mean": -11.07911111111111,
+      "share_perm_longer": 0.3293333333333333
+    }
+  },
+  "rapid_frozen_control": {
+    "residual": {
+      "pairs": 2250,
+      "ratio_text": {
+        "min": 0.0,
+        "p50": 0.003355704697986577,
+        "p90": 0.15121951219512195,
+        "p95": 0.189873417721519,
+        "p99": 0.1962025316455696,
+        "max": 0.1962025316455696,
+        "mean": 0.042964405505802744
+      },
+      "share_above_5pct_text": 0.3031111111111111
+    },
+    "diff": {
+      "pairs": 2250,
+      "ratio_text": {
+        "min": 0.0,
+        "p50": 0.11707317073170732,
+        "p90": 0.21428571428571427,
+        "p95": 0.21428571428571427,
+        "p99": 0.21621621621621623,
+        "max": 0.21621621621621623,
+        "mean": 0.09374022287809768
+      },
+      "share_above_5pct_text": 0.6586666666666666
+    }
+  }
+}

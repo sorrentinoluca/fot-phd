@@ -1,0 +1,228 @@
+{
+  "artifact_version": "E5_ASSIGNMENTS_1",
+  "status": "PROPOSTA_NON_CONGELATA: dipende dalle decisioni A e C",
+  "namespace": "studio2-fase03-e5-v1",
+  "base_seed": 20260919,
+  "built_on": "identifiers only; no descriptor, no text, no outcome",
+  "family_map_sha256": "d515710db45df733794848080c8a130f4896a33079facb8c1c028a89ae1ae576",
+  "recipients": {
+    "mode": "one",
+    "rule": "one recipient per physical run, drawn among the seven non-owners, balanced within each fault (each eligible agent once, one of them twice)",
+    "seed": 223339559554460,
+    "owner_by_fault": {
+      "F10": "agent_1",
+      "F3": "agent_2",
+      "F2": "agent_3",
+      "F8": "agent_4",
+      "F13": "agent_5",
+      "F15": "agent_6",
+      "F14": "agent_7",
+      "F1": "agent_8"
+    },
+    "assignments": {
+      "test-primary-F1-r01": [
+        "agent_4"
+      ],
+      "test-primary-F1-r02": [
+        "agent_5"
+      ],
+      "test-primary-F1-r03": [
+        "agent_2"
+      ],
+      "test-primary-F1-r04": [
+        "agent_1"
+      ],
+      "test-primary-F1-r05": [
+        "agent_7"
+      ],
+      "test-primary-F1-r06": [
+        "agent_6"
+      ],
+      "test-primary-F1-r07": [
+        "agent_7"
+      ],
+      "test-primary-F1-r08": [
+        "agent_3"
+      ],
+      "test-primary-F2-r01": [
+        "agent_7"
+      ],
+      "test-primary-F2-r02": [
+        "agent_1"
+      ],
+      "test-primary-F2-r03": [
+        "agent_4"
+      ],
+      "test-primary-F2-r04": [
+        "agent_6"
+      ],
+      "test-primary-F2-r05": [
+        "agent_2"
+      ],
+      "test-primary-F2-r06": [
+        "agent_1"
+      ],
+      "test-primary-F2-r07": [
+        "agent_5"
+      ],
+      "test-primary-F2-r08": [
+        "agent_8"
+      ],
+      "test-primary-F3-r01": [
+        "agent_7"
+      ],
+      "test-primary-F3-r02": [
+        "agent_3"
+      ],
+      "test-primary-F3-r03": [
+        "agent_4"
+      ],
+      "test-primary-F3-r04": [
+        "agent_3"
+      ],
+      "test-primary-F3-r05": [
+        "agent_6"
+      ],
+      "test-primary-F3-r06": [
+        "agent_1"
+      ],
+      "test-primary-F3-r07": [
+        "agent_8"
+      ],
+      "test-primary-F3-r08": [
+        "agent_5"
+      ],
+      "test-primary-F8-r01": [
+        "agent_6"
+      ],
+      "test-primary-F8-r02": [
+        "agent_5"
+      ],
+      "test-primary-F8-r03": [
+        "agent_3"
+      ],
+      "test-primary-F8-r04": [
+        "agent_8"
+      ],
+      "test-primary-F8-r05": [
+        "agent_7"
+      ],
+      "test-primary-F8-r06": [
+        "agent_6"
+      ],
+      "test-primary-F8-r07": [
+        "agent_1"
+      ],
+      "test-primary-F8-r08": [
+        "agent_2"
+      ],
+      "test-primary-F10-r01": [
+        "agent_7"
+      ],
+      "test-primary-F10-r02": [
+        "agent_2"
+      ],
+      "test-primary-F10-r03": [
+        "agent_4"
+      ],
+      "test-primary-F10-r04": [
+        "agent_3"
+      ],
+      "test-primary-F10-r05": [
+        "agent_6"
+      ],
+      "test-primary-F10-r06": [
+        "agent_5"
+      ],
+      "test-primary-F10-r07": [
+        "agent_8"
+      ],
+      "test-primary-F10-r08": [
+        "agent_5"
+      ],
+      "test-primary-F13-r01": [
+        "agent_6"
+      ],
+      "test-primary-F13-r02": [
+        "agent_1"
+      ],
+      "test-primary-F13-r03": [
+        "agent_8"
+      ],
+      "test-primary-F13-r04": [
+        "agent_4"
+      ],
+      "test-primary-F13-r05": [
+        "agent_7"
+      ],
+      "test-primary-F13-r06": [
+        "agent_3"
+      ],
+      "test-primary-F13-r07": [
+        "agent_2"
+      ],
+      "test-primary-F13-r08": [
+        "agent_2"
+      ],
+      "test-primary-F14-r01": [
+        "agent_3"
+      ],
+      "test-primary-F14-r02": [
+        "agent_4"
+      ],
+      "test-primary-F14-r03": [
+        "agent_6"
+      ],
+      "test-primary-F14-r04": [
+        "agent_5"
+      ],
+      "test-primary-F14-r05": [
+        "agent_2"
+      ],
+      "test-primary-F14-r06": [
+        "agent_8"
+      ],
+      "test-primary-F14-r07": [
+        "agent_1"
+      ],
+      "test-primary-F14-r08": [
+        "agent_8"
+      ],
+      "test-primary-F15-r01": [
+        "agent_5"
+      ],
+      "test-primary-F15-r02": [
+        "agent_1"
+      ],
+      "test-primary-F15-r03": [
+        "agent_8"
+      ],
+      "test-primary-F15-r04": [
+        "agent_2"
+      ],
+      "test-primary-F15-r05": [
+        "agent_7"
+      ],
+      "test-primary-F15-r06": [
+        "agent_4"
+      ],
+      "test-primary-F15-r07": [
+        "agent_4"
+      ],
+      "test-primary-F15-r08": [
+        "agent_3"
+      ]
+    },
+    "calls_per_family_arm": 64,
+    "recipient_counts": {
+      "agent_1": 8,
+      "agent_2": 8,
+      "agent_3": 8,
+      "agent_4": 8,
+      "agent_5": 8,
+      "agent_6": 8,
+      "agent_7": 8,
+      "agent_8": 8
+    }
+  }
+}

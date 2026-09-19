@@ -1,0 +1,253 @@
+{
+  "artifact_version": "E5_FAMILY_MAP_1",
+  "status": "PROPOSTA_NON_CONGELATA",
+  "date": "2026-09-19",
+  "scope": "mappa colonne -> famiglia, grandezze derivate, mappa famiglia -> meccanismo, S_F e controlli per E5 (piano §8.12)",
+  "source_of_truth": {
+    "verbalizer": "code/tep_verbalize_v2.py",
+    "config": "code/verbalizer_config_v2.json",
+    "catalog": "studio2/fase03/selection/CATALOG_FREEZE.json",
+    "design": "docs/paper/FoT_TEP_Review_Piano_Sperimentale.md §8.12"
+  },
+  "feature_table_columns": [
+    "window_start_h",
+    "window_end_h",
+    "variable",
+    "shift_sigma",
+    "slope_sigma_h",
+    "raw_std_ratio",
+    "diff_std_ratio",
+    "residual_std_ratio"
+  ],
+  "families": {
+    "level": {
+      "column": "shift_sigma",
+      "threshold": "abs_shift_sigma",
+      "activation": "|shift_sigma| > soglia",
+      "renderer_sections": [
+        "level",
+        "dominant_variables.level",
+        "strict_global_level_variables",
+        "sustained_level_variables"
+      ]
+    },
+    "trend": {
+      "column": "slope_sigma_h",
+      "threshold": "abs_slope_sigma_h",
+      "activation": "|slope_sigma_h| > soglia",
+      "renderer_sections": [
+        "trend",
+        "dominant_variables.trend",
+        "strict_global_drift_variables",
+        "sustained_trend_variables"
+      ]
+    },
+    "residual": {
+      "column": "residual_std_ratio",
+      "threshold": "residual_std_ratio",
+      "activation": "residual_std_ratio > soglia",
+      "renderer_sections": [
+        "residual_variability",
+        "dominant_variables.residual",
+        "strict_global_residual_variables",
+        "sustained_residual_variables",
+        "phase_values.*.residual_median"
+      ]
+    },
+    "diff": {
+      "column": "diff_std_ratio",
+      "threshold": "diff_std_ratio",
+      "activation": "diff_std_ratio > soglia",
+      "renderer_sections": [
+        "sample_to_sample_variation",
+        "dominant_variables.diff",
+        "phase_values.*.diff_median"
+      ]
+    }
+  },
+  "columns_outside_the_families": {
+    "raw_std_ratio": {
+      "role": "dispersione complessiva; alimenta solo il blocco `dispersion` e l'ultima frase del testo neutrale",
+      "rule": "non appartiene a nessuna famiglia ablata: non si permuta mai e non si omette mai. Va dichiarato: una quota del testo resta invariata in ogni braccio."
+    },
+    "window_start_h/window_end_h/variable": {
+      "role": "geometria della finestra e identita della XMEAS",
+      "rule": "invarianti per costruzione in ogni braccio"
+    }
+  },
+  "derived_quantities": {
+    "rapid_variability": {
+      "formula": "residual_attiva AND diff_attiva",
+      "parents": [
+        "residual",
+        "diff"
+      ],
+      "perm_rule": "ricalcolata a valle dai valori effettivamente presenti nel braccio (E5-B)",
+      "omit_rule": "non computabile: cade con il genitore omesso"
+    },
+    "coherent_drift_episodes": {
+      "formula": "run di finestre con trend attivo, segno della pendenza costante e shift_sigma monotono nello stesso segno (_coherent_drift_runs)",
+      "parents": [
+        "trend",
+        "level"
+      ],
+      "perm_rule": "ricalcolata; una permutazione di `level` o di `trend` la modifica",
+      "omit_rule": "cade quando si omette `trend` o `level`",
+      "note": "grandezza derivata inter-famiglia NON nominata in §8.12: va dichiarata nel protocollo E5 accanto a `rapid`"
+    },
+    "strict_global_drift": {
+      "formula": "strict_global_persistence(trend) AND un solo episodio di drift coerente esteso a tutte le finestre",
+      "parents": [
+        "trend",
+        "level"
+      ],
+      "perm_rule": "ricalcolata",
+      "omit_rule": "cade con `trend` o `level`"
+    },
+    "settling_transient": {
+      "formula": "residual attiva nella fase iniziale, ne residual ne diff attive nella fase finale, mediana residual iniziale > finale",
+      "parents": [
+        "residual",
+        "diff"
+      ],
+      "perm_rule": "ricalcolata",
+      "omit_rule": "cade quando si omette `residual` o `diff`",
+      "note": "seconda grandezza derivata inter-famiglia non nominata in §8.12"
+    },
+    "phase_values": {
+      "formula": "mediane e conteggi di attivazione di residual e diff per fase (initial/intermediate/late)",
+      "parents": [
+        "residual",
+        "diff"
+      ],
+      "perm_rule": "ricalcolate",
+      "omit_rule": "la quota relativa al genitore omesso cade"
+    },
+    "dispersion": {
+      "formula": "mediana e massimo di raw_std_ratio",
+      "parents": [],
+      "perm_rule": "invariata (raw_std_ratio non e ablato)",
+      "omit_rule": "invariata"
+    }
+  },
+  "mechanism_map_proposal": {
+    "status": "PROPOSTA DELL'AUTORE DA CONFERMARE (decisione C) - assegnata a priori da Downs & Vogel 1993 §12.4, cieca alle attivazioni osservate",
+    "mechanisms": {
+      "step": {
+        "faults": [
+          "F1",
+          "F2",
+          "F3"
+        ],
+        "rationale": "un gradino sposta il livello medio e lo mantiene"
+      },
+      "random variation": {
+        "faults": [
+          "F8",
+          "F10"
+        ],
+        "rationale": "variazione casuale attorno al set point: aumento della dispersione senza spostamento della media ne pendenza"
+      },
+      "slow drift": {
+        "faults": [
+          "F13"
+        ],
+        "rationale": "deriva lenta e monotona della cinetica"
+      },
+      "sticking valve": {
+        "faults": [
+          "F14",
+          "F15"
+        ],
+        "rationale": "valvola che si blocca e si libera: salti campione-campione e discontinuita"
+      }
+    },
+    "family_to_mechanism": {
+      "level": {
+        "target": "step",
+        "control": "random variation",
+        "rationale": "il gradino e il meccanismo che sposta il livello; il controllo e scelto fra i meccanismi che a priori NON agiscono sul livello medio",
+        "assignment_is_a_priori": "the mechanism comes from the Type column of Table 8; the pairing family<->mechanism is the author's, argued from the description of the mechanism, never from which descriptors activate in our data (development included)"
+      },
+      "trend": {
+        "target": "slow drift",
+        "control": "step",
+        "rationale": "la pendenza descrive la deriva; il gradino e il controllo perche sposta il livello senza pendenza sostenuta",
+        "assignment_is_a_priori": "the mechanism comes from the Type column of Table 8; the pairing family<->mechanism is the author's, argued from the description of the mechanism, never from which descriptors activate in our data (development included)"
+      },
+      "residual": {
+        "target": "random variation",
+        "control": "step",
+        "rationale": "Table 8 Type = 'Random variation' for IDV(8) and IDV(10): the source describes a disturbance that varies at random around the operating point, with no imposed shift or ramp. What such a disturbance leaves in the signal, after the linear trend is removed, is residual dispersion: that is exactly what residual_std_ratio measures. Control = step, deterministic and with no persistent random component.",
+        "assignment_is_a_priori": "the mechanism comes from the Type column of Table 8; the pairing family<->mechanism is the author's, argued from the description of the mechanism, never from which descriptors activate in our data (development included)"
+      },
+      "diff": {
+        "target": "sticking valve",
+        "control": "step",
+        "rationale": "Table 8 Type = 'Sticking' for IDV(14) and IDV(15), on a cooling-water valve: a valve that sticks and releases moves the manipulated variable in discrete jumps, repeatedly. A jump between consecutive samples is what diff_std_ratio measures, and the repetition is what distinguishes it from the single discontinuity of a step, which is the control.",
+        "assignment_is_a_priori": "the mechanism comes from the Type column of Table 8; the pairing family<->mechanism is the author's, argued from the description of the mechanism, never from which descriptors activate in our data (development included)"
+      }
+    },
+    "warning": "residual <-> random variation and diff <-> sticking are NOT obvious. The mechanism labels are verifiable in Table 8; the pairing with a descriptor family is an argument, and it must be frozen before any activation is looked at. It is decision C and it needs the author's signature.",
+    "bibliographic_source": {
+      "citation": "Downs, J.J. & Vogel, E.F. (1993), \"A plant-wide industrial process control problem\", Computers & Chemical Engineering 17(3), 245-255, DOI 10.1016/0098-1354(93)80018-I",
+      "passage": "Table 8, p. 250, \"Process disturbances\": the column \"Type\" assigns a mechanism to each IDV(1)-IDV(20). That column, and only that column, is the source of the mechanism; nothing here is inferred from the observed signature.",
+      "note_p_251": "On p. 251 the same source recommends using disturbances IDV(14)-IDV(20) together with a further disturbance or a setpoint change; the run specification declares its deviation from that recommendation (studio2/fase03/fault_runs/SPECIFICA_RUN_FAULT.md 2) and F14/F15 are studied as single faults. The deviation concerns the generation of the runs, not the mechanism label.",
+      "internal_frozen_copy": "studio2/fase03/selection/CATALOG_FREEZE.json (field `mechanism`)",
+      "per_fault_type_column": {
+        "F1 = IDV(1)": "Step - A/C feed ratio, B composition constant (stream 4)",
+        "F2 = IDV(2)": "Step - B composition, A/C ratio constant (stream 4)",
+        "F3 = IDV(3)": "Step - D feed temperature (stream 2)",
+        "F8 = IDV(8)": "Random variation - A, B, C feed composition (stream 4)",
+        "F10 = IDV(10)": "Random variation - C feed temperature (stream 4)",
+        "F13 = IDV(13)": "Slow drift - reaction kinetics",
+        "F14 = IDV(14)": "Sticking - reactor cooling water valve",
+        "F15 = IDV(15)": "Sticking - condenser cooling water valve"
+      }
+    }
+  },
+  "subsets_S_F_proposal": {
+    "status": "PROPOSTA (decisione C) - discende dalla mappa sopra",
+    "level": {
+      "target_faults": [
+        "F1",
+        "F2",
+        "F3"
+      ],
+      "control_faults": [
+        "F8"
+      ],
+      "classes": 4
+    },
+    "trend": {
+      "target_faults": [
+        "F13"
+      ],
+      "control_faults": [
+        "F1"
+      ],
+      "classes": 2,
+      "declared_limit": "due sole classi: l'evidenza del bersaglio proviene interamente dal controllo e viceversa (§8.12)"
+    },
+    "residual": {
+      "target_faults": [
+        "F8",
+        "F10"
+      ],
+      "control_faults": [
+        "F1"
+      ],
+      "classes": 3
+    },
+    "diff": {
+      "target_faults": [
+        "F14",
+        "F15"
+      ],
+      "control_faults": [
+        "F1"
+      ],
+      "classes": 3
+    }
+  }
+}

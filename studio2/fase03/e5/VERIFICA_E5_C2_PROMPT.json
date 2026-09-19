@@ -1,0 +1,118 @@
+{
+  "artifact_version": "VERIFICA_E5_C2_PROMPT_3",
+  "scope": "length only, on whole composed prompts; no additivity assumption",
+  "threshold": 0.05,
+  "reported_value": "per pair, the WORST ratio over the carriers evaluated for that pair (the worst case is chosen after composition, never from prefix+suffix counted apart)",
+  "carrier_mode": "all",
+  "carriers_available": 848,
+  "families": {
+    "level": {
+      "pairs": 100,
+      "max_ratio": 0.010468920392584515,
+      "p99_ratio": 0.010468920392584515,
+      "mean_ratio": 0.0051813319142220695,
+      "share_above_threshold": 0.0,
+      "verdict": "PASS",
+      "worst_pair": {
+        "family": "level",
+        "seed": 20260919,
+        "family_seed": 50296268443808,
+        "carrier": "nucleus|B-LF|test-primary-F1-r01|agent_2|G_P",
+        "recipient": "fault-dev-F3-b03",
+        "donor": "fault-dev-F8-b02",
+        "tokens_full_prompt": 4585,
+        "tokens_perm_prompt": 4633,
+        "delta_prompt": 48,
+        "delta_text": 48,
+        "boundary_residual": 0,
+        "ratio": 0.010468920392584515,
+        "carriers_evaluated": 848
+      }
+    },
+    "trend": {
+      "pairs": 50,
+      "max_ratio": 0.010362694300518135,
+      "p99_ratio": 0.010362694300518135,
+      "mean_ratio": 0.0017334767752175701,
+      "share_above_threshold": 0.0,
+      "verdict": "PASS",
+      "worst_pair": {
+        "family": "trend",
+        "seed": 20260919,
+        "family_seed": 36803227400998,
+        "carrier": "nucleus|B-LF|test-primary-F1-r01|agent_2|G_P",
+        "recipient": "fault-dev-F1-b04",
+        "donor": "fault-dev-F13-b05",
+        "tokens_full_prompt": 4632,
+        "tokens_perm_prompt": 4680,
+        "delta_prompt": 48,
+        "delta_text": 48,
+        "boundary_residual": 0,
+        "ratio": 0.010362694300518135,
+        "carriers_evaluated": 848
+      }
+    },
+    "residual": {
+      "pairs": 75,
+      "max_ratio": 0.014249790444258172,
+      "p99_ratio": 0.014246804944479363,
+      "mean_ratio": 0.00394692431927136,
+      "share_above_threshold": 0.0,
+      "verdict": "PASS",
+      "worst_pair": {
+        "family": "residual",
+        "seed": 20260919,
+        "family_seed": 259421484511668,
+        "carrier": "nucleus|B-LF|test-primary-F1-r01|agent_2|G_P",
+        "recipient": "fault-dev-F8-b01",
+        "donor": "fault-dev-F1-b02",
+        "tokens_full_prompt": 4772,
+        "tokens_perm_prompt": 4704,
+        "delta_prompt": -68,
+        "delta_text": -68,
+        "boundary_residual": 0,
+        "ratio": 0.014249790444258172,
+        "carriers_evaluated": 848
+      }
+    },
+    "diff": {
+      "pairs": 75,
+      "max_ratio": 0.013212042451808534,
+      "p99_ratio": 0.013212042451808534,
+      "mean_ratio": 0.007107931631136856,
+      "share_above_threshold": 0.0,
+      "verdict": "PASS",
+      "worst_pair": {
+        "family": "diff",
+        "seed": 20260921,
+        "family_seed": 270189542511874,
+        "carrier": "nucleus|B-LF|test-primary-F1-r01|agent_2|G_P",
+        "recipient": "fault-dev-F15-b05",
+        "donor": "fault-dev-F14-b03",
+        "tokens_full_prompt": 4617,
+        "tokens_perm_prompt": 4678,
+        "delta_prompt": 61,
+        "delta_text": 61,
+        "boundary_residual": 0,
+        "ratio": 0.013212042451808534,
+        "carriers_evaluated": 848
+      }
+    }
+  },
+  "boundary_residual": {
+    "definition": "delta on the composed prompt minus delta on the text alone",
+    "observations": 254400,
+    "min": 0,
+    "max": 0,
+    "share_nonzero": 0.0
+  },
+  "verdict": "PASS",
+  "carrier": "real",
+  "carrier_ranking": {
+    "ranked": false,
+    "reason": "carrier-mode is not candidates"
+  },
+  "case_texts": "development units (not the test lot)",
+  "measurement": "pre-freeze, development texts",
+  "status_of_the_result": "PROOF over the carriers available: every carrier evaluated on every pair"
+}

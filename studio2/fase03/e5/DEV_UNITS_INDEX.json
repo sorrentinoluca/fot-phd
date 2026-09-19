@@ -1,0 +1,333 @@
+{
+  "artifact_version": "E5_DEV_UNITS_1",
+  "scope": "development runs only; test lot never opened",
+  "onset_h": 25.0,
+  "end_h": 65.0,
+  "window_h": 5.0,
+  "windows_per_run": 8,
+  "run_count": 40,
+  "verbalizer_config_version": "2.0",
+  "normal_workbook_sha256": "79883dd0aabbd034c15337b0be1ffca37e59ea7b32443a15d560b7feda2b2e6a",
+  "runs": [
+    {
+      "run_id": "fault-dev-F1-b01",
+      "idv": 1,
+      "fault": "F1",
+      "stream_id": "30000",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F1-b01.features.csv",
+      "features_sha256": "fca9adf59e529df3aea543cd6574e6d745ffc99a87a6fc12c530c482378d96d9"
+    },
+    {
+      "run_id": "fault-dev-F1-b02",
+      "idv": 1,
+      "fault": "F1",
+      "stream_id": "30001",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F1-b02.features.csv",
+      "features_sha256": "7f8c0c6a57591eb775ee2b9cf411fcc8b749b0e943119f09c3f5ca0dc4f21c96"
+    },
+    {
+      "run_id": "fault-dev-F1-b03",
+      "idv": 1,
+      "fault": "F1",
+      "stream_id": "30002",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F1-b03.features.csv",
+      "features_sha256": "11c2aa35ae135b0eabb92e907164cd5e84011ad4a07c7276d0e93b6ed9e71dfd"
+    },
+    {
+      "run_id": "fault-dev-F1-b04",
+      "idv": 1,
+      "fault": "F1",
+      "stream_id": "30003",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F1-b04.features.csv",
+      "features_sha256": "25983be9422830e62d6116f18254062c0e7edb52978eb399b5e506808b81e176"
+    },
+    {
+      "run_id": "fault-dev-F1-b05",
+      "idv": 1,
+      "fault": "F1",
+      "stream_id": "30004",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F1-b05.features.csv",
+      "features_sha256": "0481f8a047637e3378576d6bc0571a72711bd3124a97aac23f028210d59b36c5"
+    },
+    {
+      "run_id": "fault-dev-F10-b01",
+      "idv": 10,
+      "fault": "F10",
+      "stream_id": "30020",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F10-b01.features.csv",
+      "features_sha256": "5e161fe2c60793eec378b2767f4051c8be813c7464fd3953aa97bc3bd134076d"
+    },
+    {
+      "run_id": "fault-dev-F10-b02",
+      "idv": 10,
+      "fault": "F10",
+      "stream_id": "30021",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F10-b02.features.csv",
+      "features_sha256": "700887710a0b0f8d3749e50f8d64c4a34ce7431e6e1532f87b76e253bf263703"
+    },
+    {
+      "run_id": "fault-dev-F10-b03",
+      "idv": 10,
+      "fault": "F10",
+      "stream_id": "30022",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F10-b03.features.csv",
+      "features_sha256": "03e20e042786f1164a61a7aa312cf78d8ef614aecebfb3ac4e927933509d9742"
+    },
+    {
+      "run_id": "fault-dev-F10-b04",
+      "idv": 10,
+      "fault": "F10",
+      "stream_id": "30023",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F10-b04.features.csv",
+      "features_sha256": "e356fb0a6e83adb4668e56f1f9f4a17340ca2a9d7a3d0a7e4bb990da04a37ea5"
+    },
+    {
+      "run_id": "fault-dev-F10-b05",
+      "idv": 10,
+      "fault": "F10",
+      "stream_id": "30024",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F10-b05.features.csv",
+      "features_sha256": "202d4945808d3bff660dd950226979b1e6f3d02750a3c1b34beea3803131a9e8"
+    },
+    {
+      "run_id": "fault-dev-F13-b01",
+      "idv": 13,
+      "fault": "F13",
+      "stream_id": "30025",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F13-b01.features.csv",
+      "features_sha256": "04f21357d5840d31d8dda5a9d344be8272ea8c3b3f888f4ff24432eb90a63972"
+    },
+    {
+      "run_id": "fault-dev-F13-b02",
+      "idv": 13,
+      "fault": "F13",
+      "stream_id": "30026",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F13-b02.features.csv",
+      "features_sha256": "3f95682c01086d73ec46070ed3d3cb118f6ae13273dd0d6e6430791c4e523a86"
+    },
+    {
+      "run_id": "fault-dev-F13-b03",
+      "idv": 13,
+      "fault": "F13",
+      "stream_id": "30027",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F13-b03.features.csv",
+      "features_sha256": "5f79946cea0a6422b9a447cbeaaf1fa85880d165b3232521e6be2ea0c4ca17d0"
+    },
+    {
+      "run_id": "fault-dev-F13-b04",
+      "idv": 13,
+      "fault": "F13",
+      "stream_id": "30028",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F13-b04.features.csv",
+      "features_sha256": "fa660b0ad4ebacf52f3c0338f0ab159930fb4e2f7e24757728aee23e2931a5ca"
+    },
+    {
+      "run_id": "fault-dev-F13-b05",
+      "idv": 13,
+      "fault": "F13",
+      "stream_id": "30029",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F13-b05.features.csv",
+      "features_sha256": "bbf89bcb65b648d73d756c9e92c839bed7fbb621450c225f426c8b79df54f435"
+    },
+    {
+      "run_id": "fault-dev-F14-b01",
+      "idv": 14,
+      "fault": "F14",
+      "stream_id": "30030",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F14-b01.features.csv",
+      "features_sha256": "3b3a6226403a0c15703a426139113436ac4a8fa7db03497515fb588a4967cee0"
+    },
+    {
+      "run_id": "fault-dev-F14-b02",
+      "idv": 14,
+      "fault": "F14",
+      "stream_id": "30031",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F14-b02.features.csv",
+      "features_sha256": "fa7bae66eba06a5f41d3d3db64cbf6ee062455629fd66da50799f1b5987b195d"
+    },
+    {
+      "run_id": "fault-dev-F14-b03",
+      "idv": 14,
+      "fault": "F14",
+      "stream_id": "30032",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F14-b03.features.csv",
+      "features_sha256": "e8c40c4ff7b7d18d9346803b6b517c5bab293e0c36cc3e822c5383ab311c97ed"
+    },
+    {
+      "run_id": "fault-dev-F14-b04",
+      "idv": 14,
+      "fault": "F14",
+      "stream_id": "30033",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F14-b04.features.csv",
+      "features_sha256": "ac0693dd74fd706a5b33e5a4288958cf1c5dc2f000c1eb5c928905ba69f2aef7"
+    },
+    {
+      "run_id": "fault-dev-F14-b05",
+      "idv": 14,
+      "fault": "F14",
+      "stream_id": "30034",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F14-b05.features.csv",
+      "features_sha256": "6d807440db0b21b082b5f9446ab49538a462e145a5595d7376d80c55b75ca083"
+    },
+    {
+      "run_id": "fault-dev-F15-b01",
+      "idv": 15,
+      "fault": "F15",
+      "stream_id": "30035",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F15-b01.features.csv",
+      "features_sha256": "36afb3cb2bb75663270acf5f0cf446a402c3dafe992dfdee393f995b8908af95"
+    },
+    {
+      "run_id": "fault-dev-F15-b02",
+      "idv": 15,
+      "fault": "F15",
+      "stream_id": "30036",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F15-b02.features.csv",
+      "features_sha256": "cc5150784f4c32df8a3577ea2e36974e047b6b1175563c5db8117fbbc097f1f4"
+    },
+    {
+      "run_id": "fault-dev-F15-b03",
+      "idv": 15,
+      "fault": "F15",
+      "stream_id": "30037",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F15-b03.features.csv",
+      "features_sha256": "3c92777b7486f955e9eb35824525bc5013475b4e3e9c254c1d8e61c7129c8369"
+    },
+    {
+      "run_id": "fault-dev-F15-b04",
+      "idv": 15,
+      "fault": "F15",
+      "stream_id": "30038",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F15-b04.features.csv",
+      "features_sha256": "64de1c3c2bd3f3542827c9d986a8c0ceba074ed76b248a6490e7bd5694cbba86"
+    },
+    {
+      "run_id": "fault-dev-F15-b05",
+      "idv": 15,
+      "fault": "F15",
+      "stream_id": "30039",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F15-b05.features.csv",
+      "features_sha256": "38a8c0322b1268e791c248709f996f5819b2a0622dca310a077ead7eade834bf"
+    },
+    {
+      "run_id": "fault-dev-F2-b01",
+      "idv": 2,
+      "fault": "F2",
+      "stream_id": "30005",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F2-b01.features.csv",
+      "features_sha256": "bb226275c95a1226b909cc27371a51291e4b2a5405ecf1a73a3b4b27343a37e8"
+    },
+    {
+      "run_id": "fault-dev-F2-b02",
+      "idv": 2,
+      "fault": "F2",
+      "stream_id": "30006",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F2-b02.features.csv",
+      "features_sha256": "6c29b4de1d26543a105710fb08748b93d014dcba9d7f2a9e66b2b9e10e06ded4"
+    },
+    {
+      "run_id": "fault-dev-F2-b03",
+      "idv": 2,
+      "fault": "F2",
+      "stream_id": "30007",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F2-b03.features.csv",
+      "features_sha256": "6255e04f959444769354c7c6226693b3502493743e336993b3a70e950423b1f0"
+    },
+    {
+      "run_id": "fault-dev-F2-b04",
+      "idv": 2,
+      "fault": "F2",
+      "stream_id": "30008",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F2-b04.features.csv",
+      "features_sha256": "47b5650aa847340975117c9db343f00b3890ac27fa3695767b162f395adeeedc"
+    },
+    {
+      "run_id": "fault-dev-F2-b05",
+      "idv": 2,
+      "fault": "F2",
+      "stream_id": "30009",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F2-b05.features.csv",
+      "features_sha256": "5f78ef7af98a4d5725f0765e2633ecf1ab4c9628417d3c0581291904ceaaed1e"
+    },
+    {
+      "run_id": "fault-dev-F3-b01",
+      "idv": 3,
+      "fault": "F3",
+      "stream_id": "30010",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F3-b01.features.csv",
+      "features_sha256": "c999bdc1e5943d872ef01e42607d3c50f692eb8a4ad19be234b142925c93adf0"
+    },
+    {
+      "run_id": "fault-dev-F3-b02",
+      "idv": 3,
+      "fault": "F3",
+      "stream_id": "30011",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F3-b02.features.csv",
+      "features_sha256": "c092b3d6fd8ff857ecad569b28791af5edc76162b0e652ff77cbacd05a5e8539"
+    },
+    {
+      "run_id": "fault-dev-F3-b03",
+      "idv": 3,
+      "fault": "F3",
+      "stream_id": "30012",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F3-b03.features.csv",
+      "features_sha256": "e66ee06389e8642de0b30c5e3030fb1307f99025def314902e084d65b3bc8ba7"
+    },
+    {
+      "run_id": "fault-dev-F3-b04",
+      "idv": 3,
+      "fault": "F3",
+      "stream_id": "30013",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F3-b04.features.csv",
+      "features_sha256": "283da25b27ef72646d1e308d841d171ebc24ff209293fac7485bad77cea13a1e"
+    },
+    {
+      "run_id": "fault-dev-F3-b05",
+      "idv": 3,
+      "fault": "F3",
+      "stream_id": "30014",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F3-b05.features.csv",
+      "features_sha256": "6d61988393ab71b70ea83cb05c42fe57ce10213a21bfccd057ec8086baf344a5"
+    },
+    {
+      "run_id": "fault-dev-F8-b01",
+      "idv": 8,
+      "fault": "F8",
+      "stream_id": "30015",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F8-b01.features.csv",
+      "features_sha256": "caf1e4581391d37eb057e51da40d372a26b466921065eb42b51b49d5bf16d62f"
+    },
+    {
+      "run_id": "fault-dev-F8-b02",
+      "idv": 8,
+      "fault": "F8",
+      "stream_id": "30016",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F8-b02.features.csv",
+      "features_sha256": "9b4d1e1de4e0f12edf7d573e873150bcb1ba5772b3f49bec441a7e06d3fdbab1"
+    },
+    {
+      "run_id": "fault-dev-F8-b03",
+      "idv": 8,
+      "fault": "F8",
+      "stream_id": "30017",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F8-b03.features.csv",
+      "features_sha256": "3ae1ed7ef8c8e0b54a687a188eb7dae6c91b6a9022720b7968afb415bddd4e63"
+    },
+    {
+      "run_id": "fault-dev-F8-b04",
+      "idv": 8,
+      "fault": "F8",
+      "stream_id": "30018",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F8-b04.features.csv",
+      "features_sha256": "71442411798edb34c507c6bd8f7a8c53e9a48f7fd5ba0f031458d2e2e1d22d4e"
+    },
+    {
+      "run_id": "fault-dev-F8-b05",
+      "idv": 8,
+      "fault": "F8",
+      "stream_id": "30019",
+      "features_path": "/sessions/rcw-015wbjbo2anfujaov9s92ect/e5_work/dev_units/fault-dev-F8-b05.features.csv",
+      "features_sha256": "e0505755932dfee96f61bf304362f3e37ae8397330692d344a31507f20670560"
+    }
+  ]
+}

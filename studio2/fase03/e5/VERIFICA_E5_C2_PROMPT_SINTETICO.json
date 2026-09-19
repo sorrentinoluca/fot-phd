@@ -1,0 +1,123 @@
+{
+  "artifact_version": "VERIFICA_E5_C2_PROMPT_SYNTHETIC_1",
+  "scope": "code-path validation and boundary-residual measurement; SYNTHETIC carriers",
+  "warning": "the carriers are synthetic: these ratios say nothing about the real B-LF prompt. Only the boundary residual is a transferable result, because the junction bytes ('CASE TO DIAGNOSE' + two newlines ... two newlines + 'OUTPUT SCHEMA') are fixed by the frozen renderer and are the same in a real prompt.",
+  "runs": [
+    {
+      "wrapper_tokens": 400,
+      "carrier_prompt_tokens": {
+        "min": 1241,
+        "max": 1241
+      },
+      "replicates": 25,
+      "boundary_residual": {
+        "definition": "delta on the composed prompt minus delta on the text alone",
+        "observations": 1500,
+        "min": 0,
+        "max": 0,
+        "share_nonzero": 0.0
+      },
+      "families": {
+        "level": {
+          "pairs": 500,
+          "max_ratio": 0.03547671840354767,
+          "verdict": "PASS"
+        },
+        "trend": {
+          "pairs": 250,
+          "max_ratio": 0.03428571428571429,
+          "verdict": "PASS"
+        },
+        "residual": {
+          "pairs": 375,
+          "max_ratio": 0.04551539491298527,
+          "verdict": "PASS"
+        },
+        "diff": {
+          "pairs": 375,
+          "max_ratio": 0.04404332129963899,
+          "verdict": "PASS"
+        }
+      }
+    },
+    {
+      "wrapper_tokens": 1200,
+      "carrier_prompt_tokens": {
+        "min": 3653,
+        "max": 3653
+      },
+      "replicates": 25,
+      "boundary_residual": {
+        "definition": "delta on the composed prompt minus delta on the text alone",
+        "observations": 1500,
+        "min": 0,
+        "max": 0,
+        "share_nonzero": 0.0
+      },
+      "families": {
+        "level": {
+          "pairs": 500,
+          "max_ratio": 0.012749003984063745,
+          "verdict": "PASS"
+        },
+        "trend": {
+          "pairs": 250,
+          "max_ratio": 0.012591815320041973,
+          "verdict": "PASS"
+        },
+        "residual": {
+          "pairs": 375,
+          "max_ratio": 0.017409114183307733,
+          "verdict": "PASS"
+        },
+        "diff": {
+          "pairs": 375,
+          "max_ratio": 0.016065314722149063,
+          "verdict": "PASS"
+        }
+      }
+    },
+    {
+      "wrapper_tokens": 3000,
+      "carrier_prompt_tokens": {
+        "min": 9053,
+        "max": 9053
+      },
+      "replicates": 10,
+      "boundary_residual": {
+        "definition": "delta on the composed prompt minus delta on the text alone",
+        "observations": 600,
+        "min": 0,
+        "max": 0,
+        "share_nonzero": 0.0
+      },
+      "families": {
+        "level": {
+          "pairs": 200,
+          "max_ratio": 0.005237315875613748,
+          "verdict": "PASS"
+        },
+        "trend": {
+          "pairs": 100,
+          "max_ratio": 0.005210594876248371,
+          "verdict": "PASS"
+        },
+        "residual": {
+          "pairs": 150,
+          "max_ratio": 0.007271171941830625,
+          "verdict": "PASS"
+        },
+        "diff": {
+          "pairs": 150,
+          "max_ratio": 0.0066325975861694034,
+          "verdict": "PASS"
+        }
+      }
+    }
+  ],
+  "boundary_residual_overall": {
+    "observations": 3600,
+    "nonzero": 0,
+    "conclusion": "zero on every observation: with these junction bytes the token count of the composed prompt differs from prefix+text+suffix counted apart by no tokens. Measured, not assumed, and only for these carriers."
+  }
+}
