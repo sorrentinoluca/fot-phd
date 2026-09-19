@@ -226,12 +226,13 @@ class G3Check(unittest.TestCase):
             home = Path(home)
             (home / "fp.jsonl").write_text("".join(json.dumps(r) + "\n" for r in carriers.values()))
             (home / "m.json").write_text(json.dumps(manifest))
+            (home / "ct.jsonl").write_text("STALE")
             out = verifica_e5_g3.check(manifest=home / "m.json", full_prompts=home / "fp.jsonl",
-                                       case_texts=home / "ct.jsonl")
+                                       case_texts=home / "ct.jsonl", expected_inert=[])
             self.assertEqual((out["s18_and_carrier_failures"], out["leakage_findings_in_case_blocks"]), ([], []))
             self.assertEqual((out["perm_pairs_for_c2"], out["plan"]["planned_calls"]), (96, 576))
             self.assertEqual(out["status"], "FAIL")  # 192 synthetic carriers, not the 2,244 of the batch
-            self.assertFalse((home / "ct.jsonl").exists())  # never written on FAIL
+            self.assertFalse((home / "ct.jsonl").exists())  # stale file removed, nothing written on FAIL
             self.assertEqual(out["case_texts"], "NOT WRITTEN: G3 failed")
             row = manifest["rows"][0]
             prefix, _, suffix = split_carrier(row["text"])
@@ -239,7 +240,7 @@ class G3Check(unittest.TestCase):
             row["prompt_sha256"] = sha256_text(row["text"])
             (home / "m.json").write_text(json.dumps(manifest))
             out = verifica_e5_g3.check(manifest=home / "m.json", full_prompts=home / "fp.jsonl",
-                                       case_texts=home / "ct.jsonl")
+                                       case_texts=home / "ct.jsonl", expected_inert=[])
             self.assertEqual(len(out["leakage_findings_in_case_blocks"]), 1)
             self.assertEqual(out["status"], "FAIL")
             self.assertFalse((home / "ct.jsonl").exists())
@@ -262,9 +263,14 @@ class G3Check(unittest.TestCase):
             (home / "fp.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
             (home / "m.json").write_text(json.dumps(manifest))
             out = verifica_e5_g3.check(manifest=home / "m.json", full_prompts=home / "fp.jsonl",
-                                       case_texts=home / "ct.jsonl")
+                                       case_texts=home / "ct.jsonl", expected_inert=[])
             self.assertEqual(out["status"], "PASS")
             self.assertEqual(len((home / "ct.jsonl").read_text().splitlines()), 96)
+            # the same bytes with an unexpected inert set: FAIL, and the file just written is gone
+            out = verifica_e5_g3.check(manifest=home / "m.json", full_prompts=home / "fp.jsonl",
+                                       case_texts=home / "ct.jsonl", expected_inert=["e5_perm_x"])
+            self.assertEqual((out["status"], out["inert_as_expected"]), ("FAIL", False))
+            self.assertFalse((home / "ct.jsonl").exists())
 
 class InertPerm(unittest.TestCase):
     """REVISIONE_E5_001: a PERM whose case block the swap leaves unchanged is kept and marked."""
@@ -310,9 +316,20 @@ class InertPerm(unittest.TestCase):
             home = Path(home)
             (home / "fp.jsonl").write_text("".join(json.dumps(r) + "\n" for r in self.carriers.values()))
             (home / "m.json").write_text(json.dumps(self.manifest))
-            out = verifica_e5_g3.check(manifest=home / "m.json", full_prompts=home / "fp.jsonl", case_texts=None)
+            out = verifica_e5_g3.check(manifest=home / "m.json", full_prompts=home / "fp.jsonl", case_texts=None,
+                                       expected_inert=[self.inert["prompt_id"]])
             self.assertEqual(out["s18_and_carrier_failures"], [])
             self.assertEqual(out["inert_perm_prompts"], [self.inert["prompt_id"]])
+            self.assertTrue(out["inert_as_expected"])
+            out = verifica_e5_g3.check(manifest=home / "m.json", full_prompts=home / "fp.jsonl", case_texts=None,
+                                       expected_inert=[])
+            self.assertFalse(out["inert_as_expected"])
+
+    def test_the_committed_expectation_is_eight_perm_ids(self):
+        import verifica_e5_g3
+        ids = verifica_e5_g3.expected_inert_ids()
+        self.assertEqual(len(ids), 8)
+        self.assertTrue(all(i.startswith("e5_perm_") for i in ids))
 
 
 from studio2.fase03.harness import test_final_target_d9 as _d9t  # noqa: E402
@@ -434,6 +451,9 @@ class E5Materialize(_d9t.FinalTargetD9):
                  "tokenizer_snapshot": self.target["tokenizer_snapshot"], "generation": self.generation,
                  "results_dir": str(home / "batch_results")}
         (home / "TARGET_FINALE_7_4.json").write_text(json.dumps(batch))
+        self.committed_inert = e5x.EXPECTED_INERT
+        (home / "inert.json").write_text(json.dumps({"inert_prompt_ids": []}))  # fixture has none
+        self.stack.enter_context(patch.object(e5x, "EXPECTED_INERT", home / "inert.json"))
         (home / "e5_manifest.json").write_text(json.dumps(manifest))
         self.arguments = Namespace(batch_target=home / "TARGET_FINALE_7_4.json",
                                    e5_prompts=home / "e5_manifest.json", test_input=None,
@@ -450,6 +470,11 @@ class E5Materialize(_d9t.FinalTargetD9):
         batch["schedule"]["sha256"] = sha256_file(path)  # authenticated, yet not the committed truth
         self.arguments.batch_target.write_text(json.dumps(batch))
         with self.assertRaises(HarnessError):
+            e5x.materialize(self.arguments)
+
+    def test_an_inert_set_other_than_the_expected_one_is_refused(self):
+        from unittest.mock import patch
+        with patch.object(e5x, "EXPECTED_INERT", self.committed_inert), self.assertRaises(HarnessError):
             e5x.materialize(self.arguments)
 
     def test_plan_then_materialize_then_run_the_e5_target(self):

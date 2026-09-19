@@ -1,0 +1,18 @@
+{
+  "artifact_version": "INERTI_ATTESI_E5_1",
+  "revision": "REVISIONE_E5_001",
+  "derived_on": "2026-09-19",
+  "derivation": "PERM case text == FULL neutral text after swap_family on the test-lot evidence; DERANGEMENTS_E5.json x RICEVENTI_E5.json",
+  "test_input_manifest_sha256": "67e7584a80d743efc06edc4c97019c20803cc4787c1d70c8d924ad23736612e8",
+  "inert_by_family": {"diff": 6, "level": 1, "residual": 1, "trend": 0},
+  "inert_prompt_ids": [
+    "e5_perm_diff_test-primary-F1-r04_agent_1_gp",
+    "e5_perm_diff_test-primary-F1-r07_agent_7_gp",
+    "e5_perm_diff_test-primary-F1-r08_agent_3_gp",
+    "e5_perm_diff_test-primary-F15-r01_agent_5_gp",
+    "e5_perm_diff_test-primary-F15-r04_agent_2_gp",
+    "e5_perm_diff_test-primary-F15-r05_agent_7_gp",
+    "e5_perm_level_test-primary-F8-r03_agent_3_gp",
+    "e5_perm_residual_test-primary-F1-r02_agent_5_gp"
+  ]
+}

@@ -78,6 +78,7 @@ DEFAULT_ROOT = Path("/Users/luker/fot-tep-runtime") / TARGET_ID
 CANARY_EXPECTATIONS = ROOT / "studio2/fase03/batch_finale/CANARY_ATTESI_7_4.json"
 DERANGEMENTS = HERE / "DERANGEMENTS_E5.json"
 RECIPIENTS = HERE / "RICEVENTI_E5.json"
+EXPECTED_INERT = HERE / "INERTI_ATTESI_E5.json"  # REVISIONE_E5_001
 
 E5_PASS_ROWS = 192           # 96 PERM + 96 OMIT, one receiver per run (decision A)
 E5_REPETITIONS = (1, 2, 3)   # decision B2
@@ -363,6 +364,10 @@ def materialize(arguments) -> dict[str, Any]:
                                          derangements=DERANGEMENTS, recipients=RECIPIENTS)
         if rebuilt["rows"] != manifest["rows"]:
             raise HarnessError("the E5 manifest differs from its offline rebuild on the batch carriers")
+    inert = sorted(row["prompt_id"] for row in manifest["rows"] if row.get("inert"))
+    expected = sorted(load_json(EXPECTED_INERT)["inert_prompt_ids"])
+    if inert != expected:
+        raise HarnessError(f"inert PERM prompts differ from INERTI_ATTESI_E5.json: {inert}")
     carriers = carriers_by_stable_id(read_jsonl(Path(batch["prompts"]["path"])))
     prompts_rows = rendered_rows(manifest["rows"], carriers)
     batch_schedule_path = Path(batch["schedule"]["path"])

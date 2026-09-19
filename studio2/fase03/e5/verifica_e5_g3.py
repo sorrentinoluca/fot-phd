@@ -13,7 +13,9 @@ Reads the E5 manifest of ``build_e5_prompts.py`` and the copy of the batch
 3. leakage: the D1 scanner of the test lot on every E5 case block (the only bytes E5 adds);
 4. ``--case-texts``, written **only when every check is PASS**: FULL/PERM case texts per (family, case) for
    ``verifica_e5_c2_prompt.py --case-texts ... --carrier-mode all``;
-5. ``run_e5.plan``: 576 planned calls at R=3.
+5. ``run_e5.plan``: 576 planned calls at R=3;
+6. the inert PERM prompts are exactly those of ``INERTI_ATTESI_E5.json`` (REVISIONE_E5_001).
+A case-texts file from an earlier run is deleted first, so a failed run leaves none behind.
 """
 from __future__ import annotations
 
@@ -36,9 +38,20 @@ from verifica_e5_c2_prompt import split_carrier  # noqa: E402
 import run_e5  # noqa: E402
 
 PROMPT_MAP_SHA256 = "b819200396da480d3ed9d4aa8f6b6aac8c135d97f0876b734a9b607b75736489"
+EXPECTED_INERT_PATH = HERE / "INERTI_ATTESI_E5.json"
 
 
-def check(*, manifest: Path, full_prompts: Path, case_texts: Path | None) -> dict:
+def expected_inert_ids(path: Path = EXPECTED_INERT_PATH) -> list[str]:
+    return sorted(json.loads(Path(path).read_text(encoding="utf-8"))["inert_prompt_ids"])
+
+
+def check(*, manifest: Path, full_prompts: Path, case_texts: Path | None,
+          expected_inert: list[str] | None = None) -> dict:
+    # A case-texts file from an earlier run is never left behind as evidence: it is removed
+    # before any check and rewritten only if this run is PASS.
+    if case_texts is not None and case_texts.exists():
+        case_texts.unlink()
+    expected_inert = expected_inert_ids() if expected_inert is None else sorted(expected_inert)
     rows = [json.loads(line) for line in full_prompts.read_text(encoding="utf-8").splitlines() if line]
     bad = [r["prompt_id"] for r in rows if sha256_text(r["text"]) != r["prompt_sha256"]]
     carriers = {r["stable_id"]: r for r in rows}
@@ -81,12 +94,15 @@ def check(*, manifest: Path, full_prompts: Path, case_texts: Path | None) -> dic
         "s18_and_carrier_failures": failures,
         "leakage_findings_in_case_blocks": leaks,
         "perm_pairs_for_c2": len(pairs),
-        "inert_perm_prompts": inert,
+        "inert_perm_prompts": sorted(inert),
+        "inert_expected": expected_inert,
+        "inert_as_expected": sorted(inert) == expected_inert,
         "plan": plan,
     }
     ok = (not bad and not failures and not leaks and len(rows) == 2244
           and summary["carriers"]["b_lf"] == 848 and summary["carriers"]["prompt_map_is_canonical"]
-          and plan["planned_calls"] == 576 and len(pairs) == 96)
+          and plan["planned_calls"] == 576 and len(pairs) == 96
+          and sorted(inert) == expected_inert)
     summary["status"] = "PASS" if ok else "FAIL"
     # C2 must never run on a subset G3 did not validate: the case texts exist only after PASS.
     if case_texts is not None:

@@ -19,7 +19,7 @@ sensibilità esclude le coppie inerti e riporta il contrasto condizionato a una 
 visibile nel testo. Nelle coppie inerti FULL e PERM differiscono solo per il rumore di decoding.
 OMIT non è toccato: un OMIT inerte resta un errore.
 
-**Codice.** `build_e5_prompts_rev1.py` è il builder congelato con questa sola regola cambiata:
+**Codice.** Gli 8 attesi sono fissati in `INERTI_ATTESI_E5.json`: G3 e la materializzazione rifiutano qualunque altro insieme. `build_e5_prompts_rev1.py` è il builder congelato con questa sola regola cambiata:
 un blocco PERM invariato viene registrato come inerte invece di fermare la build. Sui dati
 reali: 192 prompt, 8 inerti, 576 chiamate. `run_e5_execute.py` e `verifica_e5_g3.py`
 accettano un inerte solo se il flag corrisponde ai byte, e solo nel braccio PERM.
