@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from contextlib import ExitStack
 import dataclasses
-from datetime import datetime
+from datetime import date, datetime, timedelta, timezone
 import json
 from pathlib import Path
 import tempfile
@@ -576,15 +576,20 @@ class CivilDayBinding(FinalBatchBase):
             self.run_pass(day="2026-09-18", now=self.noon("2026-09-20"))
 
     def test_a_lot_that_crosses_midnight_continues_and_is_flagged(self):
-        self.pass_canary_day("2026-09-18")
-        first = self.run_pass(day="2026-09-18", max_requests=2)
+        # The evidence that the lot began on the declared day is the real ``completed_utc``
+        # of its requests, not the injected clock: the declared day must be today's
+        # Europe/Rome day, or the test fails on every date but the one it hard-coded.
+        today = canary_marking.rome_day(datetime.now(timezone.utc))
+        tomorrow = (date.fromisoformat(today) + timedelta(days=1)).isoformat()
+        self.pass_canary_day(today)
+        first = self.run_pass(day=today, max_requests=2)
         self.assertFalse(first["midnight_crossing"])
         # The clock moves to the next day; the stage already ran on the declared day.
-        second = self.run_pass(day="2026-09-18", resume=True,
-                               now=datetime.fromisoformat("2026-09-19T00:30:00+01:00"))
+        second = self.run_pass(day=today, resume=True,
+                               now=datetime.fromisoformat(tomorrow + "T00:30:00+02:00"))
         self.assertTrue(second["midnight_crossing"])
-        self.assertEqual(second["declared_day"], "2026-09-18")
-        self.assertEqual(second["observed_day"], "2026-09-19")
+        self.assertEqual(second["declared_day"], today)
+        self.assertEqual(second["observed_day"], tomorrow)
         self.assertEqual(second["status"], "COMPLETE")
 
     def test_the_crossing_is_refused_without_evidence_that_the_lot_began_that_day(self):

@@ -23,6 +23,10 @@ Retry and STOP follow author decision D3 (2026-09-17), which replaces the absolu
   after the third failed retry the slot is a definitive technical failure (missing data,
   ``note:unobserved_transport_abandoned:<id>``, ``abandoned_unobserved_transport`` in the
   summary) and the batch continues;
+* revision 7.4-CHIUSURA-PASSAGGIO (author, 2026-09-18): a completed pass is closed with
+  ``--close-pass N`` -- no call -- which records ``outcome:final_batch_rN`` = PASS meaning
+  "coverage complete, no scientific judgement": every slot terminal (completed, valid or not,
+  or abandoned with its note). The next pass binds only over that authenticated closure;
 * a response that was generated but is invalid or truncated is a recorded failure and is
   never regenerated;
 * a valid but wrong or abstaining response is a definitive scientific outcome;
@@ -469,14 +473,9 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
                         # received -- an outcome nobody observed, resent without proof.
                         retry_requests = (leaf["request_id"],)
                     elif disposition == "exhausted":
-                        # Definitive technical failure: missing data, reported apart.
-                        note = "note:unobserved_transport_abandoned:" + leaf["request_id"]
-                        if ledger.event(note) is None:
-                            attempts = ledger.attempts(stage, row["logical_id"])
-                            ledger.record_event(note, artifact_sha256=digest(attempts), detail={
-                                "stage": stage, "logical_id": row["logical_id"],
-                                "attempts": [a["request_id"] for a in attempts],
-                                "reason": "unobserved transport failure after the admitted retries"})
+                        # Definitive technical failure: missing data, reported apart. The note
+                        # is derived by the ledger from the same proof the closure checks.
+                        ledger.record_unobserved_abandonment(leaf["request_id"])
                         abandoned.append(row["logical_id"])
                         progress.skip()
                         print(f"{stage} ABANDONED {row['logical_id']} "
@@ -578,11 +577,31 @@ def run_pass(*, target, ledger, schedule, prompts, config, generation, schema, p
     return summary
 
 
+def close_pass(*, target, ledger, pass_index: int) -> dict[str, Any]:
+    """Thin adapter over ``PilotLedger.close_final_pass``: no call, no prompt rendering.
+
+    Prints the closure artifact, or every open slot as ``logical_id -> reason`` and stops.
+    Repeating the command on a closed pass is a replay: same artifact, nothing written.
+    """
+    stage = FINAL_PASS_STAGES[pass_index - 1]
+    try:
+        artifact = ledger.close_final_pass(stage)
+    except HarnessError as exc:
+        raise BatchStop(STOP_PREFIX + " " + str(exc)) from exc
+    durable_write(Path(target["results_dir"]) / f"{stage}_closure.json",
+                  json.dumps(artifact, indent=2, ensure_ascii=False, sort_keys=True) + "\n")
+    return artifact
+
+
 def main(argv=None) -> int:
     require_reference_environment()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--target", type=Path, required=True)
-    parser.add_argument("--pass-index", type=int, choices=(1, 2, 3), required=True)
+    parser.add_argument("--pass-index", type=int, choices=(1, 2, 3))
+    parser.add_argument("--close-pass", type=int, choices=(1, 2, 3), metavar="N",
+                        help="close final_batch_rN (outcome PASS: coverage complete, no scientific "
+                             "judgement) without any call; refuses an incomplete pass and lists "
+                             "its open slots; repeatable")
     parser.add_argument("--max-requests", type=int)
     parser.add_argument("--resume", action="store_true",
                         help="continue an interrupted pass; terminal slots are skipped, never resent")
@@ -596,9 +615,33 @@ def main(argv=None) -> int:
     parser.add_argument("--execute", action="store_true")
     parser.add_argument("--acknowledge")
     arguments = parser.parse_args(argv)
+    if arguments.close_pass is not None:
+        exclusive = [name for name, value in (("--pass-index", arguments.pass_index),
+                                              ("--execute", arguments.execute),
+                                              ("--resume", arguments.resume),
+                                              ("--max-requests", arguments.max_requests),
+                                              ("--day", arguments.day),
+                                              ("--acknowledge", arguments.acknowledge)) if value]
+        if exclusive:
+            parser.error("--close-pass takes no other action flag: " + ", ".join(exclusive))
+    elif arguments.pass_index is None:
+        parser.error("--pass-index is required unless --close-pass is given")
 
     target = load_target(arguments.target)
     config = load_json(Path(target["config"]["path"]))
+    if arguments.close_pass is not None:
+        # The binding is already in the ledger: the prompts are not needed, nor a call.
+        ledger = PilotLedger(Path(target["ledger"]["path"]), pilot_id=target["ledger"]["pilot_id"],
+                             profile=target["ledger"]["profile"])
+        require_pilot_ledger(config, ledger)
+        try:
+            artifact = close_pass(target=target, ledger=ledger, pass_index=arguments.close_pass)
+        except BatchStop as exc:
+            print(exc, file=sys.stderr)
+            return 2
+        print(json.dumps(dict(artifact, ledger=ledger.snapshot()["requests_by_stage"]),
+                         indent=2, ensure_ascii=False, sort_keys=True))
+        return 0
     schedule = load_schedule(target)
     prompts = load_prompts(target, label_space=target_label_space(target, arguments.pilot_manifest))
     executable_rows(schedule, prompts)
