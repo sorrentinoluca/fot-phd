@@ -21,7 +21,9 @@ What is new, and only this:
   an E5 one, nor the reverse;
 * blocks ``e5_perm`` / ``e5_omit``. The condition stays ``B-LF``: an E5 prompt is a B-LF
   prompt of the batch whose ``CASE TO DIAGNOSE`` block alone was replaced (S18, re-proved at
-  materialization against the carrier of the authenticated batch target);
+  materialization against the carrier of the authenticated batch target). An inert PERM --
+  case block unchanged by the swap -- is kept, sent and carried as ``inert`` into the
+  schedule and the scores (REVISIONE_E5_001);
 * the schedule: 192 prompts x R=3 (decisions A = one receiver per run, B2 = R3), one
   ``PCG64`` generator, three permutations, as in the batch; truth and strata of each slot are
   taken from the **authenticated batch schedule** (copied into the E5 target, SHA of the batch
@@ -150,7 +152,7 @@ def load_manifest(path: Path, *, derangements=DERANGEMENTS, recipients=RECIPIENT
 
 def rendered_rows(manifest_rows, carriers) -> list[dict[str, Any]]:
     """E5 rows in the batch renderer's row format, each re-proved against its B-LF carrier."""
-    from build_e5_prompts import case_only_diff
+    from build_e5_prompts_rev1 import case_proof
     out = []
     for row in manifest_rows:
         carrier = carriers.get(row["source_stable_id"])
@@ -163,7 +165,9 @@ def rendered_rows(manifest_rows, carriers) -> list[dict[str, Any]]:
             raise HarnessError(f"carrier bytes changed: {carrier['stable_id']}")
         if row["prompt_sha256"] != sha256_text(row["text"]) or row["arm"] not in ARM_BLOCK:
             raise HarnessError(f"E5 row altered or of unknown arm: {row['prompt_id']}")
-        case_only_diff(carrier["text"], row["text"])  # S18, fail-closed
+        proof = case_proof(carrier["text"], row["text"], arm=row["arm"])  # S18, fail-closed
+        if proof["inert"] != bool(row.get("inert")):
+            raise HarnessError(f"inert flag of {row['prompt_id']} contradicts its bytes (REVISIONE_E5_001)")
         text = row["text"]
         values = {"prompt_id": row["prompt_id"], "stable_id": row["stable_id"],
                   "block": ARM_BLOCK[row["arm"]], "condition": E5_CONDITION,
@@ -230,7 +234,7 @@ def build_schedule(manifest_rows, source, *, expected_rows: int = E5_PASS_ROWS):
                 "library_role": E5_LIBRARY_ROLE,
                 **{key: carrier[key] for key in TRUTH_FIELDS},
                 "arm": row["arm"], "family": row["family"], "donor_case_id": row["donor_case_id"],
-                "source_stable_id": row["source_stable_id"]})
+                "source_stable_id": row["source_stable_id"], "inert": bool(row.get("inert"))})
     if len({row["logical_id"] for row in schedule}) != len(schedule):
         raise HarnessError("E5 logical identifiers are not unique")
     return schedule
@@ -353,8 +357,8 @@ def materialize(arguments) -> dict[str, Any]:
     manifest = load_manifest(manifest_path)
     if arguments.test_input:
         # Fail closed on any drift between the manifest and a fresh offline rebuild.
-        import build_e5_prompts
-        rebuilt = build_e5_prompts.build(full_prompts=Path(batch["prompts"]["path"]),
+        import build_e5_prompts_rev1
+        rebuilt = build_e5_prompts_rev1.build(full_prompts=Path(batch["prompts"]["path"]),
                                          test_input=Path(arguments.test_input),
                                          derangements=DERANGEMENTS, recipients=RECIPIENTS)
         if rebuilt["rows"] != manifest["rows"]:
@@ -543,7 +547,7 @@ def score(target, ledger, schedule, *, partial: bool = False) -> dict[str, Any]:
             record = ledger.response(leaf["request_id"])["record"]
         rows.append(dict({k: row[k] for k in ("logical_id", "stable_id", "repetition", "arm", "family",
                                                "case_id", "donor_case_id", "recipient_agent", "fault",
-                                               "source_stable_id")},
+                                               "source_stable_id", "inert")},
                          status=status, **(metric_row(record, row) if status == "COMPLETED" else {})))
     return {"artifact_version": "E5_SLOT_SCORES_1", "target_id": target["target_id"],
             "status": "PARTIAL_NOT_ANALYZABLE" if open_passes else "CLOSED_R1_R3",

@@ -266,6 +266,55 @@ class G3Check(unittest.TestCase):
             self.assertEqual(out["status"], "PASS")
             self.assertEqual(len((home / "ct.jsonl").read_text().splitlines()), 96)
 
+class InertPerm(unittest.TestCase):
+    """REVISIONE_E5_001: a PERM whose case block the swap leaves unchanged is kept and marked."""
+
+    def setUp(self):
+        self.carriers, manifest = full_fixture_manifest()
+        self.manifest = manifest
+        row = next(r for r in manifest["rows"] if r["arm"] == "PERM")
+        carrier = self.carriers[row["source_stable_id"]]
+        row.update(text=carrier["text"], prompt_sha256=carrier["prompt_sha256"], inert=True)
+        self.inert = row
+
+    def test_case_proof_admits_only_an_unchanged_perm(self):
+        from build_e5_prompts_rev1 import case_proof
+        from build_e5_prompts import E5PromptError
+        carrier = self.carriers[self.inert["source_stable_id"]]["text"]
+        self.assertTrue(case_proof(carrier, carrier, arm="PERM")["inert"])
+        with self.assertRaises(E5PromptError):
+            case_proof(carrier, carrier, arm="OMIT")
+        prefix, _, suffix = split_carrier(carrier)
+        self.assertFalse(case_proof(carrier, compose(prefix, "FIXTURE ONLY other", suffix), arm="PERM")["inert"])
+
+    def test_inert_rows_render_schedule_and_carry_the_flag(self):
+        rendered = e5x.rendered_rows(self.manifest["rows"], self.carriers)
+        self.assertEqual(len(rendered), 192)
+        schedule = e5x.build_schedule(self.manifest["rows"], batch_source())
+        flagged = {r["stable_id"] for r in schedule if r["inert"]}
+        self.assertEqual(flagged, {self.inert["stable_id"]})
+        self.assertEqual(sum(r["inert"] for r in schedule), 3)  # R=3, all sent
+
+    def test_the_flag_must_match_the_bytes(self):
+        unflagged = [dict(r, inert=False) if r is self.inert else r for r in self.manifest["rows"]]
+        with self.assertRaises(HarnessError):
+            e5x.rendered_rows(unflagged, self.carriers)
+        other = next(r for r in self.manifest["rows"] if r["arm"] == "PERM" and r is not self.inert)
+        wrong = [dict(r, inert=True) if r is other else r for r in self.manifest["rows"]]
+        with self.assertRaises(HarnessError):
+            e5x.rendered_rows(wrong, self.carriers)
+
+    def test_g3_lists_inert_rows_and_does_not_fail_on_them(self):
+        import verifica_e5_g3
+        with tempfile.TemporaryDirectory() as home:
+            home = Path(home)
+            (home / "fp.jsonl").write_text("".join(json.dumps(r) + "\n" for r in self.carriers.values()))
+            (home / "m.json").write_text(json.dumps(self.manifest))
+            out = verifica_e5_g3.check(manifest=home / "m.json", full_prompts=home / "fp.jsonl", case_texts=None)
+            self.assertEqual(out["s18_and_carrier_failures"], [])
+            self.assertEqual(out["inert_perm_prompts"], [self.inert["prompt_id"]])
+
+
 from studio2.fase03.harness import test_final_target_d9 as _d9t  # noqa: E402
 
 

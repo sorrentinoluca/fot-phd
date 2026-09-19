@@ -8,7 +8,8 @@ Reads the E5 manifest of ``build_e5_prompts.py`` and the copy of the batch
    848 B-LF, and the id->hash map is the canonical one pinned by the final protocol
    (``b8192003...``); its file SHA is printed to compare with the batch target descriptor;
 2. every E5 prompt: its carrier is the B-LF/G_P nucleus cell of the same case and receiver,
-   and only ``CASE TO DIAGNOSE`` differs (S18, re-proved);
+   and only ``CASE TO DIAGNOSE`` differs (S18, re-proved); an unchanged PERM block is inert
+   (REVISIONE_E5_001), listed, and must carry ``inert: true`` in the manifest;
 3. leakage: the D1 scanner of the test lot on every E5 case block (the only bytes E5 adds);
 4. ``--case-texts``, written **only when every check is PASS**: FULL/PERM case texts per (family, case) for
    ``verifica_e5_c2_prompt.py --case-texts ... --carrier-mode all``;
@@ -30,7 +31,7 @@ for _p in (ROOT, ROOT / "code", HERE):
 
 from studio2.fase03.protocol import canonical_json, sha256_text  # noqa: E402
 from studio2.fase03.evidence.leakage import scan_text  # noqa: E402
-from build_e5_prompts import case_only_diff  # noqa: E402
+from build_e5_prompts_rev1 import case_proof  # noqa: E402
 from verifica_e5_c2_prompt import split_carrier  # noqa: E402
 import run_e5  # noqa: E402
 
@@ -42,7 +43,7 @@ def check(*, manifest: Path, full_prompts: Path, case_texts: Path | None) -> dic
     bad = [r["prompt_id"] for r in rows if sha256_text(r["text"]) != r["prompt_sha256"]]
     carriers = {r["stable_id"]: r for r in rows}
     value = json.loads(manifest.read_text(encoding="utf-8"))
-    failures, leaks, pairs = [], [], {}
+    failures, leaks, pairs, inert = [], [], {}, []
     for row in value["rows"]:
         carrier = carriers.get(row["source_stable_id"])
         if (carrier is None or (carrier["block"], carrier["condition"], carrier["library_role"]) != ("nucleus", "B-LF", "G_P")
@@ -50,7 +51,11 @@ def check(*, manifest: Path, full_prompts: Path, case_texts: Path | None) -> dic
             failures.append(f"carrier: {row['prompt_id']}")
             continue
         try:
-            case_only_diff(carrier["text"], row["text"])
+            proof = case_proof(carrier["text"], row["text"], arm=row["arm"])
+            if proof["inert"] != bool(row.get("inert")):
+                failures.append(f"inert flag contradicts bytes: {row['prompt_id']}")
+            if proof["inert"]:
+                inert.append(row["prompt_id"])
         except Exception as exc:  # noqa: BLE001 - reported, fail-closed below
             failures.append(f"S18 {row['prompt_id']}: {exc}")
         case_block = split_carrier(row["text"])[1].strip()
@@ -76,6 +81,7 @@ def check(*, manifest: Path, full_prompts: Path, case_texts: Path | None) -> dic
         "s18_and_carrier_failures": failures,
         "leakage_findings_in_case_blocks": leaks,
         "perm_pairs_for_c2": len(pairs),
+        "inert_perm_prompts": inert,
         "plan": plan,
     }
     ok = (not bad and not failures and not leaks and len(rows) == 2244
